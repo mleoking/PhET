@@ -13,13 +13,14 @@ import java.util.List;
 
 public class CollisionFactory {
 
-    static private ArrayList collisionPrototypes = new ArrayList();
+    private ArrayList collisionPrototypes = new ArrayList();
+    ArrayList resultList = new ArrayList();
 
-    static public void addPrototype( Collision collision ) {
+    public void addPrototype( Collision collision ) {
         collisionPrototypes.add( collision );
     }
 
-    static public Collision create( CollidableBody particleA, CollidableBody particleB,
+    public Collision create( CollidableBody particleA, CollidableBody particleB,
                                     //    static public Collision create( Particle particleA, Particle particleB,
                                     IdealGasModel model, double dt ) {
         Collision result = null;
@@ -30,9 +31,7 @@ public class CollisionFactory {
         return result;
     }
 
-    static ArrayList resultList = new ArrayList();
-
-    public static List createCollisions( CollidableBody body1, CollidableBody body2, IdealGasModel model, double dt ) {
+    public List createCollisions( CollidableBody body1, CollidableBody body2, IdealGasModel model, double dt ) {
         resultList.clear();
         for( int i = 0; i < collisionPrototypes.size(); i++ ) {
             Collision collisionPrototype = (Collision)collisionPrototypes.get( i );

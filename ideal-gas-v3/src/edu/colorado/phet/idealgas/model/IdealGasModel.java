@@ -49,7 +49,9 @@ public class IdealGasModel extends BaseModel {
 
     public IdealGasModel( double dt ) {
         // Add a collision collisionGod
+        CollisionFactory collisionFactory = new CollisionFactory();
         collisionGod = new CollisionGod( this, dt,
+                                         collisionFactory,
                                          new Rectangle2D.Double( 0, 0,
                                                                  600,
                                                                  600 ),
@@ -64,9 +66,9 @@ public class IdealGasModel extends BaseModel {
 //        new SphereWallContactDetector();
 
         //        BalloonSphereCollision.register();
-        SphereBoxCollision.register();
-        SphereSphereCollision.register();
-        SphereHollowSphereCollision.register();
+        SphereBoxCollision.register( collisionFactory );
+        SphereSphereCollision.register( collisionFactory );
+        SphereHollowSphereCollision.register( collisionFactory );
 //        SphereWallCollision.register();
     }
 

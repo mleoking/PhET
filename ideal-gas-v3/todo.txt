@@ -1,12 +1,10 @@
-- When two modules are in the app, no collisions with the box take place
+- set minimum width of box for each module, so hollow spheres don't get crunched.
 
 - When molecules are pumped in with no interactions, they have different energies
 
 - Sam, clockStateListeners
 
 - tighten up stove control panel, so there is more room on the control panel
-
-- Vector2D: need copy constructor 
 
 - gravity only seems to act on a particle when gravity changes
 

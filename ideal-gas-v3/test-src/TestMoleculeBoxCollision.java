@@ -40,6 +40,7 @@ public class TestMoleculeBoxCollision extends PhetApplication {
 
             // Create the modules
             Module idealGasModule = new TestIdealGasModule( getClock() );
+            Module idealGasModule2 = new TestIdealGasModule( getClock() );
             Module[] modules = new Module[]{
                 idealGasModule
             };
@@ -56,7 +57,7 @@ public class TestMoleculeBoxCollision extends PhetApplication {
             testBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m[0] = new HeavySpecies( new Point2D.Double( 249.204, 279.1 ),
-                                             new Vector2D.Double( -328, -1414 ),
+                                             new Vector2D.Double( -100, -10 ),
                                              new Vector2D.Double(),
                                              5 );
 //                    m[0] = new HeavySpecies( new Point2D.Double( 383.3, 389.35 ),
