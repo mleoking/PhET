@@ -526,8 +526,6 @@ public class CoilGraphic implements SimpleObserver {
             electron.setEnabled( _electronAnimationEnabled );
             electron.setSpeed( speed );
         }
-        
-        System.out.println( "CoilGraphic.updateElectrons - get speed=" + ((Electron)_electrons.get(0)).getSpeed() );
     }
     
     /**
