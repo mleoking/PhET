@@ -7,6 +7,7 @@
 package edu.colorado.phet.common.view.util;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -298,7 +299,37 @@ public class GraphicsUtil {
         return cm.hasAlpha();
     }
 
+    /**
+     * Gets the transparency of an image.
+     * 
+     * @param image the image
+     * @return OPAQUE, BITMASK or TRANSLUCENT (see java.awt.Transparency)
+     */
+    public static int getTransparency( Image image ) {
+        // If buffered image, the color model is readily available
+        if( image instanceof BufferedImage ) {
+            BufferedImage bimage = (BufferedImage)image;
+            return bimage.getColorModel().getTransparency();
+        }
+        // Use a pixel grabber to retrieve the image's color model;
+        // grabbing a single pixel is usually sufficient
+        PixelGrabber pg = new PixelGrabber( image, 0, 0, 1, 1, false );
+        try {
+            pg.grabPixels();
+        }
+        catch( InterruptedException e ) {
+        }
 
+        // Get the image's color model
+        ColorModel cm = pg.getColorModel();
+        
+        int transparency = Transparency.OPAQUE;
+        if ( cm != null ) {
+            transparency = cm.getTransparency();
+        }
+        return transparency;
+    }
+    
     // This method returns a buffered image with the contents of an image
     // Taken from The Java Developer's Almanac, 1.4
     public static BufferedImage toBufferedImage( Image image ) {
@@ -309,21 +340,12 @@ public class GraphicsUtil {
         // This code ensures that all the pixels in the image are loaded
         image = new ImageIcon( image ).getImage();
 
-        // Determine if the image has transparent pixels; for this method's
-        // implementation, see e665 Determining If an Image Has Transparent Pixels
-        boolean hasAlpha = hasAlpha( image );
-
         // Create a buffered image with a format that's compatible with the screen
         BufferedImage bimage = null;
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try {
-            // Determine the type of transparency of the new buffered image
-            int transparency = Transparency.OPAQUE;
-            if( hasAlpha ) {
-                transparency = Transparency.BITMASK;
-            }
-
             // Create the buffered image
+            int transparency = getTransparency( image );
             GraphicsDevice gs = ge.getDefaultScreenDevice();
             GraphicsConfiguration gc = gs.getDefaultConfiguration();
             bimage = gc.createCompatibleImage( image.getWidth( null ), image.getHeight( null ), transparency );
@@ -334,6 +356,7 @@ public class GraphicsUtil {
 
         if( bimage == null ) {
             // Create a buffered image using the default color model
+            boolean hasAlpha = hasAlpha( image );
             int type = BufferedImage.TYPE_INT_RGB;
             if( hasAlpha ) {
                 type = BufferedImage.TYPE_INT_ARGB;
