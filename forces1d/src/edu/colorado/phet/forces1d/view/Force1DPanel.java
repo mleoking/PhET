@@ -250,6 +250,9 @@ public class Force1DPanel extends ApparatusPanel3 {
 //        Button3D button3D=new Button3D( this, "<html>Button<sub>3d</sub><br>IN HTML</html>");
 //        addGraphic( button3D,Double.POSITIVE_INFINITY );
 //        button3D.setLocation( 100,100);
+//        AnimatedButton3D animatedButton3D=new AnimatedButton3D( this, "Button3D!",10,-0.35);
+//        addGraphic( animatedButton3D,Double.POSITIVE_INFINITY );
+//        animatedButton3D.setLocation( 100,100);
     }
 
     public Force1DLookAndFeel getLookAndFeel() {
