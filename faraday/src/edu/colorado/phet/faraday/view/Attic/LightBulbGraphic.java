@@ -21,11 +21,13 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.LightBulb;
 
 
@@ -57,6 +59,7 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
     //----------------------------------------------------------------------------
     
     private LightBulb _lightBulbModel;
+    private AbstractMagnet _magnetModel;
     private double _previousIntensity;
     private ArrayList _rays; // array of PhetShapeGraphic
     private Color _rayColor;
@@ -71,14 +74,16 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
      * 
      * @param component the parent Component
      */
-    public LightBulbGraphic( Component component, LightBulb lightBulbModel ) {
+    public LightBulbGraphic( Component component, LightBulb lightBulbModel, AbstractMagnet magnetModel ) {
         super( component );
         
         assert( component != null );
         assert( lightBulbModel !=  null );
+        assert( magnetModel != null );
         
         _lightBulbModel = lightBulbModel;
         _lightBulbModel.addObserver( this );
+        _magnetModel = magnetModel; // No need to observer magnet.
         _rays = new ArrayList();
        
         // Light bulb
@@ -120,8 +125,16 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
         
         if ( isVisible() ) {
             
+            // Get the light intensity, a value in the range 0...+1.
             double intensity = _lightBulbModel.getIntensity();
-            assert ( intensity >= 0 && intensity <= 1.0 );
+            
+            // Rescale the intensity to improve the visual effect.
+            intensity = FaradayUtils.rescale( intensity, _magnetModel.getStrength() );
+            intensity = MathUtil.clamp( 0, intensity, 1 );
+            if ( intensity == Double.NaN ) {
+                System.out.println( "WARNING - LightBulbGraphic.update: intensity=NaN" );
+                return;
+            }
 
             // If the intensity hasn't changed, do nothing.
             if ( _previousIntensity == intensity ) {

@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.LightBulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.VoltMeter;
@@ -52,7 +53,11 @@ public class PickupCoilGraphic {
      * @param lightBulbModel the lightbulb model
      * @param voltMeterModel the voltmeter model
      */
-    public PickupCoilGraphic( Component component, PickupCoil coilModel, LightBulb lightBulbModel, VoltMeter voltMeterModel ) {
+    public PickupCoilGraphic( 
+            Component component, 
+            PickupCoil coilModel, 
+            LightBulb lightBulbModel,
+            VoltMeter voltMeterModel ) {
         assert ( component != null );
         assert ( coilModel != null );
         assert ( lightBulbModel != null );
@@ -129,7 +134,11 @@ public class PickupCoilGraphic {
          * @param lightBulbModel the lightbulb model
          * @param voltMeterModel the voltmeter model
          */
-        public ForegroundGraphic( Component component, PickupCoil coilModel, LightBulb lightBulbModel, VoltMeter voltMeterModel ) {
+        public ForegroundGraphic( 
+                Component component, 
+                PickupCoil coilModel,  
+                LightBulb lightBulbModel, 
+                VoltMeter voltMeterModel ) {
             super( component );
 
             _coilModel = coilModel;
@@ -141,10 +150,10 @@ public class PickupCoilGraphic {
             _coilFront = null;
 
             // Lightbulb
-            _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel );
+            _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel, coilModel.getMagnet() );
 
             // Voltmeter
-            _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel );
+            _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel, coilModel.getMagnet() );
 
             // Interactivity
             super.setCursorHand();

@@ -30,6 +30,8 @@ phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 
 DONE:
+(1/26) - factor out common code for value rescaling
+(1/26) - add value rescaling to lightbulb & voltmeter
 (1/25) - use median values always, except when changing polarity, #loops or radius
 (1/25) - compass on/off control
 (1/25) - reduce range of magnet strength to 100-300 Gs
