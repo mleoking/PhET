@@ -53,7 +53,7 @@ public class ImageLoader {
      * using the current conversion strategy.
      *
      * @param name
-     * @return
+     * @return the loaded image.
      */
     public BufferedImage loadImage(String name) throws IOException {
         ClassLoader cl = this.getClass().getClassLoader();

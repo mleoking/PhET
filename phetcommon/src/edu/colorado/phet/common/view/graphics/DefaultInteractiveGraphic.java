@@ -18,6 +18,9 @@ import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * This class facilitates adding behaviors to an interactive graphic.
+ */
 public class DefaultInteractiveGraphic implements InteractiveGraphic {
     Graphic graphic;
     CompositeMouseInputListener mouseControl;
@@ -72,11 +75,17 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
     public void setBoundary(Boundary boundary) {
         this.boundary = boundary;
     }
-
+    /**
+     * Cause the cursor to turn into a hand when within the boundary.
+     */
     public void addCursorHandBehavior() {
         mouseControl.addMouseInputListener(new HandCursorControl());
     }
 
+    /**
+     * Add an arbitrary MouseInputListener.
+     * @param mouseInputAdapter
+     */
     public void addMouseInputListener(MouseInputListener mouseInputAdapter) {
         mouseControl.addMouseInputListener(mouseInputAdapter);
     }

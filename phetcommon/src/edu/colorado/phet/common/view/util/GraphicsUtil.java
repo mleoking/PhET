@@ -35,7 +35,7 @@ public class GraphicsUtil {
      * @param scale
      * @param x
      * @param y
-     * @return
+     * @return the scaled transform.
      */
     public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
         AffineTransform atx = new AffineTransform();
@@ -49,7 +49,7 @@ public class GraphicsUtil {
      * @param scale
      * @param x
      * @param y
-     * @return
+     * @return the scaled transform.
      */
     public static AffineTransform scaleInPlaceTx( AffineTransform atx,
                                                   double scale, double x, double y ) {
@@ -66,7 +66,7 @@ public class GraphicsUtil {
      * @param theta
      * @param x
      * @param y
-     * @return
+     * @return the rotated AffineTransform.
      */
     public static AffineTransform rotateInPlace( double theta, double x, double y ) {
         AffineTransform atx = new AffineTransform();
@@ -80,7 +80,7 @@ public class GraphicsUtil {
      * @param theta
      * @param x
      * @param y
-     * @return
+     * @return the rotated transform.
      */
     public static AffineTransform rotateInPlaceTx( AffineTransform atx,
                                                    double theta, double x, double y ) {
@@ -184,7 +184,7 @@ public class GraphicsUtil {
      * @param newMenu
      * @param menuBar
      * @param index
-     * @return
+     * @return The same JMenuBar, for cascading.
      */
     public static JMenuBar addMenuAt( JMenu newMenu, JMenuBar menuBar, int index ) {
 

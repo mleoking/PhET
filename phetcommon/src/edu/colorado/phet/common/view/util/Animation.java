@@ -74,14 +74,13 @@ public class Animation {
     }
 
     /**
-     * @return
      */
     public int getCurrFrameNum() {
         return currFrameNum;
     }
 
     /**
-     * @return
+     * @return the number of frames in this animation.
      */
     public int getNumFrames() {
         return frames.length;
