@@ -213,6 +213,20 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     /**
+     * Since this graphic does not handle location, override it to throw an exception.
+     */
+    public void setLocation( int x, int y ) {
+        throw new UnsupportedOperationException();
+    }
+    
+    /**
+     * Since this graphic does not handle location, override it to throw an exception.
+     */
+    public void setLocation( Point p ) {
+        setLocation( p.x, p.y );
+    }
+    
+    /**
      * Updates when we become visible.
      * 
      * @param visible true for visible, false for invisible
