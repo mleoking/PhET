@@ -1,8 +1,8 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.ec2;
 
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.graphics.RescaleOp2;
 import edu.colorado.phet.ec2.common.measuringtape.MeasuringTapeInteractiveGraphic;
 import edu.colorado.phet.ec2.elements.DeveloperPanel;

@@ -23,14 +23,14 @@ public class DefaultClockStatePanel extends JPanel {
     JButton stop;
     JButton kill;
     JSpinner changeDelay;
-    
+
     static {
         SimStrings.setStrings( "localization/HPA-22Strings" );
     }
 
     public DefaultClockStatePanel( final AbstractClock clock ) {
         this.clock = clock;
-        play = new JButton( SimStrings.get( "DefaultClockStatePanel.PlayButton") );
+        play = new JButton( SimStrings.get( "DefaultClockStatePanel.PlayButton" ) );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clock.start();

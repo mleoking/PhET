@@ -3,8 +3,8 @@ package edu.colorado.phet.common.view.components.media;
 
 import edu.colorado.phet.common.model.ApplicationModel;
 import edu.colorado.phet.common.model.command.Command;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -32,7 +32,7 @@ public class ApplicationModelControlPanel extends JPanel {
     static {
         SimStrings.setStrings( "localization/HP-22Strings" );
     }
-    
+
     public ApplicationModelControlPanel( ApplicationModel runner ) {
         this( runner, null );
     }

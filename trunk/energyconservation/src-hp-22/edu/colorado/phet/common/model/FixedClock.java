@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.model;
 
 
-
 public class FixedClock extends DynamicClock {
     public FixedClock( double dt, int waitTime, ThreadPriority priority ) {
         super( dt, waitTime, priority );

@@ -7,12 +7,12 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.coreadditions.clock2.AbstractClock;
 import edu.colorado.phet.coreadditions.clock2.DefaultClock;
 import edu.colorado.phet.coreadditions.clock2.SimulationTimeListener;
-import edu.colorado.phet.coreadditions.clock2.AbstractClock;
 import edu.colorado.phet.coreadditions.clock2.TickListener;
 import edu.colorado.phet.coreadditions.clock2.components.DefaultClockStatePanel;
 import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
@@ -50,11 +50,7 @@ import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -654,9 +650,9 @@ public class EC2Module extends Module implements ModuleSplineInterface {
             SimStrings.setLocale( new Locale( applicationLocale ) );
         }
         String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
+        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            SimStrings.setLocale( new Locale( locale ));
+            SimStrings.setLocale( new Locale( locale ) );
         }
 
         SimStrings.setStrings( localizedStringsPath );

@@ -2,8 +2,8 @@
 package edu.colorado.phet.ec2.common.measuringtape;
 
 import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.controllers.DefaultControlGraphic;
 import edu.colorado.phet.coreadditions.controllers.MouseHandler;
 import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;

@@ -45,12 +45,12 @@ public class EnergyChartGraphic implements Graphic, EnergyObserver {
         };
 
         dataset = createCategoryDataset( SimStrings.get( "EnergyChartGraphic.RowPrefix" ) + " ",
-                                        new String[]{
-                                            SimStrings.get( "EnergyChartGraphic.CarKineticLabel" ),
-                                            SimStrings.get( "EnergyChartGraphic.CarPotentialLabel" ),
-                                            SimStrings.get( "EnergyChartGraphic.ThermalLabel" ),
-                                            SimStrings.get( "EnergyChartGraphic.TotalLabel" ) },
-                                        data );
+                                         new String[]{
+                                             SimStrings.get( "EnergyChartGraphic.CarKineticLabel" ),
+                                             SimStrings.get( "EnergyChartGraphic.CarPotentialLabel" ),
+                                             SimStrings.get( "EnergyChartGraphic.ThermalLabel" ),
+                                             SimStrings.get( "EnergyChartGraphic.TotalLabel" )},
+                                         data );
         chart = createChart( dataset );
         car.addEnergyObserver( this );
     }
@@ -110,6 +110,8 @@ public class EnergyChartGraphic implements Graphic, EnergyObserver {
             }
         };
         renderer.setSeriesPaint( 1, Color.black );
+        Class c = CategoryPlot.class;
+        System.out.println( "c = " + c );
         CategoryPlot plot = new CategoryPlot( data, categoryAxis, valueAxis, renderer );
         plot.setOrientation( orientation );
         plot.setForegroundAlpha( 0.75f );
