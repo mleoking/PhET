@@ -10,7 +10,6 @@ package edu.colorado.phet.collision;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.SphericalBody;
 
 public class SphereBoxCollision implements Collision {
 

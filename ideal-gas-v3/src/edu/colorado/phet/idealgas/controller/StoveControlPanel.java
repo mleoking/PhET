@@ -25,8 +25,16 @@ public class StoveControlPanel extends JPanel {
     private static final int s_stoveSliderHeight = 60;
 
     public StoveControlPanel( final IdealGasModule module ) {
-//        JPanel stovePanel = this;
+
+        // This panel will be put on the ApparatusPanel, which has a null LayoutManager.
+        // When a JPanel is added to a JPanel with a null LayoutManager, the nested panel
+        // doesn't lay out properly if it is at all complicated. To get it to lay out properly,
+        // it must be put into an intermediate JPanel with a simple layout manager (in this case
+        // we use the default), and that intermediate panel is then added to the ApparatusPanel.
         JPanel stovePanel = new JPanel();
+        this.setOpaque( false );
+        this.add( stovePanel );
+
         JPanel stoveSliderPanel = new JPanel();
 //        JPanel iconPanel = new JPanel( new GridLayout( 3, 1 ) );
 //        Image stoveAndFlameImage = null;
@@ -50,8 +58,11 @@ public class StoveControlPanel extends JPanel {
 //        stoveSliderPanel.add( iconPanel );
 //        iconPanel.setPreferredSize( new Dimension( 24, s_stoveSliderHeight ) );
 
-        final JSlider stoveSlider = new JSlider( JSlider.VERTICAL, -40, 40, 0 );
-        stoveSlider.setMajorTickSpacing( 10 );
+        int maxStoveSliderValue = 40;
+        final JSlider stoveSlider = new JSlider( JSlider.VERTICAL, -maxStoveSliderValue,
+                                                 maxStoveSliderValue, 0 );
+        stoveSlider.setMajorTickSpacing( maxStoveSliderValue );
+        stoveSlider.setMinorTickSpacing( 10 );
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
         labelTable.put( new Integer( -40 ), new JLabel( SimStrings.get( "Common.Remove" ) ) );
@@ -64,7 +75,6 @@ public class StoveControlPanel extends JPanel {
         stoveSlider.setPreferredSize( new Dimension( 100, s_stoveSliderHeight ) );
         stoveSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                //            setFlames( stoveSlider.getValue() );
                 module.setStove( stoveSlider.getValue() );
             }
         } );
@@ -86,8 +96,6 @@ public class StoveControlPanel extends JPanel {
         gbc = new GridBagConstraints( 1, 0, 1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         stovePanel.add( heatSourceCB, gbc );
 
-//        stovePanel.setBorder( new EtchedBorder( SimStrings.get( "IdealGasControlPanel.Heat_Control" ) ) ));
-//        BorderFactory.createCompoundBorder( new BevelBorder( BevelBorder.RAISED), new TitledBorder( ) )
         Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED, Color.blue, Color.black ), SimStrings.get( "IdealGasControlPanel.Heat_Control" ) );
         stovePanel.setBorder( border );
 
@@ -97,10 +105,7 @@ public class StoveControlPanel extends JPanel {
         heatSourceCB.setBackground( background );
         stovePanel.getLayout().layoutContainer( this );
 //        stovePanel.setBackground( new Color( 200, 255, 160 ));
-        this.setOpaque( false );
-        this.add( stovePanel );
 
-//        invalidate();
         revalidate();
         repaint();
     }

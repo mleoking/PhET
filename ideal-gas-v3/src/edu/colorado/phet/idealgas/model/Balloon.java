@@ -61,11 +61,11 @@ public class Balloon extends HollowSphere {
     /**
      * Records the impact on the inside or outside of the balloon
      */
-    SphericalBody sphericalBody = new SphericalBody( new Point2D.Double(),
-                                                     new Vector2D.Double(),
-                                                     new Vector2D.Double(),
-                                                     0,
-                                                     GasMolecule.s_defaultRadius );
+//    SphericalBody sphericalBody = new SphericalBody( new Point2D.Double(),
+//                                                     new Vector2D.Double(),
+//                                                     new Vector2D.Double(),
+//                                                     0,
+//                                                     GasMolecule.s_defaultRadius );
 
     public void collideWithParticle( CollidableBody particle ) {
 
@@ -114,7 +114,9 @@ public class Balloon extends HollowSphere {
         // Compute average pressure differential
         insidePressureRecorder.computeDataStatistics();
         outsidePressureRecorder.computeDataStatistics();
-        double currInOutPressureRatio = insidePressureRecorder.getDataTotal() / outsidePressureRecorder.getDataTotal();
+        double outsidePressure = Math.max( outsidePressureRecorder.getDataTotal(), 1 );
+        double currInOutPressureRatio = insidePressureRecorder.getDataTotal() / outsidePressure;
+//        double currInOutPressureRatio = insidePressureRecorder.getDataTotal() / outsidePressureRecorder.getDataTotal();
         if( !Double.isNaN( currInOutPressureRatio )
             && currInOutPressureRatio != 0
             && currInOutPressureRatio != Double.POSITIVE_INFINITY

@@ -12,7 +12,9 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.idealgas.model.Pump;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 
 /**
  * This class is provided just to overide isInHotSpot to make the pump
@@ -26,6 +28,9 @@ public class PumpHandleGraphic extends DefaultInteractiveGraphic {
     private PhetImageGraphic image;
     private int lastYPumped;
     private int lastYTracked = Integer.MAX_VALUE;
+    private boolean handleHighlighted;
+    private Stroke highlightStroke = new BasicStroke( 1 );
+    private Rectangle2D highlightRect = new Rectangle2D.Double();
 
     public PumpHandleGraphic( Pump pump, final PhetImageGraphic image, int x, int y,
                               int minX, int minY,
@@ -43,9 +48,32 @@ public class PumpHandleGraphic extends DefaultInteractiveGraphic {
             }
         };
         super.setBoundary( hitArea );
-        this.addCursorHandBehavior();
+        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
         this.addTranslationBehavior( new PumpHandleTranslator( x, y, minX, minY, maxX, maxY ) );
         this.setGraphic( image );
+    }
+
+    public void paint( Graphics2D g ) {
+        super.paint( g );
+//        if( handleHighlighted ) {
+//            GraphicsState gs = new GraphicsState( g );
+//            highlightRect.setRect( image.getBounds().getMinX(), image.getBounds().getMinY(),
+//                                   image.getBounds().getWidth(), 9 );
+//            g.setColor( Color.red );
+//            g.setStroke( new BasicStroke( 1 ) );
+//            g.draw( highlightRect );
+//            gs.restoreGraphics();
+//        }
+    }
+
+    public void mouseEntered( MouseEvent e ) {
+        super.mouseEntered( e );
+        handleHighlighted = true;
+    }
+
+    public void mouseExited( MouseEvent e ) {
+        super.mouseExited( e );
+        handleHighlighted = false;
     }
 
     public void mouseDragged( MouseEvent e ) {

@@ -23,7 +23,8 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
     private static Color s_defaultColor = Color.black;
     private Box2D box;
     private boolean graphicSelected;
-    private int wallSpeedLimit = 3;
+    private int wallSpeedLimit = 6;
+    private boolean leftWallHighlighted;
 
     public Box2DGraphic( Component component, final Box2D box ) {
         super( null );
@@ -32,7 +33,7 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
         InternalBoxGraphic internalBoxGraphic = new InternalBoxGraphic( component );
         setBoundedGraphic( internalBoxGraphic );
 
-        this.addCursorHandBehavior();
+        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ));
         this.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
                 // Speed limit on wall
@@ -56,6 +57,16 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
 
     public boolean isGraphicSelected() {
         return graphicSelected;
+    }
+
+    public void mouseEntered( MouseEvent e ) {
+        super.mouseEntered( e );
+        leftWallHighlighted = true;
+    }
+
+    public void mouseExited( MouseEvent e ) {
+        super.mouseExited( e );
+        leftWallHighlighted = false;
     }
 
     public void mouseDragged( MouseEvent e ) {
@@ -103,6 +114,16 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
             g.draw( rect );
             g.setColor( Color.white );
             g.fill( openingRect );
+
+            if( leftWallHighlighted ) {
+                Rectangle2D r = new Rectangle2D.Double( box.getMinX() - s_thickness,
+                          box.getMinY() - s_thickness,
+                          s_thickness,
+                          box.getMaxY() - box.getMinY() + s_thickness * 2 );
+                g.setStroke( new BasicStroke( 1 ));
+                g.setColor( Color.red );
+                g.draw( r );
+            }
             restoreGraphicsState();
         }
     }

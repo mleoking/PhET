@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.idealgas.model.SphericalBody;
-
 import java.awt.geom.Point2D;
 
 public class SphereSphereContactDetector implements ContactDetector {
