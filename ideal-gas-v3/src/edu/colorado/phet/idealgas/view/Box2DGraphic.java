@@ -12,22 +12,15 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.model.Box2D;
 
 import java.awt.*;
-import java.awt.geom.Area;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 public class Box2DGraphic extends DefaultInteractiveGraphic {
 
-    //
-    // Static fields and methods
-    //
     public static double s_thickness = 4;
     private static Stroke s_defaultStroke = new BasicStroke( (float)s_thickness );
     private static Color s_defaultColor = Color.black;
     private static float s_leaningManStateChangeScaleFactor = 1.75F;
-
-    private int stroke;
-    private Area a1;
-    private Area a2;
     private Box2D box;
 
     public Box2DGraphic( Component component, final Box2D box ) {
@@ -66,13 +59,18 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
         } );
     }
 
+    public void mouseEntered( MouseEvent e ) {
+        super.mouseEntered( e );
+    }
+
     private class InternalBoxGraphic extends PhetShapeGraphic implements SimpleObserver {
         private Rectangle2D.Double rect = new Rectangle2D.Double();
+        private Rectangle2D.Double mouseableArea = new Rectangle2D.Double();
 
         public InternalBoxGraphic( Component component ) {
             super( component, null, s_defaultStroke, s_defaultColor );
             box.addObserver( this );
-            this.setShape( rect );
+            this.setShape( mouseableArea );
             update();
         }
 
@@ -81,8 +79,20 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
                           box.getMinY() - s_thickness / 2,
                           box.getMaxX() - box.getMinX(),
                           box.getMaxY() - box.getMinY() );
+            mouseableArea.setRect( box.getMinX() - s_thickness,
+                                   box.getMinY() - s_thickness,
+                                   s_thickness,
+                                   box.getMaxY() - box.getMinY() + s_thickness * 1 );
             super.setBoundsDirty();
             super.repaint();
+        }
+
+        public void paint( Graphics2D g ) {
+            saveGraphicsState( g );
+            g.setStroke( s_defaultStroke );
+            g.setColor( s_defaultColor );
+            g.draw( rect );
+            restoreGraphicsState();
         }
     }
 

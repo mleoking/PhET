@@ -7,6 +7,8 @@
  */
 package edu.colorado.phet.idealgas;
 
+import edu.colorado.phet.common.view.util.FrameSetup;
+
 /**
  *
  */
@@ -47,8 +49,6 @@ public class IdealGasConfig {
     public static final String VERSION = "0.01";
 
     // Images
-    //    public static final String IMAGE_DIRECTORY = "images/";
-
     public static final String BLUE_PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
     public static final String RED_PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";
     public static final String GREEN_PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-green-xsml.gif";
@@ -82,6 +82,9 @@ public class IdealGasConfig {
 
     // Dimensions of control panel
     public static final int CONTROL_PANEL_WIDTH = 125;
+
+    // Frame setup for the application
+    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 960, 768 );
 
     // Sounds
     public static final String SOUND_DIRECTORY = "http://sounds/";

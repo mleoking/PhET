@@ -21,7 +21,8 @@ public class TestMoleculeBoxCollision extends PhetApplication {
         public TestApplicationModel() {
             super( Strings.title,
                    Strings.description,
-                   IdealGasConfig.VERSION );
+                   IdealGasConfig.VERSION,
+                   IdealGasConfig.FRAME_SETUP );
 
             // Create the clock
             setClock( new SwingTimerClock( IdealGasConfig.s_timeStep,
