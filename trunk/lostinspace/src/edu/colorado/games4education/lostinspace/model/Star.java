@@ -46,4 +46,7 @@ public abstract class Star implements ModelElement {
     public void setZ( double z ) {
         this.z = z;
     }
+
+    public void stepInTime( double dt ) {
+    }
 }
