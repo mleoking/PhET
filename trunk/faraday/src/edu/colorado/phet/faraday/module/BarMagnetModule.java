@@ -56,7 +56,7 @@ public class BarMagnetModule extends Module {
     private static final Point GRID_LOCATION = new Point( 0, 0 );
     
     // Colors
-    private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
+    private static final Color APPARATUS_BACKGROUND = Color.BLACK;
 
     // Magnet parameters
     private static final double MAGNET_STRENGTH = 200;
