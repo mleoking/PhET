@@ -220,8 +220,8 @@ public class CoilGraphic implements SimpleObserver {
             // Back bottom
             {
                 Point end1 = new Point( (int)(radius * .25) + offset, 0 );
-                Point end2 = new Point( (int)(radius * .15) + offset, (int)(radius * .98) );
-                Point control = new Point( (int)(radius * .30) + offset, (int)(radius * .80) );
+                Point end2 = new Point( offset, (int) radius );
+                Point control = new Point( (int)(radius * .35) + offset, (int)(radius * 1.2) );
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
@@ -271,8 +271,8 @@ public class CoilGraphic implements SimpleObserver {
             // Front bottom
             {
                 Point end1 = new Point( (int) ( -radius * .25 ) + offset, 0 );
-                Point end2 = new Point( (int) ( radius * .13 ) + offset, (int) radius );
-                Point control = new Point( (int) ( -radius * .25 ) + offset, (int) ( radius * 1.30 ) );
+                Point end2 = new Point( offset, (int) radius );
+                Point control = new Point( (int) ( -radius * .25 ) + offset, (int) ( radius * 0.80 ) );
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
