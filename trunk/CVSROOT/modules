@@ -46,6 +46,9 @@ mechanics mechanics
 # Phet common code 
 phetcommon phetcommon
 
+# Miscellaneous controls
+controls controls
+
 
 #
 # Simulations
