@@ -15,7 +15,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateEvent;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -59,8 +58,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private ArrayList rectangles = new ArrayList();
     private Rectangle repaintArea;
 
-    private HashMap componentOrgLocationsMap = new HashMap();
-    protected ClockTickListener paintTickListener;
+    private ScaledComponentLayout scaledComponentLayout;
     protected ModelElement paintModelElement;
     protected PanelResizeHandler panelResizeHandler;
 
@@ -100,13 +98,13 @@ public class ApparatusPanel2 extends ApparatusPanel {
             }
         };
         model.addModelElement( paintModelElement );
-        //I need more fine grained control, since I have two modules using the same clock.  Isn't this the normal thing?
 
         // Add a listener what will adjust things if the size of the panel changes
         panelResizeHandler = new PanelResizeHandler();
         this.addComponentListener( panelResizeHandler );
         transformManager = new TransformManager( this );
         paintStrategy = new DefaultPaintStrategy( this );
+        scaledComponentLayout = new ScaledComponentLayout( this );
     }
 
     /**
@@ -125,7 +123,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     public void setReferenceSize() {
         transformManager.setReferenceSize();
-        saveSwingComponentCoordinates( 1.0 );
+        scaledComponentLayout.saveSwingComponentCoordinates( 1.0 );
         setScale( 1.0 );
         paintImmediately( 0, 0, getWidth(), getHeight() );
 
@@ -134,16 +132,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         if( DEBUG_OUTPUT_ENABLED ) {
             System.out.println( "ApparatusPanel2.setReferenceBounds: referenceBounds=" + transformManager.getReferenceBounds() );
-        }
-    }
-
-    private void saveSwingComponentCoordinates( double scale ) {
-        Component[] components = getComponents();
-        for( int i = 0; i < components.length; i++ ) {
-            Component component = components[i];
-            Point location = component.getLocation();
-            //factor out the old scale, if any.
-            componentOrgLocationsMap.put( component, new Point( (int)( location.x / scale ), (int)( location.y / scale ) ) );
         }
     }
 
@@ -179,7 +167,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     private void saveLocation( Component comp ) {
-        componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
+        scaledComponentLayout.saveLocation( comp );
     }
 
     public Component add( Component comp ) {
@@ -311,22 +299,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     /**
-     * Adjust the locations of Swing components based on the current scale
-     */
-    private void layoutSwingComponents() {
-        Component[] components = ApparatusPanel2.this.getComponents();
-        for( int i = 0; i < components.length; i++ ) {
-            Component component = components[i];
-            Point origLocation = (Point)componentOrgLocationsMap.get( component );
-            if( origLocation != null ) {
-                double scale = transformManager.getScale();
-                Point newLocation = new Point( (int)( origLocation.getX() * scale ), (int)( origLocation.getY() * scale ) );
-                component.setLocation( newLocation );
-            }
-        }
-    }
-
-    /**
      * todo: is this used anywhere?
      *
      * @return
@@ -393,7 +365,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     public void setScale( double scale ) {
         transformManager.setScale( scale );
-        layoutSwingComponents();
+        scaledComponentLayout.layoutSwingComponents( scale );
     }
 
 
@@ -635,6 +607,46 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         public void componentResized() {
         }
+    }
+
+    static class ScaledComponentLayout {
+        private HashMap componentOrgLocationsMap = new HashMap();
+        JComponent component;
+
+        public ScaledComponentLayout( JComponent component ) {
+            this.component = component;
+        }
+
+        private void saveSwingComponentCoordinates( double scale ) {
+            Component[] components = component.getComponents();
+            for( int i = 0; i < components.length; i++ ) {
+                Component component = components[i];
+                Point location = component.getLocation();
+                //factor out the old scale, if any.
+                componentOrgLocationsMap.put( component, new Point( (int)( location.x / scale ), (int)( location.y / scale ) ) );
+            }
+        }
+
+        public void saveLocation( Component comp ) {
+            componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
+        }
+
+        /**
+         * Adjust the locations of Swing components based on the current scale
+         */
+        private void layoutSwingComponents( double scale ) {
+            Component[] components = component.getComponents();
+            for( int i = 0; i < components.length; i++ ) {
+                Component component = components[i];
+                Point origLocation = (Point)componentOrgLocationsMap.get( component );
+                if( origLocation != null ) {
+//                    double scale = transformManager.getScale();
+                    Point newLocation = new Point( (int)( origLocation.getX() * scale ), (int)( origLocation.getY() * scale ) );
+                    component.setLocation( newLocation );
+                }
+            }
+        }
+
     }
 
 
