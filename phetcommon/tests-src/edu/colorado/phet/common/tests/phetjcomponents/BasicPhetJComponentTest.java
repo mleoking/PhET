@@ -60,6 +60,8 @@ public class BasicPhetJComponentTest {
         buttonPhetJ.setLocation( 100, 100 );
 
         /**That's all.*/
+
+
     }
 
     public static void main( String[] args ) {

@@ -33,6 +33,7 @@ public class PhetJComponent extends PhetGraphic {
     private JComponent component;
     private static final JWindow offscreen;
     private BufferedImage image;
+    private boolean autorepaintCaret = true;
 
     static {
         offscreen = new JWindow();       //this seems to work.  I thought you might have needed a visible component, though (maybe for some JVM implementations?)
@@ -210,6 +211,20 @@ public class PhetJComponent extends PhetGraphic {
                 }
             }
         } );
+        if( component instanceof JTextComponent ) {
+            JTextComponent jtc = (JTextComponent)component;
+            Caret caret = jtc.getCaret();
+            int blinkRate = caret.getBlinkRate();
+            ActionListener actionListener = new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    redraw();//todo just redraw the caret region.
+                }
+            };
+            Timer timer = new Timer( blinkRate, actionListener );
+            if( autorepaintCaret ) {
+                timer.start();
+            }
+        }
     }
 
     private void applyEvent( MouseEvent e, MouseMethod mouseMethod ) {
@@ -294,7 +309,14 @@ public class PhetJComponent extends PhetGraphic {
             caret.setVisible( true );
             caret.setSelectionVisible( true );
             int blinkie = caret.getBlinkRate();
-            caret.paint( g2 );
+            long time = System.currentTimeMillis();
+            long remainder = time % ( blinkie * 2 );
+            if( remainder <= 500 ) {
+                caret.paint( g2 );
+            }
+//            if( System.currentTimeMillis() % blinkie ) {
+//                caret.paint( g2 );
+//            }
         }
 
         setBoundsDirty();

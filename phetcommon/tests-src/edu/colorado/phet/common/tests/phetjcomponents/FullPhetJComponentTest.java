@@ -188,6 +188,14 @@ public class FullPhetJComponentTest {
         ap.addGraphic( phetJComponentDraggable );
 
 
+        JTextArea textArea = new JTextArea( "This land is your land\nThis land is my land.", 2, 15 );
+        textArea.setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.blue, 2 ), "Text Area!" ) );
+        textArea.setFont( new Font( "Lucida Sans", Font.BOLD, 22 ) );
+        PhetJComponent pj = new PhetJComponent( ap, textArea );
+        pj.setLocation( 15, 200 );
+//        pj.scale( 1.45);
+        pj.scale( 0.8 );
+        ap.addGraphic( pj );
         //composites seem like the way to approach JSpinners (and solve other problems.)
 //        JSpinner jSpinner = new JSpinner( new SpinnerNumberModel( 5, 0, 10, 1 ) );
 //        jSpinner.setBorder( BorderFactory.createTitledBorder( "Spin" ) );
