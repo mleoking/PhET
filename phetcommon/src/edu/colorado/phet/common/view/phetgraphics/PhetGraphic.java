@@ -39,6 +39,7 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
     private CursorControl cursorControl;
     private MouseInputAdapter popupHandler;
     private ArrayList listeners = new ArrayList();
+    private boolean ignoreMouse = false;
 
     /**
      * Construct a PhetGraphic on the specified component.
@@ -336,4 +337,11 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
         return mouseInputListener;
     }
 
+    protected boolean getIgnoreMouse() {
+        return ignoreMouse;
+    }
+
+    protected void setIgnoreMouse( boolean ignoreMouse ) {
+        this.ignoreMouse = ignoreMouse;
+    }
 }
