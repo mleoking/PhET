@@ -46,10 +46,12 @@ public class HollywoodCompass extends AbstractCompass {
      * @see edu.colorado.phet.faraday.model.AbstractCompass#stepInTime(double)
      */
     public void stepInTime( double dt ) {
-        double previousDirection = super.getDirection();
-        double newDirection = Math.toDegrees( super.getFieldStrength().getAngle() );
-        if ( newDirection != previousDirection ) {
-            super.setDirection( newDirection );
+        if ( isEnabled() ) {
+            double previousDirection = super.getDirection();
+            double newDirection = Math.toDegrees( super.getFieldStrength().getAngle() );
+            if ( newDirection != previousDirection ) {
+                super.setDirection( newDirection );
+            }
         }
     }
 

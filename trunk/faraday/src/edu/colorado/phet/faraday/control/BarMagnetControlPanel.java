@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.control;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -40,6 +41,7 @@ public class BarMagnetControlPanel extends ControlPanel {
 
     private static final boolean ENABLE_DEBUG_CONTROLS = false;
     private static final String UNKNOWN_VALUE = "??????";
+    private static final Dimension SLIDER_SIZE = new Dimension( 100, 50 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -55,7 +57,7 @@ public class BarMagnetControlPanel extends ControlPanel {
     private JLabel _strengthValue, _magnetWidthValue, _magnetHeightValue;
     private JLabel _xSpacingValue, _ySpacingValue, _needleWidthValue,
             _needleHeightValue;
-    private JCheckBox _probeCheckBox;
+    private JCheckBox _probeCheckBox, _compassCheckBox;
     private JButton _resetButton;
 
     //----------------------------------------------------------------------------
@@ -101,6 +103,9 @@ public class BarMagnetControlPanel extends ControlPanel {
                 _strengthSlider.setMinimum( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
                 _strengthSlider.setMaximum( (int) FaradayConfig.MAGNET_STRENGTH_MAX );
                 _strengthSlider.setValue( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
+                _strengthSlider.setPreferredSize( SLIDER_SIZE );
+                _strengthSlider.setMaximumSize( SLIDER_SIZE );
+                _strengthSlider.setMinimumSize( SLIDER_SIZE );
 
                 // Value
                 _strengthValue = new JLabel( UNKNOWN_VALUE );
@@ -161,8 +166,8 @@ public class BarMagnetControlPanel extends ControlPanel {
 
             // Layout
             barMagnetPanel.setLayout( new BoxLayout( barMagnetPanel, BoxLayout.Y_AXIS ) );
-            barMagnetPanel.add( _flipPolarityButton );
             barMagnetPanel.add( strengthPanel );
+            barMagnetPanel.add( _flipPolarityButton );
             barMagnetPanel.add( _magnetTransparencyCheckBox );
             if ( ENABLE_DEBUG_CONTROLS ) {
                 barMagnetPanel.add( widthPanel );
@@ -282,6 +287,14 @@ public class BarMagnetControlPanel extends ControlPanel {
             probePanel.add( _probeCheckBox );
         }
         
+        JPanel compassPanel = new JPanel();
+        {
+            _compassCheckBox = new JCheckBox( SimStrings.get( "compassCheckBox.label" ) );
+            
+            compassPanel.setLayout( new BoxLayout( compassPanel, BoxLayout.X_AXIS ) );
+            compassPanel.add( _compassCheckBox );
+        }
+        
         // Reset panel
         JPanel resetPanel = new JPanel();
         {
@@ -295,6 +308,7 @@ public class BarMagnetControlPanel extends ControlPanel {
         // Add panels to control panel.
         addFullWidth( barMagnetPanel );
         addFullWidth( probePanel );
+        addFullWidth( compassPanel );
         if ( ENABLE_DEBUG_CONTROLS ) {
             addFullWidth( gridPanel );
             addFullWidth( resetPanel );
@@ -313,6 +327,7 @@ public class BarMagnetControlPanel extends ControlPanel {
         _needleWidthSlider.addChangeListener( listener );
         _needleHeightSlider.addChangeListener( listener );
         _probeCheckBox.addActionListener( listener );
+        _compassCheckBox.addActionListener( listener );
     }
 
     //----------------------------------------------------------------------------
@@ -377,6 +392,15 @@ public class BarMagnetControlPanel extends ControlPanel {
         _probeCheckBox.setSelected( enabled );
     }
     
+    /**
+     * Enables or disabled the compass.
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    public void setCompassEnabled( boolean enabled ) {
+        _compassCheckBox.setSelected( enabled );
+    }
+    
     //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------
@@ -411,6 +435,10 @@ public class BarMagnetControlPanel extends ControlPanel {
             else if ( e.getSource() == _probeCheckBox ) {
                 // Probe enable
                 _module.setProbeEnabled( _probeCheckBox.isSelected() );
+            }
+            else if ( e.getSource() == _compassCheckBox ) {
+                // Compass enable
+                _module.setCompassEnabled( _compassCheckBox.isSelected() );
             }
             else if ( e.getSource() == _resetButton ) {
                 // Reset

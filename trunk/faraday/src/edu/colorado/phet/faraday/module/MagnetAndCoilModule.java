@@ -86,6 +86,7 @@ public class MagnetAndCoilModule extends Module {
     
     // Model
     private AbstractMagnet _magnetModel;
+    private AbstractCompass _compassModel;
     private LightBulb _lightBulbModel;
     private VoltMeter _voltMeterModel;
     private PickupCoil _pickupCoilModel;
@@ -132,9 +133,9 @@ public class MagnetAndCoilModule extends Module {
         model.addModelElement( _magnetModel );
         
         // Compass
-        AbstractCompass compassModel = new Compass( _magnetModel ); 
-        compassModel.setLocation( COMPASS_LOCATION );
-        model.addModelElement( compassModel );
+        _compassModel = new Compass( _magnetModel ); 
+        _compassModel.setLocation( COMPASS_LOCATION );
+        model.addModelElement( _compassModel );
         
         // Pickup Coil
         _pickupCoilModel = new PickupCoil( _magnetModel );
@@ -175,7 +176,7 @@ public class MagnetAndCoilModule extends Module {
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
         
         // CompassGraphic
-        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
@@ -222,6 +223,7 @@ public class MagnetAndCoilModule extends Module {
         _lightBulbModel.setEnabled( true );
         _voltMeterModel.setEnabled( false );
         _gridGraphic.setVisible( true );
+        _compassModel.setEnabled( true );
         
         // Synchronize control panel.
         _controlPanel.setMagnetStrength( _magnetModel.getStrength() );
@@ -230,6 +232,7 @@ public class MagnetAndCoilModule extends Module {
         _controlPanel.setBulbEnabled( _lightBulbModel.isEnabled() );
         _controlPanel.setMeterEnabled( _voltMeterModel.isEnabled() );
         _controlPanel.setCompassGridEnabled( _gridGraphic.isVisible() );
+        _controlPanel.setCompassEnabled( _compassModel.isEnabled() );
     }
     
     /**
@@ -271,6 +274,15 @@ public class MagnetAndCoilModule extends Module {
     public void setCompassGridEnabled( boolean enable ) {
         _gridGraphic.resetSpacing();
         _gridGraphic.setVisible( enable );
+    }
+    
+    /**
+     * Enables and disables the compass.
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    public void setCompassEnabled( boolean enabled ) {
+        _compassModel.setEnabled( enabled );
     }
     
     /**

@@ -92,28 +92,31 @@ public class Compass extends AbstractCompass {
      */
     public void stepInTime( double dt ) {
 
-        // Field magnitude at the compass location.
-        AbstractVector2D emf = getFieldStrength();
-        double magnitude = emf.getMagnitude();
-        
-        // Difference between the field angle and the compass angle.
-        double phi = (( magnitude == 0 ) ? 0.0 : ( emf.getAngle() - _theta ));
-        
-        // Step 1: orientation
-        double thetaOld = _theta;
-        double alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * _omega );
-        _theta = _theta + ( _omega * dt ) + ( 0.5 * alphaTemp * dt * dt  );
-        if ( _theta != thetaOld ) {
-            // Set the compass needle direction.
-            setDirection( Math.toDegrees( _theta ) );
-        }
-        
-        // Step 2: angular accelaration
-        double omegaTemp = _omega + ( alphaTemp * dt );
-        _alpha = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * omegaTemp );
+        if ( isEnabled() ) {
             
-        // Step 3: angular velocity
-        _omega = _omega + ( 0.5 * ( _alpha + alphaTemp ) * dt );
+            // Field magnitude at the compass location.
+            AbstractVector2D emf = getFieldStrength();
+            double magnitude = emf.getMagnitude();
+
+            // Difference between the field angle and the compass angle.
+            double phi = ( ( magnitude == 0 ) ? 0.0 : ( emf.getAngle() - _theta ) );
+
+            // Step 1: orientation
+            double thetaOld = _theta;
+            double alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * _omega );
+            _theta = _theta + ( _omega * dt ) + ( 0.5 * alphaTemp * dt * dt );
+            if ( _theta != thetaOld ) {
+                // Set the compass needle direction.
+                setDirection( Math.toDegrees( _theta ) );
+            }
+
+            // Step 2: angular accelaration
+            double omegaTemp = _omega + ( alphaTemp * dt );
+            _alpha = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * omegaTemp );
+
+            // Step 3: angular velocity
+            _omega = _omega + ( 0.5 * ( _alpha + alphaTemp ) * dt );
+        }
     }
     
     //----------------------------------------------------------------------------

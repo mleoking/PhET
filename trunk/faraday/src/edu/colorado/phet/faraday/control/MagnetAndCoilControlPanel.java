@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday.control;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +40,8 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
 
     private static final String UNKNOWN_VALUE = "??????";
+    private static final Dimension SLIDER_SIZE = new Dimension( 100, 20 );
+    private static final Dimension SPINNER_SIZE = new Dimension( 50, 20 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -47,7 +50,7 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
     private MagnetAndCoilModule _module;
     private JButton _flipPolarityButton;
     private JSlider _strengthSlider;
-    private JCheckBox _magnetTransparencyCheckBox, _gridCheckBox;
+    private JCheckBox _magnetTransparencyCheckBox, _gridCheckBox, _compassCheckBox;
     private JSpinner _loopsSpinner;
     private JSlider _radiusSlider;
     private JRadioButton _meterRadioButton;
@@ -105,6 +108,9 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
                 _strengthSlider.setMinimum( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
                 _strengthSlider.setMaximum( (int) FaradayConfig.MAGNET_STRENGTH_MAX );
                 _strengthSlider.setValue( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
+                _strengthSlider.setPreferredSize( SLIDER_SIZE );
+                _strengthSlider.setMaximumSize( SLIDER_SIZE );
+                _strengthSlider.setMinimumSize( SLIDER_SIZE );
 
                 // Value
                 _strengthValue = new JLabel( UNKNOWN_VALUE );
@@ -144,7 +150,7 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
                 // Label 
                 JLabel label = new JLabel( SimStrings.get( "numberOfLoops.label" ) );
 
-                // Spinner, keyboard editing disabled
+                // Spinner, keyboard editing disabled.
                 SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
                 spinnerModel.setMinimum( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
                 spinnerModel.setMaximum( new Integer( FaradayConfig.MAX_PICKUP_LOOPS ) );
@@ -152,6 +158,11 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
                 _loopsSpinner = new JSpinner( spinnerModel );
                 JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
                 tf.setEditable( false );
+                
+                // Dimensions
+                _loopsSpinner.setPreferredSize( SPINNER_SIZE );
+                _loopsSpinner.setMaximumSize( SPINNER_SIZE );
+                _loopsSpinner.setMinimumSize( SPINNER_SIZE );
 
                 // Layout
                 loopsPanel.setLayout( new BoxLayout( loopsPanel, BoxLayout.X_AXIS ) );
@@ -170,6 +181,9 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
                 _radiusSlider.setMinimum( (int) MagnetAndCoilModule.LOOP_RADIUS_MIN );
                 _radiusSlider.setMaximum( (int) MagnetAndCoilModule.LOOP_RADIUS_MAX );
                 _radiusSlider.setValue( (int) MagnetAndCoilModule.LOOP_RADIUS_MIN );
+                _radiusSlider.setPreferredSize( SLIDER_SIZE );
+                _radiusSlider.setMaximumSize( SLIDER_SIZE );
+                _radiusSlider.setMinimumSize( SLIDER_SIZE );
 
                 // Value
                 _radiusValue = new JLabel( UNKNOWN_VALUE );
@@ -208,11 +222,20 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
             pickupCoilPanel.add( areaPanel );
             pickupCoilPanel.add( loadPanel );
         }
+        
+        JPanel compassPanel = new JPanel();
+        {
+            _compassCheckBox = new JCheckBox( SimStrings.get( "compassCheckBox.label" ) );
+            
+            compassPanel.setLayout( new BoxLayout( compassPanel, BoxLayout.X_AXIS ) );
+            compassPanel.add( _compassCheckBox );
+        }
 
         // Add panels to control panel.
         addFullWidth( fillerPanel );
         addFullWidth( barMagnetPanel );
         addFullWidth( pickupCoilPanel );
+        addFullWidth( compassPanel );
 
         // Wire up event handling
         EventListener listener = new EventListener();
@@ -224,6 +247,7 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
         _radiusSlider.addChangeListener( listener );
         _bulbRadioButton.addActionListener( listener );
         _meterRadioButton.addActionListener( listener );
+        _compassCheckBox.addActionListener( listener );
     }
 
     //----------------------------------------------------------------------------
@@ -293,6 +317,15 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
         _meterRadioButton.setSelected( enabled );
     }
 
+    /**
+     * Enables or disabled the compass.
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    public void setCompassEnabled( boolean enabled ) {
+        _compassCheckBox.setSelected( enabled );
+    }
+    
     //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------
@@ -327,6 +360,10 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
             else if ( e.getSource() == _gridCheckBox ) {
                 // Grid enable
                 _module.setCompassGridEnabled( _gridCheckBox.isSelected() );
+            }
+            else if ( e.getSource() == _compassCheckBox ) {
+                // Grid enable
+                _module.setCompassEnabled( _compassCheckBox.isSelected() );
             }
             else if ( e.getSource() == _bulbRadioButton ) {
                 // Lightbulb enable
