@@ -15,7 +15,6 @@ import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ public class ControlPanel extends JPanel {
     private ArrayList controls = new ArrayList();
     private HashMap panelEntries = new HashMap();
     private Insets defaultInsets = new Insets( 0, 0, 0, 0 );
+    private JPanel northPanel;
 
 
     /**
@@ -52,9 +52,9 @@ public class ControlPanel extends JPanel {
         URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
         imageIcon = new ImageIcon( resource );
         titleLabel = ( new JLabel( imageIcon ) );
-        JPanel p = new JPanel();
-        p.add( titleLabel );
-        this.add( p, BorderLayout.NORTH );
+        northPanel = new JPanel();
+        northPanel.add( titleLabel );
+        this.add( northPanel, BorderLayout.NORTH );
 
         // Panel for help button
         helpPanel = new HelpPanel( module );
@@ -84,6 +84,9 @@ public class ControlPanel extends JPanel {
 //        this.add(centerPane, BorderLayout.CENTER);
     }
 
+    public void removeTitle() {
+        northPanel.remove( titleLabel );
+    }
 
     public void setHelpPanelEnabled( boolean isEnabled ) {
         helpPanel.setVisible( isEnabled );
