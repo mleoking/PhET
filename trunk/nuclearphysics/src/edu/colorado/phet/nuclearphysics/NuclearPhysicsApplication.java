@@ -13,6 +13,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.plaf.LectureLookAndFeel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
 import edu.colorado.phet.common.view.util.framesetup.MaxExtentFrameSetup;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
@@ -44,7 +45,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
         ApplicationDescriptor appDesc = new ApplicationDescriptor( "Nuclear Physics",
                                                                    desc,
                                                                    "0.1",
-                                                                   new MaxExtentFrameSetup() );
+                                                                   new MaxExtentFrameSetup( new FrameCenterer( 100, 100 ) ) );
         // Note: a ThreadedClock here ends up looking balky
         AbstractClock clock = new SwingTimerClock( 10, 50, true );
         Module profileModificationModule = new ProfileModificationModule( clock );

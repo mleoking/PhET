@@ -31,6 +31,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     private ArrayList nuclei = new ArrayList();
     private ArrayList u235Nuclei = new ArrayList();
     private ArrayList u238Nuclei = new ArrayList();
+    private ArrayList u239Nuclei = new ArrayList();
     private ArrayList neutrons = new ArrayList();
     private ArrayList neutronGraphics = new ArrayList();
     private AbstractClock clock;
@@ -87,10 +88,42 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
 
             }
         } );
+
+        // Add model element that watches for collisions between neutrons and
+        // U238 nuclei
+        getModel().addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                for( int j = 0; j < u238Nuclei.size(); j++ ) {
+                    Uranium238 u238 = (Uranium238)u238Nuclei.get( j );
+                    for( int i = 0; i < neutrons.size(); i++ ) {
+                        Neutron neutron = (Neutron)neutrons.get( i );
+                        if( neutron.getLocation().distanceSq( u238.getLocation() )
+                            <= u238.getRadius() * u238.getRadius() ) {
+
+                            // Create a new uranium 239 nucleus to replace the U238
+                            Uranium239 u239 = new Uranium239( u238.getLocation(), getModel() );
+                            addU239Nucleus( u239 );
+////                            nuclei.add( u239 );
+//                            Uranium239Graphic u239G = new Uranium239Graphic( u239 );
+////                            getModel().addModelElement( u239 );
+//                            getPhysicalPanel().addGraphic( u239G );
+
+                            // Remove the old U238 nucleus and the neutron
+                            nuclei.remove( u238 );
+                            neutrons.remove( neutron );
+                            getModel().removeModelElement( u238 );
+                            getModel().removeModelElement( neutron );
+                            getPhysicalPanel().removeGraphic( (Graphic)NucleusGraphic.getGraphicForNucleus( u238 ).get( 0 ) );
+                        }
+                    }
+                }
+
+            }
+        } );
+
     }
 
     public void start() {
-
         // Add a bunch of nuclei, including one in the middle that we can fire a
         // neutron at
         Uranium235 centralNucleus = new Uranium235( new Point2D.Double(), getModel() );
@@ -99,7 +132,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         getModel().addModelElement( centralNucleus );
         addU235Nucleus( centralNucleus );
 
-// Clear out any leftover nuclei from previous runs
+        // Clear out any leftover nuclei from previous runs
         for( int i = 0; i < daughterNuclei.size(); i++ ) {
             Nucleus nucleus = (Nucleus)daughterNuclei.get( i );
             NucleusGraphic.removeGraphicForNucleus( nucleus );
@@ -111,7 +144,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     public void stop() {
 
         // The class should be re-written so that everything is taken care
-        // of by the nuclei list, and the others don't need to be interated
+        // of by the nuclei list, and the others don't need to be iterated
         // here
         for( int i = 0; i < nuclei.size(); i++ ) {
             removeNucleus( (Nucleus)nuclei.get( i ) );
@@ -121,6 +154,9 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         }
         for( int i = 0; i < u238Nuclei.size(); i++ ) {
             removeNucleus( (Nucleus)u238Nuclei.get( i ) );
+        }
+        for( int i = 0; i < u239Nuclei.size(); i++ ) {
+            removeNucleus( (Nucleus)u239Nuclei.get( i ) );
         }
         for( int i = 0; i < daughterNuclei.size(); i++ ) {
             removeNucleus( (Nucleus)daughterNuclei.get( i ) );
@@ -133,7 +169,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         }
         for( int i = 0; i < neutronGraphics.size(); i++ ) {
             getPhysicalPanel().removeGraphic( (Graphic)neutronGraphics.get( i ) );
-
         }
         nuclei.clear();
         u235Nuclei.clear();
@@ -196,6 +231,11 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         addNucleus( nucleus );
     }
 
+    public void addU239Nucleus( Uranium239 nucleus ) {
+        u239Nuclei.add( nucleus );
+        addNucleus( nucleus );
+    }
+
     protected void addNucleus( Nucleus nucleus ) {
         nuclei.add( nucleus );
         nucleus.addFissionListener( this );
@@ -244,7 +284,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         getModel().removeModelElement( products.getParent() );
         nuclei.remove( products.getParent() );
 
-// We know this must be a U235 nucleus
+        // We know this must be a U235 nucleus
         u235Nuclei.remove( products.getParent() );
         List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
         for( int i = 0; i < graphics.size(); i++ ) {
@@ -254,7 +294,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         NeutronGraphic ng = (NeutronGraphic)NeutronGraphic.getGraphicForNeutron( products.getInstigatingNeutron() );
         this.getPhysicalPanel().removeGraphic( ng );
 
-// Add fission products
+        // Add fission products
         super.addNucleus( products.getDaughter1() );
         super.addNucleus( products.getDaughter2() );
         daughterNuclei.add( products.getDaughter1() );
@@ -268,12 +308,12 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
             neutronGraphics.add( npg );
         }
 
-// Add some pizzazz
+        // Add some pizzazz
         Kaboom kaboom = new Kaboom( products.getParent().getLocation(),
                                     25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
 
-// Manage the list of collidable bodies
+        // Manage the list of collidable bodies
         bodies.remove( products.getParent() );
         bodies.add( products.getDaughter1() );
         bodies.add( products.getDaughter2() );
