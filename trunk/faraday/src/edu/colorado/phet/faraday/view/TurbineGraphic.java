@@ -180,7 +180,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             // Update the bar magnet.
             {
                 _barMagnetGraphic.clearTransform();
-                _barMagnetGraphic.rotate( -( _turbineModel.getDirection() ) );
+                _barMagnetGraphic.rotate( _turbineModel.getDirection() );
                 _barMagnetGraphic.scale( 0.5, 0.5 ); //XXX rescale the image file and remove this line
             }
             
@@ -189,7 +189,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
                 double speed = _turbineModel.getSpeed();
                 
                 // Amount of water
-                int waterWidth = (int) ( speed * MAX_WATER_WIDTH );
+                int waterWidth = (int) Math.abs( speed * MAX_WATER_WIDTH );
                 _waterShape.setBounds( -( waterWidth / 2 ), 0, waterWidth, _parentBounds.height );
                 _waterGraphic.setShape( _waterShape );
             }
@@ -231,7 +231,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
         public void stateChanged( javax.swing.event.ChangeEvent event ) {  
             if ( event.getSource() == _flowSlider ) {
                 // Read the value.
-                double speed = _flowSlider.getValue() / 100.0;
+                double speed = -( _flowSlider.getValue() / 100.0 );  // counterclockwise
                 // Update the model.
                 _turbineModel.setSpeed( speed );
             }
