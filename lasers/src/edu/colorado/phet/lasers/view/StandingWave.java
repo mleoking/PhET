@@ -8,8 +8,8 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.awt.*;
@@ -27,8 +27,8 @@ public class StandingWave extends Wave {
 
     public StandingWave( Component component, Point2D origin, double extent,
                          double lambda, double period, double amplitude,
-                         AtomicState atomicState, BaseModel model ) {
-        super( component );
+                         AtomicState atomicState, LaserModel model ) {
+        super( component, atomicState, model.getResonatingCavity() );
         this.origin = origin;
         this.lambda = lambda;
         this.period = period;
@@ -41,6 +41,7 @@ public class StandingWave extends Wave {
     }
 
     public void stepInTime( double dt ) {
+        update();
         wavePath.reset();
         elapsedTime += dt;
         double a = Math.sin( ( elapsedTime / period ) * Math.PI );

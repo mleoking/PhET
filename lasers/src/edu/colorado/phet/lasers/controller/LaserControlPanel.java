@@ -34,7 +34,7 @@ public class LaserControlPanel extends PhetControlPanel {
                                       new Insets( 3, 0, 3, 0 ),
                                       0, 0 );
         super.setControlPane( laserControlPane );
-        addDebugControls( module );
+//        addDebugControls( module );
     }
 
     public void addControl( Component component ) {

@@ -309,8 +309,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         BufferedImage bi = getAtomImage( color );
         double scale = (double)atomDiam / bi.getWidth();
         AffineTransform atx = new AffineTransform();
-        atx.translate( line.getPosition().getX() - atomDiam,
-                       line.getPosition().getY() - atomDiam );
+        atx.translate( line.getLinePosition().getX() - atomDiam,
+                       line.getLinePosition().getY() - atomDiam );
         atx.scale( scale, scale );
         for( int i = 0; i < numInLevel; i++ ) {
             atx.translate( atomDiam * 0.7 / scale, 0 );

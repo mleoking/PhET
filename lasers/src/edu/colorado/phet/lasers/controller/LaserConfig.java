@@ -70,5 +70,5 @@ public class LaserConfig {
     // Threshold number of horizontal photons that is considered "lasing"
     public static int LASING_THRESHOLD = 80;
     // Number of photons in the system that will cause the thing to blow up
-    public static int KABOOM_THRESHOLD = 250;
+    public static int KABOOM_THRESHOLD = 500;
 }

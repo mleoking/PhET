@@ -6,11 +6,9 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
-import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
@@ -29,6 +27,7 @@ import java.util.HashSet;
 public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.LeftSystemEventListener,
                                                                          PhotonEmittedListener,
                                                                          StandingWave.Listener {
+    // This factor controls the visual amplitude of the waves inside and outside of the cavity
     public static double scaleFactor = 5;
     public static double cyclesInCavity = 10;
 
@@ -45,7 +44,7 @@ public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.
     private AtomicState atomicState;
 
     public StandingWaveGraphic( Component component, ResonatingCavity cavity,
-                                PartialMirror mirror, BaseModel model, AtomicState atomicState ) {
+                                PartialMirror mirror, LaserModel model, AtomicState atomicState ) {
         super( component );
 
         // Register with the Photon class so we will get notified when photons are created
@@ -127,32 +126,13 @@ public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.
     }
 
     private void update() {
-        Color baseColor = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
-        int minLevel = 200;
-        // The power function here controls the ramp-up of actualColor intensity
-        int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( getInternalAmplitude() / getMaxInternalAmplitude() ), .6 ) ) );
-
         internalStandingWave.setAmplitude( getInternalAmplitude() );
         externalStandingWave.setAmplitude( getExternalAmplitude() );
     }
 
-    private double getMaxInternalAmplitude() {
-        return 60;
-    }
-
-
-    /**
-     * Determines the color to paint the rectangle.
-     *
-     * @param baseColor
-     * @param level
-     * @return
-     */
-    private Color getActualColor( Color baseColor, int level ) {
-        double grayRefLevel = MakeDuotoneImageOp.getGrayLevel( baseColor );
-        int newRGB = MakeDuotoneImageOp.getDuoToneRGB( level, level, level, 255, grayRefLevel, baseColor );
-        return new Color( newRGB );
-    }
+//    protected double getMaxInternalAmplitude() {
+//        return 60;
+//    }
 
     ///////////////////////////////////////////////////////////////////////////////////
     // Interface implementations
