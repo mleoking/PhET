@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.view.phetgraphics;
+package edu.colorado.phet.common.tests.basicgraphics;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
 import javax.swing.*;
@@ -130,11 +131,11 @@ public class TestPhetGraphics {
         jf.setContentPane( panel );
         jf.setSize( 400, 400 );
         jf.setVisible( true );
-        Thread.sleep(1000);
+        Thread.sleep( 1000 );
 
-        PhetShapeGraphic shapeG2=new PhetShapeGraphic( panel, new Ellipse2D.Double(200,200,50,80),Color.green);
+        PhetShapeGraphic shapeG2 = new PhetShapeGraphic( panel, new Ellipse2D.Double( 200, 200, 50, 80 ), Color.green );
         shapeG2.setVisible( true );
-        Thread.sleep(500);
-        panel.addGraphic( shapeG2);
+        Thread.sleep( 500 );
+        panel.addGraphic( shapeG2 );
     }
 }
