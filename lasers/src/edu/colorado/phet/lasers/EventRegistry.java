@@ -3,19 +3,17 @@
  * Package: edu.colorado.phet.lasers
  * Author: Another Guy
  * Date: Oct 29, 2004
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
-
-/**
- * Class: EventRegistry
- * Package: edu.colorado.phet.lasers
- * Author: Ron LeMaster
- * Date: Oct 28, 2004
- */
 
 public class EventRegistry {
 
