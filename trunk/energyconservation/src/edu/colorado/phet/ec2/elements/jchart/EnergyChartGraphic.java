@@ -44,7 +44,7 @@ public class EnergyChartGraphic implements Graphic, EnergyObserver {
             {0.0, 0, 0, .5},
         };
 
-        dataset = createCategoryDataset( SimStrings.get( "EnergyChartGraphic.SeriesLabel" ) + " ",
+        dataset = createCategoryDataset( SimStrings.get( "EnergyChartGraphic.RowPrefix" ) + " ",
                                         new String[]{
                                             SimStrings.get( "EnergyChartGraphic.CarKineticLabel" ),
                                             SimStrings.get( "EnergyChartGraphic.CarPotentialLabel" ),
