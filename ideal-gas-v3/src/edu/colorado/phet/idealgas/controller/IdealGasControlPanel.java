@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.coreadditions.ToggleButton;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -20,6 +21,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Hashtable;
@@ -50,27 +53,6 @@ public class IdealGasControlPanel extends JPanel {
         this.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         this.setPreferredSize( new Dimension( 140, 300 ) );
 
-//        final JCheckBox fastPaintTestCB = new JCheckBox( "fast paint" );
-//        fastPaintTestCB.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                IdealGasConfig.fastPaint = fastPaintTestCB.isSelected();
-//            }
-//        } );
-//        this.add( fastPaintTestCB );
-
-//        final JCheckBox neighbors = new JCheckBox( "Test" );
-//        neighbors.setSelected( true );
-//        final Random r = new Random();
-//        neighbors.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                //                boolean rx = r.nextBoolean();
-//                //                Config.regionTest = neighbors.isSelected();
-//                //                CollisionGod.doNeighbors = neighbors.isSelected();
-//                //                System.out.println( "rx = " + rx );
-//            }
-//        } );
-
-
         addConstantParamControls();
         addGravityControls();
         JPanel speciesButtonPanel = new SpeciesSelectionPanel( module.getPump() );
@@ -78,16 +60,29 @@ public class IdealGasControlPanel extends JPanel {
         this.add( speciesButtonPanel );
         this.add( new NumParticlesControls() );
         addStoveControls();
-        JButton measurementDlgBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) );
+        ToggleButton measurementDlgBtn = new ToggleButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
+                                                      SimStrings.get( "IdealGasControlPanel.Measurement_Tools" )){
+            public void onAction() {
+                JDialog dlg = module.setMeasurementDlgVisible( true );
+                dlg.addWindowListener( new WindowAdapter() {
+                    public void windowClosing( WindowEvent e ) {
+                        setOff();
+                    }
+                } );
+            }
+
+            public void offAction() {
+                module.setMeasurementDlgVisible( false );
+            }
+        };
+//        JButton measurementDlgBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) );
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
         measurementDlgBtn.setBackground( new Color( 220, 200, 100 ) );
-        measurementDlgBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                JDialog dlg = new MeasurementDialog( (Frame)SwingUtilities.getRoot( IdealGasControlPanel.this ),
-                                                     (IdealGasModule)getModule() );
-                dlg.setVisible( true );
-            }
-        } );
+//        measurementDlgBtn.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                module.setMeasurementDlgVisible( true );
+//            }
+//        } );
         this.add( measurementDlgBtn );
 
         Border border = BorderFactory.createEtchedBorder();

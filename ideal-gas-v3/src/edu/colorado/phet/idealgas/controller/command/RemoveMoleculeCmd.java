@@ -29,6 +29,7 @@ public class RemoveMoleculeCmd implements Command {
             if( currentGasSpecies.isInstance( obj )) {
                 bodies.remove( i );
                 GasMolecule molecule = (GasMolecule)obj;
+                idealGasModel.removeModelElement( molecule );
                 molecule.removeYourselfFromSystem();
                 break;
             }

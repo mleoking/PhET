@@ -27,10 +27,12 @@ import edu.colorado.phet.idealgas.view.*;
 import edu.colorado.phet.idealgas.view.monitors.*;
 import edu.colorado.phet.instrumentation.Thermometer;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class IdealGasModule extends Module {
 
@@ -46,6 +48,9 @@ public class IdealGasModule extends Module {
     private PressureSliceGraphic pressureSliceGraphic;
     private DefaultInteractiveGraphic rulerGraphic;
     private EnergyHistogramDialog histogramDlg;
+    private ArrayList visibleInstruments = new ArrayList();
+    private JDialog measurementDlg;
+    private JDialog speciesMonitorDlg;
 
 
     public IdealGasModule( AbstractClock clock ) {
@@ -55,6 +60,35 @@ public class IdealGasModule extends Module {
 
     protected IdealGasModel getIdealGasModel() {
         return (IdealGasModel)getModel();
+    }
+
+    public JDialog setMeasurementDlgVisible( boolean isVisible ) {
+        if( measurementDlg == null ) {
+            measurementDlg = new MeasurementDialog( PhetApplication.instance().getApplicationView().getPhetFrame(), this );
+        }
+        measurementDlg.setVisible( isVisible );
+        if( isVisible ) {
+            visibleInstruments.add( measurementDlg );
+        }
+        else {
+            visibleInstruments.remove( measurementDlg );
+        }
+        return measurementDlg;
+    }
+
+    public JDialog setSpeciesMonitorDlgEnabled( boolean isEnabled ) {
+        if( speciesMonitorDlg == null ) {
+            speciesMonitorDlg = new SpeciesMonitorDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
+                                                          idealGasModel );
+        }
+        speciesMonitorDlg.setVisible( isEnabled );
+        if( isEnabled ) {
+            visibleInstruments.add( speciesMonitorDlg );
+        }
+        else {
+            visibleInstruments.remove( speciesMonitorDlg );
+        }
+        return speciesMonitorDlg;
     }
 
     class ExpIdealGasApparatusPanel extends BaseIdealGasApparatusPanel {
@@ -138,9 +172,10 @@ public class IdealGasModule extends Module {
         addGraphic( pressureGauge, 20 );
 
         // Add the thermometer
-        Point2D.Double thermometerLoc = new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 400, IdealGasConfig.Y_BASE_OFFSET + 150 );
+        double thermometerHeight = 100;
+        Point2D.Double thermometerLoc = new Point2D.Double( box.getMaxX() - 30, box.getMinY() - thermometerHeight );
         Thermometer thermometer = new IdealGasThermometer( idealGasModel, thermometerLoc,
-                                                           100, 10, true, 0, 1000E3 );
+                                                           thermometerHeight, 10, true, 0, 1000E3 );
         addGraphic( thermometer, 20 );
 
         // Create the pump
@@ -182,8 +217,8 @@ public class IdealGasModule extends Module {
             e.printStackTrace();
         }
 
-        IdealGasMonitorPanel monitorPanel = new IdealGasMonitorPanel( idealGasModel );
-        setMonitorPanel( monitorPanel );
+//        IdealGasMonitorPanel monitorPanel = new IdealGasMonitorPanel( idealGasModel );
+//        setMonitorPanel( monitorPanel );
 
         // Set up the box
         Box2DGraphic boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
@@ -272,12 +307,34 @@ public class IdealGasModule extends Module {
         getApparatusPanel().repaint();
     }
 
-    public void setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
+    public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
         if( histogramDlg == null ) {
             histogramDlg = new EnergyHistogramDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
                                                       (IdealGasModel)getModel() );
         }
         histogramDlg.setVisible( histogramDlgEnabled );
+        if( histogramDlgEnabled ) {
+            visibleInstruments.add( histogramDlg );
+        }
+        else {
+            visibleInstruments.remove( histogramDlg );
+        }
+        return histogramDlg;
     }
 
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        for( int i = 0; i < visibleInstruments.size(); i++ ) {
+            Component component = (Component)visibleInstruments.get( i );
+            component.setVisible( true );
+        }
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        for( int i = 0; i < visibleInstruments.size(); i++ ) {
+            Component component = (Component)visibleInstruments.get( i );
+            component.setVisible( false );
+        }
+    }
 }

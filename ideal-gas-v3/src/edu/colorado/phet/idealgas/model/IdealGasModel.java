@@ -55,6 +55,8 @@ public class IdealGasModel extends BaseModel {
     private List collisionExperts = new ArrayList();
     private double averageHeavySpeciesSpeed;
     private double averageLightSpeciesSpeed;
+    private int heavySpeciesCnt;
+    private int lightSpeciesCnt;
 
     public IdealGasModel( double dt ) {
         // Add a collision collisionGod
@@ -151,6 +153,12 @@ public class IdealGasModel extends BaseModel {
                 }
                 bodies.add( body );
             }
+            if( modelElement instanceof HeavySpecies ) {
+                heavySpeciesCnt++;
+            }
+            if( modelElement instanceof LightSpecies) {
+                lightSpeciesCnt++;
+            }
         }
     }
 
@@ -161,6 +169,13 @@ public class IdealGasModel extends BaseModel {
                 addKineticEnergyToSystem( -( (Body)modelElement ).getKineticEnergy() );
             }
             bodies.remove( modelElement );
+        }
+
+        if( modelElement instanceof HeavySpecies ) {
+            heavySpeciesCnt--;
+        }
+        if( modelElement instanceof LightSpecies) {
+            lightSpeciesCnt--;
         }
 
         // Handle the special case where the model element is gravit
@@ -460,11 +475,11 @@ public class IdealGasModel extends BaseModel {
     }
 
     public int getHeavySpeciesCnt() {
-        return HeavySpecies.getCnt();
+        return heavySpeciesCnt;
     }
 
     public int getLightSpeciesCnt() {
-        return LightSpecies.getCnt();
+        return lightSpeciesCnt;
     }
 
     public double getHeavySpeciesAveSpeed() {

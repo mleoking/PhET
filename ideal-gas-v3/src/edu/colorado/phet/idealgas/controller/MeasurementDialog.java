@@ -7,15 +7,20 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 public class MeasurementDialog extends JDialog {
 
     private IdealGasModule module;
+    private ArrayList visibleInstruments = new ArrayList();
+    private EnergyHistogramDialog histogramDlg;
 
     public MeasurementDialog( Frame owner, IdealGasModule module ) {
         super( owner, "Measurement Tools", false );
@@ -25,7 +30,6 @@ public class MeasurementDialog extends JDialog {
         panel.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = null;
 
-        int rowIdx = 0;
         Insets insets = new Insets( 0, 10, 0, 0 );
         gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                       GridBagConstraints.WEST,
@@ -38,8 +42,8 @@ public class MeasurementDialog extends JDialog {
         panel.add( new HistogramControlPanel(), gbc );
         gbc.gridy = 4;
         panel.add( new CmLinesControl(), gbc );
-
-
+        gbc.gridy = 5;
+        panel.add( new SpeciesMonitorControl(), gbc );
 
         this.pack();
     }
@@ -69,24 +73,48 @@ public class MeasurementDialog extends JDialog {
     }
 
     class HistogramControlPanel extends JPanel {
-        public HistogramControlPanel() {
+        HistogramControlPanel() {
             final JCheckBox histogramCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Display_energy_histograms" ) );
             this.add( histogramCB );
             histogramCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.setHistogramDlgEnabled( histogramCB.isSelected() );
+                    WindowListener windowListener = new WindowAdapter() {
+                        public void windowClosing( WindowEvent e ) {
+                            histogramCB.setSelected( false );
+                        }
+                    };
+                    JDialog dlg = module.setHistogramDlgEnabled( histogramCB.isSelected() );
+                    dlg.addWindowListener( windowListener );
                 }
             } );
         }
     }
 
     class CmLinesControl extends JPanel {
-        public CmLinesControl() {
+        CmLinesControl() {
             final JCheckBox cmLinesOnCB = new JCheckBox( SimStrings.get( "IdealGasControlPanel.Show_CM_lines" ) );
             this.add( cmLinesOnCB );
             cmLinesOnCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     module.setCmLinesOn( cmLinesOnCB.isSelected() );
+                }
+            } );
+        }
+    }
+
+    class SpeciesMonitorControl extends JPanel {
+        SpeciesMonitorControl() {
+            final JCheckBox speciesMonotorCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Show_species_information" ));
+            this.add( speciesMonotorCB );
+            speciesMonotorCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    WindowListener windowListener = new WindowAdapter() {
+                        public void windowClosing( WindowEvent e ) {
+                            speciesMonotorCB.setSelected( false );
+                        }
+                    };
+                    JDialog dlg = module.setSpeciesMonitorDlgEnabled( speciesMonotorCB.isSelected() );
+                    dlg.addWindowListener( windowListener );
                 }
             } );
         }

@@ -29,7 +29,6 @@ import java.util.List;
 public class EnergyHistogramDialog extends JDialog {
 
     private Histogram energyHistogram;
-    private IdealGasApplication application;
     // Number of energyHistogram updates between times it will be displayed and then
     // the data cleared
     private int averagingRatio = 4;
@@ -50,7 +49,6 @@ public class EnergyHistogramDialog extends JDialog {
         this.model = model;
         this.setTitle( SimStrings.get( "EnergyHistorgramDialog.Title" ) );
 
-        this.application = application;
         this.setResizable( false );
 
         // Create the histograms
@@ -131,7 +129,6 @@ public class EnergyHistogramDialog extends JDialog {
                                               GridBagConstraints.WEST );
             GraphicsUtil.addGridBagComponent( this.getContentPane(),
                                               new JLabel( SimStrings.get( "EnergyHistorgramDialog.Energy_Distribution" ) ),
-//                                              new JLabel( "Energy Distribution" ),
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.WEST );
@@ -182,10 +179,6 @@ public class EnergyHistogramDialog extends JDialog {
     public void paintComponents( Graphics g ) {
         super.paintComponents( g );
     }
-
-    //
-    // Static fields and methods
-    //
 
     //
     // Inner classes
