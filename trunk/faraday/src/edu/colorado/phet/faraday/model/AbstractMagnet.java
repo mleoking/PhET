@@ -62,6 +62,7 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
         }
         if ( strength != _strength ) {
             _strength = strength;
+            updateSelf();
             notifyObservers();
         }
     }
@@ -110,6 +111,7 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
         }
         if ( width != _size.getWidth() || height != _size.getHeight() ) {
             _size.setSize( width, height );
+            updateSelf();
             notifyObservers();
         }
     }
