@@ -22,16 +22,28 @@ public class PhysicalPanel extends ApparatusPanel {
     private HashMap modelElementToGraphicMap = new HashMap();
     protected Point2D.Double origin = new Point2D.Double();
     protected AffineTransform originTx = new AffineTransform();
+    protected AffineTransform scaleTx = new AffineTransform();
+    protected AffineTransform nucleonTx = new AffineTransform();
 
     public PhysicalPanel() {
         this.setBackground( backgroundColor );
+        setScale( 1 );
+    }
+
+    public double getScale() {
+        return scaleTx.getScaleX();
+    }
+
+    public void setScale( double scale ) {
+        scaleTx.setToScale( scale, scale );
     }
 
     public void addNucleus( Nucleus nucleus ) {
         NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
         // Register the graphic to the model element
         modelElementToGraphicMap.put( nucleus, ng );
-        addGraphic( ng, originTx );
+        addGraphic( ng, nucleonTx );
+//        addGraphic( ng, originTx );
     }
 
     public void removeNucleus( Nucleus nucleus ) {
@@ -40,12 +52,17 @@ public class PhysicalPanel extends ApparatusPanel {
     }
 
     public synchronized void addGraphic( Graphic graphic ) {
-        super.addGraphic( graphic, originTx );
+        super.addGraphic( graphic, nucleonTx );
+//        super.addGraphic( graphic, originTx );
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
         origin.setLocation( this.getWidth() / 2, this.getHeight() / 2 );
         originTx.setToTranslation( origin.getX(), origin.getY() );
+
+        nucleonTx.setToIdentity();
+        nucleonTx.concatenate( originTx );
+        nucleonTx.concatenate( scaleTx );
 
         super.paintComponent( graphics );
     }
