@@ -72,8 +72,6 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
     public WaveMediumGraphicC( WaveMedium waveMedium, Component component ) {
         super( component, createBufferedImage() );
 
-        this.component = component;
-
         // Hook up to the WaveMedium we are observing
         this.waveMedium = waveMedium;
         waveMedium.addObserver( this );
