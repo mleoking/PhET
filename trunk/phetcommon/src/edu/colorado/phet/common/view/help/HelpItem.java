@@ -38,14 +38,13 @@ public class HelpItem implements Graphic {
     }
 
     /**
-     *
      * @param text
      * @param x
      * @param y
      * @param horizontalAlignment Specifies if the help item will be displayed to
-     * the LEFT or RIGHT of the specified x coordinate
-     * @param verticalAlignment Specifies if the help item will be displayed ABOVE
-     * or BELOW the specified y coordinate
+     *                            the LEFT or RIGHT of the specified x coordinate
+     * @param verticalAlignment   Specifies if the help item will be displayed ABOVE
+     *                            or BELOW the specified y coordinate
      */
     public HelpItem( String text, double x, double y,
                      int horizontalAlignment, int verticalAlignment ) {
@@ -55,6 +54,11 @@ public class HelpItem implements Graphic {
         this.location = new Point2D.Double( x, y );
         shadowColor = Color.black;
         foregroundColor = new Color( 156, 156, 0 );
+    }
+
+    public void setLocation( int x, int y ) {
+        location.setLocation( x, y );
+        inited = false;
     }
 
     public static String[] tokenizeString( String inputText ) {
@@ -128,7 +132,7 @@ public class HelpItem implements Graphic {
                 yBase = 0;
                 break;
             case HelpItem.CENTER:
-                yBase = -(sa.length + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() ) / 2;
+                yBase = -( sa.length + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() ) / 2;
                 break;
         }
 

@@ -11,9 +11,9 @@ import java.awt.image.BufferedImage;
  * This facilitates using Graphic objects to draw into a BufferedImage.
  */
 public class BufferedGraphic implements Graphic {
-    BufferedImage buffer;
-    Graphic graphic;
-    Graphics2D bufferGraphics;
+    private BufferedImage buffer;
+    private Graphic graphic;
+    private Graphics2D bufferGraphics;
     private AffineTransform transform = new AffineTransform();
     private Color backgroundColor;
     private GraphicsSetup setup;
@@ -39,5 +39,9 @@ public class BufferedGraphic implements Graphic {
 
     public void setTransform( AffineTransform transform ) {
         this.transform = transform;
+    }
+
+    public BufferedImage getImage() {
+        return buffer;
     }
 }
