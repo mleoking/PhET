@@ -5,9 +5,10 @@ import edu.colorado.phet.cck.CCK2Module;
 import edu.colorado.phet.cck.elements.branch.DefaultBranchInteractionHandler;
 import edu.colorado.phet.cck.selection.SelectionListener;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.view.graphics.bounds.Boundary;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.math.PhetVector;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ import java.awt.geom.Point2D;
 /**
  * Looks hollow for disconnected, different for connected.
  *  */
-public class JunctionGraphic implements InteractiveGraphic, TransformListener {
+public class JunctionGraphic implements InteractiveGraphic, TransformListener,Boundary {
 
     private Junction junction;
     CCK2Module module;
@@ -104,6 +105,10 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener {
 
         fireDragHappened();
     }
+
+    public void mouseMoved(MouseEvent e) {
+    }
+
     public void fireDragHappened(){
         module.relayoutElectrons(this.junction);
         junction.fireLocationChanged();
@@ -124,6 +129,9 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener {
         if (SwingUtilities.isRightMouseButton(event)) {
             menu.show(event.getComponent(), event.getX(), event.getY());
         }
+    }
+
+    public void mouseClicked(MouseEvent e) {
     }
 
     public void mouseEntered(MouseEvent event) {
@@ -168,7 +176,7 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener {
         }
     }
 
-    public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
+    public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
         update();
     }
 
@@ -186,5 +194,12 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener {
 
     public int getX() {
         return viewPoint.x;
+    }
+
+    public boolean contains(int x, int y) {
+        if (viewPoint == null)
+            return false;
+        double dist = new Point(x,y).distance(viewPoint);
+        return dist <= radius;
     }
 }

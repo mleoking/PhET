@@ -4,7 +4,8 @@ package edu.colorado.phet.cck.elements.xml;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.components.Bulb;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.math.PhetVector;
+
 
 /**
  * User: Sam Reid

@@ -1,11 +1,11 @@
 package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.CCK2Module;
+import edu.colorado.phet.cck.common.DifferentialDragHandler;
 import edu.colorado.phet.cck.elements.InteractionHandler;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.junction.Junction;
-import edu.colorado.phet.coreadditions.graphics.DifferentialDragHandler;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +16,7 @@ public class DefaultBranchInteractionHandler implements InteractionHandler {
     public static final double STICKY_DISTANCE = .3;
     protected Branch branch;
     protected Branch copy;
-    ModelViewTransform2d transform;
+    ModelViewTransform2D transform;
     Circuit circuit;
     CCK2Module module;
     JPopupMenu menu;
@@ -24,7 +24,7 @@ public class DefaultBranchInteractionHandler implements InteractionHandler {
     DifferentialDragHandler ddh;
     private JMenu mymenu;
 
-    public DefaultBranchInteractionHandler(Branch branch, ModelViewTransform2d transform, Circuit circuit, CCK2Module module, JPopupMenu menu, JPopupMenu showMenuMenu) {
+    public DefaultBranchInteractionHandler(Branch branch, ModelViewTransform2D transform, Circuit circuit, CCK2Module module, JPopupMenu menu, JPopupMenu showMenuMenu) {
         this.branch = branch;
         this.transform = transform;
         this.circuit = circuit;

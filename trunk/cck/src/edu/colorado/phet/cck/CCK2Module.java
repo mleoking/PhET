@@ -20,19 +20,23 @@ import edu.colorado.phet.cck.elements.particles.ParticleSet;
 import edu.colorado.phet.cck.elements.particles.ParticleSetGraphic;
 import edu.colorado.phet.cck.util.MyConsoleHandler;
 import edu.colorado.phet.common.VersionUtils;
+import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
+import edu.colorado.phet.common.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
-import edu.colorado.phet.coreadditions.clock2.*;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.view.util.AspectRatioLayout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,7 +56,7 @@ import java.util.logging.LogRecord;
 public class CCK2Module extends Module {
     public static final double ELECTRON_SEPARATION = .35;
 
-    private ModelViewTransform2d transform;
+    private ModelViewTransform2D transform;
     boolean antialias = true;
 
     private ParticleLayout particleLayout;
@@ -138,13 +142,13 @@ public class CCK2Module extends Module {
         return flameImage;
     }
 
-    public CCK2Module(final boolean usePointAmmeter) throws IOException {
+    public CCK2Module(final boolean usePointAmmeter,AbstractClock clock) throws IOException {
         super("Circuit Construction Kit-ii");
         this.usePointAmmeter = usePointAmmeter;
 
         imageSuite = new CCK2ImageSuite();
         flameImage = imageSuite.getImageLoader().loadBufferedImage("images/flame.gif");
-        setModel(new BaseModel());
+        setModel(new BaseModel(clock));
         setApparatusPanel(new ApparatusPanel());
         showErrorGraphic = new ErrorGraphic(getApparatusPanel());
         getApparatusPanel().addGraphic(showErrorGraphic, 1000);
@@ -156,9 +160,11 @@ public class CCK2Module extends Module {
             }
         }, Integer.MIN_VALUE);
         circuitSolver = new CircuitSolver();
-        getApparatusPanel().setBackground(new Color(220, 220, 249));
+        Color backgroundColor=new Color(166,177,204);//not so bright
+//        Color backgroundColor=new Color(220, 220, 249);
+        getApparatusPanel().setBackground(backgroundColor);
         Rectangle2D.Double modelRect = new Rectangle2D.Double(0, 0, 10, 10);
-        transform = new ModelViewTransform2d(modelRect, new Rectangle(0, 0, 1, 1));
+        transform = new ModelViewTransform2D(modelRect, new Rectangle(0, 0, 1, 1));
 
         circuit = new Circuit();
         lifelikeGraphicFactory = new LifelikeGraphicFactory(this, imageSuite.getBaseSwitchImage());
@@ -218,7 +224,7 @@ public class CCK2Module extends Module {
 
 
 //        transform.addTransformListener(new TransformListener() {
-//            public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
+//            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
 //                //Not quite working.
 //                double modelWidthBatt = transform.viewToModelDifferentialX(battIm.getWidth() + DefaultCompositeBranchGraphic.JUNCTION_RADIUS*4);
 //                batteryWithoutWires.setLength(modelWidthBatt);
@@ -266,7 +272,7 @@ public class CCK2Module extends Module {
         voltmeterGraphic.getBlackLeadGraphic().addObserver(checkDVM);
         circuit.addCircuitObserver(dvmUpdate);
         transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
+            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
                 getApparatusPanel().repaint();
             }
         });
@@ -374,7 +380,7 @@ public class CCK2Module extends Module {
         };
         final DragToCreate dragToCreate = new DragToCreate(cbg, source, name, loc, proxy);
         transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
+            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
                 dragToCreate.setTipLocation(transform.modelToView(branch.getX1(), branch.getY1()));
             }
         });
@@ -440,7 +446,7 @@ public class CCK2Module extends Module {
     public void deactivateInternal(PhetApplication app) {
     }
 
-    public ModelViewTransform2d getTransform() {
+    public ModelViewTransform2D getTransform() {
         return transform;
     }
 
@@ -544,8 +550,9 @@ public class CCK2Module extends Module {
     }
 
     public static void main(String[] args) throws IOException {
+        SwingTimerClock stc = new SwingTimerClock(1,30,true);
         boolean usePointAmmeter = false;
-        final CCK2Module module = new CCK2Module(usePointAmmeter);
+        final CCK2Module module = new CCK2Module(usePointAmmeter,stc);
 //        FrameSetup fs = new FrameSetup() {
 //            public void initialize(JFrame frame) {
 //                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -560,7 +567,7 @@ public class CCK2Module extends Module {
                     }
                 });
 
-        PhetApplication app = new PhetApplication(ad, module, new FakeClock());
+        PhetApplication app = new PhetApplication(ad, module, stc);
         app.getApplicationView().getPhetFrame().setSize(Toolkit.getDefaultToolkit().getScreenSize().width * 3 / 4, Toolkit.getDefaultToolkit().getScreenSize().height * 3 / 4);
 //        app.getApplicationView().getPhetFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
         app.getApplicationView().getBasicPhetPanel().setAppControlPanel(null);
@@ -594,36 +601,47 @@ public class CCK2Module extends Module {
         jmb.add(cckMenu);
         jmb.add(helpMenu);
         app.startApplication(module);
-        final ThreadClock tc = new ThreadClock(30, 30) {
-            public void start() {
-                super.start();
-            }
-        };
+//        final ThreadClock tc = new ThreadClock(30, 30) {
+//            public void start() {
+//                super.start();
+//            }
+//        };
 
 
-        TickListener tl = new TickListener() {
-            public void clockTicked(AbstractClock abstractClock) {
-                Thread t = Thread.currentThread();
-//                t.setPriority(Thread.MIN_PRIORITY);
-                tc.removeTickListener(this);
-            }
-        };
-        tc.addTickListener(tl);
-        SwingTimerClock stc = new SwingTimerClock(30);
+//        TickListener tl = new TickListener() {
+//            public void clockTicked(AbstractClock abstractClock) {
+//                Thread t = Thread.currentThread();
+////                t.setPriority(Thread.MIN_PRIORITY);
+//                tc.removeTickListener(this);
+//            }
+//        };
+//        tc.addTickListener(tl);
 
-        DefaultClock dc = new DefaultClock(stc, new ConstantTimeConverter(30));
-        dc.addTickListener(new TickListener() {
-            public void clockTicked(AbstractClock abstractClock) {
-                module.getModel().clockTicked(null, 30);
-                if (numTicks < 100) {
-                    module.repaint();
-                    numTicks++;
-                }
-            }
-        });
-        dc.start();
+
+//        DefaultClock dc = new DefaultClock(stc, new ConstantTimeConverter(30));
+//        dc.addTickListener(new TickListener() {
+//            public void clockTicked(AbstractClock abstractClock) {
+//                module.getModel().clockTicked(null, 30);
+//                if (numTicks < 100) {
+//                    module.repaint();
+//                    numTicks++;
+//                }
+//            }
+//        });
+//        dc.start();
         app.getApplicationView().getPhetFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
         module.getApparatusPanel().repaint();
+        enableAspectRatio(app, module);
+    }
+       private static void enableAspectRatio(PhetApplication app,Module module) {
+        ApparatusPanelContainer apc = app.getApplicationView().getApparatusPanelContainer();
+        if (apc instanceof SingleApparatusPanelContainer) {
+            SingleApparatusPanelContainer sapc = (SingleApparatusPanelContainer) apc;
+            sapc.getComponent().setLayout(new AspectRatioLayout(module.getApparatusPanel(), 10, 10, .75));
+            app.getApplicationView().getBasicPhetPanel().invalidate();
+            app.getApplicationView().getBasicPhetPanel().validate();
+            app.getApplicationView().getBasicPhetPanel().repaint();
+        }
     }
 
     public void setLifelikeWireColor(Color color) {

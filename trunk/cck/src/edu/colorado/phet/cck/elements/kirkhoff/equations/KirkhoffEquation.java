@@ -1,8 +1,5 @@
 package edu.colorado.phet.cck.elements.kirkhoff.equations;
 
-import org.srr.util.O;
-
-
 /**
  * Represents numBranches values of current, then numBranches values of voltage, then the right-hand-side.
  * The matrix will be:
@@ -81,7 +78,7 @@ public class KirkhoffEquation {
 
     public static void print(KirkhoffEquation[] system) {
 
-        O.d("Got " + system.length + " equations.");
+        System.out.println("Got " + system.length + " equations.");
         for (int i = 0; i < system.length; i++) {
             KirkhoffEquation kirkhoffEquation = system[i];
             System.out.println("kirkhoffEquation[" + i + "] = " + kirkhoffEquation);

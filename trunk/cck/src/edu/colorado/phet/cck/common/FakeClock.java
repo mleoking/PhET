@@ -2,6 +2,8 @@
 package edu.colorado.phet.cck.common;
 
 import edu.colorado.phet.common.model.*;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
 
 /**
  * User: Sam Reid
@@ -9,7 +11,7 @@ import edu.colorado.phet.common.model.*;
  * Time: 12:48:27 AM
  * Copyright (c) Aug 19, 2003 by Sam Reid
  */
-public class FakeClock implements IClock {
+public class FakeClock  {
     public void addClockStateListener(ClockStateListener csl) {
     }
 

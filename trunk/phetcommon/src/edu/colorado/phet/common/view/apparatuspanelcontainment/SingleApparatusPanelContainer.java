@@ -24,7 +24,7 @@ public class SingleApparatusPanelContainer implements ApparatusPanelContainer {
 
     public SingleApparatusPanelContainer(ModuleManager mm) {
         mm.addModuleObserver(this);
-        container.setLayout(new AspectRatioLayout(null, 10, 10));
+//        container.setLayout(new AspectRatioLayout(null, 10, 10));
 //        container.setLayout( new BorderLayout() );
     }
 

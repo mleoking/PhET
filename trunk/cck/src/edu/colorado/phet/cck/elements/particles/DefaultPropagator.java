@@ -4,7 +4,8 @@ package edu.colorado.phet.cck.elements.particles;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.circuit.JunctionGroup;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.math.PhetVector;
+
 
 import java.awt.geom.Point2D;
 import java.util.Random;

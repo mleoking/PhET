@@ -5,7 +5,8 @@ import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.components.HasResistance;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.elements.particles.ObjectSelector;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.math.PhetVector;
+
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

@@ -3,8 +3,8 @@ package edu.colorado.phet.cck.elements.dvm;
 
 import edu.colorado.phet.cck.common.SimpleObservable;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.awt.geom.CubicCurve2D;
@@ -17,7 +17,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Oct 26, 2003 by Sam Reid
  */
 public class CableGraphic extends SimpleObservable implements Graphic {
-    private ModelViewTransform2d transform;
+    private ModelViewTransform2D transform;
     private Color color;
     private LeadGraphic leadGraphic;
     private HasLocation attachmentPoint;
@@ -27,13 +27,13 @@ public class CableGraphic extends SimpleObservable implements Graphic {
     private double dx;
     private double dy;
 
-    public CableGraphic(ModelViewTransform2d transform, Color color, LeadGraphic leadGraphic, HasLocation attachmentPoint) {
+    public CableGraphic(ModelViewTransform2D transform, Color color, LeadGraphic leadGraphic, HasLocation attachmentPoint) {
         this.transform = transform;
         this.color = color;
         this.leadGraphic = leadGraphic;
         this.attachmentPoint = attachmentPoint;
         transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
+            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
                 changed();
             }
         });

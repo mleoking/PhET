@@ -10,12 +10,11 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.elements.junction.JunctionGraphic;
 import edu.colorado.phet.cck.elements.particles.ParticleSetGraphic;
-import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.math.PhetVector;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -36,8 +35,8 @@ import java.text.DecimalFormat;
  * Time: 3:15:26 PM
  * Copyright (c) Aug 23, 2003 by Sam Reid
  */
-public class ConnectibleImageGraphic extends CompositeGraphic implements BranchObserver, AbstractBranchGraphic {
-    protected ModelViewTransform2d transform;
+public class ConnectibleImageGraphic extends CompositeInteractiveGraphic implements BranchObserver, AbstractBranchGraphic {
+    protected ModelViewTransform2D transform;
     protected Branch branch;
     protected CCK2Module module;
     JPopupMenu menu;
@@ -51,7 +50,7 @@ public class ConnectibleImageGraphic extends CompositeGraphic implements BranchO
     private Point viewStart;
     private Point viewEnd;
 
-    public ConnectibleImageGraphic(final Circuit circuit, ModelViewTransform2d transform,
+    public ConnectibleImageGraphic(final Circuit circuit, ModelViewTransform2D transform,
                                    final Branch branch,
                                    final CCK2Module module, BufferedImage image,
                                    final Stroke highlightStroke, final Color highlightColor) {
@@ -139,7 +138,7 @@ public class ConnectibleImageGraphic extends CompositeGraphic implements BranchO
                     final JPanel jp = new JPanel();
                     jp.setLayout(new BorderLayout());
 //                    Rectangle2D.Double modelRectX=new Rectangle2D.Double(0,0,100,);
-//                    ModelViewTransform2d transform=new ModelViewTransform2d();
+//                    ModelViewTransform2D transform=new ModelViewTransform2D();
                     js.setPaintTicks(true);
                     js.setMajorTickSpacing(20);
                     js.setMinorTickSpacing(5);
@@ -341,7 +340,7 @@ public class ConnectibleImageGraphic extends CompositeGraphic implements BranchO
         return branch.getLength();
     }
 
-    public void transformChanged(ModelViewTransform2d mvt) {
+    public void transformChanged(ModelViewTransform2D mvt) {
         update();
     }
 

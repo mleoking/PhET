@@ -6,8 +6,9 @@ import edu.colorado.phet.cck.elements.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.elements.circuit.LeadWireConnection;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.util.ImageLoader;
-import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.util.graphics.HashedImageLoader;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -20,10 +21,10 @@ import java.io.IOException;
  * Time: 1:59:41 AM
  * Copyright (c) Oct 26, 2003 by Sam Reid
  */
-public class VoltmeterGraphic extends CompositeGraphic {
+public class VoltmeterGraphic extends CompositeInteractiveGraphic {
     private Voltmeter vm;
-    private ModelViewTransform2d transform;
-    private ImageLoader imageLoader;
+    private ModelViewTransform2D transform;
+    private HashedImageLoader imageLoader;
     private LeadGraphic redLeadGraphic;
     private LeadGraphic blackLeadGraphic;
     private CableGraphic blackCableGraphic;
@@ -34,7 +35,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
         return voltmeterUnitGraphic;
     }
 
-    public VoltmeterGraphic(Voltmeter vm, ModelViewTransform2d transform, ImageLoader imageLoader) throws IOException {
+    public VoltmeterGraphic(Voltmeter vm, ModelViewTransform2D transform, HashedImageLoader imageLoader) throws IOException {
         this.vm = vm;
         this.transform = transform;
         this.imageLoader = imageLoader;

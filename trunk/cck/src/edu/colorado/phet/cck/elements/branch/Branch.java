@@ -7,7 +7,8 @@ import edu.colorado.phet.cck.elements.junction.JunctionObserver;
 import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.cck.selection.CompositeSelectionListener;
 import edu.colorado.phet.cck.selection.SelectionListener;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.math.PhetVector;
+
 
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
@@ -118,7 +119,6 @@ public abstract class Branch {
     }
 
     public PhetVector getStart() {
-
         return startJunction.getVector();
     }
 

@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.elements.branch.components.Bulb;
 import edu.colorado.phet.cck.elements.branch.components.Switch;
 import edu.colorado.phet.cck.elements.branch.components.AmmeterBranch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 import java.awt.image.BufferedImage;
 
@@ -27,7 +27,7 @@ public interface BranchGraphicFactory {
 
     AbstractBranchGraphic getBatteryGraphic(Battery branch);
 
-    DefaultCompositeBranchGraphic getImageGraphic(Circuit circuit, ModelViewTransform2d transform, Branch branch, CCK2Module module, BufferedImage image);
+    DefaultCompositeBranchGraphic getImageGraphic(Circuit circuit, ModelViewTransform2D transform, Branch branch, CCK2Module module, BufferedImage image);
 
     void apply(CCK2Module cck2Module);
 

@@ -8,7 +8,8 @@ import edu.colorado.phet.cck.elements.branch.components.Bulb;
 import edu.colorado.phet.cck.elements.branch.components.Switch;
 import edu.colorado.phet.cck.elements.branch.components.AmmeterBranch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -28,7 +29,7 @@ public class LifelikeGraphicFactory implements BranchGraphicFactory {
 
     CCK2Module module;
     private BufferedImage switchImage;
-    private ModelViewTransform2d transform;
+    private ModelViewTransform2D transform;
     private Circuit circuit;
     private BufferedImage bulbImage;
     private BufferedImage resistorImage;
@@ -46,7 +47,12 @@ public class LifelikeGraphicFactory implements BranchGraphicFactory {
     }
 
     public DefaultCompositeBranchGraphic getSwitchGraphic(Switch branch) {
-        SwitchGraphic sg = new SwitchGraphic(circuit, transform, branch, wireColor, WIRE_STROKE, module, switchImage, module.getImageSuite().getImageHandle(), branchStroke, highlightColor);
+        SwitchGraphic sg = null;
+        try {
+            sg = new SwitchGraphic(circuit, transform, branch, wireColor, WIRE_STROKE, module, switchImage, module.getImageSuite().getImageHandle(), branchStroke, highlightColor);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         DefaultCompositeBranchGraphic dcogs = new DefaultCompositeBranchGraphic(transform, branch, module, sg);
         return dcogs;
     }
@@ -80,7 +86,7 @@ public class LifelikeGraphicFactory implements BranchGraphicFactory {
         return bg;
     }
 
-    public DefaultCompositeBranchGraphic getImageGraphic(Circuit circuit, ModelViewTransform2d transform, Branch branch, CCK2Module module, BufferedImage image) {
+    public DefaultCompositeBranchGraphic getImageGraphic(Circuit circuit, ModelViewTransform2D transform, Branch branch, CCK2Module module, BufferedImage image) {
         ImageBranchGraphic ibg = new ImageBranchGraphic(circuit, module.getTransform(), branch, wireColor, WIRE_STROKE, module, image, branchStroke, highlightColor);
         DefaultCompositeBranchGraphic gr = new DefaultCompositeBranchGraphic(transform, branch, module, ibg);
         return gr;
@@ -91,7 +97,12 @@ public class LifelikeGraphicFactory implements BranchGraphicFactory {
 
 
     public AbstractBranchGraphic getAmmeterBranchGraphic(AmmeterBranch resistor) {
-        BufferedImage ammeterImage=module.getImageSuite().getAmmeterImage();
+        BufferedImage ammeterImage=null;
+        try {
+            ammeterImage = module.getImageSuite().getAmmeterImage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ImageBranchGraphic ibg = new ImageBranchGraphic(circuit, module.getTransform(), resistor, wireColor, WIRE_STROKE, module, ammeterImage, branchStroke, highlightColor);
         CurrentReadout cb=new CurrentReadout(true,ibg);
         ibg.addGraphicAfterImage(cb);

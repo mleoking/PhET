@@ -5,7 +5,8 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.elements.circuit.JunctionGroup;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -18,13 +19,13 @@ import java.awt.geom.Ellipse2D;
  */
 public class JunctionCoverUpGraphic implements Graphic {
     private CircuitGraphic circuitGraphic;
-    private ModelViewTransform2d transform;
+    private ModelViewTransform2D transform;
     Ellipse2D.Double ella = new Ellipse2D.Double();
     double radius;
 //    Color color=DefaultCompositeBranchGraphic.JUNCTION_COLOR;
     Color color = new Color(CCK2Module.COPPER.getRed()+15,CCK2Module.COPPER.getGreen()+35,CCK2Module.COPPER.getBlue()+35);
 
-    public JunctionCoverUpGraphic(CircuitGraphic circuitGraphic, ModelViewTransform2d transform, double radius) {
+    public JunctionCoverUpGraphic(CircuitGraphic circuitGraphic, ModelViewTransform2D transform, double radius) {
         this.circuitGraphic = circuitGraphic;
         this.transform = transform;
         this.radius = radius;

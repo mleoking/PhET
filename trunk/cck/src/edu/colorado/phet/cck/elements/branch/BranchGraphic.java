@@ -2,12 +2,14 @@
 package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.CCK2Module;
+import edu.colorado.phet.cck.common.DifferentialDragHandler;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.selection.SelectionListener;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.coreadditions.graphics.DifferentialDragHandler;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.view.graphics.bounds.Boundary;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,9 +24,9 @@ import java.awt.geom.Line2D;
  * Time: 3:15:26 PM
  * Copyright (c) Aug 23, 2003 by Sam Reid
  */
-public class BranchGraphic implements BranchObserver, SelectionListener, AbstractBranchGraphic {
+public class BranchGraphic implements BranchObserver, SelectionListener, AbstractBranchGraphic,Boundary {
     private Circuit circuit;
-    private ModelViewTransform2d transform;
+    private ModelViewTransform2D transform;
     Branch branch;
     private Color color;
     private Stroke stroke;
@@ -39,7 +41,7 @@ public class BranchGraphic implements BranchObserver, SelectionListener, Abstrac
     private Stroke highlightStroke;
     private boolean showIndex = false;
 
-    public BranchGraphic(final Circuit circuit, ModelViewTransform2d transform, final Branch branch, Color color, Stroke stroke, CCK2Module module, Color highlightColor, Stroke highlightStroke) {
+    public BranchGraphic(final Circuit circuit, ModelViewTransform2D transform, final Branch branch, Color color, Stroke stroke, CCK2Module module, Color highlightColor, Stroke highlightStroke) {
         this.circuit = circuit;
         this.transform = transform;
         this.branch = branch;
@@ -98,7 +100,7 @@ public class BranchGraphic implements BranchObserver, SelectionListener, Abstrac
         }
     }
 
-    public void transformChanged(ModelViewTransform2d mvt) {
+    public void transformChanged(ModelViewTransform2D mvt) {
         update();
     }
 
@@ -117,8 +119,14 @@ public class BranchGraphic implements BranchObserver, SelectionListener, Abstrac
         return;
     }
 
+    public void mouseMoved(MouseEvent e) {
+    }
+
     public void mouseReleased(MouseEvent event) {
         interactionHandler.mouseReleased(event);
+    }
+
+    public void mouseClicked(MouseEvent e) {
     }
 
     public void mouseEntered(MouseEvent event) {
@@ -158,6 +166,10 @@ public class BranchGraphic implements BranchObserver, SelectionListener, Abstrac
 
     public InteractiveGraphic getMainBranchGraphic() {
         return this;
+    }
+
+    public boolean contains(int x, int y) {
+        return viewShape != null && viewShape.contains(x,y);
     }
 
 }

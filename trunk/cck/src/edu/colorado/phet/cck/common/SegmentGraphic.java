@@ -2,8 +2,8 @@
 package edu.colorado.phet.cck.common;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -15,7 +15,7 @@ import java.awt.geom.Line2D;
  * Copyright (c) Aug 23, 2003 by Sam Reid
  */
 public class SegmentGraphic implements Graphic, TransformListener {
-    private ModelViewTransform2d transform;
+    private ModelViewTransform2D transform;
     double x;
     double y;
     double x2;
@@ -30,7 +30,7 @@ public class SegmentGraphic implements Graphic, TransformListener {
     private Stroke highlightStroke;
     private Color highlightColor;
 
-    public SegmentGraphic(ModelViewTransform2d transform, double x, double y, double x2, double y2, Color color, Stroke stroke, Stroke highlightStroke, Color highlightColor) {
+    public SegmentGraphic(ModelViewTransform2D transform, double x, double y, double x2, double y2, Color color, Stroke stroke, Stroke highlightStroke, Color highlightColor) {
         this.transform = transform;
         this.x = x;
         this.y = y;
@@ -85,7 +85,7 @@ public class SegmentGraphic implements Graphic, TransformListener {
         }
     }
 
-    public void transformChanged(ModelViewTransform2d mvt) {
+    public void transformChanged(ModelViewTransform2D mvt) {
         update();
     }
 

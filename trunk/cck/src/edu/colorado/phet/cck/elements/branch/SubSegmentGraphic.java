@@ -3,7 +3,7 @@ package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.common.SegmentGraphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -17,10 +17,10 @@ import java.awt.event.MouseEvent;
 
 public class SubSegmentGraphic implements InteractiveGraphic {
     private SegmentGraphic target;
-    ModelViewTransform2d transform;
+    ModelViewTransform2D transform;
     private DefaultBranchInteractionHandler interactionHandler;
 
-    public SubSegmentGraphic(Color color, Stroke stroke, Stroke highlightStroke, Color highlightColor, ModelViewTransform2d transform, DefaultBranchInteractionHandler interactionHandler) {
+    public SubSegmentGraphic(Color color, Stroke stroke, Stroke highlightStroke, Color highlightColor, ModelViewTransform2D transform, DefaultBranchInteractionHandler interactionHandler) {
         this.interactionHandler = interactionHandler;
         target = new SegmentGraphic(transform, 0, 0, 0, 0, color, stroke, highlightStroke, highlightColor);
         this.transform = transform;
@@ -39,8 +39,14 @@ public class SubSegmentGraphic implements InteractiveGraphic {
         interactionHandler.mouseDragged(event);
     }
 
+    public void mouseMoved(MouseEvent e) {
+    }
+
     public void mouseReleased(MouseEvent event) {
         interactionHandler.mouseReleased(event);
+    }
+
+    public void mouseClicked(MouseEvent e) {
     }
 
     public void mouseEntered(MouseEvent event) {
@@ -57,6 +63,10 @@ public class SubSegmentGraphic implements InteractiveGraphic {
 
     public SegmentGraphic getTarget() {
         return target;
+    }
+
+    public boolean contains(int x, int y) {
+        return target.getShape().contains(x,y);
     }
 }
 

@@ -3,10 +3,10 @@ package edu.colorado.phet.cck.elements.dvm;
 
 import edu.colorado.phet.cck.common.SimpleObservable;
 import edu.colorado.phet.cck.common.SimpleObserver;
+import edu.colorado.phet.cck.common.DifferentialDragHandler;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.coreadditions.graphics.DifferentialDragHandler;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -24,7 +24,7 @@ import java.awt.image.BufferedImage;
 public class LeadGraphic extends SimpleObservable implements InteractiveGraphic {
     Lead lead;
     BufferedImage image;
-    private ModelViewTransform2d transform;
+    private ModelViewTransform2D transform;
     private double angle;
     private AffineTransform trf = new AffineTransform();
     int x;
@@ -35,7 +35,7 @@ public class LeadGraphic extends SimpleObservable implements InteractiveGraphic 
     private Point2D wirePoint;
     Rectangle2D.Double originalTipShape;
 
-    public LeadGraphic(Lead lead, BufferedImage image, ModelViewTransform2d transform, double angle) {
+    public LeadGraphic(Lead lead, BufferedImage image, ModelViewTransform2D transform, double angle) {
         this.lead = lead;
         this.image = image;
         this.transform = transform;
@@ -50,7 +50,7 @@ public class LeadGraphic extends SimpleObservable implements InteractiveGraphic 
             }
         });
         transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
+            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
                 changed();
             }
         });
@@ -86,8 +86,14 @@ public class LeadGraphic extends SimpleObservable implements InteractiveGraphic 
         lead.translate(modelDX.x, modelDX.y);
     }
 
+    public void mouseMoved(MouseEvent e) {
+    }
+
     public void mouseReleased(MouseEvent event) {
 
+    }
+
+    public void mouseClicked(MouseEvent e) {
     }
 
     public void mouseEntered(MouseEvent event) {
@@ -110,6 +116,10 @@ public class LeadGraphic extends SimpleObservable implements InteractiveGraphic 
 
     public Shape getTipShape() {
         return tipShape;
+    }
+
+    public boolean contains(int x, int y) {
+        return selectionShape.contains(x,y);
     }
 
 }

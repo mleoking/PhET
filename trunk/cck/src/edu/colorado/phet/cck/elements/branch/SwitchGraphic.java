@@ -6,7 +6,8 @@ import edu.colorado.phet.cck.common.SimpleObserver;
 import edu.colorado.phet.cck.elements.branch.components.Switch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -34,7 +35,7 @@ public class SwitchGraphic extends ImageBranchGraphic {
     private double angle = OPEN_ANGLE;
     private double baseAngle;
 
-    public SwitchGraphic(final Circuit circuit, ModelViewTransform2d transform,
+    public SwitchGraphic(final Circuit circuit, ModelViewTransform2D transform,
                          Switch branch, Color color, Stroke stroke, CCK2Module module,
                          BufferedImage baseImage, final BufferedImage handle, Stroke highlightStroke, Color highlightColor) {
         super(circuit, transform, branch, color, stroke, module, baseImage, highlightStroke, highlightColor);
@@ -87,7 +88,13 @@ public class SwitchGraphic extends ImageBranchGraphic {
             setAngle(angle);
         }
 
+        public void mouseMoved(MouseEvent e) {
+        }
+
         public void mouseReleased(MouseEvent event) {
+        }
+
+        public void mouseClicked(MouseEvent e) {
         }
 
         public void mouseEntered(MouseEvent event) {
@@ -103,6 +110,10 @@ public class SwitchGraphic extends ImageBranchGraphic {
             g.setColor(Color.blue);
 //            g.fill(handleShape);
 //            g.drawString("open="+open,100,100);
+        }
+
+        public boolean contains(int x, int y) {
+            return handleShape.contains(x,y);
         }
 
     }
