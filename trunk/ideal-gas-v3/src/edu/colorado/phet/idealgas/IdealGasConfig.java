@@ -9,13 +9,12 @@ package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.view.util.FrameSetup;
 
-import java.util.ResourceBundle;
-import java.util.Locale;
-
 /**
  *
  */
 public class IdealGasConfig {
+
+    public static final String localizedStringsPath = "localization/IdealGasStrings";
 
     public static boolean fastPaint;
     public static boolean regionTest;

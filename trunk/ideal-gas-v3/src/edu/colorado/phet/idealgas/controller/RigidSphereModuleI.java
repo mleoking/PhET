@@ -8,18 +8,12 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
-
-import java.util.ResourceBundle;
 
 public class RigidSphereModuleI extends RigidHollowSphereModule {
 
-    private static ResourceBundle localizedStrings;
-    static {
-        localizedStrings = ResourceBundle.getBundle( "localization/RigidHollowSphereModuleI" );
-    }
-
     public RigidSphereModuleI( AbstractClock clock ) {
-        super( clock, localizedStrings.getString( "Rigid_Hollow_Sphere_1" ), HeavySpecies.class );
+        super( clock, IdealGasStrings.get( "ModuleTitle.RigidHollowSphereI" ), HeavySpecies.class );
     }
 }

@@ -6,18 +6,14 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import edu.colorado.phet.idealgas.IdealGasStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ResourceBundle;
 
 public class MeasurementDialog extends JDialog {
-
-    private static ResourceBundle localizedStrings;
-    static {
-        localizedStrings = ResourceBundle.getBundle( "localization/MeasurementControlPanel" );
-    }
 
     private MeasurementModule module;
 
@@ -54,7 +50,7 @@ public class MeasurementDialog extends JDialog {
 
     class PressureSliceControl extends JPanel {
         PressureSliceControl() {
-            final JCheckBox pressureSliceCB = new JCheckBox( localizedStrings.getString( "<html>Measure_pressure<br>in_layer</html>") );
+            final JCheckBox pressureSliceCB = new JCheckBox( IdealGasStrings.get( "MeasurementControlPanel.Measure_pressure_in_layer") );
             pressureSliceCB.setPreferredSize( new Dimension( 140, 30 ) );
             this.add( pressureSliceCB );
             pressureSliceCB.addActionListener( new ActionListener() {
@@ -67,7 +63,7 @@ public class MeasurementDialog extends JDialog {
 
     class RulerControlPanel extends JPanel {
         RulerControlPanel() {
-            final JCheckBox rulerCB = new JCheckBox( localizedStrings.getString( "Display_ruler" ));
+            final JCheckBox rulerCB = new JCheckBox( IdealGasStrings.get( "MeasurementControlPanel.Display_ruler" ));
             rulerCB.setPreferredSize( new Dimension( 140, 15 ) );
             this.add( rulerCB );
             rulerCB.addActionListener( new ActionListener() {
@@ -80,7 +76,7 @@ public class MeasurementDialog extends JDialog {
 
     class HistogramControlPanel extends JPanel {
         public HistogramControlPanel() {
-            final JCheckBox histogramCB = new JCheckBox( localizedStrings.getString( "Display_energy_histograms" ));
+            final JCheckBox histogramCB = new JCheckBox( IdealGasStrings.get( "MeasurementControlPanel.Display_energy_histograms" ));
             this.add( histogramCB );
             histogramCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

@@ -10,19 +10,13 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
 import java.awt.geom.Point2D;
-import java.util.ResourceBundle;
 
 public class HeliumBalloonModule extends IdealGasModule {
-
-    private static ResourceBundle localizedStrings;
-
-    static {
-        localizedStrings = ResourceBundle.getBundle( "localization/HeliumBalloonModule" );
-    }
 
     private static final float initialVelocity = 30;
 
@@ -30,7 +24,7 @@ public class HeliumBalloonModule extends IdealGasModule {
 //    private HollowSphereControlPanel hsaControlPanel;
 
     public HeliumBalloonModule( AbstractClock clock ) {
-        super( clock, localizedStrings.getString( "Helium_Balloon" ) );
+        super( clock, IdealGasStrings.get( "ModuleTitle.HeliumBalloon" ) );
 
         double xOrigin = 200;
         double yOrigin = 250;

@@ -9,6 +9,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import javax.swing.*;
@@ -17,14 +18,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ResourceBundle;
 
 public class MeasurementControlPanel extends IdealGasControlPanel {
-
-    private static ResourceBundle localizedStrings;
-    static {
-        localizedStrings = ResourceBundle.getBundle( "localization/MeasurementControlPanel" );
-    }
 
     public MeasurementControlPanel( MeasurementModule module ) {
 //    public MeasurementControlPanel( IdealGasModule module ) {
@@ -93,7 +88,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
             this.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 40 ) );
             this.setLayout( new GridLayout( 2, 1 ) );
 
-            this.add( new JLabel( localizedStrings.getString( "Number_of_particles" ) ));
+            this.add( new JLabel( IdealGasStrings.get( "MeasurementControlPanel.Number_of_particles" ) ));
             // Set up the spinner for controlling the number of particles in
             // the hollow sphere
             Integer value = new Integer( 0 );
@@ -126,7 +121,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
 
     private class ParticleInteractionControl extends JPanel {
         ParticleInteractionControl() {
-            final JCheckBox noSphereSphereCollisionCB = new JCheckBox( localizedStrings.getString( "No_particle_interactions" ));
+            final JCheckBox noSphereSphereCollisionCB = new JCheckBox( IdealGasStrings.get( "MeasurementControlPanel.No_particle_interactions" ));
             this.add( noSphereSphereCollisionCB );
             noSphereSphereCollisionCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -143,7 +138,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
 
     protected class RulerControlPanel extends JPanel {
         RulerControlPanel() {
-            final JCheckBox rulerCB = new JCheckBox( localizedStrings.getString( "Display_ruler" ));
+            final JCheckBox rulerCB = new JCheckBox( IdealGasStrings.get( "Display_ruler" ));
             rulerCB.setPreferredSize( new Dimension( 140, 15 ) );
             this.add( rulerCB );
             rulerCB.addActionListener( new ActionListener() {
@@ -156,7 +151,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
 
     protected class PressureSliceControl extends JPanel {
         PressureSliceControl() {
-            final JCheckBox pressureSliceCB = new JCheckBox( localizedStrings.getString( "<html>Measure_pressure<br>in_layer</html>") );
+            final JCheckBox pressureSliceCB = new JCheckBox( IdealGasStrings.get( "MeasurementControlPanel.Measure_pressure_in_layer") );
             pressureSliceCB.setPreferredSize( new Dimension( 140, 30 ) );
             this.add( pressureSliceCB );
             pressureSliceCB.addActionListener( new ActionListener() {

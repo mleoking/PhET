@@ -10,26 +10,20 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHotAirBalloonExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
 
 import java.awt.geom.Point2D;
-import java.util.ResourceBundle;
 
 public class HotAirBalloonModule extends IdealGasModule {
-
-    private static ResourceBundle localizedStrings;
-
-    static {
-        localizedStrings = ResourceBundle.getBundle( "localization/HotAirBalloonModule" );
-    }
 
     private static final double initialVelocity = 35;
 
     private HotAirBalloon balloon;
 
     public HotAirBalloonModule( AbstractClock clock ) {
-        super( clock, localizedStrings.getString( "Title" ) );
+        super( clock, IdealGasStrings.get( "ModuleTitle.HotAirBalloon" ) );
 
         // Add collision experts to the model
         getIdealGasModel().addCollisionExpert( new SphereHotAirBalloonExpert( getIdealGasModel(), clock.getDt() ) );

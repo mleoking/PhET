@@ -8,6 +8,7 @@
 package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -19,17 +20,11 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
-import java.util.ResourceBundle;
 
 /**
  *
  */
 public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleObserver {
-
-    private static ResourceBundle localizedStrings;
-    static {
-        localizedStrings = ResourceBundle.getBundle( "localization/GasSpeciesMonitorPanel" );
-    }
 
     private Class speciesClass;
     private Method aveSpeedMethod;
@@ -60,7 +55,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         this.setBorder( border );
 
         // Set up the readout for the number of gas molecules
-        this.add( new JLabel( localizedStrings.getString( "Number_of_Gas_Molecules") + ": " ) );
+        this.add( new JLabel( IdealGasStrings.get( "GasSpeciesMonitorPanel.Number_of_Gas_Molecules") + ": " ) );
         numParticlesTF = new JTextField( 4 );
         numParticlesTF.setEditable( false );
         this.add( numParticlesTF );
@@ -68,7 +63,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         // Set up the average speed readout
         aveSpeedFormat.setMaximumFractionDigits( 2 );
         //aveSpeedFormat.setMinimumFractionDigits( 2 );
-        this.add( new JLabel( localizedStrings.getString( "Average_speed" ) + ": " ) );
+        this.add( new JLabel( IdealGasStrings.get( "GasSpeciesMonitorPanel.Average_speed" ) + ": " ) );
         aveSpeedTF = new JTextField( 6 );
         aveSpeedTF.setEditable( false );
         this.add( aveSpeedTF );

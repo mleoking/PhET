@@ -10,20 +10,14 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.view.RulerGraphic;
 import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
 import edu.colorado.phet.idealgas.view.monitors.PressureSliceGraphic;
 
-import java.util.ResourceBundle;
-
 public class MeasurementModule extends IdealGasModule {
-
-    private static ResourceBundle localizedStrings;
-    static {
-        localizedStrings = ResourceBundle.getBundle( "localization/MeasurementModule" );
-    }
 
     private EnergyHistogramDialog histogramDlg;
     private DefaultInteractiveGraphic rulerGraphic;
@@ -33,7 +27,7 @@ public class MeasurementModule extends IdealGasModule {
     private PressureSliceGraphic pressureSliceGraphic;
 
     public MeasurementModule( AbstractClock clock ) {
-        super( clock, localizedStrings.getString( "Measurements" ));
+        super( clock, IdealGasStrings.get( "ModuleTitle.Measurements" ));
         this.clock = clock;
         setControlPanel( new MeasurementControlPanel( this ) );
         rulerGraphic = new RulerGraphic( getApparatusPanel() );

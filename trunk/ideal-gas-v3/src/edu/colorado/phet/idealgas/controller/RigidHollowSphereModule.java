@@ -11,6 +11,7 @@ import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
@@ -19,14 +20,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.ResourceBundle;
 
 public abstract class RigidHollowSphereModule extends IdealGasModule {
-
-    private static ResourceBundle localizedStrings;
-    static {
-        localizedStrings = ResourceBundle.getBundle( "localization/MeasurementControlPanel" );
-    }
 
     private static final float initialVelocity = 35;
 
@@ -133,7 +128,7 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
 
     class RigidSphereControlPanel extends JPanel {
         public RigidSphereControlPanel() {
-            this.add( new JLabel( localizedStrings.getString( "Number_of_particles" ) ));
+            this.add( new JLabel( IdealGasStrings.get( "MeasurementControlPanel.Number_of_particles" ) ));
             // Set up the spinner for controlling the number of particles in
             // the hollow sphere
             Integer value = new Integer( 0 );
@@ -175,7 +170,7 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
             this.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 40 ) );
             this.setLayout( new GridLayout( 2, 1 ) );
 
-            this.add( new JLabel( localizedStrings.getString( "Number_of_particles" ) ));
+            this.add( new JLabel( IdealGasStrings.get( "MeasurementControlPanel.Number_of_particles" ) ));
             // Set up the spinner for controlling the number of particles in
             // the hollow sphere
             Integer value = new Integer( 0 );
@@ -203,12 +198,12 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
                     if( species == HeavySpecies.class ) {
                         gm = new HeavySpecies( sphere.getPosition(), new Vector2D.Double(), new Vector2D.Double() );
                     }
-//                    GasMolecule gm = moleculeFactory.create( (IdealGasModel)getModel(),
-//                                                             gasSpecies );
-//                    gm.setPosition( sphere.getPosition() );
-//                    PumpMoleculeCmd cmd = new PumpMoleculeCmd( (IdealGasModel)getModel(), gm,
-//                                                               RigidHollowSphereModule.this );
-//                    cmd.doIt();
+                    if( species == LightSpecies.class ) {
+                        gm = new LightSpecies( sphere.getPosition(), new Vector2D.Double(), new Vector2D.Double() );
+                    }
+                    PumpMoleculeCmd cmd = new PumpMoleculeCmd( (IdealGasModel)getModel(), gm,
+                                                               RigidHollowSphereModule.this );
+                    cmd.doIt();
                 }
             }
             else if( dn < 0 ) {
@@ -217,7 +212,6 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
                 }
             }
         }
-
     }
 
 }
