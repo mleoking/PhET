@@ -56,7 +56,7 @@ public class TestFastPaintImages {
                         FastPaintImageGraphic g = (FastPaintImageGraphic)fastShapes.get( fastShapes.size() - 1 );
                         //                        Color color = new Color( random.nextInt( 255 ), random.nextInt( 255 ), random.nextInt( 255 ) );
                         //                        g.setFillPaint( color );
-                        g.setPosition( new Point( x++ % 600, ( y += 2 ) % 600 ) );
+                        g.setLocation( new Point( x++ % 600, ( y += 2 ) % 600 ) );
                         //                        ap.repaint();
                     }
                     catch( InterruptedException e ) {
