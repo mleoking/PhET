@@ -10,7 +10,7 @@ HIGH PRIORITY:
 - move ICompassGridModule implementation into FaradayModule
 - get rid of AbstractVoltageSource.set/getMaxVoltage, set voltage once and use set/getAmplitude to find the voltage
 - set Electromagnet model size based on size of the coil in the Electromagnet graphic
-- bug: changing the number of loops when the AC is connected makes the grid disappear
+
 - bug: electrons in source coil seem to get "off" in the left-most loop
 - bug: electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
 - bug: not enough visual difference between the min & max voltage/amplitude settings
@@ -53,6 +53,8 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/24) - bug fix: changing the number of loops when the AC is connected makes the grid disappear (integer math)
+(2/24) - major change to how voltage is handled throughout; now a function of maxVoltage and amplitude
 (2/24) - bug fix: grid doesn't display until the battery voltage is changed
 (2/24) - increase frequency range of the AC source so that the change is easier to see
 (2/24) - add "Show Electrons" and "Loops" controls to Electromagnet module
