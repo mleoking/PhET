@@ -204,30 +204,10 @@ public class Electron extends SpacialObservable implements ModelElement {
             // Move the electron along the path.
             double oldSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
             _pathPosition -= _speed * oldSpeedScale;
-
-            // If we've reached the end of the current path, move to the next path.
-            // Handle motion in both directions.
-            if ( _pathPosition <= 0 ) {
-                // Move to the next curve, with wrap around and speed re-scaling.
-                _pathIndex++;
-                if ( _pathIndex >= _path.size() ) {
-                    _pathIndex = 0;
-                }
-                // Set the position on the next curve.
-                double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
-                double overshoot = Math.abs( _pathPosition * newSpeedScale / oldSpeedScale ) % 1;
-                _pathPosition = 1.0 - overshoot;
-            }
-            else if ( _pathPosition >= 1 ) {
-                // Move to the previous curve, with wrap around and speed re-scaling.
-                _pathIndex--;
-                if ( _pathIndex < 0 ) {
-                    _pathIndex = _path.size() - 1;
-                }
-                // Set the position on the next curve.
-                double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
-                double overshoot = Math.abs( (_pathPosition % 1) * newSpeedScale / oldSpeedScale ) % 1;
-                _pathPosition = 0.0 + overshoot;
+            
+            // Do we need to switch curves?
+            if ( _pathPosition <= 0 || _pathPosition >= 1 ) {
+                switchCurves();
             }
             
             // Evaluate the quadratic to determine XY location.
@@ -237,6 +217,57 @@ public class Electron extends SpacialObservable implements ModelElement {
             super.setLocation( location );
             
             notifyObservers();
+        }
+    }
+    
+    /**
+     * Moves the electron to an appropriate point on the next/previous curve.
+     * Rescales any "overshoot" of position so the distance moved looks 
+     * approximately the same when moving between curves that have different 
+     * lengths.  
+     * <p>
+     * If curves have different lengths, it is possible that we may totally
+     * skip a curve.  This is handled via recursive calls to switchCurves.
+     */
+    private void switchCurves() {
+       
+        double oldSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
+        
+        if ( _pathPosition <= 0 ) {
+            
+            // We've passed the end point, so move to the next curve.
+            _pathIndex++;
+            if ( _pathIndex > _path.size() - 1 ) {
+                _pathIndex = 0;
+            }
+            
+            // Set the position on the curve.
+            double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
+            double overshoot = Math.abs( _pathPosition * newSpeedScale / oldSpeedScale );
+            _pathPosition = 1.0 - overshoot;
+            
+            // Did we overshoot the curve?
+            if ( _pathPosition < 0 ) {
+                switchCurves();
+            }
+        }
+        else if ( _pathPosition >= 1 ) {
+            
+            // We've passed the start point, so move to the previous curve.
+            _pathIndex--;
+            if ( _pathIndex < 0 ) {
+                _pathIndex = _path.size() - 1;
+            }
+            
+            // Set the position on the curve.
+            double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
+            double overshoot = Math.abs( ( 1 - _pathPosition ) * newSpeedScale / oldSpeedScale );
+            _pathPosition = 0.0 + overshoot;
+            
+            // Did we overshoot the curve?
+            if ( _pathPosition > 1 ) {
+                switchCurves();
+            }
         }
     }
 }

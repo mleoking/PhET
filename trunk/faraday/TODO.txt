@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- when electrons jump between curves, they sometimes end up in the wrong position
 - encapulate all rescaling of emf into one place (in model?...)
 - collision detection between compass and magnet
 - collision detection between magnet and coil
@@ -44,6 +43,7 @@ phetcommon:
 
 DONE:
 v0r13...
+(2/15) - when electrons jump between curves, they sometimes end up in the wrong position
 (2/14) - remove CompassGraphic.setVisible override, not needed
 (2/14) - loop radius should be displayed as loop area
 (2/14) - fix electron density in coil ends
