@@ -35,18 +35,18 @@ public class FastPaintShapeGraphic extends ShapeGraphic {
     }
 
     public Rectangle getViewBounds() {
-        Stroke stroke = super.getOutlineStroke();
-        if( stroke != null ) {
-            Shape strokeShape = stroke.createStrokedShape( super.getShape() );
-            return strokeShape.getBounds();
-        }
-        else {
-            if( super.getShape() == null ) {
-                return null;
+        if( getShape() != null ) {
+            Stroke stroke = super.getOutlineStroke();
+            if( stroke != null ) {
+                Shape strokeShape = stroke.createStrokedShape( super.getShape() );
+                return strokeShape.getBounds();
             }
             else {
                 return super.getShape().getBounds();
             }
+        }
+        else {
+            return null;
         }
     }
 
