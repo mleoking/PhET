@@ -51,7 +51,7 @@ public class BlockGraphic extends CompositePhetGraphic {
 //        graphic.transform( AffineTransform.getScaleInstance( .5, .5 ) );
 //        Rectangle bounds = graphic.getBounds();
 //        Point bc = RectangleUtils.getBottomCenter( bounds );
-//        int y = panel.getWalkwayGraphic().getPlatformY();
+//        int y = panel.getWalkwayGraphic().getFloorY();
 //        int dy = y - bc.y;
 //        graphic.transform( AffineTransform.getTranslateInstance( 0, dy ) );
         addGraphic( graphic );
@@ -144,7 +144,7 @@ public class BlockGraphic extends CompositePhetGraphic {
     public Point getCenter() {
         Dimension dim = computeDimension();
         int x = (int)transform1d.evaluate( block.getPosition() );
-        int y = panel.getWalkwayGraphic().getPlatformY() - dim.height / 2;
+        int y = panel.getWalkwayGraphic().getFloorY() - dim.height / 2;
         return new Point( x, y );
     }
 }
