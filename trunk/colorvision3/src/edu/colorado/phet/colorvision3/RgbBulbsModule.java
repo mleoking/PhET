@@ -57,7 +57,7 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
 	private static final Color APPARATUS_BACKGROUND = Color.black;
 
 	// Locations of model components
-	private static final double PERSON_X             = 400;
+	private static final double PERSON_X             = 450;
 	private static final double PERSON_Y             =  25;
 	private static final double SPOTLIGHT_X          = 120;
 	private static final double RED_SPOTLIGHT_X      = SPOTLIGHT_X;
