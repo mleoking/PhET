@@ -12,6 +12,8 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.HandCursorControl;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationControl;
 
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -85,5 +87,17 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
 
     public Graphic getGraphic() {
         return graphic;
+    }
+
+    public void addPopupMenuBehavior(final JPopupMenu menu) {
+        MouseInputAdapter adapter = new MouseInputAdapter() {
+            // implements java.awt.event.MouseListener
+            public void mouseReleased(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    menu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        };
+        addMouseInputListener(adapter);
     }
 }
