@@ -52,6 +52,7 @@ import java.util.LinkedList;
 public class ApparatusPanel2 extends ApparatusPanel {
 
 //    private PaintStrategy =
+    //test comment
     private BufferedImage bImg;
     private boolean useOffscreenBuffer = false;
     private BufferStrategy strategy;
@@ -214,6 +215,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     /**
      * Tells if we are using an offscreen buffer or dirty rectangles
+     *
      * @return
      */
     public boolean isUseOffscreenBuffer() {
@@ -276,6 +278,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     /**
      * Adds a dirty rectangle to the repaint list. Does not invoke a repaint itself.
+     *
      * @param tm
      * @param x
      * @param y
@@ -288,6 +291,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     /**
      * Adds a dirty rectangle to the repaint list. Does not invoke a repaint itself.
+     *
      * @param r
      */
     public void repaint( Rectangle r ) {
@@ -296,6 +300,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     /**
      * Adds a dirty rectangle to the repaint list. Does not invoke a repaint itself.
+     *
      * @param x
      * @param y
      * @param width
@@ -384,7 +389,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
         //remove the affine transform.
         gs.restoreGraphics();
-        super.drawBorder(g2 );
+        super.drawBorder( g2 );
         //restore color and stroke.
         gs.restoreGraphics();
     }
