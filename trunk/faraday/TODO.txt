@@ -15,6 +15,8 @@ HIGH PRIORITY:
 - disable lightbulb/voltmeter/electron rescaling so that their response is proportional to magnet strength
 
 MEDIUM PRIORITY:
+- CoilGraphic.getCollisionBounds isn't right for electromagnet, cuts into coil
+- consolidate code that is duplicated between CompassNeedleGraphic and CompassGridNeedle
 - redo Turbine model, it should not extend BarMagnet (it has a BarMagnetPanel)
 - lightbulb flashes the first time that you visit each module
 - sliders sometimes remain hilited after you roll off them
@@ -54,6 +56,8 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/25) - reduce number of points created in ElectronGraphic and QuadBezierSpline (optimization)
+(3/25) - reduce memory allocation in CoilGraphic.getCollisionBounds (optimization)
 (3/25) - use two different images for electron instead of changing alpha (optimization)
 (3/25) - reduce amount of memory allocation in DipoleMagnet, reuse mutable objects (optimization)
 (3/25) - remove extra notifyObservers from Electron model, causing 2 updates of Electron view per clock tick (optimization)
