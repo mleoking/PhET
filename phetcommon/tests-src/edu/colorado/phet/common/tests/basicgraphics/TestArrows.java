@@ -14,7 +14,7 @@ import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
@@ -26,7 +26,7 @@ import java.awt.geom.Point2D;
 
 public class TestArrows {
     static double theta = 0;
-    private static CompositePhetGraphic compositeGraphic;
+    private static GraphicLayerSet compositeGraphic;
 
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Arrow test" );
@@ -34,7 +34,7 @@ public class TestArrows {
         final ApparatusPanel p = new ApparatusPanel();
         p.addGraphicsSetup( new BasicGraphicsSetup() );
 
-        compositeGraphic = new CompositePhetGraphic( p );
+        compositeGraphic = new GraphicLayerSet( p );
         p.addGraphic( compositeGraphic );
 
         final int x0 = 400;
@@ -55,12 +55,12 @@ public class TestArrows {
         shapeGraphic.setCursorHand();
         shapeGraphic.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent translationEvent ) {
-                arrow.translate( translationEvent.getDx(), translationEvent.getDy() );
+                arrow.setTailLocation( translationEvent.getEvent().getPoint() );
             }
         } );
 
         Font font = new Font( "Lucida Sans", Font.BOLD, 24 );
-        PhetTextGraphic textGraphic = new PhetTextGraphic( p, font, "Hello PhAT", Color.blue, 200, 100 );
+        PhetTextGraphic textGraphic = new PhetTextGraphic( p, font, "Hello PhET", Color.blue, 200, 100 );
         compositeGraphic.addGraphic( textGraphic, 10 );
         compositeGraphic.addGraphic( shapeGraphic, 30 );
         frame.setContentPane( p );
