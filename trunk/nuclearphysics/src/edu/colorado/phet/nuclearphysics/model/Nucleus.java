@@ -16,6 +16,7 @@ public class Nucleus extends Body {
 
     private int numProtons;
     private int numNeutrons;
+    private double potential;
     private double radius;
     private PotentialProfile potentialProfile;
     private ArrayList fissionListeners = new ArrayList();
@@ -61,6 +62,14 @@ public class Nucleus extends Body {
     public void setNumNeutrons( int numNeutrons ) {
         this.numNeutrons = numNeutrons;
         updateObservers();
+    }
+
+    public double getPotential() {
+        return potential;
+    }
+
+    public void setPotential( double potential ) {
+        this.potential = potential;
     }
 
     public PotentialProfile getPotentialProfile() {
