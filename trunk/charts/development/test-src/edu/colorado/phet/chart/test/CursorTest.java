@@ -2,7 +2,7 @@
 package edu.colorado.phet.chart.test;
 
 import edu.colorado.phet.chart.*;
-import edu.colorado.phet.chart.controllers.HorizontalCursor;
+import edu.colorado.phet.chart.controllers.HorizontalCursor2;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.view.ApparatusPanel;
 
@@ -26,8 +26,9 @@ public class CursorTest {
         VerticalChartSlider verticalChartSlider = new VerticalChartSlider( ch );
 
 //        HorizontalCursor cursor = new HorizontalCursor( ch, new Color( 200, 200, 0, 150 ), new Color( 150, 150, 0, 50 ), 8 );
-        HorizontalCursor cursor = new HorizontalCursor( apparatusPanel, ch, new Color( 200, 200, 255, 120 ), new Color( 150, 150, 255, 255 ), 8 );
-        cursor.addListener( new HorizontalCursor.Listener() {
+//        HorizontalCursor cursor = new HorizontalCursor( apparatusPanel, ch, new Color( 200, 200, 255, 120 ), new Color( 150, 150, 255, 255 ), 8 );
+        HorizontalCursor2 cursor = new HorizontalCursor2( apparatusPanel, ch, new Color( 200, 200, 255, 120 ), new Color( 150, 150, 255, 255 ), 8 );
+        cursor.addListener( new HorizontalCursor2.Listener() {
             public void modelValueChanged( double modelX ) {
                 System.out.println( "modelX = " + modelX );
             }
@@ -54,5 +55,8 @@ public class CursorTest {
         jFrame.setSize( 600, 600 );
         jFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         jFrame.setVisible( true );
+        AbstractClock clock = new SwingTimerClock( 1, 30 );
+        clock.start();
+        RepaintDebugGraphic.enable( apparatusPanel, clock );
     }
 }
