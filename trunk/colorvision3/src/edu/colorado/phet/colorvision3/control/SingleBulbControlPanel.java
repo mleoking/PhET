@@ -3,6 +3,7 @@
 package edu.colorado.phet.colorvision3.control;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -80,9 +81,15 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     // Bulb Control panel
     JPanel bulbPanel = new JPanel();
     {
-      bulbPanel.setBorder( new TitledBorder( SimStrings.get( "bulbType.title" ) ) );
+      // Titled border with a larger font.
+      TitledBorder border = new TitledBorder( SimStrings.get( "bulbType.title" ) );
+      Font defaultFont = bulbPanel.getFont();
+      Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
+      border.setTitleFont( font );
+      
+      bulbPanel.setBorder( border );
       bulbPanel.setLayout( new BoxLayout( bulbPanel, BoxLayout.Y_AXIS ) );
-
+ 
       // Radio buttons
       _whiteRadioButton = new JRadioButton( SimStrings.get( "bulbType.white" ) );
       _monochromaticRadioButton = new JRadioButton( SimStrings.get( "bulbType.monochromatic" ) );
@@ -98,7 +105,13 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     // Beam Control panel
     JPanel beamPanel = new JPanel();
     {
-      beamPanel.setBorder( new TitledBorder( SimStrings.get( "beamType.title" ) ) );
+      // Titled border with a larger font.
+      TitledBorder border = new TitledBorder( SimStrings.get( "beamType.title" ) );
+      Font defaultFont = bulbPanel.getFont();
+      Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
+      border.setTitleFont( font );
+      
+      beamPanel.setBorder( border );
       beamPanel.setLayout( new BoxLayout( beamPanel, BoxLayout.Y_AXIS ) );
 
       // Radio buttons
@@ -116,7 +129,13 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     // Filter Control panel
     JPanel filterPanel = new JPanel();
     {
-      filterPanel.setBorder( new TitledBorder( SimStrings.get( "filter.title" ) ) );
+      // Titled border with a larger font.
+      TitledBorder border = new TitledBorder( SimStrings.get( "filter.title" ) );
+      Font defaultFont = bulbPanel.getFont();
+      Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
+      border.setTitleFont( font );
+      
+      filterPanel.setBorder( border );
       filterPanel.setLayout( new BoxLayout( filterPanel, BoxLayout.Y_AXIS ) );
 
       // Radio buttons
@@ -126,16 +145,24 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     
     // Layout so that control groups fill horizontal space.
     JPanel panel1 = new JPanel();
-    panel1.setLayout( new BorderLayout() );
-    panel1.add( bulbPanel, BorderLayout.NORTH );
-    panel1.add( beamPanel, BorderLayout.CENTER );
-    panel1.add( filterPanel, BorderLayout.SOUTH );
+    {
+      BorderLayout layout = new BorderLayout();
+      layout.setVgap( 20 ); // vertical space between control groups
+      panel1.setLayout( layout );
+      panel1.add( bulbPanel, BorderLayout.NORTH );
+      panel1.add( beamPanel, BorderLayout.CENTER );
+      panel1.add( filterPanel, BorderLayout.SOUTH );
+    }
     
     // Add filler so that control panel retains a minimum size.
     JPanel panel2 = new JPanel();
-    panel2.setLayout( new BorderLayout() );
-    panel2.add( fillerPanel, BorderLayout.NORTH );
-    panel2.add( panel1, BorderLayout.CENTER );
+    {
+      BorderLayout layout = new BorderLayout();
+      layout.setVgap( 20 ); // vertical space between PhET logo and top control group
+      panel2.setLayout( layout );
+      panel2.add( fillerPanel, BorderLayout.NORTH );
+      panel2.add( panel1, BorderLayout.CENTER );
+    }
     
     // Add a listener to the radio buttons.
     _whiteRadioButton.addActionListener( this );
