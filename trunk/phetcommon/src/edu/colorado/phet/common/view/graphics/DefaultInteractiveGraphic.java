@@ -25,6 +25,7 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
     Graphic graphic;
     CompositeMouseInputListener mouseControl;
     Boundary boundary;
+    private HandCursorControl handControl;
 
     public DefaultInteractiveGraphic( Graphic graphic, Boundary boundary ) {
         this.graphic = graphic;
@@ -80,7 +81,15 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
      * Cause the cursor to turn into a hand when within the boundary.
      */
     public void addCursorHandBehavior() {
-        mouseControl.addMouseInputListener( new HandCursorControl() );
+        if( handControl == null ) {
+            handControl = new HandCursorControl();
+            mouseControl.addMouseInputListener( handControl );
+        }
+    }
+
+    public void removeCursorHandBehavior() {
+        mouseControl.removeMouseInputListener( handControl );
+        handControl = null;
     }
 
     /**

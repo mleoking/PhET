@@ -16,7 +16,10 @@ import edu.colorado.phet.common.model.clock.ThreadedClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.plaf.PlafUtil;
+import edu.colorado.phet.common.view.util.framesetup.AbsoluteFrameSetup;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
@@ -81,7 +84,8 @@ public class TestClock extends PhetApplication {
     public static void main( String[] args ) {
         AbstractClock clock = new ThreadedClock( 10, 20, false );
         final MyModule m = new MyModule( "asdf", clock );
-        ApplicationDescriptor ad = new ApplicationDescriptor( "appname", "mydescritpion", "myversion" );
+        ApplicationDescriptor ad = new ApplicationDescriptor( "appname", "mydescritpion",
+                                                              "myversion", new AbsoluteFrameSetup( 400, 400 ) );
         TestClock tc = new TestClock( ad, m, clock );
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( AbstractClock c, double dt ) {
@@ -89,7 +93,17 @@ public class TestClock extends PhetApplication {
             }
         } );
         tc.startApplication( m );
-        tc.getApplicationView().getPhetFrame().setSize( 400, 400 );
-        tc.getApplicationView().getPhetFrame().repaint();
+        JFrame frame = tc.getApplicationView().getPhetFrame();
+
+        JMenu menu = new JMenu( "Options" );
+//        JMenuItem plaf=new JMenuItem( );
+        JMenuItem[] it = PlafUtil.getLookAndFeelItems();
+        for( int i = 0; i < it.length; i++ ) {
+            JMenuItem jMenuItem = it[i];
+            menu.add( jMenuItem );
+        }
+        frame.getJMenuBar().add( menu );
+        frame.getJMenuBar().validate();
+
     }
 }
