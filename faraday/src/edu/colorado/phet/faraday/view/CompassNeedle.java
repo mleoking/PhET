@@ -18,36 +18,28 @@ import java.awt.geom.Point2D;
 
 
 /**
- * CompassGridNeedle draws a compass needle, to be used only by CompassGridGraphic.
- * It is not an inner class because of its size, and its visibility is package private.
- * <p>
- * CompassGridNeedle is not a descendant of PhetGraphic, so that we can avoid the
- * overhead of computing AffineTransforms. (This overhead is built into PhetGraphic,
- * specifically in PhetGraphic.getNetTransform.)
- * <p>
- * This class is "streamlined" and avoids unnecessary checks and updates.
- * It assumes that CompassGridGraphic will handle saving/restoring the
- * graphics context.  And it assumes that the grid will be positioned at the
- * origin of its parent component.  These assumptions allow us to bypass most
- * of the expensive transforms in PhetGraphic.
+ * CompassNeedle is the description of a compass needle.
+ * It contains the information needed to draw a compass needle.
+ * It is used by both the compass and the compass "grid".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-class CompassGridNeedle {
+class CompassNeedle {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Point2D _location;
     private Dimension _size;
-    private double _strength;
+    private Point2D _location;
     private double _direction;
+    private double _strength;
+    private boolean _alphaEnabled;
     private Shape _northShape, _southShape;
     private Color _northColor, _southColor;
-    private boolean _alphaEnabled;
-    private AffineTransform _transform;
+    
+    private AffineTransform _transform; // reusable transform
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -56,12 +48,15 @@ class CompassGridNeedle {
     /**
      * Sole contructor.
      */
-    public CompassGridNeedle() {
-        _location = new Point2D.Double( 0, 0 );
+    public CompassNeedle() {
         _size = new Dimension( 40, 20 );
+        _location = new Point2D.Double( 0, 0 );
         _direction = 0.0;
+        _strength = 0.0;
         _alphaEnabled = false;
         _transform = new AffineTransform();
+        updateShapes();
+        updateColors();
     }
 
     //----------------------------------------------------------------------------
@@ -74,6 +69,7 @@ class CompassGridNeedle {
      * @param p the location
      */
     public void setLocation( Point2D p ) {
+        assert( p != null );
         setLocation( p.getX(), p.getY() );
     }
 
@@ -121,6 +117,7 @@ class CompassGridNeedle {
      * @param size
      */
     public void setSize( Dimension size ) {
+        assert( size != null );
         _size.setSize( size );
         updateShapes();
     }
@@ -140,6 +137,7 @@ class CompassGridNeedle {
      * @param strength
      */
     public void setStrength( double strength ) {
+        assert( strength >= 0 && strength <= 1 );
         _strength = strength;
         updateColors();
     }
@@ -193,12 +191,48 @@ class CompassGridNeedle {
         return _alphaEnabled;
     }
     
+    /**
+     * Gets the color used to fill the needle's north tip.
+     * 
+     * @return the color
+     */
+    public Color getNorthColor() {
+        return _northColor;
+    }
+    
+    /**
+     * Gets the color used to fill the needle's south tip.
+     * 
+     * @return the color
+     */
+    public Color getSouthColor() {
+        return _southColor;
+    }
+    
+    /**
+     * Gets the shape that describes the needle's north tip.
+     * 
+     * @return the shape
+     */
+    public Shape getNorthShape() {
+        return _northShape;
+    }
+    
+    /**
+     * Gets the shape that describes the needle's south tip.
+     * 
+     * @return the shape
+     */
+    public Shape getSouthShape() {
+        return _southShape;
+    }
+    
     //----------------------------------------------------------------------------
     // Shapes & Colors
     //----------------------------------------------------------------------------
     
     /**
-     * Updates the Shapes used to draw the needle.
+     * Updates the needle's Shapes.
      */
     private void updateShapes() {
         
@@ -224,7 +258,7 @@ class CompassGridNeedle {
     }
 
     /**
-     * Updates the Colors used to draw the needle.
+     * Updates the needle's Colors.
      */
     private void updateColors() {
         if ( _alphaEnabled ) {
@@ -239,21 +273,5 @@ class CompassGridNeedle {
             _northColor = new Color( saturation, 0, 0 );
             _southColor = new Color( saturation, saturation, saturation );
         }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Drawing
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Draws the needle.
-     * 
-     * @param g2 the graphics context
-     */
-    public void paint( Graphics2D g2 ) {
-        g2.setPaint( _northColor );
-        g2.fill( _northShape );
-        g2.setPaint( _southColor );
-        g2.fill( _southShape );
     }
 }
