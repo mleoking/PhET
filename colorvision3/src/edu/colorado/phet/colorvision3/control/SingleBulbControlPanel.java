@@ -39,10 +39,10 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
   public static final int WHITE_BULB = 0;
   /** Bulb type of "Monochrome" */
   public static final int MONOCHROMATIC_BULB = 1;
-  /** Beam type of "Solid" */
-  public static final int SOLID_BEAM = 2;
   /** Beam type of "Photons" */
-  public static final int PHOTON_BEAM = 3;
+  public static final int PHOTON_BEAM = 2;
+  /** Beam type of "Solid" */
+  public static final int SOLID_BEAM = 3;
   
 	//----------------------------------------------------------------------------
 	// Instance data
@@ -51,8 +51,8 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
   // UI components
   private JRadioButton _whiteRadioButton;
   private JRadioButton _monochromaticRadioButton;
-  private JRadioButton _solidRadioButton;
   private JRadioButton _photonsRadioButton;
+  private JRadioButton _solidRadioButton;
   private JCheckBox _filterCheckBox;
   
   // Event listeners
@@ -115,15 +115,15 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
       beamPanel.setLayout( new BoxLayout( beamPanel, BoxLayout.Y_AXIS ) );
 
       // Radio buttons
-      _solidRadioButton = new JRadioButton( SimStrings.get( "beamType.solid" ) );
       _photonsRadioButton = new JRadioButton( SimStrings.get( "beamType.photons" ) );
-      beamPanel.add( _solidRadioButton );
+      _solidRadioButton = new JRadioButton( SimStrings.get( "beamType.solid" ) );
       beamPanel.add( _photonsRadioButton );
+      beamPanel.add( _solidRadioButton );
 
       // Group the radio buttons for mutually-exclusive selection
       ButtonGroup buttonGroup = new ButtonGroup();
-      buttonGroup.add( _solidRadioButton );
       buttonGroup.add( _photonsRadioButton );
+      buttonGroup.add( _solidRadioButton );  
     }
     
     // Filter Control panel

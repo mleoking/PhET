@@ -298,10 +298,11 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     //----------------------------------------------------------------------------
 
 		_controlPanel.setBulbType( SingleBulbControlPanel.WHITE_BULB );
-		_controlPanel.setBeamType( SingleBulbControlPanel.SOLID_BEAM );
+		_controlPanel.setBeamType( SingleBulbControlPanel.PHOTON_BEAM );
 		_controlPanel.setFilterEnabled( true );
-		_filterSlider.setValue( (int) VisibleColor.MIN_WAVELENGTH );
-		_wavelengthSlider.setValue( (int) VisibleColor.MIN_WAVELENGTH );
+		double wavelength = ((VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH)/2) + VisibleColor.MIN_WAVELENGTH;
+		_filterSlider.setValue( (int)wavelength );
+		_wavelengthSlider.setValue( (int)wavelength );
 		
 	} // constructor
 	

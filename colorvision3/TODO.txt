@@ -6,7 +6,7 @@ RBG Bulbs module:
     Position this wiggle-me so that it is pointing at the knob of the top (red) slider.
 
 Single Bulb module:
-2. When the bulb is white, reduce the number of photons passed by the filter
+(DONE) 2. When the bulb is white, reduce the number of photons passed by the filter
     to half of the number currently passed.
 3. Standardize behavior of the sliders. When the user changes his/her drag direction,
     do not move the slider knob until the cursor is over the knob.
@@ -32,5 +32,3 @@ o parent -> component throughout
 o switch to PhET code formatting conventions
 o Help
 
-ENHANCEMENTS:
-o put bulb color & filter color on a single spectrum slider so it's easier to see how they compare
