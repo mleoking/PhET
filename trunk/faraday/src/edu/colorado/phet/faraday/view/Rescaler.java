@@ -73,7 +73,7 @@ public class Rescaler {
      * 
      * @param scale a value in the range 0...1 inclusive
      * @param referenceValue the reference value
-     * @param referenceMin the refernece value's minimum
+     * @param referenceMin the reference value's minimum
      * @param referenceMax the reference value's maximum
      * @return rescaled value in the range 0...1 inclusive
      */
