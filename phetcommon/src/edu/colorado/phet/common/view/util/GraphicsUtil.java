@@ -22,7 +22,7 @@ public class GraphicsUtil {
      * Creates and returns a buffered image that is a rotated version of a specified
      * buffered image. The transform is done so that the image is not truncated.
      * @param bImage
-     * @param theta
+     * @param theta Angle the image is to be rotated, in radians.
      * @return
      */
     public static BufferedImage getRotatedImage( BufferedImage bImage, double theta ) {
