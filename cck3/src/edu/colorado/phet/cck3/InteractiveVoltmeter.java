@@ -27,7 +27,7 @@ public class InteractiveVoltmeter extends CompositeInteractiveGraphic {
 
     public InteractiveVoltmeter( VoltmeterGraphic voltmeterGraphic, CCK3Module module ) {
         super.setVisible( false );
-        this.module=module;
+        this.module = module;
         this.voltmeterGraphic = voltmeterGraphic;
         voltmeter = voltmeterGraphic.getVoltmeter();
         this.transform = module.getTransform();
@@ -87,7 +87,7 @@ public class InteractiveVoltmeter extends CompositeInteractiveGraphic {
         voltmeterGraphic.getRedLeadGraphic().setAngle( redangle );
         voltmeterGraphic.getBlackCableGraphic().changed();
         voltmeterGraphic.getRedCableGraphic().changed();
-        module.getApparatusPanel().repaint( );
+        module.getApparatusPanel().repaint();
     }
 
 }

@@ -92,9 +92,11 @@ public class PhetSlider extends JPanel {
         }
         setValue( initialValue );
     }
-    public void requestSliderFocus(){
+
+    public void requestSliderFocus() {
         slider.requestFocus();
     }
+
     public void setNumMajorTicks( int numMajorTicks ) {
         this.numMajorTicks = numMajorTicks;
         relabelSlider();

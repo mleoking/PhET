@@ -14,10 +14,10 @@ public class Voltmeter {
     Lead blackLead;
     Lead redLead;
 
-    public Voltmeter(double x,double y,double dx) {
-        this.unit = new VoltmeterUnit( x,y );
-        this.blackLead = new Lead(x+dx,y);
-        this.redLead = new Lead(x-dx,y);
+    public Voltmeter( double x, double y, double dx ) {
+        this.unit = new VoltmeterUnit( x, y );
+        this.blackLead = new Lead( x + dx, y );
+        this.redLead = new Lead( x - dx, y );
     }
 
     public VoltmeterUnit getUnit() {
@@ -42,7 +42,7 @@ public class Voltmeter {
         double x;
         double y;
 
-        public VoltmeterUnit( double x, double y) {
+        public VoltmeterUnit( double x, double y ) {
             this.x = x;
             this.y = y;
         }
@@ -63,7 +63,7 @@ public class Voltmeter {
 
     }
 
-    public class Lead extends SimpleObservable{
+    public class Lead extends SimpleObservable {
         double x;
         double y;
 

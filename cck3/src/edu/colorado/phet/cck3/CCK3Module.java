@@ -446,8 +446,8 @@ public class CCK3Module extends Module {
 
 //    boolean lifelike=true;
     public void setLifelike( boolean lifelike ) {
-        circuitGraphic.setLifelike(lifelike);
-        getApparatusPanel().repaint( );
+        circuitGraphic.setLifelike( lifelike );
+        getApparatusPanel().repaint();
 //        if( lifelike == circuitGraphic.isLifelike() ) {
 //            return;
 //        }

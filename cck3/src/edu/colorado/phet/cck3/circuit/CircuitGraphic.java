@@ -380,6 +380,7 @@ public class CircuitGraphic extends CompositeInteractiveGraphic {
 
     class Lifelike implements GraphicSource {
         double wireThickness = .3;
+
         public void addGraphic( Branch b ) {
             if( b instanceof Battery ) {
                 addBatteryGraphic( (Battery)b );
@@ -425,7 +426,7 @@ public class CircuitGraphic extends CompositeInteractiveGraphic {
         }
 
         private void addWireGraphic( Branch branch ) {
-            TotalBranchGraphic totalBranchGraphic = new TotalBranchGraphic( CircuitGraphic.this, branch, apparatusPanel, transform, COPPER, junctionRadius, module,wireThickness );
+            TotalBranchGraphic totalBranchGraphic = new TotalBranchGraphic( CircuitGraphic.this, branch, apparatusPanel, transform, COPPER, junctionRadius, module, wireThickness );
             branches.addGraphic( totalBranchGraphic.getInteractiveBranchGraphic() );
             junctions.addGraphic( totalBranchGraphic.getInteractiveJunctionGraphic1() );
             junctions.addGraphic( totalBranchGraphic.getInteractiveJunctionGraphic2() );
@@ -447,7 +448,8 @@ public class CircuitGraphic extends CompositeInteractiveGraphic {
     }
 
     class Schematic implements GraphicSource {
-        double wireThickness=.13;
+        double wireThickness = .13;
+
         public void addGraphic( Branch b ) {
             if( b instanceof Battery ) {
                 addBatteryGraphic( (Battery)b );
@@ -470,12 +472,12 @@ public class CircuitGraphic extends CompositeInteractiveGraphic {
         }
 
         private void addResistorGraphic( Resistor resistor ) {
-            SchematicResistorGraphic ccbg=new SchematicResistorGraphic( apparatusPanel, resistor, getTransform(), wireThickness );
-            CircuitGraphic.this.addGraphic( resistor,ccbg );
+            SchematicResistorGraphic ccbg = new SchematicResistorGraphic( apparatusPanel, resistor, getTransform(), wireThickness );
+            CircuitGraphic.this.addGraphic( resistor, ccbg );
         }
 
         private void addWireGraphic( Branch b ) {
-            TotalBranchGraphic totalBranchGraphic = new TotalBranchGraphic( CircuitGraphic.this, b, apparatusPanel, transform, Color.black, junctionRadius, module,wireThickness );
+            TotalBranchGraphic totalBranchGraphic = new TotalBranchGraphic( CircuitGraphic.this, b, apparatusPanel, transform, Color.black, junctionRadius, module, wireThickness );
             branches.addGraphic( totalBranchGraphic.getInteractiveBranchGraphic() );
             junctions.addGraphic( totalBranchGraphic.getInteractiveJunctionGraphic1() );
             junctions.addGraphic( totalBranchGraphic.getInteractiveJunctionGraphic2() );
@@ -483,7 +485,7 @@ public class CircuitGraphic extends CompositeInteractiveGraphic {
 
         private void addBatteryGraphic( Battery component ) {
 //            CircuitComponentImageGraphic ccbg = new CircuitComponentImageGraphic( module.getImageSuite().getSchematicSuite().getBatteryImage(), apparatusPanel, component, transform,wireThickness );
-            SchematicBatteryGraphic ccbg=new SchematicBatteryGraphic( apparatusPanel, component, getTransform(),wireThickness );
+            SchematicBatteryGraphic ccbg = new SchematicBatteryGraphic( apparatusPanel, component, getTransform(), wireThickness );
             CircuitGraphic.this.addGraphic( component, ccbg );
         }
 

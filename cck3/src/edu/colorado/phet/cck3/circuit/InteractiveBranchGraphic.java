@@ -1,10 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.cck3.CCK3Module;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -26,7 +26,7 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic {
     private BranchGraphic branchGraphic;
     private CCK3Module module;
 
-    public InteractiveBranchGraphic( final CircuitGraphic circuitGraphic, final BranchGraphic branchGraphic, final ModelViewTransform2D transform,CCK3Module module ) {
+    public InteractiveBranchGraphic( final CircuitGraphic circuitGraphic, final BranchGraphic branchGraphic, final ModelViewTransform2D transform, CCK3Module module ) {
         super( branchGraphic );
         this.branchGraphic = branchGraphic;
         this.module = module;
@@ -34,7 +34,7 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic {
         MouseInputListener mouseListener = new WireMouseListener( circuitGraphic, branchGraphic );
         addMouseInputListener( mouseListener );
 
-        BranchPopupMenu bpm = new BranchPopupMenu( circuitGraphic.getCircuit(), branchGraphic.getBranch(),module );
+        BranchPopupMenu bpm = new BranchPopupMenu( circuitGraphic.getCircuit(), branchGraphic.getBranch(), module );
         addPopupMenuBehavior( bpm );
     }
 
@@ -50,14 +50,14 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic {
         private Circuit circuit;
         private Branch branch;
 
-        public BranchPopupMenu( final Circuit circuit, final Branch branch,final CCK3Module module ) {
+        public BranchPopupMenu( final Circuit circuit, final Branch branch, final CCK3Module module ) {
             this.circuit = circuit;
             this.branch = branch;
             JMenuItem item = new JMenuItem( "Remove" );
             item.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
 //                    circuit.remove( branch );
-                    module.removeBranch(branch);
+                    module.removeBranch( branch );
                 }
             } );
             add( item );

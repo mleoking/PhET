@@ -21,11 +21,11 @@ public class TotalBranchGraphic extends CompositeInteractiveGraphic {
     private InteractiveWireJunctionGraphic interactiveJunctionGraphic2;
     private CircuitGraphic circuitGraphic;
 
-    public TotalBranchGraphic( CircuitGraphic circuitGraphic, final Branch branch, ApparatusPanel apparatusPanel, final ModelViewTransform2D transform, Color color, double junctionRadius, CCK3Module module,double wireThickness ) {
+    public TotalBranchGraphic( CircuitGraphic circuitGraphic, final Branch branch, ApparatusPanel apparatusPanel, final ModelViewTransform2D transform, Color color, double junctionRadius, CCK3Module module, double wireThickness ) {
         this.circuitGraphic = circuitGraphic;
 
         BranchGraphic bg = new BranchGraphic( branch, apparatusPanel, wireThickness, transform, color );
-        interactiveBranchGraphic = new InteractiveBranchGraphic( circuitGraphic, bg, transform,module );
+        interactiveBranchGraphic = new InteractiveBranchGraphic( circuitGraphic, bg, transform, module );
 
         JunctionGraphic jg = new JunctionGraphic( apparatusPanel, branch.getStartJunction(), transform, junctionRadius );
         JunctionGraphic jg2 = new JunctionGraphic( apparatusPanel, branch.getEndJunction(), transform, junctionRadius );
