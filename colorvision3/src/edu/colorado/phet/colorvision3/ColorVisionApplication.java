@@ -6,6 +6,8 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 
+import java.util.Locale;
+
 /**
  * ColorVisionApplication is the main application for the PhET Color Vision simulation.
  * 
@@ -31,6 +33,16 @@ public class ColorVisionApplication extends PhetApplication
 	 */
 	public static void main(String[] args)
 	{
+            String applicationLocale = System.getProperty( "javaws.locale" );
+            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+                Locale.setDefault( new Locale( applicationLocale ) );
+            }
+            String argsKey = "user.language=";
+            if( args.length > 0 && args[0].startsWith( argsKey )) {
+                String locale = args[0].substring( argsKey.length(), args[0].length() );
+                Locale.setDefault( new Locale( locale ));
+            }
+
 	  // Initialize localization.
 	  SimStrings.setStrings( ColorVisionConfig.LOCALIZATION_BUNDLE_BASENAME );
 	    
