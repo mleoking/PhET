@@ -46,8 +46,11 @@ public class PhysicalPanel extends ApparatusPanel {
     public void addNucleus( Nucleus nucleus ) {
         NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
         // Register the graphic to the model element
-        modelElementToGraphicMap.put( nucleus, ng );
-        addGraphic( ng, nucleusLevel, nucleonTx );
+        TxGraphic txg = new TxGraphic( ng, nucleonTx );
+        modelElementToGraphicMap.put( nucleus, txg );
+        addGraphic( txg, nucleusLevel );
+        //        modelElementToGraphicMap.put( nucleus, ng );
+        //        addGraphic( ng, nucleusLevel, nucleonTx );
     }
 
     public void removeNucleus( Nucleus nucleus ) {
@@ -56,7 +59,9 @@ public class PhysicalPanel extends ApparatusPanel {
     }
 
     public synchronized void addGraphic( Graphic graphic ) {
-        addGraphic( graphic, nucleonTx );
+        TxGraphic txg = new TxGraphic( graphic, nucleonTx );
+        super.addGraphic( txg );
+        //        addGraphic( graphic, nucleonTx );
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
@@ -82,22 +87,26 @@ public class PhysicalPanel extends ApparatusPanel {
         modelElementToGraphicMap.clear();
     }
 
-    protected void addGraphic( Graphic graphic, double level, AffineTransform atx ) {
-        TxGraphic txg = new TxGraphic( graphic, atx );
-        super.addGraphic( txg, level );
-    }
-
-    protected void addGraphic( Graphic graphic, AffineTransform atx ) {
-        TxGraphic txg = new TxGraphic( graphic, atx );
-        super.addGraphic( txg );
-    }
+    //    protected void addGraphic( Graphic graphic, double level, AffineTransform atx ) {
+    //        TxGraphic txg = new TxGraphic( graphic, atx );
+    //        super.addGraphic( txg, level );
+    //    }
+    //
+    //    protected void addGraphic( Graphic graphic, AffineTransform atx ) {
+    //        TxGraphic txg = new TxGraphic( graphic, atx );
+    //        super.addGraphic( txg );
+    //    }
 
     //
     // Statics
     //
     protected static Color backgroundColor = new Color( 255, 255, 230 );
 
-    public synchronized void addOriginCenteredGraphic( Graphic graphic, double level ) {
-        this.addGraphic( graphic, level, originTx );
+    //    public synchronized void addOriginCenteredGraphic( Graphic graphic, double level ) {
+    //        this.addGraphic( graphic, level, originTx );
+    //    }
+    public void addOriginCenteredGraphic( Graphic graphic, double level ) {
+        TxGraphic txg = new TxGraphic( graphic, this.originTx );
+        addGraphic( txg, level );
     }
 }
