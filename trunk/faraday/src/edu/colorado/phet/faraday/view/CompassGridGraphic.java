@@ -42,7 +42,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     // Determines whether needle strength is displayed using alpha or color saturation. 
-    private static final boolean DEFAULT_ALPHA_ENABLED = true;
+    private static final boolean DEFAULT_ALPHA_ENABLED = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -222,6 +222,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
      */
     public void setAlphaEnabled( boolean enabled ) {
         if ( enabled != _alphaEnabled ) {
+            _alphaEnabled = enabled;
             for ( int i = 0; i < _needles.size(); i++ ) {
                 CompassGridNeedle needle = (CompassGridNeedle) _needles.get(i);
                 needle.setAlphaEnabled( enabled );
