@@ -123,7 +123,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic {
 
             g2.setFont( font );
             FontMetrics fontMetrics = g2.getFontMetrics();
-            int readoutWidth = 90;
+            int readoutWidth = 95;
             int borderThickness = 8;
             int readoutHeight = fontMetrics.getHeight() * 3 + fontMetrics.getMaxDescent();// + 2 * borderThickness;
 
@@ -183,7 +183,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic {
             g2.drawString( temperatureStr, readoutLocation.x + 5, strLocY );
 
             // y location must be converted to units compatible with the graphic ruler
-            String heightStr = "z = " + heightFormatter.format( ( ( ( boxLowerEdge - y ) - 3.3 ) / 70.857 ) );
+            String heightStr = "height = " + heightFormatter.format( ( ( ( boxLowerEdge - y ) - 3.3 ) / 70.857 ) );
             g2.setColor( Color.black );
             strLocY += fontMetrics.getHeight();
             g2.drawString( heightStr, readoutLocation.x + 5, strLocY );

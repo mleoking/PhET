@@ -42,7 +42,10 @@ public class OptionsMenu extends JMenu {
         diffusionModule = new DiffusionModule( application.getApplicationModel().getClock() );
         movableWallModule = new MovableWallsModule( application.getApplicationModel().getClock() );
 
-        this.add( new AdvancedMenu() );
+//        this.add( new AdvancedMenu() );
+        this.add( new AdvancedPanels() );
+        this.add( new MoleculeInteractions() );
+        this.add( new Stopwatch() );
     }
 
     //----------------------------------------------------------------
