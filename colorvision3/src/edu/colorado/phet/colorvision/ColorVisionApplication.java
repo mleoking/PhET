@@ -54,7 +54,7 @@ public class ColorVisionApplication extends PhetApplication {
         BoundsOutliner.setEnabled( BOUNDS_OUTLINE_ENABLED ); // DEBUG
 
         // Initialize localization.
-        PhetApplication.initLocalization( args, ColorVisionConfig.LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.init( args, ColorVisionConfig.LOCALIZATION_BUNDLE_BASENAME );
 
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "ColorVisionApplication.title" );
