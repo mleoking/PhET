@@ -84,4 +84,8 @@ public class BarGauge extends AbstractGauge {
             bar.setRect( bar.getMinX(), bar.getMaxY(), newMaxX, bar.getMaxY() );
         }
     }
+
+    public void setLocation( Point2D.Double location ) {
+        this.location.setLocation( location );
+    }
 }

@@ -54,6 +54,7 @@ public class IdealGasModule extends Module {
     private JDialog measurementDlg;
     private JDialog speciesMonitorDlg;
     private IdealGasControlPanel idealGasControlPanel;
+    private Thermometer thermometer;
 
 
     public IdealGasModule( AbstractClock clock ) {
@@ -177,9 +178,9 @@ public class IdealGasModule extends Module {
         // Add the thermometer
         double thermometerHeight = 100;
         Point2D.Double thermometerLoc = new Point2D.Double( box.getMaxX() - 30, box.getMinY() - thermometerHeight );
-        Thermometer thermometer = new IdealGasThermometer( getApparatusPanel(),
-                                                           idealGasModel, thermometerLoc,
-                                                           thermometerHeight, 10, true, 0, 1000E3 );
+        thermometer = new IdealGasThermometer( getApparatusPanel(),
+                                               idealGasModel, thermometerLoc,
+                                               thermometerHeight, 10, true, 0, 1000E3 );
         addGraphic( thermometer, 8 );
 
         // Create the pump
@@ -231,12 +232,12 @@ public class IdealGasModule extends Module {
 
         // Set up the control panel
         idealGasControlPanel = new IdealGasControlPanel( this );
-        PhetControlPanel controlPanel = new PhetControlPanel( this, idealGasControlPanel);
+        PhetControlPanel controlPanel = new PhetControlPanel( this, idealGasControlPanel );
         setControlPanel( controlPanel );
 
         // Place a slider to control the stove
         StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
-        stoveControlPanel.setBounds( 400, 450, 200, 150 );
+        stoveControlPanel.setBounds( 370, 515, 300, 120 );
         getApparatusPanel().add( stoveControlPanel );
 
         // Add help items
@@ -245,19 +246,20 @@ public class IdealGasModule extends Module {
         //        idealGasModel.addModelElement( renderer );
     }
 
-    private void addHelp(){
+    private void addHelp() {
         HelpItem helpItem1 = new HelpItem( "Wall can be moved\nleft and right",
                                            box.getPosition().getX(), box.getPosition().getY(),
                                            HelpItem.BELOW, HelpItem.LEFT );
         helpItem1.setForegroundColor( IdealGasConfig.helpColor );
         addHelpItem( helpItem1 );
         HelpItem helpItem2 = new HelpItem( "Door can be slid\nleft and right",
-                                           box.getPosition().getX(), box.getPosition().getY(),
-                                           HelpItem.ABOVE, HelpItem.RIGHT );
+                                           box.getPosition().getX() + 100, box.getPosition().getY() - 50 );
+//                                           box.getPosition().getX() + 400, box.getPosition().getY() - 50,
+//                                           HelpItem.ABOVE, HelpItem.LEFT );
         helpItem2.setForegroundColor( IdealGasConfig.helpColor );
         addHelpItem( helpItem2 );
         HelpItem helpItem3 = new HelpItem( "Heat can be removed or added\nby adjusting stove",
-                                            box.getPosition().getX(), box.getMaxY() );
+                                           box.getPosition().getX() + 50, box.getMaxY() + 50 );
         helpItem3.setForegroundColor( IdealGasConfig.helpColor );
         addHelpItem( helpItem3 );
     }
@@ -305,6 +307,9 @@ public class IdealGasModule extends Module {
         return pump;
     }
 
+    public Thermometer getThermomenter() {
+        return thermometer;
+    }
 
     public void setPressureSliceEnabled( boolean pressureSliceEnabled ) {
         if( pressureSlice == null ) {
@@ -365,7 +370,7 @@ public class IdealGasModule extends Module {
         }
     }
 
-    protected IdealGasControlPanel getIdealGasControlPanel(){
+    protected IdealGasControlPanel getIdealGasControlPanel() {
         return idealGasControlPanel;
     }
 }

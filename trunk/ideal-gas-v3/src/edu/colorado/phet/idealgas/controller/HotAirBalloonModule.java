@@ -30,7 +30,7 @@ public class HotAirBalloonModule extends IdealGasModule {
 
         // Set the size of the box
         Box2D box = getIdealGasModel().getBox();
-        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
+//        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
 
         // Add the hot air balloon to the model
         double habRadius = 50;

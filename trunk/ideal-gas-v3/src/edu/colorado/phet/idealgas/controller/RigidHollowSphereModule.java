@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
+import edu.colorado.phet.instrumentation.Thermometer;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -41,7 +42,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
         // Set the size of the box
         final Box2D box = getIdealGasModel().getBox();
-        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
+//        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
         sphere = new HollowSphere( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
                                                        box.getMinY() + box.getHeight() / 2 ),
                                    new Vector2D.Double( 0, 0 ),
@@ -49,6 +50,10 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                                    100,
                                    50 );
         box.setMinimumWidth( sphere.getRadius() * 3 );
+
+        int thermometerHeight = 100;
+        Thermometer thermometer = getThermomenter();
+        thermometer.setLocation( new Point2D.Double( box.getMaxX() - 30, box.getMinY() - thermometerHeight ) );
 
         new AddModelElementCmd( getIdealGasModel(), sphere ).doIt();
         getIdealGasModel().getBox().addContainedBody( sphere );
@@ -164,7 +169,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
             else if( dn < 0 ) {
                 for( int i = 0; i < -dn; i++ ) {
                     if( getCurrentGasSpecies() == HeavySpecies.class ) {
-                        if ( currNumHeavyMolecules > 0 ) {
+                        if( currNumHeavyMolecules > 0 ) {
                             removeGasMoleculeFromSphere( HeavySpecies.class );
                             currNumHeavyMolecules--;
                         }
@@ -174,7 +179,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                         }
                     }
                     if( getCurrentGasSpecies() == LightSpecies.class ) {
-                        if ( currNumLightMolecules > 0 ) {
+                        if( currNumLightMolecules > 0 ) {
                             removeGasMoleculeFromSphere( LightSpecies.class );
                             currNumLightMolecules--;
                         }

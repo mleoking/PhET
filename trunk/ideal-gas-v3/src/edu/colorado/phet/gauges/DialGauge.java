@@ -45,11 +45,12 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
 
     private double needleLength = 0.5;
     private double datum;
+    private Color backgroundColor = new Color( 245, 255, 250 );
 
     public DialGauge( ScalarObservable dataSource, Component component,
                       double x, double y, double diam, double min, double max,
                       String title, String units ) {
-        this(dataSource, component,x, y, diam, min, max,title, units, s_defaultFont );
+        this( dataSource, component, x, y, diam, min, max, title, units, s_defaultFont );
     }
 
     public DialGauge( ScalarObservable dataSource, Component component,
@@ -83,6 +84,9 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
         faceGraphic.repaint();
     }
 
+    public void setBackground( Color color ) {
+        backgroundColor = color;
+    }
 
     private class NeedleGraphic extends PhetShapeGraphic {
         private Rectangle.Double needle;
@@ -122,15 +126,17 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
         private Rectangle2D.Double tickMark;
 
         FaceGraphic() {
-            super( component, null, Color.white, new BasicStroke( 5 ), new Color( 80, 80, 40 ) );
+            super( component, null, backgroundColor, new BasicStroke( 5 ), new Color( 80, 80, 40 ) );
             Shape face = new Ellipse2D.Double( x - diam / 2, y - diam / 2, diam, diam );
             super.setShape( face );
-            tickMark = new Rectangle2D.Double( x + diam * 3/8, y - 1, diam / 16, 2 );
+            tickMark = new Rectangle2D.Double( x + diam * 3 / 8, y - 1, diam / 16, 2 );
 //            tickMark = new Rectangle2D.Double( x + diam / 8, y - 1, diam / 8, 2 );
 //            tickMark = new Rectangle2D.Double( x + diam / 6, y - 1, diam / 8, 2 );
         }
 
+
         public void paint( Graphics2D g ) {
+            setBackground( backgroundColor );
             saveGraphicsState( g );
             GraphicsUtil.setAntiAliasingOn( g );
             super.paint( g );
@@ -139,7 +145,7 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
             int numTickMarks = 19;
 //            int numTickMarks = 7;
             g.setColor( Color.black );
-            double tickSpace = ( Math.PI * 6 / 4 ) / (numTickMarks - 1);
+            double tickSpace = ( Math.PI * 6 / 4 ) / ( numTickMarks - 1 );
             for( double theta = Math.PI * 3 / 4; theta <= Math.PI * 9 / 4 + tickSpace / 2; theta += tickSpace ) {
                 AffineTransform orgTx = g.getTransform();
 //                double theta = minTickTheta + i * Math.PI / 4;
@@ -179,9 +185,9 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
                           (float)x - (float)bounds.getWidth() / 2,
                           (float)( y + ( ( diam / 4 ) * radRatio ) ) );
             RoundRectangle2D rect = new RoundRectangle2D.Double( 0, 0, 0, 0, 3, 3 );
-            rect.setFrameFromCenter( x, y + 10, x+30, y + 17 );
+            rect.setFrameFromCenter( x, y + 10, x + 30, y + 17 );
             g.setColor( Color.yellow );
-            g.setStroke( new BasicStroke( 3f ));
+            g.setStroke( new BasicStroke( 3f ) );
             g.draw( rect );
 
 //            double dy = bounds.getHeight();

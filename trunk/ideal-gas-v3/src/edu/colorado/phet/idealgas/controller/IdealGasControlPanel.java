@@ -15,6 +15,7 @@ import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -52,9 +53,9 @@ public class IdealGasControlPanel extends JPanel {
     private void init() {
         this.setLayout( new GridBagLayout() );
         gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                                 GridBagConstraints.CENTER,
-                                                                 GridBagConstraints.HORIZONTAL,
-                                                                 new Insets(0,0,0,0), 0, 0 );
+                                      GridBagConstraints.CENTER,
+                                      GridBagConstraints.HORIZONTAL,
+                                      new Insets( 4, 4, 4, 4 ), 0, 0 );
         add( addConstantParamControls(), gbc );
         gbc.gridy++;
         add( addGravityControls(), gbc );
@@ -67,11 +68,11 @@ public class IdealGasControlPanel extends JPanel {
         gbc.gridy++;
         this.add( new NumParticlesControls(), gbc );
 //        this.add( new NumParticlesControls() );
-        gbc.gridy++;
-        add( addStoveControls(), gbc );
+//        gbc.gridy++;
+//        add( addStoveControls(), gbc );
 //        addStoveControls();
         ToggleButton measurementDlgBtn = new ToggleButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
-                                                      SimStrings.get( "IdealGasControlPanel.Measurement_Tools" )){
+                                                           SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) ) {
             public void onAction() {
                 JDialog dlg = module.setMeasurementDlgVisible( true );
                 dlg.addWindowListener( new WindowAdapter() {
@@ -87,13 +88,15 @@ public class IdealGasControlPanel extends JPanel {
         };
 //        JButton measurementDlgBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) );
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
-        measurementDlgBtn.setBackground( Color.yellow );
+        measurementDlgBtn.setBorder( new LineBorder( Color.yellow, 2, true ) );
+        measurementDlgBtn.setBackground( new Color( 255, 255, 200 ) );
 //        measurementDlgBtn.addActionListener( new ActionListener() {
 //            public void actionPerformed( ActionEvent e ) {
 //                module.setMeasurementDlgVisible( true );
 //            }
 //        } );
         gbc.gridy++;
+        gbc.fill = GridBagConstraints.NONE;
         this.add( measurementDlgBtn, gbc );
 //        this.add( measurementDlgBtn );
 

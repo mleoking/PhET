@@ -38,6 +38,7 @@ public class PressureDialGauge implements Graphic {
                                        center.getX(), center.getY(),
                                        radius * 2, 0, 100, "Pressure", "Atm",
                                        font );
+        pressureGauge.setBackground( new Color( 230, 255, 230 ) );
         stem = new Rectangle2D.Double( box.getMaxX(), center.getY() - stemThickness / 2,
                                        stemLength, stemThickness );
     }
