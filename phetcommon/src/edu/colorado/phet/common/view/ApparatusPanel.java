@@ -69,8 +69,9 @@ public class ApparatusPanel extends JPanel {
         // to lay out components with absolute coordinates
         super( null );
         this.graphic = new GraphicLayerSet( this );
-        this.addMouseListener( graphic.getSwingAdapter() );
-        this.addMouseMotionListener( graphic.getSwingAdapter() );
+        this.addMouseListener( graphic.getMouseAdapter() );
+        this.addMouseMotionListener( graphic.getMouseAdapter() );
+        this.addKeyListener( graphic.getKeyAdapter() );
     }
 
     public void addGraphicsSetup( GraphicsSetup setup ) {
