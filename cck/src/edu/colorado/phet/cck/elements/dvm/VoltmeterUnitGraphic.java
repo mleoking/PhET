@@ -2,8 +2,8 @@
 package edu.colorado.phet.cck.elements.dvm;
 
 import edu.colorado.phet.cck.common.DifferentialDragHandler;
-import edu.colorado.phet.cck.common.SimpleObservable;
-import edu.colorado.phet.cck.common.SimpleObserver;
+import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;

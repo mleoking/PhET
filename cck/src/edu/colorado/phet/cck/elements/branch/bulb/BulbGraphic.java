@@ -2,11 +2,11 @@
 package edu.colorado.phet.cck.elements.branch.bulb;
 
 import edu.colorado.phet.cck.CCK2Module;
-import edu.colorado.phet.cck.common.SimpleObserver;
 import edu.colorado.phet.cck.elements.branch.ConnectibleImageGraphic;
 import edu.colorado.phet.cck.elements.branch.components.Bulb;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
