@@ -12,19 +12,15 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 
 public class UniverseModel extends BaseModel {
 
-    //
-    // Static fields and methods
-    //
+    private StarField starField;
 
-    public UniverseModel( AbstractClock clock ) {
+    public UniverseModel( StarField starField, AbstractClock clock ) {
         super( clock );
+        this.starField = starField;
     }
 
-    //
-    // Interfaces implemented
-    //
+    public StarField getStarField() {
+        return starField;
+    }
 
-    //
-    // Inner classes
-    //
 }

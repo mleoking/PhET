@@ -22,7 +22,8 @@ public abstract class Star implements ModelElement {
     public Star( Color color, double luminance, Point2D.Double location, double syntheticZBound ) {
         this.luminance = luminance;
         this.location = location;
-        setZ( ( random.nextDouble() * syntheticZBound / 2 ) * ( random.nextBoolean() ? 1 : -1 ) );
+//        setZ( ( random.nextDouble() * syntheticZBound / 2 ) * ( random.nextBoolean() ? 1 : -1 ) );
+        setZ( syntheticZBound );
         this.color = color;
     }
 

@@ -1,7 +1,9 @@
 
 import edu.colorado.games4education.lostinspace.model.*;
+import edu.colorado.games4education.lostinspace.Config;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.*;
 import java.util.List;
 
@@ -19,7 +21,8 @@ public class StarViewTest {
     public void test1 () {
         System.out.println( "Test 1" );
 
-        StarField starField = new StarField();
+        StarField starField = new StarField( new Rectangle2D.Double( -Config.fixedStarDistance, - Config.fixedStarDistance,
+                                                                     Config.fixedStarDistance, Config.fixedStarDistance) );
         NormalStar star = null;
         star = new NormalStar( Color.white, 100, new Point2D.Double( 20, 20 ), 0 );
         starField.addStar( star );
@@ -41,7 +44,8 @@ public class StarViewTest {
     public void test2 () {
         System.out.println( "Test 2" );
 
-        StarField starField = new StarField();
+        StarField starField = new StarField( new Rectangle2D.Double( -Config.fixedStarDistance, - Config.fixedStarDistance,
+                                                                     Config.fixedStarDistance, Config.fixedStarDistance) );
         NormalStar star = null;
         star = new NormalStar( Color.white, 100, new Point2D.Double( 20, 20 ), 0 );
         starField.addStar( star );
@@ -118,7 +122,8 @@ public class StarViewTest {
         System.out.println( "Test 5" );
 
         NormalStar star = null;
-        StarField starField = new StarField();
+        StarField starField = new StarField( new Rectangle2D.Double( -Config.fixedStarDistance, - Config.fixedStarDistance,
+                                                                     Config.fixedStarDistance, Config.fixedStarDistance) );
         StarView starView = new StarView( starField, Math.PI / 2 );
         Point2D.Double p = null;
 

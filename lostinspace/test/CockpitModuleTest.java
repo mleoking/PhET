@@ -8,8 +8,10 @@ import edu.colorado.games4education.lostinspace.model.*;
 import edu.colorado.games4education.lostinspace.controller.CockpitModule;
 import edu.colorado.games4education.lostinspace.controller.StarMapModule;
 import edu.colorado.games4education.lostinspace.LostInSpaceApplication;
+import edu.colorado.games4education.lostinspace.Config;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.*;
 import java.util.List;
 
@@ -26,15 +28,26 @@ public class CockpitModuleTest {
 
     public void test1() {
         System.out.println( "Test 1" );
+
+//        AbstractClock clock = new ThreadedClock( 10, 20, true );
+//        UniverseModel model = new UniverseModel( clock, starField );
+//        CockpitModule cockpitModule = new CockpitModule( model );
+//        Module starMapModule = new StarMapModule( model );
+//        Module[] modules = new Module[]{cockpitModule, starMapModule};
+//        LostInSpaceApplication app = new LostInSpaceApplication( appDesc, modules, clock );
+//        app.startApplication( cockpitModule );
+
+        StarField starField = new StarField( new Rectangle2D.Double( -Config.fixedStarDistance, - Config.fixedStarDistance,
+                                                                     Config.fixedStarDistance, Config.fixedStarDistance) );
+
         AbstractClock clock = new ThreadedClock( 10, 20, true );
-        UniverseModel model = new UniverseModel( clock );
+        UniverseModel model = new UniverseModel( starField, clock );
         CockpitModule cockpitModule = new CockpitModule( model );
         Module starMapModule = new StarMapModule( model );
         Module[] modules = new Module[]{cockpitModule, starMapModule};
         LostInSpaceApplication app = new LostInSpaceApplication( appDesc, modules, clock );
         app.startApplication( cockpitModule );
 
-        StarField starField = cockpitModule.getStarField();
         Star star = null;
         StarView starView = cockpitModule.getStarView();
         Point2D.Double p = null;
@@ -43,13 +56,22 @@ public class CockpitModuleTest {
         starField.addStar( star );
         star = new NormalStar( Color.blue, 100, new Point2D.Double( 100, 10 ), 50 );
         starField.addStar( star );
+        star = new NormalStar( Color.yellow, 100, new Point2D.Double( -100, -10 ), 50 );
+        starField.addStar( star );
+        star = new NormalStar( Color.white, 100, new Point2D.Double( 0, 0 ), 50 );
+        starField.addStar( star );
 
         star = new FixedStar( Color.red, 100, 0, -80 );
         starField.addStar( star );
+        star = new FixedStar( Color.red, 100, Math.PI / 2, -80 );
+        starField.addStar( star );
+        star = new FixedStar( Color.red, 100, Math.PI, -80 );
+        starField.addStar( star );
 
         starView.setPov( 0, 0, 0 );
-        List l = starView.getVisibleStars();
+
         cockpitModule.update();
+
     }
 
     public static void main( String[] args ) {

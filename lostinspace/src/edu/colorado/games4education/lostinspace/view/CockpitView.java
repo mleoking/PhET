@@ -1,5 +1,5 @@
 /**
- * Class: CockpitGraphic
+ * Class: CockpitView
  * Class: edu.colorado.games4education.lostinspace.view
  * User: Ron LeMaster
  * Date: Mar 16, 2004
@@ -14,6 +14,7 @@ import edu.colorado.games4education.lostinspace.controller.PhotometerButton;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.TxGraphic;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
@@ -26,7 +27,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
 
-public class CockpitGraphic extends CompositeInteractiveGraphic implements ImageObserver {
+public class CockpitView extends CompositeInteractiveGraphic implements ImageObserver {
 
     Point2D.Double photometerButtonLocation = new Point2D.Double( 140, 555 );
     Point2D.Double parallaxButtonLocation = new Point2D.Double( 425, 535 );
@@ -37,10 +38,11 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
     private AffineTransform cockpitTx = new AffineTransform();
     private AffineTransform joystickTx = new AffineTransform();
 
-    private double joystickLayer = 10;
+    private double joystickLayer = 1000;
+    private double cockpitLayer = 100;
     private CockpitModule module;
 
-    public CockpitGraphic( CockpitModule module ) {
+    public CockpitView( CockpitModule module ) {
         this.module = module;
         ImageLoader imgLoader = new ImageLoader();
         try {
@@ -58,12 +60,10 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
 
         addGraphic( new ParallaxButton( module, parallaxButtonLocation ), joystickLayer );
         addGraphic( new PhotometerButton( module, photometerButtonLocation ), joystickLayer );
+        addGraphic( new CockpitGraphic(), cockpitLayer );
     }
 
     public void paint( Graphics2D g ) {
-        g.setColor( Color.black );
-        g.fillRect( 0, 0, cockpitImage.getWidth(), cockpitImage.getHeight() );
-        g.drawImage( cockpitImage, cockpitTx, this );
         super.paint( g );
     }
 
@@ -87,10 +87,10 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
                 public void paint( Graphics2D g ) {
                     AffineTransform tx = new AffineTransform( joystickTx );
                     double phi = Math.atan( joystickDx / joystickBaseImage.getHeight( ) );
-                    g.drawImage( joystickBaseImage, tx, CockpitGraphic.this );
+                    g.drawImage( joystickBaseImage, tx, CockpitView.this );
                     tx.translate( 29, -70 );
                     tx.rotate( phi, joystickControlImage.getWidth() / 2, joystickControlImage.getHeight( ) );
-                    g.drawImage( joystickControlImage, tx, CockpitGraphic.this );
+                    g.drawImage( joystickControlImage, tx, CockpitView.this );
                 }
             };
             setGraphic( jg );
@@ -131,6 +131,15 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
 //            module.changeCockpitPov( 1 * ( dx > 0 ? 1 : -1 ), 1 * ( dy > 0 ? 1 : -1 ), -gamma );
 
             joystickDx = dx;
+        }
+    }
+
+    private class CockpitGraphic implements Graphic {
+
+        public void paint( Graphics2D g ) {
+            g.setColor( Color.black );
+            g.fillRect( 0, 0, cockpitImage.getWidth(), cockpitImage.getHeight() );
+            g.drawImage( cockpitImage, cockpitTx, CockpitView.this );
         }
     }
 }
