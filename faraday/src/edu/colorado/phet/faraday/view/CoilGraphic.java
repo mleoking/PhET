@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.model.BaseModel;
@@ -123,6 +124,9 @@ public class CoilGraphic implements SimpleObserver {
     // Scale used for electron speed.
     private double _electronSpeedScale;
     
+    // Whether to connect the ends of the coil.
+    private boolean _endsConnected;
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -166,6 +170,7 @@ public class CoilGraphic implements SimpleObserver {
         _voltage = -1;  // force update
         
         _electronSpeedScale = 1.0;
+        _endsConnected = false;
         
         update();
     }
@@ -339,6 +344,18 @@ public class CoilGraphic implements SimpleObserver {
         return _electronSpeedScale;
     }
     
+    public void setEndsConnected( boolean endsConnected ) {
+        if ( endsConnected != _endsConnected ) {
+            _endsConnected = endsConnected;
+            updateCoil();
+            repaint();
+        }
+    }
+    
+    public boolean isEndsConnected() {
+        return _endsConnected;
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
@@ -440,13 +457,16 @@ public class CoilGraphic implements SimpleObserver {
         // Start at the left-most loop, keeping the coil centered.
         final int xStart = -( loopSpacing * (numberOfLoops - 1) / 2 );
         
+        Point leftEndPoint = null;
+        Point rightEndPoint = null;
+        
         // Create the wire ends & loops from left to right.
         // Curves are created in the order that they are pieced together.
         for ( int i = 0; i < numberOfLoops; i++ ) {
             
             final int xOffset = xStart + ( i * loopSpacing );
             
-            if ( i == 0 ) {
+            if ( i == 0 ) {     
                 // Left wire end
                 {
                     Point endPoint = new Point( -loopSpacing / 2 + xOffset, (int) -radius ); // lower
@@ -467,6 +487,8 @@ public class CoilGraphic implements SimpleObserver {
                     shapeGraphic.setStroke( loopStroke );
                     shapeGraphic.setBorderPaint( paint );
                     _background.addGraphic( shapeGraphic );
+                    
+                    leftEndPoint = startPoint;
                 }
                 
                 // Back top (left-most) is slightly different so it connects to the left wire end.
@@ -587,9 +609,25 @@ public class CoilGraphic implements SimpleObserver {
                 shapeGraphic.setStroke( loopStroke );
                 shapeGraphic.setBorderPaint( paint );
                 _foreground.addGraphic( shapeGraphic );
-            }   
+                
+                rightEndPoint = endPoint;
+            }
         }
 
+        // Connect the ends
+        if ( _endsConnected ) {
+            
+            Line2D line = new Line2D.Double( leftEndPoint.getX(), leftEndPoint.getY(), rightEndPoint.getX(), rightEndPoint.getY() );
+            PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
+            
+            Paint paint = _middlegroundColor;
+            
+            shapeGraphic.setShape( line );
+            shapeGraphic.setStroke( loopStroke );
+            shapeGraphic.setBorderPaint( paint );
+            _foreground.addGraphic( shapeGraphic );
+        }
+        
         // Add electrons to the coil.
         {
             final double speed = calculateElectronSpeed();
