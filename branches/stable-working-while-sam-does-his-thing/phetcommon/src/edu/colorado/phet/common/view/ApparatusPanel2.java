@@ -13,6 +13,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.application.PhetApplication;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,21 +42,23 @@ import java.util.LinkedList;
  */
 public class ApparatusPanel2 extends ApparatusPanel {
 
-    //
-    // Statics
+    //////////////////////////////////////////////////////////////////////////////////////
+    // Class
     //
     public static final double LAYER_TOP = Double.POSITIVE_INFINITY;
     public static final double LAYER_BOTTOM = Double.NEGATIVE_INFINITY;
     public static final double LAYER_DEFAULT = 0;
 
 
-    //
-    // Instance fields and methods
+    //////////////////////////////////////////////////////////////////////////////////////
+    // Instance
     //
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-    CompositeGraphic graphic = new CompositeGraphic();
-    CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic );
-    BufferedImage bImg;
+    private CompositeGraphic graphic = new CompositeGraphic();
+    private CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic );
+    private BufferedImage bImg;
+    private Graphics2D bImgGraphics;
+    private boolean useOffscreenBuffer = false;
 
     ArrayList graphicsSetups = new ArrayList();
     //    private boolean paintEnabled;
@@ -109,17 +112,16 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                //                Graphics g = PhetApplication.instance().getApplicationView().getPhetFrame().getGraphics();
-                //                myPaintComponent( g );
-                //                myPaintComponents( g );
-                //                updateBuffer();
-                megapaintImmediately();
-                //                paintImmediately( 0, 0, getWidth(), getHeight() );
+                if( useOffscreenBuffer ) {
+                    paintImmediately( 0, 0, getWidth(), getHeight() );
+                }
+                else {
+                    megapaintImmediately();
+                }
 
             }
         } );
-        //        setOpaque( true );
-        //        setDoubleBuffered( false );
+
         this.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
                 if( strategy == null ) {
@@ -161,6 +163,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
                     e1.printStackTrace();
                 }
                 bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+                bImgGraphics = (Graphics2D)bImg.getGraphics();
 
                 // Adjust the locations of Swing components
                 Component[] components = ApparatusPanel2.this.getComponents();
@@ -174,6 +177,17 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 }
             }
         } );
+    }
+
+    public boolean isUseOffscreenBuffer() {
+        return useOffscreenBuffer;
+    }
+
+    public void setUseOffscreenBuffer( boolean useOffscreenBuffer ) {
+        // Todo: Determine if the following two lines help or not
+//        setOpaque( useOffscreenBuffer );
+//        setDoubleBuffered( !useOffscreenBuffer );
+        this.useOffscreenBuffer = useOffscreenBuffer;
     }
 
     /**
@@ -295,8 +309,15 @@ public class ApparatusPanel2 extends ApparatusPanel {
         GraphicsState gs = new GraphicsState( g2 );
         g2.transform( graphicTx );
         //        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-        graphic.paint( g2 );
-        //        g2.drawImage( bImg, new AffineTransform(), null );
+        if( useOffscreenBuffer ) {
+            bImgGraphics.setColor( this.getBackground() );
+            bImgGraphics.fillRect( bImg.getMinX(), bImg.getMinY(), bImg.getWidth(), bImg.getHeight() );
+            graphic.paint( bImgGraphics );
+            g2.drawImage( bImg, new AffineTransform(), null );
+        }
+        else {
+            graphic.paint( g2 );
+        }
         gs.restoreGraphics();
         Color origColor = g2.getColor();
         Stroke origStroke = g2.getStroke();
