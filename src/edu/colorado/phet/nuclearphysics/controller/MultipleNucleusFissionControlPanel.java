@@ -124,10 +124,9 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         } while( overlapping && attempts < 50 );
 
         if( attempts >= 50 ) {
-            numNucleiSpinner.setEnabled( false );
-            JOptionPane.showMessageDialog( SwingUtilities.getRoot( this ),
-                                           "Unable to add any more nuclei", "Attention!",
-                                           JOptionPane.INFORMATION_MESSAGE );
+//            JOptionPane.showMessageDialog( SwingUtilities.getRoot( this ),
+//                                           "Unable to add any more nuclei", "Attention!",
+//                                           JOptionPane.INFORMATION_MESSAGE );
         }
         else {
             Uranium235 nucleus = new Uranium235( location );

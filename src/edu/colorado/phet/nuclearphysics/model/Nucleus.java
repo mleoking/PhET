@@ -19,14 +19,12 @@ public class Nucleus extends Body {
     private double potentialEnergy;
     private PotentialProfile potentialProfile;
 
-    public Nucleus( Point2D.Double position, int numProtons, int numNeutrons,
-                    PotentialProfile potentialProfile ) {
+    public Nucleus( Point2D.Double position, int numProtons, int numNeutrons ) {
         super( position, new Vector2D(), new Vector2D(), 0, 0 );
         this.setLocation( position.getX(), position.getY() );
         this.numProtons = numProtons;
         this.numNeutrons = numNeutrons;
         this.potentialProfile = new PotentialProfile( this );
-//        this.potentialProfile = potentialProfile;
         this.potentialEnergy = potentialProfile.getWellPotential();
 
         int numParticles = getNumNeutrons() + getNumProtons();
@@ -56,10 +54,12 @@ public class Nucleus extends Body {
 
     public void setNumProtons( int numProtons ) {
         this.numProtons = numProtons;
+        updateObservers();
     }
 
     public void setNumNeutrons( int numNeutrons ) {
         this.numNeutrons = numNeutrons;
+        updateObservers();
     }
 
     public PotentialProfile getPotentialProfile() {

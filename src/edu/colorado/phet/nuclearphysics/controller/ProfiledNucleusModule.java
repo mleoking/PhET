@@ -25,8 +25,6 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
         getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
         potentialProfilePanel = new PotentialProfilePanel();
         getApparatusPanel().add( potentialProfilePanel, 1 );
-        nucleus = new Uranium235( new Point2D.Double( 0, 0 ) );
-        setUraniumNucleus( getNucleus() );
     }
 
     public void setNucleus( Uranium235 nucleus ) {

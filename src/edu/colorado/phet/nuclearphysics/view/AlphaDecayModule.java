@@ -23,6 +23,9 @@ import java.util.ArrayList;
 public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener {
 
     private AlphaDecayPhysicalPanel physicalPanel;
+    private Ellipse2D.Double alphaRing;
+    private Line2D.Double leaderLine1;
+    private Line2D.Double leaderLine2;
 
     public AlphaDecayModule( AbstractClock clock ) {
         super( "Alpha Radiation", clock );
@@ -54,10 +57,11 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
     private void addRingGraphic() {
         // Add a ring around the nucleus to show where its alpha decay radius is
-        double radius = Math.abs( getNucleus().getPotentialProfile().getAlphaDecayX() );// + AlphaParticle.RADIUS;
-        double x = getNucleus().getLocation().getX() - radius;
-        double y = getNucleus().getLocation().getY() - radius;
-        final Ellipse2D.Double alphaRing = new Ellipse2D.Double( x, y, radius * 2, radius * 2 );
+        setRingAttributes();
+//        double radius = Math.abs( getNucleus().getPotentialProfile().getAlphaDecayX() );// + AlphaParticle.RADIUS;
+//        double x = getNucleus().getLocation().getX() - radius;
+//        double y = getNucleus().getLocation().getY() - radius;
+//        alphaRing = new Ellipse2D.Double( x, y, radius * 2, radius * 2 );
         final Stroke ringStroke = new BasicStroke( 2f );
         Graphic ringGraphic = new Graphic() {
             public void paint( Graphics2D g ) {
@@ -72,20 +76,27 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         this.getPhysicalPanel().addOriginCenteredGraphic( ringGraphic );
 
         // Add leader lines from the ring up to the profile
-        final Line2D.Double line1 = new Line2D.Double( x, -1000, x, 1000 );
-        final Line2D.Double line2 = new Line2D.Double( x + radius * 2, -1000, x + radius * 2, 1000 );
         final Stroke leaderLineStroke = new BasicStroke( 1f );
         Graphic leaderLines = new Graphic() {
             public void paint( Graphics2D g ) {
                 g.setColor( Color.black );
                 g.setStroke( leaderLineStroke );
                 GraphicsUtil.setAlpha( g, 0.3 );
-                g.draw( line1 );
-                g.draw( line2 );
+                g.draw( leaderLine1 );
+                g.draw( leaderLine2 );
                 GraphicsUtil.setAlpha( g, 1 );
             }
         };
         this.getPhysicalPanel().addOriginCenteredGraphic( leaderLines );
+    }
+
+    private void setRingAttributes() {
+        double radius = Math.abs( getNucleus().getPotentialProfile().getAlphaDecayX() );
+        double x = getNucleus().getLocation().getX() - radius;
+        double y = getNucleus().getLocation().getY() - radius;
+        alphaRing = new Ellipse2D.Double( x, y, radius * 2, radius * 2 );
+        leaderLine1 = new Line2D.Double( x, -1000, x, 1000 );
+        leaderLine2 = new Line2D.Double( x + radius * 2, -1000, x + radius * 2, 1000 );
     }
 
 
@@ -98,6 +109,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         getPhysicalPanel().addNucleus( decayProducts.getN2() );
         getModel().addModelElement( decayProducts.getN2() );
+
+        setRingAttributes();
     }
 
     public void run() {

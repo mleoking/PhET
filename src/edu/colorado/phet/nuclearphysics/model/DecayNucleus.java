@@ -17,13 +17,15 @@ public class DecayNucleus extends Nucleus {
 
     public DecayNucleus( Nucleus coreNucleus, Vector2D toParentHat, double initPotentialEnergy ) {
         super( coreNucleus.getLocation(), coreNucleus.getNumProtons(),
-               coreNucleus.getNumNeutrons(), coreNucleus.getPotentialProfile() );
+               coreNucleus.getNumNeutrons() );
+//               coreNucleus.getNumNeutrons(), coreNucleus.getPotentialProfile() );
         this.toParentHat = toParentHat;
         this.setPotentialEnergy( initPotentialEnergy );
     }
 
     public DecayNucleus( Nucleus nucleus ) {
-        super( nucleus.getLocation(), nucleus.getNumProtons(), nucleus.getNumNeutrons(), nucleus.getPotentialProfile() );
+        super( nucleus.getLocation(), nucleus.getNumProtons(), nucleus.getNumNeutrons() );
+//        super( nucleus.getLocation(), nucleus.getNumProtons(), nucleus.getNumNeutrons(), nucleus.getPotentialProfile() );
     }
 
     public void stepInTime( double dt ) {

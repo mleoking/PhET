@@ -13,7 +13,6 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
@@ -34,6 +33,10 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         super( "Fission: One Nucleus", clock );
         super.addControlPanelElement( new SingleNucleusFissionControlPanel( this ) );
         this.clock = clock;
+
+        setNucleus( new Uranium235( new Point2D.Double( 0, 0 ) ) );
+        setUraniumNucleus( getNucleus() );
+
 //        getModel().addModelElement( new FissionDetector( getModel() ));
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -56,13 +59,17 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     }
 
     public void fireNeutron() {
-        double theta = random.nextDouble() * Math.PI * 2;
-        double r = Config.neutronSpeed;
-        double x = r * Math.cos( theta );
-        double y = r * Math.sin( theta );
+        double bounds = 600;
+        double gamma = random.nextDouble() * Math.PI * 2;
+        double x = bounds * Math.cos( gamma );
+        double y = bounds * Math.sin( gamma );
+        double theta = gamma
+                       + Math.PI
+                       + ( random.nextDouble() * Math.PI / 4 ) * ( random.nextBoolean() ? 1 : -1 );
 
         Neutron neutron = new Neutron( new Point2D.Double( x, y ) );
-        neutron.setVelocity( ( new Vector2D( (float)-x, (float)-y ) ).normalize().multiply( 5f ) );
+        neutron.setVelocity( ( new Vector2D( -(float)Math.cos( gamma ),
+                                             -(float)Math.sin( gamma ) ) ).normalize().multiply( (float)Config.neutronSpeed ) );
         super.addNeutron( neutron );
     }
 
@@ -101,9 +108,10 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         // Remove the potential profile for the old nucleus
         potentialProfilePanel.removePotentialProfile( nucleus.getPotentialProfile() );
 
+//        morphProfiles( potentialProfilePanel, nucleus );
+
         // Add an intermediate profile
 //            SwingUtilities.invokeLater( new ProfileMorpher( potentialProfilePanel, nucleus ));
-        morphProfiles( potentialProfilePanel, nucleus );
 //        nucleus.getPotentialProfile().setWellDepth( -10 );
 ////        nucleus.getPotentialProfile().setWellDepth( -nucleus.getPotentialProfile().getMaxPotential() - nucleus.getPotentialProfile().getWellPotential() );
 //        potentialProfilePanel.addPotentialProfile( nucleus );
@@ -116,17 +124,14 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 //        }
 
         // create fission products
-        PotentialProfile fissionProductProfile = new PotentialProfile( nucleus.getPotentialProfile().getWidth() / 2,
-                                                                       nucleus.getPotentialProfile().getMaxPotential() / 2,
-                                                                       nucleus.getPotentialProfile().getWellPotential() );
         double theta = random.nextDouble() * Math.PI;
         double vx = Config.fissionDisplacementVelocity * Math.cos( theta );
         double vy = Config.fissionDisplacementVelocity * Math.sin( theta );
-        Nucleus n1 = new Nucleus( new Point2D.Double( nucleus.getLocation().getX(), nucleus.getLocation().getX() ),
-                                  nucleus.getNumProtons() / 2, nucleus.getNumNeutrons() / 2, fissionProductProfile );
+        Nucleus n1 = new Nucleus( new Point2D.Double( nucleus.getLocation().getX(), nucleus.getLocation().getY() ),
+                                  nucleus.getNumProtons() / 2, nucleus.getNumNeutrons() / 2 );
         n1.setVelocity( (float)( -vx ), (float)( -vy ) );
-        Nucleus n2 = new Nucleus( new Point2D.Double( nucleus.getLocation().getX(), nucleus.getLocation().getX() ),
-                                  nucleus.getNumProtons() / 2, nucleus.getNumNeutrons() / 2, fissionProductProfile );
+        Nucleus n2 = new Nucleus( new Point2D.Double( nucleus.getLocation().getX(), nucleus.getLocation().getY() ),
+                                  nucleus.getNumProtons() / 2, nucleus.getNumNeutrons() / 2 );
         n2.setVelocity( (float)( vx ), (float)( vy ) );
         super.addNeucleus( n1 );
         super.addNeucleus( n2 );
@@ -207,31 +212,42 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     }
 
     class ProfileMorpher implements Runnable {
-        private PotentialProfilePanel potentialProfilePanel;
         private Nucleus nucleus;
+        private boolean done;
 
-        private ProfileMorpher( PotentialProfilePanel potentialProfilePanel, Nucleus nucleus ) {
-            this.potentialProfilePanel = potentialProfilePanel;
+        private ProfileMorpher( Nucleus nucleus, boolean done ) {
             this.nucleus = nucleus;
+            this.done = done;
         }
 
         public void run() {
-            while( nucleus.getPotentialProfile().getWellPotential() <
-                   nucleus.getPotentialProfile().getMaxPotential() - 10 ) {
-
-                double wp = nucleus.getPotentialProfile().getWellPotential();
-                double wp2 = nucleus.getPotentialProfile().getMaxPotential();
-                nucleus.getPotentialProfile().setWellPotential( nucleus.getPotentialProfile().getWellPotential() - 1 );
-//        nucleus.getPotentialProfile().setWellDepth( -nucleus.getPotentialProfile().getMaxPotential() - nucleus.getPotentialProfile().getWellPotential() );
-                potentialProfilePanel.addPotentialProfile( nucleus );
-                potentialProfilePanel.repaint();
+            for( int i = 0; i < 10; i++ ) {
+                nucleus.setNumNeutrons( nucleus.getNumNeutrons() - 10 );
                 try {
-                    Thread.sleep( 10 );
+                    Thread.sleep( 200 );
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
             }
+            done = true;
+
+//            while( nucleus.getPotentialProfile().getWellPotential() <
+//                   nucleus.getPotentialProfile().getMaxPotential() - 10 ) {
+//
+//                double wp = nucleus.getPotentialProfile().getWellPotential();
+//                double wp2 = nucleus.getPotentialProfile().getMaxPotential();
+//                nucleus.getPotentialProfile().setWellPotential( nucleus.getPotentialProfile().getWellPotential() - 1 );
+////        nucleus.getPotentialProfile().setWellDepth( -nucleus.getPotentialProfile().getMaxPotential() - nucleus.getPotentialProfile().getWellPotential() );
+//                potentialProfilePanel.addPotentialProfile( nucleus );
+//                potentialProfilePanel.repaint();
+//                try {
+//                    Thread.sleep( 10 );
+//                }
+//                catch( InterruptedException e ) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
     }
 }
