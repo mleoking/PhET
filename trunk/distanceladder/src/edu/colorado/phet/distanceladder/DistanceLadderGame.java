@@ -34,6 +34,7 @@ public class DistanceLadderGame {
     private static ApplicationDescriptor appDesc;
     private Color[] colors = new Color[]{Color.green, Color.magenta, Color.orange,
                                          Color.white, Color.yellow};
+    private int noInfoMessages;
 
     public void test1() {
 
@@ -48,6 +49,7 @@ public class DistanceLadderGame {
         Module[] modules = new Module[]{cockpitModule, starMapModule};
         LostInSpaceApplication app = new LostInSpaceApplication( appDesc, modules, clock );
         app.startApplication( cockpitModule );
+        Container frame = app.getApplicationView().getPhetFrame();
 
         Star star = null;
         Random random = new Random();
@@ -61,20 +63,24 @@ public class DistanceLadderGame {
         model.setStarField( model.getStarField() );
 //        model.getStarShip().setPov( new PointOfView( 0, 0, 0 ) );
 
-        displayMessage( new HtmlMessage( "messages/intro-1.html" ) );
-        displayMessage( new HtmlMessage( "messages/intro-2.html" ) );
-        displayMessage( new HtmlMessage( "messages/intro-3.html" ) );
+        noInfoMessages = Message.NEXT;
+        displayMessage( new HtmlMessage( frame, "messages/intro-1.html" ) );
+        displayMessage( new HtmlMessage( frame, "messages/intro-2.html" ) );
+        displayMessage( new HtmlMessage( frame, "messages/intro-3.html" ) );
 
-        displayMessage( new HtmlMessage( "messages/level1-intro.html" ) );
+        noInfoMessages = Message.NEXT;
+        displayMessage( new HtmlMessage( frame, "messages/level1-intro.html" ) );
         doLevel( new Level1( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
 
-        displayMessage( new HtmlMessage( "messages/level2-intro.html" ) );
+        noInfoMessages = Message.NEXT;
+        displayMessage( new HtmlMessage( frame, "messages/level2-intro.html" ) );
         doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
-        displayMessage( new HtmlMessage( "messages/level2A-intro.html" ) );
+        displayMessage( new HtmlMessage( frame, "messages/level2A-intro.html" ) );
         doLevel( new Level2A( app.getApplicationView().getPhetFrame(), model ) );
 
-        displayMessage( new HtmlMessage( "messages/level3-intro.html" ) );
+        noInfoMessages = Message.NEXT;
+        displayMessage( new HtmlMessage( frame, "messages/level3-intro.html" ) );
         doLevel( new Level3( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level3A( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level3B( app.getApplicationView().getPhetFrame(), model,
@@ -83,8 +89,11 @@ public class DistanceLadderGame {
         cockpitModule.activate( null );
     }
 
+
     private void displayMessage( Message message ) {
-        message.display();
+        if( noInfoMessages != Message.GO_TO_GAME ) {
+            noInfoMessages = message.display();
+        }
     }
 
     private void doLevel( Exercise level ) {
@@ -103,7 +112,6 @@ public class DistanceLadderGame {
                                              "0.1",
                                              new MaxExtentFrameSetup( new FrameCenterer( 100, 100 ) ) );
         DistanceLadderGame test = new DistanceLadderGame();
-
         test.test1();
     }
 }

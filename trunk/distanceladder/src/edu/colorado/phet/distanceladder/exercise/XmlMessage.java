@@ -12,11 +12,13 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
+import java.awt.*;
 import java.net.URL;
 
 public class XmlMessage extends Message {
 
-    public XmlMessage( String filename ) {
+    public XmlMessage( Container parent, String filename ) {
+        super( parent );
         try {
             // Build the document with SAX and Xerces, no validation
             SAXBuilder builder = new SAXBuilder();

@@ -57,7 +57,12 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
         double scale = Math.min( scaleX, scaleY );
 
         mapTx.setToIdentity();
+
         mapTx.translate( container.getWidth() / 2, container.getHeight() / 2 );
+
+        // Set 0 degree to be straight up
+        mapTx.rotate( -Math.PI / 2 );
+
         mapTx.scale( scale, scale );
         g.transform( mapTx );
         g.fillRect( (int)-starField.getBounds().getWidth() / 2, (int)-starField.getBounds().getHeight() / 2,
@@ -93,7 +98,7 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
             Star star = (Star)starIt.next();
             if( !stars.contains( star ) ) {
                 removeList.add( star );
-                this.remove( (Graphic)starToGraphicMap.get( star ));
+                this.remove( (Graphic)starToGraphicMap.get( star ) );
             }
         }
         for( int i = 0; i < removeList.size(); i++ ) {

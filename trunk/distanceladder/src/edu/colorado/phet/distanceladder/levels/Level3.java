@@ -36,7 +36,7 @@ public class Level3 extends Exercise {
                 return Math.abs( dist ) <= 50;
             }
         } );
-        model.getStarShip().setPov( starPt.getX() - 1, starPt.getY() + .5, Math.toRadians( 15 ) );
+        model.getStarShip().setPov( starPt.getX() - 2, starPt.getY() - 2, Math.toRadians( 15 ) );
         model.getStarField().reset();
         for( int i = 0; i < starField.length; i++ ) {
             Star star = starField[i];
