@@ -1,9 +1,11 @@
 ﻿class PhotonGenerator extends MovieClip implements ColorListener {
 	private var running:Boolean;
+	// The x coord at which photons are deleted
+	private var xCutoff:Number;
 	private var rate:Number;
 	// NOTE!!! The following line results in the Array being allocated
 	// statically to the class!!! I have to allocate it in the constructor;
-//	private var photons:Array = new Array();
+	//	private var photons:Array = new Array();
 	private var photons:Array;
 	private var rateAtEyeball:Number;
 	private var xLoc:Number;
@@ -12,12 +14,14 @@
 	private var color:Number;
 	private var alpha:Number;
 	private var wavelength:Number;
+	private var intervalID:Number;
 	public function PhotonGenerator() {
-		rate = 1;
+		rate = 0;
 		alpha = 100;
 		photons = new Array();
 		rateAtEyeball = 0;
-                running = false;
+		running = false;
+		xCutoff = _root.head._x;
 	}
 	public function setLocation(xLoc:Number, yLoc:Number) {
 		this.xLoc = xLoc;
@@ -45,37 +49,32 @@
 	public function onEnterFrame() {
 		this.clear();
 		if (running == true) {
-			var c;
 			var wl;
-			if (this.wavelength == 0) {
-				wl = Math.random() * (_root.maxWavelength - _root.minWavelength) + _root.minWavelength;
-				c = ColorUtil.getColor(wl);
-			}
-			else {
-				c = this.color;
-			}
 			var p:Photon;
 			var intRate:Number = Math.round(rate);
 			for (var n = 0; n < intRate; n++) {
-				p = new Photon(xLoc, yLoc, genTheta(theta * Math.PI / 180), c);
-				photons.push( new PhotonGeneratorRecordEntry(p,rate));
-//				photons.push(p);
+				if (this.wavelength == 0) {
+					wl = Math.random() * (_root.maxWavelength - _root.minWavelength) + _root.minWavelength;
+				}
+				else {
+					wl = this.wavelength;
+				}
+				p = new Photon(xLoc, yLoc, genTheta(theta * Math.PI / 180), wl);
+				photons.push(new PhotonGeneratorRecordEntry(p, rate));
 			}
-
 			// Paint or prune the photons, as need be
 			for (var i = 0; i < photons.length; i++) {
 				p = photons[i].getPhoton();
-				if (p!= undefined && p.getX() <= _root.head._x) {
+				if (p != undefined && p.getX() <= _root.head._x) {
 					p.paint(this);
 				}
 				else {
 					this.rateAtEyeball = photons[i].getRate();
-					photons.splice(i,1);
-                                        trace("pg: deleting instnace");
-                                        Photon.deleteInstance(p);
+					photons.splice(i, 1);
+					Photon.deleteInstance(p);
 				}
 			}
-			if( photons.length == 0 ){
+			if (photons.length == 0) {
 				this.rateAtEyeball = 0;
 			}
 		}
@@ -104,8 +103,7 @@
 	function setRate(rate:Number) {
 		this.rate = rate;
 	}
-	function getRateAtEyeball():Number{
-//		return this.rate;
+	function getRateAtEyeball():Number {
 		return this.rateAtEyeball;
 	}
 	private function genTheta(theta0) {
