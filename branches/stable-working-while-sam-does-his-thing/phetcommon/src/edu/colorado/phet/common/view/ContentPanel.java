@@ -56,18 +56,18 @@ public class ContentPanel extends JPanel {
         return center;
     }
 
-    public void setControlPanel( JComponent panel ) {
+    public void setControlPanel( final JComponent panel ) {
         if( east != null ) {
             remove( east );
         }
         east = panel;
-        GridBagConstraints gbc = new GridBagConstraints( 1, 0, 1, 3, 1, 1000,
-                                                         GridBagConstraints.NORTHEAST, GridBagConstraints.VERTICAL,
+        GridBagConstraints gbc = new GridBagConstraints( 1, 0, 1, 3, 0, 1,
+                                                         GridBagConstraints.NORTHEAST, GridBagConstraints.BOTH,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         if( panel != null ) {
-//            panel.setBorder( new EtchedBorder( ) );
             add( panel, gbc );
         }
+        repaint();
     }
 
     public void setApparatusPanelContainer( JComponent panel ) {
@@ -75,13 +75,13 @@ public class ContentPanel extends JPanel {
             remove( center );
         }
         center = panel;
-        GridBagConstraints gbc = new GridBagConstraints( 0, 1, 1, 1, 100, 100,
+        GridBagConstraints gbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
                                                          GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         if( panel != null ) {
-//            panel.setBorder( new EtchedBorder( ) );
             add( panel, gbc );
         }
+        repaint();
     }
 
     public void setAppControlPanel( JComponent panel ) {
@@ -89,13 +89,13 @@ public class ContentPanel extends JPanel {
             remove( south );
         }
         south = panel;
-        GridBagConstraints gbc = new GridBagConstraints( 0, 2, 1, 1, 1, 1,
-                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+        GridBagConstraints gbc = new GridBagConstraints( 0, 2, 1, 1, 0, 0,
+                                                         GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         if( panel != null ) {
-//            panel.setBorder( new EtchedBorder( ) );
             add( panel, gbc );
         }
+        repaint();
     }
 
     public void setMonitorPanel( JComponent panel ) {
@@ -107,9 +107,9 @@ public class ContentPanel extends JPanel {
                                                          GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         if( panel != null ) {
-//            panel.setBorder( new EtchedBorder( ) );
             add( panel, gbc );
         }
+        repaint();
     }
 
     public void setFullScreen( boolean fullScreen ) {
@@ -119,6 +119,7 @@ public class ContentPanel extends JPanel {
         else if( !fullScreen && isFullScreen() ) {
             deactivateFullScreen();
         }
+        repaint();
     }
 
     private void deactivateFullScreen() {
