@@ -41,6 +41,9 @@ public class DynamicChartTest {
         chart.getVerticalGridlines().setMajorTickSpacing( 3 );
         chart.getVerticalGridlines().setMajorGridlinesColor( Color.gray );
         chart.getHorizonalGridlines().setMajorGridlinesColor( Color.gray );
+
+        //TODO change:
+        //chart.getXAxis().setMajorTickFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         chart.getXAxis().getMajorGrid().setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
 //        chart.getVerticalGridlines().setMajorGridlinesStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1.0f, new float[]{5, 5}, 0 ) );
 //        chart.getHorizonalGridlines().setMajorGridlinesStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1.0f, new float[]{5, 5}, 0 ) );

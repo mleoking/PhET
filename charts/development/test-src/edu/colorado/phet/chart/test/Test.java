@@ -7,7 +7,6 @@
 package edu.colorado.phet.chart.test;
 
 
-
 public class Test {
     /**
      public static void main( String[] args ) {
