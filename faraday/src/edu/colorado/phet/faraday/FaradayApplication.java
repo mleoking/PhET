@@ -62,8 +62,7 @@ public class FaradayApplication extends PhetApplication {
                 SimStrings.setLocale( new Locale( applicationLocale ) );
             }
 
-            // Override default locale using "user.language=" command line
-            // argument.
+            // Override default locale using "user.language=" command line argument.
             String argsKey = "user.language=";
             if( args.length > 0 && args[0].startsWith( argsKey ) ) {
                 String locale = args[0].substring( argsKey.length(), args[0].length() );
