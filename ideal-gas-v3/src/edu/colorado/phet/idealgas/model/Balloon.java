@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
+import edu.colorado.phet.collision.CollidableBody;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.util.ScalarDataRecorder;
@@ -60,12 +61,13 @@ public class Balloon extends HollowSphere {
     /**
      * Records the impact on the inside or outside of the balloon
      */
-    IdealGasParticle idealGasParticle = new IdealGasParticle( new Point2D.Double(),
-                                                              new Vector2D.Double(),
-                                                              new Vector2D.Double(),
-                                                              0 );
+    SphericalBody sphericalBody = new SphericalBody( new Point2D.Double(),
+                                                     new Vector2D.Double(),
+                                                     new Vector2D.Double(),
+                                                     0,
+                                                     GasMolecule.s_defaultRadius );
 
-    public void collideWithParticle( IdealGasParticle particle ) {
+    public void collideWithParticle( CollidableBody particle ) {
 
         // Get the momentum of the balloon before the collision
         momentumPre.setX( getVelocity().getX() );
@@ -77,9 +79,9 @@ public class Balloon extends HollowSphere {
         // fact that some of the system uses Particles from the common code, and
         // some of it uses Particles from the ideal gas code. It is an embarassing
         // mess that ought to be straightened out.
-        idealGasParticle.setPosition( particle.getPosition() );
-        idealGasParticle.setVelocity( particle.getVelocity() );
-        super.collideWithParticle( idealGasParticle );
+        sphericalBody.setPosition( particle.getPosition() );
+        sphericalBody.setVelocity( particle.getVelocity() );
+        super.collideWithParticle( sphericalBody );
 
         // Get the new momentum of the balloon
         momentumPost.setX( this.getVelocity().getX() );
@@ -137,7 +139,6 @@ public class Balloon extends HollowSphere {
 
         // Adjust the radius of the balloon
         //Make sure the balloon doesn't expand beyond the box
-//        Box2D box = ((IdealGasSystem)this.getPhysicalSystem()).getBox();
         double maxRadius = Math.min( ( box.getMaxX() - box.getMinX() ) / 2,
                                      ( box.getMaxY() - box.getMinY() ) / 2 );
         if( timeStepsSinceLastRadiusAdjustment >= timeStepsBetweenRadiusAdjustments ) {
@@ -155,8 +156,8 @@ public class Balloon extends HollowSphere {
      * @param body
      * @return
      */
-    public boolean isInContactWithBody( Body body ) {
-        throw new RuntimeException( "Not implemented" );
-    }
+//    public boolean isInContactWithBody( Body body ) {
+//        throw new RuntimeException( "Not implemented" );
+//    }
 }
 

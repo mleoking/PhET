@@ -43,12 +43,12 @@ public class HollowSphereMustContainParticle extends MustContain {
         }
 
         body = mustContainSpec.getContained();
-        IdealGasParticle particle = null;
-        if( body instanceof IdealGasParticle ) {
-            particle = (IdealGasParticle)body;
+        SphericalBody particle = null;
+        if( body instanceof SphericalBody ) {
+            particle = (SphericalBody)body;
         }
         else {
-            throw new RuntimeException( "Contained not instance of IdealGasParticle " +
+            throw new RuntimeException( "Contained not instance of SphericalBody " +
                                         "in method apply() in class HollowSphereMustContainParticle" );
         }
 

@@ -11,7 +11,7 @@ import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 
-public class HollowSphere extends IdealGasParticle {
+public class HollowSphere extends SphericalBody {
 
     /**
      *
@@ -31,18 +31,21 @@ public class HollowSphere extends IdealGasParticle {
     /**
      *
      */
-    public boolean isInContactWithHollowSphere( HollowSphere sphere ) {
-        return false;
-    }
+//    public boolean isInContactWithHollowSphere( HollowSphere sphere ) {
+//        return false;
+//    }
 
     /**
      *
      */
-    public boolean isInContactWithParticle( IdealGasParticle particle ) {
+    public boolean isInContactWithParticle( CollidableBody particle ) {
 
         double sep = this.getPosition().distance( particle.getPosition() );
         double distFromShell = Math.abs( sep - this.getRadius() );
-        boolean result = distFromShell <= particle.getRadius();
+
+        // 9/18 todo: ??????? I added this line
+        boolean result = distFromShell <= particle.getContactOffset( this );
+//        boolean result = distFromShell <= particle.getRadius();
         //        if( this.containsBody( particle )
         //            && sep >= this.getRadius() ) {
         //            result = true;
@@ -57,7 +60,7 @@ public class HollowSphere extends IdealGasParticle {
     public void collideWithHollowSphere( HollowSphere sphere ) {
     }
 
-    public void collideWithParticle( IdealGasParticle particle ) {
+    public void collideWithParticle( CollidableBody particle ) {
 
         //        super.collideWithParticle( particle );
         /*

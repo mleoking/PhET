@@ -9,6 +9,8 @@
 - clean up constraints. In particular, there is a lot of duplication in HollowSphereMustContain and
 HollowSphereMustNotContain
 
+- hierarchy of Body/.../IdealGasParticle is way too big. Clean it up!
+
 
 
 - Gravity: there is a lot of code in the model that refers to a gravity object, but all the
