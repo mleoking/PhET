@@ -46,14 +46,28 @@ public class PhetShadowTextGraphic extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
-        Rectangle2D b = foreground.getBounds().createUnion( background.getBounds() );
-        b = getNetTransform().createTransformedShape( b ).getBounds2D();
-        return RectangleUtils.toRectangle( b );
+        Rectangle fore = foreground.getBounds();
+        Rectangle back = background.getBounds();
+        if( fore == null && back == null ) {
+            return null;
+        }
+        else if( fore == null ) {
+            return back;
+        }
+        else if( back == null ) {
+            return fore;
+        }
+        else {
+            Rectangle2D b = foreground.getBounds().createUnion( background.getBounds() );
+            b = getNetTransform().createTransformedShape( b ).getBounds2D();
+            return RectangleUtils.toRectangle( b );
+        }
     }
 
     public void setText( String text ) {
         foreground.setText( text );
         background.setText( text );
+        setBoundsDirty();
     }
 
     public void setColor( Color color ) {
