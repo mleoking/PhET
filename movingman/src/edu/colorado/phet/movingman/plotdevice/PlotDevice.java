@@ -1,9 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.plotdevice;
 
-import edu.colorado.phet.chart.BufferedLinePlot;
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.controllers.ChartCursor;
 import edu.colorado.phet.chart.controllers.ChartSlider;
@@ -15,13 +13,13 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.movingman.plots.PlotSet;
-import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ public class PlotDevice extends GraphicLayerSet {
     private PhetGraphic zoomPanel;
     private ChartSlider slider;
     private ChartCursor cursor;
-    private TextBox textBox;
+//    private TextBox textBox;
     private String name;
     private ArrayList listeners = new ArrayList();
     private PhetImageGraphic chartBuffer;
@@ -51,6 +49,8 @@ public class PlotDevice extends GraphicLayerSet {
 
         Rectangle viewBounds = new Rectangle( 0, 0, 600, 200 );
         chart = new Chart( component, range, viewBounds );
+        chart.getXAxis().setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[]{8, 4}, 0 ) );
+        chart.getHorizontalTicks().setVisible( false );
         try {
             zoomPanel = new ZoomPanel( this );
         }
@@ -62,18 +62,22 @@ public class PlotDevice extends GraphicLayerSet {
         minimizeButton = createMinimizeButton();
 
         addGraphic( slider );
+        slider.addListener( new ChartSlider.Listener() {
+            public void valueChanged( double value ) {
+                for( int i = 0; i < listeners.size(); i++ ) {
+                    PlotDeviceListener plotDeviceListener = (PlotDeviceListener)listeners.get( i );
+                    plotDeviceListener.sliderDragged( value );
+                }
+            }
+        } );
         addGraphic( zoomPanel );
         addGraphic( minimizeButton );
         addGraphic( cursor );
-        textBox = new TextBox( component );
+//        textBox = new TextBox( component );
         setChartViewBounds( viewBounds.x, viewBounds.y, viewBounds.width, viewBounds.height );
     }
 
     public void reset() {
-    }
-
-    public TextBox getTextBox() {
-        return textBox;
     }
 
     public void setChartViewBounds( int x, int y, int width, int height ) {
@@ -83,6 +87,19 @@ public class PlotDevice extends GraphicLayerSet {
 
     private void setChartSize( int width, int height ) {
         chart.setChartSize( width, height );
+
+        rebuildChartBuffer();
+        int guessSliderThumbHeight = (int)( slider.getWidth() / 2.0 );
+        slider.setBounds( -slider.getWidth() * 2 - 2, -guessSliderThumbHeight / 2, slider.getWidth(), height + guessSliderThumbHeight );
+
+        zoomPanel.setLocation( 2, chart.getChartBounds().height - zoomPanel.getHeight() - 2 );
+        minimizeButton.setLocation( chart.getChartBounds().width - minimizeButton.getWidth() - 2, 2 );
+
+        setBoundsDirty();
+        autorepaint();
+    }
+
+    private void rebuildChartBuffer() {
 
         if( chartBuffer != null ) {
             removeGraphic( chartBuffer );
@@ -97,14 +114,6 @@ public class PlotDevice extends GraphicLayerSet {
         }
 
         setBoundsDirty();
-        int guessSliderThumbHeight = (int)( slider.getWidth() / 2.0 );
-        slider.setBounds( -slider.getWidth() * 2 - 2, -guessSliderThumbHeight / 2, slider.getWidth(), height + guessSliderThumbHeight );
-
-        zoomPanel.setLocation( 2, chart.getChartBounds().height - zoomPanel.getHeight() - 2 );
-        minimizeButton.setLocation( chart.getChartBounds().width - minimizeButton.getWidth() - 2, 2 );
-
-        setBoundsDirty();
-        autorepaint();
     }
 
     public void setMagnitude( double magnitude ) {
@@ -147,52 +156,16 @@ public class PlotDevice extends GraphicLayerSet {
 
     public void addPlotDeviceData( final PlotDeviceData plotDeviceData ) {
         data.add( plotDeviceData );
+        //todo how to decide which datasets to observe with the slider?
+        plotDeviceData.getRawData().addObserver( new TimeSeries.Observer() {
+            public void dataSeriesChanged( TimeSeries timeSeries ) {
+                slider.setValue( timeSeries.getLastPoint().getValue() );
+            }
+        } );
     }
 
-    public static class PlotDeviceData {
-        private PlotDevice plotDevice;
-        private TimeSeries timeSeries;
-        private Color color;
-        private String name;
-        private Stroke stroke;
-
-        private DataSet dataSet;
-        private BufferedLinePlot bufferedLinePlot;
-
-        public PlotDeviceData( final PlotDevice plotDevice, TimeSeries timeSeries, Color color, String name, Stroke stroke ) {
-            this.plotDevice = plotDevice;
-            this.timeSeries = timeSeries;
-            this.color = color;
-            this.name = name;
-            this.stroke = stroke;
-            dataSet = new DataSet();
-
-            bufferedLinePlot = new BufferedLinePlot( plotDevice.chart, stroke, color, plotDevice.chartBuffer.getImage() );
-            bufferedLinePlot.setAutoRepaint( true );
-            timeSeries.addObserver( new TimeSeries.Observer() {
-                public void dataSeriesChanged( TimeSeries timeSeries ) {
-                    TimePoint timePoint = timeSeries.getLastPoint();
-                    dataSet.addPoint( timePoint.getTime(), timePoint.getValue() );
-                    Rectangle r = bufferedLinePlot.lineTo( dataSet.getLastPoint() );
-                    if( r != null ) {
-                        r.x += plotDevice.getLocation().x;
-                        r.y += plotDevice.getLocation().y;
-                        plotDevice.getComponent().repaint( r.x, r.y, r.width, r.height );//todo which is faster?
-//                        JComponent jc = (JComponent)plotDevice.getComponent();
-//                        jc.paintImmediately( r.x, r.y, r.width, r.height );
-                    }
-                }
-            } );
-        }
-
-        public void chartChanged( BufferedImage bufferedImage, int dx, int dy ) {
-            bufferedLinePlot.setBufferedImage( bufferedImage );
-            bufferedLinePlot.setOffset( dx, dy );
-            bufferedLinePlot.clear();
-            for( int i = 0; i < dataSet.size(); i++ ) {
-                bufferedLinePlot.lineTo( dataSet.pointAt( i ) );
-            }
-        }
+    public BufferedImage getChartBuffer() {
+        return chartBuffer.getImage();
     }
 
     public static class ZoomPanel extends GraphicLayerSet {
@@ -258,7 +231,21 @@ public class PlotDevice extends GraphicLayerSet {
         cursor.setVisible( visible );
     }
 
+    public void setChartRange( Range2D range ) {
+        chart.setRange( range );
+        rebuildChartBuffer();
+    }
+
+    public void setChartRange( Rectangle2D.Double modelBounds ) {
+        chart.setRange( new Range2D( modelBounds ) );
+        rebuildChartBuffer();
+    }
+
     public String getName() {
         return name;
+    }
+
+    public PlotDeviceData dataSeriesAt( int i ) {
+        return (PlotDeviceData)data.get( i );
     }
 }

@@ -108,7 +108,7 @@ public class MovingManModule extends Module {
             public void maximizePressed() {
             }
 
-            public void sliderMoved() {
+            public void sliderDragged( double dragValue ) {
                 double value = getVelocityPlot().getSliderValue();
                 if( value == 0 ) {
                     getMovingManApparatusPanel().getManGraphic().setVelocity( 0.0 );

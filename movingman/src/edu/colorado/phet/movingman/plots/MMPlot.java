@@ -13,8 +13,11 @@ import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
  */
 
 public class MMPlot extends PlotDevice {
-    public MMPlot( MovingManApparatusPanel movingManApparatusPanel, String name ) {
+    private String varname;
+
+    public MMPlot( MovingManApparatusPanel movingManApparatusPanel, String name, String varname ) {
         super( movingManApparatusPanel, new Range2D( 0, -10, 20, 10 ), name );
+        this.varname = varname;
         getChart().getVerticalGridlines().setMajorTickSpacing( 10 );
         getChart().getVerticalTicks().setMajorTickSpacing( 5 );
         getChart().getVerticalTicks().setMinorTickSpacing( 5 );
@@ -32,5 +35,10 @@ public class MMPlot extends PlotDevice {
     public void cursorMovedToTime( double time, int index ) {}
 
     public void setTextValue( double x ) {}
+
+    public String getVarname() {
+        return varname;
+    }
+
 
 }
