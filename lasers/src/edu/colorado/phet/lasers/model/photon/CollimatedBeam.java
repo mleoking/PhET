@@ -17,6 +17,7 @@ import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.LaserModel;
 
+import javax.swing.event.EventListenerList;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
@@ -46,6 +47,7 @@ public class CollimatedBeam extends Particle {
     private LaserModel model;
     private SubscriptionService bulletinBoard = new SubscriptionService();
     private LinkedList photons = new LinkedList();
+    private EventListenerList listeners = new EventListenerList();
 
     public interface Listener {
         void photonCreated( CollimatedBeam beam, Photon photon );
@@ -57,6 +59,72 @@ public class CollimatedBeam extends Particle {
         this.bounds = new Rectangle2D.Double( origin.getX(), origin.getY(), width, height );
         this.setPosition( origin );
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.s_speed );
+    }
+
+    ////////////////////////////////////////////////////////////////////////
+    // Events and listeners
+
+    private void fireEvent( WavelengthChangeEvent event, Class listenerType ) {
+        Object[] listeners = this.listeners.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( listenerType.isAssignableFrom( (Class)listeners[i] ) ) {
+                ( (WavelengthChangeListener)listeners[i + 1] ).wavelengthChangeOccurred( event );
+            }
+        }
+    }
+
+    private void fireRateChangeEvent( RateChangeEvent event ) {
+        Object[] listeners = this.listeners.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( RateChangeListener.class.isAssignableFrom( (Class)listeners[i] ) ) {
+                ( (RateChangeListener)listeners[i + 1] ).rateChangeOccurred( event );
+            }
+        }
+    }
+
+    public class RateChangeEvent extends EventObject {
+        public RateChangeEvent() {
+            super( CollimatedBeam.this );
+        }
+
+        public double getRate() {
+            return CollimatedBeam.this.getPhotonsPerSecond();
+        }
+    }
+
+    public interface RateChangeListener extends EventListener {
+        public void rateChangeOccurred( RateChangeEvent event );
+    }
+
+    public void addListener( EventListener listener ) {
+        listeners.add( listener.getClass(), listener );
+    }
+
+    public void removeListener( EventListener listener ) {
+        listeners.remove( listener.getClass(), listener );
+    }
+
+    public class WavelengthChangeEvent extends EventObject {
+        public WavelengthChangeEvent() {
+            super( CollimatedBeam.this );
+        }
+
+        public double getWavelength() {
+            return CollimatedBeam.this.getWavelength();
+        }
+    }
+
+    public interface WavelengthChangeListener extends EventListener {
+        public void wavelengthChangeOccurred( WavelengthChangeEvent event );
+    }
+
+    private void fireWavelengthChangeEvent( WavelengthChangeEvent event ) {
+        Object[] listeners = this.listeners.getListenerList();
+        for( int i = 0; i < listeners.length; i += 2 ) {
+            if( WavelengthChangeListener.class.isAssignableFrom( (Class)listeners[i] ) ) {
+                ( (WavelengthChangeListener)listeners[i + 1] ).wavelengthChangeOccurred( event );
+            }
+        }
     }
 
     public void setBounds( Rectangle2D rect ) {
@@ -105,12 +173,16 @@ public class CollimatedBeam extends Particle {
         }
         this.photonsPerSecond = photonsPerSecond;
         nextTimeToProducePhoton = getNextTimeToProducePhoton();
+
+        fireRateChangeEvent( new RateChangeEvent() );
     }
 
     public void setWavelength( int wavelength ) {
         this.wavelength = wavelength;
+        WavelengthChangeEvent event = new WavelengthChangeEvent();
+        fireWavelengthChangeEvent( event );
     }
-    
+
     public int getWavelength() {
         return wavelength;
     }
