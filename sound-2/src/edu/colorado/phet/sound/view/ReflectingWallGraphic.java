@@ -61,6 +61,7 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
         return new Point2D.Double( x, y );
     }
 
+
     /**
      * @param x
      */
@@ -81,6 +82,7 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
         setInterferingWaveMask();
     }
 
+    double xPrev;
     private void setInterferingWaveMask() {
 
         // Create a interferingWaveMask to block out the new wavefront behind the wall.
@@ -90,6 +92,12 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
         double y0 = theta < 5 ? y : y - ( xMax - x ) * Math.tan( Math.toRadians( theta ) );
         y0 = theta < 5 ? y : y0;
         x0 = theta < 5 ? x : x0;
+
+        if(x0 < xPrev ) {
+            System.out.println( "" );
+        }
+        xPrev = x0;
+        System.out.println( "x0 = " + x0 );
 
         synchronized( interferingWaveMask ) {
             interferingWaveMask.reset();
