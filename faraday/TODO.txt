@@ -43,6 +43,9 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/16) - add a strength threshold, below which compass grid won't draw needle (optimization)
+(2/16) - make CompassGrid use color saturation on black background, alpha on non-black (optimization)
+(2/16) - optimize bounds calculation in CompassGridGraphic (optimization)
 (2/16) - after resizing the app, objects have incorrect knowledge of the "edges of the apparatus panel"
 (2/16) - compass grid does not fill the apparatus panel
 (2/16) - implement TranslationListener as an inner class instead of and anonymous class
