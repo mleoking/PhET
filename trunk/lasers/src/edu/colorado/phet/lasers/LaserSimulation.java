@@ -16,6 +16,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
@@ -41,7 +42,15 @@ public class LaserSimulation extends PhetApplication {
 
             AbstractClock clock = new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND );
             setClock( clock );
-            setFrameCenteredSize( 1024, 740 );
+
+            // Determine the resolution of the screen
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            setFrameCenteredSize( 1024, 750 );
+            if( dim.getWidth() == 1024 || dim.getHeight() == 768 ) {
+                FrameSetup fs = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 750 ) );
+                setFrameSetup( fs );
+            }
+
 
             Module singleAtomModule = new SingleAtomModule( clock );
             Module multipleAtomModule = new MultipleAtomModule( clock );
