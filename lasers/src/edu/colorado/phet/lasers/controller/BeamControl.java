@@ -11,7 +11,6 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -26,16 +25,19 @@ import java.awt.*;
 /**
  *
  */
-public class BeamControl extends JPanel implements SimpleObserver {
+public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChangeListener,
+                                                   CollimatedBeam.RateChangeListener {
 
     private JSlider photonRateSlider;
     //    private JTextField photonRateTF;
     private CollimatedBeam beam;
     private JSlider wavelengthSlider;
     private Dimension sliderDimension = new Dimension( 50, 30 );
+    private double wavelengthSliderScaleFactor = 1E6;
 
     public BeamControl( final CollimatedBeam beam ) {
         this.beam = beam;
+        beam.addListener2( this );
 
         //        photonRateTF = new JTextField( 3 );
         //        photonRateTF.setEditable( false );
@@ -62,29 +64,21 @@ public class BeamControl extends JPanel implements SimpleObserver {
             }
         } );
         photonRateSlider.setValue( (int)beam.getPhotonsPerSecond() );
-        beam.addListener( new CollimatedBeam.RateChangeListener() {
-            public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
-                photonRateSlider.setEnabled( false );
-                photonRateSlider.setValue( (int)event.getRate() );
-                photonRateSlider.setEnabled( true );
-            }
-        } );
 
         // Create the wavelength slider
         // The wavelength has to be inverted to be used as the min and max for the slider
         // if we want red to be on the left and blue to be on the right. The scale factor
         // is needed to make things usable integers.
-        final double scaleFactor = 1E6;
-        wavelengthSlider = new JSlider( (int)( scaleFactor / GroundState.instance().getWavelength() ),
-                                        (int)( scaleFactor / LaserConfig.MIN_WAVELENGTH ),
-                                        (int)( scaleFactor / GroundState.instance().getWavelength() ) );
+        wavelengthSlider = new JSlider( (int)( wavelengthSliderScaleFactor / GroundState.instance().getWavelength() ),
+                                        (int)( wavelengthSliderScaleFactor / LaserConfig.MIN_WAVELENGTH ),
+                                        (int)( wavelengthSliderScaleFactor / GroundState.instance().getWavelength() ) );
         wavelengthSlider.setPreferredSize( sliderDimension );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                beam.setWavelength( (int)( scaleFactor / wavelengthSlider.getValue() ) );
+                beam.setWavelength( (int)( wavelengthSliderScaleFactor / wavelengthSlider.getValue() ) );
             }
         } );
-        wavelengthSlider.setValue( (int)( scaleFactor / beam.getWavelength() ) );
+        wavelengthSlider.setValue( (int)( wavelengthSliderScaleFactor / beam.getWavelength() ) );
 
 
         // Lay out the panel
@@ -107,14 +101,19 @@ public class BeamControl extends JPanel implements SimpleObserver {
         this.setBorder( frequencyBorder );
     }
 
-    public void update() {
-        if( photonRateSlider.getValue() != (int)beam.getPhotonsPerSecond() ) {
-            //            photonRateTF.setText( Double.toString( beam.getPhotonsPerSecond() ) );
-            photonRateSlider.setValue( (int)beam.getPhotonsPerSecond() );
-        }
-    }
-
     public void setMaxPhotonRate( double photonsPerSecond ) {
         photonRateSlider.setMaximum( (int)photonsPerSecond );
+    }
+
+    public void wavelengthChangeOccurred( CollimatedBeam.WavelengthChangeEvent event ) {
+        wavelengthSlider.setEnabled( false );
+        wavelengthSlider.setValue( (int)( wavelengthSliderScaleFactor / beam.getWavelength() ) );
+        wavelengthSlider.setEnabled( true );
+    }
+
+    public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
+        photonRateSlider.setEnabled( false );
+        photonRateSlider.setValue( (int)event.getRate() );
+        photonRateSlider.setEnabled( true );
     }
 }

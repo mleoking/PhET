@@ -18,7 +18,6 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.BlueBeamGraphic;
 import edu.colorado.phet.lasers.view.LampGraphic;
 
@@ -41,38 +40,40 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Create beams
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
-                                                 s_origin.getY() + s_boxHeight / 2 - Photon.s_radius );
+                                                 s_origin.getY() + s_boxHeight / 2 );
         CollimatedBeam stimulatingBeam = ( (LaserModel)getModel() ).getStimulatingBeam();
-        stimulatingBeam.setBounds( new Rectangle2D.Double( beamOrigin.getX(), beamOrigin.getY(),
-                                                           s_boxWidth + s_laserOffsetX * 2, Photon.s_radius / 2 ) );
+        Rectangle2D.Double stimulatingBeamBounds = new Rectangle2D.Double( beamOrigin.getX(), beamOrigin.getY(),
+                                                                           s_boxWidth + s_laserOffsetX * 2, 1 );
+        stimulatingBeam.setBounds( stimulatingBeamBounds );
         stimulatingBeam.setDirection( new Vector2D.Double( 1, 0 ) );
         stimulatingBeam.addListener( this );
         stimulatingBeam.setActive( true );
         stimulatingBeam.setPhotonsPerSecond( 1 );
 
         CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
-        Point2D pumpingBeamOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX + s_boxWidth / 2 - Photon.s_radius / 2,
-                                                        s_origin.getY() - s_laserOffsetX );
+        Point2D pumpingBeamOrigin = new Point2D.Double( getLaserOrigin().getX() + s_boxWidth / 2,
+                                                        s_origin.getY() - 140 );
         pumpingBeam.setBounds( new Rectangle2D.Double( pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
-                                                       s_boxWidth, s_boxHeight + s_laserOffsetX * 2 ) );
+                                                       1, s_boxHeight + s_laserOffsetX * 2 ) );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.addListener( this );
-        pumpingBeam.setWidth( Photon.s_radius * 2 );
         pumpingBeam.setActive( true );
         BlueBeamGraphic beamGraphic = new BlueBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
         addGraphic( beamGraphic, 1 );
 
         // Add the lamps for firing photons
         try {
-            Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)stimulatingBeam.getPosition().getX() - 25,
-                                                                  (int)( stimulatingBeam.getPosition().getY() - Photon.s_radius ),
-                                                                  100, 100 );
+            Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)stimulatingBeamBounds.getX() - 100,
+                                                                  (int)( stimulatingBeamBounds.getY() + stimulatingBeam.getHeight() / 2 - 25 ),
+                                                                  100, 50 );
             BufferedImage gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
 
             // Stimulating beam lamp
             double scale = Math.min( allocatedBounds.getWidth() / gunBI.getWidth(),
                                      allocatedBounds.getHeight() / gunBI.getHeight() );
-            AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scale, scale ), AffineTransformOp.TYPE_BILINEAR );
+            double scaleX = allocatedBounds.getWidth() / gunBI.getWidth();
+            double scaleY = allocatedBounds.getHeight() / gunBI.getHeight();
+            AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ), AffineTransformOp.TYPE_BILINEAR );
             BufferedImage beamImage = atxOp1.filter( gunBI, null );
             AffineTransform atx = new AffineTransform();
             atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );

@@ -195,16 +195,9 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
         addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
 
         // Add a listener to the atom that will create a photon graphic if the atom
-        // emits a photon
+        // emits a photon, and another to deal with an atom leaving the system
         atom.addListener( new AtomPhotonEmissionListener() );
-
         atom.addListener( new AtomRemovalListener( atomGraphic ) );
-        atom.addListener( new Atom.RemovalListener() {
-            public void removalOccurred( Atom.RemovalEvent event ) {
-                getApparatusPanel().removeGraphic( atomGraphic );
-                System.out.println( "!!!" );
-            }
-        } );
     }
 
     protected void removeAtom( Atom atom ) {
