@@ -36,7 +36,7 @@ public class TranslationHandler implements MouseInputListener {
         }
         Point modelLoc = event.getPoint();
         Point dx = new Point( modelLoc.x - last.x, modelLoc.y - last.y );
-        TranslationEvent trEvent = new TranslationEvent( event, event.getX(), event.getY(), dx.x, dx.y );
+        TranslationEvent trEvent = new TranslationEvent( this, event, event.getX(), event.getY(), dx.x, dx.y );
         translationListener.translationOccurred( trEvent );
         last = modelLoc;
     }

@@ -11,6 +11,7 @@
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
 import java.awt.event.MouseEvent;
+import java.util.EventObject;
 
 /**
  * TranslationEvent
@@ -18,14 +19,15 @@ import java.awt.event.MouseEvent;
  * @author ?
  * @version $Revision$
  */
-public class TranslationEvent {
+public class TranslationEvent extends EventObject {
     private MouseEvent event;
     private int x;
     private int y;
     private int dx;
     private int dy;
 
-    public TranslationEvent( MouseEvent event, int x, int y, int dx, int dy ) {
+    public TranslationEvent( Object source, MouseEvent event, int x, int y, int dx, int dy ) {
+        super( source );
         this.event = event;
         this.x = x;
         this.y = y;
