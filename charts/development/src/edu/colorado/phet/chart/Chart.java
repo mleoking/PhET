@@ -26,8 +26,8 @@ public class Chart {
         this.component = component;
         this.range = range;
         this.viewBounds = viewBounds;
-        this.xAxis = new Axis( this );
-        this.yAxis = new Axis( this );
+        this.xAxis = new Axis( this, Axis.HORIZONTAL );
+        this.yAxis = new Axis( this, Axis.VERTICAL );
     }
 
     public void addDataSetGraphic( DataSetGraphic dataSetGraphic ) {
