@@ -4,7 +4,7 @@ HIGH:
 o Help, based on Kathy's requirements
 
 MEDIUM:
-o phetcommon-based don't work while simulation is paused
+o phetcommon-based controls don't work while simulation is paused
 o background color on Windows
 
 LOW:
