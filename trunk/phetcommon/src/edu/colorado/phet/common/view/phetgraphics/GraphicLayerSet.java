@@ -130,7 +130,7 @@ public class GraphicLayerSet extends PhetGraphic {
         graphicMap.removeValue( graphic );
         graphic.setParent( null );
         setBoundsDirty();
-        graphic.repaint();//Automatically repaint.
+        graphic.autorepaint();//Automatically repaint.
     }
 
     public void setBoundsDirty() {
@@ -189,7 +189,7 @@ public class GraphicLayerSet extends PhetGraphic {
         this.graphicMap.put( new Double( layer ), graphic );
         graphic.setParent( this );
         setBoundsDirty();
-        graphic.repaint();//Automatically repaint the added graphic.
+        graphic.autorepaint();//Automatically repaint the added graphic.
     }
 
     /**
