@@ -31,6 +31,7 @@ import edu.colorado.phet.faraday.model.Battery;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.SourceCoil;
 import edu.colorado.phet.faraday.module.ElectromagnetModule;
+import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
@@ -55,6 +56,7 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
     private Battery _batteryModel;
     private ACSource _acSourceModel;
     private Compass _compassModel;
+    private CoilGraphic _coilGraphic;
     private CompassGridGraphic _gridGraphic;
     private FieldMeterGraphic _fieldMeterGraphic;
 
@@ -72,6 +74,8 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
     private JLabel _frequencyValue;
     private JPanel _batteryPanel;
     private JPanel _acPanel;
+    private JSpinner _loopsSpinner;
+    private JCheckBox _electronsCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -91,7 +95,8 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
             SourceCoil sourceCoilModel,
             Battery batteryModel,
             ACSource acSourceModel,
-            Compass compassModel,  
+            Compass compassModel,
+            CoilGraphic coilGraphic,
             CompassGridGraphic gridGraphic, 
             FieldMeterGraphic fieldMeterGraphic ) {
 
@@ -101,6 +106,7 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         assert ( batteryModel != null );
         assert ( acSourceModel != null );
         assert ( compassModel != null );
+        assert ( coilGraphic != null );
         assert ( gridGraphic != null );
         assert ( fieldMeterGraphic != null );
 
@@ -109,6 +115,7 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         _batteryModel = batteryModel;
         _acSourceModel = acSourceModel;
         _compassModel = compassModel;
+        _coilGraphic = coilGraphic;
         _gridGraphic = gridGraphic;
         _fieldMeterGraphic = fieldMeterGraphic;
 
@@ -130,7 +137,45 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
             TitledBorder magnetBorder = BorderFactory.createTitledBorder( border, title );
             magnetBorder.setTitleFont( getTitleFont() );
             magnetPanel.setBorder( magnetBorder );
+            
+            // Compass Grid on/off
+            _gridCheckBox = new JCheckBox( SimStrings.get( "ElectromagnetModule.showGrid" ) );
+            
+            // Field Meter on/off
+            _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "ElectromagnetModule.showFieldMeter" ) );
 
+            // Compass on/off
+            _compassCheckBox = new JCheckBox( SimStrings.get( "ElectromagnetModule.showCompass" ) );
+
+            // Electrons on/off
+            _electronsCheckBox = new JCheckBox( SimStrings.get( "ElectromagnetModule.showElectrons" ) );
+            
+            // Number of loops
+            JPanel loopsPanel = new JPanel();
+            {
+                JLabel loopsLabel = new JLabel( SimStrings.get( "ElectromagnetModule.numberOfLoops" ) );
+
+                // Spinner, keyboard editing disabled.
+                SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
+                spinnerModel.setMaximum( new Integer( FaradayConfig.ELECTROMAGNET_LOOPS_MAX ) );
+                spinnerModel.setMinimum( new Integer( FaradayConfig.ELECTROMAGNET_LOOPS_MIN ) );
+                spinnerModel.setValue( new Integer( FaradayConfig.ELECTROMAGNET_LOOPS_MIN ) );
+                _loopsSpinner = new JSpinner( spinnerModel );
+                JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
+                tf.setEditable( false );
+
+                // Dimensions
+                _loopsSpinner.setPreferredSize( SPINNER_SIZE );
+                _loopsSpinner.setMaximumSize( SPINNER_SIZE );
+                _loopsSpinner.setMinimumSize( SPINNER_SIZE );
+
+                // Layout
+                EasyGridBagLayout layout = new EasyGridBagLayout( loopsPanel );
+                loopsPanel.setLayout( layout );
+                layout.addAnchoredComponent( loopsLabel, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _loopsSpinner, 0, 1, GridBagConstraints.WEST );
+            }
+            
             JPanel sourcePanel = new JPanel();
             {
                 // Title
@@ -151,21 +196,14 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
                 layout.addAnchoredComponent( _acRadioButton, 1, 0, GridBagConstraints.WEST );
             }
             
-            // Compass Grid on/off
-            _gridCheckBox = new JCheckBox( SimStrings.get( "ElectromagnetModule.showGrid" ) );
-            
-            // Field Meter on/off
-            _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "ElectromagnetModule.showFieldMeter" ) );
-
-            // Compass on/off
-            _compassCheckBox = new JCheckBox( SimStrings.get( "ElectromagnetModule.showCompass" ) );
-
             EasyGridBagLayout layout = new EasyGridBagLayout( magnetPanel );
             magnetPanel.setLayout( layout );
             int row = 0;
             layout.addComponent( _gridCheckBox, row++, 0 );
             layout.addComponent( _compassCheckBox, row++, 0 );
             layout.addComponent( _fieldMeterCheckBox, row++, 0 );
+            layout.addComponent( _electronsCheckBox, row++, 0 );
+            layout.addComponent( loopsPanel, row++, 0 );
             layout.addFilledComponent( sourcePanel, row++, 0, GridBagConstraints.HORIZONTAL );
         }
         
@@ -317,16 +355,20 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         _voltageSlider.addChangeListener( listener );
         _amplitudeSlider.addChangeListener( listener );
         _frequencySlider.addChangeListener( listener );
+        _electronsCheckBox.addActionListener( listener );
+        _loopsSpinner.addChangeListener( listener );
 
         // Update control panel to match the components that it's controlling.
         _batteryRadioButton.setSelected( _batteryModel.isEnabled() );
-        //_acRadioButton.setSelected( ??? );  // XXX get value from model
+        _acRadioButton.setSelected( _acSourceModel.isEnabled() );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         _voltageSlider.setValue( (int) _batteryModel.getVoltage() );
         _amplitudeSlider.setValue( (int) ( _acSourceModel.getAmplitude() * 100.0 ) );
         _frequencySlider.setValue( (int) ( _acSourceModel.getFrequency() * 100.0 ) );
+        _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
+        _loopsSpinner.setValue( new Integer( _sourceCoilModel.getNumberOfLoops() ) );
         
         _batteryPanel.setVisible( _batteryRadioButton.isSelected() );
         _acPanel.setVisible( _acRadioButton.isSelected() );
@@ -388,6 +430,10 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
                 // Compass enable
                 _compassModel.setEnabled( _compassCheckBox.isSelected() );
             }
+            else if ( e.getSource() == _electronsCheckBox ) {
+                // Electrons enable
+                _coilGraphic.setElectronAnimationEnabled( _electronsCheckBox.isSelected() );
+            }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
             }
@@ -400,7 +446,13 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
          * @throws IllegalArgumentException if the event is unexpected
          */
         public void stateChanged( ChangeEvent e ) {
-            if ( e.getSource() == _voltageSlider ) {
+            if ( e.getSource() == _loopsSpinner ) {
+                // Read the value.
+                int numberOfLoops = ( (Integer) _loopsSpinner.getValue() ).intValue();
+                // Update the model.
+                _sourceCoilModel.setNumberOfLoops( numberOfLoops );
+            }
+            else if ( e.getSource() == _voltageSlider ) {
                 // Read the value.
                 int value = _voltageSlider.getValue();
                 // Update the model.
