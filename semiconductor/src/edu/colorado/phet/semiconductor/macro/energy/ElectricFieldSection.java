@@ -11,23 +11,13 @@ import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
  * Copyright (c) Mar 15, 2004 by Sam Reid
  */
 public class ElectricFieldSection {
-    private PhetVector center;
     ElectricField internalField;
     ElectricField batteryField;
 
     public ElectricFieldSection( PhetVector center ) {
-        this.center = center;
 
         internalField = new ElectricField( center.getAddedInstance( 0, .3 ) );
         batteryField = new ElectricField( center.getAddedInstance( 0, -.3 ) );
-    }
-
-    public PhetVector getCenter() {
-        return center;
-    }
-
-    public double getStrength() {
-        return internalField.getStrength() + batteryField.getStrength();
     }
 
     public ElectricField getInternalField() {
@@ -44,10 +34,6 @@ public class ElectricFieldSection {
 
     public void voltageChanged( Battery source ) {
         batteryField.setStrength( toVoltStrength( source.getVoltage() ) );
-    }
-
-    public double getNetField() {
-        return batteryField.getStrength() + internalField.getStrength();
     }
 
 }

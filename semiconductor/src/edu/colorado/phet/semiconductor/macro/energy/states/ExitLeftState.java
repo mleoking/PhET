@@ -11,18 +11,12 @@ import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
  * Copyright (c) Mar 17, 2004 by Sam Reid
  */
 public class ExitLeftState extends StateChain {
-    private EnergySection section;
 
     public ExitLeftState( PhetVector dest, Speed speed, EnergySection section ) {
         super();
-        this.section = section;
 
         addState( new MoveToPosition( dest, speed ) );
         addState( new Remove( section ) );
-    }
-
-    public boolean isMoving() {
-        return true;
     }
 
 }

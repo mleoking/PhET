@@ -1,8 +1,6 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
-
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -46,10 +44,6 @@ public class BandSet {
         return (Band)bands.get( i );
     }
 
-    public int indexOf( Band b ) {
-        return bands.indexOf( b );
-    }
-
     public EnergyLevel levelAt( int abslevel ) {
         int rel = abslevel;
         for( int i = 0; i < numBands(); i++ ) {
@@ -80,16 +74,6 @@ public class BandSet {
             sum += bandAt( i ).numEnergyLevels();
         }
         return sum;
-    }
-
-    public static void main( String[] args ) {
-        BandSetDescriptor bsd = new BandSetDescriptor();
-        bsd.addBandDescriptor( new BandDescriptor( 10, new EnergySpaceRegion( 0, 0, 0, 0 ), 0 ) );
-        SemiconductorBandSet bs = new SemiconductorBandSet( bsd, null, 0 );
-        for( int i = 0; i < bs.numEnergyLevels(); i++ ) {
-            EnergyLevel level = bs.levelAt( i );
-            System.out.println( "i=" + i + ", level = " + level + ", band=" + level.getBand() );
-        }
     }
 
 }

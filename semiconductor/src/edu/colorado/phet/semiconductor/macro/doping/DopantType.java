@@ -1,8 +1,5 @@
 package edu.colorado.phet.semiconductor.macro.doping;
 
-import edu.colorado.phet.semiconductor.macro.energy.bands.SemiconductorBandSet;
-import edu.colorado.phet.semiconductor.macro.energy.bands.Band;
-import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 
 /**
  * User: Sam Reid
@@ -12,15 +9,16 @@ import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
  */
 public class DopantType {
 
-//    public static final int NUM_DOPING_LEVELS = 6;
-    public static final DopantType P = new DopantType( "P" ,4);
-    public static final DopantType N = new DopantType( "N" ,6);
+    public static final DopantType P = new DopantType( "P", 4, 1 );
+    public static final DopantType N = new DopantType( "N", 6, 2 );
     String name;
     private int height;
+    private int dopingBand;
 
-    private DopantType( String name ,int height) {
+    private DopantType( String name, int height, int dopingBand ) {
         this.name = name;
         this.height = height;
+        this.dopingBand = dopingBand;
     }
 
     public boolean equals( Object obj ) {
@@ -35,4 +33,11 @@ public class DopantType {
         return height;
     }
 
+    public int getDopingBand() {
+        return dopingBand;
+    }
+
+    public String toString() {
+        return name;
+    }
 }

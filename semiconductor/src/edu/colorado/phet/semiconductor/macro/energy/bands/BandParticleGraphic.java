@@ -18,16 +18,13 @@ import java.awt.image.BufferedImage;
  */
 public class BandParticleGraphic extends TransformGraphic {
     BandParticle bandParticle;
-    private BufferedImage image;
     SimpleBufferedImageGraphic graphic;
-    private Font font = new Font( "dialog", 0, 16 );
     private static boolean showExclaim = true;
-    private Font msgFont=new Font( "dialog",0,12);
+    private Font msgFont = new Font( "dialog", 0, 12 );
 
     public BandParticleGraphic( BandParticle bandParticle, ModelViewTransform2D transform, BufferedImage image ) {
         super( transform );
         this.bandParticle = bandParticle;
-        this.image = image;
         this.graphic = new SimpleBufferedImageGraphic( image );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D modelViewTransform2D ) {
@@ -49,11 +46,13 @@ public class BandParticleGraphic extends TransformGraphic {
             graphics2D.setFont( exclaimFont );
             graphics2D.drawString( "!", pt.x - 14, pt.y );
         }
-        graphics2D.setColor( Color.black);
-        graphics2D.setFont( msgFont);
-        if (bandParticle.getMessage()!=null)
-            graphics2D.drawString( "f="+bandParticle.getMessage(),pt.x,pt.y);
-        graphics2D.setClip( null);
+        graphics2D.setColor( Color.black );
+        graphics2D.setFont( msgFont );
+//        if( bandParticle.getMessage() != null ) {
+//            graphics2D.drawString( "f=" + bandParticle.getMessage(), pt.x, pt.y );
+//        }
+//        graphics2D.setClip( null );
+        
 //        graphics2D.setColor(Color.black);
 //        graphics2D.setClip(0,0,1000,1000);
 //        if (bandParticle.isMoving()){

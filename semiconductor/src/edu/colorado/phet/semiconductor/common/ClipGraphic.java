@@ -5,7 +5,6 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -41,10 +40,6 @@ public class ClipGraphic extends TransformGraphic {
         graphics2D.setClip( viewClip );
         graphic.paint( graphics2D );
         graphics2D.setClip( origClip );
-    }
-
-    public Rectangle2D getBounds() {
-        return viewClip.getBounds2D();
     }
 
     public void setModelClip( Shape shape ) {

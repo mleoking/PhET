@@ -36,16 +36,13 @@ import java.util.Hashtable;
  */
 public class DopantPanel extends CompositeInteractiveGraphic {
     Rectangle viewRect;
-    Font titleFont;
     private BorderGraphic border;
     private ApparatusPanel apparatusPanel;
     private ModelViewTransform2D transform;
-    private Rectangle2D.Double modelRect;
     private DopantGraphic posDopGraphic;
     private DopantGraphic negDopGraphic;
     ShapeGraphic background;
     private boolean visible = true;
-    private DefaultInteractiveGraphic draggable;
     ArrayList dopantListeners = new ArrayList();
     private Hashtable map = new Hashtable();
 
@@ -53,7 +50,6 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         this.apparatusPanel = apparatusPanel;
 
         this.transform = transform;
-        this.modelRect = modelRect;
 
         this.viewRect = transform.modelToView( modelRect );
         background = new ShapeGraphic( viewRect, new Color( 200, 200, 245 ) );
@@ -90,8 +86,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         InteractiveGraphicCreator nsource = makeSource( negativeDopant, nDopantImage, false, "N" );
         InteractiveGraphicCreator psource = makeSource( positiveDopant, pDopantImage, true, "P" );
 
-        DragToCreate dragToCreateNeg = new DragToCreate( nsource, this, 10 );
-        DragToCreate dragToCreatePos = new DragToCreate( psource, this, 10 );
+        DragToCreate dragToCreateNeg = new DragToCreate( nsource, this, 10000 );
+        DragToCreate dragToCreatePos = new DragToCreate( psource, this, 10000 );
 
         DefaultInteractiveGraphic createN = new DefaultInteractiveGraphic( negative, negDopGraphic );
         createN.addMouseInputListener( dragToCreateNeg );
@@ -190,12 +186,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         super.paint( graphics2D );
     }
 
-    public void setVisible( boolean visible ) {
-        this.visible = visible;
-    }
-
     public void removeDopant( DopantGraphic dg ) {
         Graphic g = (Graphic)map.get( dg );
-        super.remove( g );
+        super.removeGraphic( g );
     }
 }

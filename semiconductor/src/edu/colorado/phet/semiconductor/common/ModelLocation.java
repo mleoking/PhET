@@ -17,12 +17,10 @@ import java.util.ArrayList;
  */
 public class ModelLocation {
     PhetVector modelLocation;
-    private ModelViewTransform2D transform;
     private Point viewLocation;
     ArrayList listeners = new ArrayList();
 
     public ModelLocation( double x, double y, final ModelViewTransform2D transform ) {
-        this.transform = transform;
         this.modelLocation = new PhetVector( x, y );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
@@ -38,10 +36,6 @@ public class ModelLocation {
 
     public Point getViewLocation() {
         return new Point( viewLocation.x, viewLocation.y );
-    }
-
-    public PhetVector getModelLocation() {
-        return modelLocation;
     }
 
     public void addViewChangeListener( ViewChangeListener vcl ) {

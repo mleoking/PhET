@@ -15,28 +15,38 @@ import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
+import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.bounds.Boundary;
+import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.AspectRatioLayout;
 import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.view.util.graphics.HashedImageLoader;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.semiconductor.macro.circuit.CircuitSection;
 import edu.colorado.phet.semiconductor.macro.circuit.MacroCircuitGraphic;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatterySpinner;
 import edu.colorado.phet.semiconductor.macro.doping.DopantGraphic;
 import edu.colorado.phet.semiconductor.macro.doping.DopantPanel;
+import edu.colorado.phet.semiconductor.macro.doping.DopantType;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
+import edu.colorado.phet.semiconductor.macro.energy.ParticleAction;
+import edu.colorado.phet.semiconductor.macro.energy.ParticleActionApplicator;
+import edu.colorado.phet.semiconductor.macro.energy.bands.Band;
+import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandSetGraphic;
+import edu.colorado.phet.semiconductor.macro.energy.states.MoveToCell;
 import edu.colorado.phet.semiconductor.macro.energyprobe.Cable;
 import edu.colorado.phet.semiconductor.macro.energyprobe.CableGraphic;
 import edu.colorado.phet.semiconductor.macro.energyprobe.Lead;
 import edu.colorado.phet.semiconductor.macro.energyprobe.LeadGraphic;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicSpinnerUI;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -56,14 +66,14 @@ public class SemiconductorModule extends Module implements Graphic {
     public static final HashedImageLoader imageLoader = new HashedImageLoader();
     private DopantPanel dopantPanel;
     private ArrayList cableGraphics = new ArrayList();
-    private Stroke stroke = new BasicStroke( 1 );
+    private Magnet magnet;
+    private MagnetGraphic magnetGraphic;
 
     public SemiconductorModule( SwingTimerClock clock ) throws IOException {
         super( "Diodes" );
         transform = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle( 0, 0, 1, 1 ) );
 
-        DiodeControlPanel dcp = new DiodeControlPanel( this );
-        setControlPanel( dcp );
+
         ApparatusPanel ap = new ApparatusPanel();
         setApparatusPanel( ap );
         getApparatusPanel().setBackground( new Color( 230, 220, 255 ) );
@@ -110,7 +120,7 @@ public class SemiconductorModule extends Module implements Graphic {
         dopantPanel.addDopantDropListener( circuitSection );
         circuitSection.addDopantChangeListener( energySection );
 
-        getApparatusPanel().addGraphic( dopantPanel );
+        getApparatusPanel().addGraphic( dopantPanel, 2 );
 
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( AbstractClock abstractClock, double v ) {
@@ -121,8 +131,79 @@ public class SemiconductorModule extends Module implements Graphic {
         getApparatusPanel().addComponentListener( new Relayout() );
         getApparatusPanel().addGraphic( this );
 
-        ColumnDebugGraphic cdg=new ColumnDebugGraphic( energySection ,transform );
-        getApparatusPanel().addGraphic( cdg,10000);
+        ColumnDebugGraphic cdg = new ColumnDebugGraphic( energySection, transform );
+        getApparatusPanel().addGraphic( cdg, 10000 );
+
+//        BufferedImage magnetImage = new ImageLoader().loadImage( "images/magnet.gif" );
+        BufferedImage magnetImage = new ImageLoader().loadImage( "images/gate2.gif" );
+
+        double magnetWidth = 1;
+        double magScale = magnetWidth / magnetImage.getWidth(); //takes pixels to model.
+        double magnetHeight = magnetImage.getHeight() * magScale;
+        Rectangle2D.Double rect = new Rectangle2D.Double( 0, 0, magnetWidth, magnetHeight );
+        magnet = new Magnet( rect );
+        magnetGraphic = new MagnetGraphic( magnet, transform, magnetImage );
+
+        DefaultInteractiveGraphic dig = new DefaultInteractiveGraphic( magnetGraphic, new Boundary() {
+            public boolean contains( int x, int y ) {
+                Shape trf = transform.createTransformedShape( magnet.getBounds() );
+                return trf.contains( x, y );
+            }
+        } );
+        addGraphic( dig, 0 );
+        dig.addCursorHandBehavior();
+        dig.addTranslationBehavior( new Translatable() {
+            public void translate( double dx, double dy ) {
+                Point2D.Double out = transform.viewToModelDifferential( (int)dx, (int)dy );
+                Rectangle2D.Double allowed = transform.getModelBounds();
+                Shape trans = magnet.getTranslatedShape( out.x, out.y );
+                if( allowed.contains( trans.getBounds2D() ) ) {
+                    magnet.translate( out.x, out.y );
+                    getApparatusPanel().repaint();
+                }
+            }
+        } );
+        ModelElement goToMagnet = new ModelElement() {
+            public void stepInTime( double dt ) {
+                if( magnetGraphic.isVisible() ) {
+                    if( energySection.numBandSets() == 3 ) {
+                        Band mid = energySection.bandSetAt( 1 ).getTopBand();
+                        final Band con = energySection.bandSetAt( 1 ).getConductionBand();
+                        boolean in = false;
+//                        if( mid.getRegion().toRectangle().intersects( magnet.getBounds() ) ) {
+//                            in = true;
+//                        }
+                        if( con.getRegion().toRectangle().intersects( magnet.getBounds() ) ) {
+                            in = true;
+                        }
+                        if( in ) {
+                            ParticleAction pa = new ParticleAction() {
+                                public void apply( BandParticle particle ) {
+                                    if( particle.getBand() == con ||
+                                        ( particle.getBand() == energySection.bandSetAt( 1 ).getValenceBand()
+                                          && particle.getEnergyLevel().getDistanceFromBottomLevelInBand() >= DopantType.P.getNumFilledLevels() )
+                                        && !particle.isExcited() ) {
+                                        particle.setState( new GoToMagnet( magnet, particle.getEnergyCell() ) );
+                                    }
+                                }
+                            };
+                            ParticleActionApplicator paa = new ParticleActionApplicator( energySection );
+                            paa.addParticleAction( pa );
+                            paa.stepInTime( dt );
+                            energySection.bandSetAt( 1 ).trickDopantType( DopantType.P );
+                        }
+                    }
+                }
+            }
+        };
+        addModelElement( goToMagnet );
+
+        DiodeControlPanel dcp = new DiodeControlPanel( this );
+        setControlPanel( dcp );
+    }
+
+    public MagnetGraphic getMagnetGraphic() {
+        return magnetGraphic;
     }
 
     class Relayout extends ComponentAdapter {
@@ -198,16 +279,6 @@ public class SemiconductorModule extends Module implements Graphic {
         enableAspectRatio( pa, module );
     }
 
-    static class MySpinnerUI extends BasicSpinnerUI {
-        protected Component createNextButton() {
-            return super.createNextButton();
-        }
-
-        protected Component createPreviousButton() {
-            return super.createPreviousButton();
-        }
-    }
-
     private static void enableAspectRatio( PhetApplication app, Module module ) {
         ApparatusPanelContainer apc = app.getApplicationView().getApparatusPanelContainer();
         if( apc instanceof SingleApparatusPanelContainer ) {
@@ -245,6 +316,20 @@ public class SemiconductorModule extends Module implements Graphic {
         setupCables();
         relayout();
         getApparatusPanel().repaint();
+    }
+
+    public void releaseGate() {
+        for( int i = 0; i < energySection.numParticles(); i++ ) {
+            BandParticle bp = energySection.particleAt( i );
+            if( bp.getState() instanceof GoToMagnet ) {
+                GoToMagnet gtm = (GoToMagnet)bp.getState();
+                bp.setState( new MoveToCell( bp, gtm.getFrom(), .2 ) );
+                bp.setExcited( false );
+            }
+        }
+        if( energySection.numBandSets() == 3 && energySection.bandSetAt( 1 ).getDopantType() == DopantType.P ) {
+            energySection.bandSetAt( 1 ).trickDopantType( DopantType.N );
+        }
     }
 
 }

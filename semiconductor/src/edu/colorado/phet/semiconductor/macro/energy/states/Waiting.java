@@ -20,8 +20,4 @@ public class Waiting implements BandParticleState {
         return false;
     }
 
-    public boolean isMoving() {
-        return false;
-    }
-
 }

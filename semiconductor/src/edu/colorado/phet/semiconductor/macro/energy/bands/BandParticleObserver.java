@@ -8,7 +8,5 @@ package edu.colorado.phet.semiconductor.macro.energy.bands;
  * Copyright (c) Jan 18, 2004 by Sam Reid
  */
 public interface BandParticleObserver {
-    void particleRemoved( BandParticle bandParticle );
 
-    void addParticle( BandParticle bandParticle );
 }

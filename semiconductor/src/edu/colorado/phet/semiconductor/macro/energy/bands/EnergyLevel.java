@@ -34,7 +34,7 @@ public class EnergyLevel {
     }
 
     public String toString() {
-        return "id=" + id + ", index=" + band.indexOf( this );//"x=" + x + ", energy=" + energy + ", width=" + width;
+        return "id=" + id + ", index=" + band.indexOf( this );
     }
 
     public EnergySpaceRegion getRegion() {
@@ -59,12 +59,6 @@ public class EnergyLevel {
 
     public int getAbsoluteHeight() {
         return getBandSet().absoluteIndexOf( this );
-    }
-
-    public int getDistanceFromTopLevelInBand() {
-        int topIndex = getBand().numEnergyLevels() - 1;
-        int myIndex = getBand().indexOf( this );
-        return topIndex - myIndex;
     }
 
     public int getDistanceFromBottomLevelInBand() {

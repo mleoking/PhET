@@ -15,13 +15,11 @@ import java.text.DecimalFormat;
  */
 public class BatterySpinner {
     JSpinner spinner;
-    private Battery battery;
     public static final double min = -10;
     public static final double max = 10;
     DecimalFormat df = new DecimalFormat( "##.00#" );
 
     public BatterySpinner( final Battery battery ) {
-        this.battery = battery;
         spinner = new MyJSpinner( new SpinnerNumberModel( battery.getVoltage(), min, max, .1 ) );
 //        SpinnerUI su=new MySpinnerUI3();
 //        spinner.setUI(su);
@@ -51,19 +49,4 @@ public class BatterySpinner {
         return spinner;
     }
 
-    public Battery getBattery() {
-        return battery;
-    }
-
-    public double getMinimumVoltage() {
-        return min;
-    }
-
-    public double getMaximumVoltage() {
-        return max;
-    }
-
-    public void setValue( double value ) {
-        spinner.setValue( new Double( value ) );
-    }
 }

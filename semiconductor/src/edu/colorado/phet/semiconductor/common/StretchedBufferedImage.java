@@ -15,8 +15,6 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Jan 16, 2004 by Sam Reid
  */
 public class StretchedBufferedImage implements Graphic {
-    BufferedImage image;
-    Rectangle outputRect;
     private BufferedImage battIm;
     private Rectangle rectangle;
     private boolean flipX;
@@ -47,11 +45,11 @@ public class StretchedBufferedImage implements Graphic {
         graphics2D.drawRenderedImage( battIm, at );
     }
 
-    public void setOutputRect( Rectangle outputRect ) {
-        this.rectangle = outputRect;
-    }
-
     public void setFlipX( boolean flipX ) {
         this.flipX = flipX;
+    }
+
+    public void setOutputRect( Rectangle outputRect ) {
+        this.rectangle = outputRect;
     }
 }

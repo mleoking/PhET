@@ -21,10 +21,11 @@ public class BandParticle extends SimpleObservable implements ModelElement {
     private int index;
     private boolean excited;
     private PhetVector lastPosition = new PhetVector();
-    private String force;
 
     public BandParticle( double x, double y, EnergyCell cell ) {
-
+//        if (cell==null){
+//            throw new RuntimeException("Null cell");
+//        }
         this.x = x;
         this.y = y;
         setEnergyCell( cell );
@@ -58,27 +59,18 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         return new PhetVector( x, y );
     }
 
-    public void translate( double dx ) {
-        this.x += dx;
-        updateObservers();
-    }
-
     public boolean isExcited() {
         return excited;
     }
 
     public void setEnergyCell( EnergyCell newCell ) {
-        if( this.cell != null ) {
-            this.cell.ownerChanged();
-        }
-        if( newCell != null ) {
-            newCell.ownerChanged();
-        }
+//        if( this.cell != null ) {
+//            this.cell.ownerChanged();
+//        }
+//        if( newCell != null ) {
+//            newCell.ownerChanged();
+//        }
         this.cell = newCell;
-    }
-
-    public double getX() {
-        return x;
     }
 
     public EnergyCell getEnergyCell() {
@@ -114,16 +106,8 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         return getPosition().getSubtractedInstance( site ).getMagnitude();
     }
 
-    public void setX( double x ) {
-        setPosition( new PhetVector( x, getPosition().getY() ) );
-    }
-
     public double getY() {
         return y;
-    }
-
-    public void translate( PhetVector dx ) {
-        setPosition( getPosition().getAddedInstance( dx ) );
     }
 
     public BandParticleState getState() {
@@ -134,21 +118,12 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         this.state = state;
     }
 
-    public void teleportToCell() {
-        if( cell != null ) {
-            setPosition( cell.getPosition() );
-        }
-    }
-
-    public void detach() {
-        setEnergyCell( null );
-    }
-
     public boolean isLocatedAtCell() {
         if( cell == null ) {
             return false;
         }
         double dist = getDistanceFromOwnedSite();
+//        System.out.println( "dist = " + dist );
         return dist <= .000001;
     }
 
@@ -163,10 +138,6 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         return getEnergyLevel().getBand().getBandSet();
     }
 
-    public int getAbsoluteEnergyLevel() {
-        return getEnergyLevel().getBandSet().absoluteIndexOf( getEnergyLevel() );
-    }
-
     public Band getBand() {
         if( getEnergyLevel() == null ) {
             return null;
@@ -178,17 +149,9 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         return getPosition().getSubtractedInstance( lastPosition );
     }
 
-    public boolean isMoving() {
-        return getState().isMoving();
-    }
-    //temp for debug
-    public void setMessage( String force ) {
-        this.force=force;
-    }
-
-    public String getMessage() {
-        return force;
-    }
+//    public String getMessage() {
+//        return force;
+//    }
 
 //    public void setVelocity(PhetVector velocity) {
 //        this.velocity=velocity;

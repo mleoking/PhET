@@ -44,7 +44,17 @@ public class ElectricFieldGraphic extends TransformGraphic {
                 start = start.getAddedInstance( dx );
                 dest = dest.getAddedInstance( dx );
 
-                ArrowShape as = new ArrowShape( start, dest, .2, .2, .1 );
+                double tailWidth = .1;
+                double headWidth = .2;
+                double headHeight = .1;
+                double dist = start.getSubtractedInstance( dest ).getMagnitude();
+                if( dist < headHeight ) {
+                    headHeight = dist * .9;
+//                    headWidth=headHeight;
+//                    tailWidth=headHeight/2;
+                }
+                ArrowShape as = new ArrowShape( start, dest, headHeight, headWidth, tailWidth );
+
                 Shape sh = as.getArrowShape();
                 Shape viewShape = super.createTransformedShape( sh );
                 h = viewShape.getBounds().height;
@@ -53,7 +63,7 @@ public class ElectricFieldGraphic extends TransformGraphic {
 //        int viewdx = super.getTransform().modelToViewDifferentialX(strength);
             }
             catch( RuntimeException re ) {
-
+                re.printStackTrace();
             }
         }
         Point ctr = super.getTransform().modelToView( field.getCenter() );
@@ -63,6 +73,7 @@ public class ElectricFieldGraphic extends TransformGraphic {
         String text = "" + name;
         if( field.getStrength() == 0 ) {
             text += "=0";
+            h = -getTransform().modelToViewDifferentialY( .2 );
         }
         Rectangle2D textBounds = font.getStringBounds( text, g.getFontRenderContext() );
         double dx = textBounds.getWidth() / 2;

@@ -48,4 +48,5 @@ public class StateTransitionList implements ModelElement {
     public void stepInTime( double dt ) {
         apply( energySection );
     }
+
 }

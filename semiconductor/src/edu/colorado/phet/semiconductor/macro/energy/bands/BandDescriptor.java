@@ -28,10 +28,6 @@ public class BandDescriptor {
         return region;
     }
 
-    public double getUpperBandGap() {
-        return energyAbove;
-    }
-
     public double getNextEnergyStart() {
         return region.getMinEnergy() + region.getEnergyRange() + energyAbove;
     }

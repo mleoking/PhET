@@ -15,7 +15,6 @@ public class Particle extends SimpleObservable implements ModelElement {
     PhetVector position;
     PhetVector velocity;
     PhetVector acceleration;
-    double mass;
 
     public Particle( double x, double y ) {
         this.position = new PhetVector( x, y );
@@ -31,18 +30,6 @@ public class Particle extends SimpleObservable implements ModelElement {
         return position;
     }
 
-    public PhetVector getVelocity() {
-        return velocity;
-    }
-
-    public PhetVector getAcceleration() {
-        return acceleration;
-    }
-
-    public double getMass() {
-        return mass;
-    }
-
     public void stepInTime( double dt ) {
         //acceleration doesn't change here.
         PhetVector dv = acceleration.getScaledInstance( dt );
@@ -50,10 +37,6 @@ public class Particle extends SimpleObservable implements ModelElement {
         PhetVector dx = velocity.getScaledInstance( dt );
         this.position = position.getAddedInstance( dx );
         updateObservers();
-    }
-
-    public void setAcceleration( double ax, double ay ) {
-        this.acceleration = new PhetVector( ax, ay );
     }
 
     public double getX() {
@@ -64,16 +47,8 @@ public class Particle extends SimpleObservable implements ModelElement {
         return position.getY();
     }
 
-    public void setVelocity( double vx, double vy ) {
-        this.velocity = new PhetVector( vx, vy );
-    }
-
     public void setPosition( double x, double y ) {
         this.position = new PhetVector( x, y );
-    }
-
-    public void setPosition( PhetVector position ) {
-        this.position = new PhetVector( position );
     }
 
     public void translate( double dx, double dy ) {

@@ -18,23 +18,17 @@ import edu.colorado.phet.semiconductor.macro.energy.states.ExitLeftState;
 public class ExitLeft extends StateTransition {
 
     public BandParticleState getState( BandParticle particle, EnergySection energySection ) {
-        if( energySection.getVoltage() >= 0 ) {
-            return null;
-        }
+
         EnergyCell cell = particle.getEnergyCell();
         if( cell == null ) {
             return null;
         }
         EnergyCell left = energySection.getNeighbor( cell, 0, -1 );
         if( cell != null && left == null && cell.getIndex() == 0 && particle.isLocatedAtCell() && particle.isExcited() ) {
-
-//            StateChain sc = new StateChain();
-
-            double targetX = energySection.getLeftBand().getX();//RightBand().getX() + energySection.getRightBand().getWidth();
+            double targetX = energySection.getLeftBand().getX();
             double targetY = particle.getY();
             PhetVector dest = new PhetVector( targetX, targetY );
             ExitLeftState sc = new ExitLeftState( dest, energySection.getSpeed(), energySection );
-
             particle.setState( sc );
         }
         return null;
