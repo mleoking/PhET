@@ -19,10 +19,10 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.components.AspectRatioPanel;
@@ -42,6 +42,7 @@ import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 /**
@@ -75,7 +76,8 @@ public class CCK3Module extends Module {
     public static final ComponentDimension LEVER_DIMENSION = new ComponentDimension( 1 * SCALE, .5 * SCALE );
 //    public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.5 * SCALE, .65 * SCALE );
     public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.9 * SCALE, .7 * SCALE );
-    public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 1.5 * SCALE, .65 * SCALE );
+//    public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 1.5 * SCALE, .65 * SCALE );
+    public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 2.33 * SCALE, .92 * SCALE );
     static double bulbLength = 1;
     static double bulbHeight = 1.4;
     static double bulbDistJ = .333;
@@ -83,7 +85,7 @@ public class CCK3Module extends Module {
     public static final BulbDimension BULB_DIMENSION = new BulbDimension( bulbLength * SCALE * bulbScale, bulbHeight * SCALE * bulbScale, bulbDistJ * SCALE * bulbScale );
 
     public static final double WIRE_LENGTH = BATTERY_DIMENSION.getLength() * 1.2;
-    public static final double JUNCTION_GRAPHIC_STROKE_WIDTH = .01;
+    public static final double JUNCTION_GRAPHIC_STROKE_WIDTH = .015;
     public static final double JUNCTION_RADIUS = .162;
     public static final double STICKY_THRESHOLD = SCALE;
     private Toolbox toolbox;
@@ -96,6 +98,7 @@ public class CCK3Module extends Module {
     private String debugText = "";
     private CCK3ControlPanel cck3controlPanel;
     public static Color backgroundColor = new Color( 200, 240, 200 );
+    private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
 
     public CCK3Module() throws IOException {
         super( "cck-iii" );
@@ -241,6 +244,15 @@ public class CCK3Module extends Module {
                 wigger.setCenter( pt );
             }
         } );
+        toolbox.addObserver( new SimpleObserver() {
+            public void update() {
+                Rectangle2D rect = toolbox.getBounds2D();
+                Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
+                pt.translate( -130, 5 );
+                wigger.setVisible( true );
+                wigger.setCenter( pt );
+            }
+        } );
         getApparatusPanel().addGraphic( wigger, 100 );
         getModel().addModelElement( wigger );
         circuit.addCircuitListener( new CircuitListenerAdapter() {
@@ -254,19 +266,20 @@ public class CCK3Module extends Module {
             }
         } );
         help = new CCKHelp( this );
-        ModelElement me = new ModelElement() {
-            public void stepInTime( double dt ) {
-                int numJunctions = circuit.numJunctions();
-                int numBranches = circuit.numBranches();
-                String text = "numJunctions=" + numJunctions + ", branches=" + numBranches;
-                if( !debugText.equals( text ) ) {
-                    debugText = text;
-                    int ival = (int)( Math.random() * 10 );
-                    System.out.println( ival + ": " + text );
-                }
-            }
-        };
-        getModel().addModelElement( me );
+        //a debugging element.
+//        ModelElement me = new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                int numJunctions = circuit.numJunctions();
+//                int numBranches = circuit.numBranches();
+//                String text = "numJunctions=" + numJunctions + ", branches=" + numBranches;
+//                if( !debugText.equals( text ) ) {
+//                    debugText = text;
+//                    int ival = (int)( Math.random() * 10 );
+//                    System.out.println( ival + ": " + text );
+//                }
+//            }
+//        };
+//        getModel().addModelElement( me );
         testInit();
     }
 
@@ -276,7 +289,7 @@ public class CCK3Module extends Module {
         getApparatusPanel().repaint();
     }
 
-    private void setupToolbox() {
+    private Rectangle2D getToolboxBounds() {
         double toolBoxWidthFrac = .07;
         double toolBoxInsetXFrac = 1 - toolBoxWidthFrac * 1.5;
         double toolBoxHeightFrac = .7;
@@ -286,7 +299,14 @@ public class CCK3Module extends Module {
                                                             modelBounds.getY() + modelBounds.getHeight() * toolBoxInsetYFrac,
                                                             modelBounds.getWidth() * toolBoxWidthFrac,
                                                             modelBounds.getHeight() * toolBoxHeightFrac );
-        toolbox = new Toolbox( toolboxBounds, this, backgroundColor );
+        return toolboxBounds;
+    }
+
+    private void setupToolbox() {
+        if( toolbox != null ) {
+            throw new RuntimeException( "Only one toolbox per app, please." );
+        }
+        toolbox = new Toolbox( getToolboxBounds(), this, backgroundColor );
         getApparatusPanel().addGraphic( toolbox );
     }
 
@@ -487,8 +507,10 @@ public class CCK3Module extends Module {
         double newHeight = modelHeight * scale;
         Rectangle2D.Double r = new Rectangle2D.Double( 0, 0, newWidth, newHeight );
         transform.setModelBounds( r );
-        getApparatusPanel().removeGraphic( toolbox );
-        setupToolbox();
+        toolbox.setModelBounds( getToolboxBounds() );
+//        getApparatusPanel().removeGraphic( toolbox );
+//        setupToolbox();
+//        help.setToolbox(toolbox);
         getApparatusPanel().repaint();
     }
 
@@ -588,5 +610,9 @@ public class CCK3Module extends Module {
         layout.relayout( circuit.getBranches() );
         kirkhoffSolver.apply( circuit );
         getApparatusPanel().repaint();
+    }
+
+    public DecimalFormat getDecimalFormat() {
+        return decimalFormat;
     }
 }

@@ -60,10 +60,11 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
                 InteractiveBranchGraphic ibg = (InteractiveBranchGraphic)graphic;
                 Branch branch = ibg.getBranch();
                 BranchGraphic branchGraphic = ibg.getBranchGraphic();
-                Shape shape = branchGraphic.getShape();
+                Shape shape = branchGraphic.getCoreShape();//getShape();
                 if( shape.contains( target ) ) {
                     double current = branch.getCurrent();
-                    DecimalFormat df = new DecimalFormat( "#0.00#" );
+//                    DecimalFormat df = new DecimalFormat( "#0.00#" );
+                    DecimalFormat df = circuitGraphic.getModule().getDecimalFormat();
                     trt.clear();
                     String amps = df.format( Math.abs( current ) );
                     trt.addText( amps + " Amps" );

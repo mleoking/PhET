@@ -27,17 +27,19 @@ public class SchematicAmmeterGraphic extends FastPaintShapeGraphic implements IC
     private CircuitComponent component;
     private ModelViewTransform2D transform;
     private double wireThickness;
-    DecimalFormat format = new DecimalFormat( "#0.0#" );
+    private DecimalFormat decimalFormat;
+//    DecimalFormat format = new DecimalFormat( "#0.0#" );
     FastPaintTextGraphic textGraphic;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
 
-    public SchematicAmmeterGraphic( Component parent, CircuitComponent component, ModelViewTransform2D transform, double wireThickness ) {
+    public SchematicAmmeterGraphic( Component parent, CircuitComponent component, ModelViewTransform2D transform, double wireThickness, DecimalFormat decimalFormat ) {
         super( new Area(), Color.black, parent );
 
         this.component = component;
         this.transform = transform;
         this.wireThickness = wireThickness;
+        this.decimalFormat = decimalFormat;
         this.textGraphic = new FastPaintTextGraphic( "", new Font( "Lucida Sans", 0, 22 ), 0, 0, parent );
         textGraphic.setPaint( Color.blue );
         simpleObserver = new SimpleObserver() {
@@ -68,7 +70,7 @@ public class SchematicAmmeterGraphic extends FastPaintShapeGraphic implements IC
         double viewThickness = Math.abs( transform.modelToViewDifferentialY( wireThickness ) );
         Shape shape = LineSegment.getSegment( srcpt, dstpt, viewThickness );
         super.setShape( shape );
-        String text = format.format( Math.abs( component.getCurrent() ) ) + " Amps";
+        String text = decimalFormat.format( Math.abs( component.getCurrent() ) ) + " Amps";
         Rectangle2D bounds2d = shape.getBounds2D();
         textGraphic.setLocation( (float)( bounds2d.getX() + bounds2d.getWidth() / 2 ), (float)( bounds2d.getY() - 5 ) );
         textGraphic.setText( text );

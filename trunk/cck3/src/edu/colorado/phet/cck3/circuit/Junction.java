@@ -16,6 +16,7 @@ public class Junction extends SimpleObservable {
     private double y;
     int label = 0;
     private static int nextLabel = 0;
+    private boolean selected = false;
 
     public Junction( double x, double y ) {
         this.x = x;
@@ -67,4 +68,11 @@ public class Junction extends SimpleObservable {
         removeAllObservers();
     }
 
+    public void setSelected( boolean selected ) {
+        this.selected = selected;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
 }

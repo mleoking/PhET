@@ -2,7 +2,9 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
+import edu.colorado.phet.cck3.common.primarygraphics.CompositePrimaryGraphic;
 import edu.colorado.phet.cck3.common.primarygraphics.PrimaryImageGraphic;
+import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -10,6 +12,7 @@ import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -20,15 +23,21 @@ import java.awt.image.BufferedImage;
  * Time: 8:34:54 PM
  * Copyright (c) May 25, 2004 by Sam Reid
  */
-public class CircuitComponentImageGraphic extends PrimaryImageGraphic implements IComponentGraphic {
+public class CircuitComponentImageGraphic extends CompositePrimaryGraphic implements IComponentGraphic {
     private CircuitComponent component;
     private ModelViewTransform2D transform;
     private Rectangle2D.Double src;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
+    private PrimaryImageGraphic imageGraphic;
+    private PrimaryShapeGraphic highlightGraphic;
 
     public CircuitComponentImageGraphic( BufferedImage image, Component parent, CircuitComponent component, ModelViewTransform2D transform ) {
-        super( parent, image, new AffineTransform() );
+        super( parent );
+        imageGraphic = new PrimaryImageGraphic( parent, image, new AffineTransform() );
+        highlightGraphic = new PrimaryShapeGraphic( parent, new Area(), Color.yellow );
+        addGraphic( highlightGraphic );
+        addGraphic( imageGraphic );
 
         this.component = component;
         this.transform = transform;
@@ -50,7 +59,11 @@ public class CircuitComponentImageGraphic extends PrimaryImageGraphic implements
 
     private void changed() {
         AffineTransform at = createTransform();
-        super.setTransform( at );
+        imageGraphic.setTransform( at );
+        Shape shape = imageGraphic.getShape();
+        shape = new BasicStroke( 6 ).createStrokedShape( shape );
+        highlightGraphic.setShape( shape );
+        highlightGraphic.setVisible( component.isSelected() );
     }
 
     private AffineTransform createTransform() {
@@ -65,7 +78,7 @@ public class CircuitComponentImageGraphic extends PrimaryImageGraphic implements
         }
 
         double newHeight = transform.modelToViewDifferentialY( component.getHeight() );
-        AffineTransform at = createTransform( getImage().getWidth(), getImage().getHeight(),
+        AffineTransform at = createTransform( imageGraphic.getImage().getWidth(), imageGraphic.getImage().getHeight(),
                                               srcpt, dstpt, newHeight );
         return at;
     }
@@ -98,6 +111,10 @@ public class CircuitComponentImageGraphic extends PrimaryImageGraphic implements
     public void delete() {
         transform.removeTransformListener( transformListener );
         component.removeObserver( simpleObserver );
+    }
+
+    public AffineTransform getTransform() {
+        return imageGraphic.getTransform();
     }
 
 }

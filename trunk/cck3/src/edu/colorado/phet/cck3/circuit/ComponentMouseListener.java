@@ -33,6 +33,7 @@ public class ComponentMouseListener extends MouseInputAdapter {
         isDragging = false;
         startTarget = null;
         endTarget = null;
+        circuit.setSelection( branchGraphic.getCircuitComponent() );
     }
 
     public void mouseReleased( MouseEvent e ) {

@@ -114,6 +114,12 @@ public class TestPrimaryGraphics {
                 new PrimaryShadowTextGraphic( "Shadow Text", font, 100, 300, Color.red, 2, 2, Color.blue, panel );
         panel.addGraphic( shadowText );
 
+        CompositePrimaryGraphic cpg = new CompositePrimaryGraphic( panel );
+        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 100, 300 ), Color.blue ) );
+        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 300, 100 ), Color.red ) );
+        panel.addGraphic( cpg, -1 );
+        imageGraphic.setVisible( false );
+
         JFrame jf = new JFrame();
         jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         jf.setContentPane( panel );

@@ -41,4 +41,8 @@ public class RectangleUtils {
         pt.translate( bounds.width, bounds.height / 2 );
         return pt;
     }
+
+    public static Point getCenter( Rectangle rect ) {
+        return new Point( rect.x + rect.width / 2, rect.y + rect.height / 2 );
+    }
 }
