@@ -11,11 +11,9 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.collision.SphericalBody;
-
-import java.util.LinkedList;
+import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 /**
  *
@@ -47,13 +45,11 @@ public class Atom extends SphericalBody {
 
 
     private AtomicState state;
-//    private LinkedList listeners = new LinkedList();
-//
-    SubscriptionService subscriptionService = new SubscriptionService();
+    private SubscriptionService subscriptionService = new SubscriptionService();
     public interface Listener {
         void photonEmitted( Atom atom, Photon photon );
         void leftSystem( Atom atom );
-//        void stateChanged( Atom atom, AtomicState oldState, AtomicState newState );
+        void stateChanged( Atom atom, AtomicState oldState, AtomicState newState );
     }
 
     public Atom() {
@@ -64,12 +60,10 @@ public class Atom extends SphericalBody {
 
     public void addListener( Listener listner ) {
         subscriptionService.addListener( listner );
-//        listeners.add( listner );
     }
 
     public void removeListener( Listener listener ) {
         subscriptionService.removeListener( listener );
-//        listeners.remove( listener );
     }
 
     public void collideWithPhoton( Photon photon ) {
@@ -81,15 +75,14 @@ public class Atom extends SphericalBody {
     }
 
     public void setState( final AtomicState newState ) {
-//        final AtomicState oldState = this.state;
+        final AtomicState oldState = this.state;
         this.state = newState;
         notifyObservers();
-//
-//        this.subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
-//            public void doNotify( Object obj ) {
-//                ((Listener)obj).stateChanged( Atom.this, oldState, newState );
-//            }
-//        } );
+        this.subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
+            public void doNotify( Object obj ) {
+                ((Listener)obj).stateChanged( Atom.this, oldState, newState );
+            }
+        } );
     }
 
     public void stepInTime( double dt ) {
@@ -100,32 +93,20 @@ public class Atom extends SphericalBody {
      *
      */
     void emitPhoton( final Photon emittedPhoton ) {
-//        emittedPhoton.setPosition( getPosition().getX(),
-//                                   getPosition().getY() );
         emittedPhoton.collideWithAtom( this );
-//        for( int i = 0; i < listeners.size(); i++ ) {
-//            Listener listener = (Listener)listeners.get( i );
-//            listener.photonEmitted( this, emittedPhoton );
-//        }
         subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
             public void doNotify( Object obj ) {
                 ((Listener)obj).photonEmitted( Atom.this, emittedPhoton );
             }
         } );
-//        new AddParticleCmd( emittedPhoton ).doIt();
     }
 
     public void removeFromSystem() {
-//        for( int i = 0; i < listeners.size(); i++ ) {
-//            Listener listener = (Listener)listeners.get( i );
-//            listener.leftSystem( this );
-//        }
         subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
             public void doNotify( Object obj ) {
                 ((Listener)obj).leftSystem( Atom.this );
             }
         } );
-//        super.removeFromSystem();
         state.decrementNumInState();
     }
 }

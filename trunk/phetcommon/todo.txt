@@ -1,7 +1,5 @@
 - Track states with a StateChangeListener, or Listener interface in Atom.
-
-- Make AtomicState subclasses singletons, and do not have the instance bound to an Atom instance. This will allow
-the monitor panel to be a listener of the state.
+- add CollimatedBeamGraphic, or CollimatedBeamView class
 - There are two versions of ThreeEnergyLevelMonitorPanel
 - Change interpolation method that creates middle and high energy atom graphics.
 - spontaneousEmmisionHalfLife and SpontaneousEmissionTime methods are confusing

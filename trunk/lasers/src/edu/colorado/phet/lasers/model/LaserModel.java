@@ -17,6 +17,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.collision.AtomWallCollision;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollision;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
@@ -30,7 +31,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
-public class LaserModel extends BaseModel {
+public class LaserModel extends BaseModel implements Atom.Listener {
 //public class LaserModel extends PhysicalSystem {
 
     static public Point2D ORIGIN = new Point2D.Double( 100, 300 );
@@ -84,6 +85,9 @@ public class LaserModel extends BaseModel {
         if( modelElement instanceof ResonatingCavity ) {
             this.resonatingCavity = (ResonatingCavity)modelElement;
         }
+        if( modelElement instanceof Atom ) {
+            ((Atom)modelElement).addListener( this );
+        }
     }
 
     public void removeModelElement( ModelElement modelElement ) {
@@ -91,6 +95,9 @@ public class LaserModel extends BaseModel {
         if( modelElement instanceof Collidable ) {
 //        if( modelElement instanceof Body ) {
             bodies.remove( modelElement );
+        }
+        if( modelElement instanceof Atom ) {
+            ((Atom)modelElement).removeListener( this );
         }
     }
 
@@ -251,6 +258,22 @@ public class LaserModel extends BaseModel {
                 }
 
             }
+        }
+    }
+
+    // Implementation of Atom.Listener
+    public void photonEmitted( Atom atom, Photon photon ) {
+    }
+
+    public void leftSystem( Atom atom ) {
+    }
+
+    public void stateChanged( Atom atom, AtomicState oldState, AtomicState newState ) {
+        if( oldState instanceof ModelElement ) {
+            removeModelElement( (ModelElement)oldState );
+        }
+        if( newState instanceof ModelElement ) {
+            addModelElement( (ModelElement)newState );
         }
     }
 }

@@ -102,7 +102,7 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
         if( state instanceof GroundState ) {
             super.setImage( groundImg );
         }
-        if( state instanceof SpontaneouslyEmittingState ) {
+        if( state instanceof HighEnergyState ) {
             super.setImage( highImg );
         }
         if( state instanceof MiddleEnergyState ) {
