@@ -31,8 +31,8 @@ public class SphericalBody extends CollidableBody {
                              //    protected SphericalBody( Vector2D center,
                              Vector2D velocity,
                              Vector2D acceleration,
-                             double radius,
-                             double mass ) {
+                             double mass,
+                             double radius ) {
         super( center, velocity, acceleration, mass, 0 );
         this.radius = radius;
     }

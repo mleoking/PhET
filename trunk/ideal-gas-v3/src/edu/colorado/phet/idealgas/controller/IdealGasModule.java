@@ -37,6 +37,10 @@ public class IdealGasModule extends Module {
         this( clock, Strings.idealGasModuleName );
     }
 
+    protected IdealGasModel getIdealGasModel() {
+        return (IdealGasModel)getModel();
+    }
+
     public IdealGasModule( AbstractClock clock, String name ) {
         super( name );
 
