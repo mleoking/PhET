@@ -70,8 +70,6 @@ public class SphereHollowSphereCollision implements Collision {
 
         // Compute correct position of the bodies following the collision
         Vector2D.Double tangentVector = new Vector2D.Double( loa.getY(), -loa.getX() );
-
-        // Determine the
         double offset = this.sphere.getPositionPrev().distance( this.hollowSphere.getPositionPrev() ) < this.hollowSphere.getRadius() ?
                         -this.sphere.getRadius() : this.sphere.getRadius();
         double offsetX = n.getX() * offset;

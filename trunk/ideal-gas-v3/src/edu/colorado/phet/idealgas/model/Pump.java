@@ -71,13 +71,13 @@ public class Pump extends SimpleObservable {
         protected Class speciesClass;
         private double initialEnergy;
 
-
         public GasMolecule create( IdealGasModel model, double initialEnergy ) {
             this.initialEnergy = ( initialEnergy == 0 ? DEFAULT_ENERGY : initialEnergy );
             return create( model, currentGasSpecies );
         }
 
         public GasMolecule create( IdealGasModel model ) {
+            this.initialEnergy = DEFAULT_ENERGY;
             return create( model, currentGasSpecies );
         }
 
@@ -85,7 +85,7 @@ public class Pump extends SimpleObservable {
                                    Class speciesClass ) {
             this.model = model;
             this.speciesClass = speciesClass;
-            this.initialEnergy = DEFAULT_ENERGY;
+//            this.initialEnergy = DEFAULT_ENERGY;
             return pumpGasMolecule();
         }
 

@@ -9,16 +9,17 @@ package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.LightSpecies;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
 import java.util.ResourceBundle;
-import java.util.Locale;
 
 /**
  *
@@ -37,12 +38,15 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
     private JTextField numParticlesTF;
     private NumberFormat aveSpeedFormat = NumberFormat.getInstance();
     private JTextField aveSpeedTF;
+    private IdealGasModel model;
 
 
     /**
      * Constructor
      */
-    public GasSpeciesMonitorPanel( Class speciesClass, String speciesName ) {
+    public GasSpeciesMonitorPanel( Class speciesClass, String speciesName, IdealGasModel model ) {
+        this.model = model;
+        this.speciesClass = speciesClass;
 
         setUpdateInterval( 500 );
 
@@ -50,9 +54,6 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         if( !GasMolecule.class.isAssignableFrom( speciesClass ) ) {
             throw new RuntimeException( "Class other than a gas species class sent to constructor for GasSpeciesMonitorPanel" );
         }
-
-        // Set up communication with the species class
-        linkToSpeciesClass( speciesClass );
 
         this.setPreferredSize( new Dimension( 400, 60 ) );
         Border border = new TitledBorder( speciesName );
@@ -74,26 +75,6 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
     }
 
     /**
-     *
-     */
-    private Class classArray[] = new Class[]{};
-
-    private void linkToSpeciesClass( Class speciesClass ) {
-        this.speciesClass = speciesClass;
-        try {
-            aveSpeedMethod = speciesClass.getMethod( "getAveSpeed", classArray );
-            numMoleculesMethod = speciesClass.getMethod( "getNumMolecules", classArray );
-        }
-        catch( NoSuchMethodException e ) {
-            throw new RuntimeException( "Gas species class is missing a method" );
-        }
-        catch( SecurityException e ) {
-            throw new RuntimeException( "Gas species class is missing a method" );
-        }
-        return;
-    }
-
-    /**
      * Clears the values in the readouts
      */
     public void clear() {
@@ -108,35 +89,17 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
 
     public void update() {
 
-        //        PressureSensingBox box = null;
-        //        if( observable instanceof PressureSensingBox ) {
-        //            box = (PressureSensingBox)observable;
-        //        }
-        //        else if( observable instanceof IdealGasSystem ) {
-        //            box = (PressureSensingBox)((IdealGasSystem)observable).getBox();
-        //        }
-
-        Double aveSpeed = null;
-        Double temperature = null;
-
-        // Get the number of molecules, average speed of the molecules, and the temperature
-        Integer numMolecules = null;
-        try {
-            numMolecules = (Integer)numMoleculesMethod.invoke( null, emptyParamArray );
-            aveSpeed = ( (Double)aveSpeedMethod.invoke( null, emptyParamArray ) );
-        }
-        catch( IllegalAccessException e ) {
-        }
-        catch( IllegalArgumentException e ) {
-        }
-        catch( InvocationTargetException e ) {
-        }
-
-        // Get the pressure
-        //        double pressure = 0;
-        //        if( box != null ) {
-        //            pressure = box.getPressure();
-        //        }
+        // Get the number of molecules, average speed of the molecules
+        double aveSpeed = 0;
+        int numMolecules = 0;
+            if( HeavySpecies.class.isAssignableFrom( speciesClass )) {
+                numMolecules = model.getHeavySpeciesCnt();
+                aveSpeed = model.getHeavySpeciesAveSpeed();
+            }
+            if( LightSpecies.class.isAssignableFrom( speciesClass )) {
+                numMolecules = model.getLightSpeciesCnt();
+                aveSpeed = model.getLightSpeciesAveSpeed();
+            }
 
         // Track the values we got
         long now = System.currentTimeMillis();
@@ -144,19 +107,17 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
 
             setLastUpdateTime( now );
             //Display the readings
-            numParticlesTF.setText( numMolecules.toString() );
+            numParticlesTF.setText( Integer.toString( numMolecules ));
 
             if( Double.isNaN( runningAveSpeed ) ) {
             }
             aveSpeedTF.setText( aveSpeedFormat.format( ( runningAveSpeed / sampleCnt ) * s_aveSpeedReadoutFactor ) );
-            //            aveSpeedTF.setText( aveSpeedFormat.format( aveSpeed.doubleValue() * s_aveSpeedReadoutFactor ));
-
             sampleCnt = 0;
             runningAveSpeed = 0;
         }
-        else { // if( now - getLastUpdateTime() >= getUpdateInterval() )
+        else {
             sampleCnt++;
-            runningAveSpeed += aveSpeed.doubleValue();
+            runningAveSpeed += aveSpeed;
         }
     }
 

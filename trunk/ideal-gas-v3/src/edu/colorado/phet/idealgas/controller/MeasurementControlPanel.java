@@ -10,8 +10,6 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
-import edu.colorado.phet.idealgas.model.HeavySpecies;
-import edu.colorado.phet.idealgas.model.LightSpecies;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -28,15 +26,27 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
         localizedStrings = ResourceBundle.getBundle( "localization/MeasurementControlPanel" );
     }
 
-    public MeasurementControlPanel( IdealGasModule module ) {
+    public MeasurementControlPanel( MeasurementModule module ) {
+//    public MeasurementControlPanel( IdealGasModule module ) {
         super( module );
         init();
     }
 
     private void init() {
-        this.remove( getGravityControlPanel() );
-        this.add( new PressureSliceControl() );
-        this.add( new RulerControlPanel() );
+//        this.remove( getGravityControlPanel() );
+//        this.add( new PressureSliceControl() );
+//        this.add( new RulerControlPanel() );
+        JButton measurementDlgBtn = new JButton( "<html><center>Measurement<br>Tools</center></html>" );
+        measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
+        measurementDlgBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                JDialog dlg = new MeasurementDialog( (Frame)SwingUtilities.getRoot(MeasurementControlPanel.this),
+                                                     (MeasurementModule)getModule());
+                dlg.setVisible( true );
+            }
+        } );
+        this.add( measurementDlgBtn );
+
         addLinebergerControls();
     }
 
@@ -58,8 +68,8 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
     }
 
     private void setNumParticlesInBox( int numParticles ) {
-        int dn = numParticles - ( HeavySpecies.getNumMolecules().intValue()
-                                  + LightSpecies.getNumMolecules().intValue() );
+        int dn = numParticles - ( getModule().getIdealGasModel().getHeavySpeciesCnt()
+                                  + getModule().getIdealGasModel().getLightSpeciesCnt() );
         if( dn > 0 ) {
             for( int i = 0; i < dn; i++ ) {
                 getModule().pumpGasMolecules( 1 );
@@ -104,8 +114,10 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
             // Hook the spinner up so it will track molecules put in the box by the pump
             getModule().getModel().addObserver( new SimpleObserver() {
                 public void update() {
-                    int h = HeavySpecies.getNumMolecules().intValue();
-                    int l = LightSpecies.getNumMolecules().intValue();
+                    int h = getModule().getIdealGasModel().getHeavySpeciesCnt();
+                    int l = getModule().getIdealGasModel().getLightSpeciesCnt();
+//                    int h = HeavySpecies.getNumMolecules().intValue();
+//                    int l = LightSpecies.getNumMolecules().intValue();
                     particleSpinner.setValue( new Integer( l + h ) );
                 }
             } );

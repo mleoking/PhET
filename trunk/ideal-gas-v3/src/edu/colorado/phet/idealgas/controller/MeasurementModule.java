@@ -44,13 +44,19 @@ public class MeasurementModule extends IdealGasModule {
 
         // Set up the energy histogramDlg. Note that we can't do this in the constructor
         // because we a reference to the application's Frame
+        if( histogramDlg == null ) {
         histogramDlg = new EnergyHistogramDialog( application.getApplicationView().getPhetFrame(),
                                                   (IdealGasModel)getModel() );
-        histogramDlg.setVisible( true );
-    }
+        }
+//        histogramDlg.setVisible( true );
+}
 
     public void deactivate( PhetApplication app ) {
         histogramDlg.setVisible( false );
+    }
+
+    public void setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
+        histogramDlg.setVisible( histogramDlgEnabled );
     }
 
     public void setRulerEnabed( boolean rulerEnabled ) {

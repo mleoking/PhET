@@ -53,31 +53,31 @@ public class HeavySpecies extends GasMolecule {
         return s_defaultMass;
     }
 
-    public static void computeTemperature() {
-        s_temperature = GasMolecule.computeTemperature( s_instances );
-    }
-
-    public static Double getTotalEnergy( IdealGasModel ideaGasModel ) {
-        return GasMolecule.getTotalEnergy( s_instances, ideaGasModel );
-    }
-
-    public static void computeAveSpeed() {
-        s_aveSpeed = GasMolecule.computeAveSpeed( s_instances );
-    }
-
-    public static Double getTemperature() {
-        return s_temperature;
-    }
-
-    public static Double getAveSpeed() {
-        synchronized( s_aveSpeed ) {
-            return s_aveSpeed;
-        }
-    }
-
-    public static Integer getNumMolecules() {
-        return new Integer( s_instances.size() );
-    }
+//    public static void computeTemperature() {
+//        s_temperature = GasMolecule.computeTemperature( s_instances );
+//    }
+//
+//    public static Double getTotalEnergy( IdealGasModel ideaGasModel ) {
+//        return GasMolecule.getTotalEnergy( s_instances, ideaGasModel );
+//    }
+//
+//    public static void computeAveSpeed() {
+//        s_aveSpeed = GasMolecule.computeAveSpeed( s_instances );
+//    }
+//
+//    public static Double getTemperature() {
+//        return s_temperature;
+//    }
+//
+//    public static Double getAveSpeed() {
+//        synchronized( s_aveSpeed ) {
+//            return s_aveSpeed;
+//        }
+//    }
+//
+//    public static Integer getNumMolecules() {
+//        return new Integer( s_instances.size() );
+//    }
 
     public static void removeParticle( HeavySpecies particle ) {
         s_instances.remove( particle );

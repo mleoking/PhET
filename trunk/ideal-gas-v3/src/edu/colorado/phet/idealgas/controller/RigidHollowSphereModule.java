@@ -10,15 +10,28 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ResourceBundle;
 
 public abstract class RigidHollowSphereModule extends IdealGasModule {
+
+    private static ResourceBundle localizedStrings;
+    static {
+        localizedStrings = ResourceBundle.getBundle( "localization/MeasurementControlPanel" );
+    }
+
     private static final float initialVelocity = 35;
 
     private HollowSphere sphere;
+    private int numMoleculesInSphere;
     private Class gasSpecies;
 
     public RigidHollowSphereModule( AbstractClock clock, String name, Class gasSpecies ) {
@@ -119,5 +132,91 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
         //        JPanel mainControlPanel = getIdealGasApplication().getPhetMainPanel().getControlPanel();
         //        mainControlPanel.add( hsaControlPanel );
         //        hsaControlPanel.setGasSpeciesClass( LightSpecies.class );
+        getControlPanel().add( new NumParticlesControls() );
     }
+
+    class RigidSphereControlPanel extends JPanel {
+        public RigidSphereControlPanel() {
+            this.add( new JLabel( localizedStrings.getString( "Number_of_particles" ) ));
+            // Set up the spinner for controlling the number of particles in
+            // the hollow sphere
+            Integer value = new Integer( 0 );
+            Integer min = new Integer( 0 );
+            Integer max = new Integer( 1000 );
+            Integer step = new Integer( 1 );
+            SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
+            final JSpinner particleSpinner = new JSpinner( model );
+            particleSpinner.setPreferredSize( new Dimension( 20, 5 ) );
+            this.add( particleSpinner );
+
+            particleSpinner.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    setNumParticlesInSphere( ( (Integer)particleSpinner.getValue() ).intValue() );
+                }
+            } );
+
+        }
+
+        private void setNumParticlesInSphere( int numParticles ) {
+            int dn = numParticles - numMoleculesInSphere;
+            if( dn > 0 ) {
+                for( int i = 0; i < dn; i++ ) {
+                    pumpGasMolecules( 1 );
+                }
+            }
+            else if( dn < 0 ) {
+                for( int i = 0; i < -dn; i++ ) {
+                    removeGasMolecule();
+                }
+            }
+        }
+    }
+    
+    private class NumParticlesControls extends JPanel {
+        GasMoleculeFactory moleculeFactory = new GasMoleculeFactory();
+        NumParticlesControls() {
+            super( new GridLayout( 1, 2 ) );
+            this.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 40 ) );
+            this.setLayout( new GridLayout( 2, 1 ) );
+
+            this.add( new JLabel( localizedStrings.getString( "Number_of_particles" ) ));
+            // Set up the spinner for controlling the number of particles in
+            // the hollow sphere
+            Integer value = new Integer( 0 );
+            Integer min = new Integer( 0 );
+            Integer max = new Integer( 1000 );
+            Integer step = new Integer( 1 );
+            SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
+            final JSpinner particleSpinner = new JSpinner( model );
+            particleSpinner.setPreferredSize( new Dimension( 20, 5 ) );
+            this.add( particleSpinner );
+
+            particleSpinner.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    setNumParticlesInSphere( ( (Integer)particleSpinner.getValue() ).intValue() );
+                }
+            } );
+        }
+
+        private void setNumParticlesInSphere( int numParticles ) {
+            int dn = numParticles - numMoleculesInSphere;
+            if( dn > 0 ) {
+                for( int i = 0; i < dn; i++ ) {
+                    GasMolecule gm = moleculeFactory.create( (IdealGasModel)getModel(),
+                                                             gasSpecies );
+                    gm.setPosition( sphere.getPosition() );
+                    PumpMoleculeCmd cmd = new PumpMoleculeCmd( (IdealGasModel)getModel(), gm,
+                                                               RigidHollowSphereModule.this );
+                    cmd.doIt();
+                }
+            }
+            else if( dn < 0 ) {
+                for( int i = 0; i < -dn; i++ ) {
+                    removeGasMolecule();
+                }
+            }
+        }
+
+    }
+
 }
