@@ -23,6 +23,12 @@ public class PhetMultiLineTextGraphic extends PhetGraphic {
     private int y;
     private FontMetrics fontMetrics;
 
+    public static interface IPhetTextGraphic {
+        void setPosition( int x, int y );
+
+        void setVisible( boolean visible );
+    }
+
     public PhetMultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, Color color ) {
         this( component, text, font, x, y, new Basic( component, font, color ) );
     }

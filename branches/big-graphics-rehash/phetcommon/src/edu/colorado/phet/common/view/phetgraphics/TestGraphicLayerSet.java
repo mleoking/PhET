@@ -6,14 +6,10 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +18,7 @@ import java.awt.geom.Rectangle2D;
 
 public class TestGraphicLayerSet {
     public static final void main( String[] args ) {
-        ApparatusPanel ap = new ApparatusPanel() {            
+        ApparatusPanel ap = new ApparatusPanel() {
             public void repaint( int x, int y, int width, int height ) {
                 paintImmediately( x, y, width, height );
             }
@@ -60,5 +56,10 @@ public class TestGraphicLayerSet {
 //            }
 //        } );
         compositeGraphic.setCursorHand();
+        compositeGraphic.addTranslationListener( new TranslationListener() {
+            public void translationOccurred( TranslationEvent translationEvent ) {
+                compositeGraphic.setLocation( compositeGraphic.getLocation().x + translationEvent.getDx(), compositeGraphic.getLocation().y + translationEvent.getDy() );
+            }
+        } );
     }
 }

@@ -1,11 +1,11 @@
 /** Sam Reid*/
 package edu.colorado.phet.common.view.phetgraphics;
 
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.CompositeMouseInputListener;
 import edu.colorado.phet.common.view.graphics.mousecontrols.CursorControl;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationControl;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationHandler;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.*;
@@ -13,6 +13,7 @@ import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Stack;
  * This class manages the current and previous bounds for painting, and whether the region is dirty.
  * Testing.
  */
-public abstract class PhetGraphic implements InteractiveGraphic {
+public abstract class PhetGraphic implements MouseInputListener, Graphic {
     private Point location = new Point();
     private Rectangle lastBounds = null;
     private Rectangle bounds = null;
@@ -34,9 +35,10 @@ public abstract class PhetGraphic implements InteractiveGraphic {
     private CompositePhetGraphic parent;
 
     /*A bit of state to facilitate interactivity.*/
-    private CompositeMouseInputListener mouseInputListener = new CompositeMouseInputListener();//delegates to
+    protected CompositeMouseInputListener mouseInputListener = new CompositeMouseInputListener();//delegates to
     private CursorControl cursorControl;
     private MouseInputAdapter popupHandler;
+    private ArrayList listeners = new ArrayList();
 
     protected PhetGraphic( Component component ) {
         this.component = component;
@@ -44,6 +46,10 @@ public abstract class PhetGraphic implements InteractiveGraphic {
 
     protected void setParent( CompositePhetGraphic parent ) {
         this.parent = parent;
+    }
+
+    public void addPhetGraphicListener( PhetGraphicListener phetGraphicListener ) {
+        listeners.add( phetGraphicListener );
     }
 
     public Rectangle getBounds() {
@@ -85,7 +91,7 @@ public abstract class PhetGraphic implements InteractiveGraphic {
         }
     }
 
-    protected void setBoundsDirty() {
+    public void setBoundsDirty() {
         boundsDirty = true;
     }
 
@@ -93,7 +99,7 @@ public abstract class PhetGraphic implements InteractiveGraphic {
         return component;
     }
 
-    protected boolean getVisibilityFlag(){
+    protected boolean getVisibilityFlag() {
         return visible;
     }
 
@@ -114,6 +120,13 @@ public abstract class PhetGraphic implements InteractiveGraphic {
         }
     }
 
+    /**
+     * Override this for proper behavior.
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public boolean contains( int x, int y ) {
         if( visible ) {
             syncBounds();
@@ -261,8 +274,8 @@ public abstract class PhetGraphic implements InteractiveGraphic {
         this.mouseInputListener.addMouseInputListener( listener );
     }
 
-    public void addTranslationBehavior( Translatable target ) {
-        addMouseInputListener( new TranslationControl( target ) );
+    public void addTranslationListener( TranslationListener translationListener ) {
+        addMouseInputListener( new TranslationHandler( translationListener ) );
     }
 
     public void setPopupMenu( final JPopupMenu menu ) {
@@ -277,6 +290,10 @@ public abstract class PhetGraphic implements InteractiveGraphic {
             }
         };
         addMouseInputListener( popupHandler );
+    }
+
+    protected CompositeMouseInputListener getMouseInputListener() {
+        return mouseInputListener;
     }
 
 }

@@ -42,11 +42,9 @@ public class ApparatusPanel extends JPanel {
     // Instance fields and methods
     //
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-    GraphicLayerSet graphic;
-    //    CompositeGraphic graphic = new CompositeGraphic();
-    CompositeInteractiveGraphicMouseDelegator mouseDelegator;
+    private GraphicLayerSet graphic;
 
-    ArrayList graphicsSetups = new ArrayList();
+    private ArrayList graphicsSetups = new ArrayList();
 
     protected ApparatusPanel( Object dummy ) {
         super( null );
@@ -59,17 +57,8 @@ public class ApparatusPanel extends JPanel {
         // to lay out components with absolute coordinates
         super( null );
         this.graphic = new GraphicLayerSet( this );
-        this.mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic );
-        this.addMouseListener( mouseDelegator );
-        this.addMouseMotionListener( mouseDelegator );
-        //        BevelBorder border = (BevelBorder)BorderFactory.createLoweredBevelBorder();
-
-        //        Border border = BorderFactory.createLineBorder( Color.black );
-        //        this.setBorder( border );
-    }
-
-    public CompositeInteractiveGraphicMouseDelegator getMouseDelegator() {
-        return mouseDelegator;
+        this.addMouseListener( graphic.getSwingAdapter() );
+        this.addMouseMotionListener( graphic.getSwingAdapter() );
     }
 
     public void addGraphicsSetup( GraphicsSetup setup ) {

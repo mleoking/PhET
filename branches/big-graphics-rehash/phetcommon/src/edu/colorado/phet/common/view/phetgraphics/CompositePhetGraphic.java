@@ -13,10 +13,14 @@ public class CompositePhetGraphic extends GraphicLayerSet {
         super( component );
     }
 
-    public PhetGraphic[] getChildrenForMouseHandling() {
-        return new PhetGraphic[0];
+    protected PhetGraphic getHandler( Point p ) {
+        if( contains( p.x, p.y ) ) {
+            return this;
+        }
+        else {
+            return null;
+        }
     }
-
 
     public void setLocation( int x, int y ) {
         Point location = super.getLocation();
@@ -29,4 +33,5 @@ public class CompositePhetGraphic extends GraphicLayerSet {
             graphic.setLocation( graphic.getLocation().x + dx, graphic.getLocation().y + dy );
         }
     }
+
 }

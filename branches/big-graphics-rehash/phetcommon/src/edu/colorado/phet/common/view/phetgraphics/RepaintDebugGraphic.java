@@ -25,6 +25,7 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         super( panel );
         this.panel = panel;
         this.clock = clock;
+        setActive( true );
     }
 
     public void paint( Graphics2D gr ) {

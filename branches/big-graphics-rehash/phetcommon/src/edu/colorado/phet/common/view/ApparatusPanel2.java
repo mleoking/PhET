@@ -9,10 +9,9 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,7 +53,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     //
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     GraphicLayerSet graphic;
-    CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic );
+//    CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic );
     BufferedImage bImg;
 
     ArrayList graphicsSetups = new ArrayList();
@@ -70,9 +69,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     public ApparatusPanel2( BaseModel model ) {
         super( null );
-        graphic= new GraphicLayerSet(this );
+        graphic = new GraphicLayerSet( this );
         // The following lines use a mouse processor in the model loop
-        MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
+        MouseProcessor mouseProcessor = new MouseProcessor( graphic );
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
@@ -190,9 +189,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
     }
 
-    public CompositeInteractiveGraphicMouseDelegator getMouseDelegator() {
-        return mouseDelegator;
-    }
+//    public CompositeInteractiveGraphicMouseDelegator getMouseDelegator() {
+//        return mouseDelegator;
+//    }
 
     public void addGraphicsSetup( GraphicsSetup setup ) {
         graphicsSetups.add( setup );
@@ -291,7 +290,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         this.graphic.addGraphic( graphic, level );
     }
 
-    public void addGraphic( PhetGraphic graphic) {
+    public void addGraphic( PhetGraphic graphic ) {
         this.addGraphic( graphic, 0 );
     }
 
@@ -306,9 +305,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
     class MouseProcessor implements ModelElement, MouseListener, MouseMotionListener {
         LinkedList mouseEventList;
         LinkedList mouseMotionEventList;
-        private CompositeInteractiveGraphicMouseDelegator handler;
+        private GraphicLayerSet handler;
 
-        public MouseProcessor( CompositeInteractiveGraphicMouseDelegator mouseDelegator ) {
+        public MouseProcessor( GraphicLayerSet mouseDelegator ) {
             mouseEventList = new LinkedList();
             mouseMotionEventList = new LinkedList();
             this.handler = mouseDelegator;

@@ -9,7 +9,7 @@ import java.awt.*;
  * Time: 5:59:29 PM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public class PhetTextGraphic extends PhetGraphic implements IPhetTextGraphic {
+public class PhetTextGraphic extends PhetGraphic implements PhetMultiLineTextGraphic.IPhetTextGraphic {
     private Font font;
     private String text;
     private Color color;

@@ -6,25 +6,23 @@
  */
 package edu.colorado.phet.common.view.help;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.ShadowTextGraphic;
-import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class HelpItem extends PhetGraphic{
+public class HelpItem extends PhetGraphic {
     public final static int ABOVE = 1;
     public final static int BELOW = 2;
     public final static int LEFT = 3;
     public final static int CENTER = 4;
     public final static int RIGHT = 5;
 
-    ShapeGraphic backgroundGraphic;
+    PhetShapeGraphic backgroundGraphic;
     ArrayList shadowTextGraphics = new ArrayList();
     int horizontalAlignment;
     int verticalAlignment;
@@ -35,7 +33,7 @@ public class HelpItem extends PhetGraphic{
     private Color foregroundColor;
     boolean inited = false;
 
-    public HelpItem( Component component,String text, double x, double y ) {
+    public HelpItem( Component component, String text, double x, double y ) {
         this( component, text, x, y, CENTER, CENTER );
     }
 
@@ -48,9 +46,9 @@ public class HelpItem extends PhetGraphic{
      * @param verticalAlignment   Specifies if the help item will be displayed ABOVE
      *                            or BELOW the specified y coordinate
      */
-    public HelpItem( Component component,String text, double x, double y,
+    public HelpItem( Component component, String text, double x, double y,
                      int horizontalAlignment, int verticalAlignment ) {
-        super(component );
+        super( component );
         this.horizontalAlignment = horizontalAlignment;
         this.verticalAlignment = verticalAlignment;
         this.text = text;
@@ -60,7 +58,7 @@ public class HelpItem extends PhetGraphic{
     }
 
     protected Rectangle determineBounds() {
-        return getComponent().getBounds( );//TODO this should return the correct bounds
+        return getComponent().getBounds();//TODO this should return the correct bounds
     }
 
     public void setLocation( int x, int y ) {
@@ -87,7 +85,7 @@ public class HelpItem extends PhetGraphic{
             backgroundGraphic.paint( g );
         }
         for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
-            ShadowTextGraphic textGraphic = (ShadowTextGraphic)shadowTextGraphics.get( i );
+            PhetShadowTextGraphic textGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
             textGraphic.paint( g );
         }
     }
@@ -95,7 +93,7 @@ public class HelpItem extends PhetGraphic{
     public void setShadowColor( Color shadowColor ) {
         this.shadowColor = shadowColor;
         for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
-            ShadowTextGraphic textGraphic = (ShadowTextGraphic)shadowTextGraphics.get( i );
+            PhetShadowTextGraphic textGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
             textGraphic.setShadowColor( shadowColor );
         }
     }
@@ -103,8 +101,8 @@ public class HelpItem extends PhetGraphic{
     public void setForegroundColor( Color foregroundColor ) {
         this.foregroundColor = foregroundColor;
         for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
-            ShadowTextGraphic shadowTextGraphic = (ShadowTextGraphic)shadowTextGraphics.get( i );
-            shadowTextGraphic.setForegroundColor( foregroundColor );
+            PhetShadowTextGraphic shadowTextGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
+            shadowTextGraphic.setColor( foregroundColor );
         }
     }
 
@@ -145,7 +143,7 @@ public class HelpItem extends PhetGraphic{
 
         for( int i = 0; i < sa.length; i++ ) {
             int y = (int)yBase + (int)location.getY() + ( i + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
-            ShadowTextGraphic textGraphic = new ShadowTextGraphic( font, sa[i], 1, 1, x, y, foregroundColor, shadowColor );
+            PhetShadowTextGraphic textGraphic = new PhetShadowTextGraphic( getComponent(), sa[i], font, x, y, foregroundColor, 1, 1, shadowColor );
             shadowTextGraphics.add( textGraphic );
         }
     }
