@@ -83,6 +83,7 @@ public class BarMagnetModule extends Module {
     
     // Model
     private AbstractMagnet _magnetModel;
+    private AbstractCompass _compassModel;
     
     // View
     private BarMagnetGraphic _magnetGraphic;
@@ -132,16 +133,16 @@ public class BarMagnetModule extends Module {
         model.addModelElement( _magnetModel );
         
         // Compass model
-        AbstractCompass compassModel = null;
+        _compassModel = null;
         if ( FaradayConfig.HOLLYWOOD_COMPASS ) {
             System.out.println( "*** HOLLYWOOD_COMPASS is enabled ***" ); // DEBUG
-            compassModel = new HollywoodCompass( _magnetModel );
+            _compassModel = new HollywoodCompass( _magnetModel );
         }
         else {
-            compassModel = new Compass( _magnetModel );
+            _compassModel = new Compass( _magnetModel );
         }
-        compassModel.setLocation( COMPASS_LOCATION );
-        model.addModelElement( compassModel );
+        _compassModel.setLocation( COMPASS_LOCATION );
+        model.addModelElement( _compassModel );
         
         //----------------------------------------------------------------------------
         // View
@@ -163,7 +164,7 @@ public class BarMagnetModule extends Module {
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
         
         // CompassGraphic
-        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
@@ -220,6 +221,7 @@ public class BarMagnetModule extends Module {
         double direction = _magnetModel.getDirection();
         direction = ( direction + 180 ) % 360;
         _magnetModel.setDirection( direction );
+        _compassModel.startMovingNow();
     }
     
     /**
