@@ -16,6 +16,8 @@ public class Uranium235Graphic extends NucleusGraphic {
     private static Font elementFont = new Font( "Serif", Font.BOLD, 30 );
     private static Color color = Color.yellow;
     private static AffineTransform nucleusTx = new AffineTransform();
+    private static Stroke fontOutlineStroke = new BasicStroke( 0.5f );
+
     private boolean displayLabel = true;
 
     public Uranium235Graphic( Nucleus nucleus ) {
@@ -42,6 +44,15 @@ public class Uranium235Graphic extends NucleusGraphic {
             int dy = fm.getHeight() / 2;
             g.setFont( elementFont );
             g.drawString( "U", 0, dy );
+
+//            FontRenderContext frc = g.getFontRenderContext();
+//                    TextLayout tl = new TextLayout( "U", elementFont, frc);
+//                    Shape shape =  tl.getOutline(null);
+//            g.setColor( Color.black );
+//            g.setStroke( fontOutlineStroke );
+//            AffineTransform outlineTx = AffineTransform.getTranslateInstance( 0, dy );
+//            g.transform( outlineTx );
+//            g.draw( shape );
         }
         g.setTransform( orgTx );
     }
