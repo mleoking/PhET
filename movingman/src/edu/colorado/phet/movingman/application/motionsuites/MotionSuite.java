@@ -82,6 +82,10 @@ public abstract class MotionSuite {
         createDialog();
     }
 
+    protected MovingManModule getModule() {
+        return module;
+    }
+
     private void doPause() {
         module.getMovingManControlPanel().setPauseState();
         goButton.setEnabled( true );
@@ -97,9 +101,6 @@ public abstract class MotionSuite {
 
     private void doReset() {
         module.reset();
-        goButton.setEnabled( true );
-        pauseButton.setEnabled( false );
-        resetButton.setEnabled( false );
     }
 
     public String toString() {
@@ -151,6 +152,8 @@ public abstract class MotionSuite {
     public void reset() {
         getInitialPositionSpinner().setValue( new Double( 0 ) );
         goButton.setEnabled( true );
+        pauseButton.setEnabled( false );
+        resetButton.setEnabled( false );
     }
 
     public void showDialog() {

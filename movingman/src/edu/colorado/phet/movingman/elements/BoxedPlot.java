@@ -22,7 +22,7 @@ import java.util.Observable;
  */
 public class BoxedPlot implements ObservingGraphic {
     private MovingManModule module;
-    DataSeries mh;
+    private DataSeries mh;
     private Timer recordingTimer;
     private Color color;
     private Stroke stroke;
@@ -30,14 +30,14 @@ public class BoxedPlot implements ObservingGraphic {
     private BufferedGraphicForComponent buffer;
     private double xShift;
     boolean showValue = true;
-    GeneralPath path = new GeneralPath( GeneralPath.WIND_EVEN_ODD );
+    private GeneralPath path = new GeneralPath( GeneralPath.WIND_EVEN_ODD );
     private boolean started;
     private BoxToBoxInvertY transform;
     private boolean visible = true;
-    ArrayList rawData = new ArrayList( 100 );
-    ArrayList transformedData = new ArrayList( 100 );
-    float lastTime;
-    double dt;
+    private ArrayList rawData = new ArrayList( 100 );
+    private ArrayList transformedData = new ArrayList( 100 );
+    private float lastTime;
+    private double dt;
     private Graphics2D bufferGraphic;
     private Rectangle2D.Double outputBox;
 
@@ -85,8 +85,11 @@ public class BoxedPlot implements ObservingGraphic {
         if( started && visible ) {
             g.setStroke( stroke );
             g.setColor( color );
+            Shape origClip = g.getClip();
+            g.setClip( getOutputBox() );
             g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             g.draw( path );
+            g.setClip( origClip );
         }
     }
 
@@ -110,7 +113,6 @@ public class BoxedPlot implements ObservingGraphic {
             Point2D.Double pt = new Point2D.Double( time - xShift, position );
             rawData.add( pt );
             pt = transform.transform( pt );
-//            pt.x+=xShift;
             transformedData.add( pt );
             if( mh.size() >= 2 && !started ) {
                 path.moveTo( (float)pt.x, (float)pt.y );
@@ -123,9 +125,7 @@ public class BoxedPlot implements ObservingGraphic {
                     this.bufferGraphic = (Graphics2D)buffer.getImage().getGraphics();
                     bufferGraphic.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                     bufferGraphic.setColor( color );
-//                    this.clipArea = stroke.createStrokedShape(new Line2D.Double(b.x, b.y, a.x, a.y));
                     bufferGraphic.setStroke( stroke );
-//                    if (outputBox.contains(a) && outputBox.contains(b))
                     bufferGraphic.setClip( outputBox );
                     bufferGraphic.drawLine( (int)b.x, (int)b.y, (int)a.x, (int)a.y );
                 }

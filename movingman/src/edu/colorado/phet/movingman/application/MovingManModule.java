@@ -35,6 +35,7 @@ public class MovingManModule extends Module {
     private int numResetPoints = 1;
     private double maxTime = 20;
 
+    private int paintIndex = 0;
     private MotionState motionState = new MotionState();
     private double playbackSpeed;
     private Man man;
@@ -46,9 +47,9 @@ public class MovingManModule extends Module {
     private Timer recordingTimer;
     private Timer playbackTimer;
     private MovingManLayout layout;
-    PlotAndText accelerationPlot;
-    PlotAndText positionPlot;
-    PlotAndText velocityPlot;
+    private PlotAndText accelerationPlot;
+    private PlotAndText positionPlot;
+    private PlotAndText velocityPlot;
     private Mode mode;
     private Mode recordMode;
     private Mode playbackMode;
@@ -64,12 +65,11 @@ public class MovingManModule extends Module {
     private WalkWayGraphic walkwayGraphic;
     public static PhetFrame FRAME;
     private MotionSuite motionSuite;//selected motion, or null if none selected
+    private Color purple;
 
     public Color getPurple() {
         return purple;
     }
-
-    private Color purple;
 
     public MotionState getMotionState() {
         return motionState;
@@ -101,8 +101,6 @@ public class MovingManModule extends Module {
         getModel().deleteObserver( getApparatusPanel() );
         this.deactivate( app );
     }
-
-    int paintIndex = 0;
 
     public MovingManModule() {
         super( "The Moving Man" );
@@ -279,6 +277,7 @@ public class MovingManModule extends Module {
 
     public void repaintBackground() {
         backgroundGraphic.paintBufferedImage();
+        getApparatusPanel().repaint();
     }
 
     public void setVelocityPlotMagnitude( double maxVelocity ) {
@@ -372,16 +371,6 @@ public class MovingManModule extends Module {
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
-//        LectureLookAndFeel2 LECTURE_LOOK_AND_FEEL;
-//        LECTURE_LOOK_AND_FEEL = new LectureLookAndFeel2();
-//        if( isLecture ) {
-//            try {
-//                UIManager.setLookAndFeel( LECTURE_LOOK_AND_FEEL );
-//            }
-//            catch( UnsupportedLookAndFeelException e ) {
-//                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-//            }
-//        }
         MovingManModule m = new MovingManModule();
         FrameSetup setup = new MaximizeFrame();
         ApplicationDescriptor desc = new ApplicationDescriptor( "The Moving Man", "The Moving Man Application.",

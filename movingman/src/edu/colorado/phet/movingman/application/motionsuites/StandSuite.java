@@ -30,7 +30,10 @@ public class StandSuite extends MotionSuite {
     }
 
     public void initialize( Man man ) {
+        MovingManModule module = getModule();
+        module.repaintBackground();
     }
+
 
     public void collidedWithWall() {
     }
