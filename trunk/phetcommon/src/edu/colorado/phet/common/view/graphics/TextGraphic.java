@@ -81,7 +81,7 @@ public class TextGraphic implements BoundedGraphic {
         this.paint = paint;
     }
 
-    public Rectangle2D getBounds() {
+    public Rectangle2D getBounds2D() {
         Rectangle2D result = null;
         if( fontRenderContext != null ) {
             result = font.getStringBounds( text, fontRenderContext );

@@ -71,4 +71,8 @@ public class DoubleGeneralPath {
     public void lineTo( AbstractVector2D loc ) {
         lineTo( loc.getX(), loc.getY() );
     }
+
+    public void reset() {
+        path.reset();
+    }
 }
