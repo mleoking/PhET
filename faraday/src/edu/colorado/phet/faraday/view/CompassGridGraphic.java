@@ -12,7 +12,6 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.math.MathUtil;
@@ -61,11 +60,11 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // The spacing between compass needles, in pixels.
     private int _xSpacing, _ySpacing;
     
-    // The size of the compass needles, in pixels.
-    private Dimension _needleSize;
-    
-    // The compass needles that are in the grid (array of CompassGridNeedle).
+    // Descriptions of the needles that are in the grid (array of NeedleDescriptor).
     private ArrayList _needles;
+    
+    // Cache of needle Shapes and Colors
+    private CompassNeedleCache _needleCache;
     
     // Strategy used to indicate field strength;
     private int _strengthStrategy;
@@ -84,6 +83,13 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     
     // A reusable vector
     private Vector2D _fieldVector;
+    
+    // Lightweight data structure for holding a needle description.
+    private class NeedleDescriptor {
+        public double x, y;
+        public double direction;
+        public double strength;
+    }
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -105,11 +111,15 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
         
-        _needleSize = new Dimension( 40, 20 );
         _needles = new ArrayList();
         
         _strengthStrategy = ALPHA_STRATEGY;  // works on any background color
         _strengthThreshold = DEFAULT_STRENGTH_THRESHOLD;
+        
+        _needleCache = new CompassNeedleCache();
+        _needleCache.setNeedleSize( 40, 20 );
+        _needleCache.setAlphaEnabled( _strengthStrategy == ALPHA_STRATEGY );
+        _needleCache.populate();
         
         _bounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         _point = new Point();
@@ -167,10 +177,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         boolean alphaEnabled = ( _strengthStrategy == ALPHA_STRATEGY );
         for ( int i = 0; i < xCount; i++ ) {
             for ( int j = 0; j < yCount; j++ ) {
-                CompassNeedle needle = new CompassNeedle();
-                needle.setLocation( i * xSpacing, j * ySpacing );
-                needle.setSize( _needleSize );
-                needle.setAlphaEnabled( alphaEnabled );
+                NeedleDescriptor needle = new NeedleDescriptor();
+                needle.x = i * xSpacing;
+                needle.y = j * ySpacing;
                 _needles.add( needle );
             }
         }
@@ -211,11 +220,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
      */
     public void setNeedleSize( final Dimension needleSize ) {
         assert( needleSize != null );
-        _needleSize.setSize( needleSize );
-        for ( int i = 0; i < _needles.size(); i++ ) {
-            CompassNeedle needle = (CompassNeedle) _needles.get(i);
-            needle.setSize( _needleSize );
-        }
+        _needleCache.setNeedleSize( needleSize );
+        _needleCache.populate();
         update();
     }
     
@@ -225,7 +231,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
      * @return the size
      */
     public Dimension getNeedleSize() {
-        return new Dimension( _needleSize );
+        return new Dimension( _needleCache.getNeedleSize() );
     }
    
     
@@ -255,19 +261,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
      */
     private void setStrengthStrategy( int strengthStrategy ) {
         assert( strengthStrategy == ALPHA_STRATEGY || strengthStrategy == SATURATION_STRATEGY );
-        
-        if ( strengthStrategy != _strengthStrategy ) {
-            _strengthStrategy = strengthStrategy;
-            
-            // Update all needles.
-            boolean alphaEnabled = ( strengthStrategy == ALPHA_STRATEGY );
-            for ( int i = 0; i < _needles.size(); i++ ) {
-                CompassNeedle needle = (CompassNeedle) _needles.get(i);
-                needle.setAlphaEnabled( alphaEnabled );
-            }
-            
-            repaint();
-        }
+        _needleCache.setAlphaEnabled( strengthStrategy == ALPHA_STRATEGY );
+        repaint();
     }
     
     /**
@@ -335,18 +330,37 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
      */
     public void paint( Graphics2D g2 ) {
         if ( isVisible() ) { 
+            Color northColor, southColor;
+            Shape northShape, southShape;
+            
             super.saveGraphicsState( g2 );
             g2.setRenderingHints( _renderingHints );
+            
             // Draw the needles.
+            double previousX, previousY;
+            previousX = previousY = 0;
             for ( int i = 0; i < _needles.size(); i++ ) {
-                CompassNeedle needle = (CompassNeedle)_needles.get(i);
-                if ( needle.getStrength() >= _strengthThreshold ) {
-                    g2.setPaint( needle.getNorthColor() );
-                    g2.fill( needle.getNorthShape() );
-                    g2.setPaint( needle.getSouthColor() );
-                    g2.fill( needle.getSouthShape() );
+                NeedleDescriptor needle = (NeedleDescriptor)_needles.get(i);
+                
+                northColor = _needleCache.getNorthColor( needle.strength );
+                southColor = _needleCache.getSouthColor( needle.strength );
+                northShape = _needleCache.getNorthShape( needle.direction );
+                southShape = _needleCache.getSouthShape( needle.direction );
+                
+                
+                if ( needle.strength >= _strengthThreshold ) {
+                    
+                    g2.translate( needle.x - previousX, needle.y - previousY );
+                    g2.setPaint( northColor );
+                    g2.fill( northShape );
+                    g2.setPaint( southColor );
+                    g2.fill( southShape );
+                    
+                    previousX = needle.x;
+                    previousY = needle.y;
                 }
             }
+            
             super.restoreGraphicsState();
         }
     }
@@ -375,16 +389,16 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
             for ( int i = 0; i < _needles.size(); i++ ) {
 
                 // Next needle...
-                CompassNeedle needle = (CompassNeedle)_needles.get(i);
+                NeedleDescriptor needle = (NeedleDescriptor)_needles.get(i);
 
                 // Get the magnetic field information at the needle's location.
-                _point.setLocation( needle.getX(), needle.getY() );
+                _point.setLocation( needle.x, needle.y );
                 _magnetModel.getStrength( _point, _fieldVector /* output */ );
                 double angle = _fieldVector.getAngle();
                 double magnitude = _fieldVector.getMagnitude();
                 
                 // Set the needle's direction.
-                needle.setDirection( angle );
+                needle.direction = angle;
                 
                 // Set the needle's strength.
                 {
@@ -403,7 +417,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
                     }
                     
                     // Set the needle strength.
-                    needle.setStrength( scale );
+                    needle.strength = scale;
                 }
             }
             repaint();

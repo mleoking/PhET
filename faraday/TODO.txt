@@ -54,6 +54,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/28) - add cache of needle shapes and colors
 (3/26) - add FaradayModule.drawBounds, to hide use of DebuggerGraphic
 (3/26) - add loop spacing to Coil model, set differently for Source & Pickup coils, remains constant
 (3/26) - consolidate code that is duplicated between CompassNeedleGraphic and CompassGridNeedle
