@@ -19,6 +19,7 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,6 +62,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private HashMap componentOrgLocationsMap = new HashMap();
     protected ClockTickListener paintTickListener;
     protected ModelElement paintModelElement;
+    protected PanelResizeHandler panelResizeHandler;
 
     /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
@@ -101,8 +103,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
         //I need more fine grained control, since I have two modules using the same clock.  Isn't this the normal thing?
 
         // Add a listener what will adjust things if the size of the panel changes
-        this.addComponentListener( new PanelResizeHandler() );
+        panelResizeHandler = new PanelResizeHandler();
+        this.addComponentListener( panelResizeHandler );
         transformManager = new TransformManager( this );
+        paintStrategy = new DefaultPaintStrategy( this );
     }
 
     /**
@@ -260,23 +264,13 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * Paints immediately the union of dirty rectangles
      */
     private void paintDirtyRectanglesImmediately() {
-        if( rectangles.size() == 0 ) {
-            return;
-        }
-        else {
-            Rectangle union = (Rectangle)rectangles.remove( 0 );
-            while( rectangles.size() > 0 ) {
-                union = union.union( (Rectangle)rectangles.remove( 0 ) );
-            }
-            repaintArea = union;
-            paintImmediately( union );
+        if( rectangles.size() > 0 ) {
+            this.repaintArea = RectangleUtils.union( rectangles );
+            paintImmediately( repaintArea );
         }
     }
 
     private void addRectangleToRepaintList( int x, int y, int width, int height ) {
-        if( rectangles == null ) {
-            rectangles = new ArrayList();
-        }
         Rectangle r = new Rectangle( x, y, width, height );
         r = transformManager.transform( r );
         rectangles.add( r );
