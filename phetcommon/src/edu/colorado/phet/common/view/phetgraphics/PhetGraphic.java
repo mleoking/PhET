@@ -40,7 +40,7 @@ import java.util.Stack;
  * @version $Revision$
  */
 public abstract class PhetGraphic {
-
+    public static boolean SKIP_RECTANGLE_COMPUTATION = false;
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -1000,7 +1000,13 @@ public abstract class PhetGraphic {
      * Forces a repaint of this graphic.
      */
     protected void forceRepaint() {
-        syncBounds();
+        syncBounds();//possibly fires a phet graphic moved event.
+        //TODO we should fire bounds change events right when setLocation(), or transform() is called, rather
+        //than waiting for forceRepaint() to (hopefully) get called.
+        if( SKIP_RECTANGLE_COMPUTATION ) {
+            return;
+        }
+
         if( lastBounds != null ) {
             component.repaint( lastBounds.x, lastBounds.y, lastBounds.width, lastBounds.height );
         }
