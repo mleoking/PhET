@@ -34,9 +34,11 @@ public abstract class NuclearModelElement extends Body {
     }
 
     public void leaveSystem() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        // Do it this way, in case a listener calls removeListener( this ) in leavingSystem();
+        while( listeners.size() > 0 ) {
+            Listener listener = (Listener)listeners.get( 0 );
             listener.leavingSystem( this );
+            this.removeListener( listener );
         }
     }
 }

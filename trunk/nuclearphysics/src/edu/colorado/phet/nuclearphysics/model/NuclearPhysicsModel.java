@@ -10,6 +10,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class NuclearPhysicsModel extends BaseModel {
     private LinkedList nuclearModelElements = new LinkedList();
@@ -30,12 +31,15 @@ public class NuclearPhysicsModel extends BaseModel {
         }
     }
 
-
     public void removeNuclearPartilces() {
-        for( int i = 0; i < nuclearModelElements.size(); i++ ) {
-            NuclearModelElement nuclearModelElement = (NuclearModelElement)nuclearModelElements.get( i );
+        while( nuclearModelElements.size() > 0 ) {
+            NuclearModelElement nuclearModelElement = (NuclearModelElement)nuclearModelElements.get( 0 );
             this.removeModelElement( nuclearModelElement );
+            nuclearModelElements.remove( nuclearModelElement );
         }
     }
 
+    public List getNuclearModelElements() {
+        return nuclearModelElements;
+    }
 }

@@ -82,7 +82,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getPotentialProfilePanel().removeAllPotentialProfiles();
         getPotentialProfilePanel().removeGraphic( leaderLines );
 
-        getPhysicalPanel().clear();
         getPhysicalPanel().removeAllGraphics();
         getPhysicalPanel().removeGraphic( ringGraphic );
         getPhysicalPanel().removeGraphic( leaderLines );

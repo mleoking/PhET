@@ -237,7 +237,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
 
     public void removeNucleus( Nucleus nucleus ) {
         nuclei.remove( nucleus );
-        getPhysicalPanel().removeNucleus( nucleus );
+        //        getPhysicalPanel().removeNucleus( nucleus );
         getModel().removeModelElement( nucleus );
     }
 

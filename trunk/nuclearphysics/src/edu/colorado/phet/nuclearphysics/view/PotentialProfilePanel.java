@@ -205,7 +205,6 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
         g2.setTransform( orgTx );
         strLoc.setLocation( this.getWidth() / 2 + 10,
-                            //        strLoc.setLocation( this.getWidth() - fm.stringWidth( xAxisLabel ) - 10,
                             profileTx.getTranslateY() + fm.getHeight() );
         g2.drawString( xAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
     }
@@ -229,7 +228,6 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         Iterator it = potentialProfileMap.values().iterator();
         while( it.hasNext() ) {
             Graphic ppg = (Graphic)it.next();
-            //            PotentialProfileGraphic ppg = (PotentialProfileGraphic)it.next();
             this.removeGraphic( ppg );
         }
         potentialProfileMap.clear();
@@ -270,11 +268,11 @@ public class PotentialProfilePanel extends TxApparatusPanel {
 
     public void addNucleusGraphic( final Nucleus nucleus ) {
         final NucleusGraphic ng = new NucleusGraphic( nucleus );
+        //        TxGraphic txg = new TxGraphic( ng, );
         profileNucleusMap.put( nucleus, ng );
         nucleus.addListener( new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
-                PotentialProfilePanel.this.removeGraphic( ng );
-                nucleus.removeListener( this );
+                profileNucleusMap.remove( nucleus );
             }
         } );
     }
