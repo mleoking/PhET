@@ -26,6 +26,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.components.AspectRatioPanel;
 import edu.colorado.phet.common.view.graphics.Boundary;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
@@ -83,12 +84,8 @@ public class CCK3Module extends Module {
     public static final ComponentDimension LEVER_DIMENSION = new ComponentDimension( 1.0 * SCALE * switchscale, 0.5 * SCALE * switchscale );
     public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.9 * SCALE, 0.7 * SCALE );
     public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 2.33 * SCALE, .92 * SCALE );
-//    private static double bulbLength = 1;
-//    private static double bulbHeight = 1.4;
     private static double bulbLength = 1;
     private static double bulbHeight = 1.5;
-
-//    private static double bulbDistJ = .333;
     private static double bulbDistJ = .39333;
     private static double bulbScale = 1.9;
     public static final BulbDimension BULB_DIMENSION = new BulbDimension( bulbLength * SCALE * bulbScale, bulbHeight * SCALE * bulbScale, bulbDistJ * SCALE * bulbScale );
@@ -115,8 +112,9 @@ public class CCK3Module extends Module {
     private ResistivityManager resistivityManager;
     private boolean internalResistanceOn = false;
     public static final double MIN_RESISTANCE = 0.0001;
-//    private boolean advanced = false;
     private boolean electronsVisible = true;
+    private PhetFrame phetFrame;
+    public static boolean SHOW_GRAB_BAG = false;
 
     public CCK3Module() throws IOException {
         this( false );
@@ -637,8 +635,12 @@ public class CCK3Module extends Module {
         if( Arrays.asList( args ).contains( "-virtuallab" ) ) {
             virtualLab = true;
         }
+        if( Arrays.asList( args ).contains( "-grabbag" ) ) {
+            SHOW_GRAB_BAG = true;
+        }
 
         final CCK3Module cck = new CCK3Module( virtualLab );
+
         RepaintDebugGraphic colorG = new RepaintDebugGraphic( cck.getApparatusPanel(), clock );
 
         FrameSetup fs = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) );
@@ -683,6 +685,7 @@ public class CCK3Module extends Module {
                 ColorDialog.showDialog( "Background Color", app.getApplicationView().getPhetFrame(), cck.getApparatusPanel().getBackground(), listy );
             }
         } );
+        cck.setFrame( app.getApplicationView().getPhetFrame() );
         JMenuItem toolboxColor = new JMenuItem( "Toolbox Color" );
         toolboxColor.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -767,6 +770,14 @@ public class CCK3Module extends Module {
                 repainter.run();
             }
         } );
+    }
+
+    private void setFrame( PhetFrame phetFrame ) {
+        this.phetFrame = phetFrame;
+    }
+
+    public PhetFrame getPhetFrame() {
+        return phetFrame;
     }
 
     public static void testUpdate( Window window ) {

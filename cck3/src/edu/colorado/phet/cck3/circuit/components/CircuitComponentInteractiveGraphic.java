@@ -4,6 +4,7 @@ package edu.colorado.phet.cck3.circuit.components;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.common.RepaintyMenu;
+import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
@@ -110,7 +111,10 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) ) {
                 menu.add( showValue );
             }
+            addRemoveButton( menu, module, branch );
+        }
 
+        static void addRemoveButton( RepaintyMenu menu, final CCK3Module module, final Branch branch ) {
             JMenuItem remove = new JMenuItem( "Remove" );
             remove.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -123,6 +127,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             }
             menu.add( remove );
         }
+
 
         protected void finish() {
             finish( module, branch, getMenu() );
@@ -139,15 +144,20 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         public ResistorMenu( Resistor res, CCK3Module module ) {
             super( res, module );
             this.res = res;
-            final ComponentEditor.ResistorEditor re = new ComponentEditor.ResistorEditor( module, res, module.getApparatusPanel(), module.getCircuit() );
-            JMenuItem edit = new JMenuItem( "Change Resistance" );
-            edit.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    re.setVisible( true );
-                }
-            } );
-            menu.add( edit );
-            finish();
+            if( res instanceof GrabBagResistor ) {
+                addRemoveButton( getMenu(), module, res );
+            }
+            else {
+                final ComponentEditor.ResistorEditor re = new ComponentEditor.ResistorEditor( module, res, module.getApparatusPanel(), module.getCircuit() );
+                JMenuItem edit = new JMenuItem( "Change Resistance" );
+                edit.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        re.setVisible( true );
+                    }
+                } );
+                menu.add( edit );
+                finish();
+            }
         }
 
     }

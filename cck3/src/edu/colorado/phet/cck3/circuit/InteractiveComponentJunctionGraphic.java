@@ -20,12 +20,12 @@ import java.awt.geom.Point2D;
  */
 public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraphic implements HasJunctionGraphic {
     private JunctionGraphic junctionGraphic;
-    private CircuitGraphic cg;
+    private CircuitGraphic circuitGraphic;
     private Branch branch;
 
     public InteractiveComponentJunctionGraphic( final CircuitGraphic cg, final JunctionGraphic junctionGraphic, final CircuitComponent branch, CCK3Module module ) {
         super( junctionGraphic );
-        this.cg = cg;
+        this.circuitGraphic = cg;
         this.branch = branch;
         addCursorHandBehavior();
         this.junctionGraphic = junctionGraphic;
@@ -52,6 +52,7 @@ public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraph
             }
 
             public void mouseReleased( MouseEvent e ) {
+                circuitGraphic.bumpAway( InteractiveComponentJunctionGraphic.this );
             }
         };
         addMouseInputListener( mouse );

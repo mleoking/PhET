@@ -3,7 +3,8 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
-import edu.colorado.phet.cck3.common.PhetSlider;
+import edu.colorado.phet.common.view.components.PhetSlider;
+import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
@@ -24,6 +25,7 @@ public abstract class ComponentEditor extends JDialog {
     private Component parent;
     private Circuit circuit;
     private PhetSlider slider;
+    private JPanel contentPane;
 
     public ComponentEditor( final CCK3Module module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
@@ -35,9 +37,10 @@ public abstract class ComponentEditor extends JDialog {
 
         slider = new PhetSlider( name, units, min, max, startvalue );
         slider.setNumMajorTicks( 5 );
-        JPanel contentPane = new JPanel();
-        contentPane.setLayout( new BorderLayout() );
-        contentPane.add( slider, BorderLayout.CENTER );
+        contentPane = new VerticalLayoutPanel();
+//        contentPane.setLayout( new BorderLayout() );
+//        contentPane.add( slider, BorderLayout.CENTER );
+        contentPane.add( slider );
         setContentPane( contentPane );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -59,7 +62,7 @@ public abstract class ComponentEditor extends JDialog {
         JPanel donePanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         donePanel.add( done, gbc );
-        contentPane.add( donePanel, BorderLayout.SOUTH );
+        contentPane.add( donePanel );
         addWindowFocusListener( new WindowFocusListener() {
             public void windowGainedFocus( WindowEvent e ) {
                 slider.requestSliderFocus();
@@ -147,6 +150,25 @@ public abstract class ComponentEditor extends JDialog {
     public static class BatteryEditor extends ComponentEditor {
         public BatteryEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
             super( module, "Battery", element, parent, "Voltage", "Volts", 0, 100, 9, circuit );
+            if( CCK3Module.SHOW_GRAB_BAG ) {
+
+                final JCheckBox hugeRange = new JCheckBox( "More Volts", false );
+                hugeRange.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        if( hugeRange.isSelected() ) {
+                            BatteryEditor.super.slider.setRange( 0, 100000 );
+                            BatteryEditor.super.slider.setPaintLabels( false );
+                        }
+                        else {
+                            BatteryEditor.super.slider.setRange( 0, 100 );
+                            BatteryEditor.super.slider.setPaintLabels( true );
+                        }
+                    }
+                } );
+                super.contentPane.add( hugeRange );
+                super.pack();
+            }
+
         }
 
         protected void doChange( double value ) {

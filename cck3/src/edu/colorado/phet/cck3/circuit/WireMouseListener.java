@@ -55,6 +55,7 @@ public class WireMouseListener extends MouseInputAdapter {
         if( endMatch != null ) {
             circuitGraphic.collapseJunctions( endMatch.getSource(), endMatch.getTarget() );
         }
+        circuitGraphic.bumpAway( branch );
     }
 
     public void mouseDragged( MouseEvent e ) {

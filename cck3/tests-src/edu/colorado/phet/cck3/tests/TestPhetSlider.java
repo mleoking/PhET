@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.tests;
 
-import edu.colorado.phet.cck3.common.PhetSlider;
+import edu.colorado.phet.common.view.components.PhetSlider;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
