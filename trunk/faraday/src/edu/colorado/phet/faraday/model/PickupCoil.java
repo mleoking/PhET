@@ -62,7 +62,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         _emf = 0.0;
         _emfHistory = new double[ HISTORY_SIZE ];
         _flux = 0.0;
-        _smoothingEnabled = true;
+        _smoothingEnabled = false;
     }
     
     //----------------------------------------------------------------------------

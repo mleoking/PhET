@@ -307,11 +307,12 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _flipPolarityButton ) {
                 // Magnet polarity
+                boolean smoothingEnabled = _pickupCoilModel.isSmoothingEnabled();
                 _pickupCoilModel.setSmoothingEnabled( false );
                 _magnetModel.setDirection( _magnetModel.getDirection() + Math.PI );
                 _compassModel.startMovingNow();
                 _pickupCoilModel.updateEmf();
-                _pickupCoilModel.setSmoothingEnabled( true );
+                _pickupCoilModel.setSmoothingEnabled( smoothingEnabled );
             }
             else if ( e.getSource() == _magnetTransparencyCheckBox ) {
                 // Magnet transparency
@@ -357,20 +358,22 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
             else if ( e.getSource() == _radiusSlider ) {
                 // Loop radius
                 int radius = _radiusSlider.getValue();
+                boolean smoothingEnabled = _pickupCoilModel.isSmoothingEnabled();
                 _pickupCoilModel.setSmoothingEnabled( false );
                 _pickupCoilModel.setRadius( radius );
                 _pickupCoilModel.updateEmf();
-                _pickupCoilModel.setSmoothingEnabled( true );
+                _pickupCoilModel.setSmoothingEnabled( smoothingEnabled );
                 Integer i = new Integer( radius );
                 _radiusValue.setText( i.toString() );
             }
             else if ( e.getSource() == _loopsSpinner ) {
                 // Number of loops
                 int numberOfLoops = ( (Integer) _loopsSpinner.getValue() ).intValue();
+                boolean smoothingEnabled = _pickupCoilModel.isSmoothingEnabled();
                 _pickupCoilModel.setSmoothingEnabled( false );
                 _pickupCoilModel.setNumberOfLoops( numberOfLoops );
                 _pickupCoilModel.updateEmf();
-                _pickupCoilModel.setSmoothingEnabled( true );
+                _pickupCoilModel.setSmoothingEnabled( smoothingEnabled );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );

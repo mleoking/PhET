@@ -4,9 +4,12 @@
 
 IN PROGRESS:
 - animate electrons when lightbulb is enabled (front of coil only)
+- 50% more space between electrons
 - make QuadBezierSpline a subclass of QuadCurve.Double
 
 HIGH PRIORITY:
+- prevent dragging of stuff out of the apparatus panel viewport
+- move grid controls to dialog accessible via Options menu, include a performance warning, change all grids
 - add Verlet behavior to voltmeter needle
 - make lightbulb ramp up/down instead of immediate on/off
 - show important "spikes" in induced emf (consider totally disabling smoothing)
@@ -16,6 +19,7 @@ HIGH PRIORITY:
 - optimize performance
 
 MEDIUM PRIORITY:
+- check performance with a profiler
 - beautify Control Panels
 - Transformer module requirements
 - check for unnecessary notification, events and updates
@@ -28,6 +32,7 @@ LOW PRIORITY:
 - remove unused i18n strings
 - Help/MegaHelp
 - resize any images that are currently scaled (eg, bar magnet)
+- remove smoothing code from PickupCoil when I'm sure I don't need it
 
 phetcommon:
 - MathUtil.clamp behavior with Double.NaN
@@ -35,6 +40,14 @@ phetcommon:
 - fix PhetShapeGraphic.contains so that stroke width is taken into account, test with CompassGraphic
 
 DONE:
+v0r12...
+(2/8) - disable emf smoothing (median filter) in coil
+(2/8) - tune min/max number of light rays
+(2/8) - tune min/max light ray length
+(2/8) - light rays should be opaque, thicker stroke
+(2/8) - compass "off" by default in "Magnet & Coil" module
+(2/8) - grid "off" by default in "Magnet & Coil" module
+(2/8) - increase frame rate to 25 fps
 v0r11...
 (2/7) - basic support for electron animation
 (2/7) - convert CompassNeedleGraphic to be a CompositePhetGraphic composed of PhetShapeGraphics
