@@ -7,10 +7,14 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HollowSphere extends SphericalBody {
+    ArrayList containedBodies = new ArrayList();
 
     public HollowSphere( Point2D center,
                          Vector2D velocity,
@@ -27,5 +31,26 @@ public class HollowSphere extends SphericalBody {
     public void setContactPt( Point2D.Double contactPt ) {
         this.contactPt = contactPt;
         notifyObservers();
+    }
+
+
+    public List getContainedBodies() {
+        return containedBodies;
+    }
+
+    public void addContainedBody( Body body ) {
+        containedBodies.add( body );
+    }
+
+    public void removeContainedBody( Body body ) {
+        containedBodies.remove( body );
+    }
+
+    public boolean containsBody( Body body ) {
+        return containedBodies.contains( body );
+    }
+
+    public int numContainedBodies() {
+        return containedBodies.size();
     }
 }

@@ -18,7 +18,6 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.Random;
 
 public class HeliumBalloonModule extends IdealGasModule implements GasSource {
 
@@ -116,7 +115,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
                                       insets, 0, 0 );
 //        controlPanel.add( new SpeciesSelectionPanel( HeliumBalloonModule.this ), gbc );
 //        gbc.gridy = 1;
-        controlPanel.add( new HeliumBalloonModule.MoleculePanel( this ), gbc );
+        controlPanel.add( new MoleculeFactoryPanel( this, balloon, gasSpecies), gbc );
+//        controlPanel.add( new HeliumBalloonModule.MoleculeFactoryPanel( this ), gbc );
 //        getControlPanel().add( controlPanel );
         getIdealGasControlPanel().addComponent( controlPanel );
     }
@@ -129,42 +129,46 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
         return gasSpecies;
     }
 
-    private class MoleculePanel extends MoleculeFactoryPanel {
-        Random random = new Random();
-
-        MoleculePanel( IdealGasModule module ) {
-            super( module );
-
-        }
-
-        protected Class getCurrentGasSpecies() {
-            return gasSpecies;
-        }
-
-        protected Point2D getNewMoleculeLocation() {
-            double r = random.nextDouble() - GasMolecule.s_defaultRadius;
-            double theta = random.nextDouble() * Math.PI * 2;
-            Point2D.Double p = new Point2D.Double( balloon.getPosition().getX() + r * Math.cos( theta ),
-                                                   balloon.getPosition().getY() + r * Math.sin( theta ) );
-            return p;
-        }
-
-        protected Vector2D getNewMoleculeVelocity() {
-            double s = 0;
-            if( getCurrentGasSpecies() == HeavySpecies.class ) {
-                s = getIdealGasModel().getHeavySpeciesAveSpeed();
-                if( s == 0 ) {
-                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / HeavySpecies.getMoleculeMass() );
-                }
-            }
-            if( getCurrentGasSpecies() == LightSpecies.class ) {
-                s = getIdealGasModel().getLightSpeciesAveSpeed();
-                if( s == 0 ) {
-                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / LightSpecies.getMoleculeMass() );
-                }
-            }
-            double theta = random.nextDouble() * Math.PI * 2;
-            return new Vector2D.Double( s * Math.cos( theta ), s * Math.sin( theta ) );
-        }
-    }
+//    private class MoleculeFactoryPanel extends MoleculeFactoryPanel {
+//        Random random = new Random();
+//
+//        MoleculeFactoryPanel( IdealGasModule module ) {
+//            super( module );
+//        }
+//
+//        protected void pumpMolecule( GasMolecule molecule ) {
+//            super.pumpMolecule( molecule );
+//            balloon.addContainedBody( molecule );
+//        }
+//
+//        protected Class getCurrentGasSpecies() {
+//            return gasSpecies;
+//        }
+//
+//        protected Point2D getNewMoleculeLocation() {
+//            double r = random.nextDouble() - GasMolecule.s_defaultRadius;
+//            double theta = random.nextDouble() * Math.PI * 2;
+//            Point2D.Double p = new Point2D.Double( balloon.getPosition().getX() + r * Math.cos( theta ),
+//                                                   balloon.getPosition().getY() + r * Math.sin( theta ) );
+//            return p;
+//        }
+//
+//        protected Vector2D getNewMoleculeVelocity() {
+//            double s = 0;
+//            if( getCurrentGasSpecies() == HeavySpecies.class ) {
+//                s = getIdealGasModel().getHeavySpeciesAveSpeed();
+//                if( s == 0 ) {
+//                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / HeavySpecies.getMoleculeMass() );
+//                }
+//            }
+//            if( getCurrentGasSpecies() == LightSpecies.class ) {
+//                s = getIdealGasModel().getLightSpeciesAveSpeed();
+//                if( s == 0 ) {
+//                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / LightSpecies.getMoleculeMass() );
+//                }
+//            }
+//            double theta = random.nextDouble() * Math.PI * 2;
+//            return new Vector2D.Double( s * Math.cos( theta ), s * Math.sin( theta ) );
+//        }
+//    }
 }

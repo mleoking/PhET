@@ -35,8 +35,6 @@ public class SpeciesSelectionPanel extends JPanel {
                                                          GridBagConstraints.WEST, GridBagConstraints.NONE,
                                                          insets, 0, 0 );
         add( heavySpeciesRB, gbc );
-        //            heavySpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
-        //            lightSpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
         gbc.gridy = 1;
         add( lightSpeciesRB, gbc );
 

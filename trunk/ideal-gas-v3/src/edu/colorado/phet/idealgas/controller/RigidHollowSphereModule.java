@@ -25,6 +25,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
     private HollowSphere sphere;
     private Class gasSpecies = HeavySpecies.class;
+    private MoleculeFactoryPanel moleculeFactoryPanel;
 
     public RigidHollowSphereModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.RigidHollowSphere" ) );
@@ -51,9 +52,6 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         getIdealGasModel().getBox().addContainedBody( sphere );
         addGraphic( new HollowSphereGraphic( getApparatusPanel(), sphere ), 20 );
 
-        //        Constraint constraintSpec = new BoxMustContainParticle( box, sphere, getIdealGasModel() );
-        //        sphere.addConstraint( constraintSpec );
-
         // Put some heavy gas outside the sphere
         for( int i = 0; i < 0; i++ ) {
             //        for( int i = 0; i < 100; i++ ) {
@@ -66,11 +64,6 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                                                new Vector2D.Double( vx, vy ),
                                                new Vector2D.Double( 0, 0 ) );
             new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
-            //            constraintSpec = new BoxMustContainParticle( box, p1, getIdealGasModel() );
-            //            p1.addConstraint( constraintSpec );
-            //
-            //            constraintSpec = new HollowSphereMustNotContainParticle( sphere, p1 );
-            //            p1.addConstraint( constraintSpec );
         }
 
         // Put some heavy gas in the sphere
@@ -99,12 +92,6 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                     new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
                 }
                 sphere.addContainedBody( p1 );
-
-                //                constraintSpec = new BoxMustContainParticle( box, p1 );
-                //                p1.addConstraint( constraintSpec );
-                //
-                //                constraintSpec = new HollowSphereMustContainParticle( sphere, p1 );
-                //                p1.addConstraint( constraintSpec );
             }
         }
 
@@ -121,13 +108,16 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                       insets, 0, 0 );
         controlPanel.add( new SpeciesSelectionPanel( RigidHollowSphereModule.this ), gbc );
+        gbc.gridy++;
+        moleculeFactoryPanel = new MoleculeFactoryPanel( this, sphere, gasSpecies );
+        controlPanel.add( moleculeFactoryPanel, gbc );
         getIdealGasControlPanel().addComponent( controlPanel );
     }
 
-//    private class MoleculePanel extends MoleculeFactoryPanel {
+//    private class MoleculeFactoryPanel extends MoleculeFactoryPanel {
 //        Random random = new Random();
 //
-//        MoleculePanel( IdealGasModule module ) {
+//        MoleculeFactoryPanel( IdealGasModule module ) {
 //            super( module );
 //
 //        }
@@ -165,6 +155,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
     public void setCurrentGasSpecies( Class gasSpecies ) {
         this.gasSpecies = gasSpecies;
+        moleculeFactoryPanel.setGasSpecies( gasSpecies );
     }
 
     public Class getCurrentGasSpecies() {
