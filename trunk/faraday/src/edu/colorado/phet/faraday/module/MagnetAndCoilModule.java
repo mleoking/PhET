@@ -88,6 +88,7 @@ public class MagnetAndCoilModule extends Module {
     private PickupCoil _pickupCoilModel;
     
     // View
+    private BarMagnetGraphic _magnetGraphic;
     private PickupCoilGraphic _pickupCoilGraphic;
     private CompassGridGraphic _gridGraphic;
     
@@ -158,8 +159,8 @@ public class MagnetAndCoilModule extends Module {
         this.setApparatusPanel( apparatusPanel );
         
         // Bar Magnet
-        BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
-        apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
+        _magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
+        apparatusPanel.addGraphic( _magnetGraphic, MAGNET_LAYER );
         
         // Pickup AbstractCoil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel, _lightBulbModel, _voltMeterModel );
@@ -246,6 +247,15 @@ public class MagnetAndCoilModule extends Module {
      */
     public void setMagnetStrength( double strength ) {
         _magnetModel.setStrength( strength );
+    }
+    
+    /**
+     * Set the transparency of the magnet graphic.
+     * 
+     * @param enabled true for transparent, false for opaque
+     */
+    public void setMagnetTransparencyEnabled( boolean enabled ) {
+        _magnetGraphic.setTransparencyEnabled( enabled );
     }
     
     /**

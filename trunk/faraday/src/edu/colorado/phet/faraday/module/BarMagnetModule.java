@@ -85,6 +85,7 @@ public class BarMagnetModule extends Module {
     private AbstractMagnet _magnetModel;
     
     // View
+    private BarMagnetGraphic _magnetGraphic;
     private CompassGridGraphic _gridGraphic;
     
     // Control
@@ -151,8 +152,8 @@ public class BarMagnetModule extends Module {
         this.setApparatusPanel( apparatusPanel );
 
         // Bar Magnet
-        BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
-        apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
+        _magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
+        apparatusPanel.addGraphic( _magnetGraphic, MAGNET_LAYER );
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
@@ -173,7 +174,7 @@ public class BarMagnetModule extends Module {
         // Debugger
         DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
         debugger.setLocationColor( Color.GREEN );
-//        debugger.add( probeGraphic );
+//        debugger.add( _magnetGraphic );
         apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
         
         //----------------------------------------------------------------------------
@@ -203,8 +204,9 @@ public class BarMagnetModule extends Module {
      * Resets everything to the initial values.
      */
     public void reset() {
-        _controlPanel.setBarMagnetStrength( MAGNET_STRENGTH );
-        _controlPanel.setBarMagnetSize( MAGNET_SIZE );
+        _controlPanel.setMagnetStrength( MAGNET_STRENGTH );
+        _controlPanel.setMagnetTransparencyEnabled( false );
+        _controlPanel.setMagnetSize( MAGNET_SIZE );
         _controlPanel.setGridSpacing( GRID_X_SPACING, GRID_Y_SPACING );
         _controlPanel.setGridNeedleSize( GRID_NEEDLE_SIZE );
     }
@@ -225,6 +227,15 @@ public class BarMagnetModule extends Module {
      */
     public void setMagnetStrength( double strength ) {
         _magnetModel.setStrength( strength );
+    }
+    
+    /**
+     * Set the transparency of the magnet graphic.
+     * 
+     * @param enabled true for transparent, false for opaque
+     */
+    public void setMagnetTransparencyEnabled( boolean enabled ) {
+        _magnetGraphic.setTransparencyEnabled( enabled );
     }
     
     /**

@@ -43,6 +43,7 @@ public class FaradayConfig {
     // Images
     public static final String IMAGES_DIRECTORY = "images/";
     public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
+    public static final String BAR_MAGNET_TRANSPARENT_IMAGE = IMAGES_DIRECTORY + "barMagnetTransparent.png";
     public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
     public static final String COIL1_FRONT_IMAGE = IMAGES_DIRECTORY + "coil1_front.png";
     public static final String COIL1_BACK_IMAGE = IMAGES_DIRECTORY + "coil1_back.png";
