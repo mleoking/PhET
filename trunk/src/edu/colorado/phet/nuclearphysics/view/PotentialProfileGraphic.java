@@ -8,6 +8,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.coreadditions.AlphaSetter;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
 import java.awt.*;
@@ -21,13 +22,6 @@ public class PotentialProfileGraphic implements Graphic {
 
     private PotentialProfile profile;
     private Point2D.Double origin;
-    private Point2D.Double endPt1 = new Point2D.Double();;
-    private Point2D.Double endPt2 = new Point2D.Double();
-    private Point2D.Double endPt3 = new Point2D.Double();
-    private Point2D.Double ctrlPt1 = new Point2D.Double();
-    private Point2D.Double ctrlPt2A = new Point2D.Double();
-    private Point2D.Double ctrlPt2B = new Point2D.Double();
-    private Point2D.Double ctrlPt3 = new Point2D.Double();
     AffineTransform profileTx = new AffineTransform();
 
     public PotentialProfileGraphic( PotentialProfile profile ) {
@@ -50,8 +44,10 @@ public class PotentialProfileGraphic implements Graphic {
         Shape[] shape = profile.getShape();
         profileTx.setToIdentity();
         profileTx.translate( origin.getX(), origin.getY() );
-        for( int i = 0; i < shape.length; i++ ) {
-            g.draw( profileTx.createTransformedShape( shape[i] ) );
-        }
+        g.draw( profileTx.createTransformedShape( profile.getPath() ) );
+        g.setColor( Color.yellow );
+        AlphaSetter.set( g, .2 );
+        g.fill( profileTx.createTransformedShape( profile.getBackgroundPath() ) );
+        AlphaSetter.set( g, 1 );
     }
 }
