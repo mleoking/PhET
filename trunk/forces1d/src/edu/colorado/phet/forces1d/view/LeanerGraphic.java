@@ -54,6 +54,9 @@ public class LeanerGraphic extends PhetImageGraphic {
             public void appliedForceChanged() {
                 update();
             }
+
+            public void gravityChanged() {
+            }
         } );
     }
 
