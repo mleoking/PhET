@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * Time: 12:25:37 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class ManGraphic extends PhetGraphic {
+public class ManGraphic extends PhetGraphic implements MouseInputListener {
     private BufferedImage standingMan;
     private BufferedImage leftMan;
     private BufferedImage rightMan;
@@ -62,6 +63,7 @@ public class ManGraphic extends PhetGraphic {
         } );
         inversion = transform.getInvertedInstance();
         positionChanged();
+        this.addMouseInputListener( this );
     }
 
     public void paint( Graphics2D g ) {
