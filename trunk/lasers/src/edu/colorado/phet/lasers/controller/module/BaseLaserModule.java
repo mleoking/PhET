@@ -97,7 +97,7 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         rightMirror.addReflectionStrategy( new LeftReflecting() );
         rightMirror.addReflectionStrategy( new Partial( .2 ) );
         laserModel.addModelElement( rightMirror );
-        MirrorGraphic rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror );
+        MirrorGraphic rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
         addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
         // The left mirror is 100% reflecting
         Point2D p3 = new Point2D.Double( cavity.getPosition().getX() - 20,
@@ -107,7 +107,7 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         Mirror leftMirror = new Mirror( p3, p4 );
         leftMirror.addReflectionStrategy( new RightReflecting() );
         laserModel.addModelElement( leftMirror );
-        MirrorGraphic leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror );
+        MirrorGraphic leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
         addGraphic( leftMirrorGraphic, LaserConfig.CAVITY_LAYER );
 
 
