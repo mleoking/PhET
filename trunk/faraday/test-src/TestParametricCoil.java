@@ -29,7 +29,7 @@ public class TestParametricCoil extends JComponent {
     private static final Color LOOP_LIGHTEST_COLOR = new Color( 153, 102, 51 );
     private static final Color LOOP_MIDDLE_COLOR = new Color( 92, 52, 12 );
     private static final Color LOOP_DARKEST_COLOR = new Color( 40, 23, 3 );
-    private static final int WIRE_WIDTH = 14;
+    private static final int WIRE_WIDTH = 16;
     private static final double LOOP_SPACING_FACTOR = 0.3; // ratio of loop spacing to loop radius
     
     // End-point and control-point parameters
