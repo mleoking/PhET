@@ -82,4 +82,8 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
     public void addTranslationBehavior(Translatable target) {
         mouseControl.addMouseInputListener(new TranslationControl(target));
     }
+
+    public Graphic getGraphic() {
+        return graphic;
+    }
 }
