@@ -123,11 +123,9 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
 
         public BoxAirDensityControlPanel( final VariableWaveMediumAttenuationFunction attenuationFunction ) {
 
-            this.setLayout( new GridLayout( 2, 1 ) );
             this.attenuationFunction = attenuationFunction;
 
             airButton = new JButton( evacuateLabel );
-            this.add( airButton );
             airButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     new BoxEvacuator().start();
@@ -143,10 +141,24 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                 }
             } );
             setAirDensity( densitySlider, maxValue, attenuationFunction );
-            this.add( densitySlider );
             densitySlider.setEnabled( false );
 
-            this.setLayout( new GridLayout( 2, 1 ) );
+            this.setLayout( new GridBagLayout() );
+            Insets insets = new Insets( 0, 0, 0, 0 );
+            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.HORIZONTAL,
+                                                             insets, 0, 0 );
+            this.add( airButton, gbc );
+            airButton.setBackground( new Color( 100, 200, 100 ) );
+            gbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+                                          GridBagConstraints.CENTER,
+                                          GridBagConstraints.HORIZONTAL,
+                                          insets, 0, 0 );
+            this.add( densitySlider, gbc );
+//            this.setLayout( new GridLayout( 2, 1 ) );
+//            this.add( airButton );
+//            this.add( densitySlider );
             this.setBorder( new TitledBorder( "Air Density" ) );
             this.setPreferredSize( new Dimension( 120, 120 ) );
         }
