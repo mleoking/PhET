@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 /**
  * HelpPanel
  *
- * @author ?
+ * @author Ron LeMaster
  * @version $Revision$
  */
 public class HelpPanel extends JPanel {
@@ -33,8 +33,11 @@ public class HelpPanel extends JPanel {
     private JButton miniHelpBtn;
     private JButton megaHelpBtn;
     private int padY = 2;
+    private Module module;
 
     public HelpPanel( final Module module ) {
+        this.module = module;
+
         miniHelpBtn = new JButton( showHelpStr );
         megaHelpBtn = new JButton( megaHelpStr );
 
@@ -43,6 +46,8 @@ public class HelpPanel extends JPanel {
         miniHelpBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 miniHelpShowing = !miniHelpShowing;
+
+                // If there is no megahelp, don't show the megahelp button
                 if( miniHelpShowing ) {
                     setTwoButtonMode();
                 }
@@ -111,7 +116,8 @@ public class HelpPanel extends JPanel {
     }
 
     private void setTwoButtonMode() {
-        megaHelpBtn.setVisible( true );
+        // Don't show the megahelp button if the module doesn't provide megahelp
+        megaHelpBtn.setVisible( module.hasMegaHelp() );
         miniHelpBtn.setText( hideHelpStr );
 
         // If you want the two buttons to pop up centered in the panel, comment out the next line
