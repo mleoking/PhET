@@ -34,6 +34,8 @@ import edu.colorado.phet.lasers.view.*;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -77,6 +79,8 @@ public class BaseLaserModule extends Module {
 
     private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
     private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_DEFAULT_LIFETIME;
+    private int seedBeamFanout;
+    private double pumpingBeamFanout;
 
     /**
      *
@@ -166,24 +170,26 @@ public class BaseLaserModule extends Module {
      * Sets up the pumping and seed beams
      */
     private void createBeams() {
+        seedBeamFanout = 20;
         seedBeam = new CollimatedBeam( Photon.RED,
                                        s_origin,
                                        s_boxHeight - Photon.RADIUS,
                                        s_boxWidth + s_laserOffsetX * 2,
                                        new Vector2D.Double( 1, 0 ),
                                        LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                                       30 );
+                                       seedBeamFanout );
         seedBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         seedBeam.setEnabled( true );
         getLaserModel().setStimulatingBeam( seedBeam );
 
+        pumpingBeamFanout = 30;
         pumpingBeam = new CollimatedBeam( Photon.BLUE,
                                           new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
                                           s_boxHeight + s_laserOffsetX * 2,
                                           s_boxWidth,
                                           new Vector2D.Double( 0, 1 ),
                                           LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                                          40 );
+                                          pumpingBeamFanout );
         pumpingBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         pumpingBeam.setEnabled( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
@@ -238,8 +244,15 @@ public class BaseLaserModule extends Module {
         final double externalLaserCurtainOpacity = .7;
         Rectangle cavityBounds = new Rectangle( (int)cavity.getBounds().getX(), (int)cavity.getBounds().getY(),
                                                 (int)cavity.getBounds().getWidth(), (int)cavity.getBounds().getHeight() );
+        Shape mirrorFace = new Ellipse2D.Double( cavityBounds.getMaxX() - LaserConfig.MIRROR_THICKNESS / 2,
+                                                 cavityBounds.getMinY(),
+                                                 LaserConfig.MIRROR_THICKNESS,
+                                                 cavity.getBounds().getHeight() );
+        Area a = new Area( cavityBounds );
+        a.add( new Area( mirrorFace ) );
         LaserCurtainGraphic internalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
-                                                                                   cavityBounds, laserModel,
+                                                                                   a, laserModel,
+//                                                                                   cavityBounds, laserModel,
                                                                                    getLaserModel().getMiddleEnergyState(),
                                                                                    internalLaserCurtainOpacity );
         laserModel.addLaserListener( internalLaserCurtainGraphic );
@@ -282,14 +295,16 @@ public class BaseLaserModule extends Module {
                     getApparatusPanel().removeGraphic( waveGraphic.getExternalStandingWave() );
                 }
                 waveGraphic = null;
+                seedBeam.setFanout( seedBeamFanout * 0.5 );
                 break;
             case PHOTON_WAVE:
                 if( waveGraphic == null ) {
                     waveGraphic = new LaserWaveGraphic( getApparatusPanel(), getCavity(),
                                                         rightMirror, getLaserModel(), getLaserModel().getMiddleEnergyState() );
                 }
-                addGraphic( waveGraphic.getInternalStandingWave(), LaserConfig.LEFT_MIRROR_LAYER + 1 );
-                addGraphic( waveGraphic.getExternalStandingWave(), LaserConfig.LEFT_MIRROR_LAYER - 1 );
+                addGraphic( waveGraphic.getInternalStandingWave(), LaserConfig.LEFT_MIRROR_LAYER - 1 );
+                addGraphic( waveGraphic.getExternalStandingWave(), LaserConfig.RIGHT_MIRROR_LAYER - 1 );
+                seedBeam.setFanout( seedBeamFanout );
                 break;
             default :
                 throw new RuntimeException( "Invalid parameter value" );
@@ -302,6 +317,7 @@ public class BaseLaserModule extends Module {
             case PHOTON_DISCRETE:
                 getApparatusPanel().removeGraphic( beamCurtainGraphic );
                 PhotonGraphic.setAllVisible( true, getPumpingBeam().getWavelength() );
+                pumpingBeam.setFanout( pumpingBeamFanout * 0.5 );
                 break;
             case PHOTON_CURTAIN:
                 if( beamCurtainGraphic == null ) {
@@ -309,6 +325,7 @@ public class BaseLaserModule extends Module {
                 }
                 addGraphic( beamCurtainGraphic, 1 );
                 PhotonGraphic.setAllVisible( false, getPumpingBeam().getWavelength() );
+                pumpingBeam.setFanout( pumpingBeamFanout );
                 break;
             default :
                 throw new RuntimeException( "Invalid parameter value" );

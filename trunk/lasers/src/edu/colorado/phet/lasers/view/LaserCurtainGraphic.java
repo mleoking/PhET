@@ -29,6 +29,7 @@ import java.awt.*;
  * @version $Revision$
  */
 public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState.Listener, LaserModel.LaserListener {
+    private Shape beamShape;
     private Rectangle beamBounds = new Rectangle();
     private Color color = Color.white;
     private AtomicState atomicState;
@@ -39,17 +40,19 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
 
     /**
      * @param component
-     * @param bounds
+     * @param beamShape
      * @param laserModel
      * @param atomicState
      * @param maxAlpha
      */
-    public LaserCurtainGraphic( Component component, Rectangle bounds, LaserModel laserModel, AtomicState atomicState, double maxAlpha ) {
+    public LaserCurtainGraphic( Component component, Shape beamShape, LaserModel laserModel, AtomicState atomicState, double maxAlpha ) {
+//    public LaserCurtainGraphic( Component component, Rectangle bounds, LaserModel laserModel, AtomicState atomicState, double maxAlpha ) {
         super( component, null, null );
         this.atomicState = atomicState;
         this.maxAlpha = maxAlpha;
-        beamBounds.setRect( bounds );
-        setShape( beamBounds );
+        beamBounds.setRect( beamShape.getBounds() );
+        setShape( beamShape );
+//        setShape( beamBounds );
         setColor( color );
 
         laserModel.addLaserListener( this );

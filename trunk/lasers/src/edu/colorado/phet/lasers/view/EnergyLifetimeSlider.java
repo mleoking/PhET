@@ -28,7 +28,7 @@ import java.awt.*;
  */
 public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listener {
     // Needs to be accessible to the EnergyLevelGraphic class
-    public final static int sliderHeight = 40;
+    public final static int sliderHeight = 47;
 
     private EnergyLevelGraphic graphic;
     private int maxSliderWidth = 100;

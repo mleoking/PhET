@@ -61,6 +61,11 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement, A
     // the color gets darker faster
     private double rampUpExponent;
 
+    /**
+     * @param component
+     * @param atomicState
+     * @param cavity
+     */
     public WaveGraphic( Component component, AtomicState atomicState, ResonatingCavity cavity ) {
         super( component );
         this.atomicState = atomicState;
@@ -162,6 +167,10 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement, A
     private double getMaxInternalAmplitude() {
         return LaserConfig.LASING_THRESHOLD;
     }
+
+    //----------------------------------------------------------------
+    // Events and listeners
+    //----------------------------------------------------------------
 
     public interface Listener extends EventListener {
         public void waveChanged( StandingWaveGraphic.ChangeEvent event );

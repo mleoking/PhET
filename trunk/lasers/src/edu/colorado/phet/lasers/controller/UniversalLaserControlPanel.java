@@ -1,6 +1,5 @@
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.LampGraphic;
@@ -33,7 +32,10 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
     private HighLevelEmissionControlPanel highLevelEmissionControlPanel;
     private PumpBeamViewPanel pumpBeamViewPanel;
 
-    public UniversalLaserControlPanel( final BaseLaserModule module, AbstractClock clock ) {
+    /**
+     * @param module
+     */
+    public UniversalLaserControlPanel( final BaseLaserModule module ) {
         super( module );
         this.laserModule = module;
 
@@ -129,7 +131,8 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
      * @param viewType
      */
     public void setUpperTransitionView( int viewType ) {
-        waveViewControlPanel.setUpperTransitionView( viewType );
+        pumpBeamViewPanel.setUpperTransitionView( viewType );
+//        waveViewControlPanel.setUpperTransitionView( viewType );
     }
 
     //--------------------------------------------------------------------------------

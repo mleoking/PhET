@@ -80,6 +80,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         middleEnergyState.setNextLowerEnergyState( groundState );
         middleEnergyState.setNextHigherEnergyState( highEnergyState );
         highEnergyState.setNextLowerEnergyState( middleEnergyState );
+        highEnergyState.setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
     }
 
     public void addModelElement( ModelElement modelElement ) {
@@ -330,7 +331,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
      * can't be hit by more than one photon in a single time step.
      */
     private class CollisionAgent implements ModelElement {
-        PhotonAtomCollisonExpert phtonAtomExpert = new PhotonAtomCollisonExpert();
+        PhotonAtomCollisonExpert photonAtomExpert = new PhotonAtomCollisonExpert();
         int numSections = 6;
         double sectionWidth;
         private ArrayList[] cavitySections;
@@ -380,7 +381,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
 //                            k = j;
 //                            Atom atom = (Atom)atomsInSection.get( j );
 //                            AtomicState s1 = atom.getCurrState();
-//                            phtonAtomExpert.detectAndDoCollision( photon, atom );
+//                            photonAtomExpert.detectAndDoCollision( photon, atom );
 //                            AtomicState s2 = atom.getCurrState();
 //                            if( s1 != s2 ) {
 //                                break;
@@ -392,7 +393,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
                     for( int j = 0; j < atoms.size(); j++ ) {
                         Atom atom = (Atom)atoms.get( j );
                         AtomicState s1 = atom.getCurrState();
-                        phtonAtomExpert.detectAndDoCollision( photon, atom );
+                        photonAtomExpert.detectAndDoCollision( photon, atom );
                         AtomicState s2 = atom.getCurrState();
                         if( s1 != s2 ) {
                             break;

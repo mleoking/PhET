@@ -144,7 +144,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
             // is the best hack to use.
             color = new Color( color.getRed(), color.getGreen(), color.getBlue() );
             int y = (int)energyYTx.modelToView( atomicState.getEnergyLevel() );
-            levelLine.setRect( xLoc, y, width, thickness );
+            levelLine.setRect( xLoc, y - thickness / 2, width, thickness );
 
             if( isAdjustable ) {
                 double xOffset = width - 50;

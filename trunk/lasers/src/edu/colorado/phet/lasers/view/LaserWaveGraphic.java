@@ -63,6 +63,9 @@ public class LaserWaveGraphic extends CompositePhetGraphic implements /*Photon.L
                                                                 cavity.getWidth() / cyclesInCavity, 100,
                                                                 getNumLasingPhotons(), atomicState, model );
         externalStandingWaveGraphic.addListener( this );
+
+        this.addGraphic( internalStandingWaveGraphic, LaserConfig.LEFT_MIRROR_LAYER - 1 );
+        this.addGraphic( externalStandingWaveGraphic, LaserConfig.RIGHT_MIRROR_LAYER - 1 );
     }
 
     public void waveChanged( StandingWaveGraphic.ChangeEvent event ) {
@@ -72,13 +75,6 @@ public class LaserWaveGraphic extends CompositePhetGraphic implements /*Photon.L
 
     private int getNumLasingPhotons() {
         return numLasingPhotons;
-    }
-
-    protected Rectangle determineBounds() {
-        Rectangle isb = internalStandingWaveGraphic.determineBounds();
-        Rectangle esb = externalStandingWaveGraphic.determineBounds();
-        bounds = esb.union( isb );
-        return bounds;
     }
 
     private double getExternalAmplitude() {

@@ -12,6 +12,7 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -39,6 +40,10 @@ public class LaserConfig {
     public static final int HIGH_ENERGY_STATE_DEFAULT_LIFETIME = 10;
     public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = 50;
     //    public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = ( MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_STATE_LIFETIME ) / 2;
+
+    // Tolerances used to determine if a photon matches with an atomic state energy
+    public static final double ENERGY_TOLERANCE = 0.5E-38;
+    public static final double WAVELENGTH_TOLERANCE = Photon.energyToWavelength( ENERGY_TOLERANCE );
 
     // Graphics things
     public static final int CONTROL_FONT_SIZE = 12;
