@@ -25,9 +25,8 @@ public class TestParametricCoil extends JComponent {
     private static final Color LOOP_LIGHTEST_COLOR = new Color( 153, 102, 51 );
     private static final Color LOOP_MIDDLE_COLOR = new Color( 92, 52, 12 );
     private static final Color LOOP_DARKEST_COLOR = new Color( 40, 23, 3 );
-    private static final int LOOP_RADIUS = 100;
-    private static final int LOOP_WIDTH = 16;
-    private static final int LOOP_SPACING = 25;
+    private static final int WIRE_WIDTH = 14;
+    private static final double LOOP_SPACING_FACTOR = 0.3; // ratio of loop spacing to loop radius
     
     private static final boolean DRAW_POINTS = false;
     
@@ -53,7 +52,7 @@ public class TestParametricCoil extends JComponent {
         Dimension sliderSize = new Dimension( 150, 20 );
 
         // Create a coil.
-        final TestParametricCoil coil = new TestParametricCoil( numberOfLoops, LOOP_RADIUS, coilLocation );
+        final TestParametricCoil coil = new TestParametricCoil( numberOfLoops, 100, coilLocation );
 
         // Number of Loops control
         Box loopsPanel = new Box( BoxLayout.X_AXIS );
@@ -200,26 +199,21 @@ public class TestParametricCoil extends JComponent {
         Graphics2D g2 = (Graphics2D) g;
         
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        g2.setStroke( new BasicStroke( LOOP_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ) );
+        g2.setStroke( new BasicStroke( WIRE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ) );
         g2.translate( _location.x, _location.y );
  
+        // Loop spacing
+        int loopSpacing = (int)(_radius * LOOP_SPACING_FACTOR );
+        
         // Center of all loops should remain fixed.
-        int firstLoopCenter = -( LOOP_SPACING * (_numberOfLoops - 1) / 2 );
+        int firstLoopCenter = -( loopSpacing * (_numberOfLoops - 1) / 2 );
         
         // Back of loops
         for ( int i = 0; i < _numberOfLoops; i++ ) {
             
-            int offset = firstLoopCenter + ( i * LOOP_SPACING );
+            int offset = firstLoopCenter + ( i * loopSpacing );
             
             g2.setPaint( new GradientPaint( 0, (int)(_radius * .40), LOOP_DARKEST_COLOR, 0, (int)(_radius * .90), LOOP_MIDDLE_COLOR ) );
-            
-            // Back top
-            {
-                Point e1 = new Point( (int)(_radius * .25) + offset, 0 );
-                Point e2 = new Point( -LOOP_SPACING + (int)(_radius * .15) + offset, -_radius );
-                Point c = new Point( (int)(_radius * .15) + offset, (int)(-_radius * .70));
-                drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
-            }
             
             // Back bottom
             {
@@ -229,10 +223,17 @@ public class TestParametricCoil extends JComponent {
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
             
+            // Back top
+            {
+                Point e1 = new Point( (int)(_radius * .25) + offset, 0 );
+                Point e2 = new Point( -loopSpacing + (int)(_radius * .15) + offset, -_radius );
+                Point c = new Point( (int)(_radius * .15) + offset, (int)(-_radius * .70));
+                drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
+            }
+
             // Left connection wire
             if ( i == 0 ) {
-                g2.setPaint( LOOP_DARKEST_COLOR );
-                Point e1 = new Point( -LOOP_SPACING + (int)(_radius * .15) + offset, -_radius );
+                Point e1 = new Point( -loopSpacing + (int)(_radius * .15) + offset, -_radius );
                 Point e2 = new Point( e1.x - 15, e1.y - 40 );
                 Point c = new Point( e1.x - 20, e1.y - 20 );
                 g2.setPaint( new GradientPaint( e2.x, 0, LOOP_MIDDLE_COLOR, e1.x, 0, LOOP_DARKEST_COLOR ) );
@@ -243,23 +244,23 @@ public class TestParametricCoil extends JComponent {
         // Front of loops
         for ( int i = 0; i < _numberOfLoops; i++ ) {
             
-            int offset = firstLoopCenter + ( i * LOOP_SPACING );;
+            int offset = firstLoopCenter + ( i * loopSpacing );;
             
             g2.setPaint( new GradientPaint( (int)(-_radius * .25) + offset, 0, LOOP_LIGHTEST_COLOR, (int)(-_radius * .15) + offset, 0, LOOP_MIDDLE_COLOR ) );
             
-            // Front top
-            {
-                Point e1 = new Point( (int)(-_radius * .25) + offset, 0 );
-                Point e2 = new Point( (int)(_radius * .15) + offset, -_radius );
-                Point c = new Point( (int)(-_radius * .20) + offset, (int)(-_radius * 1.30) );
-                drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
-            }
-
             // Front bottom
             {
                 Point e1 = new Point( (int)(-_radius * .25) + offset, 0 );
                 Point e2 = new Point( (int)(_radius * .13) + offset, _radius );
                 Point c = new Point( (int)(-_radius * .20) + offset, (int)(_radius * 1.30) );
+                drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
+            }
+            
+            // Front top
+            {
+                Point e1 = new Point( (int) ( -_radius * .25 ) + offset, 0 );
+                Point e2 = new Point( (int) ( _radius * .15 ) + offset, -_radius );
+                Point c = new Point( (int) ( -_radius * .20 ) + offset, (int) ( -_radius * 1.30 ) );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
             
@@ -269,13 +270,13 @@ public class TestParametricCoil extends JComponent {
                 Point e1 = new Point( (int)(_radius * .15) + offset, -_radius );
                 Point e2 = new Point( e1.x + 10, e1.y - 40 );
                 Point c = new Point( e1.x + 20, e1.y + 20 );
-                drawQuadCurve( g2, e1, c, e2, true );
+                drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
         }
         
-        // Draw the origin
-        g2.setPaint( Color.CYAN );
-        g2.fill( new Ellipse2D.Double( -2, -2, 4, 4 ) );
+//        // Draw the origin
+//        g2.setPaint( Color.CYAN );
+//        g2.fill( new Ellipse2D.Double( -2, -2, 4, 4 ) );
     }
     
     //----------------------------------------------------------------------------
