@@ -18,6 +18,7 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
@@ -121,6 +122,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
     protected synchronized void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
+        GraphicsState gs = new GraphicsState( g2 );
 
         // Center the profile in the panel
         origin.setLocation( this.getWidth() / 2, this.getHeight() * 0.8 );
@@ -168,8 +170,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
             g2.setTransform( orgTx );
         }
 
-        GraphicsUtil.setAlpha( g2, 1 );
-
+        gs.restoreGraphics();
     }
 
     private void drawAxes( Graphics2D g2 ) {
