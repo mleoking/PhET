@@ -70,33 +70,6 @@ public class PhetApplication {
         applicationModel.start();
         view.setVisible( true );
     }
-    
-    /**
-     * Initialize application localization.
-     * 
-     * @param args the commandline arguments that were passed to main
-     * @param bundleName the base name of the resource bundle containing localized strings
-     */
-    public static void initLocalization( String[] args, String bundleName ) {
-        // Get the default locale from property javaws.locale.
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if ( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            SimStrings.setLocale( new Locale( applicationLocale ) );
-        }
-
-        // Override default locale using "user.language=" command line argument.
-        String argsKey = "user.language=";
-        for ( int i = 0; i < args.length; i++ ) {
-            if ( args[i].startsWith( argsKey ) ) {
-                String locale = args[i].substring( argsKey.length(), args[i].length() );
-                SimStrings.setLocale( new Locale( locale ) );
-                break;
-            }
-        }
-
-        // Initialize simulation strings using resource bundle for the locale.
-        SimStrings.setStrings( bundleName );
-    }
 
     public ModuleManager getModuleManager() {
         return moduleManager;

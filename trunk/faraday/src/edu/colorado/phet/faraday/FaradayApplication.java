@@ -115,7 +115,7 @@ public class FaradayApplication extends PhetApplication {
     public static void main( String[] args ) throws IOException {
 
         // Initialize localization.
-        PhetApplication.initLocalization( args, FaradayConfig.LOCALIZATION_BUNDLE_BASENAME );
+        SimStrings.init( args, FaradayConfig.LOCALIZATION_BUNDLE_BASENAME );
         
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FaradayApplication.title" );
