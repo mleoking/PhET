@@ -60,11 +60,22 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private MouseProcessor mouseProcessor;
 
     /**
+     * Creates a new ApparatusPanel2, observing the specified clock for paused-ness.
+     *
+     * @param clock
+     */
+    public ApparatusPanel2( AbstractClock clock ) {
+        super( null );
+        init( clock );
+    }
+
+    /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
      * when the model clock is paused.
      *
      * @param model
      * @param clock
+     * @deprecated No longer requires a BaseModel.
      */
     public ApparatusPanel2( BaseModel model, AbstractClock clock ) {
         super( null );
@@ -78,7 +89,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public ApparatusPanel2( BaseModel model ) {
         super( null );
         init( null );
-        throw new RuntimeException( "Don't work no more!");
+        throw new RuntimeException( "Don't work no more!" );
     }
 
     protected void init( AbstractClock clock ) {
