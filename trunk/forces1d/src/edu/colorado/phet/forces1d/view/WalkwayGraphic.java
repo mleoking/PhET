@@ -35,6 +35,8 @@ public class WalkwayGraphic extends CompositePhetGraphic {
     private TickSetGraphic tickSetGraphic;
     private Rectangle bounds = new Rectangle();
     private int floorHeight = 6;
+    private PhetImageGraphic leftWallGraphic;
+    private PhetImageGraphic rightWallGraphic;
 
     public WalkwayGraphic( ApparatusPanel panel, Force1DModule module, int numTickMarks, Function.LinearFunction transform ) throws IOException {
         this( panel, module, numTickMarks, -10, 10, transform );
@@ -53,11 +55,21 @@ public class WalkwayGraphic extends CompositePhetGraphic {
 
         tickSetGraphic = new TickSetGraphic( panel, transform );
 
+        leftWallGraphic = new PhetImageGraphic( getComponent(), "images/barrier.jpg" );
+        rightWallGraphic = new PhetImageGraphic( getComponent(), "images/barrier.jpg" );
+        leftWallGraphic.setVisible( false );
+        rightWallGraphic.setVisible( false );
+//        leftWallGraphic.setLocation( )
+
         addGraphic( backgroundGraphic );
         addGraphic( floorGraphic );
 
         addGraphic( treeGraphic );
         addGraphic( cottageGraphic );
+
+        addGraphic( leftWallGraphic );
+        addGraphic( rightWallGraphic );
+
         addGraphic( tickSetGraphic );
         setCursorHand();
         update();
@@ -66,11 +78,16 @@ public class WalkwayGraphic extends CompositePhetGraphic {
             public void boundaryConditionOpen() {
 
                 try {
+
                     treeGraphic.setImage( ImageLoader.loadBufferedImage( "images/tree.gif" ) );
                     treeGraphic.setTransform( new AffineTransform() );
 //                    treeGraphic.scale( 0.5);
                     cottageGraphic.setImage( ImageLoader.loadBufferedImage( "images/cottage.gif" ) );
                     cottageGraphic.setTransform( new AffineTransform() );
+                    treeGraphic.setVisible( true );
+                    cottageGraphic.setVisible( true );
+                    leftWallGraphic.setVisible( false );
+                    rightWallGraphic.setVisible( false );
                     module.getForcePanel().repaintBuffer();
                     setBoundsDirty();
                     autorepaint();
@@ -81,20 +98,24 @@ public class WalkwayGraphic extends CompositePhetGraphic {
             }
 
             public void boundaryConditionWalls() {
-                try {
-                    treeGraphic.setImage( ImageLoader.loadBufferedImage( "images/barrier.jpg" ) );
-                    treeGraphic.setTransform( new AffineTransform() );
-                    treeGraphic.scale( 0.5 );
-                    cottageGraphic.setImage( ImageLoader.loadBufferedImage( "images/barrier.jpg" ) );
-                    cottageGraphic.setTransform( new AffineTransform() );
-                    cottageGraphic.scale( 0.5 );
-                    module.getForcePanel().repaintBuffer();
-                    setBoundsDirty();
-                    autorepaint();
-                }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
+                leftWallGraphic.setVisible( true );
+                rightWallGraphic.setVisible( true );
+//                try {
+//                    treeGraphic.setImage( ImageLoader.loadBufferedImage( "images/barrier.jpg" ) );
+//                    treeGraphic.setTransform( new AffineTransform() );
+//                    treeGraphic.scale( 0.5 );
+//                    cottageGraphic.setImage( ImageLoader.loadBufferedImage( "images/barrier.jpg" ) );
+//                    cottageGraphic.setTransform( new AffineTransform() );
+//                    cottageGraphic.scale( 0.5 );
+                treeGraphic.setVisible( false );
+                cottageGraphic.setVisible( false );
+                module.getForcePanel().repaintBuffer();
+                setBoundsDirty();
+                autorepaint();
+//                }
+//                catch( IOException e ) {
+//                    e.printStackTrace();
+//                }
             }
         } );
     }
@@ -206,6 +227,16 @@ public class WalkwayGraphic extends CompositePhetGraphic {
 
         treeGraphic.setLocation( (int)transform.evaluate( treex ) - treeGraphic.getWidth() / 2, floor.y - treeGraphic.getHeight() );
         cottageGraphic.setLocation( (int)transform.evaluate( housex ) - cottageGraphic.getWidth() / 2, floor.y - cottageGraphic.getHeight() );
+
+        leftWallGraphic.setLocation( bounds.x, bounds.y );
+        leftWallGraphic.setTransform( new AffineTransform() );
+        leftWallGraphic.scale( ( transform.evaluate( treex ) - bounds.x ) / leftWallGraphic.getImage().getWidth(), bounds.getHeight() / leftWallGraphic.getImage().getHeight() );
+
+        rightWallGraphic.setLocation( (int)transform.evaluate( housex ), 0 );
+        rightWallGraphic.setTransform( new AffineTransform() );
+        double newWidth = bounds.x + bounds.width - transform.evaluate( housex );
+        rightWallGraphic.scale( newWidth / rightWallGraphic.getImage().getWidth(), bounds.getHeight() / rightWallGraphic.getImage().getHeight() );
+
         setBoundsDirty();
         repaint();
     }

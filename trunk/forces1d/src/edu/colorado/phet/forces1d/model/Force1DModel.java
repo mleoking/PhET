@@ -110,8 +110,14 @@ public class Force1DModel implements ModelElement {
     public void setPlaybackIndex( int index ) {
         int numDataPoints = netForceDataSeries.numSmoothedPoints();
         if( index < numDataPoints ) {
-            this.netForce = netForceDataSeries.smoothedPointAt( index );
-            this.frictionForce = frictionForceDataSeries.smoothedPointAt( index );
+            if( index == 0 ) {
+                this.netForce = 0;
+                this.frictionForce = 0;//TODO this could cause more problems than it solves.
+            }
+            else {
+                this.netForce = netForceDataSeries.smoothedPointAt( index );
+                this.frictionForce = frictionForceDataSeries.smoothedPointAt( index );
+            }
             setAppliedForce( appliedForceDataSeries.smoothedPointAt( index ) );
 //        setGravity( );//TODO do we want provisions for changing gravity?
             block.setAcceleration( accelerationDataSeries.smoothedPointAt( index ) );
@@ -148,13 +154,13 @@ public class Force1DModel implements ModelElement {
         updateBlock();
         block.stepInTime( dt );
         boundaryCondition.apply();
-        if( plotDeviceModel.isTakingData() ) {
-            netForceDataSeries.addPoint( netForce );
-            frictionForceDataSeries.addPoint( frictionForce );
-        }
+//        if( plotDeviceModel.isTakingData() ) {//TODO what was this for?
+        netForceDataSeries.addPoint( netForce );
+        frictionForceDataSeries.addPoint( frictionForce );
+//        }
 
-        double value = getAppliedForce();
-        addAppliedForcePoint( value, dt );
+        double appliedForce = getAppliedForce();
+        appliedForceDataSeries.addPoint( appliedForce );
 
         accelerationDataSeries.addPoint( block.getAcceleration() );
         velocityDataSeries.addPoint( block.getVelocity() );
@@ -210,9 +216,9 @@ public class Force1DModel implements ModelElement {
         return netForceDataSeries.getSmoothedDataSeries();
     }
 
-    public void addAppliedForcePoint( double value, double dt ) {
-        getAppliedForceDataSeries().addPoint( value );
-    }
+//    public void addAppliedForcePoint( double value, double dt ) {
+//
+//    }
 
     public DataSeries getFrictionForceSeries() {
         return frictionForceDataSeries.getSmoothedDataSeries();

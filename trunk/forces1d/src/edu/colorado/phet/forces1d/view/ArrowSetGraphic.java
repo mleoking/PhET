@@ -87,6 +87,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             shapeGraphic = new PhetShapeGraphic( component, null, color, new BasicStroke( 1 ), Color.black );
             addGraphic( shapeGraphic );
             addGraphic( textGraphic );
+            update();
         }
 
         public void update() {
@@ -111,7 +112,11 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
                 shapeGraphic.setShape( forceArrowShape );
 
                 Shape forceArrowBody = forceArrow.getTailShape();
-                textGraphic.setLocation( forceArrowBody.getBounds().x, forceArrowBody.getBounds().y + textGraphic.getHeight() );
+                double tgHeight = textGraphic.getHeight();
+                double arrowHeight = forceArrowBody.getBounds().getHeight();
+                double y = forceArrowBody.getBounds().getY() + arrowHeight / 2 - tgHeight / 2;
+//                textGraphic.setLocation( forceArrowBody.getBounds().x, forceArrowBody.getBounds().y + textGraphic.getHeight()/2 );
+                textGraphic.setLocation( forceArrowBody.getBounds().x, (int)y );
             }
             this.lastArrow = forceArrow;
         }

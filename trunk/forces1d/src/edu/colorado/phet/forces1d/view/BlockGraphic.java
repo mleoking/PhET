@@ -12,7 +12,6 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 
 /**
@@ -85,26 +84,26 @@ public class BlockGraphic extends CompositePhetGraphic {
         return block;
     }
 
-    //Workaround for lack of equals in java's RoundRectangle2D.
-    public static class RoundRect extends RoundRectangle2D.Double {
-
-        public RoundRect( double x, double y, double w, double h, double arcw, double arch ) {
-            super( x, y, w, h, arcw, arch );
-        }
-
-        public boolean equals( Object obj ) {
-            if( obj instanceof RoundRect ) {
-                RoundRect roundRect = (RoundRect)obj;
-                return roundRect.getX() == x && roundRect.getY() == y && roundRect.getWidth() == getWidth() && roundRect.getHeight() == getHeight() &&
-                        roundRect.getArcWidth() == getArcWidth() && roundRect.getArcHeight() == getArcHeight();
-            }
-            return false;
-        }
-
-        public String toString() {
-            return "x=" + super.getX() + ", y=" + super.getY() + ", width=" + super.getWidth() + ", height=" + super.getHeight();
-        }
-    }
+//    //Workaround for lack of equals in java's RoundRectangle2D.
+//    public static class RoundRect extends RoundRectangle2D.Double {
+//
+//        public RoundRect( double x, double y, double w, double h, double arcw, double arch ) {
+//            super( x, y, w, h, arcw, arch );
+//        }
+//
+//        public boolean equals( Object obj ) {
+//            if( obj instanceof RoundRect ) {
+//                RoundRect roundRect = (RoundRect)obj;
+//                return roundRect.getX() == x && roundRect.getY() == y && roundRect.getWidth() == getWidth() && roundRect.getHeight() == getHeight() &&
+//                        roundRect.getArcWidth() == getArcWidth() && roundRect.getArcHeight() == getArcHeight();
+//            }
+//            return false;
+//        }
+//
+//        public String toString() {
+//            return "x=" + super.getX() + ", y=" + super.getY() + ", width=" + super.getWidth() + ", height=" + super.getHeight();
+//        }
+//    }
 
     public void update() {
         double mass = block.getMass();
@@ -115,7 +114,7 @@ public class BlockGraphic extends CompositePhetGraphic {
         scale( defaultScale, fracSize );
 
         Point center = getCenter();
-        setLocation( center.x - graphic.getWidth() / 2, center.y - graphic.getHeight() / 2 );
+        setLocation( center.x - graphic.getWidth() / 2, center.y - graphic.getHeight() / 2 + 5 );
         setBoundsDirty();//so that the bounds gets recalculated when needed
         setAutoRepaint( true );
         if( lastCenter == null || lastCenter.equals( center ) ) {

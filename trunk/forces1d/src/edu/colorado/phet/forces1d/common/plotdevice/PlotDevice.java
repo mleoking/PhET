@@ -8,7 +8,6 @@ import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.controllers.HorizontalCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -36,7 +35,8 @@ import java.util.ArrayList;
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
 public class PlotDevice extends CompositePhetGraphic {
-
+    private boolean adorned = false;
+    private Color chartBackgroundColor = new Color( 255, 247, 204 );
     private String title;
     private PlotDeviceModel plotDeviceModel;
     private PlotDeviceView plotDeviceView;
@@ -51,7 +51,7 @@ public class PlotDevice extends CompositePhetGraphic {
     private ChartComponent chartComponent;
     private ChartButton showButton;
     private DecimalFormat format = new DecimalFormat( "0.00" );
-    private FloatingControl floatingControl;
+//    private FloatingControl floatingControl;
     private String units;
     private JLabel titleLable;
     private Font verticalTitleFont = MMFontManager.getFontSet().getVerticalTitleFont();
@@ -62,13 +62,11 @@ public class PlotDevice extends CompositePhetGraphic {
     private boolean controllable;
     private Point buttonLoc = new Point();
 
-
     public PlotDevice( final ParameterSet parameters, BufferedPhetGraphic bufferedPhetGraphic )
             throws IOException {
         super( parameters.panel );
         this.controllable = parameters.controllable;
         this.bufferedPhetGraphic = bufferedPhetGraphic;
-//        this.rectangleListener=rectangleListener;
         this.plotDeviceView = parameters.plotDeviceView;
         this.units = parameters.units;
         this.title = parameters.title;
@@ -101,7 +99,7 @@ public class PlotDevice extends CompositePhetGraphic {
             }
         } );
 
-        showButton = new ChartButton( "Show " + title );
+        showButton = new ChartButton( "Graph " + title );
         showButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setVisible( true );
@@ -148,8 +146,8 @@ public class PlotDevice extends CompositePhetGraphic {
         titleLable.setForeground( color );//TODO titleLabel
 
         panel.add( titleLable );
-        floatingControl = new FloatingControl( plotDeviceModel, plotDeviceView.getApparatusPanel() );//, titleLable );
-        panel.add( floatingControl );
+//        floatingControl = new FloatingControl( plotDeviceModel, plotDeviceView.getApparatusPanel() );//, titleLable );
+//        panel.add( floatingControl );
         plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
             public void rewind() {
                 horizontalCursor.setX( 0 );
@@ -161,6 +159,9 @@ public class PlotDevice extends CompositePhetGraphic {
         respectControllable();
     }
 
+    public void setAdorned( boolean adorned ) {
+        this.adorned = adorned;
+    }
 
     public void setDataSeriesVisible( int index, boolean visible ) {
         chartComponent.setDataSeriesVisible( index, visible );
@@ -228,6 +229,10 @@ public class PlotDevice extends CompositePhetGraphic {
         if( isVisible() ) {
             chartComponent.repaintBuffer();
         }
+    }
+
+    public void setChartBackground( Color color ) {
+        chartComponent.setBackground( color );
     }
 
     public static interface Listener {
@@ -309,6 +314,9 @@ public class PlotDevice extends CompositePhetGraphic {
         setViewBounds( new Rectangle( x, y, width, height ) );
     }
 
+//    public void setX(int x){
+//        this.x=x;
+//    }
 
     public void setViewBounds( Rectangle rectangle ) {
         if( rectangle.width > 0 && rectangle.height > 0 ) {
@@ -321,9 +329,9 @@ public class PlotDevice extends CompositePhetGraphic {
                              titleLable.getY() + titleLable.getHeight() + 5,
                              textBox.getPreferredSize().width,
                              textBox.getPreferredSize().height );
-            int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
-            int floatX = floaterX + dw / 2;
-            floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
+//            int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
+//            int floatX = floaterX + dw / 2;
+//            floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
             chartComponent.setViewBounds( rectangle );
             Point ctr = RectangleUtils.getCenter( chartComponent.determineBounds() );
             timeLabel.setLocation( ctr );
@@ -333,6 +341,7 @@ public class PlotDevice extends CompositePhetGraphic {
     public ModelViewTransform2D getModelViewTransform() {
         return getChart().getModelViewTransform();
     }
+
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
@@ -350,11 +359,10 @@ public class PlotDevice extends CompositePhetGraphic {
         showButton.reshape( buttonLoc.x, buttonLoc.y, showButton.getPreferredSize().width, showButton.getPreferredSize().height );
         plotDeviceView.relayout();
         showButton.setVisible( !visible );
-        textBox.setVisible( visible );
+        textBox.setVisible( visible && adorned );
 
-
-        floatingControl.setVisible( visible );
-        titleLable.setVisible( visible );
+//        floatingControl.setVisible( visible );
+        titleLable.setVisible( visible && adorned );
         respectControllable();
     }
 
@@ -401,102 +409,9 @@ public class PlotDevice extends CompositePhetGraphic {
         }
     }
 
-    public FloatingControl getFloatingControl() {
-        return floatingControl;
-    }
-
-    public static class FloatingControl extends VerticalLayoutPanel {
-        static BufferedImage play;
-        static BufferedImage pause;
-        private JButton pauseButton;
-        private JButton recordButton;
-        private JButton resetButton;
-
-        static {
-            try {
-                play = ImageLoader.loadBufferedImage( "images/icons/java/media/Play16.gif" );
-                pause = ImageLoader.loadBufferedImage( "images/icons/java/media/Pause16.gif" );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-
-        static class ControlButton extends JButton {
-            static Font font = MMFontManager.getFontSet().getControlButtonFont();
-
-            public ControlButton( String text ) {
-                super( text );
-                setFont( font );
-            }
-        }
-
-        public FloatingControl( final PlotDeviceModel plotDeviceModel, final ApparatusPanel apparatusPanel ) {
-            pauseButton = new ControlButton( "Pause" );
-            pauseButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    plotDeviceModel.setPaused( true );
-                }
-            } );
-            recordButton = new ControlButton( "Go" );
-            recordButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    plotDeviceModel.setRecordMode();
-                    plotDeviceModel.setPaused( false );
-                }
-            } );
-
-            resetButton = new ControlButton( "Clear" );
-            resetButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    boolean paused = plotDeviceModel.isPaused();
-                    plotDeviceModel.setPaused( true );
-                    int option = JOptionPane.showConfirmDialog( apparatusPanel, "Are you sure you want to clear the graphs?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION );
-                    if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
-                        plotDeviceModel.reset();
-                    }
-                    else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
-                        plotDeviceModel.setPaused( paused );
-                    }
-                }
-            } );
-            plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
-                public void recordingStarted() {
-                    setButtons( false, true, true );
-                }
-
-                public void recordingPaused() {
-                    setButtons( true, false, true );
-                }
-
-                public void recordingFinished() {
-                    setButtons( false, false, true );
-                }
-
-                public void reset() {
-                    setButtons( true, false, false );
-                }
-
-                public void rewind() {
-                    setButtons( true, false, true );
-                }
-            } );
-            add( recordButton );
-            add( pauseButton );
-            add( resetButton );
-            pauseButton.setEnabled( false );
-        }
-
-        private void setButtons( boolean record, boolean pause, boolean reset ) {
-            recordButton.setEnabled( record );
-            pauseButton.setEnabled( pause );
-            resetButton.setEnabled( reset );
-        }
-
-        public void setVisible( boolean aFlag ) {
-            super.setVisible( aFlag );
-        }
-    }
+//    public FloatingControl getFloatingControl() {
+//        return floatingControl;
+//    }
 
     public class ChartComponent {
         private CloseButton closeButton;
@@ -536,6 +451,11 @@ public class PlotDevice extends CompositePhetGraphic {
                 Series series1 = (Series)series.get( i );
                 series1.repaintBuffer();
             }
+        }
+
+        public void setBackground( Color color ) {
+//            chartBackgroundColor = color;
+            chart.setBackground( color );
         }
 
         public class Series {
@@ -627,12 +547,12 @@ public class PlotDevice extends CompositePhetGraphic {
         public ChartComponent( ApparatusPanel panel, Rectangle2D inputBox, DataSeries dataSeries, double xShift,
                                double holdDownZoom, double singleClickZoom, double maxZoomRange ) throws IOException {
             Font axisFont = MMFontManager.getFontSet().getAxisFont();
-
             chart = new Chart( panel, new Range2D( inputBox ), new Rectangle( 0, 0, 100, 100 ) );
             Series defaultSeries = new Series( title, panel, dataSeries, stroke, color );
             addSeries( defaultSeries );
             this.xShift = xShift;
-            chart.setBackground( Color.yellow );
+//            chart.setBackground( Color.yellow );
+            chart.setBackground( chartBackgroundColor );
 
             chart.getHorizontalTicks().setVisible( true );
             chart.getHorizonalGridlines().setMajorGridlinesColor( Color.darkGray );
@@ -722,7 +642,6 @@ public class PlotDevice extends CompositePhetGraphic {
         }
 
         public void setMagnitude( double magnitude ) {
-
             Rectangle2D.Double positionInputBox = new Rectangle2D.Double( plotDeviceModel.getMinTime(), -magnitude, plotDeviceModel.getMaxTime() - plotDeviceModel.getMinTime(), magnitude * 2 );
             chartComponent.setInputRange( positionInputBox );
             plotDeviceView.repaintBackground( getChart().getViewBounds() );
@@ -730,7 +649,7 @@ public class PlotDevice extends CompositePhetGraphic {
 
         public void setViewBounds( Rectangle rectangle ) {
             chart.setViewBounds( rectangle );
-            chart.setBackground( Color.yellow );
+//            chart.setBackground( chartBackgroundColor );
             chart.getVerticalTicks().setMajorOffset( 0, 0 );
             Rectangle vb = chart.getViewBounds();
             int x = vb.x + vb.width - closeButton.getPreferredSize().width;
@@ -1045,7 +964,8 @@ public class PlotDevice extends CompositePhetGraphic {
         private static Font font = MMFontManager.getFontSet().getChartButtonFont();//new Font( "Lucida Sans", Font.BOLD, 14 );
 
         public ChartButton( String label ) throws IOException {
-            super( label, new ImageIcon( ImageLoader.loadBufferedImage( "images/arrow-right.gif" ) ) );
+//            super( label, new ImageIcon( ImageLoader.loadBufferedImage( "images/arrow-right.gif" ) ) );
+            super( label );
             setFont( font );
             setVerticalTextPosition( AbstractButton.CENTER );
             setHorizontalTextPosition( AbstractButton.LEFT );

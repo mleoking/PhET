@@ -79,14 +79,13 @@ public class LeanerGraphic extends PhetImageGraphic {
         BufferedImage frame = animation.getFrame( index );
         int x = 0;
         int y = 0;
+        int STEP_CLOSER = 5;
         if( facingRight ) {
-//            x = target.getX() - frame.getWidth();
-            x = (int)( target.getBounds().getX() - frame.getWidth() );
+            x = (int)( target.getBounds().getX() - frame.getWidth() ) + STEP_CLOSER;
             y = forcePanel.getWalkwayGraphic().getFloorY() - getHeight();
         }
         else {
-//            x = target.getX() + target.getWidth();
-            x = (int)( target.getBounds().getX() + target.getWidth() );
+            x = (int)( target.getBounds().getX() + target.getWidth() ) - STEP_CLOSER;
             y = forcePanel.getWalkwayGraphic().getFloorY() - getHeight();
             frame = flippedAnimation.getFrame( index );
         }
