@@ -104,7 +104,10 @@ public class PhetControlPanel extends JPanel {
         // Place the panel with the controls
         Spring controlsHalfHeightS = Spring.constant( controlPaneHeight / 2 );
         Spring bottomOfIconS = Spring.constant( imageIcon.getIconHeight() + padY * 2 );
-        Spring controlsTopS = Spring.sum( yCenterS, Spring.minus( controlsHalfHeightS ) );
+        Spring controlsTopS = Spring.constant( padY * 2 );
+        // Enable the following line if you want the controls to float in the middle of
+        // the control panel
+//        Spring controlsTopS = Spring.sum( yCenterS, Spring.minus( controlsHalfHeightS ) );
         Spring controlsTopSS = Spring.max( bottomOfIconS, controlsTopS );
         layout.putConstraint( SpringLayout.NORTH, controlPane, controlsTopSS,
                               SpringLayout.NORTH, this );
