@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.help.HelpManager;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 
@@ -27,6 +28,7 @@ public class Module {
 
     protected Module( String name ) {
         this.name = name;
+        SimStrings.setStrings( "localization/CommonStrings" );
     }
 
     public ApparatusPanel getApparatusPanel() {
