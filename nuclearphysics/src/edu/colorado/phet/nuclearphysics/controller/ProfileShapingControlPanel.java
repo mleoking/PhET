@@ -8,6 +8,7 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ModelSlider;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
@@ -42,7 +43,7 @@ public class ProfileShapingControlPanel extends JPanel {
         public PotentialControlPanel( PotentialProfile potentialProfile ) {
 
             // Create the controls
-            final ModelSlider maxHeightSlider = new ModelSlider( "Height",
+            final ModelSlider maxHeightSlider = new ModelSlider( SimStrings.get( "ProfileShapingControlPanel.HeightSlider" ),
                                                                  10,
                                                                  potentialProfile.getMaxPotential(),
                                                                  potentialProfile.getMaxPotential() / 2 );
@@ -53,7 +54,7 @@ public class ProfileShapingControlPanel extends JPanel {
             } );
             module.setProfileMaxHeight( maxHeightSlider.getModelValue() );
 
-            final ModelSlider wellDepthSlider = new ModelSlider( "Well Depth",
+            final ModelSlider wellDepthSlider = new ModelSlider( SimStrings.get( "ProfileShapingControlPanel.WellDepthSlider" ),
                                                                  0,
                                                                  potentialProfile.getMaxPotential() * 2,
                                                                  20 );
@@ -64,7 +65,7 @@ public class ProfileShapingControlPanel extends JPanel {
             } );
             module.setProfileWellDepth( wellDepthSlider.getModelValue() );
 
-            final ModelSlider profileWidthSlider = new ModelSlider( "Width",
+            final ModelSlider profileWidthSlider = new ModelSlider( SimStrings.get( "ProfileShapingControlPanel.WidthSlider" ),
                                                                     100, 300, 200 );
             profileWidthSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -94,7 +95,7 @@ public class ProfileShapingControlPanel extends JPanel {
 
             // Lay out the panel
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-            Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Potential Profile" );
+            Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "ProfileShapingControlPanel.PotentialProfileBorder" ) );
             this.setBorder( titledBorder );
 
             setLayout( new GridBagLayout() );

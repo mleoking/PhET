@@ -8,6 +8,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
@@ -102,35 +103,35 @@ public class NuclearPhysicsControlPanel extends PhetControlPanel {
             ImageIcon u239Icon = new ImageIcon( u239Img );
 
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-            this.setBorder( BorderFactory.createTitledBorder( baseBorder, "Legend" ) );
+            this.setBorder( BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "NuclearPhysicsControlPanel.LegendBorder" ) ) );
             int rowIdx = 0;
             try {
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Neutron", neutronImg, SwingConstants.LEFT ),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.NeutronLabel" ), neutronImg, SwingConstants.LEFT ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Proton", protonImg, SwingConstants.LEFT ),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.ProtonLabel" ), protonImg, SwingConstants.LEFT ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Alpha Particle", alphaParticleImg, SwingConstants.LEFT ),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.AlphaParticleLabel" ), alphaParticleImg, SwingConstants.LEFT ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "<html>Uranium<sup><font size=-1> 235</font><sup></html>", u235Icon, SwingConstants.LEFT ),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Uranium235Label" ), u235Icon, SwingConstants.LEFT ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "<html>Uranium<sup><font size=-1> 238</font><sup></html>", u238Icon, SwingConstants.LEFT ),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Uranium238Label" ), u238Icon, SwingConstants.LEFT ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "<html>Uranium<sup><font size=-1> 239</font><sup></html>", u239Icon, SwingConstants.LEFT ),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "NuclearPhysicsControlPanel.Uranium239Label" ), u239Icon, SwingConstants.LEFT ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,

@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.TxApparatusPanel;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
@@ -42,8 +43,8 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     private static Color axisColor = new Color( 100, 100, 100 );
     private static Stroke axisStroke = new BasicStroke( 1f );
     private static Color backgroundColor = new Color( 255, 255, 255 );
-    private static String xAxisLabel = "Distance from Nucleus Center";
-    private static String yAxisLabel = "Potential Energy";
+    private static String xAxisLabel = SimStrings.get( "PotentialProfilePanel.XAxisLabel" );
+    private static String yAxisLabel = SimStrings.get( "PotentialProfilePanel.YAxisLabel" );
     private static Font axisLabelFont;
     private static float ghostAlpha = 1f;
     //    private static float ghostAlpha = 0.6f;

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
@@ -40,7 +41,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                                                      BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
 
     public AlphaDecayModule( AbstractClock clock ) {
-        super( "Alpha Radiation", clock );
+        super( SimStrings.get( "ModuleTitle.AlphaDecayModule" ), clock );
 
         // DEBUG ONLY!!!
         //        clock.setDt( clock.getDt() / 10 );
