@@ -31,6 +31,7 @@ import java.awt.geom.Rectangle2D;
 public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener {
     public static final int ALL = 0, EAST_WEST = 1, NORTH_SOUTH = 2;
     public static final Object NORTH = new Object();
+
     private Wall wall;
     private boolean isResizable = false;
     private boolean isResizingEast = false;
@@ -40,6 +41,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     private double hotSpotRadius = 4;
     private int strokeWidth = 1;
     private Paint normalBorderPaint;
+    private boolean isWallHighlightedByMouse;
 
     /**
      * @param wall
@@ -106,6 +108,10 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         else {
             setBorderPaint( normalBorderPaint );
         }
+    }
+
+    public void setWallHighlightedByMouse( boolean wallHighlightedByMouse ) {
+        isWallHighlightedByMouse = wallHighlightedByMouse;
     }
 
     /**
@@ -270,7 +276,9 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
                 }
 
                 // Highlight the wall when it's painted
-                setHighlightWall( true );
+                if( isWallHighlightedByMouse ) {
+                    setHighlightWall( true );
+                }
 
                 // If the wall is resizable and the cursor is on or near its border, give it the
                 // correct double-arrow cursor. Otherwise, make the cursor a hand.
