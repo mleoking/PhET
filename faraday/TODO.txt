@@ -6,11 +6,8 @@ IN PROGRESS:
 - bounds of light rays are not always correct (doesn't fully draw or doesn't fully erase)
 
 HIGH PRIORITY:
-- B Field Meter coordinate system: +X right, +Y up, +angle counterclockwise (0 degrees down +X axis)
-- use compass needle aspect ratio for grid needles
 - add color chooser so that folks can experiment with apparatus panel colors
 - use offscreen buffering in apparatus panel to remove screen turds?
-- redo B Field Meter graphic (30% larger fonts, "Magnetic (B) Field" title, i18n)
 - add Verlet behavior to voltmeter needle & lightbulb
 - show important "spikes" in induced emf (consider totally disabling smoothing)
 - collision detection between compass and magnet
@@ -22,6 +19,7 @@ MEDIUM PRIORITY:
 - grid is not always full of needles
 - beautify Control Panels
 - Transformer module requirements
+- check for unnecessary notification, events and updates
 
 LOW PRIORITY:
 - rewrite CompassGraphic to use Shapes instead of image
@@ -29,12 +27,15 @@ LOW PRIORITY:
 - Wiggle Me's
 - remove unused images from JAR file
 - Help/MegaHelp
-- correct lighting on flipped bar magnet
+- resize bar magnet image so that scaling isn't required
 
 phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 
 DONE:
+(1/27) - B Field Meter coordinate system: +X right, +Y up, +angle counterclockwise (0 degrees down +X axis)
+(1/27) - redo B Field Meter graphic (30% larger fonts, "Magnetic (B) Field" title, i18n)
+(1/27) - use compass needle aspect ratio for grid needles
 (1/26) - adjust sensitivity of voltmeter and lightbulb
 (1/26) - factor out common code for value rescaling
 (1/26) - add value rescaling to lightbulb & voltmeter
