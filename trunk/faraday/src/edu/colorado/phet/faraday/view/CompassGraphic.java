@@ -68,8 +68,9 @@ public class CompassGraphic extends CompositePhetGraphic
     
     private Rectangle _parentBounds;
     private Compass _compassModel;
-    private CompassNeedle _needleDescriptor;
+//    private CompassNeedle _needleDescriptor;
     private PhetShapeGraphic _needleNorthGraphic, _needleSouthGraphic;
+    private CompassNeedleCache _needleCache;
     private CollisionDetector _collisionDetector;
 
     //----------------------------------------------------------------------------
@@ -104,23 +105,23 @@ public class CompassGraphic extends CompositePhetGraphic
         
         // Needle
         {
-            // Descriptor
-            _needleDescriptor = new CompassNeedle();
-            _needleDescriptor.setSize( NEEDLE_SIZE );
-            _needleDescriptor.setDirection( _compassModel.getDirection() );
-            _needleDescriptor.setStrength( 1 );
-            _needleDescriptor.setAlphaEnabled( false );
+            // Cache
+            _needleCache = new CompassNeedleCache( NEEDLE_SIZE, false );
             
             // North tip
+            Color northColor = _needleCache.getNorthColor( 1.0 ); // opaque
+            Shape northShape = _needleCache.getNorthShape( _compassModel.getDirection() );
             _needleNorthGraphic = new PhetShapeGraphic( component );
-            _needleNorthGraphic.setColor( _needleDescriptor.getNorthColor() );
-            _needleNorthGraphic.setShape( _needleDescriptor.getNorthShape() );
+            _needleNorthGraphic.setColor( northColor );
+            _needleNorthGraphic.setShape( northShape );
             addGraphic( _needleNorthGraphic );
             
             // South tip
+            Color southColor = _needleCache.getSouthColor( 1.0 ); // opaque
+            Shape southShape = _needleCache.getSouthShape( _compassModel.getDirection() );
             _needleSouthGraphic = new PhetShapeGraphic( component );
-            _needleSouthGraphic.setColor( _needleDescriptor.getSouthColor() );
-            _needleSouthGraphic.setShape( _needleDescriptor.getSouthShape() );
+            _needleSouthGraphic.setColor( southColor );
+            _needleSouthGraphic.setShape( southShape );
             addGraphic( _needleSouthGraphic );
         }
         
@@ -161,9 +162,11 @@ public class CompassGraphic extends CompositePhetGraphic
         if( isVisible() ) {
             
             // Needle rotation
-            _needleDescriptor.setDirection( _compassModel.getDirection() );
-            _needleNorthGraphic.setShape( _needleDescriptor.getNorthShape() );
-            _needleSouthGraphic.setShape( _needleDescriptor.getSouthShape() );
+            double direction = _compassModel.getDirection();
+            Shape northShape = _needleCache.getNorthShape( direction );
+            Shape southShape = _needleCache.getSouthShape( direction );
+            _needleNorthGraphic.setShape( northShape );
+            _needleSouthGraphic.setShape( southShape );
             
             // Location
             setLocation( (int) _compassModel.getX(), (int) _compassModel.getY() );
