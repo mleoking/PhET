@@ -1,10 +1,10 @@
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.math.LinearTransform1d;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.movingman.common.LinearTransform1d;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

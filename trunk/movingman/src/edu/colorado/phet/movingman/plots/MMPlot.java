@@ -632,7 +632,7 @@ public class MMPlot extends PhetGraphic {
         if( visible ) {
             GraphicsState state = new GraphicsState( g );
             chart.paint( g );
-            Point pt = chart.getTransform().modelToView( 15, 0 );
+            Point pt = chart.getModelViewTransform().modelToView( 15, 0 );
             pt.y -= 3;
             PhetTextGraphic ptt = new PhetTextGraphic( module.getApparatusPanel(),
                                                        MMFontManager.getFontSet().getTimeLabelFont(),
@@ -659,8 +659,8 @@ public class MMPlot extends PhetGraphic {
         return xShift;
     }
 
-    public ModelViewTransform2D getTransform() {
-        return chart.getTransform();
+    public ModelViewTransform2D getModelViewTransform() {
+        return chart.getModelViewTransform();
     }
 
     public void setVisible( boolean visible ) {
@@ -806,8 +806,8 @@ public class MMPlot extends PhetGraphic {
     private void drawSegment() {
         if( visible && buffer.getImage() != null && dataSet.size() >= 2 ) {
             int element = dataSet.size();
-            Point2D a = chart.getTransform().modelToView( dataSet.pointAt( element - 2 ) );
-            Point2D b = chart.getTransform().modelToView( dataSet.pointAt( element - 1 ) );
+            Point2D a = chart.getModelViewTransform().modelToView( dataSet.pointAt( element - 2 ) );
+            Point2D b = chart.getModelViewTransform().modelToView( dataSet.pointAt( element - 1 ) );
             Line2D.Double line = new Line2D.Double( a, b );
             if( dataSet.size() == 2 ) {
                 path.reset();

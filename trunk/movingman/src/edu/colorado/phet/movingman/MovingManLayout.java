@@ -1,7 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.math.LinearTransform1d;
+import edu.colorado.phet.movingman.common.LinearTransform1d;
 import edu.colorado.phet.movingman.plots.MMPlot;
 
 import javax.swing.*;
