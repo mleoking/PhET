@@ -140,15 +140,6 @@ public class BaseLaserModule extends Module {
         // Add the control panel
         LaserControlPanel controlPanel = new LaserControlPanel( this );
         setControlPanel( controlPanel );
-
-        // Make a spectrum slider
-        //        SpectrumSlider slider = new SpectrumSlider( getApparatusPanel() );
-        //        slider.setLocation( new Point(100,100) ); // default is (0,0)
-        //        slider.setOrientation( SpectrumSlider.HORIZONTAL ); // default is HORIZONTAL
-        //        slider.setTransmissionWidth( 50.0 ); // default is 0.0
-        //        slider.setKnobSize( new Dimension(10,15) ); // default is (20,30)
-        //        slider.setSpectrumSize( new Dimension( 100, 20) ); // default is (200,25)
-        //        addGraphic( slider, 20 );
     }
 
     public void activate( PhetApplication app ) {
@@ -317,35 +308,37 @@ public class BaseLaserModule extends Module {
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Implementations of listeners interfaces
+    // Event handling
     //
     public class PhotonEmissionListener implements PhotonEmittedListener {
 
         public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
             Photon photon = event.getPhoton();
             getModel().addModelElement( photon );
+            boolean isPhotonGraphicVisible = false;
             // Is it a pumping beam photon, and are we viewing discrete photons?
             if( pumpingPhotonView == PHOTON_DISCRETE
                 && photon.getWavelength() == pumpingBeam.getWavelength() ) {
-                // Create a photon graphic, add it to the appratus panel and attach a
-                // listener to the photon that will remove the graphic if and when the
-                // photon goes away
-                PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
-//                PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
-                addGraphic( pg, LaserConfig.PHOTON_LAYER );
-                photon.addListener( new PhotonLeftSystemListener( pg ) );
+                isPhotonGraphicVisible = true;
             }
             // Is it a lasing wavelength photon, and are we viewing discrete photons?
             else if( lasingPhotonView == PHOTON_DISCRETE
                      && photon.getWavelength() == MiddleEnergyState.instance().getWavelength() ) {
-                // Create a photon graphic, add it to the appratus panel and attach a
-                // listener to the photon that will remove the graphic if and when the
-                // photon goes away
-                PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
-//                PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
-                addGraphic( pg, LaserConfig.PHOTON_LAYER );
-                photon.addListener( new PhotonLeftSystemListener( pg ) );
+                isPhotonGraphicVisible = true;
             }
+            // Is it a photon from the seed beam?
+            else if( seedBeam.isEnabled()
+                     && photon.getWavelength() == seedBeam.getWavelength() ) {
+                isPhotonGraphicVisible = true;
+            }
+            
+            // Create a photon graphic, add it to the appratus panel and attach a
+            // listener to the photon that will remove the graphic if and when the
+            // photon goes away. Set it's visibility based on the state of the simulation
+            PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+            pg.setVisible( isPhotonGraphicVisible );
+            addGraphic( pg, LaserConfig.PHOTON_LAYER );
+            photon.addListener( new PhotonLeftSystemListener( pg ) );
         }
     }
 

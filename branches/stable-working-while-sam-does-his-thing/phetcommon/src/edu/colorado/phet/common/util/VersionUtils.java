@@ -43,9 +43,9 @@ public class VersionUtils {
             return buildTime;
         }
 
-//        public String toString() {
-//            return "Name = " + name + ", Build Number = " + buildNumber + ", Build Time = " + buildTime;
-//        }
+        //        public String toString() {
+        //            return "Name = " + name + ", Build Number = " + buildNumber + ", Build Time = " + buildTime;
+        //        }
         public String toString() {
             return name + " #" + buildNumber + ": " + buildTime;
         }
@@ -67,8 +67,8 @@ public class VersionUtils {
     */
 
     public static VersionInfo[] readVersionInfo( String name ) throws IOException {
+        // If there is no information to report, return blank version information.
         if( name == null ) {
-//            new RuntimeException( "Cannot read version info for name=" + name ).printStackTrace( );
             return new VersionInfo[0];
         }
         VersionUtils vu = new VersionUtils();
