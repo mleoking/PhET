@@ -5,11 +5,11 @@ import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.CurrentVoltListener;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
-import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 
 import java.awt.*;
 import java.awt.geom.Area;

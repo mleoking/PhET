@@ -8,11 +8,11 @@ import edu.colorado.phet.cck3.circuit.components.Bulb;
 import edu.colorado.phet.cck3.circuit.components.BulbComponentGraphic;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.common.AffineTransformUtil;
-import edu.colorado.phet.cck3.common.phetgraphics.ImageGraphic;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -27,7 +27,7 @@ import java.awt.image.BufferedImage;
  * Time: 12:20:04 AM
  * Copyright (c) May 29, 2004 by Sam Reid
  */
-public class ElectronGraphic extends ImageGraphic {
+public class ElectronGraphic extends PhetImageGraphic {
     private Electron electron;
     private ModelViewTransform2D transform;
     private CCK3Module module;

@@ -3,12 +3,12 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentImageGraphic;
 import edu.colorado.phet.cck3.circuit.components.Switch;
-import edu.colorado.phet.cck3.common.phetgraphics.ImageGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -21,7 +21,7 @@ import java.awt.image.BufferedImage;
  * Time: 12:54:18 PM
  * Copyright (c) Jun 10, 2004 by Sam Reid
  */
-public class LeverGraphic extends ImageGraphic {
+public class LeverGraphic extends PhetImageGraphic {
     private CircuitComponentImageGraphic baseGraphic;
     private double length;
     private double height;

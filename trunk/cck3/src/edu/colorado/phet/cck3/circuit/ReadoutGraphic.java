@@ -3,7 +3,6 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.components.Switch;
-import edu.colorado.phet.cck3.common.phetgraphics.MultiLineTextGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -11,6 +10,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -25,8 +25,8 @@ import java.util.StringTokenizer;
  * Copyright (c) Jun 2, 2004 by Sam Reid
  */
 public class ReadoutGraphic implements Graphic {
-//    ShadowTextGraphic textGraphic;
-    MultiLineTextGraphic textGraphic;
+//    PhetShadowTextGraphic textGraphic;
+    PhetMultiLineTextGraphic textGraphic;
     private CCK3Module module;
     Branch branch;
     private ModelViewTransform2D transform;
@@ -96,7 +96,7 @@ public class ReadoutGraphic implements Graphic {
         int dx = 1;
         int dy = 1;
         if( textGraphic == null ) {
-            textGraphic = new MultiLineTextGraphic( panel, text, font, out.x, out.y, foregroundColor, dx, dy, backgroundColor );
+            textGraphic = new PhetMultiLineTextGraphic( panel, text, font, out.x, out.y, foregroundColor, dx, dy, backgroundColor );
             textGraphic.setVisible( false );
         }
         else {
