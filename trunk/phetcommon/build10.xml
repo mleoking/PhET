@@ -18,6 +18,7 @@
 
     <!--  Set up child directories, for during the build.  -->
     <property name="src" location="src"/>
+    <property name="tests-src" location="tests-src"/>
     <property name="data" location="data"/>
     <property name="desktop" location="C:/Documents and Settings/Sam Reid/Desktop"></property>
 
@@ -42,6 +43,7 @@
         <mkdir dir="${backup}/${distname}_src_${backup.time}"/>
         <copy todir="${backup}/${distname}_src_${backup.time}">
             <fileset dir="${src}"/>
+            <fileset dir="${tests-src}"/>
         </copy>
     </target>
 
@@ -92,8 +94,9 @@
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="${src}" destdir="${classes}">
-        </javac>
+        <javac srcdir="${src}" destdir="${classes}"/>
+        <!--    Uncomment the following line to add test classes to the output jar.    -->
+        <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
 
     <target name="Synchronize Build meta info">
@@ -125,8 +128,8 @@
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="version" value="${version}"/>
                 <attribute name="build" value="${build.number}"/>
-                <attribute name="Main-Class" value="${main.class}"/>
-<!--                <attribute name="time.stamp" value="${jar.creation.time}"/>-->
+                <attribute name="Motion2D-Class" value="${main.class}"/>
+                <!--                <attribute name="time.stamp" value="${jar.creation.time}"/>-->
             </manifest>
         </jar>
     </target>
@@ -220,22 +223,23 @@
         </exec>
     </target>
 
-<!--    <taskdef name="ssh" classname="com.sshtools.ant.Ssh"/>-->
-<!--    <taskdef name="sftp" classname="com.sshtools.ant.Sftp"/>-->
-<!--    <target name="Test SSH Task">-->
-<!--        <ssh host="ucsub.colorado.edu"-->
-<!--            verifyhost="false"-->
-<!--            always="true"-->
-<!--            username="reids"-->
-<!--            password="xxxxx">-->
-<!--            <sftp action="put"-->
-<!--                depends="true"-->
-<!--                remotedir="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/pion/phet/temp">-->
-<!--                <fileset dir="C:/test">-->
-<!--                    <include name="*.txt"></include>-->
-<!--                </fileset>-->
-<!--            </sftp>-->
-<!--        </ssh>-->
-<!--    </target>-->
+    <!--    <taskdef name="ssh" classname="com.sshtools.ant.Ssh"/>-->
+    <!--    <taskdef name="sftp" classname="com.sshtools.ant.Sftp"/>-->
+    <!--    <target name="Test SSH Task">-->
+    <!--        <ssh host="ucsub.colorado.edu"-->
+    <!--            verifyhost="false"-->
+    <!--            always="true"-->
+    <!--            username="reids"-->
+    <!--            password="xxxxx">-->
+    <!--            <sftp action="put"-->
+    <!--                depends="true"-->
+    <!--                remotedir="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/pion/phet/temp">-->
+    <!--                <fileset dir="C:/test">-->
+    <!--                    <include name="*.txt"></include>-->
+    <!--                </fileset>-->
+    <!--            </sftp>-->
+    <!--        </ssh>-->
+    <!--    </target>-->
+
 
 </project>
