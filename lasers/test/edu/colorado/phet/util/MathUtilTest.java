@@ -10,6 +10,8 @@ import junit.framework.TestCase;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.math.MathUtil;
+
 public class MathUtilTest extends TestCase {
 
     public void testLinesIntersection() {
@@ -29,7 +31,7 @@ public class MathUtilTest extends TestCase {
     public void testLinesInteresectin2() {
 
         // oblique lines
-        Point2D.Float pt = MathUtil.getLinesIntersection( new Point2D.Float( 0, 1 ),
+        Point2D pt = MathUtil.getLinesIntersection( new Point2D.Float( 0, 1 ),
                                                           new Point2D.Float( 2, 5 ),
                                                           new Point2D.Float( 10, -2 ),
                                                           new Point2D.Float( 5, 3 ));
@@ -37,7 +39,7 @@ public class MathUtilTest extends TestCase {
         assertTrue( MathUtil.isApproxEqual( (float)pt.getY(), 5f + (2f/3), 0.001f ));
 
         // one horizontal line
-        Point2D.Float pt2 = MathUtil.getLinesIntersection( new Point2D.Float( 0, 1 ),
+        Point2D pt2 = MathUtil.getLinesIntersection( new Point2D.Float( 0, 1 ),
                                                           new Point2D.Float( 10, 1 ),
                                                           new Point2D.Float( 1, 7 ),
                                                           new Point2D.Float( -20, 28 ));

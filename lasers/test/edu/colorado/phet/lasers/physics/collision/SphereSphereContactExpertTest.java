@@ -6,11 +6,6 @@
  */
 package edu.colorado.phet.lasers.physics.collision;
 
-import edu.colorado.phet.physics.collision.Wall;
-import edu.colorado.phet.physics.collision.SphericalBody;
-import edu.colorado.phet.physics.collision.SphereSphereContactDetector;
-//import edu.colorado.phet.physics.body.SphericalBody;
-import edu.colorado.phet.physics.PhysicalSystem;
 import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.collision.SphereSphereContactDetector;
 
@@ -27,7 +22,7 @@ public class SphereSphereContactExpertTest extends TestCase {
 
     protected void tearDown() throws Exception {
         super.tearDown();
-        PhysicalSystem.setInstanceNull();
+//        PhysicalSystem.setInstanceNull();
     }
 
     /**

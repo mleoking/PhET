@@ -9,6 +9,7 @@ package edu.colorado.phet.lasers.physics.collision;
 
 import edu.colorado.phet.lasers.physics.atom.Atom;
 import edu.colorado.phet.collision.Collision;
+import edu.colorado.phet.collision.Wall;
 import edu.colorado.phet.common.model.Particle;
 
 import java.awt.geom.Point2D;

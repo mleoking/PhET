@@ -70,7 +70,7 @@ public class CollimatedBeam extends Particle {
         return origin;
     }
 
-    public void setOrigin( Point2D.Float origin ) {
+    public void setOrigin( Point2D origin ) {
         this.origin = origin;
     }
 

@@ -30,8 +30,8 @@ public class SingleAtomBaseModule extends BaseLaserModule {
 
         stimulatingBeam = ((LaserModel)getModel()).getStimulatingBeam();
         stimulatingBeam.setHeight( 10 );
-        stimulatingBeam.setOrigin( new Point2D.Float( (float)s_origin.getX(), (float)s_origin.getY()  + s_boxHeight / 2));
-        stimulatingBeam.setPosition( new Point2D.Float( (float)s_origin.getX(), (float)s_origin.getY() + s_boxHeight / 2 ));
+        stimulatingBeam.setOrigin( new Point2D.Double( s_origin.getX(), s_origin.getY()  + s_boxHeight / 2));
+        stimulatingBeam.setPosition( new Point2D.Double( s_origin.getX(), s_origin.getY() + s_boxHeight / 2 ));
 
         pumpingBeam = ((LaserModel)getModel()).getPumpingBeam();
         pumpingBeam.setWidth( 10 );

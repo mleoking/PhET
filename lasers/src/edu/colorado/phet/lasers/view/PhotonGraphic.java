@@ -11,7 +11,6 @@ import edu.colorado.phet.lasers.physics.photon.Photon;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.graphics.ImageGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

@@ -10,25 +10,19 @@ import edu.colorado.phet.lasers.physics.mirror.Mirror;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.collision.Wall;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.*;
 import java.util.Observable;
 
-public class MirrorGraphic extends PhetShapeGraphic {
+public class MirrorGraphic extends WallGraphic {
 
     private final static Color s_mirrorColor = new Color( 180, 180, 180 );
-    private Rectangle2D.Float rep = new Rectangle2D.Float();
-    private Mirror mirror;
 
-    /**
-     *
-     */
     public MirrorGraphic( Component component, Mirror mirror ){
-        super( component, null, s_mirrorColor );
-        this.mirror = mirror;
-        setShape( rep );
-        update();
+        super( component, mirror );
+        this.setPaint( s_mirrorColor );
     }
 
 //    public void init( Particle body ) {
@@ -47,23 +41,14 @@ public class MirrorGraphic extends PhetShapeGraphic {
 //        }
 //    }
 
-    public void update() {
-        adjustRep( mirror );
-    }
-
-    /**
-     *
-     * @param mirror
-     */
-    private void adjustRep( Mirror mirror ) {
-
+    protected void adjustRep( Wall wall ) {
         int xAdjustment1 = -6;
-        if( mirror.isLeftReflecting() ) {
+        if( ((Mirror)wall).isLeftReflecting() ) {
             xAdjustment1 = 0;
         }
-        rep.setFrame( mirror.getBounds().getX() + xAdjustment1,
-                            mirror.getBounds().getY(),
+        rep.setFrame( wall.getBounds().getX() + xAdjustment1,
+                            wall.getBounds().getY(),
                             6,
-                            mirror.getBounds().getHeight() );
+                            wall.getBounds().getHeight() );
     }
 }

@@ -6,10 +6,11 @@
  */
 package edu.colorado.phet.lasers.physics.collision;
 
-import edu.colorado.phet.physics.PhysicalSystem;
 import edu.colorado.phet.collision.SphericalBody;
+import edu.colorado.phet.collision.Wall;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import junit.framework.TestCase;
 
@@ -22,15 +23,14 @@ public class WallSphereContactExpertTest extends TestCase {
 
     protected void tearDown() throws Exception {
         super.tearDown();
-        PhysicalSystem.setInstanceNull();
+//        PhysicalSystem.setInstanceNull();
     }
 
     /**
      * Tests simple contact
      */
     public void test1() {
-        Wall wall = new Wall( new Point2D.Float( 0, 0 ),
-                              new Point2D.Float( 0, 100 ) );
+        Wall wall = new Wall( new Rectangle2D.Double( 0, 0, 0, 100 ) );
         SphericalBody sb = new SphericalBody( 10 );
         sb.setPosition( 5, 5 );
 
@@ -46,8 +46,7 @@ public class WallSphereContactExpertTest extends TestCase {
      * Test simple non-contact
      */
     public void test2() {
-        Wall wall = new Wall( new Point2D.Float( 0, 0 ),
-                              new Point2D.Float( 0, 100 ) );
+        Wall wall = new Wall( new Rectangle2D.Double( 0, 0, 0, 100 ) );
         SphericalBody sb = new SphericalBody( 10 );
         sb.setPosition( 12, 5 );
 
@@ -63,8 +62,7 @@ public class WallSphereContactExpertTest extends TestCase {
      * Test for contact beyond extent of wall
      */
     public void test3() {
-        Wall wall = new Wall( new Point2D.Float( 0, 0 ),
-                              new Point2D.Float( 0, 100 ) );
+        Wall wall = new Wall( new Rectangle2D.Double( 0, 0, 0, 100 ) );
         SphericalBody sb = new SphericalBody( 10 );
         sb.setPosition( 5, -10 );
 
