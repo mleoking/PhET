@@ -295,9 +295,9 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
     int red = (int) ((_redPhotonBeamModel.getPerceivedIntensity() / 100) * 255 );
     int green = (int) ((_greenPhotonBeamModel.getPerceivedIntensity() / 100) * 255 );
     int blue = (int) ((_bluePhotonBeamModel.getPerceivedIntensity() / 100) * 255 );
-    
-    // Scale alpha to match the intensity of the maximum component value.
-    int alpha = Math.max( red, Math.max(green, blue) );
+
+    // Opaque.
+    int alpha = 255;
     
     // Update the color perceived by the person.
 		VisibleColor perceivedColor = new VisibleColor( red, green, blue, alpha );
