@@ -17,19 +17,19 @@ import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
-import edu.colorado.phet.faraday.module.MagnetAndCoilModule;
+import edu.colorado.phet.faraday.module.PickupCoilModule;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 /**
- * MagnetAndCoilControlPanel is the control panel for the "Magnet & Coil" module.
+ * PickupCoilControlPanel is the control panel for the "Pickup Coil" module.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class MagnetAndCoilControlPanel extends ControlPanel {
+public class PickupCoilControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -52,8 +52,8 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
      * @param lightBulbGraphic
      * @param voltmeterGraphic
      */
-    public MagnetAndCoilControlPanel( 
-        MagnetAndCoilModule module,
+    public PickupCoilControlPanel( 
+        PickupCoilModule module,
         /* Bar Magnet stuff */
         BarMagnet barMagnetModel,
         Compass compassModel,

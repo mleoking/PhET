@@ -19,7 +19,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.control.MagnetAndCoilControlPanel;
+import edu.colorado.phet.faraday.control.PickupCoilControlPanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
@@ -27,12 +27,12 @@ import edu.colorado.phet.faraday.view.*;
 
 
 /**
- * MagnetAndCoilModule
+ * PickupCoilModule
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class MagnetAndCoilModule extends FaradayModule {
+public class PickupCoilModule extends FaradayModule {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -70,9 +70,9 @@ public class MagnetAndCoilModule extends FaradayModule {
      * 
      * @param appModel the application model
      */
-    public MagnetAndCoilModule( AbstractClock clock ) {
+    public PickupCoilModule( AbstractClock clock ) {
 
-        super( SimStrings.get( "MagnetAndCoilModule.title" ), clock );
+        super( SimStrings.get( "PickupCoilModule.title" ), clock );
         
         //----------------------------------------------------------------------------
         // Model
@@ -185,7 +185,7 @@ public class MagnetAndCoilModule extends FaradayModule {
         //----------------------------------------------------------------------------
         
         // Control Panel
-        MagnetAndCoilControlPanel controlPanel = new MagnetAndCoilControlPanel( this, 
+        PickupCoilControlPanel controlPanel = new PickupCoilControlPanel( this, 
             barMagnetModel, compassModel, barMagnetGraphic, gridGraphic, fieldMeterGraphic, 
             pickupCoilModel, pickupCoilGraphic.getCoilGraphic(), lightbulbModel, voltmeterModel );
         this.setControlPanel( controlPanel );
