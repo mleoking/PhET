@@ -31,7 +31,6 @@ public class PhysicalPanel extends ApparatusPanel {
         // Register the graphic to the model element
         modelElementToGraphicMap.put( nucleus, ng );
         addGraphic( ng, originTx );
-//        addGraphic( ng );
     }
 
     public void removeNucleus( Nucleus nucleus ) {
@@ -41,17 +40,12 @@ public class PhysicalPanel extends ApparatusPanel {
 
     public synchronized void addGraphic( Graphic graphic ) {
         super.addGraphic( graphic, originTx );
-//        super.addGraphic( graphic );
-    }
-
-    public synchronized void removeGraphic( Graphic graphic ) {
-        super.removeGraphic( graphic );    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
         origin.setLocation( this.getWidth() / 2, this.getHeight() / 2 );
         originTx.setToTranslation( origin.getX(), origin.getY() );
-        super.paintComponent( graphics );    //To change body of overridden methods use File | Settings | File Templates.
+        super.paintComponent( graphics );
     }
 
     public void clear() {

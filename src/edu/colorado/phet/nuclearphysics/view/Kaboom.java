@@ -8,7 +8,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.AlphaSetter;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -53,9 +53,9 @@ public class Kaboom implements Graphic, Runnable {
                                   location.getX() + radius,
                                   location.getY() + radius );
         g.setColor( Color.yellow );
-        AlphaSetter.set( g, kaboomAlpha );
+        GraphicsUtil.setAlpha( g, kaboomAlpha );
         g.fill( shape );
-        AlphaSetter.set( g, 1 );
+        GraphicsUtil.setAlpha( g, 1 );
 
 //        g.setFont( kaboomFont );
 //        g.setColor( Color.black );
