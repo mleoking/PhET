@@ -24,6 +24,7 @@ public class DecayNucleus extends Nucleus implements Runnable {
     }
 
     public void stepInTime( double dt ) {
+        super.stepInTime( dt );
     }
 
     //
@@ -35,6 +36,7 @@ public class DecayNucleus extends Nucleus implements Runnable {
             try {
                 Thread.sleep( sleepTime );
                 this.setPotentialEnergy( this.getPotentialEnergy() - dx );
+                this.setVelocity( this.getVelocity().multiply( 2 ) );
             }
             catch( Exception e ) {
                 e.printStackTrace();
