@@ -30,6 +30,7 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
     private Color highlightColor = Color.yellow;
     private PhetShapeGraphic highlight;
     private PhetTextGraphic debugText;
+    private boolean debug = false;
 
     public BranchGraphic( Branch branch, ApparatusPanel apparatusPanel, double thickness, ModelViewTransform2D transform, Color color ) {
         super( apparatusPanel );
@@ -52,12 +53,13 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
             }
         };
         transform.addTransformListener( transformListener );
-        debugText = new PhetTextGraphic( apparatusPanel, new Font( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
+        if( debug ) {
+            debugText = new PhetTextGraphic( apparatusPanel, new Font( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
+            addGraphic( debugText );
+        }
 
         doupdate();
         setVisible( true );
-
-        addGraphic( debugText );
     }
 
     public void setVisible( boolean visible ) {
@@ -71,7 +73,7 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
         Shape coreshape = LineSegment.getSegment( branch.getX1(), branch.getY1(), branch.getX2(), branch.getY2(), thickness );
         Shape highlightShape = LineSegment.getSegment( branch.getX1(), branch.getY1(), branch.getX2(), branch.getY2(), thickness * 1.5 );
         if( coreshape.getBounds().width == 0 && coreshape.getBounds().height == 0 ) {
-//            throw new RuntimeException( "No bounds to coreshape." );
+            //            throw new RuntimeException( "No bounds to coreshape." );
         }
         else {
             highlight.setVisible( branch.isSelected() );
@@ -81,11 +83,13 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
             if( CCK3Module.getModule().getParticleSet() != null ) {
                 text += ", n=" + CCK3Module.getModule().getParticleSet().getParticles( branch ).length;
             }
-            debugText.setText( text );
-            Point bounds = RectangleUtils.getCenter( core.getShape().getBounds() );
-            debugText.setPosition( bounds.x, bounds.y );
+            if( debugText != null ) {
+                debugText.setText( text );
+                Point bounds = RectangleUtils.getCenter( core.getShape().getBounds() );
+                debugText.setPosition( bounds.x, bounds.y );
+            }
             super.setBoundsDirty();
-//            System.out.println( "transform.createTransformedShape( coreshape) = " + transform.createTransformedShape( coreshape ).getBounds() );
+            //            System.out.println( "transform.createTransformedShape( coreshape) = " + transform.createTransformedShape( coreshape ).getBounds() );
         }
     }
 

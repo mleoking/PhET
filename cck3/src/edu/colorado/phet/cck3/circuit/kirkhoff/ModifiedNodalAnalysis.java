@@ -3,16 +3,14 @@ package edu.colorado.phet.cck3.circuit.kirkhoff;
 
 import Jama.Matrix;
 import edu.colorado.phet.cck3.CCK3Module;
-import edu.colorado.phet.cck3.circuit.Branch;
-import edu.colorado.phet.cck3.circuit.Circuit;
-import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.KirkhoffListener;
+import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -36,10 +34,46 @@ the bottom m elements represent the currents
 through the m independent voltage sources in the circuit.
 */
     public synchronized void apply( final Circuit circuit ) {
-        Circuit addRes = getEquivalentCircuit( circuit );
-//        System.out.println( "circuit = " + circuit );
-//        System.out.println( "addRes = " + addRes );
-        applyOrig( addRes );
+        ArrayList strongComponents = new ArrayList();
+        for( int i = 0; i < circuit.numBranches(); i++ ) {
+            Branch branch = circuit.branchAt( i );
+            if( isAssigned( strongComponents, branch ) ) {
+                //ignore
+            }
+            else {
+                Branch[] sc = circuit.getConnectedSubgraph( branch.getStartJunction() );
+                strongComponents.add( sc );
+            }
+        }
+//        System.out.println( "strongComponents.size() = " + strongComponents.size() );
+//        for( int i = 0; i < strongComponents.size(); i++ ) {
+//            Branch[] branchs = (Branch[])strongComponents.get( i );
+//            System.out.println( "i=" + i + ", Arrays.asList( branchs ) = " + Arrays.asList( branchs ) );
+//        }
+        KirkhoffListener kirkhoffListener = new CompositeKirkhoffListener();
+        for( int i = 0; i < strongComponents.size(); i++ ) {
+            Branch[] branchs = (Branch[])strongComponents.get( i );
+            Circuit subCircuit = new Circuit( kirkhoffListener );
+            for( int j = 0; j < branchs.length; j++ ) {
+                Branch branch = branchs[j];
+                subCircuit.addBranch( branch );
+            }
+            //            subCircuit.addBranch( );
+            solve( subCircuit );
+        }
+        //        applyOrig( circuit );
+
+        fireKirkhoffSolved();
+        //        applyOrig( circuit );
+    }
+
+    private void solve( Circuit subCircuit ) {
+        //        new Throwable( ).printStackTrace( );
+        //        System.out.println( "circuit = " + circuit );
+        Circuit equivalentCircuit = getEquivalentCircuit( subCircuit );
+        //        System.out.println( "circuit = " + circuit );
+        //        System.out.println( "equivalentCircuit = " + equivalentCircuit );
+        applyOrig( equivalentCircuit );
         Enumeration keys = branchMap.keys();
         while( keys.hasMoreElements() ) {
             Branch branch = (Branch)keys.nextElement();
@@ -49,8 +83,19 @@ through the m independent voltage sources in the circuit.
             branch.setVoltageDrop( value.getVoltageDrop() );
             branch.setKirkhoffEnabled( true );
         }
-        fireKirkhoffSolved();
-//        applyOrig( circuit );
+    }
+
+    private boolean isAssigned( ArrayList strongComponents, Branch branch ) {
+        for( int i = 0; i < strongComponents.size(); i++ ) {
+            Branch[] br = (Branch[])strongComponents.get( i );
+            for( int j = 0; j < br.length; j++ ) {
+                Branch branch1 = br[j];
+                if( branch1 == branch ) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     static class InternalResistor extends Resistor {
@@ -100,7 +145,7 @@ through the m independent voltage sources in the circuit.
             Junction j = circuit.junctionAt( i );
             Branch[] neighbors = circuit.getAdjacentBranches( j );
             Junction jBar = new Junction( 0, 0 );
-//            System.out.println( "Adding junction jbar=" + jBar );
+            //            System.out.println( "Adding junction jbar=" + jBar );
             c.addJunction( jBar );
             for( int k = 0; k < neighbors.length; k++ ) {
                 Branch neighbor = neighbors[k];
@@ -133,22 +178,22 @@ through the m independent voltage sources in the circuit.
         clear( circuit );
         if( getBatteries( circuit ).length > 0 && circuit.numJunctions() > 2 ) {
 
-//1. choose a ground.  Vertex 0 shall be the ground.
+            //1. choose a ground.  Vertex 0 shall be the ground.
 
-//2. Generate A.
+            //2. Generate A.
             Matrix a = generateA( circuit );
-//            System.out.println( "a=" );
-//            a.print( 5, 5 );
+            //            System.out.println( "a=" );
+            //            a.print( 5, 5 );
 
-//3. Generate z for x=A-1 z .
+            //3. Generate z for x=A-1 z .
             Matrix z = generateZ( circuit );
-//            System.out.println( "Z=" );
-//            z.print( 5, 5 );
+            //            System.out.println( "Z=" );
+            //            z.print( 5, 5 );
             try {
 
                 Matrix x = a.solve( z );
-//                System.out.println( "x = " + x );
-//                x.print( 5, 5 );
+                //                System.out.println( "x = " + x );
+                //                x.print( 5, 5 );
 
                 int n = circuit.numJunctions() - 1;
                 for( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -224,16 +269,16 @@ the D matrix is mxm and is zero if only independent sources are considered.
         int m = batt.length;
         int n = circuit.numJunctions() - 1;
         Matrix g = generateG( circuit );
-//        System.out.print( "g=" );
-//        g.print( 5, 5 );
+        //        System.out.print( "g=" );
+        //        g.print( 5, 5 );
         Matrix b = generateB( circuit );
-//        System.out.println( "b=" );
-//        b.print( 5, 5 );
+        //        System.out.println( "b=" );
+        //        b.print( 5, 5 );
         Matrix a = new Matrix( m + n, m + n );
 
         for( int row = 0; row < b.getRowDimension(); row++ ) {
             for( int col = n; col < a.getColumnDimension(); col++ ) {
-//                System.out.println( "row = " + row + ", col=" + col );
+                //                System.out.println( "row = " + row + ", col=" + col );
                 double value = b.get( row, col - n );
                 a.set( row, col, value );
             }
@@ -298,8 +343,8 @@ the D matrix is mxm and is zero if only independent sources are considered.
                     value += term;
                 }
             }
-//            int diag = i - 1;
-//            System.out.println( "diag = " + diag + ", value=" + value );
+            //            int diag = i - 1;
+            //            System.out.println( "diag = " + diag + ", value=" + value );
             g.set( i - 1, i - 1, value );
         }
         for( int i = 0; i < circuit.numBranches(); i++ ) {

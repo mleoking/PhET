@@ -501,6 +501,7 @@ public class CircuitGraphic extends CompositeGraphic {
         junctionLayer.addGraphic( ij );
         circuit.fireKirkhoffChanged();
         circuit.fireJunctionsCollapsed( j1, j2, replacement );
+//        circuit.fireKirkhoffChanged();
     }
 
     private void remove( Junction junction ) {

@@ -34,7 +34,7 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
     private static int instanceCount = 0;
     private PhetTextGraphic debugGraphic;
 //    private boolean showLabel = false;
-    private boolean showLabel = true;
+    private boolean showLabel = false;
 
     public JunctionGraphic( Component parent, Junction junction, ModelViewTransform2D transform, double radius, Circuit circuit ) {
         super( parent );
@@ -143,7 +143,8 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
             shapeGraphic.setStroke( createStroke( strokeWidthModelCoords ) );
         }
         if( showLabel ) {
-            debugGraphic.setText( junction.getLabel() + "" );
+//            debugGraphic.setText( junction.getLabel() + ", "+junction.hashCode() );
+            debugGraphic.setText( junction.getLabel()+"" );//+ ", "+junction.hashCode() );
             debugGraphic.setPosition( shapeGraphic.getShape().getBounds().x, shapeGraphic.getShape().getBounds().y );
         }
         super.setBoundsDirty();
