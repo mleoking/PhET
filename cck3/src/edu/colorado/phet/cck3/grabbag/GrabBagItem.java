@@ -25,12 +25,13 @@ public class GrabBagItem {
     private BufferedImage image;
     private double modelLength;
 
-    public GrabBagItem( URL imageURL, String name, double resistance, double modelLength ) {
+    public GrabBagItem( String imageURLString, String name, double resistance, double modelLength ) {
+        this.imageURL = GrabBagItem.class.getClassLoader().getResource( imageURLString );
         this.modelLength = modelLength;
         if( imageURL == null ) {
-            throw new RuntimeException( "Null image URL for name=" + name );
+            throw new RuntimeException( "Null image URL for name=" + name + ", imageURLString=" + imageURLString );
         }
-        this.imageURL = imageURL;
+
         this.name = name;
         this.resistance = resistance;
     }
