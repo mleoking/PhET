@@ -109,6 +109,7 @@ public class GraphicLayerSet extends PhetGraphic {
      * Ensure that all children will repaint in their respective rectangles.
      */
     protected void forceRepaint() {
+        syncBounds();//This guarantees a notification, if necessary.
         Iterator it = graphicMap.iterator();
         while( it.hasNext() ) {
             PhetGraphic graphic = (PhetGraphic)it.next();
