@@ -41,7 +41,7 @@ public class SingleAtomModule extends BaseLaserModule {
         // Create beams
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() + s_boxHeight / 2 );
-        CollimatedBeam stimulatingBeam = ( (LaserModel)getModel() ).getStimulatingBeam();
+        CollimatedBeam stimulatingBeam = ( (LaserModel)getModel() ).getSeedBeam();
         Rectangle2D.Double stimulatingBeamBounds = new Rectangle2D.Double( beamOrigin.getX(), beamOrigin.getY(),
                                                                            s_boxWidth + s_laserOffsetX * 2, 1 );
         stimulatingBeam.setBounds( stimulatingBeamBounds );
@@ -122,7 +122,7 @@ public class SingleAtomModule extends BaseLaserModule {
         stimulatingBeam.setIsEnabled( true );
 
         ApparatusConfiguration config = new ApparatusConfiguration();
-        config.setStimulatedPhotonRate( 1 );
+        config.setSeedPhotonRate( 1 );
         config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
         config.setPumpingPhotonRate( 0 );
         config.setReflectivity( 0.7 );

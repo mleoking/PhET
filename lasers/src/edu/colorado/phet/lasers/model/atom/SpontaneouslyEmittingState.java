@@ -64,7 +64,9 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
             }
             else {
                 // Assign a deathtime based on an exponential distribution
-                deathTime = -Math.log( temp ) * state.getMeanLifeTime();
+                // The square root pushes the distribution toward 1.
+                deathTime = Math.pow( -Math.log( temp ), 0.5 ) * state.getMeanLifeTime();
+                //                deathTime = -Math.log( temp ) * state.getMeanLifeTime();
             }
             lifeTime = 0;
         }

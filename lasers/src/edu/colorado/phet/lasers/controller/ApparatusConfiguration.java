@@ -16,19 +16,19 @@ import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 
 public class ApparatusConfiguration {
 
-    private double stimulatedPhotonRate;
+    private double seedPhotonRate;
     private double pumpingPhotonRate;
     private double highEnergySpontaneousEmissionTime;
     private double middleEnergySpontaneousEmissionTime;
     private double simulationRate;
     private double reflectivity;
 
-    public double getStimulatedPhotonRate() {
-        return stimulatedPhotonRate;
+    public double getSeedPhotonRate() {
+        return seedPhotonRate;
     }
 
-    public void setStimulatedPhotonRate( double stimulatedPhotonRate ) {
-        this.stimulatedPhotonRate = stimulatedPhotonRate;
+    public void setSeedPhotonRate( double seededPhotonRate ) {
+        this.seedPhotonRate = seedPhotonRate;
     }
 
     public double getPumpingPhotonRate() {
@@ -75,7 +75,7 @@ public class ApparatusConfiguration {
         HighEnergyState.instance().setMeanLifetime( getHighEnergySpontaneousEmissionTime() );
         MiddleEnergyState.instance().setMeanLifetime( getMiddleEnergySpontaneousEmissionTime() );
         model.getPumpingBeam().setPhotonsPerSecond( getPumpingPhotonRate() );
-        model.getStimulatingBeam().setPhotonsPerSecond( getStimulatedPhotonRate() );
-//        model.getResonatingCavity().setReflectivity( getReflectivity() );
+        model.getSeedBeam().setPhotonsPerSecond( getSeedPhotonRate() );
+        //        model.getResonatingCavity().setReflectivity( getReflectivity() );
     }
 }

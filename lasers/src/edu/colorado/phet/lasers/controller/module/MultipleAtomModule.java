@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.MultipleAtomControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -53,14 +54,14 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() );
-        CollimatedBeam stimulatingBeam = ( (LaserModel)getModel() ).getStimulatingBeam();
+        CollimatedBeam seedBeam = ( (LaserModel)getModel() ).getSeedBeam();
 
-        Rectangle2D.Double stimulatingBeamBounds = new Rectangle2D.Double( beamOrigin.getX(), beamOrigin.getY(),
-                                                                           s_boxWidth + s_laserOffsetX * 2, s_boxHeight );
-        stimulatingBeam.setBounds( stimulatingBeamBounds );
-        stimulatingBeam.setDirection( new Vector2D.Double( 1, 0 ) );
-        stimulatingBeam.setActive( true );
-        stimulatingBeam.setPhotonsPerSecond( 1 );
+        Rectangle2D.Double seedBeamBounds = new Rectangle2D.Double( beamOrigin.getX(), beamOrigin.getY(),
+                                                                    s_boxWidth + s_laserOffsetX * 2, s_boxHeight );
+        seedBeam.setBounds( seedBeamBounds );
+        seedBeam.setDirection( new Vector2D.Double( 1, 0 ) );
+        seedBeam.setActive( true );
+        seedBeam.setPhotonsPerSecond( 1 );
 
         CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
         Point2D pumpingBeamOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX + s_boxWidth / 2 - Photon.s_radius / 2,
@@ -70,14 +71,12 @@ public class MultipleAtomModule extends BaseLaserModule {
         pumpingBeam.setBounds( pumpingBeamBounds );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.setActive( true );
-        //        WaveBeamGraphic beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
-        //        addGraphic( beamGraphic, 1 );
 
         // Add the ray gun for firing photons
         try {
-            Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)stimulatingBeamBounds.getX() - 100,
-                                                                  (int)( stimulatingBeamBounds.getY() ),
-                                                                  100, (int)stimulatingBeamBounds.getHeight() );
+            Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)seedBeamBounds.getX() - 100,
+                                                                  (int)( seedBeamBounds.getY() ),
+                                                                  100, (int)seedBeamBounds.getHeight() );
             BufferedImage gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
             double scaleX = allocatedBounds.getWidth() / gunBI.getWidth();
             double scaleY = allocatedBounds.getHeight() / gunBI.getHeight();
@@ -89,7 +88,7 @@ public class MultipleAtomModule extends BaseLaserModule {
 
             // Add the intensity control
             JPanel sbmPanel = new JPanel();
-            BeamControl sbm = new BeamControl( stimulatingBeam );
+            BeamControl sbm = new BeamControl( seedBeam );
             Dimension sbmDim = sbm.getPreferredSize();
             sbmPanel.setBounds( (int)allocatedBounds.getX(), (int)( allocatedBounds.getY() + allocatedBounds.getHeight() ),
                                 (int)sbmDim.getWidth() + 10, (int)sbmDim.getHeight() + 10 );
@@ -129,14 +128,13 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         // Only the pumping beam is enabled for this module
         pumpingBeam.setIsEnabled( true );
-        stimulatingBeam.setIsEnabled( false );
+        seedBeam.setIsEnabled( false );
 
-        // Add a control to the control panel for wave view
-        JPanel controlPanel = getControlPanel();
-
+        // Set the control panel
+        setControlPanel( new MultipleAtomControlPanel( this, clock ) );
 
         ApparatusConfiguration config = new ApparatusConfiguration();
-        config.setStimulatedPhotonRate( 1 );
+        config.setSeedPhotonRate( 1 );
         config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
         config.setPumpingPhotonRate( 0 );
         config.setReflectivity( 0.7 );
@@ -178,7 +176,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         }
 
         ApparatusConfiguration config = new ApparatusConfiguration();
-        config.setStimulatedPhotonRate( 0f );
+        config.setSeedPhotonRate( 0f );
         config.setMiddleEnergySpontaneousEmissionTime( 2000f );
         config.setPumpingPhotonRate( 0 );
         //        config.setPumpingPhotonRate( 100f );

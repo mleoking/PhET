@@ -11,6 +11,8 @@
  */
 package edu.colorado.phet.lasers.controller;
 
+import edu.colorado.phet.common.view.util.VisibleColor;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -40,10 +42,10 @@ public class LaserConfig {
     // Physical things
     public static Point2D.Double ORIGIN = new Point2D.Double( 150, 200 );
 
-    public static final int DEFAULT_STIMULATING_PHOTON_RATE = 20;
-    public static final int MINIMUM_STIMULATING_PHOTON_RATE = 0;
-    public static final int MAXIMUM_STIMULATING_PHOTON_RATE = 50;
-    //    public static final int MAXIMUM_STIMULATING_PHOTON_RATE = 10;
+    public static final int DEFAULT_SEED_PHOTON_RATE = 20;
+    public static final int MINIMUM_SEED_PHOTON_RATE = 0;
+    public static final int MAXIMUM_SEED_PHOTON_RATE = 50;
+    //    public static final int MAXIMUM_SEED_PHOTON_RATE = 10;
 
     public static final int DEFAULT_PUMPING_PHOTON_RATE = 0;
     public static final int MINIMUM_PUMPING_PHOTON_RATE = 0;
@@ -74,5 +76,6 @@ public class LaserConfig {
     public static final double ATOM_LAYER = 9;
     public static final double PHOTON_LAYER = 11;
 
-    public static final double MIN_WAVELENGTH = 350;
+    public static final double MIN_WAVELENGTH = VisibleColor.getMinWavelength();
+    public static final double MAX_WAVELENGTH = VisibleColor.getMaxWavelength();
 }

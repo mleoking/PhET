@@ -142,6 +142,22 @@ public class BaseLaserModule extends Module {
         setControlPanel( controlPanel );
     }
 
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        appFrame = app.getApplicationView().getPhetFrame();
+        energyLevelsDialog.setVisible( true );
+        //        energyLevelsDialog.setVisible( energyDialogIsVisible );
+
+        // todo: this whole mechanism should probably be refactored
+        SpontaneouslyEmittingState.setModel( getModel() );
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        energyLevelsDialog.setVisible( false );
+    }
+
+
     public void setPhotonView() {
         setPhotonView( PHOTON_DISCRETE );
         if( beamGraphic != null ) {
@@ -253,21 +269,6 @@ public class BaseLaserModule extends Module {
             getApparatusPanel().removeGraphic( graphic );
             getApparatusPanel().repaint( graphic.getBounds() );
         }
-    }
-
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        appFrame = app.getApplicationView().getPhetFrame();
-        energyLevelsDialog.setVisible( true );
-        //        energyLevelsDialog.setVisible( energyDialogIsVisible );
-
-        // todo: this whole mechanism should probably be refactored
-        SpontaneouslyEmittingState.setModel( getModel() );
-    }
-
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        energyLevelsDialog.setVisible( false );
     }
 
     public void setMirrorsEnabled( boolean mirrorsEnabled ) {

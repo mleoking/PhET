@@ -17,9 +17,9 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.coreadditions.ColorFromWavelength;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.coreadditions.VisibleColor;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
@@ -314,8 +314,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
                                                 this.getBounds().getY() + getImage().getMinY(),
                                                 getImage().getWidth(),
                                                 getImage().getHeight() );
-        g.setColor( Color.GREEN );
-        g.draw( r );
+        //        g.setColor( Color.GREEN );
+        //        g.draw( r );
         g.fillArc( (int)debugPosition.getX(), (int)debugPosition.getY(), 2, 2, 0, 360 );
     }
 

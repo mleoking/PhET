@@ -18,7 +18,7 @@ import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.coreadditions.VisibleColor;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
@@ -78,7 +78,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         model.addObserver( this );
         this.model = model;
         model.getPumpingBeam().addListener( this );
-        model.getStimulatingBeam().addListener( this );
+        model.getSeedBeam().addListener( this );
 
 
         highLevelLine = new EnergyLevelGraphic( this, HighEnergyState.instance(),
@@ -194,7 +194,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         }
 
         // Draw squiggles showing what energy photons the beams are putting out
-        if( stimSquiggle != null && model.getStimulatingBeam().isEnabled() ) {
+        if( stimSquiggle != null && model.getSeedBeam().isEnabled() ) {
             g2.drawRenderedImage( stimSquiggle, stimSquiggleTx );
         }
         if( pumpSquiggle != null && model.getPumpingBeam().isEnabled() ) {
@@ -212,7 +212,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         middleLevelLifetimeSlider.update();
         highLevelLifetimeSlider.update();
 
-        stimulatingBeamEnergy = Photon.wavelengthToEnergy( model.getStimulatingBeam().getWavelength() );
+        stimulatingBeamEnergy = Photon.wavelengthToEnergy( model.getSeedBeam().getWavelength() );
 
         double y0 = energyYTx.modelToView( GroundState.instance().getEnergyLevel() );
         double y1 = energyYTx.modelToView( stimulatingBeamEnergy );
@@ -286,7 +286,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         if( beam == model.getPumpingBeam() ) {
             pumpingBeamEnergy = Photon.wavelengthToEnergy( beam.getWavelength() );
         }
-        if( beam == model.getStimulatingBeam() ) {
+        if( beam == model.getSeedBeam() ) {
             stimulatingBeamEnergy = Photon.wavelengthToEnergy( beam.getWavelength() );
         }
     }

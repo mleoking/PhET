@@ -32,7 +32,7 @@ public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
     private Point2D origin;
     private Line2D wave;
     private Color waveColor;
-    private StandingWave sw;
+    private StandingWave standingWave;
 
     public WaveBeamGraphic( Component component, CollimatedBeam beam, ResonatingCavity cavity, BaseModel model ) {
         super( component );
@@ -43,8 +43,10 @@ public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
         origin = new Point2D.Double( cavity.getMinX(), cavity.getMinY() + cavity.getHeight() / 2 );
         Photon.addClassListener( this );
 
-        sw = new StandingWave( component, origin, cavity.getWidth(), 50, 50, Color.red, model );
-
+        double cyclesInCavity = 10;
+        standingWave = new StandingWave( component, origin, cavity.getWidth(),
+                                         cavity.getWidth() / cyclesInCavity, 100,
+                                         numLasingPhotons, Color.red, model );
         update();
     }
 
@@ -80,7 +82,7 @@ public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
 
         g.setColor( waveColor );
         g.draw( wave );
-        sw.paint( g );
+        standingWave.paint( g );
         gs.restoreGraphics();
     }
 
@@ -96,6 +98,7 @@ public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
         if( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
             || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow ) {
             numLasingPhotons--;
+            standingWave.setAmplitude( numLasingPhotons );
             System.out.println( "numLasingPhotons = " + numLasingPhotons );
         }
     }
@@ -106,6 +109,7 @@ public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
         if( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
             || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow ) {
             numLasingPhotons++;
+            standingWave.setAmplitude( numLasingPhotons );
             System.out.println( "numLasingPhotons = " + numLasingPhotons );
         }
     }
