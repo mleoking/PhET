@@ -25,14 +25,16 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
     private Image currLeanerFrame;
     private IdealGasModel model;
     private PressureSensingBox box;
+    private Box2DGraphic boxGraphic;
     private Point location = new Point();
     private double lastPressure;
     private Image currFrame;
 
-    public Mannequin( Component component, IdealGasModel model, PressureSensingBox box ) {
+    public Mannequin( Component component, IdealGasModel model, PressureSensingBox box, Box2DGraphic boxGraphic ) {
         super( component );
         this.model = model;
         this.box = box;
+        this.boxGraphic = boxGraphic;
         try {
             pusher = new Animation( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
             leaner = new Animation( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
@@ -43,17 +45,8 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
         currPusherFrame = pusher.getCurrFrame();
         currLeanerFrame = leaner.getCurrFrame();
 
-
-        // todo: When we get everything in one thread, we can observe the box rather
-        // than using a separate thread to update the mannequin
-//        box.addObserver( this );
-//        update();
-        try {
-            new Thread( new Updater()).start();
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
+        box.addObserver( this );
+        update();
     }
 
     protected Rectangle determineBounds() {
@@ -72,7 +65,7 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
 
         int nextLocationX = (int)box.getMinX() - currPusherFrame.getHeight( null ) + offsetX;
         boolean wallMoving = nextLocationX != location.x;
-        if( wallMoving ) {
+        if( wallMoving || boxGraphic.isGraphicSelected() ) {
             int dir = nextLocationX - location.x;
             location.setLocation( nextLocationX, box.getMaxY() - currPusherFrame.getWidth( null ) + offsetY );
             // Update the pusher
@@ -102,20 +95,6 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
                     setBoundsDirty();
                     repaint();
                 }
-            }
-        }
-    }
-
-    private class Updater implements Runnable {
-        public void run() {
-            while( true ) {
-                try {
-                    Thread.sleep( 20 );
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-                update();
             }
         }
     }
