@@ -31,7 +31,7 @@ public class TestFastPaintInteractionBug {
         JPanel contentPane = new JPanel();
         contentPane.setLayout( new BorderLayout() );
 
-        final ApparatusPanel ap = new ApparatusPanel(){
+        final ApparatusPanel ap = new ApparatusPanel() {
             public void repaint() {
                 super.repaint();
 //                Exception e=new Exception( );
@@ -44,7 +44,7 @@ public class TestFastPaintInteractionBug {
         frame.setContentPane( contentPane );
         contentPane.add( ap, BorderLayout.CENTER );
 
-        final JCheckBox checkBox = new JCheckBox( "Test Fast Paint", true);
+        final JCheckBox checkBox = new JCheckBox( "Test Fast Paint", true );
 
         contentPane.add( checkBox, BorderLayout.NORTH );
 
@@ -118,7 +118,7 @@ public class TestFastPaintInteractionBug {
                 int y = 0;
                 while( true ) {
                     try {
-                        Thread.sleep( 100 );
+                        Thread.sleep( 30 );
                         FastPaintImageGraphic g = fastPaintImageGraphic2;
                         //                        Color color = new Color( random.nextInt( 255 ), random.nextInt( 255 ), random.nextInt( 255 ) );
                         //                        g.setFillPaint( color );

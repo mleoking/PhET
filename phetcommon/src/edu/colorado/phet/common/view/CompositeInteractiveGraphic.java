@@ -21,6 +21,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class CompositeInteractiveGraphic implements InteractiveGraphic {
@@ -78,6 +79,16 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
 
     public void addGraphic( Graphic graphic ) {
         addGraphic( graphic, 0 );
+    }
+
+    public Graphic[] getGraphics() {
+        Iterator it = graphicMap.iterator();
+        ArrayList graphics = new ArrayList();
+        while( it.hasNext() ) {
+            Graphic graphic = (Graphic)it.next();
+            graphics.add( graphic );
+        }
+        return (Graphic[])graphics.toArray( new Graphic[0] );
     }
 
     public void addGraphic( Graphic graphic, double layer ) {
