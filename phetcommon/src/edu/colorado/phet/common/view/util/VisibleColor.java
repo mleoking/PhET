@@ -23,7 +23,8 @@ import java.awt.*;
  * some color information.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @revision $Id$
+ *         <p/>
+ *         revision $Id$
  */
 public class VisibleColor extends Color {
     //----------------------------------------------------------------------------

@@ -121,7 +121,7 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
     /**
      * Determines whether this graphic and all its parents are visible.
      *
-     * @return
+     * @return whether this component and all its parents are visible.
      */
     public boolean isVisible() {
         // If we have a parent, check to see if it is visible

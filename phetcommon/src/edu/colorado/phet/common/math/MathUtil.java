@@ -108,7 +108,7 @@ public class MathUtil {
      * @param p
      * @param ptOnLine
      * @param lineAngle Anlge of line in radians
-     * @return
+     * @return the reflected point.
      */
     public static Point2D reflectPointAcrossLine( Point2D p, Point2D ptOnLine, double lineAngle ) {
 
