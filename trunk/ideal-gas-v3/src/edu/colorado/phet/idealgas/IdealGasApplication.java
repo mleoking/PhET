@@ -69,7 +69,8 @@ public class IdealGasApplication extends PhetApplication {
         // Add some menus
         PhetFrame frame = getPhetFrame();
         frame.addMenu( new OptionsMenu( this ) );
-
+//
+//        frame.getClockControlPanel().add( new StopwatchPanel( getApplicationModel().getClock()), BorderLayout.WEST );
 
         this.startApplication();
     }
