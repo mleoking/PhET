@@ -27,9 +27,6 @@ public class Turbine extends BarMagnet implements ModelElement {
     // Class data
     //----------------------------------------------------------------------------
     
-    // Rotation delta when the turbine is running at full speed.
-    private static final double DEFAULT_MAX_ROTATION_DELTA = Math.PI / 3;  // radians
-    
     // Determines whether all critical angles will be hit.
     private static boolean _criticalAnglesEnabled = false;
     
