@@ -42,20 +42,11 @@ public class PhetSlider extends GraphicLayerSet {
     private TickSetGraphic tickSetGraphic;
     private int trackWidth = 6;
     private int numTicks;
-    private boolean vertical = false;
     private SliderOrientation orientation;
 
     public PhetSlider( Component component, double min, double max, double value, boolean vertical ) {
         super( component );
-
-        this.vertical = vertical;
-
-        if( vertical ) {
-            orientation = new Vertical();
-        }
-        else {
-            orientation = new Horizontal();
-        }
+        orientation = vertical ? (SliderOrientation)new Vertical() : new Horizontal();
         this.rect = orientation.createRectangle();
         this.numTicks = 6;
         this.min = min;
@@ -63,13 +54,32 @@ public class PhetSlider extends GraphicLayerSet {
         this.trackGraphic = new TrackGraphic( component );
         this.thumbGraphic = new ThumbGraphic( component );
         this.backgroundGraphic = new BackgroundGraphic( component );
-        addGraphic( backgroundGraphic );
+        addGraphic( backgroundGraphic, -1 );
         addGraphic( trackGraphic );
         addGraphic( thumbGraphic );
         transform = orientation.createTransform();
         tickSetGraphic = new TickSetGraphic( component );
         addGraphic( tickSetGraphic );
+
         setValue( value );
+    }
+
+    public void setShowBackground( boolean showBackground ) {
+        if( showBackground && !containsGraphic( backgroundGraphic ) ) {
+            addGraphic( backgroundGraphic, -1 );
+        }
+        else {
+            removeGraphic( backgroundGraphic );
+        }
+    }
+
+    public void setShowTickSet( boolean showTickSet ) {
+        if( showTickSet && !containsGraphic( tickSetGraphic ) ) {
+            addGraphic( tickSetGraphic, 1 );
+        }
+        else {
+            removeGraphic( tickSetGraphic );
+        }
     }
 
     private void fireChangeEvent() {
@@ -97,7 +107,6 @@ public class PhetSlider extends GraphicLayerSet {
         }
     }
 
-
     public class TickSetGraphic extends CompositePhetGraphic {
 
         public TickSetGraphic( Component component ) {
@@ -110,6 +119,7 @@ public class PhetSlider extends GraphicLayerSet {
                 addGraphic( tickGraphic );
                 orientation.center( tickGraphic, value );
             }
+            setIgnoreMouse( true );
         }
     }
 
@@ -314,7 +324,8 @@ public class PhetSlider extends GraphicLayerSet {
 
         public PhetGraphic createThumbIcon() {
             try {
-                BufferedImage bufferedImage = ImageLoader.loadBufferedImage( "images/arrow-right.gif" );
+//                BufferedImage bufferedImage = ImageLoader.loadBufferedImage( "images/arrow-right.gif" );
+                BufferedImage bufferedImage = ImageLoader.loadBufferedImage( "images/arrow-right-png-50.png" );
                 return new PhetImageGraphic( getComponent(), bufferedImage );
             }
             catch( IOException e ) {
