@@ -11,6 +11,7 @@
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.util.persistence.*;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 import javax.swing.*;
@@ -34,7 +35,8 @@ public class ModuleManager {
 
     private ArrayList modules = new ArrayList();
     private Module activeModule;
-    private ArrayList observers = new ArrayList();
+    private EventChannel moduleObserversChannel = new EventChannel( ModuleObserver.class );
+    private ModuleObserver moduleObserverProxy = (ModuleObserver)moduleObserversChannel.getListenerProxy();
     private PhetApplication phetApplication;
 
     public ModuleManager() {
@@ -78,10 +80,19 @@ public class ModuleManager {
         if( isActive ) {
             setActiveModule( module );
         }
-        for( int i = 0; i < observers.size(); i++ ) {
-            ModuleObserver moduleObserver = (ModuleObserver)observers.get( i );
-            moduleObserver.moduleAdded( module );
+        moduleObserverProxy.moduleAdded( module );
+    }
+
+    public void removeModule( Module module ) {
+        modules.remove( module );
+
+        // If the module we are removing is the active module, we need to
+        // set another one active
+        if( getActiveModule() == module ) {
+            setActiveModule( (Module)modules.get( 0 ) );
         }
+        // Notifiy listeners
+        moduleObserverProxy.moduleRemoved( module );
     }
 
     public void setActiveModule( int i ) {
@@ -97,10 +108,7 @@ public class ModuleManager {
     private void forceSetActiveModule( Module module ) {
         deactivate();
         activate( module );
-        for( int i = 0; i < observers.size(); i++ ) {
-            ModuleObserver moduleObserver = (ModuleObserver)observers.get( i );
-            moduleObserver.activeModuleChanged( module );
-        }
+        moduleObserverProxy.activeModuleChanged( module );
     }
 
     private void activate( Module module ) {
@@ -115,7 +123,7 @@ public class ModuleManager {
     }
 
     public void addModuleObserver( ModuleObserver observer ) {
-        observers.add( observer );
+        moduleObserversChannel.addListener( observer );
     }
 
     public int indexOf( Module m ) {
