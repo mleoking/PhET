@@ -128,6 +128,16 @@ public class GraphicLayerSet extends PhetGraphic {
         }
         return false;
     }
+    
+    /**
+     * Used to see if the mouse is in one of our child graphics
+     * 
+     * @param p the point
+     * @return true or false
+     */
+    public boolean contains( Point p ) {
+        return contains( p.x, p.y );
+    }
 
     /**
      * Determines the union of child graphics bounds.
