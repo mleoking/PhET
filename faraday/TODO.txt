@@ -7,8 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
-- make compass respond faster when rotational kinematics is enabled (rescale ala grid?)
-- make compass visibly rotate (instead of flip) when rotational kinematics is disabled
 - add a dialog that warns about performance implications of turning on grid
 - make electrons move at same speed whether grid is on or off
 
