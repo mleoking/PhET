@@ -134,7 +134,7 @@ public class TransformerModule extends FaradayModule {
         // Compass model
         Compass compassModel = new Compass( electromagnetModel );
         compassModel.setLocation( COMPASS_LOCATION );
-        compassModel.setRotationalKinematicsEnabled( true );
+        compassModel.setRotationalKinematicsEnabled( false );
         compassModel.setEnabled( false );
         model.addModelElement( compassModel );
         

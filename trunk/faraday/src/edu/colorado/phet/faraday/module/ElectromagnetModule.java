@@ -127,7 +127,7 @@ public class ElectromagnetModule extends FaradayModule {
         // Compass model
         Compass compassModel = new Compass( electromagnetModel );
         compassModel.setLocation( COMPASS_LOCATION );
-        compassModel.setRotationalKinematicsEnabled( true );
+        compassModel.setRotationalKinematicsEnabled( false );
         model.addModelElement( compassModel );
         
         //----------------------------------------------------------------------------
