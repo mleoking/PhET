@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- EMF drops near the AC Power Supply, then pops back up over the AC Power Supply (put pickupcoil right next to electromagnet coil)
+- EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - add a dialog that warns about performance implications of turning on grid
 - make electrons move at same speed whether grid is on or off
