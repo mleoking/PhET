@@ -86,7 +86,7 @@ public class IdealGasModule extends Module {
         addGraphic( boxGraphic, 10 );
 
         // Add the animated mannequin
-        Mannequin pusher = new Mannequin( getApparatusPanel(), idealGasModel, box );
+        Mannequin pusher = new Mannequin( getApparatusPanel(), idealGasModel, box, boxGraphic );
         addGraphic( pusher, 10 );
 
         // Set up the control panel

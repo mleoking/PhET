@@ -21,9 +21,10 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
     public static double s_thickness = 4;
     private static Stroke s_defaultStroke = new BasicStroke( (float)s_thickness );
     private static Color s_defaultColor = Color.black;
-    private static float s_leaningManStateChangeScaleFactor = 1.75F;
+//    private static float s_leaningManStateChangeScaleFactor = 1.75F;
     private Box2D box;
-    private boolean initWallMovement;
+    private boolean graphicSelected;
+    //    private boolean initWallMovement;
 
     public Box2DGraphic( Component component, final Box2D box ) {
         super( null );
@@ -41,8 +42,18 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
         } );
     }
 
-    public void mouseEntered( MouseEvent e ) {
-        super.mouseEntered( e );
+    public void mousePressed( MouseEvent e ) {
+        graphicSelected = true;
+        super.mousePressed( e );
+    }
+
+    public void mouseReleased( MouseEvent e ) {
+        this.graphicSelected = false;
+        super.mouseReleased( e );
+    }
+
+    public boolean isGraphicSelected() {
+        return graphicSelected;
     }
 
     private class InternalBoxGraphic extends PhetShapeGraphic implements SimpleObserver {
@@ -83,32 +94,4 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
             restoreGraphicsState();
         }
     }
-
-    //
-    //    private double lastPressure = 0;
-    //
-    //    /**
-    //     * Notes state change in the box the receiver is observing. Changes
-    //     * the position of the leaning man if the pressure in the box has
-    //     * changed sufficiently
-    //     *
-    //     * @param o
-    //     * @param arg
-    //     */
-    //        public void update( Observable o, Object arg ) {
-    //            this.setPosition( (CollidableBody)o );
-    //            if( o instanceof PressureSensingBox ) {
-    //                PressureSensingBox box = (PressureSensingBox)o;
-    //                double newPressure = box.getPressure();
-    //                if( newPressure > lastPressure * s_leaningManStateChangeScaleFactor ) {
-    //                    getIdealGasApparatusPanel().moveLeaner( 1 );
-    //                    lastPressure = box.getPressure();
-    //                }
-    //                else if( newPressure < lastPressure / s_leaningManStateChangeScaleFactor ) {
-    //                    getIdealGasApparatusPanel().moveLeaner( -1 );
-    //                    lastPressure = box.getPressure();
-    //                }
-    //            }
-    //        }
-
 }
