@@ -83,7 +83,6 @@ public class MovableWallsModule extends IdealGasModule {
                                                              box.getWidth() - 2 * wallThickness,
                                                              box.getHeight() ) );
         verticalWall.setFixupStrategy( new VerticalWallFixupStrategy() );
-        WallGraphic lowerWallGraphic = new WallGraphic( verticalWall, getApparatusPanel(),
         WallGraphic lowerWallGraphic = new GraduatedWallGraphic( verticalWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );

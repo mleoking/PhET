@@ -1,8 +1,12 @@
-/**
- * Class: ParticleInteractionControl
- * Package: edu.colorado.phet.idealgas.controller
- * Author: Another Guy
- * Date: Sep 30, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas.controller;
 
@@ -13,19 +17,21 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Controls whether molecules collide with or simply ignore each other.
+ */
 public class ParticleInteractionControl extends JPanel {
     public ParticleInteractionControl() {
-        final JCheckBox noSphereSphereCollisionCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.No_particle_interactions" ) );
-        this.add( noSphereSphereCollisionCB );
-        noSphereSphereCollisionCB.addActionListener( new ActionListener() {
+        final JCheckBox sphereSphereCollisionCB = new JCheckBox( SimStrings.get( "Molecules-interact" ) );
+        this.add( sphereSphereCollisionCB );
+        sphereSphereCollisionCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                GasMolecule.enableParticleParticleInteractions( !noSphereSphereCollisionCB.isSelected() );
+                GasMolecule.enableParticleParticleInteractions( sphereSphereCollisionCB.isSelected() );
             }
         } );
 
         // Set default state
-        noSphereSphereCollisionCB.setSelected( false );
-//            noSphereSphereCollisionCB.setSelected( true );
-        GasMolecule.enableParticleParticleInteractions( !noSphereSphereCollisionCB.isSelected() );
+        sphereSphereCollisionCB.setSelected( true );
+        GasMolecule.enableParticleParticleInteractions( sphereSphereCollisionCB.isSelected() );
     }
 }

@@ -121,9 +121,9 @@ public class IdealGasControlPanel extends JPanel {
         JPanel gravityControls = gravityControls();
         miscPanel.add( gravityControls, gbc );
 
-        ParticleInteractionControl pic = new ParticleInteractionControl();
-        gbc.fill = GridBagConstraints.NONE;
-        miscPanel.add( pic, gbc );
+//        ParticleInteractionControl pic = new ParticleInteractionControl();
+//        gbc.fill = GridBagConstraints.NONE;
+//        miscPanel.add( pic, gbc );
 
         Border gravityBorder = new TitledBorder( SimStrings.get( "IdealGasControlPanel.MiscPanelTitle" ) );
         miscPanel.setBorder( gravityBorder );
