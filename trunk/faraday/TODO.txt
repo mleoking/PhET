@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- Electromagnet module "first pass"
 
 HIGH PRIORITY:
 - when a collision occurs, don't ignore the translate, move the object as close as possible
@@ -11,9 +11,8 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
-- Electromagnet module "first pass"
 - Transformer module requirements
-- If field strength is 0, all values in Field Meter should read as zero.
+- Field Meter shows -0.00 and -180.00 values, should be 0.00 and 180.00
 
 LOW PRIORITY:
 - check for unnecessary notification, events and updates
@@ -44,6 +43,10 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/22) - add "Show Field" control to Bar Magnet module
+(2/22) - put a thicker border around groups of UI controls
+(2/21) - add a titled border around Magnet controls in Bar Magnet module
+(2/21) - bug fix: update Field Meter when it is made visible
 (2/21) - made Rescaler less specific to magnet strength, can use any reference value
 (2/21) - move more of the rescaling interface into AbstractMagnet model
 (2/18) - after a collision, don't start dragging again until cursor is over the object

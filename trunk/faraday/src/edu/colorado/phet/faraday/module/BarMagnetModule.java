@@ -158,7 +158,7 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
 
         // Control Panel
         BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this, 
-                barMagnetModel, compassModel, barMagnetGraphic, fieldMeterGraphic );
+                barMagnetModel, compassModel, barMagnetGraphic, _gridGraphic, fieldMeterGraphic );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
