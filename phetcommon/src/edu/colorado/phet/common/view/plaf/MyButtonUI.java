@@ -66,16 +66,16 @@ public class MyButtonUI extends MetalButtonUI {
     // ********************************
     public void uninstallUI( JComponent c ) {
         super.uninstallUI( c );
-        button.setIcon( origUnpressed );
-        button.setPressedIcon( origPressed );
+//        button.setIcon( origUnpressed );
+//        button.setPressedIcon( origPressed );
         button.removeMouseListener( handAdapter );
     }
 
     public void installUI( JComponent c ) {
         super.installUI( c );
         JButton button = (JButton)c;
-        button.setIcon( unpressed );
-        button.setPressedIcon( pressed );
+//        button.setIcon( unpressed );
+//        button.setPressedIcon( pressed );
         button.addMouseListener( handAdapter );
     }
 }

@@ -3,7 +3,6 @@ package edu.colorado.phet.common.view.plaf;
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.IconUIResource;
 import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
@@ -34,10 +33,6 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
         "Label", "TextPane", "FormattedTextField", "List", "Spinner"
     };
 
-    //    public void uninitialize() {
-    //        super.uninitialize();
-    //    }
-
     protected void initComponentDefaults( UIDefaults table ) {
         super.initComponentDefaults( table );
         ColorUIResource background = new ColorUIResource( backgroundColor );
@@ -59,9 +54,9 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
         UIDefaults.ProxyLazyValue val = new UIDefaults.ProxyLazyValue( "javax.swing.plaf.metal.MetalIconFactory",
                                                                        "getHorizontalSliderThumbIcon" );
         //        ImageIcon ii=new ImageIcon( getClass().getClassLoader().getResource( "images/components/webt/arrow_down_md_wht.gif"));
-        ImageIcon i2 = ( new ImageIcon( getClass().getClassLoader().getResource( "images/components/slidershadow.png" ) ) );
-        IconUIResource iconResource = new IconUIResource( i2 );
-        add( "Slider.horizontalThumbIcon", iconResource );
+//        ImageIcon i2 = ( new ImageIcon( getClass().getClassLoader().getResource( "images/components/slidershadow.png" ) ) );
+//        IconUIResource iconResource = new IconUIResource( i2 );
+//        add( "Slider.horizontalThumbIcon", iconResource );
 
         //        MetalButtonUI buttonUI=new MetalButtonUI();
         add( "ButtonUI", MyButtonUI.class.getName() );
