@@ -7,19 +7,25 @@
 package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.view.ReflectingWallGraphic;
-import edu.colorado.phet.sound.view.SoundApparatusPanel;
-import edu.colorado.phet.sound.view.WaveMediumGraphic;
 import edu.colorado.phet.sound.view.SingleSourceApparatusPanel;
+import edu.colorado.phet.sound.view.WaveMediumGraphic;
 
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class WallInterferenceModule extends SoundModule implements SimpleObserver {
+public class WallInterferenceModule extends SoundModule {
 
 
     //
@@ -35,7 +41,7 @@ public class WallInterferenceModule extends SoundModule implements SimpleObserve
     private SoundModel soundModel;
     private ReflectingWallGraphic wallGraphic;
     private double wallAngle = s_initialWallAngle;
-    private Point2D.Double wallLocation;
+//    private Point2D.Double wallLocation;
     private WaveMediumGraphic interferringWaverfrontGraphic;
     private Point2D.Double p;
     private Point2D.Double pp;
@@ -50,14 +56,20 @@ public class WallInterferenceModule extends SoundModule implements SimpleObserve
         setApparatusPanel( new SingleSourceApparatusPanel( soundModel ) );
 
         // Set up the wall
-        wallLocation = new Point2D.Double( s_wallOffsetX, s_wallOffsetY );
+//        wallLocation = new Point2D.Double( s_wallOffsetX, s_wallOffsetY );
         wallGraphic = new ReflectingWallGraphic( getApparatusPanel(), Color.blue,
-                                                 SoundConfig.s_wavefrontBaseX + wallLocation.getX(),
-                                                 SoundConfig.s_wavefrontBaseY + wallLocation.getY(),
+                                                 SoundConfig.s_wavefrontBaseX + s_wallOffsetX,
+                                                 SoundConfig.s_wavefrontBaseY + s_wallOffsetY,
+//                                                 SoundConfig.s_wavefrontBaseX + wallLocation.getX(),
+//                                                 SoundConfig.s_wavefrontBaseY + wallLocation.getY(),
                                                  s_wallThickness,
                                                  s_wallHeight,
                                                  s_initialWallAngle );
-        addGraphic( wallGraphic, 7 );
+        DefaultInteractiveGraphic interactiveWallGraphic = new DefaultInteractiveGraphic( wallGraphic );
+        interactiveWallGraphic.addCursorHandBehavior();
+        interactiveWallGraphic.addTranslationBehavior( new WallTranslator( wallGraphic ));
+        addGraphic( interactiveWallGraphic, 8 );
+//        addGraphic( wallGraphic, 8 );
 
         // Set up the interferring wavefront graphic
         interferringWaverfrontGraphic = new WaveMediumGraphic( soundModel.getWaveMedium(),
@@ -66,9 +78,91 @@ public class WallInterferenceModule extends SoundModule implements SimpleObserve
         wm.addObserver( interferringWaverfrontGraphic );
         this.addGraphic( interferringWaverfrontGraphic, 7 );
         positionInterferingWavefront();
-        soundModel.getPrimaryWavefront().addObserver( this );
+
+
+        // Create a control panel element for the wall
+        WallTiltControlPanel wallControlPanel = new WallTiltControlPanel();
+        JPanel panel = new JPanel( new GridLayout( 2, 1 ));
+        panel.add( wallControlPanel );
+        panel.add( new WallTranslateControlPanel() );
+        PhetControlPanel controlPanel = new PhetControlPanel( this, panel );
+        setControlPanel( controlPanel );
     }
 
+    public class WallTiltControlPanel extends JPanel {
+
+        WallTiltControlPanel() {
+            setLayout( new GridLayout( 1, 1 ) );
+            setPreferredSize( new Dimension( 125, 100 ) );
+
+            final JSlider wallAngleSlider = new JSlider( JSlider.VERTICAL,
+                                                         10,
+                                                         90,
+                                                         40 );
+            wallAngleSlider.setPreferredSize( new Dimension( 25, 100 ) );
+            wallAngleSlider.setPaintTicks( true );
+            wallAngleSlider.setMajorTickSpacing( 10 );
+            wallAngleSlider.setMinorTickSpacing( 5 );
+            wallAngleSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    WallInterferenceModule.this.setWallAngle( wallAngleSlider.getValue() );
+                }
+            } );
+
+            add( wallAngleSlider );
+
+            Border amplitudeBorder = new TitledBorder( "Wall Angle" );
+            setBorder( amplitudeBorder );
+        }
+    }
+
+    public class WallTranslateControlPanel extends JPanel {
+
+        WallTranslateControlPanel() {
+            setLayout( new GridLayout( 1, 1 ) );
+            setPreferredSize( new Dimension( 125, 70 ) );
+
+            final JSlider wallTranslationSlider = new JSlider( JSlider.VERTICAL,
+                                                         0,
+                                                         400,
+                                                         100 );
+            wallTranslationSlider.setPreferredSize( new Dimension( 25, 100 ) );
+            wallTranslationSlider.setPaintTicks( true );
+            wallTranslationSlider.setMajorTickSpacing( 10 );
+            wallTranslationSlider.setMinorTickSpacing( 5 );
+            wallTranslationSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    setWallLocation( wallTranslationSlider.getValue() );
+                }
+            } );
+
+            add( wallTranslationSlider );
+
+            Border amplitudeBorder = new TitledBorder( "Wall Position" );
+            setBorder( amplitudeBorder );
+        }
+    }
+
+    private class WallTranslator implements Translatable {
+        private ReflectingWallGraphic graphic;
+
+        WallTranslator( ReflectingWallGraphic graphic ) {
+            this.graphic = graphic;
+        }
+
+        public void translate( double dx, double dy ) {
+//            setWallLocation( (float)( wallGraphic.getPosition().getX() + dx ));
+            double theta = Math.atan2( dy, dx );
+            System.out.println( "theta = " + theta );
+            setWallAngle( (float)Math.toDegrees( theta ));
+
+//            WallInterferenceModule.this.setWallLocation( (float)( graphic.getPosition().getX() + dx ));
+
+//            Point position = new Point( graphic.getPosition() );
+//            graphic.setLocation( position.x + dx );
+//            positionInterferingWavefront();
+        }
+    }
     /**
      *
      */
@@ -103,11 +197,8 @@ public class WallInterferenceModule extends SoundModule implements SimpleObserve
      * @param x
      */
     public void setWallLocation( float x ) {
-        wallLocation.setLocation( x, wallLocation.getY() );
+        wallGraphic.setLocation( x );
         wallGraphic.setLocation( SoundConfig.s_wavefrontBaseX + x );
         positionInterferingWavefront();
-    }
-
-    public void update() {
     }
 }

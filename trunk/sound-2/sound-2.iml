@@ -20,6 +20,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="jdom" level="application" />
     <orderEntryProperties />
   </component>
 </module>

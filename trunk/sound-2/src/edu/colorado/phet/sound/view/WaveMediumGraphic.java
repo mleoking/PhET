@@ -43,7 +43,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         GraphicsDevice gs = ge.getDefaultScreenDevice();
         GraphicsConfiguration gc = gs.getDefaultConfiguration();
         return gc.createCompatibleImage( 800, 800 );
-//        return gc.createCompatibleImage( 300, 200 );
+        //        return gc.createCompatibleImage( 300, 200 );
     }
 
     /**
@@ -123,6 +123,8 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     /**
      *
      */
+    int cnt = 0;
+
     public void paint( Graphics2D g ) {
 
         // Set opacity
@@ -150,35 +152,55 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         // it doesn't work right
         lineRotationXform = AffineTransform.getRotateInstance( -Math.toRadians( rotationAngle ),
                                                                origin.getX(), origin.getY() );
-
-        // Draw a line or arc for each value in the amplitude array of the wave front
-        for( int i = 0; i < waveMedium.getMaxX(); i++ ) {
-
-            // Negative in front of amplitude is to make black indicate high pressure, and white
-            // indicate low pressure
-            double normalizedAmplitude = amplitudes[i] / SoundConfig.s_maxAmplitude * s_lineColor.length / 2;
-            int colorIndex = (int)( ( normalizedAmplitude ) + s_lineColor.length / 2 );
-            g2DBuffImg.setColor( s_lineColor[colorIndex] );
-            if( this.isPlanar ) {
-                end1.setLocation( origin.getX() + rad2 + ( i * stroke ), origin.getY() - height / 2 );
-                end2.setLocation( origin.getX() + rad2 + ( i * stroke ), origin.getY() + height / 2 );
-                line.setLine( end1, end2 );
-                Shape xformedLine = lineRotationXform.createTransformedShape( line );
-
-                //                g.draw( line );
-                g2DBuffImg.draw( xformedLine );
-            }
-            else {
-                arc.setArc( origin.getX() - rad2 - ( i * stroke ),
-                            origin.getY() - rad2 - ( i * stroke ),
-                            rad2 * 2 + ( i * stroke * 2 ),
-                            rad2 * 2 + ( i * stroke * 2 ),
-                            -alpha + rotationAngle, alpha * 2, Arc2D.OPEN );
-
-                g2DBuffImg.draw( arc );
+        boolean drawTest = false;
+        if( drawTest ) {
+            int dx = 1;
+            int dy = 1;
+            Graphics2D gBi = (Graphics2D)buffImg.getGraphics();
+            for( int x = 0; x < waveMedium.getMaxX(); x += dx ) {
+                for( int y = -100; y < 100; y += dy ) {
+                    cnt++;
+                    double distSq = ( x * x ) + ( y * y );
+                    int dist = (int)Math.sqrt( distSq );
+                    if( dist < waveMedium.getMaxX() ) {
+                        double normalizedAmplitude = amplitudes[dist] / SoundConfig.s_maxAmplitude * s_lineColor.length / 2;
+                        int colorIndex = (int)( ( normalizedAmplitude ) + s_lineColor.length / 2 );
+                        gBi.setColor( s_lineColor[colorIndex] );
+                        gBi.fillRect( x, y, dx, dy );
+                    }
+                }
             }
         }
+        else {
 
+            // Draw a line or arc for each value in the amplitude array of the wave front
+            for( int i = 0; i < waveMedium.getMaxX(); i++ ) {
+
+                // Negative in front of amplitude is to make black indicate high pressure, and white
+                // indicate low pressure
+                double normalizedAmplitude = amplitudes[i] / SoundConfig.s_maxAmplitude * s_lineColor.length / 2;
+                int colorIndex = (int)( ( normalizedAmplitude ) + s_lineColor.length / 2 );
+                g2DBuffImg.setColor( s_lineColor[colorIndex] );
+                if( this.isPlanar ) {
+                    end1.setLocation( origin.getX() + rad2 + ( i * stroke ), origin.getY() - height / 2 );
+                    end2.setLocation( origin.getX() + rad2 + ( i * stroke ), origin.getY() + height / 2 );
+                    line.setLine( end1, end2 );
+                    Shape xformedLine = lineRotationXform.createTransformedShape( line );
+
+                    //                g.draw( line );
+                    g2DBuffImg.draw( xformedLine );
+                }
+                else {
+                    arc.setArc( origin.getX() - rad2 - ( i * stroke ),
+                                origin.getY() - rad2 - ( i * stroke ),
+                                rad2 * 2 + ( i * stroke * 2 ),
+                                rad2 * 2 + ( i * stroke * 2 ),
+                                -alpha + rotationAngle, alpha * 2, Arc2D.OPEN );
+
+                    g2DBuffImg.draw( arc );
+                }
+            }
+        }
         g.drawImage( buffImg, nopAT, null );
 
         g.setStroke( oldStroke );
