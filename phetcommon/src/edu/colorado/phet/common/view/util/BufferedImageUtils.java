@@ -109,7 +109,11 @@ public class BufferedImageUtils {
     }
 
     public static BufferedImage flipXMacFriendly( BufferedImage source ) {
-        BufferedImage output = new BufferedImage( source.getWidth(), source.getHeight(), source.getType() );
+        int type = source.getType();
+        if( source.getType() == 0 ) {
+            type = BufferedImage.TYPE_INT_ARGB;  //This is a hack that works.
+        }
+        BufferedImage output = new BufferedImage( source.getWidth(), source.getHeight(), type );
         Graphics2D g2 = output.createGraphics();
         AffineTransform tx = createTransformFlipX( source );
         g2.drawRenderedImage( source, tx );
