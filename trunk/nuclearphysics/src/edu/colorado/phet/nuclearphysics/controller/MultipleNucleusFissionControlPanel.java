@@ -75,7 +75,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
 //        } );
 //
         Font spinnerFont = new Font( "SansSerif", Font.BOLD, 40 );
-        numU235Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 100, 1 ) );
+        numU235Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 200, 1 ) );
         numU235Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setNumU235Nuclei( ( (Integer)numU235Spinner.getValue() ).intValue() );
@@ -170,10 +170,10 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
     }
 
     private Point2D.Double findLocationForNewNucleus() {
-        double width = module.getApparatusPanel().getWidth();
-        double height = module.getApparatusPanel().getHeight();
+        double width = module.getApparatusPanel().getWidth() / module.getPhysicalPanel().getScale();
+        double height = module.getApparatusPanel().getHeight() / module.getPhysicalPanel().getScale();
         boolean overlapping = false;
-        Point2D.Double location = null;
+        Point2D.Double location = new Point2D.Double();
         int attempts = 0;
         do {
             // If there is already a nucleus at (0,0), then generate a random location
@@ -187,7 +187,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
 
             double x = centralNucleusExists ? random.nextDouble() * width / 2 * ( random.nextBoolean() ? 1 : -1 ) : 0;
             double y = centralNucleusExists ? random.nextDouble() * height / 2 * ( random.nextBoolean() ? 1 : -1 ) : 0;
-            location = new Point2D.Double( x, y );
+            location.setLocation( x, y );
 
             overlapping = false;
             for( int j = 0; j < module.getNuclei().size() && !overlapping; j++ ) {

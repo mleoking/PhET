@@ -24,6 +24,8 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
     // Static fields and methods
     //
     private static HashMap graphicToModelMap = new HashMap();
+    private static NeutronGraphic neutronGraphic = new NeutronGraphic();
+    private static ProtonGraphic protonGraphic = new ProtonGraphic();
 
     private static void register( NucleusGraphic nucleusGraphic, Nucleus nucleus ) {
         ArrayList al = (ArrayList)graphicToModelMap.get( nucleus );
@@ -48,8 +50,6 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
     //
     private Point2D.Double position = new Point2D.Double();
     Nucleus nucleus;
-    private NeutronGraphic neutronGraphic;
-    private ProtonGraphic protonGraphic;
     private Image img;
 
     public NucleusGraphic( Nucleus nucleus ) {
@@ -58,8 +58,6 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
         this.nucleus = nucleus;
         this.position.x = nucleus.getLocation().getX();
         this.position.y = nucleus.getLocation().getY();
-        this.neutronGraphic = new NeutronGraphic();
-        this.protonGraphic = new ProtonGraphic();
         img = computeImage();
     }
 
@@ -87,11 +85,12 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
         return bi;
     }
 
-    public void paint( Graphics graphics, int x, int y ) {
+    public void paint( Graphics2D graphics, double x, double y ) {
+//    public void paint( Graphics graphics, int x, int y ) {
         Graphics2D g2 = (Graphics2D)graphics;
         g2.drawImage( img,
-                      x - (int)( nucleus.getRadius() - NuclearParticle.RADIUS ),
-                      y - (int)( nucleus.getRadius() - NuclearParticle.RADIUS ),
+                      (int)( x - nucleus.getRadius() - NuclearParticle.RADIUS ),
+                      (int)( y - nucleus.getRadius() - NuclearParticle.RADIUS ),
                       this );
     }
 

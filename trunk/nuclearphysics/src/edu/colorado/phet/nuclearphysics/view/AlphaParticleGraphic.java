@@ -11,18 +11,6 @@ import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 public class AlphaParticleGraphic extends NucleusGraphic {
     public AlphaParticleGraphic( Nucleus nucleus ) {
-        super( nucleus );    //To change body of overridden methods use File | Settings | File Templates.
+        super( nucleus );
     }
-
-    //
-    // Interfaces implemented
-    //
-    
-    //
-    // Static fields and methods
-    //
-    
-    //
-    // Inner classes
-    //
 }
