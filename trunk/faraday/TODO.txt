@@ -11,7 +11,6 @@ HIGH PRIORITY:
 - verify that AC hits zero crossings, check with lightbulb
 - make generator pickup coil non-moveable, aligned with turbine magnet
 - water wheel needs to hit 0/90/180/270 degree rotation points to hit min/max field
-- put water behind magnet in turbine
 - make water wheel look like brown wood, but don't confuse it with the coil brown
 - check voltmeter ticks on Windows, they appear to be "off" on the left side of the guage
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
@@ -64,6 +63,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/22) - put water behind magnet in turbine
 (3/22) - limit turbine to 100 RPM
 (3/22) - add RPM readout to turbine
 (3/22) - add a water wheel graphic to turbine, paddles as wide as widest water stream
