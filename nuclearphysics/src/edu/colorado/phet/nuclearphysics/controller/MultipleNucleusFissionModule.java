@@ -11,12 +11,14 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.nuclearphysics.model.*;
+import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -101,6 +103,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
                 }
             }
         } );
+
+        addContainment();
     }
 
     public void start() {
@@ -304,5 +308,11 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         for( int i = 0; i < neutronProducts.length; i++ ) {
             bodies.add( neutronProducts[i] );
         }
+    }
+
+    public void addContainment() {
+        Containment containment = new Containment( new Rectangle2D.Double( 100, 100, 100, 100 ) );
+        ContainmentGraphic containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel() );
+        getPhysicalPanel().addGraphic( containmentGraphic, 100 );
     }
 }
