@@ -175,8 +175,7 @@ public class ElectromagnetModule extends FaradayModule {
         // Debugger
 //      DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
 //      debugger.setLocationColor( Color.GREEN );
-//      debugger.setLocationStrokeWidth( 1 );
-//      debugger.add( XXX );
+//      debugger.add( fieldMeterGraphic );
 //      apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
         
         // Collision detection

@@ -42,7 +42,7 @@ public class DebuggerGraphic extends PhetGraphic {
         _boundsStroke = new BasicStroke( 1f );
         _locationEnabled = true;
         _locationColor = Color.RED;
-        _locationStroke = new BasicStroke( 2f );
+        _locationStroke = new BasicStroke( 1f );
         _locationSize = new Dimension( 10, 10 );
         _specifications = new Hashtable();
     }
