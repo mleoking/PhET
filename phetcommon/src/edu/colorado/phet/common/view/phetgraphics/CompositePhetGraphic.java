@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 /**
  * A list of PhetGraphics, painted in order.
+ * The CompositePhetGraphic manages interactivity for all its children.
  */
 public class CompositePhetGraphic extends GraphicLayerSet {
 

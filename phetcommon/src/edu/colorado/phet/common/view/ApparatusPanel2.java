@@ -335,25 +335,25 @@ public class ApparatusPanel2 extends ApparatusPanel {
         private void handleMouseEvent( MouseEvent event ) {
             switch( event.getID() ) {
                 case MouseEvent.MOUSE_CLICKED:
-                    handler.mouseClicked( event );
+                    handler.fireMouseClicked( event );
                     break;
                 case MouseEvent.MOUSE_DRAGGED:
-                    handler.mouseDragged( event );
+                    handler.fireMouseDragged( event );
                     break;
                 case MouseEvent.MOUSE_ENTERED:
-                    handler.mouseEntered( event );
+                    handler.fireMouseEntered( event );
                     break;
                 case MouseEvent.MOUSE_EXITED:
-                    handler.mouseExited( event );
+                    handler.fireMouseExited( event );
                     break;
                 case MouseEvent.MOUSE_MOVED:
-                    handler.mouseMoved( event );
+                    handler.fireMouseMoved( event );
                     break;
                 case MouseEvent.MOUSE_PRESSED:
-                    handler.mousePressed( event );
+                    handler.fireMousePressed( event );
                     break;
                 case MouseEvent.MOUSE_RELEASED:
-                    handler.mouseReleased( event );
+                    handler.fireMouseReleased( event );
                     break;
             }
         }
