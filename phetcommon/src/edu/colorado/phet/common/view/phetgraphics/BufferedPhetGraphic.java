@@ -11,7 +11,6 @@
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.view.GraphicsSetup;
-import edu.colorado.phet.common.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -22,34 +21,30 @@ import java.awt.image.BufferedImage;
  * @author ?
  * @version $Revision$
  */
-public class BufferedPhetGraphic extends PhetImageGraphic {
+public class BufferedPhetGraphic extends PhetGraphic {
+    private GraphicLayerSet graphicLayerSet;
+    private PhetImageGraphic imageGraphic;
     private Paint background;
     private BufferedImage buffer;
-    private Graphic graphic;
     private int type;
     private GraphicsSetup graphicsSetup;
+    private Rectangle r;
 
-    public BufferedPhetGraphic( Component component, Graphic graphic, Paint background ) {
-        this( component, component.getWidth(), component.getHeight(), graphic );
-        setSize( component.getWidth(), component.getHeight() );
-        this.background = background;
+    public BufferedPhetGraphic( Component component, int width, int height, Paint background ) {
+        this( component, width, height, BufferedImage.TYPE_INT_RGB, background );
     }
 
-    public BufferedPhetGraphic( Component component, int width, int height, Graphic graphic ) {
-        this( component, width, height, graphic, BufferedImage.TYPE_INT_RGB );
-    }
-
-    public BufferedPhetGraphic( Component component, int width, int height, Graphic graphic, int type ) {
+    public BufferedPhetGraphic( Component component, int width, int height, int type, Paint background ) {
         super( component );
-        this.graphic = graphic;
+        this.background = background;
+        this.type = type;
+        this.graphicLayerSet = new CompositePhetGraphic( component );
+        this.imageGraphic = new PhetImageGraphic( component, buffer );
         if( width > 0 && height > 0 ) {
             buffer = new BufferedImage( width, height, type );
-            setImage( buffer );
+            imageGraphic.setImage( buffer );
         }
-        else {
-            buffer = null;
-        }
-        this.type = type;
+        repaintBuffer();
     }
 
     public void repaintBuffer() {
@@ -61,9 +56,14 @@ public class BufferedPhetGraphic extends PhetImageGraphic {
             g2.setPaint( background );
             g2.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
         }
-        if( buffer != null && graphic != null ) {
-            graphic.paint( buffer.createGraphics() );
-            forceRepaint();
+        if( buffer != null ) {
+            graphicLayerSet.paint( g2 );
+            imageGraphic.setImage( buffer );
+
+            imageGraphic.setBoundsDirty();
+            imageGraphic.autorepaint();
+            setBoundsDirty();
+            autorepaint();
         }
     }
 
@@ -76,6 +76,62 @@ public class BufferedPhetGraphic extends PhetImageGraphic {
 
     public BufferedImage getBuffer() {
         return buffer;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType( int type ) {
+        this.type = type;
+    }
+
+    public Paint getBackground() {
+        return background;
+    }
+
+    public void setBackground( Paint background ) {
+        this.background = background;
+    }
+
+    protected Rectangle determineBounds() {
+        if( r != null ) {
+            return r;
+        }
+        else {
+            return imageGraphic.determineBounds();
+        }
+    }
+
+    public void paint( Graphics2D g ) {
+        imageGraphic.paint( g );
+    }
+
+    public void addGraphic( PhetGraphic graphic ) {
+        graphicLayerSet.addGraphic( graphic );
+    }
+
+    public void setGraphicsSetup( GraphicsSetup graphicsSetup ) {
+        this.graphicsSetup = graphicsSetup;
+    }
+
+    public void repaintBuffer( Rectangle r ) {
+        Graphics2D g2 = buffer.createGraphics();
+        if( graphicsSetup != null ) {
+            graphicsSetup.setup( g2 );
+        }
+        g2.setClip( r );
+        if( background != null ) {
+            g2.setPaint( background );
+            g2.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
+        }
+        if( buffer != null ) {
+
+            graphicLayerSet.paint( g2 );
+            imageGraphic.setAutoRepaint( false );
+            imageGraphic.setImage( buffer );
+            getComponent().repaint( r.x, r.y, r.width, r.height );
+        }
     }
 
 }
