@@ -7,10 +7,10 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.coreadditions.TxApparatusPanel;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
@@ -20,9 +20,10 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-public class PhysicalPanel extends ApparatusPanel {
+public class PhysicalPanel extends TxApparatusPanel {
+    //public class PhysicalPanel extends ApparatusPanel {
 
-//    private HashMap modelElementToGraphicMap = new HashMap();
+    //    private HashMap modelElementToGraphicMap = new HashMap();
     protected Point2D.Double origin = new Point2D.Double();
     protected AffineTransform originTx = new AffineTransform();
     protected AffineTransform scaleTx = new AffineTransform();
@@ -56,8 +57,8 @@ public class PhysicalPanel extends ApparatusPanel {
     }
 
     public void removeNucleus( Nucleus nucleus ) {
-//        removeGraphic( (Graphic)modelElementToGraphicMap.get( nucleus ) );
-//        modelElementToGraphicMap.remove( nucleus );
+        //        removeGraphic( (Graphic)modelElementToGraphicMap.get( nucleus ) );
+        //        modelElementToGraphicMap.remove( nucleus );
         return;
     }
 
@@ -83,11 +84,11 @@ public class PhysicalPanel extends ApparatusPanel {
     }
 
     public void clear() {
-//        Iterator it = modelElementToGraphicMap.keySet().iterator();
-//        while( it.hasNext() ) {
-//            removeGraphic( (Graphic)modelElementToGraphicMap.get( (Nucleus)it.next() ) );
-//        }
-//        modelElementToGraphicMap.clear();
+        //        Iterator it = modelElementToGraphicMap.keySet().iterator();
+        //        while( it.hasNext() ) {
+        //            removeGraphic( (Graphic)modelElementToGraphicMap.get( (Nucleus)it.next() ) );
+        //        }
+        //        modelElementToGraphicMap.clear();
     }
 
     //    protected void addGraphic( Graphic graphic, double level, AffineTransform atx ) {

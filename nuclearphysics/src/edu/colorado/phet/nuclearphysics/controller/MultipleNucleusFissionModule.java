@@ -31,7 +31,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     private ArrayList u238Nuclei = new ArrayList();
     private ArrayList u239Nuclei = new ArrayList();
     private ArrayList neutrons = new ArrayList();
-//    private ArrayList neutronGraphics = new ArrayList();
+    //    private ArrayList neutronGraphics = new ArrayList();
     private AbstractClock clock;
     private long orgDelay;
     private double orgDt;
@@ -107,7 +107,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         // Add a bunch of nuclei, including one in the middle that we can fire a
         // neutron at
         Uranium235 centralNucleus = new Uranium235( new Point2D.Double(), getModel() );
-        centralNucleus.addFissionListener( this );
+        //        centralNucleus.addFissionListener( this );
         getPhysicalPanel().addNucleus( centralNucleus );
         getModel().addModelElement( centralNucleus );
         addU235Nucleus( centralNucleus );
@@ -147,14 +147,14 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
             neutron.leaveSystem();
             bodies.remove( neutron );
         }
-//        for( int i = 0; i < neutronGraphics.size(); i++ ) {
-//            getPhysicalPanel().removeGraphic( (Graphic)neutronGraphics.get( i ) );
-//        }
+        //        for( int i = 0; i < neutronGraphics.size(); i++ ) {
+        //            getPhysicalPanel().removeGraphic( (Graphic)neutronGraphics.get( i ) );
+        //        }
         nuclei.clear();
         u235Nuclei.clear();
         u238Nuclei.clear();
         daughterNuclei.clear();
-//        neutronGraphics.clear();
+        //        neutronGraphics.clear();
     }
 
     private void computeNeutronLaunchParams() {
@@ -237,12 +237,12 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         nuclei.remove( nucleus );
         nucleus.leaveSystem();
 
-//        ArrayList ngList = NucleusGraphic.getGraphicForNucleus( nucleus );
-//        for( int i = 0; i < ngList.size(); i++ ) {
-//            NucleusGraphic ng = (NucleusGraphic)ngList.get( i );
-//            getPhysicalPanel().removeGraphic( ng );
-//            super.remove( nucleus, ng );
-//        }
+        //        ArrayList ngList = NucleusGraphic.getGraphicForNucleus( nucleus );
+        //        for( int i = 0; i < ngList.size(); i++ ) {
+        //            NucleusGraphic ng = (NucleusGraphic)ngList.get( i );
+        //            getPhysicalPanel().removeGraphic( ng );
+        //            super.remove( nucleus, ng );
+        //        }
         getPhysicalPanel().removeNucleus( nucleus );
         getModel().removeModelElement( nucleus );
     }
@@ -264,13 +264,13 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
 
         // We know this must be a U235 nucleus
         u235Nuclei.remove( products.getParent() );
-//        List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
-//        for( int i = 0; i < graphics.size(); i++ ) {
-//            NucleusGraphic ng = (NucleusGraphic)graphics.get( i );
-//            this.getPhysicalPanel().removeGraphic( ng );
-//        }
-//        NeutronGraphic ng = (NeutronGraphic)NeutronGraphic.getGraphicForNeutron( products.getInstigatingNeutron() );
-//        this.getPhysicalPanel().removeGraphic( ng );
+        //        List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
+        //        for( int i = 0; i < graphics.size(); i++ ) {
+        //            NucleusGraphic ng = (NucleusGraphic)graphics.get( i );
+        //            this.getPhysicalPanel().removeGraphic( ng );
+        //        }
+        //        NeutronGraphic ng = (NeutronGraphic)NeutronGraphic.getGraphicForNeutron( products.getInstigatingNeutron() );
+        //        this.getPhysicalPanel().removeGraphic( ng );
 
         // Add fission products
         super.addNucleus( products.getDaughter1() );
@@ -284,7 +284,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
             getModel().addModelElement( neutronProducts[i] );
             getPhysicalPanel().addGraphic( npg );
             neutrons.add( neutronProducts[i] );
-//            neutronGraphics.add( npg );
+            //            neutronGraphics.add( npg );
             neutronProducts[i].addListener( new NuclearModelElement.Listener() {
                 public void leavingSystem( NuclearModelElement nme ) {
                     getPhysicalPanel().removeGraphic( npg );

@@ -18,8 +18,8 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="mechanics" />
-    <orderEntry type="module" module-name="Phet Common 2" />
+    <orderEntry type="module" module-name="Mechanics" />
+    <orderEntry type="module" module-name="PhetCommon" />
     <orderEntryProperties />
   </component>
 </module>
