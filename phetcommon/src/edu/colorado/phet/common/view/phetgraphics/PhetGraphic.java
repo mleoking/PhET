@@ -96,9 +96,10 @@ public abstract class PhetGraphic {
 
     /**
      * Set the Component within which this PhetGraphic is contained
+     *
      * @param component
      */
-    public void setComponent(Component component) {
+    public void setComponent( Component component ) {
         this.component = component;
     }
 
@@ -524,10 +525,10 @@ public abstract class PhetGraphic {
     
     /**
      * Sets the location of this graphic.
-     * <p>
+     * <p/>
      * The location is a translation that is applied after the local transform,
      * but before the parent's net transform.  This effectively moves the
-     * graphic's registration point to the specified location, relative 
+     * graphic's registration point to the specified location, relative
      * to the parent container.
      *
      * @param p the location
@@ -538,22 +539,24 @@ public abstract class PhetGraphic {
 
     /**
      * Convenience method, sets the location.
-     * 
-     * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic.#setLocation(java.awt.Point)
+     *
      * @param x X coordinate
      * @param y Y coordinate
+     * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic#setLocation(java.awt.Point)
      */
     public void setLocation( int x, int y ) {
-        location.setLocation( x, y );
-        setBoundsDirty();
-        repaint();
+        if( location.x != x || location.y != y ) {
+            location.setLocation( x, y );
+            setBoundsDirty();
+            repaint();
+        }
     }
 
     /**
      * Gets the location.
      *
-     * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic.#setLocation(java.awt.Point)
      * @return the location
+     * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic#setLocation(java.awt.Point)
      */
     public Point getLocation() {
         return new Point( location );
@@ -855,7 +858,7 @@ public abstract class PhetGraphic {
      * correctly draw the graphic.  This transform should be passed to
      * g2.transform.
      * </ul>
-     * 
+     *
      * @param g2 the 2D graphics context
      */
     public abstract void paint( Graphics2D g2 );
