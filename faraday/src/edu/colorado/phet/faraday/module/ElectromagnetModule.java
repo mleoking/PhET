@@ -196,7 +196,7 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
 
         // Control Panel
         ElectromagnetControlPanel controlPanel = new ElectromagnetControlPanel( this, 
-                batteryModel, acSourceModel, compassModel, _gridGraphic, fieldMeterGraphic );
+                sourceCoilModel, batteryModel, acSourceModel, compassModel, _gridGraphic, fieldMeterGraphic );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------

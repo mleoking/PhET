@@ -29,6 +29,7 @@ import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.ACSource;
 import edu.colorado.phet.faraday.model.Battery;
 import edu.colorado.phet.faraday.model.Compass;
+import edu.colorado.phet.faraday.model.SourceCoil;
 import edu.colorado.phet.faraday.module.ElectromagnetModule;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.FieldMeterGraphic;
@@ -50,6 +51,7 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
     //----------------------------------------------------------------------------
 
     // Model & view components to be controlled.
+    private SourceCoil _sourceCoilModel;
     private Battery _batteryModel;
     private ACSource _acSourceModel;
     private Compass _compassModel;
@@ -86,6 +88,7 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
      */
     public ElectromagnetControlPanel( 
             ElectromagnetModule module,
+            SourceCoil sourceCoilModel,
             Battery batteryModel,
             ACSource acSourceModel,
             Compass compassModel,  
@@ -94,6 +97,7 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
 
         super( module );
         
+        assert ( sourceCoilModel != null );
         assert ( batteryModel != null );
         assert ( acSourceModel != null );
         assert ( compassModel != null );
@@ -101,6 +105,7 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         assert ( fieldMeterGraphic != null );
 
         // Things we'll be controlling.
+        _sourceCoilModel = sourceCoilModel;
         _batteryModel = batteryModel;
         _acSourceModel = acSourceModel;
         _compassModel = compassModel;
@@ -183,7 +188,7 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
                 // Range of values
                 int max = (int) FaradayConfig.BATTERY_VOLTAGE_MAX;
                 int min = (int) -FaradayConfig.BATTERY_VOLTAGE_MAX;
-                int range = (int) ( 2 * FaradayConfig.BATTERY_VOLTAGE_MAX );
+                int range = max - min;
 
                 // Slider
                 _voltageSlider = new JSlider();
@@ -230,9 +235,9 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
                 amplitudePanel.setBorder( BorderFactory.createEtchedBorder() );
                 
                 // Range of values
-                int max = (int) FaradayConfig.AC_AMPLITUDE_MAX;
-                int min = (int) -FaradayConfig.AC_AMPLITUDE_MAX;
-                int range = (int) ( 2 * FaradayConfig.AC_AMPLITUDE_MAX );
+                int max = (int) ( FaradayConfig.AC_AMPLITUDE_MAX * 100.0 );
+                int min = 0;
+                int range = max - min;
 
                 // Slider
                 _amplitudeSlider = new JSlider();
@@ -262,9 +267,9 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
                 frequencyPanel.setBorder( BorderFactory.createEtchedBorder() );
                 
                 // Range of values
-                int max = (int) FaradayConfig.AC_FREQUENCY_MAX;
-                int min = (int) FaradayConfig.AC_FREQUENCY_MIN;
-                int range = (int) (FaradayConfig.AC_FREQUENCY_MAX - FaradayConfig.AC_FREQUENCY_MIN );
+                int max = (int) ( FaradayConfig.AC_FREQUENCY_MAX * 100.0 );
+                int min = (int) ( FaradayConfig.AC_FREQUENCY_MIN * 100.0 );
+                int range = max - min;
 
                 // Slider
                 _frequencySlider = new JSlider();
@@ -320,8 +325,8 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         _voltageSlider.setValue( (int) _batteryModel.getVoltage() );
-        _amplitudeSlider.setValue( 0 ); // XXX get value from model
-        _frequencySlider.setValue( (int) FaradayConfig.AC_FREQUENCY_MIN ); // XXX get value from model
+        _amplitudeSlider.setValue( (int) ( _acSourceModel.getAmplitude() * 100.0 ) );
+        _frequencySlider.setValue( (int) ( _acSourceModel.getFrequency() * 100.0 ) );
         
         _batteryPanel.setVisible( _batteryRadioButton.isSelected() );
         _acPanel.setVisible( _acRadioButton.isSelected() );
@@ -356,17 +361,19 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _batteryRadioButton ) {
                 // Battery (DC) source
-                _batteryModel.setEnabled( true );
-                _acSourceModel.setEnabled( false );
                 _batteryPanel.setVisible( true );
                 _acPanel.setVisible( false );
+                _batteryModel.setEnabled( true );
+                _acSourceModel.setEnabled( false );
+                _sourceCoilModel.setVoltageSource( _batteryModel );
             }
             else if ( e.getSource() == _acRadioButton ) {
                 // AC source
-                _batteryModel.setEnabled( false );
-                _acSourceModel.setEnabled( true );
                 _batteryPanel.setVisible( false );
                 _acPanel.setVisible( true );
+                _batteryModel.setEnabled( false );
+                _acSourceModel.setEnabled( true );
+                _sourceCoilModel.setVoltageSource( _acSourceModel );
             }
             else if ( e.getSource() == _gridCheckBox ) {
                 // Grid enable
@@ -395,31 +402,31 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _voltageSlider ) {
                 // Read the value.
-                int voltage = _voltageSlider.getValue();
+                int value = _voltageSlider.getValue();
                 // Update the model.
-                _batteryModel.setVoltage( voltage );
+                _batteryModel.setVoltage( value );
                 // Update the label.
-                Object[] args = { new Integer( voltage ) };
+                Object[] args = { new Integer( value ) };
                 String text = MessageFormat.format( SimStrings.get( "ElectromagnetModule.batteryVoltage" ), args );
                 _voltageValue.setText( text );
             }
             else if ( e.getSource() == _amplitudeSlider ) {
                 // Read the value.
-                int amplitude = _amplitudeSlider.getValue();
+                int value = _amplitudeSlider.getValue();
                 // Update the model.
-                // XXX
+                _acSourceModel.setAmplitude( value / 100.0 );
                 // Update the label.
-                Object[] args = { new Integer( amplitude ) };
+                Object[] args = { new Integer( value ) };
                 String text = MessageFormat.format( SimStrings.get( "ElectromagnetModule.acAmplitude" ), args );
                 _amplitudeValue.setText( text );
             }
             else if ( e.getSource() == _frequencySlider ) {
                 // Read the value.
-                int frequency = _frequencySlider.getValue();
+                int value = _frequencySlider.getValue();
                 // Update the model.
-                // XXX
+                _acSourceModel.setFrequency( value / 100.0 );
                 // Update the label.
-                Object[] args = { new Integer( frequency ) };
+                Object[] args = { new Integer( value ) };
                 String text = MessageFormat.format( SimStrings.get( "ElectromagnetModule.acFrequency" ), args );
                 _frequencyValue.setText( text );
             }
