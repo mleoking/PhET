@@ -13,7 +13,6 @@ package edu.colorado.phet.common.view.phetgraphics;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -206,6 +205,9 @@ public class PhetShapeGraphic extends PhetGraphic {
         }
         else if( this.fill != null && paint == null ) {
             changed = true;
+        }
+        else if( this.fill == null && paint == null ) {
+            changed = false;//to miss the next line.
         }
         else if( !this.fill.equals( paint ) ) {
             changed = true;
