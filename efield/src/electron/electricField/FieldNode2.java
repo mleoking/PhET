@@ -179,24 +179,28 @@ public class FieldNode2 extends JApplet {
 
     }
 
-    static String[] args;
+    static String[] args = null;
 
     public static void main(String[] argx) {
-        args = argx;
-
+        SimStrings.init( argx, localizedStringsPath );
+        
         FieldNode2 j = new FieldNode2();
         j.setSize(new Dimension(600, 600));
         
         String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
-            j.applicationLocale = args[0].substring( argsKey.length(), args[0].length() );
-            SimStrings.setLocale( new Locale( j.applicationLocale ));
-            if ( args.length == 1 ) {
-                args = null;
-            } else {
+        for ( int i = 0; i < argx.length; i++ ) {
+            if ( argx[i].startsWith( argsKey ) ) {
                 args = new String[argx.length-1];
-                for ( int i = 0; i < argx.length-1; i++ ) {
-                    args[i] = argx[i+1];
+                break;
+            }
+        }
+        if ( args == null ) {
+            args = argx;
+        } else {
+            int k = 0;
+            for ( int i = 0; i < argx.length; i++ ) {
+                if ( ! argx[i].startsWith( argsKey ) ) {
+                    args[k++] = argx[i];
                 }
             }
         }
