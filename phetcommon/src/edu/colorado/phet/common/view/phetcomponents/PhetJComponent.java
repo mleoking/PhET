@@ -3,6 +3,7 @@ package edu.colorado.phet.common.view.phetcomponents;
 
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -416,6 +417,7 @@ public class PhetJComponent extends PhetGraphic {
         }
 
         Graphics2D g2 = image.createGraphics();
+        g2 = new PhetGraphics2D( g2 );
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         g2.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
