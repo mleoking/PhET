@@ -68,10 +68,13 @@ public class NuclearPhysicsApplication extends PhetApplication {
 
             super.initComponentDefaults( table );
             Font font = (Font)table.get( "Label.font" );
+            Color color = (Color)table.get( "Label.foreground" );
             Object[] defaults = {
                 "TextField.font", font
                 , "Spinner.font", font
                 , "FormattedTextField.font", font
+                , "TitledBorder.font", font
+                , "TitledBorder.titleColor", color
             };
             table.putDefaults( defaults );
         }
