@@ -19,4 +19,13 @@ public class CircuitListenerAdapter implements CircuitListener {
 
     public void branchesMoved( Branch[] branches ) {
     }
+
+    public void junctionAdded( Junction junction ) {
+    }
+
+    public void junctionsConnected( Junction a, Junction b, Junction newTarget ) {
+    }
+
+    public void junctionsSplit( Junction old, Junction[] j ) {
+    }
 }

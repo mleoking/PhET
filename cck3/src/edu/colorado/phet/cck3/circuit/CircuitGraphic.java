@@ -12,11 +12,10 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.util.HashedImageLoader;
-import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -29,7 +28,7 @@ import java.util.*;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CircuitGraphic extends CompositeGraphic {
-    static double junctionRadius = CCK3Module.JUNCTION_RADIUS;
+    private static double JUNCTION_RADIUS = CCK3Module.JUNCTION_RADIUS;
     public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);
     public static final Color SILVER = Color.gray;
     private CompositeGraphic filamentLayer = new CompositeGraphic();
@@ -40,6 +39,7 @@ public class CircuitGraphic extends CompositeGraphic {
     private ParticleSetGraphic particleSetGraphic;
     private CompositeGraphic ammeterTopLayer = new CompositeGraphic();
     private CompositeGraphic readouts = new CompositeGraphic();
+    private CompositePhetGraphic solderLayer;
 
     private Circuit circuit;
     private ModelViewTransform2D transform;
@@ -62,31 +62,41 @@ public class CircuitGraphic extends CompositeGraphic {
         this.transform = module.getTransform();
         this.apparatusPanel = module.getApparatusPanel();
 
-        Graphic solderGraphic = new Graphic() {
-            public void paint( Graphics2D g ) {
-                g.setColor( SILVER );
-                Graphic[] gr = junctionLayer.getGraphics();
-                for( int i = 0; i < gr.length; i++ ) {
-                    HasJunctionGraphic ho = (HasJunctionGraphic)gr[i];
-                    Junction jo = ho.getJunctionGraphic().getJunction();
-                    Branch[] n = circuit.getAdjacentBranches( jo );
-                    if( n.length > 1 ) {
-
-                        Shape shape = ho.getJunctionGraphic().getShape();
-                        double radius = ho.getJunctionGraphic().getRadius();
-
-                        radius *= 1.34;
-                        Ellipse2D.Double ellipse = new Ellipse2D.Double();
-                        Rectangle rect = shape.getBounds();
-                        Point ctr = RectangleUtils.getCenter( rect );
-                        double viewRadius = transform.modelToViewX( radius );
-                        ellipse.setFrameFromCenter( ctr.x, ctr.y, ctr.x + viewRadius, ctr.y + viewRadius );
-                        g.fill( ellipse );
+        solderLayer = new CompositePhetGraphic( module.getApparatusPanel() );
+        solderLayer.setVisible( true );
+        module.getCircuit().addCircuitListener( new CircuitListener() {
+            public void junctionRemoved( Junction junction ) {
+                for( int i = 0; i < solderLayer.numGraphics(); i++ ) {
+                    SolderGraphic g = (SolderGraphic)solderLayer.graphicAt( i );
+                    if( g.getJunction() == junction ) {
+                        solderLayer.removeGraphic( g );
+                        g.delete();
+                        i--;
                     }
                 }
             }
-        };
 
+            public void branchRemoved( Branch branch ) {
+            }
+
+            public void junctionsMoved() {
+            }
+
+            public void branchesMoved( Branch[] branches ) {
+            }
+
+            public void junctionAdded( Junction junction ) {
+                SolderGraphic sg = new SolderGraphic( module.getApparatusPanel(), junction, transform, circuit, CircuitGraphic.this );
+                solderLayer.addGraphic( sg );
+            }
+
+            public void junctionsConnected( Junction a, Junction b, Junction newTarget ) {
+            }
+
+            public void junctionsSplit( Junction old, Junction[] j ) {
+            }
+
+        } );
         Graphic connectorGraphic = new Graphic() {
             public void paint( Graphics2D g ) {
                 if( isLifelike() ) {
@@ -98,7 +108,6 @@ public class CircuitGraphic extends CompositeGraphic {
                 Graphic[] gr = junctionLayer.getGraphics();
                 for( int i = 0; i < gr.length; i++ ) {
                     HasJunctionGraphic ho = (HasJunctionGraphic)gr[i];
-//                    ho.getJunctionGraphic().getJunction().notifyObservers();
                     Junction jo = ho.getJunctionGraphic().getJunction();
                     Branch[] n = circuit.getAdjacentBranches( jo );
                     boolean onlyBranches = true;
@@ -117,7 +126,7 @@ public class CircuitGraphic extends CompositeGraphic {
             }
         };
 
-        addGraphic( solderGraphic );
+        addGraphic( solderLayer );
         addGraphic( branches );
         addGraphic( connectorGraphic );
 
@@ -166,6 +175,7 @@ public class CircuitGraphic extends CompositeGraphic {
                 }
             }
         } );
+
     }
 
     public boolean isReadoutGraphicsVisible() {
@@ -237,7 +247,7 @@ public class CircuitGraphic extends CompositeGraphic {
 
     private void addGraphic( CircuitComponent component, IComponentGraphic ccbg ) {
         TotalComponentGraphic tcg = new TotalComponentGraphic( this, component, apparatusPanel, transform,
-                                                               ccbg, junctionRadius, module );
+                                                               ccbg, JUNCTION_RADIUS, module );
         branches.addGraphic( tcg.getInteractiveBranchGraphic(), 1 );
         if( getGraphic( component.getStartJunction() ) == null ) {
             junctionLayer.addGraphic( tcg.getInteractiveJunctionGraphic1() );
@@ -379,7 +389,7 @@ public class CircuitGraphic extends CompositeGraphic {
     }
 
     public void convertToComponentGraphic( Junction junction, CircuitComponent branch ) {
-        JunctionGraphic jg = new JunctionGraphic( apparatusPanel, junction, getTransform(), junctionRadius, getCircuit() );
+        JunctionGraphic jg = new JunctionGraphic( apparatusPanel, junction, getTransform(), JUNCTION_RADIUS, getCircuit() );
         InteractiveComponentJunctionGraphic ij = new InteractiveComponentJunctionGraphic( this, jg, branch, module );
         removeGraphic( junction );
         junctionLayer.addGraphic( ij );
@@ -394,8 +404,9 @@ public class CircuitGraphic extends CompositeGraphic {
         circuit.replaceJunction( j1, replacement );
         circuit.replaceJunction( j2, replacement );
 
-        circuit.fireKirkhoffChanged();
         junctionLayer.addGraphic( ij );
+        circuit.fireKirkhoffChanged();
+        circuit.fireJunctionsCollapsed( j1, j2, replacement );
     }
 
     private void remove( Junction junction ) {
@@ -408,7 +419,7 @@ public class CircuitGraphic extends CompositeGraphic {
     }
 
     public InteractiveWireJunctionGraphic newJunctionGraphic( Junction junction ) {
-        InteractiveWireJunctionGraphic j = new InteractiveWireJunctionGraphic( this, new JunctionGraphic( apparatusPanel, junction, getTransform(), junctionRadius, getCircuit() ), getTransform(), module );
+        InteractiveWireJunctionGraphic j = new InteractiveWireJunctionGraphic( this, new JunctionGraphic( apparatusPanel, junction, getTransform(), JUNCTION_RADIUS, getCircuit() ), getTransform(), module );
         return j;
     }
 
@@ -425,7 +436,7 @@ public class CircuitGraphic extends CompositeGraphic {
             Junction junction1 = newJ[i];
             Branch connection = circuit.getAdjacentBranches( junction1 )[0];
             if( connection instanceof CircuitComponent ) {
-                InteractiveComponentJunctionGraphic j = new InteractiveComponentJunctionGraphic( this, new JunctionGraphic( apparatusPanel, junction1, getTransform(), junctionRadius, getCircuit() ), (CircuitComponent)connection, module );
+                InteractiveComponentJunctionGraphic j = new InteractiveComponentJunctionGraphic( this, new JunctionGraphic( apparatusPanel, junction1, getTransform(), JUNCTION_RADIUS, getCircuit() ), (CircuitComponent)connection, module );
                 junctionLayer.addGraphic( j );
             }
             else {
@@ -557,7 +568,11 @@ public class CircuitGraphic extends CompositeGraphic {
             removeGraphic( br.getStartJunction() );
             removeGraphic( br.getEndJunction() );
         }
+        for( int i = 0; i < circuit.numJunctions(); i++ ) {
+            Junction j = circuit.junctionAt( i );
 
+            removeGraphic( j );
+        }
         //have to preprocess to fix the bulb model.
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
@@ -588,26 +603,33 @@ public class CircuitGraphic extends CompositeGraphic {
         return null;
     }
 
-    public void setOnFire( Branch b, boolean onFire ) {
+    public void setOnFire( Branch branch, boolean onFire ) {
         if( onFire ) {
-            if( getFlameGraphic( b ) != null ) {
+            if( getFlameGraphic( branch ) != null ) {
                 return;
             }
             else {
-                if( b instanceof CircuitComponent ) {
-                    CircuitComponent cc = (CircuitComponent)b;
-                    Graphic graphic = getGraphic( b );
-                    fires.addGraphic( createFlameGraphic( graphic, cc ) );
+                if( branch instanceof CircuitComponent ) {
+                    CircuitComponent cc = (CircuitComponent)branch;
+                    FlameGraphic flameG = createFlameGraphic( cc );
+                    if( flameG != null ) {
+                        fires.addGraphic( flameG );
+                        flameG.repaint();
+                    }
                 }
             }
         }
         else {
-            Graphic graphic = getFlameGraphic( b );
-            fires.removeGraphic( graphic );
+            FlameGraphic graphic = getFlameGraphic( branch );
+            if( graphic != null ) {
+                graphic.delete();
+                graphic.setVisible( false );//paint over yourself.
+                fires.removeGraphic( graphic );
+            }
         }
     }
 
-    private FlameGraphic createFlameGraphic( Graphic graphic, CircuitComponent b ) {
+    private FlameGraphic createFlameGraphic( CircuitComponent b ) {
         if( b instanceof Bulb ) {
             return null;
         }
@@ -692,7 +714,7 @@ public class CircuitGraphic extends CompositeGraphic {
         }
 
         private void addWireGraphic( Branch branch ) {
-            TotalBranchGraphic totalBranchGraphic = new TotalBranchGraphic( CircuitGraphic.this, branch, apparatusPanel, transform, COPPER, junctionRadius, module, wireThickness );
+            TotalBranchGraphic totalBranchGraphic = new TotalBranchGraphic( CircuitGraphic.this, branch, apparatusPanel, transform, COPPER, JUNCTION_RADIUS, module, wireThickness );
             branches.addGraphic( totalBranchGraphic.getInteractiveBranchGraphic(), 0 );
             junctionLayer.addGraphic( totalBranchGraphic.getInteractiveJunctionGraphic1() );
             junctionLayer.addGraphic( totalBranchGraphic.getInteractiveJunctionGraphic2() );
@@ -767,7 +789,7 @@ public class CircuitGraphic extends CompositeGraphic {
         }
 
         private void addWireGraphic( Branch b ) {
-            TotalBranchGraphic totalBranchGraphic = new TotalBranchGraphic( CircuitGraphic.this, b, apparatusPanel, transform, Color.black, junctionRadius, module, wireThickness );
+            TotalBranchGraphic totalBranchGraphic = new TotalBranchGraphic( CircuitGraphic.this, b, apparatusPanel, transform, Color.black, JUNCTION_RADIUS, module, wireThickness );
             branches.addGraphic( totalBranchGraphic.getInteractiveBranchGraphic() );
             junctionLayer.addGraphic( totalBranchGraphic.getInteractiveJunctionGraphic1() );
             junctionLayer.addGraphic( totalBranchGraphic.getInteractiveJunctionGraphic2() );

@@ -55,7 +55,6 @@ public class Bulb extends CircuitComponent {
         super( kl, startJunction, endJunction, length, height );
         this.width = width;
         this.height = height;
-
         init( kl );
         setSchematic( schematic, null );
     }
@@ -168,6 +167,11 @@ public class Bulb extends CircuitComponent {
         return connectAtRight;
     }
 
+    public void setConnectAtRightXML( boolean connectAtRight ) {
+        this.connectAtRight = connectAtRight;
+        filament.setConnectAtRight( connectAtRight );
+    }
+
     public void flip( CCK3Module module ) {
         Circuit circuit = module.getCircuit();
         connectAtRight = !connectAtRight;
@@ -189,7 +193,6 @@ public class Bulb extends CircuitComponent {
             bs.translate( delta );
         }
 
-//        getEndJunction().setPosition( target.getX(), target.getY() );
     }
 
 }

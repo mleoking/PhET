@@ -4,6 +4,7 @@ import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.KirkhoffListener;
+import edu.colorado.phet.cck3.circuit.components.Battery;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -306,6 +307,21 @@ public class Path {
             out[i] = new DirectedBranch( branch, forward );
         }
         return out;
+    }
+
+    public boolean containsVoltageSource() {
+        for( int i = 0; i < entries.size(); i++ ) {
+            PathEntry pathEntry = (PathEntry)entries.get( i );
+            boolean batt = pathEntry.getBranch() instanceof Battery;
+            if( batt ) {
+                Battery bx = (Battery)pathEntry.getBranch();
+                double voltage = bx.getVoltageDrop();
+                if( voltage != 0 ) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static class DirectedBranch {

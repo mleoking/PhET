@@ -14,4 +14,10 @@ public interface CircuitListener {
     void junctionsMoved();
 
     void branchesMoved( Branch[] branches );
+
+    void junctionAdded( Junction junction );
+
+    void junctionsConnected( Junction a, Junction b, Junction newTarget );
+
+    void junctionsSplit( Junction old, Junction[] j );
 }

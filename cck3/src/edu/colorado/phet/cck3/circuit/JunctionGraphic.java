@@ -32,6 +32,7 @@ public class JunctionGraphic extends CompositePhetGraphic {
 
     public JunctionGraphic( Component parent, Junction junction, ModelViewTransform2D transform, double radius, Circuit circuit ) {
         super( parent );
+
         shapeGraphic = new PhetShapeGraphic( parent, new Area(), new BasicStroke( 2 ), Color.black );
         highlightGraphic = new PhetShapeGraphic( parent, new Area(), new BasicStroke( 4 ), Color.yellow );
         addGraphic( highlightGraphic );
@@ -60,6 +61,16 @@ public class JunctionGraphic extends CompositePhetGraphic {
 
             public void branchesMoved( Branch[] branches ) {
             }
+
+            public void junctionAdded( Junction junction ) {
+            }
+
+            public void junctionsConnected( Junction a, Junction b, Junction newTarget ) {
+            }
+
+            public void junctionsSplit( Junction old, Junction[] j ) {
+            }
+
         } );
 
         transformListener = new TransformListener() {
@@ -68,6 +79,8 @@ public class JunctionGraphic extends CompositePhetGraphic {
             }
         };
         transform.addTransformListener( transformListener );
+
+
         changed();
         setVisible( true );
     }
