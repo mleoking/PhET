@@ -8,6 +8,7 @@ package edu.colorado.phet.common.view.help;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.util.FractionSpring;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +17,9 @@ import java.awt.event.ActionListener;
 
 public class HelpPanel extends JPanel {
     private boolean miniHelpShowing = false;
-    private String showHelpStr = "Help!";
-    private String hideHelpStr = "Hide Help";
-    private String megaHelpStr = "Megahelp";
+    private String showHelpStr = SimStrings.get( "HelpPanel.ShowHelp" );
+    private String hideHelpStr = SimStrings.get( "HelpPanel.HideHelp" );
+    private String megaHelpStr = SimStrings.get( "HelpPanel.MegaHelp" );
     private JButton miniHelpBtn;
     private JButton megaHelpBtn;
     private int padY = 2;

@@ -8,6 +8,7 @@ package edu.colorado.phet.common.view.components.menu;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.util.VersionUtils;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,15 +16,15 @@ import java.awt.event.ActionListener;
 
 public class HelpMenu extends JMenu {
     public HelpMenu( final ApplicationModel appDescriptor ) {
-        super( "Help" );
-        this.setMnemonic( 'h' );
+        super( SimStrings.get( "HelpMenu.Title" ) );
+        this.setMnemonic( SimStrings.get( "HelpMenu.TitleMnemonic" ).charAt(0) );
 
-        final JMenuItem about = new JMenuItem( "About" );
-        about.setMnemonic( 'a' );
+        final JMenuItem about = new JMenuItem( SimStrings.get( "HelpMenu.About" ) );
+        about.setMnemonic( SimStrings.get( "HelpMenu.AboutMnemonic" ).charAt(0) );
         final String name = appDescriptor.getWindowTitle();
         String desc = appDescriptor.getDescription();
         String version = appDescriptor.getVersion();
-        String message = name + "\n" + desc + "\nVersion: " + version + "\n";
+        String message = name + "\n" + desc + "\n" + SimStrings.get( "HelpMenu.VersionLabel" ) + ": " + version + "\n";
         try {
             VersionUtils.VersionInfo[] inf = VersionUtils.readVersionInfo( appDescriptor.getName() );
 
@@ -34,11 +35,11 @@ public class HelpMenu extends JMenu {
                     message += "\n";
                 }
             }
-            message += "\nJava Version: " + System.getProperty( "java.version" ) + "\nby " + System.getProperty( "java.vendor" );
+            message += "\n" + SimStrings.get( "HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" ) + "\n" + SimStrings.get( "HelpMenu.By" ) + " " + System.getProperty( "java.vendor" );
             final String msg = message;
             about.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    JOptionPane.showMessageDialog( about, msg, "About " + name, JOptionPane.INFORMATION_MESSAGE );
+                    JOptionPane.showMessageDialog( about, msg, SimStrings.get( "HelpMenu.AboutTitle" ) + " " + name, JOptionPane.INFORMATION_MESSAGE );
                 }
             } );
 

@@ -6,13 +6,15 @@
  */
 package edu.colorado.phet.common.view.components.menu;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 
 public class ViewMenu extends JMenu {
 
     public ViewMenu() {
-        super( "View" );
-        this.setMnemonic( 'V' );
+        super( SimStrings.get( "ViewMenu.Title" ) );
+        this.setMnemonic( SimStrings.get( "ViewMenu.TitleMnemonic" ).charAt(0) );
         //        JMenuItem menuItem = new JMenuItem( "Look and Feel" );
         //        menuItem.setMnemonic( 'L' );
         //        menuItem.addActionListener( new ActionListener() {
@@ -21,12 +23,12 @@ public class ViewMenu extends JMenu {
         //            }
         //        } );
         JMenu subMenu = new JMenu();
-        subMenu.setText( "Look and Feel" );
-        subMenu.setMnemonic( 'L' );
+        subMenu.setText( SimStrings.get( "ViewMenu.LookandFeel" ) );
+        subMenu.setMnemonic( SimStrings.get( "ViewMenu.LookandFeelMnemonic" ).charAt(0) );
 
         // bold checkbox item
         JCheckBoxMenuItem checkItem = new JCheckBoxMenuItem();
-        checkItem.setText( "test" );
+        checkItem.setText( SimStrings.get( "ViewMenu.Test" ) );
         subMenu.add( checkItem );
 
         this.add( subMenu );

@@ -3,6 +3,7 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * This class is essentially a data structure that contains specifications for the top-level
@@ -28,23 +29,18 @@ public class ApplicationModel {
         this.description = description;
         this.version = version;
         this.frameSetup = frameSetup;
+        SimStrings.setStrings( "localization/CommonStrings" );
     }
 
     public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module[] m, AbstractClock clock ) {
-        this.windowTitle = windowTitle;
-        this.description = description;
-        this.version = version;
-        this.frameSetup = frameSetup;
+        this( windowTitle, description, version, frameSetup );
         setClock( clock );
         setModules( m );
         setInitialModule( m[0] );
     }
 
     public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module m, AbstractClock clock ) {
-        this.windowTitle = windowTitle;
-        this.description = description;
-        this.version = version;
-        this.frameSetup = frameSetup;
+        this( windowTitle, description, version, frameSetup );
         setClock( clock );
         setModule( m );
         setInitialModule( m );

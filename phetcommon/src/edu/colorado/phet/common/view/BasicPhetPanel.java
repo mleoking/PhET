@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -117,7 +118,7 @@ public class BasicPhetPanel extends JPanel {
 
         if( buttonDlg == null ) {
             buttonDlg = new JDialog();
-            buttonDlg.setTitle( "Return" );
+            buttonDlg.setTitle( SimStrings.get( "BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
             ImageIcon logo = new ImageIcon( phetLogo );
             JButton logoButton = new JButton( logo );
@@ -128,7 +129,7 @@ public class BasicPhetPanel extends JPanel {
                     buttonDlg.setVisible( false );
                 }
             } );
-            logoButton.setToolTipText( "Disable Full Frame" );
+            logoButton.setToolTipText( SimStrings.get( "BasicPhetPanel.LogoToolTip" ) );
             buttonDlg.getContentPane().setLayout( new FlowLayout( FlowLayout.CENTER ) );
             buttonDlg.getContentPane().add( logoButton );
             Rectangle thisBounds = this.getBounds();
