@@ -11,20 +11,20 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
-import java.util.HashMap;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
 
@@ -92,11 +92,11 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
 
         int numImgs = (int)( ( 20f / 680 ) * wavelength );
         for( double theta = 0; theta < Math.PI * 2;
-            theta = theta + 0.3 ) {
-//            theta = ( Math.round( ( theta + 0.1 ) * 10 ) ) / 10 ) {
+             theta = theta + 0.3 ) {
+            //            theta = ( Math.round( ( theta + 0.1 ) * 10 ) ) / 10 ) {
 
             BufferedImage[] animation = new BufferedImage[numImgs];
-//            Image[] animation = new Image[numImgs];
+            //            Image[] animation = new Image[numImgs];
             // Compute the size of buffered image needed to hold the rotated copy of the
             // base generator image, and create the transform op for doing the rotation
             AffineTransform xform = AffineTransform.getRotateInstance( theta, s_imgLength / 2, s_imgHeight / 2 );
@@ -112,7 +112,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
                 BufferedImage animationFrame = new BufferedImage( xPrime, yPrime, BufferedImage.TYPE_INT_ARGB );
                 animationFrame = xformOp.filter( buffImg, null );
                 animation[i] = animationFrame;
-//                animation[i] = Toolkit.getDefaultToolkit().createImage( animationFrame.getSource() );
+                //                animation[i] = Toolkit.getDefaultToolkit().createImage( animationFrame.getSource() );
             }
             animationMap.put( new Double( theta ), animation );
         }
@@ -148,13 +148,11 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
     }
 
 
-
     private Vector2D velocity;
-//    private BufferedImage buffImg = new BufferedImage( s_imgLength, s_imgHeight, BufferedImage.TYPE_INT_ARGB );
+    //    private BufferedImage buffImg = new BufferedImage( s_imgLength, s_imgHeight, BufferedImage.TYPE_INT_ARGB );
     private BufferedImage[] animation;
     private int currAnimationFrameNum;
     private Photon photon;
-
 
     public PhotonGraphic( Component component, Photon photon ) {
         // Need to subtract half the width and height of the image to locate it
@@ -162,9 +160,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         super( component, s_particleImage );
         photon.addObserver( this );
 
-//        super( s_particleImage, particle.getPosition().getX(), particle.getPosition().getY() );
-//        this.setImage( buffImg );
-//        init( particle );
+        //        super( s_particleImage, particle.getPosition().getX(), particle.getPosition().getY() );
+        //        this.setImage( buffImg );
+        //        init( particle );
 
         velocity = new Vector2D.Double( photon.getVelocity() );
         double theta = Math.acos( photon.getVelocity().getX() / photon.getVelocity().getMagnitude() );
@@ -174,7 +172,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
 
         generateAnimation( photon );
         setImage( animation[0] );
-//        setImage( Toolkit.getDefaultToolkit().createImage( buffImg.getSource() ));
         if( photon.getWavelength() == Photon.DEEP_RED ) {
             setImage( s_midEnergyImage );
         }
@@ -234,22 +231,10 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
 
                 // todo: this may not be right at all. I don't understand the original line
                 animation[i] = animationFrame;
-//                animation[i] = Toolkit.getDefaultToolkit().createImage( animationFrame.getSource() );
             }
             colorAnimationMap.put( new Double( theta ), animation );
         }
     }
-
-
-    /**
-     * @param g
-     */
-//    public void paint( Graphics2D g ) {
-//        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;
-//        BufferedImage img = animation[currAnimationFrameNum];
-//        setImage( img );
-//        super.paint( g );
-//    }
 
     /**
      *
@@ -258,30 +243,11 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         currAnimationFrameNum = 0;
     }
 
-    /**
-     *
-     */
-//    public void update( Observable observable, Object o ) {
-//
-//        super.update( observable, o );
-//
-//        Photon photon = (Photon)observable;
-//        setPosition( photon );
-//
-//        // If the velocity has changed, we need to get a new
-//        // animation.
-//        if( !photon.getVelocity().equals( this.velocity ) ) {
-//            velocity = new Vector2D( photon.getVelocity() );
-//            this.generateAnimation( photon );
-//        }
-//    }
-
     public void update() {
         setPosition( photon );
 
         // Get the next frame of the animaton
         currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;
-//        BufferedImage img = animation[currAnimationFrameNum];
         setImage( animation[currAnimationFrameNum] );
 
         // If the velocity has changed, we need to get a new
@@ -304,6 +270,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         // TODO: coordinate the size of the particle and the image
         double x = particle.getPosition().getX() /* - particle.getRadius() */;
         double y = particle.getPosition().getY() /* - particle.getRadius()*/;
-        setPosition( (int)x, (int)y );
+        super.setPosition( (int)x, (int)y );
     }
 }

@@ -8,6 +8,8 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
@@ -17,6 +19,8 @@ import edu.colorado.phet.lasers.view.BlueBeamGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class SingleAtomBaseModule extends BaseLaserModule {
     private Atom atom;
@@ -31,7 +35,8 @@ public class SingleAtomBaseModule extends BaseLaserModule {
         stimulatingBeam = new CollimatedBeam( getLaserModel(),
                                               Photon.RED,
                                               beamOrigin,
-                                              Photon.s_radius * 2,
+                                              Photon.s_radius / 2,
+                                              //                                              Photon.s_radius * 2,
                                               s_boxWidth + s_laserOffsetX * 2,
                                               new Vector2D.Double( 1, 0 ) );
         stimulatingBeam.addListener( this );
@@ -53,6 +58,18 @@ public class SingleAtomBaseModule extends BaseLaserModule {
         getLaserModel().setPumpingBeam( pumpingBeam );
         BlueBeamGraphic beamGraphic = new BlueBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
         addGraphic( beamGraphic, 1 );
+
+        try {
+            BufferedImage gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
+            PhetImageGraphic gunGraphic = new PhetImageGraphic( getApparatusPanel(), gunBI,
+                                                                (int)stimulatingBeam.getPosition().getX() - 25,
+                                                                (int)( stimulatingBeam.getPosition().getY() - Photon.s_radius ) );
+            addGraphic( gunGraphic, LaserConfig.PHOTON_LAYER + 1 );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
     }
 
     public void activate( PhetApplication app ) {

@@ -49,8 +49,8 @@ public class LaserConfig {
     public static final int MINIMUM_SPONTANEOUS_EMISSION_TIME = 1;
     public static final int MAXIMUM_SPONTANEOUS_EMISSION_TIME = 2000;
     //    public static final int MAXIMUM_SPONTANEOUS_EMISSION_TIME = 1000;
-    public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = (
-                                                                    MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_SPONTANEOUS_EMISSION_TIME ) / 2;
+    public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = 300;
+    //    public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = ( MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_SPONTANEOUS_EMISSION_TIME ) / 2;
 
     // Graphics things
     public static final int CONTROL_FONT_SIZE = 12;
@@ -64,6 +64,7 @@ public class LaserConfig {
     public static final String MID_HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-deep-red-xsml.gif";
     public static final String HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
     public static final String LOW_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";
+    public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "ray-gun-1A.png";
 
     // Graphics layers
     public static final double CAVITY_LAYER = 10;

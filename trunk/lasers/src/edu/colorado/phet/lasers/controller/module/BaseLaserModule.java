@@ -44,21 +44,24 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
     private ResonatingCavity cavity;
     private Point2D laserOrigin;
     private LaserModel laserModel;
-    private MonitorPanel monitorPanel;
     private EnergyLevelsDialog energyLevelsDialog;
     private Mirror rightMirror;
     private Mirror leftMirror;
     private MirrorGraphic rightMirrorGraphic;
     private MirrorGraphic leftMirrorGraphic;
     private Frame appFrame;
+    // Used to save and restore state when the module is activated and deactivated
+    private boolean energyDialogIsVisible;
 
     public class PEL implements CollimatedBeam.PhotonEmittedEventListener {
         int cnt;
 
+        // Just a test of the listener system
         public void photonEmittedEventOccurred( CollimatedBeam.PhotonEmittedEvent event ) {
-            System.out.println( "cnt: " + cnt++ );
+            //            System.out.println( "cnt: " + cnt++ );
         }
     };
+
 
     /**
      *
@@ -111,8 +114,9 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         return cavity;
     }
 
-    public void setEnergyLevelsVisible( boolean selected ) {
-        throw new RuntimeException( "TBI" );
+    public void setEnergyLevelsVisible( boolean isVisible ) {
+        energyLevelsDialog.setVisible( isVisible );
+        energyDialogIsVisible = isVisible;
     }
 
     public LaserModel getLaserModel() {
@@ -126,8 +130,13 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         atom.addListener( new Atom.Listener() {
             public void photonEmitted( Atom atom, Photon photon ) {
                 getModel().addModelElement( photon );
-                PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
+                //                photon.addListener( new Photon.Listener() {
+                //                    public void leavingSystem( Photon photon ) {
+                //                        getApparatusPanel().removeGraphic( pg );
+                //                    }
+                //                } );
             }
 
             public void leftSystem( Atom atom ) {
@@ -153,12 +162,10 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         photon.addListener( new Photon.Listener() {
             public void leavingSystem( Photon photon ) {
                 getApparatusPanel().removeGraphic( photonGraphic );
+                getApparatusPanel().repaint( photonGraphic.getBounds() );
+                System.out.println( "!!!" );
             }
         } );
-    }
-
-    public MonitorPanel getEnergyMonitorPanel() {
-        return monitorPanel;
     }
 
     public void setEnergyMonitorPanel( MonitorPanel monitorPanel ) {
@@ -166,13 +173,13 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
             energyLevelsDialog.setVisible( false );
         }
         energyLevelsDialog = new EnergyLevelsDialog( appFrame, monitorPanel, getLaserModel() );
-        energyLevelsDialog.setVisible( true );
+        //        energyLevelsDialog.setVisible( true );
     }
 
     public void activate( PhetApplication app ) {
         super.activate( app );
         appFrame = app.getApplicationView().getPhetFrame();
-        energyLevelsDialog.setVisible( true );
+        energyLevelsDialog.setVisible( energyDialogIsVisible );
     }
 
     public void deactivate( PhetApplication app ) {

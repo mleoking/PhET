@@ -96,6 +96,13 @@ public class LaserControlPanel extends PhetControlPanel {
                 }
             } );
 
+            final JCheckBox energyDialogCB = new JCheckBox( "Show Energy Levels" );
+            energyDialogCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    laserModule.setEnergyLevelsVisible( energyDialogCB.isSelected() );
+                }
+            } );
+
             String s = GraphicsUtil.formatMessage( "Show high to\nmid emissions" );
             final JCheckBox showHighToMidEmissionCB = new JCheckBox( s );
             showHighToMidEmissionCB.addActionListener( new ActionListener() {
@@ -103,9 +110,10 @@ public class LaserControlPanel extends PhetControlPanel {
                     ( (LaserSimulation)PhetApplication.instance() ).displayHighToMidEmission( showHighToMidEmissionCB.isSelected() );
                 }
             } );
-            JPanel optionsPanel = new JPanel( new GridLayout( 2, 1 ) );
+            JPanel optionsPanel = new JPanel( new GridLayout( 3, 1 ) );
             optionsPanel.add( mirrorCB );
             optionsPanel.add( showHighToMidEmissionCB );
+            optionsPanel.add( energyDialogCB );
             optionsPanel.setBorder( new TitledBorder( "Options" ) );
 
 

@@ -8,17 +8,38 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.controller.HighEnergyHalfLifeControl;
 import edu.colorado.phet.lasers.controller.MiddleEnergyHalfLifeControl;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.EventObject;
 
 public class EnergyLevelsDialog extends JDialog {
 
+    public class CloseEvent extends EventObject {
+        public CloseEvent( Object source ) {
+            super( source );
+        }
+    }
+
+    public interface Listener {
+        public void closingOccured( EnergyLevelsDialog dlg );
+    }
+
     public EnergyLevelsDialog( Frame parent, JPanel energyLevelsPanel, LaserModel model ) {
         super( parent, "Energy Level Populations" );
+
+        addWindowListener( new WindowAdapter() {
+            public void windowClosed( WindowEvent e ) {
+                EventRegistry.instance.fireEvent( new CloseEvent( this ) );
+            }
+        } );
+
         this.setResizable( false );
         //        this.setUndecorated( true );
         Container contentPane = this.getContentPane();

@@ -14,8 +14,11 @@ package edu.colorado.phet.lasers.coreadditions;
 
 import java.util.LinkedList;
 
+/**
+ * One of a couple of ideas being tried to make publish/subscribe easier
+ */
 public class SubscriptionService {
-    private LinkedList subscribers = new LinkedList( );
+    private LinkedList subscribers = new LinkedList();
 
     public interface Notifier {
         void doNotify( Object obj );
