@@ -43,6 +43,8 @@ public class IdealGasModel extends BaseModel {
     private double deltaKE = 0;
     private ArrayList externalForces = new ArrayList();
     private List prepCommands = Collections.synchronizedList( new ArrayList() );
+    // A utility list used in stepInTime
+    private ArrayList removeList = new ArrayList();
 
     private ArrayList bodies = new ArrayList();
     private CollisionGod collisionGod;
@@ -51,8 +53,6 @@ public class IdealGasModel extends BaseModel {
     private boolean currentlyInStepInTimeMethod;
 
     private List collisionExperts = new ArrayList();
-    private int heavySpeciesCnt;
-    private int lightSpeciesCnt;
     private double averageHeavySpeciesSpeed;
     private double averageLightSpeciesSpeed;
 
@@ -63,17 +63,6 @@ public class IdealGasModel extends BaseModel {
                                                                  600,
                                                                  600 ),
                                          10, 10 );
-
-        //        collisionExperts.add( new SphereSphereExpert( this, dt ) );
-        //        collisionExperts.add( new SphereBoxExpert( this ) );
-        //        collisionExperts.add( new SphereHotAirBalloonExpert( this, dt ) );
-        //        collisionExperts.add( new SphereHollowSphereExpert( this, dt ) );
-
-        //        collisionExperts.add( new SphereHollowSphereExpert( this, dt ) );
-        //        collisionExperts.add( new SphereSphereExpert( this, dt ) );
-        //        collisionExperts.add( new SphereBoxExpert( this ) );
-
-        //        new SphereHotAirBalloonContactDetector();
     }
 
     public void addCollisionExpert( CollisionExpert expert ) {
@@ -146,21 +135,6 @@ public class IdealGasModel extends BaseModel {
         return box;
     }
 
-    /**
-     *
-     */
-    private ArrayList removeList = new ArrayList();
-
-    public void removeBody( ModelElement p ) {
-        super.removeModelElement( p );
-        if( p instanceof Body ) {
-            if( currentlyInStepInTimeMethod ) {
-                addKineticEnergyToSystem( -( (Body)p ).getKineticEnergy() );
-            }
-            bodies.remove( p );
-        }
-    }
-
     public void addModelElement( ModelElement modelElement ) {
         if( modelElement instanceof Gravity ) {
             addExternalForce( modelElement );
@@ -170,14 +144,6 @@ public class IdealGasModel extends BaseModel {
             super.addModelElement( modelElement );
             if( modelElement instanceof Body ) {
                 Body body = (Body)modelElement;
-
-                if( body instanceof HeavySpecies ) {
-                    heavySpeciesCnt++;
-                }
-                if( body instanceof LightSpecies ) {
-                    lightSpeciesCnt++;
-                }
-
                 // Since model elements are added outside the doYourThing() loop, their energy
                 // is accounted for already, and doesn't need to be added here
                 if( currentlyInStepInTimeMethod ) {
@@ -189,6 +155,15 @@ public class IdealGasModel extends BaseModel {
     }
 
     public void removeModelElement( ModelElement modelElement ) {
+        // Account for change in the energy of the system
+        if( modelElement instanceof Body ) {
+            if( currentlyInStepInTimeMethod ) {
+                addKineticEnergyToSystem( -( (Body)modelElement ).getKineticEnergy() );
+            }
+            bodies.remove( modelElement );
+        }
+
+        // Handle the special case where the model element is gravit
         if( modelElement instanceof Gravity ) {
             removeExternalForce( modelElement );
             this.gravity = null;
@@ -485,11 +460,11 @@ public class IdealGasModel extends BaseModel {
     }
 
     public int getHeavySpeciesCnt() {
-        return heavySpeciesCnt;
+        return HeavySpecies.getCnt();
     }
 
     public int getLightSpeciesCnt() {
-        return lightSpeciesCnt;
+        return LightSpecies.getCnt();
     }
 
     public double getHeavySpeciesAveSpeed() {

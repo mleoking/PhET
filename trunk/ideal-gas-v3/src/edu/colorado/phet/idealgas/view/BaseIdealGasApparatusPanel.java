@@ -16,7 +16,6 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasApplication;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
-import edu.colorado.phet.idealgas.model.Pump;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -66,9 +65,9 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
 
             // Set up the door for the box
             BoxDoorGraphic interactiveDoorGraphic = new BoxDoorGraphic( this,
-                                                                        IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 227,
+                                                                        IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
                                                                         IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
-                                                                        IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 227,
+                                                                        IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
                                                                         box );
             this.addGraphic( interactiveDoorGraphic, -6 );
         }

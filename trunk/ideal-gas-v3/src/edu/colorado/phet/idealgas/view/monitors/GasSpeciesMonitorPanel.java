@@ -39,7 +39,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
     /**
      * Constructor
      */
-    public GasSpeciesMonitorPanel( Class speciesClass, String speciesName, IdealGasModel model ) {
+    public GasSpeciesMonitorPanel( Class speciesClass, String speciesName, final IdealGasModel model ) {
         this.model = model;
         this.speciesClass = speciesClass;
 
@@ -67,6 +67,9 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         aveSpeedTF = new JTextField( 6 );
         aveSpeedTF.setEditable( false );
         this.add( aveSpeedTF );
+
+        // Hook up to the model
+        model.addObserver( this );
     }
 
     /**
@@ -80,7 +83,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
     /**
      *
      */
-    Object[] emptyParamArray = new Object[]{};
+//    Object[] emptyParamArray = new Object[]{};
 
     public void update() {
 
@@ -88,6 +91,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         double aveSpeed = 0;
         int numMolecules = 0;
         if( HeavySpecies.class.isAssignableFrom( speciesClass ) ) {
+//            numMolecules = HeavySpecies.
             numMolecules = model.getHeavySpeciesCnt();
             aveSpeed = model.getHeavySpeciesAveSpeed();
         }

@@ -51,7 +51,6 @@ public abstract class MoleculeFactoryPanel extends JPanel {
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.EAST;
         this.add( particleSpinner, gbc );
-//        this.add( particleSpinner );
 
         particleSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

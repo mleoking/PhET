@@ -62,35 +62,15 @@ public class LightSpecies extends GasMolecule {
         return s_defaultMass;
     }
 
-//    public static void computeTemperature() {
-//        s_temperature = GasMolecule.computeTemperature( s_instances );
-//    }
-//
-//    public static Double getTotalEnergy( IdealGasModel idealGasModel ) {
-//        return GasMolecule.getTotalEnergy( s_instances, idealGasModel );
-//    }
-//
-//    public static void computeAveSpeed() {
-//        s_aveSpeed = GasMolecule.computeAveSpeed( s_instances );
-//    }
-//
-//    public static Double getTemperature() {
-//        return s_temperature;
-//    }
-//
-//    public static Double getAveSpeed() {
-//        return s_aveSpeed;
-//    }
-//
-//    public static Integer getNumMolecules() {
-//        return new Integer( s_instances.size() );
-//    }
-
     public static void removeParticle( LightSpecies particle ) {
         s_instances.remove( particle );
     }
 
     public static Point2D getCm() {
         return GasMolecule.getCm( s_instances );
+    }
+
+    public static int getCnt() {
+        return s_instances.size();
     }
 }

@@ -20,6 +20,6 @@ public class RemoveModelElementCmd implements Command {
     }
 
     public void doIt() {
-        model.removeBody( body );
+        model.removeModelElement( body );
     }
 }
