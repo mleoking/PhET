@@ -43,6 +43,9 @@ public class IdealGasModel extends BaseModel {
 
     private ArrayList bodies = new ArrayList();
     private CollisionGod collisionGod;
+    // Flag used to tell if energy being added to the system should be tracked. If energy
+    // is added while within the scope of stepInTime(), it must be tracked
+    private boolean currentlyInStepInTimeMethod;
 
     // todo: this attribute should proabably belong to the Pump
     //    private Class currentGasSpecies = HeavySpecies.class;
@@ -56,20 +59,17 @@ public class IdealGasModel extends BaseModel {
                                                                  600,
                                                                  600 ),
                                          10, 10 );
-//        this.addModelElement( collisionGod );
         // Set up collision classes
         //        new SphereHotAirBalloonContactDetector();
         new SphereBoxCollisionExpert();
-//        new SphereBoxContactDetector();
+        //        new SphereBoxContactDetector();
         new SphereHollowSphereContactDetector();
         new SphereSphereContactDetector();
-//        new SphereWallContactDetector();
 
         //        BalloonSphereCollision.register();
         SphereBoxCollision.register( collisionFactory );
         SphereSphereCollision.register( collisionFactory );
         SphereHollowSphereCollision.register( collisionFactory );
-//        SphereWallCollision.register();
     }
 
     /**
@@ -146,7 +146,9 @@ public class IdealGasModel extends BaseModel {
     public void removeBody( ModelElement p ) {
         super.removeModelElement( p );
         if( p instanceof Body ) {
-            addKineticEnergyToSystem( -( (Body)p ).getKineticEnergy() );
+            if( currentlyInStepInTimeMethod ) {
+                addKineticEnergyToSystem( -( (Body)p ).getKineticEnergy() );
+            }
             bodies.remove( p );
         }
     }
@@ -154,6 +156,7 @@ public class IdealGasModel extends BaseModel {
     public void addModelElement( ModelElement modelElement ) {
         if( modelElement instanceof Gravity ) {
             addExternalForce( modelElement );
+            this.gravity = (Gravity)modelElement;
         }
         else {
             super.addModelElement( modelElement );
@@ -163,7 +166,9 @@ public class IdealGasModel extends BaseModel {
 
                 // Since model elements are added outside the stepInTime() loop, their energy
                 // is accounted for already, and doesn't need to be added here
-//                addKineticEnergyToSystem( body.getKineticEnergy() );
+                if( currentlyInStepInTimeMethod ) {
+                    addKineticEnergyToSystem( body.getKineticEnergy() );
+                }
                 bodies.add( body );
             }
         }
@@ -172,6 +177,7 @@ public class IdealGasModel extends BaseModel {
     public void removeModelElement( ModelElement modelElement ) {
         if( modelElement instanceof Gravity ) {
             removeExternalForce( modelElement );
+            this.gravity = null;
         }
         else {
             super.removeModelElement( modelElement );
@@ -188,10 +194,23 @@ public class IdealGasModel extends BaseModel {
 
     /**
      * To be called by objects that deliberately add energy to the system within the stepInTime() method
+     *
      * @param keIncr
      */
     public void addKineticEnergyToSystem( double keIncr ) {
         deltaKE += keIncr;
+    }
+
+    private double getTotalEnergy() {
+        double eTotal = 0;
+        for( int i = 0; i < this.numModelElements(); i++ ) {
+            ModelElement element = this.modelElementAt( i );
+            if( element instanceof Body ) {
+                Body body = (Body)element;
+                eTotal += getBodyEnergy( body );
+            }
+        }
+        return eTotal;
     }
 
     /**
@@ -218,7 +237,9 @@ public class IdealGasModel extends BaseModel {
     public /*synchronized */void stepInTime( double dt ) {
         // Managing energy step 1: Get the amount of kinetic energy in the system
         // before anything happens
-        double totalPreKE = this.getTotalKineticEnergy();
+        currentlyInStepInTimeMethod = true;
+        double energyPre = this.getTotalEnergy();
+        //        double totalPreKE = this.getTotalKineticEnergy();
 
         // Clear the accelerations on the bodies in the model
         for( int i = 0; i < bodies.size(); i++ ) {
@@ -241,24 +262,22 @@ public class IdealGasModel extends BaseModel {
 
         // Managing energy, step 2: Get the total kinetic energy in the system,
         // and adjust it if neccessary
-        double totalPostKE = this.getTotalKineticEnergy();
-        // Adjust the kinetic energy of all particles to account for the heat we
-        // added
+        double energyPost = this.getTotalEnergy();
+        //        double totalPostKE = this.getTotalKineticEnergy();
         double ratio;
-        double r1 = Math.sqrt( totalPreKE + deltaKE );
+        double r1 = Math.sqrt( energyPre + deltaKE );
+        //        double r1 = Math.sqrt( totalPreKE + deltaKE );
         deltaKE = 0;
-        double r2 = Math.sqrt( totalPostKE );
+        double r2 = Math.sqrt( energyPost );
+        //        double r2 = Math.sqrt( totalPostKE );
         ratio = r1 / r2;
 
-        if( totalPreKE != 0 && ratio != 1 ) {
+        if( energyPre != 0 && ratio != 1 ) {
+            //        if( totalPreKE != 0 && ratio != 1 ) {
             for( int i = 0; i < this.numModelElements(); i++ ) {
                 ModelElement element = this.modelElementAt( i );
                 if( element instanceof Body ) {
                     Body body = (Body)element;
-
-                    //            List allBodies = this.getBodies();
-                    //            for( int i = 0; !Double.isNaN( ratio ) && i < allBodies.size(); i++ ) {
-                    //                Particle body = (Particle)allBodies.get( i );
                     double vx = body.getVelocity().getX();
                     double vy = body.getVelocity().getY();
                     vx *= ratio;
@@ -278,10 +297,7 @@ public class IdealGasModel extends BaseModel {
         // the box before they go away completely
         for( int i = 0; i < this.numModelElements(); i++ ) {
             ModelElement body = this.modelElementAt( i );
-            //        for( int i = 0; i < bodies.size(); i++ ) {
-            //            Object body = bodies.get( i );
             if( body instanceof GasMolecule ) {
-                //            if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
                 if( /* getBox().isInOpening( gasMolecule )
                     && */ gasMolecule.getPosition().getY() < getBox().getMinY() + s_escapeOffset ) {
@@ -315,6 +331,8 @@ public class IdealGasModel extends BaseModel {
         averageMoleculeEnergy = numGasMolecules != 0 ?
                                 totalEnergy / numGasMolecules
                                 : 0;
+        currentlyInStepInTimeMethod = false;
+
 
         // Update either pressure or volume
         updateFreeParameter();
@@ -362,7 +380,9 @@ public class IdealGasModel extends BaseModel {
                     double preKE = body.getKineticEnergy();
                     body.setVelocity( body.getVelocity().scale( 1 + heatSource / 10000 ) );
                     double incrKE = body.getKineticEnergy() - preKE;
-                    this.addKineticEnergyToSystem( incrKE );
+                    if( currentlyInStepInTimeMethod ) {
+                        this.addKineticEnergyToSystem( incrKE );
+                    }
                 }
             }
         }
