@@ -95,7 +95,7 @@ public class CoilGraphic implements SimpleObserver {
         _foreground.setRenderingHints( hints );
         _background.setRenderingHints( hints );
         
-        _electronAnimationEnabled = false;
+        _electronAnimationEnabled = true;
         _loopStroke = new BasicStroke( WIRE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL );
         _foregroundColor = FOREGROUND_COLOR;
         _middlegroundColor = MIDDLEGROUND_COLOR;
