@@ -9,10 +9,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.nuclearphysics.model.FissionListener;
-import edu.colorado.phet.nuclearphysics.model.FissionProducts;
-import edu.colorado.phet.nuclearphysics.model.Neutron;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
+import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
@@ -78,6 +75,15 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
     }
 
     public void fission( FissionProducts products ) {
+
+        // Constrain velocity of the daughter nuclei to be more or less horizontal
+        double theta = ( random.nextDouble() * Math.PI / 2 ) - ( Math.PI / 4 );
+        Nucleus daughter1 = products.getDaughter1();
+        double v1 = daughter1.getVelocity().getLength();
+        daughter1.setVelocity( (float)( v1 * Math.cos( theta ) ), (float)( v1 * Math.sin( theta ) ) );
+        Nucleus daughter2 = products.getDaughter2();
+        double v2 = daughter2.getVelocity().getLength();
+        daughter2.setVelocity( (float)( v2 * Math.cos( theta + Math.PI ) ), (float)( v2 * Math.sin( theta + Math.PI ) ) );
 
         PotentialProfilePanel potentialProfilePanel = this.getPotentialProfilePanel();
 
