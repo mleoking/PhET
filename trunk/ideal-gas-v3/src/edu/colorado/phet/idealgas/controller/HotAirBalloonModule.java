@@ -10,7 +10,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHotAirBalloonExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.idealgas.IdealGasStrings;
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
 
@@ -23,7 +23,7 @@ public class HotAirBalloonModule extends IdealGasModule {
     private HotAirBalloon balloon;
 
     public HotAirBalloonModule( AbstractClock clock ) {
-        super( clock, IdealGasStrings.get( "ModuleTitle.HotAirBalloon" ) );
+        super( clock, SimStrings.get( "ModuleTitle.HotAirBalloon" ) );
 
         // Add collision experts to the model
         getIdealGasModel().addCollisionExpert( new SphereHotAirBalloonExpert( getIdealGasModel(), clock.getDt() ) );
@@ -66,7 +66,7 @@ public class HotAirBalloonModule extends IdealGasModule {
             double m = 10;
             GasMolecule p1 = new HeavySpecies( new Point2D.Double( x, y ),
                                                new Vector2D.Double( vx, vy ),
-                                               new Vector2D.Double( 0, 0 ));
+                                               new Vector2D.Double( 0, 0 ) );
             getIdealGasModel().addModelElement( p1 );
             constraintSpec = new BoxMustContainParticle( box, p1, getIdealGasModel() );
             p1.addConstraint( constraintSpec );
@@ -88,7 +88,7 @@ public class HotAirBalloonModule extends IdealGasModule {
                 double m = 10;
                 p1 = new HeavySpecies( new Point2D.Double( 350 + i * 10, 350 + j * 10 ),
                                        new Vector2D.Double( vx, vy ),
-                                       new Vector2D.Double( 0, 0 ));
+                                       new Vector2D.Double( 0, 0 ) );
                 balloon.addContainedBody( p1 );
                 getIdealGasModel().addModelElement( p1 );
                 //                getIdealGasApplication().addBody( p1, 2 );

@@ -6,8 +6,8 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.controller.AddModelElementCmd;
 import edu.colorado.phet.idealgas.controller.HotAirBalloon;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
@@ -25,8 +25,8 @@ public class TestMoleculeHotAirBalloonCollision extends PhetApplication {
     static class TestApplicationModel extends ApplicationModel {
 
         public TestApplicationModel() {
-            super( IdealGasStrings.get( "IdealGasApplication.title" ),
-                   IdealGasStrings.get( "IdealGasApplication.description" ),
+            super( SimStrings.get( "IdealGasApplication.title" ),
+                   SimStrings.get( "IdealGasApplication.description" ),
                    IdealGasConfig.VERSION,
                    IdealGasConfig.FRAME_SETUP );
 
@@ -56,13 +56,13 @@ public class TestMoleculeHotAirBalloonCollision extends PhetApplication {
             box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
             HotAirBalloon sphere = null;
             sphere = new HotAirBalloon( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
-                                                           box.getMinY() + box.getHeight() / 2 ),
-                                       new Vector2D.Double( 0, 0 ),
-                                       new Vector2D.Double( 0, 0 ),
-                                       100,
-                                       50,
-                                       60,
-                                       getIdealGasModel());
+                                                            box.getMinY() + box.getHeight() / 2 ),
+                                        new Vector2D.Double( 0, 0 ),
+                                        new Vector2D.Double( 0, 0 ),
+                                        100,
+                                        50,
+                                        60,
+                                        getIdealGasModel() );
 
             new AddModelElementCmd( getIdealGasModel(), sphere ).doIt();
             getIdealGasModel().getBox().addContainedBody( sphere );
@@ -86,7 +86,7 @@ public class TestMoleculeHotAirBalloonCollision extends PhetApplication {
                     m[0] = new HeavySpecies( new Point2D.Double( sphere1.getPosition().getX(),
                                                                  sphere1.getPosition().getY() + 60 ),
                                              new Vector2D.Double( 0, -130 ),
-                                             new Vector2D.Double());
+                                             new Vector2D.Double() );
 //                    m[0] = new HeavySpecies( new Point2D.Double( 383.3, 389.35 ),
 //                                                      new Vector2D.Double( -217.8, 999.85 ),
 //                                                      new Vector2D.Double(),

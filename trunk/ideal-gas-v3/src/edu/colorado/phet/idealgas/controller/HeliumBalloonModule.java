@@ -10,7 +10,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.idealgas.IdealGasStrings;
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
@@ -24,7 +24,7 @@ public class HeliumBalloonModule extends IdealGasModule {
 //    private HollowSphereControlPanel hsaControlPanel;
 
     public HeliumBalloonModule( AbstractClock clock ) {
-        super( clock, IdealGasStrings.get( "ModuleTitle.HeliumBalloon" ) );
+        super( clock, SimStrings.get( "ModuleTitle.HeliumBalloon" ) );
 
         double xOrigin = 200;
         double yOrigin = 250;
@@ -61,7 +61,7 @@ public class HeliumBalloonModule extends IdealGasModule {
             double m = 10;
             GasMolecule p1 = new HeavySpecies( new Point2D.Double( x, y ),
                                                new Vector2D.Double( vx, vy ),
-                                               new Vector2D.Double( 0, 0 ));
+                                               new Vector2D.Double( 0, 0 ) );
 //            getIdealGasModel().addModelElement( p1 );
             new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
             constraintSpec = new BoxMustContainParticle( getIdealGasModel().getBox(), p1, getIdealGasModel() );
@@ -84,7 +84,7 @@ public class HeliumBalloonModule extends IdealGasModule {
                 float vy = (float)( Math.sin( theta ) * v );
                 GasMolecule p1 = new LightSpecies( new Point2D.Double( 280 + i * 10, 330 + j * 10 ),
                                                    new Vector2D.Double( vx, vy ),
-                                                   new Vector2D.Double( 0, 0 ));
+                                                   new Vector2D.Double( 0, 0 ) );
                 balloon.addContainedBody( p1 );
 //                getIdealGasModel().addModelElement( p1 );
                 new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();

@@ -9,8 +9,8 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.view.RulerGraphic;
@@ -27,7 +27,7 @@ public class MeasurementModule extends IdealGasModule {
     private PressureSliceGraphic pressureSliceGraphic;
 
     public MeasurementModule( AbstractClock clock ) {
-        super( clock, IdealGasStrings.get( "ModuleTitle.Measurements" ));
+        super( clock, SimStrings.get( "ModuleTitle.Measurements" ) );
         this.clock = clock;
         setControlPanel( new MeasurementControlPanel( this ) );
         rulerGraphic = new RulerGraphic( getApparatusPanel() );
@@ -39,11 +39,11 @@ public class MeasurementModule extends IdealGasModule {
         // Set up the energy histogramDlg. Note that we can't do this in the constructor
         // because we a reference to the application's Frame
         if( histogramDlg == null ) {
-        histogramDlg = new EnergyHistogramDialog( application.getApplicationView().getPhetFrame(),
-                                                  (IdealGasModel)getModel() );
+            histogramDlg = new EnergyHistogramDialog( application.getApplicationView().getPhetFrame(),
+                                                      (IdealGasModel)getModel() );
         }
 //        histogramDlg.setVisible( true );
-}
+    }
 
     public void deactivate( PhetApplication app ) {
         histogramDlg.setVisible( false );

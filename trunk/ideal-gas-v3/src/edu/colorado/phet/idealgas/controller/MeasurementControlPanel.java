@@ -7,9 +7,9 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import javax.swing.*;
@@ -35,8 +35,8 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
         measurementDlgBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JDialog dlg = new MeasurementDialog( (Frame)SwingUtilities.getRoot(MeasurementControlPanel.this),
-                                                     (MeasurementModule)getModule());
+                JDialog dlg = new MeasurementDialog( (Frame)SwingUtilities.getRoot( MeasurementControlPanel.this ),
+                                                     (MeasurementModule)getModule() );
                 dlg.setVisible( true );
             }
         } );
@@ -88,7 +88,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
             this.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 40 ) );
             this.setLayout( new GridLayout( 2, 1 ) );
 
-            this.add( new JLabel( IdealGasStrings.get( "MeasurementControlPanel.Number_of_particles" ) ));
+            this.add( new JLabel( SimStrings.get( "MeasurementControlPanel.Number_of_particles" ) ) );
             // Set up the spinner for controlling the number of particles in
             // the hollow sphere
             Integer value = new Integer( 0 );
@@ -121,7 +121,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
 
     private class ParticleInteractionControl extends JPanel {
         ParticleInteractionControl() {
-            final JCheckBox noSphereSphereCollisionCB = new JCheckBox( IdealGasStrings.get( "MeasurementControlPanel.No_particle_interactions" ));
+            final JCheckBox noSphereSphereCollisionCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.No_particle_interactions" ) );
             this.add( noSphereSphereCollisionCB );
             noSphereSphereCollisionCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -138,7 +138,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
 
     protected class RulerControlPanel extends JPanel {
         RulerControlPanel() {
-            final JCheckBox rulerCB = new JCheckBox( IdealGasStrings.get( "Display_ruler" ));
+            final JCheckBox rulerCB = new JCheckBox( SimStrings.get( "Display_ruler" ) );
             rulerCB.setPreferredSize( new Dimension( 140, 15 ) );
             this.add( rulerCB );
             rulerCB.addActionListener( new ActionListener() {
@@ -151,7 +151,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
 
     protected class PressureSliceControl extends JPanel {
         PressureSliceControl() {
-            final JCheckBox pressureSliceCB = new JCheckBox( IdealGasStrings.get( "MeasurementControlPanel.Measure_pressure_in_layer") );
+            final JCheckBox pressureSliceCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Measure_pressure_in_layer" ) );
             pressureSliceCB.setPreferredSize( new Dimension( 140, 30 ) );
             this.add( pressureSliceCB );
             pressureSliceCB.addActionListener( new ActionListener() {

@@ -7,8 +7,8 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.common.view.components.OrderOfMagnitudeSpinner;
-import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.instrumentation.BarGauge;
 
 import javax.swing.*;
@@ -30,12 +30,12 @@ public class PressureGaugePanel extends JPanel {
 
         // Add radio buttons for scale
         JPanel scaleFactorPanel = new JPanel( new GridLayout( 2, 1 ) );
-        Action scaleFactor1 = new AbstractAction( IdealGasStrings.get( "Common.1X" )) {
+        Action scaleFactor1 = new AbstractAction( SimStrings.get( "Common.1X" ) ) {
             public void actionPerformed( ActionEvent evt ) {
                 scaleFactor = 1;
             }
         };
-        Action scaleFactor10 = new AbstractAction( IdealGasStrings.get( "Common.10X" )) {
+        Action scaleFactor10 = new AbstractAction( SimStrings.get( "Common.10X" ) ) {
             public void actionPerformed( ActionEvent evt ) {
                 scaleFactor = 10;
             }

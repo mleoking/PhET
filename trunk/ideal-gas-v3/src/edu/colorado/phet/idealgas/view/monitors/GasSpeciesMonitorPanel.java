@@ -8,7 +8,7 @@
 package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.idealgas.IdealGasStrings;
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -55,7 +55,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         this.setBorder( border );
 
         // Set up the readout for the number of gas molecules
-        this.add( new JLabel( IdealGasStrings.get( "GasSpeciesMonitorPanel.Number_of_Gas_Molecules") + ": " ) );
+        this.add( new JLabel( SimStrings.get( "GasSpeciesMonitorPanel.Number_of_Gas_Molecules" ) + ": " ) );
         numParticlesTF = new JTextField( 4 );
         numParticlesTF.setEditable( false );
         this.add( numParticlesTF );
@@ -63,7 +63,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         // Set up the average speed readout
         aveSpeedFormat.setMaximumFractionDigits( 2 );
         //aveSpeedFormat.setMinimumFractionDigits( 2 );
-        this.add( new JLabel( IdealGasStrings.get( "GasSpeciesMonitorPanel.Average_speed" ) + ": " ) );
+        this.add( new JLabel( SimStrings.get( "GasSpeciesMonitorPanel.Average_speed" ) + ": " ) );
         aveSpeedTF = new JTextField( 6 );
         aveSpeedTF.setEditable( false );
         this.add( aveSpeedTF );
@@ -87,14 +87,14 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         // Get the number of molecules, average speed of the molecules
         double aveSpeed = 0;
         int numMolecules = 0;
-            if( HeavySpecies.class.isAssignableFrom( speciesClass )) {
-                numMolecules = model.getHeavySpeciesCnt();
-                aveSpeed = model.getHeavySpeciesAveSpeed();
-            }
-            if( LightSpecies.class.isAssignableFrom( speciesClass )) {
-                numMolecules = model.getLightSpeciesCnt();
-                aveSpeed = model.getLightSpeciesAveSpeed();
-            }
+        if( HeavySpecies.class.isAssignableFrom( speciesClass ) ) {
+            numMolecules = model.getHeavySpeciesCnt();
+            aveSpeed = model.getHeavySpeciesAveSpeed();
+        }
+        if( LightSpecies.class.isAssignableFrom( speciesClass ) ) {
+            numMolecules = model.getLightSpeciesCnt();
+            aveSpeed = model.getLightSpeciesAveSpeed();
+        }
 
         // Track the values we got
         long now = System.currentTimeMillis();
@@ -102,7 +102,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
 
             setLastUpdateTime( now );
             //Display the readings
-            numParticlesTF.setText( Integer.toString( numMolecules ));
+            numParticlesTF.setText( Integer.toString( numMolecules ) );
 
             if( Double.isNaN( runningAveSpeed ) ) {
             }

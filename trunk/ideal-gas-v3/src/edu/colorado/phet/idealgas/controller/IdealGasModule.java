@@ -11,8 +11,8 @@ import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -37,7 +37,7 @@ public class IdealGasModule extends Module {
 
 
     public IdealGasModule( AbstractClock clock ) {
-        this( clock, IdealGasStrings.get( "ModuleTitle.IdealGas" ) );
+        this( clock, SimStrings.get( "ModuleTitle.IdealGas" ) );
     }
 
     protected IdealGasModel getIdealGasModel() {
