@@ -70,6 +70,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     private PhetImageGraphic _waterWheelGraphic;
     private PhetTextGraphic _rpmGraphic;
     private FaradaySlider _flowSlider;
+    private double _previousSpeed;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -168,6 +169,8 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             rpmUnits.setLocation( 0, 22 );
         }
         
+        _previousSpeed = 0.0;
+        
         update();
     }
 
@@ -207,38 +210,48 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             // Location
             setLocation( (int) _turbineModel.getX(), (int) _turbineModel.getY() );
             
-            // Update the bar magnet.
-            {
-                _barMagnetGraphic.clearTransform();
-                _barMagnetGraphic.rotate( _turbineModel.getDirection() );
-                _barMagnetGraphic.scale( 0.5, 0.5 ); //XXX rescale the image file and remove this line
-                
-                _waterWheelGraphic.clearTransform();
-                _waterWheelGraphic.rotate( _turbineModel.getDirection() );
-            }
+            double speed = _turbineModel.getSpeed();
             
-            // Update the RPM readout.
-            {
-                int rpms = (int) _turbineModel.getRPM();
+            // If the turbine is moving...
+            if ( speed != 0 ) {
                 
-                // Set the text
-                _rpmGraphic.setText( String.valueOf( rpms ) );
+                // Rotate the water wheel.
+                double direction = _turbineModel.getDirection();
 
-                // Center justify
-                _rpmGraphic.centerRegistrationPoint();
+                _barMagnetGraphic.clearTransform();
+                _barMagnetGraphic.rotate( direction );
+                _barMagnetGraphic.scale( 0.5, 0.5 ); //XXX rescale the image file and remove this line
+
+                _waterWheelGraphic.clearTransform();
+                _waterWheelGraphic.rotate( direction );
             }
             
-            // Update the water flow.
-            {
-                double speed = _turbineModel.getSpeed();
+            // If the speed has changed...
+            if ( speed != _previousSpeed ) {
                 
-                if ( speed == 0 ) {
-                    _waterGraphic.setShape( null );
+                _previousSpeed = speed;
+                
+                // Update the RPM readout.
+                {
+                    int rpms = (int) _turbineModel.getRPM();
+
+                    // Set the text
+                    _rpmGraphic.setText( String.valueOf( rpms ) );
+
+                    // Center justify
+                    _rpmGraphic.centerRegistrationPoint();
                 }
-                else {
-                    int waterWidth = (int) Math.abs( speed * MAX_WATER_WIDTH );
-                    _waterShape.setBounds( -( waterWidth / 2 ), 0, waterWidth, _parentBounds.height );
-                    _waterGraphic.setShape( _waterShape );
+
+                // Update the water flow.
+                {
+                    if ( speed == 0 ) {
+                        _waterGraphic.setShape( null );
+                    }
+                    else {
+                        int waterWidth = (int) Math.abs( speed * MAX_WATER_WIDTH );
+                        _waterShape.setBounds( -( waterWidth / 2 ), 0, waterWidth, _parentBounds.height );
+                        _waterGraphic.setShape( _waterShape );
+                    }
                 }
             }
 
