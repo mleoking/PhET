@@ -3,22 +3,20 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- "spike" emf changes are not being displayed
 
 HIGH PRIORITY:
 - after a collision, don't start dragging again until cursor is over the object
-- "spike" emf changes are not being displayed
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
-- Electromagnet module
+- Electromagnet module "first pass"
 - Transformer module requirements
 
 LOW PRIORITY:
 - check for unnecessary notification, events and updates
 - replace EasyGridBagLayout with SwingUtils.addGridBagComponent
 - background color (use new PhetApplication interface)
-- disable "See Inside Magnet" control when grid is off
 - transparent bar magnet layer so that field meter looks like it's inside it
 - remove unused images from JAR file
 - remove unused i18n strings
@@ -45,6 +43,7 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/17) - handle temporary disabling of data smoothing in PickupCoil.updateNow
 (2/17) - use ApparatusPanel2.ChangeListener to constrain drags within apparatus panel
 (2/17) - use ApparatusPanel2.ChangeListener to determine compass grid size
 (2/17) - change magnet strength control to a percentage
@@ -178,6 +177,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(2/17) - disable "See Inside Magnet" control when grid is off (control was removed)
 (2/17) - change sliders to "ModelSlider" used by other simulations (No - not used by many others, has problems)
 (2/15) - encapulate all rescaling of emf into one place (already encapsulated in Rescaler)
 (2/10) - PickupCoilGraphic leaves screen turds (ApparatusPanel2 problem)
