@@ -257,7 +257,7 @@ public class TestParametricCoil extends JComponent {
             {
                 Point e1 = new Point( (int)(-_radius * .25) + offset, 0 );
                 Point e2 = new Point( (int)(_radius * .13) + offset, _radius );
-                Point c = new Point( (int)(-_radius * .20) + offset, (int)(_radius * 1.30) );
+                Point c = new Point( (int)(-_radius * .25) + offset, (int)(_radius * 1.30) );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
             
