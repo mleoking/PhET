@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- "spike" emf changes are not being displayed
+
 
 HIGH PRIORITY:
 - after a collision, don't start dragging again until cursor is over the object
@@ -22,7 +22,6 @@ LOW PRIORITY:
 - remove unused i18n strings
 - Help/MegaHelp
 - resize any images that are currently scaled (eg, bar magnet, electron)
-- remove smoothing code from PickupCoil when I'm sure I don't need it
 - delete DeveloperControlsPanel when we don't need it anymore
 - remove DebuggerGraphic from modules
 - move test-src programs to examples project
@@ -43,6 +42,8 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/18) - remove data smoothing code from PickupCoil, nothing but problems
+(2/18) - "spike" emf changes are not being displayed
 (2/17) - handle temporary disabling of data smoothing in PickupCoil.updateNow
 (2/17) - use ApparatusPanel2.ChangeListener to constrain drags within apparatus panel
 (2/17) - use ApparatusPanel2.ChangeListener to determine compass grid size
