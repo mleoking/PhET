@@ -20,16 +20,17 @@ public class SphereSphereCollision extends HardsphereCollision {
 
     private static Vector2D loa = new Vector2D.Double();
 
-    private SphericalBody sphere1;
-    private SphericalBody sphere2;
+    private SphericalBody sphereA;
+    private SphericalBody sphereB;
     private double dt;
     private IdealGasModel model;
 
-    /**
-     * Provided so class can register a prototype with the CollisionFactory
-     */
-    private SphereSphereCollision() {
-        //NOP
+    public SphereSphereCollision( SphericalBody sphereA, SphericalBody sphereB, 
+                                  IdealGasModel model, double dt ) {
+        this.sphereA = sphereA;
+        this.sphereB = sphereB;
+        this.model = model;
+        this.dt = dt;
     }
 
     protected Vector2D getLoa( CollidableBody particleA, CollidableBody particleB ) {
@@ -41,33 +42,6 @@ public class SphereSphereCollision extends HardsphereCollision {
     }
 
     public void collide() {
-        super.collide( sphere1, sphere2, getLoa( sphere1, sphere2 ), dt, model );
-    }
-
-    /**
-     * @param particleA
-     * @param particleB
-     * @return
-     */
-    public Collision createIfApplicable( CollidableBody particleA, CollidableBody particleB,
-                                         IdealGasModel model, double dt ) {
-        instance.model = model;
-        instance.dt = dt;
-        Collision result = null;
-        if( particleA instanceof SphericalBody && particleB instanceof SphericalBody ) {
-            instance.sphere1 = (SphericalBody)particleA;
-            instance.sphere2 = (SphericalBody)particleB;
-            result = instance;
-        }
-        return result;
-    }
-
-    //
-    // Static fields and methods
-    //
-    private static SphereSphereCollision instance = new SphereSphereCollision();
-
-    static public void register( CollisionFactory collisionFactory ) {
-        collisionFactory.addPrototype( new SphereSphereCollision() );
+        super.collide( sphereA, sphereB, getLoa( sphereA, sphereB ), dt, model );
     }
 }

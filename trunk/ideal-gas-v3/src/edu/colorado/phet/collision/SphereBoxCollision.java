@@ -14,16 +14,9 @@ import edu.colorado.phet.idealgas.model.SphericalBody;
 
 public class SphereBoxCollision implements Collision {
 
-    static public void register( CollisionFactory collisionFactory ) {
-        collisionFactory.addPrototype( new SphereBoxCollision() );
-    }
-
     private SphericalBody sphere;
     private Box2D box;
     private IdealGasModel model;
-
-    protected SphereBoxCollision() {
-    }
 
     public SphereBoxCollision( SphericalBody sphere, Box2D box, IdealGasModel model ) {
         this.sphere = sphere;
@@ -90,20 +83,5 @@ public class SphereBoxCollision implements Collision {
                 model.addKineticEnergyToSystem( incrKE );
             }
         }
-    }
-
-    public Collision createIfApplicable( CollidableBody particleA, CollidableBody particleB,
-                                         IdealGasModel model, double dt ) {
-        Collision result = null;
-        if( particleA instanceof SphericalBody && particleB instanceof Box2D ) {
-            result = new SphereBoxCollision( (SphericalBody)particleA, (Box2D)particleB,
-                                             model );
-        }
-        else if( particleB instanceof SphericalBody && particleA instanceof Box2D ) {
-            result = new SphereBoxCollision( (SphericalBody)particleB, (Box2D)particleA,
-                                             model );
-
-        }
-        return result;
     }
 }

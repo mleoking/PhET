@@ -9,26 +9,21 @@ package edu.colorado.phet.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.idealgas.model.HollowSphere;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.SphericalBody;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 
-public class SphereHollowSphereCollision extends HardsphereCollision {
+public class SphereHollowSphereCollision implements Collision {
+//public class SphereHollowSphereCollision extends HardsphereCollision {
     private HollowSphere hollowSphere;
     private SphericalBody sphere;
-    private IdealGasModel model;
-    private double dt;
     private Vector2D loa = new Vector2D.Double();
     private SphereHollowSphereContactDetector contactDetector = new SphereHollowSphereContactDetector();
 
-    public SphereHollowSphereCollision( HollowSphere hollowSphere, SphericalBody sphere,
-                                        IdealGasModel model, double dt ) {
+    public SphereHollowSphereCollision( HollowSphere hollowSphere, SphericalBody sphere ) {
         this.hollowSphere = hollowSphere;
         this.sphere = sphere;
-        this.model = model;
-        this.dt = dt;
     }
 
     protected Vector2D getLoa( CollidableBody particleA, CollidableBody particleB ) {
@@ -45,55 +40,14 @@ public class SphereHollowSphereCollision extends HardsphereCollision {
         double ratio = hollowSphere.getRadius() / dist;
         Point2D.Double contactPt = new Point2D.Double( hollowSphere.getPosition().getX() + ( sphere.getPosition().getX() - hollowSphere.getPosition().getX() ) * ratio,
                                                        hollowSphere.getPosition().getY() + ( sphere.getPosition().getY() - hollowSphere.getPosition().getY() ) * ratio );
-        SphereHollowSphereCollision.doCillision( hollowSphere, sphere, getLoa( hollowSphere, sphere ),
+        SphereHollowSphereCollision.doCollision( hollowSphere, sphere, getLoa( hollowSphere, sphere ),
                                                  contactPt );
     }
-
-
-    public Collision createIfApplicable( CollidableBody bodyA, CollidableBody bodyB, IdealGasModel model, double dt ) {
-        SphereHollowSphereCollision collision = null;
-
-        if( contactDetector.applies( bodyA, bodyB )
-            && contactDetector.areInContact( bodyA, bodyB ) ) {
-//            HollowSphere hs = bodyA instanceof HollowSphere ? (HollowSphere)bodyA : (HollowSphere)bodyB;
-//            SphericalBody sb = bodyA instanceof HollowSphere ? (HollowSphere)bodyA : (HollowSphere)bodyB;
-            HollowSphere hollowSphere = null;
-            SphericalBody sphere = null;
-            if( bodyA instanceof HollowSphere ) {
-                hollowSphere = (HollowSphere)bodyA;
-                if( bodyB instanceof SphericalBody ) {
-                    sphere = (SphericalBody)bodyB;
-                }
-                else {
-                    throw new RuntimeException( "bad arguments" );
-                }
-            }
-            if( bodyB instanceof HollowSphere ) {
-                hollowSphere = (HollowSphere)bodyB;
-                if( bodyA instanceof SphericalBody ) {
-                    sphere = (SphericalBody)bodyA;
-                }
-                else {
-                    throw new RuntimeException( "bad arguments" );
-                }
-            }
-            if( hollowSphere == null || sphere == null ) {
-                throw new RuntimeException( "bad arguments" );
-            }
-            collision = new SphereHollowSphereCollision( hollowSphere, sphere, model, dt );
-        }
-        return collision;
-    }
-
-    static public void register( CollisionFactory collisionFactory ) {
-        collisionFactory.addPrototype( new SphereHollowSphereCollision( null, null, null, 0 ) );
-    }
-
 
     static Vector2D vRel = new Vector2D.Double();
     static Vector2D n = new Vector2D.Double();
 
-    public static void doCillision( Body bodyA, Body bodyB, Vector2D loa, Point2D collisionPt ) {
+    public static void doCollision( Body bodyA, Body bodyB, Vector2D loa, Point2D collisionPt ) {
 
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = bodyA.getKineticEnergy() + bodyB.getKineticEnergy();

@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -22,7 +21,7 @@ import java.util.*;
  * and particle-particle collisions are only searched for within each
  * region and those adjacent to it.
  */
-public class CollisionGod implements ModelElement {
+public class CollisionGod {
     private int numRegionsX;
     private int numRegionsY;
     private Region[][] regions;
@@ -37,15 +36,13 @@ public class CollisionGod implements ModelElement {
     private double dt;
     private Rectangle2D.Double bounds;
     private double regionOverlap;
-    private CollisionFactory collisionFactory;
+    private List collisionExperts;
 
 
     public CollisionGod( IdealGasModel model, double dt,
-                         CollisionFactory collisionFactory,
                          Rectangle2D.Double bounds, int numRegionsX, int numRegionsY ) {
         this.model = model;
         this.dt = dt;
-        this.collisionFactory = collisionFactory;
         this.bounds = bounds;
         this.numRegionsX = numRegionsX;
         this.numRegionsY = numRegionsY;
@@ -70,7 +67,8 @@ public class CollisionGod implements ModelElement {
         }
     }
 
-    public void stepInTime( double dt ) {
+    public void doYourThing( double dt, List collisionExperts ) {
+        this.collisionExperts = collisionExperts;
         List bodies = model.getBodies();
         adjustRegionMembership( bodies );
 
@@ -194,16 +192,11 @@ public class CollisionGod implements ModelElement {
     }
 
     private void detectAndDoCollision( CollidableBody body1, CollidableBody body2, double dt ) {
-        if( body1 != body2 && ContactDetector.areContacting( body1, body2 ) ) {
-            List collisions = collisionFactory.createCollisions( body1, body2, model, dt );
-            for( int i = 0; i < collisions.size(); i++ ) {
-                ( (Collision)collisions.get( i ) ).collide();
-                //            Collision collision = CollisionFactory.create( body1, body2, model, dt );
-                //            if( collision != null ) {
-                //                collision.collide();
-                //            }
-            }
+        for( int i = 0; i < collisionExperts.size(); i++ ) {
+            CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( i );
+            collisionExpert.detectAndDoCollision( body1, body2 );
         }
+
     }
 
     private void addBody( Body body ) {

@@ -163,7 +163,7 @@ public class GasMolecule extends SphericalBody {
     }
 
     /**
-     * TODO: put this and getTemperature in stepInTime(), along with the pressure determination, so
+     * TODO: put this and getTemperature in doYourThing(), along with the pressure determination, so
      * that we only have to iterate the list of bodies once
      */
     protected static Double computeAveSpeed( List molecules ) {

@@ -44,32 +44,33 @@ public class IdealGasModel extends BaseModel {
     private ArrayList bodies = new ArrayList();
     private CollisionGod collisionGod;
     // Flag used to tell if energy being added to the system should be tracked. If energy
-    // is added while within the scope of stepInTime(), it must be tracked
+    // is added while within the scope of doYourThing(), it must be tracked
     private boolean currentlyInStepInTimeMethod;
 
-    // todo: this attribute should proabably belong to the Pump
-    //    private Class currentGasSpecies = HeavySpecies.class;
+    private List collisionExperts = new ArrayList();
 
     public IdealGasModel( double dt ) {
         // Add a collision collisionGod
-        CollisionFactory collisionFactory = new CollisionFactory();
         collisionGod = new CollisionGod( this, dt,
-                                         collisionFactory,
                                          new Rectangle2D.Double( 0, 0,
                                                                  600,
                                                                  600 ),
                                          10, 10 );
-        // Set up collision classes
-        //        new SphereHotAirBalloonContactDetector();
-        new SphereBoxCollisionExpert();
-        //        new SphereBoxContactDetector();
-        new SphereHollowSphereContactDetector();
-        new SphereSphereContactDetector();
 
-        //        BalloonSphereCollision.register();
-        SphereBoxCollision.register( collisionFactory );
-        SphereSphereCollision.register( collisionFactory );
-        SphereHollowSphereCollision.register( collisionFactory );
+        collisionExperts.add( new SphereHollowSphereExpert( this, dt ));
+        collisionExperts.add( new SphereSphereExpert( this, dt ));
+        collisionExperts.add( new SphereBoxExpert( this ));
+        // Set up collision classes
+//        //        new SphereHotAirBalloonContactDetector();
+//        new SphereBoxCollisionExpert();
+//        //        new SphereBoxContactDetector();
+//        new SphereHollowSphereContactDetector();
+//        new SphereSphereContactDetector();
+//
+//        //        BalloonSphereCollision.register();
+//        SphereBoxCollision.register( collisionFactory );
+//        SphereSphereCollision.register( collisionFactory );
+//        SphereHollowSphereCollision.register( collisionFactory );
     }
 
     /**
@@ -164,7 +165,7 @@ public class IdealGasModel extends BaseModel {
                 Body body = (Body)modelElement;
                 //            this.box.addContainedBody( body );
 
-                // Since model elements are added outside the stepInTime() loop, their energy
+                // Since model elements are added outside the doYourThing() loop, their energy
                 // is accounted for already, and doesn't need to be added here
                 if( currentlyInStepInTimeMethod ) {
                     addKineticEnergyToSystem( body.getKineticEnergy() );
@@ -193,7 +194,7 @@ public class IdealGasModel extends BaseModel {
     }
 
     /**
-     * To be called by objects that deliberately add energy to the system within the stepInTime() method
+     * To be called by objects that deliberately add energy to the system within the doYourThing() method
      *
      * @param keIncr
      */
@@ -258,7 +259,8 @@ public class IdealGasModel extends BaseModel {
 
         super.stepInTime( dt );
 
-        collisionGod.stepInTime( dt );
+        collisionGod.doYourThing( dt, collisionExperts );
+//        collisionGod.doYourThing( dt );
 
         // Managing energy, step 2: Get the total kinetic energy in the system,
         // and adjust it if neccessary
