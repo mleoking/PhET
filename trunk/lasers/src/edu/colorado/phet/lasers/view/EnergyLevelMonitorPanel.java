@@ -20,6 +20,7 @@ import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.atom.HighEnergyState;
 import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -45,6 +46,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
     private EnergyLevelGraphic middleLevelLine;
     private EnergyLevelGraphic groundLevelLine;
 
+    private EnergyLifetimeSlider highLevelLifetimeSlider;
+    private EnergyLifetimeSlider middleLevelLifetimeSlider;
+
     private LaserModel model;
 
     /**
@@ -57,9 +61,13 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
                                                   Color.red, middleLevelLineOriginX, middleLevelLineLength );
         groundLevelLine = new EnergyLevelGraphic( this, GroundState.instance(),
                                                   Color.black, groundLevelLineOriginX, groundLevelLineLength );
+
         this.addGraphic( highLevelLine );
         this.addGraphic( middleLevelLine );
         this.addGraphic( groundLevelLine );
+
+        middleLevelLifetimeSlider = new EnergyLifetimeSlider( this, middleLevelLine, "Middle level" );
+        this.add( middleLevelLifetimeSlider );
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
 
         model.addObserver( this );
@@ -69,6 +77,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
             public void componentResized( ComponentEvent e ) {
                 highLevelLine.update();
                 middleLevelLine.update();
+                middleLevelLifetimeSlider.update();
                 groundLevelLine.update();
             }
         } );
@@ -147,4 +156,20 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
         this.repaint();
     }
 
+    private static class EnergyLifetimeSlider extends JSlider {
+        private static int maxLifetime = 5000;
+        private Component component;
+        private EnergyLevelGraphic graphic;
+
+        public EnergyLifetimeSlider( Component component, EnergyLevelGraphic graphic, String label ) {
+            super( 0, maxLifetime, maxLifetime / 2 );
+            this.component = component;
+            this.graphic = graphic;
+            update();
+        }
+
+        public void update() {
+            this.setBounds( 300, (int)graphic.getPosition().getY(), 200, 200 );
+        }
+    }
 }

@@ -14,6 +14,7 @@ Should we keep or toss TxTranslatable, TxGraphic, TxBoundary, if we keep, can we
 Refactor ModelViewTx2D and AffineTxUtil
 
 -------------------------------------------------
+- Put uncertainty back into state lifetimes
 - Increase magnification of middle and high energy states
 - Make energy levels mouse-able
     - Make AtomicState classes singletons
