@@ -40,6 +40,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
@@ -316,6 +318,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         }
     }
 
+    private Map colorToAtomImage = new HashMap();
+
     private BufferedImage getAtomImage( Color color ) {
         if( baseSphereImg == null ) {
             try {
@@ -326,9 +330,14 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                 e.printStackTrace();
             }
         }
-        BufferedImage atomImg = new BufferedImage( baseSphereImg.getWidth(), baseSphereImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
-        MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
-        op.filter( baseSphereImg, atomImg );
+        // Look for the image in the cache
+        BufferedImage atomImg = (BufferedImage)colorToAtomImage.get( color );
+        if( atomImg == null ) {
+            atomImg = new BufferedImage( baseSphereImg.getWidth(), baseSphereImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
+            MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
+            op.filter( baseSphereImg, atomImg );
+            colorToAtomImage.put( color, atomImg );
+        }
         return atomImg;
     }
 

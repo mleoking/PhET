@@ -61,18 +61,16 @@ public class MiddleEnergyState extends AtomicState {
             atom.emitPhoton( emittedPhoton );
 
             // Change state
-            atom.setState( GroundState.instance() );
+            atom.setCurrState( GroundState.instance() );
         }
 
         // If the photon has the same energy level as the difference between
-        // this state and the high energy one, then we go to that state
-        if( photon.getEnergy() == HighEnergyState.instance().getEnergyLevel() - this.getEnergyLevel() ) {
-
-            // Absorb the photon and change state
+        // this state and another one, then we go to that state
+        // Find where we are in the list of states the atom can be in
+        AtomicState newState = getStimulatedState( atom, photon, HighEnergyState.instance().getEnergyLevel() - this.getEnergyLevel() );
+        if( newState != null ) {
             photon.removeFromSystem();
-
-            // Change state
-            atom.setState( HighEnergyState.instance() );
+            atom.setCurrState( newState );
         }
     }
 

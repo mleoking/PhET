@@ -32,15 +32,10 @@ public class GroundState extends AtomicState {
 
         // Only respond a specified percentage of the time
         if( Math.random() < s_collisionLikelihood ) {
-
-            // absorb the photon and change state
-            if( Math.abs( photon.getWavelength() - HighEnergyState.instance().getWavelength() ) < wavelengthTolerance ) {
+            AtomicState newState = getStimulatedState( atom, photon, 0 );
+            if( newState != null ) {
                 photon.removeFromSystem();
-                atom.setState( HighEnergyState.instance() );
-            }
-            if( Math.abs( photon.getWavelength() - MiddleEnergyState.instance().getWavelength() ) < wavelengthTolerance ) {
-                photon.removeFromSystem();
-                atom.setState( MiddleEnergyState.instance() );
+                atom.setCurrState( newState );
             }
         }
     }

@@ -129,7 +129,9 @@ public class SingleAtomModule extends BaseLaserModule {
 
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
 
-        atom = new Atom( getModel() );
+        int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
+        atom = new Atom( getModel(), numEnergyLevels );
+//        atom = new Atom( getModel() );
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2 );
         atom.setVelocity( 0, 0 );
@@ -158,6 +160,10 @@ public class SingleAtomModule extends BaseLaserModule {
             pumpingLampGraphic.setVisible( threeEnergyLevels );
             pumpBeamControl.setVisible( threeEnergyLevels );
             getLaserModel().getPumpingBeam().setEnabled( threeEnergyLevels );
+        }
+        if( atom != null ) {
+            int numEnergyLevels = threeEnergyLevels ? 3 : 2;
+            atom.setNumEnergyLevels( numEnergyLevels );
         }
     }
 

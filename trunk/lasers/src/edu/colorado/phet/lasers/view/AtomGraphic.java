@@ -32,7 +32,7 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.ChangeListener
         this.atom = atom;
         atom.addObserver( this );
         atom.addChangeListener( this );
-        update( atom.getState() );
+        update( atom.getCurrState() );
     }
 
     public void stateChanged( Atom.ChangeEvent event ) {
@@ -71,7 +71,7 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.ChangeListener
     }
 
     public void update() {
-        update( atom.getState() );
+        update( atom.getCurrState() );
     }
 
     public void paint( Graphics2D g ) {

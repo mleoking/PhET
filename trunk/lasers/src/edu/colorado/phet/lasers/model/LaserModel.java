@@ -134,7 +134,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
             Object obj = iterator.next();
             if( obj instanceof Atom ) {
                 Atom atom = (Atom)obj;
-                atom.setState( GroundState.instance() );
+                atom.setCurrState( GroundState.instance() );
             }
         }
         Photon photon = null;
@@ -334,9 +334,9 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
 //                        for( int j = 0; j < atomsInSection.size(); j++ ) {
 //                            k = j;
 //                            Atom atom = (Atom)atomsInSection.get( j );
-//                            AtomicState s1 = atom.getState();
+//                            AtomicState s1 = atom.getCurrState();
 //                            phtonAtomExpert.detectAndDoCollision( photon, atom );
-//                            AtomicState s2 = atom.getState();
+//                            AtomicState s2 = atom.getCurrState();
 //                            if( s1 != s2 ) {
 //                                break;
 //                            }
@@ -346,9 +346,9 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
 
                     for( int j = 0; j < atoms.size(); j++ ) {
                         Atom atom = (Atom)atoms.get( j );
-                        AtomicState s1 = atom.getState();
+                        AtomicState s1 = atom.getCurrState();
                         phtonAtomExpert.detectAndDoCollision( photon, atom );
-                        AtomicState s2 = atom.getState();
+                        AtomicState s2 = atom.getCurrState();
                         if( s1 != s2 ) {
                             break;
                         }
