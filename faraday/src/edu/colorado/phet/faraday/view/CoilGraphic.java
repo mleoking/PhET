@@ -19,6 +19,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractCoil;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
@@ -662,8 +663,13 @@ public class CoilGraphic implements SimpleObserver {
      * 
      * @return the speed, from -1...+1 inclusive
      */
-    private double calculateElectronSpeed() {       
-        return _coilModel.getAmplitude();
+    private double calculateElectronSpeed() {
+        double amplitude = _coilModel.getAmplitude();
+        // Absolute amplitude below the threshold is effectively zero.
+        if ( Math.abs( amplitude ) < FaradayConfig.AMPLITUDE_THRESHOLD ) {
+            amplitude = 0;
+        }
+        return amplitude;
     }
     
     /**
