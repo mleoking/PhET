@@ -10,29 +10,25 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import edu.colorado.phet.common.view.util.ImageLoader;
+
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-import edu.colorado.phet.common.view.util.ImageLoader;
 
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
     private Point location;
     private AffineTransform relativeTx;
-    private AffineTransform absoluteTx;
+    private AffineTransform absoluteTx = new AffineTransform();
     private boolean shapeDirty = true;
     private Shape shape;
 
     public PhetImageGraphic( Component component ) {
-      this( component, (BufferedImage)null );
+        this( component, (BufferedImage)null );
     }
-    
+
     public PhetImageGraphic( Component component, String imageResourceName ) {
         this( component, (BufferedImage)null );
 
@@ -82,7 +78,7 @@ public class PhetImageGraphic extends PhetGraphic {
 
     protected Rectangle determineBounds() {
         Rectangle bounds = null;
-        Shape shape = getShape();  
+        Shape shape = getShape();
         if( shape != null ) {
             bounds = shape.getBounds();
         }
@@ -109,7 +105,7 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     public void setPosition( int x, int y ) {
-        if ( location.x != x || location.y != y ) {
+        if( location.x != x || location.y != y ) {
             location.setLocation( x, y );
             setBoundsDirty();
             shapeDirty = true;
@@ -122,11 +118,11 @@ public class PhetImageGraphic extends PhetGraphic {
         return location;
     }
 
-//    public void setPositionCentered( int x, int y, double scale ) {
-//        AffineTransform tx=AffineTransform.getTranslateInstance( x-image.getWidth( )/2,y-image.getHeight( )/2);
-//        tx.scale( scale, scale );
-//        setTransform( tx );
-//    }
+    //    public void setPositionCentered( int x, int y, double scale ) {
+    //        AffineTransform tx=AffineTransform.getTranslateInstance( x-image.getWidth( )/2,y-image.getHeight( )/2);
+    //        tx.scale( scale, scale );
+    //        setTransform( tx );
+    //    }
 
     public void setTransform( AffineTransform transform ) {
         if( !transform.equals( this.relativeTx ) ) {
@@ -148,7 +144,7 @@ public class PhetImageGraphic extends PhetGraphic {
     public AffineTransform getTransform() {
         return relativeTx;
     }
-    
+
     public void setImage( BufferedImage image ) {
         this.image = image;
     }
@@ -158,7 +154,7 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     private void updateAbsoluteTx() {
-      absoluteTx = AffineTransform.getTranslateInstance( location.x, location.y );
-      absoluteTx.concatenate( relativeTx );
+        absoluteTx.setToTranslation( location.x, location.y );
+        absoluteTx.concatenate( relativeTx );
     }
 }
