@@ -7,6 +7,8 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.view.Cesium;
 
@@ -16,16 +18,20 @@ import java.util.Random;
 
 public class Uranium235 extends Nucleus {
     private static Random random = new Random();
+    // Regulates how fast the profile rises when fission occurs
+    private static final int morphSpeedFactor = 20;
 
     private ArrayList decayListeners = new ArrayList();
     private AlphaParticle[] alphaParticles = new AlphaParticle[4];
     private int morphTargetNeutrons;
     private int morphTargetProtons;
     private Neutron fissionInstigatingNeutron;
+    private BaseModel model;
 
 
-    public Uranium235( Point2D.Double position ) {
-        super( position, 145, 92 /*, potentialProfile */ );
+    public Uranium235( Point2D.Double position, BaseModel model ) {
+        super( position, 92, 143 );
+        this.model = model;
         for( int i = 0; i < alphaParticles.length; i++ ) {
             alphaParticles[i] = new AlphaParticle( position,
                                                    getPotentialProfile().getAlphaDecayX() * Config.AlphaLocationUncertaintySigmaFactor );
@@ -41,9 +47,12 @@ public class Uranium235 extends Nucleus {
     }
 
     public void fission( Neutron neutron ) {
-        morph( getNumNeutrons() - 100, getNumProtons() );
+        morph( getNumNeutrons() - 200, getNumProtons() );
         fissionInstigatingNeutron = neutron;
-//        super.fission( neutron );
+        // Move the neutron way, way away so it doesn't show and doesn't
+        // cause another fission event. It will be destroyed later.
+        neutron.setLocation( 100E3, 100E3 );
+        neutron.setVelocity( 0, 0 );
     }
 
     public void stepInTime( double dt ) {
@@ -73,9 +82,23 @@ public class Uranium235 extends Nucleus {
 
         super.stepInTime( dt );
 
+        // Check to see if we are being hit by a neutron
+        for( int i = 0; i < model.numModelElements(); i++ ) {
+            ModelElement me = model.modelElementAt( i );
+            if( me instanceof Neutron ) {
+                Neutron neutron = (Neutron)me;
+                if( neutron.getLocation().distanceSq( this.getLocation() )
+                    < this.getRadius() * this.getRadius() ) {
+                    this.fission( neutron );
+                }
+            }
+        }
+
+
         // Handle fission morphing
         if( morphTargetNeutrons != 0 ) {
-            int incr = 10 * Math.abs( morphTargetNeutrons ) / morphTargetNeutrons;
+            // The morphSpeedFactor regulates how fast the profile rises
+            int incr = morphSpeedFactor * Math.abs( morphTargetNeutrons ) / morphTargetNeutrons;
             setNumNeutrons( getNumNeutrons() + incr );
             int temp = morphTargetNeutrons;
             morphTargetNeutrons -= incr;

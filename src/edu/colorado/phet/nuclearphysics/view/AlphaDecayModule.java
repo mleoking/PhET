@@ -36,7 +36,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getApparatusPanel().remove( 0 );
         getApparatusPanel().add( physicalPanel, 0 );
 
-        setNucleus( new Uranium235( new Point2D.Double( 0, 0 ) ) );
+        setNucleus( new Uranium235( new Point2D.Double( 0, 0 ), getModel() ) );
         setUraniumNucleus( getNucleus() );
 
         super.addControlPanelElement( new AlphaDecayControlPanel( this ) );

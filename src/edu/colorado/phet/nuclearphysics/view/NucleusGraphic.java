@@ -20,6 +20,9 @@ import java.util.HashMap;
 
 public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
 
+    //
+    // Static fields and methods
+    //
     private static HashMap graphicToModelMap = new HashMap();
 
     private static void register( NucleusGraphic nucleusGraphic, Nucleus nucleus ) {
@@ -36,8 +39,11 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
         return (ArrayList)obj;
     }
 
+    //
+    // Instance fields and methods
+    //
     private Point2D.Double position = new Point2D.Double();
-    private Nucleus nucleus;
+    Nucleus nucleus;
     private NeutronGraphic neutronGraphic;
     private ProtonGraphic protonGraphic;
     private Image img;

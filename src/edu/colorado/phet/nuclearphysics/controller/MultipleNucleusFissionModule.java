@@ -14,7 +14,6 @@ import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +27,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
 //    private InternalNeutronGun neutronGun;
     private Neutron neutronToAdd;
     private ArrayList nuclei;
+    private ArrayList u235Nuclei = new ArrayList();
+    private ArrayList u238Nuclei = new ArrayList();
     private AbstractClock clock;
     private long orgDelay;
     private double orgDt;
@@ -40,15 +41,14 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         // Add a bunch of nuclei, including one in the middle that we can fire a
         // neutron at
         nuclei = new ArrayList();
-        Uranium235 centralNucleus = new Uranium235( new Point2D.Double() );
+        Uranium235 centralNucleus = new Uranium235( new Point2D.Double(), getModel() );
         centralNucleus.addFissionListener( this );
         getPhysicalPanel().addNucleus( centralNucleus );
         getModel().addModelElement( centralNucleus );
-        nuclei.add( centralNucleus );
+        addU235Nucleus( centralNucleus );
 
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                checkForFission();
                 if( MultipleNucleusFissionModule.this.neutronToAdd != null ) {
                     MultipleNucleusFissionModule.this.addNeutron( neutronToAdd );
                     MultipleNucleusFissionModule.this.neutronToAdd = null;
@@ -61,11 +61,49 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         return nuclei;
     }
 
-    protected void addNeucleus( Nucleus nucleus ) {
+    public ArrayList getU235Nuclei() {
+        return u235Nuclei;
+    }
+
+    public ArrayList getU238Nuclei() {
+        return u238Nuclei;
+    }
+
+    public void addU235Nucleus( Uranium235 nucleus ) {
+        u235Nuclei.add( nucleus );
+        addNucleus( nucleus );
+    }
+
+    public void addU238Nucleus( Uranium238 nucleus ) {
+        u238Nuclei.add( nucleus );
+        addNucleus( nucleus );
+    }
+
+    protected void addNucleus( Nucleus nucleus ) {
         nuclei.add( nucleus );
         nucleus.addFissionListener( this );
         getPhysicalPanel().addNucleus( nucleus );
         getModel().addModelElement( nucleus );
+    }
+
+    public void removeU235Nucleus( Uranium235 nucleus ) {
+        u235Nuclei.remove( nucleus );
+        removeNucleus( nucleus );
+    }
+
+    public void removeU238Nucleus( Uranium238 nucleus ) {
+        u238Nuclei.remove( nucleus );
+        removeNucleus( nucleus );
+    }
+
+    public void removeNucleus( Nucleus nucleus ) {
+        nuclei.remove( nucleus );
+        ArrayList ngList = NucleusGraphic.getGraphicForNucleus( nucleus );
+        for( int i = 0; i < ngList.size(); i++ ) {
+            NucleusGraphic ng = (NucleusGraphic)ngList.get( i );
+            getPhysicalPanel().removeGraphic( ng );
+            super.remove( nucleus, ng );
+        }
     }
 
     public void activate( PhetApplication app ) {
@@ -93,38 +131,15 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         super.addNeutron( neutron );
     }
 
-    Line2D.Double line = new Line2D.Double();
-    Point2D.Double oldLocation = new Point2D.Double();
-
-    private void checkForFission() {
-        for( int i = 0; i < getModel().numModelElements(); i++ ) {
-            ModelElement me = getModel().modelElementAt( i );
-            if( me instanceof Neutron ) {
-                Neutron neutron = (Neutron)me;
-                oldLocation.setLocation( neutron.getLocation().getX() - neutron.getVelocity().getX() * clock.getDt(),
-                                         neutron.getLocation().getY() - neutron.getVelocity().getY() * clock.getDt() );
-                line.setLine( neutron.getLocation(), oldLocation );
-                for( int j = 0; j < getModel().numModelElements(); j++ ) {
-                    ModelElement me2 = getModel().modelElementAt( j );
-                    if( me2 instanceof Uranium235 ) {
-                        Nucleus nucleus = (Nucleus)me2;
-//                        if( line.ptLineDistSq( nucleus.getLocation() ) < nucleus.getRadius() * nucleus.getRadius() ) {
-                        if( neutron.getLocation().distanceSq( nucleus.getLocation() )
-                            < nucleus.getRadius() * nucleus.getRadius() ) {
-                            nucleus.fission( neutron );
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public void fission( FissionProducts products ) {
 
         // Remove the neutron and old nucleus
         getModel().removeModelElement( products.getInstigatingNeutron() );
         getModel().removeModelElement( products.getParent() );
         nuclei.remove( products.getParent() );
+
+        // We know this must be a U235 nucleus
+        u235Nuclei.remove( products.getParent() );
         List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
         for( int i = 0; i < graphics.size(); i++ ) {
             NucleusGraphic ng = (NucleusGraphic)graphics.get( i );
@@ -134,8 +149,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         this.getPhysicalPanel().removeGraphic( ng );
 
         // Add fission products
-        super.addNeucleus( products.getDaughter1() );
-        super.addNeucleus( products.getDaughter2() );
+        super.addNucleus( products.getDaughter1() );
+        super.addNucleus( products.getDaughter2() );
         Neutron[] neutronProducts = products.getNeutronProducts();
         for( int i = 0; i < neutronProducts.length; i++ ) {
             NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
@@ -147,15 +162,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         Kaboom kaboom = new Kaboom( products.getParent().getLocation(),
                                     25, 300, getApparatusPanel() );
         getPhysicalPanel().addGraphic( kaboom );
-    }
-
-    public void removeNucleus( Nucleus nucleus ) {
-        nuclei.remove( nucleus );
-        ArrayList ngList = NucleusGraphic.getGraphicForNucleus( nucleus );
-        for( int i = 0; i < ngList.size(); i++ ) {
-            NucleusGraphic ng = (NucleusGraphic)ngList.get( i );
-            super.remove( nucleus, ng );
-        }
     }
 
     //

@@ -35,8 +35,8 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
         return nucleus;
     }
 
-    protected void addNeucleus( Nucleus nucleus ) {
-        super.addNeucleus( nucleus );
+    protected void addNucleus( Nucleus nucleus ) {
+        super.addNucleus( nucleus );
         potentialProfilePanel.addNucleus( nucleus );
     }
 
@@ -52,7 +52,7 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
 
     public void run() {
         clear();
-        nucleus = new Uranium235( new Point2D.Double( 0, 0 ) );
+        nucleus = new Uranium235( new Point2D.Double( 0, 0 ), getModel() );
         setUraniumNucleus( nucleus );
     }
 }
