@@ -11,7 +11,6 @@ HIGH PRIORITY:
 - change sliders to "ModelSlider" used by other simulations
 - magnet strength scale change to 10-100 (no units)
 - loop area change 50-150 (no units)
-- hide play/pause/stop buttons
 - group Coil items (Loops, Area, Indicator, Show Electrons)
 - group Magnet items (Strength, Flip Polarity, Show Field, Show Compass)
 - Wiggle Me's on magnets & coil
@@ -51,6 +50,7 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/17) - hide play/pause/stop buttons
 (2/17) - add skeleton for "Electromagnet" module
 (2/17) - rename "Connect to Coil" -> "Indicator"
 (2/17) - values in FieldMeter are still sitting a little high
