@@ -12,6 +12,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
@@ -108,8 +109,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         }
 
         // Turn on gravity
-//        getIdealGasApplication().setGravityEnabled( true );
-//        getIdealGasApplication().setGravity( 15 );
+        setGravity( IdealGasConfig.s_maxGravity / 2 );
 
         // Set up the control panel
         JPanel controlPanel = new JPanel( new GridBagLayout() );

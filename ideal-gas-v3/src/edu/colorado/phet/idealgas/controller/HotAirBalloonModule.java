@@ -12,6 +12,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.BoxMustContainParticle;
 import edu.colorado.phet.idealgas.model.Constraint;
@@ -107,6 +108,10 @@ public class HotAirBalloonModule extends IdealGasModule {
         controlPanel.addParticleControl( new HotAirBalloonControlPanel( balloon ) );
         this.setControlPanel( new ControlPanel( this ) );
         getControlPanel().add( controlPanel );
+
+        // Turn on gravity
+        setGravity( IdealGasConfig.s_maxGravity / 2 );
+
     }
 
     protected Pump.PumpingEnergyStrategy getPumpingEnergyStrategy() {

@@ -11,6 +11,7 @@ import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 import edu.colorado.phet.instrumentation.Thermometer;
@@ -109,8 +110,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         }
 
         // Turn on gravity
-//        getIdealGasApplication().setGravityEnabled( true );
-//        getIdealGasApplication().setGravity( 15 );
+        setGravity( IdealGasConfig.s_maxGravity / 10 );
 
         // Add controls to the control panel that are specific to this module
         JPanel controlPanel = new JPanel( new GridBagLayout() );
