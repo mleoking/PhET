@@ -38,7 +38,7 @@ public class ApparatusPanel extends JPanel {
     //
     // Instance fields and methods
     //
-    private BasicStroke borderStroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     CompositeInteractiveGraphic graphic = new CompositeInteractiveGraphic();
     ArrayList graphicsSetups = new ArrayList();
 
@@ -49,18 +49,7 @@ public class ApparatusPanel extends JPanel {
         super( null );
         this.addMouseListener( graphic );
         this.addMouseMotionListener( graphic );
-
-        Graphic borderGraphic = new Graphic() {
-            public void paint( Graphics2D g ) {
-                Rectangle boundingRect = getBounds();
-                g.setStroke( borderStroke );
-                g.setColor( Color.black );
-                g.drawRect( 2, 2,
-                            boundingRect.width - 4,
-                            boundingRect.height - 4 );
-            }
-        };
-        addGraphic( borderGraphic, Double.POSITIVE_INFINITY );
+        setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
     }
 
     public void addGraphicsSetup( GraphicsSetup setup ) {
@@ -99,22 +88,6 @@ public class ApparatusPanel extends JPanel {
     public void addGraphic( Graphic graphic ) {
         this.graphic.addGraphic( graphic, 0 );
     }
-
-    //    public void addGraphic( Graphic graphic, AffineTransform atx ) {
-    //        this.graphic.addGraphic( graphic, 0, atx, null );
-    //    }
-
-    //    public void addGraphic( Graphic graphic, double level, AffineTransform atx ) {
-    //        this.graphic.addGraphic( graphic, level, atx, null );
-    //    }
-    //
-    //    public void addGraphic( Graphic graphic, AffineTransform atx, RevertableGraphicsSetup graphicSetup ) {
-    //        this.graphic.addGraphic( graphic, 0, atx, graphicSetup );
-    //    }
-    //
-    //    public void addGraphic( Graphic graphic, double level, AffineTransform atx, RevertableGraphicsSetup graphicSetup ) {
-    //        this.graphic.addGraphic( graphic, level, atx, graphicSetup );
-    //    }
 
     public void removeGraphic( Graphic graphic ) {
         this.graphic.removeGraphic( graphic );

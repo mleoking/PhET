@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  */
 public class SimpleBufferedImageGraphic implements BoundedGraphic {
     BufferedImage image;
-    AffineTransform transform;
+    AffineTransform transform = new AffineTransform();
 
     public SimpleBufferedImageGraphic( BufferedImage image ) {
         this.image = image;

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/* Copyright University of Colorado, 2003 */
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
- * A panel for the apparatus, large and in the left side.  A north panel for display, an east panel for controls, and a south panel for other controls.
+ * The content pane for the JFrame of a PhetApplication.
  */
 public class BasicPhetPanel extends JPanel {
 
@@ -142,5 +142,10 @@ public class BasicPhetPanel extends JPanel {
 
     private boolean isFullScreen() {
         return fullScreen;
+    }
+
+    public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
+        //        getApparatusPanelContainer().remove( 0 );
+        getApparatusPanelContainer().add( apparatusPanel, 0 );
     }
 }

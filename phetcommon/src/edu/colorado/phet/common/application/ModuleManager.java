@@ -1,9 +1,4 @@
-/**
- * Class: ModuleManager
- * Package: edu.colorado.phet.common.application
- * Author: Another Guy
- * Date: Jun 9, 2003
- */
+/* Copyright University of Colorado, 2003 */
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -94,16 +89,6 @@ public class ModuleManager implements ClockTickListener {
     public void addAllModules( Module[] modules ) {
         for( int i = 0; i < modules.length; i++ ) {
             addModule( modules[i] );
-        }
-    }
-
-    public void activateModuleOfClass( Class moduleClass ) {
-        Module module = null;
-        for( int i = 0; i < modules.size() && module == null; i++ ) {
-            if( moduleClass.isInstance( modules.get( i ) ) ) {
-                module = (Module)modules.get( i );
-                this.setActiveModule( module );
-            }
         }
     }
 

@@ -1,10 +1,9 @@
-/*Copyright, Sam Reid, 2003.  Editing.*/
+/* Copyright University of Colorado, 2003 */
+
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleManager;
-import edu.colorado.phet.common.application.ModuleObserver;
-import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 
@@ -12,10 +11,7 @@ import javax.swing.*;
 import java.io.IOException;
 
 /**
- * User: Sam Reid
- * Date: Jun 12, 2003
- * Time: 7:27:29 AM
- * Copyright (c) Jun 12, 2003 by Sam Reid
+ * This class contains all the elements of an application that appear on the screen.
  */
 public class ApplicationView {
     private PhetFrame phetFrame;
@@ -23,20 +19,13 @@ public class ApplicationView {
     private ApplicationModelControlPanel controlPanel;
 
     private BasicPhetPanel basicPhetPanel;
-    private PhetApplication application;
+    private ApplicationDescriptor appDescriptor;
 
-    public ApplicationView( PhetApplication application ) throws IOException {
-        this.application = application;
-        apparatusPanelContainer = application.getContainerStrategy().createApparatusPanelContainer( application.getModuleManager() );
-
-        if( application.getClock() == null ) {
-            throw new RuntimeException( "Clock is null" );
-        }
-        controlPanel = new ApplicationModelControlPanel( application.getClock() );
-        basicPhetPanel = new BasicPhetPanel( null, null, null, controlPanel );
-        basicPhetPanel.setApparatusPanelContainer( apparatusPanelContainer.getComponent() );
-        new ControlAndMonitorSwapper( basicPhetPanel, application.getModuleManager() );
-        phetFrame = new PhetFrame( application );
+    public ApplicationView( ApplicationDescriptor appDescriptor, JComponent apparatusPanelContainer, AbstractClock clock ) throws IOException {
+        this.appDescriptor = appDescriptor;
+        controlPanel = new ApplicationModelControlPanel( clock );
+        basicPhetPanel = new BasicPhetPanel( apparatusPanelContainer, null, null, controlPanel );
+        phetFrame = new PhetFrame( appDescriptor );
         phetFrame.setContentPane( basicPhetPanel );
     }
 
@@ -50,7 +39,7 @@ public class ApplicationView {
 
     public void setVisible( boolean isVisible ) {
         phetFrame.setVisible( isVisible );
-        application.getApplicationDescriptor().getFrameSetup().initialize( phetFrame );
+        appDescriptor.getFrameSetup().initialize( phetFrame );
     }
 
     public void addFileMenuItem( JMenuItem menuItem ) {
@@ -86,24 +75,5 @@ public class ApplicationView {
         result &= module.getModel() != null;
         result &= module.getApparatusPanel() != null;
         return result;
-    }
-
-    private class ControlAndMonitorSwapper implements ModuleObserver {
-        BasicPhetPanel bpp;
-        ModuleManager mm;
-
-        public ControlAndMonitorSwapper( BasicPhetPanel bpp, ModuleManager mm ) {
-            this.bpp = bpp;
-            this.mm = mm;
-            mm.addModuleObserver( this );
-        }
-
-        public void moduleAdded( Module m ) {
-        }
-
-        public void activeModuleChanged( Module m ) {
-            bpp.setControlPanel( m.getControlPanel() );
-            bpp.setMonitorPanel( m.getMonitorPanel() );
-        }
     }
 }

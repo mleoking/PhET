@@ -1,9 +1,4 @@
-/**
- * Class: Module
- * Package: edu.colorado.phet.common.application
- * Author: Another Guy
- * Date: Jun 9, 2003
- */
+/* Copyright University of Colorado, 2003 */
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
@@ -17,8 +12,8 @@ import javax.swing.*;
 /**
  * This class encapsulates the parts of an application that make up
  * a complete virtual experiment. This includes, but is not limited to, the
- * on-screen controls and viewX elements that go along with the
- * experiment.
+ * on-screen controls and view elements that go along with the
+ * experiment. Each module has its own model.
  */
 public class Module {
 
@@ -101,6 +96,8 @@ public class Module {
      * @param app
      */
     public void activate( PhetApplication app ) {
+        app.getApplicationView().getBasicPhetPanel().setControlPanel( this.getControlPanel() );
+        app.getApplicationView().getBasicPhetPanel().setMonitorPanel( this.getMonitorPanel() );
     }
 
     /**

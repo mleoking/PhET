@@ -84,16 +84,16 @@ public class ApplicationModelControlPanel extends JPanel {
         logoButton.setToolTipText( "Full Frame" );
         logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
         this.add( logoButton, BorderLayout.EAST );
-        logoButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                // Get the frame
-                Component c = (Component)e.getSource();
-                Component frame = SwingUtilities.getRoot( c );
-                PhetFrame phetFrame = (PhetFrame)frame;
-                ApplicationView view = phetFrame.getApp().getApplicationView();
-                view.setFullScreen( true );
-            }
-        } );
+        //        logoButton.addActionListener( new ActionListener() {
+        //            public void actionPerformed( ActionEvent e ) {
+        //                // Get the frame
+        //                Component c = (Component)e.getSource();
+        //                Component frame = SwingUtilities.getRoot( c );
+        //                PhetFrame phetFrame = (PhetFrame)frame;
+        //                ApplicationView view = phetFrame.getApp().getApplicationView();
+        //                view.setFullScreen( true );
+        //            }
+        //        } );
 
         play.setEnabled( false );
         pause.setEnabled( true );
