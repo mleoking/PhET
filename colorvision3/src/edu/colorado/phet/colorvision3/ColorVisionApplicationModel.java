@@ -33,7 +33,8 @@ public class ColorVisionApplicationModel extends ApplicationModel
 		super( title, description, version, frameSetup );
 
 		// Clock
-		this.setClock( new SwingTimerClock(ColorVisionConfig.TIME_STEP, ColorVisionConfig.WAIT_TIME) );
+		boolean fixedDelay = true;
+		this.setClock( new SwingTimerClock(ColorVisionConfig.TIME_STEP, ColorVisionConfig.WAIT_TIME, fixedDelay) );
 
 		// Simulation Modules
 		Module rgbBulbsModule = new RgbBulbsModule( this );
