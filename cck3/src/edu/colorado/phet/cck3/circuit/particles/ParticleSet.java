@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.particles;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.common.model.ModelElement;
@@ -21,6 +22,12 @@ public class ParticleSet implements ModelElement {
     private double time = 0;
     private Storage storage = new Storage();
     private Circuit circuit;
+
+    public double getDensity( Branch branch ) {
+        Electron[] e = getParticles( branch );
+        double density = e.length / branch.getLength();
+        return density;
+    }
 
     class Storage {
         double time;
@@ -69,8 +76,8 @@ public class ParticleSet implements ModelElement {
         }
     }
 
-    public ParticleSet( Circuit circuit ) {
-        propagator = new ConstantDensityPropagator( this, circuit );
+    public ParticleSet( CCK3Module module, Circuit circuit ) {
+        propagator = new ConstantDensityPropagator( module, this, circuit );
         this.circuit = circuit;
     }
 

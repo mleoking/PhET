@@ -39,6 +39,7 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -123,6 +124,7 @@ public class CCK3Module extends Module {
     private MagicalRepaintPanel magicPanel;
     private static CCK3Module module;
     public static final boolean GRAPHICAL_DEBUG = false;
+    public PhetShadowTextGraphic messageGraphic;
     //    public static final boolean GRAPHICAL_DEBUG = true;
 
     public MagicalRepaintPanel getMagicPanel() {
@@ -223,6 +225,15 @@ public class CCK3Module extends Module {
         setControlPanel( controlPanel );
         //        doinit();
         //        inited = true;
+        messageGraphic = new PhetShadowTextGraphic( getApparatusPanel(), "text", new Font( "Lucida Sans", Font.BOLD, 16 ), 100, 100, Color.red, 1, 1, Color.black );
+        getApparatusPanel().addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                int x = messageGraphic.getBounds().height * 2;
+                int y = getApparatusPanel().getHeight() - messageGraphic.getBounds().height;
+                messageGraphic.setPosition( x, y );
+            }
+        } );
+        getApparatusPanel().addGraphic( messageGraphic );
     }
 
     private void relayout() {
@@ -288,7 +299,7 @@ public class CCK3Module extends Module {
         //        transform = new ModelViewTransform2D.OriginTopLeft( INIT_MODEL_BOUNDS, viewBounds );
         circuitGraphic = new CircuitGraphic( this );
         setupToolbox();
-        particleSet = new ParticleSet( circuit );
+        particleSet = new ParticleSet( this, circuit );
         layout = new ConstantDensityLayout( this );
         circuit.addCircuitListener( layout );
         addModelElement( particleSet );
@@ -811,6 +822,16 @@ public class CCK3Module extends Module {
         return module;
     }
 
+    public PhetShadowTextGraphic getTimescaleGraphic() {
+        return messageGraphic;
+    }
+
+    public void regainFocus() {
+        getApparatusPanel().requestFocus();
+        Window window = SwingUtilities.getWindowAncestor( getApparatusPanel() );
+        window.requestFocus();
+    }
+
     public static class SimpleKeyEvent implements KeyListener {
         int keycode;
 
@@ -1015,14 +1036,6 @@ public class CCK3Module extends Module {
             if( branch instanceof Battery ) {
                 Battery batt = (Battery)branch;
                 batt.setInternalResistanceOn( selected );
-                //                Graphic g = circuitGraphic.getGraphic( batt );
-                //                if( g != null ) {
-                //                    CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)g;
-                //                    if (!selected){
-                //                        //hide any battery internal resistance editors.
-                //
-                //                    }
-                //                }
             }
         }
         if( !selected ) {
@@ -1036,17 +1049,8 @@ public class CCK3Module extends Module {
     }
 
     public void setAdvancedEnabled( boolean advanced ) {
-        //        this.advanced = advanced;
-        if( advanced ) {
-            setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() );
-            setResistivityEnabled( true );
-            //            resistivityManager.setResistivity( );
-        }
-        else {
-            setInternalResistanceOn( false );
-            setResistivityEnabled( false );
-            //            resistivityManager.setResistivity( ResistivityManager.DEFAULT_RESISTIVITY );
-        }
+        setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() && advanced );
+        setResistivityEnabled( advanced );
     }
 
     public void debugListeners() {

@@ -606,13 +606,6 @@ public class CCK3ControlPanel extends JPanel {
     }
 
     private JPanel makeAdvancedPanel() {
-//        JCheckBox advanced = new JCheckBox( "Advanced", false );
-//        advanced.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                advancedControlPanel.showDialog();
-//            }
-//        } );
-
         JPanel circuitPanel = new JPanel();
 
         circuitPanel.setLayout( new BoxLayout( circuitPanel, BoxLayout.Y_AXIS ) );
@@ -632,15 +625,14 @@ public class CCK3ControlPanel extends JPanel {
                     expand.setText( enable );
                     module.setAdvancedEnabled( false );
                 }
+//                module.regainFocus();
             }
         } );
 
         advancedControlPanel.setVisible( false );
-        {
-            circuitPanel.add( expand );
+        circuitPanel.add( expand );
+        circuitPanel.add( advancedControlPanel );
 
-            circuitPanel.add( advancedControlPanel );
-        }
         return placeInPanel( "Advanced", circuitPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
