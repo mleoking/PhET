@@ -37,6 +37,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     private double _frequency; // 0...1
     private int _sign; // -1 or +1
     private double _angle; // radians
+    private double _deltaAngle; // radians
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,6 +52,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         _frequency = 1.0; // fastest
         _sign = +1; // positive voltage
         _angle = 0.0; // radians
+        _deltaAngle = ( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE; // radians
     }
     
     //----------------------------------------------------------------------------
@@ -66,6 +68,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         assert( maxAmplitude >=0 && maxAmplitude <= 1 );
         if ( maxAmplitude != _maxAmplitude ) {
             _maxAmplitude = maxAmplitude;
+            _angle = 0.0;
             
             // Make sure the amplitude stays in range.
             double amplitude = getAmplitude();
@@ -94,6 +97,8 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         assert( frequency >= 0 && frequency <= 1 );
         if ( frequency != _frequency ) {
             _frequency = frequency;
+            _angle = 0.0;
+            _deltaAngle = ( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE;
             notifyObservers();
         }
     }
@@ -116,6 +121,15 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         return _angle;
     }
     
+    /** 
+     * Gets the change in angle per tick of the simulation clock.
+     * 
+     * @return the delta angle, in radians
+     */
+    public double getDeltaAngle() {
+        return _deltaAngle;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -131,8 +145,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
             double previousAngle = _angle;
             
             // Compute the angle.
-            double delta = ( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE;
-            _angle += delta;
+            _angle += _deltaAngle;
             
             // Make sure we hit all peaks and zero crossings (at 90 degree intervals).
             for ( int i = 1; i <= 4; i++ ) {
