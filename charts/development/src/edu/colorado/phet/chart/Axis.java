@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.chart;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
+//import edu.colorado.phet.common.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -13,7 +13,7 @@ import java.text.NumberFormat;
  * Time: 6:21:43 AM
  * Copyright (c) Sep 21, 2004 by Sam Reid
  */
-public class Axis implements Graphic {
+public class Axis {
     private Chart chart;
     private AxisTicks minorTicks;
     private AxisTicks majorTicks;
