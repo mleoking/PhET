@@ -10,7 +10,7 @@ Single Bulb module:
     to half of the number currently passed.
 3. Standardize behavior of the sliders. When the user changes his/her drag direction,
     do not move the slider knob until the cursor is over the knob.
-4. Use a non-gray color for the simulation's background, ala other PhET simulations.
+(DONE) 4. Use a non-gray color for the simulation's background, ala other PhET simulations.
 (DONE) 5. Rename "Beam Type" to "Beam View" in the control panel.
 (DONE) 6. Add more space between the control groups in the control panel.
 (DONE) 7. Use a larger font for the title of each control group in the control panel.
@@ -28,7 +28,7 @@ Global issues:
 MEDIUM:
 (DONE) o investigate fixed clock
 (DONE) o Match intensity slider value to background gradient color
-o test IntensitySlider in Horizontal orientation
+(DONE) o test IntensitySlider in Horizontal orientation
 o support orientation of SpectrumSlider
 o support scaling of SpectrumSlider
 o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
