@@ -1,24 +1,55 @@
 ﻿class ColorUtil {
+	private static var minWavelength:Number = 380;
+	private static var maxWavelength:Number = 780;
+	private static var ctxArray:Array;
 	static function traceCtx(c) {
 		trace("red:" + c.rb + "  green:" + c.gb + "  blue:" + c.bb);
 	}
 	static function getColor(wavelength:Number) {
 		return ctxToColor( ColorUtil.getCtx( wavelength));
 	}
-	static function ctxToColor(ctx) {
+	static function ctxToColor(ctx):Number {
 		var red = Math.round(0x010000 * ctx.rb);
 		var green = Math.round(0x000100 * ctx.gb);
 		var blue = Math.round(0x000001 * ctx.bb);
-		var c = red + blue + green;
+		var c:Number = red + blue + green;
 		return c;
+	}
+	static function colorToCtx(color:Number){
+		var red = Math.round(color / 0x010000);
+		var green = Math.round( (color % 0x010000) / 0x000100 );
+		var blue = Math.round(color % 0x000100);
+		var ctx = {rb:red, gb:green, bb:blue};
+		return ctx;
+	}
+	static function ctxToWavelength(ctx){
+		if(ctxArray == undefined ) {
+			genCtxArray();
+		}
+		_root.breakpoint();
+		var found:Boolean = false;
+		var result:Object;
+		var eps:Number = 2;
+		for(var i = 0; i < ctxArray.length && !found; i++){
+			if( Math.abs(ctx.rb - ctxArray[i].rb) < eps
+			 && Math.abs(ctx.gb - ctxArray[i].gb) < eps
+			 && Math.abs(ctx.bb - ctxArray[i].bb) < eps){
+				found = true;
+				result = ctxArray[i];
+			}		
+		}
+		trace("ColorUtil: " + (minWavelength + i));
+		traceCtx(ctxArray[i]);
+		return minWavelength + i;
 	}
 	static function getPercentFilteredLight():Number {
 		var wl = _root.bulb1.getWavelength();
 		var pctPassed = _root.filter1.percentPassed(wl);
 		return pctPassed * 100;
 	}
-	static function getColorTransform() {
-		var ctxArray = new Array();
+	static function genCtxArray() {
+		var numWavelengths = maxWavelength - minWavelength + 1;
+		ctxArray = new Array(numWavelengths);
 		var m = 400;
 		var n = 50;
 		var max = 255;
@@ -26,10 +57,11 @@
 		var wl;
 		var r, g, b;
 		var SSS;
-		for (var j = 0; j < n; j++) {
-			for (var i = 0; i < m; i++) {
+		for (var j = 0; j < numWavelengths; j++) {
+//			for (var i = 0; i < m; i++) {
 				//         WAVELEngTH = wl
-				wl = 380. + (i * 400. / m);
+//				wl = 380. + (i * 400. / m);
+				wl = minWavelength + j;
 				if (wl >= 380 && wl <= 440.) {
 					r = -1. * (wl - 440.) / (440. - 380.);
 					g = 0;
@@ -70,12 +102,13 @@
 				else {
 					SSS = 1.;
 				}
-				var red = 255 * (SSS * r);
-				var green = 255 * (SSS * g);
-				var blue = 255 * (SSS * b);
+				var red = Math.round(255 * (SSS * r));
+				var green = Math.round(255 * (SSS * g));
+				var blue = Math.round(255 * (SSS * b));
 				var ctx = {rb:red, gb:green, bb:blue};
-				ctxArray.push(ctx);
-			}
+				trace("ColorUtil: " + j );
+				ctxArray[j] = ctx;
+//			}
 			/*
 									//     gamma ADjUST AnD WrITE ImAgE TO An ArrAY
 									c
@@ -133,9 +166,6 @@
 									       EnD 
 									*/
 		}
-		for (var k = 0; k < ctxArray.length; k++) {
-			_root.traceColor(ctxArray[k]);
-		}
 	}
 	static function getCtx(wl) {
 		var r:Number;
@@ -184,10 +214,16 @@
 		else {
 			SSS = 1.;
 		}
+		
+		if( wl == 0 ) {
+			ctx = {rb:255, gb:255, bb: 255};
+		}
+		else {
 		red = Math.round(255 * (SSS * r));
 		green = Math.round(255 * (SSS * g));
 		blue = Math.round(255 * (SSS * b));
 		ctx = {rb:red, gb:green, bb:blue};
+		}
 		return ctx;
 	}
 }

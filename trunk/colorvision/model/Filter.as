@@ -1,13 +1,20 @@
-﻿class Filter extends Observable {
+﻿class Filter extends MovieClip {
 	private var myColorTransform:Object;
 	private var red:Number;
 	private var green:Number;
 	private var blue:Number;
 	private var alpha:Number;
 	private var transmissionPeak:Number;
+	private var xLoc:Number;
+	private var yLoc:Number;
 	// Width (in nm) of the filter's transmission curve
 	private var transmissionSpread:Number = 100;
+	// This object's clock
 	
+	function setLocation( xLod:Number, yLoc:Number):Void{
+		this.xLoc = xLoc;
+		this.yLoc = yLoc;
+	}
 	function setTransmissionPeak( wl:Number ):Void {
 		this.transmissionPeak = wl;
 	}
@@ -77,5 +84,17 @@
 		//	_root.alpha = alpha;
 		this.alpha = alpha;
 		return alpha;
+	}
+	
+	function onEnterFrame(){
+		var photons:Array = Photon.getInstances();
+		trace("filter: " + photons);
+		for(var i=0; i<photons.length; i++){
+			trace("filter: " + photons[i]._x);
+			if(photons[i]._x > this.xLoc){
+				trace("filter !!");
+				photons[i].setRgb(0);
+			}
+		}
 	}
 }

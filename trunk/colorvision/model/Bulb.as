@@ -7,27 +7,38 @@
 	private var photonBoundsWidth:Number;
 	private var photonBoundsHeight:Number;
 	private var myColorTransform:Object;
-	private var myColor:Color;
 	private var filteredBeamColor:Object;
 	private var passedColor:Object;
 	private var filter:Object;
 	private var wavelength:Number;
-
+	private var listeners:Array;
 	function Bulb() {
 		this.tick = 0;
 		this.photons = new Array();
-		this.myColor = new Color(this);
 		this.myColorTransform = {rb:0, bb:0, gb:0};
+		this.listeners = new Array();
 	}
-	function setWavelength( wl:Number){
+	function addColorListener(listener:ColorListener):Void {
+		listeners.push(listener);
+	}
+	function removeColorListener(listener:ColorListener):Void {
+		var found:Boolean = false;
+		for (var i = 0; i < listeners.length && !found; i++) {
+			if (listeners[i] == listener) {
+				listeners.splice(i, 1);
+				found = true;
+			}
+		}
+	}
+	function setWavelength(wl:Number) {
 		this.wavelength = wl;
-	}	
-	function getWavelength():Number{
-		return this.wavelength;
+		this.myColorTransform = ColorUtil.getCtx(wl);
+		for (var i = 0; i < listeners.length; i++) {
+			listeners[i].colorChanged(this.wavelength);
+		}
 	}
-	function setColor(ctx):Void {
-		this.myColorTransform = ctx;
-		this.myColor.setTransform(ctx);
+	function getWavelength():Number {
+		return this.wavelength;
 	}
 	function setFilter(f) {
 		this.filter = f;
@@ -41,30 +52,6 @@
 	function getCtx() {
 		return this.myColorTransform;
 	}
-	// This function never gets called!!!
-	function onEnterFrame() {
-		passedColor = this.filter.colorPassed(this.myColorTransform);
-		this.filteredBeamColor = passedColor;
-		//	_root.beam1_ColorpassedColor;
-	}
-	/*
-	cnt0;
-	isFilteredfunction( f, p ) {
-			if( this._x + p.x >= f._x - f._width / 2 && this._x + p.x <= f._x + f._width * 2
-					&& this._y + p.y >= f._y - f._height / 2 && this._y + p.y <= f._y + f._height / 2 ) {
-				passedColorf.colorPassed( p.getColor() );
-	//			p.setColor( passedColor );
-	//			this.setColor( passedColor );
-				_root.beam1_ColorpassedColor;			
-				trace("$$$ " + cnt++);
-			}
-			else {
-				trace("!!! " + cnt++);
-	//			_root.beam1_Colorthis.myColor.getTransform();
-				return false;
-			}
-	}
-	*/
 	function setDirection(theta) {
 		this.theta = theta;
 	}

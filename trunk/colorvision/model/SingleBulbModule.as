@@ -28,7 +28,7 @@
 	public function getFilteredCtx() {
 		var ctx;
 		if (_root.bulb1.getWavelength() == 0) {			
-			ctx = _root.getCtx(_root.filter1.getTransmissionPeak());
+			ctx = ColorUtil.getCtx(_root.filter1.getTransmissionPeak());
 		}
 		else {
 			ctx = _root.bulb1.getCtx();
