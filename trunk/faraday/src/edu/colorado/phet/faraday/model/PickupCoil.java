@@ -151,6 +151,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         
         // Calculate the induced EMF.
         double emf = -( getNumberOfLoops() * deltaFlux );
+        
+        // Set the voltage across the ends of the coil -- see Kirchhoff's rule.
         setVoltage( emf );
         
 //        // DEBUG: use this to determine the maximum EMF in the simulation.
