@@ -9,8 +9,8 @@ package edu.colorado.phet.emf;
 import edu.colorado.phet.command.AddTransmittingElectronCmd;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.Command;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
@@ -21,8 +21,8 @@ import edu.colorado.phet.emf.model.EmfModel;
 import edu.colorado.phet.emf.model.EmfSensingElectron;
 import edu.colorado.phet.emf.model.PositionConstrainedElectron;
 import edu.colorado.phet.emf.model.movement.ManualMovement;
-import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
 import edu.colorado.phet.emf.model.movement.MovementType;
+import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
 import edu.colorado.phet.emf.view.*;
 import edu.colorado.phet.util.StripChart;
 
@@ -45,9 +45,8 @@ public class EmfModule extends Module {
     private ManualMovement manualMovement = new ManualMovement();
     private EmfPanel apparatusPanel;
     private MovementType movementStrategy;
-    private boolean showWiggleMe = true;
-    private boolean wiggleMeShowing = false;
     private Graphic wiggleMeGraphic;
+    private boolean beenWiggled;
 
 
     public EmfModule( AbstractClock clock ) {
@@ -79,9 +78,8 @@ public class EmfModule extends Module {
         Antenna receivingAntenna = new Antenna( new Point2D.Double( origin.x + 678, electron.getStartPosition().getY() - 50 ),
                                                 new Point2D.Double( origin.x + 678, electron.getStartPosition().getY() + 75 ) );
         receivingElectronLoc = new Point2D.Double( origin.x + 680, electron.getStartPosition().getY() );
-        receivingElectron = new EmfSensingElectron(
-                (EmfModel)this.getModel(), receivingElectronLoc, electron,
-                receivingAntenna );
+        receivingElectron = new EmfSensingElectron( (EmfModel)this.getModel(), receivingElectronLoc, electron,
+                                                    receivingAntenna );
         getModel().execute( new Command() {
             public void doIt() {
                 getModel().addModelElement( receivingElectron );
@@ -111,6 +109,10 @@ public class EmfModule extends Module {
                                               this ) );
 
         // Draw the animated "Wiggle me"
+        createWiggleMeGraphic( origin );
+    }
+
+    private void createWiggleMeGraphic( final Point origin ) {
         wiggleMeGraphic = new Graphic() {
             Point2D.Double start = new Point2D.Double( 0, 0 );
             Point2D.Double stop = new Point2D.Double( origin.getX() - 100, origin.getY() - 10 );
@@ -124,25 +126,30 @@ public class EmfModule extends Module {
                 current.setLocation( ( current.x + ( stop.x - current.x ) * .02 ),
                                      ( current.y + ( stop.y - current.y ) * .04 ) );
                 g.setFont( font );
-                g.setColor( new Color( 0, 100, 0 ));
+                g.setColor( new Color( 0, 100, 0 ) );
                 String s1 = "Wiggle the";
                 String s2 = "electron!";
                 g.drawString( s1, (int)current.getX(), (int)current.getY() - g.getFontMetrics( font ).getHeight() );
                 g.drawString( s2, (int)current.getX(), (int)current.getY() );
-                Point2D.Double arrowTail = new Point2D.Double(current.getX() + SwingUtilities.computeStringWidth( g.getFontMetrics( font ), s2 ) + 10,
-                                                            (int)current.getY() - g.getFontMetrics( font ).getHeight() / 2 );
+                Point2D.Double arrowTail = new Point2D.Double( current.getX() + SwingUtilities.computeStringWidth( g.getFontMetrics( font ), s2 ) + 10,
+                                                               (int)current.getY() - g.getFontMetrics( font ).getHeight() / 2 );
                 Point2D.Double arrowTip = new Point2D.Double( arrowTail.getX() + 15, arrowTail.getY() + 12 );
                 Arrow arrow = new Arrow( arrowTail, arrowTip, 6, 6, 2, 100, false );
                 g.fill( arrow.getShape() );
             }
         };
-        showWiggleMe();
+        setWiggleMeGraphicState();
     }
 
-    private void showWiggleMe() {
-        if( showWiggleMe && !wiggleMeShowing ) {
-            this.addGraphic( wiggleMeGraphic, 5 );
-            wiggleMeShowing = true;
+    private void setWiggleMeGraphicState() {
+        if( wiggleMeGraphic != null ) {
+            if( movementStrategy == manualMovement
+                && !beenWiggled ) {
+                this.addGraphic( wiggleMeGraphic, 5 );
+            }
+            else {
+                this.getApparatusPanel().removeGraphic( wiggleMeGraphic );
+            }
         }
     }
 
@@ -216,22 +223,24 @@ public class EmfModule extends Module {
     }
 
     public void setMovementSinusoidal() {
-        showWiggleMe();
+        setWiggleMeGraphicState();
         movementStrategy = sinusoidalMovement;
         this.getModel().execute( new SetMovementCmd( (EmfModel)this.getModel(),
                                                      sinusoidalMovement ) );
+        setWiggleMeGraphicState();
     }
 
     public void setMovementManual() {
-//        showWiggleMe();
-//        if( showWiggleMe && !wiggleMeShowing ) {
-//            apparatusPanel.removeGraphic( wiggleMeGraphic );
-//            this.addGraphic( wiggleMeGraphic, 5 );
-//            wiggleMeShowing = true;
-//        }
+        //        setWiggleMeGraphicState();
+        //        if( setWiggleMeGraphicState && !wiggleMeShowing ) {
+        //            apparatusPanel.removeGraphic( wiggleMeGraphic );
+        //            this.addGraphic( wiggleMeGraphic, 5 );
+        //            wiggleMeShowing = true;
+        //        }
         movementStrategy = manualMovement;
         this.getModel().execute( new SetMovementCmd( (EmfModel)this.getModel(),
                                                      manualMovement ) );
+        setWiggleMeGraphicState();
     }
 
     public void displayStaticField( boolean display ) {
@@ -256,6 +265,6 @@ public class EmfModule extends Module {
 
     public void removeWiggleMeGraphic() {
         apparatusPanel.removeGraphic( wiggleMeGraphic );
-        showWiggleMe = false;
+        beenWiggled = true;
     }
 }
