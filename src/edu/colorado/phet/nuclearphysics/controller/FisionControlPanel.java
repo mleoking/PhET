@@ -8,7 +8,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.ModelSlider;
-import edu.colorado.phet.nuclearphysics.model.Particle;
+import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.ProtonGraphic;
@@ -54,15 +54,15 @@ public class FisionControlPanel extends JPanel {
     private class LegendPanel extends JPanel {
         public LegendPanel() {
             setLayout( new GridBagLayout() );
-            BufferedImage neutronBi = new BufferedImage( (int)Particle.RADIUS * 4, (int)Particle.RADIUS * 4,
+            BufferedImage neutronBi = new BufferedImage( (int)NuclearParticle.RADIUS * 4, (int)NuclearParticle.RADIUS * 4,
                                                          BufferedImage.TYPE_INT_ARGB );
             Graphics2D gn = (Graphics2D)neutronBi.getGraphics();
-            new NeutronGraphic().paint( gn, Particle.RADIUS, Particle.RADIUS );
+            new NeutronGraphic().paint( gn, NuclearParticle.RADIUS, NuclearParticle.RADIUS );
             ImageIcon neutronImg = new ImageIcon( neutronBi );
-            BufferedImage protonBi = new BufferedImage( (int)Particle.RADIUS * 4, (int)Particle.RADIUS * 4,
+            BufferedImage protonBi = new BufferedImage( (int)NuclearParticle.RADIUS * 4, (int)NuclearParticle.RADIUS * 4,
                                                         BufferedImage.TYPE_INT_ARGB );
             Graphics2D gp = (Graphics2D)protonBi.getGraphics();
-            new ProtonGraphic().paint( gp, Particle.RADIUS, Particle.RADIUS );
+            new ProtonGraphic().paint( gp, NuclearParticle.RADIUS, NuclearParticle.RADIUS );
             ImageIcon protonImg = new ImageIcon( protonBi );
 
             this.setBorder( BorderFactory.createTitledBorder( "Legend" ) );

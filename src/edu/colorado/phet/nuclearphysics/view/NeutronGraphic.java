@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.nuclearphysics.model.Particle;
+import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 
 import java.awt.*;
 
@@ -18,7 +18,7 @@ public class NeutronGraphic extends ParticleGraphic {
         super( color );
     }
 
-    public NeutronGraphic( Particle particle ) {
+    public NeutronGraphic( NuclearParticle particle ) {
         super( particle, NeutronGraphic.color );
     }
 }
