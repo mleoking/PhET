@@ -86,7 +86,9 @@ public class Force1DModel implements ModelElement {
     }
 
     public static interface Listener {
-        public void appliedForceChanged();
+        void appliedForceChanged();
+
+        void gravityChanged();
     }
 
     public double getGravity() {
@@ -96,6 +98,14 @@ public class Force1DModel implements ModelElement {
     public void setGravity( double gravity ) {
         this.gravity = gravity;
         updateBlock();
+        gravityChanged();
+    }
+
+    private void gravityChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.gravityChanged();
+        }
     }
 
     public double getAppliedForce() {

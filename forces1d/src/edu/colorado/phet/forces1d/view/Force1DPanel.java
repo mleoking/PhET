@@ -2,7 +2,9 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
@@ -13,6 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
+import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
 import javax.swing.*;
@@ -40,6 +43,9 @@ public class Force1DPanel extends ApparatusPanel {
     private Force1DModel model;
     private PlotDeviceView plotDeviceView;
     private RepaintDebugGraphic repaintDebugGraphic;
+    private FreeBodyDiagram freeBodyDiagram;
+    private FreeBodyDiagram.ForceArrow mg;
+    private FreeBodyDiagram.ForceArrow normal;
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
         this.module = module;
@@ -146,6 +152,40 @@ public class Force1DPanel extends ApparatusPanel {
         repaintDebugGraphic = new RepaintDebugGraphic( Force1DPanel.this, module.getClock() );
         repaintDebugGraphic.setTransparency( 128 );
         repaintDebugGraphic.setActive( false );
+
+        freeBodyDiagram = new FreeBodyDiagram( this, module );
+        addGraphic( freeBodyDiagram, Double.POSITIVE_INFINITY );
+        mg = new FreeBodyDiagram.ForceArrow( this, freeBodyDiagram, Color.blue, "mg", new Vector2D.Double( 0, 80 ) );
+        freeBodyDiagram.addForceArrow( mg );
+
+        normal = new FreeBodyDiagram.ForceArrow( this, freeBodyDiagram, Color.green, "N", new Vector2D.Double( 0, 80 ) );
+        freeBodyDiagram.addForceArrow( normal );
+        model.addListener( new Force1DModel.Listener() {
+            public void appliedForceChanged() {
+            }
+
+            public void gravityChanged() {
+                updateMG();
+            }
+        } );
+        model.getBlock().addListener( new Block.Listener() {
+            public void positionChanged() {
+            }
+
+            public void propertyChanged() {
+                updateMG();
+            }
+        } );
+    }
+
+    private void updateMG() {
+        double gravity = model.getGravity();
+        double mass = model.getBlock().getMass();
+        double scale = 1.0 / 30.0;
+        Vector2D.Double m = new Vector2D.Double( 0, gravity * mass * scale );
+        AbstractVector2D n = m.getScaledInstance( -1 );
+        mg.setVector( m );
+        normal.setVector( n );
     }
 
     private void setShowFrictionForce( boolean selected ) {

@@ -47,7 +47,7 @@ public class Force1DModule extends Module {
 
 
         forcePanel = new Force1DPanel( this );
-
+        forcePanel.addRepaintDebugGraphic( clock );
         setApparatusPanel( forcePanel );
 
         setModel( new BaseModel() );
