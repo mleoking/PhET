@@ -114,10 +114,23 @@ public class Turbine extends BarMagnet implements ModelElement {
         return Math.abs( _speed * _maxRPM );
     }
     
+    /**
+     * Enables or disables critical angles.
+     * When enabled, the delta angle may be adjusted so that the rotation
+     * hits the points where it is parallel and perpendicular to the pickup coil.
+     * 
+     * @param criticalAnglesEnabled true or false
+     */
     public static void setCriticalAnglesEnabled( boolean criticalAnglesEnabled ) {
         _criticalAnglesEnabled = criticalAnglesEnabled;
     }
     
+    /**
+     * Determines whether critical angles are enabled.
+     * 
+     * @return true or false
+     * @see setCriticalAnglesEnabled
+     */
     public static boolean isCriticalAnglesEnabled() {
         return _criticalAnglesEnabled;
     }
