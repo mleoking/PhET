@@ -50,6 +50,10 @@ public class PressureDialGauge implements Graphic {
         pressureGauge.paint( g );
     }
 
+    //---------------------------------------------------------------------------------
+    // Inner classes
+    //---------------------------------------------------------------------------------
+
     private class ObservablePressureBox extends ScalarObservable implements SimpleObserver {
 
         public ObservablePressureBox() {
@@ -65,6 +69,4 @@ public class PressureDialGauge implements Graphic {
             notifyObservers();
         }
     }
-
-
 }

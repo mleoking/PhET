@@ -9,7 +9,6 @@ package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.PressureSlice;
-import edu.colorado.phet.idealgas.util.ScalarDataRecorder;
 
 import java.awt.geom.Point2D;
 
@@ -18,7 +17,7 @@ import java.awt.geom.Point2D;
  */
 public class PressureSensingBox extends Box2D {
 
-    private ScalarDataRecorder pressureRecorder;
+//    private ScalarDataRecorder pressureRecorder;
     private PressureSlice pressureSlice;
 
     /**
@@ -26,9 +25,9 @@ public class PressureSensingBox extends Box2D {
      */
     public PressureSensingBox( Point2D corner1, Point2D corner2, IdealGasModel model, AbstractClock clock ) {
         super( corner1, corner2, model );
-        pressureRecorder = new ScalarDataRecorder( clock );
+//        pressureRecorder = new ScalarDataRecorder( clock );
         pressureSlice = new PressureSlice( this, model, clock );
-        model.addModelElement( pressureSlice );
+//        model.addModelElement( pressureSlice );
         pressureSlice.setY( ( corner1.getY() + corner2.getY() ) / 2 );
     }
 
@@ -36,7 +35,7 @@ public class PressureSensingBox extends Box2D {
      *
      */
     public void clear() {
-        pressureRecorder.clear();
+//        pressureRecorder.clear();
     }
 
     /**

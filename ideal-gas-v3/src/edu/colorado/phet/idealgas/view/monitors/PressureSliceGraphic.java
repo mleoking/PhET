@@ -5,6 +5,7 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
+import edu.colorado.phet.common.util.EventChannelProxy;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
@@ -19,6 +20,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.EventListener;
+import java.util.EventObject;
 
 public class PressureSliceGraphic extends DefaultInteractiveGraphic {
 
@@ -34,12 +37,19 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
     private double boxLowerEdge;
     private double boxRightEdge;
     private Box2D box;
-    private NumberFormat pressureFormatter = new DecimalFormat( "#.##" );
-    private NumberFormat heightFormatter = new DecimalFormat( "#.##" );
+    private NumberFormat temperatureFormatter = new DecimalFormat( "#" );
+    private NumberFormat pressureFormatter = new DecimalFormat( "0.00" );
+    private NumberFormat heightFormatter = new DecimalFormat( "0.00" );
     private double temperature;
     private double pressure;
     private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
 
+    /**
+     *
+     * @param component
+     * @param pressureSlice
+     * @param box
+     */
     public PressureSliceGraphic( Component component, final PressureSlice pressureSlice, final Box2D box ) {
         super( null );
         this.pressureSlice = pressureSlice;
@@ -53,6 +63,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
                                         Math.max( y + dy, box.getMinY() ) );
                 y = newY;
                 pressureSlice.setY( y );
+                listenerProxy.moved( new Event( PressureSliceGraphic.this ) );
             }
         } );
         this.box = box;
@@ -113,7 +124,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
 
             // Draw the slice itself, over the box
             g2.setColor( Color.YELLOW );
-            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.3f ) );
+            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, s_overlayTransparency ) );
             g2.fill( boundingRect );
             g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
             g2.draw( boundingRect );
@@ -131,7 +142,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
             g2.drawRoundRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight, 5, 5 );
 
             g2.setColor( Color.WHITE );
-            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
+            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, s_overlayTransparency ) );
             g2.fillRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight );
 
             g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
@@ -146,7 +157,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
             if( Double.isInfinite( temperature ) || Double.isNaN( temperature ) ) {
                 temperature = 0.0;
             }
-            String temperatureStr = "T = " + pressureFormatter.format( temperature ) + " ºK";
+            String temperatureStr = "T = " + temperatureFormatter.format( temperature ) + " ºK";
             g2.setColor( Color.black );
             strLocY += fontMetrics.getHeight();
             g2.drawString( temperatureStr, readoutLocation.x + 5, strLocY );
@@ -165,5 +176,37 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
         }
     }
 
+    //-----------------------------------------------------------------------------------------
+    // Events and event handling
+    //-----------------------------------------------------------------------------------------
+    public class Event extends EventObject {
+
+        public Event( Object source ) {
+            super( source );
+        }
+
+        public PressureSliceGraphic getPressureSliceGraphic() {
+            return (PressureSliceGraphic)super.getSource();
+        }
+
+        public int getY() {
+            return (int)getPressureSliceGraphic().y;
+        }
+    }
+
+    public interface Listener extends EventListener {
+        void moved( Event event );
+    }
+
+    EventChannelProxy channel = new EventChannelProxy( Listener.class );
+    Listener listenerProxy = (Listener)channel.getProxy();
+
+    public void addListener( Listener listener ) {
+        channel.addListener( listener );
+    }
+
+    public void removeListener( Listener listener ){
+        channel.removeListener( listener );
+    }
 }
 
