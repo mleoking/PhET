@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.colorvision3.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -10,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -30,6 +32,8 @@ import edu.colorado.phet.colorvision3.model.Spotlight2D;
  */
 public class IntensityControl extends JPanel implements ChangeListener
 {
+  private static Stroke STROKE = new BasicStroke( 1f );
+  
   private Spotlight2D _model;
   private JPanel _containerPanel;
   private JSlider _slider;
@@ -108,6 +112,7 @@ public class IntensityControl extends JPanel implements ChangeListener
     
     // Save any graphics state that we'll be touching.
     Paint oldPaint = g2.getPaint();
+    Stroke oldStroke = g2.getStroke();
     
     // Use local variables to improve code readability.
     Component component = _containerPanel;
@@ -136,11 +141,13 @@ public class IntensityControl extends JPanel implements ChangeListener
     // Render the background.
     g2.setPaint( gradient );
     g2.fill( shape );
+    g2.setStroke( STROKE );
     g2.setPaint( Color.white );
     g2.draw( shape );
     
     // Restore the graphics state.
     g2.setPaint( oldPaint );
+    g2.setStroke( oldStroke );
     
     // Render the component.
     super.paintComponent( g );
