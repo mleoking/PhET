@@ -242,6 +242,15 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             _waveGraphic.clearTransform();
             double xScale = ( 1 - frequency + FaradayConfig.AC_FREQUENCY_MIN ) * WAVE_SCALE_X;  //HACK
             double yScale = maxAmplitude * WAVE_SCALE_Y;
+            {
+                // WORKAROUND: Scaling by 0 or Double.MIN_VALUE causes an exception on Windows & Linux.
+                if ( xScale == 0 ) {
+                    xScale = .001;
+                }
+                if ( yScale == 0 ) {
+                    yScale = .001;
+                }
+            }
             _waveGraphic.scale( xScale, yScale );
             
             repaint();
