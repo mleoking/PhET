@@ -15,6 +15,8 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,6 +34,7 @@ public class GraphicLayerSet extends PhetGraphic {
     private MultiMap graphicMap = new MultiMap();
     private PhetGraphic activeUnit;
     private SwingAdapter swingAdapter;
+    private KeyListener keyAdapter = new KeyAdapter();
 
     public GraphicLayerSet( Component component ) {
         super( component );
@@ -58,7 +61,7 @@ public class GraphicLayerSet extends PhetGraphic {
      *
      * @return the SwingAdapter to listen to Components.
      */
-    public SwingAdapter getSwingAdapter() {
+    public SwingAdapter getMouseAdapter() {
         return swingAdapter;
     }
 
@@ -256,6 +259,32 @@ public class GraphicLayerSet extends PhetGraphic {
             }
         }
         return result;
+    }
+
+
+    public KeyListener getKeyAdapter() {
+        return keyAdapter;
+    }
+
+    public class KeyAdapter implements KeyListener {
+        //TODO this should probably include code to have a separate key-focused handler.
+        public void keyTyped( KeyEvent e ) {
+            if( activeUnit != null ) {
+                activeUnit.fireKeyTyped( e );
+            }
+        }
+
+        public void keyPressed( KeyEvent e ) {
+            if( activeUnit != null ) {
+                activeUnit.fireKeyPressed( e );
+            }
+        }
+
+        public void keyReleased( KeyEvent e ) {
+            if( activeUnit != null ) {
+                activeUnit.fireKeyReleased( e );
+            }
+        }
     }
 
     /**
