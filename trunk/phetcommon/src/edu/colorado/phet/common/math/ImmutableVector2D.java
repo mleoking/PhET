@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
 
 public interface ImmutableVector2D extends AbstractVector2D {
 
-    public class Double extends AbstractVector2D.Double {
+    public class Double extends AbstractVector2D.Double implements ImmutableVector2D {
         public Double() {
         }
 
@@ -36,7 +36,7 @@ public interface ImmutableVector2D extends AbstractVector2D {
 
     }
 
-    public class Float extends AbstractVector2D.Float {
+    public class Float extends AbstractVector2D.Float implements ImmutableVector2D {
 
         public Float() {
         }
