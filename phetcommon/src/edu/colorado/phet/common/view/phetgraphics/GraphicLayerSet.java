@@ -1,10 +1,3 @@
-/**
- *
- * Class: CompositeGraphic
- * Package: edu.colorado.phet.common.view
- * Author: Another Guy
- * Date: Dec 19, 2003
- */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.util.MultiMap;

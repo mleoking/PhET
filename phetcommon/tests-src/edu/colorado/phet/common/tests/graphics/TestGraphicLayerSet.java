@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: Nov 12, 2004
  */
-package edu.colorado.phet.common.tests.basicgraphics;
+package edu.colorado.phet.common.tests.graphics;
 
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;

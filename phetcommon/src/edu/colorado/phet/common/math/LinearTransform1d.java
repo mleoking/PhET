@@ -45,7 +45,7 @@ public class LinearTransform1d {
         }
     }
 
-    public double evaluate( double x ) {
+    public double transform( double x ) {
         x = t1 + x;
         x = s * x;
         x = t2 + x;
@@ -84,15 +84,6 @@ public class LinearTransform1d {
         update();
     }
 
-    /**
-     * @param x
-     * @return
-     * @deprecated
-     */
-    public double operate( double x ) {
-        return evaluate( x );
-    }
-
     public double getMinInput() {
         return minInput;
     }
@@ -117,7 +108,7 @@ public class LinearTransform1d {
         LinearTransform1d map = new LinearTransform1d( -10, 10, 2, 3 );
 
         for( double d = map.getMinInput(); d <= map.getMaxInput(); d += .01 ) {
-            double out = map.evaluate( d );
+            double out = map.transform( d );
             System.out.println( "in = " + d + ", out=" + out );
         }
     }
