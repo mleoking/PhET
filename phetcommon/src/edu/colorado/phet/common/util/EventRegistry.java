@@ -75,6 +75,7 @@ public class EventRegistry {
         Map m = (Map)eventTypeToInvocationMethodMap.get( eventType );
         Method testMethod = (Method)m.get( listener.getClass() );
         if( testMethod == null ) {
+            method.setAccessible( true );
             m.put( listener.getClass(), method );
         }
 
