@@ -6,9 +6,6 @@
  */
 package edu.colorado.phet.common.view.graphics.transforms;
 
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-
 import java.util.ArrayList;
 
 /**
@@ -20,26 +17,26 @@ import java.util.ArrayList;
 public class CompositeTransformListener implements TransformListener {
     ArrayList listeners = new ArrayList();
 
-    public void transformChanged( ModelViewTransform2D mvt ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TransformListener o = (TransformListener)listeners.get( i );
-            o.transformChanged( mvt );
+    public void transformChanged(ModelViewTransform2D mvt) {
+        for (int i = 0; i < listeners.size(); i++) {
+            TransformListener o = (TransformListener) listeners.get(i);
+            o.transformChanged(mvt);
         }
     }
 
-    public TransformListener transformListenerAt( int i ) {
-        return (TransformListener)listeners.get( i );
+    public TransformListener transformListenerAt(int i) {
+        return (TransformListener) listeners.get(i);
     }
 
-    public void removeTransformListener( TransformListener tl ) {
-        listeners.remove( tl );
+    public void removeTransformListener(TransformListener tl) {
+        listeners.remove(tl);
     }
 
-    public int numTransformListeners( TransformListener tl ) {
+    public int numTransformListeners(TransformListener tl) {
         return listeners.size();
     }
 
-    public void addTransformListener( TransformListener tl ) {
-        listeners.add( tl );
+    public void addTransformListener(TransformListener tl) {
+        listeners.add(tl);
     }
 }

@@ -21,9 +21,9 @@ public class PhetVector {
         this.x = x;
         this.y = y;
     }
-    public PhetVector(Point2D pt)
-    {
-        this(pt.getX(),pt.getY());
+
+    public PhetVector(Point2D pt) {
+        this(pt.getX(), pt.getY());
     }
 
     public PhetVector(PhetVector init) {
@@ -43,19 +43,20 @@ public class PhetVector {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof PhetVector)){
+        if (!(obj instanceof PhetVector)) {
             return false;
         }
-        PhetVector b=(PhetVector) obj;
-        return b.getX()==getX()&&b.getY()==getY();
+        PhetVector b = (PhetVector) obj;
+        return b.getX() == getX() && b.getY() == getY();
     }
 
     public PhetVector getScaledInstance(double scale) {
         return new PhetVector(x * scale, y * scale);
     }
-    public PhetVector getInstanceForMagnitude(double magnitude){
-        double currentMag=getMagnitude();
-        return getScaledInstance(magnitude/currentMag);
+
+    public PhetVector getInstanceForMagnitude(double magnitude) {
+        double currentMag = getMagnitude();
+        return getScaledInstance(magnitude / currentMag);
     }
 
     public double getMagnitude() {
@@ -143,12 +144,11 @@ public class PhetVector {
         return vector;
     }
 
-    public Point2D.Double toPoint2D()
-    {
-        return new Point2D.Double(x,y);
+    public Point2D.Double toPoint2D() {
+        return new Point2D.Double(x, y);
     }
 
     public PhetVector getAddedInstance(Point2D.Double pt) {
-        return getAddedInstance(pt.x,pt.y);
+        return getAddedInstance(pt.x, pt.y);
     }
 }

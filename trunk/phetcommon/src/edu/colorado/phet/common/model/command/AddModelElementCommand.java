@@ -9,22 +9,21 @@ package edu.colorado.phet.common.model.command;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.command.Command;
 
 public class AddModelElementCommand implements Command {
     ModelElement me;
     BaseModel m;
 
-    public AddModelElementCommand( BaseModel m, ModelElement me ) {
+    public AddModelElementCommand(BaseModel m, ModelElement me) {
         this.m = m;
         this.me = me;
     }
 
     public void doItLater() {
-        m.execute( this );
+        m.execute(this);
     }
 
     public void doIt() {
-        m.addModelElement( me );
+        m.addModelElement(me);
     }
 }

@@ -6,8 +6,7 @@
  */
 package edu.colorado.phet.common.model.clock;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
 
 public interface ClockTickListener {
-    public void clockTicked( AbstractClock c, double dt );
+    public void clockTicked(AbstractClock c, double dt);
 }

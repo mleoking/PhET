@@ -3,7 +3,6 @@ package edu.colorado.phet.common.view.graphics.mousecontrols;
 
 import edu.colorado.phet.common.util.MultiMap;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseEvent;
@@ -101,11 +100,11 @@ public class MouseManager implements MouseInputListener {
 
     //temporarily transfer control to the specified graphic.
     //May not be safe to give control to a mouseinputlistener not in our multimap...
-    public void startDragging(MouseInputListener inputListener,MouseEvent event) {
-        if (activeUnit!=null){
+    public void startDragging(MouseInputListener inputListener, MouseEvent event) {
+        if (activeUnit != null) {
             activeUnit.mouseReleased(event);//could be problems if expected event==RELEASE_EVENT
         }
-        activeUnit=inputListener;
+        activeUnit = inputListener;
         activeUnit.mouseDragged(event);
     }
 

@@ -13,7 +13,6 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * This class encapsulates the parts of an application that make up
@@ -30,7 +29,7 @@ public class Module {
     JPanel monitorPanel;
     String name;
 
-    protected Module( String name ) {
+    protected Module(String name) {
         this.name = name;
     }
 
@@ -42,27 +41,27 @@ public class Module {
         return controlPanel;
     }
 
-    protected void setApparatusPanel( ApparatusPanel apparatusPanel ) {
+    protected void setApparatusPanel(ApparatusPanel apparatusPanel) {
         this.apparatusPanel = apparatusPanel;
     }
 
-    protected void setMonitorPanel( JPanel monitorPanel ) {
+    protected void setMonitorPanel(JPanel monitorPanel) {
         this.monitorPanel = monitorPanel;
     }
 
-    protected void setModel( BaseModel model ) {
+    protected void setModel(BaseModel model) {
         this.model = model;
     }
 
-    protected void setControlPanel( JPanel controlPanel ) {
+    protected void setControlPanel(JPanel controlPanel) {
         this.controlPanel = controlPanel;
     }
 
-    protected void init( ApparatusPanel panel, JPanel controlPanel, JPanel monitorPanel, BaseModel baseModel ) {
-        setApparatusPanel( apparatusPanel );
-        setControlPanel( controlPanel );
-        setMonitorPanel( monitorPanel );
-        setModel( model );
+    protected void init(ApparatusPanel panel, JPanel controlPanel, JPanel monitorPanel, BaseModel baseModel) {
+        setApparatusPanel(apparatusPanel);
+        setControlPanel(controlPanel);
+        setMonitorPanel(monitorPanel);
+        setModel(model);
     }
 
     public JPanel getMonitorPanel() {
@@ -78,42 +77,44 @@ public class Module {
         return name;
     }
 
-    protected void addModelElement( ModelElement modelElement ) {
-        getModel().addModelElement( modelElement );
+    protected void addModelElement(ModelElement modelElement) {
+        getModel().addModelElement(modelElement);
     }
 
-    protected void addGraphic( Graphic graphic, double layer ) {
-        getApparatusPanel().addGraphic( graphic, layer );
+    protected void addGraphic(Graphic graphic, double layer) {
+        getApparatusPanel().addGraphic(graphic, layer);
     }
 
-    protected void add( ModelElement modelElement, Graphic graphic, double layer ) {
-        this.addModelElement( modelElement );
-        this.addGraphic( graphic, layer );
+    protected void add(ModelElement modelElement, Graphic graphic, double layer) {
+        this.addModelElement(modelElement);
+        this.addGraphic(graphic, layer);
     }
 
-    protected void remove( ModelElement modelElement, Graphic graphic ) {
-        getModel().removeModelElement( modelElement );
-        getApparatusPanel().removeGraphic( graphic );
+    protected void remove(ModelElement modelElement, Graphic graphic) {
+        getModel().removeModelElement(modelElement);
+        getApparatusPanel().removeGraphic(graphic);
     }
 
     /**
      * Activates this Module, empty method here.  This method is provided so that subclasses
      * can override.
+     *
      * @param app
      */
-    public void activate( PhetApplication app ) {
+    public void activate(PhetApplication app) {
     }
 
     /**
      * Deactivates this Module, empty method here.  This method is provided so that subclasses
      * can override.
+     *
      * @param app
      */
-    public void deactivate( PhetApplication app ) {
+    public void deactivate(PhetApplication app) {
     }
 
-    public void execute( Command c ) {
-        model.execute( c );
+    public void execute(Command c) {
+        model.execute(c);
     }
 
 

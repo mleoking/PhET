@@ -11,8 +11,8 @@ import javax.swing.*;
 public class ViewMenu extends JMenu {
 
     public ViewMenu() {
-        super( "View" );
-        this.setMnemonic( 'V' );
+        super("View");
+        this.setMnemonic('V');
 //        JMenuItem menuItem = new JMenuItem( "Look and Feel" );
 //        menuItem.setMnemonic( 'L' );
 //        menuItem.addActionListener( new ActionListener() {
@@ -21,14 +21,14 @@ public class ViewMenu extends JMenu {
 //            }
 //        } );
         JMenu subMenu = new JMenu();
-        subMenu.setText( "Look and Feel" );
-        subMenu.setMnemonic( 'L' );
+        subMenu.setText("Look and Feel");
+        subMenu.setMnemonic('L');
 
         // bold checkbox item
         JCheckBoxMenuItem checkItem = new JCheckBoxMenuItem();
-        checkItem.setText( "test" );
-        subMenu.add( checkItem );
+        checkItem.setText("test");
+        subMenu.add(checkItem);
 
-        this.add( subMenu );
+        this.add(subMenu);
     }
 }

@@ -13,16 +13,16 @@ public class TabDescriptor {
     String tooltip;
     Icon icon;
 
-    public TabDescriptor( String tabname ) {
+    public TabDescriptor(String tabname) {
         this.tabname = tabname;
     }
 
-    public TabDescriptor( String tabname, String tooltip ) {
+    public TabDescriptor(String tabname, String tooltip) {
         this.tabname = tabname;
         this.tooltip = tooltip;
     }
 
-    public TabDescriptor( String tabname, String tooltip, Icon icon ) {
+    public TabDescriptor(String tabname, String tooltip, Icon icon) {
         this.tabname = tabname;
         this.tooltip = tooltip;
         this.icon = icon;

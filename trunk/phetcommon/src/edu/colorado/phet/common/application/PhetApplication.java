@@ -3,7 +3,7 @@
  * Package: edu.colorado.phet.common.examples.hellophet.application
  * Author: Another Guy
  * Date: Jun 11, 2003
-  */
+ */
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -53,8 +53,8 @@ public class PhetApplication {
         clock.addClockTickListener(moduleManager);
     }
 
-    public void setClock(AbstractClock clock){
-        this.clock=clock;
+    public void setClock(AbstractClock clock) {
+        this.clock = clock;
     }
 
     public void startApplication(Module initialModule) {

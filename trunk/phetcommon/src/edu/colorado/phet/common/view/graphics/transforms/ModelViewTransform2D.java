@@ -28,6 +28,7 @@ public class ModelViewTransform2D {
 
     /**
      * Constructs a transform from the specified model bounds to view bounds.
+     *
      * @param modelBounds
      * @param viewBounds
      */
@@ -44,7 +45,9 @@ public class ModelViewTransform2D {
         listeners.addTransformListener(tl);
     }
 
-    /**Transforms the model coordinate to the corresponding view coordinate.*/
+    /**
+     * Transforms the model coordinate to the corresponding view coordinate.
+     */
     public Point modelToView(double x, double y) {
         return new Point(modelToViewX(x), modelToViewY(y));
     }
@@ -73,7 +76,8 @@ public class ModelViewTransform2D {
 //        return toAffineTransform( new Point2D.Double() );
 //    }
 
-    /**Creates a new AffineTransform that corresponds to this transformation.
+    /**
+     * Creates a new AffineTransform that corresponds to this transformation.
      *
      * @return a new AffineTransform that corresponds to this transformation.
      */
@@ -214,7 +218,9 @@ public class ModelViewTransform2D {
         return new Point(modelToViewDifferentialX(dx), modelToViewDifferentialY(dy));
     }
 
-    /**Converts a model rectangle to the corresponding view rectangle.*/
+    /**
+     * Converts a model rectangle to the corresponding view rectangle.
+     */
     public Rectangle modelToView(Rectangle2D.Double modelRect) {
         Point cornerA = modelToView(modelRect.x, modelRect.y);
         Point cornerB = modelToView(modelRect.x + modelRect.width, modelRect.y + modelRect.height);

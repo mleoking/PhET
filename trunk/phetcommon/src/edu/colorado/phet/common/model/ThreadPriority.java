@@ -6,11 +6,11 @@ package edu.colorado.phet.common.model;
  */
 public class ThreadPriority {
     int value;
-    public static final ThreadPriority MAX = new ThreadPriority( Thread.MAX_PRIORITY );
-    public static final ThreadPriority MIN = new ThreadPriority( Thread.MIN_PRIORITY );
-    public static final ThreadPriority NORMAL = new ThreadPriority( Thread.NORM_PRIORITY );
+    public static final ThreadPriority MAX = new ThreadPriority(Thread.MAX_PRIORITY);
+    public static final ThreadPriority MIN = new ThreadPriority(Thread.MIN_PRIORITY);
+    public static final ThreadPriority NORMAL = new ThreadPriority(Thread.NORM_PRIORITY);
 
-    private ThreadPriority( int value ) {
+    private ThreadPriority(int value) {
         this.value = value;
     }
 

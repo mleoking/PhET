@@ -18,31 +18,31 @@ public class BringToFront implements MouseInputListener {
     CompositeInteractiveGraphic graphicTree;
     Graphic target;
 
-    public BringToFront( CompositeInteractiveGraphic graphicTree, Graphic target ) {
+    public BringToFront(CompositeInteractiveGraphic graphicTree, Graphic target) {
         this.graphicTree = graphicTree;
         this.target = target;
     }
 
-    public void mouseClicked( MouseEvent e ) {
+    public void mouseClicked(MouseEvent e) {
     }
 
-    public void mousePressed( MouseEvent e ) {
-        graphicTree.moveToTop( target );
+    public void mousePressed(MouseEvent e) {
+        graphicTree.moveToTop(target);
     }
 
-    public void mouseReleased( MouseEvent e ) {
+    public void mouseReleased(MouseEvent e) {
     }
 
-    public void mouseEntered( MouseEvent e ) {
+    public void mouseEntered(MouseEvent e) {
     }
 
-    public void mouseExited( MouseEvent e ) {
+    public void mouseExited(MouseEvent e) {
     }
 
-    public void mouseDragged( MouseEvent e ) {
+    public void mouseDragged(MouseEvent e) {
     }
 
-    public void mouseMoved( MouseEvent e ) {
+    public void mouseMoved(MouseEvent e) {
     }
 
 

@@ -7,5 +7,5 @@
 package edu.colorado.phet.common.view.graphics.bounds;
 
 public interface Boundary {
-    public boolean contains( int x, int y );
+    public boolean contains(int x, int y);
 }

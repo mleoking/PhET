@@ -6,7 +6,6 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -20,19 +19,25 @@ import java.net.URL;
  * This level of granularity is required because different loaders return different
  * pixel data, and the final result is highly dependent on that
  * and the conversion mechanism.
- *
+ * <p/>
  * All combinations do not return the same results.
  */
 public class ImageLoader {
 
     LoadStrategy loadStrategy;
     ConversionStrategy conversionStrategy;
-    /**A convenience instance, public for customization.*/
-    public static final ImageLoader instance=new ImageLoader();
-    /**Convenience method, uses the static instance to load a buffered image.*/
+    /**
+     * A convenience instance, public for customization.
+     */
+    public static final ImageLoader instance = new ImageLoader();
+
+    /**
+     * Convenience method, uses the static instance to load a buffered image.
+     */
     public static BufferedImage loadBufferedImage(String str) throws IOException {
         return instance.loadImage(str);
     }
+
     public ImageLoader() {
 //        setImageIOLoader();
         setPhetLoader();
@@ -43,8 +48,10 @@ public class ImageLoader {
         };
     }
 
-    /**Loads an image using the current load strategy and converts it to a bufferedimage
+    /**
+     * Loads an image using the current load strategy and converts it to a bufferedimage
      * using the current conversion strategy.
+     *
      * @param name
      * @return
      */
@@ -68,12 +75,16 @@ public class ImageLoader {
         this.loadStrategy = new ToolkitLoader();
     }
 
-    /**So you can add your own strategy.*/
+    /**
+     * So you can add your own strategy.
+     */
     public void setLoadStrategy(LoadStrategy loadStrategy) {
         this.loadStrategy = loadStrategy;
     }
 
-    /**So you can add your own strategy.*/
+    /**
+     * So you can add your own strategy.
+     */
     public void setConversionStrategy(ConversionStrategy conversionStrategy) {
         this.conversionStrategy = conversionStrategy;
     }
