@@ -17,6 +17,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class SingleSourceListenModule extends SingleSourceModule {
+    private SoundModel soundModel;
 
     protected SingleSourceListenModule( ApplicationModel appModel) {
         super( appModel, "<html>Listen to<br>Single Source</html>" );
@@ -27,15 +28,21 @@ public class SingleSourceListenModule extends SingleSourceModule {
             headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILE );
             PhetImageGraphic head = new PhetImageGraphic( getApparatusPanel(), headImg );
             head.setPosition( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
-            SoundModel model = (SoundModel)getModel();
-            ListenerGraphic listener = new ListenerGraphic( model, new Listener(), head,
+            soundModel = (SoundModel)getModel();
+            ListenerGraphic listener = new ListenerGraphic( soundModel, new Listener(), head,
                                                             SoundConfig.s_headBaseX, SoundConfig.s_headBaseY,
                                                             SoundConfig.s_headBaseX - 150, SoundConfig.s_headBaseY,
                                                             SoundConfig.s_headBaseX + 150, SoundConfig.s_headBaseY );
             this.addGraphic( listener, 9 );
+            this.setListenerLocation( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }        
     }
+
+    private void setListenerLocation( int x, int y ) {
+        soundModel.setListenerLocation( x, y );
+    }
+
 }

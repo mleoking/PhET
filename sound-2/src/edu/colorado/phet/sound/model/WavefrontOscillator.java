@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.sound.SoundConfig;
 
-public class WavefrontOscillator extends /*MyOscillatorPlayer*/ SrrOscillatorPlayer implements SimpleObserver {
+public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleObserver {
 
     private boolean isEnabled = false;
     private double amplitudeInternal;
@@ -36,15 +36,12 @@ public class WavefrontOscillator extends /*MyOscillatorPlayer*/ SrrOscillatorPla
      *
      */
     public void setAmplitude( float amplitude ) {
-
         if( amplitude < 0 ) {
             throw new RuntimeException( "amplitude < 0" );
         }
-
         amplitude = amplitude / SoundConfig.s_maxAmplitude;
         super.setAmplitude( isEnabled ? amplitude : 0 );
         amplitudeInternal = amplitude;
-//        update();
     }
 
     /**
@@ -90,13 +87,15 @@ public class WavefrontOscillator extends /*MyOscillatorPlayer*/ SrrOscillatorPla
         if( amplitude < -1 ) {
             throw new RuntimeException( "amplitude < -1" );
         }
-//        float frequency = wavefront.getFrequencyAtTime( (int)refPt.getX() );
-//        float amplitude = wavefront.getMaxAmplitudeAtTime( (int)refPt.getX() );
 
         // Remember, we never set the frequency to 0, because otherwise it chokes. We
         // need to make this assignment so that the following if() will test false when
         // frequency == 0.
-        frequency = frequency == 0 ? 0.1f : frequency;
+        // Note that that frequencyDisplayFactor must be used here, because the model uses
+        // a value for frequency that corresponds to what will appear on the screen. It would
+        // be better if the frequency in the model were accurate for the pitch of the sound, but
+        // I haven't figured out how to make that work yet.
+        frequency = frequency == 0 ? 0.1f : frequency * SoundConfig.s_frequencyDisplayFactor;
         if( frequency != getFrequency() ) {
             setFrequency( (float)frequency );
         }
@@ -104,6 +103,5 @@ public class WavefrontOscillator extends /*MyOscillatorPlayer*/ SrrOscillatorPla
 //        if( isEnabled && amplitude != getAmplitude() ) {
             setAmplitude( (float)amplitude );
 //        }
-        System.out.println( "f: " + frequency + "  a: " + amplitude );
     }
 }

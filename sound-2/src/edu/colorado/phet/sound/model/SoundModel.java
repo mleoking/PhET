@@ -132,10 +132,8 @@ public class SoundModel extends BaseModel {
      *
      */
     public void setFrequency( double frequency ) {
-        primaryWavefront.setFrequency( frequency );
-//        primaryWavefront.setFrequency( frequency / SoundConfig.s_frequencyDisplayFactor );
-        octaveWavefront.setFrequency( 2 * frequency );
-//        octaveWavefront.setFrequency( 2 * frequency / SoundConfig.s_frequencyDisplayFactor );
+        primaryWavefront.setFrequency( frequency / SoundConfig.s_frequencyDisplayFactor );
+        octaveWavefront.setFrequency( 2 * frequency / SoundConfig.s_frequencyDisplayFactor );
     }
 
     /**
@@ -202,17 +200,18 @@ public class SoundModel extends BaseModel {
     /**
      *
      */
-    public void setListenerLocation( Point2D.Float location ) {
-        this.setListenerLocation( (float)location.getX(), (float)location.getY() );
+    public void setListenerLocation( Point2D.Double location ) {
+        this.setListenerLocation( location.getX(), location.getY() );
     }
 
     /**
      *
      */
-    public void setListenerLocation( float x, float y ) {
+    public void setListenerLocation( double x, double y ) {
         if( listenerLocation == null ) {
             listenerLocation = new Point2D.Double();
         }
+        System.out.println( "location = " + listenerLocation );
 
         synchronized( listenerLocation ) {
             this.listenerLocation.setLocation( x, y );
