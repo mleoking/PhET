@@ -26,10 +26,10 @@
 # spread out over the entire source repository.
 
 # ideal gas project
-idealgas -d development ideal-gas-v3
+idealgas ideal-gas-v3
 
 # Nuclear physics project
-nuclearphysics nuclearphysics &phetcommon &mechanics
+nuclearphysics nuclearphysics
 
 # Phet common code project
 phetcommon phetcommon
@@ -40,5 +40,9 @@ mechanics mechanics
 # Collision project
 collision collision
 
-#Battery-voltage
+# Battery-voltage
 batteryvoltage batteryvoltage
+
+# Balloons
+balloons
+
