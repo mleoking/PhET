@@ -77,6 +77,9 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     // Rescales the voltage.
     private IRescaler _rescaler;
     
+    // The scale that is applied to the needle angle.
+    private double _scale;
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -97,6 +100,7 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
         _enabled = true;
         _rotationalKinematicsEnabled = false; // expensive, so disabled by default
         _needleAngle = ZERO_NEEDLE_ANGLE;
+        _scale = 1.0;
     }
     
     /**
@@ -205,7 +209,8 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
      */
     private double getDesiredNeedleAngle() {
         //  Get the amplitude of the voltage source.
-        double amplitude = _voltageSourceModel.getAmplitude();
+        double amplitude = _scale * _voltageSourceModel.getAmplitude();
+        amplitude = MathUtil.clamp( -1, amplitude, +1 );
         
         // Rescale the amplitude to improve the visual effect.
         if ( _rescaler != null ) {
@@ -217,6 +222,27 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
         return amplitude * MAX_NEEDLE_ANGLE;
     }
 
+    /**
+     * Sets the scale that is applied to the needle angle.
+     * 
+     * @param scale the scale
+     */
+    public void setScale( double scale ) {
+        if ( scale != _scale ) {
+            _scale = scale;
+            notifyObservers();
+        }
+    }
+
+    /**
+     * Gets the scale that is applied to the needle angle.
+     * 
+     * @return the scale
+     */
+    public double getScale() {
+        return _scale;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------

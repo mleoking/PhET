@@ -30,6 +30,7 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
     
     private AbstractVoltageSource _voltageSourceModel;
     private boolean _enabled;
+    private double _scale;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -47,6 +48,7 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
         _voltageSourceModel.addObserver( this );
 
         _enabled = true;
+        _scale = 1.0;
     }
     
     /**
@@ -69,7 +71,9 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
      * @return the intensity (0.0 - 1.0)
      */
     public double getIntensity() {
-        return Math.abs( _voltageSourceModel.getAmplitude() );
+        double intensity = _scale * Math.abs( _voltageSourceModel.getAmplitude() );
+        intensity = MathUtil.clamp( 0, intensity, 1 );
+        return intensity;
     }
     
     /**
@@ -92,7 +96,29 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
     public boolean isEnabled() {
         return _enabled;
     }
+    
+    /**
+     * Sets the scale that is applied to the intensity.
+     * 
+     * @param scale
+     */
+    public void setScale( double scale ) {
+        assert( scale > 0 );
+        if ( scale != _scale ) {
+            _scale = scale;
+            notifyObservers();
+        }
+    }
 
+    /**
+     * Gets the scale that is applied to the intensity.
+     * 
+     * @return the scale
+     */
+    public double getScale() {
+        return _scale;
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
