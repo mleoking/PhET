@@ -28,6 +28,10 @@ public interface Vector2D extends AbstractVector2D {
         public Double() {
         }
 
+        public Double( Vector2D.Double v ) {
+            this( v.getX(), v.getY() );
+        }
+
         public Double( double x, double y ) {
             super( x, y );
         }
@@ -84,6 +88,10 @@ public interface Vector2D extends AbstractVector2D {
     public static class Float extends AbstractVector2D.Float implements Vector2D {
 
         public Float() {
+        }
+
+        public Float( Vector2D.Double v ) {
+            this( (float)v.getX(), (float)v.getY() );
         }
 
         public Float( float x, float y ) {
