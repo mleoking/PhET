@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phys2d.SystemRunner;
 import edu.colorado.phet.common.phys2d.laws.CoulombsLaw;
 import edu.colorado.phet.common.phys2d.laws.ForceLawPropagator;
 import edu.colorado.phet.common.utils.ResourceLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.travoltage.rotate.Leg;
 import edu.colorado.phet.travoltage.rotate.RotatingImage;
 
@@ -21,6 +22,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.Locale;
 
 public class TravoltageApplet extends JApplet {
     private BufferedImage carpet;
@@ -28,7 +30,19 @@ public class TravoltageApplet extends JApplet {
     private BufferedImage knob;
     private BufferedImage overlay;
 
+    // Localization
+    public static final String localizedStringsPath = "localization/TravoltageStrings";
+    private String applicationLocale = null;
+
     public void init() {
+        if ( applicationLocale == null ) {
+            applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+                Locale.setDefault( new Locale( applicationLocale ) );
+            }
+        }
+        SimStrings.setStrings( localizedStringsPath );
+
         ParticlePanel pp = new ParticlePanel();
 
         AudioClip ouch = ResourceLoader.loadAudioClip( "sound/OuchSmallest.wav", pp );
@@ -166,11 +180,18 @@ public class TravoltageApplet extends JApplet {
 
     public static void main( String[] args ) {
         TravoltageApplet applet = new TravoltageApplet();
+        
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            applet.applicationLocale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( applet.applicationLocale ));
+        }
+            
         applet.init();
         Dimension size = new Dimension( applet.getJohnWidth(), applet.getJohnHeight() );
         applet.setSize( size );
 
-        JFrame f = new JFrame( "Travoltage" );
+        JFrame f = new JFrame( SimStrings.get( "TravoltageApplication.title" ) );
         f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         f.setContentPane( applet );
         f.pack();
