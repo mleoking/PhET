@@ -13,6 +13,7 @@ import edu.colorado.phet.idealgas.model.Box2D;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class Box2DGraphic extends DefaultInteractiveGraphic {
@@ -47,6 +48,7 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
     private class InternalBoxGraphic extends PhetShapeGraphic implements SimpleObserver {
         private Rectangle2D.Double rect = new Rectangle2D.Double();
         private Rectangle2D.Double mouseableArea = new Rectangle2D.Double();
+        private Rectangle openingRect = new Rectangle();
 
         public InternalBoxGraphic( Component component ) {
             super( component, null, s_defaultStroke, s_defaultColor );
@@ -58,12 +60,15 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
         public void update() {
             rect.setRect( box.getMinX() - s_thickness / 2,
                           box.getMinY() - s_thickness / 2,
-                          box.getMaxX() - box.getMinX(),
-                          box.getMaxY() - box.getMinY() );
+                          box.getMaxX() - box.getMinX() + s_thickness,
+                          box.getMaxY() - box.getMinY() + s_thickness );
             mouseableArea.setRect( box.getMinX() - s_thickness,
                                    box.getMinY() - s_thickness,
                                    s_thickness,
-                                   box.getMaxY() - box.getMinY() + s_thickness * 1 );
+                                   box.getMaxY() - box.getMinY() + s_thickness );
+            Point2D[] opening = box.getOpening();
+            openingRect.setFrameFromDiagonal( opening[0].getX(), opening[0].getY(),
+                                              opening[1].getX(), opening[1].getY() - ( s_thickness - 1 ) );
             super.setBoundsDirty();
             super.repaint();
         }
@@ -73,6 +78,8 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
             g.setStroke( s_defaultStroke );
             g.setColor( s_defaultColor );
             g.draw( rect );
+            g.setColor( Color.white );
+            g.fill( openingRect );
             restoreGraphicsState();
         }
     }
