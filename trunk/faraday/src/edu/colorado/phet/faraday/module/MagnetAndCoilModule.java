@@ -51,10 +51,9 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations
-    private static final Point MAGNET_LOCATION = new Point( 200, 300 );
-    private static final Point PICKUP_COIL_LOCATION = new Point( 500, 300 );
-    private static final Point GRID_LOCATION = new Point( 0, 0 );
-    private static final Point COMPASS_LOCATION = new Point( 100, 500 );
+    private static final Point MAGNET_LOCATION = new Point( 200, 400 );
+    private static final Point PICKUP_COIL_LOCATION = new Point( 500, 400 );
+    private static final Point COMPASS_LOCATION = new Point( 150, 200 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -152,7 +151,6 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, magnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        _gridGraphic.setLocation( GRID_LOCATION );
         _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         _gridGraphic.setVisible( false );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );

@@ -52,9 +52,9 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations
-    private static final Point MAGNET_LOCATION = new Point( 350, 350 );
-    private static final Point COMPASS_LOCATION = new Point( 100, 400 );
-    private static final Point GRID_LOCATION = new Point( 0, 0 );
+    private static final Point MAGNET_LOCATION = new Point( 400, 300 );
+    private static final Point COMPASS_LOCATION = new Point( 150, 200 );
+    private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -122,7 +122,6 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, magnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        _gridGraphic.setLocation( GRID_LOCATION );
         _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
         
@@ -133,7 +132,7 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         
         // Field Meter
         FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, magnetModel );
-        fieldMeterGraphic.setLocation( 100, 100 );
+        fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
         apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
         
         // Debugger
