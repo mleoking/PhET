@@ -76,7 +76,8 @@ public class IdealGasControlPanel extends JPanel {
         resetBtn.setBackground( new Color( 180, 255, 180 ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.getIdealGasModel().removeAllMolecules();
+//                module.getIdealGasModel().removeAllMolecules();
+                module.reset();
             }
         } );
         gbc.gridy++;

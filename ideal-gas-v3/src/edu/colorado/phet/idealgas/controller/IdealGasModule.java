@@ -12,6 +12,8 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
@@ -36,8 +38,10 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
 
-public class IdealGasModule extends Module {
+public class IdealGasModule extends Module implements EventChannel {
 
     private IdealGasModel idealGasModel;
     private PressureSensingBox box;
@@ -56,6 +60,7 @@ public class IdealGasModule extends Module {
     private JDialog speciesMonitorDlg;
     private IdealGasControlPanel idealGasControlPanel;
     private Thermometer thermometer;
+    private EventRegistry eventRegistry = new EventRegistry();
 
 
     public IdealGasModule( AbstractClock clock ) {
@@ -335,4 +340,43 @@ public class IdealGasModule extends Module {
     }
 
 
+    public void reset() {
+        getIdealGasModel().removeAllMolecules();
+        eventRegistry.fireEvent( new ResetEvent( this ));
+    }
+
+    public void addListener(EventListener listener) {
+        eventRegistry.addListener( listener );
+    }
+
+    public void removeListener(EventListener listener) {
+        eventRegistry.removeListener(listener);
+    }
+
+    public void removeAllListeners() {
+        eventRegistry.removeAllListeners();
+    }
+
+    public void fireEvent(EventObject event) {
+        eventRegistry.fireEvent(event);
+    }
+
+    public int getNumListeners() {
+        return eventRegistry.getNumListeners();
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Inner classes
+    //
+
+    public interface ResetListener extends EventListener {
+        void resetOccurred( ResetEvent event );
+    }
+
+    public class ResetEvent extends EventObject {
+        public ResetEvent(Object source) {
+            super(source);
+        }
+    }
 }
