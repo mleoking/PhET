@@ -1,12 +1,21 @@
-/**
- * Class: ThreadedClock
- * Package: edu.colorado.phet.common.model
- * Author: Another Guy
- * Date: Aug 7, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.model.clock;
 
-
+/**
+ * ThreadedClock
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class ThreadedClock extends AbstractClock implements Runnable {
     protected int priority;
     protected Thread t;

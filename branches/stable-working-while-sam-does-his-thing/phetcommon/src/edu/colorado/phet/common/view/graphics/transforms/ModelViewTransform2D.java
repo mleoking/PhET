@@ -1,8 +1,12 @@
-/**
- * Class: ModelViewTransform2D
- * Package: edu.colorado.phet.common.view.graphics
- * Author: Another Guy
- * Date: Aug 29, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.graphics.transforms;
 
@@ -14,6 +18,12 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * ModelViewTransform2D
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class ModelViewTransform2D {
     private Rectangle2D.Double modelBounds;
     private Rectangle viewBounds;

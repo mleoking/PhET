@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
@@ -7,6 +16,9 @@ import java.awt.geom.AffineTransform;
 /**
  * Applies a transform to the delegate PhetGraphic before painting
  * and bounds-handling.
+ * 
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class PhetTransformGraphic extends PhetGraphic {
     private PhetGraphic graphic;

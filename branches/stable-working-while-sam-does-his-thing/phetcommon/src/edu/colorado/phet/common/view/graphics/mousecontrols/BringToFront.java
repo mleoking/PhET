@@ -1,4 +1,13 @@
-/*Copyright, Sam Reid, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
 import edu.colorado.phet.common.view.CompositeGraphic;
@@ -8,10 +17,10 @@ import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseEvent;
 
 /**
- * User: Sam Reid
- * Date: Oct 9, 2003
- * Time: 1:07:02 AM
- * Copyright (c) Oct 9, 2003 by Sam Reid
+ * BringToFront
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class BringToFront implements MouseInputListener {
     private CompositeGraphic graphicTree;

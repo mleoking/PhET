@@ -1,4 +1,13 @@
-/*Copyright, Sam Reid, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.util;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
@@ -9,6 +18,9 @@ import java.awt.geom.Point2D;
 
 /**
  * This adapter class for GeneralPath allows provides an interface in double coordinates.
+ * 
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class DoubleGeneralPath {
     GeneralPath path;

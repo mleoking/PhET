@@ -1,8 +1,12 @@
-/**
- * Class: SwingTimerClock
- * Package: edu.colorado.phet.coreadditions
- * Author: Another Guy
- * Date: Aug 6, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.model.clock;
 
@@ -10,6 +14,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * SwingTimerClock
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class SwingTimerClock extends AbstractClock {
 
     private Timer timer;

@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.util;
 
 import java.awt.*;
@@ -6,10 +15,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * User: Sam Reid
- * Date: Jun 17, 2004
- * Time: 3:15:06 PM
- * Copyright (c) Jun 17, 2004 by Sam Reid
+ * RectangleUtils
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class RectangleUtils {
     public static Rectangle2D expandRectangle2D( Rectangle2D r, double dx, double dy ) {

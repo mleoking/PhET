@@ -1,10 +1,20 @@
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.basicgraphics;
 
 /**
- * User: Sam Reid
- * Date: Sep 13, 2004
- * Time: 8:41:16 PM
- * Copyright (c) Sep 13, 2004 by Sam Reid
+ * ITextGraphic
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public interface ITextGraphic {
     void setPosition( int x, int y );

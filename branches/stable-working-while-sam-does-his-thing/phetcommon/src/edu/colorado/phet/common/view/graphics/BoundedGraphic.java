@@ -1,11 +1,20 @@
-/**
- * Class: BoundedGraphic
- * Package: edu.colorado.phet.common.view.graphics
- * Author: Another Guy
- * Date: May 11, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.graphics;
 
-
+/**
+ * BoundedGraphic
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public interface BoundedGraphic extends Graphic, Boundary {
 }

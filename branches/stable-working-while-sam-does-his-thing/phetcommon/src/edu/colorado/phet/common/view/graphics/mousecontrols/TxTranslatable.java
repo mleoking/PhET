@@ -1,14 +1,24 @@
-/**
- * Class: TxTranslatable
- * Package: edu.colorado.phet.common.view.graphics.mousecontrols
- * Author: Another Guy
- * Date: Dec 19, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+/**
+ * TxTranslatable
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class TxTranslatable implements Translatable {
     AffineTransform viewToModelTx;
     Translatable translatable;

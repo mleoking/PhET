@@ -1,9 +1,12 @@
-/**
- *
- * Class: CompositeGraphic
- * Package: edu.colorado.phet.common.view
- * Author: Another Guy
- * Date: Dec 19, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view;
 
@@ -16,6 +19,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * CompositeGraphic
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class CompositeGraphic implements BoundedGraphic {
 
     private MultiMap graphicMap = new MultiMap();

@@ -1,14 +1,23 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.components;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Aug 13, 2004
- * Time: 10:10:30 AM
- * Copyright (c) Aug 13, 2004 by Sam Reid
+ * VerticalLayoutPanel
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class VerticalLayoutPanel extends JPanel {
     private GridBagConstraints gridBagConstraints;

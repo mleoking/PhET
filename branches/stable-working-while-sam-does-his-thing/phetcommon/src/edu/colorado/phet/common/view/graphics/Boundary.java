@@ -1,14 +1,21 @@
-/**
- * Class: Boundary
- * Package: edu.colorado.phet.common.examples.examples
- * Author: Another Guy
- * Date: Dec 18, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.graphics;
 
 /**
  * A Boundary represents the area within which a graphic is controllable.
  * This is typically done in view coordinates.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public interface Boundary {
     /**

@@ -1,10 +1,22 @@
-/*Copyright, Sam Reid, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view;
 
 import java.awt.*;
 
 /**
  * Convenience class for common rendering options.
+ * 
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class BasicGraphicsSetup implements GraphicsSetup {
     RenderingHints renderingHints;

@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -9,10 +18,10 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Jul 1, 2004
- * Time: 3:33:37 AM
- * Copyright (c) Jul 1, 2004 by Sam Reid
+ * RepaintDebugGraphic
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class RepaintDebugGraphic implements Graphic, ClockTickListener {
     private int r = 255;

@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
@@ -6,6 +15,9 @@ import java.util.ArrayList;
 
 /**
  * A list of PhetGraphics, painted in order.
+ * 
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class CompositePhetGraphic extends PhetGraphic {
     private ArrayList list = new ArrayList();

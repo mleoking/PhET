@@ -1,13 +1,23 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.util;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Jun 12, 2003
- * Time: 7:38:54 AM
- * Copyright (c) Jun 12, 2003 by Sam Reid
+ * FrameSetup
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public interface FrameSetup {
     public void initialize( JFrame frame );

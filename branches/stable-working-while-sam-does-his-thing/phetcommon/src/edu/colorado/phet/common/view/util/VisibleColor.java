@@ -1,4 +1,13 @@
-/* VisibleColor.java, Copyright 2004 University of Colorado */
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 
 package edu.colorado.phet.common.view.util;
 
@@ -23,7 +32,7 @@ import java.awt.*;
  * some color information.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @revision $Id$
+ * @version $Revision$
  */
 public class VisibleColor extends Color {
     //----------------------------------------------------------------------------

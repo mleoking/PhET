@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.basicgraphics.repaint;
 
 import edu.colorado.phet.common.view.basicgraphics.RepaintDelegate;
@@ -6,10 +15,10 @@ import edu.colorado.phet.common.view.basicgraphics.RepaintDelegate;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Sep 13, 2004
- * Time: 7:35:16 PM
- * Copyright (c) Sep 13, 2004 by Sam Reid
+ * Repaint
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class Repaint implements RepaintDelegate {
     public void repaint( Component component, Rectangle rect ) {

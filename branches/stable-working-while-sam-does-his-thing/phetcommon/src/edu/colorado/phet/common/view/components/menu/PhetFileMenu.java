@@ -1,8 +1,12 @@
-/**
- * Class: PhetFileMenu
- * Package: edu.colorado.phet.common.view.components.menu
- * Author: Another Guy
- * Date: Jun 17, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.components.menu;
 
@@ -13,6 +17,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * PhetFileMenu
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class PhetFileMenu extends JMenu {
 
     public PhetFileMenu() {

@@ -1,9 +1,12 @@
+/* Copyright 2002-2004, University of Colorado */
+
 /*
- * Class: ApparatusPanel
- * Package: edu.colorado.phet.common.view.graphics
- *
- * Created by: Ron LeMaster
- * Date: Nov 6, 2002
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view;
 
@@ -26,6 +29,8 @@ import java.util.ArrayList;
  * <p/>
  *
  * @see edu.colorado.phet.common.view.graphics.Graphic
+ * @author Ron LeMaster
+ * @version $Revision$
  */
 public class ApparatusPanel extends JPanel {
 

@@ -1,8 +1,12 @@
-/**
- * Class: TxBoundary
- * Package: edu.colorado.phet.common.examples.examples
- * Author: Another Guy
- * Date: Dec 19, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.graphics.bounds;
 
@@ -14,6 +18,8 @@ import java.awt.geom.Point2D;
 
 /**
  * @deprecated
+ * @author ?
+ * @version $Revision$
  */
 public class TxBoundary implements Boundary {
     AffineTransform transform;

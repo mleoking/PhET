@@ -1,13 +1,22 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.basicgraphics;
 
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Sep 10, 2004
- * Time: 7:59:13 AM
- * Copyright (c) Sep 10, 2004 by Sam Reid
+ * RepaintDelegate
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public interface RepaintDelegate {
     public void repaint( Component component, Rectangle rect );

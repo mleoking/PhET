@@ -1,14 +1,23 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.graphics;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
- * User: Sam Reid
- * Date: Jun 2, 2004
- * Time: 3:15:07 PM
- * Copyright (c) Jun 2, 2004 by Sam Reid
+ * ShadowTextGraphic
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class ShadowTextGraphic implements Graphic {
     TextGraphic foreground;

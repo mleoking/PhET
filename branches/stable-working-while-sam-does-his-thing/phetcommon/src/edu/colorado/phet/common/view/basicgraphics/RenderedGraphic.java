@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.basicgraphics;
 
 import edu.colorado.phet.common.view.basicgraphics.repaint.Repaint;
@@ -7,10 +16,10 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Sep 10, 2004
- * Time: 7:56:13 AM
- * Copyright (c) Sep 10, 2004 by Sam Reid
+ * RenderedGraphic
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class RenderedGraphic implements Graphic {
     private RepaintDelegate repaintDelegate;//so we can switch strategies easily.

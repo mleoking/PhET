@@ -1,4 +1,13 @@
-/*Copyright, Sam Reid, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.util;
 
 import javax.imageio.ImageIO;
@@ -9,15 +18,14 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * User: Sam Reid
- * Date: Apr 16, 2003
- * Time: 9:34:20 AM
- * Copyright (c) Apr 16, 2003 by Sam Reid
  * This level of granularity is required because different loaders return different
  * pixel data, and the final result is highly dependent on that
  * and the conversion mechanism.
  * <p/>
  * All combinations do not return the same results.
+ * 
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class ImageLoader {
 

@@ -1,11 +1,20 @@
-/*Copyright, Sam Reid, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.util;
 
 /**
- * User: Sam Reid
- * Date: Dec 30, 2003
- * Time: 8:31:24 PM
- * Copyright (c) Dec 30, 2003 by Sam Reid
+ * SimpleObserver
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public interface SimpleObserver {
     public void update();

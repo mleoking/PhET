@@ -1,3 +1,13 @@
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.graphics;
 
 import java.awt.*;
@@ -5,10 +15,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
- * User: Sam Reid
- * Date: Jan 2, 2004
- * Time: 12:35:20 AM
- * Copyright (c) Jan 2, 2004 by Sam Reid
+ * BufferedImageGraphic
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class BufferedImageGraphic implements BoundedGraphic {
     private BufferedImage image;

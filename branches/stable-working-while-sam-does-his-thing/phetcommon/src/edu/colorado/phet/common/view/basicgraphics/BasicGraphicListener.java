@@ -1,10 +1,20 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.basicgraphics;
 
 /**
- * User: Sam Reid
- * Date: Sep 10, 2004
- * Time: 7:45:29 AM
- * Copyright (c) Sep 10, 2004 by Sam Reid
+ * BasicGraphicListener
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public interface BasicGraphicListener {
     void boundsChanged( BasicGraphic basicGraphic );

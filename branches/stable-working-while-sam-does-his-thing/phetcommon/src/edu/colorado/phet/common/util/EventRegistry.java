@@ -1,14 +1,12 @@
-/**
- * Class: EventRegistry
- * Package: edu.colorado.phet.common.util
- * Original Author: Ron LeMaster
- * Creation Date: Nov 19, 2004
- * Creation Time: 9:59:07 AM
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.util;
 
@@ -16,6 +14,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
+/**
+ * EventRegistry
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class EventRegistry {
 
     public final static EventRegistry instance = new EventRegistry();

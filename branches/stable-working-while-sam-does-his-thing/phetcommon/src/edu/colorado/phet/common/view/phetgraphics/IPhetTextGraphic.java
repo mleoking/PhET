@@ -1,11 +1,21 @@
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 
 /**
- * User: Sam Reid
- * Date: Jun 25, 2004
- * Time: 8:00:01 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ * IPhetTextGraphic
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public interface IPhetTextGraphic {
     void setPosition( int x, int y );

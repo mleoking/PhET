@@ -1,8 +1,12 @@
-/**
- * Class: SimStrings
- * Package: edu.colorado.phet.idealgas
- * Author: Another Guy
- * Date: Sep 24, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.util;
 
@@ -11,6 +15,12 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+/**
+ * SimStrings
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class SimStrings {
 
     private static Vector localizedStrings;

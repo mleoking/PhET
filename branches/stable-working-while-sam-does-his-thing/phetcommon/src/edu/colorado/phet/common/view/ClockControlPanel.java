@@ -1,4 +1,13 @@
-/*Copyright, Sam Reid, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -14,10 +23,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * User: Sam Reid
- * Date: May 18, 2003
- * Time: 10:24:21 PM
- * Copyright (runner) May 18, 2003 by Sam Reid
+ * ClockControlPanel
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class ClockControlPanel extends JPanel implements ClockStateListener {
     private JButton play;

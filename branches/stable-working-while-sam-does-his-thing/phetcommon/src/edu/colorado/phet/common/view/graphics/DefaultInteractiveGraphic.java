@@ -1,8 +1,12 @@
-/**
- * Class: DefaultInteractiveGraphic
- * Package: edu.colorado.phet.common.view.graphics.paint
- * Author: Another Guy
- * Date: May 21, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.graphics;
 
@@ -20,6 +24,9 @@ import java.awt.event.MouseEvent;
 /**
  * This class facilitates adding behaviors to an interactive graphic.
  * This may be used as a decorator of your home-brewed Graphic and Boundary.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class DefaultInteractiveGraphic implements InteractiveGraphic {
     private Graphic graphic;

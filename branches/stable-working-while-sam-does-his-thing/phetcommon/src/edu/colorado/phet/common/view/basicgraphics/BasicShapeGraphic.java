@@ -1,13 +1,22 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.basicgraphics;
 
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Sep 10, 2004
- * Time: 7:34:52 AM
- * Copyright (c) Sep 10, 2004 by Sam Reid
+ * BasicShapeGraphic
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class BasicShapeGraphic extends BasicGraphic {
     private Shape shape;

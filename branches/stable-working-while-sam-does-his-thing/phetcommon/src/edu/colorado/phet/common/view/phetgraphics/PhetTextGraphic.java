@@ -1,13 +1,22 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Jun 25, 2004
- * Time: 5:59:29 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ * PhetTextGraphic
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class PhetTextGraphic extends PhetGraphic implements IPhetTextGraphic {
     private Font font;

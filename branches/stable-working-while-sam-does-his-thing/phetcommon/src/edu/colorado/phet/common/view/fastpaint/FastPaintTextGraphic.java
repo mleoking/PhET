@@ -1,8 +1,12 @@
-/**
- * Class: FastPaintTextGraphic
- * Package: edu.colorado.phet.common.view.fastpaint
- * Author: Another Guy
- * Date: May 19, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.fastpaint;
 
@@ -11,6 +15,12 @@ import edu.colorado.phet.common.view.graphics.TextGraphic;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * FastPaintTextGraphic
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class FastPaintTextGraphic extends TextGraphic implements FastPaint.Graphic {
     FastPaint fastPaint;
 

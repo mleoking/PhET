@@ -1,9 +1,12 @@
-// ClockDialog
+/* Copyright 2002-2004, University of Colorado */
 
 /*
- * User: Ron LeMaster
- * Date: Oct 18, 2002
- * Time: 9:12:44 PM
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.components.clockgui;
 
@@ -19,6 +22,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * ClockControlPanel
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class ClockControlPanel extends JPanel implements ClockStateListener {
 
     private AbstractClock clock;

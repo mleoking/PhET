@@ -1,8 +1,12 @@
-/**
- * Class: FastPaintShapeGraphic
- * Package: edu.colorado.phet.common.view.fastpaint
- * Author: Another Guy
- * Date: May 19, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.fastpaint;
 
@@ -11,6 +15,12 @@ import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+/**
+ * FastPaintShapeGraphic
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class FastPaintShapeGraphic extends ShapeGraphic implements FastPaint.Graphic {
 
     private AffineTransform transform;

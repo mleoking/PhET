@@ -1,4 +1,13 @@
-/*Copyright, Sam Reid, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.components;
 
 import java.awt.*;
@@ -10,6 +19,9 @@ import java.awt.*;
  * AspectRatioLayout cl = new AspectRatioLayout(apparatusPanel, insetX, insetY, aspectRatio);
  * container.setLayout(cl);
  * container.add(apparatusPanel);
+ * 
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class AspectRatioLayout implements LayoutManager {
     private Component target;

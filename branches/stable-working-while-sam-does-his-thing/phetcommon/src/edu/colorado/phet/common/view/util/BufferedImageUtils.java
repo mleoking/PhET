@@ -1,4 +1,13 @@
-/*Copyright, Sam Reid, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.util;
 
 import java.awt.*;
@@ -6,10 +15,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
- * User: Sam Reid
- * Date: Apr 27, 2003
- * Time: 10:07:55 AM
- * Copyright (c) Apr 27, 2003 by Sam Reid
+ * BufferedImageUtils
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class BufferedImageUtils {
 //    public static BufferedImage rescaleYMaintainAspectRatio( BufferedImage im, int height ) {

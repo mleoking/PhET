@@ -1,4 +1,13 @@
-/*Copyright, PhET, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.graphics;
 
 import edu.colorado.phet.common.view.GraphicsSetup;
@@ -9,6 +18,9 @@ import java.awt.image.BufferedImage;
 
 /**
  * This facilitates using Graphic objects to draw into a BufferedImage.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class BufferedGraphic implements Graphic {
     BufferedImage buffer;

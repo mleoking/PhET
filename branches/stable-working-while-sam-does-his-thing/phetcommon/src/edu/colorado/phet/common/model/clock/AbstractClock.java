@@ -1,13 +1,23 @@
-/**
- * Class: AbstractClock
- * Package: edu.colorado.phet.common.model
- * Author: Another Guy
- * Date: Aug 6, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.model.clock;
 
 import java.util.ArrayList;
 
+/**
+ * AbstractClock
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public abstract class AbstractClock {
     private CompositeClockTickListener timeListeners = new CompositeClockTickListener();
     private double runningTime;

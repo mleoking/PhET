@@ -1,13 +1,23 @@
-/**
- * Class: MultiMap
- * Package: edu.colorado.phet.common.view.util
- * Author: Another Guy
- * Date: Dec 18, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.util;
 
 import java.util.*;
 
+/**
+ * MultiMap
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class MultiMap extends TreeMap {
     private long lastModified = 0;
 

@@ -1,8 +1,12 @@
-/**
- * Class: ShapeGraphic
- * Package: edu.colorado.phet.common.examples.examples
- * Author: Another Guy
- * Date: Dec 18, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.graphics;
 
@@ -10,6 +14,9 @@ import java.awt.*;
 
 /**
  * Wrap an Area around your Shape to make it mutable.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class ShapeGraphic implements BoundedGraphic {
     private Shape shape;

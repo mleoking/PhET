@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.basicgraphics.repaint;
 
 import javax.swing.*;
@@ -6,10 +15,10 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * User: Sam Reid
- * Date: Sep 13, 2004
- * Time: 7:38:34 PM
- * Copyright (c) Sep 13, 2004 by Sam Reid
+ * StoredRectRepainter
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public abstract class StoredRectRepainter implements SynchronizedRepaintDelegate {
     private ArrayList list = new ArrayList();

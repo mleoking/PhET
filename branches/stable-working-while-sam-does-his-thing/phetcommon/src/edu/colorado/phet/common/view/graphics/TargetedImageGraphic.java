@@ -1,4 +1,13 @@
-/*Copyright, Sam Reid, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.graphics;
 
 import java.awt.*;
@@ -7,10 +16,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
- * User: Sam Reid
- * Date: Oct 8, 2003
- * Time: 11:58:25 PM
- * Copyright (c) Oct 8, 2003 by Sam Reid
+ * TargetedImageGraphic
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class TargetedImageGraphic extends BufferedImageGraphic {
     private Rectangle2D modelBounds;

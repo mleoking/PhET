@@ -1,8 +1,12 @@
-/**
- * Class: CompositeInteractiveGraphicMouseDelegator
- * Package: edu.colorado.phet.common.view
- * Author: Another Guy
- * Date: Jun 18, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view;
 
@@ -16,6 +20,9 @@ import java.awt.event.MouseEvent;
 /**
  * This class manages the mouse interaction for an entire graphic tree, whose root is
  * the CompositeGraphic specified in the constructor.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class CompositeInteractiveGraphicMouseDelegator implements MouseInputListener {
     CompositeGraphic compositeInteractiveGraphic;

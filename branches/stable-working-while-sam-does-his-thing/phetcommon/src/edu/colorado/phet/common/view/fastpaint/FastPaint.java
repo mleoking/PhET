@@ -1,14 +1,24 @@
-/**
- * Class: FastPaint
- * Package: edu.colorado.phet.common.view.fastpaint
- * Author: Another Guy
- * Date: Jun 22, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.fastpaint;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * FastPaint
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class FastPaint {
     private Component parent;
     private Rectangle lastBounds;

@@ -1,8 +1,24 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.basicgraphics;
 
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * BasicCompositeGraphic
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class BasicCompositeGraphic extends BasicGraphic {
     private ArrayList graphics = new ArrayList();
     private BasicGraphicListener basicGraphicListener = new BasicGraphicListener() {

@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.view.graphics.BoundedGraphic;
@@ -12,6 +21,9 @@ import java.util.Stack;
  * using component.paint(int x,int y,int width,int height).
  * This class manages the current and previous bounds for painting, and whether the region is dirty.
  * Testing.
+ * 
+ * @author Sam Reid
+ * @version $Revision$
  */
 public abstract class PhetGraphic implements BoundedGraphic {
     private Rectangle lastBounds = new Rectangle();

@@ -1,11 +1,21 @@
-/**
- * Class: Command
- * Package: edu.colorado.phet.common.model.command
- * Author: Another Guy
- * Date: May 20, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.model;
 
+/**
+ * Command
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public interface Command {
     void doIt();
 }

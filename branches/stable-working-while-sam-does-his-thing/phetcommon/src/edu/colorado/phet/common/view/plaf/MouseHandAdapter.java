@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.plaf;
 
 import java.awt.*;
@@ -6,10 +15,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * User: Sam Reid
- * Date: Apr 3, 2004
- * Time: 11:42:01 PM
- * Copyright (c) Apr 3, 2004 by Sam Reid
+ * MouseHandAdapter
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class MouseHandAdapter extends MouseAdapter {
     public void mouseEntered( MouseEvent e ) {

@@ -1,3 +1,13 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.basicgraphics;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -9,6 +19,9 @@ import java.util.ArrayList;
  * This kind of graphic manages issues of how to repaint,
  * and what view bounds it is in.
  * Visibility, and repainting are left to someone else.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public abstract class BasicGraphic implements Graphic {
     private ArrayList graphicListeners = new ArrayList();

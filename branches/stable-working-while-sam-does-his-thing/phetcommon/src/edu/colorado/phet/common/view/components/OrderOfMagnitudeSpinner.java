@@ -1,9 +1,12 @@
-/**
- * Created by IntelliJ IDEA.
- * User: Another Guy
- * Date: Jan 13, 2003
- * Time: 11:34:16 AM
- * To change this template use Options | File Templates.
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.components;
 
@@ -11,6 +14,9 @@ import javax.swing.*;
 
 /**
  * A subclass of JSpinner that moves up and down through orders of magnitude
+ * 
+ * @author Ron LeMaster
+ * @version $Revision$
  */
 public class OrderOfMagnitudeSpinner extends JSpinner {
 

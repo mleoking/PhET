@@ -1,10 +1,20 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
 /**
- * User: Sam Reid
- * Date: Oct 9, 2003
- * Time: 12:29:00 AM
- * Copyright (c) Oct 9, 2003 by Sam Reid
+ * Translatable
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public interface Translatable {
     public void translate( double dx, double dy );

@@ -1,3 +1,13 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.fastpaint;
 
 import edu.colorado.phet.common.view.graphics.BufferedImageGraphic;
@@ -6,6 +16,12 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+/**
+ * FastPaintImageGraphic
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class FastPaintImageGraphic extends BufferedImageGraphic implements FastPaint.Graphic {
     FastPaint fastPaint;
     //  Allows the user to set a location without getting the rectangle starting at 0,0 unioned into the repaint.

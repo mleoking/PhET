@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.basicgraphics.repaint;
 
 import javax.swing.*;
@@ -6,10 +15,10 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * User: Sam Reid
- * Date: Sep 10, 2004
- * Time: 9:15:25 AM
- * Copyright (c) Sep 10, 2004 by Sam Reid
+ * DisjointRepaint
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class DisjointRepaint extends StoredRectRepainter {
 

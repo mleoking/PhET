@@ -1,14 +1,23 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 /**
- * User: Sam Reid
- * Date: Jun 25, 2004
- * Time: 5:59:48 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ * PhetShapeGraphic
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class PhetShapeGraphic extends PhetGraphic {
     private Shape shape;

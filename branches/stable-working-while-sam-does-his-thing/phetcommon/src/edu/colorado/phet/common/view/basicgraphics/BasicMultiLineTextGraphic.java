@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.basicgraphics;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -9,10 +18,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * User: Sam Reid
- * Date: Jun 24, 2004
- * Time: 10:45:57 PM
- * Copyright (c) Jun 24, 2004 by Sam Reid
+ * BasicMultiLineTextGraphic
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class BasicMultiLineTextGraphic extends BasicGraphic {
     private ArrayList textGraphics = new ArrayList();

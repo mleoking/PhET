@@ -1,4 +1,13 @@
-/** Sam Reid*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.math.Vector2D;
@@ -18,10 +27,10 @@ import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 
 /**
- * User: Sam Reid
- * Date: Jun 25, 2004
- * Time: 6:08:32 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ * TestPhetGraphics
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public class TestPhetGraphics {
     static double scale = 1;

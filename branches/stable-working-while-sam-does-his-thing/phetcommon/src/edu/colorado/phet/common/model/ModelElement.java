@@ -1,12 +1,20 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.model;
 
-
 /**
- * Created by IntelliJ IDEA.
- * User: Sam Reid
- * Date: Feb 24, 2003
- * Time: 11:08:37 PM
- * To change this template use Options | File Templates.
+ * ModelElement
+ *
+ * @author Sam Reid
+ * @version $Revision$
  */
 public interface ModelElement {
     public void stepInTime( double dt );
