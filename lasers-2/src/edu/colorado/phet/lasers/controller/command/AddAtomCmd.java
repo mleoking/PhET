@@ -20,11 +20,11 @@ public class AddAtomCmd extends LaserApplicationCmd {
         this.atom = atom;
     }
 
-    public Object doIt() {
+    public void doIt() {
         PhetApplication.instance().addBody( atom );
         ResonatingCavity cavity = getLaserSystem().getResonatingCavity();
         Constraint constraintSpec = new CavityMustContainAtom( cavity, atom );
         cavity.addConstraint( constraintSpec );
-        return null;
+//        return null;
     }
 }

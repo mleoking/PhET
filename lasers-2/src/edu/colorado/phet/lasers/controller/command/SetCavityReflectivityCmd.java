@@ -15,8 +15,9 @@ public class SetCavityReflectivityCmd extends LaserApplicationCmd{
         this.reflectivity = reflectivity;
     }
 
-    public Object doIt() {
+    public void doIt() {
+//    public Object doIt() {
         getLaserSystem().getResonatingCavity().setReflectivity( reflectivity );
-        return null;
+//        return null;
     }
 }

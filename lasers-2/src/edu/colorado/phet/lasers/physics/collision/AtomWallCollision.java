@@ -7,15 +7,9 @@
  */
 package edu.colorado.phet.lasers.physics.collision;
 
-import edu.colorado.phet.physics.collision.Wall;
 import edu.colorado.phet.lasers.physics.atom.Atom;
-import edu.colorado.phet.physics.Vector2D;
-import edu.colorado.phet.physics.body.Particle;
-import edu.colorado.phet.physics.collision.HardsphereCollision;
-import edu.colorado.phet.physics.collision.CollisionFactory;
-import edu.colorado.phet.physics.collision.Collision;
-import edu.colorado.phet.physics.collision.SphereWallCollision;
-import edu.colorado.phet.util.MathUtil;
+import edu.colorado.phet.collision.Collision;
+import edu.colorado.phet.common.model.Particle;
 
 import java.awt.geom.Point2D;
 

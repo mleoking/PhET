@@ -6,25 +6,25 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.LaserControlPanel;
-import edu.colorado.phet.lasers.controller.command.*;
-import edu.colorado.phet.lasers.physics.ResonatingCavity;
+import edu.colorado.phet.lasers.controller.command.SetPumpingBeamCmd;
+import edu.colorado.phet.lasers.controller.command.SetStimulatingBeamCmd;
 import edu.colorado.phet.lasers.physics.LaserSystem;
+import edu.colorado.phet.lasers.physics.ResonatingCavity;
 import edu.colorado.phet.lasers.physics.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.physics.photon.Photon;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.BaseModel;
 
 import java.awt.geom.Point2D;
 
 /**
  *
  */
-public class BaseLaserModule extends Module {
+public abstract class BaseLaserModule extends Module {
 //public class BaseLaserModule extends ApparatusPanel {
 
     private LaserControlPanel laserControlPanel;
@@ -47,10 +47,9 @@ public class BaseLaserModule extends Module {
         ApparatusPanel apparatusPanel = new ApparatusPanel();
         setApparatusPanel( apparatusPanel );
 
-
-        laserControlPanel = new LaserControlPanel( );
+//        laserControlPanel = new LaserControlPanel( );
 //        laserControlPanel = new LaserControlPanel( PhetApplication.instance() );
-        setControlPanel( laserControlPanel );
+//        setControlPanel( laserControlPanel );
     }
 
     /**
@@ -91,7 +90,10 @@ public class BaseLaserModule extends Module {
         laserOrigin = new Point2D.Float( (float) ( s_origin.getX() + s_laserOffsetX ),
                                                                (float) ( s_origin.getY() ) );
         cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
-        new AddResonatingCavityCmd( cavity ).doIt();
+        getModel().addModelElement( cavity );
+        ResonatingCavityGraphic cavityGraphic = new ResonatingCavityGraphic( getApparatusPanel(), cavity );
+//        cavityGraphic.init( cavity );
+//        new AddResonatingCavityCmd( cavity ).doIt();
 
         // Add the low energy beam
         incomingBeam.setActive( true );

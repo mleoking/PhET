@@ -13,6 +13,7 @@ import edu.colorado.phet.common.model.Command;
 abstract public class LaserApplicationCmd implements Command {
 
     protected LaserSystem getLaserSystem() {
-        return (LaserSystem)(PhetApplication.instance().getPhysicalSystem());
+        throw new RuntimeException( "No longer implemented" );
+        //        return (LaserSystem)(PhetApplication.instance().getPhysicalSystem());
     }
 }

@@ -57,12 +57,12 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away
             Vector2D vHat = new Vector2D.Double( emittedPhoton.getVelocity() ).normalize();
-            Vector2D position = new Vector2D.Double( getAtom().getPosition() );
+//            Vector2D position = new Vector2D.Double( getAtom().getPosition() );
 //            Vector2D vHat = new Vector2D( emittedPhoton.getVelocity() ).normalize();
-//            Vector2D position = new Vector2D( getAtom().getPosition() );
+            Vector2D position = new Vector2D.Double( getAtom().getPosition() );
             position.add( vHat.scale( getAtom().getRadius() + 10 ));
 //            position.add( vHat.multiply( getAtom().getRadius() + 10 ));
-            emittedPhoton.setPosition( position );
+            emittedPhoton.setPosition( position.getX(), position.getY() );
 
             getAtom().emitPhoton( emittedPhoton );
 
