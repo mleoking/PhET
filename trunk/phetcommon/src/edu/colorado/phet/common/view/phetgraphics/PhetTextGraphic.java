@@ -30,7 +30,7 @@ public class PhetTextGraphic extends PhetGraphic {
         this.font = font;
         this.text = text;
         this.color = color;
-        fontMetrics = component.getFontMetrics( font );
+        this.fontMetrics = component.getFontMetrics( font );
         setLocation( x, y );
     }
 
@@ -95,6 +95,7 @@ public class PhetTextGraphic extends PhetGraphic {
 
     public void setFont( Font font ) {
         this.font = font;
+        this.fontMetrics = getComponent().getFontMetrics( font );
         setBoundsDirty();
         autorepaint();
     }
