@@ -144,7 +144,12 @@ public class Photon extends Particle implements Collidable {
      * again. This helps prevent us from flogging the heap.
      */
     public void removeFromSystem() {
-        leftSystemListenerProxy.leftSystemEventOccurred( new LeftSystemEvent() );
+        try {
+            leftSystemListenerProxy.leftSystemEventOccurred( new LeftSystemEvent() );
+        }
+        catch( Throwable t ) {
+            System.out.println( "t = " + t );
+        }
         this.removeAllObservers();
     }
 
