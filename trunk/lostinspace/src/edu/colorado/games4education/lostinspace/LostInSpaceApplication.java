@@ -10,12 +10,15 @@ package edu.colorado.games4education.lostinspace;
 import edu.colorado.games4education.lostinspace.controller.CockpitModule;
 import edu.colorado.games4education.lostinspace.controller.StarMapModule;
 import edu.colorado.games4education.lostinspace.model.UniverseModel;
+import edu.colorado.games4education.lostinspace.model.StarField;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ThreadedClock;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+
+import java.awt.geom.Rectangle2D;
 
 public class LostInSpaceApplication extends PhetApplication {
 
@@ -29,7 +32,9 @@ public class LostInSpaceApplication extends PhetApplication {
                                                                    desc,
                                                                    "0.1" );
         AbstractClock clock = new ThreadedClock( 10, 20, true );
-        UniverseModel model = new UniverseModel( clock );
+        StarField starField = new StarField( new Rectangle2D.Double( -Config.fixedStarDistance, - Config.fixedStarDistance,
+                                                                     Config.fixedStarDistance, Config.fixedStarDistance) );
+        UniverseModel model = new UniverseModel( starField, clock );
         Module cockpitModule = new CockpitModule( model );
         Module starMapModule = new StarMapModule( model );
         Module[] modules = new Module[]{cockpitModule, starMapModule};

@@ -11,7 +11,7 @@ import edu.colorado.games4education.lostinspace.Config;
 import edu.colorado.games4education.lostinspace.model.StarField;
 import edu.colorado.games4education.lostinspace.model.StarView;
 import edu.colorado.games4education.lostinspace.model.UniverseModel;
-import edu.colorado.games4education.lostinspace.view.CockpitGraphic;
+import edu.colorado.games4education.lostinspace.view.CockpitView;
 import edu.colorado.games4education.lostinspace.view.ParallaxReticle;
 import edu.colorado.games4education.lostinspace.view.PhotometerReticle;
 import edu.colorado.games4education.lostinspace.view.StarViewGraphic;
@@ -31,7 +31,7 @@ public class CockpitModule extends Module {
     private StarView starView;
     private StarViewGraphic starViewGraphic;
     private AffineTransform starViewOriginTx = new AffineTransform();
-    private CockpitGraphic cockpitGraphic;
+    private CockpitView cockpitGraphic;
 
     public CockpitModule( UniverseModel model ) {
         super( "Cockpit" );
@@ -41,7 +41,7 @@ public class CockpitModule extends Module {
         setApparatusPanel( apparatusPanel );
         setModel( model );
 
-        cockpitGraphic = new CockpitGraphic( this );
+        cockpitGraphic = new CockpitView( this );
         apparatusPanel.addGraphic( cockpitGraphic, Config.cockpitLayer );
 
         parallaxReticle = new ParallaxReticle( apparatusPanel );
@@ -50,7 +50,7 @@ public class CockpitModule extends Module {
         photometerReticle = new PhotometerReticle( apparatusPanel );
         photometerReticle.setLocation( 200, 200 );
 
-        starField = new StarField();
+        starField = model.getStarField();
         starView = new StarView( starField, Math.PI / 2 );
         starViewGraphic = new StarViewGraphic( apparatusPanel,
                                                starView,

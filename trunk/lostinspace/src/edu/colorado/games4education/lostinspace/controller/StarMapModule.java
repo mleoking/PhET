@@ -23,6 +23,6 @@ public class StarMapModule extends Module {
         setApparatusPanel( apparatusPanel );
         setModel( model );
 
-        apparatusPanel.addGraphic( new StarMapGraphic() );
+        apparatusPanel.addGraphic( new StarMapGraphic( apparatusPanel, model.getStarField() ) );
     }
 }
