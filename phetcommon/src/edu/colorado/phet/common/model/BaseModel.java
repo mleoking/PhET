@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.common.model;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 
