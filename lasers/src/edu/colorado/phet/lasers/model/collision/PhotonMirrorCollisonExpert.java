@@ -15,9 +15,9 @@ package edu.colorado.phet.lasers.model.collision;
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.CollisionUtil;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.common.math.MathUtil;
 
 import java.awt.geom.Point2D;
 import java.util.HashMap;
@@ -46,9 +46,8 @@ public class PhotonMirrorCollisonExpert implements CollisionExpert {
 
                 // Note: This test is very simple-minded. It assumes a vertical mirror that
                 // is infinitely tall.
-                if( mirror.reflects( photon )
-                    && ( photonPositionCurr.getX() - mirror.getPosition().getX() )
-                       * ( photonPositionPrev.getX() - mirror.getPosition().getX() ) <= 0 ) {
+                if( ( photonPositionCurr.getX() - mirror.getPosition().getX() )
+                    * ( photonPositionPrev.getX() - mirror.getPosition().getX() ) <= 0 && mirror.reflects( photon ) ) {
                     doCollision( photon, mirror );
                 }
             }
@@ -59,6 +58,7 @@ public class PhotonMirrorCollisonExpert implements CollisionExpert {
     /**
      * This collision implementation "cheats" to make photons reflect horizontally if they
      * are close to horizontal
+     *
      * @param photon
      * @param mirror
      */
@@ -77,6 +77,6 @@ public class PhotonMirrorCollisonExpert implements CollisionExpert {
             vy = photon.getVelocity().getY();
         }
         photon.setVelocity( vx, vy );
-//        photon.setVelocity( -photon.getVelocity().getX(), photon.getVelocity().getY() );
+        //        photon.setVelocity( -photon.getVelocity().getX(), photon.getVelocity().getY() );
     }
 }

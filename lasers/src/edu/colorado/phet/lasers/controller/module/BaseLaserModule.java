@@ -14,7 +14,8 @@ package edu.colorado.phet.lasers.controller.module;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.LaserControlPanel;
@@ -67,12 +68,13 @@ public class BaseLaserModule extends Module {
     private JPanel reflectivityControlPanel;
     private int photonView;
     private WaveBeamGraphic beamGraphic;
+    private StandingWaveGraphic waveGraphic;
 
 
     /**
      *
      */
-    public BaseLaserModule( String title, PhetFrame frame ) {
+    public BaseLaserModule( String title, PhetFrame frame, AbstractClock clock ) {
         super( title );
 
         // Set the PhetFrame for the module
@@ -84,7 +86,8 @@ public class BaseLaserModule extends Module {
         laserModel.setBounds( new Rectangle2D.Double( 0, 0, 800, 600 ) );
 
         // Create the apparatus panel
-        ApparatusPanel apparatusPanel = new ApparatusPanel();
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getModel(), clock );
+        //        ApparatusPanel apparatusPanel = new ApparatusPanel();
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
 
@@ -149,6 +152,8 @@ public class BaseLaserModule extends Module {
         if( beamGraphic != null ) {
             getApparatusPanel().removeGraphic( beamGraphic );
             beamGraphic = null;
+            getApparatusPanel().removeGraphic( waveGraphic );
+            waveGraphic = null;
         }
     }
 
@@ -156,6 +161,8 @@ public class BaseLaserModule extends Module {
         setPhotonView( PHOTON_WAVE );
         beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity(), getModel() );
         addGraphic( beamGraphic, 1 );
+        waveGraphic = new StandingWaveGraphic( getApparatusPanel(), pumpingBeam, getCavity(), getModel() );
+        addGraphic( waveGraphic, 20 );
     }
 
     private void setPhotonView( int viewType ) {
@@ -280,6 +287,14 @@ public class BaseLaserModule extends Module {
     }
 
     protected void createMirrors() {
+        // If there already mirrors in the model, get rid of them
+        if( rightMirror != null ) {
+            getModel().removeModelElement( rightMirror );
+        }
+        if( leftMirror != null ) {
+            getModel().removeModelElement( leftMirror );
+        }
+
         // The right mirror is a partial mirror
         Point2D p1 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(), // + 20,
                                          cavity.getPosition().getY() );

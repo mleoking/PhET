@@ -8,6 +8,7 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -41,8 +42,8 @@ public class SingleAtomModule extends BaseLaserModule {
     private SingleAtomControlPanel laserControlPanel;
     private boolean threeEnergyLevels;
 
-    public SingleAtomModule( PhetFrame frame ) {
-        super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), frame );
+    public SingleAtomModule( PhetFrame frame, AbstractClock clock ) {
+        super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), frame, clock );
 
         // Set up the control panel, and start off with two energy levels
         laserControlPanel = new SingleAtomControlPanel( this );

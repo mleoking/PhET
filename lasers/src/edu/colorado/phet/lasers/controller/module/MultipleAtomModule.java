@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -50,8 +51,8 @@ public class MultipleAtomModule extends BaseLaserModule {
     /**
      *
      */
-    public MultipleAtomModule( PhetFrame frame ) {
-        super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), frame );
+    public MultipleAtomModule( PhetFrame frame, AbstractClock clock ) {
+        super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), frame, clock );
 
         // Set the control panel
         setControlPanel( new MultipleAtomControlPanel( this ) );
@@ -160,7 +161,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         Atom atom = null;
         atoms = new ArrayList();
         //        int numAtoms = 1;
-        int numAtoms = 40;
+        int numAtoms = 20;
         //        int numAtoms = 20;
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new Atom( getModel() );

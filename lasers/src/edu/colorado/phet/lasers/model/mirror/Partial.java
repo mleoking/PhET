@@ -27,12 +27,14 @@ public class Partial implements ReflectionStrategy {
 
     public void setReflectivity( double reflectivity ) {
         if( reflectivity < 0 || reflectivity > 1 ) {
-            throw new RuntimeException( "Reflectivity not between 0 and 1.0");
+            throw new RuntimeException( "Reflectivity not between 0 and 1.0" );
         }
         this.reflectivity = reflectivity;
     }
 
     public boolean reflects( Photon photon ) {
+        if( reflectivity < 1 ) {
+        }
         boolean result = false;
         if( reflectivity == 0.0 ) {
             result = false;
