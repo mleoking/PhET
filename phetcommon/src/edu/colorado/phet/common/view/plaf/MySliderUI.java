@@ -34,7 +34,7 @@ public class MySliderUI extends MetalSliderUI {
 
     class MouseHand extends MouseInputAdapter {
         public void mouseMoved( MouseEvent e ) {
-//                System.out.println( "thumbRect = " + thumbRect );
+            //                System.out.println( "thumbRect = " + thumbRect );
             if( thumbRect.contains( e.getX(), e.getY() ) ) {
                 e.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
             }

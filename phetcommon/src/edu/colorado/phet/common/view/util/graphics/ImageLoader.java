@@ -39,7 +39,7 @@ public class ImageLoader {
     }
 
     public ImageLoader() {
-//        setImageIOLoader();
+        //        setImageIOLoader();
         setPhetLoader();
         conversionStrategy = new ConversionStrategy() {
             public BufferedImage toBufferedImage( Image image ) {

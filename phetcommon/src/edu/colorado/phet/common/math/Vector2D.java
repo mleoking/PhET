@@ -92,6 +92,9 @@ public class Vector2D extends PhysicalVector {
         return this.subtract( temp );
     }
 
+    /**
+     * This returns a new Vector2D
+     */
     public Vector2D normalVector() {
         return new Vector2D( this.getY(), -this.getX() );
     }

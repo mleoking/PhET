@@ -42,7 +42,7 @@ public class TabbedApparatusPanelContainer implements ApparatusPanelContainer {
         if( current != m ) {
             int index = mm.indexOf( m );
             tabbedPane.setSelectedIndex( index );
-//            m.getApparatusPanel().updateTransform();
+            //            m.getApparatusPanel().updateTransform();
         }
     }
 

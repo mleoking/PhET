@@ -6,14 +6,12 @@
  */
 package edu.colorado.phet.common.view.graphics;
 
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
-
 import java.awt.*;
 
 /**
  * Wrap an Area around your Shape to make it mutable.
  */
-public class ShapeGraphic implements Graphic, Boundary {
+public class ShapeGraphic implements BoundedGraphic {
     private Shape shape;
     private Paint outlinePaint;
     private Paint fillPaint;

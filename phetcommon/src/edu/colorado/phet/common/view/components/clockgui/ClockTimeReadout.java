@@ -43,7 +43,7 @@ public class ClockTimeReadout extends JPanel {
     }
 
     public void update( Observable o, Object arg ) {
-//        setClockReading(PhysicalSystem.instance().getSystemClock().getRunningTime());
+        //        setClockReading(PhysicalSystem.instance().getSystemClock().getRunningTime());
     }
 
     /**

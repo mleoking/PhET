@@ -26,7 +26,7 @@ public class PlafUtil {
         UIManager.installLookAndFeel( "Lecture I", new LectureLookAndFeel().getClass().getName() );
         UIManager.installLookAndFeel( "Lecture II", new LectureLookAndFeel2().getClass().getName() );
         UIManager.installLookAndFeel( "Playful", new PlayfulLookAndFeel().getClass().getName() );
-//        UIManager.installLookAndFeel( "Anim", new AnimFactoryLookAndFeel().getClass().getName() );
+        //        UIManager.installLookAndFeel( "Anim", new AnimFactoryLookAndFeel().getClass().getName() );
     }
 
     public static void applyPlayful() {
@@ -74,7 +74,7 @@ public class PlafUtil {
 
             JRadioButtonMenuItem jrb = new JRadioButtonMenuItem( lookAndFeelInfo.getName() );
             bg.add( jrb );
-//            if (currentLookAndFeel.)
+            //            if (currentLookAndFeel.)
             if( lookAndFeelInfo.getName().equals( currentLookAndFeel.getName() ) ) {
                 jrb.setSelected( true );
             }

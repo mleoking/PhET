@@ -38,7 +38,7 @@ public class PhetFrame extends JFrame {
         JMenuItem showClockDialog = new JMenuItem( "FixedClock" );
         showClockDialog.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                clockDialog.setVisible(true);
+                //                clockDialog.setVisible(true);
             }
         } );
 

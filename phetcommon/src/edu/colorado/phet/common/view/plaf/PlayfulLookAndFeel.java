@@ -23,7 +23,7 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
         this.font = font;
         this.foregroundColor = foregroundColor;
         this.backgroundColor = backgroundColor;
-//        install();
+        //        install();
     }
 
     String[] types = new String[]{
@@ -34,9 +34,9 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
         "Label", "TextPane", "FormattedTextField", "List", "Spinner"
     };
 
-//    public void uninitialize() {
-//        super.uninitialize();
-//    }
+    //    public void uninitialize() {
+    //        super.uninitialize();
+    //    }
 
     protected void initComponentDefaults( UIDefaults table ) {
         super.initComponentDefaults( table );
@@ -58,12 +58,12 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
 
         UIDefaults.ProxyLazyValue val = new UIDefaults.ProxyLazyValue( "javax.swing.plaf.metal.MetalIconFactory",
                                                                        "getHorizontalSliderThumbIcon" );
-//        ImageIcon ii=new ImageIcon( getClass().getClassLoader().getResource( "images/components/webt/arrow_down_md_wht.gif"));
+        //        ImageIcon ii=new ImageIcon( getClass().getClassLoader().getResource( "images/components/webt/arrow_down_md_wht.gif"));
         ImageIcon i2 = ( new ImageIcon( getClass().getClassLoader().getResource( "images/components/slidershadow.png" ) ) );
         IconUIResource iconResource = new IconUIResource( i2 );
         add( "Slider.horizontalThumbIcon", iconResource );
 
-//        MetalButtonUI buttonUI=new MetalButtonUI();
+        //        MetalButtonUI buttonUI=new MetalButtonUI();
         add( "ButtonUI", MyButtonUI.class.getName() );
         add( "CheckBoxUI", MyCheckBoxUI.class.getName() );
         add( "SpinnerUI", MySpinnerUI.class.getName() );
@@ -76,7 +76,7 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
         add( "TextFieldUI", MyTextFieldUI.class.getName() );
         add( "PanelUI", MyPanelUI.class.getName() );
 
-//        "Spinner.arrowButtonSize", new Dimension(16, 5),
+        //        "Spinner.arrowButtonSize", new Dimension(16, 5),
 
         Object[] defaults = def.toArray();
         table.putDefaults( defaults );

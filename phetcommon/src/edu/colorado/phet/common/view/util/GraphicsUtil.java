@@ -97,6 +97,7 @@ public class GraphicsUtil {
     /**
      * This method turns Java strings into HTML that is Java-printable. The primary
      * use of this is to put line breaks in messages with '\n' characters.
+     *
      * @todo rename
      */
     public static String formatMessage( String msg ) {
@@ -126,12 +127,12 @@ public class GraphicsUtil {
     // component
     public static void setInitialFocus( Window w, final Component c ) {
         w.addWindowListener( new FocusSetter( c ) );
-//        w.addWindowListener( new WindowAdapter() {
-//            public void windowOpened( WindowEvent e ) {
-//                c.requestFocus();
-//                e.getWindow().removeWindowListener( this );
-//            }
-//        } );
+        //        w.addWindowListener( new WindowAdapter() {
+        //            public void windowOpened( WindowEvent e ) {
+        //                c.requestFocus();
+        //                e.getWindow().removeWindowListener( this );
+        //            }
+        //        } );
     }
 
     private static class FocusSetter extends WindowAdapter {
@@ -207,7 +208,7 @@ public class GraphicsUtil {
             menuList.add( menuBar.getMenu( i ) );
         }
         menuBar.removeAll();
-//        menuBar = new JMenuBar();
+        //        menuBar = new JMenuBar();
         for( int i = 0; i < menuList.size(); i++ ) {
             JMenu menu = (JMenu)menuList.get( i );
             menuBar.add( menu );

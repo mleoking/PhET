@@ -99,7 +99,7 @@ public class Animation {
         for( int i = 1; i <= numFrames; i++ ) {
             String fileName = Animation.genAnimationFileName( filePrefix, i );
             frames[i - 1] = animationLoader.loadImage( fileName );
-//            frames[i - 1] = animationLoader.loadImage(fileName);
+            //            frames[i - 1] = animationLoader.loadImage(fileName);
         }
         return frames;
     }
