@@ -48,6 +48,6 @@ public class TestApparatusModule extends SingleAtomBaseModule {
         config.setMiddleEnergySpontaneousEmissionTime( 10.00f );
         config.setPumpingPhotonRate( 0.0f );
         config.setReflectivity( 0.0f );
-        config.configureSystem();
+        config.configureSystem( getLaserModel() );
     }
 }

@@ -12,10 +12,10 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.LaserControlPanel;
-import edu.colorado.phet.lasers.controller.command.SetPumpingBeamCmd;
-import edu.colorado.phet.lasers.controller.command.SetStimulatingBeamCmd;
-import edu.colorado.phet.lasers.physics.LaserSystem;
+import edu.colorado.phet.lasers.physics.LaserModel;
 import edu.colorado.phet.lasers.physics.ResonatingCavity;
+import edu.colorado.phet.lasers.physics.CavityMustContainAtom;
+import edu.colorado.phet.lasers.physics.atom.Atom;
 import edu.colorado.phet.lasers.physics.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.physics.photon.Photon;
 
@@ -27,12 +27,17 @@ import java.awt.geom.Point2D;
 public abstract class BaseLaserModule extends Module {
 //public class BaseLaserModule extends ApparatusPanel {
 
+    static protected final Point2D.Float s_origin = LaserConfig.ORIGIN;
+    static protected final float s_boxHeight = 250;
+    static protected final float s_boxWidth = 500;
+    static protected final float s_laserOffsetX = 100;
+
     private LaserControlPanel laserControlPanel;
     private ResonatingCavity cavity;
     private CollimatedBeam incomingBeam;
     private CollimatedBeam pumpingBeam;
     private Point2D.Float laserOrigin;
-    private LaserSystem laserModel;
+    private LaserModel laserModel;
 
     /**
      *
@@ -40,7 +45,7 @@ public abstract class BaseLaserModule extends Module {
     public BaseLaserModule( String title ) {
         super( title );
 
-        laserModel = new LaserSystem();
+        laserModel = new LaserModel();
         setModel( laserModel );
 
 
@@ -59,7 +64,7 @@ public abstract class BaseLaserModule extends Module {
 
         super.activate( app );
 
-//        LaserSystem laserSystem = (LaserSystem)PhetApplication.instance().getPhysicalSystem();
+//        LaserModel laserSystem = (LaserModel)PhetApplication.instance().getPhysicalSystem();
 //        laserSystem.removeAtoms();
         laserModel.removeAtoms();
 
@@ -97,11 +102,13 @@ public abstract class BaseLaserModule extends Module {
 
         // Add the low energy beam
         incomingBeam.setActive( true );
-        new SetStimulatingBeamCmd( incomingBeam ).doIt();
+        getLaserModel().setStimulatingBeam( incomingBeam );
+//        new SetStimulatingBeamCmd( incomingBeam ).doIt();
 
         // Add the pump beam
         pumpingBeam.setActive( true );
-        new SetPumpingBeamCmd( pumpingBeam ).doIt();
+        getLaserModel().setPumpingBeam( pumpingBeam );
+//        new SetPumpingBeamCmd( pumpingBeam ).doIt();
 
     }
 
@@ -131,11 +138,18 @@ public abstract class BaseLaserModule extends Module {
         return cavity;
     }
 
-    //
-    // Static fields and methods
-    //
-    static protected final Point2D.Float s_origin = LaserConfig.ORIGIN;
-    static protected final float s_boxHeight = 250;
-    static protected final float s_boxWidth = 500;
-    static protected final float s_laserOffsetX = 100;
+    public void setEnergyLevelsVisible( boolean selected ) {
+        throw new RuntimeException( "TBI" );
+    }
+
+    public LaserModel getLaserModel() {
+        return (LaserModel)getModel();
+    }
+
+    protected void addAtom( Atom atom ) {
+        getModel().addModelElement( atom );
+        ResonatingCavity cavity = getLaserModel().getResonatingCavity();
+        Constraint constraintSpec = new CavityMustContainAtom( cavity, atom );
+        cavity.addConstraint( constraintSpec );
+    }
 }

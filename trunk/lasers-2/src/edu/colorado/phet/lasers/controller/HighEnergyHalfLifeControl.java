@@ -7,9 +7,8 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.command.SetHighEnergySpontaneousEmissionTimeCmd;
-import edu.colorado.phet.lasers.controller.command.SetMiddleEnergySpontaneousEmissionTimeCmd;
+import edu.colorado.phet.lasers.view.BaseLaserModule;
+import edu.colorado.phet.lasers.physics.LaserModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -23,15 +22,15 @@ public class HighEnergyHalfLifeControl extends JPanel {
     private JSlider highEnergySpontaneousEmissionTimeSlider;
     private JTextField highEnergySpontaneousEmissionTimeTF;
 
-    public HighEnergyHalfLifeControl() {
+    public HighEnergyHalfLifeControl( LaserModel model ) {
         this.setLayout( new GridLayout( 2, 1 ));
-        addHighEnergyControls();
+        addHighEnergyControls( model );
     }
 
     /**
      *
      */
-    private void addHighEnergyControls() {
+    private void addHighEnergyControls( final LaserModel model ) {
         JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
         controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
 
@@ -56,7 +55,8 @@ public class HighEnergyHalfLifeControl extends JPanel {
         highEnergySpontaneousEmissionTimeSlider.setMajorTickSpacing( 100 );
         highEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateHighEnergySpontaneousEmissionTime( ((float)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
+//                updateHighEnergySpontaneousEmissionTime( ((float)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
+                model.setHighEnergySpontaneousEmissionTime( ((float)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000  );
                 highEnergySpontaneousEmissionTimeTF.setText( Float.toString( highEnergySpontaneousEmissionTimeSlider.getValue() ) );
             }
         } );
@@ -71,7 +71,7 @@ public class HighEnergyHalfLifeControl extends JPanel {
 
     }
 
-    private void updateHighEnergySpontaneousEmissionTime( float time ) {
-        new SetHighEnergySpontaneousEmissionTimeCmd( time ).doIt();
-    }
+//    private void updateHighEnergySpontaneousEmissionTime( float time ) {
+//        new SetHighEnergySpontaneousEmissionTimeCmd( time ).doIt();
+//    }
 }

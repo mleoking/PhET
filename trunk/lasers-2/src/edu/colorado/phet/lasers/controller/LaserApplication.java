@@ -6,20 +6,35 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.lasers.physics.LaserSystem;
-import edu.colorado.phet.lasers.view.LaserGraphicFactory;
-import edu.colorado.phet.lasers.view.LaserMainPanel;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.view.PhetFrame;
-
-import javax.swing.*;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.lasers.view.*;
 
 public class LaserApplication extends PhetApplication {
 
     static class LaserAppModel extends ApplicationModel {
         public LaserAppModel() {
             super( "Lasers", "Lasers", "0.1" );
+
+            AbstractClock clock = new SwingTimerClock( 10, 20 );
+
+            Module singleAtomModule = new OneAtomTwoLevelsModule( clock );
+            Module oneAtomThreeLevelsModule = new OneAtomThreeLevelsModule( clock );
+            Module multipleAtomTwlLevelModule = new MultipleAtomTwoLevelModule( clock );
+            Module multipleAtomThreeLevelModule = new MultipleAtomThreeLevelModule();
+            Module testApparatusModule = new TestApparatusModule();
+            Module[] modules = new Module[] {
+                singleAtomModule,
+                oneAtomThreeLevelsModule,
+                multipleAtomTwlLevelModule,
+                multipleAtomThreeLevelModule,
+                testApparatusModule
+            };
+            setModules( modules );
+            setInitialModule( singleAtomModule );
         }
     }
 

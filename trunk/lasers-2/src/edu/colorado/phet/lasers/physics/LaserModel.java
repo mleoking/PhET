@@ -1,11 +1,14 @@
 /**
- * Class: LaserSystem
+ * Class: LaserModel
  * Package: edu.colorado.phet.lasers.physics
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
 package edu.colorado.phet.lasers.physics;
 
+import edu.colorado.phet.collision.SphereSphereContactDetector;
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.physics.atom.Atom;
 import edu.colorado.phet.lasers.physics.collision.AtomAtomCollision;
@@ -14,20 +17,15 @@ import edu.colorado.phet.lasers.physics.collision.PhotonAtomCollision;
 import edu.colorado.phet.lasers.physics.collision.PhotonMirrorCollision;
 import edu.colorado.phet.lasers.physics.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.physics.photon.Photon;
-import edu.colorado.phet.collision.SphereSphereContactDetector;
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
-public class LaserSystem extends BaseModel {
-//public class LaserSystem extends PhysicalSystem {
+public class LaserModel extends BaseModel {
+//public class LaserModel extends PhysicalSystem {
 
     private CollimatedBeam stimulatingBeam;
     private CollimatedBeam pumpingBeam;
@@ -37,7 +35,7 @@ public class LaserSystem extends BaseModel {
     /**
      *
      */
-    public LaserSystem() {
+    public LaserModel() {
 //        super( LaserConfig.instance() );
         this.addLaw( CollisionLaw.instance() );
 
@@ -76,8 +74,9 @@ public class LaserSystem extends BaseModel {
                 Photon photon = (Photon)obj;
                 Point2D position = photon.getPosition();
                 if( !boundingRectangle.contains( position.getX(), position.getY() )) {
-                    RemoveParticleCmd cmd = new RemoveParticleCmd( photon );
-                    this.addPrepCmd( cmd );
+                    removeModelElement( photon );
+//                    RemoveParticleCmd cmd = new RemoveParticleCmd( photon );
+//                    this.addPrepCmd( cmd );
                 }
             }
         }
@@ -185,8 +184,9 @@ public class LaserSystem extends BaseModel {
             ModelElement modelElement = (ModelElement)bodies.get( i );
 //            PhysicalEntity modelElement = (PhysicalEntity)bodies.get( i );
             if( modelElement instanceof Atom ) {
-                RemoveParticleCmd cmd = new RemoveParticleCmd( (Atom)modelElement );
-                this.addPrepCmd( cmd );
+                removeModelElement( modelElement );
+//                RemoveParticleCmd cmd = new RemoveParticleCmd( (Atom)modelElement );
+//                this.addPrepCmd( cmd );
             }
         }
     }
@@ -197,8 +197,9 @@ public class LaserSystem extends BaseModel {
             ModelElement modelElement = (ModelElement)bodies.get( i );
 //            PhysicalEntity modelElement = (PhysicalEntity)bodies.get( i );
             if( modelElement instanceof Photon ) {
-                RemoveParticleCmd cmd = new RemoveParticleCmd( (Photon)modelElement );
-                this.addPrepCmd( cmd );
+                removeModelElement( modelElement );
+//                RemoveParticleCmd cmd = new RemoveParticleCmd( (Photon)modelElement );
+//                this.addPrepCmd( cmd );
             }
         }
     }

@@ -10,6 +10,8 @@ import edu.colorado.phet.lasers.physics.photon.Photon;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.common.math.Vector2D;
 
+import java.awt.geom.Point2D;
+
 public class MiddleEnergyState extends SpontaneouslyEmittingState {
 
     /**
@@ -44,10 +46,13 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
 
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away
-            Vector2D vHat = new Vector2D( photon.getVelocity() ).normalize();
-            Vector2D position = new Vector2D( getAtom().getPosition() );
-            position.add( vHat.multiply( getAtom().getRadius() + 10 ));
+            Vector2D vHat = new Vector2D.Double( photon.getVelocity() ).normalize();
+//            Vector2D position = new Vector2D.Double( getAtom().getPosition() );
+//            position.add( vHat.scale( getAtom().getRadius() + 10 ));
 //            replacementPhoton.setPosition( position );
+            vHat.scale( getAtom().getRadius() + 10 );
+            Point2D position = new Point2D.Double( getAtom().getPosition().getX() + vHat.getX(),
+                                                   getAtom().getPosition().getY() + vHat.getY());
             photon.setPosition( position );
 
 //            replacementPhoton.setPosition( getAtom().getPosition().getX(),
