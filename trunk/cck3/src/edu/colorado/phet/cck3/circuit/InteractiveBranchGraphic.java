@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
-import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
+import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -51,7 +51,7 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic implemen
         branchGraphic.delete();
     }
 
-    class BranchPopupMenu extends CircuitComponentInteractiveGraphic.RepaintyMenu {
+    class BranchPopupMenu extends RepaintyMenu {
         private Circuit circuit;
         private Branch branch;
 
