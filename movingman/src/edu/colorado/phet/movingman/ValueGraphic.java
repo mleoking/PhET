@@ -3,8 +3,8 @@ package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.movingman.common.ObservingGraphic;
-import edu.colorado.phet.movingman.plots.BoxedPlot;
 import edu.colorado.phet.movingman.plots.DataSeries;
+import edu.colorado.phet.movingman.plots.MMPlot;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -27,14 +27,15 @@ public class ValueGraphic implements ObservingGraphic {
     private String output;
     private Font font = new Font( "Lucida Sans", 0, 20 );
     private Color color = Color.black;
-    private BoxedPlot offsetSource;
+    private MMPlot offsetSource;
     private FontMetrics fontMetrics;
     private boolean visible = true;
     private String text;
     private int x;
     private int y;
+    private double value;
 
-    public ValueGraphic( MovingManModule module, MMTimer MMTimer, MMTimer playbackMMTimer, DataSeries series, String pre, String units, int x, int y, BoxedPlot offsetSource ) {
+    public ValueGraphic( MovingManModule module, MMTimer MMTimer, MMTimer playbackMMTimer, DataSeries series, String pre, String units, int x, int y, MMPlot offsetSource ) {
         this.module = module;
         this.fontMetrics = module.getApparatusPanel().getFontMetrics( font );
         this.recordingMMTimer = MMTimer;
@@ -67,10 +68,10 @@ public class ValueGraphic implements ObservingGraphic {
         }
         else {
             double time = playbackMMTimer.getTime() + offsetSource.getxShift();
-            index = (int)( time / MovingManModule.TIMER_SCALE );
+            index = (int)( time / MovingManModel.TIMER_SCALE );
         }
         if( series.indexInBounds( index ) ) {
-            double value = series.pointAt( index );
+            value = series.pointAt( index );
             String valueString = format.format( value );
             if( valueString.equals( "-0.00" ) ) {
                 valueString = "0.00";
@@ -130,5 +131,9 @@ public class ValueGraphic implements ObservingGraphic {
 
     public void setVisible( boolean visible ) {
         this.visible = visible;
+    }
+
+    public double getValue() {
+        return value;
     }
 }

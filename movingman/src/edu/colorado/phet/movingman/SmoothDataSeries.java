@@ -58,6 +58,10 @@ public class SmoothDataSeries {
         data.addPoint( pt );
     }
 
+    public int numSmoothingPoints() {
+        return numSmoothingPoints;
+    }
+
     public int numSmoothedPoints() {
         return smoothed.size();
     }

@@ -3,6 +3,7 @@ package edu.colorado.phet.movingman.misc;
 
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.movingman.Mode;
+import edu.colorado.phet.movingman.MovingManModel;
 import edu.colorado.phet.movingman.MovingManModule;
 import org.nfunk.jep.JEP;
 
@@ -60,9 +61,9 @@ public class JEPFrame extends JDialog {
             module.getMan().setX( x );
             module.getPosition().addPoint( module.getMan().getX() );
             module.getPosition().updateSmoothedSeries();
-            module.getPosition().updateDerivative( dt * MovingManModule.TIMER_SCALE );
+            module.getPosition().updateDerivative( dt * MovingManModel.TIMER_SCALE );
             module.getVelocityData().updateSmoothedSeries();
-            module.getVelocityData().updateDerivative( dt * MovingManModule.TIMER_SCALE );
+            module.getVelocityData().updateDerivative( dt * MovingManModel.TIMER_SCALE );
             module.getAcceleration().updateSmoothedSeries();
             if( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
                 timeFinished();
