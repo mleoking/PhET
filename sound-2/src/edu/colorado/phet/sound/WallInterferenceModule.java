@@ -14,7 +14,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.ReflectingWallGraphic;
 import edu.colorado.phet.sound.view.SingleSourceApparatusPanel;
-import edu.colorado.phet.sound.view.WaveMediumGraphicB;
+import edu.colorado.phet.sound.view.WaveMediumGraphic;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -27,7 +27,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 public class WallInterferenceModule extends SoundModule {
-
 
     //
     // Static fields and methods
@@ -42,7 +41,7 @@ public class WallInterferenceModule extends SoundModule {
     private SoundModel soundModel;
     private ReflectingWallGraphic wallGraphic;
     private double wallAngle = s_initialWallAngle;
-    private WaveMediumGraphicB interferringWaverfrontGraphic;
+    private WaveMediumGraphic interferringWaverfrontGraphic;
     private Point2D.Double p;
     private Point2D.Double pp;
 
@@ -64,14 +63,13 @@ public class WallInterferenceModule extends SoundModule {
                                                  s_initialWallAngle );
 
         DefaultInteractiveGraphic interactiveWallGraphic = new InteractiveWallGraphic( wallGraphic );
-        //        interactiveWallGraphic.addMouseInputListener( new );
         interactiveWallGraphic.addCursorHandBehavior();
         interactiveWallGraphic.addTranslationBehavior( new WallTranslator( wallGraphic ) );
         addGraphic( interactiveWallGraphic, 8 );
 
         // Set up the interferring wavefront graphic
-        interferringWaverfrontGraphic = new WaveMediumGraphicB( soundModel.getWaveMedium(),
-                                                               getApparatusPanel(), this );
+        interferringWaverfrontGraphic = new WaveMediumGraphic( soundModel.getWaveMedium(),
+                                                               getApparatusPanel() );
         this.addGraphic( interferringWaverfrontGraphic, 7 );
         positionInterferingWavefront();
 

@@ -2,10 +2,7 @@
 // Jad home page: http://kpdus.tripod.com/jad.html
 // Decompiler options: packimports(3) 
 // Source File Name:   ToneDelegator.java
-
-package javasound;
-
-
+package javasound.tone;
 
 
 // Referenced classes of package srr.tone:

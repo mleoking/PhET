@@ -9,7 +9,9 @@ package javasound;
 
 import javasound.tone.ToneDelegator;
 
-public class SrrOscillatorPlayer {
+//import srr.tone.ToneDelegator;
+
+public class SrrOscillatorPlayer /*extends MyOscillatorPlayer */ {
 
     private ToneDelegator tone = new ToneDelegator( 1, 1 );
     private float freq;
@@ -20,6 +22,7 @@ public class SrrOscillatorPlayer {
     }
 
     public void run() {
+        //        super.run();
         if( tone == null ) {
             tone = new ToneDelegator( 1, 1 );
         }

@@ -103,6 +103,7 @@ public class MyOscillatorPlayer extends Thread {
     private AudioFormat audioFormat;
 
     private boolean enabled = false;
+    private boolean active;
 
     public MyOscillatorPlayer() {
 
@@ -125,14 +126,19 @@ public class MyOscillatorPlayer extends Thread {
      */
     public void run() {
 
+        if( true ) {
+            return;
+        }
+        setActive( true );
+
         // TODO: make the priority setable from the outside
         this.setPriority( Thread.NORM_PRIORITY );
         //        this.setPriority( Thread.MAX_PRIORITY );
-
         try {
             setup( (float)fSignalFrequency, (float)fAmplitude, (float)fSampleRate );
             byte[] abData;
-            while( true ) {
+            while( active ) {
+                //            while( true ) {
 
                 if( enabled ) {
                     synchronized( lineMonitor ) {
@@ -276,4 +282,11 @@ public class MyOscillatorPlayer extends Thread {
         }
     }
 
+    public void setActive( boolean active ) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
 }

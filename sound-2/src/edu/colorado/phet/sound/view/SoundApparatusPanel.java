@@ -9,7 +9,6 @@ package edu.colorado.phet.sound.view;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.SoundModel;
-import edu.colorado.phet.sound.model.Wavefront;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -29,63 +28,11 @@ public class SoundApparatusPanel extends ApparatusPanel {
     public static int s_maxSpeakcerConeExcursion = 13;
     public final static int SPEAKER_SOURCE = 1;
     public final static int LISTENER_SOURCE = 2;
-    SoundModel model;
+
+    private SoundModel model;
 
     public SoundApparatusPanel( SoundModel model ) {
         this.model = model;
         this.setPreferredSize( new Dimension( 600, SoundConfig.s_speakerBaseY * 3 ) );
     }
-
-    /**
-     * Gets the amplitude at the speaker or the listener, depending on what is
-     * specified by the control panel
-     *
-     * @param waveFront
-     * @return
-     */
-    public double getCurrentMaxAmplitude( Wavefront waveFront ) {
-        return waveFront.getMaxAmplitude();
-    }
-
-    /**
-     *
-     */
-    public void setAudioSource( int audioSource ) {
-        this.audioSource = audioSource;
-    }
-
-    /**
-     * @return
-     */
-    protected int getAudioSource() {
-        return audioSource;
-    }
-
-    public Point2D.Double getAudioReferencePt() {
-        return audioReferencePt;
-    }
-
-    /**
-     * Sets the point in the wave medium for which audio is to be generated. The point is specified relative
-     * to the origin of the wavefront.
-     */
-    //    public void determineAudioReferencPt() {
-    //        switch( model.getAudioSource() ) {
-    //            case SPEAKER_SOURCE:
-    //                this.audioReferencePt = new Point2D.Double( 0, 0 );
-    //                break;
-    //            case LISTENER_SOURCE:
-    ////                    this.audioReferencePt = listenerGraphic.getLocationInRange();
-    //                break;
-    //            default:
-    //                throw new RuntimeException( "Bad parameter value" );
-    //        }
-    //        model.setAudioReferencePoint( this.audioReferencePt );
-    //    }
-
-    //    public void setPrimaryOscillatorFrequency( double frequency ) {
-    //        if( model.getAudioSource() == LISTENER_SOURCE ) {
-    //            model.setOscillatorFrequency( frequency );
-    //        }
-    //    }
 }

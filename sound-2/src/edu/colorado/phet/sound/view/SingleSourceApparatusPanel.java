@@ -8,21 +8,11 @@ package edu.colorado.phet.sound.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.sound.SoundConfig;
-import edu.colorado.phet.sound.model.*;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
+import edu.colorado.phet.sound.model.SoundModel;
+import edu.colorado.phet.sound.model.WaveMedium;
 
 public class SingleSourceApparatusPanel extends SoundApparatusPanel {
 
-    //    private PhetImageGraphic speakerFrame;
-    //    private PhetImageGraphic speakerCone;
-//    private WaveMediumGraphicB waveMediumGraphic = null;
-    private BufferedImage speakerFrameImg;
-    private BufferedImage speakerConeImg;
-    private int audioSource = SPEAKER_SOURCE;
-    private boolean audioEnabledOnActivation;
     private SpeakerGraphic speakerGraphic;
 
 
@@ -31,28 +21,6 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
      */
     public SingleSourceApparatusPanel( SoundModel model ) {
         super( model );
-        this.model = model;
-//        final WaveMedium waveMedium = model.getWaveMedium();
-//        waveMediumGraphic = new WaveMediumGraphicB( waveMedium, this );
-//        this.addGraphic( waveMediumGraphic, 7 );
-//        Point2D.Double audioSource = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
-//                                                         SoundConfig.s_wavefrontBaseY );
-//        waveMediumGraphic.initLayout( audioSource,
-//                                      SoundConfig.s_wavefrontHeight,
-//                                      SoundConfig.s_wavefrontRadius );
-
-        // Set up the octave wavefront and graphic
-        //        WaveMediumGraphicB wgB = new WaveMediumGraphicB( waveMedium, this );
-        //        waveMediumGraphic.init( waveMedium );
-        //        this.addGraphic( waveMediumGraphic, 7 );
-
-        //        Point2D.Double audioSourceB = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
-        //                                                          SoundConfig.s_wavefrontBaseY );
-        //        waveMediumGraphic.initLayout( audioSourceB,
-        //                                     SoundConfig.s_wavefrontHeight,
-        //                                     SoundConfig.s_wavefrontRadius );
-
-//        setWavefrontType( new SphericalWavefront() );
         this.setBackground( SoundConfig.MIDDLE_GRAY );
 
         // Set up the speaker
@@ -67,82 +35,5 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
                 speakerGraphic.setConePosition( coneOffset );
             }
         } );
-    }
-
-    /**
-     *
-     */
-    //    public void init() {
-    //    }
-
-    /**
-     * @return
-     */
-    protected Image getSpeakerFrameImg() {
-        return speakerFrameImg;
-    }
-
-    /**
-     * @return
-     */
-    protected Image getSpeakerConeImg() {
-        return speakerConeImg;
-    }
-
-    /**
-     *
-     */
-//    public void setWavefrontType( WavefrontType wavefrontType ) {
-//        waveMediumGraphic.setPlanar( wavefrontType instanceof PlaneWavefront );
-//    }
-
-    /**
-     * @return
-     */
-//    protected WaveMediumGraphicB getWavefrontGraphic() {
-//        return waveMediumGraphic;
-//    }
-
-    /**
-     * TODO: refactor this class so that we don't need this to make interference work
-     *
-     * @return
-     */
-    //    protected PhetGraphic getSpeakerFrame() {
-    //        return speakerFrame;
-    //    }
-
-    /**
-     * TODO: refactor this class so that we don't need this to make interference work
-     *
-     * @return
-     */
-    //    protected PhetGraphic getSpeakerCone() {
-    //        return speakerCone;
-    //    }
-
-    /**
-     * Gets the amplitude at the speaker or the listener, depending on what is
-     * specified by the control panel
-     *
-     * @param waveFront
-     * @return
-     */
-    public double getCurrentMaxAmplitude( Wavefront waveFront ) {
-        return waveFront.getMaxAmplitude();
-    }
-
-    /**
-     *
-     */
-    public void setAudioSource( int audioSource ) {
-        this.audioSource = audioSource;
-    }
-
-    /**
-     * @return
-     */
-    protected int getAudioSource() {
-        return audioSource;
     }
 }
