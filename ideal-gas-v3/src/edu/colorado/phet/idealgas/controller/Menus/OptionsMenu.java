@@ -10,13 +10,17 @@
  */
 package edu.colorado.phet.idealgas.controller.menus;
 
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.coreadditions.StopwatchPanel;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -46,14 +50,14 @@ public class OptionsMenu extends JMenu {
     //----------------------------------------------------------------
     private class AdvancedMenu extends JMenu {
         public AdvancedMenu() {
-            super( "Advanced Options");
+            super( "Advanced Options" );
             this.add( new AdvancedPanels() );
             this.add( new MoleculeInteractions() );
+            this.add( new Stopwatch() );
         }
     }
 
     private class AdvancedPanels extends JCheckBoxMenuItem {
-
         public AdvancedPanels() {
             super( "Advanced Panels", false );
             addActionListener( new ActionListener() {
@@ -72,13 +76,37 @@ public class OptionsMenu extends JMenu {
     }
 
     private class MoleculeInteractions extends JCheckBoxMenuItem {
-
         public MoleculeInteractions() {
             super( SimStrings.get( "Molecules-interact" ), true );
 
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     GasMolecule.enableParticleParticleInteractions( MoleculeInteractions.this.isSelected() );
+                }
+            } );
+        }
+    }
+
+    private class Stopwatch extends JCheckBoxMenuItem {
+        private StopwatchPanel stopwatchPanel;
+
+        public Stopwatch() {
+            super( "Stopwatch", false );
+
+            ApplicationModel appModel = application.getApplicationModel();
+            stopwatchPanel = new StopwatchPanel( appModel.getClock() );
+            addActionListener( new ActionListener() {
+                PhetFrame frame = application.getPhetFrame();
+
+                public void actionPerformed( ActionEvent e ) {
+                    if( isSelected() ) {
+                        frame.getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
+                        frame.getClockControlPanel().revalidate();
+                    }
+                    else {
+                        frame.getClockControlPanel().remove( stopwatchPanel );
+                        frame.getClockControlPanel().revalidate();
+                    }
                 }
             } );
         }
