@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 
 import javax.swing.*;
@@ -40,16 +41,16 @@ public class MovingManControlPanel extends JPanel {
         panel.setLayout( new BorderLayout() );
 
         add( panel, BorderLayout.NORTH );
-        JButton changeControl = new JButton( "Change number of smoothing points." );
+        JButton changeControl = new JButton( SimStrings.get( "MovingManControlPanel.ChangeSmoothingPointsButton" ) );
         changeControl.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                String value = JOptionPane.showInputDialog( "How many smoothing points?", "15" );
+                String value = JOptionPane.showInputDialog( SimStrings.get( "MovingManControlPanel.SmoothingPointsLabel" ), "15" );
                 module.setNumSmoothingPoints( Integer.parseInt( value ) );
             }
         } );
 
         VerticalLayoutPanel northPanel = new VerticalLayoutPanel();
-        final JMenu viewMenu = new JMenu( "View" );
+        final JMenu viewMenu = new JMenu( SimStrings.get( "MovingManControlPanel.ViewMenu" ) );
         JMenuItem[] items = PlafUtil.getLookAndFeelItems();
         for( int i = 0; i < items.length; i++ ) {
             JMenuItem item = items[i];
@@ -75,14 +76,14 @@ public class MovingManControlPanel extends JPanel {
         JLabel phetIconLabel = new JLabel( imageIcon );
         northPanel.add( phetIconLabel );
 
-        final JCheckBox invertAxes = new JCheckBox( "Invert X-Axis", false );
+        final JCheckBox invertAxes = new JCheckBox( SimStrings.get( "MovingManControlPanel.InvertXAxisCheckBox" ), false );
         invertAxes.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setRightDirPositive( !invertAxes.isSelected() );
             }
         } );
         northPanel.add( invertAxes );
-        reset = new JButton( "Reset" );
+        reset = new JButton( SimStrings.get( "MovingManControlPanel.ResetButton" ) );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
