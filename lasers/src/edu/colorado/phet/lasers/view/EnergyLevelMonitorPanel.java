@@ -190,9 +190,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
      * Handles updates from the model
      */
     public void update() {
-        numGroundLevelAccum += module.getNumGroundStateAtoms();
-        numMiddleLevelAccum += module.getNumMiddleStateAtoms();
-        numHighLevelAccum += module.getNumHighStateAtoms();
+        numGroundLevelAccum += model.getNumGroundStateAtoms();
+        numMiddleLevelAccum += model.getNumMiddleStateAtoms();
+        numHighLevelAccum += model.getNumHighStateAtoms();
 
         // todo: these two line might be able to go somewhere they aren't called as often
         middleLevelLifetimeSlider.update();

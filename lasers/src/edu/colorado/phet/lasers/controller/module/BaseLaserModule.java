@@ -20,7 +20,10 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.*;
+import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.HighEnergyState;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -165,8 +168,8 @@ public class BaseLaserModule extends Module {
                                           s_origin.getY() );
         cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
         getModel().addModelElement( cavity );
-        ResonatingGraphic cavityGraphic = new ResonatingGraphic( getApparatusPanel(), cavity );
-        addGraphic( cavityGraphic, LaserConfig.CAVITY_LAYER );
+        ResonatingCavityGraphic cavityCavityGraphic = new ResonatingCavityGraphic( getApparatusPanel(), cavity );
+        addGraphic( cavityCavityGraphic, LaserConfig.CAVITY_LAYER );
     }
 
     /**
@@ -250,7 +253,7 @@ public class BaseLaserModule extends Module {
                                                                                    MiddleEnergyState.instance(),
                                                                                    internalLaserCurtainOpacity );
         laserModel.addLaserListener( internalLaserCurtainGraphic );
-        addGraphic( internalLaserCurtainGraphic, LaserConfig.MIRROR_LAYER + 1 );
+        addGraphic( internalLaserCurtainGraphic, LaserConfig.LEFT_MIRROR_LAYER - 1 );
 
         // TODO: put this on a listener that responds to apparatus panel resizings, rather than using a hard-coded number
         Rectangle externalBounds = new Rectangle( (int)cavity.getBounds().getMaxX(), (int)cavity.getBounds().getY(),
@@ -261,7 +264,7 @@ public class BaseLaserModule extends Module {
                                                                                          MiddleEnergyState.instance(),
                                                                                          externalLaserCurtainOpacity );
         laserModel.addLaserListener( externalLaserCurtainGraphic );
-        addGraphic( externalLaserCurtainGraphic, LaserConfig.MIRROR_LAYER - 1 );
+        addGraphic( externalLaserCurtainGraphic, LaserConfig.RIGHT_MIRROR_LAYER - 1 );
 
         // Create a listener that will adjust the maximum alpha of the external beam based on the reflectivity
         // of the right-hand mirror
@@ -295,8 +298,8 @@ public class BaseLaserModule extends Module {
                     waveGraphic = new LaserWaveGraphic( getApparatusPanel(), getCavity(),
                                                         rightMirror, getLaserModel(), MiddleEnergyState.instance() );
                 }
-                addGraphic( waveGraphic.getInternalStandingWave(), LaserConfig.MIRROR_LAYER + 1 );
-                addGraphic( waveGraphic.getExternalStandingWave(), LaserConfig.MIRROR_LAYER - 1 );
+                addGraphic( waveGraphic.getInternalStandingWave(), LaserConfig.LEFT_MIRROR_LAYER + 1 );
+                addGraphic( waveGraphic.getExternalStandingWave(), LaserConfig.LEFT_MIRROR_LAYER - 1 );
                 break;
             default :
                 throw new RuntimeException( "Invalid parameter value" );
@@ -326,18 +329,18 @@ public class BaseLaserModule extends Module {
         return numPhotons;
     }
 
-    public int getNumGroundStateAtoms() {
-        return numGroundStateAtoms;
-    }
-
-    public int getNumMiddleStateAtoms() {
-        return numMiddleStateAtoms;
-    }
-
-    public int getNumHighStateAtoms() {
-        return numHighStateAtoms;
-    }
-
+//    public int getNumGroundStateAtoms() {
+//        return numGroundStateAtoms;
+//    }
+//
+//    public int getNumMiddleStateAtoms() {
+//        return numMiddleStateAtoms;
+//    }
+//
+//    public int getNumHighStateAtoms() {
+//        return numHighStateAtoms;
+//    }
+//
     protected Point2D getLaserOrigin() {
         return laserOrigin;
     }
@@ -419,8 +422,8 @@ public class BaseLaserModule extends Module {
         if( mirrorsEnabled ) {
             getModel().addModelElement( leftMirror );
             getModel().addModelElement( rightMirror );
-            getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.MIRROR_LAYER );
-            getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.MIRROR_LAYER );
+            getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.LEFT_MIRROR_LAYER );
+            getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.RIGHT_MIRROR_LAYER );
             getApparatusPanel().revalidate();
         }
         getApparatusPanel().paintImmediately( getApparatusPanel().getBounds() );
@@ -439,17 +442,17 @@ public class BaseLaserModule extends Module {
         // emits a photon, and another to deal with an atom leaving the system
         atom.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         atom.addLeftSystemListener( new AtomRemovalListener( atomGraphic ) );
-        atom.addChangeListener( new AtomChangeListener() );
-
-        if( atom.getCurrState() instanceof GroundState ) {
-            numGroundStateAtoms++;
-        }
-        if( atom.getCurrState() instanceof MiddleEnergyState ) {
-            numMiddleStateAtoms++;
-        }
-        if( atom.getCurrState() instanceof HighEnergyState ) {
-            numHighStateAtoms++;
-        }
+//        atom.addChangeListener( new AtomChangeListener() );
+//
+//        if( atom.getCurrState() instanceof GroundState ) {
+//            numGroundStateAtoms++;
+//        }
+//        if( atom.getCurrState() instanceof MiddleEnergyState ) {
+//            numMiddleStateAtoms++;
+//        }
+//        if( atom.getCurrState() instanceof HighEnergyState ) {
+//            numHighStateAtoms++;
+//        }
     }
 
     protected void removeAtom( Atom atom ) {
@@ -543,33 +546,33 @@ public class BaseLaserModule extends Module {
         }
     }
 
-    /**
-     * Keeps track of number of atoms in each state
-     */
-    public class AtomChangeListener implements Atom.ChangeListener {
-        public void stateChanged( Atom.ChangeEvent event ) {
-            AtomicState prevState = event.getPrevState();
-            AtomicState currState = event.getCurrState();
-            if( prevState instanceof GroundState ) {
-                numGroundStateAtoms--;
-            }
-            if( prevState instanceof MiddleEnergyState ) {
-                numMiddleStateAtoms--;
-            }
-            if( prevState instanceof HighEnergyState ) {
-                numHighStateAtoms--;
-            }
-            if( currState instanceof GroundState ) {
-                numGroundStateAtoms++;
-            }
-            if( currState instanceof MiddleEnergyState ) {
-                numMiddleStateAtoms++;
-            }
-            if( currState instanceof HighEnergyState ) {
-                numHighStateAtoms++;
-            }
-        }
-    }
+//    /**
+//     * Keeps track of number of atoms in each state
+//     */
+//    public class AtomChangeListener implements Atom.ChangeListener {
+//        public void stateChanged( Atom.ChangeEvent event ) {
+//            AtomicState prevState = event.getPrevState();
+//            AtomicState currState = event.getCurrState();
+//            if( prevState instanceof GroundState ) {
+//                numGroundStateAtoms--;
+//            }
+//            if( prevState instanceof MiddleEnergyState ) {
+//                numMiddleStateAtoms--;
+//            }
+//            if( prevState instanceof HighEnergyState ) {
+//                numHighStateAtoms--;
+//            }
+//            if( currState instanceof GroundState ) {
+//                numGroundStateAtoms++;
+//            }
+//            if( currState instanceof MiddleEnergyState ) {
+//                numMiddleStateAtoms++;
+//            }
+//            if( currState instanceof HighEnergyState ) {
+//                numHighStateAtoms++;
+//            }
+//        }
+//    }
 
     /**
      * Handles cleanup when a photon leaves the system. Takes care of removing the photon's

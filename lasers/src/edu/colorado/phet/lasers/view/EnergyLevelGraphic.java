@@ -22,7 +22,6 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.view.EnergyLevelGraphic.EnergyLevelTranslator;
 
 import java.awt.*;
 import java.awt.geom.Area;
