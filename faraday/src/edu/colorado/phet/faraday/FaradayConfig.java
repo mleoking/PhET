@@ -66,7 +66,6 @@ public class FaradayConfig {
     public static final int CONTROL_PANEL_MIN_WIDTH = 150;
 
     // Colors
-    public static final Color APPARATUS_BACKGROUND = Color.WHITE;
     public static final Color LABEL_COLOR = Color.BLACK;
 
     // Fonts
@@ -94,7 +93,7 @@ public class FaradayConfig {
     
     // Pickup Coil parameters
     public static final int MIN_PICKUP_LOOPS = 1;
-    public static final int MAX_PICKUP_LOOPS = 2;
+    public static final int MAX_PICKUP_LOOPS = 3;
     
     // Source Coil parameters
     public static final int MIN_SOURCE_LOOPS = 1;
