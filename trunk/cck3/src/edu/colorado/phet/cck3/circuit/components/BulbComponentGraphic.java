@@ -4,11 +4,11 @@ package edu.colorado.phet.cck3.circuit.components;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
+import edu.colorado.phet.cck3.common.CCKPhetGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Time: 8:34:54 PM
  * Copyright (c) May 25, 2004 by Sam Reid
  */
-public class BulbComponentGraphic extends PhetGraphic implements IComponentGraphic {
+public class BulbComponentGraphic extends CCKPhetGraphic implements IComponentGraphic {
     private Bulb component;
     private ModelViewTransform2D transform;
     private CCK3Module module;
@@ -161,6 +161,9 @@ public class BulbComponentGraphic extends PhetGraphic implements IComponentGraph
     }
 
     private Rectangle getBoundsWithBrighties() {
+        if( lbg == null ) {
+            return null;
+        }
         Rectangle2D shape = lbg.getFullShape();
         shape = RectangleUtils.expandRectangle2D( shape, 2, 2 );
         return affineTransform.createTransformedShape( shape ).getBounds();

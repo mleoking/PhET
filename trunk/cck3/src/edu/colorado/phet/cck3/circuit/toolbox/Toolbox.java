@@ -4,6 +4,7 @@ package edu.colorado.phet.cck3.circuit.toolbox;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.*;
+import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
@@ -13,7 +14,6 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
@@ -185,7 +185,7 @@ public class Toolbox extends CompositeGraphic {
         simpleObservable.addObserver( observer );
     }
 
-    class TestCG extends CompositePhetGraphic {
+    class TestCG extends CCKCompositePhetGraphic {
         public TestCG( Component component ) {
             super( component );
             setVisible( true );

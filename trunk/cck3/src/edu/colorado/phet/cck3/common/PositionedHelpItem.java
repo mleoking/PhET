@@ -5,7 +5,6 @@ import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.help.HelpItem;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
@@ -18,7 +17,7 @@ import java.awt.geom.Area;
  * Time: 12:04:51 AM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public class PositionedHelpItem extends CompositePhetGraphic {
+public class PositionedHelpItem extends CCKCompositePhetGraphic {
     private Target target;
     private PhetMultiLineTextGraphic textGraphic;
     private PhetShapeGraphic arrowGraphic;

@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
@@ -15,7 +14,7 @@ import java.awt.geom.Area;
  * Time: 7:47:12 PM
  * Copyright (c) Jul 17, 2004 by Sam Reid
  */
-public class PhetTooltipGraphic extends CompositePhetGraphic {
+public class PhetTooltipGraphic extends CCKCompositePhetGraphic {
     PhetShapeGraphic backgroundGraphic;
     PhetTextGraphic textGraphic;
 

@@ -1,12 +1,12 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
+import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
@@ -17,7 +17,7 @@ import java.awt.*;
  * Time: 1:39:53 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class BranchGraphic extends CompositePhetGraphic {
+public class BranchGraphic extends CCKCompositePhetGraphic {
     private Branch branch;
     private double thickness;
     private ModelViewTransform2D transform;
@@ -54,7 +54,9 @@ public class BranchGraphic extends CompositePhetGraphic {
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        highlight.setVisible( visible && branch.isSelected() );
+        if( highlight != null ) {
+            highlight.setVisible( visible && branch.isSelected() );
+        }
     }
 
     private void doupdate() {

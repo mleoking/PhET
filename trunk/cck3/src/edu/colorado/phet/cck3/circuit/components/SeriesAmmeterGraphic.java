@@ -4,13 +4,13 @@ package edu.colorado.phet.cck3.circuit.components;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
+import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTransformGraphic;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Time: 12:57:37 AM
  * Copyright (c) May 29, 2004 by Sam Reid
  */
-public class SeriesAmmeterGraphic extends CompositePhetGraphic implements IComponentGraphic {
+public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements IComponentGraphic {
     private SeriesAmmeter component;
     private ModelViewTransform2D transform;
     private CCK3Module module;

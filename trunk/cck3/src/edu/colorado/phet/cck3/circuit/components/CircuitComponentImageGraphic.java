@@ -2,11 +2,11 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
+import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
@@ -23,7 +23,7 @@ import java.awt.image.BufferedImage;
  * Time: 8:34:54 PM
  * Copyright (c) May 25, 2004 by Sam Reid
  */
-public class CircuitComponentImageGraphic extends CompositePhetGraphic implements IComponentGraphic {
+public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implements IComponentGraphic {
     private CircuitComponent component;
     private ModelViewTransform2D transform;
     private Rectangle2D.Double src;
@@ -60,7 +60,9 @@ public class CircuitComponentImageGraphic extends CompositePhetGraphic implement
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        highlightGraphic.setVisible( visible && component.isSelected() );
+        if( highlightGraphic != null ) {
+            highlightGraphic.setVisible( visible && component.isSelected() );
+        }
     }
 
     private void changed() {
