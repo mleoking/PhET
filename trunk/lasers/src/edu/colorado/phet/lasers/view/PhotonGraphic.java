@@ -44,9 +44,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
 //        init( particle );
 
         velocity = new Vector2D.Double( photon.getVelocity() );
-        float theta = (float)Math.acos( photon.getVelocity().getX() / photon.getVelocity().getMagnitude() );
+        double theta = Math.acos( photon.getVelocity().getX() / photon.getVelocity().getMagnitude() );
         if( photon.getVelocity().getY() < 0 ) {
-            theta = (float)Math.PI * 2 - theta;
+            theta = Math.PI * 2 - theta;
         }
 
         generateAnimation( photon );
@@ -78,13 +78,13 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
 
         // Check to see if an animation has already been generated that will work
         this.animation = null;
-        HashMap colorAnimationMap = (HashMap)s_animationMap.get( new Float( photon.getWavelength() ) );
+        HashMap colorAnimationMap = (HashMap)s_animationMap.get( new Double( photon.getWavelength() ) );
         if( colorAnimationMap != null ) {
-            animation = (BufferedImage[])colorAnimationMap.get( new Float( theta ) );
+            animation = (BufferedImage[])colorAnimationMap.get( new Double( theta ) );
         }
         else {
             colorAnimationMap = new HashMap();
-            s_animationMap.put( new Float( photon.getWavelength() ), colorAnimationMap );
+            s_animationMap.put( new Double( photon.getWavelength() ), colorAnimationMap );
         }
 
         // If there is no existing animation that will work, generate one and add it to the map
@@ -102,9 +102,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
             AffineTransformOp xformOp = new AffineTransformOp( xform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
 
             // Generate the frames for the animation
-            float phaseAngleIncr = (float)( Math.PI * 2 ) / numImgs;
+            double phaseAngleIncr = Math.PI * 2 / numImgs;
             for( int i = 0; i < numImgs; i++ ) {
-                float phaseAngle = phaseAngleIncr * i;
+                double phaseAngle = phaseAngleIncr * i;
                 BufferedImage buffImg = computeGeneratorImage( photon.getWavelength(), phaseAngle );
                 BufferedImage animationFrame = new BufferedImage( xPrime, yPrime, BufferedImage.TYPE_INT_ARGB );
                 animationFrame = xformOp.filter( buffImg, null );
@@ -113,7 +113,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
                 animation[i] = animationFrame;
 //                animation[i] = Toolkit.getDefaultToolkit().createImage( animationFrame.getSource() );
             }
-            colorAnimationMap.put( new Float( theta ), animation );
+            colorAnimationMap.put( new Double( theta ), animation );
         }
     }
 
@@ -220,9 +220,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
     static HashMap colorMap = new HashMap();
 
     static {
-        colorMap.put( new Float( Photon.RED ), Color.red );
-        colorMap.put( new Float( Photon.BLUE ), Color.blue );
-        colorMap.put( new Float( Photon.DEEP_RED ), new Color( 100, 0, 0 ) );
+        colorMap.put( new Double( Photon.RED ), Color.red );
+        colorMap.put( new Double( Photon.BLUE ), Color.blue );
+        colorMap.put( new Double( Photon.DEEP_RED ), new Color( 100, 0, 0 ) );
     }
 
 
@@ -233,11 +233,11 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
     // Generated all the photon animations
     static {
         HashMap blueAnimationMap = new HashMap();
-        s_animationMap.put( new Float( Photon.BLUE ), blueAnimationMap );
+        s_animationMap.put( new Double( Photon.BLUE ), blueAnimationMap );
         HashMap deepRedAnimationMap = new HashMap();
-        s_animationMap.put( new Float( Photon.DEEP_RED ), deepRedAnimationMap );
+        s_animationMap.put( new Double( Photon.DEEP_RED ), deepRedAnimationMap );
         HashMap redAnimationMap = new HashMap();
-        s_animationMap.put( new Float( Photon.RED ), redAnimationMap );
+        s_animationMap.put( new Double( Photon.RED ), redAnimationMap );
         generateAnimation( Photon.RED, redAnimationMap );
         generateAnimation( Photon.BLUE, blueAnimationMap );
         generateAnimation( Photon.DEEP_RED, deepRedAnimationMap );
@@ -249,11 +249,11 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
      * @param wavelength
      * @param animationMap
      */
-    static private void generateAnimation( float wavelength, HashMap animationMap ) {
+    static private void generateAnimation( double wavelength, HashMap animationMap ) {
 
         int numImgs = (int)( ( 20f / 680 ) * wavelength );
-        for( float theta = 0; theta < Math.PI * 2;
-             theta = ( (float)Math.round( ( theta + 0.1f ) * 10 ) ) / 10 ) {
+        for( double theta = 0; theta < Math.PI * 2;
+             theta = ( Math.round( ( theta + 0.1f ) * 10 ) ) / 10 ) {
 
             Image[] animation = new Image[numImgs];
             // Compute the size of buffered image needed to hold the rotated copy of the
@@ -264,15 +264,15 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
             AffineTransformOp xformOp = new AffineTransformOp( xform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
 
             // Generate the frames for the animation
-            float phaseAngleIncr = (float)( Math.PI * 2 ) / numImgs;
+            double phaseAngleIncr = ( Math.PI * 2 ) / numImgs;
             for( int i = 0; i < numImgs; i++ ) {
-                float phaseAngle = phaseAngleIncr * i;
+                double phaseAngle = phaseAngleIncr * i;
                 BufferedImage buffImg = computeGeneratorImage( wavelength, phaseAngle );
                 BufferedImage animationFrame = new BufferedImage( xPrime, yPrime, BufferedImage.TYPE_INT_ARGB );
                 animationFrame = xformOp.filter( buffImg, null );
                 animation[i] = Toolkit.getDefaultToolkit().createImage( animationFrame.getSource() );
             }
-            animationMap.put( new Float( theta ), animation );
+            animationMap.put( new Double( theta ), animation );
         }
     }
 
@@ -293,7 +293,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * s_imgHeight / 2 + s_imgHeight / 2 );
             for( int j = 0; j < s_imgHeight; j++ ) {
                 if( j == k ) {
-                    Color c = (Color)colorMap.get( new Float( wavelength ) );
+                    Color c = (Color)colorMap.get( new Double( wavelength ) );
                     g2d.setColor( c );
                     g2d.drawLine( iPrev, kPrev, i, k );
                     iPrev = i;

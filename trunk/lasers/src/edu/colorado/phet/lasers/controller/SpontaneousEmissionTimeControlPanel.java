@@ -4,6 +4,10 @@
  * User: Ron LeMaster
  * Date: Mar 28, 2003
  * Time: 9:40:53 AM
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -46,7 +50,7 @@ public class SpontaneousEmissionTimeControlPanel extends JPanel {
                                                                LaserConfig.CONTROL_FONT_STYLE,
                                                                LaserConfig.CONTROL_FONT_SIZE  ) );
 
-        highEnergySpontaneousEmissionTimeTF.setText( Float.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
+        highEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
 
         highEnergySpontaneousEmissionTimeSlider = new JSlider( JSlider.VERTICAL,
                                         LaserConfig.MINIMUM_SPONTANEOUS_EMISSION_TIME,
@@ -59,8 +63,8 @@ public class SpontaneousEmissionTimeControlPanel extends JPanel {
         highEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
 //                updateHighEnergySpontaneousEmissionTime( ((float)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
-                module.getLaserModel().setHighEnergySpontaneousEmissionTime( ((float)highEnergySpontaneousEmissionTimeSlider.getValue()) );
-                highEnergySpontaneousEmissionTimeTF.setText( Float.toString( highEnergySpontaneousEmissionTimeSlider.getValue() ) );
+                module.getLaserModel().setHighEnergySpontaneousEmissionTime( highEnergySpontaneousEmissionTimeSlider.getValue());
+                highEnergySpontaneousEmissionTimeTF.setText( Double.toString( highEnergySpontaneousEmissionTimeSlider.getValue() ) );
             }
         } );
 
@@ -88,7 +92,7 @@ public class SpontaneousEmissionTimeControlPanel extends JPanel {
         middleEnergySpontaneousEmissionTimeTF.setFont( new Font( clockFont.getName(),
                                                                  LaserConfig.CONTROL_FONT_STYLE,
                                                                  LaserConfig.CONTROL_FONT_SIZE ));
-        middleEnergySpontaneousEmissionTimeTF.setText( Float.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
+        middleEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
         middleEnergySpontaneousEmissionTimeSlider = new JSlider( JSlider.VERTICAL,
                                         LaserConfig.MINIMUM_SPONTANEOUS_EMISSION_TIME,
                                         LaserConfig.MAXIMUM_SPONTANEOUS_EMISSION_TIME,
@@ -100,8 +104,8 @@ public class SpontaneousEmissionTimeControlPanel extends JPanel {
         middleEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
 //                updateMiddleEnergySpontaneousEmissionTime( ((float)middleEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
-                model.setMiddleEnergySpontaneousEmissionTime( ((float)middleEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
-                middleEnergySpontaneousEmissionTimeTF.setText( Float.toString( middleEnergySpontaneousEmissionTimeSlider.getValue() ) );
+                model.setMiddleEnergySpontaneousEmissionTime( middleEnergySpontaneousEmissionTimeSlider.getValue() / 1000 );
+                middleEnergySpontaneousEmissionTimeTF.setText( Double.toString( middleEnergySpontaneousEmissionTimeSlider.getValue() ) );
             }
         } );
 

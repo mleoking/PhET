@@ -31,7 +31,7 @@ import java.awt.geom.Point2D;
 public abstract class BaseLaserModule extends Module {
 //public class BaseLaserModule extends ApparatusPanel {
 
-    static protected final Point2D.Float s_origin = LaserConfig.ORIGIN;
+    static protected final Point2D s_origin = LaserConfig.ORIGIN;
     static protected final double s_boxHeight = 250;
     static protected final double s_boxWidth = 500;
     static protected final double s_laserOffsetX = 100;
@@ -74,8 +74,8 @@ public abstract class BaseLaserModule extends Module {
                                           s_boxWidth,
                                           new Vector2D.Double( 0, 1 ) );
         // TODO: Get rid of hard-coded 100
-        pumpingBeam.setPosition( (float)s_origin.getX() + 100,
-                                 (float)s_origin.getY() - s_boxHeight / 2 );
+        pumpingBeam.setPosition( s_origin.getX() + 100,
+                                 s_origin.getY() - s_boxHeight / 2 );
         pumpingBeam.setPhotonsPerSecond( 0 );
 
 
@@ -136,8 +136,8 @@ public abstract class BaseLaserModule extends Module {
 //                                          s_boxWidth,
 //                                          new Vector2D.Double( 0, 1 ) );
 //        // TODO: Get rid of hard-coded 100
-//        pumpingBeam.setPosition( (float)s_origin.getX() + 100,
-//                                 (float)s_origin.getY() - s_boxHeight / 2 );
+//        pumpingBeam.setPosition( (double)s_origin.getX() + 100,
+//                                 (double)s_origin.getY() - s_boxHeight / 2 );
 //        pumpingBeam.setPhotonsPerSecond( 0 );
 //
 //
@@ -195,6 +195,8 @@ public abstract class BaseLaserModule extends Module {
 
     protected void addAtom( Atom atom ) {
         getModel().addModelElement( atom );
+        AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
+        addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
 //        ResonatingCavity cavity = getLaserModel().getResonatingCavity();
 //        Constraint constraintSpec = new CavityMustContainAtom( cavity, atom );
 //        cavity.addConstraint( constraintSpec );

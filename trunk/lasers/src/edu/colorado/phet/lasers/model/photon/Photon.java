@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 21, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.model.photon;
 
@@ -133,8 +138,8 @@ public class Photon extends SphericalBody {
     //
     // Static fields and methods
     //
-    static public float s_speed = 500;
-    static public float s_radius = 10;
+    static public double s_speed = 500;
+    static public double s_radius = 10;
     static public int RED = 680;
     static public int DEEP_RED = 640;
     static public int BLUE = 400;

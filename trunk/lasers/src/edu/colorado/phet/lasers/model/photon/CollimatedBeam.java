@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.model.photon
  * Author: Another Guy
  * Date: Mar 21, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.model.photon;
 
@@ -30,9 +35,9 @@ public class CollimatedBeam extends Particle {
     private Vector2D velocity;
     private ArrayList photons = new ArrayList();
     // The rate at which the beam produces photons
-    private float timeSinceLastPhotonProduced = 0;
+    private double timeSinceLastPhotonProduced = 0;
     // Used to deterimine when photons should be produced
-    private float photonsPerSecond = 30;
+    private double photonsPerSecond = 30;
     // Is the collimated beam currently generating photons?
     private boolean isActive;
     private LaserModel model;
@@ -102,7 +107,7 @@ public class CollimatedBeam extends Particle {
      *
      * @param width
      */
-    public void setWidth( float width ) {
+    public void setWidth( double width ) {
         this.width = width;
     }
 
@@ -110,7 +115,7 @@ public class CollimatedBeam extends Particle {
      *
      * @return
      */
-    public float getPhotonsPerSecond() {
+    public double getPhotonsPerSecond() {
         return photonsPerSecond;
     }
 
@@ -118,7 +123,7 @@ public class CollimatedBeam extends Particle {
      *
      * @param photonsPerSecond
      */
-    public void setPhotonsPerSecond( float photonsPerSecond ) {
+    public void setPhotonsPerSecond( double photonsPerSecond ) {
 
         // The following if statement prevents the system from sending out a big
         // wave of photons if it has been set at a rate of 0 for awhile.
@@ -165,9 +170,9 @@ public class CollimatedBeam extends Particle {
     /**
      *
      */
-    private float nextTimeToProducePhoton = 0;
+    private double nextTimeToProducePhoton = 0;
 
-    public void stepInTime( float dt ) {
+    public void stepInTime( double dt ) {
 
         super.stepInTime( dt );
 
@@ -206,7 +211,7 @@ public class CollimatedBeam extends Particle {
      * @return
      */
     private double genPositionY() {
-        double yDelta = velocity.getX() != 0 ? (float)Math.random() * height : 0;
+        double yDelta = velocity.getX() != 0 ? Math.random() * height : 0;
         return this.getPosition().getY() + yDelta;
     }
 
@@ -215,14 +220,14 @@ public class CollimatedBeam extends Particle {
      * @return
      */
     private double genPositionX() {
-        double xDelta = velocity.getY() != 0 ? (float)Math.random() * width : 0;
+        double xDelta = velocity.getY() != 0 ?
+                        Math.random() * width : 0;
         return this.getPosition().getX() + xDelta;
     }
 
     private Random gaussianGenerator = new Random();
-    private float getNextTimeToProducePhoton() {
+    private double getNextTimeToProducePhoton() {
         double temp = ( gaussianGenerator.nextGaussian() + 1.0 );
-        return (float)temp / photonsPerSecond;
+        return temp / photonsPerSecond;
     }
-
 }

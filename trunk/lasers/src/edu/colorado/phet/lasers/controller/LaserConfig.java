@@ -18,24 +18,24 @@ public class LaserConfig {
 
     private static final LaserConfig instance = new LaserConfig();
 
-    public static LaserConfig instance() {
-        return instance;
-    }
-
-    public String getTitle() {
-        return "Lasers";
-    }
-
-    public float getTimeStep() {
-        return 0.01f;
-    }
-
-    public int getWaitTime() {
-        return 20;
-    }
+//    public static LaserConfig instance() {
+//        return instance;
+//    }
+//
+//    public String getTitle() {
+//        return "Lasers";
+//    }
+//
+//    public float getTimeStep() {
+//        return 0.01f;
+//    }
+//
+//    public int getWaitTime() {
+//        return 20;
+//    }
 
     // Physical things
-    public static Point2D.Float ORIGIN = new Point2D.Float( 100, 200 );
+    public static Point2D.Double ORIGIN = new Point2D.Double( 100, 200 );
 
     public static final int DEFAULT_STIMULATING_PHOTON_RATE = 20;
     public static final int MINIMUM_STIMULATING_PHOTON_RATE = 0;

@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.model.atom
  * Author: Another Guy
  * Date: Mar 24, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.model.atom;
 
@@ -16,8 +21,8 @@ import java.awt.geom.Point2D;
  */
 public abstract class SpontaneouslyEmittingState extends AtomicState {
 
-    private float lifeTime;
-    private float deathTime;
+    private double lifeTime;
+    private double deathTime;
 
     /**
      *
@@ -25,12 +30,12 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
      */
     public SpontaneouslyEmittingState( Atom atom ) {
         super( atom );
-        float temp = 0;
+        double temp = 0;
         while( temp == 0 ) {
-            temp = (float)Math.random();
+            temp = Math.random();
         }
         // Assign a deathtime based on an exponential distribution
-        deathTime = -(float)Math.log( temp ) * getSpontaneousEmmisionHalfLife();
+        deathTime = -Math.log( temp ) * getSpontaneousEmmisionHalfLife();
         lifeTime = 0;
     }
 
@@ -38,18 +43,18 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
      *
      * @param dt
      */
-    public void stepInTime( float dt ) {
+    public void stepInTime( double dt ) {
         lifeTime += dt;
         if( lifeTime >= deathTime ) {
             Photon emittedPhoton = emitPhoton();
 
             double speed = emittedPhoton.getVelocity().getMagnitude();
-//            float speed = emittedPhoton.getVelocity().getLength();
+//            double speed = emittedPhoton.getVelocity().getLength();
             double theta = Math.random() * Math.PI * 2;
             double x = speed * Math.cos( theta );
             double y = speed * Math.sin( theta );
-//            float x = speed * (float) Math.cos( theta );
-//            float y = speed * (float) Math.sin( theta );
+//            double x = speed * (double) Math.cos( theta );
+//            double y = speed * (double) Math.sin( theta );
             emittedPhoton.setVelocity( x, y );
             emittedPhoton.setPosition( new Point2D.Double( getAtom().getPosition().getX(), getAtom().getPosition().getY() ));
 //            emittedPhoton.setPosition( new Vector2D( getAtom().getPosition() ));
@@ -82,9 +87,9 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
     //
     // Abstract methods
     //
-    abstract protected float getSpontaneousEmmisionHalfLife();
+    abstract protected double getSpontaneousEmmisionHalfLife();
     abstract protected AtomicState nextLowerEnergyState();
-    abstract protected float getEmittedPhotonWavelength();
+    abstract protected double getEmittedPhotonWavelength();
 
     //
     // Static fields and methods

@@ -36,15 +36,15 @@ import java.util.ArrayList;
 public class LaserModel extends BaseModel {
 //public class LaserModel extends PhysicalSystem {
 
-    static public Point2D.Float ORIGIN = new Point2D.Float( 100, 300 );
+    static public Point2D ORIGIN = new Point2D.Double( 100, 300 );
     static private int width = 800;
     static private int height = 800;
     static private int minX = (int)LaserConfig.ORIGIN.getX() - 50;
     static private int minY = (int)LaserConfig.ORIGIN.getY() - height / 2;
-    static private Rectangle2D.Float boundingRectangle = new Rectangle2D.Float( minX,
-                                                                                minY,
-                                                                                width,
-                                                                                height );
+    static private Rectangle2D boundingRectangle = new Rectangle2D.Double( minX,
+                                                                           minY,
+                                                                           width,
+                                                                           height );
 
     private CollimatedBeam stimulatingBeam;
     private CollimatedBeam pumpingBeam;
@@ -94,7 +94,7 @@ public class LaserModel extends BaseModel {
         }
     }
 
-    public void stepInTime( float dt ) {
+    public void stepInTime( double dt ) {
         super.stepInTime( dt );
 
         // Check to see if any photons need to be taken out of the system
@@ -104,7 +104,7 @@ public class LaserModel extends BaseModel {
             if( obj instanceof Photon ) {
                 Photon photon = (Photon)obj;
                 Point2D position = photon.getPosition();
-                if( !boundingRectangle.contains( position.getX(), position.getY() )) {
+                if( !boundingRectangle.contains( position.getX(), position.getY() ) ) {
                     removeModelElement( photon );
 //                    RemoveParticleCmd cmd = new RemoveParticleCmd( photon );
 //                    this.addPrepCmd( cmd );
@@ -122,7 +122,6 @@ public class LaserModel extends BaseModel {
     }
 
     /**
-     *
      * @return
      */
     public CollimatedBeam getStimulatingBeam() {
@@ -130,7 +129,6 @@ public class LaserModel extends BaseModel {
     }
 
     /**
-     *
      * @param stimulatingBeam
      */
     public void setStimulatingBeam( CollimatedBeam stimulatingBeam ) {
@@ -145,7 +143,6 @@ public class LaserModel extends BaseModel {
 
 
     /**
-     *
      * @return
      */
     public CollimatedBeam getPumpingBeam() {
@@ -153,7 +150,6 @@ public class LaserModel extends BaseModel {
     }
 
     /**
-     *
      * @param pumpingBeam
      */
     public void setPumpingBeam( CollimatedBeam pumpingBeam ) {
@@ -167,23 +163,20 @@ public class LaserModel extends BaseModel {
     }
 
     /**
-     *
      * @param time
      */
-    public void setHighEnergySpontaneousEmissionTime( float time ) {
+    public void setHighEnergySpontaneousEmissionTime( double time ) {
         Atom.setHighEnergySpontaneousEmissionTime( time );
     }
 
     /**
-     *
      * @param time
      */
-    public void setMiddleEnergySpontaneousEmissionTime( float time ) {
+    public void setMiddleEnergySpontaneousEmissionTime( double time ) {
         Atom.setMiddleEnergySpontaneousEmissionTime( time );
     }
 
     /**
-     *
      * @return
      */
     public int getNumGroundStateAtoms() {
@@ -191,7 +184,6 @@ public class LaserModel extends BaseModel {
     }
 
     /**
-     *
      * @return
      */
     public int getNumMiddleStateAtoms() {
@@ -199,7 +191,6 @@ public class LaserModel extends BaseModel {
     }
 
     /**
-     *
      * @return
      */
     public int getNumHighStateAtoms() {

@@ -1,3 +1,10 @@
+/**
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
+ */
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -9,7 +16,7 @@ public class GroundState extends AtomicState {
         s_numInstances++;
     }
 
-    public void stepInTime( float dt ) {
+    public void stepInTime( double dt ) {
     }
 
     public void collideWithPhoton( Photon photon ) {

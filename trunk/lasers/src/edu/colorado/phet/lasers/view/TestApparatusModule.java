@@ -4,6 +4,11 @@
  * User: Ron LeMaster
  * Date: Mar 28, 2003
  * Time: 1:24:50 PM
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.view;
 
@@ -34,7 +39,7 @@ public class TestApparatusModule extends SingleAtomBaseModule {
 //        PhetApplication.instance().getPhetMainPanel().setControlPanel( new TwoLevelControlPanel() );
 
 
-        float newHeight = 100;
+        double newHeight = 100;
         ResonatingCavity cavity = this.getCavity();
         double cavityHeight =  cavity.getHeight();
         Point2D cavityPos = cavity.getPosition();

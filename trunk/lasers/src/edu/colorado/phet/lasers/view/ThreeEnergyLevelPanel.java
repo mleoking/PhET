@@ -5,6 +5,11 @@
  * Date: Mar 27, 2003
  * Time: 10:41:27 AM
  * To change this template use Options | File Templates.
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.view;
 
@@ -21,9 +26,9 @@ public class ThreeEnergyLevelPanel extends MonitorPanel {
     private int numGroundLevel;
     private int numHighLevel;
     private int numMiddleLevel;
-    private Line2D.Float highLevelLine;
-    private Line2D.Float middleLevelLine;
-    private Line2D.Float groundLevelLine;
+    private Line2D highLevelLine;
+    private Line2D middleLevelLine;
+    private Line2D groundLevelLine;
     private LaserModel model;
 
     /**
@@ -41,15 +46,15 @@ public class ThreeEnergyLevelPanel extends MonitorPanel {
      */
     private void init() {
 
-        highLevelLine = new Line2D.Float( s_highLevelLineOriginX,
+        highLevelLine = new Line2D.Double( s_highLevelLineOriginX,
                                           s_highLevelLineOriginY,
                                           s_highLevelLineOriginX + s_highLevelLineLength,
                                           s_highLevelLineOriginY );
-        middleLevelLine = new Line2D.Float( s_middleLevelLineOriginX,
+        middleLevelLine = new Line2D.Double( s_middleLevelLineOriginX,
                                             s_middleLevelLineOriginY,
                                             s_middleLevelLineOriginX + s_middleLevelLineLength,
                                             s_middleLevelLineOriginY );
-        groundLevelLine = new Line2D.Float( s_groundLevelLineOriginX,
+        groundLevelLine = new Line2D.Double( s_groundLevelLineOriginX,
                                             s_groundLevelLineOriginY,
                                             s_groundLevelLineOriginX + s_groundLevelLineLength,
                                             s_groundLevelLineOriginY );
@@ -115,19 +120,19 @@ public class ThreeEnergyLevelPanel extends MonitorPanel {
     //
     static private int s_atomDiam = 14;
 
-    static private float s_panelWidth = 300;
-    static private float s_panelHeight = 200;
+    static private double s_panelWidth = 300;
+    static private double s_panelHeight = 200;
 
-    static private float s_highLevelLineOriginX = 50;
-    static private float s_highLevelLineOriginY = 30;
-    static private float s_highLevelLineLength = 100;
+    static private double s_highLevelLineOriginX = 50;
+    static private double s_highLevelLineOriginY = 30;
+    static private double s_highLevelLineLength = 100;
 
-    static private float s_middleLevelLineOriginX = s_highLevelLineOriginX + s_highLevelLineLength;
-    static private float s_middleLevelLineOriginY = s_highLevelLineOriginY + ( s_panelHeight / 3 );
-    static private float s_middleLevelLineLength = s_highLevelLineLength;
+    static private double s_middleLevelLineOriginX = s_highLevelLineOriginX + s_highLevelLineLength;
+    static private double s_middleLevelLineOriginY = s_highLevelLineOriginY + ( s_panelHeight / 3 );
+    static private double s_middleLevelLineLength = s_highLevelLineLength;
 
-    static private float s_groundLevelLineOriginX = 10;
-    static private float s_groundLevelLineOriginY = s_panelHeight - 20;
-    static private float s_groundLevelLineLength = s_panelWidth - 40;
+    static private double s_groundLevelLineOriginX = 10;
+    static private double s_groundLevelLineOriginY = s_panelHeight - 20;
+    static private double s_groundLevelLineLength = s_panelWidth - 40;
 
 }

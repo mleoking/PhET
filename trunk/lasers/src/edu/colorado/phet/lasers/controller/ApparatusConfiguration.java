@@ -3,6 +3,10 @@
  * Package: edu.colorado.phet.lasers.controller
  * Author: Another Guy
  * Date: Apr 1, 2003
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -12,58 +16,58 @@ import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 
 public class ApparatusConfiguration {
 
-    private float stimulatedPhotonRate;
-    private float pumpingPhotonRate;
-    private float highEnergySpontaneousEmissionTime;
-    private float middleEnergySpontaneousEmissionTime;
-    private float simulationRate;
-    private float reflectivity;
+    private double stimulatedPhotonRate;
+    private double pumpingPhotonRate;
+    private double highEnergySpontaneousEmissionTime;
+    private double middleEnergySpontaneousEmissionTime;
+    private double simulationRate;
+    private double reflectivity;
 
-    public float getStimulatedPhotonRate() {
+    public double getStimulatedPhotonRate() {
         return stimulatedPhotonRate;
     }
 
-    public void setStimulatedPhotonRate( float stimulatedPhotonRate ) {
+    public void setStimulatedPhotonRate( double stimulatedPhotonRate ) {
         this.stimulatedPhotonRate = stimulatedPhotonRate;
     }
 
-    public float getPumpingPhotonRate() {
+    public double getPumpingPhotonRate() {
         return pumpingPhotonRate;
     }
 
-    public void setPumpingPhotonRate( float pumpingPhotonRate ) {
+    public void setPumpingPhotonRate( double pumpingPhotonRate ) {
         this.pumpingPhotonRate = pumpingPhotonRate;
     }
 
-    public float getHighEnergySpontaneousEmissionTime() {
+    public double getHighEnergySpontaneousEmissionTime() {
         return highEnergySpontaneousEmissionTime;
     }
 
-    public void setHighEnergySpontaneousEmissionTime( float highEnergySpontaneousEmissionTime ) {
+    public void setHighEnergySpontaneousEmissionTime( double highEnergySpontaneousEmissionTime ) {
         this.highEnergySpontaneousEmissionTime = highEnergySpontaneousEmissionTime;
     }
 
-    public float getMiddleEnergySpontaneousEmissionTime() {
+    public double getMiddleEnergySpontaneousEmissionTime() {
         return middleEnergySpontaneousEmissionTime;
     }
 
-    public void setMiddleEnergySpontaneousEmissionTime( float middleEnergySpontaneousEmissionTime ) {
+    public void setMiddleEnergySpontaneousEmissionTime( double middleEnergySpontaneousEmissionTime ) {
         this.middleEnergySpontaneousEmissionTime = middleEnergySpontaneousEmissionTime;
     }
 
-    public float getSimulationRate() {
+    public double getSimulationRate() {
         return simulationRate;
     }
 
-    public void setSimulationRate( float simulationRate ) {
+    public void setSimulationRate( double simulationRate ) {
         this.simulationRate = simulationRate;
     }
 
-    public float getReflectivity() {
+    public double getReflectivity() {
         return reflectivity;
     }
 
-    public void setReflectivity( float reflectivity ) {
+    public void setReflectivity( double reflectivity ) {
         this.reflectivity = reflectivity;
     }
 

@@ -3,6 +3,10 @@
  * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 21, 2003
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.collision;
 
@@ -158,7 +162,7 @@ public abstract class HardsphereCollision implements Collision {
 
     private static Vector2D s_xUnit = new Vector2D.Double( 1, 0 );
     private static Vector2D s_yUnit = new Vector2D.Double( 0, 1 );
-    private static float[] roots = new float[2];
+    private static double[] roots = new double[2];
 
     /**
      * Computes the time since the beginning of the last time step when the particle
