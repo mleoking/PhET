@@ -38,6 +38,9 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
      */
     public SourceCoil() {
         super();
+        
+        // pack the loops close together
+        setLoopSpacing( getWireWidth() );
     }
     
     /**

@@ -58,6 +58,9 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         _transform = new AffineTransform();
         _point = new Point2D.Double();
         _fieldVector = new Vector2D();
+        
+        // loosely packed loops
+        setLoopSpacing( 1.5 * getWireWidth() );
     }
     
     //----------------------------------------------------------------------------

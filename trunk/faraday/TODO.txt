@@ -30,9 +30,10 @@ LOW PRIORITY:
 - background color (use new PhetApplication interface)
 - transparent bar magnet layer so that field meter looks like it's inside it
 - Help/MegaHelp
-- resize any images that are currently scaled (eg, bar magnet, electron)
+- resize any scaled images
 
 CLEANUP:
+- organize imports
 - remove unused images and assets
 - save all images using Photoshop's "Save for Web" feature
 - remove unused i18n strings
@@ -54,6 +55,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/26) - add loop spacing to Coil model, set differently for Source & Pickup coils, remains constant
 (3/26) - consolidate code that is duplicated between CompassNeedleGraphic and CompassGridNeedle
 (3/26) - flatten static components of CompassGraphic
 (3/26) - document all output parameters in method definition and use
