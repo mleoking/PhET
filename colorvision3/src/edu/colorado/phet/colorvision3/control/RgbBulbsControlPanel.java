@@ -1,4 +1,11 @@
-/* RgbBulbsControlPanel.java, Copyright 2004 University of Colorado PhET */
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ *   $Source$
+ *   $Revision$ on branch $Name$
+ *   Modified by $Author$ on $Date$
+ */
 
 package edu.colorado.phet.colorvision3.control;
 
@@ -16,7 +23,7 @@ import edu.colorado.phet.common.view.PhetControlPanel;
  * graphic and Help buttons.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$ $Name$
+ * @version $Revision$
  */
 public class RgbBulbsControlPanel extends PhetControlPanel
 {

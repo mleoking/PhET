@@ -1,4 +1,11 @@
-/* BellCurve.java, Copyright 2004 University of Colorado PhET */
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ *   $Source$
+ *   $Revision$ on branch $Name$
+ *   Modified by $Author$ on $Date$
+ */
 
 package edu.colorado.phet.colorvision3.control;
 
@@ -17,7 +24,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  * The origin of the curve is at the peak in the center of the curve.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @revision $Id$ $Name$
+ * @version $Revision$
  */
 public class BellCurve extends PhetShapeGraphic
 {

@@ -1,4 +1,11 @@
-/* FilterHolderGraphic.java */
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ *   $Source$
+ *   $Revision$ on branch $Name$
+ *   Modified by $Author$ on $Date$
+ */
 
 package edu.colorado.phet.colorvision3.view;
 
@@ -16,7 +23,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  * FilterHolderGraphic
  *
  * @author cmalley
- * @revision $Id$ $Name$
+ * @version $Revision$
  */
 public class FilterHolderGraphic extends PhetShapeGraphic
 {

@@ -1,4 +1,11 @@
-/* SpectrumSlider.java, Copyright 2004 University of Colorado PhET */
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ *   $Source$
+ *   $Revision$ on branch $Name$
+ *   Modified by $Author$ on $Date$
+ */
 
 package edu.colorado.phet.colorvision3.control;
 
@@ -45,7 +52,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * for a description of the UI layout for each orientation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$ $Name$
+ * @version $Revision$
  */
 public class SpectrumSlider extends DefaultInteractiveGraphic
 { 

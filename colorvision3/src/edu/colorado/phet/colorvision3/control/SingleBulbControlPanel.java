@@ -1,4 +1,11 @@
-/* SingleBulbControlPanel.java, Copyright 2004 University of Colorado PhET */
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ *   $Source$
+ *   $Revision$ on branch $Name$
+ *   Modified by $Author$ on $Date$
+ */
 
 package edu.colorado.phet.colorvision3.control;
 
@@ -26,7 +33,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * SingleBulbControlPanel is the control panel for the "Single Bulb" simulation module.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$ $Name$
+ * @version $Revision$
  */
 public class SingleBulbControlPanel extends PhetControlPanel implements ActionListener
 {
