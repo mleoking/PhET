@@ -11,12 +11,12 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class HollowSphere extends SphericalBody {
-    ArrayList containedBodies = new ArrayList();
+
+    private ArrayList containedBodies = new ArrayList();
+    private ArrayList listeners  = new ArrayList();
 
     public HollowSphere( Point2D center,
                          Vector2D velocity,
@@ -42,10 +42,32 @@ public class HollowSphere extends SphericalBody {
 
     public void addContainedBody( Body body ) {
         containedBodies.add( body );
+        if( body instanceof GasMolecule ) {
+            GasMolecule molecule = (GasMolecule)body;
+            MoleculeEvent event = new MoleculeEvent( this, molecule.getClass() );
+            for( int i = 0; i < listeners.size(); i++ ) {
+                Object o = listeners.get( i );
+                if( o instanceof HollowSphereListener ) {
+                    HollowSphereListener hollowSphereListener = (HollowSphereListener)o;
+                    hollowSphereListener.moleculeAdded( event );
+                }
+            }
+        }
     }
 
     public void removeContainedBody( Body body ) {
         containedBodies.remove( body );
+        if( body instanceof GasMolecule ) {
+            GasMolecule molecule = (GasMolecule)body;
+            MoleculeEvent event = new MoleculeEvent( this, molecule.getClass() );
+            for( int i = 0; i < listeners.size(); i++ ) {
+                Object o = listeners.get( i );
+                if( o instanceof HollowSphereListener ) {
+                    HollowSphereListener hollowSphereListener = (HollowSphereListener)o;
+                    hollowSphereListener.moleculeRemoved( event );
+                }
+            }
+        }
     }
 
     public boolean containsBody( Body body ) {
@@ -54,6 +76,14 @@ public class HollowSphere extends SphericalBody {
 
     public int numContainedBodies() {
         return containedBodies.size();
+    }
+
+    public void addHollowSphereListener( HollowSphereListener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeHollowSphereListener( HollowSphereListener listener ) {
+        listeners.remove( listener );
     }
 
     //----------------------------------------------------------------------------------------------
@@ -85,5 +115,47 @@ public class HollowSphere extends SphericalBody {
         }
         double theta = random.nextDouble() * Math.PI * 2;
         return new Vector2D.Double( s * Math.cos( theta ), s * Math.sin( theta ) );
+    }
+
+    public int getHeavySpeciesCnt() {
+        return getSpeciesCnt( HeavySpecies.class );
+    }
+
+    public int getLightSpeciesCnt() {
+        return getSpeciesCnt( LightSpecies.class );
+    }
+
+    private int getSpeciesCnt( Class species) {
+        int cnt = 0;
+        for( int i = 0; i < containedBodies.size(); i++ ) {
+            Body body = (Body)containedBodies.get( i );
+            if( species.isInstance( body )) {
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------------------------
+
+    // TODO: is this interface actually used?
+    public interface HollowSphereListener extends EventListener {
+        void moleculeAdded( HollowSphere.MoleculeEvent event );
+        void moleculeRemoved( HollowSphere.MoleculeEvent event );
+    }
+
+    public class MoleculeEvent extends EventObject {
+        private Class moleculeType;
+
+        public MoleculeEvent( Object source, Class moleculeType ) {
+            super( source );
+            this.moleculeType = moleculeType;
+        }
+
+        public Class getMoleculeType() {
+            return moleculeType;
+        }
     }
 }

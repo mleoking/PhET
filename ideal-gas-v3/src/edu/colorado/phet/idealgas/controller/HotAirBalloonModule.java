@@ -12,7 +12,9 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.model.BoxMustContainParticle;
+import edu.colorado.phet.idealgas.model.Constraint;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
 
 import java.awt.geom.Point2D;
@@ -101,7 +103,7 @@ public class HotAirBalloonModule extends IdealGasModule {
 
         // Add the specific controls we need for the hot air balloon
         IdealGasControlPanel controlPanel = new IdealGasControlPanel( this );
-        controlPanel.addComponent( new HotAirBalloonControlPanel( balloon ) );
+        controlPanel.addParticleControl( new HotAirBalloonControlPanel( balloon ) );
         this.setControlPanel( new PhetControlPanel( this ) );
         getControlPanel().add( controlPanel );
     }

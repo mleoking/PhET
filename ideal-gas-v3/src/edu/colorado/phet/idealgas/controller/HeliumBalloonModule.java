@@ -44,7 +44,6 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         this.addListener( this );
 
         // Add collision experts to the model
-//        getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert( getIdealGasModel(), clock.getDt() ) );
         getIdealGasModel().addCollisionExpert( new SphereBalloonExpert( getIdealGasModel(), clock.getDt() ) );
 
         balloon = new Balloon( new Point2D.Double( 300, 350 ),
@@ -111,8 +110,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 //        getIdealGasApplication().setGravityEnabled( true );
 //        getIdealGasApplication().setGravity( 15 );
 
-        // Set the size of the box
-//        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
+        // Set up the control panel
         JPanel controlPanel = new JPanel( new GridBagLayout() );
         controlPanel.setBorder( new TitledBorder( SimStrings.get( "HeliumBalloonControlPanel.controlsTitle" ) ) );
 
@@ -121,12 +119,9 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                       insets, 0, 0 );
-//        controlPanel.add( new SpeciesSelectionPanel( HeliumBalloonModule.this ), gbc );
-//        gbc.gridy = 1;
-//        controlPanel.add( new MoleculeFactoryPanel( this, balloon, gasSpecies ), gbc );
         controlPanel.add( new HeliumBalloonModule.HeliumFactoryPanel(), gbc );
-//        getControlPanel().add( controlPanel );
-        getIdealGasControlPanel().addComponent( controlPanel );
+        getIdealGasControlPanel().addParticleControl( controlPanel );
+//        getIdealGasControlPanel().addComponent( controlPanel );
     }
 
     public void setCurrentGasSpecies( Class gasSpecies ) {
