@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.coreadditions;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -31,7 +33,7 @@ public class BarometerView /*implements InteractiveGraphic */{
         crosshairPanel = new JPanel( null );
         contentPane.add( crosshairPanel, BorderLayout.WEST );
         JPanel readoutPane = new JPanel();
-        readoutPane.add( new JLabel( "Pressure: " ));
+        readoutPane.add( new JLabel( SimStrings.get( "BarometerView.PressureLabel" ) + ": " ));
         contentPane.add( readoutPane, BorderLayout.CENTER );
     }
 

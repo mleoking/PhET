@@ -11,6 +11,7 @@ import edu.colorado.phet.coreadditions.MessageFormatter;
 import edu.colorado.phet.microwave.model.Microwave;
 import edu.colorado.phet.microwave.model.WaterMolecule;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 
@@ -24,7 +25,7 @@ public class TwoMoleculesXlateModule extends MicrowaveModule {
 
 
     public TwoMoleculesXlateModule() {
-        super( MessageFormatter.format( "Two Molecules / Translation" ) );
+        super( MessageFormatter.format( SimStrings.get( "ModuleTitle.TwoMoleculesXlateModule" ) ) );
 
 //        getMicrowaveModel().removeAllModelElements();
 //        Box2D oven = new Box2D( new Point2D.Double( 100, 100 ),

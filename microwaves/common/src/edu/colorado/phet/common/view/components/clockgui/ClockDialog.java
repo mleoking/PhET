@@ -11,6 +11,7 @@ package edu.colorado.phet.common.view.components.clockgui;
 import edu.colorado.phet.common.model.FixedClock;
 import edu.colorado.phet.common.model.IClock;
 import edu.colorado.phet.coreadditions.clock.ThreadedClock;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +24,7 @@ public class ClockDialog extends JDialog {
     private ClockControlPanel clockControlPanel;
 
     public ClockDialog(JFrame parentFrame, ThreadedClock clock) {
-        super(parentFrame, "FixedClock Settings", false);
+        super(parentFrame, SimStrings.get( "ClockDialog.FixedClockSettingsTitle" ), false);
         init(clock);
         this.pack();
         clock.addClockStateListener(clockControlPanel);
@@ -40,7 +41,7 @@ public class ClockDialog extends JDialog {
 
     private JPanel buildButtonPanel() {
         JPanel buttonPnl = new JPanel(new FlowLayout());
-        JButton okBtn = new JButton("OK");
+        JButton okBtn = new JButton( SimStrings.get( "ClockDialog.OKButton" ));
         okBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 updateClock();
@@ -49,7 +50,7 @@ public class ClockDialog extends JDialog {
         });
         buttonPnl.add(okBtn);
 
-        JButton cancelBtn = new JButton("Cancel");
+        JButton cancelBtn = new JButton( SimStrings.get( "ClockDialog.CancelButton" ));
         cancelBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 ClockDialog.this.hide();

@@ -2,6 +2,7 @@
 package edu.colorado.phet.coreadditions.components;
 
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -77,7 +78,7 @@ public class BasicPhetPanel extends JPanel {
             south.setVisible( false );
 
             final JDialog buttonDlg = new JDialog();
-            buttonDlg.setTitle( "Return" );
+            buttonDlg.setTitle( SimStrings.get( "BasicPhetPanel.ReturnButton" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
             ImageIcon logo = new ImageIcon( new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" ));
             JButton logoButton = new JButton( logo );

@@ -12,6 +12,7 @@ import edu.colorado.phet.microwave.model.Microwave;
 import edu.colorado.phet.microwave.model.WaterMolecule;
 import edu.colorado.phet.microwave.model.WaterMoleculeWaterMoleculeCollisionExpert;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 public class TwoMoleculesModule extends MicrowaveModule {
 
@@ -23,7 +24,7 @@ public class TwoMoleculesModule extends MicrowaveModule {
 
 
     public TwoMoleculesModule() {
-        super( MessageFormatter.format( "Two Molecules / Rotation" ) );
+        super( MessageFormatter.format( SimStrings.get( "ModuleTitle.TwoMoleculesModule" ) ) );
 
         // Put a line of water molecules across the middle of the screen
         WaterMolecule[] ma = new WaterMolecule[10];

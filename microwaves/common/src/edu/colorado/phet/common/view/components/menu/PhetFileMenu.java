@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.common.view.components.menu;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,12 +20,12 @@ public class PhetFileMenu extends JMenu {
     }
 
     public PhetFileMenu( JComponent[] menuStuff ) {
-        super( "File" );
+        super( SimStrings.get( "PhetFileMenu.FileMenu" ) );
         for( int i = 0; i < menuStuff.length; i++ ) {
             Component component = menuStuff[i];
             this.add( component );
         }
-        JMenuItem exitMI = new JMenuItem( "Exit" );
+        JMenuItem exitMI = new JMenuItem( SimStrings.get( "PhetFileMenu.ExitMenuItem" ) );
         exitMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.exit( 0 );

@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.microwave;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
@@ -26,7 +28,7 @@ public class CoffeeModule extends MicrowaveModule {
     private double powerLevel;
 
     public CoffeeModule() {
-        super( "Coffee" );
+        super( SimStrings.get( "ModuleTitle.CoffeeModule" ) );
     }
 
     protected void init() {

@@ -15,6 +15,7 @@ import edu.colorado.phet.microwave.view.DipoleStripChartSubject;
 import edu.colorado.phet.microwave.view.MicrowaveStripCharSubject;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
 import edu.colorado.phet.util.StripChart;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +23,7 @@ import java.awt.*;
 public class ManyMoleculesModule extends MicrowaveModule {
 
     public ManyMoleculesModule() {
-        super( "Many Molecules" );
+        super( SimStrings.get( "ModuleTitle.ManyMoleculesModule" ) );
     }
 
     protected void init() {
@@ -78,7 +79,7 @@ public class ManyMoleculesModule extends MicrowaveModule {
 
         StripChartDialog( JFrame frame, Microwave muWave, WaterMolecule molecule ) {
             super( frame );
-            setTitle( "Water molecule orientation" );
+            setTitle( SimStrings.get( "ManyMoleculesModule.StripChartDialogTitle" ) );
             StripChart waterChart = new StripChart( 200, 100, 0, 100, 0, Math.PI * 2, 0.01 );
 
             DipoleStripChartSubject dscs = new DipoleStripChartSubject( molecule );
