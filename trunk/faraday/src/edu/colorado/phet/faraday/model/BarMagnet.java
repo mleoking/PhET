@@ -13,7 +13,6 @@ package edu.colorado.phet.faraday.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObservable;
 
 
@@ -24,9 +23,6 @@ import edu.colorado.phet.common.util.SimpleObservable;
  * @version $Revision$
  */
 public class BarMagnet extends SimpleObservable implements IMagnet {
-
-    private static final double MIN_STRENGTH = 1;
-    private static final double MAX_STRENGTH = 100;
     
     private double _strength;
     private Point2D _location;
@@ -51,12 +47,26 @@ public class BarMagnet extends SimpleObservable implements IMagnet {
     }
     
     public void setStrength( double strength ) {
-        _strength = MathUtil.clamp( MIN_STRENGTH, strength, MAX_STRENGTH );
+        if ( strength <= 0 ) {
+            throw new IllegalArgumentException( "strength must be > 0 : " + strength );
+        }
+        _strength = strength;
         notifyObservers();
     }
     
     public double getStrength() {
         return _strength;
+    }
+    
+    public double getStrength( Point2D point ) {
+        double dx = point.getX() - _location.getX();
+        double dy = point.getY() - _location.getY();
+        double distance = Math.sqrt( Math.pow(dx,2) + Math.pow(dy,2) );
+        double strength = 0;
+        if ( distance != 0 ) {
+            strength = _strength * ( 1/distance);
+        }
+        return strength;
     }
     
     public void setLocation( Point2D location ) {

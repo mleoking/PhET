@@ -135,7 +135,7 @@ public class WireCoil extends SimpleObservable {
     public double getRadius() {
         return _radius;
     }
-    
+
     /**
      * Gets the total surface area of all loops in the coil.
      * 
@@ -147,9 +147,8 @@ public class WireCoil extends SimpleObservable {
     
     /**
      * Sets the gauge of wire used for the loops in the coil.
-     * Note that this does not behave like tradition wire gauge,
-     * where (for example) 14 gauge is thicker than 20 gauge.
-     * This is simply the width in pixels of the wire.
+     * The thickness of a wire increases as its gauge decreases.
+     * For example, 12 gauge wire is thicker than 14 gauge.
      * 
      * @param gauge the wire gauge
      */

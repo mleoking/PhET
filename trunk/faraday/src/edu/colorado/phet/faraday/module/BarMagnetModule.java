@@ -9,21 +9,22 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.faraday;
+package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
+import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 
@@ -34,7 +35,7 @@ import edu.colorado.phet.faraday.view.PickupCoilGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BarMagnetModule extends Module implements ActionListener {
+public class BarMagnetModule extends Module {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -54,11 +55,16 @@ public class BarMagnetModule extends Module implements ActionListener {
     // Colors
     private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
 
+    private static final double BAR_MAGNET_STRENGTH = 500;
+    private static final double PICKUP_LOOP_RADIUS = 200;
+    private static final int PICKUP_LOOP_GAUGE = 10;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private BarMagnet _barMagnetModel;
+    private PickupCoil _pickupCoilModel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -86,25 +92,35 @@ public class BarMagnetModule extends Module implements ActionListener {
         
         // Bar Magnet model
         _barMagnetModel = new BarMagnet();
-        _barMagnetModel.setStrength( 50 );
+        _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
         _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
         _barMagnetModel.setDirection( 0 );
         
+        // Pickup Coil model
+        _pickupCoilModel = new PickupCoil();
+        _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
+        _pickupCoilModel.setRadius( PICKUP_LOOP_RADIUS );
+        _pickupCoilModel.setGauge( PICKUP_LOOP_GAUGE );
+        _pickupCoilModel.setDirection( 0 );
+        _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
+        _pickupCoilModel.setMagnet( _barMagnetModel );
+        model.addModelElement( _pickupCoilModel );
+       
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
 
         // Control Panel
-        this.setControlPanel( new BarMagnetControlPanel( this ) );
+        BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this );
+        this.setControlPanel( controlPanel );
 
         // Apparatus Panel
-        ApparatusPanel apparatusPanel = new ApparatusPanel();
+        ApparatusPanel apparatusPanel = new ApparatusPanel2( model, clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
         
         // Pickup Coil
-        PickupCoilGraphic pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel );
-        pickupCoilGraphic.setLocation( PICKUP_COIL_LOCATION );
+        PickupCoilGraphic pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel );
         apparatusPanel.addGraphic( pickupCoilGraphic, PICKUP_COIL_LAYER );
         
         // Bar Magnet
@@ -116,6 +132,7 @@ public class BarMagnetModule extends Module implements ActionListener {
         //----------------------------------------------------------------------------
         
         _barMagnetModel.addObserver( barMagnetGraphic );
+        _pickupCoilModel.addObserver( pickupCoilGraphic );
         
         //----------------------------------------------------------------------------
         // Listeners
@@ -124,23 +141,48 @@ public class BarMagnetModule extends Module implements ActionListener {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+        
+        //----------------------------------------------------------------------------
+        // Initalize
+        //----------------------------------------------------------------------------
+        
+        int strengthScale = BarMagnetControlPanel.STRENGTH_MIN_PERCENTAGE + (BarMagnetControlPanel.STRENGTH_MAX_PERCENTAGE - BarMagnetControlPanel.STRENGTH_MIN_PERCENTAGE)/2;
+        int areaScale = BarMagnetControlPanel.AREA_MIN_PERCENTAGE + (BarMagnetControlPanel.AREA_MAX_PERCENTAGE - BarMagnetControlPanel.AREA_MIN_PERCENTAGE)/2;
+        controlPanel.setFieldLinesEnabled( false );
+        controlPanel.setBarMagnetStrengthScale( strengthScale );
+        controlPanel.setLoopAreaScale( areaScale );
+        controlPanel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
     }
 
     //----------------------------------------------------------------------------
-    // Event Handling
+    // Controller methods
     //----------------------------------------------------------------------------
     
-    /**
-     */
-    public void actionPerformed( ActionEvent event ) {
-        if ( event.getActionCommand().equals( BarMagnetControlPanel.FLIP_POLARITY_COMMAND ) ) {
-           System.out.println( "flip polarity" );
-           double direction = _barMagnetModel.getDirection();
-           direction += 180;  // XXX modulo ?
-           _barMagnetModel.setDirection( direction );
-        }
-        else {
-            throw new IllegalStateException( "unexpected event: " + event );
-        }
+    public void flipBarMagnetPolarity() {
+        System.out.println( "flipBarMagnetPolarity" ); // DEBUG
+        double direction = _barMagnetModel.getDirection();
+        direction = ( direction + 180 ) % 360;
+        _barMagnetModel.setDirection( direction );
     }
+    
+    public void scaleBarMagnetStrength( double scale ) {
+        System.out.println( "scaleBarMagnetStrength " + scale ); // DEBUG
+        _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH * scale );
+    }
+    
+    public void setFieldLinesEnabled( boolean enable ) {
+        System.out.println( "setFieldLinesEnabled " + enable );
+        // XXX
+    }
+    
+    public void setNumberOfPickupLoops( int numberOfLoops ) {
+        System.out.println( "setNumberOfPickupLoops " + numberOfLoops );
+        _pickupCoilModel.setNumberOfLoops( numberOfLoops ); 
+    }
+    
+    public void scalePickupLoopArea( double scale ) {
+        System.out.println( "scalePickupLoopArea " + scale );
+        _pickupCoilModel.setRadius( PICKUP_LOOP_RADIUS * scale );
+    }
+    
 }

@@ -107,12 +107,11 @@ class WireLoop extends SimpleObservable {
     }
     
     /**
-     * Sets the gauge of the wire.
-     * Note that this does not behave like tradition wire gauge,
-     * where (for example) 14 gauge is thicker than 20 gauge.
-     * This is simply the width in pixels of the wire.
+     * Sets the gauge of wire used for the loops in the coil.
+     * The thickness of a wire increases as its gauge decreases.
+     * For example, 12 gauge wire is thicker than 14 gauge.
      * 
-     * @param gauge the gauge
+     * @param gauge the wire gauge
      */
     public void setGauge( int gauge ) {
         if ( gauge <= 0 ) {

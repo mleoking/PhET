@@ -15,6 +15,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.faraday.module.BarMagnetModule;
 
 
 /**
