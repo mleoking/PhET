@@ -7,7 +7,6 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
@@ -20,6 +19,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.Random;
 
 public class MultipleNucleusFissionControlPanel extends JPanel {
@@ -44,6 +45,12 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         super();
         this.module = module;
 
+        this.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                SwingUtilities.getWindowAncestor( MultipleNucleusFissionControlPanel.this ).validate();
+            }
+        } );
+
         // Add an element to the model that will update the spinner with the number of
         // nuclei
         module.getModel().addModelElement( new ModelElement() {
@@ -51,7 +58,9 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 int modelNum = module.getU235Nuclei().size();
                 int viewNum = ( (Integer)numU235Spinner.getValue() ).intValue();
                 if( modelNum != viewNum ) {
-                    //                    numU235Spinner.setValue( new Integer( module.getU235Nuclei().size() ) );
+                    numU235Spinner.setEnabled( false );
+                    numU235Spinner.setValue( new Integer( module.getU235Nuclei().size() ) );
+                    numU235Spinner.setEnabled( true );
                 }
 
                 // Compute and display the number of U235 nuclei that have fissioned
@@ -62,7 +71,9 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 modelNum = module.getU238Nuclei().size();
                 viewNum = ( (Integer)numU238Spinner.getValue() ).intValue();
                 if( modelNum != viewNum ) {
-                    //                    numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
+                    numU238Spinner.setEnabled( false );
+                    numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
+                    numU238Spinner.setEnabled( true );
                 }
             }
         } );
@@ -118,7 +129,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         percentDecayTF.setHorizontalAlignment( JTextField.RIGHT );
         percentDecayTF.setText( "0" );
 
-        final JCheckBox containmentCB = new JCheckBox( "<html>Enable<br>Containment<br>Vessel</html>" );
+        final JCheckBox containmentCB = new JCheckBox( "<html>Enable<br>Containment Vessel</html>" );
         containmentCB.setForeground( Color.white );
         containmentCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -128,67 +139,32 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
 
         // Layout the panel
         setLayout( new GridBagLayout() );
-        int rowIdx = 0;
-        try {
-            GraphicsUtil.addGridBagComponent( this, containmentCB,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "<html><br>Number of<br><sup><font size=-1>235</font></sup>U nulcei</html>" ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, numU235Spinner,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "<html><br>Number of<br><sup><font size=-1>238</font></sup>U nulcei</html></html>" ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, numU238Spinner,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "<html><br>Percent <sup><font size=-1>235</font></sup>U<br> nuclei fissioned</html>" ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, percentDecayTF,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, fireNeutronBtn,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, resetBtn,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-        }
-        catch( AWTException e ) {
-            e.printStackTrace();
-        }
+        GridBagConstraints gbcLeft = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.EAST,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 5, 5, 5, 5 ), 5, 5 );
+        GridBagConstraints gbcRight = new GridBagConstraints( 1, 0, 1, 1, 1, 1, GridBagConstraints.WEST,
+                                                              GridBagConstraints.NONE,
+                                                              new Insets( 5, 5, 5, 5 ), 5, 5 );
+        GridBagConstraints gbcCenter = new GridBagConstraints( 0, 0, 2, 1, 1, 1, GridBagConstraints.CENTER,
+                                                               GridBagConstraints.NONE,
+                                                               new Insets( 5, 5, 5, 5 ), 5, 5 );
+        add( containmentCB, gbcCenter );
+        gbcLeft.gridy = 1;
+        add( new JLabel( "<html>Number of<br><sup><font size=-1>235</font></sup>U nulcei</html>" ), gbcLeft );
+        gbcRight.gridy = 1;
+        add( numU235Spinner, gbcRight );
+        gbcLeft.gridy = 2;
+        add( new JLabel( "<html>Number of<br><sup><font size=-1>238</font></sup>U nulcei</html>" ), gbcLeft );
+        gbcRight.gridy = 2;
+        add( numU238Spinner, gbcRight );
+        gbcLeft.gridy = 3;
+        add( new JLabel( "<html>Percent<br><sup><font size=-1>235</font></sup>U nuclei<br>fissioned</html>" ), gbcLeft );
+        gbcRight.gridy = 3;
+        add( percentDecayTF, gbcRight );
+        gbcCenter.gridy = 4;
+        add( fireNeutronBtn, gbcCenter );
+        gbcCenter.gridy = 5;
+        add( resetBtn, gbcCenter );
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Controls" );
         this.setBorder( titledBorder );
