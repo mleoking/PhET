@@ -142,11 +142,13 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         
         // Bar Magnet
         BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, magnetModel );
+        apparatusPanel.addChangeListener( magnetGraphic );
         apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
         
         // Pickup AbstractCoil
         PickupCoilGraphic pickupCoilGraphic = 
             new PickupCoilGraphic( apparatusPanel, model, pickupCoilModel, lightbulbModel, voltmeterModel );
+        apparatusPanel.addChangeListener( pickupCoilGraphic );
         apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), COIL_BACK_LAYER );
         
@@ -161,6 +163,7 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         // CompassGraphic
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
+        apparatusPanel.addChangeListener( compassGraphic );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
 
         // Debugger

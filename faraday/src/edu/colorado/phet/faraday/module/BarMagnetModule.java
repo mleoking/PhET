@@ -119,6 +119,7 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
 
         // Bar Magnet
         BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, magnetModel );
+        apparatusPanel.addChangeListener( magnetGraphic );
         apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
         
         // Grid
@@ -131,12 +132,14 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         // CompassGraphic
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
+        apparatusPanel.addChangeListener( compassGraphic );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
         // Field Meter
         FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, magnetModel );
         fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
         fieldMeterGraphic.setVisible( false );
+        apparatusPanel.addChangeListener( fieldMeterGraphic );
         apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
         
         // Debugger

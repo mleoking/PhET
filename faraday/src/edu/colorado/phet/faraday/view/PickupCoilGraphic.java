@@ -12,14 +12,12 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Rectangle;
-import java.util.HashSet;
-import java.util.Iterator;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -35,13 +33,14 @@ import edu.colorado.phet.faraday.model.Voltmeter;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PickupCoilGraphic implements SimpleObserver, ICollidable {
+public class PickupCoilGraphic 
+    implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Component _component;
+    private Rectangle _parentBounds;
     private PickupCoil _pickupCoilModel;
     private CoilGraphic _coilGraphic;
     private LightbulbGraphic _lightbulbGraphic;
@@ -77,7 +76,7 @@ public class PickupCoilGraphic implements SimpleObserver, ICollidable {
         
         _collisionDetector = new CollisionDetector( this );
         
-        _component = component;
+        _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
@@ -195,6 +194,18 @@ public class PickupCoilGraphic implements SimpleObserver, ICollidable {
        return _coilGraphic.getCollisionBounds();
     }
     
+    
+    //----------------------------------------------------------------------------
+    // ApparatusPanel2.ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
+     */
+    public void canvasSizeChanged( ChangeEvent event ) {
+        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
+    }
+    
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
@@ -217,25 +228,12 @@ public class PickupCoilGraphic implements SimpleObserver, ICollidable {
             if ( !collidesNow && wouldCollide ) {
                 // Ignore the translate if it would result in a collision.
                 update();
-            } 
-            else {
-                Component component = _component;
-                if ( component instanceof ApparatusPanel2 ) {
-                    // Translate if the mouse cursor is inside the canvas.
-                    Dimension d = ((ApparatusPanel2)component).getVirtualCanvasSize();
-                    Rectangle r = new Rectangle( 0, 0, d.width, d.height );
-                    if ( r.contains( e.getMouseEvent().getPoint() ) ) {
-                        double x = _pickupCoilModel.getX() + e.getDx();
-                        double y = _pickupCoilModel.getY() + e.getDy();
-                        _pickupCoilModel.setLocation( x, y );
-                    }
-                }
-                else if ( component.contains( e.getMouseEvent().getPoint() ) ) {
-                    // Translate if the mouse cursor is inside the parent component.
-                    double x = _pickupCoilModel.getX() + e.getDx();
-                    double y = _pickupCoilModel.getY() + e.getDy();
-                    _pickupCoilModel.setLocation( x, y );
-                }
+            }
+            else if ( _parentBounds.contains( e.getMouseEvent().getPoint() ) ) {
+                // Translate if the mouse cursor is inside the parent component.
+                double x = _pickupCoilModel.getX() + e.getDx();
+                double y = _pickupCoilModel.getY() + e.getDy();
+                _pickupCoilModel.setLocation( x, y );
             }
         }
     }
