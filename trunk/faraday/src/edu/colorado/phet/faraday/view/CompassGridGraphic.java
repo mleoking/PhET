@@ -37,14 +37,6 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
 public class CompassGridGraphic extends CompositePhetGraphic implements SimpleObserver {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    private static final double CUTOFF = 0.8; // Cutoff point for adjusting scale.
-    private static final double MIN_EXPONENT = 0.3; // Max exponent for adjusting scale.
-    private static final double MAX_EXPONENT = 0.8; // Min exponent for adjusting scale.
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
@@ -259,33 +251,14 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
                 
                 // Set the needle's strength.
                 {
-                    double distance = p.distance( _magnetModel.getLocation() );
+                    // Convert the field strength to a value in the range 0...+1.
                     double scale = ( magnitude / magnetStrength );
                     
-                    /*
-                     * Since the magnitude drops off rather quickly, we need to adjust the 
-                     * scale so that (a) more compasses are visible, and (b) the number of
-                     * visible compasses increases as the magnet strength increases.
-                     * <p>
-                     * The algorithm is as follows (courtesy of Mike Dubson):
-                     * <ul>
-                     * <li>Bo is some cutoff value
-                     * <li>if B > Bo, scale = 1
-                     * <li>if B <= Bo, scale = (B/Bo)**N
-                     * <li>N is between 0.3-0.8 and is adjusted for magnet strength
-                     * </ul>
-                     */
-                    if ( scale > CUTOFF ) {
-                        scale = 1.0;
-                    }
-                    else {
-                        double min = FaradayConfig.MAGNET_STRENGTH_MIN;
-                        double max = FaradayConfig.MAGNET_STRENGTH_MAX;
-                        double exponent = MAX_EXPONENT - ( ( (magnetStrength - min) / (max - min) ) * (MAX_EXPONENT - MIN_EXPONENT) );
-                        scale = Math.pow( scale / CUTOFF, exponent );
-                    }
-
+                    // Adjust the scale to improve the visual effect.
+                    scale = FaradayUtils.rescale( scale, magnetStrength );
                     scale = MathUtil.clamp( 0, scale, 1 );
+                    
+                    // Set the needle strength.
                     needle.setStrength( scale );
                 }
             }

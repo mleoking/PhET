@@ -25,6 +25,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.VoltMeter;
 
 
@@ -43,6 +44,7 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
     //----------------------------------------------------------------------------
     
     private VoltMeter _voltMeterModel;
+    private AbstractMagnet _magnetModel;
     private double _value; // -1...+1
     private PhetShapeGraphic _needle;
 
@@ -56,13 +58,15 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
      * 
      * @param component the parent Component
      */
-    public VoltMeterGraphic( Component component, VoltMeter voltMeterModel ) {
+    public VoltMeterGraphic( Component component, VoltMeter voltMeterModel, AbstractMagnet magnetModel ) {
         super( component );
         assert( component != null );
         assert( voltMeterModel != null );
+        assert( magnetModel != null );
 
         _voltMeterModel = voltMeterModel;
         _voltMeterModel.addObserver( this );
+        _magnetModel = magnetModel; // No need to observe magnet.
         
         _value = 0.0;
         
@@ -159,14 +163,17 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
     public void update() {
         setVisible( _voltMeterModel.isEnabled() );
         if ( isVisible() ) {
-            double voltage = _voltMeterModel.getVoltage();
-            double scale = MathUtil.clamp( -1, ( voltage / FaradayConfig.MAX_EMF ), 1 );
-            if ( scale == Double.NaN ) {
-                System.out.println( "WARNING: VoltMeterGraphic.update - scale=NaN" );
-            }
-            else {
-                setValue( scale );
-            }
+            
+            // Convert the voltage to a value in the range -1...+1.
+            double value = _voltMeterModel.getVoltage() / FaradayConfig.MAX_EMF;
+
+            // Rescale the value to improve the visual effect.
+            double sign = ( value < 0 ) ? -1 : +1;
+            value = sign * FaradayUtils.rescale( Math.abs(value), _magnetModel.getStrength() );
+            value = MathUtil.clamp( -1, value, +1 );
+
+            // Set the meter value.
+            setValue( value );
         }
     }
 }
