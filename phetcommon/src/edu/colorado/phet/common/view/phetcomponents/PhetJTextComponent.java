@@ -1,11 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.common.view.phetcomponents;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-
 import javax.swing.*;
 import javax.swing.text.Caret;
 import javax.swing.text.JTextComponent;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,7 +21,7 @@ public class PhetJTextComponent extends PhetJComponent {
     private Caret caret;
     private boolean hasKeyFocus = false;
 
-    public PhetJTextComponent( ApparatusPanel apparatusPanel, JTextComponent component ) {
+    public PhetJTextComponent( Component apparatusPanel, JTextComponent component ) {
         super( apparatusPanel, component );
         this.textComponent = component;
         caret = component.getCaret();
@@ -30,7 +29,7 @@ public class PhetJTextComponent extends PhetJComponent {
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( hasKeyFocus ) {
-                    redraw();//todo just redraw the caret region.
+                    repaint();//todo just redraw the caret region.
                 }
             }
         };
@@ -41,7 +40,7 @@ public class PhetJTextComponent extends PhetJComponent {
         caret.setVisible( false );
         caret.setSelectionVisible( true );
 
-        redraw();
+        repaint();
     }
 
     public void gainedKeyFocus() {
@@ -50,13 +49,13 @@ public class PhetJTextComponent extends PhetJComponent {
         textComponent.setFocusable( true );
         textComponent.requestFocus();
         caret.setVisible( true );
-        redraw();
+        repaint();
     }
 
     public void lostKeyFocus() {
         this.hasKeyFocus = false;
         super.lostKeyFocus();
         caret.setVisible( false );
-        redraw();
+        repaint();
     }
 }

@@ -6,7 +6,7 @@ import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.controllers.HorizontalCursor2;
-import edu.colorado.phet.chart.controllers.VerticalChartSlider;
+import edu.colorado.phet.chart.controllers.VerticalChartSlider2;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.*;
@@ -32,7 +32,9 @@ import java.util.ArrayList;
  * Time: 12:54:39 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class PlotDevice extends CompositePhetGraphic {
+public class PlotDevice extends
+//                        CompositePhetGraphic
+                        GraphicLayerSet {
     private boolean adorned = false;
     private Color chartBackgroundColor = new Color( 255, 247, 204 );
     private String title;
@@ -43,7 +45,7 @@ public class PlotDevice extends CompositePhetGraphic {
     private Color color;
     private Stroke stroke;
 
-    private VerticalChartSlider verticalChartSlider;
+    private VerticalChartSlider2 verticalChartSlider;
     private HorizontalCursor2 horizontalCursor;
     private TextBox textBox;
     private ChartComponent chartComponent;
@@ -58,6 +60,9 @@ public class PlotDevice extends CompositePhetGraphic {
     private boolean controllable;
     private Point buttonLoc = new Point();
 
+    public void paint( Graphics2D g2 ) {
+        super.paint( g2 );
+    }
 
     public PlotDevice( final ParameterSet parameters, BufferedPhetGraphic bufferedPhetGraphic )
             throws IOException {
@@ -104,8 +109,9 @@ public class PlotDevice extends CompositePhetGraphic {
                 setVisible( true );
             }
         } );
-        verticalChartSlider = new VerticalChartSlider( chartComponent.getChart() );
-        verticalChartSlider.addListener( new VerticalChartSlider.Listener() {
+        verticalChartSlider = new VerticalChartSlider2( panel, chartComponent.getChart() );
+//        addGraphic( verticalChartSlider, Double.POSITIVE_INFINITY );
+        verticalChartSlider.addListener( new VerticalChartSlider2.Listener() {
             public void valueChanged( double value ) {
                 for( int i = 0; i < listeners.size(); i++ ) {
                     Listener listener = (Listener)listeners.get( i );
@@ -366,10 +372,6 @@ public class PlotDevice extends CompositePhetGraphic {
         setViewBounds( new Rectangle( x, y, width, height ) );
     }
 
-//    public void setX(int x){
-//        this.x=x;
-//    }
-
     public void setViewBounds( Rectangle rectangle ) {
         if( rectangle.width > 0 && rectangle.height > 0 ) {
             chartComponent.setViewBounds( rectangle );
@@ -430,7 +432,7 @@ public class PlotDevice extends CompositePhetGraphic {
         verticalChartSlider.setVisible( b );
     }
 
-    public VerticalChartSlider getVerticalChartSlider() {
+    public VerticalChartSlider2 getVerticalChartSlider() {
         return verticalChartSlider;
     }
 

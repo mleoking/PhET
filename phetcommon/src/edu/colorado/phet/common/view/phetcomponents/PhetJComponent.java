@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.common.view.phetcomponents;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import javax.swing.*;
@@ -39,7 +38,7 @@ public class PhetJComponent extends PhetGraphic {
     }
 
 //    public static PhetJComponent newInstance( ApparatusPanel apparatusPanel, JComponent jComponent ) {
-    public static PhetGraphic newInstance( ApparatusPanel apparatusPanel, JComponent jComponent ) {
+    public static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent ) {
         doNotifyAll( jComponent );
         //some special cases.
         if( jComponent instanceof JTextComponent ) {
@@ -85,19 +84,19 @@ public class PhetJComponent extends PhetGraphic {
         }
     }
 
-    protected PhetJComponent( ApparatusPanel ap, final JComponent component ) {
+    protected PhetJComponent( Component ap, final JComponent component ) {
         super( ap );
         this.component = component;
 //        component.addNotify();
         offscreen.getContentPane().add( component );
-        redraw();
+        repaint();
 
         component.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 System.out.println( "evt = " + evt );
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        redraw();
+                        repaint();
                     }
                 } );
             }
@@ -107,11 +106,11 @@ public class PhetJComponent extends PhetGraphic {
 
         component.addFocusListener( new FocusAdapter() {
             public void focusGained( FocusEvent e ) {
-                redraw();
+                repaint();
             }
 
             public void focusLost( FocusEvent e ) {
-                redraw();
+                repaint();
             }
         } );
 
@@ -127,7 +126,7 @@ public class PhetJComponent extends PhetGraphic {
 
                 }, toLocalFrame( e.getPoint() ) );
                 if( handled ) {
-                    redraw();
+                    repaint();
                 }
 
             }
@@ -141,7 +140,7 @@ public class PhetJComponent extends PhetGraphic {
                     }
                 }, toLocalFrame( e.getPoint() ) );
                 if( handled ) {
-                    redraw();
+                    repaint();
                 }
             }
 
@@ -155,7 +154,7 @@ public class PhetJComponent extends PhetGraphic {
 
                 }, toLocalFrame( e.getPoint() ) );
                 if( handled ) {
-                    redraw();
+                    repaint();
                 }
             }
 
@@ -169,7 +168,7 @@ public class PhetJComponent extends PhetGraphic {
 
                 }, toLocalFrame( e.getPoint() ) );
                 if( handled ) {
-                    redraw();
+                    repaint();
                 }
             }
 
@@ -182,7 +181,7 @@ public class PhetJComponent extends PhetGraphic {
                     }
                 }, toLocalFrame( e.getPoint() ) );
                 if( handled ) {
-                    redraw();
+                    repaint();
                 }
             }
 
@@ -196,7 +195,7 @@ public class PhetJComponent extends PhetGraphic {
 
                 }, toLocalFrame( e.getPoint() ) );
                 if( handled ) {
-                    redraw();
+                    repaint();
                 }
             }
 
@@ -210,7 +209,7 @@ public class PhetJComponent extends PhetGraphic {
 
                 }, toLocalFrame( e.getPoint() ) );
                 if( handled ) {
-                    redraw();
+                    repaint();
                 }
             }
         };
@@ -240,7 +239,7 @@ public class PhetJComponent extends PhetGraphic {
 
         if( al != null ) {
             al.actionPerformed( ae );
-            redraw();
+            repaint();
         }
     }
 
@@ -348,7 +347,8 @@ public class PhetJComponent extends PhetGraphic {
     private static interface MouseMethod {
     }
 
-    protected void redraw() {
+    //TODO repaint should call redraw before super.repaint(), and all internal calls should be repaint().
+    private void redraw() {
 //        Rectangle origBounds = component.getBounds();
         component.reshape( 0, 0, component.getPreferredSize().width, component.getPreferredSize().height );
         if( image == null ) {
@@ -387,20 +387,11 @@ public class PhetJComponent extends PhetGraphic {
         }
 
         setBoundsDirty();
-        autorepaint();
+//        autorepaint();
     }
 
     protected Graphics2D createGraphics() {
         return image.createGraphics();
-    }
-
-    /**
-     * Forces a repaint of this graphic.
-     */
-    protected void forceRepaint() {
-        syncBounds();
-        Rectangle bounds = getBounds();
-        getComponent().repaint( bounds.x, bounds.y, bounds.width, bounds.height );
     }
 
     protected Rectangle determineBounds() {
@@ -420,6 +411,11 @@ public class PhetJComponent extends PhetGraphic {
             }
             super.restoreGraphicsState();
         }
+    }
+
+    public void repaint() {
+        redraw();//TODO is this necessary?
+        super.repaint();
     }
 
     private interface MouseListenerMethod extends MouseMethod {
