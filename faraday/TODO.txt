@@ -6,6 +6,7 @@ IN PROGRESS:
 - fix electron density in coil ends
 
 HIGH PRIORITY:
+- loop radius should be displayed as loop area
 - encapulate all rescaling of emf into one place
 - check performance of grid with calc disable & drawing enabled
 - cache grid needles at 1-degree angles to eliminate rotation transform
