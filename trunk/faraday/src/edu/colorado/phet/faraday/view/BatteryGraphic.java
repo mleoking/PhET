@@ -101,7 +101,6 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
             _amplitudeSlider.setMaximum( (int) ( _batteryModel.getMaxVoltage() ) );
             _amplitudeSlider.setValue( (int) ( _batteryModel.getAmplitude() * _batteryModel.getMaxVoltage() ) );
             _amplitudeSlider.addChangeListener( new SliderListener() );
-            System.out.println( _amplitudeSlider.getMinimum() + " " + _amplitudeSlider.getMaximum() + " " + _amplitudeSlider.getValue() );//DEBUG
         }
         
         // Amplitude value
