@@ -2,7 +2,9 @@
 	private static var canvasLayer:Number = 0;
 	private var running:Boolean;
 	private var rate:Number;
-	private var photons:Array;
+	private var photons:Array = new Array();
+	private var rateHistory:Array = new Array();;
+	private var rateAtEyeball:Number = 0;
 	private var xLoc:Number;
 	private var yLoc:Number;
 	private var theta:Number;
@@ -11,7 +13,6 @@
 	private var wavelength:Number;
 	public function PhotonGenerator() {
 		rate = 1;
-		photons = new Array();
 		alpha = 100;
 	}
 	public function setLocation(xLoc:Number, yLoc:Number) {
@@ -50,10 +51,13 @@
 				c = this.color;
 			}
 			var p:Photon;
-			for (var n = 0; n < Math.round(rate); n++) {
+			var intRate:Number = Math.round(rate);
+			for (var n = 0; n < intRate; n++) {
 				p = new Photon(xLoc, yLoc, genTheta(theta * Math.PI / 180), c);
 				photons.push(p);
 			}
+			rateHistory.push(Math.round(rate));
+
 			// Paint or prune the photons, as need be
 			for (var i = 0; i < photons.length; i++) {
 				p = photons[i];
@@ -64,6 +68,12 @@
 					photons.splice(i,1);
 				}
 			}
+/*
+			for(var i=0; i<rateHistory;i++){
+				if(
+					rateAtEyeball = rateHistory[i];
+					rateHistory.splice(i,1);
+*/					
 		}
 	}
 	function stop() {
@@ -90,8 +100,11 @@
 	function setRate(rate:Number) {
 		this.rate = rate;
 	}
+	function getRateAtEyeball():Number{
+		return this.rate;
+//		return this.rateAtEyeball;
+	}
 	private function genTheta(theta0) {
-//		var d_theta = Math.random() * Math.PI / 8 - Math.PI / 16;
 		var d_theta = Math.random() * Math.PI / 16 - Math.PI / 32;
 		var angle = theta0 + d_theta;
 		return angle;
