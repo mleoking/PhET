@@ -13,8 +13,10 @@ package edu.colorado.phet.common.view.phetgraphics;
 import java.awt.*;
 
 /**
- * A list of PhetGraphics, painted in order.
- * The CompositePhetGraphic manages interactivity for all its children.
+ * This is a type of GraphicLayer set that is different from GraphicLayerSet in
+ * the way it handles interaction. Whereas a GraphicLayerSet responds to the
+ * getHandler( Point p ) message by delegating it to the PhetGraphics it contains,
+ * CompositePhetGraphic responds to the message itself.
  *
  * @author ?
  * @version $Revision$
@@ -26,7 +28,8 @@ public class CompositePhetGraphic extends GraphicLayerSet {
     }
 
     /**
-     * The CompositePhetGraphic manages interactivity for all its children.
+     * Tells if this object contains a specified point, for purposes of
+     * event handling.
      *
      * @param p The specified point.
      * @return The PhetGraphic responsible for handling the event.
