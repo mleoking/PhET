@@ -56,8 +56,8 @@ public class MouseTracker extends CompositePhetGraphic implements MouseMotionLis
     public void paint( Graphics2D g2 ) {
         GraphicsState gs = new GraphicsState( g2 );
 
-        Rectangle rect = readout.getBounds();
-        rect.setBounds(  rect.x - 2, rect.y - 2, rect.width + 3, rect.height + 2 );
+        Rectangle rect = new Rectangle( readout.getBounds() );
+        rect.setBounds( rect.x - 2, rect.y - 2, rect.width + 3, rect.height + 2 );
         g2.setColor( Color.white );
         g2.fill( rect );
         g2.setColor( Color.black );
