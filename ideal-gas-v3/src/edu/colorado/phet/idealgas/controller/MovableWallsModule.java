@@ -46,7 +46,7 @@ public class MovableWallsModule extends IdealGasModule {
         WallGraphic lowerWallGraphic = new WallGraphic( lowerWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
-        lowerWallGraphic.setResizable( WallGraphic.NORTH );
+        lowerWallGraphic.setIsResizable( true );
         getModel().addModelElement( lowerWall );
         addGraphic( lowerWallGraphic, 1000 );
         lowerWall.addChangeListener( new LowerWallChangeListener() );

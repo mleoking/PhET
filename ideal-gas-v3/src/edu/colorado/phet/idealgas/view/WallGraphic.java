@@ -17,9 +17,9 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * WallGraphic
@@ -31,10 +31,16 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     public static final int ALL = 0, EAST_WEST = 1, NORTH_SOUTH = 2;
     public static final Object NORTH = new Object();
     private Wall wall;
-    private List resizableDirections = new ArrayList();
+//    private List resizableDirections = new ArrayList();
+    private boolean isResizable = false;
+    private boolean isResizingEast = false;
+    private boolean isResizingWest = false;
+    private boolean isResizingNorth = false;
+    private boolean isResizingSouth = false;
+
+    private double hotSpotRadius = 5;
 
     /**
-     *
      * @param wall
      * @param component
      * @param fill
@@ -49,13 +55,12 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     }
 
     /**
-     *
      * @param wall
      * @param component
      * @param fill
      * @param translationDirection
      */
-    public WallGraphic( Wall wall, Component component, Paint fill,
+    public WallGraphic( final Wall wall, Component component, Paint fill,
                         int translationDirection ) {
         super( component, wall.getBounds(), fill );
         this.wall = wall;
@@ -78,14 +83,18 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
             addTranslationListener( new NorthSouthTranslator( wall ) );
             addTranslationListener( new EastWestTranslator( wall ) );
         }
+
+        // Add a listener that will detect if the user wants to resize the wall
+        component.addMouseListener( new ResizingDetector( wall ) );
     }
 
     /**
      * Sets the wall to be resizable in a specified direction.
-     * @param direction
+     *
+     * @param isResizable
      */
-    public void setResizable( Object direction ) {
-        resizableDirections.add( direction );
+    public void setIsResizable( boolean isResizable ) {
+        this.isResizable = isResizable;
     }
 
     //-----------------------------------------------------------------
@@ -134,35 +143,87 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         }
     }
 
+    /**
+     * Resizes the wall
+     */
     private class Resizer implements TranslationListener {
-        private double hotSpotRadius = 5;
 
         public void translationOccurred( TranslationEvent translationEvent ) {
-            if( translationEvent.getMouseEvent().isControlDown() ) {
+            if( isResizable && translationEvent.getMouseEvent().isControlDown() ) {
                 double minX = wall.getBounds().getMinX();
                 double maxX = wall.getBounds().getMaxX();
                 double minY = wall.getBounds().getMinY();
                 double maxY = wall.getBounds().getMaxY();
+                Point mouseLoc = translationEvent.getMouseEvent().getPoint();
 
-//                if( Math.abs( translationEvent.getMouseEvent().getX() - minX )
-//                < hotSpotRadius ) {
-                if( Math.abs( translationEvent.getMouseEvent().getX() - minX )
-                    < Math.abs( translationEvent.getMouseEvent().getX() - maxX ) ) {
-                    minX = translationEvent.getMouseEvent().getX();
+                if( isResizingNorth ) {
+                    minY = mouseLoc.y;
                 }
-//                if( Math.abs( translationEvent.getMouseEvent().getX() - maxX ) < hotSpotRadius ) {
-                else {
-                    maxX = translationEvent.getMouseEvent().getX();
+                if( isResizingSouth ) {
+                    maxY = mouseLoc.y;
                 }
-//                if( Math.abs( translationEvent.getMouseEvent().getY() - minY )
-//                    < Math.abs( translationEvent.getMouseEvent().getY() - maxY ) ) {
-//                    minY = translationEvent.getMouseEvent().getY();
-//                }
-//                else {
-//                    maxY = translationEvent.getMouseEvent().getY();
-//                }
+                if( isResizingWest ) {
+                    minX = mouseLoc.x;
+                }
+                if( isResizingEast ) {
+                    maxX = mouseLoc.x;
+                }
+
                 wall.setBounds( new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY ) );
             }
+        }
+    }
+
+    /**
+     * Detects that the user wishes to resize the wall.
+     * <p/>
+     * Sets the cursor and an internal flag
+     */
+    private class ResizingDetector extends MouseAdapter {
+        private final Wall wall;
+
+        public ResizingDetector( Wall wall ) {
+            this.wall = wall;
+        }
+
+        public void mousePressed( MouseEvent e ) {
+            if( isResizable && e.isControlDown() ) {
+
+                double minX = wall.getBounds().getMinX();
+                double maxX = wall.getBounds().getMaxX();
+                double minY = wall.getBounds().getMinY();
+                double maxY = wall.getBounds().getMaxY();
+                Point mouseLoc = e.getPoint();
+
+                if( Math.abs( mouseLoc.y - minY ) <= hotSpotRadius ) {
+                    isResizingNorth = true;
+                    getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
+                }
+                else if( Math.abs( mouseLoc.y - maxY ) <= hotSpotRadius ) {
+                    isResizingSouth = true;
+                    getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.S_RESIZE_CURSOR ) );
+                }
+                else if( Math.abs( mouseLoc.x - minX ) <= hotSpotRadius ) {
+                    isResizingWest = true;
+                    getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.W_RESIZE_CURSOR ) );
+                }
+                else if( Math.abs( mouseLoc.x - maxX ) <= hotSpotRadius ) {
+                    isResizingEast = true;
+                    getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
+                }
+            }
+        }
+
+        public void mouseReleased( MouseEvent e ) {
+            // Add a listener that will cancel the resize mode when the mouse is released
+            getComponent().addMouseListener( new MouseAdapter() {
+                public void mouseReleased( MouseEvent e ) {
+                    isResizingEast = false;
+                    isResizingWest = false;
+                    isResizingNorth = false;
+                    isResizingSouth = false;
+                }
+            } );
         }
     }
 }
