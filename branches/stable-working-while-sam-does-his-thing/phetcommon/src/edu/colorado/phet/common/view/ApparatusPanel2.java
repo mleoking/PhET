@@ -185,6 +185,11 @@ public class ApparatusPanel2 extends ApparatusPanel {
         return graphicTx;
     }
 
+    public Component add( Component comp ) {
+        componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
+        return super.add( comp );
+    }
+
     public void add( Component comp, Object constraints ) {
         componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
         super.add( comp, constraints );
