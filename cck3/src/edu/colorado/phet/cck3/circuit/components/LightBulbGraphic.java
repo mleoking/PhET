@@ -255,4 +255,7 @@ public class LightBulbGraphic implements Graphic {
         return fullShape;
     }
 
+    public Rectangle2D getBounds() {
+        return new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
+    }
 }

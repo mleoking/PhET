@@ -1,10 +1,9 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.common;
 
+import edu.colorado.phet.cck3.common.primarygraphics.PrimaryGraphic;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.fastpaint.FastPaint;
-import edu.colorado.phet.common.view.graphics.BoundedGraphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.help.HelpItem;
 
@@ -17,18 +16,17 @@ import java.awt.geom.Rectangle2D;
  * Time: 12:04:51 AM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public class PositionedHelpItem implements BoundedGraphic {
+public class PositionedHelpItem extends PrimaryGraphic {
     String text;
     Target target;
     Font font;
     private MultiLineComponentTextGraphic textGraphic;
-    private boolean visible = true;
     private Arrow arrow;
     private Color arrowColor = Color.blue;
-    private Component parent;
+    private boolean noTarget = false;
 
     public PositionedHelpItem( String text, Target target, Font font, Component component ) {
-        this.parent = component;
+        super( component );
         this.text = text;
         this.target = target;
         this.font = font;
@@ -36,7 +34,7 @@ public class PositionedHelpItem implements BoundedGraphic {
         Point location = target.getTextLocation();
         if( location == null ) {
             location = new Point();
-            visible = false;
+            setVisible( false );
         }
         int x = location.x;
         int y = location.y;
@@ -50,25 +48,28 @@ public class PositionedHelpItem implements BoundedGraphic {
 
     public void changed() {
         Point location = target.getTextLocation();
-//        System.out.println( "PHI.location = " + location );
         if( location == null ) {
-            visible = false;
-            return;
+            noTarget = true;
         }
         else {
-            Rectangle rect = getBounds();
-            visible = true;
+            noTarget = false;
+        }
+//        System.out.println( "PHI.location = " + location );
+        if( location != null ) {
             int x = location.x;
             int y = location.y;
             textGraphic.setPosition( x, y );
             arrow = target.getArrow( textGraphic );
-            Rectangle newBounds = getBounds();
-            FastPaint.fastRepaint( parent, rect, newBounds );
         }
+        if( isVisible() && !noTarget ) {
+            super.setBoundsDirty();
+            super.repaint();
+        }
+
     }
 
     public void paint( Graphics2D g ) {
-        if( visible ) {
+        if( isVisible() && !noTarget ) {
             textGraphic.paint( g );
             if( arrow != null ) {
                 g.setColor( arrowColor );
@@ -78,21 +79,34 @@ public class PositionedHelpItem implements BoundedGraphic {
     }
 
     public boolean contains( int x, int y ) {
-        if( visible ) {
+        if( isVisible() ) {
             return textGraphic.contains( x, y );
         }
         return false;
     }
 
-    public Rectangle getBounds() {
-        Rectangle a = textGraphic.getBounds();
-        if( arrow != null ) {
-            return RectangleUtils.toRectangle( a.createUnion( arrow.getShape().getBounds2D() ) );
+    protected Rectangle determineBounds() {
+        if( isVisible() ) {
+            return getBounds();
         }
         else {
-            return a;
+            return null;
         }
+    }
 
+    public Rectangle getBounds() {
+        if( isVisible() ) {
+            Rectangle a = textGraphic.getBounds();
+            if( arrow != null ) {
+                return RectangleUtils.toRectangle( a.createUnion( arrow.getShape().getBounds2D() ) );
+            }
+            else {
+                return a;
+            }
+        }
+        else {
+            return null;
+        }
     }
 
     public Rectangle2D getTextBounds() {

@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.CurrentVoltListener;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
+import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.fastpaint.FastPaintShapeGraphic;
 import edu.colorado.phet.common.view.fastpaint.FastPaintTextGraphic;
@@ -32,10 +33,11 @@ public class SchematicAmmeterGraphic extends FastPaintShapeGraphic implements IC
     FastPaintTextGraphic textGraphic;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
+    PrimaryShapeGraphic highlightRegion;
 
     public SchematicAmmeterGraphic( Component parent, CircuitComponent component, ModelViewTransform2D transform, double wireThickness, DecimalFormat decimalFormat ) {
         super( new Area(), Color.black, parent );
-
+        highlightRegion = new PrimaryShapeGraphic( parent, new Area(), Color.yellow );
         this.component = component;
         this.transform = transform;
         this.wireThickness = wireThickness;
@@ -74,9 +76,12 @@ public class SchematicAmmeterGraphic extends FastPaintShapeGraphic implements IC
         Rectangle2D bounds2d = shape.getBounds2D();
         textGraphic.setLocation( (float)( bounds2d.getX() + bounds2d.getWidth() / 2 ), (float)( bounds2d.getY() - 5 ) );
         textGraphic.setText( text );
+        highlightRegion.setShape( LineSegment.getSegment( srcpt, dstpt, viewThickness * 1.63 ) );
+        highlightRegion.setVisible( component.isSelected() );
     }
 
     public void paint( Graphics2D g ) {
+        highlightRegion.paint( g );
         super.paint( g );
         textGraphic.paint( g );
     }

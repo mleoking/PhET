@@ -54,7 +54,7 @@ public class BranchGraphic extends CompositePrimaryGraphic {
 
     private void doupdate() {
         Shape coreshape = LineSegment.getSegment( branch.getX1(), branch.getY1(), branch.getX2(), branch.getY2(), thickness );
-        Shape highlightShape = LineSegment.getSegment( branch.getX1(), branch.getY1(), branch.getX2(), branch.getY2(), thickness * 1.43 );
+        Shape highlightShape = LineSegment.getSegment( branch.getX1(), branch.getY1(), branch.getX2(), branch.getY2(), thickness * 1.5 );
         if( coreshape.getBounds().width == 0 && coreshape.getBounds().height == 0 ) {
 //            throw new RuntimeException( "No bounds to coreshape." );
         }
@@ -67,7 +67,6 @@ public class BranchGraphic extends CompositePrimaryGraphic {
             }
             highlight.setShape( transform.createTransformedShape( highlightShape ) );
             core.setShape( transform.createTransformedShape( coreshape ) );
-
         }
     }
 

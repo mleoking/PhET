@@ -32,10 +32,18 @@ public class Voltmeter {
         return redLead;
     }
 
-    public void translate( double dx, double dy ) {
+    public void translateAll( double dx, double dy ) {
         unit.translate( dx, dy );
         blackLead.translate( dx, dy );
         redLead.translate( dx, dy );
+    }
+
+    public void translate( double dx, double dy ) {
+        unit.translate( dx, dy );
+        blackLead.notifyObservers();
+        redLead.notifyObservers();
+//        blackLead.translate( 0, 0 );
+//        redLead.translate( 0, 0 );
     }
 
     public class VoltmeterUnit extends SimpleObservable {

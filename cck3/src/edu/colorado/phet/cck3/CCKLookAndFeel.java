@@ -22,8 +22,10 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
     };
 
     static {
-        Font font1280 = new Font( "Lucida Sans", Font.PLAIN, 22 );
-        Font font1040 = new Font( "Lucida Sans", Font.BOLD, 16 );
+        Font font1280 = new Font( "Lucida Sans", Font.PLAIN, 26 );
+        Font font1040 = new Font( "Lucida Sans", Font.BOLD, 14 );
+//        Font font1280 = new Font( "Lucida Sans", Font.PLAIN, 22 );
+//        Font font1040 = new Font( "Lucida Sans", Font.BOLD, 16 );
         Font uifont = font1040;
         if( Toolkit.getDefaultToolkit().getScreenSize().width > 1024 ) {
             uifont = font1280;

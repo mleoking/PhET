@@ -4,6 +4,7 @@ package edu.colorado.phet.cck3.circuit.components;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
+import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.fastpaint.FastPaint;
@@ -12,6 +13,7 @@ import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -37,8 +39,10 @@ public class BulbComponentGraphic implements IComponentGraphic {
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
     private KirkhoffSolutionListener kirkhoffSolutionListener;
+    PrimaryShapeGraphic highlightGraphic;
 
     public BulbComponentGraphic( Component parent, Bulb component, ModelViewTransform2D transform, CCK3Module module ) {
+        highlightGraphic = new PrimaryShapeGraphic( parent, new Area(), Color.yellow );
         this.parent = parent;
         this.component = component;
         this.transform = transform;
@@ -93,23 +97,19 @@ public class BulbComponentGraphic implements IComponentGraphic {
         this.affineTransform = createTransform( transform, component, WIDTH, HEIGHT );
     }
 
-    public static AffineTransform createTransform( ModelViewTransform2D transform, Bulb component, double getTargetWidth, double getTargetHeight ) {
+    private static AffineTransform createTransform( ModelViewTransform2D transform, Bulb component, double width, double height ) {
         Point2D srcpt = transform.toAffineTransform().transform( component.getStartJunction().getPosition(), null );
         Point2D dstpt = transform.toAffineTransform().transform( component.getEndJunction().getPosition(), null );
 //        double dist = srcpt.distance( dstpt );
 //        System.out.println( "dist = " + dist );
         double newHeight = transform.modelToViewDifferentialY( component.getHeight() );
-
-//        double newLength = transform.modelToViewDifferentialX( component.getLength() );
-//        double newLength = dist;
         double newLength = transform.modelToViewDifferentialX( component.getWidth() );
         double angle = new ImmutableVector2D.Double( srcpt, dstpt ).getAngle() - Math.PI / 2;
         AffineTransform trf = new AffineTransform();
         trf.rotate( angle, srcpt.getX(), srcpt.getY() );
-//        trf.translate( -newLength / 2, -newHeight / 2 );
         trf.translate( -newLength / 2, -newHeight * .93 );//TODO .93 is magick!
         trf.translate( srcpt.getX(), srcpt.getY() );
-        trf.scale( newLength / getTargetWidth, newHeight / getTargetHeight );
+        trf.scale( newLength / width, newHeight / height );
 
         return trf;
     }
@@ -117,7 +117,19 @@ public class BulbComponentGraphic implements IComponentGraphic {
     private void changed() {
         FastPaint.fastRepaint( parent, getBoundsWithBrighties() );
         updateTransform();
+        highlightGraphic.setShape( getHighlightArea() );
+        highlightGraphic.setVisible( component.isSelected() );
         FastPaint.fastRepaint( parent, getBoundsWithBrighties() );
+    }
+
+    Stroke highlightStroke = new BasicStroke( 5 );
+
+    private Shape getHighlightArea() {
+        Rectangle2D b = lbg.getBounds();
+        b = expand( b, 5, 5 );
+        Shape out = highlightStroke.createStrokedShape( b );
+        Shape trf = affineTransform.createTransformedShape( out );
+        return trf;
     }
 
     private Rectangle getBoundsWithBrighties() {
@@ -148,7 +160,7 @@ public class BulbComponentGraphic implements IComponentGraphic {
     public void delete() {
         transform.removeTransformListener( transformListener );
         component.removeObserver( simpleObserver );
-        module.getKirkhoffSolver().removeSolutionListener(kirkhoffSolutionListener);
+        module.getKirkhoffSolver().removeSolutionListener( kirkhoffSolutionListener );
     }
 
     public void paint( Graphics2D g ) {
@@ -158,8 +170,8 @@ public class BulbComponentGraphic implements IComponentGraphic {
         AffineTransform orig = g.getTransform();
         g.transform( affineTransform );
         lbg.paint( g );
-
         g.setTransform( orig );
+        highlightGraphic.paint( g );
     }
 
     public boolean contains( int x, int y ) {

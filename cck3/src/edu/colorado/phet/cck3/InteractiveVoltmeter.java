@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
+import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.common.view.CompositeGraphic;
@@ -9,8 +10,10 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 /**
@@ -20,13 +23,13 @@ import java.awt.geom.Point2D;
  * Copyright (c) Jun 17, 2004 by Sam Reid
  */
 public class InteractiveVoltmeter extends CompositeGraphic {
-//public class InteractiveVoltmeter extends CompositeGraphic {
     private Voltmeter voltmeter;
     private ModelViewTransform2D transform;
     private VoltmeterGraphic voltmeterGraphic;
     private CCK3Module module;
+    private boolean dragAll;
 
-    public InteractiveVoltmeter( VoltmeterGraphic voltmeterGraphic, CCK3Module module ) {
+    public InteractiveVoltmeter( final VoltmeterGraphic voltmeterGraphic, final CCK3Module module ) {
         super.setVisible( false );
         this.module = module;
         this.voltmeterGraphic = voltmeterGraphic;
@@ -35,10 +38,29 @@ public class InteractiveVoltmeter extends CompositeGraphic {
 
         DefaultInteractiveGraphic unitInteraction = new DefaultInteractiveGraphic( voltmeterGraphic.getUnitGraphic() );
         unitInteraction.addCursorHandBehavior();
+        unitInteraction.addMouseInputListener( new MouseInputAdapter() {
+            // implements java.awt.event.MouseListener
+            public void mousePressed( MouseEvent e ) {
+                //if the leads are on the circuit, only the DVM goes.
+                Branch a = voltmeterGraphic.getRedLeadGraphic().detectBranch( module.getCircuitGraphic() );
+                Branch b = voltmeterGraphic.getBlackLeadGraphic().detectBranch( module.getCircuitGraphic() );
+                if( a == null && b == null ) {
+                    dragAll = true;
+                }
+                else {
+                    dragAll = false;
+                }
+            }
+        } );
         unitInteraction.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
                 Point2D.Double pt = InteractiveVoltmeter.this.transform.viewToModelDifferential( (int)dx, (int)dy );
-                InteractiveVoltmeter.this.voltmeter.translate( pt.getX(), pt.getY() );
+                if( dragAll ) {
+                    InteractiveVoltmeter.this.voltmeter.translateAll( pt.getX(), pt.getY() );
+                }
+                else {
+                    InteractiveVoltmeter.this.voltmeter.translate( pt.getX(), pt.getY() );
+                }
             }
         } );
         final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( "Vertical Leads" );

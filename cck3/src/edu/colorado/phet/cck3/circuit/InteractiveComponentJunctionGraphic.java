@@ -43,6 +43,12 @@ public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraph
             }
 
             public void mousePressed( MouseEvent e ) {
+                if( e.isControlDown() ) {
+                    junctionGraphic.getJunction().setSelected( true );
+                }
+                else {
+                    cg.getCircuit().setSelection( junctionGraphic.getJunction() );
+                }
             }
 
             public void mouseReleased( MouseEvent e ) {

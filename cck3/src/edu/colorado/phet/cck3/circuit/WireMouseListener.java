@@ -38,7 +38,12 @@ public class WireMouseListener extends MouseInputAdapter {
         startTarget = null;
         endTarget = null;
 //        branch.setSelected( true );
-        circuitGraphic.getCircuit().setSelection( branch );
+        if( e.isControlDown() ) {
+            branch.setSelected( true );
+        }
+        else {
+            circuitGraphic.getCircuit().setSelection( branch );
+        }
     }
 
     public void mouseReleased( MouseEvent e ) {

@@ -114,7 +114,9 @@ public class Toolbox extends CompositeGraphic {
         {
             BufferedImage baseImage = module.getImageSuite().getKnifeBoardImage();
             double initialSwitchHeight = CCK3Module.SWITCH_DIMENSION.getHeightForLength( componentWidth );
-            Switch mySwitch = new Switch( new Point2D.Double( componentX + componentWidth, y ), dir.getScaledInstance( -1 ), componentWidth, initialSwitchHeight, module.getKirkhoffListener() );
+            Switch mySwitch = new Switch( new Point2D.Double( componentX + componentWidth, y ), dir.getScaledInstance( -1 ),
+                                          componentWidth, initialSwitchHeight, module.getKirkhoffListener() );
+//            Switch mySwitch = new Switch( new Point2D.Double( componentX, y ), dir, componentWidth, initialSwitchHeight, module.getKirkhoffListener() );
             BufferedImage leverImage = module.getImageSuite().getKnifeHandleImage();
             CircuitComponentImageGraphic sg = new CircuitComponentImageGraphic( baseImage, parent, mySwitch, transform );
             CompositeGraphic switchGraphic = new CompositeGraphic();
@@ -126,12 +128,12 @@ public class Toolbox extends CompositeGraphic {
             switchGraphic.addGraphic( lg );
             lg.setRelativeAngle( LeverGraphic.OPEN_ANGLE );
             SchematicSwitchGraphic ssg = new SchematicSwitchGraphic( parent, mySwitch, transform, schematicWireThickness );
-
             SchematicLeverGraphic slg = new SchematicLeverGraphic( ssg, parent, transform, schematicWireThickness, leverLength * scale );
             CompositeGraphic compoSwitchGraphic = new CompositeGraphic();
             compoSwitchGraphic.addGraphic( ssg );
             compoSwitchGraphic.addGraphic( slg );
-            switchSource = new BranchSource.SwitchSource( switchGraphic, compoSwitchGraphic, module.getCircuitGraphic(), parent, mySwitch, module.getKirkhoffListener(),
+            switchSource = new BranchSource.SwitchSource( switchGraphic, compoSwitchGraphic, module.getCircuitGraphic(), parent,
+                                                          mySwitch, module.getKirkhoffListener(),
                                                           CCK3Module.SWITCH_DIMENSION );
             addSource( switchSource );
             y += dy;
@@ -199,6 +201,10 @@ public class Toolbox extends CompositeGraphic {
         clear();
         rebuild();
         doUpdate();
+    }
+
+    public void setSeriesAmmeterVisible( boolean selected ) {
+        ammeterSource.setVisible( selected );
     }
 
 }

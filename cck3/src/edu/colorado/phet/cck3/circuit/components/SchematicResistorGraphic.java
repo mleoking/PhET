@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
+import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -32,10 +33,11 @@ public class SchematicResistorGraphic extends FastPaintShapeGraphic implements I
     private Area mouseArea;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
+    PrimaryShapeGraphic highlightRegion;
 
     public SchematicResistorGraphic( Component parent, CircuitComponent component, ModelViewTransform2D transform, double wireThickness ) {
         super( new Area(), Color.black, parent );
-
+        highlightRegion = new PrimaryShapeGraphic( parent, new Area(), Color.yellow );
         this.component = component;
         this.transform = transform;
         this.wireThickness = wireThickness;
@@ -101,6 +103,15 @@ public class SchematicResistorGraphic extends FastPaintShapeGraphic implements I
         mouseArea = new Area( area );
         mouseArea.add( new Area( LineSegment.getSegment( srcpt, dstpt, viewThickness ) ) );
         super.setShape( area );
+
+        Stroke highlightStroke = new BasicStroke( 6 );
+        highlightRegion.setShape( highlightStroke.createStrokedShape( area ) );
+        highlightRegion.setVisible( component.isSelected() );
+    }
+
+    public void paint( Graphics2D g ) {
+        highlightRegion.paint( g );
+        super.paint( g );
     }
 
     public ModelViewTransform2D getModelViewTransform2D() {

@@ -62,7 +62,12 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
             }
 
             public void mousePressed( MouseEvent e ) {
-                circuit.setSelection( junctionGraphic.getJunction() );
+                if( e.isControlDown() ) {
+                    junctionGraphic.getJunction().setSelected( true );
+                }
+                else {
+                    circuit.setSelection( junctionGraphic.getJunction() );
+                }
             }
 
             public void mouseReleased( MouseEvent e ) {

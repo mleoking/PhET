@@ -88,6 +88,7 @@ public class CircuitComponentImageGraphic extends CompositePrimaryGraphic implem
         double dist = src.distance( dst );
         double newLength = dist;
         double angle = new ImmutableVector2D.Double( src, dst ).getAngle();
+//        System.out.println( "angle = " + angle );
         AffineTransform trf = new AffineTransform();
         trf.rotate( angle, src.getX(), src.getY() );
         trf.translate( 0, -newHeight / 2 );

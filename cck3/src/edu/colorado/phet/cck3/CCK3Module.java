@@ -13,32 +13,34 @@ import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.circuit.tools.VirtualAmmeter;
 import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
+import edu.colorado.phet.cck3.common.RepaintDebugGraphic;
 import edu.colorado.phet.cck3.common.WiggleMe;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.components.AspectRatioPanel;
+import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -52,13 +54,14 @@ import java.util.Arrays;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CCK3Module extends Module {
-    Circuit circuit;
-    CircuitGraphic circuitGraphic;
-    boolean inited = false;
+    private boolean virtualLabMode = false;
+    private Circuit circuit;
+    private CircuitGraphic circuitGraphic;
+    private boolean inited = false;
     private ModelViewTransform2D transform;
     private AspectRatioPanel aspectRatioPanel;
 
-    CCK2ImageSuite imageSuite;
+    private CCK2ImageSuite imageSuite;
     private ParticleSet particleSet;
     private ConstantDensityLayout layout;
     private KirkhoffSolver kirkhoffSolver;
@@ -66,22 +69,20 @@ public class CCK3Module extends Module {
 
     private static final double SCALE = .5;
     private double aspectRatio = 1.2;
-    double modelWidth = 10;
-    double modelHeight = modelWidth / aspectRatio;
+    private double modelWidth = 10;
+    private double modelHeight = modelWidth / aspectRatio;
     private Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
-//    public static double ELECTRON_DX = .43 * SCALE;
     public static double ELECTRON_DX = .56 * SCALE;
+    private static final double switchscale = 1.45;
     public static final ComponentDimension RESISTOR_DIMENSION = new ComponentDimension( 1.3 * SCALE, .6 * SCALE );
-    public static final ComponentDimension SWITCH_DIMENSION = new ComponentDimension( 1.5 * SCALE, .8 * SCALE );
-    public static final ComponentDimension LEVER_DIMENSION = new ComponentDimension( 1 * SCALE, .5 * SCALE );
-//    public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.5 * SCALE, .65 * SCALE );
-    public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.9 * SCALE, .7 * SCALE );
-//    public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 1.5 * SCALE, .65 * SCALE );
+    public static final ComponentDimension SWITCH_DIMENSION = new ComponentDimension( 1.5 * SCALE * switchscale, 0.8 * SCALE * switchscale );
+    public static final ComponentDimension LEVER_DIMENSION = new ComponentDimension( 1.0 * SCALE * switchscale, 0.5 * SCALE * switchscale );
+    public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.9 * SCALE, 0.7 * SCALE );
     public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 2.33 * SCALE, .92 * SCALE );
-    static double bulbLength = 1;
-    static double bulbHeight = 1.4;
-    static double bulbDistJ = .333;
-    static double bulbScale = 1.6;
+    private static double bulbLength = 1;
+    private static double bulbHeight = 1.4;
+    private static double bulbDistJ = .333;
+    private static double bulbScale = 1.6;
     public static final BulbDimension BULB_DIMENSION = new BulbDimension( bulbLength * SCALE * bulbScale, bulbHeight * SCALE * bulbScale, bulbDistJ * SCALE * bulbScale );
 
     public static final double WIRE_LENGTH = BATTERY_DIMENSION.getLength() * 1.2;
@@ -101,11 +102,55 @@ public class CCK3Module extends Module {
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
 
     public CCK3Module() throws IOException {
+        this( false );
+    }
+
+    public CCK3Module( boolean virtualLabMode ) throws IOException {
         super( "cck-iii" );
+        this.virtualLabMode = virtualLabMode;
         Color backgroundColor = new Color( 166, 177, 204 );//not so bright
-        setApparatusPanel( new ApparatusPanel() );
+        setApparatusPanel( new ApparatusPanel() {
+            public void repaint( long tm, int x, int y, int width, int height ) {
+                super.repaint( tm, x, y, width, height );
+            }
+
+            public void repaint( Rectangle r ) {
+                super.repaint( r );
+            }
+
+            public void repaint() {
+                super.repaint();
+            }
+
+            public void repaint( int x, int y, int width, int height ) {
+                super.repaint( x, y, width, height );
+            }
+
+            public void repaint( long tm ) {
+                super.repaint( tm );
+            }
+        } );
+        getApparatusPanel().addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                getApparatusPanel().requestFocus();
+            }
+        } );
         getApparatusPanel().setFocusable( true );
         getApparatusPanel().setBackground( backgroundColor.brighter() );
+        DefaultInteractiveGraphic backgroundGraphic = new DefaultInteractiveGraphic( new Graphic() {
+            public void paint( Graphics2D g ) {
+            }
+        }, new Boundary() {
+            public boolean contains( int x, int y ) {
+                return true;
+            }
+        } );
+        backgroundGraphic.addMouseInputListener( new MouseInputAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                getCircuit().clearSelection();
+            }
+        } );
+        getApparatusPanel().addGraphic( backgroundGraphic, Double.NEGATIVE_INFINITY );
         BasicGraphicsSetup setup = new BasicGraphicsSetup();
         setup.setBicubicInterpolation();
         getApparatusPanel().addGraphicsSetup( setup );
@@ -166,6 +211,10 @@ public class CCK3Module extends Module {
             getApparatusPanel().repaint();
             circuit.updateAll();
         }
+    }
+
+    public boolean isVirtualLabMode() {
+        return virtualLabMode;
     }
 
     public void relayout( Branch[] branches ) {
@@ -280,6 +329,7 @@ public class CCK3Module extends Module {
 //            }
 //        };
 //        getModel().addModelElement( me );
+        setSeriesAmmeterVisible( false );
         testInit();
     }
 
@@ -325,9 +375,9 @@ public class CCK3Module extends Module {
 //        circuitGraphic.addGraphic( resistor );
 //        circuit.addBranch( resistor );
 //
-//        Switch switch1 = new Switch( new Point2D.Double( 5, 5 ), new Vector2D.Double( -1, 0 ), 1.5, .8, getKirkhoffListener() );
-//        circuitGraphic.addGraphic( switch1 );
+//        Switch switch1 = new Switch( new Point2D.Double( 5, 5 ), new Vector2D.Double( 1, 0 ), .9, .8, getKirkhoffListener() );
 //        circuit.addBranch( switch1 );
+//        circuitGraphic.addGraphic( switch1 );
 //        double SUPER_BULB_SCALE = 3;
 //        final Bulb bulb = new Bulb( new Point2D.Double( 5, 5 ), new ImmutableVector2D.Double( 0, 1 ),
 //                                    BULB_DIMENSION.getLength() * SUPER_BULB_SCALE / 3,
@@ -382,97 +432,6 @@ public class CCK3Module extends Module {
         app.getApplicationView().getBasicPhetPanel().setApparatusPanelContainer( aspectRatioPanel );
     }
 
-    static int r = 250;
-    static int g = 250;
-    static int b = 250;
-
-    public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
-        SwingTimerClock clock = new SwingTimerClock( 1, 30, true );
-
-        final Graphic colorG = new Graphic() {
-            public void paint( Graphics2D gr ) {
-                gr.setColor( new Color( r, g, b ) );
-                gr.fillRect( 0, 0, 1000, 1000 );
-            }
-        };
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( AbstractClock c, double dt ) {
-                r = ( r + 2 ) % 255;
-                g = ( g + 3 ) % 255;
-                b = ( b + 4 ) % 255;
-            }
-        } );
-
-        final CCK3Module cck = new CCK3Module();
-        //TODO debug useColors.
-        boolean useColors = false;
-//        boolean useColors = true;
-        if( useColors ) {
-            cck.addGraphic( colorG, -1 );
-        }
-
-        boolean debugMode = false;
-        if( Arrays.asList( args ).contains( "debug" ) ) {
-            debugMode = true;
-        }
-
-//        MultiLineShadowTextGraphic hi = new MultiLineShadowTextGraphic(
-//        HelpItem hi = new HelpItem( "This is my\n1st help item", 100, 100 );
-//        hi.setForegroundColor( Color.red );
-//        hi.setShadowColor( Color.blue );
-//        cck.addHelpItem( hi );
-        FrameSetup fs = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) );
-        if( debugMode ) {
-            fs = new FrameSetup.CenteredWithInsets( 0, 200 );
-        }
-        ApplicationModel model = new ApplicationModel( "Circuit Construction Kit III", "cck-v3", "III-v8+", fs, cck, clock );
-        PhetApplication app = new PhetApplication( model );
-
-        CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();
-        UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
-
-
-        JMenu laf = new JMenu( "View" );
-        laf.setMnemonic( 'v' );
-        JMenuItem[] jmi = PlafUtil.getLookAndFeelItems();
-        for( int i = 0; i < jmi.length; i++ ) {
-            JMenuItem jMenuItem = jmi[i];
-            laf.add( jMenuItem );
-        }
-        app.getApplicationView().getPhetFrame().addMenu( laf );
-
-        UIManager.setLookAndFeel( cckLookAndFeel );
-        app.startApplication();
-        app.getApplicationView().getPhetFrame().doLayout();
-        app.getApplicationView().getPhetFrame().repaint();
-        cck.getApparatusPanel().addKeyListener( new KeyListener() {
-            public void keyPressed( KeyEvent e ) {
-            }
-
-            public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_UP ) {
-                    if( !Arrays.asList( cck.getApparatusPanel().getGraphic().getGraphics() ).contains( colorG ) ) {
-                        cck.addGraphic( colorG, -1 );
-                    }
-                }
-                else if( e.getKeyCode() == KeyEvent.VK_DOWN ) {
-                    cck.getApparatusPanel().removeGraphic( colorG );
-                }
-            }
-
-            public void keyTyped( KeyEvent e ) {
-            }
-
-        } );
-        cck.getApparatusPanel().requestFocus();
-        PlafUtil.updateFrames();
-        if( debugMode ) {
-            app.getApplicationView().getPhetFrame().setLocation( 0, 0 );
-        }
-
-
-    }
-
     public Circuit getCircuit() {
         return circuit;
     }
@@ -508,9 +467,6 @@ public class CCK3Module extends Module {
         Rectangle2D.Double r = new Rectangle2D.Double( 0, 0, newWidth, newHeight );
         transform.setModelBounds( r );
         toolbox.setModelBounds( getToolboxBounds() );
-//        getApparatusPanel().removeGraphic( toolbox );
-//        setupToolbox();
-//        help.setToolbox(toolbox);
         getApparatusPanel().repaint();
     }
 
@@ -580,10 +536,6 @@ public class CCK3Module extends Module {
         circuit.fireBranchesMoved( circuit.getBranches() );
         circuit.fireKirkhoffChanged();
         getApparatusPanel().repaint();
-        //rebuild the graphics, based on lifelike-ness.
-
-        //TODO graphic elements should remove themselves as observers of model elemnts
-        //so we don't bog down.
     }
 
     public void showMegaHelp() {
@@ -601,7 +553,6 @@ public class CCK3Module extends Module {
         }
         for( int i = 0; i < newCircuit.numBranches(); i++ ) {
             circuit.addBranch( newCircuit.branchAt( i ) );
-
         }
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             circuitGraphic.addGraphic( circuit.branchAt( i ) );
@@ -615,4 +566,79 @@ public class CCK3Module extends Module {
     public DecimalFormat getDecimalFormat() {
         return decimalFormat;
     }
+
+    public void deleteSelection() {
+        Branch[] sel = circuit.getSelectedBranches();
+        for( int i = 0; i < sel.length; i++ ) {
+            Branch branch = sel[i];
+            removeBranch( branch );
+        }
+    }
+
+    public void desolderSelection() {
+        Junction[] sel = circuit.getSelectedJunctions();
+        for( int i = 0; i < sel.length; i++ ) {
+            Junction junction = sel[i];
+            int numConnections = circuit.getNeighbors( junction ).length;
+            if( numConnections > 1 ) {
+                circuitGraphic.split( junction );
+            }
+        }
+    }
+
+    public void setSeriesAmmeterVisible( boolean selected ) {
+        toolbox.setSeriesAmmeterVisible( selected );
+        getApparatusPanel().repaint();
+    }
+
+    public void selectAll() {
+        circuit.selectAll();
+    }
+
+    public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
+        SwingTimerClock clock = new SwingTimerClock( 1, 30, true );
+
+        boolean debugMode = false;
+        if( Arrays.asList( args ).contains( "debug" ) ) {
+            debugMode = true;
+        }
+        boolean virtualLab = false;
+        if( Arrays.asList( args ).contains( "-virtuallab" ) ) {
+            virtualLab = true;
+        }
+
+        final CCK3Module cck = new CCK3Module( virtualLab );
+        RepaintDebugGraphic colorG = new RepaintDebugGraphic( cck.getApparatusPanel(), clock );
+
+        FrameSetup fs = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) );
+        if( debugMode ) {
+            fs = new FrameSetup.CenteredWithInsets( 0, 200 );
+        }
+        ApplicationModel model = new ApplicationModel( "Circuit Construction Kit III", "cck-v3", "III-v8+", fs, cck, clock );
+        PhetApplication app = new PhetApplication( model );
+
+        CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();
+        UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
+
+        JMenu laf = new JMenu( "View" );
+        laf.setMnemonic( 'v' );
+        JMenuItem[] jmi = PlafUtil.getLookAndFeelItems();
+        for( int i = 0; i < jmi.length; i++ ) {
+            JMenuItem jMenuItem = jmi[i];
+            laf.add( jMenuItem );
+        }
+        app.getApplicationView().getPhetFrame().addMenu( laf );
+
+        UIManager.setLookAndFeel( cckLookAndFeel );
+        app.startApplication();
+        app.getApplicationView().getPhetFrame().doLayout();
+        app.getApplicationView().getPhetFrame().repaint();
+        cck.getApparatusPanel().addKeyListener( new CCKKeyListener( cck, colorG ) );
+        cck.getApparatusPanel().requestFocus();
+        PlafUtil.updateFrames();
+        if( debugMode ) {
+            app.getApplicationView().getPhetFrame().setLocation( 0, 0 );
+        }
+    }
+
 }
