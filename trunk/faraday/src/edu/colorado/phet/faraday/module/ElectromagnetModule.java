@@ -182,7 +182,7 @@ public class ElectromagnetModule extends FaradayModule {
                     electromagnetGraphic, gridGraphic, fieldMeterGraphic );
             controlPanel.addFullWidth( electromagnetPanel );
             
-            if ( FaradayConfig.DEBUG_SCALE ) {
+            if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
                 controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
                 
                 ScalePanel scalePanel = new ScalePanel( null, null, null, electromagnetGraphic );

@@ -28,7 +28,8 @@ public class FaradayConfig {
     //----------------------------------------------------------------------------
     
     // Debugging
-    public static final boolean DEBUG_SCALE = true;
+    public static final boolean DEBUG_ENABLE_SCALE_PANEL = false;
+    public static final boolean DEBUG_ENABLE_DEVELOPER_MENU = true;
     
     // Resource bundles for localization.
     public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/FaradayStrings";

@@ -193,7 +193,7 @@ public class PickupCoilModule extends FaradayModule {
                     pickupCoilModel, pickupCoilGraphic, lightbulbModel, voltmeterModel );
             controlPanel.addFullWidth( pickupCoilPanel );
 
-            if ( FaradayConfig.DEBUG_SCALE ) {
+            if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
                 controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
                 
                 ScalePanel scalePanel = new ScalePanel( lightbulbModel, voltmeterModel, pickupCoilGraphic, null );

@@ -37,12 +37,6 @@ import edu.colorado.phet.faraday.view.PickupCoilGraphic;
  * @version $Revision$
  */
 public class FaradayApplication extends PhetApplication {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final boolean ENABLE_DEVELOPER_MENU = true;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -97,7 +91,7 @@ public class FaradayApplication extends PhetApplication {
         }
         
         // Developer menu
-        if ( ENABLE_DEVELOPER_MENU ) {
+        if ( FaradayConfig.DEBUG_ENABLE_DEVELOPER_MENU ) {
 
             JMenu developerMenu = new JMenu( "Developer" );
             developerMenu.setMnemonic( 'v' );
