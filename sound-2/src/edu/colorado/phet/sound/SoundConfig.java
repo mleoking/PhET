@@ -31,7 +31,7 @@ public class SoundConfig {
     // Physical constants
     public static final double s_timeStep = 5;
     //    public static final double s_timeStep = 0.005f;
-    public static final int s_waitTime = 50;
+    public static final int s_waitTime = 75;
 
     // The number of pixels a wavefront moves in a time step
     public static final int PROPOGATION_SPEED = 3;
