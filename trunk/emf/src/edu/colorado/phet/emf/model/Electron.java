@@ -7,16 +7,16 @@
 package edu.colorado.phet.emf.model;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.emf.EmfApplication;
 import edu.colorado.phet.emf.model.movement.ManualMovement;
 import edu.colorado.phet.emf.model.movement.MovementType;
 import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
+import edu.colorado.phet.coreadditions.Body;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class Electron extends ModelElement {
+public class Electron extends Body {
 
     private EmfModel model;
     private Point2D startPosition;
@@ -114,14 +114,13 @@ public class Electron extends ModelElement {
                 changeAmplitude = false;
             }
         }
-        updateObservers();
+        notifyObservers();
     }
 
     /**
      *
      */
     public synchronized void moveToNewPosition( Point2D newLocation ) {
-//    public synchronized void moveToNewPosition( Point newLocation ) {
         if( movementStrategy instanceof ManualMovement ) {
             ( (ManualMovement)movementStrategy ).setPosition( newLocation );
         }
@@ -142,7 +141,6 @@ public class Electron extends ModelElement {
 
             // AWFUL HACK!!! The whole MovementStrategy thing needs to be re-written
             if( false ) {
-//            if( movementStrategy instanceof SinusoidalMovement ) {
                 accelerationHistory[i].setY( (float)( (SinusoidalMovement)movementStrategy ).getAcceleration( this.runningTime ) * s_B );
                 maxAccelerationHistory[i].setY( movementStrategy.getMaxAcceleration( this ) * s_B );
             }
@@ -256,9 +254,10 @@ public class Electron extends ModelElement {
         return movementStrategyHistory[x];
     }
 
-    public float getMass() {
+    public double getMass() {
         //mr = m0 /sqrt(1 - v2/c2)
-        float vMag = this.getVelocity().getLength();
+        float vMag = this.getVelocity().getMagnitude();
+//        float vMag = this.getVelocity().getLength();
         float denom = (float)Math.sqrt( 1 - ( vMag * vMag ) / ( EmfApplication.s_speedOfLight * EmfApplication.s_speedOfLight ) );
         if( denom < 1 ) {
             System.out.println( denom );
@@ -306,6 +305,14 @@ public class Electron extends ModelElement {
             }
         }
         return result;
+    }
+
+    public Point2D.Double getCM() {
+        return getLocation();
+    }
+
+    public double getMomentOfInertia() {
+        return 0;
     }
 
     //

@@ -8,7 +8,6 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions.ControlPane;
 import edu.colorado.phet.coreadditions.MessageFormatter;
 import edu.colorado.phet.emf.EmfModule;
 import edu.colorado.phet.emf.Config;
@@ -23,10 +22,10 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
+import java.io.IOException;
 
-public class EmfControlPanel extends ControlPane implements Observer {
+public class EmfControlPanel extends JPanel {
+//public class EmfControlPanel extends ControlPane implements Observer {
 
     private EmfModel model;
     private EmfModule module;
@@ -34,7 +33,7 @@ public class EmfControlPanel extends ControlPane implements Observer {
     public EmfControlPanel( EmfModel model, EmfModule module ) {
         this.model = model;
         this.module = module;
-        model.addObserver( this );
+//        model.addObserver( this );
         createControls();
     }
 
@@ -67,8 +66,8 @@ public class EmfControlPanel extends ControlPane implements Observer {
         //        this.add( new OptionControlPane() );
     }
 
-    public void update( Observable o, Object arg ) {
-    }
+//    public void update( Observable o, Object arg ) {
+//    }
 
     //
     // Inner classes
@@ -78,7 +77,8 @@ public class EmfControlPanel extends ControlPane implements Observer {
      * An inner class for the controls that enable, disable or set the values
      * of various options
      */
-    private class OptionControlPane extends ControlPane {
+    private class OptionControlPane extends JPanel {
+//    private class OptionControlPane extends ControlPane {
 
         //        JCheckBox autoscaleCB = new JCheckBox( MessageFormatter.format( ( "Autoscale vectors" ) ) );
         private JRadioButton fullFieldRB = new JRadioButton( "Full field" );
@@ -264,7 +264,8 @@ public class EmfControlPanel extends ControlPane implements Observer {
      * An inner class for the radio buttons that control how the transmitting
      * electrons move
      */
-    private class MovementControlPane extends ControlPane {
+    private class MovementControlPane extends JPanel {
+//    private class MovementControlPane extends ControlPane {
 
         JRadioButton sineRB = new JRadioButton( "Sinusoidal" );
         JRadioButton manualRB = new JRadioButton( "Manual" );
@@ -392,7 +393,14 @@ public class EmfControlPanel extends ControlPane implements Observer {
         Legend() {
             setLayout( new GridBagLayout() );
             this.setBorder( BorderFactory.createTitledBorder( "Legend" ) );
-            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( Config.smallElectronImg ) );
+            ImageIcon electronImg = null;
+            try {
+                electronImg = new ImageIcon( ImageLoader.loadBufferedImage( Config.smallElectronImg ) );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            //            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( Config.smallElectronImg ) );
             int rowIdx = 0;
             try {
                 GraphicsUtil.addGridBagComponent( this, new JLabel( "Electron", electronImg, SwingConstants.LEFT ),

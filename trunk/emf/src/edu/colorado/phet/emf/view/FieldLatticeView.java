@@ -8,7 +8,10 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.graphics.ObservingGraphic;
+//import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.graphics.Graphic;
+//import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.view.graphics.splines.CubicSpline;
 
@@ -19,7 +22,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.util.Observable;
 
-public class FieldLatticeView implements ObservingGraphic {
+public class FieldLatticeView implements Graphic, SimpleObserver {
+//public class FieldLatticeView implements ObservingGraphic {
 
     // Note that origin is the view origin, NOT the origin of the electron
     // emitting the field
@@ -162,8 +166,9 @@ public class FieldLatticeView implements ObservingGraphic {
     /**
      * Get the strength of the field at each of the lattice points
      */
-    public synchronized void update( Observable o, Object arg ) {
-        if( o instanceof Electron ) {
+    public synchronized void update() {
+//    public synchronized void update( Observable o, Object arg ) {
+        /*if( o instanceof Electron )*/ {
             for( int j = 0; j < numLatticePtsX; j++ ) {
                 for( int i = 0; i < numLatticePtsY; i++ ) {
                     latticePtLocation.setLocation( j * latticeSpacingX, i * latticeSpacingY );

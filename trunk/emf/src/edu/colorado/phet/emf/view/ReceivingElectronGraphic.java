@@ -7,18 +7,29 @@
 package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.emf.model.Electron;
+import edu.colorado.phet.emf.Config;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class ReceivingElectronGraphic extends ElectronGraphic {
-    public ReceivingElectronGraphic( ApparatusPanel apparatusPanel, Electron electron ) {
-        super( apparatusPanel, electron );
+
+    private static BufferedImage image;
+    static {
+        try {
+            image = ImageLoader.loadBufferedImage( Config.smallElectronImg );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
-    public ReceivingElectronGraphic( ApparatusPanel apparatusPanel, Electron electron, Image image ) {
-        super( apparatusPanel, electron, image );
+    public ReceivingElectronGraphic( ApparatusPanel apparatusPanel, Electron electron ) {
+        super( apparatusPanel, image, electron );
     }
 
     public boolean canHandleMousePress( MouseEvent event ) {

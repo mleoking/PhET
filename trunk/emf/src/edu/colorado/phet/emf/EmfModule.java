@@ -9,25 +9,26 @@ package edu.colorado.phet.emf;
 import edu.colorado.phet.command.AddTransmittingElectronCmd;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.command.Command;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.emf.command.SetMovementCmd;
-import edu.colorado.phet.emf.model.*;
+import edu.colorado.phet.emf.model.Antenna;
+import edu.colorado.phet.emf.model.EmfModel;
+import edu.colorado.phet.emf.model.EmfSensingElectron;
+import edu.colorado.phet.emf.model.PositionConstrainedElectron;
 import edu.colorado.phet.emf.model.movement.ManualMovement;
 import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
 import edu.colorado.phet.emf.view.*;
 import edu.colorado.phet.util.StripChart;
-import edu.colorado.phet.coreadditions.graphics.DefaultInteractiveGraphic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 
 public class EmfModule extends Module {
 
@@ -45,10 +46,10 @@ public class EmfModule extends Module {
     private EmfPanel apparatusPanel;
 
 
-    public EmfModule() {
+    public EmfModule( AbstractClock clock ) {
         super( "EMF" );
 
-        super.setModel( new EmfModel() );
+        super.setModel( new EmfModel( clock ) );
 
         final Point origin = new Point( 125, 250 );
         Antenna transmittingAntenna = new Antenna( new Point2D.Double( origin.getX(), origin.getY() - 100 ),
@@ -68,10 +69,7 @@ public class EmfModule extends Module {
         super.setApparatusPanel( apparatusPanel );
 
         // Set up the electron graphic
-        Image multiElectron = new ImageLoader().loadBufferedImage( "images/blue-sml.gif" );
-//        Image multiElectron = new ImageLoader().loadBufferedImage( "images/yellow-electron.gif" );
-        ElectronGraphic electronGraphic = new TransmitterElectronGraphic( apparatusPanel, electron, multiElectron, origin );
-        electron.addObserver( electronGraphic );
+        Graphic electronGraphic = new TransmitterElectronGraphic( apparatusPanel, electron, origin );
         this.getApparatusPanel().addGraphic( electronGraphic, 5 );
 
         // Set up the receiving electron and antenna
@@ -88,8 +86,14 @@ public class EmfModule extends Module {
         } );
 
         // Load image for small electron
-        Image image = ImageLoader.fetchBufferedImage( Config.smallElectronImg );
-        ElectronGraphic receivingElectronGraphic = new ReceivingElectronGraphic( apparatusPanel, receivingElectron, image );
+        Image image = null;
+        try {
+            image = ImageLoader.loadBufferedImage( Config.smallElectronImg );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        ElectronGraphic receivingElectronGraphic = new ReceivingElectronGraphic( apparatusPanel, receivingElectron );
         receivingElectron.addObserver( receivingElectronGraphic );
         this.getApparatusPanel().addGraphic( receivingElectronGraphic, 5 );
 
@@ -106,51 +110,9 @@ public class EmfModule extends Module {
                                            electron.getPositionAt( 0 ) - dy,
                                            1 );
 
-        // todo: HACK!!!
-        if( getApparatusPanel() instanceof
-                edu.colorado.phet.coreadditions.ApparatusPanel ) {
-            this.getModel().addModelElement( new ModelElement() {
-                public void stepInTime( double dt ) {
-                    ( (edu.colorado.phet.coreadditions.ApparatusPanel)getApparatusPanel() ).updateBufferedGraphic();
-                }
-            } );
-        }
-
-//        getApparatusPanel().addGraphic( new InteractiveGraphic() {
-//            Point2D.Double start = new Point2D.Double( 0, 0 );
-//            Point2D.Double stop = new Point2D.Double( origin.getX() - 90, origin.getY() + 50 );
-//            Point2D.Double current = new Point2D.Double( start.getX(), start.getY() );
-//            String family = "Sans Serif";
-//            int style = Font.BOLD;
-//            int size = 16;
-//            Font font = new Font( family, style, size );
-//
-//            public void paint( Graphics2D g ) {
-//                current.setLocation( ( current.x + ( stop.x - current.x ) * .02 ),
-//                                     ( current.y + ( stop.y - current.y ) * .04 ) );
-//                g.setFont( font );
-//                g.drawString( "Wiggle me!", (int)current.getX(), (int)current.getY() );
-//            }
-//
-//            public boolean canHandleMousePress( MouseEvent event, Point2D.Double modelLoc ) {
-//                return false;
-//            }
-//
-//            public void mouseDragged( MouseEvent event, Point2D.Double modelLoc ) {
-//            }
-//
-//            public void mousePressed( MouseEvent event, Point2D.Double modelLoc ) {
-//            }
-//
-//            public void mouseReleased( MouseEvent event, Point2D.Double modelLoc ) {
-//            }
-//
-//            public void mouseEntered( MouseEvent event, Point2D.Double modelLoc ) {
-//            }
-//
-//            public void mouseExited( MouseEvent event, Point2D.Double modelLoc ) {
-//            }
-//        }, 5 );
+        // Set the control panel
+        setControlPanel( new EmfControlPanel( (EmfModel)this.getModel(),
+                                              this ) );
     }
 
     public void setAutoscaleEnabled( boolean enabled ) {
@@ -158,11 +120,7 @@ public class EmfModule extends Module {
     }
 
     public void recenterElectrons() {
-//        receivingElectron.setCurrentPosition( new Point( (int)receivingElectronLoc.getX(),
-//                                                        (int)receivingElectronLoc.getY() ));
         receivingElectron.recenter();
-//        receivingElectron.moveToNewPosition( new Point( (int)receivingElectronLoc.getX(),
-//                                                        (int)receivingElectronLoc.getY() ));
         electron.moveToNewPosition( new Point( (int)electronLoc.getX(),
                                                (int)electronLoc.getY() ) );
     }
@@ -226,16 +184,6 @@ public class EmfModule extends Module {
                                                      manualMovement ) );
     }
 
-    public void activate( PhetApplication app ) {
-        setControlPanel( new EmfControlPanel( (EmfModel)this.getModel(),
-                                              this ) );
-//        this.getModel().execute( new SetMovementCmd( (EmfModel)this.getModel(),
-//                                                     sinusoidalMovement ) );
-    }
-
-    public void deactivate( PhetApplication app ) {
-    }
-
     public void displayStaticField( boolean display ) {
         ( (EmfPanel)getApparatusPanel() ).displayStaticField( display );
     }
@@ -255,5 +203,4 @@ public class EmfModule extends Module {
     public void setFieldDisplay( int display ) {
         apparatusPanel.setFieldDisplay( display );
     }
-
 }
