@@ -36,6 +36,7 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
     private double _maxAmplitude; // 0...1
     private double _frequency; // 0...1
     private int _sign; // -1 or +1
+    private double _angle; // radians
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -46,6 +47,7 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
         _maxAmplitude = 1.0; // biggest
         _frequency = 1.0; // fastest
         _sign = +1; // positive voltage
+        _angle = 0.0; // radians
     }
     
     //----------------------------------------------------------------------------
@@ -93,25 +95,22 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
         if ( isEnabled() ) {
 
             double amplitude = 0.0;
-            if ( _maxAmplitude != 0.0 ) {
-
-                // Adjust the amplitude based on frequency.
-                double delta = Math.abs( _frequency * _maxAmplitude / MIN_STEPS_PER_CYCLE );
-                amplitude = getAmplitude() + ( _sign * delta );
+            if ( _maxAmplitude == 0.0 ) {
+                _angle = 0.0;
+                amplitude = 0.0;
+            }
+            else {
+                // Amplitude varies sinusoidally over time.
+                double delta = ( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE;
+                _angle += delta;
+                if ( _angle > 2 * Math.PI ) {
+                    _angle = _angle - ( 2 * Math.PI );
+                }
+                amplitude = _maxAmplitude * Math.sin( _angle );
 
                 // Make sure we always hit zero as we pass it.
                 if ( ( amplitude > 0 && getAmplitude() < 0 ) || ( amplitude < 0 && getAmplitude() > 0 ) ) {
                     amplitude = 0;
-                }
-
-                // Switch directions when we hit the maximum amplitude.
-                if ( amplitude > _maxAmplitude ) {
-                    _sign = -1;
-                    amplitude = _maxAmplitude - delta;
-                }
-                else if ( amplitude < -_maxAmplitude ) {
-                    _sign = +1;
-                    amplitude = _maxAmplitude - delta;
                 }
             }
             setAmplitude( amplitude );
