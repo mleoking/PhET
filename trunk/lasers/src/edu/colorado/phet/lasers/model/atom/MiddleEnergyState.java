@@ -42,7 +42,7 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
             Point2D position = new Point2D.Double( atom.getPosition().getX() + vHat.getX(),
                                                    atom.getPosition().getY() + vHat.getY() );
             photon.setPosition( position );
-            Photon emittedPhoton = Photon.createStimulated( photon );
+            Photon emittedPhoton = Photon.createStimulated( photon, position );
             atom.emitPhoton( emittedPhoton );
 
             // Change state

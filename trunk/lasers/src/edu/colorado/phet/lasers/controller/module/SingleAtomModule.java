@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.SingleAtomControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -38,6 +39,8 @@ public class SingleAtomModule extends BaseLaserModule {
     public SingleAtomModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
 
+        setControlPanel( new SingleAtomControlPanel( this ) );
+
         // Create beams
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() + s_boxHeight / 2 );
@@ -46,7 +49,7 @@ public class SingleAtomModule extends BaseLaserModule {
                                                                            s_boxWidth + s_laserOffsetX * 2, 1 );
         stimulatingBeam.setBounds( stimulatingBeamBounds );
         stimulatingBeam.setDirection( new Vector2D.Double( 1, 0 ) );
-        stimulatingBeam.setActive( true );
+        stimulatingBeam.setEnabled( true );
         stimulatingBeam.setPhotonsPerSecond( 1 );
 
         CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
@@ -55,7 +58,7 @@ public class SingleAtomModule extends BaseLaserModule {
         pumpingBeam.setBounds( new Rectangle2D.Double( pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
                                                        1, s_boxHeight + s_laserOffsetX * 2 ) );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
-        pumpingBeam.setActive( true );
+        pumpingBeam.setEnabled( true );
         //        WaveBeamGraphic beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
         //        addGraphic( beamGraphic, 1 );
 
@@ -119,7 +122,8 @@ public class SingleAtomModule extends BaseLaserModule {
         }
 
         // Enable only the stimulating beam to start with
-        stimulatingBeam.setIsEnabled( true );
+        stimulatingBeam.setEnabled( true );
+        pumpingBeam.setEnabled( false );
 
         ApparatusConfiguration config = new ApparatusConfiguration();
         config.setSeedPhotonRate( 1 );
@@ -150,7 +154,7 @@ public class SingleAtomModule extends BaseLaserModule {
         if( pumpingLampGraphic != null ) {
             pumpingLampGraphic.setVisible( threeEnergyLevels );
             pumpingBeamControlPanel.setVisible( threeEnergyLevels );
-            getLaserModel().getPumpingBeam().setIsEnabled( threeEnergyLevels );
+            getLaserModel().getPumpingBeam().setEnabled( threeEnergyLevels );
         }
     }
 }

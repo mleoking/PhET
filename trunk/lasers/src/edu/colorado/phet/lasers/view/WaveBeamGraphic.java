@@ -20,6 +20,7 @@ import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.HashSet;
 
 public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
                                                             Photon.LeftSystemEventListener,
@@ -33,6 +34,10 @@ public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
     private Line2D wave;
     private Color waveColor;
     private StandingWave standingWave;
+    // Angle that is considered horizontal, for purposes of lasing
+    private double angleWindow = Math.toRadians( 10 );
+    private HashSet lasingPhotons = new HashSet();
+
 
     public WaveBeamGraphic( Component component, CollimatedBeam beam, ResonatingCavity cavity, BaseModel model ) {
         super( component );
@@ -46,29 +51,29 @@ public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
         double cyclesInCavity = 10;
         standingWave = new StandingWave( component, origin, cavity.getWidth(),
                                          cavity.getWidth() / cyclesInCavity, 100,
-                                         numLasingPhotons, Color.red, model );
+                                         getNumLasingPhotons(), Color.red, model );
         update();
     }
 
     public void update() {
         double rate = beam.getPhotonsPerSecond();
         int minLevel = 200;
+
         // The power function here controls the ramp-up of color intensity
         int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( rate / maxRate ), .4 ) ) );
-        //        int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( rate / maxRate ), 0.8 ) ) );
         color = new Color( level, level, 255 );
         bounds.setRect( cavity.getMinX(), 0, cavity.getWidth(), getComponent().getHeight() );
 
         // Draw the wave
-        wave = new Line2D.Double( origin.getX(), origin.getY() - numLasingPhotons * 10, origin.getX() + cavity.getWidth(), origin.getY() );
-        //        double ratio = 255 / Math.max( color.getRed(), Math.max( color.getGreen(), color.getBlue() )) ;
-        //        waveColor = new Color( (int)(color.getRed() * ratio ),
-        //                                               (int)(color.getGreen() * ratio),
-        //                                               (int)(color.getBlue() * ratio ));
+        wave = new Line2D.Double( origin.getX(), origin.getY() - getNumLasingPhotons() * 10, origin.getX() + cavity.getWidth(), origin.getY() );
         waveColor = Color.blue;
 
         setBoundsDirty();
         repaint();
+    }
+
+    private int getNumLasingPhotons() {
+        return lasingPhotons.size();
     }
 
     protected Rectangle determineBounds() {
@@ -89,17 +94,13 @@ public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
     ///////////////////////////////////////////////////////////////////////////////////
     // Interface implementations
     //
-    private double angleWindow = Math.toRadians( 60 );
-    private int numLasingPhotons;
 
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
         System.out.println( "photon left system" );
         Photon photon = event.getPhoton();
-        if( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
-            || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow ) {
-            numLasingPhotons--;
-            standingWave.setAmplitude( numLasingPhotons );
-            System.out.println( "numLasingPhotons = " + numLasingPhotons );
+        if( lasingPhotons.contains( photon ) ) {
+            lasingPhotons.remove( photon );
+            standingWave.setAmplitude( getNumLasingPhotons() );
         }
     }
 
@@ -108,9 +109,8 @@ public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
         photon.addListener( this );
         if( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
             || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow ) {
-            numLasingPhotons++;
-            standingWave.setAmplitude( numLasingPhotons );
-            System.out.println( "numLasingPhotons = " + numLasingPhotons );
+            lasingPhotons.add( photon );
+            standingWave.setAmplitude( getNumLasingPhotons() );
         }
     }
 }

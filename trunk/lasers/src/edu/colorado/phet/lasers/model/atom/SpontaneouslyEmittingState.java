@@ -76,14 +76,19 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
             if( lifeTime >= deathTime ) {
 
                 if( emitOnStateChange ) {
-                    Photon emittedPhoton = emitPhoton();
+                    //                    Photon emittedPhoton = emitPhoton();
 
-                    double speed = emittedPhoton.getVelocity().getMagnitude();
+                    double speed = Photon.s_speed;
+                    //                    double speed = emittedPhoton.getVelocity().getMagnitude();
                     double theta = Math.random() * Math.PI * 2;
                     double x = speed * Math.cos( theta );
                     double y = speed * Math.sin( theta );
-                    emittedPhoton.setVelocity( x, y );
-                    emittedPhoton.setPosition( new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ) );
+                    //                    emittedPhoton.setVelocity( x, y );
+                    //                    emittedPhoton.setPosition( new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ) );
+
+                    Photon emittedPhoton = Photon.create( state.getEmittedPhotonWavelength(),
+                                                          new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ),
+                                                          new Vector2D.Double( x, y ) );
 
                     // Place the replacement photon beyond the atom, so it doesn't collide again
                     // right away
@@ -102,11 +107,11 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
             }
         }
 
-        protected Photon emitPhoton() {
-            Photon emittedPhoton = Photon.create();
-            emittedPhoton.setWavelength( state.getEmittedPhotonWavelength() );
-            return emittedPhoton;
-        }
+        //        protected Photon emitPhoton() {
+        //            Photon emittedPhoton = Photon.create();
+        //            emittedPhoton.setWavelength( state.getEmittedPhotonWavelength() );
+        //            return emittedPhoton;
+        //        }
 
         public void kill() {
             s_model.removeModelElement( this );

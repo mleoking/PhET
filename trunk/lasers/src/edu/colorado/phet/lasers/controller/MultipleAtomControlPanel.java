@@ -1,11 +1,11 @@
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.WaveViewControlPanel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -25,8 +25,8 @@ import java.awt.*;
  */
 public class MultipleAtomControlPanel extends LaserControlPanel {
 
-    public MultipleAtomControlPanel( final BaseLaserModule module, AbstractClock clock ) {
-        super( module, clock );
+    public MultipleAtomControlPanel( final BaseLaserModule module ) {
+        super( module );
         // Add a controls for the mirrors and for chosing the photon view
         final String addMirrorsStr = SimStrings.get( "LaserControlPanel.AddMirrorsCheckBox" );
         final String removeMirrorsStr = SimStrings.get( "LaserControlPanel.RemoveMirrorsCheckBox" );
@@ -43,6 +43,7 @@ public class MultipleAtomControlPanel extends LaserControlPanel {
                 }
             }
         } );
+
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
@@ -50,6 +51,11 @@ public class MultipleAtomControlPanel extends LaserControlPanel {
         optionsPanel.add( mirrorCB, gbc );
         gbc.gridy++;
         optionsPanel.add( new WaveViewControlPanel( module ), gbc );
-        super.addControl( optionsPanel );
+        JPanel container = new JPanel();
+        Border border = BorderFactory.createEtchedBorder();
+        container.setBorder( border );
+        container.add( optionsPanel );
+
+        super.addControl( container );
     }
 }

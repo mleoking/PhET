@@ -19,7 +19,7 @@ import java.awt.event.ContainerEvent;
 import java.net.URL;
 
 public class PhetControlPanel extends JPanel {
-    private Module module;
+    protected Module module;
     private JPanel controlPane;
     private SpringLayout layout;
     private JLabel titleLabel;

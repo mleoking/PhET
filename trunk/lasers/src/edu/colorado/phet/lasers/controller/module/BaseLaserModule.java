@@ -94,7 +94,7 @@ public class BaseLaserModule extends Module {
                                               s_boxWidth + s_laserOffsetX * 2,
                                               new Vector2D.Double( 1, 0 ) );
         stimulatingBeam.addListener( new PhotonEmissionListener() );
-        stimulatingBeam.setActive( true );
+        stimulatingBeam.setEnabled( true );
         getLaserModel().setStimulatingBeam( stimulatingBeam );
 
         pumpingBeam = new CollimatedBeam( Photon.BLUE,
@@ -103,7 +103,7 @@ public class BaseLaserModule extends Module {
                                           s_boxWidth,
                                           new Vector2D.Double( 0, 1 ) );
         pumpingBeam.addListener( new PhotonEmissionListener() );
-        pumpingBeam.setActive( true );
+        pumpingBeam.setEnabled( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
 
         // Add the laser cavity
@@ -138,7 +138,7 @@ public class BaseLaserModule extends Module {
         energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel );
 
         // Add the control panel
-        LaserControlPanel controlPanel = new LaserControlPanel( this, clock );
+        LaserControlPanel controlPanel = new LaserControlPanel( this );
         setControlPanel( controlPanel );
     }
 
@@ -308,11 +308,11 @@ public class BaseLaserModule extends Module {
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         if( threeEnergyLevels ) {
             energyLevelsMonitorPanel.setNumLevels( 3 );
-            laserModel.getPumpingBeam().setActive( true );
+            laserModel.getPumpingBeam().setEnabled( true );
         }
         else {
             energyLevelsMonitorPanel.setNumLevels( 2 );
-            laserModel.getPumpingBeam().setActive( false );
+            laserModel.getPumpingBeam().setEnabled( false );
         }
     }
 

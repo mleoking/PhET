@@ -64,16 +64,20 @@ public class Photon extends Particle implements Collidable {
         }
     }
 
-    static public Photon create() {
+    static public Photon create( Point2D location, Vector2D velocity ) {
         Photon newPhoton = new Photon();
+        newPhoton.setPosition( location );
+        newPhoton.setVelocity( velocity );
         classEventRegistry.fireEvent( new PhotonEmittedEvent( Photon.class, newPhoton ) );
         return newPhoton;
     }
 
-    static public Photon createStimulated( Photon stimulatingPhoton ) {
+    static public Photon createStimulated( Photon stimulatingPhoton, Point2D location ) {
         stimulatingPhoton.numStimulatedPhotons++;
-        Photon newPhoton = create( stimulatingPhoton.getWavelength() );
-        newPhoton.setVelocity( new Vector2D.Double( stimulatingPhoton.getVelocity() ) );
+        Photon newPhoton = create( stimulatingPhoton.getWavelength(), location,
+                                   stimulatingPhoton.getVelocity() );
+        //        Photon newPhoton = create( stimulatingPhoton.getWavelength(), location, velocity );
+        //        newPhoton.setVelocity( new Vector2D.Double( stimulatingPhoton.getVelocity() ) );
         int yOffset = stimulatingPhoton.numStimulatedPhotons * 8;
         newPhoton.setPosition( stimulatingPhoton.getPosition().getX(),
                                stimulatingPhoton.getPosition().getY() - yOffset );
@@ -84,8 +88,8 @@ public class Photon extends Particle implements Collidable {
      * If the photon is created by a CollimatedBeam, it should use this method,
      * so that the photon can tell the CollimatedBeam if it is leaving the system.
      */
-    static public Photon create( double wavelength ) {
-        Photon newPhoton = create();
+    static public Photon create( double wavelength, Point2D location, Vector2D velocity ) {
+        Photon newPhoton = create( location, velocity );
         newPhoton.setWavelength( wavelength );
         return newPhoton;
     }
