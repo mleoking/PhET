@@ -43,6 +43,7 @@ phetcommon:
 - make PhetTextGraphic handle '\n', deprecate PhetMultiLineTextGraphic
 
 DONE:
+v0r13...
 v0r12...
 (2/10) - make electrons jump between front & back layers
 (2/10) - make electrons look different in front and back layers

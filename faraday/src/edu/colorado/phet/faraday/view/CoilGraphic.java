@@ -29,6 +29,29 @@ import edu.colorado.phet.faraday.model.QuadBezierSpline;
 
 /**
  * CoilGraphic is the graphical representation of a coil of wire.
+ * In order to simulate objects passing "through" the coil, the coil graphic
+ * consists of two layers, called the "foreground" and "background".
+ * <p>
+ * The coil is drawn as a set of curves, with a "wire end" joined at the each
+ * end of the coil.  The wire ends is where things can be connected to the coil
+ * (eg, a lightbulb or voltmeter). 
+ * <p>
+ * The coil optionally shows electrons flowing. The number of electrons is 
+ * a function of the coil radius and number of loops.  Electrons are part of 
+ * the simulation model, and they know about the path that they need to follow.
+ * The path is a describe by a set of CurveDescriptors.
+ * <p>
+ * The set of CurveDescriptors contains the information that the electrons
+ * need to determine which layer that are in (foreground or background) 
+ * and how to adjust ("scale") their speed so that they appear to flow at
+ * the same rate in all curve segments.  (For example, the wire ends are
+ * significantly shorter curves that the other segments in the coil.) 
+ * <p>
+ * WARNING!  The updateCoil method in particular is very complicated, and
+ * the curves that it creates have been tuned so that all curve segments 
+ * are smoothly joined to form a 3D-looking coil.  If you change values,
+ * do so with caution, test frequently, and perform a close visual 
+ * inspection of your changes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -48,30 +71,50 @@ public class CoilGraphic implements SimpleObserver {
     
     // Space between electrons, determines the number of electrons add to each curve.
     private static final int ELECTRON_SPACING = 25;
-    
-    // These are use for debugging, to turn off front or back electrons.
-    private static final boolean ELECTRONS_IN_FOREGROUND = true;
-    private static final boolean ELECTRONS_IN_BACKGROUND = true;
+    private static final int ELECTRONS_IN_LEFT_END = 2;
+    private static final int ELECTRONS_IN_RIGHT_END = 2;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
+    // The parent component
     private Component _component;
-    private AbstractCoil _coilModel;
-    private BaseModel _baseModel;
-    private CompositePhetGraphic _foreground;
-    private CompositePhetGraphic _background;
-    private boolean _electronAnimationEnabled;
-    private Stroke _loopStroke;
-    private Color _foregroundColor, _middlegroundColor, _backgroundColor;
-    private ArrayList _curveDescriptors; // array of CurveDescriptor
-    private ArrayList _electrons; // array of Electron
     
-    // Properties that determine the physical appearance of the coil.
+    // The coil that this graphic represents.
+    private AbstractCoil _coilModel;
+    
+    // The application's base model, needed for adding/removing Electrons.
+    private BaseModel _baseModel;
+    
+    // The foreground graphics layer.
+    private CompositePhetGraphic _foreground;
+    
+    // The background graphics layer.
+    private CompositePhetGraphic _background;
+    
+    // Is electron animation enabled?
+    private boolean _electronAnimationEnabled;
+    
+    // The Stoke used to render the loop (determines its width).
+    private Stroke _loopStroke;
+    
+    // The Colors used to render the loop.
+    private Color _foregroundColor, _middlegroundColor, _backgroundColor;
+    
+    // Description of the coil (array of CurveDescriptor).
+    private ArrayList _curveDescriptors;
+    
+    // Electrons in the coil (array of Electron)
+    private ArrayList _electrons;
+    
+    // Used to determine if the number of loops has changed.
     private int _numberOfLoops;
+    
+    // Uses to determine if the loop radius has changed.
     private double _loopRadius;
     
+    // Used to determine if the voltage across the coil has changed.
     private double _voltage;
     
     //----------------------------------------------------------------------------
@@ -262,7 +305,7 @@ public class CoilGraphic implements SimpleObserver {
             
             boolean dirty = false;
             
-            // Update the phyiscal appearance of the coil.
+            // Update the physical appearance of the coil.
             if ( coilChanged() ) {
                 dirty = true;
                 updateCoil();
@@ -315,52 +358,57 @@ public class CoilGraphic implements SimpleObserver {
      * <p>
      * WARNING! A lot of time was spent tweaking points so that the curves appear
      * to form one 3D continuous coil.  Be very careful what you change, and visually 
-     * inspect the result closely.
+     * inspect the results closely.
      */
     private void updateCoil() {
         
-        // Removing any existing graphics components.
-        _foreground.clear();
-        _background.clear();
-        
-        // Clear the parametric path list.
-        _curveDescriptors.clear();
-        
-        // Remove electrons from the model.
-        for ( int i = 0; i < _electrons.size(); i ++ ) {
-            Electron electron = (Electron) _electrons.get(i);
-            electron.removeAllObservers();
-            _baseModel.removeModelElement( electron );
+        // Start with a clean slate
+        {
+            // Removing any existing graphics components.
+            _foreground.clear();
+            _background.clear();
+
+            // Clear the description of the coil.
+            _curveDescriptors.clear();
+
+            // Remove electrons from the model.
+            for ( int i = 0; i < _electrons.size(); i++ ) {
+                Electron electron = (Electron) _electrons.get( i );
+                electron.removeAllObservers();
+                _baseModel.removeModelElement( electron );
+            }
+            _electrons.clear();
         }
-        _electrons.clear();
         
-        final int numberOfLoops = _coilModel.getNumberOfLoops();
         final double radius = _coilModel.getRadius();
         
-        // Loop spacing
+        final int numberOfLoops = _coilModel.getNumberOfLoops();
+
+        // Loop spacing, in pixels.
         final int loopSpacing = (int)(radius * LOOP_SPACING_FACTOR );
         
         // Start at the left-most loop, keeping the coil centered.
         final int xStart = -( loopSpacing * (numberOfLoops - 1) / 2 );
         
         // Create the loops from left to right.
-        // Loop segments are created in the order that they are pieced together.
+        // Curves are created in the order that they are pieced together.
         for ( int i = 0; i < numberOfLoops; i++ ) {
             
             final int xOffset = xStart + ( i * loopSpacing );
             
             if ( i == 0 ) {
-                // Left connection wire
+                // Left wire end
                 {
                     Point endPoint = new Point( -loopSpacing / 2 + xOffset, (int) -radius ); // lower
                     Point startPoint = new Point( endPoint.x - 15, endPoint.y - 40 ); // upper
                     Point controlPoint = new Point( endPoint.x - 20, endPoint.y - 20 );
                     QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
                     
-                    if ( ELECTRONS_IN_BACKGROUND ) {
-                        CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
-                        _curveDescriptors.add( cd );
-                    }
+                    // Scale the speed, since this curve is different than the others in the coil.
+                    double length = startPoint.distance( endPoint );
+                    double speedScale = radius / length;
+                    CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND, speedScale );
+                    _curveDescriptors.add( cd );
                     
                     // Horizontal gradient, left to right.
                     Paint paint = new GradientPaint( startPoint.x, 0, _middlegroundColor, endPoint.x, 0, _backgroundColor );
@@ -372,17 +420,15 @@ public class CoilGraphic implements SimpleObserver {
                     _background.addGraphic( shapeGraphic );
                 }
                 
-                // Back top (left-most)
+                // Back top (left-most) is slightly different so it connects to the left wire end.
                 {
                     Point startPoint = new Point( -loopSpacing / 2 + xOffset, (int) -radius ); // upper
                     Point endPoint = new Point( (int) ( radius * .25 ) + xOffset, 0 ); // lower
                     Point controlPoint = new Point( (int) ( radius * .15 ) + xOffset, (int) ( -radius * .70 ) );
                     QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
-                    
-                    if ( ELECTRONS_IN_BACKGROUND ) {
-                        CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
-                        _curveDescriptors.add( cd );
-                    }
+
+                    CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
+                    _curveDescriptors.add( cd );
                     
                     Paint paint = _backgroundColor;
                     
@@ -394,17 +440,15 @@ public class CoilGraphic implements SimpleObserver {
                 }   
             }
             else {
-                // Back top
+                // Back top (no wire end connected)
                 Point startPoint = new Point( -loopSpacing + xOffset, (int)-radius ); // upper
                 Point endPoint = new Point( (int)(radius * .25) + xOffset, 0 ); // lower
                 Point controlPoint = new Point( (int)(radius * .15) + xOffset, (int)(-radius * 1.20));
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
-                
-                if ( ELECTRONS_IN_BACKGROUND ) {
-                    CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
-                    _curveDescriptors.add( cd );
-                }
-                
+
+                CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
+                _curveDescriptors.add( cd );
+
                 // Diagonal gradient, upper left to lower right.
                 Paint paint = new GradientPaint( (int)(startPoint.x + (radius * .10)), (int)-(radius), _middlegroundColor, xOffset, (int)-(radius * 0.92), _backgroundColor );
                 
@@ -421,12 +465,10 @@ public class CoilGraphic implements SimpleObserver {
                 Point endPoint = new Point( xOffset, (int) radius ); // lower
                 Point controlPoint = new Point( (int)(radius * .35) + xOffset, (int)(radius * 1.20) );
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
-                
-                if ( ELECTRONS_IN_BACKGROUND ) {
-                    CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
-                    _curveDescriptors.add( cd );
-                }
-                
+
+                CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
+                _curveDescriptors.add( cd );
+
                 // Vertical gradient, upper to lower
                 Paint paint = new GradientPaint( 0, (int)(radius * 0.92), _backgroundColor, 0, (int)(radius), _middlegroundColor );
                 
@@ -443,12 +485,10 @@ public class CoilGraphic implements SimpleObserver {
                 Point endPoint = new Point( (int) ( -radius * .25 ) + xOffset, 0 ); // upper
                 Point controlPoint = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( radius * 0.80 ) );
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
-                
-                if ( ELECTRONS_IN_FOREGROUND ) {
-                    CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND );
-                    _curveDescriptors.add( cd );
-                }
-                
+
+                CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND );
+                _curveDescriptors.add( cd );
+
                 // Horizontal gradient, left to right
                 Paint paint = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
                 
@@ -465,11 +505,9 @@ public class CoilGraphic implements SimpleObserver {
                 Point endPoint = new Point( xOffset, (int) -radius ); // upper
                 Point controlPoint = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( -radius * 0.80) );
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
-                
-                if ( ELECTRONS_IN_FOREGROUND ) {
-                    CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND );
-                    _curveDescriptors.add( cd );
-                }
+
+                CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND );
+                _curveDescriptors.add( cd );
                 
                 // Horizontal gradient, left to right
                 Paint paint = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
@@ -481,18 +519,19 @@ public class CoilGraphic implements SimpleObserver {
                 _foreground.addGraphic( shapeGraphic );
             }
             
-            // Right connection wire
+            // Right wire end
             if ( i == numberOfLoops - 1 ) {
                 Point startPoint = new Point( xOffset, (int) -radius ); // lower
                 Point endPoint = new Point( startPoint.x + 15, startPoint.y - 40 ); // upper
                 Point controlPoint = new Point( startPoint.x + 20, startPoint.y - 20 );
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
-                
-                if ( ELECTRONS_IN_FOREGROUND ) {
-                    CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND );
-                    _curveDescriptors.add( cd );
-                }
-                
+
+                // Scale the speed, since this curve is different than the others in the coil.
+                double length = startPoint.distance( endPoint );
+                double speedScale = radius / length;
+                CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND, speedScale );
+                _curveDescriptors.add( cd );
+
                 Paint paint = _middlegroundColor;
                 
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
@@ -503,19 +542,24 @@ public class CoilGraphic implements SimpleObserver {
             }   
         }
         
-        // Add electrons to the coil.
-        final int numberOfElectrons = (int) ( radius / ELECTRON_SPACING );
-        final double speed = calculateElectronSpeed();
-        for ( int j = 0; j < _curveDescriptors.size(); j++ ) {
+        /* 
+         * Add electrons to the coil.
+         * The wire ends have a different number of electrons.
+         */
+        {
+            int numberOfElectrons = 0;
+            final double speed = calculateElectronSpeed();
+            
+            // Left wire end
+            numberOfElectrons = ELECTRONS_IN_LEFT_END;
             for ( int i = 0; i < numberOfElectrons; i++ ) {
                 
-                double positionAlongCurve = i / (double)numberOfElectrons;
-                int curveIndex = j;
-                
+                double positionAlongCurve = i / (double) numberOfElectrons;
+
                 // Model
                 Electron electron = new Electron();
                 electron.setCurveDescriptors( _curveDescriptors );
-                electron.setPositionAlongCurve( positionAlongCurve, curveIndex );
+                electron.setPositionAlongCurve( positionAlongCurve, 0 );
                 electron.setSpeed( speed );
                 electron.setEnabled( _electronAnimationEnabled );
                 _electrons.add( electron );
@@ -525,7 +569,53 @@ public class CoilGraphic implements SimpleObserver {
                 CurveDescriptor cd = electron.getCurveDescriptor();
                 CompositePhetGraphic parent = cd.getParent();
                 ElectronGraphic electronGraphic = new ElectronGraphic( _component, parent, electron );
-                _foreground.addGraphic( electronGraphic );
+                cd.getParent().addGraphic( electronGraphic );  
+            }
+            
+            // Right wire end
+            numberOfElectrons = ELECTRONS_IN_RIGHT_END;
+            for ( int i = 0; i < numberOfElectrons; i++ ) {
+                
+                double positionAlongCurve = i / (double) numberOfElectrons;
+
+                // Model
+                Electron electron = new Electron();
+                electron.setCurveDescriptors( _curveDescriptors );
+                electron.setPositionAlongCurve( positionAlongCurve, _curveDescriptors.size() - 1 );
+                electron.setSpeed( speed );
+                electron.setEnabled( _electronAnimationEnabled );
+                _electrons.add( electron );
+                _baseModel.addModelElement( electron );
+
+                // View
+                CurveDescriptor cd = electron.getCurveDescriptor();
+                CompositePhetGraphic parent = cd.getParent();
+                ElectronGraphic electronGraphic = new ElectronGraphic( _component, parent, electron );
+                cd.getParent().addGraphic( electronGraphic );  
+            }
+            
+            // Curves that make up the coil (without the wire ends).
+            numberOfElectrons = (int) ( radius / ELECTRON_SPACING );
+            for ( int curveIndex = 1; curveIndex < _curveDescriptors.size() - 1; curveIndex++ ) {
+                for ( int i = 0; i < numberOfElectrons; i++ ) {
+
+                    double positionAlongCurve = i / (double) numberOfElectrons;
+
+                    // Model
+                    Electron electron = new Electron();
+                    electron.setCurveDescriptors( _curveDescriptors );
+                    electron.setPositionAlongCurve( positionAlongCurve, curveIndex );
+                    electron.setSpeed( speed );
+                    electron.setEnabled( _electronAnimationEnabled );
+                    _electrons.add( electron );
+                    _baseModel.addModelElement( electron );
+
+                    // View
+                    CurveDescriptor cd = electron.getCurveDescriptor();
+                    CompositePhetGraphic parent = cd.getParent();
+                    ElectronGraphic electronGraphic = new ElectronGraphic( _component, parent, electron );
+                    cd.getParent().addGraphic( electronGraphic );
+                }
             }
         }
     }
@@ -536,7 +626,6 @@ public class CoilGraphic implements SimpleObserver {
     private void updateElectrons() {
         // Speed and direction is a function of the voltage.
         final double speed = calculateElectronSpeed();
-        System.out.println( "CoilGraphic.updateElectrons - set speed=" + speed );
         
         // Update all electrons.
         final int numberOfElectrons = _electrons.size();
