@@ -33,6 +33,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     private AbstractMagnet _magnetModel;
     private double _flux; // in webers
     private double _emf; // in volts
+    private AffineTransform _transform; // a reusable transform
+    private Point2D _point; // a reusable point
     
     // Debugging stuff...
     private double _maxEmf;
@@ -52,7 +54,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         _magnetModel = magnetModel;
         _flux = 0.0;
         _emf = 0.0;
-        updateEmf();
+        _transform = new AffineTransform();
+        _point = new Point2D.Double();
     }
     
     //----------------------------------------------------------------------------
@@ -78,12 +81,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     
     /**
      * Updates the emf, using Faraday's Law.
-     * <p>
-     * This is provided as a separate method for situations 
-     * where the emf needs to be recomputed immediately (independent of the 
-     * simulation clock).  For example, when flipping the magnet polarity,
-     * the emf needs to be recomputed immediately so that we can temporarily
-     * disable smoothing of emf values.
      */
     private void updateEmf() {
         
@@ -91,10 +88,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         double centerFlux = 0;
         {
             // Determine the point that corresponds to the center.
-            Point2D location = getLocation();
+            getLocation( _point /* destination */ );
             
             // Find the B field vector at that point.
-            AbstractVector2D strength = _magnetModel.getStrength( location );
+            AbstractVector2D strength = _magnetModel.getStrength( _point );
             
             // Calculate the flux.
             double B = strength.getMagnitude();
@@ -109,12 +106,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             // Determine the point that corresponds to the top edge, adjusted for coil rotation.
             double x = getX();
             double y = getY() - getRadius();
-            AffineTransform transform = new AffineTransform();
-            transform.rotate( getDirection(), getX(), getY() );
-            Point2D location = transform.transform( new Point2D.Double( x, y ), null );
+            _transform.setToIdentity();
+            _transform.rotate( getDirection(), getX(), getY() );
+            _transform.transform( new Point2D.Double( x, y ), _point /* destination */ );
             
             // Find the B field vector at that point.
-            AbstractVector2D strength = _magnetModel.getStrength( location );
+            AbstractVector2D strength = _magnetModel.getStrength( _point );
             
             // Calculate the flux.
             double B = strength.getMagnitude();
@@ -129,12 +126,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             // Determine the point that corresponds to the bottom edge, adjusted for coil rotation.
             double x = getX();
             double y = getY() + getRadius();
-            AffineTransform transform = new AffineTransform();
-            transform.rotate( getDirection(), getX(), getY() );
-            Point2D location = transform.transform( new Point2D.Double( x, y ), null );
+            _transform.setToIdentity();
+            _transform.rotate( getDirection(), getX(), getY() );
+            _transform.transform( new Point2D.Double( x, y ), _point /* destination */ );
             
             // Find the B field vector at that point.
-            AbstractVector2D strength = _magnetModel.getStrength( location );
+            AbstractVector2D strength = _magnetModel.getStrength( _point );
             
             // Calculate the flux.
             double B = strength.getMagnitude();

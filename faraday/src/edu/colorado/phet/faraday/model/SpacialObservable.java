@@ -91,7 +91,23 @@ public class SpacialObservable extends SimpleObservable {
      * @return the location
      */
     public Point2D getLocation() {
-        return new Point2D.Double( _location.getX(), _location.getY() );
+        return getLocation( null );
+    }
+    
+    /**
+     * Gets the location in 2D space.
+     * 
+     * @param ptDst the point into which the location should be written
+     * @return the location
+     */
+    public Point2D getLocation( Point2D ptDst ) {
+        if ( ptDst == null ) {
+            ptDst = new Point2D.Double( _location.getX(), _location.getY() );
+        }
+        else {
+            ptDst.setLocation( _location.getX(), _location.getY() );
+        }
+        return ptDst;
     }
     
     /**

@@ -38,6 +38,12 @@ public class HollywoodMagnet extends AbstractMagnet {
     private static final double DISTANCE_PER_GAUSS = 1.0;
         
     //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private Point2D _point; // reusable point
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -46,6 +52,7 @@ public class HollywoodMagnet extends AbstractMagnet {
      */
     public HollywoodMagnet() {
         super();
+        _point = new Point2D.Double();
     }
 
     //----------------------------------------------------------------------------
@@ -64,7 +71,8 @@ public class HollywoodMagnet extends AbstractMagnet {
         double fieldMagnitude = 0.0;
         {
             double strength = super.getStrength();
-            double distance = p.distance( super.getLocation() );
+            getLocation( _point /* destination */ );
+            double distance = p.distance( _point );
 
             double range = strength * DISTANCE_PER_GAUSS;
             if ( distance > range ) {
