@@ -62,6 +62,10 @@ public class DoubleGeneralPath {
         path.quadTo( (float)x1, (float)y1, (float)x2, (float)y2 );
     }
 
+    public void curveTo( double x1, double y1, double x2, double y2, double x3, double y3 ) {
+        path.curveTo( (float)x1, (float)y1, (float)x2, (float)y2, (float)x3, (float)y3 );
+    }
+
     public void lineTo( double x, double y ) {
         path.lineTo( (float)x, (float)y );
     }
