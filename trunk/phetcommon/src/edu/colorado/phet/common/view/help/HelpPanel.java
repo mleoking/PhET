@@ -41,6 +41,11 @@ public class HelpPanel extends JPanel {
                 module.setHelpEnabled( miniHelpShowing );
             }
         } );
+        megaHelpBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.showMegaHelp();
+            }
+        } );
         setLayout( this.layout );
         setOneButtonMode();
         Dimension dim = megaHelpBtn.getPreferredSize();

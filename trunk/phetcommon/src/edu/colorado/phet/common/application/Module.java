@@ -138,4 +138,7 @@ public class Module {
     public String toString() {
         return "name=" + name + ", model=" + model + ", apparatusPanel=" + apparatusPanel + ", controlPanel=" + controlPanel + ", monitorPanel=" + monitorPanel;
     }
+
+    public void showMegaHelp() {
+    }
 }
