@@ -79,7 +79,7 @@ public class ShapeGraphic implements Graphic, Boundary {
     }
 
     public boolean contains(int x, int y) {
-        return shape.contains(x,y);
+        return shape.contains(x, y);
     }
 
 

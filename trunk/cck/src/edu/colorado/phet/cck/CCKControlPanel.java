@@ -28,10 +28,27 @@ public class CCKControlPanel extends JPanel {
                 module.setHelpVisible(true);
             }
         });
+
+        JButton clear = new JButton("Clear");
+        clear.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                module.clearCircuit();
+            }
+        });
+        clear.setFont(font);
+
         ViewPanel vp = new ViewPanel(module);
         setLayout(new BorderLayout());
+        JPanel so = new JPanel();
+        Color backgroundColor = new Color(220, 250, 230);
+        so.setBackground(backgroundColor);
+        so.setLayout(new BoxLayout(so, BoxLayout.Y_AXIS));
+        so.add(clear);
+        so.add(jb);
+
         add(vp, BorderLayout.NORTH);
-        add(jb, BorderLayout.SOUTH);
-        setBackground(new Color(220, 250, 230));
+        add(so, BorderLayout.SOUTH);
+
+        setBackground(backgroundColor);
     }
 }

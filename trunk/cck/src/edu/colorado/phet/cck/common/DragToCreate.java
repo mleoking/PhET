@@ -1,6 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.cck.common;
 
+import edu.colorado.phet.cck.elements.branch.AbstractBranchGraphic;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.TextDisplay2WithBackground;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
@@ -17,23 +18,46 @@ import java.awt.event.MouseEvent;
 public class DragToCreate implements InteractiveGraphic {
     InteractiveGraphic icon;
     private InteractiveGraphicSource source;
-    private Proxy ps;
+    private Proxy proxy;
     InteractiveGraphic created;
     private TextDisplay2WithBackground textDisplay;
 
     public DragToCreate(InteractiveGraphic target, InteractiveGraphicSource source, String tipText, Point tipLocation, Proxy ps) {
         this.icon = target;
         this.source = source;
-        this.ps = ps;
+        this.proxy = ps;
         textDisplay = new TextDisplay2WithBackground(tipText, tipLocation.x, tipLocation.y);
     }
 
-    public interface Proxy {
+    public static interface Proxy {
         void mousePressed(InteractiveGraphic created, MouseEvent event);
 
         void mouseDragged(InteractiveGraphic created, MouseEvent event);
 
         void mouseReleased(InteractiveGraphic created, MouseEvent event);
+    }
+
+    public static class BranchProxy implements Proxy {
+
+        public void mousePressed(InteractiveGraphic created, MouseEvent event) {
+            AbstractBranchGraphic abg = (AbstractBranchGraphic) created;
+            InteractiveGraphic main = abg.getMainBranchGraphic();
+            main.mousePressed(event);
+        }
+
+        public void mouseDragged(InteractiveGraphic created, MouseEvent event) {
+            AbstractBranchGraphic abg = (AbstractBranchGraphic) created;
+            InteractiveGraphic main = abg.getMainBranchGraphic();
+            main.mouseDragged(event);
+        }
+
+        public void mouseReleased(InteractiveGraphic created, MouseEvent event) {
+            AbstractBranchGraphic abg = (AbstractBranchGraphic) created;
+            InteractiveGraphic main = abg.getMainBranchGraphic();
+            main.mouseReleased(event);
+        }
+
+
     }
 
     public boolean canHandleMousePress(MouseEvent event) {
@@ -49,15 +73,17 @@ public class DragToCreate implements InteractiveGraphic {
     private void create(MouseEvent event) {
         Branch.ID_COUNTER++;
         created = source.newInteractiveGraphic();
-        ps.mousePressed(created, event);
+        proxy.mousePressed(created, event);
+//        System.out.println("Created.");
 //        created.mousePressed(event);
     }
 
     public void mouseDragged(MouseEvent event) {
+//        System.out.println("Dragging: "+System.currentTimeMillis());
         if (created == null) {
             create(event);
         } else {
-            ps.mouseDragged(created, event);
+            proxy.mouseDragged(created, event);
 //            created.mouseDragged(event);
         }
     }
@@ -66,8 +92,9 @@ public class DragToCreate implements InteractiveGraphic {
     }
 
     public void mouseReleased(MouseEvent event) {
+//        System.out.println("Released dragtocreate.");
         if (created != null) {
-            ps.mouseReleased(created, event);
+            proxy.mouseReleased(created, event);
 //            created.mouseReleased(event);
             created = null;
         }

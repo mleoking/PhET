@@ -140,9 +140,9 @@ public class RoughDraftApplicator implements KirkhoffSolutionApplicator {
         Circuit c = circuit.getCircuit();//Clear the circuit.
         clearCircuit(c);
         edu.colorado.phet.cck.elements.kirkhoff.Matrix m = toMatrix(ke);
-        logger.fine("------------>Started Kirkhoff Solve<--------");
+//        logger.fine("------------>Started Kirkhoff Solve<--------");
         if (m == null) {
-            logger.fine("No matrix system for circuit.");
+//            logger.fine("No matrix system for circuit.");
             return;
         }
 

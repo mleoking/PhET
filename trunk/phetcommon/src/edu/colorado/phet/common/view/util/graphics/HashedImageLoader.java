@@ -1,7 +1,5 @@
 package edu.colorado.phet.common.view.util.graphics;
 
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Hashtable;

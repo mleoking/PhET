@@ -63,6 +63,7 @@ public class ModelViewTransform2D {
         int out = (int) (m * (y - modelBounds.y - modelBounds.height) + viewBounds.y);
         return out;
     }
+
     /**
      * Creates a new AffineTransform that corresponds to this transformation.
      *
