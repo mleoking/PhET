@@ -174,24 +174,24 @@ public class BarMagnetModule extends Module {
     //----------------------------------------------------------------------------
     
     public void flipBarMagnetPolarity() {
-        System.out.println( "flipBarMagnetPolarity" ); // DEBUG
+        //System.out.println( "flipBarMagnetPolarity" ); // DEBUG
         double direction = _barMagnetModel.getDirection();
         direction = ( direction + 180 ) % 360;
         _barMagnetModel.setDirection( direction );
     }
     
     public void setBarMagnetStrength( double value ) {
-        System.out.println( "setBarMagnetStrength " + value ); // DEBUG
+        //System.out.println( "setBarMagnetStrength " + value ); // DEBUG
         _barMagnetModel.setStrength( value );
     }
     
     public void setFieldLinesEnabled( boolean enable ) {
-        System.out.println( "setFieldLinesEnabled " + enable );
+        //System.out.println( "setFieldLinesEnabled " + enable );
         // XXX
     }
     
     public void setNumberOfPickupLoops( int numberOfLoops ) {
-        System.out.println( "setNumberOfPickupLoops " + numberOfLoops );
+        //System.out.println( "setNumberOfPickupLoops " + numberOfLoops );
         _pickupCoilModel.setNumberOfLoops( numberOfLoops ); 
     }
     
