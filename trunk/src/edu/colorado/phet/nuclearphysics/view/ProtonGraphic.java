@@ -14,6 +14,10 @@ public class ProtonGraphic extends ParticleGraphic {
 
     private static Color color = Color.red;
 
+    public ProtonGraphic() {
+        super( color );
+    }
+
     public ProtonGraphic( Particle particle ) {
         super( particle, ProtonGraphic.color );
     }
