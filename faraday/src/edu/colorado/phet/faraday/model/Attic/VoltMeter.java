@@ -22,8 +22,22 @@ import edu.colorado.phet.common.util.SimpleObserver;
  */
 public class VoltMeter extends AbstractResistor implements SimpleObserver {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Current _currentModel;
     
+    //----------------------------------------------------------------------------
+    // Constructors & finalizers
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sole constructor.
+     * 
+     * @param currentModel the model of the current running through the meter
+     * @param resistance the resistance of the meter
+     */
     public VoltMeter( Current currentModel, double ohms ) {
         super( ohms );
         _currentModel = currentModel;
@@ -39,6 +53,10 @@ public class VoltMeter extends AbstractResistor implements SimpleObserver {
         _currentModel = null;
     }
 
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
     /*
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */

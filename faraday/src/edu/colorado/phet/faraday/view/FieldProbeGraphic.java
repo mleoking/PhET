@@ -29,17 +29,33 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
 
 
 /**
- * FieldProbeGraphic
+ * FieldProbeGraphic is a magnetic field probe.
+ * It displays the magnitude (total and X/Y components) and direction of
+ * the magnetic field at a point in 2D space.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObserver {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private AbstractMagnet _magnetModel;
     private PhetTextGraphic _bText, _bxText, _byText, _angleText;
-    NumberFormat _formatter;
+    private NumberFormat _formatter;
     
+    //----------------------------------------------------------------------------
+    // Constructors & finalizers
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sole constructor.
+     * 
+     * @param component the parent Component
+     * @param magnetModel the magnet whose field is being probed
+     */
     public FieldProbeGraphic( Component component, AbstractMagnet magnetModel ) {
         super( component );
         
@@ -93,10 +109,18 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
         update();
     }
     
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void finalize() {
         _magnetModel.removeObserver( this );
         _magnetModel = null;
     }
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
     
     /*
      * @see edu.colorado.phet.common.util.SimpleObserver#update()

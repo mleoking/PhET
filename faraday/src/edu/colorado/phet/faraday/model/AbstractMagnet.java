@@ -53,10 +53,11 @@ public abstract class AbstractMagnet extends SpacialObservable {
      * Sets the magnitude of the magnet's strength, in Gauss.
      * 
      * @param strength the strength
+     * @throws IllegalArgumentException if strength is < 0
      */
     public void setStrength( double strength ) {
         if ( strength <= 0 ) {
-            throw new IllegalArgumentException( "strength must be > 0 : " + strength );
+            throw new IllegalArgumentException( "strength must be >= 0 : " + strength );
         }
         _strength = strength;
         notifyObservers();
@@ -83,10 +84,10 @@ public abstract class AbstractMagnet extends SpacialObservable {
      * Sets the physical size of the magnet.
      * 
      * @param size the size
+     * @throws IllegalArgumentException if both dimensions are not > 0
      */
     public void setSize( Dimension size ) {
-        _size = new Dimension( size );
-        notifyObservers();
+        setSize( size.getWidth(), size.getHeight() );
     }
     
     /**
@@ -94,9 +95,12 @@ public abstract class AbstractMagnet extends SpacialObservable {
      * 
      * @param width the width
      * @param height the height
+     * @throws IllegalArgumentException if width or height is not > 0
      */
     public void setSize( double width, double height ) {
-        _size = new Dimension();
+        if ( width <= 0 || height <= 0 ) {
+            throw new IllegalArgumentException( "dimensions must be > 0" );
+        }
         _size.setSize( width, height );
         notifyObservers();
     }
@@ -116,7 +120,7 @@ public abstract class AbstractMagnet extends SpacialObservable {
      * @return the width
      */
     public double getWidth() {
-        return _size.width;
+        return _size.getWidth();
     }
     
     /**
@@ -125,6 +129,6 @@ public abstract class AbstractMagnet extends SpacialObservable {
      * @return the height
      */
     public double getHeight() {
-        return _size.height;
+        return _size.getHeight();
     }
 }

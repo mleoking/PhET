@@ -20,4 +20,7 @@ package edu.colorado.phet.faraday.model;
  */
 public class SourceCoil extends AbstractCoil {
 
+    public SourceCoil() {
+        super();
+    }
 }

@@ -29,9 +29,15 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
  */
 public class BarMagnet extends AbstractMagnet {
 
-    // Arbitrary positive "fudge factor".
-    // This should be adjusted so that transitions between inside and outside
-    // the magnet don't result in abrupt changes in the magnetic field.
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+ 
+    /*
+     * Arbitrary positive "fudge factor".
+     * This should be adjusted so that transitions between inside and outside
+     * the magnet don't result in abrupt changes in the magnetic field.
+     */
     private static final double FUDGE_FACTOR = 700.0;
     
     //----------------------------------------------------------------------------

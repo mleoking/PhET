@@ -17,7 +17,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 
 
 /**
- * ElectroMagnet
+ * ElectroMagnet is the model of an electro-magnet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

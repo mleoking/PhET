@@ -22,6 +22,10 @@ package edu.colorado.phet.faraday.model;
  */
 public class HollywoodCompass extends AbstractCompass {
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+
     /**
      * Sole constructor.
      * 
@@ -31,6 +35,10 @@ public class HollywoodCompass extends AbstractCompass {
         super( magnetModel );
     }
     
+    //----------------------------------------------------------------------------
+    // ModelElement implementation
+    //----------------------------------------------------------------------------
+
     /**
      * Abruptly changes the compass needle direction any time that there is
      * a change in the magnetic field direction.

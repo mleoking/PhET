@@ -143,12 +143,11 @@ public class BarMagnetModule extends Module {
         model.addModelElement( compassModel );
         
         // Pickup AbstractCoil
-        _pickupCoilModel = new PickupCoil();
+        _pickupCoilModel = new PickupCoil( _magnetModel );
         _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
         _pickupCoilModel.setRadius( LOOP_RADIUS );
         _pickupCoilModel.setDirection( 0 );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
-        _pickupCoilModel.setMagnet( _magnetModel );
         model.addModelElement( _pickupCoilModel );
        
         //----------------------------------------------------------------------------

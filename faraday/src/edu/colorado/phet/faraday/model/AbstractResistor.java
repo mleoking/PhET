@@ -15,15 +15,23 @@ import edu.colorado.phet.common.util.SimpleObservable;
 
 
 /**
- * AbstractResistor
+ * AbstractResistor is the abstract base class for all resistors.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public abstract class AbstractResistor extends SimpleObservable {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+
     private double _resistance;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+
     /**
      * Sole constructor.
      * 
@@ -33,10 +41,15 @@ public abstract class AbstractResistor extends SimpleObservable {
         setResistance( ohms );
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+
     /**
      * Sets the resistance, in ohms.
      * 
      * @param resistance the resistance, in ohms
+     * @throws IllegalArgumentException if resistance < 0
      */
     public void setResistance( double resistance ) {
         if ( resistance < 0 ) {
