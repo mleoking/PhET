@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.sound.model.AttenuationFunction;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
+import edu.colorado.phet.sound.view.SoundApparatusPanel;
 import edu.colorado.phet.sound.view.SoundControlPanel;
 
 import javax.swing.*;
@@ -44,6 +45,9 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
 
         SoundControlPanel controlPanel = (SoundControlPanel)getControlPanel();
         controlPanel.addPanel( new BoxAirDensityControlPanel( attenuationFunction ) );
+
+        // Make the listener the audio source
+        getAudioControlPanel().setAudioSource( SoundApparatusPanel.LISTENER_SOURCE );
     }
 
     /**
@@ -79,6 +83,10 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         else {
             return super.rgbAt( x, y );
         }
+    }
+
+    public void setAudioSource( int source ) {
+        super.setAudioSource( source );
     }
 
     static class AirBoxGraphic extends PhetShapeGraphic {

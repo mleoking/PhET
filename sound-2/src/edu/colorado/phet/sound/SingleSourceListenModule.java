@@ -27,6 +27,7 @@ public class SingleSourceListenModule extends SingleSourceModule {
     private Listener speakerListener;
     private Listener headListener;
     private int headOffsetY = -30;
+    private AudioControlPanel audioControlPanel;
 
     public SingleSourceListenModule( ApplicationModel appModel ) {
         this( appModel, "<html>Listen to<br>Single Source</html>" );
@@ -72,8 +73,12 @@ public class SingleSourceListenModule extends SingleSourceModule {
 
         // Set up the control panel
         SoundControlPanel controlPanel = (SoundControlPanel)getControlPanel();
-        controlPanel.addPanel( new AudioControlPanel( this ) );
+        audioControlPanel = new AudioControlPanel( this );
+        controlPanel.addPanel( audioControlPanel );
+    }
 
+    protected AudioControlPanel getAudioControlPanel() {
+        return audioControlPanel;
     }
 
     public void setAudioSource( int source ) {

@@ -10,7 +10,6 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.Listener;
-import edu.colorado.phet.sound.model.Wavefront;
 import javasound.SrrOscillatorPlayer;
 
 import java.awt.geom.Point2D;
@@ -100,9 +99,10 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
         if( frequency != getFrequency() ) {
             setFrequency( (float)frequency );
         }
-        if( isEnabled && amplitude != getAmplitude() && !interferenceOverideEnabled ) {
-            setAmplitude( (float)amplitude );
-        }
+        setAmplitude( amplitude );
+        //        if( isEnabled && amplitude != getAmplitude() && !interferenceOverideEnabled ) {
+        //            setAmplitude( (float)amplitude );
+        //        }
     }
 
     public void setListener( Listener listener ) {
