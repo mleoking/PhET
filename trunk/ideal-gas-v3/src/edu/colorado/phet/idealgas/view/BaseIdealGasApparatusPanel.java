@@ -42,6 +42,8 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     public BaseIdealGasApparatusPanel( Module module, Box2D box ) {
         super( module.getModel() );
         init( module, box );
+
+        setUseOffscreenBuffer( true );
     }
 
     /**

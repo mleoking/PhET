@@ -10,6 +10,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.util.FrameRateReporter;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.HeliumBalloonModule;
 import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
@@ -30,8 +31,8 @@ public class IdealGasApplication extends PhetApplication {
                     IdealGasConfig.FRAME_SETUP);
 
             // Create the clock
-            setClock(new SwingTimerClock(IdealGasConfig.s_timeStep,
-                    IdealGasConfig.s_waitTime, true));
+            SwingTimerClock clock = new SwingTimerClock(IdealGasConfig.s_timeStep, IdealGasConfig.s_waitTime, true);
+            setClock(clock);
 
             // Create the modules
             Module idealGasModule = new IdealGasModule(getClock());
@@ -47,6 +48,8 @@ public class IdealGasApplication extends PhetApplication {
             setModules(modules);
             //                        setInitialModule( rigidSphereModule );
             setInitialModule(idealGasModule);
+
+            new FrameRateReporter( clock );
         }
     }
 
