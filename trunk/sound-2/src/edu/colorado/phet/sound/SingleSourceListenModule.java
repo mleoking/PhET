@@ -26,7 +26,7 @@ public class SingleSourceListenModule extends SingleSourceModule {
 
     private Listener speakerListener;
     private Listener headListener;
-    private int headOffsetY = -30;
+    private int headOffsetY = 20;
     private AudioControlPanel audioControlPanel;
 
     public SingleSourceListenModule( ApplicationModel appModel ) {

@@ -24,8 +24,8 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     //
     // Static fields and methods
     //
-    protected static int s_earOffsetX = 25;
-    protected static int s_earOffsetY = 105;
+    protected static int s_earOffsetX = 10;
+    protected static int s_earOffsetY = 53;
     private float s_dopplerShiftScaleFactor = 10f;
 
     private double lastEventX;
