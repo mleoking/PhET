@@ -15,7 +15,7 @@ import edu.colorado.phet.idealgas.controller.HeliumBalloonModule;
 import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.RigidHollowSphereModule;
-import edu.colorado.phet.idealgas.view.IdealGasLAF;
+import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
 import java.util.Locale;
@@ -58,7 +58,7 @@ public class IdealGasApplication extends PhetApplication {
     public static void main( String[] args ) {
 
         try {
-            UIManager.setLookAndFeel( new IdealGasLAF() );
+            UIManager.setLookAndFeel( new IdealGasLandF() );
         }
         catch( UnsupportedLookAndFeelException e ) {
             e.printStackTrace();

@@ -7,12 +7,11 @@
  */
 package edu.colorado.phet.common.view;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.application.PhetApplication;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -57,13 +56,13 @@ public class TestApparatusPanel extends ApparatusPanel {
         // Call superclass constructor with null so that we
         // don't get the default layout manager. This allows us
         // to lay out components with absolute coordinates
-//        super();
+        //        super();
         MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
-//        this.addMouseListener( mouseDelegator );
-//        this.addMouseMotionListener( mouseDelegator );
+        //        this.addMouseListener( mouseDelegator );
+        //        this.addMouseMotionListener( mouseDelegator );
         //        BevelBorder border = (BevelBorder)BorderFactory.createLoweredBevelBorder();
 
         //        Border border = BorderFactory.createLineBorder( Color.black );
@@ -82,7 +81,7 @@ public class TestApparatusPanel extends ApparatusPanel {
     }
 
     public void paintComponents( Graphics g ) {
-//        super.paintComponents( g );
+        //        super.paintComponents( g );
         return;
     }
 
@@ -158,7 +157,10 @@ public class TestApparatusPanel extends ApparatusPanel {
             this.handler = mouseDelegator;
         }
 
+        int cnt = 0;
+
         public void stepInTime( double dt ) {
+            cnt = 0;
             processMouseEventList();
             processMouseMotionEventList();
         }
@@ -194,27 +196,28 @@ public class TestApparatusPanel extends ApparatusPanel {
                 handleMouseEvent( event );
             }
         }
+
         private void handleMouseEvent( MouseEvent event ) {
             switch( event.getID() ) {
-                case MouseEvent.MOUSE_CLICKED :
+                case MouseEvent.MOUSE_CLICKED:
                     handler.mouseClicked( event );
                     break;
-                case MouseEvent.MOUSE_DRAGGED :
+                case MouseEvent.MOUSE_DRAGGED:
                     handler.mouseDragged( event );
                     break;
-                case MouseEvent.MOUSE_ENTERED :
+                case MouseEvent.MOUSE_ENTERED:
                     handler.mouseEntered( event );
                     break;
-                case MouseEvent.MOUSE_EXITED :
+                case MouseEvent.MOUSE_EXITED:
                     handler.mouseExited( event );
                     break;
-                case MouseEvent.MOUSE_MOVED :
+                case MouseEvent.MOUSE_MOVED:
                     handler.mouseMoved( event );
                     break;
-                case MouseEvent.MOUSE_PRESSED :
+                case MouseEvent.MOUSE_PRESSED:
                     handler.mousePressed( event );
                     break;
-                case MouseEvent.MOUSE_RELEASED :
+                case MouseEvent.MOUSE_RELEASED:
                     handler.mouseReleased( event );
                     break;
             }

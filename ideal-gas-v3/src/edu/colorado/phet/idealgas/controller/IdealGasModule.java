@@ -243,7 +243,7 @@ public class IdealGasModule extends Module {
         StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
         stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET + 80,
                                      IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 30, 300, 120 );
-//        getApparatusPanel().add( stoveControlPanel );
+        getApparatusPanel().add( stoveControlPanel );
 
         // Add help items
         addHelp();
@@ -260,8 +260,8 @@ public class IdealGasModule extends Module {
         addHelpItem( helpItem1 );
         HelpItem helpItem2 = new HelpItem( "Door can be slid\nleft and right",
                                            box.getPosition().getX() + 100, box.getPosition().getY() - 50 );
-//                                           box.getPosition().getX() + 400, box.getPosition().getY() - 50,
-//                                           HelpItem.ABOVE, HelpItem.LEFT );
+        //                                           box.getPosition().getX() + 400, box.getPosition().getY() - 50,
+        //                                           HelpItem.ABOVE, HelpItem.LEFT );
         helpItem2.setForegroundColor( IdealGasConfig.helpColor );
         addHelpItem( helpItem2 );
         HelpItem helpItem3 = new HelpItem( "Heat can be removed or added\nby adjusting stove",
