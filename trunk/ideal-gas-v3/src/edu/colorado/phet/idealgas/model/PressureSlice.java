@@ -21,6 +21,9 @@ import java.util.List;
  * This is an instrument that measures pressure and temperature across the box at a specific height.
  */
 public class PressureSlice extends SimpleObservable implements ModelElement {
+
+    private static double s_defaultTimeAveWindow = 500;
+
     private double y;
     private ScalarDataRecorder pressureRecorder;
     private ScalarDataRecorder temperatureRecorder;
@@ -28,13 +31,29 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
     private IdealGasModel model;
     //Converts raw data to ATM
     private double scaleFactor = .025;
+    // converts the clock's simulated time to real time
+    private double timeScale;
+    private double timeOfLastUpdate;
+    // Time between updates, over which data is averaged
+    private double timeAveWindow = s_defaultTimeAveWindow;
+    // Flag to say whether observers should be updated on every time step or only each time the
+    // time averaging window has passed
+    boolean updateContinuously = true;
 
+    /**
+     *
+     * @param box
+     * @param model
+     * @param clock
+     */
     public PressureSlice( Box2D box, IdealGasModel model, AbstractClock clock ) {
         this.box = box;
         this.model = model;
+        timeScale = clock.getDt() / clock.getDelay();
         pressureRecorder = new ScalarDataRecorder( clock );
-        pressureRecorder.setTimeWindow( 5 );
+        pressureRecorder.setTimeWindow( timeAveWindow * timeScale );
         temperatureRecorder = new ScalarDataRecorder( clock );
+        temperatureRecorder.setTimeWindow( timeAveWindow * timeScale );
     }
 
     public void setY( double y ) {
@@ -50,29 +69,39 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
     public void stepInTime( double dt ) {
         List bodies = model.getBodies();
         double momentum = 0;
+        double ke = 0;
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             if( body instanceof GasMolecule ) {
                 GasMolecule gm = (GasMolecule)body;
+                // If the molecule has passed through the slice in the last time step, record
+                // it's properties
                 if( gm.getPositionPrev() != null &&
                     ( gm.getPositionPrev().getY() - y ) * ( gm.getPosition().getY() - y ) < 0 ) {
                     momentum += Math.abs( body.getVelocity().getY() * body.getMass() );
-                    momentum = Math.abs( body.getVelocity().getY() * body.getMass() );
-                    pressureRecorder.addDataRecordEntry( momentum );
+//                    momentum = Math.abs( body.getVelocity().getY() * body.getMass() );
+//                    pressureRecorder.addDataRecordEntry( momentum );
                     temperatureRecorder.addDataRecordEntry( body.getKineticEnergy() );
+//                    ke += body.getKineticEnergy();
                 }
             }
         }
-        pressureRecorder.computeDataStatistics();
-        temperatureRecorder.computeDataStatistics();
-        notifyObservers();
+        pressureRecorder.addDataRecordEntry( momentum );
+//        temperatureRecorder.addDataRecordEntry( ke / numMolecules );
+
+        // Notify observers if the avergaing time window has elapsed
+        if( updateContinuously || System.currentTimeMillis() - timeOfLastUpdate > timeAveWindow ) {
+            pressureRecorder.computeDataStatistics();
+            temperatureRecorder.computeDataStatistics();
+            notifyObservers();
+            timeOfLastUpdate = System.currentTimeMillis();
+        }
     }
 
     public double getPressure() {
-//        double pressure = pressureRecorder.getDataAverage();
         double pressure = pressureRecorder.getDataTotal() / pressureRecorder.getTimeWindow();
         double sliceLength = box.getMaxX() - box.getMinX();
-        return scaleFactor * pressure / ( sliceLength );
+        return scaleFactor * pressure / sliceLength;
     }
 
     public double getTemperature() {
@@ -87,5 +116,32 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
 
     public double getY() {
         return y;
+    }
+
+    /**
+     * Sets the time window over which data are averaged before they are reported.
+     * @param msec
+     */
+    public void setTimeAveragingWindow( double msec ) {
+        timeAveWindow = msec;
+        temperatureRecorder.setTimeWindow( msec * timeScale );
+        pressureRecorder.setTimeWindow( msec * timeScale );
+    }
+
+    /**
+     * Sets the time window over which data are averaged before they are reported.
+     *
+     * @return
+     */
+    public double getTimeAveragingWindow() {
+        return timeAveWindow;
+    }
+
+    public boolean isUpdateContinuously() {
+        return updateContinuously;
+    }
+
+    public void setUpdateContinuously( boolean updateContinuously ) {
+        this.updateContinuously = updateContinuously;
     }
 }

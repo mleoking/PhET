@@ -13,12 +13,15 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.EventChannelProxy;
 import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.help.HelpItem;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -35,6 +38,8 @@ import edu.colorado.phet.instrumentation.Thermometer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -68,6 +73,8 @@ public class IdealGasModule extends Module implements EventChannel {
     private BufferedImage bluePumpImg;
     private BufferedImage redPumpImg;
     private PhetImageGraphic pumpGraphic;
+    private JDialog averagingControlDlg;
+    private Box2DGraphic boxGraphic;
 
 
     public IdealGasModule( AbstractClock clock ) {
@@ -105,6 +112,8 @@ public class IdealGasModule extends Module implements EventChannel {
 
         // Add the pressure gauge
         PressureSlice gaugeSlice = new PressureSlice( box, idealGasModel, clock );
+        gaugeSlice.setTimeAveragingWindow( 2500 );
+        gaugeSlice.setUpdateContinuously( true );
         gaugeSlice.setY( box.getMinY() + 50 );
         idealGasModel.addModelElement( gaugeSlice );
         PressureDialGauge pressureGauge = new PressureDialGauge( box, getApparatusPanel(), gaugeSlice );
@@ -132,12 +141,12 @@ public class IdealGasModule extends Module implements EventChannel {
                                                                           IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 100,
                                                                           IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238 );
 
-            bluePumpImg = new BufferedImage(basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB);
-            redPumpImg = new BufferedImage(basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            bluePumpImg = new BufferedImage( basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
+            redPumpImg = new BufferedImage( basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
             BufferedImageOp blueOp = new MakeDuotoneImageOp( Color.blue );
-            blueOp.filter(basePumpImg, bluePumpImg );
+            blueOp.filter( basePumpImg, bluePumpImg );
             BufferedImageOp redOp = new MakeDuotoneImageOp( Color.red );
-            redOp.filter(basePumpImg, redPumpImg );
+            redOp.filter( basePumpImg, redPumpImg );
             currentPumpImg = bluePumpImg;
 
             this.addGraphic( handleGraphicImage, -6 );
@@ -169,7 +178,7 @@ public class IdealGasModule extends Module implements EventChannel {
 
 
         // Set up the box
-        Box2DGraphic boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
+        boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
         addGraphic( boxGraphic, 10 );
 
         // Add the animated mannequin
@@ -298,23 +307,83 @@ public class IdealGasModule extends Module implements EventChannel {
         return thermometer;
     }
 
+    /**
+     * @param pressureSliceEnabled
+     */
     public void setPressureSliceEnabled( boolean pressureSliceEnabled ) {
         if( pressureSlice == null ) {
             pressureSlice = new PressureSlice( getBox(), (IdealGasModel)getModel(), clock );
+            pressureSlice.setUpdateContinuously( false );
             pressureSliceGraphic = new PressureSliceGraphic( getApparatusPanel(),
                                                              pressureSlice,
                                                              getBox() );
+
+            // Create a nonmodal dialog with controls for the averaging times of the pressure slice
+            final JTextField aveTimeTF = new JTextField( 3 );
+            aveTimeTF.setHorizontalAlignment( JTextField.RIGHT );
+//            aveTimeTF.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    pressureSlice.setTimeAveragingWindow( Double.parseDouble( aveTimeTF.getText() ) * 1000 );
+//                }
+//            } );
+            aveTimeTF.setText( Double.toString( pressureSlice.getTimeAveragingWindow() / 1000 ));
+
+            JButton setTimeBtn = new JButton( "Set");
+            setTimeBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    pressureSlice.setTimeAveragingWindow( Double.parseDouble( aveTimeTF.getText() ) * 1000 );
+                }
+            } );
+
+            averagingControlDlg = new JDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
+                                               "Averaging time", false );
+            averagingControlDlg.setUndecorated( true );
+            averagingControlDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
+            averagingControlDlg.set
+            Container ctrlPane = averagingControlDlg.getContentPane();
+            ctrlPane.setLayout( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0,
+                                                             1, 1, 1, 1,
+                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+            ctrlPane.add( aveTimeTF, gbc );
+            ctrlPane.add( new JLabel( "sec" ), gbc );
+            gbc.insets = new Insets( 0, 10, 0, 0);
+            ctrlPane.add( setTimeBtn, gbc );
+
+            averagingControlDlg.pack();
+            final Rectangle graphicBounds = ((PhetShapeGraphic)pressureSliceGraphic.getGraphic()).getBounds();
+            Rectangle frameBounds = PhetApplication.instance().getApplicationView().getPhetFrame().getBounds();
+            Rectangle bounds = averagingControlDlg.getBounds();
+            averagingControlDlg.setBounds( frameBounds.x + (int)graphicBounds.getMinX() +10,
+                                                   (int)((PhetGraphic)boxGraphic.getGraphic()).getY() + frameBounds.y,
+                                                   (int)bounds.getWidth(), (int)bounds.getHeight() );
+
         }
         if( pressureSliceEnabled ) {
             getModel().addModelElement( pressureSlice );
             addGraphic( pressureSliceGraphic, 20 );
+            averagingControlDlg.setVisible( true );
+
+            JPanel placementPane = new JPanel( null );
+            placementPane.setOpaque( false );
+            placementPane.add(new JLabel("FFFFF") );
+            Rectangle bounds = ((PhetShapeGraphic)pressureSliceGraphic.getGraphic()).getBounds();
+            placementPane.setBounds( bounds.x-100, bounds.y, 100, 50);
+            getApparatusPanel().add( placementPane );
+
         }
         else {
             getApparatusPanel().removeGraphic( pressureSliceGraphic );
             getModel().removeModelElement( pressureSlice );
+            averagingControlDlg.setVisible( false );
         }
     }
 
+    /**
+     * @param rulerEnabled
+     */
     public void setRulerEnabed( boolean rulerEnabled ) {
         if( rulerGraphic == null ) {
             rulerGraphic = new RulerGraphic( getApparatusPanel() );
@@ -354,9 +423,9 @@ public class IdealGasModule extends Module implements EventChannel {
         }
 
 
-        // DEBUG
-        TotalEnergyMonitor tem = new TotalEnergyMonitor( null, idealGasModel );
-        tem.setVisible( true );
+        // FOR DEBUG. displays the total energy in the system
+//        TotalEnergyMonitor tem = new TotalEnergyMonitor( null, idealGasModel );
+//        tem.setVisible( true );
     }
 
     public void deactivate( PhetApplication app ) {
@@ -371,37 +440,46 @@ public class IdealGasModule extends Module implements EventChannel {
         return idealGasControlPanel;
     }
 
+    //-----------------------------------------------------
+    // Event handling
+    //-----------------------------------------------------
+    EventChannelProxy resetEventChannel = new EventChannelProxy( ResetListener.class );
+    ResetListener resetListenersProxy = (ResetListener)resetEventChannel.getProxy();
 
     public void reset() {
         getIdealGasModel().removeAllMolecules();
-        eventRegistry.fireEvent( new ResetEvent( this ) );
+        resetListenersProxy.resetOccurred( new ResetEvent( this ) );
+//        eventRegistry.fireEvent( new ResetEvent( this ) );
     }
 
     public void addListener( EventListener listener ) {
-        eventRegistry.addListener( listener );
+        resetEventChannel.addListener( listener );
+//        eventRegistry.addListener( listener );
     }
 
     public void removeListener( EventListener listener ) {
-        eventRegistry.removeListener( listener );
+        resetEventChannel.removeListener( listener );
+//        eventRegistry.removeListener( listener );
     }
 
     public void removeAllListeners() {
-        eventRegistry.removeAllListeners();
+        resetEventChannel.removeAllListeners();
+//        eventRegistry.removeAllListeners();
     }
 
-    public void fireEvent( EventObject event ) {
-        eventRegistry.fireEvent( event );
-    }
+//    public void fireEvent( EventObject event ) {
+//        eventRegistry.fireEvent( event );
+//    }
 
-    public int getNumListeners() {
-        return eventRegistry.getNumListeners();
-    }
+//    public int getNumListeners() {
+//        return eventRegistry.getNumListeners();
+//    }
 
     public void setCurrentPumpImage( Color color ) {
-        if( color.equals( Color.blue )){
+        if( color.equals( Color.blue ) ) {
             pumpGraphic.setImage( bluePumpImg );
         }
-        if( color.equals( Color.red )){
+        if( color.equals( Color.red ) ) {
             pumpGraphic.setImage( redPumpImg );
         }
     }

@@ -13,7 +13,8 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Records by recording events in which a scalar data is
@@ -23,7 +24,7 @@ import java.util.LinkedList;
  * every 1/2 second.
  */
 public class ScalarDataRecorder {
-    private LinkedList dataRecord = new LinkedList();
+    private List dataRecord = new ArrayList();
     private double dataTotal;
     private double dataAverage;
     // Size, in milliseconds, of the sliding window over which samples are averaged
@@ -73,20 +74,20 @@ public class ScalarDataRecorder {
                 }
             }
         }
+//        System.out.println( "this: " + this + "  size: " + dataRecord.size() );
 
-        double total = 0;
+        dataTotal = 0;
         for( int i = 0; i < dataRecord.size(); i++ ) {
             DataRecordEntry entry = (DataRecordEntry)dataRecord.get( i );
-            total += entry.getValue();
+            dataTotal += entry.getValue();
         }
+        dataAverage = 0;
         if( dataRecord.size() > 0 ) {
             double timeOfFirstEntry = ( (DataRecordEntry)dataRecord.get( 0 ) ).getTime();
             double timeOfLastEntry = ( (DataRecordEntry)dataRecord.get( dataRecord.size() - 1 ) ).getTime();
             timeSpanOfEntries = timeOfLastEntry - timeOfFirstEntry;
+            dataAverage = dataTotal / dataRecord.size();
         }
-
-        dataTotal = total;
-        dataAverage = dataTotal / dataRecord.size();
     }
 
     /**
@@ -94,7 +95,7 @@ public class ScalarDataRecorder {
      */
     public synchronized void addDataRecordEntry( double value ) {
         DataRecordEntry entry = new DataRecordEntry( clock.getRunningTime(), value );
-        dataRecord.addLast( entry );
+        dataRecord.add( entry );
     }
 
     public int getNumEntries() {
