@@ -171,7 +171,7 @@ public class IdealGasModule extends Module {
         thermometer = new IdealGasThermometer( getApparatusPanel(),
                                                idealGasModel, thermometerLoc,
                                                thermometerHeight, 10, true, 0, 1000E3 );
-        addGraphic( thermometer, 8 );
+        addGraphic( thermometer, 20 );
     }
 
     /**
