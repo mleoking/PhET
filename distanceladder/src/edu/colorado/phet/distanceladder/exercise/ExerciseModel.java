@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.distanceladder.exercise;
 
-public class ExerciseModel {
+public abstract class ExerciseModel {
     private String question;
     private Answer[] choices;
     private Answer correctAnswer;
@@ -20,6 +20,8 @@ public class ExerciseModel {
         this.choices = choices;
         this.correctAnswer = correctAnswer;
     }
+
+    abstract public boolean evaluate( Answer choice );
 
     public String getQuestion() {
         return question;

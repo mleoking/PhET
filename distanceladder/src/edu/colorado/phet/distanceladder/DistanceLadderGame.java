@@ -71,7 +71,7 @@ public class DistanceLadderGame {
 //        doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
 
 //        displayMessage( new HtmlMessage( "messages/level2-intro.html" ) );
-//        doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
+        doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
         displayMessage( new HtmlMessage( "messages/level2A-intro.html" ) );
         doLevel( new Level2A( app.getApplicationView().getPhetFrame(), model ) );
 

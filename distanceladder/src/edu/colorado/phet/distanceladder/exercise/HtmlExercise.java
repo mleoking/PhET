@@ -30,14 +30,10 @@ public class HtmlExercise extends ExerciseModel {
                 choice = choice.substring( 2, choice.length() );
             }
             choice = choice.trim();
-//            asnwers
         }
-
-
     }
 
-    public static void main( String[] args ) {
-        HtmlExercise ex = new HtmlExercise( "exercises/Untitled-1.htm" );
+    public boolean evaluate( Answer choice ) {
+        throw new RuntimeException( "Not implemented");
     }
-
 }

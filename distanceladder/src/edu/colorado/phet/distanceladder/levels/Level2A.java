@@ -23,12 +23,20 @@ import java.util.Random;
 
 public class Level2A extends Exercise {
 
+    private static Point2D.Double starLocation = new Point2D.Double( 650, -80 );
+
     private Star[] starField = new Star[]{
-        new NormalStar( Color.green, 1E6, new Point2D.Double( 650, -80 ), 0 ),
+        new NormalStar( Color.green, 1E6, starLocation, 0 ),
     };
 
-    public Level2A( JFrame frame, UniverseModel model ) {
-        super( frame, new XmlExercise( "exercises/level2A.xml" ) );
+    public Level2A( JFrame frame, final UniverseModel model ) {
+        super( frame, new XmlExercise( "exercises/level2A.xml" ) {
+            public boolean evaluate( Answer choice ) {
+                double dist = model.getStarShip().getPov().distance( starLocation );
+                return Math.abs( dist ) <= 50;
+            }
+        });
+//        super( frame, new XmlExercise( "exercises/level2A.xml" ) );
         model.getStarField().reset();
         for( int i = 0; i < starField.length; i++ ) {
             Star star = starField[i];
