@@ -54,7 +54,6 @@ public class DeveloperPanel extends JPanel {
     private JLabel _magnetSize;
     private JLabel _gridSpacingValue;
     private JLabel _needleSizeValue;
-    private JButton _apparatusBackgroundColorButton;
     private JButton _coilForeColorButton, _coilMiddleColorButton, _coilBackColorButton;
     
     //----------------------------------------------------------------------------
@@ -164,8 +163,6 @@ public class DeveloperPanel extends JPanel {
         {
             colorsPanel.setLayout( new BoxLayout( colorsPanel, BoxLayout.Y_AXIS ) );
             
-            _apparatusBackgroundColorButton = new JButton( "Apparatus Background Color..." );
-            colorsPanel.add( _apparatusBackgroundColorButton );
             if ( coilGraphic != null ) {
                 _coilForeColorButton = new JButton( "Coil Foreground Color..." );
                 _coilMiddleColorButton = new JButton( "Coil Middleground Color..." );
@@ -188,7 +185,6 @@ public class DeveloperPanel extends JPanel {
         _magnetSizeSlider.addChangeListener( listener );
         _gridSpacingSlider.addChangeListener( listener );
         _needleSizeSlider.addChangeListener( listener );
-        _apparatusBackgroundColorButton.addActionListener( listener );
         if ( coilGraphic != null ) {
             _coilForeColorButton.addActionListener( listener );
             _coilMiddleColorButton.addActionListener( listener );
@@ -228,22 +224,7 @@ public class DeveloperPanel extends JPanel {
          * @throws IllegalArgumentException if the event is unexpected
          */
         public void actionPerformed( ActionEvent e ) {
-            if ( e.getSource() == _apparatusBackgroundColorButton ) {
-                ColorDialog.Listener listener = new ColorDialog.Listener() {
-                    public void colorChanged( Color color ) {
-                        _apparatusPanel.setBackground( color );
-                        _gridGraphic.update();
-                    }
-                    public void ok( Color color ) {
-                        _apparatusPanel.setBackground( color );
-                    }
-                    public void cancelled( Color color ) {
-                        _apparatusPanel.setBackground( color );
-                    }  
-                };
-                ColorDialog.showDialog( "Apparatus Background Color", _apparatusPanel, _apparatusPanel.getBackground(), listener );
-            }
-            else if ( e.getSource() == _coilForeColorButton ) {
+            if ( e.getSource() == _coilForeColorButton ) {
                 ColorDialog.Listener listener = new ColorDialog.Listener() {
                     public void colorChanged( Color color ) {
                         _coilGraphic.setColors( color, null, null );

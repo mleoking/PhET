@@ -16,7 +16,7 @@ HIGH PRIORITY:
 - optimize performance
 
 MEDIUM PRIORITY:
-- add background color chooser to menubar (ala CCK)
+- repaint compass grid when background color changes, in case we're switching rendering strategies
 - beautify Control Panels
 - Transformer module requirements
 - check for unnecessary notification, events and updates
@@ -33,9 +33,12 @@ LOW PRIORITY:
 phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
+- fix PhetShapeGraphic.contains so that stroke width is taken into account, test with CompassGraphic
 
 DONE:
 v0r11...
+(2/3) - add background color chooser to menubar (ala CCK)
+(2/3, 3:26PM) - synchronize phetcommon-HEAD to pick up major "persistence" merge
 (2/3) - various adjustments to handle arbitrary orientation of the coil
 (2/3) - compute induced emf using average of flux at 3 points (center and 2 edges of coil)
 (2/3) - calibrate MAX_EMF to match emf induced when magnet strength, loop radius, #loops are all maximums

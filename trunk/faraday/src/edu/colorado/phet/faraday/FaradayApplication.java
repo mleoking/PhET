@@ -12,12 +12,21 @@
 package edu.colorado.phet.faraday;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Locale;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.faraday.control.ColorDialog;
 
 /**
  * FaradayApplication is the main application for the PhET
@@ -41,8 +50,71 @@ public class FaradayApplication extends PhetApplication {
     public FaradayApplication( FaradayApplicationModel appModel ) throws IOException {
         super( appModel );
         assert( appModel != null );
+        
+        // Menubar
+        {
+            // Options menu
+            JMenu optionsMenu = new JMenu( SimStrings.get( "OptionsMenu.title" ) );
+            optionsMenu.setMnemonic( 'O' );
+            getPhetFrame().addMenu( optionsMenu );
+            
+            // Background Color menu item
+            JMenuItem colorMenuItem = new JMenuItem( SimStrings.get( "BackgroundColor.menuItem" ) );
+            colorMenuItem.setMnemonic( 'B' );
+            colorMenuItem.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    handleColorMenuItem();
+                }
+            } );
+            optionsMenu.add( colorMenuItem );
+        }
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the background color for all apparatus panels in all modules.
+     * 
+     * @param color the color
+     */
+    private void setAllBackgrounds( Color color ) {
+        System.out.println( "background color = " + color );
+        ModuleManager moduleManager = getModuleManager();
+        int numberOfModules = moduleManager.numModules();
+        for ( int i = 0; i < numberOfModules; i++ ) {
+            moduleManager.moduleAt( i ).getApparatusPanel().setBackground( color );
+            getPhetFrame().repaint();
+        }
+    }
+   
+    //----------------------------------------------------------------------------
+    // Menu handlers
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Handles the "Background Color" menu item.
+     * Displays a Color dialog and changes the background of all apparatus panels.
+     */
+    private void handleColorMenuItem() {
+        ColorDialog.Listener listener = new ColorDialog.Listener() {
+            public void colorChanged( Color color ) {
+                setAllBackgrounds( color );
+            }
+            public void ok( Color color ) {
+                setAllBackgrounds( color );
+            }
+            public void cancelled( Color color ) {
+                setAllBackgrounds( color );
+            }  
+        };
+        String title = SimStrings.get( "ColorDialog.title" );
+        Component parent = getPhetFrame();
+        Color color = getModuleManager().getActiveModule().getApparatusPanel().getBackground();
+        ColorDialog.showDialog( title, parent, color, listener );
+    }
+    
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
@@ -52,7 +124,7 @@ public class FaradayApplication extends PhetApplication {
      * 
      * @param args command line arguments
      */
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IOException {
         
         // Initialize localization.
         {
@@ -85,15 +157,10 @@ public class FaradayApplication extends PhetApplication {
         // Create the application model.
         FaradayApplicationModel appModel = new FaradayApplicationModel( title, description, version, frameSetup );
 
-        // Create and start the application.
-        PhetApplication app = null;
-        try {
-            app = new FaradayApplication( appModel );
-        }
-        catch( IOException ioe ) {
-            ioe.printStackTrace();
-            System.exit( 1 );
-        }
+        // Create the application.
+        PhetApplication app = new FaradayApplication( appModel );
+        
+        // Start the application.
         app.startApplication();
     }
 }
