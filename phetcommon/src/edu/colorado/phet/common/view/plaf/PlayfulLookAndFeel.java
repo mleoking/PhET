@@ -55,9 +55,11 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
             add( type + ".select", background );
         }
 
-//        UIDefaults.ProxyLazyValue val = new UIDefaults.ProxyLazyValue( "javax.swing.plaf.metal.MetalIconFactory",
-//                                                                       "getHorizontalSliderThumbIcon" );
-        IconUIResource iconResource = new IconUIResource( new ImageIcon( getClass().getClassLoader().getResource( "images/components/slidershadow.png" ) ) );
+        UIDefaults.ProxyLazyValue val = new UIDefaults.ProxyLazyValue( "javax.swing.plaf.metal.MetalIconFactory",
+                                                                       "getHorizontalSliderThumbIcon" );
+//        ImageIcon ii=new ImageIcon( getClass().getClassLoader().getResource( "images/components/webt/arrow_down_md_wht.gif"));
+        ImageIcon i2 = ( new ImageIcon( getClass().getClassLoader().getResource( "images/components/slidershadow.png" ) ) );
+        IconUIResource iconResource = new IconUIResource( i2 );
         add( "Slider.horizontalThumbIcon", iconResource );
 
 //        MetalButtonUI buttonUI=new MetalButtonUI();
