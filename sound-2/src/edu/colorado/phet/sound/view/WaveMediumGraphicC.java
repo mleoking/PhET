@@ -21,6 +21,30 @@ import java.awt.image.BufferedImage;
 
 public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserver {
 
+    //
+    // Static fields and methods
+    //
+
+    // An array of gray scale values
+    static Color[] s_lineColor = new Color[256];
+
+    static {
+        for( int i = 0; i < s_lineColor.length; i++ ) {
+            s_lineColor[i] = new Color( i, i, i );
+        }
+    }
+
+    private static BufferedImage createBufferedImage() {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gs = ge.getDefaultScreenDevice();
+        GraphicsConfiguration gc = gs.getDefaultConfiguration();
+        return gc.createCompatibleImage( 800, 800 );
+        //        return gc.createCompatibleImage( 300, 200 );
+    }
+
+
+    // Note that larger values for the stroke slow down performance considerably
+    protected static Stroke s_defaultStroke = new BasicStroke( 1.0F );
     // TODO: This should be set by a call to initLayout, not here.
     private Point2D.Double origin = new Point2D.Double( SoundConfig.s_wavefrontBaseX, SoundConfig.s_wavefrontBaseY );
     private double height = SoundConfig.s_wavefrontHeight;
@@ -40,16 +64,7 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
 
     // Tracks the point from which an element of the wavefront was generated
     private Point2D.Double[] arcCenters = new Point2D.Double[Wavefront.s_length];
-    private Arc2D.Float[] arcs = new Arc2D.Float[Wavefront.s_length];
 
-
-    private static BufferedImage createBufferedImage() {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gs = ge.getDefaultScreenDevice();
-        GraphicsConfiguration gc = gs.getDefaultConfiguration();
-        return gc.createCompatibleImage( 800, 800 );
-        //        return gc.createCompatibleImage( 300, 200 );
-    }
 
     /**
      * todo: rename WaveMediumGraphic
@@ -74,10 +89,6 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
         g2DBuffImg.setRenderingHint( RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE );
         g2DBuffImg.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED );
         g2DBuffImg.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
-
-        for( int i = 0; i < arcs.length; i++ ) {
-            arcs[i] = new Arc2D.Float();
-        }
     }
 
     /**
@@ -139,6 +150,8 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
      */
     public void paint( Graphics2D g ) {
 
+        this.clear();
+
         // Set opacity
         Composite incomingComposite = g.getComposite();
         g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, opacity ) );
@@ -165,7 +178,9 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
         for( int i = arcCenters.length - 1; i > 0; i-- ) {
             arcCenters[i] = arcCenters[i - 1];
         }
-        arcCenters[0] = origin;
+        for( int i = 0; i < 50; i++ ) {
+            arcCenters[i] = origin;
+        }
 
 
         // Draw a line or arc for each value in the amplitude array of the wave front
@@ -189,18 +204,18 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
                 g.draw( line );
             }
             else {
-                if( arcs[i] != null && arcCenter != null ) {
-                    arcs[i].setArc( arcCenter.getX() - rad2 - ( i * stroke ),
-                                    arcCenter.getY() - rad2 - ( i * stroke ),
-                                    //                arc.setArc( origin.getX() - rad2 - ( i * stroke ),
-                                    //                            origin.getY() - rad2 - ( i * stroke ),
-                                    rad2 * 2 + ( i * stroke * 2 ),
-                                    rad2 * 2 + ( i * stroke * 2 ),
-                                    -alpha + rotationAngle, alpha * 2, Arc2D.OPEN );
+                if( arcCenter != null ) {
+                    arc.setArc( arcCenter.getX() - rad2 - ( i * stroke ),
+                                arcCenter.getY() - rad2 - ( i * stroke ),
+                                //                arc.setArc( origin.getX() - rad2 - ( i * stroke ),
+                                //                            origin.getY() - rad2 - ( i * stroke ),
+                                rad2 * 2 + ( i * stroke * 2 ),
+                                rad2 * 2 + ( i * stroke * 2 ),
+                                -alpha + rotationAngle, alpha * 2, Arc2D.OPEN );
 
                     // Draw the arc in the buffered image
                     g2DBuffImg.setColor( s_lineColor[colorIndex] );
-                    g2DBuffImg.draw( arcs[i] );
+                    g2DBuffImg.draw( arc );
 
                     // Enable these lines to anti-alias the arcs. Note that this degrades performance
                     //                arc.x = arc.getX() - 1;
@@ -208,6 +223,10 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
                 }
             }
         }
+        // Draw a gray rectangle to cover all the waves that are behind the speaker, so they won't show
+        // up when the speaker moves
+        g2DBuffImg.setColor( SoundConfig.MIDDLE_GRAY );
+        g2DBuffImg.fillRect( 0, 0, 190, buffImg.getHeight() );
 
         g.drawImage( buffImg, nopAT, null );
 
@@ -225,7 +244,7 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
     }
 
     public void setOrigin( Point2D.Double location ) {
-        this.origin = location;
+        this.origin = new Point2D.Double( location.x, location.y );
     }
 
     /**
@@ -239,9 +258,9 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
         //            originAtTime.set( i, originAtTime.get( i - 1 ));
         //        }
         //        originAtTime.set( 0, origin );
-        //        this.repaint();
-        component.invalidate();
-        component.repaint();
+        this.repaint();
+        //        component.invalidate();
+        //        component.repaint();
     }
 
     public void setPlanar( boolean planar ) {
@@ -278,21 +297,4 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
                                 int x, int y, int width, int height ) {
         return false;
     }
-
-
-    //
-    // Static fields and methods
-    //
-
-    // An array of gray scale values
-    static Color[] s_lineColor = new Color[256];
-
-    static {
-        for( int i = 0; i < s_lineColor.length; i++ ) {
-            s_lineColor[i] = new Color( i, i, i );
-        }
-    }
-
-    // Note that larger values for the stroke slow down performance considerably
-    protected static Stroke s_defaultStroke = new BasicStroke( 1.0F );
 }
