@@ -20,14 +20,13 @@ public class AlphaParticle extends Nucleus {
     private static Random random = new Random();
     public static final double RADIUS = NuclearParticle.RADIUS * 2;
     // Controls how fast the alpha particle accelerates down the profile
-    private static double forceScale = 0.0005;
+    private static double forceScale = 0.0008;
 
 
     //
     // Instance fields and methods
     //
     private Nucleus nucleus;
-//    private double potential;
     public boolean isInNucleus = true;
     private double statisticalPositionSigma;
     private boolean escaped = false;
@@ -43,6 +42,10 @@ public class AlphaParticle extends Nucleus {
 
     public void setEscaped( boolean escaped ) {
         this.escaped = escaped;
+    }
+
+    public void setLocation( double x, double y ) {
+        super.setLocation( x, y );
     }
 
     public void stepInTime( double dt ) {
@@ -61,8 +64,8 @@ public class AlphaParticle extends Nucleus {
                 // Accelerate the alpha particle away from the nucleus, with a force
                 // proportional to its height on the profile
                 PotentialProfile profile = nucleus.getPotentialProfile();
-
                 double d = this.getLocation().distance( nucleus.getLocation() );
+
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
                 force = Double.isNaN( force ) ? 0 : force;
                 Vector2D a = null;

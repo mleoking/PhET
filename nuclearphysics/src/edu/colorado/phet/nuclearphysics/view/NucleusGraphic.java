@@ -45,6 +45,10 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
         graphicToModelMap.remove( nucleus );
     }
 
+    public static void removeAllGraphics() {
+        graphicToModelMap.clear();
+    }
+
     //
     // Instance fields and methods
     //

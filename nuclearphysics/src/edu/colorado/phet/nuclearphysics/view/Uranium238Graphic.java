@@ -12,8 +12,10 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class Uranium238Graphic extends NucleusGraphic {
-    private static Font isotopeFont = new Font( "Serif", Font.BOLD, 12 );
-    private static Font elementFont = new Font( "Serif", Font.BOLD, 30 );
+    private static Font isotopeFont = new Font( "SansSerif", Font.BOLD, 12 );
+    private static Font elementFont = new Font( "SansSerif", Font.BOLD, 30 );
+//    private static Font isotopeFont = new Font( "Serif", Font.BOLD, 12 );
+//    private static Font elementFont = new Font( "Serif", Font.BOLD, 30 );
     private static Font font = new Font( "Serif", Font.BOLD, 18 );
     private static Color color = Color.green;
     private static AffineTransform nucleusTx = new AffineTransform();
@@ -34,7 +36,7 @@ public class Uranium238Graphic extends NucleusGraphic {
         g.setFont( isotopeFont );
         FontMetrics fm = g.getFontMetrics();
         g.drawString( "238", -fm.stringWidth( "238" ), 0 );
-        int dy = fm.getHeight() / 2;
+        int dy = fm.getHeight() * 3 / 4;
         g.setFont( elementFont );
         g.drawString( "U", 0, dy );
 

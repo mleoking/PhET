@@ -73,12 +73,16 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     public void stop() {
         Nucleus nucleus = getNucleus();
         getModel().removeModelElement( nucleus );
+
         getPotentialProfilePanel().removeAllAlphaParticles();
         getPotentialProfilePanel().removeAllPotentialProfiles();
 
         getPhysicalPanel().clear();
+        getPhysicalPanel().removeAllGraphics();
         getPhysicalPanel().removeGraphic( ringGraphic );
         getPhysicalPanel().removeGraphic( leaderLines );
+
+        NucleusGraphic.removeAllGraphics();
 
         alphaDecayControlPanel.stopTimer();
     }
