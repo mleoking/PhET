@@ -315,7 +315,7 @@ public class BaseLaserModule extends Module {
         Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(),
                                          cavity.getPosition().getY() + cavity.getHeight() );
         rightMirror = new PartialMirror( p1, p2 );
-        rightMirror.addReflectionStrategy( new LeftReflecting() );
+//        rightMirror.addReflectionStrategy( new LeftReflecting() );
         rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
         // The left mirror is 100% reflecting
         Point2D p3 = new Point2D.Double( cavity.getPosition().getX(),
@@ -324,7 +324,7 @@ public class BaseLaserModule extends Module {
                                          cavity.getPosition().getY() + cavity.getHeight() );
         leftMirror = new PartialMirror( p3, p4 );
         leftMirror.setReflectivity( 1.0 );
-        leftMirror.addReflectionStrategy( new RightReflecting() );
+//        leftMirror.addReflectionStrategy( new RightReflecting() );
         leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
     }
 
