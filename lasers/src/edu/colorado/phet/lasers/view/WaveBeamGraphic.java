@@ -14,8 +14,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.PhotonSource;
 
 import java.awt.*;
 
@@ -28,18 +28,16 @@ import java.awt.*;
  * Shows a collimated beam as a rectangle of actualColor. The saturation of the actualColor corresponds to
  * the photon rate of the beam.
  */
-public class WaveBeamGraphic extends PhetGraphic implements CollimatedBeam.RateChangeListener,
-                                                            CollimatedBeam.WavelengthChangeListener {
+public class WaveBeamGraphic extends PhetGraphic implements PhotonSource.RateChangeListener,
+                                                            PhotonSource.WavelengthChangeListener {
 
-    private ResonatingCavity cavity;
     Rectangle bounds = new Rectangle();
     private Color actualColor;
-    private CollimatedBeam beam;
+    private PhotonSource beam;
 
 
-    public WaveBeamGraphic( Component component, CollimatedBeam beam, ResonatingCavity cavity ) {
+    public WaveBeamGraphic( Component component, PhotonSource beam ) {
         super( component );
-        this.cavity = cavity;
         this.beam = beam;
         beam.addRateChangeListener( this );
         beam.addWavelengthChangeListener( this );

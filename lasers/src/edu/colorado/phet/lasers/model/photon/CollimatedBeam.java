@@ -18,7 +18,6 @@ import edu.colorado.phet.common.util.EventChannel;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
-import java.util.EventObject;
 import java.util.Random;
 
 /**
@@ -31,7 +30,7 @@ import java.util.Random;
  * velocities. The beam has a height, and the photons are randomly distributed
  * across that height.
  */
-public class CollimatedBeam extends Particle {
+public class CollimatedBeam extends Particle implements PhotonSource {
 
     ///////////////////////////////////////////////////////////////
     // Class
@@ -103,12 +102,12 @@ public class CollimatedBeam extends Particle {
         }
         this.photonsPerSecond = photonsPerSecond;
         nextTimeToProducePhoton = getNextTimeToProducePhoton();
-        rateChangeListenerProxy.rateChangeOccurred( new RateChangeEvent() );
+        rateChangeListenerProxy.rateChangeOccurred( new RateChangeEvent( this ) );
     }
 
     public void setWavelength( double wavelength ) {
         this.wavelength = wavelength;
-        wavelengthChangeListenerProxy.wavelengthChanged( new WavelengthChangeEvent() );
+        wavelengthChangeListenerProxy.wavelengthChanged( new WavelengthChangeEvent( this ) );
     }
 
     public double getWavelength() {
@@ -205,32 +204,32 @@ public class CollimatedBeam extends Particle {
         rateChangeEventChannel.removeListener( listener );
     }
 
-    public class RateChangeEvent extends EventObject {
-        public RateChangeEvent() {
-            super( CollimatedBeam.this );
-        }
-
-        public double getRate() {
-            return CollimatedBeam.this.getPhotonsPerSecond();
-        }
-    }
-
-    public interface RateChangeListener extends EventListener {
-        public void rateChangeOccurred( RateChangeEvent event );
-    }
-
-    public class WavelengthChangeEvent extends EventObject {
-        public WavelengthChangeEvent() {
-            super( CollimatedBeam.this );
-        }
-
-        public double getWavelength() {
-            return CollimatedBeam.this.getWavelength();
-        }
-    }
-
-    public interface WavelengthChangeListener extends EventListener {
-        public void wavelengthChanged( WavelengthChangeEvent event );
-    }
+//    public class RateChangeEvent extends EventObject {
+//        public RateChangeEvent() {
+//            super( CollimatedBeam.this );
+//        }
+//
+//        public double getRate() {
+//            return CollimatedBeam.this.getPhotonsPerSecond();
+//        }
+//    }
+//
+//    public interface RateChangeListener extends EventListener {
+//        public void rateChangeOccurred( RateChangeEvent event );
+//    }
+//
+//    public class WavelengthChangeEvent extends EventObject {
+//        public WavelengthChangeEvent() {
+//            super( CollimatedBeam.this );
+//        }
+//
+//        public double getWavelength() {
+//            return CollimatedBeam.this.getWavelength();
+//        }
+//    }
+//
+//    public interface WavelengthChangeListener extends EventListener {
+//        public void wavelengthChanged( WavelengthChangeEvent event );
+//    }
 }
 
