@@ -10,9 +10,15 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import edu.colorado.phet.common.view.util.ImageLoader;
 
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
@@ -20,6 +26,19 @@ public class PhetImageGraphic extends PhetGraphic {
     private boolean shapeDirty = true;
     private Shape shape;
 
+    public PhetImageGraphic( Component component, String imageResourceName ) {
+      this( component, (BufferedImage)null );
+      
+      BufferedImage bufferedImage;
+      try {
+        bufferedImage = ImageLoader.loadBufferedImage( imageResourceName );
+      }
+      catch( IOException e ) {
+        throw new RuntimeException( "Image resource not found: " + imageResourceName );
+      }
+      setImage( bufferedImage );
+    }
+    
     public PhetImageGraphic( Component component, BufferedImage image ) {
         this( component, image, new AffineTransform() );
     }
