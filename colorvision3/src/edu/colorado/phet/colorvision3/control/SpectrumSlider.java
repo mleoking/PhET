@@ -1,6 +1,6 @@
 /* SpectrumSlider.java, Copyright 2004 University of Colorado */
 
-package edu.colorado.phet.colorvision3.view;
+package edu.colorado.phet.colorvision3.control;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -363,7 +363,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     
     // Clip to the spectrum graphic bounds.
     Rectangle r = _spectrum.getBounds();
-   //XXX g2.setClip( r.x, r.y, r.width, r.height );
+    //XXX g2.setClip( r.x, r.y, r.width, r.height );
     
     // Move to slider location.
     g2.translate( _knob.getPosition().x + _knob.getBounds().width/2, _spectrum.getBounds().y );

@@ -1,14 +1,13 @@
 "To Do" list for "colorvision3" project
 
 HIGH:
-o show filter transmission width on filter spectrum slider
+o clipping bug with display of filter transmission width on filter spectrum slider
 
 MEDIUM:
-o get rid of ColorChangeListener and replace with Observer
+o make all control panels the same size, so that apparatus doesn't resize when switching modules
 
 LOW:
-o use Point for specifying locations that are based on int
+o use Point and Point2D.Double for specifying positions
 
-IDEAS:
+ENHANCEMENTS:
 o put bulb color & filter color on a single spectrum slider so it's easier to see how they compare
-o add a UI control for filter transmission width (in nm)

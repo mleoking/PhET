@@ -1,6 +1,6 @@
 /* IntensitySlider.java, Copyright 2004 University of Colorado */
 
-package edu.colorado.phet.colorvision3.view;
+package edu.colorado.phet.colorvision3.control;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

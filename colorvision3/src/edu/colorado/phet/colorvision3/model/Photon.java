@@ -4,6 +4,7 @@ package edu.colorado.phet.colorvision3.model;
 
 import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
 
+
 /**
  * Photon is the model of a single photon.
  *
@@ -149,8 +150,8 @@ public class Photon
     double radians = Math.toRadians( direction );
     double cosAngle = Math.cos( radians );
     double sinAngle = Math.sin( radians );
-    _deltaX = PhotonBeamGraphic.PHOTON_DS * cosAngle;
-    _deltaY = PhotonBeamGraphic.PHOTON_DS * sinAngle;
+    _deltaX = PhotonBeam.PHOTON_DS * cosAngle;
+    _deltaY = PhotonBeam.PHOTON_DS * sinAngle;
     _width  = PhotonBeamGraphic.PHOTON_LINE_LENGTH * cosAngle;
     _height = PhotonBeamGraphic.PHOTON_LINE_LENGTH * sinAngle;
   }
