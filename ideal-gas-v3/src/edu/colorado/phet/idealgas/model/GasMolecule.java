@@ -8,6 +8,7 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -17,9 +18,9 @@ import java.util.List;
 /**
  *
  */
-public class GasMolecule extends IdealGasParticle {
+public abstract class GasMolecule extends IdealGasParticle {
 
-    private IdealGasModel model;
+//    private IdealGasModel model;
     // List of contraints that must be applied to the IdealGasParticle's state
     // at the end of each stepInTime
     protected ArrayList constraints = new ArrayList();
@@ -27,25 +28,30 @@ public class GasMolecule extends IdealGasParticle {
     // needs to modify the real constraint list
     private ArrayList workingList = new ArrayList();
 
-    /**
-     * Constructor
-     */
+    // List of GasMolecule.Observers
+    private ArrayList observers = new ArrayList();
+
+    public interface Observer extends SimpleObserver {
+        void removedFromSystem();
+    }
+
     public GasMolecule( Point2D position, Vector2D velocity, Vector2D acceleration, float mass ) {
         super( position, velocity, acceleration, mass );
     }
 
-    /**
-     * Constructor
-     */
     public GasMolecule( Point2D position, Vector2D velocity, Vector2D acceleration,
                         float mass, float charge ) {
         super( position, velocity, acceleration, mass, charge );
     }
 
-    public void setModel( IdealGasModel model ) {
-        this.model = model;
+    public void addObserver( GasMolecule.Observer observer ) {
+        observers.add( observer );
+        this.addObserver( (SimpleObserver)observer );
     }
 
+    public void removeObserver( GasMolecule.Observer observer ) {
+        observers.remove( observer );
+    }
 
     public void setVelocity( Vector2D velocity ) {
         super.setVelocity( velocity );
@@ -200,5 +206,12 @@ public class GasMolecule extends IdealGasParticle {
 
     public void setPosition( Point2D position ) {
         super.setPosition( position );
+    }
+
+    public void removeYourselfFromSystem() {
+        for( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer)observers.get( i );
+            observer.removedFromSystem();
+        }
     }
 }

@@ -9,6 +9,7 @@ package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import java.awt.*;
@@ -17,26 +18,23 @@ import java.awt.image.BufferedImage;
 /**
  *
  */
-public abstract class GasMoleculeGraphic extends PhetImageGraphic implements SimpleObserver {
+public abstract class GasMoleculeGraphic extends PhetImageGraphic implements GasMolecule.Observer {
     private GasMolecule molecule;
+    private ApparatusPanel apparatusPanel;
 
-    public GasMoleculeGraphic( Component component, BufferedImage image, GasMolecule molecule ) {
-        super( component, image );
+    public GasMoleculeGraphic( ApparatusPanel apparatusPanel, BufferedImage image, GasMolecule molecule ) {
+        super( apparatusPanel, image );
+        this.apparatusPanel = apparatusPanel;
         this.molecule = molecule;
         molecule.addObserver( this );
         update();
     }
 
-    //    public GasMoleculeGraphic( Component component, BufferedImage image, int x, int y ) {
-    //        super( component, image, x, y );
-    //    }
-    //
-    //    public GasMoleculeGraphic( Component component, BufferedImage image, AffineTransform transform ) {
-    //        super( component, image, transform );
-    //    }
-    //
-
     public void update() {
         super.setPositionCentered( (int)molecule.getCM().getX(), (int)molecule.getCM().getY() );
+    }
+
+    public void removedFromSystem() {
+        apparatusPanel.removeGraphic( this );
     }
 }

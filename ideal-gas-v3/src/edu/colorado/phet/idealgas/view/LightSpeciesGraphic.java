@@ -8,6 +8,7 @@
 package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
@@ -20,13 +21,6 @@ import java.io.IOException;
  */
 public class LightSpeciesGraphic extends GasMoleculeGraphic {
 
-    public LightSpeciesGraphic( Component component, GasMolecule molecule ) {
-        super( component, s_particleImage, molecule );
-    }
-
-    //
-    // Static fields and methods
-    //
     static String s_imageName = IdealGasConfig.RED_PARTICLE_IMAGE_FILE;
     static BufferedImage s_particleImage;
 
@@ -37,5 +31,9 @@ public class LightSpeciesGraphic extends GasMoleculeGraphic {
         catch( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+    public LightSpeciesGraphic( ApparatusPanel apparatusPanel, GasMolecule molecule ) {
+        super( apparatusPanel, s_particleImage, molecule );
     }
 }

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
+import edu.colorado.phet.idealgas.controller.MeasurementModule;
 
 public class IdealGasApplication extends PhetApplication {
 
@@ -27,8 +28,10 @@ public class IdealGasApplication extends PhetApplication {
 
             // Create the modules
             Module idealGasModule = new IdealGasModule( getClock() );
+            Module measurementModule = new MeasurementModule( getClock() );
             Module[] modules = new Module[]{
-                idealGasModule
+                idealGasModule,
+                measurementModule
             };
             setModules( modules );
             setInitialModule( idealGasModule );
