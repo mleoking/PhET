@@ -32,28 +32,26 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     public static final Object NORTH = new Object();
     private Wall wall;
     private int translationDirection;
-    private double min;
-    private double max;
     private List resizableDirections = new ArrayList();
+    private Rectangle2D movementBounds;
 
 
     public WallGraphic( Wall wall, Component component, Paint fill, Paint borderPaint,
-                        int translationDirection, double min, double max ) {
-        this( wall, component, fill, translationDirection, min, max );
+                        int translationDirection ) {
+        this( wall, component, fill, translationDirection );
         setStroke( new BasicStroke( 1f ) );
         setBorderPaint( borderPaint );
     }
 
     public WallGraphic( Wall wall, Component component, Paint fill,
-                        int translationDirection, double min, double max ) {
+                        int translationDirection ) {
         super( component, wall.getBounds(), fill );
         this.wall = wall;
         wall.addChangeListener( this );
         this.translationDirection = translationDirection;
-        this.min = min;
-        this.max = max;
+        this.movementBounds = wall.getMovementBounds();
 
-        // Catch control key presses
+        // Add a listener for resize events
         addTranslationListener( new Resizer() );
 
         // Add mouseable behavior
@@ -72,15 +70,21 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         }
     }
 
-    public void wallChanged( Wall.ChangeEvent event ) {
-        setBounds( new Rectangle( (int)wall.getBounds().getX(), (int)wall.getBounds().getY(),
-                                  (int)wall.getBounds().getWidth(), (int)wall.getBounds().getHeight() ) );
-        setBoundsDirty();
-        repaint();
-    }
-
     public void setResizable( Object direction ) {
         resizableDirections.add( direction );
+    }
+
+    //-----------------------------------------------------------------
+    // Event handling
+    //-----------------------------------------------------------------
+
+    public void wallChanged( Wall.ChangeEvent event ) {
+        Wall wall = event.getWall();
+        setBounds( new Rectangle( (int)wall.getBounds().getX(), (int)wall.getBounds().getY(),
+                                  (int)wall.getBounds().getWidth(), (int)wall.getBounds().getHeight() ) );
+        movementBounds = wall.getMovementBounds();
+        setBoundsDirty();
+        repaint();
     }
 
     //----------------------------------------------------------------
@@ -95,19 +99,9 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         }
 
         public void translationOccurred( TranslationEvent translationEvent ) {
-            double dx = translationEvent.getDx();
-
             // If the control key is down, it means to resize
             if( !translationEvent.getMouseEvent().isControlDown() ) {
-                // Keep the wall from moving too far to the left
-                if( wall.getBounds().getMinX() + dx < min ) {
-                    dx = min - wall.getBounds().getMinX();
-                }
-                // Keep the wall from moving too far to the right
-                if( wall.getBounds().getMaxX() + dx > max ) {
-                    dx = max - wall.getBounds().getMaxX();
-                }
-                translatable.translate( dx, 0 );
+                translatable.translate( translationEvent.getDx(), 0 );
             }
         }
     }
@@ -120,19 +114,9 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         }
 
         public void translationOccurred( TranslationEvent translationEvent ) {
-            double dy = translationEvent.getDy();
-
             // If the control key is down, it means to resize
             if( !translationEvent.getMouseEvent().isControlDown() ) {
-                // Keep the wall from moving too far up
-                if( wall.getBounds().getMinY() + dy < min ) {
-                    dy = min - wall.getBounds().getMinY();
-                }
-                // Keep the wall from going too far down
-                if( wall.getBounds().getMaxY() + dy > max ) {
-                    dy = max - wall.getBounds().getMaxY();
-                }
-                translatable.translate( 0, dy );
+                translatable.translate( 0, translationEvent.getDy() );
             }
         }
     }

@@ -28,15 +28,22 @@ import java.util.EventObject;
 public class Wall extends CollidableBody {
     private Vector2D velocity = new Vector2D.Double();
     private Rectangle2D rep = new Rectangle2D.Double();
+    private Rectangle2D movementBounds;
     private Rectangle2D prevRep = new Rectangle2D.Double();
 
-    public Wall( Rectangle2D bounds ) {
+    public Wall( Rectangle2D bounds, Rectangle2D movementBounds ) {
         this.rep = bounds;
+        this.movementBounds = movementBounds;
         setMass( Double.POSITIVE_INFINITY );
         setPosition( bounds.getMinX(), bounds.getMinY() );
     }
 
     public void setPosition( double x, double y ) {
+
+        x = Math.min( x, movementBounds.getMaxX() - rep.getWidth() );
+        x = Math.max( x, movementBounds.getMinX() );
+        y = Math.min( y, movementBounds.getMaxY() - rep.getHeight() );
+        y = Math.max( y, movementBounds.getMinY() );
         if( x != getPosition().getX() || y != getPosition().getY() ) {
             super.setPosition( x, y );
             prevRep.setRect( rep );
@@ -62,6 +69,15 @@ public class Wall extends CollidableBody {
         return prevRep;
     }
 
+    public void setMovementBounds( Rectangle2D movementBounds ) {
+        this.movementBounds = movementBounds;
+        changeListenerProxy.wallChanged( new ChangeEvent( this ) );
+    }
+
+    public Rectangle2D getMovementBounds() {
+        return movementBounds;
+    }
+
     public Vector2D getVelocityPrev() {
         return velocity;
     }
@@ -77,18 +93,6 @@ public class Wall extends CollidableBody {
 
     public double getMomentOfInertia() {
         return Double.POSITIVE_INFINITY;
-    }
-
-    public void setMaxX( double x ) {
-        rep.setRect( rep.getMinX(), rep.getMinY(), x - rep.getMinX(), rep.getHeight() );
-//        setPosition( rep.getMinX(), rep.getMinY() );
-        // We need to fire an event
-        changeListenerProxy.wallChanged( new ChangeEvent( this ) );
-    }
-
-    public void setMinX( double x ) {
-        rep.setRect( x, rep.getMinY(), rep.getMaxX() - x, rep.getHeight() );
-        setPosition( rep.getMinX(), rep.getMinY() );
     }
 
     /**
