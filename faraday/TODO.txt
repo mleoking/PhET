@@ -54,6 +54,7 @@ phetcommon:
 
 DONE:
 v0r17...
+(3/9) - replace deprecated Module constructor with new constructor for all modules
 (3/9) - add water faucet to control turbine speed
 (3/9) - redo AC graphic
 (3/9) - fixed the bounds & registration point of FaradaySlider
