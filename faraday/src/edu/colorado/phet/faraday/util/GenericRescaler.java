@@ -27,16 +27,19 @@ public class GenericRescaler implements IRescaler {
     // Instance data
     //----------------------------------------------------------------------------
     
-    // The reference value and its range.
-    private double _reference, _minReference, _maxReference;
+    // The reference value.
+    private double _reference;
+    
+    // The maximum value of the reference.
+    private double _maxReference;
     
     // Values below this value are rescaled.
     private double _threshold;
     
-    // Approach this rescaling exponent as value approaches 0.
+    // Approach this rescaling exponent as reference value approached zero.
     private double _minExponent;
     
-    // Approach this rescaling exponent as value approaches 1.
+    // Approach this rescaling exponent as reference value approached its maximum.
     private double _maxExponent;
     
     //----------------------------------------------------------------------------
@@ -47,12 +50,11 @@ public class GenericRescaler implements IRescaler {
      * Sole constructor.
      */
     public GenericRescaler() {
-        _minReference = 0.0;
         _maxReference = 1.0;
         _reference = _maxReference;
         _threshold = 1.0;
-        _minExponent = 0.8;
-        _maxExponent = 0.3;
+        _minExponent = 0.3;
+        _maxExponent = 0.8;
     }
     
     //----------------------------------------------------------------------------
@@ -60,7 +62,7 @@ public class GenericRescaler implements IRescaler {
     //----------------------------------------------------------------------------
 
     public void setReference( double reference ) {
-        assert ( reference >= _minReference && reference <= _maxReference );
+        assert ( reference >= 0 && reference <= _maxReference );
         _reference = reference;
     }
     
@@ -68,19 +70,16 @@ public class GenericRescaler implements IRescaler {
         return _reference;
     }
     
-    public void setReferenceRange( double minReference, double maxReference ) {
-        assert( minReference <= maxReference );
-        _minReference = minReference;
+    public void setMaxReference( double maxReference ) {
+        assert( maxReference > 0 );
         _maxReference = maxReference;
-        _reference = MathUtil.clamp( _minReference, _reference, _maxReference );
+        if ( _reference > maxReference ) {
+            _reference = maxReference;
+        }
     }
     
     public double getMaxReference() {
         return _maxReference;
-    }
-    
-    public double getMinReference() {
-        return _minReference;
     }
     
     public void setThreshold( double threshold ) {
@@ -98,7 +97,7 @@ public class GenericRescaler implements IRescaler {
         assert( maxExponent > 0 && maxExponent <= 1.0 );
         _minExponent = minExponent;
         _maxExponent = maxExponent;
-    }
+    } 
     
     public double getMinExponent() {
         return _minExponent;
@@ -107,7 +106,7 @@ public class GenericRescaler implements IRescaler {
     public double getMaxExponent() {
         return _maxExponent;
     }
-    
+ 
     //----------------------------------------------------------------------------
     // rescaling methods
     //----------------------------------------------------------------------------
@@ -131,7 +130,7 @@ public class GenericRescaler implements IRescaler {
         assert( scale >=0 && scale <= 1 );
         double newScale = 0;
         if ( scale != 0 ) {
-            double referenceScale = ( _reference - _minReference ) / ( _maxReference - _minReference );
+            double referenceScale = _reference / _maxReference;
             if ( scale > _threshold ) {
                 newScale = referenceScale;
             }
