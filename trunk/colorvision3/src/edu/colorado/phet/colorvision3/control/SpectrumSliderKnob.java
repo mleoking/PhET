@@ -6,7 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
-import java.awt.Shape;
+import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -38,14 +38,25 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
   public SpectrumSliderKnob( Component parent )
   {    
     super( parent, null, null );
+
+    //  Request antialiasing.
+    RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+    super.setRenderingHints( hints );
     
-    // Initialize
-    _location = new Point( 0, 0 );
-    Shape shape = genShape( _location.x, _location.y );
-    setShape( shape );
-    setPaint( Color.red );
-    setStroke( new BasicStroke( 1f ) );
-    setBorderColor( Color.white );
+    super.setPaint( Color.red );
+    super.setStroke( new BasicStroke( 1f ) );
+    super.setBorderColor( Color.white );
+    
+    GeneralPath path = new GeneralPath();
+    path.moveTo(  10,  0 );
+    path.lineTo(   0, 10 );
+    path.lineTo(   0, 30 );
+    path.lineTo(  20, 30 );
+    path.lineTo(  20, 10 );
+    path.closePath();
+    super.setShape( path );
+    
+    setLocation( 0, 0 );
   }
   
 	//----------------------------------------------------------------------------
@@ -59,9 +70,12 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
    */
   public void setLocation( Point location )
   { 
+    if ( _location != null )
+    {
+      super.translate( -_location.x, -_location.y );
+    }
     _location = location;
-    Shape shape = genShape( _location.x, _location.y );
-    super.setShape( shape );
+    super.translate( location.x, location.y );
   }
   
   /**
@@ -81,30 +95,6 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
   public Point getLocation()
   {
     return _location;
-  }
-  
-	//----------------------------------------------------------------------------
-	// Rendering
-  //----------------------------------------------------------------------------
-
-  /**
-   * Generates the shape used to draw the slider knob.
-   * The coordinate provided identify the upper-left corner
-   * of the shape's bounds.
-   * 
-   * @param x X coordinate
-   * @param y Y coordinate
-   */
-  private Shape genShape( int x, int y )
-  {
-    GeneralPath path = new GeneralPath();
-    path.moveTo(  x + 10, y );
-    path.lineTo(  x,      y + 10 );
-    path.lineTo(  x,      y + 30 );
-    path.lineTo(  x + 20, y + 30 );
-    path.lineTo(  x + 20, y + 10 );
-    path.closePath();
-    return path;
   }
 
 }
