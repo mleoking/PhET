@@ -29,9 +29,9 @@ public class ElectronSpeedRescaler extends GenericRescaler implements SimpleObse
     //----------------------------------------------------------------------------
     
     // Electron speed rescaler
-    private static final double THRESHOLD = 0.9;
-    private static final double MIN_EXPONENT = 0.25;
-    private static final double MAX_EXPONENT = 1.0;
+    private static final double THRESHOLD = 0.8;
+    private static final double MIN_EXPONENT = 0.3;
+    private static final double MAX_EXPONENT = 0.3;
     
     //----------------------------------------------------------------------------
     // Instance data
