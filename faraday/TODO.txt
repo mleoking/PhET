@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- bug: grid doesn't display until the battery voltage is changed
+
 
 HIGH PRIORITY:
 - when a collision occurs, don't ignore the translate, move the object as close as possible
@@ -49,6 +49,7 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/24) - bug fix: grid doesn't display until the battery voltage is changed
 (2/24) - add "Show Electrons" and "Loops" controls to Electromagnet module
 (2/24) - set a maximum position delta in Electron, so that we can see the animation at maximum speeds
 (2/24) - give CoilGraphic it's own rescaler to control "look" of electron speed
