@@ -49,6 +49,7 @@ public class PickupCoilGraphic
     //----------------------------------------------------------------------------
     
     private Rectangle _parentBounds;
+    private Rectangle _bounds;
     private PickupCoil _pickupCoilModel;
     private CoilGraphic _coilGraphic;
     private LightbulbGraphic _lightbulbGraphic;
@@ -86,6 +87,7 @@ public class PickupCoilGraphic
         _collisionDetector = new CollisionDetector( this );
         
         _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
+        _bounds = new Rectangle();
         
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
@@ -201,10 +203,10 @@ public class PickupCoilGraphic
         // Position the lightbulb and voltmeter at the top of the coil.
         _foreground.clearTransform();
         _background.clearTransform();
-        Rectangle bounds = new Rectangle( _coilGraphic.getForeground().getBounds() );
-        bounds.union( _coilGraphic.getBackground().getBounds() );
+        _bounds.setBounds( _coilGraphic.getForeground().getBounds() );
+        _bounds.union( _coilGraphic.getBackground().getBounds() );
         int x = -10;
-        int y = -( bounds.height / 2 ) - 5;
+        int y = -( _bounds.height / 2 ) - 5;
         _lightbulbGraphic.setLocation( x, y );
         _voltmeterGraphic.setLocation( x, y );
         
