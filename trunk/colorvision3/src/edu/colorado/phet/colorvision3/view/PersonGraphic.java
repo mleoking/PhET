@@ -1,10 +1,8 @@
 /* PersonGraphic.java */
 package edu.colorado.phet.colorvision3.view;
 
-import java.awt.Color;
-
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
-import edu.colorado.phet.colorvision3.model.Person2D;
+import edu.colorado.phet.colorvision3.model.Person;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -26,7 +24,7 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
   private static final int THOUGHT_BUBBLE_X_OFFSET = 170;
   private static final int THOUGHT_BUBBLE_Y_OFFSET = 5;
     
-  private Person2D _model;
+  private Person _model;
   private PhetImageGraphic _headBackgroundGraphic, _headForegroundGraphic;
   private ThoughtBubbleGraphic _thoughtBubbleGraphic;
     
@@ -42,7 +40,7 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
     ApparatusPanel apparatusPanel,
     double backgroundLayer,
     double foregroundLayer,
-    Person2D model )
+    Person model )
   {
     super( apparatusPanel );
     
@@ -82,16 +80,6 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
   }
 
   /**
-   * Sets the color for the associated model.
-   * 
-   * @param color
-   */
-  public void setColor( Color color )
-  {
-    _model.setColor( color );
-  }
-
-  /**
    * Synchronizes the view with the model.
    * This method is called whenever the model changes.
    */
@@ -103,7 +91,7 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
                                         (int)(_model.getY() + HEAD_Y_OFFSET) );
     _thoughtBubbleGraphic.setPosition( (int)(_model.getX() + THOUGHT_BUBBLE_X_OFFSET), 
                                       (int)(_model.getY() + THOUGHT_BUBBLE_Y_OFFSET) );
-    _thoughtBubbleGraphic.setFill( _model.getColor() );   
+    _thoughtBubbleGraphic.setFill( _model.getColor() );
     
     super.repaint();
   }

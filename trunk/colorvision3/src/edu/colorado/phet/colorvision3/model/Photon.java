@@ -1,35 +1,32 @@
-/* PhotonGraphic.java */
+/* Photon.java */
 
-package edu.colorado.phet.colorvision3.view;
+package edu.colorado.phet.colorvision3.model;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Stroke;
+import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
+
 
 /**
- * PhotonGraphic is the visual representation of a single photon.
+ * Photon is the visual representation of a single photon.
  * It is used as a component of a PhotonBeamGraphic.
  *
  * @author Chris Malley, cmalley@pixelzoom.com
  * @revision $Id$
  */
-public class PhotonGraphic
+public class Photon
 {
-  public static int PHOTON_DS = 10;
-  public static int PHOTON_LINE_LENGTH = 3;
-  private static int PHOTON_LINE_WIDTH = 1;
-  private static Stroke PHOTON_STROKE = new BasicStroke( PHOTON_LINE_WIDTH );
-  
-  private Color _color;
-  private double _direction;
+  private VisibleColor _color;
+  private double _direction; // in degrees
   private double _intensity; // 0.0 - 100.0 %
   private boolean _inUse;
   private double _x, _y;
-
+  private boolean _isFiltered;
+  
+  // These things are related to how a photon is displayed, but
+  // are included here so that we can optimize by pre-computing
+  // some values.  See the setDirection method.
   private double _deltaX, _deltaY;
   private double _width, _height;
-
+  
   /**
    * Sole constructor.
    * 
@@ -39,13 +36,15 @@ public class PhotonGraphic
    * @param y the Y location
    * @param direction the direction
    */
-  public PhotonGraphic( final Color color, double intensity, double x, double y, double direction ) 
+  public Photon( VisibleColor color, double intensity, double x, double y, double direction ) 
   {   
-    setColor( color );
-    setIntensity( intensity );
-    setLocation( x, y );
-    setDirection( direction );   
-    setInUse( true );
+    _inUse = true;
+    _color = color;
+    _intensity = intensity;
+    _x = x;
+    _y = y;
+    _isFiltered = false;
+    setDirection( direction );  // pre-calculates deltas  
   }
 
   /**
@@ -69,6 +68,16 @@ public class PhotonGraphic
     return _inUse;
   }
 
+  public void setFiltered( boolean isFiltered )
+  {
+    _isFiltered = isFiltered;
+  }
+  
+  public boolean isFiltered()
+  {
+    return _isFiltered;
+  }
+  
   /**
    * Sets the location.
    * 
@@ -114,10 +123,10 @@ public class PhotonGraphic
     double radians = Math.toRadians( direction );
     double cosAngle = Math.cos( radians );
     double sinAngle = Math.sin( radians );
-    _deltaX = PHOTON_DS * cosAngle;
-    _deltaY = PHOTON_DS * sinAngle;
-    _width = PHOTON_LINE_LENGTH * cosAngle;
-    _height = PHOTON_LINE_LENGTH * sinAngle;
+    _deltaX = PhotonBeamGraphic.PHOTON_DS * cosAngle;
+    _deltaY = PhotonBeamGraphic.PHOTON_DS * sinAngle;
+    _width  = PhotonBeamGraphic.PHOTON_LINE_LENGTH * cosAngle;
+    _height = PhotonBeamGraphic.PHOTON_LINE_LENGTH * sinAngle;
   }
   
   /**
@@ -135,7 +144,7 @@ public class PhotonGraphic
    * 
    * @param color the color
    */
-  public void setColor( final Color color )
+  public void setColor( VisibleColor color )
   {
     _color = color;
   }
@@ -145,7 +154,7 @@ public class PhotonGraphic
    * 
    * @return the color
    */
-  public Color getColor()
+  public VisibleColor getColor()
   {
     return _color;
   }
@@ -202,21 +211,6 @@ public class PhotonGraphic
     // Advance the location of the photon.
     _x += _deltaX;
     _y += _deltaY;
-  }
-  
-  /**
-   * Renders the photon.
-   * Note that for performance reasons, this call does NOT restore the graphics state.
-   * Graphics state must be saved and restored by the caller.
-   * 
-   * @param g2 the 2D graphics context
-   */
-  public void paint( Graphics2D g2 )
-  {
-    g2.setStroke( PHOTON_STROKE );
-    g2.setColor( _color );
-    g2.drawLine( (int)_x, (int)_y, 
-                 (int)(_x - _width), (int)(_y - _height) );
   }
   
 }

@@ -8,7 +8,7 @@ import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.colorvision3.model.Spotlight2D;
+import edu.colorado.phet.colorvision3.model.Spotlight;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 /**
@@ -19,11 +19,11 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  */
 public class ColumnarBeamGraphic extends PhetShapeGraphic
 {
-  private Spotlight2D _model;
+  private Spotlight _model;
   private int _distance;
   private int _alphaScale; // percent
   
-  public ColumnarBeamGraphic( Component parent, Spotlight2D model )
+  public ColumnarBeamGraphic( Component parent, Spotlight model )
   {
     super( parent, null, null );
     

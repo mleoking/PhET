@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.colorvision3.model;
 
-import edu.colorado.phet.colorvision3.util.ColorUtil;
 import edu.colorado.phet.common.util.SimpleObservable;
 
 /**
@@ -18,8 +17,10 @@ public class Filter extends SimpleObservable
   // Filter location
   private double _x, _y;
   
-  // The filter's peak transmission wavelength.
-  private double _transmissionPeak;
+  private boolean _enabled;
+  
+  // The filter's peak transmission color.
+  private VisibleColor _transmissionPeak;
   
   // Width (in nm) of the filter's transmission curve.
   private double _transmissionWidth;
@@ -27,7 +28,7 @@ public class Filter extends SimpleObservable
   public Filter()
   {
     _x = _y = 0.0;
-    _transmissionPeak = ColorUtil.WHITE_WAVELENGTH;
+    _transmissionPeak = VisibleColor.WHITE;
     _transmissionWidth = DEFAULT_TRANSMISSION_WIDTH;
   }
   
@@ -35,6 +36,7 @@ public class Filter extends SimpleObservable
   {
     _x = x;
     _y = y;
+    _enabled = true;
     notifyObservers();
   }
   
@@ -48,15 +50,30 @@ public class Filter extends SimpleObservable
     return _y;
   }
   
-  public double getTransmissionPeak()
+  public void setEnabled( boolean enabled )
+  {
+    _enabled = enabled;
+  }
+  
+  public boolean isEnabled()
+  {
+    return _enabled;
+  }
+  
+  public VisibleColor getTransmissionPeak()
   {
     return _transmissionPeak;
   }
   
-  public void setTransmissionPeak( double transmissionPeak )
+  public void setTransmissionPeak( VisibleColor transmissionPeak )
   {
     _transmissionPeak = transmissionPeak;
     notifyObservers();
+  }
+  
+  public void setTransmissionPeak( double wavelength )
+  {
+    setTransmissionPeak( new VisibleColor(wavelength) );
   }
   
   /**
@@ -76,22 +93,48 @@ public class Filter extends SimpleObservable
     notifyObservers();
   }
   
-  public double calculatePercentPassed( double wavelength )
+  public VisibleColor colorPassed( VisibleColor color )
+  {
+    VisibleColor passedColor = null;
+    
+    if ( color.equals( VisibleColor.WHITE) )
+    {
+      // White light passes as filter color.
+      passedColor = _transmissionPeak;
+    }
+    else
+    {
+      // With a colored bulb, the filter passes some percentage of the bulb color.
+      double percentPassed = 
+        calculatePercentPassed( color.getWavelength(), _transmissionPeak.getWavelength(), _transmissionWidth );
+      if ( percentPassed == 0 )
+      {
+        passedColor = VisibleColor.INVISIBLE;
+      }
+      else
+      {
+        int r = color.getRed();
+        int g = color.getGreen();
+        int b = color.getBlue();
+        int a = (int)( percentPassed / 100 * 255 );
+        passedColor = new VisibleColor( r, g, b, a );
+      }
+    }
+    return passedColor;
+  }
+  
+  private static double calculatePercentPassed( 
+      double wavelength, double transmissionPeak, double transmissionWidth )
   {
     double percent = 0.0;
     
-    if ( _transmissionPeak == ColorUtil.WHITE_WAVELENGTH )
-    {
-      // Special case: white filter passes 100% of all colors
-      percent = 100.0;
-    }
-    else if ( wavelength == ColorUtil.WHITE_WAVELENGTH )
+    if ( wavelength == VisibleColor.WHITE_WAVELENGTH )
     {
       //  Special case: white light passes 100%
       percent = 100.0;
     }
-    else if ( wavelength < _transmissionPeak - (_transmissionWidth/2) ||
-              wavelength > _transmissionPeak + (_transmissionWidth/2) )
+    else if ( wavelength < transmissionPeak - (transmissionWidth/2) ||
+              wavelength > transmissionPeak + (transmissionWidth/2) )
     {
       // If the wavelength is outside the transmission width, no color passes.
       percent = 0.0;
@@ -99,7 +142,7 @@ public class Filter extends SimpleObservable
     else
     {
       // Wavelength is within the transmission width, pass a linear percentage.
-       percent = 100.0 - ((Math.abs( _transmissionPeak - wavelength )/(_transmissionWidth/2)) * 100.0);
+       percent = 100.0 - ((Math.abs( transmissionPeak - wavelength )/(transmissionWidth/2)) * 100.0);
     }
     
     return percent;

@@ -17,7 +17,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
-import edu.colorado.phet.colorvision3.util.ColorUtil;
+import edu.colorado.phet.colorvision3.model.VisibleColor;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
@@ -104,18 +104,6 @@ public class SpectrumControl extends DefaultInteractiveGraphic implements Transl
   	double fraction = (_slider.getPosition().x - _dragBounds.x )/(double)(_dragBounds.width);
   	int value = (int) (fraction * (_maximum - _minimum)) + _minimum;
     return value;
-  }
-  
-  /**
-   * Gets the slider value as a Color.
-   * 
-   * @return the color represented by the current slider value
-   */
-  public Color getColor()
-  {
-    int wavelength = this.getValue();
-    Color color = ColorUtil.wavelengthToColor( wavelength );
-    return color;
   }
   
   public void setMinimum( int minimum )
@@ -237,7 +225,8 @@ public class SpectrumControl extends DefaultInteractiveGraphic implements Transl
     _slider.setPosition( (int)x, (int)y );
       
     // Change the slider color.
-    _slider.setPaint( getColor() );
+    VisibleColor color = new VisibleColor( getValue() );
+    _slider.setPaint( color );
       
     // Fire a ChangeEvent to notify listeners that the slider has moved.
     fireChangeEvent( new ChangeEvent(this) );

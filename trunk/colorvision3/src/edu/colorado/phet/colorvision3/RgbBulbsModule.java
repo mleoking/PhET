@@ -8,10 +8,11 @@ import java.awt.Rectangle;
 
 import javax.swing.JSlider;
 
-import edu.colorado.phet.colorvision3.event.IntensityChangeEvent;
-import edu.colorado.phet.colorvision3.event.IntensityChangeListener;
-import edu.colorado.phet.colorvision3.model.Person2D;
-import edu.colorado.phet.colorvision3.model.Spotlight2D;
+import edu.colorado.phet.colorvision3.event.ColorChangeEvent;
+import edu.colorado.phet.colorvision3.event.ColorChangeListener;
+import edu.colorado.phet.colorvision3.model.Person;
+import edu.colorado.phet.colorvision3.model.Spotlight;
+import edu.colorado.phet.colorvision3.model.VisibleColor;
 import edu.colorado.phet.colorvision3.view.IntensityControl;
 import edu.colorado.phet.colorvision3.view.PersonGraphic;
 import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
@@ -31,7 +32,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$
  */
-public class RgbBulbsModule extends Module implements IntensityChangeListener
+public class RgbBulbsModule extends Module implements ColorChangeListener
 {	
 	// Rendering layers
   private static final double PERSON_BACKGROUND_LAYER = 1;
@@ -73,7 +74,7 @@ public class RgbBulbsModule extends Module implements IntensityChangeListener
 	private static final Dimension INTENSITY_CONTROL_SIZE = new Dimension(20,100);
 	
 	// Models
-	private Person2D _personModel;
+	private Person _personModel;
 	
 	// Views
 	private PhotonBeamGraphic _redBeam, _greenBeam, _blueBeam;
@@ -99,27 +100,27 @@ public class RgbBulbsModule extends Module implements IntensityChangeListener
 		this.setModel( model );
 	
 		// Person model
-		_personModel = new Person2D();
+		_personModel = new Person();
 		_personModel.setLocation( PERSON_X, PERSON_Y );
 		
 		// Red Spotlight model
-		Spotlight2D redModel = new Spotlight2D();
-		redModel.setColor( Color.red );
-		redModel.setIntensity( Spotlight2D.INTENSITY_MIN );
+		Spotlight redModel = new Spotlight();
+		redModel.setColor( VisibleColor.RED );
+		redModel.setIntensity( Spotlight.INTENSITY_MIN );
 		redModel.setLocation( RED_SPOTLIGHT_X, RED_SPOTLIGHT_Y );
 		redModel.setDirection( RED_SPOTLIGHT_ANGLE );
 	
 		// Green Spotlight model
-		Spotlight2D greenModel = new Spotlight2D();
-		greenModel.setColor( Color.green );
-		greenModel.setIntensity( Spotlight2D.INTENSITY_MIN );
+		Spotlight greenModel = new Spotlight();
+		greenModel.setColor( VisibleColor.GREEN );
+		greenModel.setIntensity( Spotlight.INTENSITY_MIN );
 		greenModel.setLocation( GREEN_SPOTLIGHT_X, GREEN_SPOTLIGHT_Y );
 		greenModel.setDirection( GREEN_SPOTLIGHT_ANGLE );
 		
 		// Blue Spotlight model
-		Spotlight2D blueModel = new Spotlight2D();
-		blueModel.setColor( Color.blue );
-		blueModel.setIntensity( Spotlight2D.INTENSITY_MIN );
+		Spotlight blueModel = new Spotlight();
+		blueModel.setColor( VisibleColor.BLUE );
+		blueModel.setIntensity( Spotlight.INTENSITY_MIN );
 		blueModel.setLocation( BLUE_SPOTLIGHT_X, BLUE_SPOTLIGHT_Y );
 		blueModel.setDirection( BLUE_SPOTLIGHT_ANGLE );
 		
@@ -222,14 +223,14 @@ public class RgbBulbsModule extends Module implements IntensityChangeListener
 	}
 	
   /**
-   * Handles an IntensityChangeEvent.
+   * Handles an ColorChangeEvent.
    * The new perceived color is calculated and set.
    * 
    * @param event the event
    */
-  public void intensityChanged( IntensityChangeEvent event )
+  public void colorChanged( ColorChangeEvent event )
   {
-		Color color = getPerceivedColor();
+		VisibleColor color = getPerceivedColor();
 		_personModel.setColor( color ); 
   }
 
@@ -240,9 +241,9 @@ public class RgbBulbsModule extends Module implements IntensityChangeListener
    * 
    * @return the perceived color
    */
-  private Color getPerceivedColor()
+  private VisibleColor getPerceivedColor()
   {
-    double maxIntensity = Spotlight2D.INTENSITY_MAX;
+    double maxIntensity = Spotlight.INTENSITY_MAX;
     
     // Each beam contributes one color component.
     int red = (int) ((_redBeam.getPerceivedIntensity() / maxIntensity) * 255 );
@@ -250,7 +251,7 @@ public class RgbBulbsModule extends Module implements IntensityChangeListener
     int blue = (int) ((_blueBeam.getPerceivedIntensity() / maxIntensity) * 255 );
     int alpha = Math.max( red, Math.max(green, blue) );
 
-		return new Color( red, green, blue, alpha );
+		return new VisibleColor( red, green, blue, alpha );
   }
   
 }

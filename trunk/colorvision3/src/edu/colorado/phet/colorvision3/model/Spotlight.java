@@ -1,21 +1,19 @@
-/* Spotlight2D.java */
+/* Spotlight.java */
 
 package edu.colorado.phet.colorvision3.model;
-
-import java.awt.Color;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObservable;
 
 /**
- * Spotlight2D is the model for a 2D spotlight.
+ * Spotlight is the model for a 2D spotlight.
  * Any changes to the models properties (via its setters or getters)
  * results in the notification of all registered observers.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @revision $Id$
  */
-public class Spotlight2D extends SimpleObservable
+public class Spotlight extends SimpleObservable
 {
   public static final double INTENSITY_MIN = 0.0;
   public static final double INTENSITY_MAX = 100.0;
@@ -25,7 +23,7 @@ public class Spotlight2D extends SimpleObservable
   public static final double CUT_OFF_ANGLE_MAX = 180.00;
   public static final double CUT_OFF_ANGLE_DEFAULT = 15.0;
   
-  private Color _color;
+  private VisibleColor _color;
   private double _cutOffAngle;
   private double _direction;
   private double _dropOffRate;
@@ -34,14 +32,14 @@ public class Spotlight2D extends SimpleObservable
 
   /**
    * Sole constructor.
-   * Creates a Spotlight2D with: location at the origin (0,0), a white beam,
+   * Creates a Spotlight with: location at the origin (0,0), a white beam,
    * 20 degree cut off angle, 0 degree direction, 0 drop off rate (contant),
    * 0 intensity.
    */
-  public Spotlight2D()
+  public Spotlight()
   {
     // Initialize instance data.
-    _color       = Color.white;
+    _color       = VisibleColor.WHITE;
     _cutOffAngle = CUT_OFF_ANGLE_DEFAULT;
     _direction   = 0.0;
     _dropOffRate = DROP_OFF_RATE_MIN; // constant intensity
@@ -54,7 +52,7 @@ public class Spotlight2D extends SimpleObservable
    * 
    * @return the color
    */
-  public Color getColor()
+  public VisibleColor getColor()
   {
     return _color;
   }
@@ -64,7 +62,7 @@ public class Spotlight2D extends SimpleObservable
    * 
    * @param color the color
    */
-  public void setColor( Color color )
+  public void setColor( VisibleColor color )
   {
     _color = color;
     notifyObservers();
