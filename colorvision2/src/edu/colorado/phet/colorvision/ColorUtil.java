@@ -13,23 +13,23 @@ public class ColorUtil {
 //        public static voide traceCtx(c) {
 //            trace("red:" + c.rb + "  green:" + c.gb + "  blue:" + c.bb);
 //        }
-    static int getColor(double wavelength) {
-        return ctxToColor(ColorUtil.getCtx(wavelength));
+    static int getColor( double wavelength ) {
+        return ctxToColor( ColorUtil.getCtx( wavelength ) );
     }
 
-    static int ctxToColor(ColorTransform ctx){
-        int red = Math.round(0x010000 * ctx.rb);
-        int green = Math.round(0x000100 * ctx.gb);
-        int blue = Math.round(0x000001 * ctx.bb);
+    static int ctxToColor( ColorTransform ctx ) {
+        int red = Math.round( 0x010000 * ctx.rb );
+        int green = Math.round( 0x000100 * ctx.gb );
+        int blue = Math.round( 0x000001 * ctx.bb );
         int c = red + blue + green;
         return c;
     }
 
-    static ColorTransform colorToCtx(int color){
-        int red = Math.round(color / 0x010000);
-        int green = Math.round((color % 0x010000) / 0x000100);
-        int blue = Math.round(color % 0x000100);
-        ColorTransform ctx = new ColorTransform(red, green, blue);
+    static ColorTransform colorToCtx( int color ) {
+        int red = Math.round( color / 0x010000 );
+        int green = Math.round( ( color % 0x010000 ) / 0x000100 );
+        int blue = Math.round( color % 0x000100 );
+        ColorTransform ctx = new ColorTransform( red, green, blue );
         return ctx;
     }
 
@@ -178,66 +178,70 @@ public class ColorUtil {
 //    }
 
 
-    static ColorTransform getCtx(double wl) {
+    static ColorTransform getCtx( double wl ) {
         double r = 0;
         double g = 0;
         double b = 0;
         double SSS;
         int red, green, blue;
         ColorTransform ctx = null;
-        if (wl >= 380 && wl <= 440.) {
-            r = -1. * (wl - 440.) / (440. - 380.);
+        if( wl >= 380 && wl <= 440. ) {
+            r = -1. * ( wl - 440. ) / ( 440. - 380. );
             g = 0;
             b = 1;
         }
-        if (wl > 440 && wl <= 490) {
+        if( wl > 440 && wl <= 490 ) {
             r = 0;
-            g = (wl - 440.) / (490. - 440.);
+            g = ( wl - 440. ) / ( 490. - 440. );
             b = 1.;
         }
-        if (wl > 490. && wl <= 510.) {
+        if( wl > 490. && wl <= 510. ) {
             r = 0;
             g = 1;
-            b = -1. * (wl - 510.) / (510. - 490.);
+            b = -1. * ( wl - 510. ) / ( 510. - 490. );
         }
-        if (wl > 510. && wl <= 580.) {
-            r = (wl - 510.) / (580. - 510.);
+        if( wl > 510. && wl <= 580. ) {
+            r = ( wl - 510. ) / ( 580. - 510. );
             g = 1.;
             b = 0.;
         }
-        if (wl > 580. && wl <= 645.) {
+        if( wl > 580. && wl <= 645. ) {
             r = 1.;
-            g = -1. * (wl - 645.) / (645. - 580.);
+            g = -1. * ( wl - 645. ) / ( 645. - 580. );
             b = 0.;
         }
-        if (wl > 645. && wl <= 780.) {
+        if( wl > 645. && wl <= 780. ) {
             r = 1.;
             g = 0.;
             b = 0;
         }
         //      LET THE InTEnSITY SSS FALL OFF nEAr THE VISIOn LImITS
-        if (wl > 700.) {
-            SSS = .3 + .7 * (780. - wl) / (780. - 700.);
-        } else if (wl < 420.) {
-            SSS = .3 + .7 * (wl - 380.) / (420. - 380.);
-        } else {
+        if( wl > 700. ) {
+            SSS = .3 + .7 * ( 780. - wl ) / ( 780. - 700. );
+        }
+        else if( wl < 420. ) {
+            SSS = .3 + .7 * ( wl - 380. ) / ( 420. - 380. );
+        }
+        else {
             SSS = 1.;
         }
 
-        if (wl == 0) {
-            ctx = new ColorTransform(255, 255, 255);
-        } else {
-            red = (int) Math.round(255 * (SSS * r));
-            green = (int) Math.round(255 * (SSS * g));
-            blue = (int) Math.round(255 * (SSS * b));
-            ctx = new ColorTransform( red, green, blue);
+        if( wl == 0 ) {
+            ctx = new ColorTransform( 255, 255, 255 );
+        }
+        else {
+            red = (int)Math.round( 255 * ( SSS * r ) );
+            green = (int)Math.round( 255 * ( SSS * g ) );
+            blue = (int)Math.round( 255 * ( SSS * b ) );
+            ctx = new ColorTransform( red, green, blue );
         }
         return ctx;
     }
+
     static class ColorTransform {
         public int rb, gb, bb;
 
-        public ColorTransform(int rb, int gb, int bb) {
+        public ColorTransform( int rb, int gb, int bb ) {
             this.rb = rb;
             this.gb = gb;
             this.bb = bb;
