@@ -8,6 +8,7 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,6 +90,7 @@ public class ApparatusPanel extends JPanel {
     protected void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
         super.paintComponent( g2 );
+        GraphicsState state = new GraphicsState( g2 );
         for( int i = 0; i < graphicsSetups.size(); i++ ) {
             GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
             graphicsSetup.setup( g2 );
@@ -104,7 +106,7 @@ public class ApparatusPanel extends JPanel {
 
         g2.setColor( origColor );
         g2.setStroke( origStroke );
-        //        g2.draw( this.getBounds() );
+        state.restoreGraphics();
     }
 
     public void addGraphic( Graphic graphic, double level ) {
@@ -116,7 +118,6 @@ public class ApparatusPanel extends JPanel {
      */
     public void addGraphic( Graphic graphic ) {
         this.addGraphic( graphic, 0 );
-        //        this.graphic.addGraphic( graphic, 0 );
     }
 
     public void removeGraphic( Graphic graphic ) {
