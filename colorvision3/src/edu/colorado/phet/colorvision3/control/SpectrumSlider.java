@@ -71,6 +71,8 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   private Rectangle _dragBounds; 
   // Event listeners.
   private EventListenerList _listenerList; 
+  // The current value.
+  private int _value;
   // Minimum and maximum range, inclusive.
   private int _minimum, _maximum; 
   // Textual label, placed above the slider.
@@ -81,6 +83,8 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   private AttributedString _attributedString; 
   // Transmission width, in pixels.
   private double _transmissionWidth;
+  // Location of the mouse relative to the knob when a drag is started.
+  private int _mouseOffset;
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -132,22 +136,12 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   public void setValue( int value )
   {
     // Silently clamp the value to the allowed range.
-    value = (int) MathUtil.clamp( _minimum, value, _maximum );
-    
-    // Set the knob's location & color.
-    {
-      double fraction = (value - _minimum)/(double)(_maximum - _minimum);
-      int x = (int) (fraction * _dragBounds.width) + _dragBounds.x;
-      _knob.setLocation( x, _knob.getPosition().y );
-      
-      VisibleColor color = new VisibleColor( getValue() );
-      _knob.setPaint( color.toColor() );
-    }
-    
+    _value = (int) MathUtil.clamp( _minimum, value, _maximum );
+
     // Fire a ChangeEvent to notify listeners that the value has changed.
     fireChangeEvent( new ChangeEvent(this) );
     
-    repaint();
+    updateKnob();
   }
   
   /**
@@ -157,12 +151,11 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
    */
   public int getValue()
   {
-    // Determine the value based on the knob location.
-    return getValue( _knob.getPosition().x, _knob.getPosition().y );
+    return _value;
   }
  
   /**
-   * Gets the slider value based on an (x,y) location.
+   * Gets the slider value based on a hypothetical location of the knob.
    * 
    * @return the value
    */
@@ -182,6 +175,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   protected void setMinimum( int minimum )
   {
     _minimum = minimum;
+    updateKnob();
   }
   
   /**
@@ -202,6 +196,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   protected void setMaximum( int maximum )
   {
     _maximum = maximum;
+    updateKnob();
   }
   
   /** 
@@ -274,24 +269,18 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
    * @param location the location
    */
   public void setLocation( Point location )
-  {
-    int value = getValue();
-    
+  {   
     _location = location;
     
     // Move the spectrum graphic.
     _spectrum.setPosition( _location.x, _location.y );
-
-    // Move the slider, positioning it at the minimum value.
-    _knob.setLocation( _location.x - (_knob.getBounds().width/2), 
-                         _location.y + _spectrum.getBounds().height );
     
     // Set drag bounds.
-    _dragBounds = new Rectangle( _knob.getPosition().x, _knob.getPosition().y,
-                                          _spectrum.getBounds().width, 0 );
-    
-    // Restore the value.
-    setValue( value ); // calls repaint
+    _dragBounds = new Rectangle( _location.x - (_knob.getBounds().width/2), 
+                                 _location.y + _spectrum.getBounds().height,
+                                 _spectrum.getBounds().width, 0 );
+
+    updateKnob();
   }
   
   /**
@@ -383,6 +372,24 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
     }
   }
   
+  /*
+   * Updates the knob based on the current location and value of the slider.
+   * This method is used by many of the setter methods.
+   */
+  private void updateKnob()
+  {
+    // Set the knob's location & color.
+    double fraction = (_value - _minimum)/(double)(_maximum - _minimum);
+    int x = (int) (fraction * _dragBounds.width) + _dragBounds.x;
+    _knob.setLocation( x, _dragBounds.y );
+      
+    // Set the knob's color.
+    VisibleColor color = new VisibleColor( _value );
+    _knob.setPaint( color.toColor() );
+    
+    repaint();
+  }
+  
 	//----------------------------------------------------------------------------
 	// Rendering
   //----------------------------------------------------------------------------
@@ -416,7 +423,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
       { 
         // Set its location to line up with the knob.
         // HACK: If this is done in setValue method, anti-aliasing is inconsistent.
-        int x = _knob.getPosition().x + _knob.getBounds().width/2;
+        int x = _knob.getLocation().x + _knob.getBounds().width/2;
         int y = _spectrum.getBounds().y;
         _curve.setLocation( x, y );
         
@@ -515,7 +522,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
     public void mouseDragged( MouseEvent event )
     {
       // Get the proposed knob coordinates.
-      int knobX = event.getX() - (_knob.getWidth()/2);
+      int knobX = event.getX() - _mouseOffset;
       int knobY = event.getY();
       
       // Constrain the drag boundaries of the knob.
@@ -530,6 +537,18 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
       {
         setValue( value );
       }
+    }
+    
+    /**
+     * Handles mouse press events.
+     * Remembers how far the mouse was from the knob's origin at 
+     * the time the drag began.
+     * 
+     * @param event the mouse event
+     */
+    public void mousePressed( MouseEvent event )
+    {
+      _mouseOffset = event.getX() - _knob.getLocation().x;
     }
   }
 
