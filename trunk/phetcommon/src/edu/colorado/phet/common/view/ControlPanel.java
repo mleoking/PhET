@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class ControlPanel extends JPanel {
     private int padY = 5;
     private ArrayList controls = new ArrayList();
     private HashMap panelEntries = new HashMap();
-    private Insets defaultInsets = new Insets(10, 5, 0, 5);
+    private Insets defaultInsets = new Insets( 0, 0, 0, 0);
 
 
     /**
@@ -45,19 +46,42 @@ public class ControlPanel extends JPanel {
      */
     public ControlPanel(Module module) {
         this.module = module;
-        URL resource = getClass().getClassLoader().getResource("images/Phet-Flatirons-logo-3-small.gif");
-        imageIcon = new ImageIcon(resource);
+        this.setLayout( new BorderLayout() );
 
-        this.setLayout(new BorderLayout());
-        titleLabel = (new JLabel(imageIcon));
-        helpPanel = new HelpPanel(module);
+        // Logo at top of panel
+        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
+        imageIcon = new ImageIcon( resource );
+        titleLabel = ( new JLabel( imageIcon ) );
+        JPanel p = new JPanel();
+        p.add( titleLabel );
+        this.add( p, BorderLayout.NORTH );
 
-        this.add(titleLabel, BorderLayout.NORTH);
-        this.add(helpPanel, BorderLayout.SOUTH);
+        // Panel for help button
+        helpPanel = new HelpPanel( module );
+        JPanel hp = new JPanel();
+        hp.add( helpPanel );
+        this.add( hp, BorderLayout.SOUTH );
         setHelpPanelEnabled( module.hasHelp() );
+
         JPanel centerPane = new JPanel();
-        centerPane.add(controlPane);
-        this.add(centerPane, BorderLayout.CENTER);
+        centerPane.add( controlPane );
+        JScrollPane scrollPane = new JScrollPane( centerPane );
+        scrollPane.setBorder( null );
+        this.add( scrollPane, BorderLayout.CENTER );
+//        this.module = module;
+//        URL resource = getClass().getClassLoader().getResource("images/Phet-Flatirons-logo-3-small.gif");
+//        imageIcon = new ImageIcon(resource);
+//
+//        this.setLayout(new BorderLayout());
+//        titleLabel = (new JLabel(imageIcon));
+//        helpPanel = new HelpPanel(module);
+//
+//        this.add(titleLabel, BorderLayout.NORTH);
+//        this.add(helpPanel, BorderLayout.SOUTH);
+//        setHelpPanelEnabled( module.hasHelp() );
+//        JPanel centerPane = new JPanel();
+//        centerPane.add(controlPane);
+//        this.add(centerPane, BorderLayout.CENTER);
     }
 
 
