@@ -1,10 +1,9 @@
 package phet.ohm1d.volt;
 
-import edu.colorado.phet.common.view.util.SimStrings;
-
 import phet.paint.TextPainter;
 import phet.phys2d.Law;
 import phet.phys2d.System2D;
+import phet.view.util.SimStrings;
 
 public class VoltCount implements Law {
     Batt batt;

@@ -1,7 +1,5 @@
 package phet.ohm1d.volt;
 
-import edu.colorado.phet.common.view.util.SimStrings;
-
 import phet.math.functions.Transform;
 import phet.ohm1d.AngelPaint;
 import phet.ohm1d.AverageCurrent2;
@@ -36,6 +34,7 @@ import phet.phys2d.laws.Repaint;
 import phet.utils.AlphaFixer2;
 import phet.utils.MakeTransparentImage;
 import phet.utils.ResourceLoader4;
+import phet.view.util.SimStrings;
 import phet.wire1d.Circuit;
 import phet.wire1d.WirePatch;
 import phet.wire1d.WireSystem;
