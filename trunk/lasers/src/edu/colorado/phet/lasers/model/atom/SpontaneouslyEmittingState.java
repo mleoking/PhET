@@ -34,13 +34,15 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
      */
     public static class StateLifetimeManager implements ModelElement {
         private Atom atom;
+        private boolean emitOnStateChange;
         private double lifeTime;
         private double deathTime;
         private SpontaneouslyEmittingState state;
         private boolean lifetimeFixed = false;
 
-        public StateLifetimeManager( Atom atom ) {
+        public StateLifetimeManager( Atom atom, boolean emitOnStateChange ) {
             this.atom = atom;
+            this.emitOnStateChange = emitOnStateChange;
             s_model.addModelElement( this );
 
             double temp = 0;
@@ -70,22 +72,25 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
         public void stepInTime( double dt ) {
             lifeTime += dt;
             if( lifeTime >= deathTime ) {
-                Photon emittedPhoton = emitPhoton();
 
-                double speed = emittedPhoton.getVelocity().getMagnitude();
-                double theta = Math.random() * Math.PI * 2;
-                double x = speed * Math.cos( theta );
-                double y = speed * Math.sin( theta );
-                emittedPhoton.setVelocity( x, y );
-                emittedPhoton.setPosition( new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ) );
+                if( emitOnStateChange ) {
+                    Photon emittedPhoton = emitPhoton();
 
-                // Place the replacement photon beyond the atom, so it doesn't collide again
-                // right away
-                Vector2D vHat = new Vector2D.Double( emittedPhoton.getVelocity() ).normalize();
-                Vector2D position = new Vector2D.Double( atom.getPosition() );
-                position.add( vHat.scale( atom.getRadius() + 10 ) );
-                emittedPhoton.setPosition( position.getX(), position.getY() );
-                atom.emitPhoton( emittedPhoton );
+                    double speed = emittedPhoton.getVelocity().getMagnitude();
+                    double theta = Math.random() * Math.PI * 2;
+                    double x = speed * Math.cos( theta );
+                    double y = speed * Math.sin( theta );
+                    emittedPhoton.setVelocity( x, y );
+                    emittedPhoton.setPosition( new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ) );
+
+                    // Place the replacement photon beyond the atom, so it doesn't collide again
+                    // right away
+                    Vector2D vHat = new Vector2D.Double( emittedPhoton.getVelocity() ).normalize();
+                    Vector2D position = new Vector2D.Double( atom.getPosition() );
+                    position.add( vHat.scale( atom.getRadius() + 10 ) );
+                    emittedPhoton.setPosition( position.getX(), position.getY() );
+                    atom.emitPhoton( emittedPhoton );
+                }
 
                 // Change state
                 atom.setState( state.getNextLowerEnergyState() );

@@ -1,4 +1,5 @@
-- Move reflectivity control to the apparatus panel
+- State should know if a photon should be emitted when it is left. Currently, the Atom class makes this decision
+when theStateLifetimeManager is created.
 - SpontaneouslyEmittingState should be refactored to be a StateLifetimeManager
 - Reintegrate the mirros into the cavity, rather than having them be separate objects at the module level.
 - Photon doesn't use the free pool. Get rid of it.

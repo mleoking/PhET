@@ -13,7 +13,6 @@ package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.lasers.EventRegistry;
-import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 
@@ -110,7 +109,12 @@ public class Atom extends SphericalBody {
         newState.incrNumInState();
         this.state = newState;
         if( newState instanceof SpontaneouslyEmittingState ) {
-            this.stateLifetimeManager = new SpontaneouslyEmittingState.StateLifetimeManager( this );
+            boolean emitPhotonOnLeavingState = false;
+            if( newState instanceof MiddleEnergyState ) {
+                emitPhotonOnLeavingState = true;
+            }
+            this.stateLifetimeManager = new SpontaneouslyEmittingState.StateLifetimeManager( this,
+                                                                                             emitPhotonOnLeavingState );
         }
 
         eventRegistry.fireEvent( new StateChangeEvent() );

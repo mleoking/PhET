@@ -44,8 +44,7 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.StateChangeLis
         if( atomicState != state ) {
             atomicState = state;
             double energyRatio = state.getEnergyLevel() / GroundState.instance().getEnergyLevel();
-            double energyRepRad = Math.pow( energyRatio, .5 ) * ( getImage().getWidth() / 2 );
-            energyRepRad = ( getImage().getWidth() / 2 ) + state.getEnergyLevel() * energyScaleFactor;
+            double energyRepRad = Math.pow( energyRatio, .2 ) * ( getImage().getWidth() / 2 );
             energyRep = new Ellipse2D.Double( atom.getPosition().getX() - energyRepRad, atom.getPosition().getY() - energyRepRad,
                                               energyRepRad * 2, energyRepRad * 2 );
             if( state.getWavelength() == Photon.GRAY ) {

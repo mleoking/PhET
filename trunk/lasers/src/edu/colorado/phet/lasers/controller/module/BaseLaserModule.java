@@ -18,17 +18,23 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.LaserControlPanel;
+import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.SpontaneouslyEmittingState;
-import edu.colorado.phet.lasers.model.mirror.*;
+import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
+import edu.colorado.phet.lasers.model.mirror.Mirror;
+import edu.colorado.phet.lasers.model.mirror.PartialMirror;
+import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 import edu.colorado.phet.lasers.view.*;
 
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -57,6 +63,7 @@ public class BaseLaserModule extends Module {
     private EnergyLevelMonitorPanel energyLevelsMonitorPanel;
     private CollimatedBeam stimulatingBeam;
     private CollimatedBeam pumpingBeam;
+    private JPanel reflectivityControlPanel;
 
 
     /**
@@ -110,7 +117,7 @@ public class BaseLaserModule extends Module {
                                          cavity.getPosition().getY() + cavity.getHeight() );
         rightMirror = new PartialMirror( p1, p2 );
         rightMirror.addReflectionStrategy( new LeftReflecting() );
-//        rightMirror.setReflectivity( 0 );
+        //        rightMirror.setReflectivity( 0 );
         rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
         // The left mirror is 100% reflecting
         Point2D p3 = new Point2D.Double( cavity.getPosition().getX(), // - 20,
@@ -244,11 +251,27 @@ public class BaseLaserModule extends Module {
         getModel().removeModelElement( rightMirror );
         getApparatusPanel().removeGraphic( leftMirrorGraphic );
         getApparatusPanel().removeGraphic( rightMirrorGraphic );
+        if( reflectivityControlPanel != null ) {
+            getApparatusPanel().remove( reflectivityControlPanel );
+        }
+
         if( mirrorsEnabled ) {
             getModel().addModelElement( leftMirror );
             getModel().addModelElement( rightMirror );
             getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.CAVITY_LAYER );
             getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
+
+            // Put on the panel to control reflectivity
+            JPanel reflectivityControl = new RightMirrorReflectivityControlPanel( rightMirror );
+            reflectivityControlPanel = new JPanel();
+            Dimension dim = reflectivityControl.getPreferredSize();
+            reflectivityControlPanel.setBounds( (int)rightMirror.getPosition().getX(),
+                                                (int)( rightMirror.getPosition().getY() + rightMirror.getBounds().getHeight() ),
+                                                (int)dim.getWidth() + 10, (int)dim.getHeight() + 10 );
+            reflectivityControlPanel.add( reflectivityControl );
+            reflectivityControl.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+            reflectivityControlPanel.setOpaque( false );
+            getApparatusPanel().add( reflectivityControlPanel );
         }
         getApparatusPanel().repaint();
     }
