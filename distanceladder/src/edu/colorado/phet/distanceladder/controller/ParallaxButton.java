@@ -68,8 +68,8 @@ public class ParallaxButton extends DefaultInteractiveGraphic {
     }
 
     public void mousePressed( MouseEvent e ) {
-        isOn = !isOn;
-        module.setParallaxReticleOn( isOn );
-        label = isOn ? "Off" : "On";
+//        isOn = !isOn;
+//        module.setParallaxReticleOn( isOn );
+//        label = isOn ? "Off" : "On";
     }
 }

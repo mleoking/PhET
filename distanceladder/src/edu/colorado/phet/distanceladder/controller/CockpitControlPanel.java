@@ -71,7 +71,6 @@ public class CockpitControlPanel extends JPanel {
     //
 
     private class ControlPanel extends JPanel {
-        private JButton orientationReticleBtn;
 
         ControlPanel( final CockpitModule module ) {
 
@@ -94,16 +93,6 @@ public class CockpitControlPanel extends JPanel {
                 }
             } );
 
-//            orientationReticleBtn = new JButton( new AbstractAction( "Show Reticle" ) {
-//                boolean reticleOn = false;
-//
-//                public void actionPerformed( ActionEvent e ) {
-//                    reticleOn = !reticleOn;
-//                    module.setOrientationReticleOn( reticleOn );
-//                    orientationReticleBtn.setText( reticleOn ? "Hide Reticle" : "Show Reticle" );
-//                }
-//            } );
-
             // Lay out the panel
             setLayout( new GridBagLayout() );
             int rowIdx = 0;
@@ -123,16 +112,6 @@ public class CockpitControlPanel extends JPanel {
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.CENTER );
-//                GraphicsUtil.addGridBagComponent( this, orientationReticleBtn,
-//                                                  0, rowIdx++,
-//                                                  1, 1,
-//                                                  GridBagConstraints.NONE,
-//                                                  GridBagConstraints.CENTER );
-//                GraphicsUtil.addGridBagComponent( this, new JLabel( "Move Left/Right" ),
-//                                                  0, rowIdx++,
-//                                                  1, 1,
-//                                                  GridBagConstraints.NONE,
-//                                                  GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
                 e.printStackTrace();
@@ -145,8 +124,8 @@ public class CockpitControlPanel extends JPanel {
         private String disableString = "Disable";
 
         private JButton parallaxReticleBtn;
-        private String parallaxHelp = "<html><style type=\"text/css\"><!--.style1 {font-family: Arial, Helvetica, sans-serif}--></style>"
-                                      + "<h2 class=\"style1\">How to Measure Distances Using Parallax</h2>"
+        private String parallaxHelp = "<html>"
+                                      + "<h2>How to Measure Distances Using Parallax</h2>"
                                       + "<ol>"
                                       + "<li>Display the measuring reticle.</li><li>Using the slider, line up the star whose distance you would like to measure with one of the vertical reticle lines.</li>"
                                       + "<li>Press the &quot;Mark&quot; button to set the offset readout to 0.</li>"
@@ -177,7 +156,6 @@ public class CockpitControlPanel extends JPanel {
             parallaxReticleBtn = new JButton( new AbstractAction( enableString ) {
                 public void actionPerformed( ActionEvent e ) {
                     parallaxInstrumentEnabled = !parallaxInstrumentEnabled;
-//                    module.setParallaxReticleOn( parallaxInstrumentEnabled );
                     parallaxReticleBtn.setText( parallaxInstrumentEnabled ? disableString : enableString );
                     ParallaxPanel.this.update();
                 }
@@ -188,9 +166,9 @@ public class CockpitControlPanel extends JPanel {
             leftRightTF.setBackground( Color.white );
             leftRightTF.setHorizontalAlignment( JTextField.RIGHT );
 
-            leftRightSlider = new JSlider( -100, 100, 0 );
-            leftRightSlider.setMajorTickSpacing( 25 );
-            leftRightSlider.setMinorTickSpacing( 5 );
+            leftRightSlider = new JSlider( -500, 500, 0 );
+            leftRightSlider.setMajorTickSpacing( 100 );
+            leftRightSlider.setMinorTickSpacing( 25 );
             leftRightSlider.setPaintTicks( true );
             leftRightSlider.setPaintTrack( true );
             leftRightSlider.addChangeListener( new ChangeListener() {
@@ -342,7 +320,7 @@ public class CockpitControlPanel extends JPanel {
             markBtn.setEnabled( parallaxInstrumentEnabled );
             computeBtn.setEnabled( parallaxInstrumentEnabled );
             helpBtn.setEnabled( parallaxInstrumentEnabled );
-            module.setOrientationReticleOn( parallaxInstrumentEnabled );
+            module.setParallaxReticleOn( parallaxInstrumentEnabled );
         }
     }
 
@@ -372,7 +350,7 @@ public class CockpitControlPanel extends JPanel {
                     double brightness = 0;
                     for( int i = 0; i < visibleStars.size(); i++ ) {
                         Star star = (Star)visibleStars.get( i );
-                        if( module.getPhotometerReticle().contains( starView.getLocation( star ) ) ) {
+                        if( module.getPhotometerReticle().contains( starView.getApparentLocation( star ) ) ) {
                             brightness += star.getLuminance() * ( 1 / star.getLocation().distanceSq( starView.getPov() ) );
                         }
                     }
@@ -431,13 +409,12 @@ public class CockpitControlPanel extends JPanel {
 
             // Create controls
             final JTextField distanceTF = new JTextField( 6 );
-            final JTextField directionTF = new JTextField( 6 );
+//            final JTextField directionTF = new JTextField( 6 );
 
             JButton jumpBtn = new JButton( new AbstractAction( "Jump" ) {
                 public void actionPerformed( ActionEvent e ) {
                     double jumpDistance = Double.parseDouble( distanceTF.getText() );
-                    double jumpDirection = Double.parseDouble( directionTF.getText() ) * Math.PI / 180;
-                    module.getStarship().move( jumpDistance, jumpDirection );
+                    module.getStarship().move( jumpDistance );
                     module.getStarView().update();
                 }
             });
@@ -456,10 +433,10 @@ public class CockpitControlPanel extends JPanel {
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, directionTF,
-                                                  0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
+//                GraphicsUtil.addGridBagComponent( this, directionTF,
+//                                                  0, rowIdx++, 1, 1,
+//                                                  GridBagConstraints.NONE,
+//                                                  GridBagConstraints.CENTER );
                 GraphicsUtil.addGridBagComponent( this, jumpBtn,
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,

@@ -34,8 +34,9 @@ public class StarGraphic implements Graphic {
     }
 
     public void setRadius( double radius ) {
-        this.radius = radius;
-        circle.setFrameFromCenter( 0, 0, radius, radius );
+        this.radius = ( Double.isNaN( radius ) || Double.isInfinite( radius )
+                        || Double.POSITIVE_INFINITY == radius || Double.NEGATIVE_INFINITY == radius ) ? 0 : radius;
+        circle.setFrameFromCenter( 0, 0, this.radius, this.radius );
     }
 
     public void setLocation( Point2D.Double location ) {
@@ -52,7 +53,8 @@ public class StarGraphic implements Graphic {
         g.setTransform( orgTx );
     }
 
-    public void update( Point2D.Double location ) {
+    public void update( Point2D.Double location, double radius ) {
+        setRadius( radius );
         setLocation( location );
     }
 }

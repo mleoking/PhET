@@ -26,19 +26,22 @@ import java.util.Iterator;
  * This graphic contains the stars as seen from the cockpit
  */
 public class StarViewGraphic extends CompositeInteractiveGraphic implements SimpleObserver {
+
+    private static double minStarRadius = 2;
+
     private Container container;
     private StarView starView;
     private Rectangle2D.Double background;
     private AffineTransform starViewTx = new AffineTransform();
     private HashMap starToGraphicMap = new HashMap();
 
-    public StarViewGraphic( Container container, StarView starView,
-                            Rectangle2D.Double bounds ) {
+    public StarViewGraphic( Container container, StarView starView ) {
         this.container = container;
         this.starView = starView;
-        this.background = bounds;
+        this.background = starView.getBounds();
         this.starViewTx.setToIdentity();
-        this.starViewTx.translate( bounds.getMinX() + bounds.getWidth() / 2, bounds.getMinY() + bounds.getHeight() / 2 );
+        this.starViewTx.translate( background.getMinX() + background.getWidth() / 2, background.getMinY() + background.getHeight() / 2 );
+//        this.starViewTx.translate( bounds.getMinX() + bounds.getWidth() / 2, bounds.getMinY() + bounds.getHeight() / 2 );
     }
 
     public void paint( Graphics2D g ) {
@@ -64,17 +67,16 @@ public class StarViewGraphic extends CompositeInteractiveGraphic implements Simp
         for( int i = 0; i < visibleStars.size(); i++ ) {
             Star visibleStar = (Star)visibleStars.get( i );
             starGraphic = (StarGraphic)starToGraphicMap.get( visibleStar );
+            double d = starView.getPov().distanceSq( visibleStar.getLocation() );
+            // Set the radius of the star based on how close it is to the POV
+            double radius = Math.max( 40000 / d, minStarRadius );
+//            double radius = Math.min( 15, Math.max( 40000 / d, 2 ));
             if( starGraphic == null ) {
-
-                // Set the radius of the star based on how close it is to the POV
-                double d = starView.getPov().distanceSq( visibleStar.getLocation() );
-                double radius = Math.min( 15, Math.max( 40000 / d, 2 ));
                 starGraphic = new StarGraphic( radius, visibleStar.getColor(), new Point2D.Double() );
-//                starGraphic = new StarGraphic( 4, visibleStar.getColor(), new Point2D.Double() );
                 starToGraphicMap.put( visibleStar, starGraphic );
                 this.addGraphic( starGraphic, 1 / d );
             }
-            starGraphic.update( starView.getLocation( visibleStar ) );
+            starGraphic.update( starView.getApparentLocation( visibleStar ), radius );
         }
 
         // Remove stars that aren't visible

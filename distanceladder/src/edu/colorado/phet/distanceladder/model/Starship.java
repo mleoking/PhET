@@ -53,9 +53,16 @@ public class Starship extends Body {
         this.starView = starView;
     }
 
+    public void move( double jumpDistance ) {
+        this.move(  jumpDistance, getPov().getTheta() );
+//        double dx = jumpDistance * Math.cos( getPov().getTheta() );
+//        double dy = jumpDistance * Math.sin( getPov().getTheta() );
+//        setPov( getLocation().getX() + dx, getLocation().getY() + dy, getPov().getTheta() );
+    }
+
     public void move( double jumpDistance, double jumpDirection ) {
         double dx = jumpDistance * Math.cos( jumpDirection );
         double dy = jumpDistance * Math.sin( jumpDirection );
-        setPov( getLocation().getX() + dx, getLocation().getY() + dy, getPov().getTheta() + jumpDirection ); 
+        setPov( getLocation().getX() + dx, getLocation().getY() + dy, jumpDirection );
     }
 }
