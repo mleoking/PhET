@@ -22,9 +22,11 @@ public class IntensityChangeEvent extends EventObject
    * 
    * @param source the source of the event
    */
-  public IntensityChangeEvent( Object source )
+  public IntensityChangeEvent( Object source, Color color, double intensity )
   {
     super( source );
+    _color = color;
+    _intensity = intensity;
   }
   
   /**

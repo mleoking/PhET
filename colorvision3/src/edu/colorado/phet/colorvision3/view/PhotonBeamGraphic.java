@@ -189,7 +189,7 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
     if ( newPerceivedIntensity != _perceivedIntensity )
     {
       _perceivedIntensity = newPerceivedIntensity;
-      IntensityChangeEvent event = new IntensityChangeEvent( this );
+      IntensityChangeEvent event = new IntensityChangeEvent( this, _model.getColor(), _model.getIntensity() );
       fireIntensityChangeEvent( event );
     }
   } // stepInTime
