@@ -14,9 +14,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
+import java.util.ResourceBundle;
 
 public class PressureGaugePanel extends JPanel {
 
+    private static ResourceBundle localizedStrings;
+    static {
+        localizedStrings = ResourceBundle.getBundle( "localization/PressureGaugePanel" );
+    }
 
     private BarGauge pressureGauge;
     private OrderOfMagnitudeSpinner pressureSpinner;
@@ -30,12 +35,12 @@ public class PressureGaugePanel extends JPanel {
 
         // Add radio buttons for scale
         JPanel scaleFactorPanel = new JPanel( new GridLayout( 2, 1 ) );
-        Action scaleFactor1 = new AbstractAction( "1X" ) {
+        Action scaleFactor1 = new AbstractAction( localizedStrings.getString( "1X" )) {
             public void actionPerformed( ActionEvent evt ) {
                 scaleFactor = 1;
             }
         };
-        Action scaleFactor10 = new AbstractAction( "10X" ) {
+        Action scaleFactor10 = new AbstractAction( localizedStrings.getString( "10X" )) {
             public void actionPerformed( ActionEvent evt ) {
                 scaleFactor = 10;
             }

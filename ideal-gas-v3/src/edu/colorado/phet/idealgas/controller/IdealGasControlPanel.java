@@ -23,8 +23,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Hashtable;
+import java.util.ResourceBundle;
 
 public class IdealGasControlPanel extends JPanel {
+
+    private static ResourceBundle localizedStrings;
+    static {
+        localizedStrings = ResourceBundle.getBundle( "localization/IdealGasControlPanel" );
+    }
 
     private static final int s_stoveSliderHeight = 80;
     private static final int s_gravityControlPanelHeight = 80;
@@ -103,16 +109,16 @@ public class IdealGasControlPanel extends JPanel {
     private void addConstantParamControls() {
         JPanel constantParamButtonPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         constantParamButtonPanel.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 80 ) );
-        final JRadioButton constantVolumeRB = new JRadioButton( "Volume" );
+        final JRadioButton constantVolumeRB = new JRadioButton( localizedStrings.getString( "Volume" ) );
         constantVolumeRB.setPreferredSize( new Dimension( 80, 15 ) );
-        final JRadioButton constantPressureRB = new JRadioButton( "Pressure" );
+        final JRadioButton constantPressureRB = new JRadioButton( localizedStrings.getString( "Pressure" ) );
         constantPressureRB.setPreferredSize( new Dimension( 80, 15 ) );
         final ButtonGroup constantParameterGroup = new ButtonGroup();
         constantParameterGroup.add( constantVolumeRB );
         constantParameterGroup.add( constantPressureRB );
         constantParamButtonPanel.add( constantVolumeRB );
         constantParamButtonPanel.add( constantPressureRB );
-        constantParamButtonPanel.setBorder( new TitledBorder( "Constant Parameter" ) );
+        constantParamButtonPanel.setBorder( new TitledBorder( localizedStrings.getString( "Constant_Parameter" ) ) );
         this.add( constantParamButtonPanel );
 
         constantVolumeRB.addActionListener( new ActionListener() {
@@ -143,7 +149,7 @@ public class IdealGasControlPanel extends JPanel {
         // Add control for gravity, set default to OFF
         //        gravitySlider = new JSlider( JSlider.VERTICAL, 0, 5000, 0 );
         gravitySlider = new JSlider( JSlider.VERTICAL, 0, s_gravityControlPanelHeight - 30, 0 );
-        gravityOnCB = new JCheckBox( "On" );
+        gravityOnCB = new JCheckBox( localizedStrings.getString( "On" ));
         leftPanel.add( gravityOnCB );
         gravityOnCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -176,7 +182,7 @@ public class IdealGasControlPanel extends JPanel {
         //        rightPanel.add( gravityTF );
         gravityControlPanel.add( rightPanel );
 
-        Border gravityBorder = new TitledBorder( "Gravity" );
+        Border gravityBorder = new TitledBorder( localizedStrings.getString( "Gravity" ));
         gravityControlPanel.setBorder( gravityBorder );
         this.add( gravityControlPanel );
     }
@@ -188,9 +194,9 @@ public class IdealGasControlPanel extends JPanel {
     private void addSpeciesControls() {
         JPanel speciesButtonPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         speciesButtonPanel.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 100 ) );
-        final JRadioButton heavySpeciesRB = new JRadioButton( "Heavy Species" );
+        final JRadioButton heavySpeciesRB = new JRadioButton( localizedStrings.getString( "Heavy_Species" ));
         heavySpeciesRB.setForeground( Color.blue );
-        final JRadioButton lightSpeciesRB = new JRadioButton( "Light Species" );
+        final JRadioButton lightSpeciesRB = new JRadioButton( localizedStrings.getString( "Light_Species" ));
         lightSpeciesRB.setForeground( Color.red );
         final ButtonGroup speciesGroup = new ButtonGroup();
         speciesGroup.add( heavySpeciesRB );
@@ -199,7 +205,7 @@ public class IdealGasControlPanel extends JPanel {
         heavySpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
         lightSpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
         speciesButtonPanel.add( lightSpeciesRB );
-        speciesButtonPanel.setBorder( new TitledBorder( "Gas In Pump" ) );
+        speciesButtonPanel.setBorder( new TitledBorder( localizedStrings.getString( "Gas_In_Pump" ) ));
         this.add( speciesButtonPanel );
         heavySpeciesRB.setSelected( true );
         heavySpeciesRB.addActionListener( new ActionListener() {
@@ -218,7 +224,7 @@ public class IdealGasControlPanel extends JPanel {
             }
         } );
 
-        final JCheckBox cmLinesOnCB = new JCheckBox( "Show CM lines" );
+        final JCheckBox cmLinesOnCB = new JCheckBox( localizedStrings.getString( "Show_CM_lines" ));
         cmLinesOnCB.setPreferredSize( new Dimension( 110, 15 ) );
         speciesButtonPanel.add( cmLinesOnCB );
         cmLinesOnCB.addActionListener( new ActionListener() {
@@ -264,9 +270,9 @@ public class IdealGasControlPanel extends JPanel {
         stoveSlider.setMajorTickSpacing( 10 );
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( -40 ), new JLabel( "Remove" ) );
-        labelTable.put( new Integer( 0 ), new JLabel( "0" ) );
-        labelTable.put( new Integer( 40 ), new JLabel( "Add" ) );
+        labelTable.put( new Integer( -40 ), new JLabel( localizedStrings.getString( "Remove" ) ));
+        labelTable.put( new Integer( 0 ), new JLabel( localizedStrings.getString( "0" ) ));
+        labelTable.put( new Integer( 40 ), new JLabel( localizedStrings.getString( "Add" ) ));
         stoveSlider.setLabelTable( labelTable );
         stoveSlider.setPaintTicks( true );
         stoveSlider.setSnapToTicks( true );
@@ -280,7 +286,7 @@ public class IdealGasControlPanel extends JPanel {
         stoveSliderPanel.add( stoveSlider );
         stovePanel.add( stoveSliderPanel );
 
-        final JCheckBox testCB = new JCheckBox( "<html>Add/remove heat<br>from floor only</html>" );
+        final JCheckBox testCB = new JCheckBox( localizedStrings.getString( "<html>Add/remove_heat<br>from_floor_only</html>" ));
         testCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 IdealGasConfig.heatOnlyFromFloor = testCB.isSelected();
@@ -288,7 +294,7 @@ public class IdealGasControlPanel extends JPanel {
         } );
         stovePanel.add( testCB );
 
-        stovePanel.setBorder( new TitledBorder( "Heat Control" ) );
+        stovePanel.setBorder( new TitledBorder( localizedStrings.getString( "Heat_Control" ) ));
         this.add( stovePanel );
     }
 

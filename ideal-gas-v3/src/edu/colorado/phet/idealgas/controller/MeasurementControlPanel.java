@@ -19,8 +19,15 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 
 public class MeasurementControlPanel extends IdealGasControlPanel {
+
+    private static ResourceBundle localizedStrings;
+    static {
+        localizedStrings = ResourceBundle.getBundle( "localization/MeasurementControlPanel" );
+    }
+
     public MeasurementControlPanel( IdealGasModule module ) {
         super( module );
         init();
@@ -76,7 +83,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
             this.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 40 ) );
             this.setLayout( new GridLayout( 2, 1 ) );
 
-            this.add( new JLabel( "Number of particles" ) );
+            this.add( new JLabel( localizedStrings.getString( "Number_of_particles" ) ));
             // Set up the spinner for controlling the number of particles in
             // the hollow sphere
             Integer value = new Integer( 0 );
@@ -107,7 +114,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
 
     private class ParticleInteractionControl extends JPanel {
         ParticleInteractionControl() {
-            final JCheckBox noSphereSphereCollisionCB = new JCheckBox( "No particle interactions" );
+            final JCheckBox noSphereSphereCollisionCB = new JCheckBox( localizedStrings.getString( "No_particle_interactions" ));
             this.add( noSphereSphereCollisionCB );
             noSphereSphereCollisionCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -124,7 +131,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
 
     protected class RulerControlPanel extends JPanel {
         RulerControlPanel() {
-            final JCheckBox rulerCB = new JCheckBox( "Display ruler" );
+            final JCheckBox rulerCB = new JCheckBox( localizedStrings.getString( "Display_ruler" ));
             rulerCB.setPreferredSize( new Dimension( 140, 15 ) );
             this.add( rulerCB );
             rulerCB.addActionListener( new ActionListener() {
@@ -137,15 +144,12 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
 
     protected class PressureSliceControl extends JPanel {
         PressureSliceControl() {
-            String msg = "<html>Measure pressure<br>in layer</html>";
-            final JCheckBox pressureSliceCB = new JCheckBox( msg );
+            final JCheckBox pressureSliceCB = new JCheckBox( localizedStrings.getString( "<html>Measure_pressure<br>in_layer</html>") );
             pressureSliceCB.setPreferredSize( new Dimension( 140, 30 ) );
-            //            final JCheckBox pressureSliceCB = new JCheckBox( "Measure pressure in layer" );
             this.add( pressureSliceCB );
             pressureSliceCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ( (MeasurementModule)getModule() ).setPressureSliceEnabled( pressureSliceCB.isSelected() );
-                    //                    IdealGasControlPanel.this.getIdealGasApplication().setPressureSliceEnabled( pressureSliceCB.isSelected() );
                 }
             } );
         }

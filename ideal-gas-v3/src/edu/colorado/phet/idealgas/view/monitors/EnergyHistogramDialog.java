@@ -9,6 +9,7 @@ package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.idealgas.IdealGasApplication;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -24,8 +25,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Locale;
 
 public class EnergyHistogramDialog extends JDialog {
+
+    private static ResourceBundle localizedStrings;
+    static {
+         localizedStrings = ResourceBundle.getBundle( "localization/EnergyHistogramDialog" );
+    }
 
     private Histogram energyHistogram;
     private IdealGasApplication application;
@@ -47,7 +55,7 @@ public class EnergyHistogramDialog extends JDialog {
     public EnergyHistogramDialog( Frame owner, IdealGasModel model ) throws HeadlessException {
         super( owner );
         this.model = model;
-        this.setTitle( "Particle Statistics" );
+        this.setTitle( localizedStrings.getString( "Title" ) );
 
         this.application = application;
         this.setResizable( false );
@@ -67,6 +75,13 @@ public class EnergyHistogramDialog extends JDialog {
                 heavySpeedLabel.setVisible( showDetails );
                 lightSpeedHistogram.setVisible( showDetails );
                 lightSpeedLabel.setVisible( showDetails );
+
+                if( showDetails ) {
+                    detailsBtn.setText( localizedStrings.getString( "Fewer_Details" ));
+                }
+                else {
+                    detailsBtn.setText( localizedStrings.getString( "More_Details" ));
+                }
 
                 EnergyHistogramDialog.this.pack();
                 EnergyHistogramDialog.this.repaint();
@@ -107,10 +122,10 @@ public class EnergyHistogramDialog extends JDialog {
     private void layoutComponents() {
 
         if( showDetails ) {
-            detailsBtn.setText( "<< Fewer details" );
+            detailsBtn.setText( localizedStrings.getString( "Fewer_Details" ));
         }
         else {
-            detailsBtn.setText( "More details >>" );
+            detailsBtn.setText( localizedStrings.getString( "More_Details" ));
         }
 
         this.getContentPane().setLayout( new GridBagLayout() );
@@ -122,7 +137,8 @@ public class EnergyHistogramDialog extends JDialog {
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.WEST );
             GraphicsUtil.addGridBagComponent( this.getContentPane(),
-                                              new JLabel( "Energy Distribution" ),
+                                              new JLabel( localizedStrings.getString( "Energy_Distribution" ) ),
+//                                              new JLabel( "Energy Distribution" ),
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.WEST );
@@ -132,7 +148,7 @@ public class EnergyHistogramDialog extends JDialog {
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.WEST );
             GraphicsUtil.addGridBagComponent( this.getContentPane(),
-                                              new JLabel( "Speed Distribution" ),
+                                              new JLabel( localizedStrings.getString( "Speed_Distribution" ) ),
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.WEST );
@@ -141,7 +157,7 @@ public class EnergyHistogramDialog extends JDialog {
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.WEST );
-            heavySpeedLabel = new JLabel( "Heavy Speed Distribution" );
+            heavySpeedLabel = new JLabel( localizedStrings.getString( "Heavy_Speed_label" ) );
             GraphicsUtil.addGridBagComponent( this.getContentPane(),
                                               heavySpeedLabel,
                                               0, rowIdx++, 1, 1,
@@ -152,7 +168,7 @@ public class EnergyHistogramDialog extends JDialog {
                                               0, rowIdx++, 1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.WEST );
-            lightSpeedLabel = new JLabel( "Light Speed Distribution" );
+            lightSpeedLabel = new JLabel( localizedStrings.getString( "Light_Speed_label" ) );
             GraphicsUtil.addGridBagComponent( this.getContentPane(),
                                               lightSpeedLabel,
                                               0, rowIdx++, 1, 1,

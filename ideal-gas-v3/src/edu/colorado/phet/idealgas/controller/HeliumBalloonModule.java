@@ -13,8 +13,14 @@ import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
 import java.awt.geom.Point2D;
+import java.util.ResourceBundle;
 
 public class HeliumBalloonModule extends IdealGasModule {
+
+    private static ResourceBundle localizedStrings;
+    static {
+        localizedStrings = ResourceBundle.getBundle( "localization/HeliumBalloonModule" );
+    }
 
     private static final float initialVelocity = 30;
 
@@ -22,7 +28,7 @@ public class HeliumBalloonModule extends IdealGasModule {
 //    private HollowSphereControlPanel hsaControlPanel;
 
     public HeliumBalloonModule( AbstractClock clock ) {
-        super( clock, "Helium Balloon" );
+        super( clock, localizedStrings.getString( "Helium_Balloon" ));
 
         double xOrigin = 200;
         double yOrigin = 250;

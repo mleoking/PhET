@@ -9,10 +9,21 @@ package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.view.util.FrameSetup;
 
+import java.util.ResourceBundle;
+import java.util.Locale;
+
 /**
  *
  */
 public class IdealGasConfig {
+
+
+    public static ResourceBundle strings;
+
+    static {
+        strings = ResourceBundle.getBundle( "localization/IdealGas", Locale.GERMAN );
+        strings = ResourceBundle.getBundle( "localization/IdealGas", Locale.FRENCH );
+    }
 
 
     public static boolean fastPaint;

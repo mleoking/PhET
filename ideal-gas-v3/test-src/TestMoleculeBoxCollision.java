@@ -6,7 +6,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.Strings;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
 import edu.colorado.phet.idealgas.model.GasMolecule;
@@ -17,14 +16,20 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.ResourceBundle;
 
 public class TestMoleculeBoxCollision extends PhetApplication {
+
+    private static ResourceBundle localizedStrings;
+    static {
+        localizedStrings = ResourceBundle.getBundle( "localization/IdealGasApplication" );
+    }
 
     static class TestApplicationModel extends ApplicationModel {
 
         public TestApplicationModel() {
-            super( Strings.title,
-                   Strings.description,
+            super( localizedStrings.getString( "title" ),
+                   localizedStrings.getString( "description" ),
                    IdealGasConfig.VERSION,
                    IdealGasConfig.FRAME_SETUP );
 

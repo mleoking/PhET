@@ -13,18 +13,21 @@ import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
 
 import java.awt.geom.Point2D;
+import java.util.ResourceBundle;
 
 public class HotAirBalloonModule extends IdealGasModule {
 
-    //
-    // Statics
-    //
+    private static ResourceBundle localizedStrings;
+    static {
+        localizedStrings = ResourceBundle.getBundle( "localization/HotAirBalloonModule" );
+    }
+
     private static final double initialVelocity = 35;
 
     private HotAirBalloon balloon;
 
     public HotAirBalloonModule( AbstractClock clock ) {
-        super( clock, "Hot Air Balloon" );
+        super( clock, localizedStrings.getString( "Title" ) );
 
         // Set the size of the box
         Box2D box = getIdealGasModel().getBox();
