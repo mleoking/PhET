@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 21, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.model;
 
@@ -17,6 +22,7 @@ import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.collision.AtomWallCollision;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollision;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollision;
+import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.mechanics.Body;
@@ -63,7 +69,7 @@ public class LaserModel extends BaseModel {
 
         final CollisionMechanism collisionMechanism = new CollisionMechanism();
         collisionMechanism.addCollisionExpert( new SphereSphereExpert() );
-        collisionMechanism.addCollisionExpert( new PhotonAtomCollision() );
+        collisionMechanism.addCollisionExpert( new PhotonAtomCollisonExpert() );
         this.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 collisionMechanism.doIt( bodies );

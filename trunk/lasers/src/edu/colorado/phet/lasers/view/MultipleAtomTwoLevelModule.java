@@ -4,6 +4,11 @@
  * User: Ron LeMaster
  * Date: Mar 28, 2003
  * Time: 1:36:10 PM
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.view;
 
@@ -49,7 +54,9 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
                                   (float)( Math.random() - 0.5 ) * s_maxSpeed );
                 for( int j = 0; j < atoms.size(); j++ ) {
                     Atom atom2 = (Atom)atoms.get( j );
-                    if( ContactDetector.areContacting( atom, atom2 )) {
+                    double d = atom.getPosition().distance( atom2.getPosition() );
+                    if( d <= atom.getRadius() + atom2.getRadius() ) {
+//                    if( ContactDetector.areContacting( atom, atom2 )) {
                         placed = false;
                         break;
                     }

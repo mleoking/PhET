@@ -1,9 +1,9 @@
 /**
- * Class: SphereWallExpert
+ * Class: SphereWallCollision
  * Class: edu.colorado.phet.collision
  * User: Ron LeMaster
  * Date: Oct 23, 2004
- * Time: 7:40:08 AM
+ * Time: 7:38:45 AM
  * Latest Change:
  *      $Author$
  *      $Date$
@@ -12,8 +12,8 @@
  */
 package edu.colorado.phet.collision;
 
-public class SphereWallExpert implements CollisionExpert {
-    public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
+public class SphereWallCollision implements Collision {
+    public void collide() {
         throw new RuntimeException( "TBI" );
     }
 }

@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.view
  * Author: Another Guy
  * Date: Mar 21, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.view;
 
@@ -11,27 +16,50 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
-import java.util.Observable;
 import java.util.HashMap;
+import java.io.IOException;
 
-public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
+public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
 
-    private float radius;
-    // Velocity at which the photon is traveling
     private Vector2D velocity;
-    private BufferedImage buffImg = new BufferedImage( s_imgLength, s_imgHeight, BufferedImage.TYPE_INT_ARGB );
-    private Image[] animation;
+//    private BufferedImage buffImg = new BufferedImage( s_imgLength, s_imgHeight, BufferedImage.TYPE_INT_ARGB );
+    private BufferedImage[] animation;
     private int currAnimationFrameNum;
     private Photon photon;
 
 
+    public PhotonGraphic( Component component, Photon photon ) {
+        // Need to subtract half the width and height of the image to locate it
+        // properly
+        super( component, s_particleImage );
+//        super( s_particleImage, particle.getPosition().getX(), particle.getPosition().getY() );
+//        this.setImage( buffImg );
+//        init( particle );
+
+        velocity = new Vector2D.Double( photon.getVelocity() );
+        float theta = (float)Math.acos( photon.getVelocity().getX() / photon.getVelocity().getMagnitude() );
+        if( photon.getVelocity().getY() < 0 ) {
+            theta = (float)Math.PI * 2 - theta;
+        }
+
+        generateAnimation( photon );
+        setImage( animation[0] );
+//        setImage( Toolkit.getDefaultToolkit().createImage( buffImg.getSource() ));
+        if( photon.getWavelength() == Photon.DEEP_RED ) {
+            setImage( s_midEnergyImage );
+        }
+        setPosition( photon );
+
+    }
+
     /**
-     *
      * @param photon
      */
     private void generateAnimation( Photon photon ) {
@@ -42,7 +70,6 @@ public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
         // do this so the map that caches the animations will get filled quickly and
         // get a lot of hits
         double theta = Math.acos( photon.getVelocity().getX() / photon.getVelocity().getMagnitude() );
-//        float theta = (float)Math.acos( photon.getVelocity().getX() / photon.getVelocity().getLength() );
         if( photon.getVelocity().getY() < 0 ) {
             theta = Math.PI * 2 - theta;
         }
@@ -53,7 +80,7 @@ public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
         this.animation = null;
         HashMap colorAnimationMap = (HashMap)s_animationMap.get( new Float( photon.getWavelength() ) );
         if( colorAnimationMap != null ) {
-            animation = (Image[])colorAnimationMap.get( new Float( theta ) );
+            animation = (BufferedImage[])colorAnimationMap.get( new Float( theta ) );
         }
         else {
             colorAnimationMap = new HashMap();
@@ -65,7 +92,7 @@ public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
         // initializer. But this is here just in case...
         if( animation == null ) {
             int numImgs = (int)( ( 20f / 680 ) * photon.getWavelength() );
-            animation = new Image[numImgs];
+            animation = new BufferedImage[numImgs];
 
             // Compute the size of buffered image needed to hold the rotated copy of the
             // base generator image, and create the transform op for doing the rotation
@@ -81,92 +108,31 @@ public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
                 BufferedImage buffImg = computeGeneratorImage( photon.getWavelength(), phaseAngle );
                 BufferedImage animationFrame = new BufferedImage( xPrime, yPrime, BufferedImage.TYPE_INT_ARGB );
                 animationFrame = xformOp.filter( buffImg, null );
-                animation[i] = Toolkit.getDefaultToolkit().createImage( animationFrame.getSource() );
+
+                // todo: this may not be right at all. I don't understand the original line
+                animation[i] = animationFrame;
+//                animation[i] = Toolkit.getDefaultToolkit().createImage( animationFrame.getSource() );
             }
             colorAnimationMap.put( new Float( theta ), animation );
         }
     }
 
+
     /**
-     *
      * @param g
      */
-    public void paint( Graphics2D g ) {
-        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;
-        Image img = animation[currAnimationFrameNum];
-        setImage( img );
-        super.paint( g );
-    }
+//    public void paint( Graphics2D g ) {
+//        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;
+//        BufferedImage img = animation[currAnimationFrameNum];
+//        setImage( img );
+//        super.paint( g );
+//    }
 
     /**
      *
      */
     public void setPhaseToZero() {
         currAnimationFrameNum = 0;
-    }
-
-    /**
-     *
-     */
-    public PhotonGraphic() {
-        super( s_particleImage, 0, 0 );
-        init();
-    }
-
-    /**
-     *
-     * @param particle
-     */
-    public PhotonGraphic( Particle particle ) {
-        // Need to subtract half the width and height of the image to locate it
-        // properly
-        super( s_particleImage, particle.getPosition().getX(), particle.getPosition().getY() );
-        init();
-        init( particle );
-    }
-
-    /**
-     *
-     */
-    private void init() {
-        this.setImage( getImage() );
-    }
-
-    /**
-     *
-     * @param body
-     */
-    public void init( Particle body ) {
-        super.init( body );
-        if( body instanceof Photon ) {
-            Photon photon = (Photon)body;
-            velocity = new Vector2D( photon.getVelocity() );
-            float theta = (float)Math.acos( photon.getVelocity().getX() / photon.getVelocity().getLength() );
-            if( photon.getVelocity().getY() < 0 ) {
-                theta = (float)Math.PI * 2 - theta;
-            }
-
-            generateAnimation( photon );
-            setImage( Toolkit.getDefaultToolkit().createImage( buffImg.getSource() ) );
-            if( photon.getWavelength() == Photon.DEEP_RED ) {
-                setImage( s_midEnergyImage );
-            }
-        }
-        setPosition( body );
-    }
-
-    /**
-     *
-     * @return
-     */
-    protected Image getImage() {
-        if( s_particleImage == null ) {
-            ResourceLoader loader = new ResourceLoader();
-            ResourceLoader.LoadedImageDescriptor imageDescriptor = loader.loadImage( s_imageName );
-            s_particleImage = imageDescriptor.getImage();
-            this.radius = imageDescriptor.getWidth() / 2;
-        }
-        return s_particleImage;
     }
 
     /**
@@ -190,16 +156,20 @@ public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
     public void update() {
         setPosition( photon );
 
+        // Get the next frame of the animaton
+        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;
+//        BufferedImage img = animation[currAnimationFrameNum];
+        setImage( animation[currAnimationFrameNum] );
+
         // If the velocity has changed, we need to get a new
         // animation.
         if( !photon.getVelocity().equals( this.velocity ) ) {
-            velocity = new Vector2D( photon.getVelocity() );
+            velocity = new Vector2D.Double( photon.getVelocity() );
             this.generateAnimation( photon );
         }
     }
 
     /**
-     *
      * @param body
      */
     protected void setPosition( Particle body ) {
@@ -209,10 +179,9 @@ public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
         // porperly. The particle's location is its center, but the location of
         // the graphic is the upper-left corner of the bounding box.
         // TODO: coordinate the size of the particle and the image
-        // TODO: the + and - signs are dependent on the transform from world to screen coords. They should not be hard-coded
         double x = particle.getPosition().getX() - particle.getRadius();
         double y = particle.getPosition().getY() - particle.getRadius();
-        setPosition( x, y );
+        setPosition( (int)x, (int)y );
     }
 
     //
@@ -225,17 +194,26 @@ public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
     static String s_highEnergyImageName = LaserConfig.HIGH_ENERGY_PHOTON_IMAGE_FILE;
     static String s_midEnergyImageName = LaserConfig.MID_HIGH_ENERGY_PHOTON_IMAGE_FILE;
     static String s_lowEnergyImageName = LaserConfig.LOW_ENERGY_PHOTON_IMAGE_FILE;
-    static Image s_particleImage;
-    static Image s_highEnergyImage;
-    static Image s_midEnergyImage;
-    static Image s_lowEnergyImage;
+    static BufferedImage s_particleImage;
+    static BufferedImage s_highEnergyImage;
+    static BufferedImage s_midEnergyImage;
+    static BufferedImage s_lowEnergyImage;
 
     static {
-        ResourceLoader loader = new ResourceLoader();
-        s_particleImage = loader.loadImage( s_imageName ).getImage();
-        s_highEnergyImage = loader.loadImage( s_highEnergyImageName ).getImage();
-        s_midEnergyImage = loader.loadImage( s_midEnergyImageName ).getImage();
-        s_lowEnergyImage = loader.loadImage( s_lowEnergyImageName ).getImage();
+//        ResourceLoader loader = new ResourceLoader();
+//        s_particleImage = loader.getPhotonImage( s_imageName ).getImage();
+//        s_highEnergyImage = loader.getPhotonImage( s_highEnergyImageName ).getImage();
+//        s_midEnergyImage = loader.getPhotonImage( s_midEnergyImageName ).getImage();
+//        s_lowEnergyImage = loader.getPhotonImage( s_lowEnergyImageName ).getImage();
+        try {
+            s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
+            s_highEnergyImage = ImageLoader.loadBufferedImage( s_highEnergyImageName );
+            s_midEnergyImage = ImageLoader.loadBufferedImage( s_midEnergyImageName );
+            s_lowEnergyImage = ImageLoader.loadBufferedImage( s_lowEnergyImageName );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     // A map that matches photon wavelengths to display colors
@@ -267,6 +245,7 @@ public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
 
     /**
      * Generates all the images for the animation of a specified wavelength
+     *
      * @param wavelength
      * @param animationMap
      */
@@ -300,7 +279,7 @@ public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
     /**
      *
      */
-    static private BufferedImage computeGeneratorImage( float wavelength, float phaseAngle ) {
+    static private BufferedImage computeGeneratorImage( double wavelength, double phaseAngle ) {
 
         // A buffered image for generating the image data
         BufferedImage img = new BufferedImage( s_imgLength,
@@ -309,7 +288,7 @@ public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
         Graphics2D g2d = img.createGraphics();
         int kPrev = s_imgHeight / 2;
         int iPrev = 0;
-        float freqFactor = 10 * wavelength / 680;
+        double freqFactor = 10 * wavelength / 680;
         for( int i = 0; i < s_imgLength; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * s_imgHeight / 2 + s_imgHeight / 2 );
             for( int j = 0; j < s_imgHeight; j++ ) {

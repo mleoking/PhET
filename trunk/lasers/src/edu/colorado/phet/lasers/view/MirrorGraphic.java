@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.view
  * Author: Another Guy
  * Date: Apr 23, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.view;
 
@@ -42,13 +47,15 @@ public class MirrorGraphic extends WallGraphic {
 //    }
 
     protected void adjustRep( Wall wall ) {
-        int xAdjustment1 = -6;
-        if( ((Mirror)wall).isLeftReflecting() ) {
-            xAdjustment1 = 0;
-        }
-        rep.setFrame( wall.getBounds().getX() + xAdjustment1,
-                            wall.getBounds().getY(),
-                            6,
-                            wall.getBounds().getHeight() );
+
+        throw new RuntimeException( "TBI" );
+//        int xAdjustment1 = -6;
+//        if( ((Mirror)wall).isLeftReflecting() ) {
+//            xAdjustment1 = 0;
+//        }
+//        rep.setFrame( wall.getBounds().getX() + xAdjustment1,
+//                            wall.getBounds().getY(),
+//                            6,
+//                            wall.getBounds().getHeight() );
     }
 }
