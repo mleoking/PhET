@@ -45,7 +45,6 @@ public class NuclearPhysicsApplication extends PhetApplication {
                                                          new FrameSetup.MaxExtent() );
         // Note: a ThreadedClock here ends up looking balky
         SwingTimerClock clock = new SwingTimerClock( 10, 50, true );
-        //        Module profileModificationModule = new ProfileModificationModule( clock );
         Module alphaModule = new AlphaDecayModule( clock );
         Module singleNucleusFissionModule = new SingleNucleusFissionModule( clock );
         Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( clock );
@@ -54,10 +53,9 @@ public class NuclearPhysicsApplication extends PhetApplication {
             singleNucleusFissionModule,
             multipleNucleusFissionModule
         };
-        //        Module[] modules = new Module[]{alphaModule, singleNucleusFissionModule, multipleNucleusFissionModule};
         appDesc.setModules( modules );
-        appDesc.setInitialModule( multipleNucleusFissionModule );
-        //        appDesc.setInitialModule( alphaModule );
+        //        appDesc.setInitialModule( multipleNucleusFissionModule );
+        appDesc.setInitialModule( alphaModule );
         appDesc.setClock( clock );
         //        app.startApplication( multipleNucleusFissionModule );
         //        app.startApplication( singleNucleusFissionModule );

@@ -15,7 +15,6 @@ import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
-import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -40,7 +39,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         // DEBUG ONLY!!!
         //        clock.setDt( clock.getDt() / 10 );
 
-
         getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
         physicalPanel = new AlphaDecayPhysicalPanel();
         super.setPhysicalPanel( physicalPanel );
@@ -48,11 +46,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getApparatusPanel().add( physicalPanel, 0 );
         alphaDecayControlPanel = new AlphaDecayControlPanel( this );
         super.addControlPanelElement( alphaDecayControlPanel );
-
     }
 
     public void start() {
-
         // todo: combine these calls
         Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), getModel() );
         setNucleus( nucleus );
@@ -60,7 +56,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         // Very ugly, but it works for now
         //        ( (Uranium235Graphic)( (ArrayList)NucleusGraphic.getGraphicForNucleus( nucleus ) ).get( 0 ) ).setDisplayLabel( false );
-
         nucleus.addDecayListener( this );
 
         // Add the nucleus' jumping alpha particles to the model and the panels
@@ -74,6 +69,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     public void stop() {
         Nucleus nucleus = getNucleus();
         getModel().removeModelElement( nucleus );
+
+        getModel().removeNuclearPartilces();
 
         getPotentialProfilePanel().removeAllAlphaParticles();
         getPotentialProfilePanel().removeAllPotentialProfiles();
@@ -190,8 +187,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         }
 
         // Add the daughter nucleus
-        NucleusGraphic daughterGraphic = new NucleusGraphic( decayProducts.getDaughter() );
-        getPhysicalPanel().addGraphic( daughterGraphic );
+        getPhysicalPanel().addNucleus( decayProducts.getDaughter() );
+        //        NucleusGraphic daughterGraphic = new NucleusGraphic( decayProducts.getDaughter() );
+        //        getPhysicalPanel().addGraphic( daughterGraphic );
         getModel().addModelElement( decayProducts.getDaughter() );
         getPotentialProfilePanel().addPotentialProfile( decayProducts.getDaughter() );
 

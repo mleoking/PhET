@@ -37,11 +37,6 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
         addTranslationBehavior( new Translator() );
     }
 
-    private final int QUAD_1 = 1;
-    private final int QUAD_2 = 2;
-    private final int QUAD_3 = 3;
-    private final int QUAD_4 = 4;
-
     public void mousePressed( MouseEvent e ) {
         super.mousePressed( e );
         lastDragPt = e.getPoint();
@@ -67,9 +62,6 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
                 dr = -dr;
             }
             containment.adjustRadius( dr );
-            //            Ellipse2D containmentShape = (Ellipse2D)containment.getShape();
-            //            containmentShape.setFrame( containmentShape.getX() + dr, containmentShape.getY() + dr,
-            //                                       containmentShape.getWidth() - dr * 2, containmentShape.getHeight() - dr * 2 );
             rep.update();
         }
     }
@@ -86,7 +78,6 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
             super( component, null, null, null );
             containment.addObserver( this );
             backgroundColor = component.getBackground();
-
             update();
         }
 

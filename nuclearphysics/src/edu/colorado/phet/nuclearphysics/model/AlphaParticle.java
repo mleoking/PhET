@@ -20,7 +20,7 @@ public class AlphaParticle extends Nucleus {
     private static Random random = new Random();
     public static final double RADIUS = NuclearParticle.RADIUS * 2;
     // Controls how fast the alpha particle accelerates down the profile
-    private static double forceScale = 0.05;
+    private static double forceScale = 0.01;
     //    private static double forceScale = 0.0008;
 
 

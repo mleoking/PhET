@@ -122,7 +122,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         containmentCB.setForeground( Color.white );
         containmentCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.enableContainment( containmentCB.isSelected() );
+                module.setContainmentEnabled( containmentCB.isSelected() );
             }
         } );
 

@@ -110,8 +110,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         // If the containment is enabled, recreate it, so it will be fully
         // displayed
         if( containment != null ) {
-            enableContainment( false );
-            enableContainment( true );
+            setContainmentEnabled( false );
+            setContainmentEnabled( true );
         }
         computeNeutronLaunchParams();
     }
@@ -297,7 +297,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         getPhysicalPanel().removeGraphic( containmentGraphic );
     }
 
-    public void enableContainment( boolean selected ) {
+    public void setContainmentEnabled( boolean selected ) {
         if( selected ) {
             addContainment();
         }
@@ -305,6 +305,10 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
             removeContainment();
         }
         computeNeutronLaunchParams();
+        
+        // This call will cause any nuclei that are outside the containment
+        // to be removed
+        containementResized( containment );
     }
 
     private Point2D.Double findLocationForNewNucleus() {
@@ -367,7 +371,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         return location;
     }
 
-    public void resized( Containment containment ) {
+    public void containementResized( Containment containment ) {
         Shape bounds = containment.getShape();
         ArrayList removeList = new ArrayList();
         for( int i = 0; i < nuclei.size(); i++ ) {
@@ -378,6 +382,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         }
         for( int i = 0; i < removeList.size(); i++ ) {
             Nucleus nucleus = (Nucleus)removeList.get( i );
+            getModel().removeModelElement( nucleus );
             // This is lazy and crude, but let's just remove from all the lists, so
             // we don't have to check types, use logic, etc.
             nuclei.remove( nucleus );

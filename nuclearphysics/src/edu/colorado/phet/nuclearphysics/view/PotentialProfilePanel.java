@@ -227,15 +227,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
         g2.drawString( xAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
     }
 
-    // todo: replace calls to this with call to addPotentialProfile
-    public synchronized void addNucleus( Nucleus nucleus ) {
-        addPotentialProfile( nucleus );
-    }
-
-    public synchronized void removeNucleus( Nucleus nucleus ) {
-        removePotentialProfile( nucleus.getPotentialProfile() );
-    }
-
     public void addPotentialProfile( Nucleus nucleus ) {
         PotentialProfileGraphic ppg = new PotentialProfileGraphic( nucleus );
         nucleus.getPotentialProfile().addObserver( ppg );
@@ -261,10 +252,17 @@ public class PotentialProfilePanel extends ApparatusPanel {
         potentialProfileMap.clear();
     }
 
-    public synchronized void addAlphaParticle( AlphaParticle alphaParticle, Nucleus nucleus ) {
+    public synchronized void addAlphaParticle( final AlphaParticle alphaParticle, Nucleus nucleus ) {
         // Add an alpha particle for the specified nucleus
-        AlphaParticleGraphic alphaParticleGraphic = new AlphaParticleGraphic( alphaParticle );
+        final AlphaParticleGraphic alphaParticleGraphic = new AlphaParticleGraphic( alphaParticle );
         wellParticles.put( alphaParticleGraphic, nucleus );
+        alphaParticle.addListener( new NuclearModelElement.Listener() {
+            public void leavingSystem( NuclearModelElement nme ) {
+                PotentialProfilePanel.this.removeGraphic( alphaParticleGraphic );
+                alphaParticle.removeListener( this );
+                wellParticles.remove( alphaParticleGraphic );
+            }
+        } );
     }
 
     public void removeAllAlphaParticles() {
@@ -311,7 +309,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
      * @param color
      */
     public void addNucleus( Nucleus nucleus, Color color ) {
-        this.addNucleus( nucleus );
+        this.addPotentialProfile( nucleus );
         if( color == null ) {
             removePotentialProfile( nucleus.getPotentialProfile() );
         }

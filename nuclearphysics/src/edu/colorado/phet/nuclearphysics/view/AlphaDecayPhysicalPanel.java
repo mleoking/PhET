@@ -13,6 +13,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -64,12 +65,18 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
         GraphicsUtil.setAlpha( g2, 1 );
     }
 
-    public synchronized void addAlphaParticle( AlphaParticle alphaParticle ) {
+    public synchronized void addAlphaParticle( final AlphaParticle alphaParticle ) {
         NucleusGraphic graphic = new NucleusGraphic( alphaParticle );
         //        this.addOriginCenteredGraphic( graphic, alphaParticleLevel );
-        TxGraphic txg = new TxGraphic( graphic, originTx );
+        final TxGraphic txg = new TxGraphic( graphic, originTx );
         particleToGraphicMap.put( alphaParticle, txg );
         //        particleToGraphicMap.put( alphaParticle, graphic );
+        alphaParticle.addListener( new NuclearModelElement.Listener() {
+            public void leavingSystem( NuclearModelElement nme ) {
+                AlphaDecayPhysicalPanel.this.removeGraphic( txg );
+                alphaParticle.removeListener( this );
+            }
+        } );
     }
 
     public synchronized void removeAlphaParticle( AlphaParticle alphaParticle ) {
