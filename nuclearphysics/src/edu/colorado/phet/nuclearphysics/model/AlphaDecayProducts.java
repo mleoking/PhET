@@ -20,14 +20,14 @@ public class AlphaDecayProducts {
         this.daughter = new Thorium143( parent.getLocation() );
         this.alphaParticle = alphaParticle;
         this.alphaParticle.setNucleus( daughter );
+        this.alphaParticle.setEscaped( true );
 
-        // DEBUG!!! the + 20
-        double scale = ( daughter.getPotentialProfile().getAlphaDecayX() - 20 )
-                       / parent.getPotentialProfile().getAlphaDecayX();
-        double dx = alphaParticle.getLocation().getX() - parent.getLocation().getX();
-        double dy = alphaParticle.getLocation().getY() - parent.getLocation().getY();
-        this.alphaParticle.setLocation( dx * scale + parent.getLocation().getX(),
-                                        dy * scale + parent.getLocation().getY() );
+        double dx = parent.getPotentialProfile().getAlphaDecayX() - parent.getLocation().getX();
+        dx *= alphaParticle.getLocation().getX() < parent.getLocation().getX() ? 1 : -1;
+        double dy = parent.getPotentialProfile().getHillY( parent.getPotentialProfile().getAlphaDecayX() )
+                    - parent.getLocation().getY();
+        this.alphaParticle.setLocation( dx + parent.getLocation().getX(),
+                                        dy + parent.getLocation().getY() );
     }
 
     public Nucleus getParent() {

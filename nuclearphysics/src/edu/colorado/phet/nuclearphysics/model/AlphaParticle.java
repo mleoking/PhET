@@ -18,36 +18,39 @@ public class AlphaParticle extends Nucleus {
     // Statics
     //
     private static Random random = new Random();
-
     public static final double RADIUS = NuclearParticle.RADIUS * 2;
-    private double statisticalPositionSigma;
-    private Nucleus nucleus;
-    private double potential;
+    // Controls how fast the alpha particle accelerates down the profile
+    private static double forceScale = 0.001;
 
 
     //
     // Instance fields and methods
     //
+    private Nucleus nucleus;
+    private double potential;
     public boolean isInNucleus = true;
-    private double forceScale = 0.005;
+    private double statisticalPositionSigma;
+    private boolean escaped = false;
 
     public AlphaParticle( Point2D.Double position, double statisticalPositionSigma ) {
         super( position, 2, 2 );
         this.statisticalPositionSigma = statisticalPositionSigma;
     }
 
-    private long runningTime = 0;
-
     public void setNucleus( Nucleus nucleus ) {
         this.nucleus = nucleus;
     }
 
+    public void setEscaped( boolean escaped ) {
+        this.escaped = escaped;
+    }
+
     public void stepInTime( double dt ) {
-//        super.stepInTime( dt );
+        super.stepInTime( dt );
         if( nucleus != null ) {
-            double dn = nucleus.getPotentialProfile().getAlphaDecayX();
             double dSq = this.getLocation().distanceSq( nucleus.getLocation() );
-            if( dSq < dn * dn ) {
+            if( !escaped ) {
+                // Generate a random position for the alpha particle
                 double d = ( random.nextGaussian() * statisticalPositionSigma ) * ( Math.random() > 0.5 ? 1 : -1 );
                 double theta = Math.random() * Math.PI * 2;
                 double dx = d * Math.cos( theta );
@@ -56,16 +59,16 @@ public class AlphaParticle extends Nucleus {
                 this.setPotential( nucleus.getPotentialProfile().getWellPotential() );
             }
             else {
+                // Accelerate the alpha particle away from the nucleus, with a force
+                // proportional to its height on the profile
                 PotentialProfile profile = nucleus.getPotentialProfile();
 
                 // If this -Math.sqrt is right, then we need to fix some sign things
-                double d = Math.sqrt( dSq );
+                double d = this.getLocation().distance( nucleus.getLocation() );
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
                 force = Double.isNaN( force ) ? 0 : force;
-                double theta;
                 Vector2D a = null;
                 if( this.getVelocity().getX() == 0 && this.getVelocity().getY() == 0 ) {
-                    theta = random.nextDouble() * Math.PI * 2;
                     double dx = this.getLocation().getX() - nucleus.getLocation().getX();
                     double dy = this.getLocation().getY() - nucleus.getLocation().getY();
                     a = new Vector2D( (float)dx, (float)dy ).normalize().multiply( (float)force );
@@ -77,7 +80,6 @@ public class AlphaParticle extends Nucleus {
                 this.setPotential( -profile.getHillY( -d ) );
             }
         }
-        super.stepInTime( dt );
     }
 
     private void setPotential( double potential ) {

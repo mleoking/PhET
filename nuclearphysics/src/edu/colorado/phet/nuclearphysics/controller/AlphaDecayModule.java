@@ -120,6 +120,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
             }
         };
         this.getPhysicalPanel().addOriginCenteredGraphic( leaderLines );
+        this.getPotentialProfilePanel().addOriginCenteredGraphic( leaderLines );
     }
 
     private void setRingAttributes( Nucleus nucleus ) {
@@ -165,14 +166,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         addRingGraphic( decayProducts.getDaughter() );
     }
-
-//    public void run() {
-//
-////        if( getNucleus() != null ) {
-////        physicalPanel.removeNucleus( getNucleus() );
-////        getPotentialProfilePanel().removePotentialProfile( getNucleus().getPotentialProfile() );
-////        }
-//    }
 
     //
     // Inner classes

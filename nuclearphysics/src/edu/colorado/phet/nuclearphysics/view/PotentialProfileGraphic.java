@@ -14,7 +14,6 @@ import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
@@ -42,7 +41,6 @@ public class PotentialProfileGraphic implements Graphic, SimpleObserver {
     private AffineTransform profileTx = new AffineTransform();
     private Image image;
     private Nucleus nucleus;
-    private Stroke leaderLineStroke = new BasicStroke( 1f );
 
     public PotentialProfileGraphic( Nucleus nucleus ) {
         this.nucleus = nucleus;
@@ -66,23 +64,6 @@ public class PotentialProfileGraphic implements Graphic, SimpleObserver {
         g.transform( profileTx );
         g.drawImage( image, -image.getWidth( imgObs ) / 2,
                      -image.getHeight( imgObs ), imgObs );
-
-
-        // Add leader lines from the ring up to the profile
-        final Line2D.Double line1 = new Line2D.Double( -profile.getAlphaDecayX(),
-                                                       -1000,
-                                                       -profile.getAlphaDecayX(),
-                                                       1000 );
-        final Line2D.Double line2 = new Line2D.Double( profile.getAlphaDecayX(),
-                                                       -1000,
-                                                       profile.getAlphaDecayX(),
-                                                       1000 );
-
-        g.setColor( Color.black );
-        g.setStroke( leaderLineStroke );
-        GraphicsUtil.setAlpha( g, 0.3 );
-        g.draw( line1 );
-        g.draw( line2 );
         GraphicsUtil.setAlpha( g, 1 );
 
         g.setTransform( orgTx );

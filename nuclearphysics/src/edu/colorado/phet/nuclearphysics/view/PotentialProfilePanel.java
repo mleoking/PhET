@@ -18,6 +18,7 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.RevertableGraphicsSetup;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
@@ -25,6 +26,7 @@ import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
@@ -70,6 +72,16 @@ public class PotentialProfilePanel extends ApparatusPanel {
         int size = 12;
         axisLabelFont = new Font( family, style, size );
     }
+
+    private static GeneralPath arrowhead = new GeneralPath();
+
+    static {
+        arrowhead.moveTo( 0, 0 );
+        arrowhead.lineTo( 5, 10 );
+        arrowhead.lineTo( -5, 10 );
+        arrowhead.closePath();
+    }
+
 
     public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
         atx.setToIdentity();
@@ -157,14 +169,40 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
     private void drawAxes( Graphics2D g2 ) {
         AffineTransform orgTx = g2.getTransform();
+        int arrowOffset = 20;
 
         g2.setColor( axisColor );
         g2.setStroke( axisStroke );
-        xAxis.setLine( -this.getWidth(), 0, this.getWidth(), 0 );
-        yAxis.setLine( 0, -this.getHeight(), 0, this.getHeight() );
+
+        int xAxisMin = -this.getWidth() / 2 + arrowOffset;
+        int xAxisMax = this.getWidth() / 2 - arrowOffset;
+        double yRat = profileTx.getTranslateY() / this.getHeight();
+
+        int yAxisMin = -(int)( this.getHeight() * yRat ) + arrowOffset;
+        int yAxisMax = yAxisMin + this.getHeight() - 2 * arrowOffset;
+
+        xAxis.setLine( xAxisMin, 0, xAxisMax, 0 );
+        yAxis.setLine( 0, yAxisMin, 0, yAxisMax );
         g2.transform( profileTx );
         g2.draw( xAxis );
         g2.draw( yAxis );
+        AffineTransform tempTx = g2.getTransform();
+        g2.transform( AffineTransform.getTranslateInstance( xAxisMax, 0 ) );
+        g2.transform( AffineTransform.getRotateInstance( Math.PI / 2 ) );
+        g2.fill( arrowhead );
+        g2.setTransform( tempTx );
+        g2.transform( AffineTransform.getTranslateInstance( xAxisMin, 0 ) );
+        g2.transform( AffineTransform.getRotateInstance( -Math.PI / 2 ) );
+        g2.fill( arrowhead );
+        g2.setTransform( tempTx );
+        g2.transform( AffineTransform.getTranslateInstance( 0, yAxisMin ) );
+//        g2.transform( AffineTransform.getRotateInstance( 0 );
+        g2.fill( arrowhead );
+        g2.setTransform( tempTx );
+        g2.transform( AffineTransform.getTranslateInstance( 0, yAxisMax ) );
+        g2.transform( AffineTransform.getRotateInstance( Math.PI ) );
+        g2.fill( arrowhead );
+
         g2.setTransform( orgTx );
 
         // Draw labels
@@ -173,7 +211,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
         FontMetrics fm = g2.getFontMetrics();
 
         // todo: replace the 250 in the next line with something better
-        strLoc.setLocation( origin.getX(), profileTx.getTranslateY() - 250 );
+        strLoc.setLocation( origin.getX(), profileTx.getTranslateY() - 220 );
         AffineTransform strTx = rotateInPlace( -Math.PI / 2, strLoc.getX(), strLoc.getY() );
         g2.transform( strTx );
         g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
@@ -230,5 +268,9 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
     public void clear() {
         this.removeAllGraphics();
+    }
+
+    public void addOriginCenteredGraphic( Graphic leaderLines ) {
+        this.addGraphic( leaderLines, profileTx );
     }
 }
