@@ -16,7 +16,6 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.OneAtomModule;
 
 import javax.swing.*;
@@ -38,7 +37,7 @@ public class LaserSimulation extends PhetApplication {
             setFrameCenteredSize( 900, 750 );
 
             Module singleAtomModule = new OneAtomModule( clock );
-            Module multipleAtomModule = new MultipleAtomModule( clock );
+            //            Module multipleAtomModule = new MultipleAtomModule( clock );
             //            Module singleAtomModule = new OneAtomTwoLevelsModule( clock );
             //            Module oneAtomThreeLevelsModule = new OneAtomThreeLevelsModule( clock );
             //            Module multipleAtomTwoLevelModule = new MultipleAtomTwoLevelModule( clock );
@@ -46,7 +45,7 @@ public class LaserSimulation extends PhetApplication {
             //            Module testApparatusModule = new TestApparatusModule();
             Module[] modules = new Module[]{
                 singleAtomModule,
-                multipleAtomModule
+                //                multipleAtomModule
                 //                oneAtomThreeLevelsModule,
                 //                multipleAtomTwoLevelModule,
                 //                multipleAtomThreeLevelModule,

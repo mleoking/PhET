@@ -11,9 +11,9 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
 
@@ -26,7 +26,6 @@ public abstract class SpontaneouslyEmittingState extends AtomicState implements 
     private double deathTime;
 
     /**
-     *
      * @param atom
      */
     public SpontaneouslyEmittingState( Atom atom ) {
@@ -35,13 +34,17 @@ public abstract class SpontaneouslyEmittingState extends AtomicState implements 
         while( temp == 0 ) {
             temp = Math.random();
         }
+
         // Assign a deathtime based on an exponential distribution
         deathTime = -Math.log( temp ) * getSpontaneousEmmisionHalfLife();
+
+        // TEST ONLY!!!
+        deathTime = getSpontaneousEmmisionHalfLife();
+
         lifeTime = 0;
     }
 
     /**
-     *
      * @param dt
      */
     public void stepInTime( double dt ) {
@@ -54,13 +57,13 @@ public abstract class SpontaneouslyEmittingState extends AtomicState implements 
             double x = speed * Math.cos( theta );
             double y = speed * Math.sin( theta );
             emittedPhoton.setVelocity( x, y );
-            emittedPhoton.setPosition( new Point2D.Double( getAtom().getPosition().getX(), getAtom().getPosition().getY() ));
+            emittedPhoton.setPosition( new Point2D.Double( getAtom().getPosition().getX(), getAtom().getPosition().getY() ) );
 
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away
             Vector2D vHat = new Vector2D.Double( emittedPhoton.getVelocity() ).normalize();
             Vector2D position = new Vector2D.Double( getAtom().getPosition() );
-            position.add( vHat.scale( getAtom().getRadius() + 10 ));
+            position.add( vHat.scale( getAtom().getRadius() + 10 ) );
             emittedPhoton.setPosition( position.getX(), position.getY() );
             getAtom().emitPhoton( emittedPhoton );
 
@@ -81,7 +84,9 @@ public abstract class SpontaneouslyEmittingState extends AtomicState implements 
     // Abstract methods
     //
     abstract protected double getSpontaneousEmmisionHalfLife();
+
     abstract protected AtomicState nextLowerEnergyState();
+
     abstract protected double getEmittedPhotonWavelength();
 
     //

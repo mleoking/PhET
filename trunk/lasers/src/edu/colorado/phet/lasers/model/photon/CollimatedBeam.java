@@ -14,11 +14,14 @@ package edu.colorado.phet.lasers.model.photon;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.EventListener;
+import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -125,6 +128,17 @@ public class CollimatedBeam extends Particle {
         model.removeModelElement( photon );
     }
 
+
+    public class PhotonEmittedEvent extends EventObject {
+        public PhotonEmittedEvent( Object source ) {
+            super( source );
+        }
+    }
+
+    public interface PhotonEmittedEventListener extends EventListener {
+        public void photonEmittedEventOccurred( PhotonEmittedEvent event );
+    }
+
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
 
@@ -137,6 +151,8 @@ public class CollimatedBeam extends Particle {
                 timeSinceLastPhotonProduced = 0;
                 this.addPhoton();
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
+
+                EventRegistry.instance.fireEvent( new PhotonEmittedEvent( this ) );
             }
         }
 

@@ -75,7 +75,7 @@ public class Photon extends Particle implements Collidable {
         Photon newPhoton = create();
         newPhoton.setVelocity( new Vector2D.Double( stimulatingPhoton.getVelocity() ) );
         newPhoton.setWavelength( stimulatingPhoton.getWavelength() );
-        int yOffset = stimulatingPhoton.numStimulatedPhotons * 4;
+        int yOffset = stimulatingPhoton.numStimulatedPhotons * 8;
         newPhoton.setPosition( stimulatingPhoton.getPosition().getX(),
                                stimulatingPhoton.getPosition().getY() - yOffset );
         //                               stimulatingPhoton.getPosition().getY() - stimulatingPhoton.getRadius() );

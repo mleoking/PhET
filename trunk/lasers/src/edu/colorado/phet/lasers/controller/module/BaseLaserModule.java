@@ -14,6 +14,7 @@ package edu.colorado.phet.lasers.controller.module;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
@@ -51,11 +52,21 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
     private MirrorGraphic leftMirrorGraphic;
     private Frame appFrame;
 
+    public class PEL implements CollimatedBeam.PhotonEmittedEventListener {
+        int cnt;
+
+        public void photonEmittedEventOccurred( CollimatedBeam.PhotonEmittedEvent event ) {
+            System.out.println( "cnt: " + cnt++ );
+        }
+    };
+
     /**
      *
      */
     public BaseLaserModule( String title ) {
         super( title );
+
+        EventRegistry.instance.addListener( new PEL() );
 
         laserModel = new LaserModel();
         setModel( laserModel );
@@ -81,9 +92,7 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         rightMirror = new Mirror( p1, p2 );
         rightMirror.addReflectionStrategy( new LeftReflecting() );
         rightMirror.addReflectionStrategy( new Partial( .2 ) );
-        //        laserModel.addModelElement( rightMirror );
         rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
-        //        addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
         // The left mirror is 100% reflecting
         Point2D p3 = new Point2D.Double( cavity.getPosition().getX(), // - 20,
                                          cavity.getPosition().getY() );
@@ -91,9 +100,7 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
                                          cavity.getPosition().getY() + cavity.getHeight() );
         leftMirror = new Mirror( p3, p4 );
         leftMirror.addReflectionStrategy( new RightReflecting() );
-        //        laserModel.addModelElement( leftMirror );
         leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
-        //        addGraphic( leftMirrorGraphic, LaserConfig.CAVITY_LAYER );
     }
 
     protected Point2D getLaserOrigin() {
@@ -189,5 +196,16 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
             getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
         }
         getApparatusPanel().repaint();
+    }
+
+    public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
+        if( threeEnergyLevels ) {
+            setEnergyMonitorPanel( new ThreeEnergyLevelMonitorPanel( getLaserModel() ) );
+            laserModel.getPumpingBeam().setActive( true );
+        }
+        else {
+            setEnergyMonitorPanel( new TwoEnergyLevelMonitorPanel( getLaserModel() ) );
+            laserModel.getPumpingBeam().setActive( false );
+        }
     }
 }
