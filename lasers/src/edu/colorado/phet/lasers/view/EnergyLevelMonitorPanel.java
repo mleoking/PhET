@@ -24,6 +24,7 @@ import edu.colorado.phet.lasers.model.atom.HighEnergyState;
 import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -35,7 +36,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
     private int atomDiam = 14;
 
     private double panelWidth = 400;
-    private double panelHeight = 300;
+    private double panelHeight = 500;
     private double sliderWidth = 100;
 
     private double levelLineOriginX = 30;
@@ -64,6 +65,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
         groundLevelLine = new EnergyLevelGraphic( this, GroundState.instance(),
                                                   Color.black, levelLineOriginX, levelLineLength );
 
+        this.setBackground( Color.white );
         this.addGraphic( highLevelLine );
         this.addGraphic( middleLevelLine );
         this.addGraphic( groundLevelLine );
@@ -96,7 +98,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
         this.numLevels = numLevels;
         switch( numLevels ) {
             case 2:
-                panelHeight = 200;
+                panelHeight = 300;
                 highLevelLine.setVisible( false );
                 highLevelLifetimeSlider.setVisible( false );
                 break;
@@ -182,7 +184,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
     private class EnergyLifetimeSlider extends JSlider {
         private int maxLifetime = 5000;
         private EnergyLevelGraphic graphic;
-        private int sliderHeight = 60;
+        private int sliderHeight = 50;
 
         public EnergyLifetimeSlider( final AtomicState atomicState, Component component,
                                      EnergyLevelGraphic graphic, String label ) {
@@ -203,8 +205,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
                 }
             } );
             this.setEnabled( false );
-            setValue( (int)atomicState.getMeanLifeTime());
+            setValue( (int)atomicState.getMeanLifeTime() );
             this.setEnabled( true );
+
+            this.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             update();
         }
 
