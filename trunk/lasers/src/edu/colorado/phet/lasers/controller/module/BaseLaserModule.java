@@ -49,6 +49,9 @@ public class BaseLaserModule extends Module {
     static protected final double s_boxWidth = 300;
     static protected final double s_laserOffsetX = 100;
 
+    static private final int PHOTON_DISCRETE = 0;
+    static private final int PHOTON_WAVE = 1;
+
     private ResonatingCavity cavity;
     private Point2D laserOrigin;
     private LaserModel laserModel;
@@ -64,6 +67,8 @@ public class BaseLaserModule extends Module {
     private CollimatedBeam stimulatingBeam;
     private CollimatedBeam pumpingBeam;
     private JPanel reflectivityControlPanel;
+    private int photonView;
+    private WaveBeamGraphic beamGraphic;
 
 
     /**
@@ -137,6 +142,24 @@ public class BaseLaserModule extends Module {
         setControlPanel( controlPanel );
     }
 
+    public void setPhotonView() {
+        setPhotonView( PHOTON_DISCRETE );
+        if( beamGraphic != null ) {
+            getApparatusPanel().removeGraphic( beamGraphic );
+            beamGraphic = null;
+        }
+    }
+
+    public void setWaveView() {
+        setPhotonView( PHOTON_WAVE );
+        beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity(), getModel() );
+        addGraphic( beamGraphic, 1 );
+    }
+
+    private void setPhotonView( int viewType ) {
+        photonView = viewType;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Implementations of listeners interfaces
     //
@@ -145,12 +168,17 @@ public class BaseLaserModule extends Module {
         public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
             Photon photon = event.getPhoton();
             getModel().addModelElement( photon );
-            final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
-            addGraphic( pg, LaserConfig.PHOTON_LAYER );
+            if( photonView == PHOTON_DISCRETE ) {
+                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+                addGraphic( pg, LaserConfig.PHOTON_LAYER );
 
-            // Add a listener that will remove the graphic if the photon leaves the system
-            // todo: change to new listener model
-            photon.addListener( new PhotonLeftSystemListener( pg ) );
+                // Add a listener that will remove the graphic if the photon leaves the system
+                // todo: change to new listener model
+                photon.addListener( new PhotonLeftSystemListener( pg ) );
+            }
+            else {
+
+            }
         }
     }
 

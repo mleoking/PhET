@@ -24,6 +24,8 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -76,6 +78,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     // A map of maps for holding photon animations. Inner maps hold animations keyed
     // by their angle of travel. The outer map keys the inner maps by color
     static HashMap s_animationMap = new HashMap();
+    // The angle at which the photon is moving
+    private double theta;
+    private Point2D debugPosition;
 
     // Generated all the photon animations
     static {
@@ -176,6 +181,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
         photon.addObserver( this );
         photon.addListener( this );
 
+        // This code is for the squiggle view of photons
         //        super( s_particleImage, particle.getPosition().getX(), particle.getPosition().getY() );
         //        this.setImage( buffImg );
         //        init( particle );
@@ -186,8 +192,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     }
 
     private void createImage() {
-        double theta = photon.getVelocity().getAngle();
+        theta = photon.getVelocity().getAngle();
 
+        // This code is for the squiggle view of photons
         //        generateAnimation( photon );
         //        setImage( animation[0] );
 
@@ -286,18 +293,30 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     protected void setPosition( Particle body ) {
         Photon particle = (Photon)body;
 
+        debugPosition = body.getPosition();
+
         // Need to subtract half the width and height of the image to locate it
         // porperly. The particle's location is its center, but the location of
         // the graphic is the upper-left corner of the bounding box.
         // TODO: coordinate the size of the particle and the image
-        double x = particle.getPosition().getX() - getImage().getWidth();/* - particle.getRadius() */
-        ;
-        double y = particle.getPosition().getY() /* - particle.getRadius()*/;
+        double dx = s_particleImage.getWidth() * Math.cos( theta );
+        double dy = s_particleImage.getHeight() * Math.sin( theta );
+        double x = particle.getPosition().getX() - dx;
+        double y = particle.getPosition().getY() - dy;
+        //        double x = particle.getPosition().getX() - getImage().getWidth();/* - particle.getRadius() */
+        //        double y = particle.getPosition().getY() /* - particle.getRadius()*/;
         super.setPosition( (int)x, (int)y );
     }
 
     public void paint( Graphics2D g ) {
         super.paint( g );
+        Rectangle2D r = new Rectangle2D.Double( this.getBounds().getX() + getImage().getMinX(),
+                                                this.getBounds().getY() + getImage().getMinY(),
+                                                getImage().getWidth(),
+                                                getImage().getHeight() );
+        g.setColor( Color.GREEN );
+        g.draw( r );
+        g.fillArc( (int)debugPosition.getX(), (int)debugPosition.getY(), 2, 2, 0, 360 );
     }
 
     public void velocityChanged( Photon.VelocityChangedEvent event ) {

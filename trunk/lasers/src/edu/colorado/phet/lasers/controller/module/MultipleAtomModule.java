@@ -24,7 +24,6 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.view.BlueBeamGraphic;
 import edu.colorado.phet.lasers.view.LampGraphic;
 
 import javax.swing.*;
@@ -71,8 +70,8 @@ public class MultipleAtomModule extends BaseLaserModule {
         pumpingBeam.setBounds( pumpingBeamBounds );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.setActive( true );
-        BlueBeamGraphic beamGraphic = new BlueBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
-        addGraphic( beamGraphic, 1 );
+        //        WaveBeamGraphic beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
+        //        addGraphic( beamGraphic, 1 );
 
         // Add the ray gun for firing photons
         try {
@@ -153,7 +152,7 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         Atom atom = null;
         atoms = new ArrayList();
-        int numAtoms = 30;
+        int numAtoms = 20;
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new Atom();
             boolean placed = false;
