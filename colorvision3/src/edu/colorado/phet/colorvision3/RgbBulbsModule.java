@@ -47,9 +47,9 @@ public class RgbBulbsModule extends Module
 
 	// Locations (screen coordinates, relative to upper left)
 	private static final int PERSON_X             = 400;
-	private static final int PERSON_Y             =  30;
-	private static final int RED_SPOTLIGHT_X      = 250;
-	private static final int RED_SPOTLIGHT_Y      = 160;
+	private static final int PERSON_Y             =  25;
+	private static final int RED_SPOTLIGHT_X      = 210;
+	private static final int RED_SPOTLIGHT_Y      = 165;
 	private static final int GREEN_SPOTLIGHT_X    = RED_SPOTLIGHT_X;
 	private static final int GREEN_SPOTLIGHT_Y    = RED_SPOTLIGHT_Y + 160;
 	private static final int BLUE_SPOTLIGHT_X     = RED_SPOTLIGHT_X;
@@ -62,7 +62,7 @@ public class RgbBulbsModule extends Module
 	private static final int BLUE_CONTROL_Y       = 435;
 	
 	// Angles
-	public static final double RED_SPOTLIGHT_ANGLE   = 27.0;
+	public static final double RED_SPOTLIGHT_ANGLE   = 24.0;
 	public static final double GREEN_SPOTLIGHT_ANGLE = 0.0;
 	public static final double BLUE_SPOTLIGHT_ANGLE  = -(RED_SPOTLIGHT_ANGLE);
 
@@ -97,21 +97,21 @@ public class RgbBulbsModule extends Module
 		// Red Spotlight model
 		Spotlight2D redModel = new Spotlight2D();
 		redModel.setColor( Color.red );
-		redModel.setIntensity( 0.0 );
+		redModel.setIntensity( Spotlight2D.INTENSITY_MIN );
 		redModel.setLocation( RED_SPOTLIGHT_X, RED_SPOTLIGHT_Y );
 		redModel.setDirection( RED_SPOTLIGHT_ANGLE );
 	
 		// Green Spotlight model
 		Spotlight2D greenModel = new Spotlight2D();
 		greenModel.setColor( Color.green );
-		greenModel.setIntensity( 0.0 );
+		greenModel.setIntensity( Spotlight2D.INTENSITY_MIN );
 		greenModel.setLocation( GREEN_SPOTLIGHT_X, GREEN_SPOTLIGHT_Y );
 		greenModel.setDirection( GREEN_SPOTLIGHT_ANGLE );
 		
 		// Blue Spotlight model
 		Spotlight2D blueModel = new Spotlight2D();
 		blueModel.setColor( Color.blue );
-		blueModel.setIntensity( 0.0 );
+		blueModel.setIntensity( Spotlight2D.INTENSITY_MIN );
 		blueModel.setLocation( BLUE_SPOTLIGHT_X, BLUE_SPOTLIGHT_Y );
 		blueModel.setDirection( BLUE_SPOTLIGHT_ANGLE );
 		
