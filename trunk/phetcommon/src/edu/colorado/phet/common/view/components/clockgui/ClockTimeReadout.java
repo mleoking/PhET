@@ -7,6 +7,8 @@
  */
 package edu.colorado.phet.common.view.components.clockgui;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.text.NumberFormat;
@@ -24,7 +26,7 @@ public class ClockTimeReadout extends JPanel {
         Font clockFont = clockTF.getFont();
         clockTF.setFont( new Font( clockFont.getName(), Font.BOLD, 16 ) );
 
-        add( new JLabel( "Running time: " ) );
+        add( new JLabel( SimStrings.get( "ClockTimeReadout.RunningTime" ) + ": " ) );
         clockTF.setEditable( false );
         add( clockTF );
         clockFormat.setMaximumFractionDigits( 1 );

@@ -4,6 +4,7 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,9 +39,9 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         ImageIcon playIcon = new ImageIcon( playU );
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
-        play = new JButton( "Play", playIcon );
-        pause = new JButton( "Pause", pauseIcon );
-        step = new JButton( "Step", stepIcon );
+        play = new JButton( SimStrings.get( "ClockControlPanel.Play" ), playIcon );
+        pause = new JButton( SimStrings.get( "ClockControlPanel.Pause" ), pauseIcon );
+        step = new JButton( SimStrings.get( "ClockControlPanel.Step" ), stepIcon );
         step.setEnabled( false );
 
         play.addActionListener( new ActionListener() {
