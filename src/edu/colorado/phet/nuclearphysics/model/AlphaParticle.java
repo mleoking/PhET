@@ -31,9 +31,14 @@ public class AlphaParticle extends Nucleus {
         this.statisticalPositionSigma = statisticalPositionSigma;
     }
 
+    private long runningTime = 0;
+
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        if( isInNucleus ) {
+        runningTime += dt;
+        // Attempt to slow down the alpha particles. 
+        if( isInNucleus && runningTime >= 10 ) {
+            runningTime = 0;
             double d = ( random.nextGaussian() * statisticalPositionSigma ) * ( Math.random() > 0.5 ? 1 : -1 );
             double theta = Math.random() * Math.PI * 2;
             double dx = d * Math.cos( theta );

@@ -21,10 +21,12 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.HashMap;
 
 public class NuclearPhysicsModule extends Module {
     private ApparatusPanel apparatusPanel;
     private PotentialProfile potentialProfile;
+    private HashMap potentialProfilePanels = new HashMap();
     private PotentialProfilePanel potentialProfilePanel;
     private PhysicalPanel physicalPanel;
 
@@ -32,7 +34,6 @@ public class NuclearPhysicsModule extends Module {
         super( name );
         potentialProfile = defaultProfile;
         potentialProfilePanel = new PotentialProfilePanel( potentialProfile );
-//        potentialProfilePanel = new PotentialProfilePanel( potentialProfile );
         physicalPanel = new PhysicalPanel();
         apparatusPanel = new ApparatusPanel();
         super.setApparatusPanel( apparatusPanel );
@@ -76,6 +77,8 @@ public class NuclearPhysicsModule extends Module {
         this.getModel().addModelElement( nucleus );
         physicalPanel.addNucleus( nucleus );
         potentialProfilePanel.setNucleus( nucleus );
+        PotentialProfilePanel ppp = new PotentialProfilePanel( nucleus.getPotentialProfile() );
+        potentialProfilePanels.put( nucleus, ppp );
     }
 
     protected void addAlphaParticle( AlphaParticle alphaParticle ) {
@@ -83,10 +86,22 @@ public class NuclearPhysicsModule extends Module {
         potentialProfilePanel.addAlphaParticle( alphaParticle );
     }
 
+    protected void addAlphaParticle( AlphaParticle alphaParticle, Nucleus nucleus ) {
+        this.getModel().addModelElement( alphaParticle );
+        ( (PotentialProfilePanel)potentialProfilePanels.get( nucleus ) ).addAlphaParticle( alphaParticle );
+    }
+
     protected void addNeutron( NuclearParticle particle ) {
         this.getModel().addModelElement( particle );
         NeutronGraphic ng = new NeutronGraphic( particle );
         potentialProfilePanel.addOriginCenteredGraphic( ng );
+        physicalPanel.addGraphic( ng );
+    }
+
+    protected void addNeutron( NuclearParticle particle, Nucleus nucleus ) {
+        this.getModel().addModelElement( particle );
+        NeutronGraphic ng = new NeutronGraphic( particle );
+        ( (PotentialProfilePanel)potentialProfilePanels.get( nucleus ) ).addOriginCenteredGraphic( ng );
         physicalPanel.addGraphic( ng );
     }
 
@@ -129,6 +144,10 @@ public class NuclearPhysicsModule extends Module {
 
     protected PotentialProfilePanel getPotentialProfilePanel() {
         return potentialProfilePanel;
+    }
+
+    protected PotentialProfilePanel getPotentialProfilePanel( Nucleus nucleus ) {
+        return (PotentialProfilePanel)potentialProfilePanels.get( nucleus );
     }
 
 

@@ -77,18 +77,18 @@ public class PotentialProfileGraphic implements Graphic {
                                               BufferedImage.TYPE_INT_ARGB );
         Graphics2D g = (Graphics2D)bi.getGraphics();
         GraphicsUtil.setAntiAliasingOn( g );
-        g.setColor( color );
-        g.setStroke( stroke );
-        profileTx.setToIdentity();
 
         // Note that the profile path is centered on the y axis, so half of it
         // has negative x coordinates. That's why is has to be translated
-        profileTx.translate( profile.getWidth() / 2, profile.getMaxPotential() );
-        g.draw( profileTx.createTransformedShape( profile.getPath() ) );
         g.setColor( backgroundColor );
-        AlphaSetter.set( g, .2 );
+        AlphaSetter.set( g, 1 );
         g.fill( profileTx.createTransformedShape( profile.getBackgroundPath() ) );
         AlphaSetter.set( g, 1 );
+        g.setColor( color );
+        g.setStroke( stroke );
+        profileTx.setToIdentity();
+        profileTx.translate( profile.getWidth() / 2, profile.getMaxPotential() );
+        g.draw( profileTx.createTransformedShape( profile.getPath() ) );
         return bi;
     }
 

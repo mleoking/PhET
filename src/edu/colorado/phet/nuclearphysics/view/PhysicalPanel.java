@@ -50,15 +50,8 @@ public class PhysicalPanel extends ApparatusPanel {
 
     protected synchronized void paintComponent( Graphics graphics ) {
         origin.setLocation( this.getWidth() / 2, this.getHeight() / 2 );
-
         originTx.setToTranslation( origin.getX(), origin.getY() );
-        Graphics2D g2 = (Graphics2D)graphics;
-        AffineTransform orgTx = g2.getTransform();
-        atx.setToIdentity();
-        atx.translate( -origin.getX(), -origin.getY() );
-//        g2.setTransform( atx );
         super.paintComponent( graphics );    //To change body of overridden methods use File | Settings | File Templates.
-//        g2.setTransform( orgTx );
     }
 
     public void clear() {

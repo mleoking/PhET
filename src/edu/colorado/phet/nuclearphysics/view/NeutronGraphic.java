@@ -6,13 +6,20 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
+import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 
 import java.awt.*;
+import java.util.HashMap;
 
 public class NeutronGraphic extends ParticleGraphic {
 
     private static Color color = Color.gray;
+    private static HashMap graphicToModelMap = new HashMap();
+
+    public static NeutronGraphic getGraphicForNeutron( Neutron neutron ) {
+        return (NeutronGraphic)graphicToModelMap.get( neutron );
+    }
 
     public NeutronGraphic() {
         super( color );
@@ -20,6 +27,7 @@ public class NeutronGraphic extends ParticleGraphic {
 
     public NeutronGraphic( NuclearParticle particle ) {
         super( particle, NeutronGraphic.color );
+        graphicToModelMap.put( particle, this );
     }
 
     public void paint( Graphics2D g ) {
