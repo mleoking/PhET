@@ -14,7 +14,7 @@ Object
 					          Electromagnet (SimpleObserver of SourceCoil)
 				        HollywoodMagnet
 			      AbstractVoltageSource
-				        ACSource (ModelElement)
+				        ACPowerSupply (ModelElement)
 				        Battery
 				        AbstractCoil
 					          PickupCoil (ModelElement)
