@@ -67,7 +67,7 @@ public class Module_D extends Module implements Serializable {
 //        ApparatusPanel ap = new ApparatusPanel();
         setApparatusPanel( ap );
 
-//        TestSaveState.addDebug( ap );
+        TestSaveState.addDebug( ap );
 
         // Add an image graphic
         PhetImageGraphic pig = new PhetImageGraphic( getApparatusPanel(), "images/Phet-Flatirons-logo-3-small.gif" );
@@ -141,7 +141,7 @@ public class Module_D extends Module implements Serializable {
         sg.setLocation( 100, 50 );
         CompositePhetGraphic cpg3 = new CompositePhetGraphic( panel );
         cpg3.addGraphic( sg );
-        addGraphicToPanel( sg, panel );
+        addGraphicToPanel( cpg3, panel );
 
 //        GraphicLayerSet gls1 = panel.getGraphic();
 //        XMLEncoder e = TestSaveState.getTestEncoder();
