@@ -23,7 +23,6 @@ public class IdealGasConfig {
 
     // Images
     public static final String IMAGE_DIRECTORY = "images/";
-
     public static final String HELP_ITEM_ICON_IMAGE_FILE = IMAGE_DIRECTORY + "help-item-icon.gif";
 
     public String getTitle() {
