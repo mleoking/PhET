@@ -78,6 +78,7 @@ public class MovingManModule extends Module {
     public MovingManModule() throws IOException {
         super( "The Moving Man" );
         ApparatusPanel mypanel = new ApparatusPanel();
+        mypanel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
         super.setApparatusPanel( mypanel );
         final BaseModel model = new BaseModel() {
             public void clockTicked( Clock c, double dt ) {
@@ -464,7 +465,7 @@ public class MovingManModule extends Module {
     public void setMotionMode( MotionSuite mac ) {
         motionMode.setMotionSuite( mac );
         setMode( motionMode );
-        movingManControlPanel.setMotionState();
+        movingManControlPanel.motionStarted();
         setPaused( true );
     }
 

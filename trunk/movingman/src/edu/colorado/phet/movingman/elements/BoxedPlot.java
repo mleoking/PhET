@@ -83,6 +83,7 @@ public class BoxedPlot implements ObservingGraphic {
 
     public void paint( Graphics2D g ) {
         if( started && visible ) {
+            Stroke origStroke = g.getStroke();
             g.setStroke( stroke );
             g.setColor( color );
             Shape origClip = g.getClip();
@@ -91,6 +92,7 @@ public class BoxedPlot implements ObservingGraphic {
 //            g.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
             g.draw( path );
             g.setClip( origClip );
+            g.setStroke( origStroke );
         }
     }
 
@@ -121,14 +123,17 @@ public class BoxedPlot implements ObservingGraphic {
             }
             else if( started ) {
                 if( visible && buffer.getImage() != null ) {
+
                     Point2D.Double a = (Point2D.Double)transformedData.get( transformedData.size() - 2 );
                     Point2D.Double b = (Point2D.Double)transformedData.get( transformedData.size() - 1 );
                     this.bufferGraphic = (Graphics2D)buffer.getImage().getGraphics();
+                    Stroke origStroke = bufferGraphic.getStroke();
                     bufferGraphic.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                     bufferGraphic.setColor( color );
                     bufferGraphic.setStroke( stroke );
                     bufferGraphic.setClip( outputBox );
                     bufferGraphic.drawLine( (int)b.x, (int)b.y, (int)a.x, (int)a.y );
+                    bufferGraphic.setStroke( origStroke );
                 }
                 try {
                     path.lineTo( (float)pt.x, (float)pt.y );

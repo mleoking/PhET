@@ -113,9 +113,11 @@ public class IdeaGraphic2 implements InteractiveGraphic {
     }
 
     public void paint( Graphics2D g ) {
+        Stroke origStroke = g.getStroke();
         if( visible ) {
             g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             g.setColor( Color.black );
+
             g.setStroke( new BasicStroke( 4 ) );
             g.draw( rect );
             g.setColor( backgroundColor );
@@ -133,6 +135,7 @@ public class IdeaGraphic2 implements InteractiveGraphic {
             }
 
         }
+        g.setStroke( origStroke );
     }
 
     public Point getImageCenter() {

@@ -19,8 +19,10 @@ public class LineSegment {
     }
 
     public void paint( Graphics2D g, int x, int y, int x2, int y2 ) {
+        Stroke origStroke = g.getStroke();
         g.setColor( c );
         g.setStroke( stroke );
         g.drawLine( x, y, x2, y2 );
+        g.setStroke( origStroke );
     }
 }

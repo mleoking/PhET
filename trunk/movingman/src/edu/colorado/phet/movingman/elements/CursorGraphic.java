@@ -61,12 +61,14 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
     }
 
     public void paint( Graphics2D g ) {
+        Stroke origSTroke = g.getStroke();
         if( !visible || transform == null ) {
             return;
         }
         g.setColor( color );
         g.setStroke( stroke );
         g.drawRect( x, y, width, height );
+        g.setStroke( origSTroke );
     }
 
     public void update( Observable o, Object arg ) {

@@ -26,23 +26,20 @@ import java.util.StringTokenizer;
 public class MovingManControlPanel extends JPanel {
     private MovingManModule module;
     private JPanel controllerContainer;
-    private MediaPanel mediaPanel;
-    private ActionListener manualSetup;
+    private PlaybackPanel playbackPanel;
     private MotionPanel motionPanel;
     private JButton reset;
 
     public void setRunningState() {
-        mediaPanel.pause.setEnabled( false );
+        playbackPanel.pause.setEnabled( false );
     }
 
     public void setPauseState() {
-        mediaPanel.pause.doClick( 50 );
+        playbackPanel.pause.doClick( 50 );
     }
 
-    public void setMotionState() {
-        mediaPanel.play.setEnabled( false );
-        mediaPanel.pause.setEnabled( true );
-        mediaPanel.slowMotion.setEnabled( false );
+    public void motionStarted() {
+        playbackPanel.disablePlayback();
     }
 
     public void setFrame( PhetFrame frame ) {
@@ -57,35 +54,25 @@ public class MovingManControlPanel extends JPanel {
         reset.setEnabled( true );
     }
 
-//    public void timeFinished() {
-//        mediaPanel.rewind.setEnabled( true );
-//        mediaPanel.pause.setEnabled( false );
-//        mediaPanel.play.setEnabled( false );
-//        mediaPanel.slowMotion.setEnabled( false );
-//    }
-
     public void finishedRecording() {
-        mediaPanel.rewind.setEnabled( false );
-        mediaPanel.pause.setEnabled( false );
-        mediaPanel.play.setEnabled( true );
-        mediaPanel.slowMotion.setEnabled( true );
+        playbackPanel.finishedRecording();
     }
 
     public void playbackFinished() {
-        mediaPanel.rewind.setEnabled( true );
-        mediaPanel.pause.setEnabled( false );
-        mediaPanel.play.setEnabled( false );
-        mediaPanel.slowMotion.setEnabled( false );
+        playbackPanel.playbackFinished();
     }
 
-    public class MediaPanel extends JPanel {
+    public void motionPaused() {
+        playbackPanel.enablePlayback();
+    }
 
+    public class PlaybackPanel extends JPanel {
         private JButton play;
         private JButton pause;
         private JButton rewind;
         private JButton slowMotion;
 
-        public MediaPanel() throws IOException {
+        public PlaybackPanel() throws IOException {
             ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
             pause = new JButton( "Pause", pauseIcon );
             pause.addActionListener( new ActionListener() {
@@ -164,6 +151,33 @@ public class MovingManControlPanel extends JPanel {
             MotionSuite.hideDialogs();
         }
 
+        public void disablePlayback() {
+            play.setEnabled( false );
+            slowMotion.setEnabled( false );
+            pause.setEnabled( false );
+            rewind.setEnabled( false );
+        }
+
+        public void finishedRecording() {
+            rewind.setEnabled( false );
+            pause.setEnabled( false );
+            play.setEnabled( true );
+            slowMotion.setEnabled( true );
+        }
+
+        public void playbackFinished() {
+            rewind.setEnabled( true );
+            pause.setEnabled( false );
+            play.setEnabled( false );
+            slowMotion.setEnabled( false );
+        }
+
+        public void enablePlayback() {
+            rewind.setEnabled( false );
+            pause.setEnabled( false );
+            play.setEnabled( true );
+            slowMotion.setEnabled( true );
+        }
     }
 
     class MotionPanel extends VerticalLayoutPanel {
@@ -272,7 +286,7 @@ public class MovingManControlPanel extends JPanel {
         boxes.setBorder( PhetLookAndFeel.createSmoothBorder( "Show Plots" ) );
         add( boxes, BorderLayout.SOUTH );
 
-        mediaPanel = new MediaPanel();
+        playbackPanel = new PlaybackPanel();
 
         JPanel panel = new JPanel();
         panel.setLayout( new BorderLayout() );
@@ -350,7 +364,7 @@ public class MovingManControlPanel extends JPanel {
     }
 
     public void startRecordingManual() {
-        mediaPanel.doManual();
+        playbackPanel.doManual();
         motionPanel.setSelectedItem( 0 );
         reset.setEnabled( true );
     }
@@ -368,12 +382,12 @@ public class MovingManControlPanel extends JPanel {
     }
 
     public void setPaused() {
-        mediaPanel.pause.setEnabled( false );
-        mediaPanel.play.setEnabled( true );
+        playbackPanel.pause.setEnabled( false );
+        playbackPanel.play.setEnabled( true );
     }
 
     public JComponent getMediaPanel() {
-        return mediaPanel;
+        return playbackPanel;
     }
 
     public void resetComboBox() {

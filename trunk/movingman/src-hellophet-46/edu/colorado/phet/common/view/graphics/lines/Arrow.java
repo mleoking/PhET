@@ -20,6 +20,7 @@ public class Arrow implements LinePainter {
     }
 
     public void drawLine( Graphics2D g2, int x1, int y1, int x2, int y2 ) {
+        Stroke origStroke = g2.getStroke();
         if( x1 != x2 || y1 != y2 ) {
 
             // draw the line
@@ -39,5 +40,6 @@ public class Arrow implements LinePainter {
             g2.drawPolygon( arrowHead );
             g2.fillPolygon( arrowHead );
         }
+        g2.setStroke( origStroke );
     }
 }

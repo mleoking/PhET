@@ -50,6 +50,7 @@ public class Man extends ModelElement {
 
     public void reset() {
         this.x = x0;
+        setVelocity( 0 );
         updateObservers();
     }
 }
