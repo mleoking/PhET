@@ -626,4 +626,8 @@ public class Circuit {
         junctions.remove( junction );
         junctions.add( 0, junction );
     }
+
+    public KirkhoffListener getKirkhoffListener() {
+        return kirkhoffListener;
+    }
 }

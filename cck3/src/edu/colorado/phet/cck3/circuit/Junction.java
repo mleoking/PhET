@@ -22,6 +22,7 @@ public class Junction extends SimpleObservableDebug {
         this.x = x;
         this.y = y;
         this.label = nextLabel++;
+//        new Throwable().printStackTrace( );
     }
 
     public String toString() {
