@@ -14,7 +14,6 @@ package edu.colorado.phet.lasers.controller.module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.BeamControl2;
@@ -41,17 +40,13 @@ import java.io.IOException;
  */
 public class SingleAtomModule extends BaseLaserModule {
     private Atom atom;
-    private PhetImageGraphic pumpingLampGraphic;
+    private LampGraphic pumpingLampGraphic;
     private UniversalLaserControlPanel laserControlPanel;
     private BeamControl2 pumpBeamControl;
     private BeamControl2 seedBeamControl;
 
     public SingleAtomModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
-
-        // Set up the control panel, and start off with two energy levels
-        laserControlPanel = new UniversalLaserControlPanel( this, clock );
-        setControlPanel( laserControlPanel );
 
         // Create beams
         Point2D beamOrigin = new Point2D.Double( s_origin.getX() - 55,
@@ -97,7 +92,7 @@ public class SingleAtomModule extends BaseLaserModule {
         BufferedImage beamImage = atxOp1.filter( gunBI, null );
         AffineTransform atx = new AffineTransform();
         atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
-        PhetImageGraphic stimulatingBeamGraphic = new LampGraphic( seedBeam, getApparatusPanel(), beamImage, atx );
+        LampGraphic stimulatingBeamGraphic = new LampGraphic( seedBeam, getApparatusPanel(), beamImage, atx );
         addGraphic( stimulatingBeamGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
         // Add controls for the seed beam
@@ -114,6 +109,7 @@ public class SingleAtomModule extends BaseLaserModule {
         pumpingBeamTx.rotate( Math.PI / 2 );
         BufferedImage pumpingBeamLamp = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( beamImage, null );
         pumpingLampGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), pumpingBeamLamp, pumpingBeamTx );
+        setPumpLampGraphic( pumpingLampGraphic );
         pumpingLampGraphic.setVisible( false );
         addGraphic( pumpingLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
@@ -126,9 +122,10 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Set the averaging time for the energy levels display
         setEnergyLevelsAveragingPeriod( 0 );
+        // Initialize to two energy levels
+        setThreeEnergyLevels( false );
 
-        laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
-
+        // Add an atom
         int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
         atom = new Atom( getLaserModel(), numEnergyLevels );
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
@@ -136,8 +133,12 @@ public class SingleAtomModule extends BaseLaserModule {
         atom.setVelocity( 0, 0 );
         addAtom( atom );
 
-        // Initialize to two energy levels
-        setThreeEnergyLevels( false );
+
+        // Set up the control panel, and start off with two energy levels
+        laserControlPanel = new UniversalLaserControlPanel( this, clock );
+        setControlPanel( laserControlPanel );
+        laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
+
     }
 
     public void activate( PhetApplication app ) {

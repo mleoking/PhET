@@ -3,6 +3,8 @@ package edu.colorado.phet.lasers.controller;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.view.LampGraphic;
+import edu.colorado.phet.lasers.view.PumpBeamViewPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -29,6 +31,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
     private WaveViewControlPanel waveViewControlPanel;
     private BasicOptionsPanel basicBasicOptionsPanel;
     private HighLevelEmissionControlPanel highLevelEmissionControlPanel;
+    private PumpBeamViewPanel pumpBeamViewPanel;
 
     public UniversalLaserControlPanel( final BaseLaserModule module, AbstractClock clock ) {
         super( module );
@@ -52,15 +55,23 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
 
         // Add the options for mirror on/off
-        JPanel panel2 = createMirrorControlPanel( module );
+        JPanel mirrorOptionPanel = createMirrorControlPanel( module );
+        gbc.gridx = 0;
+        optionsPanel.add( mirrorOptionPanel, gbc );
+
+        // Add controls for the different views of beams and photons
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        pumpBeamViewPanel = new PumpBeamViewPanel( module );
+        optionsPanel.add( pumpBeamViewPanel, gbc );
 
         // Add the control for showing/hiding phtoton coming off high energy state
         gbc.gridx = 0;
-        optionsPanel.add( panel2, gbc );
+        gbc.gridy = 1;
+        optionsPanel.add( highLevelEmissionControlPanel, gbc );
 
-        // Add controls for the different views of beams and photons
-        gbc.gridx = 0;
-        gbc.gridy = GridBagConstraints.RELATIVE;
+        // Add controls for view of internally produced photons
+        gbc.gridx = 1;
         optionsPanel.add( waveViewControlPanel, gbc );
         JPanel container = new JPanel();
         Border border = BorderFactory.createEtchedBorder();
@@ -83,6 +94,14 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
 
         this.doLayout();
         this.setPreferredSize( new Dimension( 340, (int)this.getSize().getHeight() ) );
+
+        // Add a listener to the pumping beam graphic that will make the pump beam view control panel
+        // visible when the graphic is visible, and vice versa
+        module.getPumpLampGraphic().addChangeListener( new LampGraphic.ChangeListener() {
+            public void changed( LampGraphic.ChangeEvent event ) {
+                pumpBeamViewPanel.setVisible( event.getLampGraphic().isVisible() );
+            }
+        } );
     }
 
     private JPanel createMirrorControlPanel( final BaseLaserModule module ) {
@@ -91,7 +110,6 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         JPanel panel2 = new JPanel( new GridLayout( 1, 2 ) );
         panel2.add( new MirrorOnOffControlPanel( module ), gbc );
-        panel2.add( highLevelEmissionControlPanel, gbc );
         return panel2;
     }
 

@@ -13,7 +13,6 @@ package edu.colorado.phet.lasers.controller.module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.BeamControl2;
@@ -52,12 +51,6 @@ public class MultipleAtomModule extends BaseLaserModule {
      */
     public MultipleAtomModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), clock );
-
-        setThreeEnergyLevels( true );
-
-        // Set the control panel
-        laserControlPanel = new UniversalLaserControlPanel( this, clock );
-        setControlPanel( laserControlPanel );
 
         // Set the size of the cavity
         ResonatingCavity cavity = getCavity();
@@ -114,8 +107,9 @@ public class MultipleAtomModule extends BaseLaserModule {
                           yOffset );
             tx.rotate( Math.PI / 2 );
             BufferedImage img = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( pumpBeamImage, null );
-            PhetImageGraphic imgGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), img, tx );
-            addGraphic( imgGraphic, LaserConfig.PHOTON_LAYER + 1 );
+            LampGraphic pumpLampGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), img, tx );
+            setPumpLampGraphic( pumpLampGraphic );
+            addGraphic( pumpLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
         }
 
         // Add the beam control
@@ -125,16 +119,25 @@ public class MultipleAtomModule extends BaseLaserModule {
                                             null, null );
         getApparatusPanel().addGraphic( pumpBeamControl );
 
-        // Set the averaging time for the energy levels display
-        setEnergyLevelsAveragingPeriod( 2000 );
-
-        laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
-
         // Add a kaboom element
         kaboom = new Kaboom( this );
         getModel().addModelElement( kaboom );
 
         // Add some atoms
+        addAtoms( cavityBounds );
+
+        // Set initial conditions
+        setThreeEnergyLevels( true );
+        setEnergyLevelsAveragingPeriod( 2000 );
+
+        // Set the control panel
+        laserControlPanel = new UniversalLaserControlPanel( this, clock );
+        setControlPanel( laserControlPanel );
+        laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
+
+    }
+
+    private void addAtoms( Rectangle2D cavityBounds ) {
         Atom atom = null;
         atoms = new ArrayList();
 //        int numAtoms = 0;

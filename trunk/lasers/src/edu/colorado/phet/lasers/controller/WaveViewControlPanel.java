@@ -32,9 +32,6 @@ public class WaveViewControlPanel extends JPanel {
     private ButtonGroup lasingPhotonBG;
     private JRadioButton lasingPhotonViewRB;
     private JRadioButton lasingWaveViewRB;
-    private ButtonGroup pumpPhotonBG;
-    private JRadioButton pumpPhotonViewRB;
-    private JRadioButton pumpCurtainViewRB;
 
     public WaveViewControlPanel( BaseLaserModule module ) {
         this.module = module;
@@ -54,7 +51,6 @@ public class WaveViewControlPanel extends JPanel {
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-//                                                         new Insets( 5, 5, 5, 5 ), 0, 0 );
         lasingViewPanel.add( lasingPhotonViewRB, gbc );
         gbc.gridy++;
         lasingViewPanel.add( lasingWaveViewRB, gbc );
@@ -62,31 +58,11 @@ public class WaveViewControlPanel extends JPanel {
         lasingWaveViewRB.addActionListener( new LasingPhotonRBListener() );
 
         // Controls to set view of pump beam
-        JPanel pumpViewPanel = new JPanel( new GridBagLayout() );
-        Border pumpPanelBorder = BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),
-                                                                   SimStrings.get( "WaveViewControlPanel.pumpPanelTitle" ) );
-        pumpViewPanel.setBorder( pumpPanelBorder );
-        pumpPhotonBG = new ButtonGroup();
-        pumpPhotonViewRB = new JRadioButton( SimStrings.get( "WaveViewControlPanel.photonView" ) );
-        pumpCurtainViewRB = new JRadioButton( SimStrings.get( "WaveViewControlPanel.curtainView" ) );
-        pumpPhotonBG.add( pumpPhotonViewRB );
-        pumpPhotonBG.add( pumpCurtainViewRB );
         gbc.gridy = 0;
-        pumpViewPanel.add( pumpPhotonViewRB, gbc );
-        gbc.gridy++;
-        pumpViewPanel.add( pumpCurtainViewRB, gbc );
-        pumpPhotonViewRB.addActionListener( new PumpPhotonRBListener() );
-        pumpCurtainViewRB.addActionListener( new PumpPhotonRBListener() );
-
-        gbc.gridy = 0;
-        this.add( pumpViewPanel, gbc );
         gbc.gridx++;
-//        gbc.gridy++;
         this.add( lasingViewPanel, gbc );
 
-        // Set the initial conditions
-        pumpCurtainViewRB.setSelected( true );
-//        module.setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
+        // Set initial conditions
         module.setPumpingPhotonView( BaseLaserModule.PHOTON_CURTAIN );
         lasingPhotonViewRB.setSelected( true );
         module.setLasingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
@@ -100,8 +76,6 @@ public class WaveViewControlPanel extends JPanel {
         if( viewType == BaseLaserModule.PHOTON_CURTAIN ) {
             PhotonGraphic.setAllVisible( false, module.getPumpingBeam().getWavelength() );
         }
-        pumpPhotonViewRB.setSelected( viewType == BaseLaserModule.PHOTON_DISCRETE );
-        pumpCurtainViewRB.setSelected( viewType == BaseLaserModule.PHOTON_CURTAIN );
     }
 
     private class LasingPhotonRBListener implements ActionListener {
@@ -114,20 +88,6 @@ public class WaveViewControlPanel extends JPanel {
             if( selection == lasingWaveViewRB ) {
                 PhotonGraphic.setAllVisible( false, module.getLaserModel().getMiddleEnergyState().getWavelength() );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_WAVE );
-            }
-        }
-    }
-
-    private class PumpPhotonRBListener implements ActionListener {
-        public void actionPerformed( ActionEvent e ) {
-            JRadioButton selection = SwingUtils.getSelection( pumpPhotonBG );
-            if( selection == pumpPhotonViewRB ) {
-                PhotonGraphic.setAllVisible( true, module.getPumpingBeam().getWavelength() );
-                module.setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
-            }
-            if( selection == pumpCurtainViewRB ) {
-                PhotonGraphic.setAllVisible( false, module.getPumpingBeam().getWavelength() );
-                module.setPumpingPhotonView( BaseLaserModule.PHOTON_CURTAIN );
             }
         }
     }
