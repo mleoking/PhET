@@ -159,7 +159,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         setScale( 1.0 );
         paintImmediately( 0, 0, getWidth(), getHeight() );
 
-        //
+        // Set the canvas size
         determineCanvasSize();
 
         System.out.println( "referenceBounds = " + referenceBounds );
@@ -397,9 +397,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * @return the size
      */
     public Dimension getCanvasSize() {
-        Dimension size = new Dimension();
-        size.setSize( getWidth() / scale, getHeight() / scale );
-        return size;
+        return canvasSize;
     }
 
     //-----------------------------------------------------------------
