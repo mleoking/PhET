@@ -107,28 +107,6 @@ public class IdealGasModule extends Module {
         ( (BaseIdealGasApparatusPanel)getApparatusPanel() ).setStove( value );
     }
 
-    //    public void setGravity( Gravity gravity ) {
-    ////        idealGasModel.setGravityEnabled( false );
-    //        idealGasModel.setGravity( gravity );
-    //    }
-
-    //    public void setPressureSliceEnabled( boolean selected ) {
-    //        System.out.println( "not implemented" );
-    //    }
-    //
-    //    public void setRulerEnabed( boolean rulerEnabled ) {
-    //        if( rulerGraphic == null ) {
-    //            rulerGraphic = new RulerGraphic( getApparatusPanel() );
-    //        }
-    //        if( rulerEnabled ) {
-    //            getApparatusPanel().addGraphic( rulerGraphic, Integer.MAX_VALUE );
-    //        }
-    //        else {
-    //            getApparatusPanel().removeGraphic( rulerGraphic );
-    //        }
-    //        getApparatusPanel().repaint();
-    //    }
-    //
     public void setGravity( double value ) {
         gravity.setAmt( value );
     }
