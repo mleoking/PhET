@@ -1,9 +1,12 @@
+/* Copyright 2003-2004, University of Colorado */
+
 /*
- * Class: IdealGasConfig
- * Package: edu.colorado.phet.controller
- *
- * Created by: Ron LeMaster
- * Date: Oct 28, 2002
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas;
 
@@ -40,11 +43,11 @@ public class IdealGasConfig {
     }
 
     // Physical constants
-//    public static final float s_timeStep = 0.01f;
     public static final float s_timeStep = 0.1f;
     public static final int s_waitTime = 40;
     public static final double temperatureScaleFactor = 20;
     public static final double MAX_GAUGE_PRESSURE = 3.0;
+    public static final int s_maxGravity = 40;
 
     // Title, description and version number
     public static final String TITLE = "Ideal Gas Law";
@@ -59,7 +62,6 @@ public class IdealGasConfig {
 
     public static final String PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "molecule.gif";
     public static final String PUMP_IMAGE_FILE = IMAGE_DIRECTORY + "bicycle-pump.gif";
-//    public static final String PUMP_IMAGE_FILE = IMAGE_DIRECTORY + "pump-body.gif";
     public static final String HANDLE_IMAGE_FILE = IMAGE_DIRECTORY + "handle.gif";
     public static final String BOX_IMAGE_FILE = IMAGE_DIRECTORY + "box.gif";
 
@@ -85,8 +87,6 @@ public class IdealGasConfig {
 
     // Offset for locating objects in the apparatus panel
     public static final int X_BASE_OFFSET = 50;
-//    public static final int X_BASE_OFFSET = 100;
-//    public static final int Y_BASE_OFFSET = 0;
     public static final int Y_BASE_OFFSET = -80;
     public static final int X_STOVE_OFFSET = 247;
     public static final int Y_STOVE_OFFSET = 545;

@@ -29,7 +29,7 @@ import javax.swing.*;
  * on-screen controls and view elements that go along with the
  * experiment. Each module has its own model.
  *
- * @author ?
+ * @author Ron LeMaster
  * @version $Revision$
  */
 public class Module {
