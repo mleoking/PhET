@@ -56,6 +56,8 @@ PHETCOMMON:
 
 DONE:
 v0r18...
+(3/16) - used icons in control panels for selecting current source and pickup indicator
+(3/16) - change order of controls in Electromagnet and Pickup panels
 (3/16) - use same threshold/min/max in all rescalers (as a starting point)
 (3/16) - remove rescaler from source coil, shouldn't be rescaled
 (3/16) - separate rescaler classes for lightbulb, voltmeter, electrons and compass grid.

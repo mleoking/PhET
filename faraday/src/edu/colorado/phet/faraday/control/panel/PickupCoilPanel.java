@@ -15,6 +15,8 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.text.MessageFormat;
 
 import javax.swing.*;
@@ -23,6 +25,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.Lightbulb;
@@ -161,18 +164,36 @@ public class PickupCoilPanel extends FaradayPanel {
             TitledBorder indicatorBorder = new TitledBorder( SimStrings.get( "PickupCoilPanel.indicator" ) );
             indicatorPanel.setBorder( indicatorBorder );
 
-            // Radio buttons
-            _lightbulbRadioButton = new JRadioButton( SimStrings.get( "PickupCoilPanel.lightbulb" ) );
-            _voltmeterRadioButton = new JRadioButton( SimStrings.get( "PickupCoilPanel.voltmeter" ) );
-            ButtonGroup group = new ButtonGroup();
-            group.add( _lightbulbRadioButton );
-            group.add( _voltmeterRadioButton );
-
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( indicatorPanel );
             indicatorPanel.setLayout( layout );
-            layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( _voltmeterRadioButton, 1, 0, GridBagConstraints.WEST );
+            
+            // Radio buttons
+            try {
+                // Radio buttons with icons.
+                ImageIcon lightbulbIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.LIGHTBULB_ICON ) );
+                ImageIcon lightbulbIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.LIGHTBULB_ICON_SELECTED ) );
+                ImageIcon voltmeterIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.VOLTMETER_ICON ) );
+                ImageIcon voltmeterIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.VOLTMETER_ICON_SELECTED ) );
+                _lightbulbRadioButton = new JRadioButton( lightbulbIcon );
+                _lightbulbRadioButton.setSelectedIcon( lightbulbIconSelected );
+                _voltmeterRadioButton = new JRadioButton( voltmeterIcon );
+                _voltmeterRadioButton.setSelectedIcon( voltmeterIconSelected );
+                layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _voltmeterRadioButton, 0, 1, GridBagConstraints.WEST );
+            }
+            catch ( IOException ioe ) {
+                // Radio buttons with text.
+                _lightbulbRadioButton = new JRadioButton( SimStrings.get( "PickupCoilPanel.lightbulb" ) );
+                _voltmeterRadioButton = new JRadioButton( SimStrings.get( "PickupCoilPanel.voltmeter" ) );
+                layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _voltmeterRadioButton, 1, 0, GridBagConstraints.WEST );
+            }
+            
+            // Button group
+            ButtonGroup group = new ButtonGroup();
+            group.add( _lightbulbRadioButton );
+            group.add( _voltmeterRadioButton );   
         }
 
         // Electrons on/off
