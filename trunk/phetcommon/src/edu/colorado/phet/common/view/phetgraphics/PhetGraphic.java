@@ -184,6 +184,10 @@ public abstract class PhetGraphic {
         if( visible != this.visible ) {
             this.visible = visible;
             forceRepaint();//if we just turned invisible, we need to paint over ourselves, and vice versa.
+            for( int i = 0; i < listeners.size(); i++ ) {
+                PhetGraphicListener phetGraphicListener = (PhetGraphicListener)listeners.get( i );
+                phetGraphicListener.phetGraphicVisibilityChanged( this );
+            }
         }
     }
 
