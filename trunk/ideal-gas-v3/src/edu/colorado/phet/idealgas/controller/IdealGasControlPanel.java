@@ -37,9 +37,7 @@ public class IdealGasControlPanel extends JPanel {
     private IdealGasModule module;
     private IdealGasModel idealGasModel;
 
-    /**
-     *
-     */
+
     public IdealGasControlPanel( IdealGasModule module ) {
         super();
         this.module = module;
@@ -47,12 +45,7 @@ public class IdealGasControlPanel extends JPanel {
         init();
     }
 
-    /**
-     *
-     */
     private void init() {
-
-        //        application.addExternalForce( gravity );
 
         this.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         this.setPreferredSize( new Dimension( 140, 300 ) );
@@ -85,8 +78,9 @@ public class IdealGasControlPanel extends JPanel {
         this.add( speciesButtonPanel );
         this.add( new NumParticlesControls() );
         addStoveControls();
-        JButton measurementDlgBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ));
+        JButton measurementDlgBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) );
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
+        measurementDlgBtn.setBackground( new Color( 220, 200, 100 ) );
         measurementDlgBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JDialog dlg = new MeasurementDialog( (Frame)SwingUtilities.getRoot( IdealGasControlPanel.this ),
@@ -262,11 +256,14 @@ public class IdealGasControlPanel extends JPanel {
 
     private class NumParticlesControls extends JPanel {
         NumParticlesControls() {
-            super( new GridLayout( 1, 2 ) );
-            this.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 40 ) );
-            this.setLayout( new GridLayout( 2, 1 ) );
 
-            this.add( new JLabel( SimStrings.get( "MeasurementControlPanel.Number_of_particles" ) ) );
+            super( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                             GridBagConstraints.WEST,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+            JLabel label = new JLabel( SimStrings.get( "MeasurementControlPanel.Number_of_particles" ) );
+            this.add( label, gbc );
             // Set up the spinner for controlling the number of particles in
             // the hollow sphere
             Integer value = new Integer( 0 );
@@ -275,8 +272,10 @@ public class IdealGasControlPanel extends JPanel {
             Integer step = new Integer( 1 );
             SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
             final JSpinner particleSpinner = new JSpinner( model );
-            particleSpinner.setPreferredSize( new Dimension( 20, 5 ) );
-            this.add( particleSpinner );
+            particleSpinner.setPreferredSize( new Dimension( 50, 20 ) );
+            gbc.gridx = 1;
+            gbc.anchor = GridBagConstraints.EAST;
+            this.add( particleSpinner, gbc );
 
             particleSpinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -289,38 +288,17 @@ public class IdealGasControlPanel extends JPanel {
                 public void update() {
                     int h = getModule().getIdealGasModel().getHeavySpeciesCnt();
                     int l = getModule().getIdealGasModel().getLightSpeciesCnt();
-//                    int h = HeavySpecies.getNumMolecules().intValue();
-//                    int l = LightSpecies.getNumMolecules().intValue();
                     particleSpinner.setValue( new Integer( l + h ) );
                 }
             } );
         }
     }
 
-    /**
-     * This method is provided simply so a subclass can get a reference
-     * to the gravity controls, so it can remove them. This is a hack
-     * way of doing things, I realize. It should be done is a more
-     * understandable way when I get the chance.
-     *
-     * @return
-     */
-    protected Component getGravityControlPanel() {
-        return gravityControlPanel;
-    }
-
-    /**
-     *
-     */
     private void setFlames( int value ) {
         module.setStove( value );
     }
 
-    /**
-     *
-     */
     private void updateGravity( boolean isEnabled, int value ) {
-
         gravityTF.setText( gravityFormat.format( value ) );
         if( !isEnabled ) {
             module.setGravity( 0 );
@@ -336,10 +314,6 @@ public class IdealGasControlPanel extends JPanel {
 
     public void setGravity( double amt ) {
         this.gravitySlider.setValue( (int)amt );
-    }
-
-    public void clear() {
-        // NOP
     }
 
     protected IdealGasModule getModule() {

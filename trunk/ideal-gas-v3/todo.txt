@@ -1,3 +1,5 @@
+- Pressure slice doesn't measure where it's placed
+- Numbers of molecules reported in the monitor panel don't go down when molecules leave system
 - Make measurement tools visible module by module
 - Put pump, box and mannequin on common baseline
 - Make energyhistogramdialog undecorated, or make the measurement panel checkbox a listener on it

@@ -19,17 +19,12 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.coreadditions.ScalarObserver;
-import edu.colorado.phet.gauges.DialGauge;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.*;
-import edu.colorado.phet.idealgas.view.monitors.CmLines;
-import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
-import edu.colorado.phet.idealgas.view.monitors.IdealGasMonitorPanel;
-import edu.colorado.phet.idealgas.view.monitors.PressureSliceGraphic;
+import edu.colorado.phet.idealgas.view.monitors.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -37,8 +32,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class IdealGasModule extends Module {
-
-    private static boolean showWiggleMe = true;
 
     private IdealGasModel idealGasModel;
     private PressureSensingBox box;
@@ -49,10 +42,10 @@ public class IdealGasModule extends Module {
 
     private PressureSlice pressureSlice;
     private AbstractClock clock;
-    private boolean pressureSliceEnabled;
     private PressureSliceGraphic pressureSliceGraphic;
     private DefaultInteractiveGraphic rulerGraphic;
     private EnergyHistogramDialog histogramDlg;
+
 
     public IdealGasModule( AbstractClock clock ) {
         this( clock, SimStrings.get( "ModuleTitle.IdealGas" ) );
@@ -135,14 +128,9 @@ public class IdealGasModule extends Module {
                                       new Point2D.Double( xDiag, yDiag ), idealGasModel, clock );
         idealGasModel.addBox( box );
         setApparatusPanel( new BaseIdealGasApparatusPanel( this, box ) );
-        ScalarObserver so = new ScalarObserver() {
-            public void update() {
-            }
-        };
 
-        Sca.
-
-        DialGauge pressureGauge = new DialGauge( getApparatusPanel(), );
+        PressureDialGauge pressureGauge = new PressureDialGauge( box, getApparatusPanel() );
+        addGraphic( pressureGauge, 20 );
 
         // Create the pump
         pump = new Pump( this, box );
@@ -252,8 +240,6 @@ public class IdealGasModule extends Module {
                                                              pressureSlice,
                                                              getBox() );
         }
-        this.pressureSliceEnabled = pressureSliceEnabled;
-        this.pressureSliceEnabled = pressureSliceEnabled;
         if( pressureSliceEnabled ) {
             getModel().addModelElement( pressureSlice );
             addGraphic( pressureSliceGraphic, 20 );
