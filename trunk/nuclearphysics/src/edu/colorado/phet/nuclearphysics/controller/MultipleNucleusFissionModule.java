@@ -42,6 +42,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     private Line2D.Double neutronPath;
     private ArrayList daughterNuclei = new ArrayList();
     private ArrayList bodies = new ArrayList();
+    private Containment containment;
+    private ContainmentGraphic containmentGraphic;
 
     public MultipleNucleusFissionModule( AbstractClock clock ) {
         super( "Chain Reaction", clock );
@@ -103,8 +105,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
                 }
             }
         } );
-
-        addContainment();
     }
 
     public void start() {
@@ -310,9 +310,23 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         }
     }
 
-    public void addContainment() {
-        Containment containment = new Containment( new Rectangle2D.Double( 100, 100, 100, 100 ) );
-        ContainmentGraphic containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel() );
+    private void addContainment() {
+        containment = new Containment( new Rectangle2D.Double( 100, 100, 100, 100 ) );
+        containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( containmentGraphic, 100 );
+    }
+
+    private void removeContainment() {
+        containment = null;
+        getPhysicalPanel().removeGraphic( containmentGraphic );
+    }
+
+    public void enableContainment( boolean selected ) {
+        if( selected ) {
+            addContainment();
+        }
+        else {
+            removeContainment();
+        }
     }
 }

@@ -11,6 +11,9 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 
 import java.util.HashMap;
 
+/**
+ * An ApparatusPanel that handles TxGraphics
+ */
 public class TxApparatusPanel extends ApparatusPanel {
     private HashMap txGraphicMap = new HashMap();
 
@@ -23,12 +26,10 @@ public class TxApparatusPanel extends ApparatusPanel {
     }
 
     public void removeGraphic( Graphic graphic ) {
+        super.removeGraphic( graphic );
         if( !( graphic instanceof TxGraphic ) ) {
-            super.removeGraphic( (Graphic)txGraphicMap.get( graphic ) );
             txGraphicMap.remove( graphic );
-        }
-        else {
-            super.removeGraphic( graphic );
+            super.removeGraphic( (Graphic)txGraphicMap.get( graphic ) );
         }
     }
 
