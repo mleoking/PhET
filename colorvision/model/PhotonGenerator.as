@@ -46,35 +46,64 @@
 		var ctx = ColorUtil.getCtx(wavelength);
 		this.color = ColorUtil.ctxToColor(ctx);
 	}
+	/**
+		 * Get a photon to a given specification.
+		 */
+	private function allocatePhoton(xLoc:Number, yLoc:Number, theta:Number, wavelength:Number, rate:Number) {
+		var p:Photon = undefined;
+		// Look through the photon records we already have to see if there is one that is not in use
+		for (var i = 0; i < photons.length && p == undefined; i++) {
+			if (!photons[i].isInUse()) {
+				p = photons[i].getPhoton();
+				p.setLocation(xLoc, yLoc);
+				p.setWavelength(wavelength);
+				photons[i].setRate(rate);
+				photons[i].setInUse(true);
+				p.setIsVisible(true);
+			}
+		}
+		// If we didn't find an unused photon that is not in use, allocate one
+		if (p == undefined) {
+			p = new Photon(xLoc, yLoc, theta, wavelength);
+			photons.push(new PhotonGeneratorRecordEntry(p, rate));
+		}
+		return p;
+	}
 	public function onEnterFrame() {
 		this.clear();
 		if (running == true) {
 			var wl;
 			var p:Photon;
-			var intRate:Number = Math.round(rate);
-			for (var n = 0; n < intRate; n++) {
+			for (var n = 0; n < Math.round(rate); n++) {
 				if (this.wavelength == 0) {
 					wl = Math.random() * (_root.maxWavelength - _root.minWavelength) + _root.minWavelength;
 				}
 				else {
 					wl = this.wavelength;
 				}
-				p = new Photon(xLoc, yLoc, genTheta(theta * Math.PI / 180), wl);
-				photons.push(new PhotonGeneratorRecordEntry(p, rate));
+				//				p = new Photon(xLoc, yLoc, genTheta(theta * Math.PI / 180), wl);
+				//				photons.push(new PhotonGeneratorRecordEntry(p, rate));
+				p = allocatePhoton(genXLoc(xLoc), yLoc, genTheta(theta * Math.PI / 180), wl, rate);
 			}
 			// Paint or prune the photons, as need be
+			var somePhotonInUse:Boolean = false;
 			for (var i = 0; i < photons.length; i++) {
-				p = photons[i].getPhoton();
-				if (p != undefined && p.getX() <= _root.head._x) {
-					p.paint(this);
-				}
-				else {
-					this.rateAtEyeball = photons[i].getRate();
-					photons.splice(i, 1);
-					Photon.deleteInstance(p);
+				if (photons[i].isInUse()) {
+					somePhotonInUse = true;
+					p = photons[i].getPhoton();
+					if (p != undefined && p.getX() <= _root.head._x) {
+						p.paint(this);
+					}
+					else {
+						photons[i].setInUse(false);
+						this.rateAtEyeball = photons[i].getRate();
+						//					photons.splice(i, 1);
+						//					Photon.deleteInstance(p);
+					}
 				}
 			}
-			if (photons.length == 0) {
+			//			if (photons.length == 0) {
+			if (!somePhotonInUse) {
 				this.rateAtEyeball = 0;
 			}
 		}
@@ -110,6 +139,9 @@
 		var d_theta = Math.random() * Math.PI / 16 - Math.PI / 32;
 		var angle = theta0 + d_theta;
 		return angle;
+	}
+	private function genXLoc( xLoc:Number):Number{
+		return xLoc + Math.random() * Photon.ds / 2;
 	}
 	function colorChanged(wavelength:Number):Void {
 		this.setWavelength(wavelength);

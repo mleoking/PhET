@@ -29,13 +29,6 @@
 	function getColorTransform():Object {
 		return this.myColorTransform;
 	}
-	/*	function passes(color):Boolean {
-				red = Math.min(this.myColorTransform.rb, color.rb);
-				green = Math.min(this.myColorTransform.gb, color.gb);
-				blue = Math.min(this.myColorTransform.bb, color.bb);
-				var result = (red > 0) || (green > 0) || (blue > 0);
-				return result;
-			}*/
 	function percentPassed(wavelength:Number):Number {
 		var dLambda:Number = 0;
 		// Special case: a wavelength of 0 indicates white light, meaning
@@ -58,10 +51,6 @@
 		red = Math.min(this.myColorTransform.rb, color.rb);
 		green = Math.min(this.myColorTransform.gb, color.gb);
 		blue = Math.min(myColorTransform.bb, color.bb);
-		// Try something else
-		//	red = myColorTransform.rb >= 0 ? color.rb : 0;  
-		//	green = myColorTransform.gb >= 0 ? color.gb : 0;  
-		//	blue = myColorTransform.bb >= 0 ? color.bb : 0;  
 		color.rb = red;
 		color.ra = this.myColorTransform.ra;
 		color.gb = green;
@@ -89,13 +78,14 @@
 			var photons:Array = Photon.getInstances();
 			for (var i = 0; i < photons.length; i++) {
 				// Note: 20 in the next line is a factor that should be tweakable
-				if (photons[i].getX() > this.xLoc && photons[i].getX() < this.xLoc + 20 && !this.passes(photons[i].getWavelength())) {
+				if (photons[i].getX() > this.xLoc - Photon.ds && photons[i].getX() < this.xLoc + Photon.ds && !this.passes(photons[i].getWavelength())) {
 					photons[i].setIsVisible(false);
 				}
 			}
 		}
 	}
 	private function passes(wavelength:Number):Boolean {
+/*
 		if (wavelength == this.transmissionPeak) {
 			return true;
 		}
@@ -103,5 +93,7 @@
 			var f = (transmissionSpread - Math.abs((transmissionPeak - wavelength))) / transmissionSpread;
 			return Math.random() <= f;
 		}
+*/		
+		return (Math.random() * 100) <= percentPassed(wavelength);
 	}
 }
