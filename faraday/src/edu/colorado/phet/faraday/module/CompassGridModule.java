@@ -150,7 +150,6 @@ public class CompassGridModule extends Module {
         _gridGraphic.setLocation( GRID_LOCATION );
         _gridGraphic.setNeedleSize( GRID_NEEDLE_SIZE );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
-        _gridGraphic.setVisible( false ); // DEBUG
         
         // CompassGraphic
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _magnetModel );
