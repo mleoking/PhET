@@ -241,7 +241,7 @@ public class MovingManControlPanel extends JPanel {
             }
         };
         still.setName( "Stand Very Still" );
-        final String init = ( "Choose Motion" );
+//        final String init = ( "Choose Motion" );
 
         final MotionAndControls[] motions = new MotionAndControls[]{still, new LinearAndPanel( module ),
                                                                     new AccelAndControls( module ),

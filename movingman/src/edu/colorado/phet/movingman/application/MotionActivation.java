@@ -21,6 +21,7 @@ public class MotionActivation {
     MovingManModule module;
     JDialog dialog;
     static ArrayList dialogs = new ArrayList();
+    private GridBagConstraints gridBagConstraints;
 
     public MotionActivation( MovingManModule module ) {
         this.module = module;
@@ -33,8 +34,6 @@ public class MotionActivation {
             dialog = null;
         }
         dialog = new JDialog( (Frame)SwingUtilities.getWindowAncestor( module.getApparatusPanel() ), "Controls", false );
-//        dialog.setUndecorated( true );
-//        dialog.getRootPane().getRootPane().setWindowDecorationStyle( JRootPane.COLOR_CHOOSER_DIALOG );
         dialogs.add( dialog );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
@@ -45,8 +44,9 @@ public class MotionActivation {
             }
         } );
         controls.getInitialPositionSpinner().setValue( new Double( module.getMan().getX() ) );
-        int numRows = 3;
-        JPanel panel = new JPanel( new GridLayout( numRows, 1 ) );
+
+        OscillateAndPanel.VerticalLayoutPanel panel = new OscillateAndPanel.VerticalLayoutPanel();
+        gridBagConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
         if( !( mac instanceof OscillateAndPanel ) ) {
             panel.add( controls.getInitialPositionSpinner() );
         }
@@ -83,7 +83,6 @@ public class MotionActivation {
         mac.initialize( module.getMan() );
         module.setPauseMode();
         SwingUtilities.updateComponentTreeUI( dialog );
-//        MotionActivation.this.dialog.setVisible(true);
     }
 
     private void moveRight( JDialog dialog ) {
