@@ -8,6 +8,7 @@ package edu.colorado.phet.emf.model.movement;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.emf.model.Electron;
+import edu.colorado.phet.emf.EmfApplication;
 import edu.colorado.phet.waves.model.SineFunction;
 
 import java.awt.geom.Point2D;
@@ -21,7 +22,7 @@ public class SinusoidalMovement extends Observable implements MovementType {
     private Point2D nextPosition = new Point2D.Double();
     private float omega;
     private float runningTime;
-    private Vector2D velocity = new Vector2D();
+    private Vector2D.Float velocity = new Vector2D.Float();
 
     public SinusoidalMovement( float frequency, float amplitude ) {
         this.frequency = frequency;
@@ -39,6 +40,12 @@ public class SinusoidalMovement extends Observable implements MovementType {
     public Vector2D getVelocity( Electron electron ) {
         velocity.setY( omega * (float)Math.cos( omega * runningTime ) );
         return velocity;
+    }
+
+    public float getWaveValue( double x ) {
+        double k = omega / EmfApplication.s_speedOfLight;
+        double s = Math.sin( k * x - omega * runningTime );
+        return (float)( -amplitude * omega * omega * s );
     }
 
     public float getAcceleration( Electron electron ) {

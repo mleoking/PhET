@@ -10,11 +10,14 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.BoundedGraphic;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.emf.Config;
+import edu.colorado.phet.emf.EmfModule;
 import edu.colorado.phet.emf.model.Electron;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -36,12 +39,15 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic implem
     private Graphic wiggleMeGraphic;
     private ElectronGraphic electronGraphic;
     private Electron electron;
+    private EmfModule module;
     private Point dragPt;
 
-    public TransmitterElectronGraphic( ApparatusPanel apparatusPanel, Electron electron, Point origin ) {
+    public TransmitterElectronGraphic( ApparatusPanel apparatusPanel, Electron electron, /*Point origin,*/ EmfModule module ) {
         super( null );
         this.electron = electron;
-        init( apparatusPanel, origin, electron );
+        this.module = module;
+        init( apparatusPanel, electron );
+//        init( apparatusPanel, origin, electron );
     }
 
     public void mouseDragged( MouseEvent e ) {
@@ -58,8 +64,7 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic implem
         return b;
     }
 
-    private void init( ApparatusPanel apparatusPanel, final Point origin, Electron electron ) {
-
+    private void init( ApparatusPanel apparatusPanel, /*final Point origin,*/ Electron electron ) {
         this.apparatusPanel = apparatusPanel;
         electronGraphic = new ElectronGraphic( apparatusPanel, image, electron );
         super.setBoundary( electronGraphic);
@@ -67,32 +72,11 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic implem
         electron.addObserver( electronGraphic );
         this.addCursorHandBehavior();
         this.addTranslationBehavior( this );
-
-        // Draw the animted "Wiggle me"
-        wiggleMeGraphic = new Graphic() {
-            Point2D.Double start = new Point2D.Double( 0, 0 );
-            Point2D.Double stop = new Point2D.Double( origin.getX() - 100, origin.getY() + 50 );
-            Point2D.Double current = new Point2D.Double( start.getX(), start.getY() );
-            String family = "Sans Serif";
-            int style = Font.BOLD;
-            int size = 16;
-            Font font = new Font( family, style, size );
-
-            public void paint( Graphics2D g ) {
-                current.setLocation( ( current.x + ( stop.x - current.x ) * .02 ),
-                                     ( current.y + ( stop.y - current.y ) * .04 ) );
-                g.setFont( font );
-                g.setColor( new Color( 0, 0, 200 ));
-                g.drawString( "Wiggle the", (int)current.getX(), (int)current.getY() - g.getFontMetrics( font ).getHeight() );
-                g.drawString( "electron >", (int)current.getX(), (int)current.getY() );
-
-            }
-        };
-        apparatusPanel.addGraphic( wiggleMeGraphic, 5 );
     }
 
     public void mouseReleased( MouseEvent event ) {
-        apparatusPanel.removeGraphic( wiggleMeGraphic );
+//        apparatusPanel.removeGraphic( wiggleMeGraphic );
+        module.removeWiggleMeGraphic();
     }
 
 //    /**

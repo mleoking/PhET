@@ -13,6 +13,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.command.Command;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
@@ -23,6 +24,7 @@ import edu.colorado.phet.emf.model.EmfSensingElectron;
 import edu.colorado.phet.emf.model.PositionConstrainedElectron;
 import edu.colorado.phet.emf.model.movement.ManualMovement;
 import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
+import edu.colorado.phet.emf.model.movement.MovementType;
 import edu.colorado.phet.emf.view.*;
 import edu.colorado.phet.util.StripChart;
 
@@ -46,19 +48,20 @@ public class EmfModule extends Module {
     protected SinusoidalMovement sinusoidalMovement = new SinusoidalMovement( 0.02f, 50f );
     private ManualMovement manualMovement = new ManualMovement();
     private EmfPanel apparatusPanel;
+    private MovementType movementStrategy;
+    private boolean showWiggleMe = true;
+    private boolean wiggleMeShowing = false;
+    private Graphic wiggleMeGraphic;
 
 
     public EmfModule( AbstractClock clock ) {
         super( "EMF" );
-
         super.setModel( new EmfModel( clock ) );
 
-//        final Point origin = new Point( 129, 250 );
-        final Point origin = new Point( 125, 250 );
-
+        final Point origin = new Point( 125, 300 );
         Antenna transmittingAntenna = new Antenna( new Point2D.Double( origin.getX(), origin.getY() - 100 ),
                                                    new Point2D.Double( origin.getX(), origin.getY() + 250 ) );
-        electronLoc = new Point2D.Double( origin.getX(), origin.getY() + 50 );
+        electronLoc = new Point2D.Double( origin.getX(), origin.getY() );
         electron = new PositionConstrainedElectron( (EmfModel)this.getModel(),
                                                     electronLoc,
                                                     transmittingAntenna );
@@ -73,12 +76,12 @@ public class EmfModule extends Module {
         super.setApparatusPanel( apparatusPanel );
 
         // Set up the electron graphic
-        Graphic electronGraphic = new TransmitterElectronGraphic( apparatusPanel, electron, origin );
+        Graphic electronGraphic = new TransmitterElectronGraphic( apparatusPanel, electron, this );
         this.getApparatusPanel().addGraphic( electronGraphic, 5 );
 
         // Set up the receiving electron and antenna
-        Antenna receivingAntenna = new Antenna( new Point2D.Double( origin.x + 680, electron.getStartPosition().getY() - 50 ),
-                                                new Point2D.Double( origin.x + 680, electron.getStartPosition().getY() + 75 ) );
+        Antenna receivingAntenna = new Antenna( new Point2D.Double( origin.x + 678, electron.getStartPosition().getY() - 50 ),
+                                                new Point2D.Double( origin.x + 678, electron.getStartPosition().getY() + 75 ) );
         receivingElectronLoc = new Point2D.Double( origin.x + 680, electron.getStartPosition().getY() );
         receivingElectron = new EmfSensingElectron(
                 (EmfModel)this.getModel(), receivingElectronLoc, electron,
@@ -90,13 +93,6 @@ public class EmfModule extends Module {
         } );
 
         // Load image for small electron
-        Image image = null;
-        try {
-            image = ImageLoader.loadBufferedImage( Config.smallElectronImg );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
         ElectronGraphic receivingElectronGraphic = new ReceivingElectronGraphic( apparatusPanel, receivingElectron );
         receivingElectron.addObserver( receivingElectronGraphic );
         this.getApparatusPanel().addGraphic( receivingElectronGraphic, 5 );
@@ -118,12 +114,40 @@ public class EmfModule extends Module {
         setControlPanel( new EmfControlPanel( (EmfModel)this.getModel(),
                                               this ) );
 
+        // Draw the animated "Wiggle me"
+        wiggleMeGraphic = new Graphic() {
+            Point2D.Double start = new Point2D.Double( 0, 0 );
+            Point2D.Double stop = new Point2D.Double( origin.getX() - 100, origin.getY() - 10 );
+            Point2D.Double current = new Point2D.Double( start.getX(), start.getY() );
+            String family = "Sans Serif";
+            int style = Font.BOLD;
+            int size = 16;
+            Font font = new Font( family, style, size );
 
-//        Ellipse2D.Double s = new Ellipse2D.Double();
-//        s.setFrameFromCenter( origin.getX(), origin.getY(), origin.getX() + 5, origin.getY() + 5);
-//        getApparatusPanel().addGraphic( new ShapeGraphic( s, Color.yellow ));
-//
+            public void paint( Graphics2D g ) {
+                current.setLocation( ( current.x + ( stop.x - current.x ) * .02 ),
+                                     ( current.y + ( stop.y - current.y ) * .04 ) );
+                g.setFont( font );
+                g.setColor( new Color( 0, 100, 0 ));
+                String s1 = "Wiggle the";
+                String s2 = "electron!";
+                g.drawString( s1, (int)current.getX(), (int)current.getY() - g.getFontMetrics( font ).getHeight() );
+                g.drawString( s2, (int)current.getX(), (int)current.getY() );
+                Point2D.Double arrowTail = new Point2D.Double(current.getX() + SwingUtilities.computeStringWidth( g.getFontMetrics( font ), s2 ) + 10,
+                                                            (int)current.getY() - g.getFontMetrics( font ).getHeight() / 2 );
+                Point2D.Double arrowTip = new Point2D.Double( arrowTail.getX() + 15, arrowTail.getY() + 12 );
+                Arrow arrow = new Arrow( arrowTail, arrowTip, 6, 6, 2, 100, false );
+                g.fill( arrow.getShape() );
+            }
+        };
+        showWiggleMe();
+    }
 
+    private void showWiggleMe() {
+        if( showWiggleMe && !wiggleMeShowing ) {
+            this.addGraphic( wiggleMeGraphic, 5 );
+            wiggleMeShowing = true;
+        }
     }
 
     public void setAutoscaleEnabled( boolean enabled ) {
@@ -186,11 +210,20 @@ public class EmfModule extends Module {
     }
 
     public void setMovementSinusoidal() {
+        showWiggleMe();
+        movementStrategy = sinusoidalMovement;
         this.getModel().execute( new SetMovementCmd( (EmfModel)this.getModel(),
                                                      sinusoidalMovement ) );
     }
 
     public void setMovementManual() {
+//        showWiggleMe();
+//        if( showWiggleMe && !wiggleMeShowing ) {
+//            apparatusPanel.removeGraphic( wiggleMeGraphic );
+//            this.addGraphic( wiggleMeGraphic, 5 );
+//            wiggleMeShowing = true;
+//        }
+        movementStrategy = manualMovement;
         this.getModel().execute( new SetMovementCmd( (EmfModel)this.getModel(),
                                                      manualMovement ) );
     }
@@ -213,5 +246,10 @@ public class EmfModule extends Module {
 
     public void setFieldDisplay( int display ) {
         apparatusPanel.setFieldDisplay( display );
+    }
+
+    public void removeWiggleMeGraphic() {
+        apparatusPanel.removeGraphic( wiggleMeGraphic );
+        showWiggleMe = false;
     }
 }

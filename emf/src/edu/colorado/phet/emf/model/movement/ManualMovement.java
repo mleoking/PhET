@@ -27,7 +27,7 @@ public class ManualMovement implements MovementType {
     private double[] yAHistory = new double[s_posHistoryLength - 2];
     private float vAve;
     private float aAve;
-    private Vector2D velocity =  new Vector2D();
+    private Vector2D.Float velocity =  new Vector2D.Float();
     private MedianFilter dataFilter = new MedianFilter( yVHistory );
 
     /**
