@@ -212,8 +212,8 @@ public class TransformerModule extends FaradayModule {
         
         // Collision detection
         electromagnetGraphic.getCollisionDetector().add( compassGraphic );
-        electromagnetGraphic.getCollisionDetector().add( pickupCoilGraphic );
-        pickupCoilGraphic.getCollisionDetector().add( electromagnetGraphic );
+//        electromagnetGraphic.getCollisionDetector().add( pickupCoilGraphic );
+//        pickupCoilGraphic.getCollisionDetector().add( electromagnetGraphic );
         pickupCoilGraphic.getCollisionDetector().add( compassGraphic );
         compassGraphic.getCollisionDetector().add( electromagnetGraphic );
         compassGraphic.getCollisionDetector().add( pickupCoilGraphic );
