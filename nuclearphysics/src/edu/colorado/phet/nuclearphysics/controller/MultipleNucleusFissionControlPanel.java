@@ -110,7 +110,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             }
         } );
 
-        percentDecayTF = new JTextField( 8 );
+        percentDecayTF = new JTextField( 4 );
         percentDecayTF.setHorizontalAlignment( JTextField.RIGHT );
         percentDecayTF.setText( "0" );
 
