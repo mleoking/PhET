@@ -64,7 +64,6 @@ public class IdealGasModule extends Module {
         idealGasModel.addCollisionExpert( new SphereSphereExpert( idealGasModel, clock.getDt() ) );
         idealGasModel.addCollisionExpert( new SphereBoxExpert( idealGasModel ) );
 
-
         // Create the box
         double xOrigin = 132 + IdealGasConfig.X_BASE_OFFSET;
         double yOrigin = 252 + IdealGasConfig.Y_BASE_OFFSET;

@@ -37,7 +37,8 @@ public class SphereBoxCollision implements Collision {
         if( ( sx - r ) <= box.getMinX() ) {
             sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             double wx = box.getMinX();
-            double newX = wx + ( sx - wx );
+            double dx = wx - (sx - r);
+            double newX = sx + ( dx + 2 );
             sphere.setPosition( newX, sphere.getPosition().getY() );
 
             // Handle giving particle kinetic energy if the wall is moving
@@ -54,24 +55,26 @@ public class SphereBoxCollision implements Collision {
         if( ( sx + r ) >= box.getMaxX() ) {
             sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             double wx = box.getMaxX();
-            double newX = wx + ( sx - wx );
+            double dx = ( sx + r ) - wx;
+            double newX = sx - ( dx * 2 );
             sphere.setPosition( newX, sphere.getPosition().getY() );
         }
 
-        // Collision with bottom wall?
+        // Collision with top wall?
         if( ( sy - r ) <= box.getMinY() ) {
             sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
             double wy = box.getMinY();
-            double newY = wy + ( sy - wy );
+            double dy = wy - ( sy - r );
+            double newY = sy + ( dy * 2 );
             sphere.setPosition( sphere.getPosition().getX(), newY );
-
         }
 
-        // Collision with top wall?
+        // Collision with bottom wall?
         if( ( sy + r ) >= box.getMaxY() ) {
             sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
             double wy = box.getMaxY();
-            double newY = wy + ( sy - wy );
+            double dy = ( sy + r ) - wy;
+            double newY = sy - ( dy - 2 );
             sphere.setPosition( sphere.getPosition().getX(), newY );
 
             // Here's where we handle adding heat on the floor
