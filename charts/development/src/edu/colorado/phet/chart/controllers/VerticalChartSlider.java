@@ -80,11 +80,14 @@ public class VerticalChartSlider {
             visible = b;
             if( visible ) {
                 JComponent jc = (JComponent)chart.getComponent();
+                slider.setVisible( visible );
                 jc.add( slider );
             }
             else {
                 JComponent jc = (JComponent)chart.getComponent();
+
                 jc.remove( slider );
+                slider.setVisible( visible );
             }
         }
     }
