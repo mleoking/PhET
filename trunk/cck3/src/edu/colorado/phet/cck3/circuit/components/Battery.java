@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 
@@ -18,6 +19,17 @@ public class Battery extends CircuitComponent {
     private double internalResistance;
     private boolean internalResistanceOn;
     public static final double DEFAULT_INTERNAL_RESISTANCE = 4.5;
+
+    public Battery( double voltage, double internalResistance ) {
+        this( new Point2D.Double(), new Vector2D.Double(), 1, 1, new KirkhoffListener() {
+            public void circuitChanged() {
+            }
+        }, true );
+        setKirkhoffEnabled( false );
+        this.internalResistance = internalResistance;
+        setVoltageDrop( voltage );
+        setKirkhoffEnabled( true );
+    }
 
     public Battery( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl, boolean internalResistanceOn ) {
         this( start, dir, length, height, kl, CCK3Module.MIN_RESISTANCE, internalResistanceOn );
@@ -79,5 +91,9 @@ public class Battery extends CircuitComponent {
         else {
             setResistance( CCK3Module.MIN_RESISTANCE );
         }
+    }
+
+    public boolean isInternalResistanceOn() {
+        return internalResistanceOn;
     }
 }

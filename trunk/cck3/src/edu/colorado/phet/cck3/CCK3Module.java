@@ -7,7 +7,7 @@ import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
-import edu.colorado.phet.cck3.circuit.kirkhoff.NodeAnalysis;
+import edu.colorado.phet.cck3.circuit.kirkhoff.ModifiedNodalAnalysis;
 import edu.colorado.phet.cck3.circuit.particles.ConstantDensityLayout;
 import edu.colorado.phet.cck3.circuit.particles.Electron;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSet;
@@ -193,7 +193,7 @@ public class CCK3Module extends Module {
             }
         } );
 //        kirkhoffSolver = new KirkhoffSolver();
-        kirkhoffSolver = new NodeAnalysis();
+        kirkhoffSolver = new ModifiedNodalAnalysis();
         kirkhoffListener = new KirkhoffListener() {
             public void circuitChanged() {
                 kirkhoffSolver.apply( circuit );

@@ -56,7 +56,7 @@ public class TestNodeAnalysis {
         circuit.addJunction( topCenter );
         circuit.addJunction( topright );
 
-        new NodeAnalysis().apply( circuit );
+        new ModifiedNodalAnalysis().apply( circuit );
     }
 
     private static Junction combine( Circuit circuit, Junction a, Junction b ) {

@@ -4,6 +4,7 @@ package edu.colorado.phet.cck3.circuit.components;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import net.n3.nanoxml.IXMLElement;
 
 import java.awt.geom.Point2D;
@@ -24,6 +25,16 @@ public class Resistor extends CircuitComponent {
 
     public Resistor( KirkhoffListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {
         super( kl, startJunction, endjJunction, length, height );
+    }
+
+    public Resistor( double resistance ) {
+        this( new Point2D.Double(), new Vector2D.Double(), 1, 1, new KirkhoffListener() {
+            public void circuitChanged() {
+            }
+        } );
+        setKirkhoffEnabled( false );
+        setResistance( resistance );
+        setKirkhoffEnabled( true );
     }
 
     public void addAttributes( IXMLElement xml ) {

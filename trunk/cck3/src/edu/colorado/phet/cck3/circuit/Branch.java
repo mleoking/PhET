@@ -41,6 +41,10 @@ public class Branch extends SimpleObservableDebug {
         addKirkhoffListener( listener );
     }
 
+    public int hashCode() {
+        return label.hashCode();
+    }
+
     public Branch( KirkhoffListener listener, Junction startJunction, Junction endJunction ) {
         this( listener );
         this.startJunction = startJunction;

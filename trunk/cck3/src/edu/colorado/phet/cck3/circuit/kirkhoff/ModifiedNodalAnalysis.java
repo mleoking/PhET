@@ -2,12 +2,19 @@
 package edu.colorado.phet.cck3.circuit.kirkhoff;
 
 import Jama.Matrix;
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.cck3.circuit.components.Battery;
+import edu.colorado.phet.cck3.circuit.components.Resistor;
+import edu.colorado.phet.common.math.Vector2D;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 /**
  * User: Sam Reid
@@ -15,8 +22,10 @@ import java.util.ArrayList;
  * Time: 4:14:19 PM
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
-public class NodeAnalysis extends KirkhoffSolver {
+public class ModifiedNodalAnalysis extends KirkhoffSolver {
     public static boolean debugging = false;
+    private Hashtable branchMap;
+    private Hashtable internalMap;
 
     /*
 The x matrix:
@@ -26,26 +35,120 @@ the top n elements are the n node voltages.
 the bottom m elements represent the currents
 through the m independent voltage sources in the circuit.
 */
-    public void apply( final Circuit circuit ) {
+    public synchronized void apply( final Circuit circuit ) {
+        Circuit addRes = getEquivalentCircuit( circuit );
+//        System.out.println( "circuit = " + circuit );
+//        System.out.println( "addRes = " + addRes );
+        applyOrig( addRes );
+        Enumeration keys = branchMap.keys();
+        while( keys.hasMoreElements() ) {
+            Branch branch = (Branch)keys.nextElement();
+            Branch value = (Branch)branchMap.get( branch );
+            branch.setKirkhoffEnabled( false );
+            branch.setCurrent( value.getCurrent() );
+            branch.setVoltageDrop( value.getVoltageDrop() );
+            branch.setKirkhoffEnabled( true );
+        }
+        fireKirkhoffSolved();
+//        applyOrig( circuit );
+    }
+
+    static class InternalResistor extends Resistor {
+
+        public InternalResistor( double resistance ) {
+            super( new Point2D.Double(), new Vector2D.Double(), 1, 1, new KirkhoffListener() {
+                public void circuitChanged() {
+                }
+            } );
+            setResistance( resistance );
+        }
+    }
+
+    private Circuit getEquivalentCircuit( Circuit circuit ) {
+        branchMap = new Hashtable();
+        internalMap = new Hashtable();
+
+        Circuit c = new Circuit( new KirkhoffListener() {
+            public void circuitChanged() {
+            }
+        } );
+        for( int i = 0; i < circuit.numBranches(); i++ ) {
+            Branch branch = circuit.branchAt( i );
+            if( branch instanceof Battery ) {
+                Battery batt = (Battery)branch;
+                Battery idealBattery = new Battery( batt.getVoltageDrop(), 0 );
+                branchMap.put( branch, idealBattery );
+                double internalResistance = CCK3Module.MIN_RESISTANCE;
+                if( batt.isInternalResistanceOn() ) {
+                    internalResistance = batt.getInteralResistance();
+                }
+                InternalResistor fakeResistor = new InternalResistor( internalResistance );
+                c.addBranch( fakeResistor );
+                c.addBranch( idealBattery );
+                internalMap.put( idealBattery, fakeResistor );
+            }
+            else {
+                Resistor fakeResistor = new Resistor( branch.getResistance() );
+                branchMap.put( branch, fakeResistor );
+                c.addBranch( fakeResistor );
+            }
+        }
+        while( c.numJunctions() > 0 ) {
+            c.remove( c.junctionAt( 0 ) );
+        }
+        for( int i = 0; i < circuit.numJunctions(); i++ ) {
+            Junction j = circuit.junctionAt( i );
+            Branch[] neighbors = circuit.getAdjacentBranches( j );
+            Junction jBar = new Junction( 0, 0 );
+//            System.out.println( "Adding junction jbar=" + jBar );
+            c.addJunction( jBar );
+            for( int k = 0; k < neighbors.length; k++ ) {
+                Branch neighbor = neighbors[k];
+                Branch neighborBar = (Branch)branchMap.get( neighbor );
+                if( neighbor.getStartJunction() == j ) {
+                    neighborBar.setStartJunction( jBar );
+                }
+                if( neighbor.getEndJunction() == j ) {
+                    neighborBar.setEndJunction( jBar );
+                }
+            }
+        }
+        //all wired up, now fix the batteries.
+        Enumeration en = internalMap.keys();
+        while( en.hasMoreElements() ) {
+            Battery idealBatt = (Battery)en.nextElement();
+            InternalResistor internalResistor = (InternalResistor)internalMap.get( idealBatt );
+            Junction internal = new Junction( 0, 0 );
+            Junction start = idealBatt.getStartJunction();
+            internalResistor.setStartJunction( start );
+            internalResistor.setEndJunction( internal );
+            idealBatt.setStartJunction( internal );
+            c.addJunction( internal );
+        }
+        return c;
+    }
+
+    public void applyOrig( final Circuit circuit ) {
+
         clear( circuit );
-        if( getBatteries( circuit ).length > 0 ) {
+        if( getBatteries( circuit ).length > 0 && circuit.numJunctions() > 2 ) {
 
 //1. choose a ground.  Vertex 0 shall be the ground.
 
 //2. Generate A.
             Matrix a = generateA( circuit );
-            System.out.println( "a=" );
-            a.print( 5, 5 );
+//            System.out.println( "a=" );
+//            a.print( 5, 5 );
 
 //3. Generate z for x=A-1 z .
             Matrix z = generateZ( circuit );
-            System.out.println( "Z=" );
-            z.print( 5, 5 );
+//            System.out.println( "Z=" );
+//            z.print( 5, 5 );
             try {
 
                 Matrix x = a.solve( z );
-                System.out.println( "x = " + x );
-                x.print( 5, 5 );
+//                System.out.println( "x = " + x );
+//                x.print( 5, 5 );
 
                 int n = circuit.numJunctions() - 1;
                 for( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -68,10 +171,6 @@ through the m independent voltage sources in the circuit.
                         branch.setVoltageDrop( dv );
                         branch.setCurrent( dv / branch.getResistance() );
                         branch.setKirkhoffEnabled( true );
-//                    if (branch instanceof Bulb){
-//                        Bulb bulb=(Bulb)branch;
-//                        bulb.notifyObservers();
-//                    }
                     }
                 }
                 Battery[] batt = getBatteries( circuit );
@@ -86,7 +185,7 @@ through the m independent voltage sources in the circuit.
                 System.out.println( "re = " + re );
             }
         }
-        fireKirkhoffSolved();
+
     }
 
     private void clear( Circuit circuit ) {
@@ -94,10 +193,7 @@ through the m independent voltage sources in the circuit.
             Branch branch = circuit.branchAt( i );
             branch.setKirkhoffEnabled( false );
             branch.setCurrent( 0 );
-            if( ( branch instanceof Battery ) ) {
-                Battery batt = (Battery)branch;
-            }
-            else {
+            if( !( branch instanceof Battery ) ) {
                 branch.setVoltageDrop( 0.0 );
             }
             branch.setKirkhoffEnabled( true );
@@ -128,16 +224,16 @@ the D matrix is mxm and is zero if only independent sources are considered.
         int m = batt.length;
         int n = circuit.numJunctions() - 1;
         Matrix g = generateG( circuit );
-        System.out.print( "g=" );
-        g.print( 5, 5 );
+//        System.out.print( "g=" );
+//        g.print( 5, 5 );
         Matrix b = generateB( circuit );
-        System.out.println( "b=" );
-        b.print( 5, 5 );
+//        System.out.println( "b=" );
+//        b.print( 5, 5 );
         Matrix a = new Matrix( m + n, m + n );
 
         for( int row = 0; row < b.getRowDimension(); row++ ) {
             for( int col = n; col < a.getColumnDimension(); col++ ) {
-                System.out.println( "row = " + row + ", col=" + col );
+//                System.out.println( "row = " + row + ", col=" + col );
                 double value = b.get( row, col - n );
                 a.set( row, col, value );
             }
@@ -200,16 +296,10 @@ the D matrix is mxm and is zero if only independent sources are considered.
                 if( !( b[k] instanceof Battery ) ) {
                     double term = 1.0 / b[k].getResistance();//should ignore batteries,non?  We'll have to think of internal resistance.
                     value += term;
-//                    if( b[k].getStartJunction() == j ) {
-//                        value += term;
-//                    }
-//                    else {
-//                        value -= term;
-//                    }
                 }
             }
-            int diag = i - 1;
-            System.out.println( "diag = " + diag + ", value=" + value );
+//            int diag = i - 1;
+//            System.out.println( "diag = " + diag + ", value=" + value );
             g.set( i - 1, i - 1, value );
         }
         for( int i = 0; i < circuit.numBranches(); i++ ) {
@@ -219,6 +309,12 @@ the D matrix is mxm and is zero if only independent sources are considered.
                 Junction end = b.getEndJunction();
                 int startIndex = circuit.indexOf( start );
                 int endIndex = circuit.indexOf( end );
+                if( startIndex == -1 ) {
+                    throw new RuntimeException( "No such junction: " + start );
+                }
+                if( endIndex == -1 ) {
+                    throw new RuntimeException( "No such junction: " + end );
+                }
                 if( startIndex != 0 && endIndex != 0 ) {
                     g.set( startIndex - 1, endIndex - 1, -1.0 / b.getResistance() );
                     g.set( endIndex - 1, startIndex - 1, -1.0 / b.getResistance() );
