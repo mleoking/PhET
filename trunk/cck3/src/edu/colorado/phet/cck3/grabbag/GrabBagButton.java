@@ -50,14 +50,19 @@ public class GrabBagButton extends JButton {
             final GrabBagItem it = bag.itemAt( i );
             BufferedImage image = it.getImage();
             BufferedImage fixedSize = BufferedImageUtils.rescaleYMaintainAspectRatio( module.getApparatusPanel(), image, 40 );
-            JButton jb = new JButton( it.getName(), new ImageIcon( fixedSize ) );
+//            JButton jb = new JButton( it.getName(), new ImageIcon( fixedSize ) );
+            ImageIcon icon = new ImageIcon( fixedSize );
+            JButton jb = new JButton( it.getName() );
+            JPanel panel = new JPanel();
+            panel.add( new JLabel( icon ) );
+            panel.add( jb );
             jb.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     showItem( it );
                 }
             } );
             SwingUtilities.updateComponentTreeUI( jb );
-            contentPane.add( jb );
+            contentPane.add( panel );
         }
         dialog.pack();
 

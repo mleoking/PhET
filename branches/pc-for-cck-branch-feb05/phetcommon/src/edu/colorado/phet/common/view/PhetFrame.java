@@ -26,6 +26,7 @@ public class PhetFrame extends JFrame {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
             }
+
         } );
         JMenuBar menuBar = new JMenuBar();
         this.helpMenu = new HelpMenu( appDescriptor );

@@ -682,9 +682,10 @@ public class CCK3ControlPanel extends JPanel {
             Insets insets = new Insets( 0, 0, 0, 0 );
             constraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
             setLayout( new GridBagLayout() );
+            double minResistivitySliderValue = 0.01;
             resistivitySlider = new PhetSlider( SimStrings.get( "CCK3ControlPanel.WireResistivitySlider" ),
                                                 SimStrings.get( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
-                                                0, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
+                                                minResistivitySliderValue, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
             resistivitySlider.setBorder( null );
             resistivitySlider.getTitleLabel().setFont( CCKLookAndFeel.getFont() );
             resistivitySlider.setNumMajorTicks( 5 );
@@ -705,6 +706,9 @@ public class CCK3ControlPanel extends JPanel {
             resistivitySlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     double value = resistivitySlider.getValue();
+                    if( value <= 0 ) {
+                        new RuntimeException( "Illegal resistivity: " + value ).printStackTrace();
+                    }
                     module.getResistivityManager().setResistivity( value );
                 }
             } );
