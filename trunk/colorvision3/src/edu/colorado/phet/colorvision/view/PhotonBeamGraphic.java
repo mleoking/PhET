@@ -14,6 +14,7 @@ package edu.colorado.phet.colorvision.view;
 import java.awt.*;
 import java.util.ArrayList;
 
+import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
 import edu.colorado.phet.colorvision.model.Photon;
 import edu.colorado.phet.colorvision.model.PhotonBeam;
 import edu.colorado.phet.common.util.SimpleObserver;

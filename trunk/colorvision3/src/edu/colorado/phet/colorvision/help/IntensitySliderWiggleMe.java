@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.colorvision.coreadditions.help.WiggleMe;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;

@@ -20,12 +20,12 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.colorvision.control.IntensitySlider;
 import edu.colorado.phet.colorvision.control.RgbBulbsControlPanel;
-import edu.colorado.phet.colorvision.event.VisibleColorChangeEvent;
-import edu.colorado.phet.colorvision.event.VisibleColorChangeListener;
+import edu.colorado.phet.colorvision.coreadditions.control.ColorIntensitySlider;
+import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeEvent;
+import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeListener;
+import edu.colorado.phet.colorvision.coreadditions.help.WiggleMe;
 import edu.colorado.phet.colorvision.help.IntensitySliderWiggleMe;
-import edu.colorado.phet.colorvision.help.WiggleMe;
 import edu.colorado.phet.colorvision.model.Person;
 import edu.colorado.phet.colorvision.model.PhotonBeam;
 import edu.colorado.phet.colorvision.model.Spotlight;
@@ -108,7 +108,7 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
     private PhotonBeam _redPhotonBeamModel, _greenPhotonBeamModel, _bluePhotonBeamModel;
 
     // Views
-    private IntensitySlider _redSlider, _greenSlider, _blueSlider;
+    private ColorIntensitySlider _redSlider, _greenSlider, _blueSlider;
 
     // Help
     private WiggleMe _wiggleMe;
@@ -221,17 +221,17 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
         apparatusPanel.addGraphic( bluePhotonBeamGraphic, BLUE_BEAM_LAYER );
 
         // Red intensity control
-        _redSlider = new IntensitySlider( VisibleColor.RED, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+        _redSlider = new ColorIntensitySlider( VisibleColor.RED, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
         _redSlider.setLocation( RED_SLIDER_LOCATION );
         apparatusPanel.add( _redSlider );
 
         // Green intensity control
-        _greenSlider = new IntensitySlider( VisibleColor.GREEN, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+        _greenSlider = new ColorIntensitySlider( VisibleColor.GREEN, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
         _greenSlider.setLocation( GREEN_SLIDER_LOCATION );
         apparatusPanel.add( _greenSlider );
 
         // Blue intensity control
-        _blueSlider = new IntensitySlider( VisibleColor.BLUE, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+        _blueSlider = new ColorIntensitySlider( VisibleColor.BLUE, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
         _blueSlider.setLocation( BLUE_SLIDER_LOCATION );
         apparatusPanel.add( _blueSlider );
 

@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.colorvision.control;
+package edu.colorado.phet.colorvision.coreadditions.control;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -23,13 +23,13 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 /**
- * IntensitySlider is a slider used to control intensity. Intensity is a
- * percentage, with a range of 0-100 inclusive.
+ * ColorIntensitySlider is a slider used to control color intensity
+ * Intensity is a percentage, with a range of 0-100 inclusive.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class IntensitySlider extends JPanel implements ChangeListener {
+public class ColorIntensitySlider extends JPanel implements ChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -61,7 +61,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
      * @param orientation orientation of the control, HORIZONTAL or VERTICAL)
      * @param size the dimensions of the control
      */
-    public IntensitySlider( Color color, int orientation, Dimension size ) {
+    public ColorIntensitySlider( Color color, int orientation, Dimension size ) {
 
         _color = color;
         _listenerList = new EventListenerList();

@@ -9,12 +9,12 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.colorvision.help;
+package edu.colorado.phet.colorvision.coreadditions.help;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import edu.colorado.phet.colorvision.view.BoundsOutliner;
+import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;

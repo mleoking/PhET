@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.colorvision.view;
+package edu.colorado.phet.colorvision.coreadditions.view;
 
 import java.awt.*;
 

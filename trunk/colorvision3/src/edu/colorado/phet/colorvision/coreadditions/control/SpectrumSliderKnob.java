@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.colorvision.control;
+package edu.colorado.phet.colorvision.coreadditions.control;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

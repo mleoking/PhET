@@ -16,6 +16,7 @@ import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 /**

@@ -20,10 +20,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.colorvision.control.SingleBulbControlPanel;
-import edu.colorado.phet.colorvision.control.SpectrumSlider;
-import edu.colorado.phet.colorvision.control.ToggleSwitch;
-import edu.colorado.phet.colorvision.event.VisibleColorChangeEvent;
-import edu.colorado.phet.colorvision.event.VisibleColorChangeListener;
+import edu.colorado.phet.colorvision.coreadditions.control.SpectrumSlider;
+import edu.colorado.phet.colorvision.coreadditions.control.ToggleSwitch;
+import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeEvent;
+import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeListener;
 import edu.colorado.phet.colorvision.help.FilterSliderWiggleMe;
 import edu.colorado.phet.colorvision.model.*;
 import edu.colorado.phet.colorvision.view.*;
