@@ -55,34 +55,36 @@ public class
         Point2D.Double p = null;
 
         Random random = new Random( );
-//        for( int i = 0; i < 200; i++ ) {
-//            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-//            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-//            int colorIdx = random.nextInt( colors.length );
-//            star = new NormalStar( colors[ colorIdx ], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
-//            starField.addStar( star );
-//        }
+        for( int i = 0; i < 200; i++ ) {
+            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+            int colorIdx = random.nextInt( colors.length );
+            star = new NormalStar( colors[ colorIdx ], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
+            starField.addStar( star );
+        }
 
 ////        star = new NormalStar( Color.magenta, 100, new Point2D.Double( Config.universeWidth * 1.2, 10 ), -50 );
 ////        starField.addStar( star );
-//        star = new NormalStar( Color.green, 100, new Point2D.Double( 100, 10 ), -25 );
-//        starField.addStar( star );
-//        star = new NormalStar( Color.blue, 100, new Point2D.Double( 30, 10 ), -20 );
-//        starField.addStar( star );
-//        star = new NormalStar( Color.yellow, 100, new Point2D.Double( -100, -10 ), 50 );
-//        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 100, 10 ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 200, 10 ), -35 );
+        starField.addStar( star );
+        star = new NormalStar( Color.blue, 100, new Point2D.Double( 30, 10 ), -20 );
+        starField.addStar( star );
+        star = new NormalStar( Color.yellow, 100, new Point2D.Double( -100, -10 ), 50 );
+        starField.addStar( star );
 ////        star = new NormalStar( Color.white, 100, new Point2D.Double( 0, 0 ), 50 );
 ////        starField.addStar( star );
 //
 
-        star = new FixedStar( Color.red, 100, 0, 0 );
+        star = new FixedStar( Color.red, 1E9, 0, 0 );
         starField.addStar( star );
-//        star = new FixedStar( Color.red, 100, Math.PI / 2, 0 );
-//        starField.addStar( star );
-//        star = new FixedStar( Color.red, 100, -Math.PI / 2, 0 );
-//        starField.addStar( star );
-//        star = new FixedStar( Color.red, 100, Math.PI, 0 );
-//        starField.addStar( star );
+        star = new FixedStar( Color.red, 100, Math.PI / 2, 0 );
+        starField.addStar( star );
+        star = new FixedStar( Color.red, 100, -Math.PI / 2, 0 );
+        starField.addStar( star );
+        star = new FixedStar( Color.red, 100, Math.PI, 0 );
+        starField.addStar( star );
 
 //        star = new NormalStar( Color.yellow, 100, new Point2D.Double( 0, 0 ), 50 );
 //        starField.addStar( star );

@@ -43,24 +43,15 @@ public class StarViewGraphic extends CompositeInteractiveGraphic implements Simp
 
     public void paint( Graphics2D g ) {
 
-        // For some reason, this is needed to get the joystick to work ????
-//        this.update();
-
         AffineTransform orgTx = g.getTransform();
         Rectangle bounds = container.getBounds();
         double scaleX = bounds.getWidth() / background.getWidth();
-        double scaleY = bounds.getHeight() / background.getHeight();
         AffineTransform atx = AffineTransform.getScaleInstance( scaleX, scaleX );
-//        AffineTransform atx = AffineTransform.getScaleInstance( scaleX, scaleY );
         g.transform( atx );
 
         g.setColor( Color.black );
         g.fillRect( 0, 0, (int)background.getWidth(), (int)background.getHeight() );
         g.transform( starViewTx );
-
-//        g.setColor( Color.white );
-//        g.drawLine( -10, 0, 10, 0 );
-//        g.drawLine( 0, -10, 0, 10 );
 
         super.paint( g );
 
@@ -77,13 +68,13 @@ public class StarViewGraphic extends CompositeInteractiveGraphic implements Simp
 
                 // Set the radius of the star based on how close it is to the POV
                 double d = starView.getPov().distanceSq( visibleStar.getLocation() );
-                double radius = Math.min( 20, Math.max( 40000 / d, 4 ));
+                double radius = Math.min( 15, Math.max( 40000 / d, 2 ));
                 starGraphic = new StarGraphic( radius, visibleStar.getColor(), new Point2D.Double() );
 //                starGraphic = new StarGraphic( 4, visibleStar.getColor(), new Point2D.Double() );
                 starToGraphicMap.put( visibleStar, starGraphic );
                 this.addGraphic( starGraphic, 1 / d );
             }
-            starGraphic.update( visibleStar, starView.getLocation( visibleStar ) );
+            starGraphic.update( starView.getLocation( visibleStar ) );
         }
 
         // Remove stars that aren't visible

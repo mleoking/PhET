@@ -27,10 +27,15 @@ public class OrientationReticle extends DefaultInteractiveGraphic implements Tra
     private AffineTransform hitTx = new AffineTransform();
     private Rectangle2D.Double bounds;
     private double viewAngle;
+    private Container container;
 
-    public OrientationReticle( Rectangle2D.Double bounds, double viewAngle ) {
+    public OrientationReticle( Container container, double viewAngle ) {
         super( null, null );
-        this.bounds = bounds;
+        this.container = container;
+        this.bounds = new Rectangle2D.Double( container.getBounds().getX(),
+                                              container.getBounds().getY(),
+                                              container.getBounds().getWidth(),
+                                              container.getBounds().getHeight() );
         this.viewAngle = viewAngle;
         Reticle reticle = new Reticle();
         setGraphic( reticle );
@@ -50,6 +55,7 @@ public class OrientationReticle extends DefaultInteractiveGraphic implements Tra
 
     public void setLocation( double x, double y ) {
         this.location.setLocation( x, y );
+        container.repaint();
     }
 
     public void paint( Graphics2D g ) {

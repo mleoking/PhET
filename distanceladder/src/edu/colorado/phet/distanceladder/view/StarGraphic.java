@@ -52,7 +52,7 @@ public class StarGraphic implements Graphic {
         g.setTransform( orgTx );
     }
 
-    public void update( Star star, Point2D.Double location ) {
+    public void update( Point2D.Double location ) {
         setLocation( location );
     }
 }
