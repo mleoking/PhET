@@ -73,10 +73,30 @@ public class TestControlPanel extends JPanel {
 //            } );
 //            module.setProfileWidth( profileWidthSlider.getModelValue() );
 
+
+//            JSpinner spinner = new JSpinner();
+//            spinner.setUI( new BasicSpinnerUI() {
+//                protected Component createPreviousButton() {
+//                    JButton b = new JButton("PREV");
+//                    Font f = new Font( "SansSerif", Font.BOLD, 18);
+//                    b.setFont( f );
+//                    return b;
+//                }
+//                protected Component createNextButton() {
+//                    JButton b = new JButton("NEXT");
+//                    Font f = new Font( "SansSerif", Font.BOLD, 18);
+//                    b.setFont( f );
+//                    return b;
+//                }
+//            });
+//            spinner.setPreferredSize( new Dimension( 100, 200 ));
+
+
             // Lay out the panel
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Potential Profile" );
             this.setBorder( titledBorder );
+
             setLayout( new GridBagLayout() );
             int rowIdx = 0;
             try {
@@ -90,6 +110,11 @@ public class TestControlPanel extends JPanel {
                                                   1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
+//                    GraphicsUtil.addGridBagComponent( this, spinner,
+//                                                      1, rowIdx++,
+//                                                      1, 1,
+//                                                      GridBagConstraints.NONE,
+//                                                      GridBagConstraints.CENTER );
 //                GraphicsUtil.addGridBagComponent( this, profileWidthSlider,
 //                                                  1, rowIdx++,
 //                                                  1, 1,
