@@ -42,8 +42,11 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // Needles with strength below this value are not drawn.
     private static final double DEFAULT_STRENGTH_THRESHOLD = 0.01;
     
-    // Determines whether needle strength is displayed using alpha or color saturation. 
-    private static final boolean DEFAULT_ALPHA_ENABLED = false;
+    // Strategy that uses alpha to indicated field strength.
+    private static final int ALPHA_STRATEGY = 0;
+    
+    // Strategy that uses color saturation to indicated field strength.
+    private static final int SATURATION_STRATEGY = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -67,8 +70,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // The compass needles that are in the grid (array of CompassGridNeedle).
     private ArrayList _needles;
     
-    // Controls whether alpha is used to render the needles.
-    private boolean _alphaEnabled;
+    // Strategy used to indicate field strength;
+    private int _strengthStrategy;
     
     // The grid's bounds.
     private Rectangle _bounds;
@@ -99,7 +102,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         _needleSize = new Dimension( 40, 20 );
         _needles = new ArrayList();
         
-        _alphaEnabled = DEFAULT_ALPHA_ENABLED;
+        _strengthStrategy = ALPHA_STRATEGY;  // works on any background color
         
         _parentSize = component.getSize();
         
@@ -152,12 +155,13 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         int yCount = (int) ( _parentSize.height / ySpacing ) + 1;
         
         // Create the needles.
+        boolean alphaEnabled = ( _strengthStrategy == ALPHA_STRATEGY );
         for ( int i = 0; i < xCount; i++ ) {
             for ( int j = 0; j < yCount; j++ ) {
                 CompassGridNeedle needle = new CompassGridNeedle();
                 needle.setLocation( i * xSpacing, j * ySpacing );
                 needle.setSize( _needleSize );
-                needle.setAlphaEnabled( _alphaEnabled );
+                needle.setAlphaEnabled( alphaEnabled );
                 _needles.add( needle );
             }
         }
@@ -214,20 +218,45 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     public Dimension getNeedleSize() {
         return new Dimension( _needleSize );
     }
+   
     
     /**
-     * Determines whether alpha or color saturation are used to render the needles.
-     * Color saturation is implemented to work on a black background.
+     * Convenience method for setting the strategy used to represent field strength.
+     * If the color is black, then color saturation is used.
      * 
-     * @param enabled true to use alpha, false to use color saturation
+     * @see setStrengthStrategy
+     * @param color
      */
-    public void setAlphaEnabled( boolean enabled ) {
-        if ( enabled != _alphaEnabled ) {
-            _alphaEnabled = enabled;
+    public void setGridBackground( Color color ) {
+        if ( color.equals( Color.BLACK ) ) {
+            setStrengthStrategy( SATURATION_STRATEGY );
+        }
+        else {
+            setStrengthStrategy( ALPHA_STRATEGY );
+        }
+    }
+    
+    /*
+     * Sets the strategy used to represent field strength when rendering needles.
+     * <p>
+     * ALPHA_STRATEGY uses the alpha component and will work on any background color.
+     * SATURATION_STRATEGY uses color saturation and will work only on a black background.
+     * 
+     * @param strengthStrategy ALPHA_STRATEGY or SATURATION_STRATEGY
+     */
+    private void setStrengthStrategy( int strengthStrategy ) {
+        assert( strengthStrategy == ALPHA_STRATEGY || strengthStrategy == SATURATION_STRATEGY );
+        
+        if ( strengthStrategy != _strengthStrategy ) {
+            _strengthStrategy = strengthStrategy;
+            
+            // Update all needles.
+            boolean alphaEnabled = ( strengthStrategy == ALPHA_STRATEGY );
             for ( int i = 0; i < _needles.size(); i++ ) {
                 CompassGridNeedle needle = (CompassGridNeedle) _needles.get(i);
-                needle.setAlphaEnabled( enabled );
+                needle.setAlphaEnabled( alphaEnabled );
             }
+            
             repaint();
         }
     }

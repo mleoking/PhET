@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.module;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import edu.colorado.phet.common.application.Module;
@@ -95,7 +96,7 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
     /*
      * @see edu.colorado.phet.faraday.module.ICompassGridModule#setAlphaEnabled(boolean)
      */
-    public void setAlphaEnabled( boolean enabled ) {
-        _gridGraphic.setAlphaEnabled( enabled );
+    public void setGridBackground( Color color ) {
+        _gridGraphic.setGridBackground( color );
     }
 }

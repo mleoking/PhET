@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.module;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 
@@ -61,9 +62,9 @@ public interface ICompassGridModule {
     public Dimension getGridNeedleSize();
     
     /**
-     * Controls the method used to draw field strength.
+     * Tells the grid its background color.
      * 
-     * @param true to use alpha, false to use color saturation
+     * @param color
      */
-    public void setAlphaEnabled( boolean enabled );
+    public void setGridBackground( Color color );
 }
