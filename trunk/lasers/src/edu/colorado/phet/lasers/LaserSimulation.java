@@ -50,7 +50,7 @@ public class LaserSimulation extends PhetApplication {
                 multipleAtomModule
             };
             setModules( modules );
-            //            setInitialModule( multipleAtomModule );
+            //                        setInitialModule( multipleAtomModule );
             setInitialModule( singleAtomModule );
         }
     }
@@ -89,14 +89,16 @@ public class LaserSimulation extends PhetApplication {
     private static class LaserAppLookAndFeel extends LandF {
         static Color yellowishBackground = new Color( 255, 255, 214 );
         //        static Color yellowishBackground = new Color( 249, 221, 162 );
-        static Color greenishBackground = new Color( 30, 60, 30 );
+        static Color greenishBackground = new Color( 138, 156, 148 );
+        static Color greenishButtonBackground = new Color( 154, 160, 148 );
         static Color purpleishBackground = new Color( 200, 197, 220 );
         //        static Color backgroundColor = yellowishBackground;
         //        static Color backgroundColor = yellowishBackground;
         static Color backgroundColor = greenishBackground;
         //        static Color backgroundColor = purpleishBackground;
         //        static Color buttonBackgroundColor = new Color( 220, 230, 160 );
-        static Color buttonBackgroundColor = new Color( 180, 170, 160 );
+        static Color buttonBackgroundColor = yellowishBackground;
+        //        static Color buttonBackgroundColor = new Color( 180, 170, 160 );
         //        static Color buttonBackgroundColor = new Color( 165, 160, 219 );
         static Color controlTextColor = new Color( 0, 0, 0 );
         static Font font = new Font( "SansSerif", Font.BOLD, 12 );

@@ -14,10 +14,10 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.math.ModelViewTx1D;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.lasers.coreadditions.VisibleColor;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -32,13 +32,12 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Line2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedBeam.WavelengthChangeListener {
 
@@ -191,10 +190,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         }
 
         // Draw squiggles showing what energy photons the beams are putting out
-        if( stimSquiggle != null ) {
+        if( stimSquiggle != null && model.getStimulatingBeam().isEnabled() ) {
             g2.drawRenderedImage( stimSquiggle, stimSquiggleTx );
         }
-        if( pumpSquiggle != null ) {
+        if( pumpSquiggle != null && model.getPumpingBeam().isEnabled() ) {
             g2.drawRenderedImage( pumpSquiggle, pumpSquiggleTx );
         }
 
@@ -233,7 +232,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         this.repaint();
     }
 
-    private class EnergyLifetimeSlider extends JSlider {
+    public class EnergyLifetimeSlider extends JSlider implements AtomicState.MeanLifetimeChangeListener {
         private int maxLifetime = 100;
         private EnergyLevelGraphic graphic;
         private int sliderHeight = 50;
@@ -241,6 +240,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         public EnergyLifetimeSlider( final AtomicState atomicState, Component component,
                                      EnergyLevelGraphic graphic, String label ) {
             super();
+            atomicState.addListener( this );
             setMinimum( 0 );
             setMaximum( maxLifetime );
             setValue( maxLifetime / 2 );
@@ -268,6 +268,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             this.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ),
                             (int)graphic.getPosition().getY() - sliderHeight / 2,
                             100, sliderHeight );
+        }
+
+        public void meanLifetimeChanged( AtomicState.MeanLifetimeChangeEvent event ) {
+            this.setEnabled( false );
+            this.setValue( (int)event.getMeanLifetime() );
+            this.setEnabled( true );
         }
     }
 

@@ -132,6 +132,10 @@ public class MultipleAtomModule extends BaseLaserModule {
             e.printStackTrace();
         }
 
+        // ONly the pumping beam is enabled for this module
+        pumpingBeam.setIsEnabled( true );
+        stimulatingBeam.setIsEnabled( false );
+
         ApparatusConfiguration config = new ApparatusConfiguration();
         config.setStimulatedPhotonRate( 1 );
         config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );

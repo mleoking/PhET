@@ -7,10 +7,10 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
+import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
-import javax.swing.event.EventListenerList;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -101,12 +101,33 @@ public abstract class AtomicState {
     private double energyLevel;
     private double wavelength;
     private int numAtomsInState;
-    private EventListenerList listeners = new EventListenerList();
+    private EventRegistry eventRegistry = new EventRegistry();
     private double meanLifetime = LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME / 1000;
 
 
     abstract public void collideWithPhoton( Atom atom, Photon photon );
 
+    public void addListener( EventListener listener ) {
+        eventRegistry.addListener( listener );
+    }
+
+    public void removeListener( EventListener listener ) {
+        eventRegistry.removeListener( listener );
+    }
+
+    public interface MeanLifetimeChangeListener extends EventListener {
+        public void meanLifetimeChanged( MeanLifetimeChangeEvent event );
+    }
+
+    public class MeanLifetimeChangeEvent extends EventObject {
+        public MeanLifetimeChangeEvent() {
+            super( AtomicState.this );
+        }
+
+        public double getMeanLifetime() {
+            return AtomicState.this.getMeanLifeTime();
+        }
+    }
 
     public interface EnergyLevelChangeListener extends EventListener {
         void energyLevelChangeOccurred( EnergyLevelChangeEvent event );
@@ -115,28 +136,6 @@ public abstract class AtomicState {
     public class EnergyLevelChangeEvent extends EventObject {
         public EnergyLevelChangeEvent( Object source ) {
             super( source );
-        }
-    }
-
-    public interface Listener {
-        void numInStateChanged( int num );
-    }
-
-    public void addEnergyLevelChangeListener( EnergyLevelChangeListener listener ) {
-        listeners.add( EnergyLevelChangeListener.class, listener );
-    }
-
-    public void removeEnergyLevelChangeListener( EnergyLevelChangeListener listener ) {
-        listeners.remove( EnergyLevelChangeListener.class, listener );
-    }
-
-    void fireEnergyLevelChangeEvent( EnergyLevelChangeEvent event ) {
-        Object[] listeners = this.listeners.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            Object o = listeners[i];
-            if( o == EnergyLevelChangeListener.class ) {
-                ( (EnergyLevelChangeListener)listeners[i + 1] ).energyLevelChangeOccurred( event );
-            }
         }
     }
 
@@ -170,12 +169,14 @@ public abstract class AtomicState {
 
     public void setMeanLifetime( double lifetime ) {
         this.meanLifetime = lifetime;
+        eventRegistry.fireEvent( new MeanLifetimeChangeEvent() );
     }
 
     public void setEnergyLevel( double energyLevel ) {
         this.energyLevel = energyLevel;
         this.wavelength = Photon.energyToWavelength( energyLevel );
-        fireEnergyLevelChangeEvent( new EnergyLevelChangeEvent( this ) );
+        //        fireEnergyLevelChangeEvent( new EnergyLevelChangeEvent( this ) );
+        eventRegistry.fireEvent( new EnergyLevelChangeEvent( this ) );
     }
 
     public double getWavelength() {
