@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -141,7 +142,7 @@ public class CircuitGraphic extends CompositeGraphic {
     private void addGraphic( CircuitComponent component, IComponentGraphic ccbg ) {
         TotalComponentGraphic tcg = new TotalComponentGraphic( this, component, apparatusPanel, transform,
                                                                ccbg, junctionRadius, module );
-        branches.addGraphic( tcg.getInteractiveBranchGraphic() );
+        branches.addGraphic( tcg.getInteractiveBranchGraphic(), 1 );
         junctions.addGraphic( tcg.getInteractiveJunctionGraphic1() );
         junctions.addGraphic( tcg.getInteractiveJunctionGraphic2() );
     }
@@ -189,7 +190,6 @@ public class CircuitGraphic extends CompositeGraphic {
     public Junction getBestDragMatch( Junction dragging, Point2D loc ) {
         Junction closestJunction = null;
         double closestValue = Double.POSITIVE_INFINITY;
-
         for( int i = 0; i < getCircuit().numJunctions(); i++ ) {
             Junction j = getCircuit().junctionAt( i );
             double dist = loc.distance( j.getPosition() );
@@ -306,11 +306,20 @@ public class CircuitGraphic extends CompositeGraphic {
         if( branch instanceof Switch ) {
             Graphic[] levers = leverLayer.getGraphics();
             for( int i = 0; i < levers.length; i++ ) {
-                InteractiveLever lever = (InteractiveLever)levers[i];
-                if( lever.getComponent() == branch ) {
-                    leverLayer.removeGraphic( lever );
-                    //hopefully only one.
+                if( levers[i] instanceof LeverInteraction ) {
+                    LeverInteraction lever = (LeverInteraction)levers[i];
+                    if( lever.getComponent() == branch ) {
+                        leverLayer.removeGraphic( lever );
+                        //hopefully only one.
+                    }
                 }
+//                else if( levers[i] instanceof InteractiveSchematicLever ) {
+//                    InteractiveSchematicLever lever = (InteractiveSchematicLever)levers[i];
+//                    if( lever.getComponent() == branch ) {
+//                        leverLayer.removeGraphic( lever );
+//                        //hopefully only one.
+//                    }
+//                }
             }
         }
         else if( branch instanceof SeriesAmmeter ) {
@@ -357,6 +366,7 @@ public class CircuitGraphic extends CompositeGraphic {
         else {
             this.graphicSource = new Schematic();
         }
+
         //clear out all the graphics, replace with the new ones.
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch br = circuit.branchAt( i );
@@ -364,6 +374,37 @@ public class CircuitGraphic extends CompositeGraphic {
             removeGraphic( br.getStartJunction() );
             removeGraphic( br.getEndJunction() );
         }
+
+        //have to preprocess to fix the bulb model.
+        for( int i = 0; i < circuit.numBranches(); i++ ) {
+            Branch branch = circuit.branchAt( i );
+            if( !lifelike && branch instanceof Bulb ) {
+                Bulb oldBulb = (Bulb)branch;
+                SchematicBulb newBulb = oldBulb.toSchematicBulb( CCK3Module.SCH_BULB_DIST );
+                Vector2D vec = new Vector2D.Double( newBulb.getStartJunction().getPosition(), newBulb.getEndJunction().getPosition() );
+                Point2D dst = vec.getInstanceOfMagnitude( CCK3Module.SCH_BULB_DIST ).getDestination( newBulb.getStartJunction().getPosition() );
+                oldBulb.getEndJunction().setPosition( dst.getX(), dst.getY() );
+                newBulb.setStartJunction( oldBulb.getStartJunction() );
+                newBulb.setEndJunction( oldBulb.getEndJunction() );
+                module.removeParticlesAndGraphics( oldBulb );
+                module.relayout( new Branch[]{newBulb} );
+                circuit.remove( oldBulb );
+                circuit.addBranch( newBulb );
+            }
+            if( lifelike && branch instanceof SchematicBulb ) {
+                SchematicBulb oldBulb = (SchematicBulb)branch;
+                double distBetweenJ = CCK3Module.BULB_DIMENSION.getDistBetweenJunctions();
+                Bulb newBulb = oldBulb.toLifelikeBulb( distBetweenJ );
+
+                newBulb.setStartJunction( oldBulb.getStartJunction() );
+                newBulb.setEndJunction( oldBulb.getEndJunction() );
+                module.removeParticlesAndGraphics( oldBulb );
+                module.relayout( new Branch[]{newBulb} );
+                circuit.remove( oldBulb );
+                circuit.addBranch( newBulb );
+            }
+        }
+
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             addGraphic( circuit.branchAt( i ) );
         }
@@ -427,7 +468,7 @@ public class CircuitGraphic extends CompositeGraphic {
 
         private void addWireGraphic( Branch branch ) {
             TotalBranchGraphic totalBranchGraphic = new TotalBranchGraphic( CircuitGraphic.this, branch, apparatusPanel, transform, COPPER, junctionRadius, module, wireThickness );
-            branches.addGraphic( totalBranchGraphic.getInteractiveBranchGraphic() );
+            branches.addGraphic( totalBranchGraphic.getInteractiveBranchGraphic(), 0 );
             junctions.addGraphic( totalBranchGraphic.getInteractiveJunctionGraphic1() );
             junctions.addGraphic( totalBranchGraphic.getInteractiveJunctionGraphic2() );
         }
@@ -436,7 +477,6 @@ public class CircuitGraphic extends CompositeGraphic {
             BulbComponentGraphic ccbg = new BulbComponentGraphic( apparatusPanel, component, transform, module );
             FilamentGraphic fg = new FilamentGraphic( component.getFilament(), transform );
             filamentLayer.addGraphic( fg );
-//        addGraphic( fg, -1 );//TODO this needs to be removable, for when the bulb gets deleted.
             //TODO could also be coupled at the bulb layer
             CircuitGraphic.this.addGraphic( component, ccbg );
         }
@@ -454,33 +494,44 @@ public class CircuitGraphic extends CompositeGraphic {
             if( b instanceof Battery ) {
                 addBatteryGraphic( (Battery)b );
             }
-//            else if( b instanceof Bulb ) {
-//                addBulbGraphic( (Bulb)b );
-//            }
+            else if( b instanceof SchematicBulb ) {
+                addBulbGraphic( (SchematicBulb)b );
+            }
             else if( b instanceof Resistor ) {
                 addResistorGraphic( (Resistor)b );
             }
             else if( b instanceof Switch ) {
                 addSwitchGraphic( (Switch)b );
             }
-//            else if( b instanceof SeriesAmmeter ) {
-//                addSeriesAmmeterGraphic( (SeriesAmmeter)b );
-//            }
+            else if( b instanceof SeriesAmmeter ) {
+                addSeriesAmmeterGraphic( (SeriesAmmeter)b );
+            }
             else {
                 addWireGraphic( b );
             }
         }
 
+        private void addBulbGraphic( SchematicBulb bulb ) {
+            SchematicBulbGraphic sebulb = new SchematicBulbGraphic( apparatusPanel, bulb, getTransform(), wireThickness );
+//            BulbComponentGraphic ccbg = new BulbComponentGraphic( apparatusPanel, bulb, transform, module );
+//            FilamentGraphic fg = new FilamentGraphic( bulb.getFilament(), transform );
+//            filamentLayer.addGraphic( fg );
+//            //TODO could also be coupled at the bulb layer
+            CircuitGraphic.this.addGraphic( bulb, sebulb );
+        }
+
+        private void addSeriesAmmeterGraphic( SeriesAmmeter seriesAmmeter ) {
+            SchematicAmmeterGraphic ccbg = new SchematicAmmeterGraphic( apparatusPanel, seriesAmmeter, getTransform(), wireThickness );
+            CircuitGraphic.this.addGraphic( seriesAmmeter, ccbg );
+        }
+
         private void addSwitchGraphic( Switch aSwitch ) {
             SchematicSwitchGraphic ssg = new SchematicSwitchGraphic( apparatusPanel, aSwitch, getTransform(), wireThickness );
-//            CircuitComponentImageGraphic switchGraphic = new CircuitComponentImageGraphic( module.getImageSuite().getKnifeBoardImage(), apparatusPanel,
-//                                                                                           aSwitch, getTransform() );
             CircuitGraphic.this.addGraphic( aSwitch, ssg );
-//            BufferedImage lever = module.getImageSuite().getKnifeHandleImage();
-//            ComponentDimension leverDimension = CCK3Module.LEVER_DIMENSION;
-//            LeverGraphic leverGraphic = new LeverGraphic( switchGraphic, lever, apparatusPanel, getTransform(), leverDimension.getLength(), leverDimension.getHeight() );
-//            InteractiveLever interactiveLever = new InteractiveLever( transform, apparatusPanel, leverGraphic );
-//            leverLayer.addGraphic( interactiveLever );
+            SchematicLeverGraphic schematicSwitchGraphic = new SchematicLeverGraphic( ssg, apparatusPanel, getTransform(),
+                                                                                      wireThickness, ssg.getLeverLength() );
+            InteractiveSchematicLever isl = new InteractiveSchematicLever( getTransform(), apparatusPanel, schematicSwitchGraphic );
+            leverLayer.addGraphic( isl );
         }
 
         private void addResistorGraphic( Resistor resistor ) {
@@ -496,7 +547,6 @@ public class CircuitGraphic extends CompositeGraphic {
         }
 
         private void addBatteryGraphic( Battery component ) {
-//            CircuitComponentImageGraphic ccbg = new CircuitComponentImageGraphic( module.getImageSuite().getSchematicSuite().getBatteryImage(), apparatusPanel, component, transform,wireThickness );
             SchematicBatteryGraphic ccbg = new SchematicBatteryGraphic( apparatusPanel, component, getTransform(), wireThickness );
             CircuitGraphic.this.addGraphic( component, ccbg );
         }

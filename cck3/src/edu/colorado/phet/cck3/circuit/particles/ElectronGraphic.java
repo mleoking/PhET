@@ -10,6 +10,7 @@ import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGrap
 import edu.colorado.phet.cck3.common.AffineTransformUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
+import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -57,15 +58,19 @@ public class ElectronGraphic extends FastPaintImageGraphic {
             if( bulb.getFilament().isHiddenBranch( loc ) ) {
                 Shape origClip = graphics2D.getClip();
                 Area area = new Area( origClip );
-                module.getCircuitGraphic().getGraphic( bulb );
-                CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)module.getCircuitGraphic().getGraphic( bulb );
-                BulbComponentGraphic bcg = (BulbComponentGraphic)ccig.getCircuitComponentGraphic();
-                Shape cover = bcg.getCoverShape();
-                area.subtract( new Area( cover ) );
-                graphics2D.clip( area );
-                super.paint( graphics2D );
-                graphics2D.setClip( origClip );
-                return;
+                InteractiveGraphic thegraphic = module.getCircuitGraphic().getGraphic( bulb );
+                if( thegraphic instanceof CircuitComponentInteractiveGraphic ) { //check to see if it's a lifelike bulb.
+                    CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)thegraphic;
+                    if( ccig.getCircuitComponentGraphic() instanceof BulbComponentGraphic ) {
+                        BulbComponentGraphic bcg = (BulbComponentGraphic)ccig.getCircuitComponentGraphic();
+                        Shape cover = bcg.getCoverShape();
+                        area.subtract( new Area( cover ) );
+                        graphics2D.clip( area );
+                        super.paint( graphics2D );
+                        graphics2D.setClip( origClip );
+                        return;
+                    }
+                }
             }
         }
         super.paint( graphics2D );

@@ -36,13 +36,13 @@ public class Circuit {
         return "Junctions=" + junctions + ", Branches=" + branches;
     }
 
-    public Branch createBranch( double x1, double y1, double x2, double y2 ) {
-        Junction startJunction = new Junction( x1, y1 );
-        Junction endJunction = new Junction( x2, y2 );
-        Branch branch = new Branch( kirkhoffListener, startJunction, endJunction );
-        addBranch( branch );
-        return branch;
-    }
+//    public Branch createBranch( double x1, double y1, double x2, double y2 ) {
+//        Junction startJunction = new Junction( x1, y1 );
+//        Junction endJunction = new Junction( x2, y2 );
+//        Branch branch = new Branch( kirkhoffListener, startJunction, endJunction );
+//        addBranch( branch );
+//        return branch;
+//    }
 
     public void addJunction( Junction startJunction ) {
         junctions.add( startJunction );

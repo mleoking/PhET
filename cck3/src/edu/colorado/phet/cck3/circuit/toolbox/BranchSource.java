@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.toolbox;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.CircuitGraphic;
@@ -110,8 +111,12 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
             AbstractVector2D dir = super.getDirection();
             dir = dir.getInstanceOfMagnitude( finalDim.getLength() );
             Bulb bulb = new Bulb( super.branch.getStartJunction().getPosition(), dir, distBetweenJunctions, dir.getMagnitude(), finalDim.getHeight(), super.kirkhoffListener );
-//            Bulb bulb = null;
-            return bulb;
+            if( super.circuitGraphic.isLifelike() ) {
+                return bulb;
+            }
+            else {
+                return bulb.toSchematicBulb( CCK3Module.SCH_BULB_DIST );
+            }
         }
     }
 

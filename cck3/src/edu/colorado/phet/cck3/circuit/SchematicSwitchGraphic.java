@@ -28,6 +28,8 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
     private ModelViewTransform2D transform;
     private double wireThickness;
     private Shape userSpace;
+    private double leverLength;
+    private Point2D pivot;
 
     public SchematicSwitchGraphic( ApparatusPanel apparatusPanel, Switch aSwitch, ModelViewTransform2D transform, double wireThickness ) {
         super( new Area(), Color.black, apparatusPanel );
@@ -54,9 +56,11 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
         double viewThickness = Math.abs( transform.modelToViewDifferentialY( wireThickness ) );
         double fracToPivot = .3;
         double fracToEnd = ( 1 - fracToPivot );
+
         AbstractVector2D vector = new ImmutableVector2D.Double( srcpt, dstpt );
-        Point2D pivot = vector.getScaledInstance( fracToPivot ).getDestination( srcpt );
+        pivot = vector.getScaledInstance( fracToPivot ).getDestination( srcpt );
         Point2D connectionPt = vector.getScaledInstance( fracToEnd ).getDestination( srcpt );
+        this.leverLength=pivot.distance( connectionPt );
         Area area = new Area();
         userSpace = LineSegment.getSegment( srcpt, dstpt, viewThickness );
         area.add( new Area( LineSegment.getSegment( srcpt, pivot, viewThickness ) ) );
@@ -73,7 +77,19 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
     }
 
     public boolean contains( int x, int y ) {
-
         return userSpace != null && userSpace.contains( x, y );
+    }
+
+    public Point2D getPivot() {
+        return pivot;
+    }
+
+    //in view coordinates.
+    public double getLeverLength() {
+        return leverLength;
+    }
+
+    public Switch getSwitch() {
+        return aSwitch;
     }
 }

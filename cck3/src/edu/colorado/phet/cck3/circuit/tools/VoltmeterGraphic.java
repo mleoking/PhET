@@ -9,7 +9,6 @@ import edu.colorado.phet.cck3.common.RectangleUtils;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
 import edu.colorado.phet.common.view.fastpaint.FastPaintTextGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;

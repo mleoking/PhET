@@ -52,7 +52,7 @@ public class Toolbox extends CompositeGraphic {
         double componentX2 = componentX + componentWidth;
         double y = modelRect.getY() + CCK3Module.BATTERY_DIMENSION.getHeightForLength( componentWidth ) * 1.2;
 
-        Branch wireBranch = createBranch( componentX, componentX2, y );//new Branch( new Junction( componentX, y ), new Junction( componentX + componentWidth, y ) );
+        Branch wireBranch = new Branch( module.getKirkhoffListener(), new Junction( componentX, y ), new Junction( componentX2, y ) );
         BranchGraphic bg = new BranchGraphic( wireBranch, parent, .2, transform, CircuitGraphic.COPPER );
         BranchSource.WireSource ws = new BranchSource.WireSource( wireBranch, bg, module.getCircuitGraphic(), parent, module.getKirkhoffListener(), CCK3Module.WIRE_LENGTH );
         addSource( ws );
@@ -118,9 +118,9 @@ public class Toolbox extends CompositeGraphic {
         ArrayList list = new ArrayList();
     }
 
-    private Branch createBranch( double x0, double x1, double y ) {
-        return new Branch( module.getKirkhoffListener(), new Junction( x0, y ), new Junction( x1, y ) );
-    }
+//    private Branch createBranch( double x0, double x1, double y ) {
+//        return
+//    }
 
     private void doUpdate() {
 //        System.out.println( "transform.getViewBounds() = " + transform.getViewBounds() );
