@@ -44,9 +44,9 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   //----------------------------------------------------------------------------
 
   // Default label font
-  private static final Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 18 );
+  private static final Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 12 );
   // Default label color
-  private static final Color LABEL_COLOR = Color.white;
+  private static final Color LABEL_COLOR = Color.BLACK;
   // Label X offset, relative to upper-left of spectrum graphic.
   private static final int LABEL_X_OFFSET = 0;
   // Label Y offset, relative to upper-left of spectrum graphic.
