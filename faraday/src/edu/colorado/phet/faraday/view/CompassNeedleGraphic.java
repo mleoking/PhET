@@ -12,10 +12,10 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 
 /**
@@ -25,14 +25,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class CompassNeedleGraphic extends PhetGraphic {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    private static final Color NORTH_COLOR = Color.RED;
-    private static final Color SOUTH_COLOR = Color.WHITE;
+public class CompassNeedleGraphic extends CompositePhetGraphic {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -40,9 +33,8 @@ public class CompassNeedleGraphic extends PhetGraphic {
 
     private double _direction; // in radians
     private Dimension _size;
-    private Shape _northTip, _southTip;
-    private Color _northColor, _southColor;
     private double _strength;  // 0.0 - 1.0
+    private PhetShapeGraphic _northGraphic, _southGraphic;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,11 +52,16 @@ public class CompassNeedleGraphic extends PhetGraphic {
         
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
-        setSize( new Dimension( 40, 20 ) );
-        setDirection( 0.0 );
-        setStrength( 1.0 );
+        _size = new Dimension( 40, 20 );
+        _direction = 0.0;
+        _strength = 1.0;
+        _northGraphic = new PhetShapeGraphic( component );
+        _southGraphic = new PhetShapeGraphic( component );
         
-        updateShape();
+        addGraphic( _northGraphic );
+        addGraphic( _southGraphic );
+        
+        updateGraphics();
     }
 
     //----------------------------------------------------------------------------
@@ -78,10 +75,12 @@ public class CompassNeedleGraphic extends PhetGraphic {
      * @param direction the direction, in radians
      */
     public void setDirection( double direction ) {
-        _direction = direction;
-        clearTransform();
-        rotate( direction );
-        repaint();
+        if ( _direction != direction ) {
+            _direction = direction;
+            clearTransform();
+            rotate( direction );
+            repaint();
+        }
     }
     
     /**
@@ -101,10 +100,9 @@ public class CompassNeedleGraphic extends PhetGraphic {
      * @param size the size
      */
     public void setSize( Dimension size ) {
-        assert( size != null );
-        _size = new Dimension( size );
-        updateShape();
-        repaint();
+        assert ( size != null );
+        _size.setSize( size );
+        updateGraphics();
     }
     
     /** 
@@ -143,13 +141,7 @@ public class CompassNeedleGraphic extends PhetGraphic {
         }
         if ( strength != _strength ) {
             _strength = strength;
-
-            // Control the alpha of the color to make the needle look "dimmer".
-            int alpha = (int) ( 255 * _strength );
-            _northColor = new Color( NORTH_COLOR.getRed(), NORTH_COLOR.getGreen(), NORTH_COLOR.getBlue(), alpha );
-            _southColor = new Color( SOUTH_COLOR.getRed(), SOUTH_COLOR.getGreen(), SOUTH_COLOR.getBlue(), alpha );
-
-            repaint();
+            updateGraphics();
         }
     }
     
@@ -168,71 +160,42 @@ public class CompassNeedleGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
 
     /*
-     * Updates the shape of the needle to match the settings provided.
+     * Updates the needle graphics to match the settings provided.
      * <p>
      * Prior to applying transforms, the north tip of the needle points
      * down the X-axis, and the south tip points down the Y-axis.
      */
-    private void updateShape() {
-        
-        GeneralPath northPath = new GeneralPath();
-        northPath.moveTo( 0, -(_size.height/2) );
-        northPath.lineTo( (_size.width/2), 0 );
-        northPath.lineTo( 0, (_size.height/2) );
-        northPath.closePath();
-        _northTip = northPath;
-        
-        GeneralPath southPath = new GeneralPath();
-        southPath.moveTo( 0, -(_size.height/2) );
-        southPath.lineTo( 0, (_size.height/2) );
-        southPath.lineTo( -(_size.width/2), 0 );
-        southPath.closePath();
-        _southTip = southPath;
-    }
-    
-    //----------------------------------------------------------------------------
-    // PhetGraphic implementation
-    //----------------------------------------------------------------------------
+    private void updateGraphics() {
 
-    /*
-     * Determines the bounds of the needle, after transforms are applied.
-     * 
-     * @return the bounds
-     */
-    protected Rectangle determineBounds() {
-        Rectangle r = new Rectangle( _northTip.getBounds() );
-        r.add( _southTip.getBounds() );
-        return getNetTransform().createTransformedShape( r ).getBounds();
-    }
+        // Shapes
+        {
+            GeneralPath northPath = new GeneralPath();
+            northPath.moveTo( 0, -( _size.height / 2 ) );
+            northPath.lineTo( ( _size.width / 2 ), 0 );
+            northPath.lineTo( 0, ( _size.height / 2 ) );
+            northPath.closePath();
 
-    /*
-     * Draws the needle.
-     * 
-     * @param g2 the graphics context
-     */
-    public void paint( Graphics2D g2 ) {
-        assert( g2 != null );
-        if ( isVisible() ) {
-            super.saveGraphicsState( g2 );
-            {
-                // Request antialiasing
-                RenderingHints hints = getRenderingHints();
-                if ( hints != null ) {
-                    g2.setRenderingHints( hints );
-                }
-                
-                // Transform
-                g2.transform( getNetTransform() );
-                
-                // Draw the "north" tip.
-                g2.setPaint( _northColor );
-                g2.fill( _northTip );
-                
-                // Draw the "south" tip.
-                g2.setPaint( _southColor );
-                g2.fill( _southTip );
-            }
-            super.restoreGraphicsState();
+            GeneralPath southPath = new GeneralPath();
+            southPath.moveTo( 0, -( _size.height / 2 ) );
+            southPath.lineTo( 0, ( _size.height / 2 ) );
+            southPath.lineTo( -( _size.width / 2 ), 0 );
+            southPath.closePath();
+
+            _northGraphic.setShape( northPath );
+            _southGraphic.setShape( southPath );
         }
+
+        // Colors
+        {
+            // Control the alpha of the color to make the needle look "dimmer".
+            int alpha = (int) ( 255 * _strength );
+            Color northColor = new Color( 255, 0, 0, alpha ); // red
+            Color southColor = new Color( 255, 255, 255, alpha ); // white
+
+            _northGraphic.setPaint( northColor );
+            _southGraphic.setPaint( southColor );
+        }
+        
+        repaint();
     }
 }
