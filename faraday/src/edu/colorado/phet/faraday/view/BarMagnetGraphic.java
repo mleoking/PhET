@@ -12,10 +12,9 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
-import java.util.HashSet;
-import java.util.Iterator;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -227,11 +226,24 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
                 // Ignore the translate if it would result in a collision.
                 update();
             }
-            else if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
-                // Translate if the mouse cursor is inside the parent component.
-                double x = _magnetModel.getX() + e.getDx();
-                double y = _magnetModel.getY() + e.getDy();
-                _magnetModel.setLocation( x, y );
+            else {
+                Component component = getComponent();
+                if ( component instanceof ApparatusPanel2 ) {
+                    // Translate if the mouse cursor is inside the canvas.
+                    Dimension d = ((ApparatusPanel2)component).getVirtualCanvasSize();
+                    Rectangle r = new Rectangle( 0, 0, d.width, d.height );
+                    if ( r.contains( e.getMouseEvent().getPoint() ) ) {
+                        double x = _magnetModel.getX() + e.getDx();
+                        double y = _magnetModel.getY() + e.getDy();
+                        _magnetModel.setLocation( x, y );
+                    }
+                }
+                else if ( component.contains( e.getMouseEvent().getPoint() ) ) {
+                    // Translate if the mouse cursor is inside the parent component.
+                    double x = _magnetModel.getX() + e.getDx();
+                    double y = _magnetModel.getY() + e.getDy();
+                    _magnetModel.setLocation( x, y );
+                }
             }
         }
     }

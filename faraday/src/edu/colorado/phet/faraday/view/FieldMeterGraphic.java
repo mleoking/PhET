@@ -17,6 +17,7 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -204,9 +205,21 @@ public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObs
     private class InteractivityHandler implements TranslationListener {
         
         public InteractivityHandler() {}
-        
+
         public void translationOccurred( TranslationEvent e ) {
-            if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
+            Component component = getComponent();
+            if ( component instanceof ApparatusPanel2 ) {
+                // Translate if the mouse cursor is inside the canvas.
+                Dimension d = ( (ApparatusPanel2) component ).getVirtualCanvasSize();
+                Rectangle r = new Rectangle( 0, 0, d.width, d.height );
+                if ( r.contains( e.getMouseEvent().getPoint() ) ) {
+                    int x = getX() + e.getDx();
+                    int y = getY() + e.getDy();
+                    setLocation( x, y );
+                    update();
+                }
+            }
+            else if ( component.contains( e.getMouseEvent().getPoint() ) ) {
                 // Translate if the mouse cursor is inside the parent component.
                 int x = getX() + e.getDx();
                 int y = getY() + e.getDy();
