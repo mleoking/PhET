@@ -37,7 +37,7 @@ import edu.colorado.phet.faraday.view.FieldMeterGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BarMagnetControlPanel extends ControlPanel {
+public class BarMagnetControlPanel extends FaradayControlPanel {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -45,7 +45,6 @@ public class BarMagnetControlPanel extends ControlPanel {
 
     private static final boolean ENABLE_DEVELOPER_CONTROLS = true;
     private static final String UNKNOWN_VALUE = "??????";
-    private static final Dimension SLIDER_SIZE = new Dimension( 100, 20 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -113,15 +112,12 @@ public class BarMagnetControlPanel extends ControlPanel {
         _gridGraphic = gridGraphic;
         _fieldMeterGraphic = fieldMeterGraphic;
 
-        Font defaultFont = super.getFont();
-        Font titleFont = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
-
         // Bar Magnet panel
         JPanel barMagnetPanel = new JPanel();
         {
             // Titled border with a larger font.
             TitledBorder border = new TitledBorder( SimStrings.get( "barMagnetPanel.title" ) );
-            border.setTitleFont( titleFont );
+            border.setTitleFont( super.getTitleFont() );
             barMagnetPanel.setBorder( border );
 
             // Flip Polarity button
@@ -182,7 +178,7 @@ public class BarMagnetControlPanel extends ControlPanel {
             
             //  Titled border
             TitledBorder border = new TitledBorder( "Developer Controls" );
-            border.setTitleFont( titleFont );
+            border.setTitleFont( super.getTitleFont() );
             developerPanel.setBorder( border );
             
             // Magnet width
@@ -196,7 +192,7 @@ public class BarMagnetControlPanel extends ControlPanel {
                 _magnetWidthSlider.setMaximum( FaradayConfig.BAR_MAGNET_SIZE_MAX.width );
                 _magnetWidthSlider.setMinimum( FaradayConfig.BAR_MAGNET_SIZE_MIN.width );
                 _magnetWidthSlider.setValue( FaradayConfig.BAR_MAGNET_SIZE_MIN.width );
-                setSliderSize( _magnetWidthSlider, SLIDER_SIZE );
+                super.setSliderSize( _magnetWidthSlider, SLIDER_SIZE );
 
                 // Value
                 _magnetWidthValue = new JLabel( UNKNOWN_VALUE );
@@ -219,7 +215,7 @@ public class BarMagnetControlPanel extends ControlPanel {
                 _magnetHeightSlider.setMaximum( FaradayConfig.BAR_MAGNET_SIZE_MAX.height );
                 _magnetHeightSlider.setMinimum( FaradayConfig.BAR_MAGNET_SIZE_MIN.height );
                 _magnetHeightSlider.setValue( FaradayConfig.BAR_MAGNET_SIZE_MIN.height );
-                setSliderSize( _magnetHeightSlider, SLIDER_SIZE );
+                super.setSliderSize( _magnetHeightSlider, SLIDER_SIZE );
 
                 // Value
                 _magnetHeightValue = new JLabel( UNKNOWN_VALUE );
@@ -241,7 +237,7 @@ public class BarMagnetControlPanel extends ControlPanel {
                 _gridSpacingSlider = new JSlider();
                 _gridSpacingSlider.setMinimum( FaradayConfig.GRID_SPACING_MIN );
                 _gridSpacingSlider.setMaximum( FaradayConfig.GRID_SPACING_MAX );
-                setSliderSize( _gridSpacingSlider, SLIDER_SIZE );
+                super.setSliderSize( _gridSpacingSlider, SLIDER_SIZE );
 
                 // Value
                 _gridSpacingValue = new JLabel( UNKNOWN_VALUE );
@@ -264,7 +260,7 @@ public class BarMagnetControlPanel extends ControlPanel {
                 _needleWidthSlider.setMaximum( FaradayConfig.GRID_NEEDLE_SIZE_MAX.width );
                 _needleWidthSlider.setMinimum( FaradayConfig.GRID_NEEDLE_SIZE_MIN.width );
                 _needleWidthSlider.setValue( FaradayConfig.GRID_NEEDLE_SIZE_MIN.width );
-                setSliderSize( _needleWidthSlider, SLIDER_SIZE );
+                super.setSliderSize( _needleWidthSlider, SLIDER_SIZE );
 
                 // Value
                 _needleWidthValue = new JLabel( UNKNOWN_VALUE );
@@ -287,7 +283,7 @@ public class BarMagnetControlPanel extends ControlPanel {
                 _needleHeightSlider.setMaximum( FaradayConfig.GRID_NEEDLE_SIZE_MAX.height );
                 _needleHeightSlider.setMinimum( FaradayConfig.GRID_NEEDLE_SIZE_MIN.height );
                 _needleHeightSlider.setValue( FaradayConfig.GRID_NEEDLE_SIZE_MIN.height );
-                setSliderSize( _needleHeightSlider, SLIDER_SIZE );
+                super.setSliderSize( _needleHeightSlider, SLIDER_SIZE );
 
                 // Value
                 _needleHeightValue = new JLabel( UNKNOWN_VALUE );
@@ -350,23 +346,6 @@ public class BarMagnetControlPanel extends ControlPanel {
             _needleWidthSlider.setValue( _gridGraphic.getNeedleSize().width );
             _needleHeightSlider.setValue( _gridGraphic.getNeedleSize().height );
         }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Utilities
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Sets a slider to a fixed size.
-     * 
-     * @param slider the slider
-     * @param size the size
-     */
-    private static void setSliderSize( JSlider slider, Dimension size ) {
-        assert( slider != null );
-        slider.setPreferredSize( size );
-        slider.setMaximumSize( size );
-        slider.setMinimumSize( size );
     }
     
     //----------------------------------------------------------------------------

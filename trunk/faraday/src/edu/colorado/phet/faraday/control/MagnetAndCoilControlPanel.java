@@ -33,7 +33,7 @@ import edu.colorado.phet.faraday.module.MagnetAndCoilModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class MagnetAndCoilControlPanel extends ControlPanel {
+public class MagnetAndCoilControlPanel extends FaradayControlPanel {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -75,10 +75,6 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
 
         _module = module;
 
-        Font defaultFont = super.getFont();
-        Font titleFont = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
-
-
         JPanel fillerPanel = new JPanel();
         {
             fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
@@ -91,7 +87,7 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
         {
             // Titled border with a larger font.
             TitledBorder border = new TitledBorder( SimStrings.get( "barMagnetPanel.title" ) );
-            border.setTitleFont( titleFont );
+            border.setTitleFont( super.getTitleFont() );
             barMagnetPanel.setBorder( border );
 
             // Flip Polarity button
@@ -108,9 +104,7 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
                 _strengthSlider.setMinimum( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
                 _strengthSlider.setMaximum( (int) FaradayConfig.MAGNET_STRENGTH_MAX );
                 _strengthSlider.setValue( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
-                _strengthSlider.setPreferredSize( SLIDER_SIZE );
-                _strengthSlider.setMaximumSize( SLIDER_SIZE );
-                _strengthSlider.setMinimumSize( SLIDER_SIZE );
+                super.setSliderSize( _strengthSlider, SLIDER_SIZE );;
 
                 // Value
                 _strengthValue = new JLabel( UNKNOWN_VALUE );
@@ -141,7 +135,7 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
         {
             // Titled border with a larger font.
             TitledBorder border = new TitledBorder( SimStrings.get( "pickupCoilPanel.title" ) );
-            border.setTitleFont( titleFont );
+            border.setTitleFont( super.getTitleFont() );
             pickupCoilPanel.setBorder( border );
 
             // Number of loops
@@ -181,9 +175,7 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
                 _radiusSlider.setMinimum( (int) MagnetAndCoilModule.LOOP_RADIUS_MIN );
                 _radiusSlider.setMaximum( (int) MagnetAndCoilModule.LOOP_RADIUS_MAX );
                 _radiusSlider.setValue( (int) MagnetAndCoilModule.LOOP_RADIUS_MIN );
-                _radiusSlider.setPreferredSize( SLIDER_SIZE );
-                _radiusSlider.setMaximumSize( SLIDER_SIZE );
-                _radiusSlider.setMinimumSize( SLIDER_SIZE );
+                super.setSliderSize( _radiusSlider, SLIDER_SIZE );
 
                 // Value
                 _radiusValue = new JLabel( UNKNOWN_VALUE );
@@ -200,7 +192,7 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
             {
                 // Titled border with a larger font.
                 TitledBorder border2 = new TitledBorder( SimStrings.get( "loadPanel.title" ) );
-                border.setTitleFont( titleFont );
+                border.setTitleFont( super.getTitleFont() );
                 loadPanel.setBorder( border2 );
 
                 // Radio buttons
