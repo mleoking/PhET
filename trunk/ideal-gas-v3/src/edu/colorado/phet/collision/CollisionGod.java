@@ -256,7 +256,7 @@ public class CollisionGod {
                     for( int i = 0; i < walls.size(); i++ ) {
                         Wall wall = (Wall)walls.get( i );
                         if( wall.getBounds().contains( molecule.getPosition() ) ) {
-                            wall.fixup( molecule, wallToRegion.get( molecule ) );
+                            wall.fixup( molecule );
                             fixupDone = true;
                         }
                     }

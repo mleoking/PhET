@@ -291,6 +291,12 @@ public class IdealGasModule extends Module {
 
     public void setGravity( double value ) {
         gravity.setAmt( value );
+        if( value != 0 ) {
+            pump.setPumpingEnergyStrategy( new Pump.FixedEnergyStrategy() );
+        }
+        else {
+            pump.setPumpingEnergyStrategy( new Pump.ConstantEnergyStrategy( getIdealGasModel() ) );
+        }
     }
 
     public void pumpGasMolecules( int numMolecules ) {
