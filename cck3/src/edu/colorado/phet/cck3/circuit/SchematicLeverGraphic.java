@@ -62,7 +62,7 @@ public class SchematicLeverGraphic extends PhetShapeGraphic {
             relativeAngle = CLOSED_ANGLE;
         }
         else {
-            relativeAngle = OPEN_ANGLE;
+            relativeAngle = LeverGraphic.CLOSED_ANGLE - Math.PI * ( 45.0 / 180.0 );
         }
         changed();
         setVisible( true );

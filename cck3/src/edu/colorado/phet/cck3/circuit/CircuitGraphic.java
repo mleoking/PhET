@@ -66,14 +66,7 @@ public class CircuitGraphic extends CompositeGraphic {
         solderLayer.setVisible( true );
         module.getCircuit().addCircuitListener( new CircuitListener() {
             public void junctionRemoved( Junction junction ) {
-                for( int i = 0; i < solderLayer.numGraphics(); i++ ) {
-                    SolderGraphic g = (SolderGraphic)solderLayer.graphicAt( i );
-                    if( g.getJunction() == junction ) {
-                        solderLayer.removeGraphic( g );
-                        g.delete();
-                        i--;
-                    }
-                }
+                deleteSolderGraphic( junction );
             }
 
             public void branchRemoved( Branch branch ) {
@@ -86,6 +79,7 @@ public class CircuitGraphic extends CompositeGraphic {
             }
 
             public void junctionAdded( Junction junction ) {
+                deleteSolderGraphic( junction );
                 SolderGraphic sg = new SolderGraphic( module.getApparatusPanel(), junction, transform, circuit, CircuitGraphic.this );
                 solderLayer.addGraphic( sg );
             }
@@ -176,6 +170,27 @@ public class CircuitGraphic extends CompositeGraphic {
             }
         } );
 
+    }
+
+    public void reapplySolderGraphics() {
+        Junction[] j = circuit.getJunctions();
+        for( int i = 0; i < j.length; i++ ) {
+            Junction junction = j[i];
+            deleteSolderGraphic( junction );
+            SolderGraphic sg = new SolderGraphic( module.getApparatusPanel(), junction, transform, circuit, CircuitGraphic.this );
+            solderLayer.addGraphic( sg );
+        }
+    }
+
+    private void deleteSolderGraphic( Junction junction ) {
+        for( int i = 0; i < solderLayer.numGraphics(); i++ ) {
+            SolderGraphic g = (SolderGraphic)solderLayer.graphicAt( i );
+            if( g.getJunction() == junction ) {
+                solderLayer.removeGraphic( g );
+                g.delete();
+                i--;
+            }
+        }
     }
 
     public boolean isReadoutGraphicsVisible() {

@@ -598,7 +598,7 @@ public class CCK3ControlPanel extends JPanel {
             resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
 
             Font labelFont = new Font( "Lucida Sans", Font.PLAIN, 10 );
-            JLabel lowLabel = new JLabel( "None" );
+            JLabel lowLabel = new JLabel( "Almost None" );
             lowLabel.setFont( labelFont );
             JLabel highLabel = new JLabel( "Lots" );
             highLabel.setFont( labelFont );

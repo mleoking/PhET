@@ -13,8 +13,8 @@ import java.awt.geom.AffineTransform;
  * Copyright (c) Apr 21, 2003 by Sam Reid
  */
 public class ColorBandsGraphic implements Graphic {
-    boolean visible = true;
-    CircuitComponentImageGraphic resistorGraphic;
+    private boolean visible = true;
+    private CircuitComponentImageGraphic resistorGraphic;
     private Resistor resistor;
 
     public ColorBandsGraphic( boolean visible, CircuitComponentImageGraphic resistorGraphic, Resistor resistor ) {
@@ -41,15 +41,19 @@ public class ColorBandsGraphic implements Graphic {
         int resistance = (int)resistor.getResistance();//resistorGraphic.getBranch().getint) ((Resistor) w).getResistance();
         Color[] c = new ResistorColors().to3Colors( resistance );
         g.setColor( c[0] );
-        g.fillRect( 15, 2, 5, 23 );
+        int y = 3;
+        int width = 5;
+        int height = 19;
+
+        g.fillRect( 15, y, width, height );
 
         g.setColor( c[1] );
-        g.fillRect( 25, 2, 5, 23 );
+        g.fillRect( 25, y, width, height );
         g.setColor( c[2] );
-        g.fillRect( 35, 2, 5, 23 );
+        g.fillRect( 35, y, width, height );
         if( c[3] != null ) {
             g.setColor( c[3] );
-            g.fillRect( 55, 2, 5, 23 );
+            g.fillRect( 55, y, width, height );
         }
         g.setTransform( at );
     }

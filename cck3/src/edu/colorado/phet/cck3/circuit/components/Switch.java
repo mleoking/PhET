@@ -24,7 +24,8 @@ public class Switch extends CircuitComponent {
 
     public Switch( KirkhoffListener kl, Junction startJunction, Junction endjJunction, boolean closed, double length, double height ) {
         super( kl, startJunction, endjJunction, length, height );
-        this.closed = closed;
+        this.closed = !closed;//to guarantee a change in setClosed.
+        setClosed( closed );
     }
 
     public boolean isClosed() {

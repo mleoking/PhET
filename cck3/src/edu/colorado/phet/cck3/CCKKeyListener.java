@@ -3,6 +3,8 @@ package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -43,6 +45,13 @@ public class CCKKeyListener implements KeyListener {
             for( int i = 0; i < 100; i++ ) {
                 cck.setLifelike( !orig );
                 cck.setLifelike( orig );
+            }
+        }
+        else if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
+            Frame[] win = JFrame.getFrames();
+            for( int i = 0; i < win.length; i++ ) {
+                Frame frame = win[i];
+                frame.repaint();
             }
         }
     }

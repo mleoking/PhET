@@ -19,14 +19,14 @@ import java.util.ArrayList;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class Branch extends SimpleObservable {
-    double resistance;
+    double resistance = WIRE_RESISTANCE;
     double current;
     double voltageDrop;
     private Junction startJunction;
     private Junction endJunction;
     private String label;
     private static int indexCounter = 0;
-    private static final double WIRE_RESISTANCE = 0.0001;
+    public static final double WIRE_RESISTANCE = 0.0001;
     private CompositeKirkhoffListener compositeKirkhoffListener = new CompositeKirkhoffListener();
     private ArrayList ivListeners = new ArrayList();
     private boolean isSelected = false;
@@ -87,6 +87,9 @@ public class Branch extends SimpleObservable {
     public void setResistance( double resistance ) {
         if( resistance < 0 ) {
             throw new RuntimeException( "Resistance was < 0, value=" + resistance );
+        }
+        if( resistance < WIRE_RESISTANCE ) {
+            throw new RuntimeException( "Resistance was less than MIN, res=" + resistance + ", min=" + WIRE_RESISTANCE );
         }
         if( resistance != this.resistance ) {
             this.resistance = resistance;

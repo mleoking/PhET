@@ -31,7 +31,7 @@ import java.text.DecimalFormat;
  * Copyright (c) Jun 17, 2004 by Sam Reid
  */
 public class VoltmeterGraphic extends CompositeGraphic {
-    UnitGraphic unitGraphic;
+    private UnitGraphic unitGraphic;
     private Voltmeter voltmeter;
     private ModelViewTransform2D transform;
     private LeadGraphic redLeadGraphic;
@@ -233,11 +233,8 @@ public class VoltmeterGraphic extends CompositeGraphic {
             unitGraphic.setVoltage( 0 );
         }
         else {
-//        if (new ArearedLeadGraphic.getTipShape())
             Connection red = redLeadGraphic.detectConnection( module.getCircuitGraphic() );
-//            Branch red = redLeadGraphic.detectBranch( module.getCircuitGraphic() );
             Connection black = blackLeadGraphic.detectConnection( module.getCircuitGraphic() );
-//            Branch black = blackLeadGraphic.detectBranch( module.getCircuitGraphic() );
             if( red == null || black == null ) {
                 unitGraphic.setUnknownVoltage();
             }
