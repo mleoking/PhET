@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.elements;
 
-import edu.colorado.phet.common.view.GraphicsRestore;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.movingman.common.GraphicsRestore;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

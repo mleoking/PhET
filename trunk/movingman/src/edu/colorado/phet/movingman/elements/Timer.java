@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman.elements;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.movingman.common.AutomatedObservable;
 
 /**
  * User: Sam Reid
@@ -9,7 +10,7 @@ import edu.colorado.phet.common.model.ModelElement;
  * Time: 12:45:47 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class Timer extends ModelElement {
+public class Timer extends AutomatedObservable implements ModelElement {
     private double time = 0;
     private String name;
     private double timerScale;

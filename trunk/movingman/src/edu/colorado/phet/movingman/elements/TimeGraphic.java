@@ -1,10 +1,10 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.elements;
 
-import edu.colorado.phet.common.view.GraphicsState;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.movingman.application.MovingManModule;
+import edu.colorado.phet.movingman.common.GraphicsState;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -20,14 +20,14 @@ import java.util.Observable;
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
 public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
-    String timeStr;
+    private String timeStr;
     private MovingManModule module;
-    Timer recordingTimer;
-    int x;
-    int y;
-    Font f = new Font( "Lucida Sans", 0, 36 );
-    Color c = Color.black;
-    DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
+    private Timer recordingTimer;
+    private int x;
+    private int y;
+    private Font f = new Font( "Lucida Sans", 0, 36 );
+    private Color c = Color.black;
+    private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
     private FontRenderContext frc;
 
     public TimeGraphic( MovingManModule module, Timer recordingTimer, Timer playbackTimer, int x, int y ) {
@@ -73,17 +73,23 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
         Rectangle union = r2.union( r );
 //        System.out.println( "union = " + union );
 //        module.getApparatusPanel().repaint( union );
-        module.getApparatusPanel().paintSoon( union );
+        module.getApparatusPanel().repaint( union );
     }
 
     public boolean canHandleMousePress( MouseEvent event ) {
         return false;
     }
 
+    public void mouseClicked( MouseEvent e ) {
+    }
+
     public void mousePressed( MouseEvent event ) {
     }
 
     public void mouseDragged( MouseEvent event ) {
+    }
+
+    public void mouseMoved( MouseEvent e ) {
     }
 
     public void mouseReleased( MouseEvent event ) {
@@ -108,4 +114,7 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
         }
     }
 
+    public boolean contains( int x, int y ) {
+        return false;
+    }
 }

@@ -1,9 +1,9 @@
 package edu.colorado.phet.movingman.application;
 
-import edu.colorado.phet.common.math.transforms.functions.RangeToRange;
-import edu.colorado.phet.common.view.GraphicsState;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.movingman.common.GraphicsState;
+import edu.colorado.phet.movingman.common.math.RangeToRange;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

@@ -7,7 +7,6 @@
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.components.media.Resettable;
 import edu.colorado.phet.common.view.graphics.Graphic;

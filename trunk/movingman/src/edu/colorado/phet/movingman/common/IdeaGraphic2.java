@@ -1,7 +1,6 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.movingman.common.tests;
+package edu.colorado.phet.movingman.common;
 
-import edu.colorado.phet.common.view.GraphicsState;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 
 import java.awt.*;
@@ -78,11 +77,17 @@ public class IdeaGraphic2 implements InteractiveGraphic {
         return rect.contains( event.getPoint() );
     }
 
+    public void mouseClicked( MouseEvent e ) {
+    }
+
     public void mousePressed( MouseEvent event ) {
         this.visible = false;
     }
 
     public void mouseDragged( MouseEvent event ) {
+    }
+
+    public void mouseMoved( MouseEvent e ) {
     }
 
     public void mouseReleased( MouseEvent event ) {
@@ -154,5 +159,9 @@ public class IdeaGraphic2 implements InteractiveGraphic {
 
     public FontRenderContext getFontRenderContext() {
         return frc;
+    }
+
+    public boolean contains( int x, int y ) {
+        return false;
     }
 }

@@ -1,19 +1,25 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.application;
 
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.math.transforms.functions.RangeToRange;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.Clock;
-import edu.colorado.phet.common.model.ClockTickListener;
+import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.command.Command;
-import edu.colorado.phet.common.view.*;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.BasicPhetPanel;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
+import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.movingman.application.motionsuites.MotionSuite;
+import edu.colorado.phet.movingman.common.GraphicsState;
+import edu.colorado.phet.movingman.common.PhetLookAndFeel;
+import edu.colorado.phet.movingman.common.math.RangeToRange;
 import edu.colorado.phet.movingman.elements.*;
 import edu.colorado.phet.movingman.elements.Timer;
 import smooth.util.SmoothUtilities;
@@ -79,18 +85,23 @@ public class MovingManModule extends Module {
     private int numAccSmoothPoints;
     private static boolean addJEP = true;
     private Color backgroundColor;
+    private AbstractClock clock;
 
-    public MovingManModule() throws IOException {
+    public MovingManModule( AbstractClock clock ) throws IOException {
         super( "The Moving Man" );
-//        ApparatusPanel mypanel = new RepaintDebugPanel();
-        ApparatusPanel mypanel = new ApparatusPanel();
+        this.clock = clock;
+        ApparatusPanel mypanel = new ApparatusPanel() {
+            public void repaint( Rectangle r ) {
+                super.repaint( r );
+            }
+        };
         mypanel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
         super.setApparatusPanel( mypanel );
         final BaseModel model = new BaseModel() {
-            public void clockTicked( Clock c, double dt ) {
-                executeQueue();
-                stepInTime( dt );
-            }
+//            public void clockTicked( AbstractClock c, double dt ) {
+//                getModel().clockTicked( c, dt );
+//                stepInTime( dt );
+//            }
         };
         super.setModel( model );
 
@@ -161,12 +172,14 @@ public class MovingManModule extends Module {
 
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
+                initMediaPanel();
                 relayoutApparatusPanel();
             }
 
             public void componentResized( ComponentEvent e ) {
                 getModel().execute( new Command() {
                     public void doIt() {
+                        initMediaPanel();
                         relayoutApparatusPanel();
                     }
                 } );
@@ -177,21 +190,8 @@ public class MovingManModule extends Module {
         motionMode = new MotionMode( this );
         setMode( dragMode );
 
-        getApparatusPanel().addComponentListener( new ComponentAdapter() {
-            public void componentShown( ComponentEvent e ) {
-                initMediaPanel();
-            }
-
-            public void componentResized( ComponentEvent e ) {
-                getModel().execute( new Command() {
-                    public void doIt() {
-                        initMediaPanel();
-                    }
-                } );
-            }
-        } );
         getApparatusPanel().addGraphic( backgroundGraphic, 0 );
-
+        clock.addClockTickListener( getModel() );
     }
 
     public Color getBackgroundColor() {
@@ -259,7 +259,6 @@ public class MovingManModule extends Module {
         return backgroundGraphic;
     }
 
-
     interface StateListener {
         void stateChanged( MovingManModule module );
     }
@@ -299,15 +298,6 @@ public class MovingManModule extends Module {
     /**
      * Overrides.
      */
-    public void activateInternal( PhetApplication app ) {
-//        getModel().addObserver( getApparatusPanel() );
-        this.activate( app );
-    }
-
-    public void deactivateInternal( PhetApplication app ) {
-//        getModel().deleteObserver( getApparatusPanel() );
-        this.deactivate( app );
-    }
 
     public void setRightDirPositive( boolean rightPos ) {
         RangeToRange newTransform;
@@ -702,9 +692,9 @@ public class MovingManModule extends Module {
         private MovingManModule module;
         private ApparatusPanel panel;
         private boolean active = false;
-        private Clock clock;
+        private AbstractClock clock;
 
-        public RepaintDebugGraphic( MovingManModule module, ApparatusPanel panel, Clock clock ) {
+        public RepaintDebugGraphic( MovingManModule module, ApparatusPanel panel, AbstractClock clock ) {
             this.module = module;
             this.panel = panel;
             this.clock = clock;
@@ -720,7 +710,7 @@ public class MovingManModule extends Module {
             state.restoreState( gr );
         }
 
-        public void clockTicked( Clock c, double dt ) {
+        public void clockTicked( AbstractClock c, double dt ) {
             r = ( r - 1 + 255 ) % 255;
             g = ( g - 2 + 255 ) % 255;
             b = ( b - 3 + 255 ) % 255;
@@ -744,23 +734,23 @@ public class MovingManModule extends Module {
     }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
-//        SmoothUtilities.setAntialias( false );
         SmoothUtilities.setFractionalMetrics( false );
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
-        MovingManModule m = new MovingManModule();
-        FrameSetup setup = new MaximizeFrame();
-        ApplicationDescriptor desc = new ApplicationDescriptor( "The Moving Man", "The Moving Man Application.",
-                                                                ".01-beta-x 8-6-2004", setup );
-        PhetApplication tpa = new PhetApplication( desc, m );
+        AbstractClock clock = new SwingTimerClock( 1, 30, true );
+        MovingManModule m = new MovingManModule( clock );
+        FrameSetup setup = new FrameSetup.MaxExtent();
+
+        ApplicationModel desc = new ApplicationModel( "The Moving Man", "The Moving Man Application.",
+                                                      ".01-beta-x 8-6-2004", setup, m, clock );
+        PhetApplication tpa = new PhetApplication( desc );
 
         final PhetFrame frame = tpa.getApplicationView().getPhetFrame();
         m.setFrame( frame );
-//        new JDialog( MovingManModule.frame, "axl", false ).setVisible( true );
 
         if( addJEP ) {
             addJEP( m );
         }
-        tpa.startApplication( m );
+        tpa.startApplication();
         frame.setVisible( true );
         fixComponent( frame.getContentPane() );
         frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
