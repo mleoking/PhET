@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- requirements for Generator module (see Carl's Powerpoint slides)
 
 HIGH PRIORITY:
 - center of slider knob doesn't line up with ticks on Battery
@@ -18,9 +18,8 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - add spacing between titled panels in the control panel
-- requirements for Generator module (see Carl's Powerpoint slides)
 - calibration throughout
-- electrons in coil loops don't line up with each other after awhile (make radius larger/smaller?)
+- electrons in electromagnet coil loops don't line up with each other (is this due to the smaller radius?)
 
 LOW PRIORITY:
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
