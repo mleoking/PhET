@@ -37,11 +37,20 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
     // Instance data
     //----------------------------------------------------------------------------
 
+    // The magnet model element that the grid is observing.
     private IMagnet _magnetModel;
-    private int _xSpacing;
-    private int _ySpacing;
+    
+    // The spacing between compass needles, in pixels.
+    private int _xSpacing, _ySpacing;
+    
+    // The size of the compass needles, in pixels.
     private Dimension _needleSize;
-    private ArrayList _needles; // array of CompassNeedleGraphic
+    
+    // The compass needles that are in the grid (array of CompassNeedleGraphic).
+    private ArrayList _needles;
+    
+    // The original aspect ratio of the parent component, prior to any resizing.
+    private double _aspectRatio;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -61,12 +70,17 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
         _magnetModel = magnetModel;
         _needleSize = new Dimension( 40, 20 );
         _needles = new ArrayList();
+        _aspectRatio = 0.0;
         
         setSpacing( xSpacing, ySpacing );
         
-        // We don't really know how to lay out the grid until the parent is displayed.
+        // Need to reset the grid when the parent component is resized.
         component.addComponentListener( new ComponentAdapter() {
-            public void componentShown( ComponentEvent e ) {
+            public void componentResized( ComponentEvent e ) {
+                if ( _aspectRatio == 0.0 ) {
+                    // Save the original aspect ratio of the parent component.
+                    _aspectRatio = ((double)getComponent().getWidth()) / ((double)getComponent().getHeight());
+                }
                 resetSpacing();
             }
         });
@@ -84,6 +98,7 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
      */
     public void setSpacing( int xSpacing, int ySpacing ) {
         
+        // Save the spacing, for use by getters and restore.
         _xSpacing = xSpacing;
         _ySpacing = ySpacing;
         
@@ -91,14 +106,30 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
         _needles.clear();
         super.clear();
         
-        // Create new compasses.
+        // Determine the dimensions of the parent component.
         Component component = getComponent();
-        int width = component.getWidth();
-        int height = component.getHeight();
-        int xCount = (width / xSpacing) + 2;  // HACK
-        int yCount = (height / ySpacing) + 2;  // HACK
+        double width = component.getWidth();
+        double height = component.getHeight();
+        
+        // Account for potential scaling by the parent component.
+        double aspectRatio = width / height;
+        if ( aspectRatio < _aspectRatio ) {
+            width = width * (1/aspectRatio);
+            height = height * (1/aspectRatio);
+        }
+        else
+        {
+            width = width * aspectRatio;
+            height = height * aspectRatio;
+        }
+        
+        // Determine how many compasses are needed to fill the parent component.
+        int xCount = (int)(width / xSpacing) + 2;  // HACK
+        int yCount = (int)(height / ySpacing) + 2;  // HACK
+        //System.out.println( "GridGraphic.setSpacing - grid is " + xCount + "x" + yCount ); //XXX
+        
+        // Create the compasses.
         CompassNeedleGraphic needle;
-
         for ( int i = 0; i < xCount; i++ ) {
             for ( int j = 0; j < yCount; j++ ) {
                 needle = new CompassNeedleGraphic( component );
