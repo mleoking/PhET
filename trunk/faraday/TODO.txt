@@ -11,13 +11,13 @@ HIGH PRIORITY:
 - show important "spikes" in induced emf (consider totally disabling smoothing)
 - collision detection between compass and magnet
 - collision detection between magnet and coil
-- redo coil graphic (constant wire gauge, fix colors)
 - show electrons flowing (blue) when lightbulb is enabled, keep constant size
 
 MEDIUM PRIORITY:
 - beautify Control Panels
 - Transformer module requirements
 - check for unnecessary notification, events and updates
+- merge HollywoodCompass into Compass, collapse AbstractCompass and Compass
 
 LOW PRIORITY:
 - agree on control labels
@@ -32,6 +32,8 @@ phetcommon:
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
 
 DONE:
+(2/1) - add threshold to Compass.stepInTime to prevent Verlet from hogging CPU
+(2/1) - redo coil graphic (constant wire gauge, fix colors)
 (1/28) - pull "developer" panel out of BarMagnetControlPanel so that it can be reused elsewhere
 (1/28) - grid is not always full of needles (GraphicLayerSet fix)
 (1/28) - bounds of light rays are not always correct (GraphicLayerSet fix)
