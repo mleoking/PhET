@@ -17,9 +17,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
+import java.util.*;
 
 /**
  * User: Sam Reid
@@ -46,6 +44,7 @@ public class CircuitGraphic extends CompositeGraphic {
     private Hashtable readoutMap = new Hashtable();
     private boolean lifelike = true;
     private GraphicSource graphicSource;
+    private boolean readoutGraphicsVisible=false;
 
     public CircuitGraphic( final CCK3Module module ) throws IOException {
         graphicSource = new Lifelike();
@@ -55,8 +54,9 @@ public class CircuitGraphic extends CompositeGraphic {
         particleSetGraphic = new ParticleSetGraphic( module );
         this.transform = module.getTransform();
         this.apparatusPanel = module.getApparatusPanel();
-        addGraphic( filamentLayer );
+
         addGraphic( branches );
+        addGraphic( filamentLayer );
         addGraphic( leverLayer );
         addGraphic( junctions );
         addGraphic( particleSetGraphic );
@@ -76,13 +76,13 @@ public class CircuitGraphic extends CompositeGraphic {
                 if( branch instanceof CircuitComponent ) {
                     ReadoutGraphic rg = null;
                     if( branch instanceof Battery ) {
-                        rg = new ReadoutGraphic.BatteryReadout( branch, transform, module.getApparatusPanel() );
+                        rg = new ReadoutGraphic.BatteryReadout( branch, transform, module.getApparatusPanel(),readoutGraphicsVisible );
                     }
                     else if( branch instanceof SeriesAmmeter ) {
                         rg = null;
                     }
                     else {
-                        rg = new ReadoutGraphic( branch, transform, module.getApparatusPanel() );
+                        rg = new ReadoutGraphic( branch, transform, module.getApparatusPanel() ,readoutGraphicsVisible );
                     }
                     if( rg != null ) {
                         readoutMap.put( branch, rg );
@@ -98,6 +98,15 @@ public class CircuitGraphic extends CompositeGraphic {
                 }
             }
         } );
+    }
+
+    public void setReadoutMapVisible( boolean visible ) {
+        this.readoutGraphicsVisible=visible;
+        Collection values = readoutMap.values();
+        for( Iterator iterator = values.iterator(); iterator.hasNext(); ) {
+            ReadoutGraphic readoutGraphic = (ReadoutGraphic)iterator.next();
+            readoutGraphic.setVisible( visible );
+        }
     }
 
     public void addCircuitGraphicListener( CircuitGraphicListener cgl ) {
@@ -475,7 +484,7 @@ public class CircuitGraphic extends CompositeGraphic {
 
         private void addBulbGraphic( Bulb component ) {
             BulbComponentGraphic ccbg = new BulbComponentGraphic( apparatusPanel, component, transform, module );
-            FilamentGraphic fg = new FilamentGraphic( component.getFilament(), transform );
+            FilamentGraphic fg = new FilamentGraphic( component.getFilament(), transform, ccbg );
             filamentLayer.addGraphic( fg );
             //TODO could also be coupled at the bulb layer
             CircuitGraphic.this.addGraphic( component, ccbg );

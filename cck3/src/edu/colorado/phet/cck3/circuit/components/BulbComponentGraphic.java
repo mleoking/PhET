@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -32,6 +33,7 @@ public class BulbComponentGraphic implements IComponentGraphic {
 
     LightBulbGraphic lbg;
     private Rectangle2D.Double srcShape;
+    private ArrayList listeners = new ArrayList();
 
     public BulbComponentGraphic( Component parent, Bulb component, ModelViewTransform2D transform, CCK3Module module ) {
         this.parent = parent;
@@ -73,6 +75,10 @@ public class BulbComponentGraphic implements IComponentGraphic {
         Rectangle r2 = getBoundsWithBrighties();
         if( r1 != null && r2 != null ) {
             GraphicsUtil.fastRepaint( parent, r1, r2 );
+        }
+        for( int i = 0; i < listeners.size(); i++ ) {
+            IntensityChangeListener intensityChangeListener = (IntensityChangeListener)listeners.get( i );
+            intensityChangeListener.intensityChanged( this, intensity );
         }
     }
 
@@ -149,5 +155,13 @@ public class BulbComponentGraphic implements IComponentGraphic {
 
     public Shape getCoverShape() {
         return affineTransform.createTransformedShape( lbg.getCoverShape() );
+    }
+
+    interface IntensityChangeListener {
+        public void intensityChanged( BulbComponentGraphic bulbComponentGraphic, double intensity );
+    }
+
+    public void addIntensityChangeListener( IntensityChangeListener icl ) {
+        listeners.add( icl );
     }
 }

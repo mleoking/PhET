@@ -34,11 +34,13 @@ public class ReadoutGraphic implements Graphic {
     DecimalFormat formatter = new DecimalFormat( "#0.0#" );
     static Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
 //    static Font font = new Font( "Dialog", Font.BOLD, 18 );
+    boolean visible = false;
 
-    public ReadoutGraphic( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel ) {
+    public ReadoutGraphic( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel,boolean visible ) {
         this.branch = branch;
         this.transform = transform;
         this.panel = panel;
+        this.visible = visible;
 
         recompute();
         transform.addTransformListener( new TransformListener() {
@@ -51,6 +53,14 @@ public class ReadoutGraphic implements Graphic {
                 recompute();
             }
         } );
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible( boolean visible ) {
+        this.visible = visible;
     }
 
     public void recompute() {
@@ -115,7 +125,7 @@ public class ReadoutGraphic implements Graphic {
         vol = abs( vol );
 
 //        String text = "R=" + res + " I=" + cur;
-        String text = res + " Ohms, " + cur + " Amps";
+        String text = res + " Ohms";//, " + cur + " Amps";
         return text;
     }
 
@@ -130,18 +140,20 @@ public class ReadoutGraphic implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
+        if( visible ) {
 //        Rectangle2D bounds = textGraphic.getBounds();
 //        if( bounds != null ) {
 //            Color fill = new Color( 200, 200, 200, 128 );
 //            g.setColor( fill );
 //            g.fill( bounds );
 //        }
-        textGraphic.paint( g );
+            textGraphic.paint( g );
+        }
     }
 
     public static class BatteryReadout extends ReadoutGraphic {
-        public BatteryReadout( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel ) {
-            super( branch, transform, panel );
+        public BatteryReadout( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel,boolean visible ) {
+            super( branch, transform, panel,visible );
         }
 
         protected String getText() {

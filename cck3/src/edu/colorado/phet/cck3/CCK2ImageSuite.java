@@ -39,10 +39,6 @@ public class CCK2ImageSuite {
     }
 
     public BufferedImage getParticleImage() throws IOException {
-//        return imageLoader.loadImage( "images/spheres/particle-blue-sml.gif" );
-//        return imageLoader.loadImage( "images/spheres/myelectron4.gif" );
-//        return imageLoader.loadImage( "images/spheres/myelectron6.gif" );
-//        return imageLoader.loadImage( "images/spheres/electron5.gif" );
         return imageLoader.loadImage( "images/spheres/electron9.gif" );
     }
 

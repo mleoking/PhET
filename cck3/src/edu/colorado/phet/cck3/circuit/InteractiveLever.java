@@ -38,7 +38,6 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
     static {
         BufferedImage image = null;
         try {
-//            image = ImageLoader.loadBufferedImage( "images/rot11.gif" );
             image = ImageLoader.loadBufferedImage( "images/hand40.gif" );
             rotate = Toolkit.getDefaultToolkit().createCustomCursor( image, new Point(), "rotator2" );
         }

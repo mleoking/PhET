@@ -21,6 +21,9 @@ public class Electron extends SimpleObservable {
     private SimpleObserver observer;
 
     public Electron( Branch branch, double distAlongWire ) {
+        if (Double.isNaN( distAlongWire )){
+            throw new RuntimeException("Dist along wire is NaN.");
+        }
         this.branch = branch;
         this.distAlongWire = distAlongWire;
         if( distAlongWire < 0 || distAlongWire > branch.getLength() ) {
@@ -36,12 +39,23 @@ public class Electron extends SimpleObservable {
     }
 
     private void updatePosition() {
+
         Point2D pt = branch.getPosition( distAlongWire );
         this.position = pt;
+        if( isNaN( pt ) ) {
+            throw new RuntimeException( "Point was NaN, dist=" + distAlongWire + ", wire length=" + branch.getLength() );
+        }
         notifyObservers();
     }
 
+    private boolean isNaN( Point2D pt ) {
+        return Double.isNaN( pt.getX() ) || Double.isNaN( pt.getY() );
+    }
+
     public void setDistAlongWire( double dist ) {
+        if( Double.isNaN( dist ) ) {
+            throw new RuntimeException( "Dist along wire is NaN." );
+        }
         if( getBranch().containsScalarLocation( dist ) ) {
             if( dist != distAlongWire ) {
                 this.distAlongWire = dist;
@@ -62,6 +76,9 @@ public class Electron extends SimpleObservable {
     }
 
     public Point2D getPosition() {
+        if( Double.isNaN( position.getX() ) || Double.isNaN( position.getY() ) ) {
+            throw new RuntimeException( "Position is NaN." );
+        }
         return position;
     }
 
@@ -74,6 +91,9 @@ public class Electron extends SimpleObservable {
     }
 
     public void setLocation( Branch branch, double x ) {
+        if (Double.isNaN( x)){
+            throw new RuntimeException( "x was NaN, for electron distance along branch.");
+        }
         if( branch.containsScalarLocation( x ) ) {
             this.branch = branch;
             if( distAlongWire != x ) {

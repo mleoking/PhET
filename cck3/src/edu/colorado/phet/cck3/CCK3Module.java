@@ -27,7 +27,9 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import org.srr.localjnlp.ServiceSource;
 
+import javax.jnlp.BasicService;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -35,6 +37,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * User: Sam Reid
@@ -450,6 +454,7 @@ public class CCK3Module extends Module {
     }
 
     public void setLifelike( boolean lifelike ) {
+        toolbox.setLifelike(lifelike);
         circuitGraphic.setLifelike( lifelike );
         circuit.fireBranchesMoved( circuit.getBranches() );
         circuit.fireKirkhoffChanged();
@@ -461,4 +466,19 @@ public class CCK3Module extends Module {
 
     }
 
+    public void showMegaHelp() {
+        super.showMegaHelp();
+        ServiceSource ss = new ServiceSource();
+        BasicService bs = ss.getBasicService();
+//        URL url=getClass().getClassLoader().getResource( "cck.pdf");
+        URL url = null;
+        try {
+            url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/cck.pdf" );
+            System.out.println( "url = " + url );
+            bs.showDocument( url );
+        }
+        catch( MalformedURLException e ) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -103,7 +103,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         public ResistorMenu( Resistor res, CCK3Module module ) {
             super( res, module );
             this.res = res;
-            final ComponentEditor.ResistorEditor re = new ComponentEditor.ResistorEditor( res, module.getApparatusPanel() );
+            final ComponentEditor.ResistorEditor re = new ComponentEditor.ResistorEditor( res, module.getApparatusPanel(), module.getCircuit() );
             JMenuItem edit = new JMenuItem( "Change Resistance" );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -122,7 +122,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         public BulbMenu( CircuitComponent res, CCK3Module module ) {
             super( res, module );
             this.res = res;
-            final ComponentEditor.ResistorEditor re = new ComponentEditor.ResistorEditor( res, module.getApparatusPanel() );
+            final ComponentEditor.ResistorEditor re = new ComponentEditor.ResistorEditor( res, module.getApparatusPanel(), module.getCircuit() );
             JMenuItem edit = new JMenuItem( "Change Resistance" );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -164,7 +164,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         public BatteryMenu( final Battery batt, CCK3Module module ) {
             super( batt, module );
             this.batt = batt;
-            final ComponentEditor.BatteryEditor be = new ComponentEditor.BatteryEditor( batt, module.getApparatusPanel() );
+            final ComponentEditor.BatteryEditor be = new ComponentEditor.BatteryEditor( batt, module.getApparatusPanel(), module.getCircuit() );
             JMenuItem edit = new JMenuItem( "Change Voltage" );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
