@@ -34,15 +34,15 @@ public class PhysicalPanel extends ApparatusPanel {
         modelElementToGraphicMap.remove( nucleus );
     }
 
-    public void addGraphic( Graphic graphic ) {
+    public synchronized void addGraphic( Graphic graphic ) {
         super.addGraphic( graphic );    //To change body of overridden methods use File | Settings | File Templates.
     }
 
-    public void removeGraphic( Graphic graphic ) {
+    public synchronized void removeGraphic( Graphic graphic ) {
         super.removeGraphic( graphic );    //To change body of overridden methods use File | Settings | File Templates.
     }
 
-    protected void paintComponent( Graphics graphics ) {
+    protected synchronized void paintComponent( Graphics graphics ) {
         super.paintComponent( graphics );    //To change body of overridden methods use File | Settings | File Templates.
     }
 

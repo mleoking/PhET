@@ -24,14 +24,50 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class PotentialProfilePanel extends ApparatusPanel {
-    private NucleusGraphic nucleusGraphic;
+
+    //
+    // Statics
+    //
+    private static Color axisColor = new Color( 100, 100, 100 );
+    private static Stroke axisStroke = new BasicStroke( 1f );
+    private static Color backgroundColor = new Color( 230, 255, 255 );
+    private static String xAxisLabel = "Disance from Nucleus Center";
+    private static String yAxisLabel = "Potential Energy";
+    private static Font axisLabelFont;
+    private static float ghostAlpha = 0.6f;
+
+    static {
+        String family = "SansSerif";
+        int style = Font.BOLD;
+        int size = 12;
+        axisLabelFont = new Font( family, style, size );
+    }
+
+    public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
+        AffineTransform atx = new AffineTransform();
+        atx.translate( x, y );
+        atx.scale( scale, scale );
+        atx.translate( -x, -y );
+        return atx;
+    }
+
+    public static AffineTransform rotateInPlace( double theta, double x, double y ) {
+        AffineTransform atx = new AffineTransform();
+        atx.translate( x, y );
+        atx.rotate( theta );
+        atx.translate( -x, -y );
+        return atx;
+    }
+
+    //
+    // Instance fields and methods
+    //
     private ArrayList nucleusGraphics = new ArrayList();
     private NucleusGraphic decayGraphic;
     private PotentialProfileGraphic profileGraphic;
     private PotentialProfile potentialProfile;
     private Point2D.Double origin;
     private Point2D.Double strLoc = new Point2D.Double();
-    private int potentialSense;
 
     public PotentialProfilePanel( PotentialProfile potentialProfile ) {
         origin = new Point2D.Double( 250, 600 );
@@ -62,12 +98,12 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     public void removeGraphic( Graphic graphic ) {
-        if( graphic instanceof NucleusGraphic ) {
-            removeNucleus();
-        }
-        else {
-            super.removeGraphic( graphic );
-        }
+//        if( graphic instanceof NucleusGraphic ) {
+////            removeNucleus();
+//        }
+//        else {
+        super.removeGraphic( graphic );
+//        }
     }
 
     protected void paintComponent( Graphics graphics ) {
@@ -81,19 +117,24 @@ public class PotentialProfilePanel extends ApparatusPanel {
         // Draw axes
         drawAxes( g2 );
 
+        // Draw nuclei
         for( int i = 0; i < nucleusGraphics.size(); i++ ) {
             NucleusGraphic nucleusGraphic = (NucleusGraphic)nucleusGraphics.get( i );
             Nucleus nucleus = nucleusGraphic.getNucleus();
             double xStat = nucleus.getStatisticalLocationOffset().getX();
-            potentialSense = ( xStat > 0 ? -1 : 1 );
             double yStat = nucleus.getStatisticalLocationOffset().getY();
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
             double x = origin.getX() + d;
-
             double y = ( nucleus instanceof AlphaParticle ? potentialProfile.getWellPotential() + AlphaParticle.RADIUS : 0 );
-
-            nucleusGraphic.paint( g2, (int)x, (int)( origin.getY() - y ) );
-
+            // Draw one version referenced off the origin
+            nucleusGraphic.paint( g2, (int)x, (int)( origin.getY() ) );
+            // Draw a "ghost" version up at the well
+            if( nucleusGraphic.getNucleus() instanceof AlphaParticle ) {
+                float alpha = ghostAlpha;
+                g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
+                nucleusGraphic.paint( g2, (int)x, (int)( origin.getY() - y ) );
+                g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1 ) );
+            }
         }
 
         if( decayGraphic != null ) {
@@ -101,8 +142,15 @@ public class PotentialProfilePanel extends ApparatusPanel {
             // Note: -y is needed because we're currently working in view coordinates. The profile is a cubic
             // in view coordinates
             double y = nucleus.getPotentialEnergy();
-            double x = potentialProfile.getHillX( -y ) * potentialSense;
+            double x = potentialProfile.getHillX( -y ) *
+                       ( nucleus.getStatisticalLocationOffset().getX() > 0 ? 1 : -1 );
+
+            // Draw a ghost coming down the profile first, then the real thing on the x axis
+            float alpha = ghostAlpha;
+            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
             decayGraphic.paint( g2, (int)( (int)origin.getX() + x ), (int)origin.getY() - (int)y );
+            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1 ) );
+            decayGraphic.paint( g2, (int)( (int)origin.getX() + x ), (int)origin.getY() );
         }
 
         // Paint a dot on the hill for the spot at the same level as the well
@@ -148,13 +196,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
         super.addGraphic( profileGraphic );
     }
 
-    public void removeNucleus() {
-        nucleusGraphic = null;
-    }
-
     public void setNucleus( Nucleus nucleus ) {
-        nucleusGraphic = new NucleusGraphic( nucleus );
-        this.addNucleusGraphic( nucleusGraphic );
+        this.addNucleusGraphic( new NucleusGraphic( nucleus ) );
         setPotentialProfile( nucleus.getPotentialProfile() );
     }
 
@@ -175,40 +218,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     public void clear() {
-        this.nucleusGraphic = null;
         this.decayGraphic = null;
-    }
-
-    //
-    // Statics
-    //
-    private static Color axisColor = new Color( 100, 100, 100 );
-    private static Stroke axisStroke = new BasicStroke( 1f );
-    private static Color backgroundColor = new Color( 230, 255, 255 );
-    private static String xAxisLabel = "Disance from Nucleus Center";
-    private static String yAxisLabel = "Potential Energy";
-    private static Font axisLabelFont;
-
-    static {
-        String family = "SansSerif";
-        int style = Font.BOLD;
-        int size = 12;
-        axisLabelFont = new Font( family, style, size );
-    }
-
-    public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
-        AffineTransform atx = new AffineTransform();
-        atx.translate( x, y );
-        atx.scale( scale, scale );
-        atx.translate( -x, -y );
-        return atx;
-    }
-
-    public static AffineTransform rotateInPlace( double theta, double x, double y ) {
-        AffineTransform atx = new AffineTransform();
-        atx.translate( x, y );
-        atx.rotate( theta );
-        atx.translate( -x, -y );
-        return atx;
+        this.nucleusGraphics.clear();
     }
 }

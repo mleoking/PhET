@@ -17,6 +17,9 @@ public class DecayNucleus extends Nucleus implements Runnable {
         decayThread.start();
     }
 
+    public void stepInTime( double dt ) {
+    }
+
     //
     // Interfaces implemented
     //
