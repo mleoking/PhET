@@ -71,7 +71,7 @@ public class FaradayConfig {
     // Magnet parameters
     public static final double MAGNET_STRENGTH_MIN = 100;
     public static final double MAGNET_STRENGTH_MAX = 300;
-    public static final double MAX_EMF = 1.0E5;
+    public static final double MAX_EMF = 1.0E6;
     
     // Pickup Coil parameters
     public static final int MIN_PICKUP_LOOPS = 1;
