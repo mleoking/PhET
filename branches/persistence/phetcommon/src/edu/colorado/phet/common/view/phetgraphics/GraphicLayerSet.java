@@ -54,8 +54,20 @@ public class GraphicLayerSet extends PhetGraphic {
         super( component );
     }
 
+    /**
+     *
+     * @param component
+     */
     public void setComponent( Component component ) {
         super.setComponent( component );
+        Iterator gIt = graphicMap.iterator();
+        while( gIt.hasNext() ) {
+            Object o = gIt.next();
+            if( o instanceof PhetGraphic ) {
+                PhetGraphic phetGraphic = (PhetGraphic)o;
+                phetGraphic.setComponent(  component );
+            }
+        }
     }
 
     /**
