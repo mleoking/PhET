@@ -31,6 +31,9 @@ public class PhetApplication {
         if( descriptor.numModules() == 1 ) {
             apparatusPanelContainer = new JPanel();
             apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
+            if( descriptor.moduleAt( 0 ).getApparatusPanel() == null ) {
+                throw new RuntimeException( "Null Apparatus Panel in Module: " + descriptor.moduleAt( 0 ).getName() );
+            }
             apparatusPanelContainer.add( descriptor.moduleAt( 0 ).getApparatusPanel() );
         }
         else {
