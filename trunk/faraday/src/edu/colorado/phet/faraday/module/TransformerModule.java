@@ -37,7 +37,8 @@ public class TransformerModule extends Module {
     //----------------------------------------------------------------------------
 
     // Rendering layers
-    private static final double HELP_LAYER = Double.MAX_VALUE;
+    private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
+    private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations of model components
 

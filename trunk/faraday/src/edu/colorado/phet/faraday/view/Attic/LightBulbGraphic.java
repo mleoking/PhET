@@ -13,32 +13,37 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
 
-import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.PickupCoil;
 
 
 /**
- * LightBulbGraphic
+ * LightBulbGraphic is the graphical representation of a lightbulb.
+ * The bulb's relative intensity can be set.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class LightBulbGraphic extends CompositePhetGraphic {
 
-    private PickupCoil _pickupCoilModel;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private PhetImageGraphic _lightEmission;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     /**
-     * @param component
+     * Sole constructor.
+     * 
+     * @param component the parent Component
      */
-    public LightBulbGraphic( Component component, PickupCoil pickupCoilModel ) {
+    public LightBulbGraphic( Component component ) {
         super( component );
-        
-        _pickupCoilModel = pickupCoilModel;
         
         // Light emission
         {
@@ -57,19 +62,23 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
             int y = 25;
             lightBulb.setRegistrationPoint( x, y );
         }
-        
-        update();
     }
     
-    public void update() {
-        
-        if( isVisible() ) {
-            //System.out.println( "emf = " + _pickupCoilModel.getEMF() ); // DEBUG
-            double emf = Math.abs( _pickupCoilModel.getEMF() );
-            double scale = MathUtil.clamp( 0, emf / 2000, 1 );
-            _lightEmission.clearTransform();
-            _lightEmission.scale( scale );
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the intensity of the light.
+     * 
+     * @param scale 0 for off, 1.0 for full intensity.
+     * @throws IllegalArgumentExcecption if scale is out of range
+     */
+    public void setIntensity( double scale ) {
+        if ( scale < 0 || scale > 1 ) {
+            throw new IllegalArgumentException( "scale must be between 0 and 1: " + scale );
         }
+        _lightEmission.clearTransform();
+        _lightEmission.scale( scale );
     }
-
 }

@@ -36,13 +36,20 @@ public class FaradayConfig {
     public static final double TIME_STEP = 1;
     public static final int WAIT_TIME = 50;
 
+    // Layers
+    public static final double DEBUG_LAYER = Double.MAX_VALUE - 1;
+    public static final double HELP_LAYER = Double.MAX_VALUE;
+    
     // Images
     public static final String IMAGES_DIRECTORY = "images/";
     public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
-    public static final String BFIELD_IMAGE = IMAGES_DIRECTORY + "bField.png";
+    public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
+    public static final String COIL1_FRONT_IMAGE = IMAGES_DIRECTORY + "coil1_front.png";
+    public static final String COIL1_BACK_IMAGE = IMAGES_DIRECTORY + "coil1_back.png";
+    public static final String COIL2_FRONT_IMAGE = IMAGES_DIRECTORY + "coil2_front.png";
+    public static final String COIL2_BACK_IMAGE = IMAGES_DIRECTORY + "coil2_back.png";
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightBulb.png";
     public static final String LIGHT_EMISSION_IMAGE = IMAGES_DIRECTORY + "lightEmission.png";
-    public static final String LOOP_IMAGE = IMAGES_DIRECTORY + "loop.png";
     public static final String METER_BODY_IMAGE = IMAGES_DIRECTORY + "voltMeterBody.png";
     public static final String METER_NEEDLE_IMAGE = IMAGES_DIRECTORY + "voltMeterNeedle.png";
 

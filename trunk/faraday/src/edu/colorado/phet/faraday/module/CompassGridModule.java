@@ -14,8 +14,6 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
@@ -28,6 +26,8 @@ import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.CompassGridControlPanel;
 import edu.colorado.phet.faraday.model.HollywoodMagnet;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
+import edu.colorado.phet.faraday.view.CompassGraphic;
+import edu.colorado.phet.faraday.view.DebuggerGraphic;
 import edu.colorado.phet.faraday.view.GridGraphic;
 
 
@@ -45,14 +45,17 @@ public class CompassGridModule extends Module {
 
     // Rendering layers
     private static final double GRID_LAYER = 1;
-    private static final double BAR_MAGNET_LAYER = 2;
-    private static final double HELP_LAYER = Double.MAX_VALUE;
+    private static final double MAGNET_LAYER = 2;
+    private static final double COMPASS_LAYER = 3;
+    private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
+    private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations of model components
-    private static final Point BAR_MAGNET_LOCATION = new Point( 350, 350 );
+    private static final Point MAGNET_LOCATION = new Point( 350, 350 );
 
     // Locations of view components
     private static final Point GRID_LOCATION = new Point( 0, 0 );
+    private static final Point COMPASS_LOCATION = new Point( 100, 400 );
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
@@ -65,17 +68,17 @@ public class CompassGridModule extends Module {
     public static final Dimension MAGNET_SIZE_MAX = new Dimension( 500, 200 );
     private static final Dimension MAGNET_SIZE = new Dimension( 250, 50 );
     
-    public static final int X_SPACING_MIN = 20;
-    public static final int X_SPACING_MAX = 200;
-    private static final int X_SPACING = 25;
+    public static final int GRID_X_SPACING_MIN = 20;
+    public static final int GRID_X_SPACING_MAX = 200;
+    private static final int GRID_X_SPACING = 40;
     
-    public static final int Y_SPACING_MIN = 20;
-    public static final int Y_SPACING_MAX = 200;
-    private static final int Y_SPACING = 25;
+    public static final int GRID_Y_SPACING_MIN = 20;
+    public static final int GRID_Y_SPACING_MAX = 200;
+    private static final int GRID_Y_SPACING = 40;
     
-    public static final Dimension NEEDLE_SIZE_MIN = new Dimension( 1, 4 );
-    public static final Dimension NEEDLE_SIZE_MAX = new Dimension( 100, 50 );
-    private static final Dimension NEEDLE_SIZE = new Dimension( 25, 5 );
+    public static final Dimension GRID_NEEDLE_SIZE_MIN = new Dimension( 1, 4 );
+    public static final Dimension GRID_NEEDLE_SIZE_MAX = new Dimension( 100, 50 );
+    private static final Dimension GRID_NEEDLE_SIZE = new Dimension( 25, 5 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -117,7 +120,7 @@ public class CompassGridModule extends Module {
         // Bar Magnet
         _magnetModel = new HollywoodMagnet();
         _magnetModel.setStrength( MAGNET_STRENGTH );
-        _magnetModel.setLocation( BAR_MAGNET_LOCATION );
+        _magnetModel.setLocation( MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );
         _magnetModel.setSize( MAGNET_SIZE );
         
@@ -132,13 +135,25 @@ public class CompassGridModule extends Module {
 
         // Bar Magnet
         BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
-        apparatusPanel.addGraphic( magnetGraphic, BAR_MAGNET_LAYER );
+        apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
         
         // Grid
-        _gridGraphic = new GridGraphic( apparatusPanel, _magnetModel, X_SPACING, Y_SPACING );
-        _gridGraphic.setLocation( 0, 0 );
-        _gridGraphic.setNeedleSize( NEEDLE_SIZE );
+        _gridGraphic = new GridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
+        _gridGraphic.setLocation( GRID_LOCATION );
+        _gridGraphic.setNeedleSize( GRID_NEEDLE_SIZE );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
+        
+        // CompassGraphic
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _magnetModel );
+        compassGraphic.setLocation( COMPASS_LOCATION );
+        apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
+        
+        // Debugger
+        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
+        debugger.setLocationColor( Color.GREEN );
+//        debugger.add( magnetGraphic );
+//        debugger.add( compassGraphic );
+        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
         
         //----------------------------------------------------------------------------
         // Control
@@ -154,18 +169,11 @@ public class CompassGridModule extends Module {
         
         _magnetModel.addObserver( magnetGraphic );
         _magnetModel.addObserver( _gridGraphic );
+        _magnetModel.addObserver( compassGraphic );
         
         //----------------------------------------------------------------------------
         // Listeners
         //----------------------------------------------------------------------------
-        
-        // We don't really know how to lay out the compass grid until the 
-        // apparatus panel is displayed.
-        apparatusPanel.addComponentListener( new ComponentAdapter() {
-            public void componentShown( ComponentEvent e ) {
-                resetGridSpacing();
-            }
-        });
         
         //----------------------------------------------------------------------------
         // Help
@@ -189,8 +197,8 @@ public class CompassGridModule extends Module {
         // System.out.println( "reset" ); // DEBUG
         _controlPanel.setBarMagnetStrength( MAGNET_STRENGTH );
         _controlPanel.setBarMagnetSize( MAGNET_SIZE );
-        _controlPanel.setGridSpacing( X_SPACING, Y_SPACING );
-        _controlPanel.setGridNeedleSize( NEEDLE_SIZE );
+        _controlPanel.setGridSpacing( GRID_X_SPACING, GRID_Y_SPACING );
+        _controlPanel.setGridNeedleSize( GRID_NEEDLE_SIZE );
     }
     
     /**
@@ -232,17 +240,6 @@ public class CompassGridModule extends Module {
      */
     public void setGridSpacing( int x, int y ) {
         //System.out.println( "setGridSpacing " + x + "x" + y ); // DEBUG
-        _gridGraphic.setSpacing( x, y );
-    }
-    
-    /**
-     * Resets the grid spacing.
-     * This needs to be called when the apparatus panel changes size.
-     */
-    public void resetGridSpacing() {
-        //System.out.println( "resetGridSpacing" );  // DEBUG
-        int x = _gridGraphic.getXSpacing();
-        int y = _gridGraphic.getYSpacing();
         _gridGraphic.setSpacing( x, y );
     }
     

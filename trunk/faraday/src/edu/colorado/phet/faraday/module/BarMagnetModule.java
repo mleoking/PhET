@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Point;
 
 import edu.colorado.phet.common.application.ApplicationModel;
@@ -41,15 +42,21 @@ public class BarMagnetModule extends Module {
     //----------------------------------------------------------------------------
 
     // Rendering layers
-    private static final double PICKUP_WIDGET_LAYER = 1;
-    private static final double BAR_MAGNET_LAYER = 2;
-    private static final double HELP_LAYER = Double.MAX_VALUE;
+    private static final double GRID_LAYER = 1;
+    private static final double COIL_BACK_LAYER = 2;
+    private static final double MAGNET_LAYER = 3;
+    private static final double COIL_FRONT_LAYER = 4;
+    private static final double COMPASS_LAYER = 5;
+    private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
+    private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations of model components
 
     // Locations of view components
-    private static final Point BAR_MAGNET_LOCATION = new Point( 200, 100 );
-    private static final Point PICKUP_COIL_LOCATION = new Point( 500, 125 );
+    private static final Point MAGNET_LOCATION = new Point( 200, 300 );
+    private static final Point PICKUP_COIL_LOCATION = new Point( 500, 300 );
+    private static final Point GRID_LOCATION = new Point( 0, 0 );
+    private static final Point COMPASS_LOCATION = new Point( 100, 500 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
@@ -58,9 +65,15 @@ public class BarMagnetModule extends Module {
     public static final double MAGNET_STRENGTH_MAX = 999;
     private static final double MAGNET_STRENGTH = 350;
     
+    private static final Dimension MAGNET_SIZE = new Dimension( 250, 50 );
+    
     public static final int LOOP_RADIUS_MIN = 50;
     public static final int LOOP_RADIUS_MAX = 150;
     private static final double LOOP_RADIUS = 100;
+    
+    private static final int GRID_X_SPACING = 40;
+    private static final int GRID_Y_SPACING = 40;
+    private static final Dimension GRID_NEEDLE_SIZE = new Dimension( 25, 5 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -71,7 +84,8 @@ public class BarMagnetModule extends Module {
     private PickupCoil _pickupCoilModel;
     
     // View
-    private PickupWidget _pickupWidget;
+    private PickupCoilGraphic _pickupCoilGraphic;
+    private GridGraphic _gridGraphic;
     
     // Control
     private BarMagnetControlPanel _controlPanel;
@@ -103,8 +117,9 @@ public class BarMagnetModule extends Module {
         // Bar Magnet
         _magnetModel = new HollywoodMagnet();
         _magnetModel.setStrength( MAGNET_STRENGTH );
-        _magnetModel.setLocation( BAR_MAGNET_LOCATION );
+        _magnetModel.setLocation( MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );
+        _magnetModel.setSize( MAGNET_SIZE );
         
         // Pickup Coil
         _pickupCoilModel = new PickupCoil();
@@ -126,22 +141,28 @@ public class BarMagnetModule extends Module {
         
         // Bar Magnet
         BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
-        apparatusPanel.addGraphic( magnetGraphic, BAR_MAGNET_LAYER );
+        apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
         
         // Pickup Coil
-        CoilGraphic coilGraphic = new CoilGraphic( apparatusPanel, _pickupCoilModel );
+        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel );
+        apparatusPanel.addGraphic( _pickupCoilGraphic, COIL_BACK_LAYER ); // XXX
         
-        // Voltmeter
-        VoltMeterGraphic meterGraphic = new VoltMeterGraphic( apparatusPanel, _pickupCoilModel );
+        // Grid
+        _gridGraphic = new GridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
+        _gridGraphic.setLocation( GRID_LOCATION );
+        _gridGraphic.setNeedleSize( GRID_NEEDLE_SIZE );
+        apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
         
-        // Light Bulb 
-        LightBulbGraphic bulbGraphic = new LightBulbGraphic( apparatusPanel, _pickupCoilModel );
+        // CompassGraphic
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _magnetModel );
+        compassGraphic.setLocation( COMPASS_LOCATION );
+        apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
-        // Pickup Coil
-        _pickupWidget = 
-            new PickupWidget( apparatusPanel, coilGraphic, meterGraphic, bulbGraphic, _pickupCoilModel );
-        apparatusPanel.addGraphic( _pickupWidget, PICKUP_WIDGET_LAYER );
-        
+        // Debugger
+        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
+//        debugger.add( _pickupCoilGraphic );
+        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
+
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
@@ -155,10 +176,10 @@ public class BarMagnetModule extends Module {
         //----------------------------------------------------------------------------
         
         _magnetModel.addObserver( magnetGraphic );
-        _pickupCoilModel.addObserver( coilGraphic );
-        _pickupCoilModel.addObserver( meterGraphic );
-        _pickupCoilModel.addObserver( bulbGraphic );
-        _pickupCoilModel.addObserver( _pickupWidget );
+        _magnetModel.addObserver( _gridGraphic );
+        _magnetModel.addObserver( compassGraphic );
+
+        _pickupCoilModel.addObserver( _pickupCoilGraphic );
         
         //----------------------------------------------------------------------------
         // Listeners
@@ -189,6 +210,8 @@ public class BarMagnetModule extends Module {
         _controlPanel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
         _controlPanel.setBulbEnabled( true );
         _controlPanel.setMeterEnabled( false );
+        _controlPanel.setCompassGridEnabled( false );
+        _gridGraphic.setVisible( false );
     }
     
     /**
@@ -217,8 +240,9 @@ public class BarMagnetModule extends Module {
      * @param enable true to enable, false to disable
      */
     public void setCompassGridEnabled( boolean enable ) {
-        //System.out.println( "setCompassGridEnabled " + enable ); // DEBUG
-        // XXX
+        System.out.println( "setCompassGridEnabled " + enable ); // DEBUG
+        _gridGraphic.resetSpacing();
+        _gridGraphic.setVisible( enable );
     }
     
     /**
@@ -246,7 +270,7 @@ public class BarMagnetModule extends Module {
      */
     public void setBulbEnabled( boolean enabled ) {
         //System.out.println( "setBulbEnabled " + enabled ); // DEBUG
-        _pickupWidget.setBulbEnabled( enabled );
+        _pickupCoilGraphic.setBulbEnabled( enabled );
     }
     
     /**
@@ -254,6 +278,6 @@ public class BarMagnetModule extends Module {
      */
     public void setMeterEnabled( boolean enabled ) {
         //System.out.println( "setMeterEnabled " + enabled ); // DEBUG
-        _pickupWidget.setMeterEnabled( enabled );
+        _pickupCoilGraphic.setMeterEnabled( enabled );
     }
 }

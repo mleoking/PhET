@@ -13,6 +13,8 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -61,6 +63,13 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
         _needles = new ArrayList();
         
         setSpacing( xSpacing, ySpacing );
+        
+        // We don't really know how to lay out the grid until the parent is displayed.
+        component.addComponentListener( new ComponentAdapter() {
+            public void componentShown( ComponentEvent e ) {
+                resetSpacing();
+            }
+        });
     }
     
     //----------------------------------------------------------------------------
@@ -101,6 +110,14 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
         }
         
         update();
+    }
+    
+    /**
+     * Resets the grid spacing.
+     * This should be called when the parent container is resized.
+     */
+    public void resetSpacing() {
+        setSpacing( _xSpacing, _ySpacing );
     }
     
     /**
