@@ -290,6 +290,16 @@ public class CoilGraphic implements SimpleObserver {
         _foreground.repaint();
         _background.repaint();
     }
+     
+    /**
+     * Gets the bounds of the coil graphic.
+     * Takes the union of the foreground and background bounds.
+     * 
+     * @return the bounds
+     */
+    public Rectangle getBounds() {
+        return _foreground.getBounds().union( _background.getBounds() );
+    }
     
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
@@ -624,5 +634,29 @@ public class CoilGraphic implements SimpleObserver {
         speed = MathUtil.clamp( -1, speed, +1 );
 
         return speed;
+    }
+    
+    /**
+     * Gets the rectangles that define what it means to collide with the coil.
+     * There is a rectangle at the top and bottom of the coil. These rectangles
+     * are based on the coil's bounds, with a bit of "hand tweaking" to make 
+     * them look plausible.
+     * 
+     * @return array of Rectangle
+     */
+    public Rectangle[] getCollisionBounds() {
+        if ( isVisible() ) {
+            Rectangle b = getBounds();
+            
+            // These values were weaked via trial & error.
+            Rectangle topBounds = new Rectangle( b.x + 45, b.y + 38, b.width - 100, 18 );
+            Rectangle bottomBounds = new Rectangle( b.x + 45, b.y + b.height - 19, b.width - 68, 18 );
+            
+            Rectangle[] bounds = { topBounds, bottomBounds };
+            return bounds;
+        }
+        else {
+            return null;
+        }
     }
 }

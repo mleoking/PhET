@@ -45,8 +45,8 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
     private static final double GRID_LAYER = 1;
     private static final double COIL_BACK_LAYER = 2;
     private static final double MAGNET_LAYER = 3;
-    private static final double COIL_FRONT_LAYER = 4;
-    private static final double COMPASS_LAYER = 5;
+    private static final double COMPASS_LAYER = 4;
+    private static final double COIL_FRONT_LAYER = 5;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
@@ -163,11 +163,19 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
 
         // Debugger
-        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
-//        debugger.add( _pickupCoilGraphic.getForeground(), Color.RED, Color.RED );
-//        debugger.add( _pickupCoilGraphic.getBackground(), Color.GREEN, Color.GREEN );
-        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
+//        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
+//        debugger.add( pickupCoilGraphic.getForeground(), Color.RED, Color.RED );
+//        debugger.add( pickupCoilGraphic.getBackground(), Color.GREEN, Color.GREEN );
+//        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
 
+        // Collision detection
+        magnetGraphic.getCollisionDetector().add( compassGraphic );
+        magnetGraphic.getCollisionDetector().add( pickupCoilGraphic );
+        compassGraphic.getCollisionDetector().add( magnetGraphic );
+        compassGraphic.getCollisionDetector().add( pickupCoilGraphic );
+        pickupCoilGraphic.getCollisionDetector().add( magnetGraphic );
+        pickupCoilGraphic.getCollisionDetector().add( compassGraphic );
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------

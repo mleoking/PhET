@@ -12,6 +12,8 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
@@ -28,7 +30,7 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver {
+public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver, ICollidable {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -43,6 +45,7 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
 
     private AbstractMagnet _magnetModel;
     private boolean _transparencyEnabled;
+    private CollisionDetector _collisionDetector;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -60,6 +63,8 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
         assert( component != null );
         assert( magnetModel != null );
         
+        _collisionDetector = new CollisionDetector( this );
+        
         // Save a reference to the model.
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
@@ -71,8 +76,16 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
         super.setCursorHand();
         super.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent e ) {
-                // Translate if the mouse cursor is inside the parent component.
-                if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
+                int dx = e.getDx();
+                int dy = e.getDy();
+                boolean collidesNow = _collisionDetector.collidesNow();
+                boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
+                if ( !collidesNow && wouldCollide ) {
+                    // Ignore the translate if it would result in a collision.
+                    update();
+                }
+                else if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
+                    // Translate if the mouse cursor is inside the parent component.
                     double x = _magnetModel.getX() + e.getDx();
                     double y = _magnetModel.getY() + e.getDy();
                     _magnetModel.setLocation( x, y );
@@ -183,5 +196,28 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
                 super.paint( g2 );
             }
         }   
+    }
+    
+    //----------------------------------------------------------------------------
+    // ICollidable implementation
+    //----------------------------------------------------------------------------
+
+    /*
+     * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionDetector()
+     */
+    public CollisionDetector getCollisionDetector() {
+        return _collisionDetector;
+    }
+
+    /*
+     * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionBounds()
+     */
+    public Rectangle[] getCollisionBounds() {
+        Rectangle[] bounds = null;
+        if ( isVisible() ) {
+            bounds = new Rectangle[1];
+            bounds[0] = getBounds();
+        }
+        return bounds;
     }
 }
