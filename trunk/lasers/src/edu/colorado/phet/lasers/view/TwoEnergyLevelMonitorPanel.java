@@ -8,11 +8,10 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.controller.PhetApplication;
-import edu.colorado.phet.graphics.PhetMonitorPanel;
-import edu.colorado.phet.graphics.MonitorPanel;
-import edu.colorado.phet.lasers.physics.LaserSystem;
+import edu.colorado.phet.lasers.physics.LaserModel;
+import edu.colorado.phet.common.application.PhetApplication;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.Observable;
@@ -24,13 +23,16 @@ public class TwoEnergyLevelMonitorPanel extends MonitorPanel {
     private int numMiddleLevel;
     private Line2D.Float middleLevelLine;
     private Line2D.Float groundLevelLine;
+    private LaserModel model;
 
     /**
      *
      */
-    public TwoEnergyLevelMonitorPanel() {
+    public TwoEnergyLevelMonitorPanel( LaserModel model) {
         init();
-        PhetApplication.instance().getPhysicalSystem().addObserver( this );
+        model.addObserver( this );
+        this.model = model;
+//        PhetApplication.instance().getPhysicalSystem().addObserver( this );
     }
 
     /**
@@ -85,13 +87,8 @@ public class TwoEnergyLevelMonitorPanel extends MonitorPanel {
         // NOP
     }
 
-    /**
-     *
-     * @param o
-     * @param arg
-     */
-    public synchronized void update( Observable o, Object arg ) {
-        LaserSystem laserSystem = (LaserSystem) o;
+    public void update() {
+        LaserModel laserSystem = model;
         numGroundLevel = laserSystem.getNumGroundStateAtoms();
         numMiddleLevel = laserSystem.getNumMiddleStateAtoms();
         this.invalidate();

@@ -7,9 +7,7 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.command.SetHighEnergySpontaneousEmissionTimeCmd;
-import edu.colorado.phet.lasers.controller.command.SetMiddleEnergySpontaneousEmissionTimeCmd;
+import edu.colorado.phet.lasers.physics.LaserModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -23,15 +21,15 @@ public class MiddleEnergyHalfLifeControl extends JPanel {
     private JSlider middleEnergySpontaneousEmissionTimeSlider;
     private JTextField middleEnergySpontaneousEmissionTimeTF;
 
-    public MiddleEnergyHalfLifeControl() {
-        this.setLayout( new GridLayout( 2, 1 ));
-        addMiddleEnergyControls();
+    public MiddleEnergyHalfLifeControl( LaserModel model ) {
+        this.setLayout( new GridLayout( 2, 1 ) );
+        addMiddleEnergyControls( model );
     }
 
     /**
      *
      */
-    private void addMiddleEnergyControls() {
+    private void addMiddleEnergyControls( final LaserModel model ) {
         JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
         controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
 
@@ -42,19 +40,21 @@ public class MiddleEnergyHalfLifeControl extends JPanel {
         Font clockFont = middleEnergySpontaneousEmissionTimeTF.getFont();
         middleEnergySpontaneousEmissionTimeTF.setFont( new Font( clockFont.getName(),
                                                                  LaserConfig.CONTROL_FONT_STYLE,
-                                                                 LaserConfig.CONTROL_FONT_SIZE ));
+                                                                 LaserConfig.CONTROL_FONT_SIZE ) );
         middleEnergySpontaneousEmissionTimeTF.setText( Float.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
         middleEnergySpontaneousEmissionTimeSlider = new JSlider( JSlider.VERTICAL,
-                                        LaserConfig.MINIMUM_SPONTANEOUS_EMISSION_TIME,
-                                        LaserConfig.MAXIMUM_SPONTANEOUS_EMISSION_TIME,
-                                        LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
+                                                                 LaserConfig.MINIMUM_SPONTANEOUS_EMISSION_TIME,
+                                                                 LaserConfig.MAXIMUM_SPONTANEOUS_EMISSION_TIME,
+                                                                 LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
 
         middleEnergySpontaneousEmissionTimeSlider.setPreferredSize( new Dimension( 20, 50 ) );
         middleEnergySpontaneousEmissionTimeSlider.setPaintTicks( true );
         middleEnergySpontaneousEmissionTimeSlider.setMajorTickSpacing( 100 );
         middleEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateMiddleEnergySpontaneousEmissionTime( ((float)middleEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
+                model.setMiddleEnergySpontaneousEmissionTime( ( (float)middleEnergySpontaneousEmissionTimeSlider.getValue() ) / 1000 );
+
+                //                updateMiddleEnergySpontaneousEmissionTime( ((float)middleEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
                 middleEnergySpontaneousEmissionTimeTF.setText( Float.toString( middleEnergySpontaneousEmissionTimeSlider.getValue() ) );
             }
         } );
@@ -69,7 +69,7 @@ public class MiddleEnergyHalfLifeControl extends JPanel {
 
     }
 
-    private void updateMiddleEnergySpontaneousEmissionTime( float time ) {
-        new SetMiddleEnergySpontaneousEmissionTimeCmd( time ).doIt();
-    }
+//    private void updateMiddleEnergySpontaneousEmissionTime( float time ) {
+//        new SetMiddleEnergySpontaneousEmissionTimeCmd( time ).doIt();
+//    }
 }

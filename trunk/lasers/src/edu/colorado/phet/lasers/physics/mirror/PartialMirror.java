@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.lasers.physics.mirror;
 
-import edu.colorado.phet.physics.collision.Wall;
 import edu.colorado.phet.lasers.physics.photon.Photon;
 
 import java.awt.geom.Point2D;

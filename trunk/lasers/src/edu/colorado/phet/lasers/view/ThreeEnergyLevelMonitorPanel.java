@@ -8,13 +8,10 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.controller.PhetApplication;
-import edu.colorado.phet.graphics.MonitorPanel;
-import edu.colorado.phet.lasers.physics.LaserSystem;
+import edu.colorado.phet.lasers.physics.LaserModel;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.util.Observable;
 
 public class ThreeEnergyLevelMonitorPanel extends MonitorPanel {
 
@@ -24,13 +21,16 @@ public class ThreeEnergyLevelMonitorPanel extends MonitorPanel {
     private Line2D.Float highLevelLine;
     private Line2D.Float middleLevelLine;
     private Line2D.Float groundLevelLine;
+    private LaserModel model;
 
     /**
      *
      */
-    public ThreeEnergyLevelMonitorPanel() {
+    public ThreeEnergyLevelMonitorPanel( LaserModel model ) {
         init();
-        PhetApplication.instance().getPhysicalSystem().addObserver( this );
+        model.addObserver( this );
+        this.model = model;
+//        PhetApplication.instance().getPhysicalSystem().addObserver( this );
     }
 
     /**
@@ -100,13 +100,10 @@ public class ThreeEnergyLevelMonitorPanel extends MonitorPanel {
         // NOP
     }
 
-    /**
-     *
-     * @param o
-     * @param arg
-     */
-    public synchronized void update( Observable o, Object arg ) {
-        LaserSystem laserSystem = (LaserSystem) o;
+    public synchronized void update() {
+//    public synchronized void update( Observable o, Object arg ) {
+        LaserModel laserSystem = model;
+//        LaserModel laserSystem = (LaserModel) o;
         numGroundLevel = laserSystem.getNumGroundStateAtoms();
         numMiddleLevel = laserSystem.getNumMiddleStateAtoms();
         numHighLevel = laserSystem.getNumHighStateAtoms();

@@ -7,40 +7,46 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.controller.PhetApplication;
-import edu.colorado.phet.controller.PhetControlPanel;
-import edu.colorado.phet.graphics.MonitorPanel;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.TwoLevelControlPanel;
 import edu.colorado.phet.lasers.physics.ResonatingCavity;
-import edu.colorado.phet.physics.Vector2D;
+import edu.colorado.phet.lasers.physics.LaserModel;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 
-public class OneAtomTwoLevelsApparatusPanel extends SingleAtomBaseApparatusPanel {
+import java.awt.geom.Point2D;
 
-    private MonitorPanel monitorPanel = new TwoEnergyLevelMonitorPanel();
+public class OneAtomTwoLevelsModule extends SingleAtomBaseModule {
+
+    private MonitorPanel monitorPanel;
 //    private PhetControlPanel controlPanel = new TwoLevelControlPanel();
 
     /**
      *
      */
-    public OneAtomTwoLevelsApparatusPanel() {
+    public OneAtomTwoLevelsModule( AbstractClock clock) {
         super( "One Atom / Two Energy Levels" );
+
+        monitorPanel = new TwoEnergyLevelMonitorPanel( (LaserModel)getModel() );
+        setMonitorPanel( monitorPanel );
+        setControlPanel( new TwoLevelControlPanel( this, clock ) );
     }
 
-    public void activate() {
-        super.activate();
+    public void activate( PhetApplication app ) {
+        super.activate( app );
 
-        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( monitorPanel );
+//        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( monitorPanel );
 //        PhetApplication.instance().getPhetMainPanel().setControlPanel( controlPanel );
 //        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( new TwoEnergyLevelMonitorPanel() );
-        PhetApplication.instance().getPhetMainPanel().setControlPanel( new TwoLevelControlPanel() );
+//        PhetApplication.instance().getPhetMainPanel().setControlPanel( new TwoLevelControlPanel() );
 
 
-        float newHeight = 100;
+        double newHeight = 100;
         ResonatingCavity cavity = this.getCavity();
-        float cavityHeight =  cavity.getHeight();
-        Vector2D cavityPos = cavity.getPosition();
-        float yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
+        double cavityHeight =  cavity.getHeight();
+        Point2D cavityPos = cavity.getPosition();
+        double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
         cavity.setPosition( cavityPos.getX(), yNew );
         cavity.setHeight( newHeight );
 
@@ -49,6 +55,6 @@ public class OneAtomTwoLevelsApparatusPanel extends SingleAtomBaseApparatusPanel
         config.setMiddleEnergySpontaneousEmissionTime( 0.500f );
         config.setPumpingPhotonRate( 0.0f );
         config.setReflectivity( 0.7f );
-        config.configureSystem();
+        config.configureSystem( getLaserModel() );
     }
 }

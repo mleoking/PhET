@@ -6,12 +6,10 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.graphics.ImageGraphic;
-import edu.colorado.phet.graphics.util.ResourceLoader;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.physics.photon.Photon;
-import edu.colorado.phet.physics.body.Particle;
-import edu.colorado.phet.physics.Vector2D;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.Particle;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

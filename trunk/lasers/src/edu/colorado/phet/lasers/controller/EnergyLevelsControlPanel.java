@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.lasers.controller.command.SetEnergyLevelsVisibleCmd;
+import edu.colorado.phet.lasers.view.BaseLaserModule;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,12 +15,13 @@ import java.awt.event.ActionListener;
 
 public class EnergyLevelsControlPanel extends JPanel {
 
-    public EnergyLevelsControlPanel() {
+    public EnergyLevelsControlPanel( final BaseLaserModule module ) {
         JPanel energyLevelsControlPanel = new JPanel();
         final JCheckBox energyLevelsCB = new JCheckBox( "Display energy levels", false );
         energyLevelsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new SetEnergyLevelsVisibleCmd( energyLevelsCB.isSelected() ).doIt();
+                module.setEnergyLevelsVisible( energyLevelsCB.isSelected() );
+//                new SetEnergyLevelsVisibleCmd( energyLevelsCB.isSelected() ).doIt();
             }
         } );
         energyLevelsControlPanel.add( energyLevelsCB );

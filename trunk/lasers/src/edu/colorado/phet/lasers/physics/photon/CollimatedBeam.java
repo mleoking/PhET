@@ -6,13 +6,15 @@
  */
 package edu.colorado.phet.lasers.physics.photon;
 
-import edu.colorado.phet.physics.Vector2D;
-import edu.colorado.phet.physics.body.Particle;
-import edu.colorado.phet.controller.command.AddParticleCmd;
+
+import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.lasers.physics.LaserModel;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.LinkedList;
 
 /**
  * A CollimatedBeam is a collection of photons that all have identical
@@ -23,8 +25,8 @@ public class CollimatedBeam extends Particle {
 
     private int wavelength;
     private Point2D.Float origin;
-    private float height;
-    private float width;
+    private double height;
+    private double width;
     private Vector2D velocity;
     private ArrayList photons = new ArrayList();
     // The rate at which the beam produces photons
@@ -33,7 +35,12 @@ public class CollimatedBeam extends Particle {
     private float photonsPerSecond = 30;
     // Is the collimated beam currently generating photons?
     private boolean isActive;
+    private LaserModel model;
+    private LinkedList listeners = new LinkedList();
 
+    public interface Listener {
+        void photonCreated( CollimatedBeam beam, Photon photon );
+    }
 
     /**
      *
@@ -42,12 +49,21 @@ public class CollimatedBeam extends Particle {
      * @param height
      * @param width
      */
-    public CollimatedBeam( int wavelength, Point2D.Float origin, float height, float width, Vector2D direction ) {
+    public CollimatedBeam( LaserModel model, int wavelength, Point2D.Float origin, float height, float width, Vector2D direction ) {
+        this.model = model;
         this.wavelength = wavelength;
         this.origin = origin;
         this.height = height;
         this.width = width;
-        this.velocity = new Vector2D( direction ).normalize().multiply( Photon.s_speed );
+        this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.s_speed );
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
     }
 
     public Point2D.Float getOrigin() {
@@ -62,7 +78,7 @@ public class CollimatedBeam extends Particle {
      *
      * @return
      */
-    public float getHeight() {
+    public double getHeight() {
         return height;
     }
 
@@ -70,7 +86,7 @@ public class CollimatedBeam extends Particle {
      *
      * @param height
      */
-    public void setHeight( float height ) {
+    public void setHeight( double height ) {
         this.height = height;
     }
 
@@ -78,7 +94,7 @@ public class CollimatedBeam extends Particle {
      *
      * @return
      */
-    public float getWidth() {
+    public double getWidth() {
         return width;
     }
 
@@ -127,10 +143,15 @@ public class CollimatedBeam extends Particle {
     public void addPhoton() {
         Photon newPhoton = Photon.create( this );
         newPhoton.setPosition( genPositionX(), genPositionY() + newPhoton.getRadius() );
-        newPhoton.setVelocity( new Vector2D( velocity ) );
+        newPhoton.setVelocity( new Vector2D.Double( velocity ) );
         newPhoton.setWavelength( this.wavelength );
-        new AddParticleCmd( newPhoton ).doIt();
+        model.addModelElement( newPhoton );
+//        new AddParticleCmd( newPhoton ).doIt();
         photons.add( newPhoton );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.photonCreated( this, newPhoton );
+        }
     }
 
     /**
@@ -184,8 +205,8 @@ public class CollimatedBeam extends Particle {
      *
      * @return
      */
-    private float genPositionY() {
-        float yDelta = velocity.getX() != 0 ? (float)Math.random() * height : 0;
+    private double genPositionY() {
+        double yDelta = velocity.getX() != 0 ? (float)Math.random() * height : 0;
         return this.getPosition().getY() + yDelta;
     }
 
@@ -193,8 +214,8 @@ public class CollimatedBeam extends Particle {
      *
      * @return
      */
-    private float genPositionX() {
-        float xDelta = velocity.getY() != 0 ? (float)Math.random() * width : 0;
+    private double genPositionX() {
+        double xDelta = velocity.getY() != 0 ? (float)Math.random() * width : 0;
         return this.getPosition().getX() + xDelta;
     }
 

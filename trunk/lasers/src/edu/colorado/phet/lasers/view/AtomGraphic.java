@@ -6,20 +6,22 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.graphics.ImageGraphic;
-import edu.colorado.phet.graphics.util.ResourceLoader;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.physics.atom.*;
-import edu.colorado.phet.graphics.util.GraphicsUtil;
-import edu.colorado.phet.physics.body.Particle;
+import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
 import java.awt.geom.AffineTransform;
 import java.util.Observable;
+import java.io.IOException;
 
-public class AtomGraphic extends ImageGraphic {
+public class AtomGraphic extends PhetImageGraphic {
+//public class AtomGraphic extends ImageGraphic {
 
     private Image image;
 
@@ -45,15 +47,23 @@ public class AtomGraphic extends ImageGraphic {
         super.paint( g );
     }
 
-    protected Image getImage() {
-        if( s_particleImage == null ) {
-            ResourceLoader loader = new ResourceLoader();
-            ResourceLoader.LoadedImageDescriptor imageDescriptor = loader.loadImage( s_imageName );
-            s_particleImage = imageDescriptor.getImage();
-            this.s_radius = imageDescriptor.getWidth() / 2;
-        }
-        return s_particleImage;
-    }
+//    public static BufferedImage getImage() {
+////    protected Image getImage() {
+//        if( s_particleImage == null ) {
+////            ResourceLoader loader = new ResourceLoader();
+////            ResourceLoader.LoadedImageDescriptor imageDescriptor = loader.loadImage( s_imageName );
+////            s_particleImage = imageDescriptor.getImage();
+//            try {
+//                s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
+//            }
+//            catch( IOException e ) {
+//                e.printStackTrace();
+//            }
+//            this.s_radius = s_particleImage.getWidth( null ) / 2;
+////            this.s_radius = imageDescriptor.getWidth() / 2;
+//        }
+//        return s_particleImage;
+//    }
 
     public void update( Observable observable, Object o ) {
         super.update( observable, o );

@@ -7,9 +7,10 @@
 package edu.colorado.phet.lasers.physics.photon;
 
 import edu.colorado.phet.lasers.physics.atom.Atom;
-import edu.colorado.phet.physics.collision.SphericalBody;
-import edu.colorado.phet.physics.body.Particle;
-import edu.colorado.phet.physics.Vector2D;
+import edu.colorado.phet.collision.SphericalBody;
+import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.util.ArrayList;
 import java.util.Observer;
@@ -28,7 +29,7 @@ public class Photon extends SphericalBody {
     // is a reference to that photon
     private Photon childPhoton;
 
-    public synchronized void addObserver( Observer o ) {
+    public synchronized void addObserver( SimpleObserver o ) {
         super.addObserver( o );
         if( numObservers > 0 ) {
             System.out.println( "$$$" );
@@ -65,7 +66,7 @@ public class Photon extends SphericalBody {
         }
 
 //        freePool.add( this );
-        setChanged();
+//        setChanged();
         notifyObservers( Particle.S_REMOVE_BODY );
     }
 
@@ -146,7 +147,7 @@ public class Photon extends SphericalBody {
 
     static public Photon create( Photon photon ) {
         Photon newPhoton = create();
-        newPhoton.setVelocity( new Vector2D( photon.getVelocity() ));
+        newPhoton.setVelocity( new Vector2D.Double( photon.getVelocity() ));
         newPhoton.setWavelength( photon.getWavelength() );
         newPhoton.numStimulatedPhotons = photon.numStimulatedPhotons;
         return newPhoton;
@@ -159,7 +160,7 @@ public class Photon extends SphericalBody {
         }
 
         Photon newPhoton = create();
-        newPhoton.setVelocity( new Vector2D( stimulatingPhoton.getVelocity() ));
+        newPhoton.setVelocity( new Vector2D.Double( stimulatingPhoton.getVelocity() ));
         newPhoton.setWavelength( stimulatingPhoton.getWavelength() );
         int yOffset = stimulatingPhoton.numStimulatedPhotons * 4;
         newPhoton.setPosition( stimulatingPhoton.getPosition().getX(),

@@ -7,7 +7,9 @@
 package edu.colorado.phet.lasers.physics.atom;
 
 import edu.colorado.phet.lasers.physics.photon.Photon;
-import edu.colorado.phet.physics.Vector2D;
+import edu.colorado.phet.common.math.Vector2D;
+
+import java.awt.geom.Point2D;
 
 /**
  *
@@ -41,19 +43,26 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
         if( lifeTime >= deathTime ) {
             Photon emittedPhoton = emitPhoton();
 
-            float speed = emittedPhoton.getVelocity().getLength();
+            double speed = emittedPhoton.getVelocity().getMagnitude();
+//            float speed = emittedPhoton.getVelocity().getLength();
             double theta = Math.random() * Math.PI * 2;
-            float x = speed * (float) Math.cos( theta );
-            float y = speed * (float) Math.sin( theta );
+            double x = speed * Math.cos( theta );
+            double y = speed * Math.sin( theta );
+//            float x = speed * (float) Math.cos( theta );
+//            float y = speed * (float) Math.sin( theta );
             emittedPhoton.setVelocity( x, y );
-            emittedPhoton.setPosition( new Vector2D( getAtom().getPosition() ));
+            emittedPhoton.setPosition( new Point2D.Double( getAtom().getPosition().getX(), getAtom().getPosition().getY() ));
+//            emittedPhoton.setPosition( new Vector2D( getAtom().getPosition() ));
 
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away
-            Vector2D vHat = new Vector2D( emittedPhoton.getVelocity() ).normalize();
-            Vector2D position = new Vector2D( getAtom().getPosition() );
-            position.add( vHat.multiply( getAtom().getRadius() + 10 ));
-            emittedPhoton.setPosition( position );
+            Vector2D vHat = new Vector2D.Double( emittedPhoton.getVelocity() ).normalize();
+//            Vector2D position = new Vector2D.Double( getAtom().getPosition() );
+//            Vector2D vHat = new Vector2D( emittedPhoton.getVelocity() ).normalize();
+            Vector2D position = new Vector2D.Double( getAtom().getPosition() );
+            position.add( vHat.scale( getAtom().getRadius() + 10 ));
+//            position.add( vHat.multiply( getAtom().getRadius() + 10 ));
+            emittedPhoton.setPosition( position.getX(), position.getY() );
 
             getAtom().emitPhoton( emittedPhoton );
 

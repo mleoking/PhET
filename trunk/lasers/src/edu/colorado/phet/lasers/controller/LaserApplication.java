@@ -6,57 +6,78 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.controller.*;
-import edu.colorado.phet.graphics.GraphicFactory;
-import edu.colorado.phet.lasers.physics.LaserSystem;
-import edu.colorado.phet.lasers.view.LaserGraphicFactory;
-import edu.colorado.phet.lasers.view.LaserMainPanel;
-
-import javax.swing.*;
+import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.lasers.view.*;
 
 public class LaserApplication extends PhetApplication {
 
+    static class LaserAppModel extends ApplicationModel {
+        public LaserAppModel() {
+            super( "Lasers", "Lasers", "0.1" );
+
+            AbstractClock clock = new SwingTimerClock( 10, 20 );
+
+            Module singleAtomModule = new OneAtomTwoLevelsModule( clock );
+            Module oneAtomThreeLevelsModule = new OneAtomThreeLevelsModule( clock );
+            Module multipleAtomTwlLevelModule = new MultipleAtomTwoLevelModule( clock );
+            Module multipleAtomThreeLevelModule = new MultipleAtomThreeLevelModule();
+            Module testApparatusModule = new TestApparatusModule();
+            Module[] modules = new Module[] {
+                singleAtomModule,
+                oneAtomThreeLevelsModule,
+                multipleAtomTwlLevelModule,
+                multipleAtomThreeLevelModule,
+                testApparatusModule
+            };
+            setModules( modules );
+            setInitialModule( singleAtomModule );
+        }
+    }
 
     public LaserApplication() {
-        super( new LaserSystem() );
-        this.run();
-    }
-
-    public void start() {
-        super.start();
-    }
-
-    protected PhetMainPanel createMainPanel() {
-        return new LaserMainPanel( this );
-    }
-
-    protected JMenu createControlsMenu( PhetFrame phetFrame ) {
-        return new ControlsMenu( phetFrame, this );
+        super( new LaserAppModel() );
     }
 
 
-    protected JMenu createTestMenu() {
-        return null;
-    }
+//    protected PhetMainPanel createMainPanel() {
+//        return new LaserMainPanel( this );
+//    }
+//
+//    protected JMenu createControlsMenu( PhetFrame phetFrame ) {
+//        return new ControlsMenu( phetFrame, this );
+//    }
+//
+//
+//    protected JMenu createTestMenu() {
+//        return null;
+//    }
+//
+//    public GraphicFactory getGraphicFactory() {
+//        return LaserGraphicFactory.instance();
+//    }
+//
+//    protected PhetAboutDialog getAboutDialog( PhetFrame phetFrame ) {
+//        return null;
+//    }
 
-    public GraphicFactory getGraphicFactory() {
-        return LaserGraphicFactory.instance();
-    }
+//    protected Config getConfig() {
+//        return LaserConfig.instance();
+//    }
 
-    protected PhetAboutDialog getAboutDialog( PhetFrame phetFrame ) {
-        return null;
-    }
 
-    protected Config getConfig() {
-        return LaserConfig.instance();
+    public void displayHighToMidEmission( boolean selected ) {
+        LaserGraphicFactory.instance().setHighToMidEmissionsVisible( selected );
     }
-
 
     //
     // Static fields and methods
     //
     public static void main( String[] args ) {
         LaserApplication application = new LaserApplication();
-        application.start();
+        application.startApplication();
     }
 }

@@ -6,19 +6,18 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.graphics.GraphicFactory;
-import edu.colorado.phet.graphics.PhetGraphic;
-import edu.colorado.phet.graphics.ApparatusPanel;
 import edu.colorado.phet.lasers.physics.ResonatingCavity;
 import edu.colorado.phet.lasers.physics.mirror.PartialMirror;
-import edu.colorado.phet.physics.collision.Wall;
-import edu.colorado.phet.physics.body.Particle;
 import edu.colorado.phet.lasers.physics.atom.Atom;
 import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.model.Particle;
 
 import java.util.Map;
 
 public class LaserGraphicFactory extends GraphicFactory {
+    private boolean highToMidEmissionsVisible;
 
     private LaserGraphicFactory() {
         Map classMap = getPhysicalToGraphicalClassMap();
@@ -29,12 +28,28 @@ public class LaserGraphicFactory extends GraphicFactory {
         classMap.put( ResonatingCavity.class, ResonatingCavityGraphic.class );
     }
 
+    public PhetGraphic createGraphic( Particle particle, ApparatusPanel apparatusPanel ) {
+
+        // Here is where the switch is recognized that prevents photons emitted by
+        // atoms moving from the high to mid energy states from being displayed
+        if( particle instanceof Photon &&
+            ((Photon)particle).getWavelength() == Photon.DEEP_RED  &&
+            !this.highToMidEmissionsVisible) {
+            return null;
+        }
+        return super.createGraphic( particle, apparatusPanel );    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    public void setHighToMidEmissionsVisible( boolean isVisible ){
+        this.highToMidEmissionsVisible = isVisible;
+    }
+
     //
     // Static fields and methods
     //
     private static LaserGraphicFactory instance = new LaserGraphicFactory();
 
-    public static GraphicFactory instance() {
+    public static LaserGraphicFactory instance() {
         return instance;
     }
 

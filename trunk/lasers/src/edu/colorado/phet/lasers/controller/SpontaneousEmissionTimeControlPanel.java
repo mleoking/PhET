@@ -7,9 +7,8 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.command.SetHighEnergySpontaneousEmissionTimeCmd;
-import edu.colorado.phet.lasers.controller.command.SetMiddleEnergySpontaneousEmissionTimeCmd;
+import edu.colorado.phet.lasers.physics.LaserModel;
+import edu.colorado.phet.lasers.view.BaseLaserModule;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -25,16 +24,16 @@ public class SpontaneousEmissionTimeControlPanel extends JPanel {
     private JSlider middleEnergySpontaneousEmissionTimeSlider;
     private JTextField middleEnergySpontaneousEmissionTimeTF;
 
-    public SpontaneousEmissionTimeControlPanel() {
+    public SpontaneousEmissionTimeControlPanel( BaseLaserModule module, LaserModel model ) {
         this.setLayout( new GridLayout( 2, 1 ));
-        addHighEnergyControls();
-        addMiddleEnergyControls();
+        addHighEnergyControls( module );
+        addMiddleEnergyControls( model );
     }
 
     /**
      *
      */
-    private void addHighEnergyControls() {
+    private void addHighEnergyControls( final BaseLaserModule module ) {
         JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
         controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
 
@@ -59,7 +58,8 @@ public class SpontaneousEmissionTimeControlPanel extends JPanel {
         highEnergySpontaneousEmissionTimeSlider.setMajorTickSpacing( 100 );
         highEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateHighEnergySpontaneousEmissionTime( ((float)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
+//                updateHighEnergySpontaneousEmissionTime( ((float)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
+                module.getLaserModel().setHighEnergySpontaneousEmissionTime( ((float)highEnergySpontaneousEmissionTimeSlider.getValue()) );
                 highEnergySpontaneousEmissionTimeTF.setText( Float.toString( highEnergySpontaneousEmissionTimeSlider.getValue() ) );
             }
         } );
@@ -76,7 +76,7 @@ public class SpontaneousEmissionTimeControlPanel extends JPanel {
     /**
      *
      */
-    private void addMiddleEnergyControls() {
+    private void addMiddleEnergyControls( final LaserModel model ) {
         JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
         controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
 
@@ -99,7 +99,8 @@ public class SpontaneousEmissionTimeControlPanel extends JPanel {
         middleEnergySpontaneousEmissionTimeSlider.setMajorTickSpacing( 100 );
         middleEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateMiddleEnergySpontaneousEmissionTime( ((float)middleEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
+//                updateMiddleEnergySpontaneousEmissionTime( ((float)middleEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
+                model.setMiddleEnergySpontaneousEmissionTime( ((float)middleEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
                 middleEnergySpontaneousEmissionTimeTF.setText( Float.toString( middleEnergySpontaneousEmissionTimeSlider.getValue() ) );
             }
         } );
@@ -115,11 +116,11 @@ public class SpontaneousEmissionTimeControlPanel extends JPanel {
     }
 
 
-    private void updateHighEnergySpontaneousEmissionTime( float time ) {
-        new SetHighEnergySpontaneousEmissionTimeCmd( time ).doIt();
-    }
+//    private void updateHighEnergySpontaneousEmissionTime( float time ) {
+//        new SetHighEnergySpontaneousEmissionTimeCmd( time ).doIt();
+//    }
 
-    private void updateMiddleEnergySpontaneousEmissionTime( float time ) {
-        new SetMiddleEnergySpontaneousEmissionTimeCmd( time ).doIt();
-    }
+//    private void updateMiddleEnergySpontaneousEmissionTime( float time ) {
+//        new SetMiddleEnergySpontaneousEmissionTimeCmd( time ).doIt();
+//    }
 }

@@ -8,9 +8,8 @@ package edu.colorado.phet.lasers.physics.collision;
 
 import edu.colorado.phet.lasers.physics.atom.Atom;
 import edu.colorado.phet.lasers.physics.photon.Photon;
-import edu.colorado.phet.physics.collision.Collision;
-import edu.colorado.phet.physics.collision.CollisionFactory;
-import edu.colorado.phet.physics.body.Particle;
+import edu.colorado.phet.collision.Collision;
+import edu.colorado.phet.common.model.Particle;
 
 public class PhotonAtomCollision implements Collision {
 
