@@ -1,3 +1,8 @@
+// todo: refactor the threaded behavior of the DecayGraphic class into the DecayNucleus class,
+// then rewrite paint(). Manage the y position of the graphic by the potential energy of
+// the nucleus model. Apply a model transform to this panel, so we don't have to
+// work in view coordinates all the time.
+
 /**
  * Class: PotentialProfilePanel
  * Class: edu.colorado.phet.nuclearphysics.view
@@ -83,37 +88,44 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
 
         if( nucleusGraphic != null ) {
+            Nucleus nucleus = nucleusGraphic.getNucleus();
             double scale = 0.3;
-            AffineTransform atx = scaleInPlaceTx( scale, xWell, yWell );
+            AffineTransform atx = scaleInPlaceTx( scale, xWell, origin.getY() - nucleus.getPotentialEnergy() - nucleus.getRadius() );
+//            AffineTransform atx = scaleInPlaceTx( scale, xWell, yWell );
             AffineTransform orgTx = g2.getTransform();
             g2.setTransform( atx );
 
-            Nucleus nucleus = nucleusGraphic.getNucleus();
             double xStat = nucleus.getStatisticalLocationOffset().getX();
             double yStat = nucleus.getStatisticalLocationOffset().getY();
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
             double x = origin.getX() + (int)( d / scale );
-            double y = yWell;
+            double y = nucleus.getPotentialEnergy();
             nucleusGraphic.paint( g2, (int)x, (int)y );
 
             g2.setTransform( orgTx );
         }
 
         if( decayGraphic != null ) {
+            Nucleus nucleus = decayGraphic.getNucleus();
             double scale = 0.3;
-            AffineTransform atx = scaleInPlaceTx( scale, xWell, yWell );
+            AffineTransform atx = scaleInPlaceTx( scale, xWell, origin.getY() - nucleus.getPotentialEnergy() - nucleus.getRadius() );
+//            AffineTransform atx = scaleInPlaceTx( scale, xWell, yWell );
             AffineTransform orgTx = g2.getTransform();
             g2.setTransform( atx );
+
             double x = potentialProfile.getAlphaDecayX() *
                        ( decayGraphic.getNucleus().getStatisticalLocationOffset().getX() > 0 ? 1 : -1 );
             decayGraphic.paint( g2, (int)( (int)origin.getX() + ( (NucleusDecayGraphic)decayGraphic ).getX() / scale ),
                                 (int)( ( (NucleusDecayGraphic)decayGraphic ).getY() ) );
+
+
 //            decayGraphic.paint( g2, (int)( (int)origin.getX() + x / scale ),
 //                                                       (int)yWell );
 //            decayGraphic.paint( g2, (int)( (int)origin.getX() + ( potentialProfile.getAlphaDecayX()) / scale ),
 //                                                       (int)yWell );
             g2.setTransform( orgTx );
         }
+
         // Paint a dot on the hill for the spot at the same level as the well
 //        double yTest = -potentialProfile.getWellPotential();
 //        for( int j = 0; j < 1; j++ ) {
@@ -150,6 +162,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
     public void addDecayProduct( Nucleus decayNucleus ) {
         this.decayGraphic = new NucleusDecayGraphic( decayNucleus );
+
     }
 
 
@@ -172,16 +185,36 @@ public class PotentialProfilePanel extends ApparatusPanel {
     //
     // Inner classes
     //
-    private class NucleusDecayGraphic extends NucleusGraphic {
+
+    // todo: move the thread behavior to a model class!!!
+    private class NucleusDecayGraphic extends NucleusGraphic implements Runnable {
         private double x;
         private double y;
 
         public NucleusDecayGraphic( Nucleus nucleus ) {
             super( nucleus );
             double x = potentialProfile.getAlphaDecayX() *
-                       ( decayGraphic.getNucleus().getStatisticalLocationOffset().getX() > 0 ? 1 : -1 );
+                       ( nucleus.getStatisticalLocationOffset().getX() > 0 ? 1 : -1 );
             this.x = x;
             this.y = origin.getY() - profileGraphic.getProfile().getWellPotential() - 10;
+
+            Thread thread = new Thread( this );
+            thread.start();
+        }
+
+        public void run() {
+            while( getY() < origin.getY() ) {
+
+                try {
+                    Thread.sleep( 50 );
+                    this.y += 10;
+                    this.x = getNucleus().getPotentialProfile().getHillX( -this.y );
+                    PotentialProfilePanel.this.repaint();
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
         }
 
         public double getX() {

@@ -16,6 +16,7 @@ public class Nucleus extends Body {
     private int numProtons;
     private int numNeutrons;
     private double radius;
+    private double potentialEnergy;
     private PotentialProfile potentialProfile;
     private Point2D.Double statisticalLocationOffset = new Point2D.Double();
 
@@ -26,6 +27,7 @@ public class Nucleus extends Body {
         this.numProtons = numProtons;
         this.numNeutrons = numNeutrons;
         this.potentialProfile = potentialProfile;
+        this.potentialEnergy = potentialProfile.getWellPotential();
 
         int numParticles = getNumNeutrons() + getNumProtons();
         double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
@@ -54,6 +56,10 @@ public class Nucleus extends Body {
 
     public PotentialProfile getPotentialProfile() {
         return potentialProfile;
+    }
+
+    public double getPotentialEnergy() {
+        return this.potentialEnergy;
     }
 
     public void stepInTime( double dt ) {
