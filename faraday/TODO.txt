@@ -3,21 +3,24 @@
 ===============================================================================
 
 IN PROGRESS:
-
 - Electromagnet module "first pass"
+- set Electromagnet model size based on size of the coil in the Electromagnet graphic
+- grid doesn't display until the battery voltage is changed
+- electrons in source coil seem to get "off" in the left-most loop
+- electrons appear to flow faster in a coil with fewer loops with the same voltage
+- not enough visual difference between the min & max /voltage/amplitude/frequency settings
 
 HIGH PRIORITY:
 - when a collision occurs, don't ignore the translate, move the object as close as possible
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
-- calibrate electron speed, they move to fast at maximum settings
-- fix magnet hierarcy; Electromagnet shouldn't extend Bar Magnet
-- generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
+- show frequency & amplitude graph on the ACSourceGraphic
 - Transformer module requirements
 - Field Meter shows -0.00 and -180.00 values, should be 0.00 and 180.00
 
 LOW PRIORITY:
+- generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
 - check for unnecessary notification, events and updates
 - replace EasyGridBagLayout with SwingUtils.addGridBagComponent
 - background color (use new PhetApplication interface)
@@ -46,6 +49,9 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/24) - add "Show Electrons" and "Loops" controls to Electromagnet module
+(2/24) - set a maximum position delta in Electron, so that we can see the animation at maximum speeds
+(2/24) - give CoilGraphic it's own rescaler to control "look" of electron speed
 (2/24) - wire up amplitude & frequency controls to AC source
 (2/23) - fix magnet hierarcy, BarMagnet and Electromagnet are subclasses of DipoleMagnet
 (2/23) - connect Lightbulb and Voltmeter to an AbstractVoltageSource instead of a PickupCoil

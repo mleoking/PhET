@@ -110,15 +110,17 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         ACSource acSourceModel = new ACSource();
         acSourceModel.setMaxVoltage( FaradayConfig.AC_VOLTAGE_MAX );
         acSourceModel.setVoltage( 0 );
+        acSourceModel.setAmplitude( FaradayConfig.AC_AMPLITUDE_MAX  / 2 );
+        acSourceModel.setFrequency( FaradayConfig.AC_FREQUENCY_MIN + (( FaradayConfig.AC_FREQUENCY_MAX - FaradayConfig.AC_FREQUENCY_MIN ) / 2) );
         acSourceModel.setEnabled( false );
         model.addModelElement( acSourceModel );
         
         // Source Coil
         SourceCoil sourceCoilModel = new SourceCoil();
-        sourceCoilModel.setVoltageSource( batteryModel );
         sourceCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
         sourceCoilModel.setRadius( LOOP_RADIUS );
         sourceCoilModel.setDirection( 0 /* radians */ );
+        sourceCoilModel.setVoltageSource( batteryModel );
         sourceCoilModel.setLocation( SOURCE_COIL_LOCATION );
         
         // Electromagnet
@@ -195,7 +197,8 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
 
         // Control Panel
         ElectromagnetControlPanel controlPanel = new ElectromagnetControlPanel( this, 
-                sourceCoilModel, batteryModel, acSourceModel, compassModel, _gridGraphic, fieldMeterGraphic );
+                sourceCoilModel, batteryModel, acSourceModel, compassModel,
+                electromagnetGraphic.getCoilGraphic(), _gridGraphic, fieldMeterGraphic );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
