@@ -152,8 +152,6 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
         return (LaserModel)getModel();
     }
 
-    int cnt;
-
     protected void addAtom( Atom atom ) {
         getModel().addModelElement( atom );
         final AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
