@@ -202,13 +202,21 @@ public class IdealGasModule extends Module {
         StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
         stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
                                      IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 30, 300, 120 );
-        getApparatusPanel().add( stoveControlPanel );
+//        getApparatusPanel().add( stoveControlPanel );
+
+        StoveControlPanel2 scp2 = new StoveControlPanel2( this );
+        scp2.setLocation( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET + 100,
+                          IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 20 );
+        getApparatusPanel().addGraphic( scp2 );
 
         // Add buttons for selecting the species that the pump will produce
-        PumpSpeciesSelectorPanel pumpSelectorPanel = new PumpSpeciesSelectorPanel( this );
-        pumpSelectorPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + 590, IdealGasConfig.Y_BASE_OFFSET + 300,
-                                     200, 150 );
-        getApparatusPanel().add( pumpSelectorPanel );
+//        PumpSpeciesSelectorPanel pumpSelectorPanel = new PumpSpeciesSelectorPanel( this );
+//        pumpSelectorPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + 590, IdealGasConfig.Y_BASE_OFFSET + 300,
+//                                     200, 150 );
+        PumpSpeciesSelectorPanel2 pumpSelectorPanel = new PumpSpeciesSelectorPanel2( this );
+        pumpSelectorPanel.setLocation( IdealGasConfig.X_BASE_OFFSET + 610, IdealGasConfig.Y_BASE_OFFSET + 300 );
+        getApparatusPanel().addGraphic( pumpSelectorPanel );
+//        getApparatusPanel().add( pumpSelectorPanel );
         getApparatusPanel().revalidate();
 
         // Add help items
