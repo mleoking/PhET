@@ -53,9 +53,8 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
         }
     }
 
-    public void moduleRemoved( Module m ) {
-//        removeTabAt( );
-        throw new RuntimeException( "Module removal is not yet handled." );
+    public void moduleRemoved( Module module ) {
+        remove( module.getApparatusPanel() );
     }
 
 }
