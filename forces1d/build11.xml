@@ -13,7 +13,7 @@
 
     <!--  Set up child directories, for during the build.  -->
     <property name="src" location="src"/>
-    <property name="tests-src" location="test-src"/>
+    <property name="tests-src" location="tests-src"/>
     <property name="data" location="data"/>
 
     <property file="build.properties"/>
@@ -40,8 +40,19 @@
         </tstamp>
         <property name="location" value="${backup}/${distname}_src_${backup.time}"/>
         <mkdir dir="${location}"/>
-        <copy todir="${location}">
+        <mkdir dir="${location}/src"/>
+        <copy todir="${location}/src">
             <fileset dir="${src}"/>
+            <fileset dir="${tests-src}"/>
+        </copy>
+        <mkdir dir="${location}/charts/src"/>
+        <copy todir="${location}/charts/src">
+            <fileset dir="charts/development/src"/>
+            <!--            <fileset dir="${tests-src}"/>-->
+        </copy>
+        <mkdir dir="${location}/phetcommon/src"/>
+        <copy todir="${location}/phetcommon/src">
+            <fileset dir="phetcommon/src"/>
             <!--            <fileset dir="${tests-src}"/>-->
         </copy>
     </target>
