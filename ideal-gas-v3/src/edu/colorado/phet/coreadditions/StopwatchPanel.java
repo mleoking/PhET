@@ -38,7 +38,7 @@ public class StopwatchPanel extends JPanel implements ClockTickListener {
 
     private int numSigDigits = 4;
     private JTextField clockTF = new JTextField();
-    private NumberFormat clockFormat = new DecimalFormat( "0.0000" );
+    private NumberFormat clockFormat = new DecimalFormat( "0.00" );
     private AbstractClock clock;
     private String[] startStopStr;
     private EventChannel stopwatchEventChannel = new EventChannel( StopwatchListener.class );
