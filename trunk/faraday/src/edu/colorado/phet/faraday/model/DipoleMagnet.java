@@ -40,10 +40,11 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      */
     private static final double FUDGE_FACTOR = 700.0;
     
-    /*
-     * Magnetic field strength drops off by this power.
-     */
+    // Magnetic field strength drops off by this power.
     private static final double DEFAULT_DISTANCE_EXPONENT = 3.0;
+    
+    // Number of pixels per 1 unit of distance.
+    private static final double PIXELS_PER_DISTANCE = 1.0;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -190,8 +191,8 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         _southPoint.setLocation( -getWidth()/2 + getHeight()/2, 0 ); // south dipole
         
         // Distances.
-        double rN = _northPoint.distance( p ); // north dipole to point
-        double rS = _southPoint.distance( p ); // south dipole to point
+        double rN = _northPoint.distance( p ) / PIXELS_PER_DISTANCE; // north dipole to point
+        double rS = _southPoint.distance( p ) / PIXELS_PER_DISTANCE; // south dipole to point
         double L = _southPoint.distance( _northPoint ); // dipole to dipole
         
         // Fudge factor

@@ -27,7 +27,6 @@ HIGH PRIORITY:
 - calibrate voltmeter
 - calibrate electron speed in pickup coil
 
-
 MEDIUM PRIORITY:
 - lightbulb flashes the first time that you visit each module
 - sliders sometimes remain hilited after you roll off them
@@ -40,7 +39,7 @@ LOW PRIORITY:
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
 - check for unnecessary notification, events and updates
 - replace EasyGridBagLayout with SwingUtils.addGridBagComponent
-- background color (use new PhetApplication interface)
+- background color (use PhetLookAndFeel)
 - Help/MegaHelp
 
 CLEANUP:
@@ -53,7 +52,6 @@ CLEANUP:
 
 POSSIBLE OPTIMIZATIONS:
 - use a profiler (eg JProfile) to identify bottlenecks
-- eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf
 
 PHETCOMMON:
 - bug: hand cursor accidentally picks another object when you release mouse
@@ -66,6 +64,7 @@ PHETCOMMON:
 
 DONE:
 v0r21
+(4/4) - add mapping between distance and pixels in DipoleMagnet, currently 1:1
 (4/4) - add debugging panel for changing lightbulb, voltmeter and electron scale
 (4/4) - integrate CompassGridRescaler into CompassGridGraphic
 (4/4) - delete all rescalers except CompassGridRescaler
@@ -348,7 +347,8 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
-(4/4) - - add scaling of pixel-space (not necessary, but would be done in DipoleMagnet.getStrengthInside)
+(4/4) - eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf (not possible)
+(4/4) - add scaling of pixel-space (not necessary, but would be done in DipoleMagnet.getStrengthInside)
 (3/29) - draw needles using Graphics.fillPolygon (no performance improvement)
 (3/29) - transparent bar magnet layer so that field meter looks like it's inside it (no one except Ron asked for this feature)
 (3/29) - redo Turbine model, it should not extend BarMagnet (fine as is for this simulation)
