@@ -46,6 +46,11 @@ public class PhysicalPanel extends ApparatusPanel {
         super.paintComponent( graphics );    //To change body of overridden methods use File | Settings | File Templates.
     }
 
+    public void clear() {
+        super.removeAllGraphics();
+        modelElementToGraphicMap.clear();
+    }
+
     //
     // Statics
     //

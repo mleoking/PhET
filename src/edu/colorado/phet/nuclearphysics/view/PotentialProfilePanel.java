@@ -1,6 +1,4 @@
-// todo: refactor the threaded behavior of the DecayGraphic class into the DecayNucleus class,
-// then rewrite paint(). Manage the y position of the graphic by the potential energy of
-// the nucleus model. Apply a model transform to this panel, so we don't have to
+// todo: Apply a model transform to this panel, so we don't have to
 // work in view coordinates all the time.
 
 /**
@@ -14,6 +12,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.nuclearphysics.model.DecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
@@ -28,6 +27,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private PotentialProfileGraphic profileGraphic;
     private PotentialProfile potentialProfile;
     private Point2D.Double origin;
+    private Point2D.Double strLoc = new Point2D.Double();
+    private int potentialSense;
 
     public PotentialProfilePanel( PotentialProfile potentialProfile ) {
         origin = new Point2D.Double( 250, 600 );
@@ -70,60 +71,42 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
         // Center the profile in the panel
         origin.setLocation( this.getWidth() / 2, this.getHeight() * 2 / 3 );
-        double xWell = origin.getX();
-
-        // What's with the / 10?
-        double yWell = origin.getY() - profileGraphic.getProfile().getWellPotential() - 10;
-        Graphics2D g2 = (Graphics2D)graphics;
 
         super.paintComponent( graphics );
+        Graphics2D g2 = (Graphics2D)graphics;
+        AffineTransform orgTx = g2.getTransform();
 
         // Draw axes
-        g2.setColor( axisColor );
-        g2.setStroke( axisStroke );
-        Line2D.Double xAxis = new Line2D.Double( 0, origin.getY(), this.getWidth(), origin.getY() );
-        Line2D.Double yAxis = new Line2D.Double( origin.getX(), 0, origin.getX(), this.getHeight() );
-        g2.draw( xAxis );
-        g2.draw( yAxis );
-
+        drawAxes( g2 );
 
         if( nucleusGraphic != null ) {
             Nucleus nucleus = nucleusGraphic.getNucleus();
             double scale = 0.3;
-            AffineTransform atx = scaleInPlaceTx( scale, xWell, origin.getY() - nucleus.getPotentialEnergy() - nucleus.getRadius() );
-//            AffineTransform atx = scaleInPlaceTx( scale, xWell, yWell );
-            AffineTransform orgTx = g2.getTransform();
+            AffineTransform atx = scaleInPlaceTx( scale, origin.getX(),
+                                                  origin.getY() - nucleus.getPotentialEnergy() );
             g2.setTransform( atx );
 
             double xStat = nucleus.getStatisticalLocationOffset().getX();
+            potentialSense = ( xStat > 0 ? -1 : 1 );
             double yStat = nucleus.getStatisticalLocationOffset().getY();
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
             double x = origin.getX() + (int)( d / scale );
             double y = nucleus.getPotentialEnergy();
-            nucleusGraphic.paint( g2, (int)x, (int)y );
-
-            g2.setTransform( orgTx );
+            nucleusGraphic.paint( g2, (int)x, (int)origin.getY() - (int)y );
         }
 
         if( decayGraphic != null ) {
-            Nucleus nucleus = decayGraphic.getNucleus();
+            DecayNucleus nucleus = (DecayNucleus)decayGraphic.getNucleus();
             double scale = 0.3;
-            AffineTransform atx = scaleInPlaceTx( scale, xWell, origin.getY() - nucleus.getPotentialEnergy() - nucleus.getRadius() );
-//            AffineTransform atx = scaleInPlaceTx( scale, xWell, yWell );
-            AffineTransform orgTx = g2.getTransform();
+            AffineTransform atx = scaleInPlaceTx( scale, origin.getX(),
+                                                  origin.getY() - nucleus.getPotentialEnergy() - nucleus.getRadius() * scale );
             g2.setTransform( atx );
 
-            double x = potentialProfile.getAlphaDecayX() *
-                       ( decayGraphic.getNucleus().getStatisticalLocationOffset().getX() > 0 ? 1 : -1 );
-            decayGraphic.paint( g2, (int)( (int)origin.getX() + ( (NucleusDecayGraphic)decayGraphic ).getX() / scale ),
-                                (int)( ( (NucleusDecayGraphic)decayGraphic ).getY() ) );
-
-
-//            decayGraphic.paint( g2, (int)( (int)origin.getX() + x / scale ),
-//                                                       (int)yWell );
-//            decayGraphic.paint( g2, (int)( (int)origin.getX() + ( potentialProfile.getAlphaDecayX()) / scale ),
-//                                                       (int)yWell );
-            g2.setTransform( orgTx );
+            // Note: -y is needed because we're currently working in view coordinates. The profile is a cubic
+            // in view coordinates
+            double y = nucleus.getPotentialEnergy();
+            double x = potentialProfile.getHillX( -y ) * potentialSense;
+            decayGraphic.paint( g2, (int)( (int)origin.getX() + x / scale ), (int)origin.getY() - (int)y );
         }
 
         // Paint a dot on the hill for the spot at the same level as the well
@@ -134,6 +117,33 @@ public class PotentialProfilePanel extends ApparatusPanel {
 //            g2.fillOval( (int)xTest + (int)origin.getX() - 5, (int)origin.getY() + (int)yTest - 5, 10, 10 );
 //        }
 
+        // Restore the affine transform to the graphics
+        g2.setTransform( orgTx );
+
+    }
+
+    private void drawAxes( Graphics2D g2 ) {
+
+        g2.setColor( axisColor );
+        g2.setStroke( axisStroke );
+        Line2D.Double xAxis = new Line2D.Double( 0, origin.getY(), this.getWidth(), origin.getY() );
+        Line2D.Double yAxis = new Line2D.Double( origin.getX(), 0, origin.getX(), this.getHeight() );
+        g2.draw( xAxis );
+        g2.draw( yAxis );
+
+        // Draw labels
+        g2.setFont( axisLabelFont );
+        g2.setColor( Color.black );
+        FontMetrics fm = g2.getFontMetrics();
+        strLoc.setLocation( origin.getX(), fm.stringWidth( yAxisLabel ) + 10 );
+        AffineTransform strTx = rotateInPlace( -Math.PI / 2, strLoc.getX(), strLoc.getY() );
+        AffineTransform orgTx = g2.getTransform();
+        g2.setTransform( strTx );
+        g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
+        g2.setTransform( orgTx );
+        strLoc.setLocation( this.getWidth() - fm.stringWidth( xAxisLabel ) - 10,
+                            origin.getY() + fm.getHeight() );
+        g2.drawString( xAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
     }
 
     private void addPotentialProfile( PotentialProfileGraphic profileGraphic ) {
@@ -161,10 +171,13 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     public void addDecayProduct( Nucleus decayNucleus ) {
-        this.decayGraphic = new NucleusDecayGraphic( decayNucleus );
-
+        this.decayGraphic = new NucleusGraphic( decayNucleus );
     }
 
+    public void clear() {
+        this.nucleusGraphic = null;
+        this.decayGraphic = null;
+    }
 
     //
     // Statics
@@ -172,6 +185,16 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private static Color axisColor = new Color( 100, 100, 100 );
     private static Stroke axisStroke = new BasicStroke( 1f );
     private static Color backgroundColor = new Color( 230, 255, 255 );
+    private static String xAxisLabel = "Disance from Nucleus Center";
+    private static String yAxisLabel = "Potential Energy";
+    private static Font axisLabelFont;
+
+    static {
+        String family = "SansSerif";
+        int style = Font.BOLD;
+        int size = 12;
+        axisLabelFont = new Font( family, style, size );
+    }
 
     public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
         AffineTransform atx = new AffineTransform();
@@ -181,48 +204,11 @@ public class PotentialProfilePanel extends ApparatusPanel {
         return atx;
     }
 
-
-    //
-    // Inner classes
-    //
-
-    // todo: move the thread behavior to a model class!!!
-    private class NucleusDecayGraphic extends NucleusGraphic implements Runnable {
-        private double x;
-        private double y;
-
-        public NucleusDecayGraphic( Nucleus nucleus ) {
-            super( nucleus );
-            double x = potentialProfile.getAlphaDecayX() *
-                       ( nucleus.getStatisticalLocationOffset().getX() > 0 ? 1 : -1 );
-            this.x = x;
-            this.y = origin.getY() - profileGraphic.getProfile().getWellPotential() - 10;
-
-            Thread thread = new Thread( this );
-            thread.start();
-        }
-
-        public void run() {
-            while( getY() < origin.getY() ) {
-
-                try {
-                    Thread.sleep( 50 );
-                    this.y += 10;
-                    this.x = getNucleus().getPotentialProfile().getHillX( -this.y );
-                    PotentialProfilePanel.this.repaint();
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-            }
-        }
-
-        public double getX() {
-            return x;
-        }
-
-        public double getY() {
-            return y;
-        }
+    public static AffineTransform rotateInPlace( double theta, double x, double y ) {
+        AffineTransform atx = new AffineTransform();
+        atx.translate( x, y );
+        atx.rotate( theta );
+        atx.translate( -x, -y );
+        return atx;
     }
 }

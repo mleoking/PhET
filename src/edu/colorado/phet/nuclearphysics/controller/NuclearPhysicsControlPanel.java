@@ -175,7 +175,7 @@ public class NuclearPhysicsControlPanel extends JPanel {
     private class TestPanel extends JPanel {
 
         TestPanel() {
-            JButton decayBtn = new JButton( "Decay" );
+            JButton decayBtn = new JButton( "Rerun" );
             decayBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.testDecay();
