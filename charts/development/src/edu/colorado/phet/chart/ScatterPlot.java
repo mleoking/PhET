@@ -12,8 +12,8 @@ import java.util.ArrayList;
  * Copyright (c) Sep 18, 2004 by Sam Reid
  */
 public class ScatterPlot extends DataSetGraphic {
-    ScatterPaint scatterPaint = null;
-    ArrayList viewPoints = new ArrayList();
+    private ScatterPaint scatterPaint = null;
+    private ArrayList viewPoints = new ArrayList();
 
     public ScatterPlot( DataSet dataSet ) {
         this( dataSet, new CirclePaint( Color.blue, 1, true ) );
@@ -36,9 +36,9 @@ public class ScatterPlot extends DataSetGraphic {
     }
 
     public static class CirclePaint implements ScatterPaint {
-        Color color;
-        int radius;
-        boolean filled;
+        private Color color;
+        private int radius;
+        private boolean filled;
 
         public CirclePaint( Color color, int radius, boolean filled ) {
             this.color = color;

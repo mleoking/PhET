@@ -9,10 +9,10 @@ package edu.colorado.phet.chart;
 import java.awt.geom.Rectangle2D;
 
 public class Range2D {
-    double minX;
-    double minY;
-    double maxX;
-    double maxY;
+    private double minX;
+    private double minY;
+    private double maxX;
+    private double maxY;
 
     public Range2D( double minX, double minY, double maxX, double maxY ) {
         this.minX = minX;
@@ -82,5 +82,13 @@ public class Range2D {
         double y = centerY - height / 2;
         Rectangle2D.Double newRect = new Rectangle2D.Double( x, y, width, height );
         return new Range2D( newRect );
+    }
+
+    public double getWidth() {
+        return maxX - minX;
+    }
+
+    public double getHeight() {
+        return maxY - minY;
     }
 }

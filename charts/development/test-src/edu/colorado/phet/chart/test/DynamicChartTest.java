@@ -23,7 +23,6 @@ public class DynamicChartTest {
     public static void main( String[] args ) {
         final ApparatusPanel apparatusPanel = new ApparatusPanel() {
             public void repaint( long tm, int x, int y, int width, int height ) {
-//                super.repaint( tm, x, y, width, height );
                 Rectangle repaint = new Rectangle( x, y, width, height );
                 toPaint.add( repaint );
             }
@@ -42,59 +41,43 @@ public class DynamicChartTest {
         chart.getVerticalGridlines().setMajorGridlinesColor( Color.gray );
         chart.getHorizonalGridlines().setMajorGridlinesColor( Color.gray );
 
-        //TODO change:
-        //chart.getXAxis().setMajorTickFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
-        chart.getXAxis().getMajorGrid().setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
-//        chart.getVerticalGridlines().setMajorGridlinesStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1.0f, new float[]{5, 5}, 0 ) );
-//        chart.getHorizonalGridlines().setMajorGridlinesStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1.0f, new float[]{5, 5}, 0 ) );
+        chart.getXAxis().setMajorTickFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        chart.getXAxis().setMajorTicksVisible( true );
+        chart.getXAxis().setMinorTicksVisible( true );
+        chart.getXAxis().setMinorTickSpacing( .5 );
+        chart.getXAxis().setMinorTickStroke( new BasicStroke( .5f ) );
 
         JFrame frame = new JFrame( "ChartTest" );
         frame.setContentPane( apparatusPanel );
         frame.setSize( 800, 800 );
         apparatusPanel.addGraphic( chart );
 
-//        DataSet ds = new DataSet();
-//        DataSetGraphic dsg = new ScatterPlot( ds, new ScatterPlot.CirclePaint( Color.green, 3, false ) );
-//        chart.addDataSetGraphic( dsg );
-
         final int insets = 20;
         apparatusPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 Rectangle viewBounds = new Rectangle( insets, insets, e.getComponent().getWidth() - insets * 2, e.getComponent().getHeight() - insets * 2 );
                 chart.setViewBounds( viewBounds );
-
                 Color leftColor = new Color( 255, 255, 255 );
                 Color rightColor = new Color( 140, 160, 255 );
                 chart.setBackground( new GradientPaint( 0, 0, leftColor, e.getComponent().getWidth(), e.getComponent().getHeight(), rightColor, false ) );
             }
         } );
 
-        final DataSet sin2 = new DataSet();
-        DataSetGraphic sinGraphic = new LinePlot( sin2,
-//                                                  new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[]{8, 8}, 0 )
-                                                  new BasicStroke( 3 )
-                                                  , Color.blue );
+        final DataSet dataSet1 = new DataSet();
+        DataSetGraphic sinGraphic = new LinePlot( dataSet1, new BasicStroke( 3 ), Color.blue );
         chart.addDataSetGraphic( sinGraphic );
-        double dx2 = .01;
-        for( double x = 0; x < 5; x += dx2 ) {
-            double y = 10 * Math.sin( x / 2 );
-            sin2.addPoint( x, y );
-        }
 
-        final DataSet sin3 = new DataSet();
-        DataSetGraphic sinGraphic3 = new LinePlot( sin3, new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[]{8, 8}, 0 ), Color.red );
+        final DataSet dataSet2 = new DataSet();
+        DataSetGraphic sinGraphic3 = new LinePlot( dataSet2,
+                                                   new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[]{8, 8}, 0 ),
+                                                   Color.red );
         chart.addDataSetGraphic( sinGraphic3 );
-        double dx3 = .01;
-        for( double x = 0; x < 5; x += dx3 ) {
-            double y = 10 * Math.sin( x / 2 );
-            sin3.addPoint( x, y );
-        }
 
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         Thread dataThread = new Thread( new Runnable() {
             public void run() {
-                double x = 5;
+                double x = -5;
                 while( true ) {
                     try {
                         Thread.sleep( 20 );
@@ -104,21 +87,28 @@ public class DynamicChartTest {
                     }
                     {
                         double y = 10 * Math.sin( x / 2 );
-                        sin2.addPoint( x, y );
-                        while( sin2.size() > 100 ) {
-                            sin2.removePoint( 0 );
+                        dataSet1.addPoint( x, y );
+                        while( dataSet1.size() > 100 ) {
+                            dataSet1.removePoint( 0 );
                         }
                     }
                     {
                         double y = 10 * Math.cos( x / 3 );
-                        sin3.addPoint( x, Math.abs( y ) );
-                        while( sin3.size() > 100 ) {
-                            sin3.removePoint( 0 );
+//                        if( dataSet2.size() == 0 ) {
+//                            dataSet2.addPoint( x, Math.abs( 1.1 ) );
+//                        }
+//                        else {
+//                        double y = dataSet2.getLastPoint().getY() * dataSet2.getLastPoint().getY();
+                        dataSet2.addPoint( x, Math.abs( y ) );
+                        while( dataSet2.size() > 100 ) {
+                            dataSet2.removePoint( 0 );
+//                            }
                         }
                     }
                     Range2D dataBounds = chart.getDataRange();
-                    //the golden ratio = 1.61803399
-                    chart.setRange( dataBounds.getScaledRange( 1.2, 1.2 ) );
+                    if( dataBounds.getWidth() > 0 && dataBounds.getHeight() > 0 ) {
+                        chart.setRange( dataBounds.getScaledRange( 1.2, 1.2 ) );
+                    }
                     apparatusPanel.paintImmediately( union() );
 //                    apparatusPanel.repaint( union() );
                     x += .15;
