@@ -29,7 +29,8 @@ public class Nucleus extends Body {
 
         int numParticles = getNumNeutrons() + getNumProtons();
         double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
-        radius = Math.sqrt( particleArea / Math.PI ) / 2;
+        radius = Math.sqrt( particleArea / Math.PI ) / 3;
+//        radius = Math.sqrt( particleArea / Math.PI ) / 2;
     }
 
     public Point2D.Double getCM() {
