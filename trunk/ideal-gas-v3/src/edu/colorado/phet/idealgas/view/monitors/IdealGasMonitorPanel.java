@@ -7,7 +7,6 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -20,7 +19,7 @@ import java.awt.*;
 /**
  *
  */
-public class IdealGasMonitorPanel extends PhetMonitorPanel implements SimpleObserver {
+public class IdealGasMonitorPanel extends JPanel {
 
     private GasMonitorPanel globalGasMonitorPanel;
     private GasSpeciesMonitorPanel heavySpeciesPanel;
@@ -50,10 +49,22 @@ public class IdealGasMonitorPanel extends PhetMonitorPanel implements SimpleObse
         Border border = BorderFactory.createEtchedBorder();
         this.setBorder( border );
 
-        // Note: These two lines should be un-commented when and if we decide
-        // to use a separate thread for this panel
-        //        MonitorClock monitorClock = new MonitorClock( this, parent.getPhysicalSystem() );
-        //        monitorClock.start();
+        // Set up an event thread to update the monitor panel
+        final long updateInterval = 500;
+        Thread updater = new Thread( new Runnable() {
+            public void run() {
+                while( true ) {
+                    try {
+                        Thread.sleep( updateInterval );
+                    }
+                    catch( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                    update();
+                }
+            }
+        } );
+        updater.start();
     }
 
     /**
@@ -72,17 +83,12 @@ public class IdealGasMonitorPanel extends PhetMonitorPanel implements SimpleObse
      *
      */
     public void update() {
-
-        long now = System.currentTimeMillis();
-        /*        if( now - getLastUpdateTime() >= getUpdateInterval() )*/ {
-            super.setLastUpdateTime( now );
-            globalGasMonitorPanel.update();
-            heavySpeciesPanel.update();
-            lightSpeciesPanel.update();
-            //            globalGasMonitorPanel.update( observable, o );
-            //            heavySpeciesPanel.update( observable, o );
-            //            lightSpeciesPanel.update( observable, o );
-        }
+        globalGasMonitorPanel.update();
+        heavySpeciesPanel.update();
+        lightSpeciesPanel.update();
+        //            globalGasMonitorPanel.update( observable, o );
+        //            heavySpeciesPanel.update( observable, o );
+        //            lightSpeciesPanel.update( observable, o );
     }
 
     /**
