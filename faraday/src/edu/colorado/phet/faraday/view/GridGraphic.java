@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -92,6 +93,9 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
         for ( int i = 0; i < _compasses.size(); i++ ) {
             compass = (MiniCompassGraphic)_compasses.get(i);
             // XXX set strength and direction based on magnet field strength at compass location.
+            Point2D p = new Point2D.Double( compass.getX(), compass.getY() );
+            double direction = _barMagnetModel.getDirection( p );
+            compass.setDirection( direction );
         }
     }
 }

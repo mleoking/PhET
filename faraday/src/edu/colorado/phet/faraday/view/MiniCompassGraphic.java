@@ -62,6 +62,14 @@ public class MiniCompassGraphic extends PhetImageGraphic {
         return new Point( _location );
     }
     
+    public int getX() { 
+        return _location.x;
+    }
+    
+    public int getY() {
+        return _location.y;
+    }
+    
     public void setDirection( double direction ) {
         _direction = direction;
         update();
