@@ -126,7 +126,7 @@ ignorepath      (those elements of the ant classpath that should not be
         <javadoc destdir="${javadoc}" author="true" version="true" use="true">
             <packageset dir="${src}" defaultexcludes="yes">
             </packageset>
-            <bottom><![CDATA[<i>Copyright &#169; 2003 PhET, R&S Software. All Rights Reserved.</i>]]></bottom>
+            <bottom><![CDATA[<i>Copyright &#169; 2004 University of Colorado PhET. All Rights Reserved.</i>]]></bottom>
             <link href="http://java.sun.com/products/jdk/1.4/docs/api/"/>
         </javadoc>
     </target>
