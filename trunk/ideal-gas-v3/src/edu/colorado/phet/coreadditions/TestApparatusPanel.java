@@ -14,11 +14,14 @@ import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphicMouseDelegator;
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -60,16 +63,19 @@ public class TestApparatusPanel extends ApparatusPanel {
     private BufferStrategy strategy;
     private ArrayList rectangles = new ArrayList();
     private Rectangle repaintArea;
+    private AffineTransform graphicTx = new AffineTransform();
+    private AffineTransform mouseTx = new AffineTransform();
+    private Rectangle orgBounds;
 
     public TestApparatusPanel( BaseModel model ) {
         super( null );
         // The following lines use a mouse processor in the model loop
-        //                MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
-        //                model.addModelElement( mouseProcessor );
-        //                this.addMouseListener( mouseProcessor );
-        //                this.addMouseMotionListener( mouseProcessor );
-        this.addMouseListener( mouseDelegator );
-        this.addMouseMotionListener( mouseDelegator );
+        MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
+        model.addModelElement( mouseProcessor );
+        this.addMouseListener( mouseProcessor );
+        this.addMouseMotionListener( mouseProcessor );
+//        this.addMouseListener( mouseDelegator );
+//        this.addMouseMotionListener( mouseDelegator );
 
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -95,6 +101,34 @@ public class TestApparatusPanel extends ApparatusPanel {
                         System.out.println( "Full screen is required for buffering." );
                     }
                     System.out.println( "strategy = " + strategy );
+                }
+            }
+        } );
+
+        this.addComponentListener( new ComponentListener() {
+            public void componentHidden( ComponentEvent e ) {
+            }
+
+            public void componentMoved( ComponentEvent e ) {
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                if( orgBounds != null ) {
+                    double sx = TestApparatusPanel.this.getBounds().getWidth() / orgBounds.getWidth();
+                    double sy = TestApparatusPanel.this.getBounds().getHeight() / orgBounds.getHeight();
+                    graphicTx = AffineTransform.getScaleInstance( sx, sy );
+                    try {
+                        mouseTx = graphicTx.createInverse();
+                    }
+                    catch( NoninvertibleTransformException e1 ) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                if( orgBounds == null ) {
+                    orgBounds = TestApparatusPanel.this.getBounds();
                 }
             }
         } );
@@ -168,13 +202,17 @@ public class TestApparatusPanel extends ApparatusPanel {
      * @param graphics
      */
     protected void paintComponent( Graphics graphics ) {
+        Graphics2D g2 = (Graphics2D)graphics;
+        GraphicsState gs = new GraphicsState( g2 );
+        g2.transform( graphicTx );
         if( bImg == null || bImg.getWidth() != this.getWidth() || bImg.getHeight() != this.getHeight() ) {
             updateBuffer();
         }
         else {
-            drawIt( (Graphics2D)graphics );
+            drawIt( g2 );
             //            ( (Graphics2D)graphics ).drawRenderedImage( bImg, IDENTITY );
         }
+        gs.restoreGraphics();
     }
 
     private void updateBuffer() {
@@ -261,12 +299,22 @@ public class TestApparatusPanel extends ApparatusPanel {
         }
 
         public void addMouseEvent( MouseEvent event ) {
+            Point2D.Double p = new Point2D.Double( event.getPoint().getX(), event.getPoint().getY() );
+            mouseTx.transform( p, p );
+            int dx = (int)( p.getX() - event.getPoint().getX() );
+            int dy = (int)( p.getY() - event.getPoint().getY() );
+            event.translatePoint( dx, dy );
             synchronized( mouseEventList ) {
                 mouseEventList.add( event );
             }
         }
 
         public void addMouseMotionEvent( MouseEvent event ) {
+            Point2D.Double p = new Point2D.Double( event.getPoint().getX(), event.getPoint().getY() );
+            mouseTx.transform( p, p );
+            int dx = (int)( p.getX() - event.getPoint().getX() );
+            int dy = (int)( p.getY() - event.getPoint().getY() );
+            event.translatePoint( dx, dy );
             synchronized( mouseMotionEventList ) {
                 mouseMotionEventList.add( event );
             }
