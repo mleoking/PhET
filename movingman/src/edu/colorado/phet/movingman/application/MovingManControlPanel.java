@@ -165,7 +165,7 @@ public class MovingManControlPanel extends JPanel {
         boxes.setBorder( BorderFactory.createTitledBorder( "Show Plots" ) );
         add( boxes, BorderLayout.SOUTH );
 
-        startMotion = new JButton( "Run Motion", playIcon );
+        startMotion = new JButton( "Go!", playIcon );
         startMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setMotionMode( selectedMotion );//.getStepMotion());
@@ -243,10 +243,16 @@ public class MovingManControlPanel extends JPanel {
         };
         still.setName( "Stand Very Still" );
         final String init = ( "Choose Motion" );
-        final Object[] motions = new Object[]{new LinearAndPanel( module ),
-                                              new OscillateAndPanel( module ),
+//        final Object[] motions = new Object[]{new LinearAndPanel( module ),
+//                                              new OscillateAndPanel( module ),
+//                                              new AccelAndControls( module ),
+//                                              still};
+
+        final Object[] motions = new Object[]{still, new LinearAndPanel( module ),
                                               new AccelAndControls( module ),
-                                              still};
+                                              new OscillateAndPanel( module )
+        };
+
         String hyphens = "---------------";
         final String recordMouseString = "Manual Control";
         comboBox = new JComboBox();

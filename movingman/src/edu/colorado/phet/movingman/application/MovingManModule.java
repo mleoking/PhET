@@ -239,7 +239,7 @@ public class MovingManModule extends Module {
         pauseMode = new PauseMode( this );
         playbackMode = new PlaybackMode( this );
         motionMode = new MotionMode( this );
-        this.mode = recordMode;
+        this.mode = pauseMode;
         mode.initialize();
 
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
@@ -381,7 +381,22 @@ public class MovingManModule extends Module {
         PhetApplication tpa = new PhetApplication( desc, m );
         tpa.startApplication( m );
         FRAME = tpa.getApplicationView().getPhetFrame();
+        FRAME.setVisible( true );
+        FRAME.getContentPane().invalidate();
+        FRAME.getContentPane().validate();
+        FRAME.getContentPane().repaint();
+        FRAME.setExtendedState( JFrame.MAXIMIZED_BOTH );
+        FRAME.invalidate();
+        FRAME.validate();
+        FRAME.repaint();
         m.setPauseMode();
+        m.repaintBackground();
+        m.recordMode.initialize();
+        m.cursorGraphic.setVisible( false );
+        m.setPauseMode();
+        m.cursorGraphic.setVisible( false );
+        m.getApparatusPanel().repaint();
+        m.cursorGraphic.setVisible( false );
     }
 
     public Man getMan() {
@@ -422,9 +437,7 @@ public class MovingManModule extends Module {
     private void setReplayTimeIndex( int timeIndex ) {
         if( timeIndex < position.numSmoothedPoints() && timeIndex >= 0 ) {
             double x = position.smoothedPointAt( timeIndex );
-//            x /= this.manPositionScale;
             man.setX( x );
-//            getApparatusPanel().repaint();//!!!!!!!!!
         }
     }
 

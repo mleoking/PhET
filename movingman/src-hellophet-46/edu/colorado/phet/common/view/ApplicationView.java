@@ -64,6 +64,7 @@ public class ApplicationView {
     }
 
     public void setVisible( boolean isVisible ) {
+
         phetFrame.setVisible( isVisible );
     }
 

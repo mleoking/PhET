@@ -51,7 +51,6 @@ public class PhetApplication {
         setModuleObservers();
 
         moduleManager.addAllModules( modules );
-
     }
 
 
