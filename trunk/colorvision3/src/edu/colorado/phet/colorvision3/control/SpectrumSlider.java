@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -24,6 +25,7 @@ import edu.colorado.phet.colorvision3.ColorVisionConfig;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
@@ -258,29 +260,6 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   }
   
   /**
-   * Scales the slider's spectrum graphic.
-   * <p>
-   * Scaling is cumulative.
-   * If you scale to a larger size, the spectrum image quality may begin to suffer.
-   * Note that scaling does not change the size of the slider knob; use setKnobSize.
-   * 
-   * @param scaleX the X scale
-   * @param scaleY the Y scale
-   */
-  public void scale( double scaleX, double scaleY )
-  {
-    // Scale the spectrum image and create a new PhetImageGraphic.
-    AffineTransform tx = new AffineTransform();
-    tx.scale( scaleX, scaleY );
-    AffineTransformOp op = new AffineTransformOp( tx, AffineTransformOp.TYPE_BILINEAR );
-    BufferedImage image = _spectrum.getImage();
-    BufferedImage newImage = op.filter( image, null );
-    _spectrum = new PhetImageGraphic( _component, newImage );
-    
-    updateUI();
-  }
-  
-  /**
    * Sets the transmission width.
    * Setting the width to zero effectively disables drawing of the curve.
    * 
@@ -334,6 +313,39 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   public Point getLocation()
   {
     return _location;
+  }
+  
+  /**
+   * Sets the slider's spectrum graphic size.
+   * 
+   * @param size the desired size
+   */
+  public void setSpectrumSize( Dimension size )
+  {
+    // Read a fresh copy of the image.
+    String resourceName = ColorVisionConfig.SPECTRUM_IMAGE;
+    BufferedImage image;
+    try {
+        image = ImageLoader.loadBufferedImage( resourceName );
+    }
+    catch( IOException e ) {
+        throw new RuntimeException( "Image resource not found: " + resourceName );
+    }
+    
+    // Calculate the scaling.
+    double scaleX = (double)size.width / (double)image.getWidth();
+    double scaleY = (double)size.height / (double)image.getHeight();
+    
+    // Scale the image.
+    AffineTransform tx = new AffineTransform();
+    tx.scale( scaleX, scaleY );
+    AffineTransformOp op = new AffineTransformOp( tx, AffineTransformOp.TYPE_BILINEAR );
+    BufferedImage newImage = op.filter( image, null );
+    
+    // HACK: create a new PhetImageGraphic - setImage on the old one doesn't work right.
+    _spectrum = new PhetImageGraphic( _component, newImage );
+    
+    updateUI();
   }
   
   /**
@@ -453,11 +465,11 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
     else
     {
       // Rotate and translate the spectrum graphic.
-      AffineTransform transform = new AffineTransform();
-      transform.translate( x, y + spectrumBounds.width );
-      transform.rotate( getRotationAngle() );
+      double angle = getRotationAngle();
+      AffineTransform transform = AffineTransform.getRotateInstance( angle );
       _spectrum.setTransform( transform );
-      
+      _spectrum.setPosition( x, y + spectrumBounds.height );
+ 
       // Set drag bounds.
       _dragBounds = new Rectangle( x + spectrumBounds.width, y, 0, spectrumBounds.height );
     }
