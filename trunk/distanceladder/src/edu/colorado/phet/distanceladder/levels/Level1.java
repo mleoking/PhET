@@ -6,14 +6,14 @@
  */
 package edu.colorado.phet.distanceladder.levels;
 
+import edu.colorado.phet.distanceladder.Config;
+import edu.colorado.phet.distanceladder.exercise.Answer;
 import edu.colorado.phet.distanceladder.exercise.Exercise;
 import edu.colorado.phet.distanceladder.exercise.ExerciseModel;
-import edu.colorado.phet.distanceladder.exercise.Answer;
 import edu.colorado.phet.distanceladder.exercise.XmlExercise;
-import edu.colorado.phet.distanceladder.model.Star;
 import edu.colorado.phet.distanceladder.model.NormalStar;
+import edu.colorado.phet.distanceladder.model.Star;
 import edu.colorado.phet.distanceladder.model.UniverseModel;
-import edu.colorado.phet.distanceladder.Config;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,10 +40,9 @@ public class Level1 extends Exercise {
     }
 
 
-
     private static class Level1Model extends ExerciseModel {
         static Answer correctAnswer = new Answer( "b", "The blue star" );
-        static Answer[] answers = new Answer[] {
+        static Answer[] answers = new Answer[]{
             new Answer( "a", "The red star" ),
             correctAnswer,
             new Answer( "c", "The gree star" )

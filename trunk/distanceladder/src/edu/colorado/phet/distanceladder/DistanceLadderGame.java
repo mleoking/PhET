@@ -1,27 +1,22 @@
 package edu.colorado.phet.distanceladder;
 
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.framesetup.MaxExtentFrameSetup;
-import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
-import edu.colorado.phet.distanceladder.model.*;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
+import edu.colorado.phet.common.view.util.framesetup.MaxExtentFrameSetup;
 import edu.colorado.phet.distanceladder.controller.CockpitModule;
 import edu.colorado.phet.distanceladder.controller.StarMapModule;
-import edu.colorado.phet.distanceladder.levels.Level1;
-import edu.colorado.phet.distanceladder.levels.Level2;
-import edu.colorado.phet.distanceladder.levels.Level1A;
 import edu.colorado.phet.distanceladder.exercise.Exercise;
-import edu.colorado.phet.distanceladder.exercise.Message;
 import edu.colorado.phet.distanceladder.exercise.HtmlMessage;
+import edu.colorado.phet.distanceladder.exercise.Message;
+import edu.colorado.phet.distanceladder.levels.Level1;
+import edu.colorado.phet.distanceladder.levels.Level1A;
+import edu.colorado.phet.distanceladder.model.*;
 
-import javax.swing.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.*;
-import java.util.List;
-import java.util.Random;
+import java.awt.geom.Point2D;
 
 /**
  * Class: edu.colorado.phet.distanceladder.CockpitModuleTest
@@ -33,8 +28,8 @@ import java.util.Random;
 
 public class DistanceLadderGame {
     private static ApplicationDescriptor appDesc;
-    private Color[] colors = new Color[] { Color.green, Color.magenta, Color.orange,
-                                           Color.white, Color.yellow };
+    private Color[] colors = new Color[]{Color.green, Color.magenta, Color.orange,
+                                         Color.white, Color.yellow};
 
     public void test1() {
 
@@ -66,7 +61,7 @@ public class DistanceLadderGame {
         star = new NormalStar( Color.magenta, 1E6, new Point2D.Double( 200, 0 ), -35 );
         starField.addStar( star );
 
-        model.getStarShip().setPov( new PointOfView( 0, 0, 0 ));
+        model.getStarShip().setPov( new PointOfView( 0, 0, 0 ) );
 
         starField.reset();
 
@@ -82,6 +77,7 @@ public class DistanceLadderGame {
     private void displayMessage( Message message ) {
         message.display();
     }
+
     private void doLevel( Exercise level ) {
         while( !level.doIt() ) {
             //
@@ -93,7 +89,7 @@ public class DistanceLadderGame {
         appDesc = new ApplicationDescriptor( "Lost In Space",
                                              desc,
                                              "0.1",
-                                             new  MaxExtentFrameSetup( new FrameCenterer( 100, 100 ) ));
+                                             new MaxExtentFrameSetup( new FrameCenterer( 100, 100 ) ) );
         DistanceLadderGame test = new DistanceLadderGame();
 
         test.test1();

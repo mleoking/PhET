@@ -13,8 +13,8 @@ import edu.colorado.phet.distanceladder.view.StarshipCoordsGraphic;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 
 public class StarMapControlPanel extends JPanel {
     private JButton starshipCoordsBtn;
@@ -43,17 +43,18 @@ public class StarMapControlPanel extends JPanel {
     private class ControlPanel extends JPanel {
         String showString = "<html>Show Starship<br>Coordinates</html>";
         String hideString = "<html>Hide Starship<br>Coordinates</html>";
-        
+
         public ControlPanel() {
             // Create controls
             starshipCoordsBtn = new JButton( new AbstractAction( showString ) {
-                        private boolean coordsOn = false;
-                        public void actionPerformed( ActionEvent e ) {
-                            coordsOn = !coordsOn;
-                            starshipCoordsBtn.setText( coordsOn ? hideString : showString);
-                            module.setStarshipCoordsEnabled( coordsOn );
-                        }
-                    });
+                private boolean coordsOn = false;
+
+                public void actionPerformed( ActionEvent e ) {
+                    coordsOn = !coordsOn;
+                    starshipCoordsBtn.setText( coordsOn ? hideString : showString );
+                    module.setStarshipCoordsEnabled( coordsOn );
+                }
+            } );
 
             // Lay out panel
             setLayout( new GridBagLayout() );
@@ -81,7 +82,7 @@ public class StarMapControlPanel extends JPanel {
             Graphics2D g = (Graphics2D)redLineBI.getGraphics();
             g.setColor( StarshipCoordsGraphic.refLineColor );
             g.drawLine( 0, redLineBI.getHeight() / 2, redLineBI.getWidth(), redLineBI.getHeight() / 2 );
-            ImageIcon redLineImg= new ImageIcon( redLineBI );
+            ImageIcon redLineImg = new ImageIcon( redLineBI );
 
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             this.setBorder( BorderFactory.createTitledBorder( baseBorder, "Legend" ) );

@@ -7,16 +7,12 @@
  */
 package edu.colorado.phet.distanceladder.exercise;
 
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.XMLOutputter;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
 
-import java.io.File;
 import java.net.URL;
 import java.util.List;
-
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 public class XmlExercise extends ExerciseModel {
 
@@ -46,7 +42,7 @@ public class XmlExercise extends ExerciseModel {
             Answer correctAnswer = null;
             for( int i = 0; i < choiceArray.length; i++ ) {
                 Answer answer = choiceArray[i];
-                if( correctAnswerId.equals( answer.getId() )) {
+                if( correctAnswerId.equals( answer.getId() ) ) {
                     correctAnswer = answer;
                 }
             }

@@ -7,20 +7,17 @@
  */
 package edu.colorado.phet.distanceladder.controller;
 
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.distanceladder.Config;
 import edu.colorado.phet.distanceladder.model.*;
-import edu.colorado.phet.distanceladder.view.*;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleManager;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.distanceladder.view.CockpitView;
+import edu.colorado.phet.distanceladder.view.ParallaxReticle;
+import edu.colorado.phet.distanceladder.view.PhotometerReticle;
+import edu.colorado.phet.distanceladder.view.StarViewGraphic;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
-import java.awt.*;
-import java.util.Collection;
+import java.awt.geom.Rectangle2D;
 
 public class CockpitModule extends Module {
 
@@ -31,7 +28,6 @@ public class CockpitModule extends Module {
     private StarView starView;
     private StarViewGraphic starViewGraphic;
     private CockpitView cockpitGraphic;
-    private Cockpit cockpit;
     private CockpitControlPanel cockpitControlPanel;
 
     public CockpitModule( UniverseModel model ) {
@@ -43,15 +39,13 @@ public class CockpitModule extends Module {
 
         photometerReticle = new PhotometerReticle( apparatusPanel );
         photometerReticle.setLocation( 0, 0 );
-
-        cockpit = new Cockpit( starField );
-        cockpitGraphic = new CockpitView( cockpit, this );
+        cockpitGraphic = new CockpitView( this );
 
         starField = model.getStarField();
         Rectangle2D.Double bounds = new Rectangle2D.Double( apparatusPanel.getBounds().getMinX(),
-                                                             apparatusPanel.getBounds().getMinY(),
-                                                             apparatusPanel.getBounds().getWidth(),
-                                                             apparatusPanel.getBounds().getHeight() );
+                                                            apparatusPanel.getBounds().getMinY(),
+                                                            apparatusPanel.getBounds().getWidth(),
+                                                            apparatusPanel.getBounds().getHeight() );
         starView = new StarView( model.getStarShip(), starField, Config.viewAngle, bounds );
         model.getStarShip().setStarView( starView );
         model.addObserver( starView );
@@ -104,8 +98,6 @@ public class CockpitModule extends Module {
         double dx = -cockpitDx * Math.sin( this.starView.getPovTheta() );
         double dy = cockpitDx * Math.cos( this.starView.getPovTheta() );
         starView.movePov( dx, dy, gamma );
-        cockpit.moveIncr( dx, dy );
-        cockpit.setVelocity( (float)dx, (float)dy );
     }
 
     public void setPovTheta( double theta ) {

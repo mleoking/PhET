@@ -8,8 +8,6 @@
 package edu.colorado.phet.distanceladder.exercise;
 
 import edu.colorado.phet.coreadditions.fsm.FsmState;
-import edu.colorado.phet.coreadditions.fsm.FsmTransition;
-import edu.colorado.phet.coreadditions.fsm.FsmEvent;
 
 import javax.swing.*;
 

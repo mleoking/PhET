@@ -7,12 +7,11 @@
  */
 package edu.colorado.phet.distanceladder.view;
 
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.distanceladder.Config;
 import edu.colorado.phet.distanceladder.model.Star;
 import edu.colorado.phet.distanceladder.model.StarView;
-import edu.colorado.phet.distanceladder.model.Point2DPolar;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -72,7 +71,7 @@ public class StarViewGraphic extends CompositeInteractiveGraphic implements Simp
             double radius = minStarRadius;
 //            double radius = Math.max( 40000 / d, minStarRadius );
 //            double radius = Math.min( 15, Math.max( 40000 / d, 2 ));
-            double brightness = Math.min( 1 , 0.25 *  Config.universeWidth / visibleStar.getLocation().distance( starView.getPov() ));
+            double brightness = Math.min( 1, 0.25 * Config.universeWidth / visibleStar.getLocation().distance( starView.getPov() ) );
 //            double brightness = visibleStar.getLuminance() * ( 1 / visibleStar.getLocation().distanceSq( starView.getPov() ) );
             if( starGraphic == null ) {
                 starGraphic = new StarGraphic( visibleStar, radius, visibleStar.getColor(), new Point2D.Double(), brightness );

@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.distanceladder.view;
 
-import edu.colorado.phet.distanceladder.model.Star;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.distanceladder.model.Star;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -34,7 +34,7 @@ public class StarGraphic implements Graphic {
     }
 
     public StarGraphic( Star star, double radius, Paint paint, double brightness ) {
-        this( star, radius, paint, new Point2D.Double(), brightness  );
+        this( star, radius, paint, new Point2D.Double(), brightness );
     }
 
     public void setRadius( double radius ) {

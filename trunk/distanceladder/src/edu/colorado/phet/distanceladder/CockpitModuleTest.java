@@ -1,19 +1,17 @@
 package edu.colorado.phet.distanceladder;
 
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.framesetup.MaxExtentFrameSetup;
-import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
-import edu.colorado.phet.distanceladder.model.*;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
+import edu.colorado.phet.common.view.util.framesetup.MaxExtentFrameSetup;
 import edu.colorado.phet.distanceladder.controller.CockpitModule;
 import edu.colorado.phet.distanceladder.controller.StarMapModule;
+import edu.colorado.phet.distanceladder.model.*;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.*;
-import java.util.List;
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
@@ -26,13 +24,13 @@ import java.util.Random;
 
 public class CockpitModuleTest {
     private static ApplicationDescriptor appDesc;
-    private Color[] colors = new Color[] { Color.green, Color.magenta, Color.orange,
-                                           Color.white, Color.yellow };
+    private Color[] colors = new Color[]{Color.green, Color.magenta, Color.orange,
+                                         Color.white, Color.yellow};
 
     public void test1() {
 
         StarField starField = new StarField();
-        SwingTimerClock clock = new SwingTimerClock( 10, 10000, true ){
+        SwingTimerClock clock = new SwingTimerClock( 10, 10000, true ) {
             public synchronized void start() {
 
             }
@@ -53,7 +51,7 @@ public class CockpitModuleTest {
         StarView starView = cockpitModule.getStarView();
         Point2D.Double p = null;
 
-        Random random = new Random( );
+        Random random = new Random();
 //        for( int i = 0; i < 200; i++ ) {
 //            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
 //            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
@@ -95,7 +93,7 @@ public class CockpitModuleTest {
 //        star = new NormalStar( Color.yellow, 100, new Point2D.Double( 150, 50 ), 50 );
 //        starField.addStar( star );
 
-        model.getStarShip().setPov( new PointOfView( 0, 0, 0 ));
+        model.getStarShip().setPov( new PointOfView( 0, 0, 0 ) );
 //        starView.setPointOfView( 0, 0, 0 );
 
 //        cockpitModule.update();
@@ -105,39 +103,39 @@ public class CockpitModuleTest {
 
     void placeEquidistantStars( StarField starField ) {
         Star star = null;
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 0 )), 400 * Math.sin( Math.toRadians( 0 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 0 ) ), 400 * Math.sin( Math.toRadians( 0 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 5 )), 400 * Math.sin( Math.toRadians( 5 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 5 ) ), 400 * Math.sin( Math.toRadians( 5 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 10 )), 400 * Math.sin( Math.toRadians( 10 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 10 ) ), 400 * Math.sin( Math.toRadians( 10 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 15 )), 400 * Math.sin( Math.toRadians( 15 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 15 ) ), 400 * Math.sin( Math.toRadians( 15 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 20 )), 400 * Math.sin( Math.toRadians( 20 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 20 ) ), 400 * Math.sin( Math.toRadians( 20 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 25 )), 400 * Math.sin( Math.toRadians( 25 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 25 ) ), 400 * Math.sin( Math.toRadians( 25 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 30 )), 400 * Math.sin( Math.toRadians( 30 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 30 ) ), 400 * Math.sin( Math.toRadians( 30 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 35 )), 400 * Math.sin( Math.toRadians( 35 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 35 ) ), 400 * Math.sin( Math.toRadians( 35 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 40 )), 400 * Math.sin( Math.toRadians( 40 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 40 ) ), 400 * Math.sin( Math.toRadians( 40 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -5 )), 400 * Math.sin( Math.toRadians( -5 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -5 ) ), 400 * Math.sin( Math.toRadians( -5 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -10 )), 400 * Math.sin( Math.toRadians( -10 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -10 ) ), 400 * Math.sin( Math.toRadians( -10 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -15 )), 400 * Math.sin( Math.toRadians( -15 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -15 ) ), 400 * Math.sin( Math.toRadians( -15 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -20 )), 400 * Math.sin( Math.toRadians( -20 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -20 ) ), 400 * Math.sin( Math.toRadians( -20 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -25 )), 400 * Math.sin( Math.toRadians( -25 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -25 ) ), 400 * Math.sin( Math.toRadians( -25 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -30 )), 400 * Math.sin( Math.toRadians( -30 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -30 ) ), 400 * Math.sin( Math.toRadians( -30 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -35 )), 400 * Math.sin( Math.toRadians( -35 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -35 ) ), 400 * Math.sin( Math.toRadians( -35 ) ) ), -25 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -40 )), 400 * Math.sin( Math.toRadians( -40 )) ), -25 );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -40 ) ), 400 * Math.sin( Math.toRadians( -40 ) ) ), -25 );
         starField.addStar( star );
         star = new NormalStar( Color.magenta, 1E6, new Point2D.Double( 200, 20 ), -35 );
         starField.addStar( star );
@@ -149,7 +147,7 @@ public class CockpitModuleTest {
         appDesc = new ApplicationDescriptor( "Lost In Space",
                                              desc,
                                              "0.1",
-                                             new  MaxExtentFrameSetup( new FrameCenterer( 100, 100 ) ));
+                                             new MaxExtentFrameSetup( new FrameCenterer( 100, 100 ) ) );
         CockpitModuleTest test = new CockpitModuleTest();
 
         test.test1();
