@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.Locale;
 
 import edu.colorado.phet.common.application.PhetApplication;
@@ -37,9 +38,9 @@ public class FaradayApplication extends PhetApplication {
      * Sole constructor.
      * 
      * @param appModel the application model
+     * @throws IOException
      */
-    public FaradayApplication( FaradayApplicationModel appModel ) {
-
+    public FaradayApplication( FaradayApplicationModel appModel ) throws IOException {
         super( appModel );
     }
 
@@ -83,8 +84,14 @@ public class FaradayApplication extends PhetApplication {
         FaradayApplicationModel appModel = new FaradayApplicationModel( title, description, version, frameSetup );
 
         // Create and start the application.
-        PhetApplication app = new FaradayApplication( appModel );
-        app.getApplicationView().getPhetFrame().setBackground( BACKGROUND );
+        PhetApplication app = null;
+        try {
+            app = new FaradayApplication( appModel );
+        }
+        catch( IOException ioe ) {
+            ioe.printStackTrace();
+            System.exit( 1 );
+        }
         app.startApplication();
     }
 }
