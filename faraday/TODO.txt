@@ -36,12 +36,12 @@ POSSIBLE OPTIMIZATIONS:
 - eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf
 
 phetcommon:
-- hand cursor bug, doesn't revert to arrow if cursor is outside graphic's bounds
+- hand cursor bug, doesn't revert to arrow if cursor is outside graphic's bounds (fixed by Ron & Sam)
 - ApparatusPanel2 resize problems
 - MathUtil.clamp behavior with Double.NaN
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
 - fix PhetShapeGraphic.contains so that stroke width is taken into account, test with CompassGraphic
-- make PhetTextGraphic handle '\n', deprecate PhetMultiLineTextGraphic
+- make PhetTextGraphic handle <br>, deprecate PhetMultiLineTextGraphic
 
 DONE:
 v0r14...

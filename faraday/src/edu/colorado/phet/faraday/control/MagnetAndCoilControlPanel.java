@@ -336,12 +336,9 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _flipPolarityButton ) {
                 // Magnet polarity
-                boolean smoothingEnabled = _pickupCoilModel.isSmoothingEnabled();
-                _pickupCoilModel.setSmoothingEnabled( false );
                 _magnetModel.setDirection( _magnetModel.getDirection() + Math.PI );
                 _compassModel.startMovingNow();
-                _pickupCoilModel.updateEmf();
-                _pickupCoilModel.setSmoothingEnabled( smoothingEnabled );
+                _pickupCoilModel.updateNow();
             }
             else if ( e.getSource() == _gridCheckBox ) {
                 // Grid enable
@@ -394,11 +391,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 int percent = _radiusSlider.getValue();
                 // Update the model.
                 int radius = (int) ( ( percent / 100.0 ) * FaradayConfig.MAX_PICKUP_RADIUS );
-                boolean smoothingEnabled = _pickupCoilModel.isSmoothingEnabled();
-                _pickupCoilModel.setSmoothingEnabled( false );
                 _pickupCoilModel.setRadius( radius );
-                _pickupCoilModel.updateEmf();
-                _pickupCoilModel.setSmoothingEnabled( smoothingEnabled );
+                _pickupCoilModel.updateNow();
                 // Update the label.
                 Object[] args = { new Integer( percent ) };
                 String text = MessageFormat.format( SimStrings.get( "MagnetAndCoilModule.radius" ), args );
@@ -408,11 +402,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 // Read the value.
                 int numberOfLoops = ( (Integer) _loopsSpinner.getValue() ).intValue();
                 // Update the model.
-                boolean smoothingEnabled = _pickupCoilModel.isSmoothingEnabled();
-                _pickupCoilModel.setSmoothingEnabled( false );
                 _pickupCoilModel.setNumberOfLoops( numberOfLoops );
-                _pickupCoilModel.updateEmf();
-                _pickupCoilModel.setSmoothingEnabled( smoothingEnabled );
+                _pickupCoilModel.updateNow();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
