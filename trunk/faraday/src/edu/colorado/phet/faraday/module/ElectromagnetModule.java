@@ -125,9 +125,9 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         
         // Electromagnet
         Electromagnet electromagnetModel = new Electromagnet( sourceCoilModel );
+        // Do NOT set the strength! -- strength will be set based on the source coil model.
         electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
         electromagnetModel.setMinStrength( 0 );
-        electromagnetModel.setStrength( 0 );
         electromagnetModel.setLocation( MAGNET_LOCATION );
         electromagnetModel.setDirection( 0 /* radians */ );
         electromagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE ); // XXX should be based on coil graphic size
