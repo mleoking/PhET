@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.idealgas.view;
 
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -52,6 +54,12 @@ public class PumpHandleGraphic extends CompositePhetGraphic {
             int numMolecules = ( yNew - lastYPumped ) / 2;
             pump.pump( numMolecules );
             lastYPumped = yNew;
+
+            // If the simulation is paused, unpause it
+            AbstractClock clock = PhetApplication.instance().getApplicationModel().getClock();
+            if( clock.isPaused() == true ) {
+                clock.setPaused( false );
+            }
         }
         lastYTracked = yNew;
     }
