@@ -144,7 +144,7 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
    */
   public void paint( Graphics2D g2 )
   {
-    if ( super.isVisible() )
+    if ( super.isVisible() && _filterModel.isEnabled() )
     {
       super.saveGraphicsState( g2 );
       {

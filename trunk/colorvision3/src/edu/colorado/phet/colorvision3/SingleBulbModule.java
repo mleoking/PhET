@@ -8,10 +8,14 @@ import java.awt.Rectangle;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.colorvision3.control.SingleBulbControlPanel;
+import edu.colorado.phet.colorvision3.control.SpectrumSlider;
 import edu.colorado.phet.colorvision3.event.ColorChangeEvent;
 import edu.colorado.phet.colorvision3.event.ColorChangeListener;
+import edu.colorado.phet.colorvision3.model.ColumnarBeam;
 import edu.colorado.phet.colorvision3.model.Filter;
 import edu.colorado.phet.colorvision3.model.Person;
+import edu.colorado.phet.colorvision3.model.PhotonBeam;
 import edu.colorado.phet.colorvision3.model.Spotlight;
 import edu.colorado.phet.colorvision3.model.VisibleColor;
 import edu.colorado.phet.colorvision3.view.ColumnarBeamGraphic;
@@ -19,8 +23,6 @@ import edu.colorado.phet.colorvision3.view.FilterGraphic;
 import edu.colorado.phet.colorvision3.view.PersonGraphic;
 import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
 import edu.colorado.phet.colorvision3.view.PipeGraphic;
-import edu.colorado.phet.colorvision3.view.SingleBulbControlPanel;
-import edu.colorado.phet.colorvision3.view.SpectrumSlider;
 import edu.colorado.phet.colorvision3.view.SpotlightGraphic;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
@@ -93,6 +95,8 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 	// Models 
 	private Person _personModel;
 	private Spotlight _spotlightModel;
+	private PhotonBeam _photonBeamModel;
+	private ColumnarBeam _preFilterBeamModel, _postFilterBeamModel;
 	private Filter _filterModel;
 	
 	// Controls
@@ -104,9 +108,9 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 	private FilterGraphic _filterGraphic;
 	private PipeGraphic _filterPipe;
 	private PipeGraphic _wavelengthPipe;
-	private ColumnarBeamGraphic _preFilterBeam;
-	private ColumnarBeamGraphic _postFilterBeam;
-	private PhotonBeamGraphic _photonBeam;
+	private ColumnarBeamGraphic _preFilterBeamGraphic;
+	private ColumnarBeamGraphic _postFilterBeamGraphic;
+	private PhotonBeamGraphic _photonBeamGraphic;
 
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -122,7 +126,7 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 		super( SimStrings.get("SingleBulbModule.title") );
 		
 		//----------------------------------------------------------------------------
-		// Model
+		// Models
     //----------------------------------------------------------------------------
 		
 		// Clock
@@ -148,8 +152,20 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 		_filterModel = new Filter();
     _filterModel.setLocation( FILTER_X, FILTER_Y );
 		
+		// Photon beam model
+		_photonBeamModel = new PhotonBeam( _spotlightModel, _filterModel );
+		_photonBeamModel.setBounds( PHOTON_BEAM_BOUNDS );
+		
+    // Pre-filter columnar beam model (unfiltered)
+    _preFilterBeamModel = new ColumnarBeam( _spotlightModel );
+    _preFilterBeamModel.setDistance( PRE_FILTER_BEAM_DISTANCE );
+    
+    // Post-filter columnar beam model (filtered)
+    _postFilterBeamModel = new ColumnarBeam( _spotlightModel, _filterModel );
+    _postFilterBeamModel.setDistance( POST_FILTER_BEAM_DISTANCE );
+		
 		//----------------------------------------------------------------------------
-		// View
+		// Views
     //----------------------------------------------------------------------------
 
 		// Control Panel
@@ -175,21 +191,18 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     apparatusPanel.addGraphic( _filterGraphic, FILTER_LAYER );
     
     // Pre-filter columnar beam
-    _preFilterBeam = new ColumnarBeamGraphic( apparatusPanel, _spotlightModel );
-    _preFilterBeam.setDistance( PRE_FILTER_BEAM_DISTANCE );
-    _preFilterBeam.setAlphaScale( 90 );
-    apparatusPanel.addGraphic( _preFilterBeam, PRE_FILTER_BEAM_LAYER );
+    _preFilterBeamGraphic = new ColumnarBeamGraphic( apparatusPanel, _preFilterBeamModel );
+    _preFilterBeamGraphic.setAlphaScale( 90 );
+    apparatusPanel.addGraphic( _preFilterBeamGraphic, PRE_FILTER_BEAM_LAYER );
     
     // Post-filter columnar beam
-    _postFilterBeam = new ColumnarBeamGraphic( apparatusPanel, _spotlightModel, _filterModel );
-    _postFilterBeam.setDistance( POST_FILTER_BEAM_DISTANCE );
-    _postFilterBeam.setAlphaScale( 60 );
-    apparatusPanel.addGraphic( _postFilterBeam, POST_FILTER_BEAM_LAYER );
+    _postFilterBeamGraphic = new ColumnarBeamGraphic( apparatusPanel, _postFilterBeamModel );
+    _postFilterBeamGraphic.setAlphaScale( 60 );
+    apparatusPanel.addGraphic( _postFilterBeamGraphic, POST_FILTER_BEAM_LAYER );
     
     // Photon beam
-    _photonBeam = new PhotonBeamGraphic( apparatusPanel, _spotlightModel, _filterModel );
-    _photonBeam.setBounds( PHOTON_BEAM_BOUNDS );
-    apparatusPanel.addGraphic( _photonBeam, PHOTON_BEAM_LAYER );
+    _photonBeamGraphic = new PhotonBeamGraphic( apparatusPanel, _photonBeamModel );
+    apparatusPanel.addGraphic( _photonBeamGraphic, PHOTON_BEAM_LAYER );
     
     // Filter slider
     _filterSlider = new SpectrumSlider( apparatusPanel );
@@ -231,17 +244,22 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 		// Observers
     //----------------------------------------------------------------------------
 		
-    // Models notify their associated views of any updates.
+    // Models notify their associated views (and other models) of any updates.
+    
     _personModel.addObserver( personGraphic );
     
     _spotlightModel.addObserver( spotlightGraphic );
-    _spotlightModel.addObserver( _preFilterBeam );
-    _spotlightModel.addObserver( _postFilterBeam );
-    _spotlightModel.addObserver( _photonBeam );
+    _spotlightModel.addObserver( _photonBeamModel );
+    _spotlightModel.addObserver( _preFilterBeamModel );
+    _spotlightModel.addObserver( _postFilterBeamModel );
     
     _filterModel.addObserver( _filterGraphic );
-    _filterModel.addObserver( _postFilterBeam );
-    _filterModel.addObserver( _photonBeam );
+    _filterModel.addObserver( _photonBeamModel );
+    _filterModel.addObserver( _postFilterBeamModel );
+    
+    _photonBeamModel.addObserver( _photonBeamGraphic ); 
+    _preFilterBeamModel.addObserver( _preFilterBeamGraphic ); 
+    _postFilterBeamModel.addObserver( _postFilterBeamGraphic );
 
 		//----------------------------------------------------------------------------
 		// Listeners
@@ -251,10 +269,10 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     _filterSlider.addChangeListener( this );
     _wavelengthSlider.addChangeListener( this );
     
-    _photonBeam.addColorChangeListener( this );
-    _postFilterBeam.addColorChangeListener( this );
+    _photonBeamModel.addColorChangeListener( this );
+    _postFilterBeamModel.addColorChangeListener( this );
     
-    clock.addClockTickListener( _photonBeam );
+    clock.addClockTickListener( _photonBeamModel );
     
 		//----------------------------------------------------------------------------
 		// Help
@@ -287,7 +305,7 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
    */
   public void colorChanged( ColorChangeEvent event )
   {
-    if ( event.getSource() == _photonBeam || event.getSource() == _postFilterBeam )
+    if ( event.getSource() == _photonBeamModel || event.getSource() == _postFilterBeamModel )
     {
       _personModel.setColor( event.getColor() );
     }
@@ -308,8 +326,8 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     if (event.getSource() == _filterSlider )
     {
       // The filter slider was moved.
-      double filterWavelength = _filterSlider.getValue();
-      _filterModel.setTransmissionPeak( filterWavelength );
+      double wavelength = _filterSlider.getValue();
+      _filterModel.setTransmissionPeak( wavelength );
     }
     else if ( event.getSource() == _wavelengthSlider )
     {
@@ -348,26 +366,23 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
       }
    
       // Beam Type
-      if ( beamType == SingleBulbControlPanel.SOLID_BEAM )
+      if ( beamType == SingleBulbControlPanel.PHOTON_BEAM )
       {
-        _preFilterBeam.setVisible( filterEnabled );
-        _postFilterBeam.setVisible( true );
-        _photonBeam.setVisible( false );
-        // NOTE: Do *not* stop the photon beam; keep it running so
-        // that it is in the proper state when it is made visible.
+        _photonBeamModel.setEnabled( true );
+        _preFilterBeamModel.setEnabled( false );
+        _postFilterBeamModel.setEnabled( false );
       }
       else
       {
-        _preFilterBeam.setVisible( false );
-        _postFilterBeam.setVisible( false );
-        _photonBeam.setVisible( true );
+        _photonBeamModel.setEnabled( false );
+        _preFilterBeamModel.setEnabled( filterEnabled );
+        _postFilterBeamModel.setEnabled( true );
       }
       
       // Filter enable
       _filterModel.setEnabled( filterEnabled );
       _filterSlider.setVisible( filterEnabled );
-      _filterPipe.setVisible( filterEnabled );
-      _filterGraphic.setVisible( filterEnabled );   
+      _filterPipe.setVisible( filterEnabled );  
     }
     else
     {

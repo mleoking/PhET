@@ -65,15 +65,6 @@ public class ColorChangeEvent extends EventObject
     return _intensity;
   }
 
-	//----------------------------------------------------------------------------
-	// Conversions
-  //----------------------------------------------------------------------------
-  
-  public String toString()
-  {
-    return "ColorChangeEvent: " + _color + ", intensity=" + _intensity;
-  }
-
 }
 
 /* end of file */
