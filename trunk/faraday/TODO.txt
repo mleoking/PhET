@@ -3,11 +3,9 @@
 ===============================================================================
 
 IN PROGRESS:
-- bounds of light rays are not always correct (doesn't fully draw or doesn't fully erase)
 
 HIGH PRIORITY:
-- redo lightbulb graphic, look ratty on black background
-- use offscreen buffering in apparatus panel to remove screen turds?
+- redo lightbulb graphic, looks ratty on black background
 - add Verlet behavior to voltmeter needle & lightbulb
 - show important "spikes" in induced emf (consider totally disabling smoothing)
 - collision detection between compass and magnet
@@ -16,7 +14,6 @@ HIGH PRIORITY:
 - show electrons flowing (blue) when lightbulb is enabled, keep constant size
 
 MEDIUM PRIORITY:
-- grid is not always full of needles
 - beautify Control Panels
 - Transformer module requirements
 - check for unnecessary notification, events and updates
@@ -25,6 +22,7 @@ LOW PRIORITY:
 - agree on control labels
 - Wiggle Me's
 - remove unused images from JAR file
+- remove unused i18n strings
 - Help/MegaHelp
 - resize bar magnet image so that scaling isn't required
 
@@ -32,6 +30,9 @@ phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 
 DONE:
+(1/28) - pull "developer" panel out of BarMagnetControlPanel so that it can be reused elsewhere
+(1/28) - grid is not always full of needles (GraphicLayerSet fix)
+(1/28) - bounds of light rays are not always correct (GraphicLayerSet fix)
 (1/28) - rewrite CompassGraphic to use Shapes instead of image
 (1/27) - add color chooser so that folks can experiment with apparatus panel colors
 (1/27) - let control panels manipulate model/view components directly instead of via module
@@ -81,5 +82,6 @@ DONE:
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(1/28) - use offscreen buffering in apparatus panel to remove screen turds? (found GraphicLayerSet problem)
 
 ===============================================================================

@@ -32,7 +32,9 @@ public abstract class FaradayControlPanel extends ControlPanel {
     // Class data
     //----------------------------------------------------------------------------
 
-    protected static final Dimension SLIDER_SIZE = new Dimension( 100, 20 );
+    public static final Dimension SLIDER_SIZE = new Dimension( 100, 20 );
+    public static final Dimension SPINNER_SIZE = new Dimension( 50, 20 );
+    public static final String UNKNOWN_VALUE = "??????";
     
     //----------------------------------------------------------------------------
     // Instance data

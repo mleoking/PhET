@@ -26,6 +26,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.control.DeveloperPanel;
 import edu.colorado.phet.faraday.control.MagnetAndCoilControlPanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.view.*;
@@ -168,6 +169,9 @@ public class MagnetAndCoilModule extends Module {
         MagnetAndCoilControlPanel controlPanel = new MagnetAndCoilControlPanel( this, 
             magnetModel, compassModel, pickupCoilModel, lightBulbModel, voltMeterModel,
             magnetGraphic, gridGraphic );
+        if ( FaradayConfig.ENABLE_DEVELOPER_CONTROLS ) {
+            controlPanel.addFullWidth( new DeveloperPanel( magnetModel, gridGraphic, apparatusPanel ) );
+        }
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------

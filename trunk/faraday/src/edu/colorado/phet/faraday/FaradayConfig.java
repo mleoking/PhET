@@ -30,6 +30,9 @@ public class FaradayConfig {
     // Class data
     //----------------------------------------------------------------------------
 
+    // Debugging
+    public static final boolean ENABLE_DEVELOPER_CONTROLS = true;
+    
     // Resource bundles
     public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/FaradayStrings";
 
