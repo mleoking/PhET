@@ -31,6 +31,8 @@ public class HollowSphereGraphic extends PhetShapeGraphic implements SimpleObser
         rep = new Ellipse2D.Double();
         setShape( rep );
         update();
+
+        super.setIgnoreMouse( true );
     }
 
     public void update() {

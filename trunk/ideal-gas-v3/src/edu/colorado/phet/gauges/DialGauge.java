@@ -118,6 +118,8 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
             l = diam * needleLength;
             needle.setRect( x - l * r, y - 1, l, 2 );
             super.setShape( needle );
+
+            super.setIgnoreMouse( true );
         }
 
         public void paint( Graphics2D g ) {
@@ -145,6 +147,8 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
             Shape face = new Ellipse2D.Double( x - diam / 2, y - diam / 2, diam, diam );
             super.setShape( face );
             tickMark = new Rectangle2D.Double( x + diam * 3 / 8, y - 1, diam / 16, 2 );
+
+            super.setIgnoreMouse( true );
         }
 
 

@@ -8,6 +8,7 @@ package edu.colorado.phet.idealgas.view;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -21,7 +22,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Box2DGraphic extends PhetGraphic {
+public class Box2DGraphic extends CompositePhetGraphic {
 
     public static double s_thickness = 4;
     private static Stroke s_defaultStroke = new BasicStroke( (float)s_thickness );
@@ -31,14 +32,13 @@ public class Box2DGraphic extends PhetGraphic {
     private int wallSpeedLimit = 3;
     private boolean leftWallHighlighted;
     private InternalBoxGraphic internalBoxGraphic;
+    private Rectangle2D.Double mouseableArea = new Rectangle2D.Double();
 
     public Box2DGraphic( Component component, final Box2D box ) {
         super( component );
-//        super( null );
 
         this.box = box;
         internalBoxGraphic = new InternalBoxGraphic( component );
-//        setBoundedGraphic( internalBoxGraphic );
 
         this.setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
         this.addTranslationListener( new TranslationListener() {
@@ -48,6 +48,8 @@ public class Box2DGraphic extends PhetGraphic {
                 dx = Math.max( -wallSpeedLimit, Math.min( dx, wallSpeedLimit ) );
                 double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - box.getMinimumWidth() );
                 box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
+
+                internalBoxGraphic.update();
             }
         } );
     }
@@ -80,13 +82,26 @@ public class Box2DGraphic extends PhetGraphic {
         return internalBoxGraphic.getBounds();
     }
 
+    protected PhetGraphic getHandler( Point p ) {
+        if( getVisibilityFlag() && mouseableArea.contains( p ) ) {
+            return this;
+        }
+        else {
+            return null;
+        }
+    }
+
+
     public void paint( Graphics2D g2 ) {
         internalBoxGraphic.paint( g2 );
     }
 
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
     private class InternalBoxGraphic extends PhetShapeGraphic implements SimpleObserver {
         private Rectangle2D.Double rect = new Rectangle2D.Double();
-        private Rectangle2D.Double mouseableArea = new Rectangle2D.Double();
         private Rectangle openingRect = new Rectangle();
         private BufferedImage wallHandle;
         private Point wallHandleLocation;
