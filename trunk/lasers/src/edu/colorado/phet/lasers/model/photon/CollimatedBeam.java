@@ -35,7 +35,7 @@ public class CollimatedBeam extends Particle {
     private static Random gaussianGenerator = new Random();
 
     private double nextTimeToProducePhoton = 0;
-    private int wavelength;
+    private double wavelength;
     private Rectangle2D bounds;
     private Vector2D velocity;
     // The rate at which the beam produces photons
@@ -52,7 +52,7 @@ public class CollimatedBeam extends Particle {
         void photonCreated( CollimatedBeam beam, Photon photon );
     }
 
-    public CollimatedBeam( LaserModel model, int wavelength, Point2D origin, double height, double width, Vector2D direction ) {
+    public CollimatedBeam( LaserModel model, double wavelength, Point2D origin, double height, double width, Vector2D direction ) {
         this.model = model;
         this.wavelength = wavelength;
         this.bounds = new Rectangle2D.Double( origin.getX(), origin.getY(), width, height );
@@ -152,7 +152,7 @@ public class CollimatedBeam extends Particle {
         eventRegistry.fireEvent( event );
     }
 
-    public int getWavelength() {
+    public double getWavelength() {
         return wavelength;
     }
 
@@ -215,7 +215,6 @@ public class CollimatedBeam extends Particle {
         if( velocity.getX() != 0 ) {
             yDelta = Math.random() * bounds.getHeight();
         }
-        System.out.println( "bounds: " + bounds + "   getPosition().getY(): " + getPosition().getY() + "   yDelta: " + yDelta );
         return this.getPosition().getY() + yDelta;
     }
 
@@ -224,7 +223,6 @@ public class CollimatedBeam extends Particle {
         double xDelta = 0;
         if( velocity.getY() != 0 ) {
             xDelta = Math.random() * bounds.getWidth() - bounds.getWidth() / 2;
-            System.out.println( "bounds: " + bounds );
         }
         return this.getPosition().getX() + xDelta;
     }

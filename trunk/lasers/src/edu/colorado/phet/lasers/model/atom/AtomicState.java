@@ -26,6 +26,8 @@ public abstract class AtomicState {
     static public final double minEnergy = wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = wavelengthToEnergy( minWavelength );
     static protected double s_collisionLikelihood = 1;
+    static protected final double wavelengthTolerance = 10;
+
     //        static protected double s_collisionLikelihood = 0.2;
 
     public static double energyToWavelength( double energy ) {
@@ -180,13 +182,17 @@ public abstract class AtomicState {
         return wavelength;
     }
 
-    protected void setEmittedPhotonWavelength( int wavelength ) {
+    protected void setEmittedPhotonWavelength( double wavelength ) {
         this.wavelength = wavelength;
         this.energyLevel = wavelengthToEnergy( wavelength );
     }
 
     protected double getEmittedPhotonWavelength() {
         return wavelength;
+    }
+
+    protected boolean isStimulatedBy( Photon photon ) {
+        return ( Math.abs( photon.getWavelength() - this.getWavelength() ) <= wavelengthTolerance && Math.random() < s_collisionLikelihood );
     }
 
     abstract public AtomicState getNextLowerEnergyState();

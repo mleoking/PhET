@@ -35,11 +35,10 @@ public class Photon extends Particle implements Collidable {
     //
     static public double s_speed = 1;
     static public double s_radius = 10;
-    static public int RED = 680;
-    static public int DEEP_RED = 640;
-    static public int BLUE = 400;
-    static public int GRAY = 900;
-    //    static public int GRAY = Integer.MAX_VALUE;
+    static public double RED = 680;
+    static public double DEEP_RED = 640;
+    static public double BLUE = 400;
+    static public double GRAY = 900;
 
     // Free pool of photons. We do this so we don't have to use the heap
     // at run-time

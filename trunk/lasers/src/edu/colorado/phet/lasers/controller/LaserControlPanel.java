@@ -47,7 +47,7 @@ public class LaserControlPanel extends PhetControlPanel {
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         this.threeEnergyLevels = threeEnergyLevels;
-//        pumpingBeamControl.setVisible( threeEnergyLevels );
+        //        pumpingBeamControl.setVisible( threeEnergyLevels );
         laserModule.setThreeEnergyLevels( threeEnergyLevels );
 
         //        if( threeEnergyLevels ) {
@@ -97,12 +97,12 @@ public class LaserControlPanel extends PhetControlPanel {
                 }
             } );
 
-            final JCheckBox energyDialogCB = new JCheckBox( SimStrings.get( "LaserControlPanel.EnergyLevelCheckBox" ) );
-            energyDialogCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    laserModule.setEnergyLevelsVisible( energyDialogCB.isSelected() );
-                }
-            } );
+            //            final JCheckBox energyDialogCB = new JCheckBox( SimStrings.get( "LaserControlPanel.EnergyLevelCheckBox" ) );
+            //            energyDialogCB.addActionListener( new ActionListener() {
+            //                public void actionPerformed( ActionEvent e ) {
+            //                    laserModule.setEnergyLevelsVisible( energyDialogCB.isSelected() );
+            //                }
+            //            } );
 
             String s = GraphicsUtil.formatMessage( SimStrings.get( "LaserControlPanel.EmissionCheckBox" ) );
             final JCheckBox showHighToMidEmissionCB = new JCheckBox( s );
@@ -111,10 +111,11 @@ public class LaserControlPanel extends PhetControlPanel {
                     ( (LaserSimulation)PhetApplication.instance() ).displayHighToMidEmission( showHighToMidEmissionCB.isSelected() );
                 }
             } );
-            JPanel optionsPanel = new JPanel( new GridLayout( 3, 1 ) );
+            JPanel optionsPanel = new JPanel( new GridLayout( 2, 1 ) );
+            //            JPanel optionsPanel = new JPanel( new GridLayout( 3, 1 ) );
             optionsPanel.add( mirrorCB );
             optionsPanel.add( showHighToMidEmissionCB );
-            optionsPanel.add( energyDialogCB );
+            //            optionsPanel.add( energyDialogCB );
             optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
 
 

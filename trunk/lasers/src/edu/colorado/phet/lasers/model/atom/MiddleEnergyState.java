@@ -33,7 +33,7 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
         // If the photon has the same energy as the difference
         // between this level and the ground state, then emit
         // a photon of that energy
-        if( photon.getWavelength() == Photon.RED && Math.random() < s_collisionLikelihood ) {
+        if( isStimulatedBy( photon ) ) {
 
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away

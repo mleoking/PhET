@@ -13,6 +13,7 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -25,6 +26,8 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.StateChangeLis
     private Color energyRepColor;
     private Ellipse2D energyRep;
     private AtomicState atomicState;
+    // Gives a 4 pixel ring for the ground state.
+    private double energyScaleFactor = 4 / GroundState.instance().getEnergyLevel();
 
     public AtomGraphic( Component component, Atom atom ) {
         super( component, s_imageName );
@@ -42,9 +45,15 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.StateChangeLis
             atomicState = state;
             double energyRatio = state.getEnergyLevel() / GroundState.instance().getEnergyLevel();
             double energyRepRad = Math.pow( energyRatio, .5 ) * ( getImage().getWidth() / 2 );
+            energyRepRad = ( getImage().getWidth() / 2 ) + state.getEnergyLevel() * energyScaleFactor;
             energyRep = new Ellipse2D.Double( atom.getPosition().getX() - energyRepRad, atom.getPosition().getY() - energyRepRad,
                                               energyRepRad * 2, energyRepRad * 2 );
-            energyRepColor = VisibleColor.wavelengthToColor( state.getWavelength() );
+            if( state.getWavelength() == Photon.GRAY ) {
+                energyRepColor = Color.darkGray;
+            }
+            else {
+                energyRepColor = VisibleColor.wavelengthToColor( state.getWavelength() );
+            }
             setPosition( (int)( atom.getPosition().getX() - getImage().getWidth() / 2 ),
                          (int)( atom.getPosition().getY() - getImage().getHeight() / 2 ) );
             setBoundsDirty();

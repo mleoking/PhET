@@ -9,8 +9,6 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.controller.MiddleEnergyHalfLifeControl;
-import edu.colorado.phet.lasers.model.LaserModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,8 +28,12 @@ public class EnergyLevelsDialog extends JDialog {
         public void closingOccured( EnergyLevelsDialog dlg );
     }
 
-    public EnergyLevelsDialog( Frame parent, JPanel energyLevelsPanel, LaserModel model ) {
+    public EnergyLevelsDialog( Frame parent, JPanel energyLevelsPanel ) {
         super( parent, SimStrings.get( "EnergyLevelsDialog.Title" ) );
+
+        // Make the window plain, with no way to close it
+        this.setUndecorated( true );
+        this.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
 
         addWindowListener( new WindowAdapter() {
             public void windowClosed( WindowEvent e ) {
@@ -39,29 +41,6 @@ public class EnergyLevelsDialog extends JDialog {
         } );
 
         this.setResizable( false );
-        //        this.setUndecorated( true );
-        //        this.getRootPane().setBorder( new TitledBorder( "Energy Levels" ));
-        Container contentPane = this.getContentPane();
-        contentPane.setLayout( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                         GridBagConstraints.NORTH,
-                                                         GridBagConstraints.HORIZONTAL,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
-//        JPanel controlPanel = new JPanel( new GridBagLayout() );
-//        controlPanel.add( new MiddleEnergyHalfLifeControl( model ), gbc );
-
-        gbc.gridy = 0;
-//        contentPane.add( controlPanel, gbc );
-//        gbc.gridx++;
-        //        if( energyLevelsPanel instanceof TwoEnergyLevelMonitorPanel ) {
-        //            gbc.gridheight = 2;
-        //        }
-        //        else if( energyLevelsPanel instanceof ThreeEnergyLevelMonitorPanel ) {
-        //            gbc.gridheight = 3;
-        //        }
-
-        gbc.gridheight = 1;
-        contentPane.add( energyLevelsPanel, gbc );
-        pack();
+        this.setContentPane( energyLevelsPanel );
     }
 }

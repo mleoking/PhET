@@ -10,7 +10,6 @@ package edu.colorado.phet.lasers.model.atom;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 public class GroundState extends AtomicState {
-    private double lambdaTolerance = 5;
 
     public interface Listener {
         void numInstancesChanged( int numInstances );
@@ -35,20 +34,14 @@ public class GroundState extends AtomicState {
         if( Math.random() < s_collisionLikelihood ) {
 
             // absorb the photon and change state
-            if( Math.abs( photon.getWavelength() - HighEnergyState.instance().getWavelength() ) < lambdaTolerance ) {
-//            if( photon.getWavelength() == HighEnergyState.instance().getWavelength() ) {
-//            if( photon.getWavelength() == Photon.BLUE ) {
+            if( Math.abs( photon.getWavelength() - HighEnergyState.instance().getWavelength() ) < wavelengthTolerance ) {
                 photon.removeFromSystem();
                 atom.setState( HighEnergyState.instance() );
             }
-            if( Math.abs( photon.getWavelength() - MiddleEnergyState.instance().getWavelength() ) < lambdaTolerance ) {
-//            if( photon.getWavelength() == Photon.RED ) {
+            if( Math.abs( photon.getWavelength() - MiddleEnergyState.instance().getWavelength() ) < wavelengthTolerance ) {
                 photon.removeFromSystem();
                 atom.setState( MiddleEnergyState.instance() );
             }
-        }
-        else {
-            //            System.out.println( "no emission" );
         }
     }
 
