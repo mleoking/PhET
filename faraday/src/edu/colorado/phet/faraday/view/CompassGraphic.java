@@ -73,8 +73,8 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         
         // Thing that anchors the needle to the body.
         PhetShapeGraphic anchor = new PhetShapeGraphic( component);
-        anchor.setShape( new Ellipse2D.Double( -2, -2, 4, 4 ) );
-        anchor.setPaint( Color.LIGHT_GRAY );
+        anchor.setShape( new Ellipse2D.Double( -3, -3, 6, 6 ) );
+        anchor.setPaint( Color.BLACK );
         anchor.setRenderingHints(new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
         addGraphic( body );
