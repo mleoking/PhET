@@ -27,6 +27,8 @@ public interface Vector2D extends AbstractVector2D {
 
     Vector2D subtract( AbstractVector2D that );
 
+    Vector2D rotate( double theta );
+
     void setX( double x );
 
     void setY( double y );
@@ -88,6 +90,16 @@ public interface Vector2D extends AbstractVector2D {
         public Vector2D subtract( AbstractVector2D that ) {
             setX( getX() - that.getX() );
             setY( getY() - that.getY() );
+            return this;
+        }
+
+        public Vector2D rotate( double theta ) {
+            double r = getMagnitude();
+            double alpha = getAngle();
+            double gamma = alpha + theta;
+            double xPrime = r * Math.cos( gamma );
+            double yPrime  = r * Math.sin( gamma );
+            this.setComponents( xPrime, yPrime );
             return this;
         }
 
@@ -163,6 +175,16 @@ public interface Vector2D extends AbstractVector2D {
         public Vector2D subtract( AbstractVector2D that ) {
             setX( getX() - that.getX() );
             setY( getY() - that.getY() );
+            return this;
+        }
+
+        public Vector2D rotate( double theta ) {
+            double r = getMagnitude();
+            double alpha = getAngle();
+            double gamma = alpha + theta;
+            double xPrime = r * Math.sin( gamma );
+            double yPrime  = r * Math.cos( gamma );
+            this.setComponents( xPrime, yPrime );
             return this;
         }
 
