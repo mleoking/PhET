@@ -1,13 +1,12 @@
-/**
- * Class: BaseLaserModule
- * Package: edu.colorado.phet.lasers.view
- * Author: Another Guy
- * Date: Mar 21, 2003
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.controller.module;
 
@@ -40,7 +39,15 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- *
+ * Class: BaseLaserModule
+ * Package: edu.colorado.phet.lasers.view
+ * Author: Another Guy
+ * Date: Mar 21, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 public class BaseLaserModule extends Module {
 
@@ -193,6 +200,7 @@ public class BaseLaserModule extends Module {
         }
     }
 
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Implementations of listeners interfaces
     //
@@ -218,6 +226,7 @@ public class BaseLaserModule extends Module {
             }
         }
     }
+
 
     /////////////////////////////////////////////////////////////////////////////////////
     // Setters and getters
@@ -246,7 +255,6 @@ public class BaseLaserModule extends Module {
     protected EnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
         return energyLevelsMonitorPanel;
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Other methods
