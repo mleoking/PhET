@@ -54,6 +54,7 @@ public class ApparatusPanel extends JPanel {
     private GraphicLayerSet graphic;
 
     private ArrayList graphicsSetups = new ArrayList();
+    private boolean displayBorder;
 
     protected ApparatusPanel( Object obj ) {
         super( null );
@@ -200,9 +201,15 @@ public class ApparatusPanel extends JPanel {
     }
 
     protected void drawBorder( Graphics2D g2 ) {
-        g2.setColor( Color.black );
-        g2.setStroke( borderStroke );
-        Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1 );
-        g2.draw( border );
+        if( displayBorder ) {
+            g2.setColor( Color.black );
+            g2.setStroke( borderStroke );
+            Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1 );
+            g2.draw( border );
+        }
+    }
+
+    public void setDisplayBorder( boolean displayBorder ) {
+        this.displayBorder = displayBorder;
     }
 }
