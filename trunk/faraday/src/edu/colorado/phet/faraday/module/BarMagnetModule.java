@@ -23,7 +23,6 @@ import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
-import edu.colorado.phet.faraday.util.CompassGridRescaler;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
@@ -108,7 +107,7 @@ public class BarMagnetModule extends FaradayModule {
         
         // Grid
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescaler( new CompassGridRescaler() );
+        gridGraphic.setRescalingEnabled( true );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         apparatusPanel.addChangeListener( gridGraphic );

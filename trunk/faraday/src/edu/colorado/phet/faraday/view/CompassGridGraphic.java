@@ -20,7 +20,6 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
-import edu.colorado.phet.faraday.util.CompassGridRescaler;
 import edu.colorado.phet.faraday.util.Vector2D;
 
 
@@ -47,6 +46,12 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // Strategy that uses color saturation to indicated field strength.
     private static final int SATURATION_STRATEGY = 1;
     
+    // Threshold for applying rescaling of field strength. 
+    private static final double RESCALE_THRESHOLD = 0.8;  // 0 ... 1
+    
+    // Exponent used for rescaling field strenght.
+    private static final double RESCALE_EXPONENT = 0.5;   // 0.3 ... 0.8
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -54,8 +59,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // The magnet model element that the grid is observing.
     private AbstractMagnet _magnetModel;
     
-    // Handles rescaling the field to improve the visual effect.
-    private CompassGridRescaler _rescaler;
+    // Controls rescaling of field strength.
+    private boolean _rescalingEnabled;
     
     // The spacing between compass needles, in pixels.
     private int _xSpacing, _ySpacing;
@@ -111,6 +116,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
         
+        _rescalingEnabled = false;
+        
         _needles = new ArrayList();
         
         _strengthStrategy = ALPHA_STRATEGY;  // works on any background color
@@ -146,12 +153,24 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     //----------------------------------------------------------------------------
     
     /**
-     * Set the rescaler, used to make values look better when displayed.
+     * Eanbled and disables rescaling, used to make values look better when displayed.
      * 
-     * @param rescaler
+     * @param rescalingEnabled true or false
      */
-    public void setRescaler( CompassGridRescaler rescaler ) {
-        _rescaler = rescaler;
+    public void setRescalingEnabled( boolean rescalingEnabled ) {
+        if ( rescalingEnabled != _rescalingEnabled ) {
+            _rescalingEnabled = rescalingEnabled;
+            update();
+        }
+    }
+    
+    /**
+     * Determines whether rescaling is enabled.
+     * 
+     * @return true or false
+     */
+    public boolean isRescalingEnabled() {
+        return _rescalingEnabled;
     }
     
     /**
@@ -412,8 +431,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
                         scale = MathUtil.clamp( 0, scale, 1 );
                         
                         // Adjust the scale to improve the visual effect.
-                        if ( _rescaler != null ) {
-                            scale = _rescaler.rescale( scale );
+                        if ( _rescalingEnabled ) {
+                            scale = rescale( scale );
                         }
                         
                         // Adjust the scale to the maximum magnet strength.
@@ -426,6 +445,25 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
             }
             repaint();
         }
+    }
+    
+    /**
+     * Rescales a "field strength" value.
+     * Since the field strength drops off with the cube of the distance,
+     * the grid disappears very quickly around the magnet. 
+     * Rescaling makes the grid more visually appealing, but less physically accurate.
+     * 
+     * @param strength a field strength value, in the range 0...1
+     * @return the rescaled field strength, in the range 0...1
+     */
+    private double rescale( double strength ) {
+        assert( strength >=0 && strength <= 1 );
+        double newStrength = 1.0;
+        if ( strength != 0 && strength <= RESCALE_THRESHOLD ) {
+            newStrength = Math.pow( strength / RESCALE_THRESHOLD, RESCALE_EXPONENT );
+//            newStrength = MathUtil.clamp( 0, newStrength, 1 );
+        }
+        return newStrength;
     }
     
     //----------------------------------------------------------------------------

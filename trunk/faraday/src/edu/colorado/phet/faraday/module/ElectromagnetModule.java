@@ -22,7 +22,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.model.*;
-import edu.colorado.phet.faraday.util.CompassGridRescaler;
 import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
@@ -141,7 +140,7 @@ public class ElectromagnetModule extends FaradayModule {
         // Grid
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, 
                 electromagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescaler( new CompassGridRescaler() );
+        gridGraphic.setRescalingEnabled( true );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         apparatusPanel.addChangeListener( gridGraphic );

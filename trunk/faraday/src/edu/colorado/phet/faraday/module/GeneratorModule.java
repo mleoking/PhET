@@ -24,7 +24,6 @@ import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.TurbinePanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
-import edu.colorado.phet.faraday.util.CompassGridRescaler;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -111,13 +110,13 @@ public class GeneratorModule extends FaradayModule {
         // Lightbulb
         Lightbulb lightbulbModel = new Lightbulb( pickupCoilModel );
         lightbulbModel.setEnabled( true );
-        lightbulbModel.setScale( 2.0 ); // depends on distance between pickup coil and turbine!
+        lightbulbModel.setScale( 2.5 ); // depends on distance between pickup coil and turbine!
         
         // Volt Meter
         Voltmeter voltmeterModel = new Voltmeter( pickupCoilModel );
         voltmeterModel.setRotationalKinematicsEnabled( true );
         voltmeterModel.setEnabled( false );
-        voltmeterModel.setScale( 3.2 ); // depends on distance between pickup coil and turbine!
+        voltmeterModel.setScale( 3.3 ); // depends on distance between pickup coil and turbine!
         model.addModelElement( voltmeterModel );
         
         //----------------------------------------------------------------------------
@@ -144,7 +143,7 @@ public class GeneratorModule extends FaradayModule {
         
         // Grid
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, turbineModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescaler( new CompassGridRescaler() );
+        gridGraphic.setRescalingEnabled( true );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         gridGraphic.setVisible( false );
