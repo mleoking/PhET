@@ -10,7 +10,7 @@ package edu.colorado.phet.collision;
 import edu.colorado.phet.idealgas.model.HollowSphere;
 import edu.colorado.phet.idealgas.model.SphericalBody;
 
-public class SphereHollowSphereContactDetector extends ContactDetector {
+public class SphereHollowSphereContactDetector implements ContactDetector {
 
     public boolean areInContact( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean result = false;
@@ -56,7 +56,7 @@ public class SphereHollowSphereContactDetector extends ContactDetector {
         return result;
     }
 
-    protected boolean applies( CollidableBody bodyA, CollidableBody bodyB ) {
+    public boolean applies( CollidableBody bodyA, CollidableBody bodyB ) {
         return ( bodyA instanceof HollowSphere && bodyB instanceof SphericalBody )
                || ( bodyA instanceof SphericalBody && bodyB instanceof HollowSphere );
     }

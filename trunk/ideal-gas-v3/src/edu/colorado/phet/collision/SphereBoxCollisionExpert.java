@@ -10,9 +10,9 @@ import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.SphericalBody;
 
 
-public class SphereBoxCollisionExpert extends ContactDetector {
+public class SphereBoxCollisionExpert implements ContactDetector {
 
-    protected boolean applies( CollidableBody bodyA, CollidableBody bodyB ) {
+    public boolean applies( CollidableBody bodyA, CollidableBody bodyB ) {
         return ( bodyA instanceof SphericalBody && bodyB instanceof Box2D )
                || ( bodyA instanceof Box2D && bodyB instanceof SphericalBody );
     }
