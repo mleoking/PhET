@@ -99,7 +99,7 @@ public interface IMagnet {
     public abstract double getDirection();
 
     /**
-     * Gets the direction of the magnet field at a point in 2D space.
+     * Gets the direction of the magnetic field at a point in 2D space.
      * Zero degrees is pointing down the positive X axis.
      * Positive angles indicate in clockwise rotation.
      * 
