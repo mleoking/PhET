@@ -1,18 +1,19 @@
 
-import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.AddModelElementCmd;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
+import edu.colorado.phet.idealgas.controller.HotAirBalloon;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
+import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
+import edu.colorado.phet.collision.SphereHotAirBalloonExpert;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -20,7 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ResourceBundle;
 
-public class TestMoleculeHollowSphereCollisionII extends PhetApplication {
+public class TestMoleculeHotAirBalloonCollision extends PhetApplication {
 
     private static ResourceBundle localizedStrings;
 
@@ -56,21 +57,22 @@ public class TestMoleculeHollowSphereCollisionII extends PhetApplication {
             super( clock );
 
             // Add collision experts to the model
-            getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert( getIdealGasModel(), clock.getDt() ) );
+            getIdealGasModel().addCollisionExpert( new SphereHotAirBalloonExpert( getIdealGasModel(), clock.getDt() ) );
 
             final Box2D box = getIdealGasModel().getBox();
             box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
-            HollowSphere sphere = null;
-            sphere = new HollowSphere( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
+            HotAirBalloon sphere = null;
+            sphere = new HotAirBalloon( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
                                                            box.getMinY() + box.getHeight() / 2 ),
                                        new Vector2D.Double( 0, 0 ),
                                        new Vector2D.Double( 0, 0 ),
                                        100,
-                                       50 );
+                                       50,
+                                       60);
 
             new AddModelElementCmd( getIdealGasModel(), sphere ).doIt();
             getIdealGasModel().getBox().addContainedBody( sphere );
-            addGraphic( new HollowSphereGraphic( getApparatusPanel(), sphere ), 20 );
+            addGraphic( new HotAirBalloonGraphic( getApparatusPanel(), sphere ), 20 );
 
 //            GasMolecule gm = new HeavySpecies( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
 //                                                                    box.getMinY() + box.getHeight() / 2 ),
@@ -84,12 +86,12 @@ public class TestMoleculeHollowSphereCollisionII extends PhetApplication {
 
             JButton testBtn = new JButton( "Test" );
             final GasMolecule[] m = new GasMolecule[]{null};
-            final HollowSphere sphere1 = sphere;
+            final SphericalBody sphere1 = sphere;
             testBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m[0] = new HeavySpecies( new Point2D.Double( sphere1.getPosition().getX(),
-                                                                 sphere1.getPosition().getY() ),
-                                             new Vector2D.Double( -100, -130 ),
+                                                                 sphere1.getPosition().getY() + 60 ),
+                                             new Vector2D.Double( 0, -130 ),
                                              new Vector2D.Double(),
                                              5 );
 //                    m[0] = new HeavySpecies( new Point2D.Double( 383.3, 389.35 ),
@@ -113,13 +115,13 @@ public class TestMoleculeHollowSphereCollisionII extends PhetApplication {
     }
 
 
-    public TestMoleculeHollowSphereCollisionII() {
+    public TestMoleculeHotAirBalloonCollision() {
         super( new TestApplicationModel() );
         this.startApplication();
 //        this.getApplicationDescriptor().getClock().setPaused( true );
     }
 
     public static void main( String[] args ) {
-        TestMoleculeHollowSphereCollisionII test = new TestMoleculeHollowSphereCollisionII();
+        TestMoleculeHotAirBalloonCollision test = new TestMoleculeHotAirBalloonCollision();
     }
 }
