@@ -16,6 +16,6 @@ LOW:
 o font antialiasing on Windows (and Linux?)
 o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
 o convert to PhET code formatting conventions
-o add CVS headers
+(DONE) o add CVS headers
 
 
