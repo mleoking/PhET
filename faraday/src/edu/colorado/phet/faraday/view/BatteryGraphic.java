@@ -17,7 +17,6 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.control.FSlider;
 import edu.colorado.phet.faraday.model.Battery;
 
 
