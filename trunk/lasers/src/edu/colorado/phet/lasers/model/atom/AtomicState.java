@@ -7,8 +7,8 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import javax.swing.event.EventListenerList;
 import java.util.EventListener;
@@ -20,15 +20,27 @@ public abstract class AtomicState {
     // Class
     //
     // Determines how often a photon contacting an atom will result in a collision
+    static private double PLANCK = 6.626E-34;
     static protected double s_collisionLikelihood = 1;
+    static public final double minWavelength = 450;
+    static public final double maxWavelength = 800;
+    static public final double minEnergy = wavelengthToEnergy( maxWavelength );
+    static public final double maxEnergy = wavelengthToEnergy( minWavelength );
     //    static protected double s_collisionLikelihood = 0.2;
 
+    public static double energyToWavelength( double energy ) {
+        return PLANCK / energy;
+    }
+
+    public static double wavelengthToEnergy( double wavelength ) {
+        return PLANCK / wavelength;
+    }
 
     //
     // Instance
     //
     private double energyLevel;
-    private int wavelength;
+    private double wavelength;
     private int numAtomsInState;
     private EventListenerList listeners = new EventListenerList();
     private double meanLifetime = LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME / 1000;
@@ -94,7 +106,7 @@ public abstract class AtomicState {
     public double getMeanLifeTime() {
         return meanLifetime;
         // Note: the hard-coded figure here is just a holding value
-//        return energyLevel == 0 ? Double.POSITIVE_INFINITY : 10000 / energyLevel;
+        //        return energyLevel == 0 ? Double.POSITIVE_INFINITY : 10000 / energyLevel;
     }
 
     public void setMeanLifetime( double lifetime ) {
@@ -103,18 +115,25 @@ public abstract class AtomicState {
 
     public void setEnergyLevel( double energyLevel ) {
         this.energyLevel = energyLevel;
+        this.wavelength = energyToWavelength( energyLevel );
         fireEnergyLevelChangeEvent( new EnergyLevelChangeEvent( this ) );
     }
 
-    public int getWavelength() {
+    public double getWavelength() {
         return wavelength;
     }
 
     protected void setEmittedPhotonWavelength( int wavelength ) {
         this.wavelength = wavelength;
+        this.energyLevel = wavelengthToEnergy( wavelength );
     }
 
     protected double getEmittedPhotonWavelength() {
         return wavelength;
     }
+
+    abstract public AtomicState getNextLowerEnergyState();
+
+    abstract public AtomicState getNextHigherEnergyState();
+
 }

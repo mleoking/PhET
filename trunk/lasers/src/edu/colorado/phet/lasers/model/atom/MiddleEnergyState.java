@@ -12,7 +12,6 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
@@ -20,12 +19,12 @@ import java.awt.geom.Point2D;
 public class MiddleEnergyState extends SpontaneouslyEmittingState {
 
     private static MiddleEnergyState instance = new MiddleEnergyState();
+
     public static MiddleEnergyState instance() {
         return instance;
     }
 
     private MiddleEnergyState() {
-        setEnergyLevel( 40 );
         setEmittedPhotonWavelength( Photon.RED );
     }
 
@@ -62,11 +61,11 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
         }
     }
 
-    protected AtomicState nextLowerEnergyState() {
+    public AtomicState getNextLowerEnergyState() {
         return GroundState.instance();
     }
 
-//    protected double getEmittedPhotonWavelength() {
-//        return s_wavelength;
-//    }
+    public AtomicState getNextHigherEnergyState() {
+        return HighEnergyState.instance();
+    }
 }

@@ -152,9 +152,6 @@ public class Photon extends Particle implements Collidable {
 
     public synchronized void addObserver( SimpleObserver o ) {
         super.addObserver( o );
-        if( numObservers > 0 ) {
-            System.out.println( "$$$" );
-        }
         numObservers++;
     }
 

@@ -11,18 +11,17 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 public class HighEnergyState extends SpontaneouslyEmittingState {
 
     private static HighEnergyState instance = new HighEnergyState();
+
     public static HighEnergyState instance() {
         return instance;
     }
 
     private HighEnergyState() {
-        setEnergyLevel( 90 );
         setEmittedPhotonWavelength( Photon.DEEP_RED );
     }
 
@@ -32,11 +31,11 @@ public class HighEnergyState extends SpontaneouslyEmittingState {
         // NOP
     }
 
-    protected AtomicState nextLowerEnergyState() {
+    public AtomicState getNextLowerEnergyState() {
         return MiddleEnergyState.instance();
     }
 
-//    protected double getEmittedPhotonWavelength() {
-//        return s_wavelength;
-//    }
+    public AtomicState getNextHigherEnergyState() {
+        return this;
+    }
 }

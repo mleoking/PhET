@@ -205,7 +205,6 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
             public void leavingSystem( Photon photon ) {
                 getApparatusPanel().removeGraphic( photonGraphic );
                 getApparatusPanel().repaint( photonGraphic.getBounds() );
-                System.out.println( "!!!" );
             }
         } );
     }

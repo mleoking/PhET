@@ -12,12 +12,16 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.math.ModelViewTx1D;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.lasers.coreadditions.VisibleColor;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -28,8 +32,10 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
     private double yLoc;
     private double width;
     private EnergyLevelRep energyLevelRep;
+    private Rectangle bounds = new Rectangle();
+    private ModelViewTx1D energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy, 0, 0 );
 
-    public EnergyLevelGraphic( Component component, AtomicState atomicState, Color color, double xLoc, double width ) {
+    public EnergyLevelGraphic( final Component component, AtomicState atomicState, Color color, double xLoc, double width ) {
         super( null );
         this.atomicState = atomicState;
         this.color = color;
@@ -42,6 +48,19 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         addTranslationBehavior( new EnergyLevelTranslator() );
 
         atomicState.addEnergyLevelChangeListener( this );
+
+        // Add a listener that will recompute, when the component in which we are
+        // placed changes size, our graphic bounds and the transform between
+        // energy values from the model and graphic coordinates
+        component.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                Rectangle compRect = component.getBounds();
+                bounds.setRect( compRect.getMinX(), compRect.getMinY() + compRect.getHeight() * 0.1,
+                                compRect.getWidth(), compRect.getHeight() * 0.8 );
+                energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
+                                               (int)bounds.getMinY(), (int)bounds.getMaxY() );
+            }
+        } );
     }
 
     public void setBasePosition( double x, double y ) {
@@ -66,31 +85,24 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
      */
     private class EnergyLevelTranslator implements Translatable {
         public void translate( double dx, double dy ) {
-            atomicState.setEnergyLevel( atomicState.getEnergyLevel() - dy );
+            double energyChange = energyYTx.viewToModelDifferential( (int)dy );
+            double maxEnergy = Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel(),
+                                         atomicState.getEnergyLevel() + energyChange );
+            double minEnergy = Math.max( atomicState.getNextLowerEnergyState().getEnergyLevel(),
+                                         atomicState.getEnergyLevel() + energyChange );
+            double newEnergy = Math.max( Math.min( maxEnergy, atomicState.getEnergyLevel() + energyChange ),
+                                         minEnergy );
+            //            double newEnergy = Math.max(
+            //                    Math.min( AtomicState.maxEnergy, atomicState.getEnergyLevel() + energyChange ),
+            //                    AtomicState.minEnergy );
+            atomicState.setEnergyLevel( newEnergy );
         }
     }
 
     /**
      * The graphic class itself
      */
-    private static double maxEnergy = 200;
-    private static double minEnergy = 0;
-    private static double maxBlueLevel = maxEnergy;
-    private static double maxRedLevel = maxEnergy / 2;
-    private static int numColors = (int)maxEnergy;
-    private static Color[] colors = new Color[numColors];
-
-    static {
-        for( int i = 0; i < numColors; i++ ) {
-            int red = ( numColors / 2 ) - Math.abs( i - numColors / 2 );
-            int green = 0;
-            int blue = Math.max( 0, ( i - numColors / 2 ) );
-            colors[i] = new Color( red, green, blue );
-        }
-    }
-
     private class EnergyLevelRep extends PhetGraphic {
-
 
         private Rectangle2D levelLine = new Rectangle2D.Double();
         private double thickness = 2;
@@ -101,15 +113,8 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         }
 
         private void update() {
-
-            int blueLevel = (int)Math.max( 0, Math.min( 255 * ( atomicState.getEnergyLevel() - maxRedLevel ) / ( maxBlueLevel - maxRedLevel ), 255 ) );
-            int redLevel = (int)Math.max( 0, Math.min( 255 * ( atomicState.getEnergyLevel() - minEnergy ) / ( maxRedLevel - minEnergy ), 255 ) );
-            color = new Color( redLevel, 0, blueLevel );
-
-            color = colors[(int)Math.min( ( atomicState.getEnergyLevel() / maxEnergy ) * numColors, maxEnergy - 1 )];
-            //            color = colors[ (int)Math.min( atomicState.getEnergyLevel(), maxEnergy - 1)];
-
-            double y = yLoc - atomicState.getEnergyLevel();
+            color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
+            int y = energyYTx.modelToView( atomicState.getEnergyLevel() );
             levelLine.setRect( xLoc, y, width, thickness );
             setBoundsDirty();
             repaint();

@@ -1,3 +1,6 @@
+- Make colors of energy levels map to real values
+- Prevent energy levels from being dragged past each other
+
 - AtomicState lifetime manager should be part of the base AtomicState now. There is no need of a separate
 SpontaneouslyEmittingState.
 - Memory leak in multiple atom panel

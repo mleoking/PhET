@@ -88,7 +88,7 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
                 atom.emitPhoton( emittedPhoton );
 
                 // Change state
-                atom.setState( state.nextLowerEnergyState() );
+                atom.setState( state.getNextLowerEnergyState() );
 
                 // Remove us from the model
                 kill();
@@ -106,7 +106,7 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
         }
     }
 
-    abstract protected AtomicState nextLowerEnergyState();
-
-//    abstract protected double getEmittedPhotonWavelength();
+    //    abstract protected AtomicState getNextLowerEnergyState();
+    //
+    //    abstract protected double getEmittedPhotonWavelength();
 }
