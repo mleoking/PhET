@@ -42,7 +42,7 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     private ArrowWithFixedSizeArrowhead arrow;
     private IdeaGraphic2 motionIdea;
     private ArrowWithFixedSizeArrowhead motionArrow;
-    double lastx = 0;
+    private double lastx = 0;
 
     public ManGraphic( MovingManModule module, Man m, int y, RangeToRange transform ) throws IOException {
         this.module = module;

@@ -8,13 +8,13 @@ package edu.colorado.phet.movingman.common.math;
  * Time: 12:58:11 PM
  * To change this template use Options | File Templates.
  */
-public class RangeToRangeInvert implements Function {
-    RangeToRange core;
-    double inStart;
-    double inEnd;
-    double outStart;
-    double outEnd;
-    double midout;//=(outStart+outEnd)/2;
+public class RangeToRangeInvert {
+    private RangeToRange core;
+    private double inStart;
+    private double inEnd;
+    private double outStart;
+    private double outEnd;
+    private double midout;//=(outStart+outEnd)/2;
 
     public RangeToRangeInvert( double inStart, double inEnd, double outStart, double outEnd ) {
         this.inStart = inStart;

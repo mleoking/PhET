@@ -15,6 +15,12 @@ public class PlotAndText {
     private GridLineGraphic grid;
     private boolean visible = true;
 
+    public PlotAndText( BoxedPlot plot, ValueGraphic text, GridLineGraphic grid ) {
+        this.plot = plot;
+        this.text = text;
+        this.grid = grid;
+    }
+
     public boolean isVisible() {
         return visible;
     }
@@ -38,9 +44,4 @@ public class PlotAndText {
         return grid;
     }
 
-    public PlotAndText( BoxedPlot plot, ValueGraphic text, GridLineGraphic grid ) {
-        this.plot = plot;
-        this.text = text;
-        this.grid = grid;
-    }
 }
