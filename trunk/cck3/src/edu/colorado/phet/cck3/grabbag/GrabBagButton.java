@@ -7,6 +7,7 @@ import edu.colorado.phet.cck3.circuit.components.Resistor;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +27,7 @@ public class GrabBagButton extends JButton {
     private JFrame dialog;
 
     public GrabBagButton( CCK3Module module ) {
-        super( "Grab Bag" );
+        super( SimStrings.get( "GrabBagButton.ButtonTitle" ) );
         this.module = module;
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -34,12 +35,12 @@ public class GrabBagButton extends JButton {
             }
         } );
         bag = new GrabBag();
-        dialog = new JFrame( "Grab Bag" );
+        dialog = new JFrame( SimStrings.get( "GrabBagButton.DialogTitle" ) );
         VerticalLayoutPanel contentPane = new VerticalLayoutPanel();
         contentPane.setAnchor( GridBagConstraints.CENTER );
         contentPane.setFill( GridBagConstraints.NONE );
 
-        JLabel click = new JLabel( "Click on an item to add it." );
+        JLabel click = new JLabel( SimStrings.get( "GrabBagButton.Help" ) );
         contentPane.add( click );
         JLabel empty = new JLabel( " " );
         contentPane.add( empty );

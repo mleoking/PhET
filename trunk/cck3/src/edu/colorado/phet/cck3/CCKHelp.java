@@ -13,6 +13,7 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -44,7 +45,8 @@ public class CCKHelp {
         Font helpFont = new Font( "Lucida Sans", Font.BOLD, 16 );
 
         ToolboxTarget toolboxTarget = new ToolboxTarget();
-        myToolboxHelpItem = new PositionedHelpItem( "Grab wires\nand components\nfrom the Toolbox.", toolboxTarget, helpFont, getApparatusPanel() );
+        myToolboxHelpItem = new PositionedHelpItem( SimStrings.get( "CCKHelp.ToolboxHelp" ),
+                                            toolboxTarget, helpFont, getApparatusPanel() );
         observer = new SimpleObserver() {
             public void update() {
                 myToolboxHelpItem.changed();
@@ -53,9 +55,11 @@ public class CCKHelp {
         toolbox.addObserver( observer );
         myToolboxHelpItem.changed();
         JunctionTarget jt = new JunctionTarget();
-        junctionHelpItem = new PositionedHelpItem( "Drag junctions or\nright click for menu.", jt, helpFont, getApparatusPanel() );
+        junctionHelpItem = new PositionedHelpItem( SimStrings.get( "CCKHelp.JunctionHelp" ),
+                                                    jt, helpFont, getApparatusPanel() );
         ComponentTarget ct = new ComponentTarget();
-        componentHelpItem = new PositionedHelpItem( "Drag to move or\nright click to modify or remove.", ct, helpFont, getApparatusPanel() );
+        componentHelpItem = new PositionedHelpItem( SimStrings.get( "CCKHelp.ComponentHelp" ),
+                                                    ct, helpFont, getApparatusPanel() );
 
         getApparatusPanel().addGraphic( myToolboxHelpItem, Double.POSITIVE_INFINITY );
         getApparatusPanel().addGraphic( junctionHelpItem, Double.POSITIVE_INFINITY );

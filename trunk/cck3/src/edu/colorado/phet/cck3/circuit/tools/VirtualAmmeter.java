@@ -7,6 +7,7 @@ import edu.colorado.phet.cck3.common.TargetReadoutTool;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -66,7 +67,7 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
                     double current = branch.getCurrent();
                     DecimalFormat df = circuitGraphic.getModule().getDecimalFormat();
                     String amps = df.format( Math.abs( current ) );
-                    trt.setText( amps + " Amps" );
+                    trt.setText( amps + " " + SimStrings.get( "VirtualAmmeter.Amps" ) );
                     return;
                 }
             }
@@ -75,7 +76,10 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
     }
 
     private void resetText() {
-        String[] text = new String[]{"Move over a wire", "to read current."};
+        String[] text = new String[]{
+                SimStrings.get( "VirtualAmmeter.HelpString1" ),
+                SimStrings.get( "VirtualAmmeter.HelpString1" )
+        };
         trt.setText( text );
     }
 

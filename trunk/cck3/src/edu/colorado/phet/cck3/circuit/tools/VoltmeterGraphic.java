@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -341,7 +342,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
         private Point ctr;
         double relX = -35;
         double relY = -73;
-        private static final String UNKNOWN_VOLTS = "???";
+        private final String UNKNOWN_VOLTS = SimStrings.get( "VoltmeterGraphic.UnknownVolts" );
         private String voltageString = UNKNOWN_VOLTS;
         private DecimalFormat voltFormatter;
 
@@ -392,7 +393,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
             if( Double.parseDouble( voltageString ) == 0 ) {
                 voltageString = voltFormatter.format( 0 );
             }
-            textGraphic.setText( voltageString + " V" );
+            textGraphic.setText( voltageString + " " + SimStrings.get( "VoltmeterGraphic.VoltAbrev" ) );
         }
 
         public void setUnknownVoltage() {

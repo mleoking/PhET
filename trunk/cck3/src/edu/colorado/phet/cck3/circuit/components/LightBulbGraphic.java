@@ -7,6 +7,7 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -215,7 +216,7 @@ public class LightBulbGraphic implements Graphic {
         panel.addGraphic( bulb2 );
 
         final JSpinner js = new JSpinner( new SpinnerNumberModel( 0, 0, 1, .0060 ) );
-        js.setBorder( BorderFactory.createTitledBorder( "Intensity(0..1) Bulb 1" ) );
+        js.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "LightBulbGraphic.Bulb1Title" ) ) );
         js.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double watts = ( (Number)js.getValue() ).doubleValue();
@@ -225,7 +226,7 @@ public class LightBulbGraphic implements Graphic {
         } );
 
         final JSpinner js2 = new JSpinner( new SpinnerNumberModel( 0, 0, 1, .006 ) );
-        js2.setBorder( BorderFactory.createTitledBorder( "Bulb 2" ) );
+        js2.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "LightBulbGraphic.Bulb2Title" ) ) );
         js2.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double intensity = ( (Number)js2.getValue() ).doubleValue();

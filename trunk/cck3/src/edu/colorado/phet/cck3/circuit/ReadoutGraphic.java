@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -128,7 +129,7 @@ public class ReadoutGraphic implements Graphic {
         vol = abs( vol );
 
 //        String text = "R=" + res + " I=" + cur;
-        String text = res + " Ohms";//, " + cur + " Amps";
+        String text = res + " " + SimStrings.get( "ReadoutGraphic.Ohms" );  //, " + cur + " " + SimStrings.get( "ReadoutGraphic.Amps" );
         return new String[]{text};
     }
 
@@ -165,11 +166,11 @@ public class ReadoutGraphic implements Graphic {
             boolean internal = super.module.isInternalResistanceOn();
             double volts = Math.abs( branch.getVoltageDrop() );
             String vol = super.formatter.format( volts );
-            String str = "" + vol + " Volts";
+            String str = "" + vol + " " + SimStrings.get( "ReadoutGraphic.Volts" );
             ArrayList text = new ArrayList();
             text.add( str );
             if( internal ) {
-                String s2 = super.formatter.format( branch.getResistance() ) + " Ohms";
+                String s2 = super.formatter.format( branch.getResistance() ) + " " + SimStrings.get( "ReadoutGraphic.Ohms" );
                 text.add( s2 );
             }
             String[] out = (String[])text.toArray( new String[0] );

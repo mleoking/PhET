@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -171,7 +172,7 @@ public class Toolbox extends CompositeGraphic {
             double samHeight = CCK3Module.SERIES_AMMETER_DIMENSION.getHeightForLength( samLength );
             SeriesAmmeter sam = new SeriesAmmeter( module.getKirkhoffListener(), new Point2D.Double( componentX, y ),
                                                    new ImmutableVector2D.Double( 1, 0 ), samLength, samHeight );
-            SeriesAmmeterGraphic sag = new SeriesAmmeterGraphic( parent, sam, transform, module, "Ammeter" );
+            SeriesAmmeterGraphic sag = new SeriesAmmeterGraphic( parent, sam, transform, module, SimStrings.get( "Toolbox.AmmeterTitle" ) );
             sag.setFont( new Font( "Lucida Sans", Font.PLAIN, 8 ) );
             SchematicAmmeterGraphic schAg = new SchematicAmmeterGraphic( parent, sam, transform, schematicWireThickness, module.getDecimalFormat() );
             ammeterSource = new BranchSource.AmmeterSource( sag, schAg, module.getCircuitGraphic(), parent, sam, module.getKirkhoffListener(), dir,

@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +28,7 @@ public class JunctionSplitter {
     }
 
     public JMenuItem toJMenuItem() {
-        JMenuItem item = new JMenuItem( "Split Junction" );
+        JMenuItem item = new JMenuItem( SimStrings.get( "JunctionSplitter.SplitMenuItem" ) );
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getModel().addModelElement( new ModelElement() {

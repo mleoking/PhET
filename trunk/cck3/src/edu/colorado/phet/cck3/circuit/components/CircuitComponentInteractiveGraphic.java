@@ -7,6 +7,7 @@ import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -98,7 +99,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         }
 
         public static JCheckBoxMenuItem finish( final CCK3Module module, final Branch branch, RepaintyMenu menu ) {
-            final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( "Show Value" );
+            final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
             menu.addPopupMenuListener( new PopupMenuListener() {
                 public void popupMenuCanceled( PopupMenuEvent e ) {
                 }
@@ -133,7 +134,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         }
 
         static void addRemoveButton( RepaintyMenu menu, final CCK3Module module, final Branch branch ) {
-            JMenuItem remove = new JMenuItem( "Remove" );
+            JMenuItem remove = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.RemoveMenuItem" ) );
             remove.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.removeBranch( branch );
@@ -177,7 +178,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             }
             else {
                 editor = new ComponentEditor.ResistorEditor( module, res, module.getApparatusPanel(), module.getCircuit() );
-                JMenuItem edit = new JMenuItem( "Change Resistance" );
+                JMenuItem edit = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ResistanceMenuItem" ) );
                 edit.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         editor.setVisible( true );
@@ -209,14 +210,14 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             super( bulb, module );
             this.bulb = bulb;
             editor = new ComponentEditor.BulbResistanceEditor( module, bulb, module.getApparatusPanel(), module.getCircuit() );
-            JMenuItem edit = new JMenuItem( "Change Resistance" );
+            JMenuItem edit = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ResistanceMenuItem" ) );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     editor.setVisible( true );
                 }
             } );
             menu.add( edit );
-            final JMenuItem flip = new JMenuItem( "Flip" );
+            final JMenuItem flip = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.FlipMenuItem" ) );
             flip.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     bulb.flip( module );
@@ -237,10 +238,10 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                         flip.setEnabled( false );
                     }
                     if( bulb.isConnectAtRight() ) {
-                        flip.setText( "Show Connection at Left" );
+                        flip.setText( SimStrings.get( "CircuitComponentInteractiveGraphic.LeftConnectMenuItem" ) );
                     }
                     else {
-                        flip.setText( "Show Connection at Right" );
+                        flip.setText( SimStrings.get( "CircuitComponentInteractiveGraphic.RightConnectMenuItem" ) );
                     }
                 }
             } );
@@ -302,7 +303,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             super( module.getApparatusPanel() );
             this.battery = branch;
             this.module = module;
-            JMenuItem edit = new JMenuItem( "Change Voltage" );
+            JMenuItem edit = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.VoltageMenuItem" ) );
             editor = new ComponentEditor.BatteryEditor( module, branch, module.getApparatusPanel(), module.getCircuit() );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -311,7 +312,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             } );
             add( edit );
 
-            editInternal = new JMenuItem( "Change Internal Resistance" );
+            editInternal = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.InternalResistanceMenuItem" ) );
             editInternal.setEnabled( false );
             resistanceEditor = new ComponentEditor.BatteryResistanceEditor( module, battery, module.getApparatusPanel(), module.getCircuit() );
             editInternal.addActionListener( new ActionListener() {
@@ -321,7 +322,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             } );
             add( editInternal );
 
-            JMenuItem reverse = new JMenuItem( "Reverse" );
+            JMenuItem reverse = new JMenuItem( SimStrings.get( "CircuitComponentInteractiveGraphic.ReverseMenuItem" ) );
             reverse.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     reverse( branch );

@@ -44,6 +44,7 @@ import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -56,6 +57,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * User: Sam Reid
@@ -126,6 +128,9 @@ public class CCK3Module extends Module {
     public static final boolean GRAPHICAL_DEBUG = false;
     public PhetShadowTextGraphic messageGraphic;
     //    public static final boolean GRAPHICAL_DEBUG = true;
+    
+    // Localization
+    public static final String localizedStringsPath = "localization/CCKStrings";
 
     public MagicalRepaintPanel getMagicPanel() {
         return magicPanel;
@@ -140,7 +145,7 @@ public class CCK3Module extends Module {
     }
 
     public CCK3Module( boolean virtualLabMode ) throws IOException {
-        super( "cck-iii" );
+        super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
         this.virtualLabMode = virtualLabMode;
         //        Color backgroundColor = new Color( 166, 177, 204 );//not so bright
 
@@ -344,7 +349,8 @@ public class CCK3Module extends Module {
         pt.translate( -130, 5 );
         //        wiggleMe = new WiggleMe( getApparatusPanel(), pt,
         //                                 new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
-        wiggleMe = new WiggleMe( getApparatusPanel(), pt, new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire" );
+        wiggleMe = new WiggleMe( getApparatusPanel(), pt, new ImmutableVector2D.Double( 0, 1 ), 10, .025,
+                                                                SimStrings.get( "CCK3Module.GrabAWire" ) );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 Rectangle2D rect = toolbox.getBounds2D();
@@ -659,6 +665,18 @@ public class CCK3Module extends Module {
     }
 
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( localizedStringsPath );
+
         //        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
         SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
 
@@ -683,7 +701,10 @@ public class CCK3Module extends Module {
         if( debugMode ) {
             fs = new FrameSetup.CenteredWithInsets( 0, 200 );
         }
-        ApplicationModel model = new ApplicationModel( "Circuit Construction Kit III", "cck-v3", "III-v8+", fs, cck, clock );
+        ApplicationModel model = new ApplicationModel(
+                    SimStrings.get( "CCK3Application.title" ),
+                    SimStrings.get( "CCK3Application.description" ),
+                    SimStrings.get( "CCK3Application.version" ), fs, cck, clock );
         model.setName( "cck" );
         model.setUseClockControlPanel( false );
         final PhetApplication app = new PhetApplication( model );
@@ -691,8 +712,8 @@ public class CCK3Module extends Module {
         CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();
         UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
 
-        JMenu laf = new JMenu( "View" );
-        laf.setMnemonic( 'v' );
+        JMenu laf = new JMenu( SimStrings.get( "ViewMenu.Title" ) );
+        laf.setMnemonic( SimStrings.get( "ViewMenu.TitleMnemonic" ).charAt(0) );
         JMenuItem[] jmi = PlafUtil.getLookAndFeelItems();
         for( int i = 0; i < jmi.length; i++ ) {
             JMenuItem jMenuItem = jmi[i];
@@ -700,9 +721,9 @@ public class CCK3Module extends Module {
         }
         app.getApplicationView().getPhetFrame().addMenu( laf );
 
-        JMenu dev = new JMenu( "Options" );
-        dev.setMnemonic( 'o' );
-        JMenuItem changeBackgroundColor = new JMenuItem( "Background Color" );
+        JMenu dev = new JMenu( SimStrings.get( "OptionsMenu.Title" ) );
+        dev.setMnemonic( SimStrings.get( "OptionsMenu.TitleMnemonic" ).charAt(0) );
+        JMenuItem changeBackgroundColor = new JMenuItem( SimStrings.get( "OptionsMenu.BackgroundColor" ) );
         changeBackgroundColor.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ColorDialog.Listener listy = new ColorDialog.Listener() {
@@ -718,11 +739,12 @@ public class CCK3Module extends Module {
                         cck.getApparatusPanel().setBackground( color );
                     }
                 };
-                ColorDialog.showDialog( "Background Color", app.getApplicationView().getPhetFrame(), cck.getApparatusPanel().getBackground(), listy );
+                ColorDialog.showDialog( SimStrings.get( "OptionsMenu.BackgroundColorDialogTitle" ),
+                        app.getApplicationView().getPhetFrame(), cck.getApparatusPanel().getBackground(), listy );
             }
         } );
         cck.setFrame( app.getApplicationView().getPhetFrame() );
-        JMenuItem toolboxColor = new JMenuItem( "Toolbox Color" );
+        JMenuItem toolboxColor = new JMenuItem( SimStrings.get( "OptionsMenu.Toolboxcolor" ) );
         toolboxColor.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ColorDialog.Listener listy = new ColorDialog.Listener() {
@@ -738,7 +760,8 @@ public class CCK3Module extends Module {
                         cck.getToolbox().setBackgroundColor( color );
                     }
                 };
-                ColorDialog.showDialog( "Toolbox Color", app.getApplicationView().getPhetFrame(), cck.getToolbox().getBackgroundColor(), listy );
+                ColorDialog.showDialog( SimStrings.get( "OptionsMenu.ToolboxColorDialogTitle" ),
+                        app.getApplicationView().getPhetFrame(), cck.getToolbox().getBackgroundColor(), listy );
             }
         } );
 
