@@ -126,7 +126,7 @@ public abstract class AtomicState {
         }
 
         private MaxEnergyState() {
-            setEnergyLevel( maxEnergy );
+            setEnergyLevel( getEnergyLevel() );
         }
 
         public void collideWithPhoton( Atom atom, Photon photon ) {
@@ -138,6 +138,16 @@ public abstract class AtomicState {
 
         public AtomicState getNextHigherEnergyState() {
             return null;
+        }
+
+        public double getWavelength() {
+            // The hard-coded number here is a hack so the energy level graphic can be adjusted up to the top of
+            // the window. This is not great programming
+            return minWavelength - 80;
+        }
+
+        public double getEnergyLevel() {
+            return Photon.wavelengthToEnergy( getWavelength() );
         }
     }
 
