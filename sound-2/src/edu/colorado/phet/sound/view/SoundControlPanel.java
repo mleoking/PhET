@@ -21,19 +21,36 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class SoundControlPanel extends PhetControlPanel {
+    private ControlPanel soundControlPanel;
+    private int rowIdx = 0;
 
     public SoundControlPanel( Module module ) {
-        super( module, new ControlPanel( module ) );
+        super( module );
+        soundControlPanel = new ControlPanel( module );
+        super.setControlPane( soundControlPanel);
     }
 
-    private static class ControlPanel extends JPanel {
+    public void addPanel( JPanel panel ) {
+        try {
+            GraphicsUtil.addGridBagComponent( soundControlPanel, panel,
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
+        }
+        catch( AWTException e ) {
+            e.printStackTrace();
+        }
+        super.adjustLayout();
+    }
+
+
+    private class ControlPanel extends JPanel {
 
         ControlPanel( Module module ) {
             this.setLayout( new GridBagLayout() );
             if( !( module.getModel() instanceof SoundModel ) ) {
                 throw new RuntimeException( "Type of parameter is invalid" );
             }
-            int rowIdx = 0;
             try {
                 GraphicsUtil.addGridBagComponent( this, new FrequencyControlPanel( (SoundModel)module.getModel() ),
                                                   0, rowIdx++,
@@ -95,6 +112,7 @@ public class SoundControlPanel extends PhetControlPanel {
                     frequencyTF.setText( Integer.toString( frequencySlider.getValue() ) + " Hz" );
                 }
             } );
+            updateFrequency( model, frequencySlider.getValue() );
 
             frequencyReadoutPanel.add( frequencyTF, BorderLayout.CENTER );
             this.add( frequencyReadoutPanel );
