@@ -142,7 +142,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
 //        neutronGun.kill();
     }
 
-
     public ArrayList getNuclei() {
         return nuclei;
     }
@@ -195,11 +194,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     }
 
     public void fireNeutron() {
-//        double bounds = 600;
-//        neutronLaunchGamma = random.nextDouble() * Math.PI * 2;
-//        double x = bounds * Math.cos( neutronLaunchGamma );
-//        double y = bounds * Math.sin( neutronLaunchGamma );
-//        neutronLaunchPoint = new Point2D.Double( x, y );
         Neutron neutron = new Neutron( neutronLaunchPoint, neutronLaunchGamma + Math.PI );
         neutrons.add( neutron );
         super.addNeutron( neutron );
@@ -239,7 +233,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         // Add some pizzazz
         Kaboom kaboom = new Kaboom( products.getParent().getLocation(),
                                     25, 300, getPhysicalPanel() );
-//                                    25, 300, getApparatusPanel() );
         getPhysicalPanel().addGraphic( kaboom );
     }
 

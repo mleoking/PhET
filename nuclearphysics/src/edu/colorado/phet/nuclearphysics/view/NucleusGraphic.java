@@ -65,7 +65,7 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
         img = computeImage();
     }
 
-    private Image computeImage() {
+    protected Image computeImage() {
         BufferedImage bi = new BufferedImage( (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) * 2,
                                               (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) * 2,
                                               BufferedImage.TYPE_INT_ARGB );

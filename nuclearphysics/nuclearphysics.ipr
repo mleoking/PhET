@@ -9,7 +9,7 @@
       <includeProjectClasspath value="true" />
       <includeParser value="true" />
       <additionalClassPath>
-        <entry path="file://C:/PhET/util/ant/antutil0.0.7_build-23/bin/antutil.jar" />
+        <entry path="file://C:/PhET/util/build/antScriptTest0.0.7_build-18/bin/antScriptTest.jar" />
       </additionalClassPath>
     </buildFile>
   </component>
@@ -72,7 +72,7 @@
       <module fileurl="file://$PROJECT_DIR$/nuclearphysics.iml" filepath="$PROJECT_DIR$/nuclearphysics.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="false" project-jdk-name="java version &quot;1.4.2_03&quot;" />
+  <component name="ProjectRootManager" version="2" assert-keyword="false" project-jdk-name="java version &quot;1.4.2_02&quot;" />
   <component name="libraryTable" />
   <component name="uidesigner-configuration">
     <option name="INSTRUMENT_CLASSES" value="true" />

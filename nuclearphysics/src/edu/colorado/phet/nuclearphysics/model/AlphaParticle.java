@@ -20,7 +20,8 @@ public class AlphaParticle extends Nucleus {
     private static Random random = new Random();
     public static final double RADIUS = NuclearParticle.RADIUS * 2;
     // Controls how fast the alpha particle accelerates down the profile
-    private static double forceScale = 0.0008;
+    private static double forceScale = 0.05;
+//    private static double forceScale = 0.0008;
 
 
     //
@@ -68,6 +69,7 @@ public class AlphaParticle extends Nucleus {
 
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
                 force = Double.isNaN( force ) ? 0 : force;
+                force = -profile.getDyDx( -d ) * forceScale;
                 Vector2D a = null;
                 if( this.getVelocity().getX() == 0 && this.getVelocity().getY() == 0 ) {
                     double dx = this.getLocation().getX() - nucleus.getLocation().getX();
