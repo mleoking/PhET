@@ -88,6 +88,15 @@ public class NuclearPhysicsControlPanel extends JPanel {
             u238G.paint( gu238 );
             ImageIcon u238Icon = new ImageIcon( u238Img );
 
+            Nucleus u239 = new Uranium235( new Point2D.Double(), null );
+            u239.setLocation( u239.getRadius(), u239.getRadius() );
+            Uranium239Graphic u239G = new Uranium239Graphic( u239 );
+            BufferedImage u239Img = new BufferedImage( (int)u239.getRadius(), (int)u239.getRadius(), BufferedImage.TYPE_INT_ARGB );
+            Graphics2D gu239 = (Graphics2D)u239Img.getGraphics();
+            gu239.transform( AffineTransform.getScaleInstance( 0.5, 0.5 ) );
+            u239G.paint( gu239 );
+            ImageIcon u239Icon = new ImageIcon( u239Img );
+
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             this.setBorder( BorderFactory.createTitledBorder( baseBorder, "Legend" ) );
             int rowIdx = 0;
@@ -107,12 +116,17 @@ public class NuclearPhysicsControlPanel extends JPanel {
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Uranium 235", u235Icon, SwingConstants.LEFT ),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( "<html>Uranium<sup><font size=-1> 235</font><sup></html>", u235Icon, SwingConstants.LEFT ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Uranium 238", u238Icon, SwingConstants.LEFT ),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( "<html>Uranium<sup><font size=-1> 238</font><sup></html>", u238Icon, SwingConstants.LEFT ),
+                                                  0, rowIdx++,
+                                                  1, 1,
+                                                  GridBagConstraints.HORIZONTAL,
+                                                  GridBagConstraints.WEST );
+                GraphicsUtil.addGridBagComponent( this, new JLabel( "<html>Uranium<sup><font size=-1> 239</font><sup></html>", u239Icon, SwingConstants.LEFT ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,

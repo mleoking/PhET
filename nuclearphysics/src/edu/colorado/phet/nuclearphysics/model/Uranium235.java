@@ -106,8 +106,6 @@ public class Uranium235 extends Nucleus {
             // The code here morphs the profile
             // The morphSpeedFactor regulates how fast the profile rises
             int incr = morphSpeedFactor * Math.abs( morphTargetNeutrons ) / morphTargetNeutrons;
-//            setNumNeutrons( getNumNeutrons() + incr );
-            int temp = morphTargetNeutrons;
             morphTargetNeutrons -= incr;
 
             // Jiggle the nucleus

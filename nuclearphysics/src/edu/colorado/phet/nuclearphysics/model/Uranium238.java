@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
 
 public class Uranium238 extends Nucleus {
 
-    private Neutron fissionInstigatingNeutron;
     private BaseModel model;
 
     public Uranium238( Point2D.Double position, BaseModel model ) {
@@ -38,11 +37,9 @@ public class Uranium238 extends Nucleus {
     }
 
     public void fission( Neutron neutron ) {
-        fissionInstigatingNeutron = neutron;
         // Move the neutron way, way away so it doesn't show and doesn't
         // cause another fission event. It will be destroyed later.
         neutron.setLocation( 100E3, 100E3 );
         neutron.setVelocity( 0, 0 );
     }
-
 }
