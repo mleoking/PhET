@@ -368,7 +368,7 @@ public class GraphicLayerSet extends PhetGraphic {
         return keyAdapter;
     }
 
-    private void setKeyFocus( PhetGraphic focus ) {
+    public void setKeyFocus( PhetGraphic focus ) {
         if( keyFocusUnit != focus ) {
             if( keyFocusUnit != null ) {
                 keyFocusUnit.lostKeyFocus();
