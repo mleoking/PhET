@@ -64,7 +64,6 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
         if( isAdjustable ) {
             addCursorHandBehavior();
-//        addCursorBehavior( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
             addTranslationBehavior( new EnergyLevelTranslator() );
         }
     }

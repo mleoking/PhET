@@ -128,22 +128,22 @@ public class SingleAtomModule extends BaseLaserModule {
         setEnergyLevelsAveragingPeriod( 0 );
 
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
-    }
 
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        laserControlPanel.setThreeEnergyLevels( this.threeEnergyLevels );
         atom = new Atom( getModel() );
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2 );
         atom.setVelocity( 0, 0 );
         addAtom( atom );
+
+    }
+
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        laserControlPanel.setThreeEnergyLevels( this.threeEnergyLevels );
     }
 
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
-        getLaserModel().removeModelElement( atom );
-        atom.removeFromSystem();
     }
 
     /**

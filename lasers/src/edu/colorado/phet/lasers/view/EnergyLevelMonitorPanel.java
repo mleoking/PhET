@@ -19,6 +19,7 @@ import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
@@ -55,11 +56,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private int numMiddleLevelAccum = 0;
     private int numHighLevelAccum = 0;
 
-    private int atomDiam = 14;
+    // The diameter of an atom as displayed on the screen, in pixels
+    private int atomDiam = 10;
 
-//    private double panelWidth = 300;
     private double panelHeight = 200;
-    private double panelWidth = 400;
+    private double panelWidth = 320;
+//    private double panelWidth = 400;
 //    private double panelHeight = 200;
     private double sliderWidth = 100;
     private int squiggleHeight = 10;
@@ -89,12 +91,16 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private double seedBeamWavelength;
     private double pumpBeamWavelength;
     private BufferedImage baseSphereImg;
+    private BaseLaserModule module;
 
     /**
      *
      */
-    public EnergyLevelMonitorPanel( LaserModel model, AbstractClock clock ) {
+    public EnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock ) {
+//    public EnergyLevelMonitorPanel( LaserModel model, AbstractClock clock ) {
 
+        this.module = module;
+        model = module.getLaserModel();
         model.addObserver( this );
         clock.addClockStateListener( this );
         this.model = model;
@@ -133,7 +139,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                 Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY(),
                                                              getBounds().getWidth(), getBounds().getHeight() * 0.85 );
                 energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
-//                                               0, (int)bounds.getBounds().getMaxY() );
                                                (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
                 highLevelLine.update( energyYTx );
                 middleLevelLine.update( energyYTx );
@@ -173,9 +178,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
      * Handles updates from the model
      */
     public void update() {
-        numGroundLevelAccum += GroundState.instance().getNumAtomsInState();
-        numMiddleLevelAccum += MiddleEnergyState.instance().getNumAtomsInState();
-        numHighLevelAccum += HighEnergyState.instance().getNumAtomsInState();
+        numGroundLevelAccum += module.getNumGroundStateAtoms();
+        numMiddleLevelAccum += module.getNumMiddleStateAtoms();
+        numMiddleLevelAccum += module.getNumHighStateAtoms();
+//        numGroundLevelAccum += GroundState.instance().getNumAtomsInState();
+//        numMiddleLevelAccum += MiddleEnergyState.instance().getNumAtomsInState();
+//        numHighLevelAccum += HighEnergyState.instance().getNumAtomsInState();
 
         // todo: these two line might be able to go somewhere they aren't called as often
         middleLevelLifetimeSlider.update();
@@ -321,7 +329,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private BufferedImage getAtomImage( Color color ) {
         if( baseSphereImg == null ) {
             try {
-                baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-med.gif" );
+                baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-lrg.gif" );
+//                baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-med.gif" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -337,7 +346,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     }
 
     ////////////////////////////////////////////////////////////////////////////////
-    // Event handlers
+    // LeftSystemEvent handlers
     //
     public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
         CollimatedBeam beam = (CollimatedBeam)event.getSource();

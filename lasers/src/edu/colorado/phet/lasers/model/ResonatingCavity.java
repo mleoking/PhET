@@ -66,7 +66,7 @@ public class ResonatingCavity extends Box2D {
     }
 
     //--------------------------------------------------------------------
-    // Event handling
+    // LeftSystemEvent handling
     //--------------------------------------------------------------------
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
     private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();

@@ -19,7 +19,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class AtomGraphic extends PhetImageGraphic implements Atom.Listener, SimpleObserver {
+public class AtomGraphic extends PhetImageGraphic implements Atom.LeftSystemListener, SimpleObserver {
 
     static String s_imageName = LaserConfig.ATOM_IMAGE_FILE;
 
@@ -34,15 +34,15 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.Listener, Simp
         super( component, s_imageName );
         this.atom = atom;
         atom.addObserver( this );
-        atom.addListener( this );
+        atom.addLeftSystemListener( this );
         update( atom.getState() );
     }
 
-    public void stateChanged( Atom.Event event ) {
-        update( event.getState() );
+    public void stateChanged( Atom.LeftSystemEvent leftSystemEvent ) {
+        update( leftSystemEvent.getState() );
     }
 
-    public void leftSystem( Atom.Event event ) {
+    public void leftSystem( Atom.LeftSystemEvent leftSystemEvent ) {
 
     }
 

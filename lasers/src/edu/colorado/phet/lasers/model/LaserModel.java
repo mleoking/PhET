@@ -209,7 +209,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     }
 
     ////////////////////////////////////////////////////////////////////////////////
-    // Event Handling
+    // LeftSystemEvent Handling
     //
 
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {

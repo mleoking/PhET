@@ -24,8 +24,6 @@ import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.HighEnergyState;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.LampGraphic;
@@ -46,8 +44,6 @@ public class MultipleAtomModule extends BaseLaserModule {
 
     private double s_maxSpeed = 0.1;
     private ArrayList atoms;
-    private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
-    private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME;
     private UniversalLaserControlPanel laserControlPanel;
     private Kaboom kaboom;
     private BeamControl2 pumpBeamControl;
@@ -138,33 +134,8 @@ public class MultipleAtomModule extends BaseLaserModule {
         // Add a kaboom element
         kaboom = new Kaboom( this );
         getModel().addModelElement( kaboom );
-    }
 
-    /**
-     * Clears out the current Kaboom instance, and creates a new one
-     */
-    public void reset() {
-        // Superclass behavior
-        super.reset();
-
-        // Clear the old kaboom stuff off the apparatus panel and out of the model
-        getModel().removeModelElement( kaboom );
-        kaboom.clearGraphics( getApparatusPanel() );
-
-        // Make a new kaboom, ready for firing
-        kaboom = new Kaboom( this );
-        getModel().addModelElement( kaboom );
-    }
-
-    /**
-     *
-     */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-
-        super.setThreeEnergyLevels( true );
-        Rectangle2D cavityBounds = getCavity().getBounds();
-
+        // Add some atoms
         Atom atom = null;
         atoms = new ArrayList();
         int numAtoms = 30;
@@ -198,9 +169,30 @@ public class MultipleAtomModule extends BaseLaserModule {
             atoms.add( atom );
             addAtom( atom );
         }
+    }
 
-        MiddleEnergyState.instance().setMeanLifetime( middleStateMeanLifetime );
-        HighEnergyState.instance().setMeanLifetime( highStateMeanLifetime );
+    /**
+     * Clears out the current Kaboom instance, and creates a new one
+     */
+    public void reset() {
+        // Superclass behavior
+        super.reset();
+
+        // Clear the old kaboom stuff off the apparatus panel and out of the model
+        getModel().removeModelElement( kaboom );
+        kaboom.clearGraphics( getApparatusPanel() );
+
+        // Make a new kaboom, ready for firing
+        kaboom = new Kaboom( this );
+        getModel().addModelElement( kaboom );
+    }
+
+    /**
+     *
+     */
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        super.setThreeEnergyLevels( true );
     }
 
     /**
@@ -208,15 +200,6 @@ public class MultipleAtomModule extends BaseLaserModule {
      */
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
-        for( int i = 0; i < atoms.size(); i++ ) {
-            Atom atom = (Atom)atoms.get( i );
-            getLaserModel().removeModelElement( atom );
-            atom.removeFromSystem();
-        }
-        atoms.clear();
-
-        middleStateMeanLifetime = MiddleEnergyState.instance().getMeanLifeTime();
-        highStateMeanLifetime = HighEnergyState.instance().getMeanLifeTime();
     }
 
 
