@@ -10,19 +10,21 @@
  */
 package edu.colorado.phet.common.util;
 
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.ModuleManager;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.LineGrid;
 import edu.colorado.phet.common.view.util.MouseTracker;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 /**
@@ -43,6 +45,7 @@ public class DebugMenu extends JMenu {
         this.add( new GridMenuItem() );
         this.add( new MouseTrackerMenuItem() );
         this.add( new FrameRateMenuItem() );
+        this.add( new OffscreenBufferMenuItem() );
     }
 
     private ApparatusPanel getApparatusPanel() {
@@ -160,6 +163,28 @@ public class DebugMenu extends JMenu {
                         lastTickTime = currTime;
                         frameCnt = 0;
                         textArea.append( "    " + Double.toString( rate ) + "\n" );
+                    }
+                }
+            } );
+        }
+    }
+
+    private class OffscreenBufferMenuItem extends JCheckBoxMenuItem {
+        public OffscreenBufferMenuItem() {
+            super("Use offscreen buffer");
+            this.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    PhetApplication app = PhetApplication.instance();
+                    ModuleManager mm = app.getModuleManager();
+                    for( int i = 0; i < mm.numModules(); i++ ) {
+                        Module module = mm.moduleAt( i );
+                        ApparatusPanel ap = module.getApparatusPanel();
+                        if( ap instanceof ApparatusPanel2 ) {
+                            ApparatusPanel2 ap2 = (ApparatusPanel2)ap;
+                            ap2.setUseOffscreenBuffer( isSelected() );
+                            ap2.revalidate();
+                            ap2.repaint( ap2.getBounds() );
+                        }
                     }
                 }
             } );

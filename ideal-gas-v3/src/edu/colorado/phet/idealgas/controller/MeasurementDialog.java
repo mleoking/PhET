@@ -129,7 +129,7 @@ public class MeasurementDialog extends JDialog {
     class StopwatchControl extends JPanel {
 
         public StopwatchControl() {
-           final JCheckBox stopwatchCB = new JCheckBox( "MeasurementControlPanel.Stopwatch", false );
+           final JCheckBox stopwatchCB = new JCheckBox( SimStrings.get("MeasurementControlPanel.Stopwatch"), false );
             stopwatchCB.addActionListener( new ActionListener() {
                 PhetFrame frame = PhetApplication.instance().getPhetFrame();
                 public void actionPerformed( ActionEvent e ) {

@@ -6,9 +6,18 @@
  */
 package edu.colorado.phet.collision;
 
+import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 public class SphereSphereExpert implements CollisionExpert {
+
+    private static boolean ignoreGasMoleculeInteractions = false;
+    public static void setIgnoreGasMoleculeInteractions( boolean ignoreGasMoleculeInteractions ) {
+        SphereSphereExpert.ignoreGasMoleculeInteractions = ignoreGasMoleculeInteractions;
+    }
+
+
+
     private SphereSphereContactDetector detector = new SphereSphereContactDetector();
     private IdealGasModel model;
     private double dt;
@@ -20,6 +29,14 @@ public class SphereSphereExpert implements CollisionExpert {
 
     public boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean haveCollided = false;
+
+        // If the bodies are gas molecules and we are to ignore collisions between
+        // gas molecules, return false
+        if( bodyA instanceof GasMolecule && bodyB instanceof GasMolecule
+            && ignoreGasMoleculeInteractions ) {
+            return false;
+        }
+
         if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB )
             && tweakCheck( bodyA, bodyB ) ) {
             Collision collision = new SphereSphereCollision( (SphericalBody)bodyA,

@@ -40,10 +40,12 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
      *
      */
     public BaseIdealGasApparatusPanel( Module module, AbstractClock clock, Box2D box ) {
-        super( module.getModel(), clock );
+        super( clock );
         init( module, box );
 
-        setUseOffscreenBuffer( true );
+//        setBackground( Color.black );
+
+//        setUseOffscreenBuffer( true );
     }
 
     /**

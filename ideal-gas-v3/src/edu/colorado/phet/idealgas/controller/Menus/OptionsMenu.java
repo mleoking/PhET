@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.idealgas.controller.menus;
 
+import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
-import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -58,7 +58,7 @@ public class OptionsMenu extends JMenu {
 
     private class AdvancedPanelsMI extends JCheckBoxMenuItem {
         public AdvancedPanelsMI() {
-            super( "OptionsMenu.Advanced_panels", false );
+            super( SimStrings.get("OptionsMenu.Advanced_panels"), false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( AdvancedPanelsMI.this.isSelected() ) {
@@ -79,7 +79,7 @@ public class OptionsMenu extends JMenu {
             super( SimStrings.get( "MeasurementControlPanel.Molecules_interact" ), true );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    GasMolecule.enableParticleParticleInteractions( MoleculeInteractionsMI.this.isSelected() );
+                    SphereSphereExpert.setIgnoreGasMoleculeInteractions( !MoleculeInteractionsMI.this.isSelected() );
                 }
             } );
         }

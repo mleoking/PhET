@@ -31,7 +31,7 @@ class IdealGasThermometer extends Thermometer implements SimpleObserver {
         newTemperature = Double.isNaN( newTemperature ) ? 0 : newTemperature;
         // Scale to appropriate units
         newTemperature *= IdealGasConfig.temperatureScaleFactor;
-
+        
         if( temperature != newTemperature ) {
             temperature = newTemperature;
             super.setValue( temperature );

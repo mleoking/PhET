@@ -310,7 +310,7 @@ public abstract class PhetGraphic {
         setBoundsDirty();
         autorepaint();
     }
-    
+
     /**
      * Convenience method for setting the registration point at the graphic's center.
      */
@@ -741,7 +741,7 @@ public abstract class PhetGraphic {
     public void removeMouseInputListener( MouseInputListener listener ) {
         mouseInputListener.removeMouseInputListener( listener );
     }
-    
+
     /**
      * Removes all mouse input listeners.
      */
@@ -751,13 +751,13 @@ public abstract class PhetGraphic {
 
     /**
      * Gets the number of mouse input listeners.
-     * 
+     *
      * @return the number of mouse input listeners
      */
     public int numMouseInputListeners() {
         return mouseInputListener.numMouseInputListeners();
     }
-    
+
     /**
      * Gets the delegate that manages mouse input listeners.
      *
@@ -789,7 +789,7 @@ public abstract class PhetGraphic {
     public boolean getIgnoreMouse() {
         return ignoreMouse;
     }
-    
+
     /**
      * Passes a "mouse clicked" event to the mouse input delegate,
      * who in turn sends it to all registered mouse input listeners.

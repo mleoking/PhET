@@ -290,6 +290,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     protected void paintComponent( Graphics graphics ) {
+//        Graphics2D g2 = new PhetGraphics2D((Graphics2D)graphics);
         Graphics2D g2 = (Graphics2D)graphics;
 
         if( repaintArea == null ) {
@@ -314,7 +315,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         gs.restoreGraphics();
         super.drawBorder( g2 );
         //restore color and stroke.
-        gs.restoreGraphics();
+//        gs.restoreGraphics();
     }
 
     /**

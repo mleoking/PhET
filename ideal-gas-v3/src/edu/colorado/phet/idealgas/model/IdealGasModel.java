@@ -7,10 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision.CollidableBody;
-import edu.colorado.phet.collision.CollisionExpert;
-import edu.colorado.phet.collision.CollisionGod;
-import edu.colorado.phet.collision.SphereBoxCollision;
+import edu.colorado.phet.collision.*;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
@@ -583,6 +580,16 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     //
     public void gravityChanged( Gravity.ChangeEvent event ) {
         adjustEnergyForGravity( event.getChange() );
+    }
+
+    public void enableParticleParticleInteractions( boolean selected ) {
+        for( int i = 0; i < collisionExperts.size(); i++ ) {
+            CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( i );
+            if( collisionExpert instanceof SphereSphereExpert ) {
+                SphereSphereExpert sphereSphereExpert = (SphereSphereExpert)collisionExpert;
+                sphereSphereExpert.setIgnoreGasMoleculeInteractions( selected );
+            }
+        }        
     }
 }
 

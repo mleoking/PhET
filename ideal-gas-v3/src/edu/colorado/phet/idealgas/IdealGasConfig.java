@@ -43,6 +43,7 @@ public class IdealGasConfig {
     }
 
     // Physical constants
+//    public static final float s_timeStep = 0.061f;
     public static final float s_timeStep = 0.1f;
     public static final int s_waitTime = 40;
     public static final double temperatureScaleFactor = 20;
@@ -76,7 +77,8 @@ public class IdealGasConfig {
 
     public static final String THERMOMETER_IMAGE_FILE = IMAGE_DIRECTORY + "thermometer.gif";
 
-    public static final String RULER_IMAGE_FILE = IMAGE_DIRECTORY + "meter-stick.gif";
+    public static final String RULER_IMAGE_FILE = IMAGE_DIRECTORY + "10-nanometer-stick.png";
+//    public static final String RULER_IMAGE_FILE = IMAGE_DIRECTORY + "meter-stick.gif";
 
     // Animation images
     public static final String ANIMATION_DIRECTORY = IMAGE_DIRECTORY + "animations/";

@@ -158,6 +158,11 @@ public class Pump extends SimpleObservable implements GasSource {
             System.out.println( "vSq <= 0 in PumpMoleculeCmd.createMolecule" );
         }
         float v = vSq > 0 ? (float)Math.sqrt( vSq ) : 10;
+
+        // Calibrate nm/sec to pixels/clock-tick
+//        double factor = 10 / .22;  // 10px = .22nm
+//        v *= factor;
+
         float theta = (float)Math.random() * PI_OVER_2 - PI_OVER_4;
 
 //        theta += Math.PI / 2;
