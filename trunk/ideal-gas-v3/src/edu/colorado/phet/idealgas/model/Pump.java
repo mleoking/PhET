@@ -11,10 +11,11 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
+import edu.colorado.phet.idealgas.controller.GasSource;
 
 import java.awt.geom.Point2D;
 
-public class Pump extends SimpleObservable {
+public class Pump extends SimpleObservable implements GasSource {
 
 
     // Coordinates of the intake port on the box
@@ -57,7 +58,7 @@ public class Pump extends SimpleObservable {
 
         // Add a new gas molecule to the system
         double moleculeEnergy = Math.max( IdealGasModel.DEFAULT_ENERGY, model.getAverageMoleculeEnergy() );
-        GasMolecule newMolecule = pumpGasMolecule( this.currentGasSpecies,
+        GasMolecule newMolecule = createMolecule( this.currentGasSpecies,
                                                    moleculeEnergy );
         new PumpMoleculeCmd( model, newMolecule, module ).doIt();
 
@@ -65,6 +66,8 @@ public class Pump extends SimpleObservable {
         Constraint constraintSpec = new BoxMustContainParticle( box, newMolecule, model );
         newMolecule.addConstraint( constraintSpec );
         box.addContainedBody( newMolecule );     // added 9/14/04 RJL
+
+        notifyObservers();
         return newMolecule;
     }
 
@@ -79,7 +82,7 @@ public class Pump extends SimpleObservable {
     /**
      *
      */
-    private GasMolecule pumpGasMolecule( Class species, double initialEnergy ) {
+    private GasMolecule createMolecule( Class species, double initialEnergy ) {
 
         s_intakePortOffsetY *= -1;
 
@@ -109,7 +112,7 @@ public class Pump extends SimpleObservable {
         //        double pe = physicalSystem.getBodyEnergy( newMolecule );
         double vSq = 2 * ( initialEnergy - pe ) / newMolecule.getMass();
         if( vSq <= 0 ) {
-            System.out.println( "vSq <= 0 in PumpMoleculeCmd.pumpGasMolecule" );
+            System.out.println( "vSq <= 0 in PumpMoleculeCmd.createMolecule" );
         }
         float v = vSq > 0 ? (float)Math.sqrt( vSq ) : 10;
         float theta = (float)Math.random() * PI_OVER_2 - PI_OVER_4;

@@ -14,14 +14,18 @@ import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.geom.Point2D;
+import java.awt.*;
+import java.util.Random;
 
-public class HeliumBalloonModule extends IdealGasModule {
+public class HeliumBalloonModule extends IdealGasModule implements GasSource {
 
     private static final float initialVelocity = 30;
 
     private HollowSphere balloon;
-//    private HollowSphereControlPanel hsaControlPanel;
+    private Class gasSpecies = LightSpecies.class;
 
     public HeliumBalloonModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.HeliumBalloon" ) );
@@ -50,8 +54,8 @@ public class HeliumBalloonModule extends IdealGasModule {
                                                                 getIdealGasModel() );
         balloon.addConstraint( constraintSpec );
 
-//        for( int i = 0; i < 0; i++ ) {
-        for( int i = 0; i < 100; i++ ) {
+        for( int i = 0; i < 0; i++ ) {
+//        for( int i = 0; i < 100; i++ ) {
 //        for( int i = 0; i < 50; i++ ) {
             double x = Math.random() * ( xDiag - xOrigin - 20 ) + xOrigin + 50;
             double y = Math.random() * ( yDiag - yOrigin - 20 ) + yOrigin + 10;
@@ -72,9 +76,9 @@ public class HeliumBalloonModule extends IdealGasModule {
         }
 
         // Put some light gas inside the balloon
-//        int num = 0;
+        int num = 0;
 //        int num = 1;
-        int num = 6;
+//        int num = 6;
 //        int num = 4;
         for( int i = 1; i <= num; i++ ) {
             for( int j = 0; j < num; j++ ) {
@@ -96,7 +100,6 @@ public class HeliumBalloonModule extends IdealGasModule {
                 p1.addConstraint( constraintSpec );
             }
         }
-//        application.run();
 
         // Turn on gravity
 //        getIdealGasApplication().setGravityEnabled( true );
@@ -104,41 +107,66 @@ public class HeliumBalloonModule extends IdealGasModule {
 
         // Set the size of the box
 //        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
+        JPanel controlPanel = new JPanel( new GridBagLayout() );
+        controlPanel.setBorder( new TitledBorder( SimStrings.get( "RigidHollowSphereControlPanel.controlsTitle" ) ) );
 
-        // Set up the door for the box
-//        ResourceLoader loader = new ResourceLoader();
-//        Image doorImg = loader.loadImage( IdealGasConfig.DOOR_IMAGE_FILE ).getImage();
-//        doorGraphicImage = new BoxDoorGraphic(
-//                doorImg,
-//                IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 175,
-//                IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 175,
-//                IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 175 );
-//        this.addGraphic( doorGraphicImage, -6 );
+        GridBagConstraints gbc = null;
+        Insets insets = new Insets( 0, 0, 0, 0 );
+        gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                      GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                                      insets, 0, 0 );
+//        controlPanel.add( new SpeciesSelectionPanel( HeliumBalloonModule.this ), gbc );
+//        gbc.gridy = 1;
+        controlPanel.add( new HeliumBalloonModule.MoleculePanel( this ), gbc );
+        getControlPanel().add( controlPanel );
 
 
-        // Add the specific controls we need to the control panel
-//        hsaControlPanel = new HollowSphereControlPanel( getIdealGasApplication() );
-//        JPanel mainControlPanel = getIdealGasApplication().getPhetMainPanel().getControlPanel();
-//        mainControlPanel.add( hsaControlPanel );
-//        hsaControlPanel.setGasSpeciesClass( LightSpecies.class );
     }
 
-//    public void deactivate() {
-//        super.deactivate();
-//
-//        // Remove our specifc controls from the control panel
-//        JPanel mainControlPanel = getIdealGasApplication().getPhetMainPanel().getControlPanel();
-//        mainControlPanel.remove( hsaControlPanel );
-//    }
+    public void setCurrentGasSpecies( Class gasSpecies ) {
+        this.gasSpecies = LightSpecies.class;
+    }
 
-//    protected GasMolecule pumpGasMolecule() {
-//        GasMolecule newMolecule = super.pumpGasMolecule();
-//        Constraint constraintSpec = new  HollowSphereMustNotContainParticle( balloon, newMolecule );
-//        newMolecule.addConstraint( constraintSpec );
-//
-//        constraintSpec = new BoxMustContainParticle( getIdealGasSystem().getBox(), newMolecule );
-//        newMolecule.addConstraint( constraintSpec );
-//
-//        return newMolecule;
-//    }
+    public Class getCurrentGasSpecies() {
+        return gasSpecies;
+    }
+
+    private class MoleculePanel extends MoleculeFactoryPanel {
+        Random random = new Random();
+
+        MoleculePanel( IdealGasModule module ) {
+            super( module );
+
+        }
+
+        protected Class getCurrentGasSpecies() {
+            return gasSpecies;
+        }
+
+        protected Point2D getNewMoleculeLocation() {
+            double r = random.nextDouble() - GasMolecule.s_defaultRadius;
+            double theta = random.nextDouble() * Math.PI * 2;
+            Point2D.Double p = new Point2D.Double( balloon.getPosition().getX() + r * Math.cos( theta ),
+                                                   balloon.getPosition().getY() + r * Math.sin( theta ) );
+            return p;
+        }
+
+        protected Vector2D getNewMoleculeVelocity() {
+            double s = 0;
+            if( getCurrentGasSpecies() == HeavySpecies.class ) {
+                s = getIdealGasModel().getHeavySpeciesAveSpeed();
+                if( s == 0 ) {
+                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / HeavySpecies.getMoleculeMass() );
+                }
+            }
+            if( getCurrentGasSpecies() == LightSpecies.class ) {
+                s = getIdealGasModel().getLightSpeciesAveSpeed();
+                if( s == 0 ) {
+                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / LightSpecies.getMoleculeMass() );
+                }
+            }
+            double theta = random.nextDouble() * Math.PI * 2;
+            return new Vector2D.Double( s * Math.cos( theta ), s * Math.sin( theta ) );
+        }
+    }
 }

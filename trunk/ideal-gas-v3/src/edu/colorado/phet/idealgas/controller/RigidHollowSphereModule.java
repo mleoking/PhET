@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-public class RigidHollowSphereModule extends IdealGasModule {
+public class RigidHollowSphereModule extends IdealGasModule implements GasSource {
 
     private static final float initialVelocity = 35;
 
@@ -115,52 +115,15 @@ public class RigidHollowSphereModule extends IdealGasModule {
         //        getIdealGasApplication().setGravityEnabled( true );
         //        getIdealGasApplication().setGravity( 15 );
 
-
-        // Add the specific controls we need to the control panel
-        //        hsaControlPanel = new HollowSphereControlPanel( getIdealGasApplication() );
-        //        JPanel mainControlPanel = getIdealGasApplication().getPhetMainPanel().getControlPanel();
-        //        mainControlPanel.add( hsaControlPanel );
-        //        hsaControlPanel.setGasSpeciesClass( LightSpecies.class );
-
         JPanel controlPanel = new JPanel( new GridBagLayout() );
         controlPanel.setBorder( new TitledBorder( SimStrings.get( "RigidHollowSphereControlPanel.controlsTitle" ) ) );
 
-        //        JPanel speciesButtonPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-        //        speciesButtonPanel.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 100 ) );
-        //        final JRadioButton heavySpeciesRB = new JRadioButton( SimStrings.get( "Common.Heavy_Species" ) );
-        //        heavySpeciesRB.setForeground( Color.blue );
-        //        final JRadioButton lightSpeciesRB = new JRadioButton( SimStrings.get( "Common.Light_Species" ) );
-        //        lightSpeciesRB.setForeground( Color.red );
-        //        final ButtonGroup speciesGroup = new ButtonGroup();
-        //        speciesGroup.add( heavySpeciesRB );
-        //        speciesGroup.add( lightSpeciesRB );
-        //        speciesButtonPanel.add( heavySpeciesRB );
-        //        heavySpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
-        //        lightSpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
-        //        speciesButtonPanel.add( lightSpeciesRB );
-        //        heavySpeciesRB.setSelected( true );
-        //        heavySpeciesRB.addActionListener( new ActionListener() {
-        //            public void actionPerformed( ActionEvent event ) {
-        //                if( heavySpeciesRB.isSelected() ) {
-        //                    gasSpecies = HeavySpecies.class;
-        //                }
-        //            }
-        //        } );
-        //
-        //        lightSpeciesRB.addActionListener( new ActionListener() {
-        //            public void actionPerformed( ActionEvent event ) {
-        //                if( lightSpeciesRB.isSelected() ) {
-        //                    gasSpecies = LightSpecies.class;
-        //                }
-        //            }
-        //        } );
-        //
         GridBagConstraints gbc = null;
         Insets insets = new Insets( 0, 0, 0, 0 );
         gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                       insets, 0, 0 );
-        controlPanel.add( new SpeciesSelectionPanel(), gbc );
+        controlPanel.add( new SpeciesSelectionPanel( RigidHollowSphereModule.this ), gbc );
         gbc.gridy = 1;
         controlPanel.add( new MoleculePanel( this ), gbc );
         getControlPanel().add( controlPanel );
@@ -205,48 +168,55 @@ public class RigidHollowSphereModule extends IdealGasModule {
         }
     }
 
-    private class SpeciesSelectionPanel extends JPanel {
-        SpeciesSelectionPanel() {
-            setLayout( new GridBagLayout() );
-            final JRadioButton heavySpeciesRB = new JRadioButton( SimStrings.get( "Common.Heavy_Species" ) );
-            heavySpeciesRB.setForeground( Color.blue );
-            final JRadioButton lightSpeciesRB = new JRadioButton( SimStrings.get( "Common.Light_Species" ) );
-            lightSpeciesRB.setForeground( Color.red );
-            final ButtonGroup speciesGroup = new ButtonGroup();
-            speciesGroup.add( heavySpeciesRB );
-            speciesGroup.add( lightSpeciesRB );
-
-            Insets insets = new Insets( 4, 4, 0, 0 );
-            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                             GridBagConstraints.WEST, GridBagConstraints.NONE,
-                                                             insets, 0, 0 );
-            add( heavySpeciesRB, gbc );
-//            heavySpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
-//            lightSpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
-            gbc.gridy = 1;
-            add( lightSpeciesRB, gbc );
-
-            heavySpeciesRB.setSelected( true );
-            heavySpeciesRB.addActionListener( new ActionListener() {
-                public void actionPerformed
-                        ( ActionEvent
-                        event ) {
-                    if( heavySpeciesRB.isSelected() ) {
-                        gasSpecies = HeavySpecies.class;
-                    }
-                }
-            } );
-
-            lightSpeciesRB.addActionListener( new ActionListener() {
-                public void actionPerformed
-                        ( ActionEvent
-                        event ) {
-                    if( lightSpeciesRB.isSelected() ) {
-                        gasSpecies = LightSpecies.class;
-                    }
-                }
-            } );
-
-        }
+    public void setCurrentGasSpecies( Class gasSpecies ) {
+        this.gasSpecies = gasSpecies;
     }
+
+    public Class getCurrentGasSpecies() {
+        return this.gasSpecies;
+    }
+
+//    private class SpeciesSelectionPanel extends JPanel {
+//        SpeciesSelectionPanel() {
+//            setLayout( new GridBagLayout() );
+//            final JRadioButton heavySpeciesRB = new JRadioButton( SimStrings.get( "Common.Heavy_Species" ) );
+//            heavySpeciesRB.setForeground( Color.blue );
+//            final JRadioButton lightSpeciesRB = new JRadioButton( SimStrings.get( "Common.Light_Species" ) );
+//            lightSpeciesRB.setForeground( Color.red );
+//            final ButtonGroup speciesGroup = new ButtonGroup();
+//            speciesGroup.add( heavySpeciesRB );
+//            speciesGroup.add( lightSpeciesRB );
+//
+//            Insets insets = new Insets( 4, 4, 0, 0 );
+//            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+//                                                             GridBagConstraints.WEST, GridBagConstraints.NONE,
+//                                                             insets, 0, 0 );
+//            add( heavySpeciesRB, gbc );
+////            heavySpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
+////            lightSpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
+//            gbc.gridy = 1;
+//            add( lightSpeciesRB, gbc );
+//
+//            heavySpeciesRB.setSelected( true );
+//            heavySpeciesRB.addActionListener( new ActionListener() {
+//                public void actionPerformed
+//                        ( ActionEvent
+//                        event ) {
+//                    if( heavySpeciesRB.isSelected() ) {
+//                        gasSpecies = HeavySpecies.class;
+//                    }
+//                }
+//            } );
+//
+//            lightSpeciesRB.addActionListener( new ActionListener() {
+//                public void actionPerformed
+//                        ( ActionEvent
+//                        event ) {
+//                    if( lightSpeciesRB.isSelected() ) {
+//                        gasSpecies = LightSpecies.class;
+//                    }
+//                }
+//            } );
+//        }
+//    }
 }

@@ -66,6 +66,7 @@ public class IdealGasApplication extends PhetApplication {
 //            Locale.setDefault( new Locale( applicationLocale ) );
 //        }
 
+        SimStrings.setStrings( IdealGasConfig.localizedStringsPath );
         new IdealGasApplication();
     }
 }
