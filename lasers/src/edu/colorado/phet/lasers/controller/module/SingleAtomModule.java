@@ -70,12 +70,14 @@ public class SingleAtomModule extends BaseLaserModule {
             PhetImageGraphic gunGraphic = new PhetImageGraphic( getApparatusPanel(), gunBI, atx );
             addGraphic( gunGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
+            // Add the intensity control
             JPanel sbmPanel = new JPanel();
             StimulatingBeamControl sbm = new StimulatingBeamControl( getLaserModel() );
             sbmPanel.setBounds( (int)allocatedBounds.getX(), (int)( allocatedBounds.getY() + allocatedBounds.getHeight() ),
-                                150, 85 );
+                                250, 100 );
             sbmPanel.add( sbm );
             getApparatusPanel().add( sbmPanel );
+
         }
         catch( IOException e ) {
             e.printStackTrace();
