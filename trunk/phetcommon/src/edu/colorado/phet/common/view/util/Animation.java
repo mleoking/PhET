@@ -13,7 +13,7 @@ import java.io.IOException;
 
 /**
  * A utility class that supports animation of a set of images read from disk.
- * <p/>oentuianothu
+ * <p/>
  * The class provides methods for stepping back and forth at will through the
  * set of images.
  */
