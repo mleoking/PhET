@@ -57,15 +57,6 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
             _batteryGraphic.setRegistrationPoint( rx, ry );
         }
         
-//        // Slider
-//        {
-//            PhetImageGraphic knob = new PhetImageGraphic( component, "images/sliderKnob.png" );
-//            PhetImageGraphic track = new PhetImageGraphic( component, "images/sliderTrack.png" );
-//            PhetImageGraphic background = new PhetImageGraphic( component, "images/sliderBackground.png" );
-//            FSlider slider = new FSlider( component, knob, track, background );
-//            addGraphic( slider );
-//        }
-        
         update();
     }
     
