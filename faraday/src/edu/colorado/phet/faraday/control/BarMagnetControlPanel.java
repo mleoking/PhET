@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.faraday.control;
 
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,7 +21,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractCompass;
@@ -56,14 +56,15 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
     private BarMagnetGraphic _magnetGraphic;
     private CompassGridGraphic _gridGraphic;
     private FieldMeterGraphic _fieldMeterGraphic;
-    
+    private ApparatusPanel _apparatusPanel;
+
     // UI components
     private JButton _flipPolarityButton;
     private JLabel _strengthValue;
     private JSlider _strengthSlider;
     private JCheckBox _magnetTransparencyCheckBox;
     private JCheckBox _fieldMeterCheckBox, _compassCheckBox;
-    
+
     // Debugging components
     private JSlider _magnetWidthSlider, _magnetHeightSlider;
     private JSlider _gridSpacingSlider;
@@ -71,6 +72,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
     private JLabel _magnetWidthValue, _magnetHeightValue;
     private JLabel _gridSpacingValue;
     private JLabel _needleWidthValue, _needleHeightValue;
+    private JButton _backgroundColorButton;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -88,29 +90,26 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
      * @param magnetGraphic
      * @param gridGraphic
      * @param fieldMeterGraphic
+     * @param apparatusPanel
      */
-    public BarMagnetControlPanel( 
-        BarMagnetModule module,
-        AbstractMagnet magnetModel,
-        AbstractCompass compassModel,
-        BarMagnetGraphic magnetGraphic,
-        CompassGridGraphic gridGraphic,
-        FieldMeterGraphic fieldMeterGraphic ) {
+    public BarMagnetControlPanel( BarMagnetModule module, AbstractMagnet magnetModel, AbstractCompass compassModel, BarMagnetGraphic magnetGraphic, CompassGridGraphic gridGraphic, FieldMeterGraphic fieldMeterGraphic, ApparatusPanel apparatusPanel ) {
 
         super( module );
 
-        assert( magnetModel != null );
-        assert( compassModel != null );
-        assert( magnetGraphic != null );
-        assert( gridGraphic != null );
-        assert( fieldMeterGraphic != null );
-        
+        assert ( magnetModel != null );
+        assert ( compassModel != null );
+        assert ( magnetGraphic != null );
+        assert ( gridGraphic != null );
+        assert ( fieldMeterGraphic != null );
+        assert ( apparatusPanel != null );
+
         // Things we'll be controlling.
         _magnetModel = magnetModel;
         _compassModel = compassModel;
         _magnetGraphic = magnetGraphic;
         _gridGraphic = gridGraphic;
         _fieldMeterGraphic = fieldMeterGraphic;
+        _apparatusPanel = apparatusPanel;
 
         // Bar Magnet panel
         JPanel barMagnetPanel = new JPanel();
@@ -145,7 +144,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
                 strengthPanel.add( _strengthSlider );
                 strengthPanel.add( _strengthValue );
             }
-            
+
             // Magnet transparency on/off
             _magnetTransparencyCheckBox = new JCheckBox( SimStrings.get( "magnetTransparencyCheckBox.label" ) );
 
@@ -159,28 +158,28 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
         JPanel probePanel = new JPanel();
         {
             _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "meterCheckBox.label" ) );
-            
+
             probePanel.setLayout( new BoxLayout( probePanel, BoxLayout.X_AXIS ) );
             probePanel.add( _fieldMeterCheckBox );
         }
-        
+
         JPanel compassPanel = new JPanel();
         {
             _compassCheckBox = new JCheckBox( SimStrings.get( "compassCheckBox.label" ) );
-            
+
             compassPanel.setLayout( new BoxLayout( compassPanel, BoxLayout.X_AXIS ) );
             compassPanel.add( _compassCheckBox );
         }
-        
+
         // Developer panel
         JPanel developerPanel = new JPanel();
         if ( ENABLE_DEVELOPER_CONTROLS ) {
-            
+
             //  Titled border
             TitledBorder border = new TitledBorder( "Developer Controls" );
             border.setTitleFont( super.getTitleFont() );
             developerPanel.setBorder( border );
-            
+
             // Magnet width
             JPanel magnetWidthPanel = new JPanel();
             {
@@ -226,7 +225,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
                 magnetHeightPanel.add( _magnetHeightSlider );
                 magnetHeightPanel.add( _magnetHeightValue );
             }
-            
+
             // Grid density
             JPanel gridDensityPanel = new JPanel();
             {
@@ -294,7 +293,10 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
                 needleHeightPanel.add( _needleHeightSlider );
                 needleHeightPanel.add( _needleHeightValue );
             }
-            
+
+            // Background Color button
+            _backgroundColorButton = new JButton( "Background Color..." );
+
             //  Layout
             developerPanel.setLayout( new BoxLayout( developerPanel, BoxLayout.Y_AXIS ) );
             developerPanel.add( magnetWidthPanel );
@@ -302,8 +304,9 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
             developerPanel.add( gridDensityPanel );
             developerPanel.add( needleWidthPanel );
             developerPanel.add( needleHeightPanel );
+            developerPanel.add( _backgroundColorButton );
         }
-        
+
         // Add panels to control panel.
         addFullWidth( barMagnetPanel );
         addFullWidth( probePanel );
@@ -325,12 +328,13 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
             _gridSpacingSlider.addChangeListener( listener );
             _needleWidthSlider.addChangeListener( listener );
             _needleHeightSlider.addChangeListener( listener );
+            _backgroundColorButton.addActionListener( listener );
         }
-        
+
         // Call this after wiring up listeners.
         update();
     }
-    
+
     /**
      * Update control panel to match the components that it's controlling.
      */
@@ -347,7 +351,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
             _needleHeightSlider.setValue( _gridGraphic.getNeedleSize().height );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------
@@ -359,10 +363,14 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    private class EventListener implements ActionListener, ChangeListener {
+    private class EventListener implements ActionListener, ChangeListener, ColorDialog.Listener {
 
         /** Sole constructor */
         public EventListener() {}
+
+        //----------------------------------------------------------------------------
+        // ActionListener implementation
+        //----------------------------------------------------------------------------
 
         /**
          * ActionEvent handler.
@@ -390,10 +398,17 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
                 // Compass enable
                 _compassModel.setEnabled( _compassCheckBox.isSelected() );
             }
+            else if ( e.getSource() == _backgroundColorButton ) {
+                ColorDialog.showDialog( "Background Color", null, Color.BLACK, this );
+            }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
             }
         }
+
+        //----------------------------------------------------------------------------
+        // ChangeListener implementation
+        //----------------------------------------------------------------------------
 
         /**
          * ChangeEvent handler.
@@ -445,6 +460,22 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
             }
+        }
+        
+        //----------------------------------------------------------------------------
+        // ColorDialog.Listener implementation
+        //----------------------------------------------------------------------------
+        
+        public void colorChanged( Color color ) {
+            _apparatusPanel.setBackground( color );
+        }
+        
+        public void cancelled( Color color ) {
+            _apparatusPanel.setBackground( color );
+        }
+        
+        public void ok( Color color ) {
+            _apparatusPanel.setBackground( color );
         }
     }
 }

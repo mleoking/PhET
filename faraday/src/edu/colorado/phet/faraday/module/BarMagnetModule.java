@@ -12,7 +12,6 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 
 import edu.colorado.phet.common.application.ApplicationModel;
@@ -143,7 +142,7 @@ public class BarMagnetModule extends Module {
 
         // Control Panel
         BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this, 
-                magnetModel, compassModel, magnetGraphic, gridGraphic, fieldMeterGraphic );
+                magnetModel, compassModel, magnetGraphic, gridGraphic, fieldMeterGraphic, apparatusPanel );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
