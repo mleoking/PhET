@@ -81,7 +81,7 @@ public interface FrameSetup {
             if( pre != null ) {
                 pre.initialize( frame );
             }
-            GraphicsUtil.maximizeFrame( frame );
+            SwingUtils.maximizeFrame( frame );
         }
     }
 }
