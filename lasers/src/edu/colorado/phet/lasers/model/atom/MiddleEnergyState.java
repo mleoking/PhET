@@ -39,7 +39,7 @@ public class MiddleEnergyState extends AtomicState {
 
     private MiddleEnergyState() {
         setEnergyLevel( Photon.wavelengthToEnergy( Photon.RED ) );
-        setEmittedPhotonWavelength( Photon.RED );
+        determineEmittedPhotonWavelength();
     }
 
     public void collideWithPhoton( Atom atom, Photon photon ) {
