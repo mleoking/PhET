@@ -239,7 +239,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     _filterSlider = new SpectrumSlider( apparatusPanel );
     _filterSlider.setLocation( FILTER_SLIDER_LOCATION );
     _filterSlider.setKnobBorderColor( Color.WHITE );
-    _filterSlider.setTransmissionWidth( _filterModel.getTransmissionWidth()/2 );
+    _filterSlider.setTransmissionWidth( _filterModel.getTransmissionWidth() );
     apparatusPanel.addGraphic( _filterSlider, FILTER_SLIDER_LAYER );
     
     // Filter Color label
