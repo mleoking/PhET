@@ -127,10 +127,10 @@ public class GraphicLayerSet extends PhetGraphic {
         }
         return false;
     }
-    
+
     /**
      * Used to see if the mouse is in one of our child graphics
-     * 
+     *
      * @param p the point
      * @return true or false
      */
@@ -343,7 +343,7 @@ public class GraphicLayerSet extends PhetGraphic {
                 if( g.isVisible() && !g.getIgnoreMouse() ) {
                     if( g instanceof GraphicLayerSet ) {
                         // Ask the GraphicLayerSet for the graphic.
-                        result = ( (GraphicLayerSet) g ).getHandler( p );
+                        result = ( (GraphicLayerSet)g ).getHandler( p );
                     }
                     else if( g.contains( p.x, p.y ) ) {
                         // We picked this graphic.
@@ -356,14 +356,14 @@ public class GraphicLayerSet extends PhetGraphic {
         // We picked a graphic with no mouse listener, 
         // and this GraphicLayerSet does have a mouse listener.
         // So let the GraphicLayerSet handle the event.
-        if ( result != null && result.numMouseInputListeners() == 0 && 
-                isVisible() && numMouseInputListeners() != 0 && this.contains( p ) ) {
+        if( result != null && result.numMouseInputListeners() == 0 &&
+            isVisible() && numMouseInputListeners() != 0 && this.contains( p ) ) {
             result = this;
         }
-        
+
         return result;
     }
-    
+
     public KeyListener getKeyAdapter() {
         return keyAdapter;
     }
@@ -444,6 +444,7 @@ public class GraphicLayerSet extends PhetGraphic {
             if( activeUnit != null ) {
                 activeUnit.fireMousePressed( e );
             }
+            setKeyFocus( activeUnit );
         }
 
         /**
