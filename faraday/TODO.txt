@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - add a water wheel graphic to turbine, paddles as wide as widest water stream
 - RPM readout on turbine (at center of rotation?)
 - handle for faucet that looks like the side view of a faucet handle, put slider inside handle
-- requirements for Generator module
 - calibrate lightbulb
 - calibrate voltmeter
 - calibrate electron speed in pickup coil
@@ -60,6 +59,7 @@ PHETCOMMON:
 DONE:
 v0r19...
 (3/17) - flatten all static graphics in voltmeter
+(3/17) - revise the Fireworks image used for the voltmeter body
 (3/17) - add tick marks around voltmeter display, convert guage to Java shapes
 (3/17) - fix case where Field Meter displays B=0.00 and a non-zero theta
 (3/17) - label electromagnet current source choices "DC" and "AC"
@@ -71,6 +71,7 @@ v0r19...
 (3/16) - set low end of AC frequency to 10%
 (3/16) - label ACSourceGraphic with "AC Power Supply"
 (3/16) - add field meter to Transformer & Generator modules
+(3/16) - requirements for Generator module (discussed at 3/16 tatus meeting)
 v0r18...
 (3/16) - used icons in control panels for selecting current source and pickup indicator
 (3/16) - change order of controls in Electromagnet and Pickup panels
