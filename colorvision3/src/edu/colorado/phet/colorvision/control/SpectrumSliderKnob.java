@@ -21,11 +21,15 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  * SpectrumSliderKnob is the knob on a SpectrumSlider.
  * The origin is at the knob's tip.
  * The default orientation is with the tip of the arrow pointing straight up.
+ * <p>
+ * Note that this class is declared without a visibility modifier.
+ * Visibility therefore defaults to "package visible", which makes it
+ * visible only to other classes within the same package.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SpectrumSliderKnob extends PhetShapeGraphic {
+class SpectrumSliderKnob extends PhetShapeGraphic {
 
     //----------------------------------------------------------------------------
     // Instance data
