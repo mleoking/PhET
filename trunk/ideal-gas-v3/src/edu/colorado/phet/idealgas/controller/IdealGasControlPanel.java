@@ -42,8 +42,6 @@ public class IdealGasControlPanel extends JPanel {
     private IdealGasModule module;
     private IdealGasModel idealGasModel;
     private GridBagConstraints gbc;
-    private ParticleInteractionControl collisionControl;
-
 
     public IdealGasControlPanel( IdealGasModule module ) {
         super();
@@ -74,6 +72,16 @@ public class IdealGasControlPanel extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
         this.add( pic, gbc );
 
+        JButton clearBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Clear" ));
+        clearBtn.setBackground( new Color( 180, 255, 180));
+        clearBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getIdealGasModel().removeAllMolecules();
+            }
+        } );
+        gbc.gridy++;
+        this.add( clearBtn, gbc );
+
         ToggleButton measurementDlgBtn = new MeasurementDialogButton();
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
         measurementDlgBtn.setBorder( new EtchedBorder( EtchedBorder.LOWERED ) );
@@ -93,10 +101,6 @@ public class IdealGasControlPanel extends JPanel {
         //                makeScreenShot();
         //            }
         //        } );
-
-        // Add a control to enable or disable collisions between molecules
-        collisionControl = new ParticleInteractionControl();
-
     }
 
     /**
