@@ -7,6 +7,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -68,8 +69,10 @@ public class GrabBagItem {
     private static final Random random = new Random();
 
     public Resistor createBranch( CCK3Module module ) {
-        double x = random.nextDouble() * 5 + 2.5;
-        double y = random.nextDouble() * 5 + 2.5;
+        Rectangle2D mb = module.getTransform().getModelBounds();
+
+        double x = random.nextDouble() * mb.getWidth() * 0.9 + mb.getX();
+        double y = random.nextDouble() * mb.getHeight() + mb.getY();
         Point2D start = new Point2D.Double( x, y );
         Vector2D.Double dir = new Vector2D.Double( 1, 0 );
         double height = modelLength / image.getWidth() * image.getHeight();

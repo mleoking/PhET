@@ -14,6 +14,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -46,8 +47,8 @@ public abstract class ComponentEditor extends JDialog {
         this.element = element;
         this.parent = parent;
         this.circuit = circuit;
-
-        slider = new PhetSlider( name, units, min, max, startvalue );
+        DecimalFormat formatter = new DecimalFormat( "0.0##" );
+        slider = new PhetSlider( name, units, min, max, startvalue, formatter );
         slider.setNumMajorTicks( 5 );
         contentPane = new VerticalLayoutPanel();
 //        contentPane.setLayout( new BorderLayout() );

@@ -668,9 +668,8 @@ public class CCK3ControlPanel extends JPanel {
         private JDialog dialog;
         private PhetSlider resistivitySlider;
         private GridBagConstraints constraints;
-        private JCheckBox internalResistanceEnabled;
+//        private JCheckBox internalResistanceEnabled;
         private JCheckBox hideElectrons;
-
 
         void addMe( Component component ) {
             add( component, constraints );
@@ -713,14 +712,14 @@ public class CCK3ControlPanel extends JPanel {
                 }
             } );
 
-            internalResistanceEnabled = new JCheckBox( SimStrings.get( "CCK3ControlPanel.InternalResistanceCheckBox" ),
-                                                       module.isInternalResistanceOn() );
-            internalResistanceEnabled.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.setInternalResistanceOn( internalResistanceEnabled.isSelected() );
-                }
-            } );
-            addMe( internalResistanceEnabled );
+//            internalResistanceEnabled = new JCheckBox( SimStrings.get( "CCK3ControlPanel.InternalResistanceCheckBox" ),
+//                                                       module.isInternalResistanceOn() );
+//            internalResistanceEnabled.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    module.setInternalResistanceOn( internalResistanceEnabled.isSelected() );
+//                }
+//            } );
+//            addMe( internalResistanceEnabled );
 
             JButton printKirkhoffsLaws = new JButton( SimStrings.get( "CCK3ControlPanel.ShowEquationsButton" ) );
             printKirkhoffsLaws.addActionListener( new ActionListener() {
@@ -773,9 +772,9 @@ public class CCK3ControlPanel extends JPanel {
         }
     }
 
-    public boolean isInternalResistanceEnabled() {
-        return advancedControlPanel.internalResistanceEnabled.isSelected();
-    }
+//    public boolean isInternalResistanceEnabled() {
+//        return advancedControlPanel.internalResistanceEnabled.isSelected();
+//    }
 }
 
 //        super.showMegaHelp();

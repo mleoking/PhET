@@ -19,7 +19,8 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
         "CheckBox", "RadioButton", "ComboBox",
         "Menu", "MenuItem", "MenuBar",
         "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem",
-        "TextField", "TextArea", "Label"
+        "TextField",
+        "TextArea", "Label"
     };
 
     public static Font getFont() {
@@ -67,10 +68,12 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
             String type = types[i];
             def.add( type + ".font" );
             def.add( fontResource );
-            def.add( type + ".foreground" );
-            def.add( foreground );
-            def.add( type + ".background" );
-            def.add( background );
+            if( !types[i].equals( "TextField" ) && !types[i].equals( "TextArea" ) ) {
+                def.add( type + ".foreground" );
+                def.add( foreground );
+                def.add( type + ".background" );
+                def.add( background );
+            }
             def.add( type + ".margin" );
             def.add( insets );
         }
