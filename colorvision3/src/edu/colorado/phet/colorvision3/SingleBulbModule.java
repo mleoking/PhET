@@ -64,7 +64,7 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
   private static Color APPARATUS_BACKGROUND = Color.black;
     
 	// Locations of model components
-	private static final double PERSON_X      = 400;
+	private static final double PERSON_X      = 450;
 	private static final double PERSON_Y      =  25;
 	private static final double SPOTLIGHT_X   = 120;
 	private static final double SPOTLIGHT_Y   = 325;
@@ -197,7 +197,7 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     
     // Post-filter columnar beam
     _postFilterBeamGraphic = new SolidBeamGraphic( apparatusPanel, _postFilterBeamModel );
-    _postFilterBeamGraphic.setAlphaScale( 60 );
+    _postFilterBeamGraphic.setAlphaScale( 90 );
     apparatusPanel.addGraphic( _postFilterBeamGraphic, POST_FILTER_BEAM_LAYER );
     
     // Photon beam

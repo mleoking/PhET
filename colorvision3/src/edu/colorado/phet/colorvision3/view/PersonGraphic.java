@@ -26,9 +26,9 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
 
   // Relative location of the head graphic.
   private static final int HEAD_X_OFFSET = 0;
-  private static final int HEAD_Y_OFFSET = 120;
+  private static final int HEAD_Y_OFFSET = 165;
   // Relative location of the thought bubble graphic.
-  private static final int THOUGHT_BUBBLE_X_OFFSET = 170;
+  private static final int THOUGHT_BUBBLE_X_OFFSET = 120;
   private static final int THOUGHT_BUBBLE_Y_OFFSET = 5;
    
 	//----------------------------------------------------------------------------
@@ -93,7 +93,7 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
    * This method is called whenever the model changes.
    */
   public void update()
-  { 
+  {
     _headBackgroundGraphic.setPosition( (int)(_personModel.getX() + HEAD_X_OFFSET),
                                         (int)(_personModel.getY() + HEAD_Y_OFFSET) );
     _headForegroundGraphic.setPosition( (int)(_personModel.getX() + HEAD_X_OFFSET),

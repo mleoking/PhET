@@ -24,8 +24,8 @@ public class ColorVisionConfig
 
 	// Images
 	public static final String IMAGES_DIRECTORY = "images/";
-	public static final String HEAD_BACKGROUND_IMAGE = IMAGES_DIRECTORY + "headBackground.gif";
-	public static final String HEAD_FOREGROUND_IMAGE = IMAGES_DIRECTORY + "headForeground.gif";
+	public static final String HEAD_BACKGROUND_IMAGE = IMAGES_DIRECTORY + "headBackground.png";
+	public static final String HEAD_FOREGROUND_IMAGE = IMAGES_DIRECTORY + "headForeground.png";
 	public static final String SPECTRUM_IMAGE = IMAGES_DIRECTORY + "spectrum.gif";
 	public static final String SPOTLIGHT_IMAGE = IMAGES_DIRECTORY + "spotlight.gif";
 	
