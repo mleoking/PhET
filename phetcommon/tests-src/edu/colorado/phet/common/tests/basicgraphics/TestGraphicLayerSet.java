@@ -16,6 +16,8 @@ import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
@@ -46,23 +48,59 @@ public class TestGraphicLayerSet {
         repaintDebugGraphic.setActive( true );
         clock.start();
 
-//        clock.addClockTickListener( new ClockTickListener() {
-//            double startTime = System.currentTimeMillis();
-//
-//            public void clockTicked( AbstractClock c, double dt ) {
-//                //                circleGraphic.translate( 1, 0 );
-//                compositeGraphic.setLocation( compositeGraphic.getLocation().x + 1, compositeGraphic.getLocation().y );
-//
-//                if( System.currentTimeMillis() - startTime > 2000 ) {
-//                    compositeGraphic.setVisible( false );
-//                }
-//            }
-//        } );
         compositeGraphic.setCursorHand();
         compositeGraphic.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent translationEvent ) {
                 compositeGraphic.setLocation( compositeGraphic.getLocation().x + translationEvent.getDx(), compositeGraphic.getLocation().y + translationEvent.getDy() );
             }
         } );
+        JPopupMenu menu = new JPopupMenu();
+        JMenuItem menuItem = new JMenuItem( "Peek-a-boo" );
+        ActionListener listener = new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                Runnable r = new Runnable() {
+                    public void run() {
+                        compositeGraphic.setVisible( false );
+                        try {
+                            Thread.sleep( 2000 );
+                        }
+                        catch( InterruptedException e1 ) {
+                            e1.printStackTrace();
+                        }
+                        compositeGraphic.setVisible( true );
+                    }
+                };
+                new Thread( r ).start();
+            }
+        };
+        ActionListener move = new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                Runnable r = new Runnable() {
+                    public void run() {
+                        long time = System.currentTimeMillis();
+                        long endTime = time + 1000;
+                        while( time < endTime ) {
+                            try {
+                                Thread.sleep( 30 );
+                                compositeGraphic.setLocation( compositeGraphic.getX() + 1, compositeGraphic.getY() + 1 );
+                            }
+                            catch( InterruptedException e1 ) {
+                                e1.printStackTrace();
+                            }
+                            time = System.currentTimeMillis();
+                        }
+                    }
+                };
+                new Thread( r ).start();
+            }
+        };
+        menuItem.addActionListener( listener );
+
+
+        menu.add( menuItem );
+        JMenuItem menuItemMove = new JMenuItem( "Move" );
+        menuItemMove.addActionListener( move );
+        menu.add( menuItemMove );
+        compositeGraphic.setPopupMenu( menu );
     }
 }

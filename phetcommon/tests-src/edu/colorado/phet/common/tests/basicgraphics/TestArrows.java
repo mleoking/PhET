@@ -55,7 +55,7 @@ public class TestArrows {
         shapeGraphic.setCursorHand();
         shapeGraphic.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent translationEvent ) {
-                arrow.setTailLocation( translationEvent.getEvent().getPoint() );
+                arrow.setTailLocation( translationEvent.getMouseEvent().getPoint() );
             }
         } );
 
