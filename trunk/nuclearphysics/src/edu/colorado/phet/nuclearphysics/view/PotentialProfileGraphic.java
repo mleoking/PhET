@@ -49,6 +49,11 @@ public class PotentialProfileGraphic implements Graphic, SimpleObserver {
         image = buildImage();
     }
 
+    public void setColor( Color color ) {
+        this.color = color;
+        image = buildImage();
+    }
+
     public void setOrigin( Point2D.Double origin ) {
         this.origin = origin;
     }
