@@ -107,6 +107,15 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         return _frequency;
     }
     
+    /**
+     * Gets the angle.
+     * 
+     * @return the angle, in radians
+     */
+    public double getAngle() {
+        return _angle;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -119,26 +128,33 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     public void stepInTime( double dt ) {
         if ( isEnabled() ) {
 
-            double amplitude = 0.0;
+            double previousAngle = _angle;
+            
+            // Compute the angle.
+            double delta = ( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE;
+            _angle += delta;
+            
+            // Make sure we hit all peaks and zero crossings (at 90 degree intervals).
+            for ( int i = 1; i <= 4; i++ ) {
+                double criticalAngle = i * ( Math.PI / 2 );
+                if ( previousAngle < criticalAngle && _angle > criticalAngle ) {
+                    _angle = criticalAngle;
+                    break;
+                } 
+            }
+            
+            // Limit the angle to 360 degrees.
+            if ( _angle > 2 * Math.PI ) {
+                _angle = _angle - ( 2 * Math.PI );
+            }
+            
+            // Calculate the amplitude.
             if ( _maxAmplitude == 0.0 ) {
-                _angle = 0.0;
-                amplitude = 0.0;
+                setAmplitude( 0.0 );
             }
             else {
-                // Amplitude varies sinusoidally over time.
-                double delta = ( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE;
-                _angle += delta;
-                if ( _angle > 2 * Math.PI ) {
-                    _angle = _angle - ( 2 * Math.PI );
-                }
-                amplitude = _maxAmplitude * Math.sin( _angle );
-
-                // Make sure we always hit zero as we pass it.
-                if ( ( amplitude > 0 && getAmplitude() < 0 ) || ( amplitude < 0 && getAmplitude() > 0 ) ) {
-                    amplitude = 0;
-                }
+                setAmplitude( _maxAmplitude * Math.sin( _angle ) );
             }
-            setAmplitude( amplitude );
         }
     }
 }

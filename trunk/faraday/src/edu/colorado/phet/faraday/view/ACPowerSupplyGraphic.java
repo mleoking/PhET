@@ -39,6 +39,9 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     // Class data
     //----------------------------------------------------------------------------
     
+    // Debugging
+    private static final boolean DEBUG = true;
+    
     // Layers
     private static final double BACKGROUND_LAYER = 1;
     private static final double SLIDER_LAYER = 2;
@@ -63,10 +66,11 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     //----------------------------------------------------------------------------
     
     private ACPowerSupply _acPowerSupplyModel;
-    private FaradaySlider _amplitudeSlider;
+    private FaradaySlider _maxAmplitudeSlider;
     private FaradaySlider _frequencySlider;
-    private PhetTextGraphic _amplitudeValue;
+    private PhetTextGraphic _maxAmplitudeValue;
     private PhetTextGraphic _frequencyValue;
+    private PhetTextGraphic _amplitudeValue;
     private SineWaveGraphic _waveGraphic;
     private PhetShapeGraphic _cursorGraphic;
     private String _amplitudeFormat;
@@ -102,28 +106,36 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         BackgroundGraphic background = new BackgroundGraphic( component );
         addGraphic( background, BACKGROUND_LAYER );
         
-        // Amplitude slider
+        // Max Amplitude slider
         {
-            _amplitudeSlider = new FaradaySlider( component, 100 /* track length */ );            
-            addGraphic( _amplitudeSlider, SLIDER_LAYER );
+            _maxAmplitudeSlider = new FaradaySlider( component, 100 /* track length */ );            
+            addGraphic( _maxAmplitudeSlider, SLIDER_LAYER );
             
-            _amplitudeSlider.setMinimum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MIN ) );
-            _amplitudeSlider.setMaximum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MAX ) );
-            _amplitudeSlider.setValue( (int) ( 100.0 * _acPowerSupplyModel.getMaxAmplitude() ) );
+            _maxAmplitudeSlider.setMinimum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MIN ) );
+            _maxAmplitudeSlider.setMaximum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MAX ) );
+            _maxAmplitudeSlider.setValue( (int) ( 100.0 * _acPowerSupplyModel.getMaxAmplitude() ) );
             
-            _amplitudeSlider.centerRegistrationPoint();
-            _amplitudeSlider.rotate( -Math.PI / 2 );  // rotate -90 degrees
-            _amplitudeSlider.setLocation( 32, 130 );
-            _amplitudeSlider.addChangeListener( new SliderListener() );
+            _maxAmplitudeSlider.centerRegistrationPoint();
+            _maxAmplitudeSlider.rotate( -Math.PI / 2 );  // rotate -90 degrees
+            _maxAmplitudeSlider.setLocation( 32, 130 );
+            _maxAmplitudeSlider.addChangeListener( new SliderListener() );
+        }
+        
+        // Max Amplitude value
+        {
+            _maxAmplitudeValue = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
+            addGraphic( _maxAmplitudeValue, VALUE_LAYER );
+            _maxAmplitudeValue.setLocation( 45, 70 );
+            
+            _amplitudeFormat = SimStrings.get( "ACPowerSupplyGraphic.amplitude.format" );
         }
         
         // Amplitude value
         {
-            _amplitudeValue = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
-            addGraphic( _amplitudeValue, VALUE_LAYER );
-            _amplitudeValue.setLocation( 45, 70 );
-            
-            _amplitudeFormat = SimStrings.get( "ACPowerSupplyGraphic.amplitude.format" );
+            _amplitudeValue = new PhetTextGraphic( component, VALUE_FONT, "", Color.RED );
+            addGraphic( _amplitudeValue, CURSOR_LAYER );
+            _amplitudeValue.setLocation( 90, 70 );
+            _amplitudeValue.setVisible( DEBUG );
         }
         
         // Frequency slider
@@ -200,21 +212,22 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         setVisible( _acPowerSupplyModel.isEnabled() );
         if ( isVisible() ) {
             
+            double amplitude = _acPowerSupplyModel.getAmplitude();
             double maxAmplitude = _acPowerSupplyModel.getMaxAmplitude();
             double frequency = _acPowerSupplyModel.getFrequency();
             
-            // Update the displayed amplitude.
+            // Update the displayed max amplitude.
             if ( maxAmplitude != _previousMaxAmplitude ) {
                 // Format the text
                 int value = (int) ( maxAmplitude * 100 );
                 Object[] args = { new Integer( value ) };
                 String text = MessageFormat.format( _amplitudeFormat, args );
-                _amplitudeValue.setText( text );
+                _maxAmplitudeValue.setText( text );
                 
                 // Right justify
-                int rx = _amplitudeValue.getBounds().width;
-                int ry = _amplitudeValue.getBounds().height;
-                _amplitudeValue.setRegistrationPoint( rx, ry ); // lower right
+                int rx = _maxAmplitudeValue.getBounds().width;
+                int ry = _maxAmplitudeValue.getBounds().height;
+                _maxAmplitudeValue.setRegistrationPoint( rx, ry ); // lower right
             }
             
             // Update the displayed frequency.
@@ -236,6 +249,20 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                 _waveGraphic.setAmplitude( maxAmplitude );
                 _waveGraphic.setFrequency( frequency );
                 _waveGraphic.update();
+            }
+            
+            // Update the displayed amplitude on every clock tick.
+            if ( _amplitudeValue.isVisible() ) {
+                // Format the text
+                int value = (int) ( amplitude * 100 );
+                Object[] args = { new Integer( value ) };
+                String text = MessageFormat.format( _amplitudeFormat, args );
+                _amplitudeValue.setText( text );
+                
+                // Right justify
+                int rx = _amplitudeValue.getBounds().width;
+                int ry = _amplitudeValue.getBounds().height;
+                _amplitudeValue.setRegistrationPoint( rx, ry ); // lower right
             }
             
             // Update the cursor position on every clock tick.
@@ -275,9 +302,9 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
          * @param event the event
          */
         public void stateChanged( ChangeEvent event ) {  
-            if ( event.getSource() == _amplitudeSlider ) {
+            if ( event.getSource() == _maxAmplitudeSlider ) {
                 // Read the value.
-                double maxAmplitude = _amplitudeSlider.getValue() / 100.0;
+                double maxAmplitude = _maxAmplitudeSlider.getValue() / 100.0;
                 // Update the model.
                 _acPowerSupplyModel.setMaxAmplitude( maxAmplitude );
             }
