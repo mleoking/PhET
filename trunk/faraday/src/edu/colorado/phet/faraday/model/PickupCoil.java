@@ -23,9 +23,9 @@ import edu.colorado.phet.common.model.ModelElement;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PickupCoil extends Coil implements ModelElement {
+public class PickupCoil extends AbstractCoil implements ModelElement {
     
-    private IMagnet _magnet;
+    private AbstractMagnet _magnet;
     private double _EMF;
     private double _previousEMF;
     private double _previousFlux;
@@ -36,11 +36,11 @@ public class PickupCoil extends Coil implements ModelElement {
         _previousFlux = 0.0;
     }
     
-    public void setMagnet( IMagnet magnet ) {
+    public void setMagnet( AbstractMagnet magnet ) {
         _magnet = magnet;
     }
     
-    public IMagnet getMagnet() {
+    public AbstractMagnet getMagnet() {
         return _magnet;
     }
 

@@ -55,6 +55,7 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
         super( component );
         
         _coilModel = coilModel;
+        _coilModel.addObserver( this );
         
         // Lightbulb
         _bulb = new LightBulbGraphic( component );
@@ -80,6 +81,11 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
         
         setBulbEnabled( true );
         update();
+    }
+    
+    public void finalize() {
+        _coilModel.removeObserver( this );
+        _coilModel = null;
     }
 
     //----------------------------------------------------------------------------

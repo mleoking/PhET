@@ -1,22 +1,23 @@
 "To Do" list for "faraday" simulation
 
 IN PROGRESS:
-- add inertia to compass needle
-- determine how to make compass needles use field vector magnitude
+- determine how to make compass grid use field vector magnitude
 
 HIGH:
+- model element for lightbulb
+- model element for voltmeter
+- add inertia to voltmeter needle
 - averaging of values so that lightbulb & voltmeter behave smoothly
+- how to separate PhetCoilGraphic into foreground & background layers
 - redo coil graphic, more of a tilt, thicker wire, copper/brown color
 - draw pickup coil correctly when loop area is changed
-- how to separate PhetCoilGraphic into foreground & background layers
-- add inertia to voltmeter needle
 - calibration of everything so that sensitivity can be adjusted
-- show electrons flowing (blue)
+- show electrons flowing (blue) when lightbulb is enabled
 
 MEDIUM:
 - lightbulb emission graphic (same as CCK?)
 - collision avoidance (which objects?)
-- ControlPanel base class that handles layout
+- use Ron's enhancements to ControlPanel
 - Transformer module requirements
 
 LOW:
@@ -25,6 +26,7 @@ LOW:
 - correct lighting on flipped bar magnet
 
 DONE:
+(1/13) - add inertia to compass needle
 (1/12) - dipole stuff is screwed up when magnet polarity is flipped
 (1/11) - add B-field probe
 (1/6) - nail down semantics of magnet "strength"

@@ -27,7 +27,7 @@ public class HollywoodCompass extends AbstractCompass {
      * 
      * @param magnetModel the magnet that the compass is observing
      */
-    public HollywoodCompass( IMagnet magnetModel ) {
+    public HollywoodCompass( AbstractMagnet magnetModel ) {
         super( magnetModel );
     }
     

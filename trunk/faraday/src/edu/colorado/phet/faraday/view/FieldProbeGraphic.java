@@ -25,7 +25,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.IMagnet;
+import edu.colorado.phet.faraday.model.AbstractMagnet;
 
 
 /**
@@ -36,13 +36,16 @@ import edu.colorado.phet.faraday.model.IMagnet;
  */
 public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObserver {
 
-    private IMagnet _magnetModel;
+    private AbstractMagnet _magnetModel;
     private PhetTextGraphic _bText, _bxText, _byText, _angleText;
     NumberFormat _formatter;
     
-    public FieldProbeGraphic( Component component, IMagnet magnetModel ) {
+    public FieldProbeGraphic( Component component, AbstractMagnet magnetModel ) {
         super( component );
+        
         _magnetModel = magnetModel;
+        _magnetModel.addObserver( this );
+        
         _formatter = new DecimalFormat( "###0.00" );
         
         // Probe body with registration point at top center.
@@ -88,6 +91,11 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
         
         // Synchronize view with model.
         update();
+    }
+    
+    public void finalize() {
+        _magnetModel.removeObserver( this );
+        _magnetModel = null;
     }
     
     /*

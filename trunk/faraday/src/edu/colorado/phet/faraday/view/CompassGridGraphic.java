@@ -22,7 +22,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.faraday.model.IMagnet;
+import edu.colorado.phet.faraday.model.AbstractMagnet;
 
 
 /**
@@ -40,7 +40,7 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
     //----------------------------------------------------------------------------
 
     // The magnet model element that the grid is observing.
-    private IMagnet _magnetModel;
+    private AbstractMagnet _magnetModel;
     
     // The spacing between compass needles, in pixels.
     private int _xSpacing, _ySpacing;
@@ -66,10 +66,12 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
      * @param xSpacing space between grid points in the X direction
      * @param ySpacing space between grid points in the Y direction
      */
-    public CompassGridGraphic( Component component, IMagnet magnetModel, int xSpacing, int ySpacing) {
+    public CompassGridGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing) {
         super( component );
         
         _magnetModel = magnetModel;
+        _magnetModel.addObserver( this );
+        
         _needleSize = new Dimension( 40, 20 );
         _needles = new ArrayList();
         _aspectRatio = 0.0;
@@ -86,6 +88,11 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
                 resetSpacing();
             }
         });
+    }
+    
+    public void finalize() {
+        _magnetModel.removeObserver( this );
+        _magnetModel = null;
     }
     
     //----------------------------------------------------------------------------
