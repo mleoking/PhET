@@ -198,6 +198,15 @@ public abstract class PhetGraphic {
                 PhetGraphicListener phetGraphicListener = (PhetGraphicListener)listeners.get( i );
                 phetGraphicListener.phetGraphicVisibilityChanged( this );
             }
+            if( !visible ) {
+                //see if we have a parent, and tell them to lose mouse and key focus.
+                if( parent != null ) {
+                    parent.childBecameInvisible( this );
+                }
+
+                //TODO even if there is no parent, we may want to fire off a MouseExited event anyways.
+                //TODO make sure this is coordinated with the childBecameInvisible call above.
+            }
         }
     }
 
@@ -758,6 +767,14 @@ public abstract class PhetGraphic {
         if( isVisible() ) {
             mouseInputListener.mouseExited( e );
         }
+    }
+
+    /**
+     * Fires a "mouse exited" event because this component became invisible.
+     * This explicitly avoids the visibility condition for firing the event.
+     */
+    public void fireMouseExitedBecauseInvisible( MouseEvent e ) {
+        mouseInputListener.mouseExited( e );
     }
 
     /**
