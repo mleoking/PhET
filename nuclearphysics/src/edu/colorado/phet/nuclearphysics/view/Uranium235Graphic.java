@@ -14,7 +14,7 @@ import java.awt.geom.AffineTransform;
 public class Uranium235Graphic extends NucleusGraphic {
     private static Font font = new Font( "Serif", Font.BOLD, 15 );
     private static Color color = Color.yellow;
-    private AffineTransform nucleusTx = new AffineTransform();
+    private static AffineTransform nucleusTx = new AffineTransform();
 
     public Uranium235Graphic( Nucleus nucleus ) {
         super( nucleus );
@@ -22,8 +22,7 @@ public class Uranium235Graphic extends NucleusGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        nucleusTx.setToIdentity();
-        nucleusTx.translate( nucleus.getLocation().getX(), nucleus.getLocation().getY() );
+        nucleusTx.setToTranslation( nucleus.getLocation().getX(), nucleus.getLocation().getY() );
         super.paint( g );
 
         AffineTransform orgTx = g.getTransform();

@@ -52,6 +52,7 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
     private GeneralPath profileBackgroundPath;
     private CubicUtil cubicUtil;
     private Nucleus nucleus;
+    private AffineTransform profileTx = new AffineTransform();
 
     public PotentialProfile() {
     }
@@ -165,9 +166,9 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
                                             endPt3.x, endPt3.y );
 
         // draw the curve for the right side of the well
-        AffineTransform profileTx = new AffineTransform();
         profileTx.setToIdentity();
         profileTx.scale( -1, 1 );
+
         endPt4.setLocation( -endPt2.getX(), endPt2.getY() );
         ctrlPt4A.setLocation( -ctrlPt2B.getX(), ctrlPt2B.getY() );
         ctrlPt4B.setLocation( -ctrlPt2A.getX(), ctrlPt2A.getY() );

@@ -38,7 +38,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
         Module alphaModule = new AlphaDecayModule( clock );
         Module singleNucleusFissionModule = new SingleNucleusFissionModule( clock );
         Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( clock );
-        Module[] modules = new Module[]{alphaModule, singleNucleusFissionModule, multipleNucleusFissionModule, profileModificationModule};
+        Module[] modules = new Module[]{alphaModule, singleNucleusFissionModule, multipleNucleusFissionModule};
         NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc, modules, clock );
 //        app.startApplication( multipleNucleusFissionModule );
 //        app.startApplication( singleNucleusFissionModule );

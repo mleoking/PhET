@@ -13,10 +13,9 @@ import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
-import edu.colorado.phet.nuclearphysics.view.MultipleFissionPhysicalPanel;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -37,14 +36,14 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     private double neutronLaunchGamma;
     private Point2D.Double neutronLaunchPoint;
     private Line2D.Double neutronPath;
-    private ArrayList daughterNuclei = new ArrayList( );
+    private ArrayList daughterNuclei = new ArrayList();
 
     public MultipleNucleusFissionModule( AbstractClock clock ) {
         super( "Chain Reaction", clock );
         this.clock = clock;
 
-//        getApparatusPanel().remove( 0 );
-//        getApparatusPanel().add( new MultipleFissionPhysicalPanel() );
+        // set the scale of the physical panel so we can fit more nuclei in it
+        getPhysicalPanel().setScale( 0.5 );
         super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
 
         getModel().addModelElement( new ModelElement() {
@@ -88,12 +87,12 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
 
     private void computeNeutronLaunchParams() {
         // Compute how we'll fire the neutron
-        double bounds = 600;
+        double bounds = 600 / getPhysicalPanel().getScale();
         neutronLaunchGamma = random.nextDouble() * Math.PI * 2;
         double x = bounds * Math.cos( neutronLaunchGamma );
         double y = bounds * Math.sin( neutronLaunchGamma );
         neutronLaunchPoint = new Point2D.Double( x, y );
-        neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ));
+        neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
     }
 
     public Line2D.Double getNeutronPath() {
@@ -209,7 +208,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
 
         // Add some pizzazz
         Kaboom kaboom = new Kaboom( products.getParent().getLocation(),
-                                    25, 300, getApparatusPanel() );
+                                    25, 300, getPhysicalPanel() );
+//                                    25, 300, getApparatusPanel() );
         getPhysicalPanel().addGraphic( kaboom );
     }
 

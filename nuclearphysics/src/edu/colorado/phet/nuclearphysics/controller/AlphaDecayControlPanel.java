@@ -91,7 +91,6 @@ public class AlphaDecayControlPanel extends JPanel {
         private boolean running = false;
 
         public void run() {
-            System.out.println( "run" );
             long startTime = System.currentTimeMillis();
             running = true;
             while( running ) {
@@ -109,7 +108,6 @@ public class AlphaDecayControlPanel extends JPanel {
                     }
                 } );
             }
-            System.out.println( "stop" );
         }
 
         synchronized void setRunning( boolean running ) {

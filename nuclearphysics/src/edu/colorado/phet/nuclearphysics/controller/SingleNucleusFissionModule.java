@@ -108,7 +108,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
 
         // Add some pizzazz
         Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
-                                    25, 300, getApparatusPanel() );
+                                    25, 300, getPhysicalPanel() );
+//                                    25, 300, getApparatusPanel() );
         getPhysicalPanel().addGraphic( kaboom );
     }
 

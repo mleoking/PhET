@@ -131,7 +131,7 @@ public class Uranium235 extends Nucleus {
 
         Neutron[] neutronProducts = new Neutron[3];
         for( int i = 0; i < 3; i++ ) {
-            theta = random.nextDouble() * Math.PI;
+            theta = random.nextDouble() * Math.PI * 2;
             neutronProducts[i] = new Neutron( this.getLocation(), theta );
         }
 
@@ -145,19 +145,19 @@ public class Uranium235 extends Nucleus {
 
     /**
      * Changes the composition of the nucleus. The changes are made
-     * incrementally, one time step at a time
+     * incrementally, one time step at a time.
      *
      * @param numNeutrons
      * @param numProtons
      */
-    public void morph( int numNeutrons, int numProtons ) {
+    private void morph( int numNeutrons, int numProtons ) {
         if( doMorph ) {
             this.morphTargetNeutrons = numNeutrons - getNumNeutrons();
             this.morphTargetProtons = numProtons - getNumProtons();
         }
         else {
-            this.morphTargetNeutrons = getNumNeutrons();
-            this.morphTargetProtons = getNumProtons();
+            this.morphTargetNeutrons = 1;
+            this.morphTargetProtons = 1;
         }
     }
 }

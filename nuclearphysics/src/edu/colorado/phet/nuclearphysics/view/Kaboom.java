@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
@@ -76,6 +77,10 @@ public class Kaboom implements Graphic, Runnable {
                 e.printStackTrace();
             }
         }
-        apparatusPanel.removeGraphic( this );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                apparatusPanel.removeGraphic( Kaboom.this );
+            }
+        } );
     }
 }

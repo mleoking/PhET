@@ -12,7 +12,6 @@ import edu.colorado.phet.coreadditions.Body;
 import java.awt.geom.Point2D;
 
 public class NuclearParticle extends Body {
-//    private Point2D.Double position = new Point2D.Double();
     private double radius;
 
     public NuclearParticle( Point2D.Double location ) {
