@@ -30,13 +30,13 @@ import java.util.Observable;
  */
 public class BaseIdealGasApparatusPanel extends ApparatusPanel {
 
+    // Coordinates of the intake port on the box
+    private static boolean toolTipsSet = false;
+
     private PumpHandleGraphic handleGraphicImage;
     private PhetImageGraphic flamesGraphicImage;
     private PhetImageGraphic iceGraphicImage;
     protected DefaultInteractiveGraphic doorGraphicImage;
-
-    private Vector2D[] opening = new Vector2D[2];
-    private IdealGasModel model;
 
 
     /**
@@ -57,8 +57,6 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
 
         // Set the background color
         this.setBackground( Color.white );        
-
-        model = (IdealGasModel)module.getModel();
 
         try {
 
@@ -101,50 +99,14 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
         }
 
         // Set the size of the panel
-        this.setPreferredSize( new Dimension( 600, 520 ) );
+        this.setPreferredSize( new Dimension( 600, 800 ) );
+//        this.setPreferredSize( new Dimension( 600, 520 ) );
     }
 
 
     protected IdealGasApplication getIdealGasApplication() {
         return (IdealGasApplication)PhetApplication.instance();
     }
-
-    /**
-     *
-     */
-    //    public void clear() {
-    //        super.clear();
-    //        this.boxGraphic = null;
-    //    }
-
-    //    protected  getPhysicalSystem() {
-    //        return PhetApplication.instance().getPhysicalSystem();
-    //    }
-
-    //    protected IdealGasSystem getIdealGasSystem() {
-    //        return (IdealGasSystem)getPhysicalSystem();
-    //    }
-
-    /**
-     * Moves door to its closed position
-     */
-    //    public void closeDoor() {
-    //        doorGraphicImage.setPosition( IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 227 );
-    //    }
-
-    /**
-     * Get a reference to the box graphic. This is a bit of a hack. If we haven't
-     * gotten it yet, we search through all the layers for it
-     */
-    //    private PhetGraphic getBoxGraphic() {
-    //
-    //        // If we have not established the reference to the box graphic yet, then
-    //        // search all the graphic layers for it.
-    //        if( boxGraphic == null ) {
-    //            boxGraphic = super.getGraphicOfType( Box2DGraphic.class );
-    //        }
-    //        return boxGraphic;
-    //    }
 
     /**
      *
@@ -215,42 +177,12 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
         int baseFlameHeight = IdealGasConfig.Y_BASE_OFFSET + 545;
         int flameHeight = baseFlameHeight - value;
         int iceHeight = baseFlameHeight + value;
-        //        flamesGraphicImage.setPosition( (float)flamesGraphicImage.getLocationPoint2D().getX(),
         flamesGraphicImage.setPosition( (int)flamesGraphicImage.getTransform().getTranslateX(),
                                         (int)Math.min( (float)flameHeight, baseFlameHeight ) );
-        //        iceGraphicImage.setPosition( (float)iceGraphicImage.getLocationPoint2D().getX(),
         iceGraphicImage.setPosition( (int)iceGraphicImage.getTransform().getTranslateX(),
                                      (int)Math.min( (float)iceHeight, baseFlameHeight ) );
         this.repaint();
     }
-
-    //    public void setOpening( float doorStartPointMaxX, float x, float y ) {
-    //        // TODO: do something about the + 2s in here. I had to put them in to fudge the thing
-    //        // to draw properly, but don't know why
-    //        opening[0] = new Vector2D( x + ( (Image)doorGraphicImage.getRep() ).getWidth( this ),
-    //                                   y + ( (Image)doorGraphicImage.getRep() ).getHeight( this ) + 2 );
-    //        opening[1] = new Vector2D( doorStartPointMaxX,
-    //                                   y + ( (Image)doorGraphicImage.getRep() ).getHeight( this ) + 2 );
-    //        getIdealGasSystem().getBox().setOpening( opening );
-    ////        getIdealGasSystem().getBox().setOpening( opening );
-    //    }
-
-    /**
-     * Creates a gas molecule of the proper species
-     */
-    //    protected GasMolecule pumpGasMolecule() {
-    //
-    //        // Add a new gas molecule to the system
-    //        PumpMoleculeCmd pumpCmd = new PumpMoleculeCmd( getIdealGasApplication(),
-    //                                                       this.getIdealGasSystem().getAverageMoleculeEnergy() );
-    //        GasMolecule newMolecule = (GasMolecule)pumpCmd.doIt();
-    //
-    //        // Constrain the molecule to be inside the box
-    //        Box2D box = getIdealGasSystem().getBox();
-    //        Constraint constraintSpec = new BoxMustContainParticle( box, newMolecule );
-    //        newMolecule.addConstraint( constraintSpec );
-    //        return newMolecule;
-    //    }
 
     /**
      *
@@ -285,56 +217,4 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
     //            new AddHelpItemCmd( helpText3 ).doIt();
     //        }
     //    }
-
-    /**
-     * Starts the application running for the specific apparatus panel
-     */
-    //    public void activate() {
-    //        super.activate();
-    //
-    //        // Turn off gravity
-    //        getIdealGasApplication().setGravityEnabled( false );
-    //        getIdealGasApplication().setGravity( 0 );
-    //
-    //        setToolTips();
-    //    }
-
-    /**
-     * Stops the application running for the specific apparatus panel
-     */
-    //    public void deactivate() {
-    //        super.deactivate();
-    //        getIdealGasApplication().clear();
-    //    }
-
-    private int cnt = 0;
-    public boolean init;
-
-    public void update( Observable observable, Object o ) {
-        //        super.update( observable, o );
-
-        // 8/2/04 to fix startup paint problem
-        if( !init ) {
-            this.repaint();
-            init = true;
-        }
-
-        // fast paint
-//        if( IdealGasConfig.fastPaint ) {
-//            if( boxGraphic != null ) {
-//                //                this.repaint( ( (Rectangle2D.Float)( boxGraphic.getRep() ) ).getBounds() );
-//            }
-//        }
-//        else {
-//            //            this.repaint();
-//        }
-    }
-
-    //
-    // Static fields and methods
-    //
-
-    // Coordinates of the intake port on the box
-    private static boolean toolTipsSet = false;
-
 }

@@ -17,7 +17,8 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.view.BaseIdealGasApparatusPanel;
 import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.Mannequin;
-import edu.colorado.phet.idealgas.view.IdealGasMonitorPanel;
+import edu.colorado.phet.idealgas.view.monitors.IdealGasMonitorPanel;
+import edu.colorado.phet.idealgas.view.monitors.IdealGasMonitorPanel;
 import edu.colorado.phet.idealgas.model.*;
 
 import javax.swing.*;
