@@ -2,6 +2,7 @@ package edu.colorado.phet.testlocation;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.RenderingHints;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
@@ -144,8 +145,9 @@ public class TestModule extends Module {
                 "Translate by dragging with the LEFT mouse button.", 
                 "Rotate by dragging horizontally with the RIGHT mouse button.",
                 "Use the control panel to change the visibility of bounds & registration points." };
-        Font font = new Font( "Serif", Font.BOLD, 18 );
+        Font font = new Font( "Serif", Font.PLAIN, 18 );
         PhetMultiLineTextGraphic mlt = new PhetMultiLineTextGraphic( apparatusPanel, lines, font, 100, 30, Color.RED );
+        mlt.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         apparatusPanel.addGraphic( mlt, HELP_LAYER );
     }
 }
