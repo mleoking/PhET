@@ -29,14 +29,15 @@ import java.awt.geom.Ellipse2D;
  */
 //public class ParticleGraphic implements Graphic, SimpleObserver {
 public class ParticleGraphic extends PhetShapeGraphic implements SimpleObserver {
-    private PersistentParticle particle;
+    private Particle particle;
     private Color color;
 
     public ParticleGraphic() {
         super( null );
     }
 
-    public ParticleGraphic( Component component, PersistentParticle particle, Color color ) {
+    public ParticleGraphic( Component component, Particle particle, Color color ) {
+//    public ParticleGraphic( Component component, PersistentParticle particle, Color color ) {
         super( component );
         this.particle = particle;
         this.color = color;
@@ -58,11 +59,13 @@ public class ParticleGraphic extends PhetShapeGraphic implements SimpleObserver 
         repaint();
     }
 
-    public PersistentParticle getParticle() {
+    public Particle getParticle() {
+//    public PersistentParticle getParticle() {
         return particle;
     }
 
-    public void setParticle( PersistentParticle particle ) {
+    public void setParticle( Particle particle ) {
+//    public void setParticle( PersistentParticle particle ) {
         this.particle = particle;
         particle.addObserver( this );
     }

@@ -19,7 +19,8 @@ import edu.colorado.phet.common.util.persistence.PersistentParticle;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class TestParticle extends PersistentParticle {
+public class TestParticle extends Particle {
+//public class TestParticle extends PersistentParticle {
     private double elapsedTime;
     private double omega = 0.1;
     private double y0;

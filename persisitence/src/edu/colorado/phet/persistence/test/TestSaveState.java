@@ -18,10 +18,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.persistence.test.model.TestParticle;
 import edu.colorado.phet.common.util.persistence.PersistentPoint2D;
 import edu.colorado.phet.common.util.persistence.*;
@@ -54,6 +51,16 @@ public class TestSaveState extends PhetApplication {
     }
 
 
+
+    public static void addDebug( ApparatusPanel ap ){
+        AbstractClock clock=new SwingTimerClock( 1,30);
+                   RepaintDebugGraphic repaintDebugGraphic=new RepaintDebugGraphic( ap, clock,128);
+        ap.addGraphic( repaintDebugGraphic,Double.POSITIVE_INFINITY );
+        clock.start();
+        repaintDebugGraphic.setActive( true );
+    }
+
+
     public static class AppModel extends ApplicationModel {
         public AppModel() {
             super( "Save State Test", "Save State Test", "0.1" );
@@ -79,44 +86,6 @@ public class TestSaveState extends PhetApplication {
     public static class MyApp extends PhetApplication {
         public MyApp( ApplicationModel descriptor ) {
             super( descriptor );
-        }
-    }
-
-
-    public static class TestBean {
-        String s = "SSS";
-
-        public TestBean() {
-            setS( "BBBBBBBBBBBBBBBB" );
-        }
-
-        public String getS() {
-            return s;
-        }
-
-        public void setS( String s ) {
-            this.s = s;
-        }
-    }
-
-    public static class TestBean2 {
-        Point2D.Double p = new Point2D.Double();
-        String s;
-
-        public Point2D getP() {
-            return p;
-        }
-
-        public void setP( Point2D.Double p ) {
-            this.p = p;
-        }
-
-        public String getS() {
-            return s;
-        }
-
-        public void setS( String s ) {
-            this.s = s;
         }
     }
 
@@ -151,7 +120,7 @@ public class TestSaveState extends PhetApplication {
         }
     }
 
-    static XMLEncoder getTestEncoder() {
+    public static XMLEncoder getTestEncoder() {
         XMLEncoder e = null;
         try {
             e = new XMLEncoder( new FileOutputStream( "/temp/bt.xml"));
@@ -159,10 +128,18 @@ public class TestSaveState extends PhetApplication {
         catch( FileNotFoundException e1 ) {
             e1.printStackTrace();
         }
+        e.setPersistenceDelegate( AffineTransform.class, new AffineTransformPersistenceDelegate() );
+        e.setPersistenceDelegate( BasicStroke.class, new BasicStrokePersistenceDelegate() );
+        e.setPersistenceDelegate( Ellipse2D.Double.class, new Ellipse2DPersistenceDelegate() );
+        e.setPersistenceDelegate( Ellipse2D.Float.class, new Ellipse2DPersistenceDelegate() );
+        e.setPersistenceDelegate( GeneralPath.class, new GeneralPathPersistenceDelegate() );
+        e.setPersistenceDelegate( GradientPaint.class, new GradientPaintPersistenceDelegate() );
+        e.setPersistenceDelegate( Point2D.class, new Point2DPersistenceDelegate() );
+        e.setPersistenceDelegate( Rectangle2D.class, new Rectangle2DPersistenceDelegate() );
         return e;
     }
 
-    static XMLDecoder getTestDecoder() {
+    public static XMLDecoder getTestDecoder() {
         XMLDecoder d = null;
         try {
             d = new XMLDecoder( new FileInputStream( "/temp/bt.xml"));
@@ -175,14 +152,17 @@ public class TestSaveState extends PhetApplication {
 
     static void beanTest2() {
         Object po1 = null;
-//        JPanel panel = new JPanel( );
+        JPanel panel = new JPanel( );
 //        CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
 //        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
 //        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
 
-        SimpleObservable so = new SimpleObservable();
-        so.addObserver( new MyObserver() );
-        po1 = so;
+        CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
+        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
+        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
+        cpg.setLocation( 100, 100 );
+
+        po1 = cpg;
 
         XMLEncoder e = new XMLEncoder( System.out );
         e.writeObject( po1 );
