@@ -51,7 +51,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObs
     private static final Point TITLE_LOCATION = new Point( 0, 84 );
     
     // Bottom right of the top-most field (MUST MATCH IMAGE FILE!)
-    private static final Point FIELD_LOCATION = new Point( 35, 108 );
+    private static final Point FIELD_LOCATION = new Point( 35, 111 );
     
     // Horizontal spacing between fields (MUST MATCH IMAGE FILE!)
     private static final int FIELD_SPACING = 24;
