@@ -127,7 +127,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
             double x = origin.getX() + d;
             double y = ( nucleus instanceof AlphaParticle ? potentialProfile.getWellPotential() + AlphaParticle.RADIUS : 0 );
             // Draw one version referenced off the origin
-            nucleusGraphic.paint( g2, (int)x, (int)( origin.getY() ) );
+            nucleusGraphic.paint( g2, (int)( origin.getX() + xStat ), (int)( origin.getY() + yStat ) );
+//            nucleusGraphic.paint( g2, (int)x, (int)( origin.getY() ) );
             // Draw a "ghost" version up at the well
             if( nucleusGraphic.getNucleus() instanceof AlphaParticle ) {
                 float alpha = ghostAlpha;
@@ -143,7 +144,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
             // in view coordinates
             double y = nucleus.getPotentialEnergy();
             double x = potentialProfile.getHillX( -y ) *
-                       ( nucleus.getStatisticalLocationOffset().getX() > 0 ? 1 : -1 );
+                       ( nucleus.getStatisticalLocationOffset().getX() > 0 ? -1 : 1 );
 
             // Draw a ghost coming down the profile first, then the real thing on the x axis
             float alpha = ghostAlpha;

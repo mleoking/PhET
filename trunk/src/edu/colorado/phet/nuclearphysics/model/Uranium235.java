@@ -42,14 +42,13 @@ public class Uranium235 extends Nucleus {
             AlphaParticle alphaParticle = alphaParticles[j];
             if( Math.abs( alphaParticle.getStatisticalLocationOffset().getX() ) + alphaParticle.getRadius()
                 > Math.abs( potentialProfile.getAlphaDecayX() ) ) {
-//            if( Math.abs( getStatisticalLocationOffset().getX() ) + this.getRadius()
-//                - Math.abs( potentialProfile.getAlphaDecayX() ) > NuclearParticle.RADIUS * 5 ) {
                 try {
-                    Thread.sleep( 10 );
+                    Thread.sleep( 1000 );
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
+//                DecayProducts decayProducts = new DecayProducts( this, new DecayNucleus( this ), new DecayNucleus( alphaParticle ));
                 DecayProducts decayProducts = alphaDecay();
                 for( int i = 0; i < decayListeners.size(); i++ ) {
                     DecayListener decayListener = (DecayListener)decayListeners.get( i );

@@ -17,6 +17,12 @@ public class DecayNucleus extends Nucleus implements Runnable {
         decayThread.start();
     }
 
+    public DecayNucleus( Nucleus nucleus ) {
+        super( nucleus.getLocation(), nucleus.getNumProtons(), nucleus.getNumNeutrons(), nucleus.getPotentialProfile() );
+        Thread decayThread = new Thread( this );
+        decayThread.start();
+    }
+
     public void stepInTime( double dt ) {
     }
 
