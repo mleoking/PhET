@@ -5,6 +5,7 @@ import edu.colorado.phet.batteryvoltage.man.VoltMan;
 import edu.colorado.phet.batteryvoltage.man.VoltManFactory;
 import edu.colorado.phet.batteryvoltage.man.voltListeners.CompositeVoltageListener;
 import edu.colorado.phet.batteryvoltage.man.voltListeners.VoltageListener;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.electron.components.Gauge;
 import edu.colorado.phet.electron.gui.mouse2.ParticleSelector;
 import edu.colorado.phet.electron.laws.CoulombsLaw;
@@ -160,11 +161,11 @@ public class Battery {
         heightSlider.setMinorTickSpacing( 2 );
         heightSlider.setPaintTicks( true );
         CompositeVoltageListener cvl = new CompositeVoltageListener( heightSlider, this );
-        heightSlider.setBorder( BorderFactory.createTitledBorder( "Desired Voltage" ) );
+        heightSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "Battery.VoltageSlider" ) ) );
         heightSlider.addChangeListener( cvl );
         controlPanel.setLayout( new FlowLayout() );
 
-        JCheckBox show = new JCheckBox( "Show Battery" );
+        JCheckBox show = new JCheckBox( SimStrings.get( "Battery.ShowBatteryCheckBox" ) );
         show.addItemListener( new ShowBattery( show, bip ) );
         controlPanel.add( show );
         controlPanel.add( heightSlider );
@@ -202,7 +203,7 @@ public class Battery {
         Gauge g = new Gauge( gx, gy, -numElectrons, numElectrons, 0, gaugeWidth );
         GaugeUpdate gu = new GaugeUpdate( g, numElectrons, sys, rightPropagator, leftPropagator );
         addParticleMoveListener( gu );
-        g.setText( "Voltage (Right - Left)" );
+        g.setText( SimStrings.get( "Battery.GaugeText" ) );
         panel.addPainter( new GuiToPaint( g ) );
 
         Vector all = new Vector();

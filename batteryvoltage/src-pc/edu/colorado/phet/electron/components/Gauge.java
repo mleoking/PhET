@@ -1,5 +1,6 @@
 package edu.colorado.phet.electron.components;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -14,7 +15,7 @@ public class Gauge implements IGauge {
     int y;
     int width;
     int height;
-    String text = "Amps (current)";
+    String text = SimStrings.get( "Gauge.DefaultText" );
 
     public Gauge( int x, int y, double min, double max, double amount, double length ) {
         this( x, y, (int)length, (int)length, min, max, amount, length / 2, 5, 9 );
