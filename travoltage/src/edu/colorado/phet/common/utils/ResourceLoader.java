@@ -5,7 +5,6 @@ import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
-import java.net.URLClassLoader;
 
 public class ResourceLoader {
 
@@ -21,8 +20,8 @@ public class ResourceLoader {
     }
 
     public static URL findResource( String name, Component cmp ) {
-        URLClassLoader urlLoader = (URLClassLoader)cmp.getClass().getClassLoader();
-        URL fileLoc = urlLoader.findResource( name );
+        ClassLoader urlLoader = cmp.getClass().getClassLoader();
+        URL fileLoc = urlLoader.getResource( name );
         return fileLoc;
     }
 
