@@ -45,51 +45,23 @@ public class ColorFromWavelength implements BufferedImageOp {
             dest = createCompatibleDestImage( src, src.getColorModel() );
         }
         ColorModel cm = src.getColorModel();
-        double redPct = (double)(color.getRed() ) / 255;
-        double greenPct = (double)(color.getGreen() ) / 255;
-        double bluePct = (double)(color.getBlue() ) / 255;
+        double redPct = (double)( color.getRed() ) / 255;
+        double greenPct = (double)( color.getGreen() ) / 255;
+        double bluePct = (double)( color.getBlue() ) / 255;
+        double grayRefLevel = ( color.getRed() + color.getGreen() + color.getBlue() ) / ( 255 * 3 );
         for( int x = 0; x < src.getWidth(); x++ ) {
             for( int y = 0; y < src.getHeight(); y++ ) {
                 int rgb = src.getRGB( x, y );
-                if( rgb != 0 ) {
-                    System.out.println( "&&&" );
-                }
-                int alpha = cm.getAlpha(  rgb );
+                int alpha = cm.getAlpha( rgb );
                 double red = cm.getRed( rgb );
                 double green = cm.getGreen( rgb );
                 double blue = cm.getBlue( rgb );
                 double gray = ( red + green + blue ) / ( 3 );
-
-
-            if( gray > 200 ) {
-                System.out.println( "$$$" );
-
-            }
-//                double redPct = (double)red / 255;
-//                double greenPct = (double)green / 255;
-//                double bluePct = (double)blue / 255;
-//                double gray = ( redPct + greenPct + bluePct ) / 3;
-
-                double mr = ( color.getRed() - 255 ) / ( gray - 255 );
-                double br = 255 * ( 1 - mr );
-                double mg = ( color.getGreen() - 255 ) / ( gray - 255 );
-                double bg = 255 * ( 1 - mg );
-                double mb = ( color.getBlue() - 255 ) / ( gray - 255 );
-                double bb = 255 * ( 1 - mb );
-
-                int redNew = (int)( ( mr * gray) + br );
-                int greenNew = (int)(( mg * gray) + bg );
-                int blueNew = (int)(( mb * gray) + bb );
-
-//                int redNew = (int)( ( 255 - color.getRed() ) * gray);
-//                int blueNew = (int)(( 255 - color.getBlue() ) * gray);
-//                int greenNew = (int)(( 255 - color.getGreen() ) * gray);
-                int newRGB = alpha * 0x01000000 + redNew * 0x00010000 + greenNew * 0x00000100 + blueNew * 0x00000001;
-                if( alpha != 0 ) {
-                    dest.setRGB( x, y, newRGB );
-//                    dest.setRGB( x, y, color.getRGB() );
-                }
-                //                dest.setRGB( x, y, rgb );
+                int newRed = getComponent( gray, (double)color.getRed(), grayRefLevel );
+                int newGreen = getComponent( gray, (double)color.getGreen(), grayRefLevel );
+                int newBlue = getComponent( gray, (double)color.getBlue(), grayRefLevel );
+                int newRGB = alpha * 0x01000000 + newRed * 0x00010000 + newGreen * 0x000000100 + newBlue * 0x00000001;
+                dest.setRGB( x, y, newRGB );
             }
         }
         return dest;
@@ -100,4 +72,39 @@ public class ColorFromWavelength implements BufferedImageOp {
                                               src.getType(), (IndexColorModel)destCM );
         return bi;
     }
+
+    /**
+     * Does a piecewise linear interpolation to compute the component value
+     *
+     * @param grayLevel
+     * @param componentRefLevel
+     * @param grayRefLevel
+     * @return
+     */
+    private int getComponent( double grayLevel, double componentRefLevel, double grayRefLevel ) {
+        int result = 0;
+
+        // if the grayLevel is 255, we simply return 255
+        if( grayLevel == 255 ) {
+            result = 255;
+        }
+
+        // if grayLevel is greater than grayRefLevel, do linear interpolation between (grayRefLevel,colorRefLevel)
+        // and (255, 255 )
+        if( grayLevel >= grayRefLevel && grayLevel < 255 ) {
+            double m = ( 255 - componentRefLevel ) / ( 255 - grayRefLevel );
+            double c = componentRefLevel + ( grayLevel - grayRefLevel ) * m;
+            result = (int)c;
+        }
+
+        // if grayLevel is less than grayRefLevel, do linear interpolation between (grayRefLevel,colorRefLevel)
+        // and (0, 0 )
+        if( grayLevel <= grayRefLevel && grayLevel < 255 ) {
+            double m = ( componentRefLevel ) / ( grayRefLevel );
+            double c = ( grayLevel - grayRefLevel ) * m;
+            result = (int)c;
+        }
+        return result;
+    }
 }
+

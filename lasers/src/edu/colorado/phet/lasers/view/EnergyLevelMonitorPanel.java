@@ -202,6 +202,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
                     atomicState.setMeanLifetime( EnergyLifetimeSlider.this.getValue() );
                 }
             } );
+            this.setEnabled( false );
+            setValue( (int)atomicState.getMeanLifeTime());
+            this.setEnabled( true );
             update();
         }
 

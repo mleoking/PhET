@@ -42,7 +42,7 @@ public class LaserConfig {
 
     public static final int DEFAULT_STIMULATING_PHOTON_RATE = 20;
     public static final int MINIMUM_STIMULATING_PHOTON_RATE = 0;
-    public static final int MAXIMUM_STIMULATING_PHOTON_RATE = 50;
+    public static final int MAXIMUM_STIMULATING_PHOTON_RATE = 10;
 
     public static final int DEFAULT_PUMPING_PHOTON_RATE = 0;
     public static final int MINIMUM_PUMPING_PHOTON_RATE = 0;
@@ -63,8 +63,8 @@ public class LaserConfig {
     public static final String GROUND_STATE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-gray-med.gif";
     public static final String HIGH_ENERGY_STATE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-med.gif";
     public static final String MIDDLE_ENERGY_STATE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-med.gif";
-//    public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "photon-comet.png";
-        public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-med.gif";
+    public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "photon-comet.png";
+//        public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-med.gif";
     public static final String MID_HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-deep-red-xsml.gif";
     public static final String HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
     public static final String LOW_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";
@@ -76,4 +76,5 @@ public class LaserConfig {
     public static final double ATOM_LAYER = 9;
     public static final double PHOTON_LAYER = 11;
 
+    public static final double MIN_WAVELENGTH = 350;
 }

@@ -131,7 +131,6 @@ public class LaserModel extends BaseModel implements Atom.Listener {
                 }
             }
         }
-        System.out.println( "photonCnt = " + photonCnt );
     }
 
     public ResonatingCavity getResonatingCavity() {
@@ -221,7 +220,7 @@ public class LaserModel extends BaseModel implements Atom.Listener {
         }
 
         void doIt( List collidablesA, List collidablesB ) {
-            for( int i = 0; i < collidablesA.size() - 1; i++ ) {
+            for( int i = 0; i < collidablesA.size(); i++ ) {
                 Collidable collidable1 = (Collidable)collidablesA.get( i );
                 if( !( collidable1 instanceof Photon )
                     || ( resonatingCavity.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) ) ) {
