@@ -87,7 +87,7 @@ public class BarMagnetModule extends FaradayModule {
         barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
         barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
         barMagnetModel.setDirection( 0 /* radians */ );
-        barMagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
+        // Do NOT set the size -- size is set by the associated BarMagnetGraphic.
 
         // Rescaler
         IRescaler rescaler = new CompassGridRescaler( barMagnetModel );

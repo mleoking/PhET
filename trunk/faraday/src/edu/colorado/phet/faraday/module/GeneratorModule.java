@@ -92,7 +92,7 @@ public class GeneratorModule extends FaradayModule {
         turbineModel.setStrength( 0.75 * FaradayConfig.TURBINE_STRENGTH_MAX );
         turbineModel.setLocation( TURBINE_LOCATION );
         turbineModel.setDirection( 0 /* radians */ );
-        turbineModel.setSize( FaradayConfig.TURBINE_SIZE );
+        // Do NOT set the size -- size is set by the associated TurbineGraphic.
         model.addModelElement( turbineModel );
         
         // Rescaler
