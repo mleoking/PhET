@@ -12,6 +12,7 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.ModuleObserver;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -25,7 +26,7 @@ import javax.swing.event.ChangeListener;
  * @author ?
  * @version $Revision$
  */
-public class TabbedApparatusPanelContainer extends JTabbedPane implements PhetApplication.ModuleObserver {
+public class TabbedApparatusPanelContainer extends JTabbedPane implements ModuleObserver {
     Module current;
     private PhetApplication application;
 
