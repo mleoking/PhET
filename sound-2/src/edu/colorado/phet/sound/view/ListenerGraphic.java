@@ -14,6 +14,7 @@ import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.LinkedList;
@@ -83,8 +84,8 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     /**
      *
      */
-    private int numSamples = 3;
-    //    private int numSamples = 5;
+    //    private int numSamples = 3;
+    private int numSamples = 5;
     private LinkedList samples = new LinkedList();
 
 
@@ -106,8 +107,14 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     /**
      * @param event
      */
-    public void mouseDragged( MouseEvent event ) {
-        super.mouseDragged( event );
+    public void mouseDragged( final MouseEvent event ) {
+
+        // Drawing the graphic later seems to smooth out the waveform graphic drawing somewhat
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                ListenerGraphic.super.mouseDragged( event );
+            }
+        } );
 
         // Compute the Doppler-shifted frequency based on the displacement
         // of the graphic. Note that we can't use the location of the mouse
@@ -131,18 +138,18 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
                 samples.remove( 0 );
 
                 double dopplerFrequency = nonDopplerFrequency - ( aveVx / numSamples ) * s_dopplerShiftScaleFactor;
-                if( module.getCurrentListener() == this.listener ) {
+                if( module.getCurrentListener() == listener ) {
                     module.setOscillatorFrequency( dopplerFrequency );
                 }
 
-                // We must yield so the PhysicalSystem thread can get the update.
-                //                Thread.yield();
-                //                try {
-                //                    Thread.sleep( 20 );
-                //                }
-                //                catch( InterruptedException e ) {
-                //                    e.printStackTrace();
-                //                }
+                // We must yield so the rest of the system can get something done. In particular,
+                // if we don't yield, the waveform graphic stalls.
+                try {
+                    Thread.sleep( 20 );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
             }
         }
     }
