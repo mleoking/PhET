@@ -1,12 +1,14 @@
 package edu.colorado.phet.motion2d;
 
+import edu.colorado.phet.common.math.Vector2D;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MyJPanel extends JPanel
+public class Motion2DPanel extends JPanel
         implements MouseMotionListener, ActionListener, MouseListener {
-    private VelAccGui myGui;
+    private Motion2DApplet myGui;
     private JPanel northPanel, southPanel;
     private MotionPanel motionPanel1;
     private int xNow;
@@ -32,14 +34,24 @@ public class MyJPanel extends JPanel
     public static final int SHOW_ACC = 2;
     public static final int SHOW_BOTH = 3;
     public static final int SHOW_NEITHER = 4;
-    private VelAccAvg vaa;
+    private Motion2DAverages vaa;
     private VAScrolls vaMenu;
     private ArrowA arrow;
     private boolean antialias = true;
     private Timer timer;
     private ButtonGroup buttonGroup;
+    private WiggleMe wiggleMe;
+    private Timer wiggleMeTimer;
 
-    public MyJPanel( VelAccGui myGui ) {
+    public int getxNow() {
+        return xNow;
+    }
+
+    public int getyNow() {
+        return yNow;
+    }
+
+    public Motion2DPanel( Motion2DApplet myGui ) {
         this.myGui = myGui;
         myGreen = new Color( 0, 150, 0 );
         northPanel = new JPanel();
@@ -52,10 +64,10 @@ public class MyJPanel extends JPanel
         timeStep = 10;
         velFactor = 5.0;
         accFactor = 6.0;
-        xNow = 100;
+        xNow = 130;
         yNow = 100;
 
-        vaa = new VelAccAvg( nAInit, nGroupInit );//, this);
+        vaa = new Motion2DAverages( nAInit, nGroupInit );//, this);
         vaMenu = new VAScrolls( vaa, this );
         vaMenu.setVisible( false );
 
@@ -119,23 +131,25 @@ public class MyJPanel extends JPanel
 
         timer.start();
         bothButton.doClick();
+
+        Point pt = new Point( 20, yNow );
+        wiggleMe = new WiggleMe( this, pt, new Vector2D.Double( 0, 1 ), 20, 5, "Drag Me" );
+//        pt = new Point( (int)( xNow - wiggleMe.getWidth() ), yNow );
+
+        wiggleMe.setCenter( pt );
+        wiggleMeTimer = new Timer( 30, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                wiggleMe.stepInTime( .01 );
+            }
+        } );
+        wiggleMeTimer.start();
     }
 
     private void setup( JRadioButton button ) {
         buttonGroup.add( button );
         button.setBackground( Color.orange );
     }
-//    class MyRadioButton extends JRadioButton{
-//        public MyRadioButton( String text, boolean selected ) {
-//            super(text,selected);
-//        }
-//
-//        protected void paintComponent( Graphics g ) {
-//            Graphics2D g2=(Graphics2D)g;
-//            g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-//            super.paintComponent( g );
-//        }
-//    }
+
     public void paintComponent( Graphics g ) {
         Graphics2D g2 = (Graphics2D)g;
         if( antialias ) {
@@ -171,7 +185,9 @@ public class MyJPanel extends JPanel
             arrow.setPosition( avgXMid, avgYMid, avgXMid + xAcc, avgYMid + yAcc );
             arrow.paint( g );
         }
-
+        if( wiggleMe != null ) {
+            wiggleMe.paint( g2 );
+        }
     }//end of paintComponent method
 
     public void actionPerformed( ActionEvent e ) {
@@ -201,8 +217,18 @@ public class MyJPanel extends JPanel
 
     public void mouseDragged( MouseEvent e ) {
         hideCursor();
+        removeWiggler();
         setXYNow( e.getX(), e.getY() );
     }//end of mouseDragged method
+
+    private void removeWiggler() {
+        if( wiggleMe != null ) {
+            wiggleMeTimer.stop();
+            wiggleMe.setVisible( false );
+            repaint( wiggleMe.getBounds() );
+            wiggleMe = null;
+        }
+    }
 
     private void hideCursor() {
         myGui.setCursor( myGui.hide );

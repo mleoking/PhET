@@ -8,7 +8,7 @@ public class VelAccAvgTester {
         int nP = 13;
         int nA = 2;
         int nGroup = 3;
-        VelAccAvg vaa = new VelAccAvg( nP, nA );//, nGroup);
+        Motion2DAverages vaa = new Motion2DAverages( nP, nA );//, nGroup);
         double acc = 0; //1.75;
         int x0 = 10;
         int v0 = 2;
