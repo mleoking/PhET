@@ -27,7 +27,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.module.CompassGridModule;
 
 /**
- * CompassGridControlPanel is the control panel for the "Compass Grid" module.
+ * CompassGridControlPanel is the control panel for the "CompassGraphic Grid" module.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -178,9 +178,9 @@ public class CompassGridControlPanel extends ControlPanel {
                     
                     // Slider
                     _xSpacingSlider = new JSlider();
-                    _xSpacingSlider.setMinimum( CompassGridModule.X_SPACING_MIN );
-                    _xSpacingSlider.setMaximum( CompassGridModule.X_SPACING_MAX );
-                    _xSpacingSlider.setValue( CompassGridModule.X_SPACING_MIN );
+                    _xSpacingSlider.setMinimum( CompassGridModule.GRID_X_SPACING_MIN );
+                    _xSpacingSlider.setMaximum( CompassGridModule.GRID_X_SPACING_MAX );
+                    _xSpacingSlider.setValue( CompassGridModule.GRID_X_SPACING_MIN );
                     
                     // Value
                     _xSpacingValue = new JLabel( UNKNOWN_VALUE );
@@ -200,9 +200,9 @@ public class CompassGridControlPanel extends ControlPanel {
                     
                     // Slider
                     _ySpacingSlider = new JSlider();
-                    _ySpacingSlider.setMinimum( CompassGridModule.Y_SPACING_MIN );
-                    _ySpacingSlider.setMaximum( CompassGridModule.Y_SPACING_MAX );
-                    _ySpacingSlider.setValue( CompassGridModule.Y_SPACING_MIN );
+                    _ySpacingSlider.setMinimum( CompassGridModule.GRID_Y_SPACING_MIN );
+                    _ySpacingSlider.setMaximum( CompassGridModule.GRID_Y_SPACING_MAX );
+                    _ySpacingSlider.setValue( CompassGridModule.GRID_Y_SPACING_MIN );
                     
                     // Value
                     _ySpacingValue = new JLabel( UNKNOWN_VALUE );
@@ -222,9 +222,9 @@ public class CompassGridControlPanel extends ControlPanel {
                     
                     // Slider
                     _needleWidthSlider = new JSlider();
-                    _needleWidthSlider.setMinimum( CompassGridModule.NEEDLE_SIZE_MIN.width );
-                    _needleWidthSlider.setMaximum( CompassGridModule.NEEDLE_SIZE_MAX.width );
-                    _needleWidthSlider.setValue( CompassGridModule.NEEDLE_SIZE_MIN.width );
+                    _needleWidthSlider.setMinimum( CompassGridModule.GRID_NEEDLE_SIZE_MIN.width );
+                    _needleWidthSlider.setMaximum( CompassGridModule.GRID_NEEDLE_SIZE_MAX.width );
+                    _needleWidthSlider.setValue( CompassGridModule.GRID_NEEDLE_SIZE_MIN.width );
                     
                     // Value
                     _needleWidthValue = new JLabel( UNKNOWN_VALUE );
@@ -244,9 +244,9 @@ public class CompassGridControlPanel extends ControlPanel {
                     
                     // Slider
                     _needleHeightSlider = new JSlider();
-                    _needleHeightSlider.setMinimum( CompassGridModule.NEEDLE_SIZE_MIN.height );
-                    _needleHeightSlider.setMaximum( CompassGridModule.NEEDLE_SIZE_MAX.height );
-                    _needleHeightSlider.setValue( CompassGridModule.NEEDLE_SIZE_MIN.height );
+                    _needleHeightSlider.setMinimum( CompassGridModule.GRID_NEEDLE_SIZE_MIN.height );
+                    _needleHeightSlider.setMaximum( CompassGridModule.GRID_NEEDLE_SIZE_MAX.height );
+                    _needleHeightSlider.setValue( CompassGridModule.GRID_NEEDLE_SIZE_MIN.height );
                     
                     // Value
                     _needleHeightValue = new JLabel( UNKNOWN_VALUE );
@@ -409,7 +409,7 @@ public class CompassGridControlPanel extends ControlPanel {
                 _ySpacingValue.setText( String.valueOf( y ) );
             }
             else if ( e.getSource() == _needleWidthSlider || e.getSource() == _needleHeightSlider ) {
-                // Compass Needle dimensions
+                // CompassGraphic Needle dimensions
                 int width = _needleWidthSlider.getValue();
                 int height = _needleHeightSlider.getValue();
                 _module.setGridNeedleSize( new Dimension( width, height ) );

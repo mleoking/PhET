@@ -12,7 +12,6 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -31,12 +30,12 @@ public class CompassNeedleGraphic extends PhetGraphic {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private Point _location;
     private double _direction;
     private Dimension _size;
     private Shape _northTip, _southTip;
     private Color _northColor, _southColor;
     private double _strength;  // 0.0 - 1.0
+    private RenderingHints _hints;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,12 +50,17 @@ public class CompassNeedleGraphic extends PhetGraphic {
         
         super( component );
         
-        _location = new Point( 0, 0 );
-        _direction = 0.0;
-        _size = new Dimension( 40, 20 );
+//        _direction = 0.0;
+//        _size = new Dimension( 40, 20 );
+//        _strength = 1.0;
+        
         _northColor = Color.RED;
         _southColor = Color.BLUE;
-        _strength = 1.0;
+        _hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        
+        setSize( new Dimension( 40, 20 ) );
+        setDirection( 0.0 );
+        setStrength( 1.0 );
         
         updateShape();
     }
@@ -64,58 +68,6 @@ public class CompassNeedleGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-
-    /**
-     * Sets the location.
-     * 
-     * @param p the location point
-     */
-    public void setLocation( Point p ) {
-        setLocation( p.x, p.y );
-    }
-    
-    /**
-     * Sets the location.
-     * 
-     * @param x location X-axis coordinate
-     * @param y location Y-axis coordinate
-     */
-    public void setLocation( int x, int y ) {
-        if ( _location == null ) {
-            _location = new Point(x,y);
-        }
-        else {
-            _location.setLocation( x, y );
-        }
-        repaint();
-    }
-    
-    /**
-     * Gets the location.
-     * 
-     * @return the location
-     */
-    public Point getLocation() {
-        return new Point( _location );
-    }
-    
-    /**
-     * Gets the X coordinate of the location
-     * 
-     * @return X coordinate
-     */
-    public int getX() { 
-        return _location.x;
-    }
-    
-    /**
-     * Gets the Y coordinate of the location.
-     * 
-     * @return Y coordinate
-     */
-    public int getY() {
-        return _location.y;
-    }
     
     /**
      * Sets the direction that the north pole of the needle points.  
@@ -125,6 +77,8 @@ public class CompassNeedleGraphic extends PhetGraphic {
      */
     public void setDirection( double direction ) {
         _direction = direction;
+        clearTransform();
+        rotate( Math.toRadians( direction ) );
         repaint();
     }
     
@@ -148,6 +102,17 @@ public class CompassNeedleGraphic extends PhetGraphic {
         _size = new Dimension( size );
         updateShape();
         repaint();
+    }
+    
+    /** 
+     * Sets the size of the needle.
+     * Width is measured from the tip-to-tip (north-to-south ).
+     * 
+     * @param width the width
+     * @param height the height
+     */
+    public void setSize( int width, int height ) {
+        setSize( new Dimension( width, height ) );
     }
     
     /** 
@@ -225,13 +190,9 @@ public class CompassNeedleGraphic extends PhetGraphic {
      * @return the bounds
      */
     protected Rectangle determineBounds() {
-        // XXX needs to incorporate getNetTransform !
-        AffineTransform transform = new AffineTransform();
-        transform.translate( _location.x, _location.y );
-        transform.rotate( _direction );
         Rectangle r = new Rectangle( _northTip.getBounds() );
         r.add( _southTip.getBounds() );
-        return transform.createTransformedShape( r ).getBounds();
+        return getNetTransform().createTransformedShape( r ).getBounds();
     }
 
     /*
@@ -240,17 +201,14 @@ public class CompassNeedleGraphic extends PhetGraphic {
      * @param g2 the graphics context
      */
     public void paint( Graphics2D g2 ) {
-        // XXX needs to incorporate getNetTransform !
         if ( isVisible() ) {
             super.saveGraphicsState( g2 );
             {
                 // Request antialiasing
-                RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-                g2.setRenderingHints( hints );
+                g2.setRenderingHints( _hints );
                 
                 // Transform
-                g2.translate( _location.x, _location.y );
-                g2.rotate( Math.toRadians( _direction ) );
+                g2.transform( getNetTransform() );
                 
                 // Draw the "north" tip.
                 g2.setPaint( _northColor );
