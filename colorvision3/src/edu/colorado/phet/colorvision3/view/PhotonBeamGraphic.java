@@ -99,19 +99,22 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
    */
   public void paint( Graphics2D g2 )
   {
-    super.saveGraphicsState( g2 );
+    if ( isVisible() )
     {
-      PhotonGraphic photon = null;
-      for ( int i = 0; i < _photons.size(); i++ )
+      super.saveGraphicsState( g2 );
       {
-        photon = (PhotonGraphic)_photons.get(i);
-        if ( photon.isInUse() )
+        PhotonGraphic photon = null;
+        for ( int i = 0; i < _photons.size(); i++ )
         {
-          photon.paint( g2 );
+          photon = (PhotonGraphic)_photons.get(i);
+          if ( photon.isInUse() )
+          {
+            photon.paint( g2 );
+          }
         }
       }
+      super.restoreGraphicsState();
     }
-    super.restoreGraphicsState();
   } // paint
 
   /**
