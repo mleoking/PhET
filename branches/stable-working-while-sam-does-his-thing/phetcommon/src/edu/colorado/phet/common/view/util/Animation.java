@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.common.view.util;
 
+import edu.colorado.phet.common.math.MathUtil;
+
 import java.awt.*;
 import java.io.IOException;
 
@@ -111,7 +113,8 @@ public class Animation {
      */
     private static String genAnimationFileName( String fileNamePrefix, int frameNum ) {
         String zeroStr = "";
-        for( int i = 0; i < 4; i++ ) {
+        double log10 = MathUtil.logBaseX( frameNum, 10 );
+        for( int i = 0; i < 4 - (int) log10 - 1; i++ ) {
             zeroStr = zeroStr.concat( "0" );
         }
         String fileName = fileNamePrefix + "_" + zeroStr + Integer.toString( frameNum ) + ".gif";
