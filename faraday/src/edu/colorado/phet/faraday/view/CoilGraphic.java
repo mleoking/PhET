@@ -15,11 +15,13 @@ import java.awt.*;
 import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractCoil;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.QuadBezierSpline;
@@ -93,7 +95,7 @@ public class CoilGraphic implements SimpleObserver {
         _foreground.setRenderingHints( hints );
         _background.setRenderingHints( hints );
         
-        _electronAnimationEnabled = false;  //XXX
+        _electronAnimationEnabled = false;
         _loopStroke = new BasicStroke( WIRE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL );
         _foregroundColor = FOREGROUND_COLOR;
         _middlegroundColor = MIDDLEGROUND_COLOR;
@@ -104,7 +106,7 @@ public class CoilGraphic implements SimpleObserver {
         
         _numberOfLoops = -1; // force update
         _loopRadius = -1; // force update
-        _voltage = 0;
+        _voltage = -1;  // force update
         
         update();
     }
@@ -148,12 +150,7 @@ public class CoilGraphic implements SimpleObserver {
     public void setElectronAnimationEnabled( boolean enabled ) {
         if ( enabled != _electronAnimationEnabled ) {
             _electronAnimationEnabled = enabled;
-            final int numberOfElectrons = _electrons.size();
-            for ( int i = 0; i < numberOfElectrons; i++ ) {
-                Electron electron = (Electron)  _electrons.get(i);
-                // XXX set the speed and direction
-                electron.setEnabled( _electronAnimationEnabled );
-            }
+            updateElectrons();
         }
     }
     
@@ -238,6 +235,46 @@ public class CoilGraphic implements SimpleObserver {
         return ( _foreground.isVisible() || _background.isVisible() );
     }
     
+    /**
+     * Repaint this graphic.
+     */
+    public void repaint() {
+        _foreground.repaint();
+        _background.repaint();
+    }
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the view to match the model.
+     * 
+     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     */
+    public void update() {
+        if ( isVisible() ) {
+            
+            boolean dirty = false;
+            
+            // Update the phyiscal appearance of the coil.
+            if ( coilChanged() ) {
+                dirty = true;
+                updateCoil();
+            }
+            
+            // Change the speed/direction of electrons to match the voltage.
+            if ( _electronAnimationEnabled && electronsChanged() ) {
+                dirty = true;
+                updateElectrons();
+            }
+                   
+            if ( dirty ) {
+                repaint();
+            }
+        }
+    }
+    
     /* 
      * Determines if the physical appearance of the coil has changed.
      * 
@@ -266,30 +303,6 @@ public class CoilGraphic implements SimpleObserver {
             _voltage = _coilModel.getVoltage();
         }
         return changed;
-    }
-    
-    //----------------------------------------------------------------------------
-    // SimpleObserver implementation
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Updates the view to match the model.
-     * 
-     * @see edu.colorado.phet.common.util.SimpleObserver#update()
-     */
-    public void update() {
-        if ( isVisible() ) {
-            
-            // Update the phyiscal appearance of the coil.
-            if ( coilChanged() ) {
-                updateCoil();
-            }
-            
-            // Change the speed/direction of electrons to match the voltage.
-            if ( electronsChanged() ) {
-                updateElectrons();
-            }
-        }
     }
     
     /**
@@ -484,11 +497,13 @@ public class CoilGraphic implements SimpleObserver {
         
         // Add electrons.
         final int numberOfElectrons = (int) ( radius / 25 );
+        final double speed = calculateElectronSpeed();
         for ( int j = 0; j < _paths.size(); j++ ) {
             for ( int i = 0; i < numberOfElectrons; i++ ) {
                 Electron electron = new Electron();
                 electron.setCurves( _paths );
                 electron.setCurveLocation( j, i / (double) numberOfElectrons );
+                electron.setSpeed( speed );
                 electron.setEnabled( _electronAnimationEnabled );
                 _electrons.add( electron );
                 _baseModel.addModelElement( electron );
@@ -497,22 +512,38 @@ public class CoilGraphic implements SimpleObserver {
                 _foreground.addGraphic( electronGraphic );
             }
         }
-        
-        _foreground.repaint();
-        _background.repaint();
     }
 
     /**
-     * Updates the speed and direction of electrons, based on the voltage across the coil.
+     * Updates the speed and direction of electrons.
      */
     private void updateElectrons() {
         // Speed and direction is a function of the voltage.
-        //XXX
+        final double speed = calculateElectronSpeed();
+        System.out.println( "CoilGraphic.updateElectrons - set speed=" + speed );
         
         // Update all electrons.
         final int numberOfElectrons = _electrons.size();
         for ( int i = 0; i < numberOfElectrons; i++ ) {
-            //XXX
+            Electron electron = (Electron) _electrons.get( i );
+            electron.setEnabled( _electronAnimationEnabled );
+            electron.setSpeed( speed );
         }
+        
+        System.out.println( "CoilGraphic.updateElectrons - get speed=" + ((Electron)_electrons.get(0)).getSpeed() );
+    }
+    
+    /**
+     * Calculates the speed of electrons, a function of the voltage across the coil.
+     * Direction is indicated by the sign of the value.
+     * Magnitude of 0 indicates no motion.
+     * Magnitude of 1 moves along an entire curve segment in one clock tick.
+     * 
+     * @return the speed, from -1...+1 inclusive
+     */
+    private double calculateElectronSpeed() {
+        double speed = _coilModel.getVoltage() / FaradayConfig.MAX_EMF;
+        speed = MathUtil.clamp( -1.0, speed, +1.0 );
+        return speed;
     }
 }
