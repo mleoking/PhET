@@ -26,25 +26,25 @@ public class PlafUtil {
 //        UIManager.installLookAndFeel( "Playful", new PlayfulLookAndFeel().getClass().getName() );
         //        UIManager.installLookAndFeel( "Anim", new AnimFactoryLookAndFeel().getClass().getName() );
     }
-
-    public static void applyPlayful() {
-        try {
-            UIManager.setLookAndFeel( PlayfulLookAndFeel.class.getName() );
-            updateFrames();
-        }
-        catch( ClassNotFoundException e ) {
-            e.printStackTrace();
-        }
-        catch( InstantiationException e ) {
-            e.printStackTrace();
-        }
-        catch( IllegalAccessException e ) {
-            e.printStackTrace();
-        }
-        catch( UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
-        }
-    }
+//
+//    public static void applyPlayful() {
+//        try {
+//            UIManager.setLookAndFeel( PlayfulLookAndFeel.class.getName() );
+//            updateFrames();
+//        }
+//        catch( ClassNotFoundException e ) {
+//            e.printStackTrace();
+//        }
+//        catch( InstantiationException e ) {
+//            e.printStackTrace();
+//        }
+//        catch( IllegalAccessException e ) {
+//            e.printStackTrace();
+//        }
+//        catch( UnsupportedLookAndFeelException e ) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static void updateFrames() {
         Frame[] frames = JFrame.getFrames();
