@@ -1,7 +1,5 @@
 /*Copyright, Sam Reid, 2003.*/
-package edu.colorado.phet.common.model.simpleobservable;
-
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+package edu.colorado.phet.common.util;
 
 import java.util.ArrayList;
 
