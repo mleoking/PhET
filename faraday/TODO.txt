@@ -6,11 +6,9 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- put controls directly on AC graphic
+- AC frequency should be sinusoidal
 - show frequency & amplitude graph on the ACSourceGraphic
 - adjust electron animation so that electrons move farther
-- label battery amplitude in volts, -10 to +10
-- AC frequency should be sinusoidal
 - behavior of AC/DC amplitude around "zero" should be smoother
 - bug: electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
@@ -19,9 +17,9 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - requirements for Generator module (see Carl's Powerpoint slides)
 - calibration throughout
+- electrons in coil loops don't line up with each other after awhile
 
 LOW PRIORITY:
-- electrons in coil loops don't line up with each other after awhile
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
 - check for unnecessary notification, events and updates
 - replace EasyGridBagLayout with SwingUtils.addGridBagComponent
@@ -32,6 +30,7 @@ LOW PRIORITY:
 - Help/MegaHelp
 - resize any images that are currently scaled (eg, bar magnet, electron)
 - delete DeveloperControlsPanel when we don't need it anymore
+- delete BatteryPanel and ACPanel when no longer needed
 - remove DebuggerGraphic from modules
 - move test-src programs to examples project
 
@@ -52,6 +51,8 @@ phetcommon:
 
 DONE:
 v0r16...
+(3/7) - put controls directly on AC graphic
+(3/4) - label battery amplitude in volts, -10 to +10
 (3/4) - put amplitude control directly on battery graphic
 (3/4) - create a phetgraphic-based slider
 (3/3) - change GraphicLayerSet so that it handles mouse events if none of its children does

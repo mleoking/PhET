@@ -60,7 +60,6 @@ public class ElectromagnetPanel extends FaradayPanel {
     private JCheckBox _gridCheckBox;
     private JCheckBox _fieldMeterCheckBox;
     private JCheckBox _compassCheckBox; 
-    private JPanel _acPanel;
     private JSpinner _loopsSpinner;
     private JCheckBox _electronsCheckBox;
     
@@ -168,8 +167,6 @@ public class ElectromagnetPanel extends FaradayPanel {
             layout.addAnchoredComponent( _batteryRadioButton, 0, 0, GridBagConstraints.WEST );
             layout.addAnchoredComponent( _acRadioButton, 1, 0, GridBagConstraints.WEST );
         }
-        
-        _acPanel = new ACPanel( _acSourceModel );
             
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -181,7 +178,6 @@ public class ElectromagnetPanel extends FaradayPanel {
         layout.addComponent( _electronsCheckBox, row++, 0 );
         layout.addComponent( loopsPanel, row++, 0 );
         layout.addFilledComponent( sourcePanel, row++, 0, GridBagConstraints.HORIZONTAL );
-        layout.addFilledComponent( _acPanel, row++, 0, GridBagConstraints.HORIZONTAL );
         
         // Wire up event handling.
         EventListener listener = new EventListener();
@@ -201,8 +197,6 @@ public class ElectromagnetPanel extends FaradayPanel {
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
         _loopsSpinner.setValue( new Integer( _sourceCoilModel.getNumberOfLoops() ) );
-        
-        _acPanel.setVisible( _acRadioButton.isSelected() );
     }
     
     //----------------------------------------------------------------------------
@@ -243,14 +237,12 @@ public class ElectromagnetPanel extends FaradayPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _batteryRadioButton ) {
                 // Battery (DC) source
-                _acPanel.setVisible( false );
                 _batteryModel.setEnabled( true );
                 _acSourceModel.setEnabled( false );
                 _sourceCoilModel.setVoltageSource( _batteryModel );
             }
             else if ( e.getSource() == _acRadioButton ) {
                 // AC source
-                _acPanel.setVisible( true );
                 _batteryModel.setEnabled( false );
                 _acSourceModel.setEnabled( true );
                 _sourceCoilModel.setVoltageSource( _acSourceModel );
