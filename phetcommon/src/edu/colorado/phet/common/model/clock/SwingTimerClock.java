@@ -57,8 +57,6 @@ public class SwingTimerClock extends AbstractClock {
     protected void doPause() {
         timer.stop();
         for( int i = 0; i < getClockStateListeners().size(); i++ ) {
-            ClockStateListener clockStateListener = (ClockStateListener)getClockStateListeners().get( i );
-//            clockStateListener.pausedStateChanged( true );
             fireClockStateEvent();
         }
     }
@@ -67,8 +65,6 @@ public class SwingTimerClock extends AbstractClock {
         lastTickTime = System.currentTimeMillis();
         timer.restart();
         for( int i = 0; i < getClockStateListeners().size(); i++ ) {
-            ClockStateListener clockStateListener = (ClockStateListener)getClockStateListeners().get( i );
-//            clockStateListener.pausedStateChanged( false );
             fireClockStateEvent();
         }
     }
