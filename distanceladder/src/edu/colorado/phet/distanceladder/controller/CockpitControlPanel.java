@@ -37,6 +37,7 @@ public class CockpitControlPanel extends JPanel {
     private ParallaxPanel parallaxPanel;
     private PhotometerPanel photometerPanel;
     private UniverseModel model;
+    private StarMapPanel starMapPanel;
 
     public CockpitControlPanel( CockpitModule module ) {
 
@@ -48,7 +49,8 @@ public class CockpitControlPanel extends JPanel {
         this.setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
-            GraphicsUtil.addGridBagComponent( this, new StarMapPanel(),
+            starMapPanel = new StarMapPanel();
+            GraphicsUtil.addGridBagComponent( this, starMapPanel,
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
@@ -90,6 +92,10 @@ public class CockpitControlPanel extends JPanel {
         photometerPanel.update();
     }
 
+    public void setStarshipCordinateGraphicEnabled( boolean isEnabled ) {
+        this.starMapPanel.setStarshipCordinateGraphicEnabled( isEnabled );
+    }
+
 
     //
     // Inner Classes
@@ -111,7 +117,7 @@ public class CockpitControlPanel extends JPanel {
             orientationSlider.setPaintTrack( true );
             orientationSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    double theta = orientationSlider.getValue() * Math.PI / 180;
+                    double theta = Math.toRadians( orientationSlider.getValue() );
                     PointOfView pov = module.getCockpitPov();
                     pov.setTheta( theta );
                     module.setPov( pov );
@@ -150,18 +156,6 @@ public class CockpitControlPanel extends JPanel {
 
         private JButton parallaxReticleBtn;
         private String parallaxHelp;
-        ;
-//        private String parallaxHelp = "<html>"
-//                                      + "<h2>How to Measure Distances Using Parallax</h2>"
-//                                      + "<ol>"
-//                                      + "<li>Display the measuring reticle.</li><li>Using the slider, line up the star whose distance you would like to measure with one of the vertical reticle lines.</li>"
-//                                      + "<li>Press the &quot;Mark&quot; button to set the offset readout to 0.</li>"
-//                                      + "<li>Move the slider left or right until the star you are measuring lines up with another verticle reticle line.</li>"
-//                                      + "<li>Count the number of verticle reticle lines through which the star moved and enter this number in the &quot;Reticle Offset&quot; field.</li>"
-//                                      + "<li>Click on the &quot;Compute&quot; button.</li>"
-//                                      + "<li>The distance to the star will be displayed in the &quot;Distance&quot; field.   </li>"
-//                                      + "</ol>"
-//                                      + "</html> ";
         private double leftRightSliderFactor = 1;
         private JTextField alphaTF;
         private JTextField betaTF;
@@ -543,6 +537,8 @@ public class CockpitControlPanel extends JPanel {
         private AffineTransform lineTx = new AffineTransform();
         private Starship starship;
         private Stroke lineStroke = new BasicStroke( 1f );
+        private StarshipCoordsGraphic starshipCoordsGraphic;
+        private StarMapGraphic starMapGraphic;
 
         public StarMapPanel() {
             this.setLayout( new FlowLayout() );
@@ -550,21 +546,34 @@ public class CockpitControlPanel extends JPanel {
             starship = model.getStarShip();
             starship.addObserver( this );
             this.setPreferredSize( new Dimension( 200, 200 ) );
-            StarMapGraphic starMapGraphic = new StarMapGraphic( this, model.getStarField() );
+            starMapGraphic = new StarMapGraphic( this, model.getStarField() );
             starMapGraphic.setStarGraphicRadius( 15 );
-            StarshipCoordsGraphic starshipCoordsGraphic = new StarshipCoordsGraphic( starship, this );
 
-            // Thicken the lines in the coordinate graphic
+            // Make the coordinate graphic and thicken the lines
+            starshipCoordsGraphic = new StarshipCoordsGraphic( starship, this );
             starshipCoordsGraphic.setRingStroke( new BasicStroke( 16f ) );
+            setStarshipCordinateGraphicEnabled( true );
 
             this.addGraphic( starMapGraphic );
-            starMapGraphic.addGraphic( starshipCoordsGraphic );
+//            starMapGraphic.addGraphic( starshipCoordsGraphic );
             orientationLine.setLine( 0, 0, this.getPreferredSize().getWidth(), 0 );
         }
 
 
         public void update() {
             this.repaint();
+        }
+
+        public void setStarshipCordinateGraphicEnabled( boolean isEnabled ) {
+            if( isEnabled ) {
+                starMapGraphic.addGraphic( starshipCoordsGraphic );
+                CockpitControlPanel.this.repaint();
+            }
+            else {
+                starMapGraphic.remove( starshipCoordsGraphic );
+                CockpitControlPanel.this.repaint();
+            }
+
         }
     }
 }

@@ -12,6 +12,7 @@ import edu.colorado.phet.distanceladder.exercise.Exercise;
 import edu.colorado.phet.distanceladder.exercise.HtmlMessage;
 import edu.colorado.phet.distanceladder.exercise.Message;
 import edu.colorado.phet.distanceladder.levels.Level3A;
+import edu.colorado.phet.distanceladder.levels.Level3B;
 import edu.colorado.phet.distanceladder.model.*;
 
 import java.awt.*;
@@ -40,7 +41,7 @@ public class DistanceLadderGame {
         model.getStarShip().setLocation( 0, 0 );
 
         CockpitModule cockpitModule = new CockpitModule( model );
-        Module starMapModule = new StarMapModule( model );
+        StarMapModule starMapModule = new StarMapModule( model );
         Module[] modules = new Module[]{cockpitModule, starMapModule};
         LostInSpaceApplication app = new LostInSpaceApplication( appDesc, modules, clock );
         app.startApplication( cockpitModule );
@@ -73,6 +74,8 @@ public class DistanceLadderGame {
 
 //        doLevel( new Level3( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level3A( app.getApplicationView().getPhetFrame(), model ) );
+        doLevel( new Level3B( app.getApplicationView().getPhetFrame(), model,
+                              cockpitModule, starMapModule ) );
 
         cockpitModule.activate( null );
     }

@@ -40,17 +40,14 @@ public class StarViewGraphic extends CompositeInteractiveGraphic implements Simp
         this.background = starView.getBounds();
         this.starViewTx.setToIdentity();
         this.starViewTx.translate( background.getMinX() + background.getWidth() / 2, background.getMinY() + background.getHeight() / 2 );
-//        this.starViewTx.translate( bounds.getMinX() + bounds.getWidth() / 2, bounds.getMinY() + bounds.getHeight() / 2 );
     }
 
     public void paint( Graphics2D g ) {
-
         AffineTransform orgTx = g.getTransform();
         Rectangle bounds = container.getBounds();
         double scaleX = bounds.getWidth() / background.getWidth();
         AffineTransform atx = AffineTransform.getScaleInstance( scaleX, scaleX );
         g.transform( atx );
-
         g.setColor( Color.black );
         g.fillRect( 0, 0, (int)background.getWidth(), (int)background.getHeight() );
         g.transform( starViewTx );
@@ -71,7 +68,7 @@ public class StarViewGraphic extends CompositeInteractiveGraphic implements Simp
             double radius = minStarRadius;
 //            double radius = Math.max( 40000 / d, minStarRadius );
 //            double radius = Math.min( 15, Math.max( 40000 / d, 2 ));
-            double brightness = Math.min( 1, 0.25 * Config.universeWidth / visibleStar.getLocation().distance( starView.getPov() ) );
+            double brightness = Math.min( 1, ( visibleStar.getLuminance() / Config.maxStarLuminance ) * 0.25 * Config.universeWidth / visibleStar.getLocation().distance( starView.getPov() ) );
 //            double brightness = visibleStar.getLuminance() * ( 1 / visibleStar.getLocation().distanceSq( starView.getPov() ) );
             if( starGraphic == null ) {
                 starGraphic = new StarGraphic( visibleStar, radius, visibleStar.getColor(), new Point2D.Double(), brightness );

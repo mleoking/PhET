@@ -47,7 +47,6 @@ public class CockpitModule extends Module {
                                                             apparatusPanel.getBounds().getWidth(),
                                                             apparatusPanel.getBounds().getHeight() );
 
-//        Rectangle2D.Double bounds = new Rectangle2D.Double( 0,0,1,1);
         starView = new StarView( model.getStarShip(), starField, Config.viewAngle, bounds );
         model.getStarShip().setStarView( starView );
         model.addObserver( starView );
@@ -123,5 +122,9 @@ public class CockpitModule extends Module {
 
     public Starship getStarship() {
         return model.getStarShip();
+    }
+
+    public void setStarshipCordinateGraphicEnabled( boolean isEnabled ) {
+        cockpitControlPanel.setStarshipCordinateGraphicEnabled( isEnabled );
     }
 }

@@ -12,7 +12,6 @@ import edu.colorado.phet.distanceladder.model.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.Random;
 
 /**
  * Class: edu.colorado.phet.distanceladder.CockpitModuleTest
@@ -51,16 +50,18 @@ public class CockpitModuleTest {
         StarView starView = cockpitModule.getStarView();
         Point2D.Double p = null;
 
-        Random random = new Random();
-        for( int i = 0; i < 200; i++ ) {
-            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-            int colorIdx = random.nextInt( colors.length );
-            star = new NormalStar( colors[ colorIdx ], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
-            starField.addStar( star );
-        }
+//        Random random = new Random();
+//        for( int i = 0; i < 200; i++ ) {
+//            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+//            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+//            int colorIdx = random.nextInt( colors.length );
+//            star = new NormalStar( colors[ colorIdx ], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
+//            starField.addStar( star );
+//        }
 
-        placeEquidistantStars( starField );
+//        placeEquidistantStars( starField );
+        placeFourStars( starField );
+
 //        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 100, 0 ), -45 );
 //        starField.addStar( star );
 //        star = new NormalStar( Color.magenta, 1E6, new Point2D.Double( 200, 0 ), -35 );
@@ -94,12 +95,27 @@ public class CockpitModuleTest {
 //        starField.addStar( star );
 
         model.getStarShip().setPov( new PointOfView( 0, 0, 0 ) );
+        Point2D.Double starPt = new Point2D.Double( 100, -600 );
+        model.getStarShip().setPov( starPt.getX() - 1, starPt.getY() + .5, Math.toRadians( 15 ) );
+        model.setStarField( model.getStarField() );
 //        starView.setPointOfView( 0, 0, 0 );
 
 //        cockpitModule.update();
 
     }
 
+    void placeFourStars( StarField starField ) {
+        Star star = null;
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400, 0 ), 0 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( -400, 0 ), 0 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 0, 400 ), 0 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 0, -400 ), 0 );
+        starField.addStar( star );
+
+    }
 
     void placeEquidistantStars( StarField starField ) {
         Star star = null;
