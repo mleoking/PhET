@@ -30,9 +30,9 @@ public class PhetTextField extends CompositePhetGraphic {
     private int maxChars = 8;
     private Timer blinkTimer;
 
-    public PhetTextField( Component component, Font font, String text, Color color, int x, int y ) {
+    public PhetTextField( Component component, Font font, String text, Color color ) {
         super( component );
-        textGraphic = new PhetTextGraphic( component, font, text, color, x, y );
+        textGraphic = new PhetTextGraphic( component, font, text, color, 0, 0 );
         addKeyListener( new KeyListener() {
             public void keyTyped( KeyEvent e ) {
             }
@@ -114,7 +114,7 @@ public class PhetTextField extends CompositePhetGraphic {
     public class CaretGraphic extends CompositePhetGraphic {
         private TextLayout textLayout;
         private PhetShapeGraphic graphic;
-        private int caretLocation;
+        private int caretLocation = 0;
 
         public CaretGraphic( Component component ) {
             super( component );
@@ -125,22 +125,19 @@ public class PhetTextField extends CompositePhetGraphic {
         }
 
         private void updateCaret() {
-            if( textGraphic.getText().length() > 0 ) {
-
-                TextLayout textLayout = new TextLayout( textGraphic.getText(), textGraphic.getFont(), fontRenderContext );
-                Shape[] shape = textLayout.getCaretShapes( caretLocation );
-                Shape sh = shape[0];
-
-                //line up the bottoms
-                Rectangle loc = textGraphic.getLocalBounds();
-                int textBottom = loc.y + loc.height;
-                int cursorBottom = sh.getBounds().y + sh.getBounds().height;
-                int dx = textBottom - cursorBottom;
-                graphic.setTransform( AffineTransform.getTranslateInstance( 0, dx ) );
-                graphic.setShape( sh );
-                setBoundsDirty();
-                autorepaint();
+            String text = textGraphic.getText();
+            if( text.length() == 0 ) {
+                text = " ";
             }
+
+            TextLayout textLayout = new TextLayout( text, textGraphic.getFont(), fontRenderContext );
+            Shape[] shape = textLayout.getCaretShapes( caretLocation );
+            Shape sh = shape[0];
+
+            graphic.setShape( sh );
+            setLocation( 0, sh.getBounds().height );
+            setBoundsDirty();
+            autorepaint();
         }
 
         public void move( int dx ) {

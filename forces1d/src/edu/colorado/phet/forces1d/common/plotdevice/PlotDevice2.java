@@ -25,7 +25,7 @@ public class PlotDevice2 extends GraphicLayerSet {
         goPauseClear = new GoPauseClear( component );
         Rectangle viewBounds = new Rectangle( 50, 50, 200, 200 );
         chart = new Chart( component, chartRange, viewBounds );
-        textField = new PhetTextField( component, textFieldFont, "       ", Color.black, 0, 0 );
+        textField = new PhetTextField( component, textFieldFont, "", Color.black );
 
 
         addGraphic( chart );

@@ -357,7 +357,10 @@ public class Force1DPanel extends ApparatusPanel2 {
 
         Rectangle chartArea = new Rectangle( plotInsetX, plotY + yInsetBottom, plotWidth, boundsToUse.height - plotY - yInsetBottom * 2 );
         if( chartArea.width > 0 && chartArea.height > 0 ) {
-            LayoutUtil layoutUtil = new LayoutUtil( chartArea.getY(), chartArea.getHeight() + chartArea.getY(), yInsetBottom / 2 + 10 );
+
+            int separatorWidth = yInsetBottom / 2 + 10;
+//            separatorWidth=Math.max(5,separatorWidth );
+            LayoutUtil layoutUtil = new LayoutUtil( chartArea.getY(), chartArea.getHeight() + chartArea.getY(), separatorWidth );
 //            LayoutUtil layoutUtil = new LayoutUtil( chartArea.getY(), chartArea.getHeight() + chartArea.getY(), 10);
             PlotDevice[] devices = new PlotDevice[]{forcePlotDevice, accelPlotDevice, velPlotDevice, posPlotDevice};
 
