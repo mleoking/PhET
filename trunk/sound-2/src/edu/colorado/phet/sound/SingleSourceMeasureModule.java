@@ -58,4 +58,6 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         //        ClockPanelLarge cpl = new ClockPanelLarge();
         //        ((SoundControlPanel)getControlPanel()).addPanel( cpl );
     }
+
+    
 }

@@ -69,23 +69,23 @@ public class SoundApparatusPanel extends ApparatusPanel {
      * Sets the point in the wave medium for which audio is to be generated. The point is specified relative
      * to the origin of the wavefront.
      */
-    public void determineAudioReferencPt() {
-        switch( model.getAudioSource() ) {
-            case SPEAKER_SOURCE:
-                this.audioReferencePt = new Point2D.Double( 0, 0 );
-                break;
-            case LISTENER_SOURCE:
-//                    this.audioReferencePt = listenerGraphic.getLocationInRange();
-                break;
-            default:
-                throw new RuntimeException( "Bad parameter value" );
-        }
-        model.setAudioReferencePoint( this.audioReferencePt );
-    }
+//    public void determineAudioReferencPt() {
+//        switch( model.getAudioSource() ) {
+//            case SPEAKER_SOURCE:
+//                this.audioReferencePt = new Point2D.Double( 0, 0 );
+//                break;
+//            case LISTENER_SOURCE:
+////                    this.audioReferencePt = listenerGraphic.getLocationInRange();
+//                break;
+//            default:
+//                throw new RuntimeException( "Bad parameter value" );
+//        }
+//        model.setAudioReferencePoint( this.audioReferencePt );
+//    }
 
-    public void setPrimaryOscillatorFrequency( double frequency ) {
-        if( model.getAudioSource() == LISTENER_SOURCE ) {
-            model.setOscillatorFrequency( frequency );
-        }
-    }
+//    public void setPrimaryOscillatorFrequency( double frequency ) {
+//        if( model.getAudioSource() == LISTENER_SOURCE ) {
+//            model.setOscillatorFrequency( frequency );
+//        }
+//    }
 }

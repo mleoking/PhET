@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.sound.SoundConfig;
+import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 
@@ -27,17 +28,19 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     private SoundModel model;
     private Point2D.Double location;
     private PhetImageGraphic image;
+    private SoundModule module;
 
     /**
      *
      */
-    public ListenerGraphic( SoundModel model, Listener listener, PhetImageGraphic image,
+    public ListenerGraphic( SoundModule module, Listener listener, PhetImageGraphic image,
                             double x, double y,
                             double minX, double minY,
                             double maxX, double maxY ) {
         super( image );
         this.location = new Point2D.Double( x, y );
-        this.model = model;
+        this.module = module;
+        this.model = (SoundModel)module.getModel();
         this.image = image;
 
         this.addTranslationBehavior( new ListenerTranslationBehavior( minX, minY, maxX, maxY ));
@@ -48,7 +51,6 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     protected Point2D.Double getLocation() {
         return location;
     }
-
 
     private class ListenerTranslationBehavior implements Translatable {
         private double minX;
@@ -71,23 +73,8 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
 
             // todo: minX and minY here aren't the right way to do this.
             listener.setLocation( new Point2D.Double( x - minX, y - minY ));
-//            model.setListenerLocation( location.getX() - SoundConfig.s_speakerBaseX, location.getY() );
         }
     }
-
-    /**
-     * Tells the sound application where the graphic is on the screen
-     */
-    private void updateModel() {
-//        SoundApplication soundApplication = (SoundApplication)PhetApplication.instance();
-        model.setListenerLocation( (float)this.getLocation().getX()/* - this.getMinX()*/, 0 );
-        model.updateOscillators();
-    }
-
-//    private SoundApplication getSoundApplication() {
-//        return (SoundApplication)PhetApplication.instance();
-//    }
-
 
     /**
      *
@@ -109,7 +96,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         nonDopplerFrequency = model.getPrimaryWavefront().getFrequency();
         lastEventX = location.getX();
         lastEventTime = event.getWhen();
-        clockScaleFactor = SoundConfig.s_timeStep/ SoundConfig.s_waitTime;
+        clockScaleFactor = SoundConfig.s_timeStep / SoundConfig.s_waitTime;
     }
 
     /**
@@ -147,9 +134,15 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
 //                ( (SingleSourceApparatusPanel)getApparatusPanel() ).determineAudioReferencPt();
 
                 double dopplerFrequency = nonDopplerFrequency - ( aveVx / numSamples ) * s_dopplerShiftScaleFactor;
-                if( model.getAudioSource() == SoundApparatusPanel.LISTENER_SOURCE ) {
-                    model.setOscillatorFrequency( dopplerFrequency );
+//                if( model.getAudioSource() == SoundApparatusPanel.LISTENER_SOURCE ) {
+//                    model.setOscillatorFrequency( dopplerFrequency );
+//                }
+                if( module.getCurrentListener() == this.listener) {
+                    module.setOscillatorFrequency( dopplerFrequency );
                 }
+//                if( model.getAudioSource() == SoundApparatusPanel.LISTENER_SOURCE ) {
+//                    model.setOscillatorFrequency( dopplerFrequency );
+//                }
             }
 
             // We must yield so the PhysicalSystem thread can get the update.
@@ -160,19 +153,15 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
             catch( InterruptedException e ) {
                 e.printStackTrace();
             }
-//            listener.setLocation( this.getLocation() );
-//            updateModel();
         }
     }
 
     /**
      *
-     * @param e
      */
     public void mouseReleased( MouseEvent e ) {
 
         super.mouseReleased( e );
-//        notifySoundApplication();
 
         // Reset the frequency to eliminate Doppler shift
 //        ( (SingleSourceApparatusPanel)getApparatusPanel() ).determineAudioReferencPt();
@@ -181,6 +170,6 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     //
     // Static fields and methods
     //
-    private float s_dopplerShiftScaleFactor = 1f;
-//    private float s_dopplerShiftScaleFactor = 0.01f;
+//    private float s_dopplerShiftScaleFactor = 1f;
+    private float s_dopplerShiftScaleFactor = 0.01f;
 }
