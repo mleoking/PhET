@@ -37,7 +37,7 @@ public class CopyClasspath extends Task {
     }
 
     private ArrayList parsePathList(String cp) {
-        StringTokenizer st = new StringTokenizer(cp, ";");
+        StringTokenizer st = new StringTokenizer(cp, System.getProperty("path.separator"));
         ArrayList all = new ArrayList();
         while (st.hasMoreTokens()) {
             File token = utils.normalize(st.nextToken());
