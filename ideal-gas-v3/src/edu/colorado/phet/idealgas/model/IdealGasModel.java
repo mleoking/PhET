@@ -25,16 +25,13 @@ import java.util.List;
  */
 public class IdealGasModel extends BaseModel {
 
-    //
-    // Static fields and methods
-    //
     // The distance that a molecule travels out from the box before it
     // is removed from the system.
     private static double s_escapeOffset = -30;
 
-    IdealGasConfig config = new IdealGasConfig();
+    private IdealGasConfig config = new IdealGasConfig();
     private Gravity gravity;
-    private float heatSource;
+    private double heatSource;
     private PressureSensingBox box;
     private boolean constantVolume = true;
     private boolean constantPressure = false;
@@ -125,7 +122,6 @@ public class IdealGasModel extends BaseModel {
             this.removeExternalForce( this.gravity );
         }
         this.gravity = gravity;
-        //        setChanged();
         notifyObservers();
     }
 
@@ -139,11 +135,11 @@ public class IdealGasModel extends BaseModel {
     /**
      *
      */
-    public void setHeatSource( float value ) {
+    public void setHeatSource( double value ) {
         heatSource = value;
     }
 
-    public float getHeatSource() {
+    public double getHeatSource() {
         return heatSource;
     }
 
@@ -153,13 +149,12 @@ public class IdealGasModel extends BaseModel {
     public void addBox( PressureSensingBox box ) {
         this.box = box;
         this.addModelElement( box );
-        //        this.box = (PressureSensingBox)box;
     }
 
     /**
      *
      */
-    public Box2D getBox() {
+    public PressureSensingBox getBox() {
         return box;
     }
 
@@ -203,10 +198,7 @@ public class IdealGasModel extends BaseModel {
      */
     public double getTotalKineticEnergy() {
         double totalKE = 0;
-        //        synchronized( clientThreadMonitor ) {
         for( int i = 0; i < this.numModelElements(); i++ ) {
-            //            for( Iterator iterator = bodies.iterator(); iterator.hasNext(); ) {
-            //                Particle body = (Particle)iterator.next();
             ModelElement element = this.modelElementAt( i );
             if( element instanceof Body ) {
                 Body body = (Body)element;
@@ -219,11 +211,10 @@ public class IdealGasModel extends BaseModel {
                 }
             }
         }
-        //        }
         return totalKE;
     }
 
-    public synchronized void stepInTime( float dt ) {
+    public synchronized void stepInTime( double dt ) {
         // Managing energy step 1: Get the amount of kinetic energy in the system
         // before anything happens
         double totalPreKE = this.getTotalKineticEnergy();
@@ -234,9 +225,7 @@ public class IdealGasModel extends BaseModel {
 
         // Managing energy, step 2: Get the total kinetic energy in the system,
         // and adjust it if neccessary
-        //        List bodies = this.getBodies();
         double totalPostKE = this.getTotalKineticEnergy();
-        //        double totalPostKE = this.getTotalKineticEnergyDouble();
         // Adjust the kinetic energy of all particles to account for the heat we
         // added
         double ratio;
@@ -262,7 +251,6 @@ public class IdealGasModel extends BaseModel {
                         System.out.println( "halt!" );
                     }
                     else if( body.getKineticEnergy() > 0 ) {
-                        //                    else if( body.getKineticEnergyDouble() > 0 ) {
                         body.setVelocity( (float)vx, (float)vy );
                     }
                 }
@@ -315,6 +303,8 @@ public class IdealGasModel extends BaseModel {
 
         // Update either pressure or volume
         updateFreeParameter();
+
+        notifyObservers();
     }
 
     /**
@@ -362,24 +352,6 @@ public class IdealGasModel extends BaseModel {
             }
         }
     }
-
-    /**
-     *
-     */
-    //    private void adjustHeat( float percent ) {
-    //        for( int i = 0; i < numModelElements(); i++ ) {
-    //            Object modelElement = modelElementAt( i );
-    //            if( modelElement instanceof CollidableBody ) {
-    //                CollidableBody body = (CollidableBody)modelElement;
-    //                //        for( int i = 0; i < getBodies().size(); i++ ) {
-    //                //        for( Iterator bodyIt = getBodies().iterator(); bodyIt.hasNext(); ) {
-    //                //            CollidableBody body = (CollidableBody)getBodies().get( i );
-    //                //            CollidableBody body = (CollidableBody)bodyIt.next();
-    //                body.setVelocity( body.getVelocity().scale( 1 + percent ) );
-    //                //            body.setVelocity( body.getVelocity().multiply( 1 + percent ) );
-    //            }
-    //        }
-    //    }
 
     /**
      * @param body

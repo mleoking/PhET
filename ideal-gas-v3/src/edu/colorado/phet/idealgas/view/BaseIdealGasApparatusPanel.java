@@ -92,7 +92,8 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
             BoxDoorGraphic interactiveDoorGraphic = new BoxDoorGraphic( doorGraphic,
                                                                         IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 227,
                                                                         IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
-                                                                        IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 227 );
+                                                                        IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 227,
+                                                                        box );
             this.addGraphic( interactiveDoorGraphic, -6 );
         }
         catch( IOException ioe ) {

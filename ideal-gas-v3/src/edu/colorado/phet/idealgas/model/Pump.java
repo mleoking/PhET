@@ -145,6 +145,7 @@ public class Pump extends SimpleObservable {
             return newMolecule;
         }
     }
+
     protected static final float PI_OVER_2 = (float)Math.PI / 2;
     protected static final float PI_OVER_4 = (float)Math.PI / 4;
     protected static final float MAX_V = -30;
