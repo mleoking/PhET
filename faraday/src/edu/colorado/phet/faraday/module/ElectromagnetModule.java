@@ -170,39 +170,6 @@ public class ElectromagnetModule extends FaradayModule {
         apparatusPanel.addChangeListener( fieldMeterGraphic );
         apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
 
-
-//        // XXX test bounds & registration point of FaradaySlider
-//        FaradaySlider testSlider = new FaradaySlider( apparatusPanel, 100 );
-//        addGraphic( testSlider, DEBUG_LAYER );
-//        {
-//            PhetGraphic background = new PhetShapeGraphic( apparatusPanel, new Rectangle( 0, 0, 200, 50 ), Color.GRAY );
-//            testSlider.setBackground( background );
-//            testSlider.setMinimum( -100 );
-//            testSlider.setMaximum( 100 );
-//            testSlider.setValue( 0 );
-//            testSlider.addTick( -100 );
-//            testSlider.addTick( 100 );
-//            testSlider.addTick( 0 );
-//            testSlider.setLocation( 100, 100 );
-//        }
-        
-//        // XXX Slider test
-//        {
-//            PhetGraphic knob = new PhetShapeGraphic( apparatusPanel, new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED );
-//            PhetGraphic track = new PhetShapeGraphic( apparatusPanel, new Rectangle( 0, 0, 165, 5 ), Color.YELLOW );
-//            PhetGraphic background = new PhetShapeGraphic( apparatusPanel, new Rectangle( 0, 0, 200, 50 ), Color.BLUE );
-//            GraphicSlider slider = new GraphicSlider( apparatusPanel );
-//            slider.setBackground( background );
-//            slider.setTrack( track );
-//            slider.setKnob( knob );
-//            slider.setLocation( 50, 400 );
-//            slider.rotate( Math.PI / 4 );
-//            slider.setMinimum( -100 );
-//            slider.setMaximum( 100 );
-//            slider.setValue( 75 );
-//            apparatusPanel.addGraphic( slider, DEBUG_LAYER );
-//        }
-
         // Debugger
 //        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
 //        debugger.setLocationColor( Color.GREEN );
