@@ -39,23 +39,20 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     // Class data
     //----------------------------------------------------------------------------
     
+    // Layers
     private static final double BACKGROUND_LAYER = 1;
     private static final double SLIDER_LAYER = 2;
     private static final double VALUE_LAYER = 3;
     private static final double WAVE_LAYER = 4;
     private static final double CURSOR_LAYER = 5;
 
-    private static final Font TITLE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
-    private static final Color TITLE_COLOR = Color.WHITE;
+    // Value display
     private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
     private static final Color VALUE_COLOR = Color.GREEN;
-    private static final Color AXES_COLOR = new Color( 255, 255, 255, 100 );
     
+    // Sine wave display
     private static final Dimension WAVE_VIEWPORT_SIZE = new Dimension( 156, 122 );
     private static final Point WAVE_ORIGIN = new Point( 133, 103 );
-    
-    private static final int TICK_SPACING = 10; // pixels
-    private static final int TICK_LENGTH = 8; // pixels
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -277,11 +274,27 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    private class BackgroundGraphic extends PhetImageGraphic {
+    private static class BackgroundGraphic extends PhetImageGraphic {
         
+        // Layers
         private static final double PANEL_LAYER = 1;
         private static final double TITLE_LAYER = 2;
         private static final double AXES_LAYER = 3;
+        private static final double TICK_LAYER = 4;
+        
+        // Title parameters
+        private static final Font TITLE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
+        private static final Color TITLE_COLOR = Color.WHITE;
+        
+        // Axes parameters
+        private static final Stroke AXES_STROKE = new BasicStroke( 1f );
+        private static final Color AXES_COLOR = new Color( 255, 255, 255, 100 ); // transparent white
+        
+        // Tick mark parameters
+        private static final Stroke TICK_STROKE = AXES_STROKE;
+        private static final Color TICK_COLOR = AXES_COLOR;
+        private static final int TICK_SPACING = 10; // pixels
+        private static final int TICK_LENGTH = 8; // pixels
         
         public BackgroundGraphic( Component component ) {
             super( component );
@@ -311,70 +324,64 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                 // X axis
                 {
                     // Axis
-                    Line2D shape = new Line2D.Double( -xLength / 2, 0, xLength / 2, 0 );
                     PhetShapeGraphic xAxis = new PhetShapeGraphic( component );
-                    xAxis.setShape( shape );
+                    xAxis.setShape( new Line2D.Double( -xLength / 2, 0, xLength / 2, 0 ) );
                     xAxis.setBorderColor( AXES_COLOR );
-                    xAxis.setStroke( stroke );
+                    xAxis.setStroke( AXES_STROKE );
                     xAxis.setLocation( WAVE_ORIGIN );
                     graphicLayerSet.addGraphic( xAxis, AXES_LAYER );
                     
                     // Tick marks
-                    int numTicks = xLength / TICK_SPACING;
+                    int x = 0;
                     int y = TICK_LENGTH / 2;
-                    for ( int i = 1; i <= numTicks / 2; i++ ) {
-                        int x = i * TICK_SPACING;
+                    while ( x <= xLength / 2 ) {
+                        x += TICK_SPACING;
                         
-                        Line2D shape1 = new Line2D.Double( x, -y, x, y  );
                         PhetShapeGraphic positiveTick = new PhetShapeGraphic( component );
-                        positiveTick.setShape( shape1 );
-                        positiveTick.setBorderColor( AXES_COLOR );
-                        positiveTick.setStroke( stroke );
+                        positiveTick.setShape( new Line2D.Double( x, -y, x, y  ) );
+                        positiveTick.setBorderColor( TICK_COLOR );
+                        positiveTick.setStroke( TICK_STROKE );
                         positiveTick.setLocation( WAVE_ORIGIN );
-                        graphicLayerSet.addGraphic( positiveTick, AXES_LAYER );
+                        graphicLayerSet.addGraphic( positiveTick, TICK_LAYER );
                         
-                        Line2D shape2 = new Line2D.Double( -x, -y, -x, y );
                         PhetShapeGraphic negativeTick = new PhetShapeGraphic( component );
-                        negativeTick.setShape( shape2 );
-                        negativeTick.setBorderColor( AXES_COLOR );
-                        negativeTick.setStroke( stroke );
+                        negativeTick.setShape( new Line2D.Double( -x, -y, -x, y ) );
+                        negativeTick.setBorderColor( TICK_COLOR );
+                        negativeTick.setStroke( TICK_STROKE );
                         negativeTick.setLocation( WAVE_ORIGIN );
-                        graphicLayerSet.addGraphic( negativeTick, AXES_LAYER );
+                        graphicLayerSet.addGraphic( negativeTick, TICK_LAYER );
                     }
                 }
 
                 // Y axis
                 {
                     // Axis
-                    Line2D shape = new Line2D.Double( 0, -yLength / 2, 0, yLength / 2 );
                     PhetShapeGraphic yAxis = new PhetShapeGraphic( component );
-                    yAxis.setShape( shape );
+                    yAxis.setShape( new Line2D.Double( 0, -yLength / 2, 0, yLength / 2 ) );
                     yAxis.setBorderColor( AXES_COLOR );
-                    yAxis.setStroke( stroke );
+                    yAxis.setStroke( AXES_STROKE );
                     yAxis.setLocation( WAVE_ORIGIN );
                     graphicLayerSet.addGraphic( yAxis, AXES_LAYER );
                     
                     // Tick marks
-                    int numTicks = yLength / TICK_SPACING;
                     int x = TICK_LENGTH / 2;
-                    for ( int i = 1; i <= numTicks / 2; i++ ) {
-                        int y = i * TICK_SPACING;
-                        
-                        Line2D shape1 = new Line2D.Double( -x, y, x, y  );
+                    int y = 0;
+                    while ( y <= yLength / 2 ) {
+                        y += TICK_SPACING;
+
                         PhetShapeGraphic positiveTick = new PhetShapeGraphic( component );
-                        positiveTick.setShape( shape1 );
-                        positiveTick.setBorderColor( AXES_COLOR );
-                        positiveTick.setStroke( stroke );
+                        positiveTick.setShape( new Line2D.Double( -x, y, x, y  ) );
+                        positiveTick.setBorderColor( TICK_COLOR );
+                        positiveTick.setStroke( TICK_STROKE );
                         positiveTick.setLocation( WAVE_ORIGIN );
-                        graphicLayerSet.addGraphic( positiveTick, AXES_LAYER );
+                        graphicLayerSet.addGraphic( positiveTick, TICK_LAYER );
                         
-                        Line2D shape2 = new Line2D.Double( -x, -y, x, -y );
                         PhetShapeGraphic negativeTick = new PhetShapeGraphic( component );
-                        negativeTick.setShape( shape2 );
-                        negativeTick.setBorderColor( AXES_COLOR );
-                        negativeTick.setStroke( stroke );
+                        negativeTick.setShape( new Line2D.Double( -x, -y, x, -y ) );
+                        negativeTick.setBorderColor( TICK_COLOR );
+                        negativeTick.setStroke( TICK_STROKE );
                         negativeTick.setLocation( WAVE_ORIGIN );
-                        graphicLayerSet.addGraphic( negativeTick, AXES_LAYER );
+                        graphicLayerSet.addGraphic( negativeTick, TICK_LAYER );
                     }
                 }
             }
