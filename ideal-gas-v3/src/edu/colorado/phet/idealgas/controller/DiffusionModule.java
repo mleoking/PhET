@@ -63,7 +63,7 @@ public class DiffusionModule extends IdealGasModule {
         lowerWallGraphic.setIsResizable( true );
         getModel().addModelElement( lowerWall );
         addGraphic( lowerWallGraphic, 1000 );
-        lowerWall.addChangeListener( new LowerWallChangeListener() );
+        lowerWall.addChangeListener( new WallChangeListener() );
 
         // Create the upper vertical wall
         upperWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
@@ -83,8 +83,7 @@ public class DiffusionModule extends IdealGasModule {
         upperWallGraphic.setIsResizable( true );
         getModel().addModelElement( upperWall );
         addGraphic( upperWallGraphic, 1000 );
-        upperWall.addChangeListener( new LowerWallChangeListener() );
-
+        upperWall.addChangeListener( new WallChangeListener() );
 
         JButton testButton = new JButton( "Test" );
 //        getControlPanel().add( testButton );
@@ -97,7 +96,7 @@ public class DiffusionModule extends IdealGasModule {
                 HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( 324 + 70,
                                                                                  315 + 3 ),
                                                              new Vector2D.Double( -100, 0 ),
-                                                             new Vector2D.Double( ) );
+                                                             new Vector2D.Double() );
 //                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner1X() + 50,
 //                                                                                 box.getCorner1Y() + 70),
 //                                                             new Vector2D.Double( 100, 100 ),
@@ -123,23 +122,33 @@ public class DiffusionModule extends IdealGasModule {
      */
     private void setWallBounds( Wall wallChanged ) {
 
-        // Don't let the lower wall get too close to the upper one
         if( wallChanged == lowerWall ) {
             double minY = upperWall.getBounds().getMaxY() + minimumWallSeparation;
+            Rectangle2D oldBounds = lowerWall.getBounds();
+            // Don't let the lower wall get too close to the upper one
             if( lowerWall.getBounds().getMinY() < minY ) {
-                Rectangle2D oldBounds = lowerWall.getBounds();
                 lowerWall.setBounds( new Rectangle2D.Double( oldBounds.getMinX(), minY,
                                                              oldBounds.getWidth(), oldBounds.getMaxY() - minY ) );
             }
+            // Don't let the lower wall get too thin
+            if( lowerWall.getBounds().getMinY() > lowerWall.getBounds().getMaxY() - minimumWallSeparation ) {
+                lowerWall.setBounds( new Rectangle2D.Double( oldBounds.getMinX(), lowerWall.getBounds().getMaxY() - minimumWallSeparation,
+                                                             oldBounds.getWidth(), minimumWallSeparation ) );
+            }
         }
 
-        // Don't let the upper wall get too close to the lower one
         if( wallChanged == upperWall ) {
             double maxY = lowerWall.getBounds().getMinY() - minimumWallSeparation;
+            Rectangle2D oldBounds = upperWall.getBounds();
+            // Don't let the upper wall get too close to the lower one
             if( upperWall.getBounds().getMaxY() > maxY ) {
-                Rectangle2D oldBounds = upperWall.getBounds();
                 upperWall.setBounds( new Rectangle2D.Double( oldBounds.getMinX(), oldBounds.getMinY(),
                                                              oldBounds.getWidth(), maxY - oldBounds.getMinY() ) );
+            }
+            // Don't let the upper wall get too thin
+            if( upperWall.getBounds().getMaxY() < upperWall.getBounds().getMinY() + minimumWallSeparation ) {
+                upperWall.setBounds( new Rectangle2D.Double( oldBounds.getMinX(), oldBounds.getMinY(),
+                                                             oldBounds.getWidth(), minimumWallSeparation ) );
             }
         }
     }
@@ -148,7 +157,7 @@ public class DiffusionModule extends IdealGasModule {
     // Event handling
     //-----------------------------------------------------------------
 
-    private class LowerWallChangeListener implements Wall.ChangeListener {
+    private class WallChangeListener implements Wall.ChangeListener {
         public void wallChanged( Wall.ChangeEvent event ) {
             setWallBounds( event.getWall() );
         }
