@@ -76,12 +76,18 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
                     circuitGraphic.collapseJunctions( dragMatch.getSource(), dragMatch.getTarget() );
                     dragMatch = null;
                 }
-
+                else {
+                    bumpAway();
+                }
             }
         };
         addMouseInputListener( input );
         RepaintyMenu menu = new JunctionPopupMenu( getJunction(), this.circuitGraphic, module );
         addPopupMenuBehavior( menu );
+    }
+
+    private void bumpAway() {
+        this.circuitGraphic.bumpAway( this );
     }
 
     public String toString() {

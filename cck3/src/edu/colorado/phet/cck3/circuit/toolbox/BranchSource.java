@@ -109,7 +109,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 //                    System.out.println( "rect = " + rect );
                 }
                 else if( branch instanceof Switch ) {
-                    System.out.println( "rect = " + rect );
+//                    System.out.println( "rect = " + rect );
                 }
             }
         };
