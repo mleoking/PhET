@@ -55,7 +55,7 @@ public class GraphicLayerSet extends PhetGraphic {
     }
 
     /**
-     *
+     * Sets the component for this object and all its children
      * @param component
      */
     public void setComponent( Component component ) {
