@@ -96,27 +96,6 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
     }
 
 
-    public void paint( Graphics2D g ) {
-        super.paint( g );
-
-        g.setColor( Color.RED );
-
-        // The following lines paint dots on the screen at critical points for
-        // debug purposes
-//
-//        // The point that sound is generated for
-//        g.fillArc( (int)earLocation.getX(),
-//                   (int)earLocation.getY(),
-//                   5, 5, 0, 360 );
-//        // A point one wavelength away
-//        g.fillArc( (int)earLocation.getX() - (int)(interferringWavefront.getWavelengthAtTime( 0 )),
-//                   (int)earLocation.getY(),
-//                   5, 5, 0, 360 );
-//        // The audio sources
-//        g.fillArc( (int)audioSourceA.getX(), (int)audioSourceA.getY(), 5, 5, 0, 360 );
-//        g.fillArc( (int)audioSourceB.getX(), (int)audioSourceB.getY(), 5, 5, 0, 360 );
-    }
-
     //
     // Static fields and methods
     //

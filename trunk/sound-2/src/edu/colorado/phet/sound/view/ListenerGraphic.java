@@ -45,9 +45,10 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         this.listener = listener;
     }
 
-    public Point2D.Double getLocation() {
+    protected Point2D.Double getLocation() {
         return location;
     }
+
 
     private class ListenerTranslationBehavior implements Translatable {
         private double minX;
@@ -67,19 +68,21 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
             double y = Math.max( minY, Math.min( maxY, location.getY() + dy ));
             location.setLocation( x, y );
             image.setPosition( (int)x, (int)y );
-            listener.setLocation( location );
-            model.setListenerLocation( location.getX() - SoundConfig.s_speakerBaseX, location.getY() );
+
+            // todo: minX and minY here aren't the right way to do this.
+            listener.setLocation( new Point2D.Double( x - minX, y - minY ));
+//            model.setListenerLocation( location.getX() - SoundConfig.s_speakerBaseX, location.getY() );
         }
     }
 
     /**
      * Tells the sound application where the graphic is on the screen
      */
-//    private void notifySoundApplication() {
+    private void updateModel() {
 //        SoundApplication soundApplication = (SoundApplication)PhetApplication.instance();
-//        soundApplication.setListenerLocation( (float)this.getLocationPoint2D().getX() - this.getMinX(), 0 );
-//        soundApplication.updateOscillators();
-//    }
+        model.setListenerLocation( (float)this.getLocation().getX()/* - this.getMinX()*/, 0 );
+        model.updateOscillators();
+    }
 
 //    private SoundApplication getSoundApplication() {
 //        return (SoundApplication)PhetApplication.instance();
@@ -157,6 +160,8 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
             catch( InterruptedException e ) {
                 e.printStackTrace();
             }
+//            listener.setLocation( this.getLocation() );
+//            updateModel();
         }
     }
 
@@ -176,5 +181,6 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     //
     // Static fields and methods
     //
-    private float s_dopplerShiftScaleFactor = 0.01f;
+    private float s_dopplerShiftScaleFactor = 1f;
+//    private float s_dopplerShiftScaleFactor = 0.01f;
 }

@@ -6,12 +6,15 @@
  */
 package edu.colorado.phet.sound.model;
 
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.sound.SoundConfig;
 import javasound.SrrOscillatorPlayer;
 
 import java.awt.geom.Point2D;
-
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.sound.SoundConfig;
 
 public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleObserver {
 
@@ -21,15 +24,24 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
 
     // The point in the wavefront that the oscillator is
     // to generate sound for
-    private Point2D.Float refPt = new Point2D.Float();
+    private Point2D.Double refPt = new Point2D.Double();
 
     /**
      *
      */
-    public WavefrontOscillator( Wavefront wavefront ) {
+    public WavefrontOscillator( Wavefront wavefront, BaseModel model ) {
         this.wavefront = wavefront;
         wavefront.addObserver( this );
+        model.addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                WavefrontOscillator.this.update();
+            }
+        } );
         this.start();
+    }
+
+    public void clockTicked( AbstractClock c, double dt ) {
+        update();
     }
 
     /**
@@ -80,6 +92,9 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
      */
     public void update() {
 
+        if( listener != null ) {
+            refPt = listener.getLocation();
+        }
         double distFromSource = refPt.distance( 0, 0 );
         double frequency = wavefront.getFrequencyAtTime( (int)distFromSource );
         double amplitude = wavefront.getMaxAmplitudeAtTime( (int)distFromSource );
@@ -99,9 +114,20 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
         if( frequency != getFrequency() ) {
             setFrequency( (float)frequency );
         }
-//        amplitudeInternal = amplitude;
-//        if( isEnabled && amplitude != getAmplitude() ) {
+        //        amplitudeInternal = amplitude;
+        if( isEnabled && amplitude != getAmplitude() ) {
             setAmplitude( (float)amplitude );
-//        }
+        }
+    }
+
+    Listener listener;
+
+    public void observe( Listener listener ) {
+        if( this.listener != null ) {
+            this.listener.removeObserver( this );
+        }
+        this.listener = listener;
+        listener.addObserver( this );
+        update();
     }
 }

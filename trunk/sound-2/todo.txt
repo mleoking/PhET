@@ -1,3 +1,5 @@
+the way ListenerGraphic computes it's model coordinates isn't quite right. See ListenerGraphic.translate()
+
 Put a Speaker class in the model
 
 When octave is displayed, scale the amplitude displayed so that when primary amp is max'ed, and octave amp is 0, display is still max'ed

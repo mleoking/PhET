@@ -249,6 +249,7 @@ public class SoundControlPanel extends PhetControlPanel {
                 }
             } );
             this.add( audioOnOffCB );
+            module.setAudioEnabled( audioOnOffCB.isSelected() );
 
             // Radio buttons to specify where the audio is take from
             JPanel audioSourcePanel = new JPanel();
@@ -274,7 +275,7 @@ public class SoundControlPanel extends PhetControlPanel {
 
                 }
             } );
-
+            
             listenerRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     int source = listenerRB.isSelected()

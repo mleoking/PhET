@@ -133,7 +133,8 @@ public class MyOscillatorPlayer extends Thread {
     public void run() {
 
         // TODO: make the priority setable from the outside
-        this.setPriority( Thread.MAX_PRIORITY );
+        this.setPriority( Thread.NORM_PRIORITY );
+//        this.setPriority( Thread.MAX_PRIORITY );
 
         try {
             setup( (float)fSignalFrequency, (float)fAmplitude, (float)fSampleRate );
