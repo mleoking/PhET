@@ -1,9 +1,11 @@
 "To Do" list for "faraday" simulation
 
 HIGH:
+- change "loop area" control to be value-based, not scale-based
+- nail down semantics of magnet "strength"
 - calibration of everything so that sensitivity can be adjusted
 - equation for the magnetic field of a dipole
-- B-field lines
+(NO) B-field lines
 - compass
 - good graphic for loop
 - show electrons flowing
