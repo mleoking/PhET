@@ -118,7 +118,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 else {
                     megapaintImmediately();
                 }
-
+                // Clear the rectangles so they get garbage collectged
+                rectangles.clear();
             }
         } );
 
