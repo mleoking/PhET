@@ -29,6 +29,8 @@ public class WiggleMe extends CompositePhetGraphic {
     private Target target;
     private PhetShapeGraphic phetShapeGraphic;
     private ShadowHTMLGraphic textGraphic;
+    private ClockTickListener tickListener;
+    private AbstractClock clock;
 
     public WiggleMe( Component component, AbstractClock clock, String text, PhetGraphic phetGraphic ) {
         this( component, clock, text, new PhetGraphicTarget( phetGraphic ) );
@@ -41,6 +43,7 @@ public class WiggleMe extends CompositePhetGraphic {
     public WiggleMe( final Component component, AbstractClock clock, String text, Target t, Font font, int dx, int dy ) {
         super( component );
         this.target = t;
+        this.clock = clock;
         this.oscillationAxis = new Vector2D.Double( 0, 1 );
         Color foreGroundColor = new Color( 39, 27, 184 );
         Color shadowColor = new Color( 6, 0, 44 );
@@ -48,11 +51,13 @@ public class WiggleMe extends CompositePhetGraphic {
         addGraphic( textGraphic );
 
         textGraphic.setLocation( 0, 0 );
-        clock.addClockTickListener( new ClockTickListener() {
+        tickListener = new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
                 tick();
             }
-        } );
+        };
+        setVisible( true );//attaches as a clock tick listener.
+//        clock.addClockTickListener( tickListener );
         Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( 50, 0 ), 20, 20, 10 );
         phetShapeGraphic = new PhetShapeGraphic( component, arrow.getShape(), Color.blue, new BasicStroke( 2 ), Color.black );
 
@@ -72,6 +77,20 @@ public class WiggleMe extends CompositePhetGraphic {
         this.frequency = frequency;
     }
 
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        if( visible ) {
+            if( !clock.containsClockTickListener( tickListener ) ) {
+                clock.addClockTickListener( tickListener );
+            }
+        }
+        else {
+            while( clock.containsClockTickListener( tickListener ) ) {
+                clock.removeClockTickListener( tickListener );
+            }
+        }
+    }
+
     public void setAmplitude( double amplitude ) {
         this.amplitude = amplitude;
     }
@@ -86,6 +105,7 @@ public class WiggleMe extends CompositePhetGraphic {
     }
 
     private void tick() {
+//        System.out.println( "tick" );
         if( isVisible() && getComponent().isShowing() ) {
             double time = ( System.currentTimeMillis() - t0 ) / 1000.0;
             Point targetLoc = target.getLocation();

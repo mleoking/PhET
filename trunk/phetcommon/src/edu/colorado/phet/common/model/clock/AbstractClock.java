@@ -207,6 +207,10 @@ public abstract class AbstractClock {
         clockStateEventChannel.removeListener( csl );
     }
 
+    public boolean containsClockTickListener( ClockTickListener tickListener ) {
+        return tickEventChannel.containsListener( tickListener );
+    }
+
     ///////////////////////////////////////////////////////////////////////
     // Inner classes
     //
