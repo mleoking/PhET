@@ -97,7 +97,7 @@ public class BaseLaserModule extends Module {
 
         // Create the apparatus panel
         final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
-        apparatusPanel.setUseOffscreenBuffer( true );
+//        apparatusPanel.setUseOffscreenBuffer( true );
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
 
