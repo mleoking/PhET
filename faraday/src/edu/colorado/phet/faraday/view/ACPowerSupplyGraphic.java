@@ -333,6 +333,8 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             
             // This will be flattened after we've added graphics to it.
             GraphicLayerSet graphicLayerSet = new GraphicLayerSet( component );
+            RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            graphicLayerSet.setRenderingHints( hints );
             
             // AC panel
             PhetImageGraphic panel = new PhetImageGraphic( component, FaradayConfig.AC_POWER_SUPPLY_IMAGE );
@@ -424,8 +426,6 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                 Dimension size = graphicLayerSet.getSize();
                 BufferedImage bufferedImage = new BufferedImage( size.width, size.height, BufferedImage.TYPE_INT_ARGB );
                 Graphics2D g2 = bufferedImage.createGraphics();
-                RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-                g2.setRenderingHints( hints );
                 graphicLayerSet.paint( g2 );
                 setImage( bufferedImage );
             }
