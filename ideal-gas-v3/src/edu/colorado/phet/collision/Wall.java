@@ -20,6 +20,9 @@ import java.util.EventObject;
 
 /**
  * Wall
+ * <p/>
+ * A model element representing a wall that other model elements can collide with. The
+ * wall's position and size are constrained by bounds specified by the client.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -31,6 +34,10 @@ public class Wall extends CollidableBody {
     private Rectangle2D movementBounds;
     private Rectangle2D prevRep = new Rectangle2D.Double();
 
+    /**
+     * @param bounds
+     * @param movementBounds
+     */
     public Wall( Rectangle2D bounds, Rectangle2D movementBounds ) {
         this.rep = bounds;
         this.movementBounds = movementBounds;
@@ -38,27 +45,50 @@ public class Wall extends CollidableBody {
         setPosition( bounds.getMinX(), bounds.getMinY() );
     }
 
+    /**
+     * Will not position the wall outside its movement bounds
+     *
+     * @param x
+     * @param y
+     */
     public void setPosition( double x, double y ) {
 
+        // Constrain the position to be within the movement bounds
         x = Math.min( x, movementBounds.getMaxX() - rep.getWidth() );
         x = Math.max( x, movementBounds.getMinX() );
         y = Math.min( y, movementBounds.getMaxY() - rep.getHeight() );
         y = Math.max( y, movementBounds.getMinY() );
-        if( x != getPosition().getX() || y != getPosition().getY() ) {
-            super.setPosition( x, y );
-            prevRep.setRect( rep );
-            rep.setRect( x, y, rep.getWidth(), rep.getHeight() );
-            changeListenerProxy.wallChanged( new ChangeEvent( this ) );
-        }
+
+        super.setPosition( x, y );
+        prevRep.setRect( rep );
+        rep.setRect( x, y, rep.getWidth(), rep.getHeight() );
+        changeListenerProxy.wallChanged( new ChangeEvent( this ) );
     }
 
+    /**
+     * Will not position the wall outside its movement bounds
+     *
+     * @param point
+     */
     public void setPosition( Point2D point ) {
         setPosition( point.getX(), point.getY() );
     }
 
+    /**
+     * Will note expand the wall outside of its movement bounds
+     *
+     * @param bounds
+     */
     public void setBounds( Rectangle2D bounds ) {
-        rep.setRect( bounds );
-        changeListenerProxy.wallChanged( new ChangeEvent( this ) );
+
+        // Constrain the wall to be within the movement bounds
+        double minX = Math.max( Math.min( bounds.getMinX(), movementBounds.getMaxX() ), movementBounds.getMinX() );
+        double minY = Math.max( Math.min( bounds.getMinY(), movementBounds.getMaxY() ), movementBounds.getMinY() );
+        double maxX = Math.min( Math.max( bounds.getMaxX(), movementBounds.getMinX() ), movementBounds.getMaxX() );
+        double maxY = Math.min( Math.max( bounds.getMaxY(), movementBounds.getMinY() ), movementBounds.getMaxY() );
+
+        rep.setRect( minX, minY, maxX - minX, maxY - minY );
+        setPosition( minX, minY );
     }
 
     public Rectangle2D getBounds() {
