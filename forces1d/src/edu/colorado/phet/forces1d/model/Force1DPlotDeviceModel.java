@@ -15,10 +15,19 @@ public class Force1DPlotDeviceModel extends PlotDeviceModel {
     private Force1DModule module;
     private Force1DModel model;
 
-    public Force1DPlotDeviceModel( Force1DModule module, Force1DModel model, double maxTime ) {
+    public Force1DPlotDeviceModel( Force1DModule module, final Force1DModel model, double maxTime ) {
         super( maxTime );
         this.module = module;
         this.model = model;
+        addListener( new PlotDeviceModel.ListenerAdapter() {
+            public void recordingStarted() {
+                model.setPaused( false );
+            }
+
+            public void recordingPaused() {
+                model.setPaused( true );
+            }
+        } );
     }
 
     public void reset() {

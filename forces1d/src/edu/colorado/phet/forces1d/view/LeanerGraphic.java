@@ -24,6 +24,7 @@ public class LeanerGraphic extends PhetImageGraphic {
     private PhetGraphic target;
     private Force1DPanel forcePanel;
     private Force1DModule module;
+    private double max = 500.0;
 
     public LeanerGraphic( final Force1DPanel forcePanel, final PhetGraphic target ) throws IOException {
         super( forcePanel, (BufferedImage)null );
@@ -61,7 +62,7 @@ public class LeanerGraphic extends PhetImageGraphic {
     }
 
     private BufferedImage getFrame() {
-        double max = 20.0;
+
         double appliedForce = Math.abs( module.getForceModel().getAppliedForce() );
         int index = (int)( animation.getNumFrames() * appliedForce / max );
         if( index >= animation.getNumFrames() ) {

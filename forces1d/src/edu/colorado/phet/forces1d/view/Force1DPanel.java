@@ -9,11 +9,14 @@ import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.common.PhetButton;
+import edu.colorado.phet.forces1d.common.TitleLayout;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
@@ -75,10 +78,13 @@ public class Force1DPanel extends ApparatusPanel {
 //        int strokeWidth=2;
         int strokeWidth = 3;
         plotDeviceView = new Force1DPlotDeviceView( module, this );
+//        double appliedForceRange=10;
+        double appliedForceRange = 1000;
+
         PlotDevice.ParameterSet params = new PlotDevice.ParameterSet( this, "Applied Force", model.getPlotDeviceModel(),
                                                                       plotDeviceView, model.getAppliedForceDataSeries().getSmoothedDataSeries(), model.getPlotDeviceModel().getRecordingTimer(),
                                                                       Color.red, new BasicStroke( strokeWidth ),
-                                                                      new Rectangle2D.Double( 0, -10, model.getPlotDeviceModel().getMaxTime(), 20 ),
+                                                                      new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMaxTime(), appliedForceRange * 2 ),
                                                                       0, "N", "applied force" );
         forcePlotDevice = new PlotDevice( params );
         forcePlotDevice.setLabelText( "<html>Applied<br>Force</html>" );
@@ -155,6 +161,28 @@ public class Force1DPanel extends ApparatusPanel {
         offscreenPointerGraphic = new OffscreenPointerGraphic( this, blockGraphic, walkwayGraphic );
         addGraphic( offscreenPointerGraphic, 1000 );
         offscreenPointerGraphic.setLocation( 400, 50 );
+//        addGraphic( phetButton);
+
+        PhetButton phetButton = new PhetButton( this, "Reset" );
+        phetButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "Resetted." );
+                module.reset();
+            }
+        } );
+        addGraphic( phetButton );
+        TitleLayout.layout( phetButton, offscreenPointerGraphic );
+
+        MouseInputAdapter listener = new MouseInputAdapter() {
+            // implements java.awt.event.MouseListener
+            public void mousePressed( MouseEvent e ) {
+                forcePlotDevice.getPlotDeviceModel().setPaused( false );
+            }
+        };
+        blockGraphic.addMouseInputListener( listener );
+        freeBodyDiagram.addMouseInputListener( listener );
+
+
     }
 
     public Force1DLookAndFeel getLookAndFeel() {
@@ -171,15 +199,15 @@ public class Force1DPanel extends ApparatusPanel {
         repaint();
     }
 //
-//    public void repaint( int x, int y, int width, int height ) {
-//        super.repaint( x, y, width, height );
+    public void repaint( int x, int y, int width, int height ) {
+        super.repaint( x, y, width, height );
 //        StackTraceElement[] str = new Exception( "Repaint" ).getStackTrace();
 //        for( int i = 0; i < str.length && i < 9; i++ ) {
 //            StackTraceElement stackTraceElement = str[i];
 //            System.out.println( "" + i + ": " + stackTraceElement );
 //        }
 //        System.out.println( "..." );
-//    }
+    }
 
     public void relayout() {
         if( getWidth() > 0 && getHeight() > 0 ) {

@@ -19,7 +19,7 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     private Mode recordMode = new RecordMode();
     private Mode playbackMode = new PlaybackMode();
-    private Mode currentMode;
+    private Mode currentMode = recordMode;
     private ArrayList listeners = new ArrayList();
 
     protected PlotDeviceModel( double maxTime ) {

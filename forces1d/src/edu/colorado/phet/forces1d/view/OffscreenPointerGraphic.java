@@ -17,11 +17,11 @@ import java.text.DecimalFormat;
  * Time: 8:34:00 AM
  * To change this template use File | Settings | File Templates.
  */
-public class OffscreenPointerGraphic extends CompositePhetGraphic {
+public class OffscreenPointerGraphic extends GraphicLayerSet {
     private static final Font font = new Font( "Lucida Sans", Font.BOLD, 28 );
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.0" );
     private PhetTextGraphic textGraphic;
-    private PhetShapeGraphic shapeGraphic;
+    private PhetShapeGraphic arrowGraphic;
     private BlockGraphic blockGraphic;
     private WalkwayGraphic container;
     private int y = 50;
@@ -35,9 +35,9 @@ public class OffscreenPointerGraphic extends CompositePhetGraphic {
 //        textGraphic = new PhetShadowTextGraphic( component, "", font, 0, 0, Color.blue, 2, 2, Color.white );
         textGraphic = new PhetTextGraphic( component, font, "", Color.blue, 0, 0 );
         Stroke stroke = new BasicStroke( 1.0f );
-        shapeGraphic = new PhetShapeGraphic( component, null, Color.yellow, stroke, Color.black );
+        arrowGraphic = new PhetShapeGraphic( component, null, Color.yellow, stroke, Color.black );
         addGraphic( textGraphic );
-        addGraphic( shapeGraphic );
+        addGraphic( arrowGraphic );
 
 
 //        final PhetShapeGraphic debugShapeGraphic=new PhetShapeGraphic( component,null,new BasicStroke( 3.0f),Color.green );
@@ -65,7 +65,7 @@ public class OffscreenPointerGraphic extends CompositePhetGraphic {
                     }
                     Arrow arrow = new Arrow( source, arrowVector.getDestination( source ), 20, 20, 10, 0.2, true );
                     Shape shape = arrow.getShape();
-                    shapeGraphic.setShape( shape );
+                    arrowGraphic.setShape( shape );
                     setBoundsDirty();
                     Rectangle bounds = getBounds();
 

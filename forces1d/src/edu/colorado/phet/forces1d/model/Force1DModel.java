@@ -30,6 +30,7 @@ public class Force1DModel implements ModelElement {
     public double frictionForce;
     private Force1DPlotDeviceModel plotDeviceModel;
     private double netForce;
+    private boolean paused = false;
 
     public Force1DModel( Force1DModule module ) {
         block = new Block( this );
@@ -83,6 +84,10 @@ public class Force1DModel implements ModelElement {
 
     public DataSeries getFrictionForceSeries() {
         return frictionForceDataSeries.getSmoothedDataSeries();
+    }
+
+    public void setPaused( boolean paused ) {
+        this.paused = paused;
     }
 
     public static interface Listener {
@@ -154,13 +159,15 @@ public class Force1DModel implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        dt /= 50.0;
-        updateBlock();
-        block.stepInTime( dt );
-        plotDeviceModel.stepInTime( dt );
-        if( plotDeviceModel.isTakingData() ) {
-            netForceDataSeries.addPoint( netForce );
-            frictionForceDataSeries.addPoint( frictionForce );
+        if( !paused ) {
+            dt /= 50.0;
+            updateBlock();
+            block.stepInTime( dt );
+            plotDeviceModel.stepInTime( dt );
+            if( plotDeviceModel.isTakingData() ) {
+                netForceDataSeries.addPoint( netForce );
+                frictionForceDataSeries.addPoint( frictionForce );
+            }
         }
     }
 
