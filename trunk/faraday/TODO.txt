@@ -6,6 +6,10 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- first pass at Generator module
+- move "Alternating Current" label higher on AC graphic to prevent confusion
+- Lightbulb appears to beat with a false peak
+- animate AC wave
 - show frequency & amplitude graph on the ACSourceGraphic
 - adjust electron animation so that electrons move farther
 - behavior of AC/DC amplitude around "zero" should be smoother
@@ -49,6 +53,9 @@ phetcommon:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
+v0r17...
+(3/8) - no magnetic field (strength=0) should cause the compass to stay in its current location, not move to 0 degrees
+(3/8) - add ticks at min/max/zero on battery amplitude slider track (no labels)
 v0r16...
 (3/7) - make AC vary sinusoidally
 (3/7) - put controls directly on AC graphic

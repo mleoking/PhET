@@ -195,7 +195,10 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
             
             AbstractVector2D emf = getFieldStrength();
             
-            if ( ! _rotationalKinematicsEnabled ) {
+            if ( emf.getMagnitude() == 0 ) {
+                // Do nothing if there is no magnetic field, direction should remain unchanged.
+            }
+            else if ( ! _rotationalKinematicsEnabled ) {
                 // If rotational kinematics is disabled, simply set the angle.
                 _omega = 0;
                 _alpha = 0;
