@@ -23,11 +23,14 @@ import java.util.ResourceBundle;
 public class HotAirBalloonControlPanel extends JPanel {
 
     private static ResourceBundle localizedStrings;
+    private HotAirBalloon hotAirBalloon;
+
     static {
         localizedStrings = ResourceBundle.getBundle( "localization/HotAirBalloonControlPanel" );
     }
 
-    public HotAirBalloonControlPanel() {
+    public HotAirBalloonControlPanel( HotAirBalloon hotAirBalloon ) {
+        this.hotAirBalloon = hotAirBalloon;
         init();
     }
 
@@ -42,12 +45,9 @@ public class HotAirBalloonControlPanel extends JPanel {
         JPanel stovePanel = new JPanel();
 
         JPanel iconPanel = new JPanel( new GridLayout( 2, 1 ) );
-//        ResourceLoader iconLoader = new ResourceLoader();
         try {
             BufferedImage stoveAndFlameImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_AND_FLAME_ICON_FILE );
             BufferedImage stoveImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_ICON_FILE );
-//        Image stoveAndFlameImage = iconLoader.loadImage( IdealGasConfig.STOVE_AND_FLAME_ICON_FILE ).getImage();
-//        Image stoveImage = iconLoader.loadImage( IdealGasConfig.STOVE_ICON_FILE ).getImage();
             Icon stoveAndFlameIcon = new ImageIcon( stoveAndFlameImage );
             Icon stoveIcon = new ImageIcon( stoveImage );
             iconPanel.add( new JLabel( stoveAndFlameIcon ) );
@@ -87,6 +87,6 @@ public class HotAirBalloonControlPanel extends JPanel {
      *
      */
     private void setHotAirBalloonHeat( int value ) {
-        HotAirBalloon.s_heatSource = value;
+        hotAirBalloon.setHeatSource( value );
     }
 }

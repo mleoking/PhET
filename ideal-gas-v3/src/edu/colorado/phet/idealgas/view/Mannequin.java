@@ -27,12 +27,12 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
     private PressureSensingBox box;
     private Point location = new Point();
     private double lastPressure;
+    private Image currFrame;
 
     public Mannequin( Component component, IdealGasModel model, PressureSensingBox box ) {
         super( component );
         this.model = model;
         this.box = box;
-        box.addObserver( this );
         try {
             pusher = new Animation( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
             leaner = new Animation( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
@@ -41,7 +41,19 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
             e.printStackTrace();
         }
         currPusherFrame = pusher.getCurrFrame();
-        update();
+        currLeanerFrame = leaner.getCurrFrame();
+
+
+        // todo: When we get everything in one thread, we can observe the box rather
+        // than using a separate thread to update the mannequin
+//        box.addObserver( this );
+//        update();
+        try {
+            new Thread( new Updater()).start();
+        }
+        catch( Exception e ) {
+            e.printStackTrace();
+        }
     }
 
     protected Rectangle determineBounds() {
@@ -51,35 +63,60 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
     }
 
     public void paint( Graphics2D g ) {
-        g.drawImage( currPusherFrame, location.x, location.y, null );
+        g.drawImage( currFrame, location.x, location.y, null );
     }
 
     public void update() {
         int offsetX = -2 * (int)Box2DGraphic.s_thickness;
         int offsetY = 3 * (int)Box2DGraphic.s_thickness;
 
-        // Update the pusher
         int nextLocationX = (int)box.getMinX() - currPusherFrame.getHeight( null ) + offsetX;
-        if( nextLocationX != location.x ) {
-            location.setLocation( nextLocationX, box.getMaxY() - currPusherFrame.getWidth( null ) + offsetY );
-
-            // Update the leaner
+        boolean wallMoving = nextLocationX != location.x;
+        if( wallMoving ) {
             int dir = nextLocationX - location.x;
+            location.setLocation( nextLocationX, box.getMaxY() - currPusherFrame.getWidth( null ) + offsetY );
+            // Update the pusher
             currPusherFrame = dir > 0 ? pusher.getNextFrame() : pusher.getPrevFrame();
+            currFrame = currPusherFrame;
+            setBoundsDirty();
+            repaint();
+        }
+        else {
             double newPressure = box.getPressure();
-            dir = newPressure == lastPressure ? 0 :
-                  ( newPressure > lastPressure * s_leaningManStateChangeScaleFactor ? 1 : -1 );
-            lastPressure = newPressure;
-            if( dir > 0 && leaner.getCurrFrameNum() + 1 < leaner.getNumFrames() ) {
-                currLeanerFrame = leaner.getNextFrame();
+            if( newPressure != lastPressure ) {
+                int dir = newPressure == lastPressure ? 0 :
+                          ( newPressure > lastPressure * s_leaningManStateChangeScaleFactor ? 1 : -1 );
+                lastPressure = newPressure;
+                // Update the leaner
+                if( dir > 0 && leaner.getCurrFrameNum() + 1 < leaner.getNumFrames() ) {
+                    currLeanerFrame = leaner.getNextFrame();
+                }
+                else if( dir < 0 && leaner.getCurrFrameNum() > 0 ) {
+                    currLeanerFrame = leaner.getPrevFrame();
+                }
+                // todo: replace hard-coded number here
+                int frameNum = (int)Math.min( ( newPressure / 120 ) * leaner.getNumFrames(), leaner.getNumFrames() - 1 );
+                currLeanerFrame = leaner.getFrame( frameNum );
+                if( model.isConstantVolume() ) {
+                    currFrame = currLeanerFrame;
+                    setBoundsDirty();
+                    repaint();
+                }
             }
-            else if( dir < 0 && leaner.getCurrFrameNum() > 0 ) {
-                currLeanerFrame = leaner.getPrevFrame();
-            }
-
-            this.setBoundsDirty();
-            this.repaint();
         }
     }
 
+    private class Updater implements Runnable {
+        public void run() {
+            while( true ) {
+                try {
+                    Thread.sleep( 20 );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
+                update();
+            }
+        }
+    }
 }

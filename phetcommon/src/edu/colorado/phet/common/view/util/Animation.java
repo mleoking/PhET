@@ -117,4 +117,8 @@ public class Animation {
         String fileName = fileNamePrefix + "_" + zeroStr + Integer.toString( frameNum ) + ".gif";
         return fileName;
     }
+
+    public Image getFrame( int frameNum ) {
+        return this.frames[ frameNum ];
+    }
 }

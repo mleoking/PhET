@@ -190,14 +190,15 @@ public class CollisionGod {
         }
     }
 
-    private void detectAndDoCollision( CollidableBody body1, CollidableBody body2 ) {
+    private boolean detectAndDoCollision( CollidableBody body1, CollidableBody body2 ) {
         boolean haveCollided = false;
         // todo: I don't think the haveCollided thing does any good.
         for( int i = 0; i < collisionExperts.size(); i++ ) {
 //        for( int i = 0; i < collisionExperts.size() && !haveCollided; i++ ) {
             CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( i );
-            haveCollided = collisionExpert.detectAndDoCollision( body1, body2 );
+            haveCollided |= collisionExpert.detectAndDoCollision( body1, body2 );
         }
+        return haveCollided;
     }
 
     private void addBody( Body body ) {

@@ -68,7 +68,7 @@ public class HotAirBalloonGraphic extends PhetGraphic implements SimpleObserver 
 
     public void update() {
         this.setPosition();
-        flameHeight = (int)HotAirBalloon.s_heatSource * 2 / 3;
+        flameHeight = (int)balloon.getHeatSource() * 2 / 3;
         setBoundsDirty();
         repaint();
     }
