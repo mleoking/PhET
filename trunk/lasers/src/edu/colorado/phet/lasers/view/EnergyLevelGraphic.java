@@ -84,9 +84,12 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
             double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference,
                                                    atomicState.getEnergyLevel() + energyChange ),
                                          atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference );
-            newEnergy = Math.max( newEnergy, Photon.wavelengthToEnergy( LaserConfig.MAX_WAVELENGTH ) );
-            newEnergy = Math.min( newEnergy, Photon.wavelengthToEnergy( LaserConfig.MIN_WAVELENGTH ) );
-            atomicState.setEnergyLevel( newEnergy );
+            double newWavelength = Photon.energyToWavelength( newEnergy );
+            // The +1 and -1 are needed to make sure that floating point errors don't put the energy
+            // and wavelength out of range
+            newWavelength = Math.min( Math.max(  newWavelength, LaserConfig.MIN_WAVELENGTH + 1),
+                                      LaserConfig.MAX_WAVELENGTH - 1);
+            atomicState.setEnergyLevel( Photon.wavelengthToEnergy( newWavelength ));
         }
     }
 
