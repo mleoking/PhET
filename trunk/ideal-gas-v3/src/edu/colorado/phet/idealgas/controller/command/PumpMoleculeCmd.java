@@ -77,7 +77,7 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
     protected static final float PI_OVER_4 = (float)Math.PI / 4;
     protected static final float MAX_V = -30;
 
-    protected static final float DEFAULT_ENERGY = 15000;
+    protected static final float DEFAULT_ENERGY = IdealGasModel.DEFAULT_ENERGY;
     // Coordinates of the intake port on the box
     protected static final float s_intakePortX = 430 + IdealGasConfig.X_BASE_OFFSET;
     protected static final float s_intakePortY = 400 + IdealGasConfig.Y_BASE_OFFSET;

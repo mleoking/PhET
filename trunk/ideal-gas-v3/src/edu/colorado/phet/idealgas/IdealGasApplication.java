@@ -28,22 +28,19 @@ public class IdealGasApplication extends PhetApplication {
             // Create the modules
             Module idealGasModule = new IdealGasModule( getClock() );
             Module measurementModule = new MeasurementModule( getClock() );
-            Module rigidSphereModuleI = new RigidSphereModuleI( getClock() );
-            Module rigidSphereModuleII = new RigidHollowSphereModuleII( getClock() );
+            Module rigidSphereModule = new RigidHollowSphereModule( getClock() );
             Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
             Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
             Module[] modules = new Module[]{
                 idealGasModule,
                 measurementModule,
-                rigidSphereModuleI,
-                rigidSphereModuleII,
+                rigidSphereModule,
                 heliumBalloonModule,
                 hotAirBalloonModule
             };
             setModules( modules );
 //            setInitialModule( heliumBalloonModule );
-//            setInitialModule( rigidSphereModuleII );
-//            setInitialModule( rigidSphereModuleI );
+//            setInitialModule( rigidSphereModule );
 //            setInitialModule( measurementModule );
 //            setInitialModule( hotAirBalloonModule );
             setInitialModule( idealGasModule );

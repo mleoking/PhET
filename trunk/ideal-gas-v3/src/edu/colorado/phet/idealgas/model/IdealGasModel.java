@@ -26,6 +26,8 @@ import java.util.List;
  */
 public class IdealGasModel extends BaseModel {
 
+    // The default energy given to a molecule
+    public static final float DEFAULT_ENERGY = 15000;
     // The distance that a molecule travels out from the box before it
     // is removed from the system.
     private static double s_escapeOffset = -30;

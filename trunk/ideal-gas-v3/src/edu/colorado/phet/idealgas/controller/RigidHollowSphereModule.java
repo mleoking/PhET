@@ -10,29 +10,27 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.Random;
 
-public abstract class RigidHollowSphereModule extends IdealGasModule {
+public class RigidHollowSphereModule extends IdealGasModule {
 
     private static final float initialVelocity = 35;
 
     private HollowSphere sphere;
-    private int numMoleculesInSphere;
-    private Class gasSpecies;
+    private Class gasSpecies = HeavySpecies.class;
 
-    public RigidHollowSphereModule( AbstractClock clock, String name, Class gasSpecies ) {
-        super( clock, name );
-        this.gasSpecies = gasSpecies;
-
+    public RigidHollowSphereModule( AbstractClock clock ) {
+        super( clock, IdealGasStrings.get( "ModuleTitle.RigidHollowSphere"));
         double xOrigin = 200;
         double yOrigin = 250;
         double xDiag = 434;
@@ -80,9 +78,9 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
 
         // Put some heavy gas in the sphere
         GasMolecule p1 = null;
-//        int num = 0;
+        int num = 0;
         //        int num = 6;
-        int num = 4;
+        //        int num = 4;
         for( int i = 1; i <= num; i++ ) {
             for( int j = 0; j < num; j++ ) {
                 double v = initialVelocity;
@@ -100,7 +98,7 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
                     p1 = new LightSpecies( new Point2D.Double( 350 + i * 10, 230 + j * 10 ),
                                            //                        new Point2D.Double( 280 + i * 10, 330 + j * 10 ),
                                            new Vector2D.Double( vx, vy ),
-                                           new Vector2D.Double( 0, 0 ));
+                                           new Vector2D.Double( 0, 0 ) );
                     new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
                 }
                 sphere.addContainedBody( p1 );
@@ -123,95 +121,132 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
         //        JPanel mainControlPanel = getIdealGasApplication().getPhetMainPanel().getControlPanel();
         //        mainControlPanel.add( hsaControlPanel );
         //        hsaControlPanel.setGasSpeciesClass( LightSpecies.class );
-        getControlPanel().add( new NumParticlesControls() );
+
+        JPanel controlPanel = new JPanel( new GridBagLayout() );
+        controlPanel.setBorder( new TitledBorder( IdealGasStrings.get( "RigidHollowSphereControlPanel.controlsTitle" ) ) );
+
+        //        JPanel speciesButtonPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+        //        speciesButtonPanel.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 100 ) );
+        //        final JRadioButton heavySpeciesRB = new JRadioButton( IdealGasStrings.get( "Common.Heavy_Species" ) );
+        //        heavySpeciesRB.setForeground( Color.blue );
+        //        final JRadioButton lightSpeciesRB = new JRadioButton( IdealGasStrings.get( "Common.Light_Species" ) );
+        //        lightSpeciesRB.setForeground( Color.red );
+        //        final ButtonGroup speciesGroup = new ButtonGroup();
+        //        speciesGroup.add( heavySpeciesRB );
+        //        speciesGroup.add( lightSpeciesRB );
+        //        speciesButtonPanel.add( heavySpeciesRB );
+        //        heavySpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
+        //        lightSpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
+        //        speciesButtonPanel.add( lightSpeciesRB );
+        //        heavySpeciesRB.setSelected( true );
+        //        heavySpeciesRB.addActionListener( new ActionListener() {
+        //            public void actionPerformed( ActionEvent event ) {
+        //                if( heavySpeciesRB.isSelected() ) {
+        //                    gasSpecies = HeavySpecies.class;
+        //                }
+        //            }
+        //        } );
+        //
+        //        lightSpeciesRB.addActionListener( new ActionListener() {
+        //            public void actionPerformed( ActionEvent event ) {
+        //                if( lightSpeciesRB.isSelected() ) {
+        //                    gasSpecies = LightSpecies.class;
+        //                }
+        //            }
+        //        } );
+        //
+        GridBagConstraints gbc = null;
+        Insets insets = new Insets( 0, 0, 0, 0 );
+        gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                      GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                                      insets, 0, 0 );
+        controlPanel.add( new SpeciesSelectionPanel(), gbc );
+        gbc.gridy = 1;
+        controlPanel.add( new MoleculeFactoryPanel( this ), gbc );
+        getControlPanel().add( controlPanel );
     }
 
-    class RigidSphereControlPanel extends JPanel {
-        public RigidSphereControlPanel() {
-            this.add( new JLabel( IdealGasStrings.get( "MeasurementControlPanel.Number_of_particles" ) ));
-            // Set up the spinner for controlling the number of particles in
-            // the hollow sphere
-            Integer value = new Integer( 0 );
-            Integer min = new Integer( 0 );
-            Integer max = new Integer( 1000 );
-            Integer step = new Integer( 1 );
-            SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
-            final JSpinner particleSpinner = new JSpinner( model );
-            particleSpinner.setPreferredSize( new Dimension( 20, 5 ) );
-            this.add( particleSpinner );
+    private class MoleculeFactoryPanel extends MoleculeFactoryPanel {
+        Random random = new Random();
 
-            particleSpinner.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    setNumParticlesInSphere( ( (Integer)particleSpinner.getValue() ).intValue() );
+        MoleculeFactoryPanel( IdealGasModule module ) {
+            super( module );
+
+        }
+
+        protected Class getCurrentGasSpecies() {
+            return RigidHollowSphereModule.this.gasSpecies;
+        }
+
+        protected Point2D getNewMoleculeLocation() {
+            double r = random.nextDouble() - GasMolecule.s_defaultRadius;
+            double theta = random.nextDouble() * Math.PI * 2;
+            Point2D.Double p = new Point2D.Double( sphere.getPosition().getX() + r * Math.cos( theta ),
+                                                   sphere.getPosition().getY() + r * Math.sin( theta ) );
+            return p;
+        }
+
+        protected Vector2D getNewMoleculeVelocity() {
+            double s = 0;
+            if( getCurrentGasSpecies() == HeavySpecies.class ) {
+                s = getIdealGasModel().getHeavySpeciesAveSpeed();
+                if( s == 0 ) {
+                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / HeavySpecies.getMoleculeMass() );
+                }
+            }
+            if( getCurrentGasSpecies() == LightSpecies.class ) {
+                s = getIdealGasModel().getLightSpeciesAveSpeed();
+                if( s == 0 ) {
+                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / LightSpecies.getMoleculeMass() );
+                }
+            }
+            double theta = random.nextDouble() * Math.PI * 2;
+            return new Vector2D.Double( s * Math.cos( theta ), s * Math.sin( theta ) );
+        }
+    }
+
+    private class SpeciesSelectionPanel extends JPanel {
+        SpeciesSelectionPanel() {
+            setLayout( new GridBagLayout() );
+            final JRadioButton heavySpeciesRB = new JRadioButton( IdealGasStrings.get( "Common.Heavy_Species" ) );
+            heavySpeciesRB.setForeground( Color.blue );
+            final JRadioButton lightSpeciesRB = new JRadioButton( IdealGasStrings.get( "Common.Light_Species" ) );
+            lightSpeciesRB.setForeground( Color.red );
+            final ButtonGroup speciesGroup = new ButtonGroup();
+            speciesGroup.add( heavySpeciesRB );
+            speciesGroup.add( lightSpeciesRB );
+
+            Insets insets = new Insets( 4,4,0,0 );
+            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                             GridBagConstraints.WEST, GridBagConstraints.NONE,
+                                                             insets, 0, 0 );
+            add( heavySpeciesRB, gbc );
+//            heavySpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
+//            lightSpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
+            gbc.gridy = 1;
+            add( lightSpeciesRB, gbc );
+
+            heavySpeciesRB.setSelected( true );
+            heavySpeciesRB.addActionListener( new ActionListener() {
+                public void actionPerformed
+                        ( ActionEvent
+                        event ) {
+                    if( heavySpeciesRB.isSelected() ) {
+                        gasSpecies = HeavySpecies.class;
+                    }
+                }
+            } );
+
+            lightSpeciesRB.addActionListener( new ActionListener() {
+                public void actionPerformed
+                        ( ActionEvent
+                        event ) {
+                    if( lightSpeciesRB.isSelected() ) {
+                        gasSpecies = LightSpecies.class;
+                    }
                 }
             } );
 
         }
-
-        private void setNumParticlesInSphere( int numParticles ) {
-            int dn = numParticles - numMoleculesInSphere;
-            if( dn > 0 ) {
-                for( int i = 0; i < dn; i++ ) {
-                    pumpGasMolecules( 1 );
-                }
-            }
-            else if( dn < 0 ) {
-                for( int i = 0; i < -dn; i++ ) {
-                    removeGasMolecule();
-                }
-            }
-        }
     }
-
-    private class NumParticlesControls extends JPanel {
-
-        NumParticlesControls() {
-            super( new GridLayout( 1, 2 ) );
-            this.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 40 ) );
-            this.setLayout( new GridLayout( 2, 1 ) );
-
-            this.add( new JLabel( IdealGasStrings.get( "MeasurementControlPanel.Number_of_particles" ) ));
-            // Set up the spinner for controlling the number of particles in
-            // the hollow sphere
-            Integer value = new Integer( 0 );
-            Integer min = new Integer( 0 );
-            Integer max = new Integer( 1000 );
-            Integer step = new Integer( 1 );
-            SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
-            final JSpinner particleSpinner = new JSpinner( model );
-            particleSpinner.setPreferredSize( new Dimension( 20, 5 ) );
-            this.add( particleSpinner );
-
-            particleSpinner.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    setNumParticlesInSphere( ( (Integer)particleSpinner.getValue() ).intValue() );
-                }
-            } );
-        }
-
-        private void setNumParticlesInSphere( int numParticles ) {
-            int dn = numParticles - numMoleculesInSphere;
-            if( dn > 0 ) {
-                for( int i = 0; i < dn; i++ ) {
-                    Class species = getPump().getCurrentGasSpecies();
-                    GasMolecule gm = null;
-                    if( species == HeavySpecies.class ) {
-                        gm = new HeavySpecies( sphere.getPosition(), new Vector2D.Double(), new Vector2D.Double() );
-                    }
-                    if( species == LightSpecies.class ) {
-                        gm = new LightSpecies( sphere.getPosition(), new Vector2D.Double(), new Vector2D.Double() );
-                    }
-                    PumpMoleculeCmd cmd = new PumpMoleculeCmd( (IdealGasModel)getModel(), gm,
-                                                               RigidHollowSphereModule.this );
-                    cmd.doIt();
-                }
-            }
-            else if( dn < 0 ) {
-                for( int i = 0; i < -dn; i++ ) {
-                    removeGasMolecule();
-                }
-            }
-        }
-    }
-
 }
