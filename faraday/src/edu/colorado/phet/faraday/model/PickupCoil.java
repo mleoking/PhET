@@ -28,20 +28,12 @@ import edu.colorado.phet.common.model.ModelElement;
 public class PickupCoil extends AbstractCoil implements ModelElement {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final int HISTORY_SIZE = 5;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private AbstractMagnet _magnetModel;
     private double _emf;  // in volts
-    private double[] _emfHistory;
     private double _flux; // in webers
-    private boolean _smoothingEnabled;
     
     // Debugging stuff...
     private double _maxEmf;
@@ -60,9 +52,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         assert( magnetModel != null );
         _magnetModel = magnetModel;
         _emf = 0.0;
-        _emfHistory = new double[ HISTORY_SIZE ];
         _flux = 0.0;
-        _smoothingEnabled = false;
         updateEmf();
     }
     
@@ -99,38 +89,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      */
     public double getEmf() {
         return _emf;
-    }
-    
-    /**
-     * Smooths out the behavior by removing spikes in the data.
-     * Changing the value of this property has the side-effect of clearing the 
-     * data history.
-     * 
-     * @param smoothingEnabled true to enable, false to disable
-     */
-    public void setSmoothingEnabled( boolean smoothingEnabled ) {
-        if ( smoothingEnabled != _smoothingEnabled ) {
-            _smoothingEnabled = smoothingEnabled;
-            clearHistory();
-        }
-    }
-    
-    /**
-     * Gets the smoothing state. See setSmoothingEnabled.
-     * 
-     * @return true if enabled, false if disabled
-     */
-    public boolean isSmoothingEnabled() {
-        return _smoothingEnabled;
-    }
-    
-    /**
-     * Clears the emf history by setting all values to zero.
-     */
-    private void clearHistory() {
-        for ( int i = 0; i < HISTORY_SIZE; i++ ) {
-            _emfHistory[i] = 0.0;
-        }
     }
  
     //----------------------------------------------------------------------------
@@ -228,17 +186,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         
         // Calculate the induced EMF.
         double emf = -( getNumberOfLoops() * deltaFlux );
-        if ( _smoothingEnabled ) {
-            // Take a median to remove spikes in data.
-            for ( int i = HISTORY_SIZE - 1; i > 0; i-- ) {
-                _emfHistory[i] = _emfHistory[i - 1];
-            }
-            _emfHistory[0] = emf;
-            setEmf( MedianFilter.getMedian( _emfHistory ) );
-        }
-        else {
-            setEmf( emf );
-        }
+        setEmf( emf );
         
 //        // DEBUG: use this to determine the maximum EMF in the simulation.
 //        if ( Math.abs(emf) > Math.abs(_maxEmf) ) {
