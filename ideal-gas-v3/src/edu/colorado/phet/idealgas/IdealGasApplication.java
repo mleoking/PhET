@@ -30,8 +30,13 @@ public class IdealGasApplication extends PhetApplication {
                    IdealGasConfig.FRAME_SETUP );                   
 
             // Create the clock
-            setClock( new SwingTimerClock( IdealGasConfig.s_timeStep,
-                                           IdealGasConfig.s_waitTime ) );
+
+//            setClock( new ThreadedClock( IdealGasConfig.s_timeStep * 1.,
+//                                         IdealGasConfig.s_waitTime, true ) );
+            //            setClock( new ThreadedClock( IdealGasConfig.s_timeStep,
+            //                                         10, false,Thread.MAX_PRIORITY ) );
+                        setClock( new SwingTimerClock( IdealGasConfig.s_timeStep,
+                                                       IdealGasConfig.s_waitTime ) );
 
             // Create the modules
             Module idealGasModule = new IdealGasModule( getClock() );
@@ -45,7 +50,7 @@ public class IdealGasApplication extends PhetApplication {
                 hotAirBalloonModule
             };
             setModules( modules );
-//            setInitialModule( heliumBalloonModule );
+            //            setInitialModule( heliumBalloonModule );
             setInitialModule( idealGasModule );
         }
     }
@@ -66,7 +71,7 @@ public class IdealGasApplication extends PhetApplication {
 
         String test1 = System.getProperty( "java.vm.version" );
         System.out.println( "test1 = " + test1 );
-        String s = System.getProperty( "javaws.locale");
+        String s = System.getProperty( "javaws.locale" );
         System.out.println( "s = " + s );
         String applicationLocale = System.getProperty( "javaws.locale" );
         System.out.println( "applicationLocale = " + applicationLocale );
@@ -76,9 +81,9 @@ public class IdealGasApplication extends PhetApplication {
         }
         String argsKey = "user.language=";
         System.out.println( "args.length = " + args.length );
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
+        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ));
+            Locale.setDefault( new Locale( locale ) );
             System.out.println( "locale = " + locale );
         }
 

@@ -5,17 +5,22 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.common.view;
+package edu.colorado.phet.coreadditions;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphicMouseDelegator;
+import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -48,41 +53,29 @@ public class TestApparatusPanel extends ApparatusPanel {
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     CompositeGraphic graphic = new CompositeGraphic();
     CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic );
+    BufferedImage bImg;
 
     ArrayList graphicsSetups = new ArrayList();
     private boolean paintEnabled;
 
     public TestApparatusPanel( BaseModel model ) {
-        // Call superclass constructor with null so that we
-        // don't get the default layout manager. This allows us
-        // to lay out components with absolute coordinates
-        //        super();
+        super( null );
         MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
-        //        this.addMouseListener( mouseDelegator );
-        //        this.addMouseMotionListener( mouseDelegator );
-        //        BevelBorder border = (BevelBorder)BorderFactory.createLoweredBevelBorder();
-
-        //        Border border = BorderFactory.createLineBorder( Color.black );
-        //        this.setBorder( border );
 
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                Graphics g = PhetApplication.instance().getApplicationView().getPhetFrame().getGraphics();
-                myPaintComponents( g );
+                //                Graphics g = PhetApplication.instance().getApplicationView().getPhetFrame().getGraphics();
+                //                myPaintComponent( g );
+                //                myPaintComponents( g );
+                updateBuffer();
+                paintImmediately( 0, 0, getWidth(), getHeight() );
             }
         } );
-    }
-
-    public void myPaintComponents( Graphics g ) {
-        super.paintComponents( g );
-    }
-
-    public void paintComponents( Graphics g ) {
-        //        super.paintComponents( g );
-        return;
+        //        setOpaque( true );
+        //        setDoubleBuffered( false );
     }
 
     public CompositeInteractiveGraphicMouseDelegator getMouseDelegator() {
@@ -100,14 +93,53 @@ public class TestApparatusPanel extends ApparatusPanel {
         graphic.clear();
     }
 
+    public void repaint( long tm, int x, int y, int width, int height ) {
+        //super.repaint( tm, x, y, width, height );
+    }
+
+    public void repaint( Rectangle r ) {
+        //        super.repaint( r );
+    }
+
+    public void repaint() {
+        //        super.repaint();
+    }
+
+    public void repaint( int x, int y, int width, int height ) {
+        //        super.repaint( x, y, width, height );
+    }
+
+    public void repaint( long tm ) {
+        //        super.repaint( tm );
+    }
+
+    AffineTransform IDENTITY = AffineTransform.getTranslateInstance( 0, 0 );
+
     /**
      * Draws all the Graphic objects in the ApparatusPanel
      *
      * @param graphics
      */
     protected void paintComponent( Graphics graphics ) {
-        Graphics2D g2 = (Graphics2D)graphics;
-        super.paintComponent( g2 );
+        if( bImg == null || bImg.getWidth() != this.getWidth() || bImg.getHeight() != this.getHeight() ) {
+            updateBuffer();
+        }
+        else {
+            ( (Graphics2D)graphics ).drawRenderedImage( bImg, IDENTITY );
+        }
+    }
+
+    private void updateBuffer() {
+        if( bImg == null || bImg.getWidth() != this.getWidth() || bImg.getHeight() != this.getHeight() ) {
+            if( getWidth() == 0 || getHeight() == 0 ) {
+                return;
+            }
+            bImg = new BufferedImage( this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB );
+        }
+        Graphics2D g2 = (Graphics2D)bImg.getGraphics();
+
+        g2.setBackground( super.getBackground() );
+        g2.clearRect( 0, 0, getWidth(), getHeight() );
         for( int i = 0; i < graphicsSetups.size(); i++ ) {
             GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
             graphicsSetup.setup( g2 );
@@ -198,6 +230,7 @@ public class TestApparatusPanel extends ApparatusPanel {
         }
 
         private void handleMouseEvent( MouseEvent event ) {
+            //            if( true) return;
             switch( event.getID() ) {
                 case MouseEvent.MOUSE_CLICKED:
                     handler.mouseClicked( event );

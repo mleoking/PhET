@@ -9,10 +9,10 @@ package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.coreadditions.TestApparatusPanel;
 import edu.colorado.phet.idealgas.IdealGasApplication;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
@@ -24,8 +24,8 @@ import java.io.IOException;
 /**
  *
  */
-//public class BaseIdealGasApparatusPanel extends TestApparatusPanel {
-public class BaseIdealGasApparatusPanel extends ApparatusPanel {
+public class BaseIdealGasApparatusPanel extends TestApparatusPanel {
+//public class BaseIdealGasApparatusPanel extends ApparatusPanel {
 
     // Coordinates of the intake port on the box
     private static boolean toolTipsSet = false;
@@ -40,7 +40,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
      *
      */
     public BaseIdealGasApparatusPanel( Module module, Box2D box ) {
-//        super( module.getModel() );
+        super( module.getModel() );
         init( module, box );
     }
 

@@ -243,7 +243,7 @@ public class IdealGasModule extends Module {
         StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
         stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET + 80,
                                      IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 30, 300, 120 );
-        getApparatusPanel().add( stoveControlPanel );
+//        getApparatusPanel().add( stoveControlPanel );
 
         // Add help items
         addHelp();
