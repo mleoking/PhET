@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.phetgraphics;
+package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -81,8 +81,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         else {
             Shape outlineShape = stroke.createStrokedShape( shape );
             Rectangle bounds = outlineShape.getBounds();
-            Rectangle expanded = new Rectangle( bounds.x, bounds.y, bounds.width + 1, bounds.height + 1 );
-//            Rectangle expanded=RectangleUtils.expand( bounds, 1, 1 );
+            Rectangle expanded = new Rectangle( bounds.x, bounds.y, bounds.width + 1, bounds.height + 1 ); //necessary to capture the entire bounds.
             return expanded;
         }
     }
@@ -92,9 +91,21 @@ public class PhetShapeGraphic extends PhetGraphic {
     }
 
     public void setShape( Shape shape ) {
-        this.shape = shape;
-        setBoundsDirty();
-        repaint();
+        boolean differentShape = false;
+        if( this.shape == null && shape != null ) {
+            differentShape = true;
+        }
+        else if( this.shape != null && shape == null ) {
+            differentShape = true;
+        }
+        else if( shape != null && !shape.equals( this.shape ) ) {
+            differentShape = true;
+        }
+        if( differentShape ) {
+            this.shape = shape;
+            setBoundsDirty();
+            repaint();
+        }
     }
 
     public void translate( double dx, double dy ) {
