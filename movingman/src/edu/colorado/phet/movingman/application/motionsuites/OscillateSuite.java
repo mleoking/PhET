@@ -24,11 +24,12 @@ public class OscillateSuite extends MotionSuite {
     public OscillateSuite( MovingManModule module ) throws IOException {
         super( module, "Oscillate" );
         this.module = module;
-        oscillate = new OscMotion( module, .01 );
+
         double min = 0;
-        double max = .02;
+        double max = 20;
         double numSteps = 200;
         SpinnerNumberModel m = new SpinnerNumberModel( ( max - min ) / 2, min, max, ( max - min ) / numSteps );
+        oscillate = new OscMotion( module, ( (Number)m.getValue() ).doubleValue() );
         final JSpinner js = new JSpinner( m );
         js.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
