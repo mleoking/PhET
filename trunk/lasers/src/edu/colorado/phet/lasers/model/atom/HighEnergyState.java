@@ -39,6 +39,13 @@ public class HighEnergyState extends AtomicState {
 
     private HighEnergyState() {
         setEmittedPhotonWavelength( Photon.BLUE );
+
+        // Set the wavelength of photon we emit when we drop to the next lower energy state
+        double energy1 = Photon.wavelengthToEnergy( this.getWavelength() );
+        double energy2 = Photon.wavelengthToEnergy( this.getNextLowerEnergyState().getWavelength() );
+        double emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 ),
+                                             AtomicState.maxWavelength );
+        setEmittedPhotonWavelength( emittedWavelength );
     }
 
     public void collideWithPhoton( Atom atom, Photon photon ) {

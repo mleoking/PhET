@@ -100,6 +100,7 @@ public class Atom extends SolidSphere {
         if( newState instanceof MiddleEnergyState ) {
             emitPhotonOnLeavingState = true;
         }
+        emitPhotonOnLeavingState = true;
         this.stateLifetimeManager = new StateLifetimeManager( this, emitPhotonOnLeavingState, model );
         eventRegistry.fireEvent( new StateChangeEvent() );
     }
