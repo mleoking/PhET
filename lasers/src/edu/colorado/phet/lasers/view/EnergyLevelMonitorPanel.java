@@ -57,9 +57,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
 
     private int atomDiam = 14;
 
-    private double panelWidth = 300;
-    private double panelHeight = 100;
-//    private double panelWidth = 400;
+//    private double panelWidth = 300;
+    private double panelHeight = 200;
+    private double panelWidth = 400;
 //    private double panelHeight = 200;
     private double sliderWidth = 100;
     private int squiggleHeight = 10;
@@ -102,15 +102,15 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         model.getSeedBeam().addWavelengthChangeListener( this );
 
         // Create a horizontal line for each energy level, then add them to the panel
-        JLabel levelsHelp = new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.EnergyLevelHelp" ) );
-        levelsHelp.setBounds( (int)( levelLineOriginX + 50 ), 15, 200, 30 );
-        this.add( levelsHelp );
+//        JLabel levelsHelp = new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.EnergyLevelHelp" ) );
+//        levelsHelp.setBounds( (int)( levelLineOriginX + 50 ), 15, 200, 30 );
+//        this.add( levelsHelp );
         highLevelLine = new EnergyLevelGraphic( this, HighEnergyState.instance(),
-                                                Color.blue, levelLineOriginX, levelLineLength );
+                                                Color.blue, levelLineOriginX, levelLineLength, true );
         middleLevelLine = new EnergyLevelGraphic( this, MiddleEnergyState.instance(),
-                                                  Color.red, levelLineOriginX + squiggleHeight * 2, levelLineLength );
+                                                  Color.red, levelLineOriginX + squiggleHeight * 2, levelLineLength, true );
         groundLevelLine = new EnergyLevelGraphic( this, GroundState.instance(),
-                                                  Color.black, levelLineOriginX + squiggleHeight * 4, levelLineLength );
+                                                  Color.black, levelLineOriginX + squiggleHeight * 4, levelLineLength, false );
         this.setBackground( Color.white );
         this.addGraphic( highLevelLine );
         this.addGraphic( middleLevelLine );
@@ -133,6 +133,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                 Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY(),
                                                              getBounds().getWidth(), getBounds().getHeight() * 0.85 );
                 energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
+//                                               0, (int)bounds.getBounds().getMaxY() );
                                                (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
                 highLevelLine.update( energyYTx );
                 middleLevelLine.update( energyYTx );
@@ -151,12 +152,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         this.numLevels = numLevels;
         switch( numLevels ) {
             case 2:
-                panelHeight = 300;
                 highLevelLine.setVisible( false );
                 highLevelLifetimeSlider.setVisible( false );
                 break;
             case 3:
-                panelHeight = 300;
                 highLevelLine.setVisible( true );
                 highLevelLifetimeSlider.setVisible( true );
                 break;
@@ -175,11 +174,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
      */
     public void update() {
         numGroundLevelAccum += GroundState.instance().getNumAtomsInState();
-//        numGroundLevelAccum += model.getNumGroundStateAtoms();
         numMiddleLevelAccum += MiddleEnergyState.instance().getNumAtomsInState();
-//        numMiddleLevelAccum += model.getNumMiddleStateAtoms();
         numHighLevelAccum += HighEnergyState.instance().getNumAtomsInState();
-//        numHighLevelAccum += model.getNumHighStateAtoms();
 
         // todo: these two line might be able to go somewhere they aren't called as often
         middleLevelLifetimeSlider.update();
@@ -211,15 +207,19 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         double y2 = energyYTx.modelToView( pumpBeamEnergy );
 
         // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
-        stimSquiggle = computeSquiggleImage( seedBeamWavelength, 0, (int)( y0 - y1 ), squiggleHeight );
-        stimSquiggleTx = AffineTransform.getTranslateInstance( middleLevelLine.getPosition().getX(),
-                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
-        stimSquiggleTx.rotate( -Math.PI / 2 );
+        if( y0 > y1 ) {
+            stimSquiggle = computeSquiggleImage( seedBeamWavelength, 0, (int)( y0 - y1 ), squiggleHeight );
+            stimSquiggleTx = AffineTransform.getTranslateInstance( middleLevelLine.getPosition().getX(),
+                                                                   energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
+            stimSquiggleTx.rotate( -Math.PI / 2 );
+        }
 
-        pumpSquiggle = computeSquiggleImage( pumpBeamWavelength, 0, (int)( y0 - y2 ), squiggleHeight );
-        pumpSquiggleTx = AffineTransform.getTranslateInstance( highLevelLine.getPosition().getX(),
-                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
-        pumpSquiggleTx.rotate( -Math.PI / 2 );
+        if( y0 > y2 ) {
+            pumpSquiggle = computeSquiggleImage( pumpBeamWavelength, 0, (int)( y0 - y2 ), squiggleHeight );
+            pumpSquiggleTx = AffineTransform.getTranslateInstance( highLevelLine.getPosition().getX(),
+                                                                   energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
+            pumpSquiggleTx.rotate( -Math.PI / 2 );
+        }
 
         // Force a repaint
         this.invalidate();
@@ -232,6 +232,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private BufferedImage computeSquiggleImage( double wavelength, double phaseAngle, int length, int height ) {
 
         int arrowHeight = height;
+
         // A buffered image for generating the image data
         BufferedImage img = new BufferedImage( length + 2 * arrowHeight,
                                                height,
@@ -279,35 +280,18 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         GraphicsUtil.setAntiAliasingOn( g2 );
 
         // Draw ground level atoms
-//        g2.setColor( Color.gray );
         drawAtomsInLevel( g2, Color.darkGray, groundLevelLine, numGroundLevel );
 
         // Draw middle level atoms
         if( numLevels >= 2 ) {
             Color c = VisibleColor.wavelengthToColor( MiddleEnergyState.instance().getWavelength() );
             drawAtomsInLevel( g2, c, middleLevelLine, numMiddleLevel );
-//            g2.setColor( c );
-//            for( int i = 0; i < numMiddleLevel; i++ ) {
-//                g2.fillArc( (int)( middleLevelLine.getPosition().getX() + ( atomDiam * i ) ),
-//                            (int)( middleLevelLine.getPosition().getY() - atomDiam ),
-//                            atomDiam,
-//                            atomDiam,
-//                            0, 360 );
-//            }
         }
 
         // Draw high level atoms, if the level is enabled
         if( numLevels >= 3 ) {
             Color c = VisibleColor.wavelengthToColor( HighEnergyState.instance().getWavelength() );
             drawAtomsInLevel( g2, c, highLevelLine, numHighLevel );
-//            g2.setColor( c );
-//            for( int i = 0; i < numHighLevel; i++ ) {
-//                g2.fillArc( (int)( highLevelLine.getPosition().getX() + ( atomDiam * i ) ),
-//                            (int)( highLevelLine.getPosition().getY() - atomDiam ),
-//                            atomDiam,
-//                            atomDiam,
-//                            0, 360 );
-//            }
         }
 
         // Draw squiggles showing what energy photons the beams are putting out
@@ -407,8 +391,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     // Inner classes
     //
     public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listener {
+        // Needs to be accessible to the EnergyLevelGraphic class
+        public final static int sliderHeight = 40;
+
         private EnergyLevelGraphic graphic;
-        private int sliderHeight = 50;
         private int maxSliderWidth = 100;
         private int sliderWidthPadding = 20;
         private int sliderWidth;
