@@ -11,7 +11,6 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.common.ColorDialog;
-import edu.colorado.phet.forces1d.common.JSAudioPlayer;
 import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -24,7 +23,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 import java.util.Arrays;
 
 /**
@@ -83,31 +81,10 @@ public class Force1DModule extends Module {
 
         getForceModel().setBoundsWalled();
 
-        getForceModel().addCollisionListener( new Force1DModel.CollisionListener() {
-            public void collisionOccurred( Force1DModel.CollisionEvent ce ) {
-//                System.out.println( "ce = " + ce );
-                double mom = ce.getMomentum();
-//                URL url1 = Force1DModule.class.getResource( "audio/smash1.wav" );
-                URL url0 = Force1DModule.class.getClassLoader().getResource( "audio/smash0.wav" );
-                URL url1 = Force1DModule.class.getClassLoader().getResource( "audio/smash1.wav" );
-                URL url2 = Force1DModule.class.getClassLoader().getResource( "audio/smash2.wav" );
-//                System.out.println( "url2 = " + url2 );
-//                System.out.println( "url1 = " + url1 );
-//                System.out.println( "mom = " + mom );
-                if( ce.getMomentum() < 50 ) {
+        CrashAudioPlayer crashAudioPlayer = new CrashAudioPlayer();
+        getForceModel().addCollisionListener( crashAudioPlayer );
 
-                }
-                else if( ce.getMomentum() < 2000 ) {
-                    JSAudioPlayer.playNoBlock( url0 );
-                }
-                else if( ce.getMomentum() < 4000 ) {
-                    JSAudioPlayer.playNoBlock( url1 );
-                }
-                else {
-                    JSAudioPlayer.playNoBlock( url2 );
-                }
-            }
-        } );
+//        addHelpItem( new HelpItem( getApparatusPanel(), "Help Item", 100, 100 ) );
     }
 
     protected void updateGraphics() {
@@ -145,6 +122,57 @@ public class Force1DModule extends Module {
             forcePanel.repaint();
         }
     }
+
+//    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException, InterruptedException, InvocationTargetException {
+//        AbstractClock clock = new SwingTimerClock( 1, 30 );
+//        UIManager.setLookAndFeel( new PhetLookAndFeel() );
+////        final Force1DModule module = new Force1DModule( clock );
+////        module.getApparatusPanel().getGraphic().setVisible( false );
+//        FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
+//        final Force1DModule simpleModule = new SimpleForceModule( clock );
+////        Module[] m = new Module[]{simpleModule, module};
+//        Module[] m = new Module[]{simpleModule};
+//
+//        ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
+//                                                       frameSetup, m, clock );
+//        final PhetApplication phetApplication = new PhetApplication( model );
+//
+//        phetApplication.getPhetFrame().addWindowStateListener( new WindowStateListener() {
+//            public void windowStateChanged( WindowEvent e ) {
+//                int oldState = e.getOldState();
+//                int newState = e.getNewState();
+//                if( ( oldState & Frame.MAXIMIZED_BOTH ) == 0 &&
+//                    ( newState & Frame.MAXIMIZED_BOTH ) != 0 ) {
+//                    readyToRender = true;
+//                }
+//            }
+//        } );
+////        module.getApparatusPanel().addComponentListener( new ComponentAdapter() {
+////            public void componentResized( ComponentEvent e ) {
+////                if( readyToRender ) {
+////                    setup( module );
+////                    setup( simpleModule );
+////                    readyToRender = false;
+////                }
+////            }
+////        } );
+//        JMenu options = new JMenu( "Options" );
+//        JMenuItem item = new JMenuItem( "Chart Background Color" );
+////        item.addActionListener( new ActionListener() {
+////            public void actionPerformed( ActionEvent e ) {
+////                module.showColorDialog();
+////            }
+////        } );
+//        options.add( item );
+//
+//        phetApplication.getPhetFrame().addMenu( options );
+////        PersistenceUtil.addMenuItems( phetApplication );
+//        phetApplication.startApplication();
+//
+//        new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
+//        simpleModule.setPhetFrame( phetApplication.getPhetFrame() );
+////        module.setPhetFrame( phetApplication.getPhetFrame() );
+//    }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException, InterruptedException, InvocationTargetException {
         AbstractClock clock = new SwingTimerClock( 1, 30 );

@@ -26,6 +26,10 @@ public class FloatingControl extends VerticalLayoutPanel {
     private JButton recordButton;
     private JButton resetButton;
 
+    public JComponent getGoButton() {
+        return recordButton;
+    }
+
     static {
         try {
             play = ImageLoader.loadBufferedImage( "images/icons/java/media/Play16.gif" );

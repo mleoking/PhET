@@ -65,6 +65,7 @@ public class HelpItem extends PhetGraphic {
         this.location = new Point2D.Double( x, y );
         shadowColor = Color.black;
         foregroundColor = new Color( 156, 156, 0 );
+        setIgnoreMouse( true );
     }
 
     protected Rectangle determineBounds() {

@@ -11,9 +11,7 @@ import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.Force1DUtil;
-import edu.colorado.phet.forces1d.common.LayoutUtil;
-import edu.colorado.phet.forces1d.common.TitleLayout;
-import edu.colorado.phet.forces1d.common.WiggleMe;
+import edu.colorado.phet.forces1d.common.*;
 import edu.colorado.phet.forces1d.common.phetcomponents.PhetButton;
 import edu.colorado.phet.forces1d.common.plotdevice.FloatingControl;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
@@ -276,16 +274,19 @@ public class Force1DPanel extends ApparatusPanel2 {
                 setReferenceSize();
             }
         } );
-//        setUseOffscreenBuffer( true );
-//        Button3D button3D=new Button3D( this, "Button3D!");
-//        Button3D button3D=new Button3D( this, "<html>Button<sub>3d</sub><br>IN HTML</html>");
-//        addGraphic( button3D,Double.POSITIVE_INFINITY );
-//        button3D.setLocation( 100,100);
-//        AnimatedButton3D animatedButton3D=new AnimatedButton3D( this, "Button3D!",10,-0.35);
-//        addGraphic( animatedButton3D,Double.POSITIVE_INFINITY );
-//        animatedButton3D.setLocation( 100,100);
 
-//        getGraphic().scale( 0.5);
+        HelpItem2 sliderHelp = new HelpItem2( this, "<html>Use the slider<br>to set Applied Force</html>" );
+        sliderHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getVerticalChartSlider().getSlider(), this ), 30 );
+
+        HelpItem2 goButtonHelp = new HelpItem2( this, "<html>Press the Go button to record</html>" );
+        goButtonHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( floatingControl.getGoButton(), this ), 30 );
+
+        HelpItem2 dragHelpItem = new HelpItem2( this, "<html>Apply a force to the object</html>" );
+        dragHelpItem.pointDownAt( blockGraphic, 15 );
+
+        module.getHelpManager().addGraphic( sliderHelp );
+        module.getHelpManager().addGraphic( goButtonHelp );
+        module.getHelpManager().addGraphic( dragHelpItem );
     }
 
     private void setShowForceSeries( int series, boolean selected ) {
