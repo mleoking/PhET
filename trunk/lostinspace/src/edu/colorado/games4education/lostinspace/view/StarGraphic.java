@@ -7,8 +7,8 @@
  */
 package edu.colorado.games4education.lostinspace.view;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.games4education.lostinspace.model.Star;
+import edu.colorado.phet.common.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -19,7 +19,7 @@ public class StarGraphic implements Graphic {
 
     private Paint paint;
     private AffineTransform starTx = new AffineTransform();
-    private Ellipse2D.Double circle = new Ellipse2D.Double( );
+    private Ellipse2D.Double circle = new Ellipse2D.Double();
 
     public StarGraphic( double radius, Paint paint, Point2D.Double location ) {
         setRadius( radius );

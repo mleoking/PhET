@@ -7,20 +7,20 @@
  */
 package edu.colorado.games4education.lostinspace.controller;
 
+import edu.colorado.games4education.lostinspace.Config;
+import edu.colorado.games4education.lostinspace.model.StarField;
+import edu.colorado.games4education.lostinspace.model.StarView;
+import edu.colorado.games4education.lostinspace.model.UniverseModel;
+import edu.colorado.games4education.lostinspace.view.CockpitGraphic;
+import edu.colorado.games4education.lostinspace.view.ParallaxReticle;
+import edu.colorado.games4education.lostinspace.view.PhotometerReticle;
+import edu.colorado.games4education.lostinspace.view.StarViewGraphic;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleManager;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.games4education.lostinspace.view.*;
-import edu.colorado.games4education.lostinspace.model.UniverseModel;
-import edu.colorado.games4education.lostinspace.model.StarView;
-import edu.colorado.games4education.lostinspace.model.StarField;
-import edu.colorado.games4education.lostinspace.Config;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 public class CockpitModule extends Module {
 
@@ -57,7 +57,6 @@ public class CockpitModule extends Module {
                                                new Rectangle2D.Double( 50, 50, 600, 400 ),
                                                starViewOriginTx );
         apparatusPanel.addGraphic( starViewGraphic, Config.starLayer );
-        apparatusPanel.addGraphic( new StarGraphic( 10, Color.red, new Point2D.Double( 300, 300 ) ), Config.starLayer );
         setControlPanel( new CockpitControlPanel() );
 
 
@@ -100,8 +99,14 @@ public class CockpitModule extends Module {
         }
     }
 
-    public void changePov( double dx, double dy ) {
-        starView.movePov( dx, dy );
+    public void changeCockpitPov( double cockpitDx, double cockpitDy, double gamma ) {
+        double dx = -cockpitDx * Math.sin( this.starView.getPovTheta() );
+        double dy = cockpitDx * Math.cos( this.starView.getPovTheta() );
+        changeAbsolutePov( dx, dy, gamma );
+    }
+
+    public void changeAbsolutePov( double dx, double dy, double gamma ) {
+        starView.movePov( dx, dy, gamma );
         this.update();
     }
 }

@@ -7,10 +7,10 @@
  */
 package edu.colorado.games4education.lostinspace.controller;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.games4education.lostinspace.model.UniverseModel;
 import edu.colorado.games4education.lostinspace.view.StarMapGraphic;
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.view.ApparatusPanel;
 
 public class StarMapModule extends Module {
     private UniverseModel model;

@@ -6,6 +6,8 @@
  */
 package edu.colorado.games4education.lostinspace.model;
 
+import edu.colorado.games4education.lostinspace.Config;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ public class StarView {
     private StarField starField;
     private double viewAngle;
     private ArrayList visibleStars = new ArrayList();
+    private double rRef = Config.fixedStarDistance;
 
     public StarView( StarField starField, double viewAngle ) {
         this.starField = starField;
@@ -33,6 +36,7 @@ public class StarView {
     /**
      * The visible stars are determined each time the point of view is changed,
      * and the result is cached
+     *
      * @param starField
      * @return
      */
@@ -54,11 +58,15 @@ public class StarView {
         boolean result = false;
 
         // Determine if the star is in our field of view
-        Point2DPolar starPC = new Point2DPolar( star.getLocation(), povPt );
+        Point2DPolar starPC = getPolarCoords( star );
         result = starPC.getTheta() >= povTheta - viewAngle / 2
                  && starPC.getTheta() <= povTheta + viewAngle / 2;
 
         return result;
+    }
+
+    public Point2DPolar getPolarCoords( Star star ) {
+        return new Point2DPolar( star.getLocation(), povPt );
     }
 
     public ArrayList getVisibleStars() {
@@ -72,40 +80,29 @@ public class StarView {
 
     /**
      * Returns the location of the star in the field of view
+     *
      * @param star
      * @return
      */
     public Point2D.Double getLocation( Star star ) {
         Point2DPolar starPC = new Point2DPolar( star.getLocation(), povPt );
-        double x = starPC.getR() * Math.sin( -starPC.getTheta() );
+        double x = rRef * Math.sin( starPC.getTheta() - this.povTheta );
         double y = star.getZ();
         Point2D.Double location = new Point2D.Double( x, y );
         return location;
     }
 
-    public void movePov( double dx, double dy ) {
+    public void movePov( double dx, double dy, double dTheta ) {
         this.povPt.setLocation( povPt.getX() + dx, povPt.getY() + dy );
+        this.povTheta += dTheta;
+        this.determineVisibleStars( starField );
     }
 
-    //
-    // Inner classes
-    //
+    public double getPovTheta() {
+        return this.povTheta;
+    }
 
-    static class ViewRecord {
-        private double brightness;
-        private Point2D.Double location;
-
-        public ViewRecord( double brightness, Point2D.Double location ) {
-            this.brightness = brightness;
-            this.location = location;
-        }
-
-        public double getBrightness() {
-            return brightness;
-        }
-
-        public Point2D.Double getLocation() {
-            return location;
-        }
+    public Point2D.Double getPovPt() {
+        return povPt;
     }
 }

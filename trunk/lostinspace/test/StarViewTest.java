@@ -2,6 +2,7 @@
 import edu.colorado.games4education.lostinspace.model.*;
 
 import java.awt.geom.Point2D;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -20,11 +21,11 @@ public class StarViewTest {
 
         StarField starField = new StarField();
         NormalStar star = null;
-        star = new NormalStar( 100, new Point2D.Double( 20, 20 ), 0 );
+        star = new NormalStar( Color.white, 100, new Point2D.Double( 20, 20 ), 0 );
         starField.addStar( star );
-        star = new NormalStar( 100, new Point2D.Double( 110, 100 ), 0 );
+        star = new NormalStar( Color.white, 100, new Point2D.Double( 110, 100 ), 0 );
         starField.addStar( star );
-        star = new NormalStar( 100, new Point2D.Double( 150, 110 ), 0 );
+        star = new NormalStar( Color.white, 100, new Point2D.Double( 150, 110 ), 0 );
         starField.addStar( star );
 
         StarView starView = new StarView( starField, Math.PI / 2 );
@@ -42,11 +43,11 @@ public class StarViewTest {
 
         StarField starField = new StarField();
         NormalStar star = null;
-        star = new NormalStar( 100, new Point2D.Double( 20, 20 ), 0 );
+        star = new NormalStar( Color.white, 100, new Point2D.Double( 20, 20 ), 0 );
         starField.addStar( star );
-        star = new NormalStar( 100, new Point2D.Double( 110, 100 ), 0 );
+        star = new NormalStar( Color.white, 100, new Point2D.Double( 110, 100 ), 0 );
         starField.addStar( star );
-        star = new NormalStar( 100, new Point2D.Double( 150, 110 ), 0 );
+        star = new NormalStar( Color.white, 100, new Point2D.Double( 150, 110 ), 0 );
         starField.addStar( star );
 
         StarView starView = new StarView( starField, Math.PI / 2 );
@@ -122,19 +123,19 @@ public class StarViewTest {
         Point2D.Double p = null;
 
         // Should print 10:0
-        star = new NormalStar( 100, new Point2D.Double( 15, 0), 0 );
+        star = new NormalStar(Color.white,  100, new Point2D.Double( 15, 0), 0 );
         starView.setPov( 10, 10, 0 );
         p = starView.getLocation( star );
         System.out.println( "-->" + p.getX() + ":" + p.getY() );
 
         // Should print 0:0
-        star = new NormalStar( 100, new Point2D.Double( 15, 10 ), 0 );
+        star = new NormalStar( Color.white, 100, new Point2D.Double( 15, 10 ), 0 );
         starView.setPov( 10, 10, 0 );
         p = starView.getLocation( star );
         System.out.println( "-->" + p.getX() + ":" + p.getY() );
 
         // Should print -10:0
-        star = new NormalStar( 100, new Point2D.Double( 15, 20 ), 0 );
+        star = new NormalStar( Color.white, 100, new Point2D.Double( 15, 20 ), 0 );
         starView.setPov( 10, 10, 0 );
         p = starView.getLocation( star );
         System.out.println( "-->" + p.getX() + ":" + p.getY() );

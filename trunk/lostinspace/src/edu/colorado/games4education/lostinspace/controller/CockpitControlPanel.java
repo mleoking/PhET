@@ -7,8 +7,6 @@
  */
 package edu.colorado.games4education.lostinspace.controller;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-
 import javax.swing.*;
 
 public class CockpitControlPanel extends JPanel {
