@@ -33,7 +33,7 @@ import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 
 /**
- * BarMagnetControls contains the controls for the bar magnet. 
+ * BarMagnetPanel contains the controls for the bar magnet. 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
