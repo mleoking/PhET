@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.common.tests.graphics;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -26,7 +26,12 @@ import java.awt.geom.Point2D;
 
 public class TestArrows {
     static double theta = 0;
+    private static Arrow arrow;
+    private static PhetShapeGraphic shapeGraphic;
 
+    final static int x0 = 400;
+    final static int y0 = 400;
+    final static double r = 200;
 
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Arrow test" );
@@ -37,21 +42,29 @@ public class TestArrows {
         GraphicLayerSet compositeGraphic = new GraphicLayerSet( p );
         p.addGraphic( compositeGraphic );
 
-        final int x0 = 400;
-        final int y0 = 400;
-        final double r = 200;
-        final Arrow arrow = new Arrow( new Point( 200, 300 ), new Point( x0, y0 ), 100, 100, 35, .5, false );
-        final PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( p, arrow.getShape(), Color.blue );
+        arrow = new Arrow( new Point( 200, 300 ), new Point( x0, y0 ), 100, 100, 35, .5, false );
+        shapeGraphic = new PhetShapeGraphic( p, arrow.getShape(), Color.blue );
         SwingTimerClock clock = new SwingTimerClock( 1, 30, true );
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( AbstractClock c, double dt ) {
-                theta += Math.PI / 128;
-                double x = x0 + r * Math.cos( theta );
-                double y = y0 + r * Math.sin( theta );
-                arrow.setTipLocation( new Point2D.Double( x, y ) );
-                shapeGraphic.setShape( new Area( arrow.getShape() ) );
-            }
-        } );
+//        clock.addClockTickListener( new ClockTickListener() {
+//            public void clockTicked( AbstractClock c, double dt ) {
+//                theta += Math.PI / 128;
+//                double x = x0 + r * Math.cos( theta );
+//                double y = y0 + r * Math.sin( theta );
+//                arrow.setTipLocation( new Point2D.Double( x, y ) );
+//                shapeGraphic.setShape( new Area( arrow.getShape() ) );
+//            }
+//        } );
+//        ClockTickListener tickListener = new ClockTickListener() {
+//            public void clockTicked( ClockTickEvent event ) {
+//                theta += Math.PI / 128;
+//                double x = x0 + r * Math.cos( theta );
+//                double y = y0 + r * Math.sin( theta );
+//                arrow.setTipLocation( new Point2D.Double( x, y ) );
+//                shapeGraphic.setShape( new Area( arrow.getShape() ) );
+//            }
+//        };
+//        clock.addClockTickListener( tickListener );
+        clock.addClockTickListener( new MyListener() );
         shapeGraphic.setCursorHand();
         shapeGraphic.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent translationEvent ) {
@@ -72,4 +85,15 @@ public class TestArrows {
         clock.start();
     }
 
+    public static class MyListener implements ClockTickListener {
+
+        public void clockTicked( ClockTickEvent event ) {
+            theta += Math.PI / 128;
+//            System.out.println( "event = " + event );
+            double x = x0 + r * Math.cos( theta );
+            double y = y0 + r * Math.sin( theta );
+            arrow.setTipLocation( new Point2D.Double( x, y ) );
+            shapeGraphic.setShape( new Area( arrow.getShape() ) );
+        }
+    }
 }
