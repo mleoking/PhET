@@ -32,6 +32,8 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
     private int _numberOfLoops;
     // Radius of all loops in the coil.
     private double _radius;
+    // Width of the wire.
+    private double _wireWidth;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -39,10 +41,10 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
     
     /**
      * Zero-argument constructor.
-     * Creates a default coil with one loop, radius=10.0
+     * Creates a default coil with one loop, radius=10.0, wireWidth=16.0
      */
     public AbstractCoil() {
-        this( 1, 10.0 );
+        this( 1, 10.0, 16.0 );
     }
     
     /**
@@ -51,9 +53,10 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
      * @param numberOfLoops number of loops in the coil
      * @param radius radius used for all loops
      */
-    public AbstractCoil( int numberOfLoops, double radius ) {
+    public AbstractCoil( int numberOfLoops, double radius, double wireWidth ) {
         setNumberOfLoops( numberOfLoops );
         setRadius( radius );
+        setWireWidth( wireWidth );
     }
     
     //----------------------------------------------------------------------------
@@ -122,5 +125,30 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
      */
     public double getArea() {
         return _numberOfLoops * ( Math.PI * _radius * _radius );
+    }
+    
+    /**
+     * Sets the width of the wire used for the coil.
+     * 
+     * @param wireWidth the wire width, in pixels
+     */
+    public void setWireWidth( double wireWidth ) {
+        if ( ! (wireWidth > 0) ) {
+            throw new IllegalArgumentException( "wireWidth must be > 0: " + wireWidth );
+        }
+        if ( wireWidth != _wireWidth ) {
+            _wireWidth = wireWidth;
+            updateSelf();
+            notifyObservers();
+        }
+    }
+    
+    /**
+     * Gets the width of the wire used for the coil.
+     * 
+     * @return the wire width, in pixels
+     */
+    public double getWireWidth() {
+        return _wireWidth;
     }
 }

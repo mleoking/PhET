@@ -11,11 +11,9 @@
 
 package edu.colorado.phet.faraday.model;
 
-import java.awt.geom.Point2D;
-
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.view.CoilGraphic;
 
 
 /**
@@ -26,7 +24,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
  * @version $Revision$
  */
 public class Electromagnet extends DipoleMagnet implements SimpleObserver {
-
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -64,6 +62,15 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
      */
     public void update() {
      
+        /* 
+         * Set the magnet's size, based on the coil's physical appearance.
+         * Our magnetic field model requires the magnet's size to be cylindrical
+         * (width significantly > height), so we fudge the height.
+         */
+        double width = _coilModel.getNumberOfLoops() * _coilModel.getWireWidth();
+        double height = width / FaradayConfig.ELECTROMAGNET_ASPECT_RATIO;
+        super.setSize( width, height );
+        
         // Get the voltage across the ends of the coil.
         double coilVoltage = _coilModel.getVoltage();
         

@@ -67,7 +67,6 @@ public class CoilGraphic implements SimpleObserver {
     private static final Color FOREGROUND_COLOR = new Color( 153, 102, 51 ); // light brown
     private static final Color MIDDLEGROUND_COLOR = new Color( 92, 52, 12 ); // dark brown
     private static final Color BACKGROUND_COLOR = new Color( 40, 23, 3 ); // really dark brown
-    private static final int WIRE_WIDTH = 16;
     private static final double LOOP_SPACING_FACTOR = 0.3; // ratio of loop spacing to loop radius
     
     // Space between electrons, determines the number of electrons add to each curve.
@@ -101,10 +100,7 @@ public class CoilGraphic implements SimpleObserver {
     
     // Is electron animation enabled?
     private boolean _electronAnimationEnabled;
-    
-    // The Stoke used to render the loop (determines its width).
-    private Stroke _loopStroke;
-    
+
     // The Colors used to render the loop.
     private Color _foregroundColor, _middlegroundColor, _backgroundColor;
     
@@ -119,6 +115,9 @@ public class CoilGraphic implements SimpleObserver {
     
     // Uses to determine if the loop radius has changed.
     private double _loopRadius;
+    
+    // Used to determine if the wire width has changed.
+    private double _wireWidth;
     
     // Used to determine if the voltage across the coil has changed.
     private double _voltage;
@@ -161,7 +160,6 @@ public class CoilGraphic implements SimpleObserver {
         _background.setRenderingHints( hints );
         
         _electronAnimationEnabled = true;
-        _loopStroke = new BasicStroke( WIRE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL );
         _foregroundColor = FOREGROUND_COLOR;
         _middlegroundColor = MIDDLEGROUND_COLOR;
         _backgroundColor = BACKGROUND_COLOR;
@@ -171,6 +169,7 @@ public class CoilGraphic implements SimpleObserver {
         
         _numberOfLoops = -1; // force update
         _loopRadius = -1; // force update
+        _wireWidth = -1; // force update
         _voltage = -1;  // force update
         
         update();
@@ -358,10 +357,12 @@ public class CoilGraphic implements SimpleObserver {
     private boolean coilChanged() {
         boolean changed = false;
         if ( _numberOfLoops != _coilModel.getNumberOfLoops() ||
-             _loopRadius != _coilModel.getRadius() ) {
+             _loopRadius != _coilModel.getRadius() ||
+             _wireWidth != _coilModel.getWireWidth() ) {
             changed = true;
             _numberOfLoops = _coilModel.getNumberOfLoops();
             _loopRadius = _coilModel.getRadius();
+            _wireWidth = _coilModel.getWireWidth();
         }
         return changed;
     }
@@ -404,6 +405,8 @@ public class CoilGraphic implements SimpleObserver {
             _electrons.clear();
         }
         
+        Stroke loopStroke = new BasicStroke( (float) _coilModel.getWireWidth(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL );
+        
         final double radius = _coilModel.getRadius();
         
         final int numberOfLoops = _coilModel.getNumberOfLoops();
@@ -439,7 +442,7 @@ public class CoilGraphic implements SimpleObserver {
                     
                     PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                     shapeGraphic.setShape( curve );
-                    shapeGraphic.setStroke( _loopStroke );
+                    shapeGraphic.setStroke( loopStroke );
                     shapeGraphic.setBorderPaint( paint );
                     _background.addGraphic( shapeGraphic );
                 }
@@ -458,7 +461,7 @@ public class CoilGraphic implements SimpleObserver {
                     
                     PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                     shapeGraphic.setShape( curve );
-                    shapeGraphic.setStroke( _loopStroke );
+                    shapeGraphic.setStroke( loopStroke );
                     shapeGraphic.setBorderPaint( paint );
                     _background.addGraphic( shapeGraphic );
                 }   
@@ -478,7 +481,7 @@ public class CoilGraphic implements SimpleObserver {
                 
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
-                shapeGraphic.setStroke( _loopStroke );
+                shapeGraphic.setStroke( loopStroke );
                 shapeGraphic.setBorderPaint( paint );
                 _background.addGraphic( shapeGraphic );
             }
@@ -498,7 +501,7 @@ public class CoilGraphic implements SimpleObserver {
                 
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
-                shapeGraphic.setStroke( _loopStroke );
+                shapeGraphic.setStroke( loopStroke );
                 shapeGraphic.setBorderPaint( paint );
                 _background.addGraphic( shapeGraphic );
             }
@@ -518,7 +521,7 @@ public class CoilGraphic implements SimpleObserver {
                 
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
-                shapeGraphic.setStroke( _loopStroke );
+                shapeGraphic.setStroke( loopStroke );
                 shapeGraphic.setBorderPaint( paint );
                 _foreground.addGraphic( shapeGraphic );
             }
@@ -538,7 +541,7 @@ public class CoilGraphic implements SimpleObserver {
                 
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
-                shapeGraphic.setStroke( _loopStroke );
+                shapeGraphic.setStroke( loopStroke );
                 shapeGraphic.setBorderPaint( paint );
                 _foreground.addGraphic( shapeGraphic );
             }
@@ -560,7 +563,7 @@ public class CoilGraphic implements SimpleObserver {
                 
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
-                shapeGraphic.setStroke( _loopStroke );
+                shapeGraphic.setStroke( loopStroke );
                 shapeGraphic.setBorderPaint( paint );
                 _foreground.addGraphic( shapeGraphic );
             }   
