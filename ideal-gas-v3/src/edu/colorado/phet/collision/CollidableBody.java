@@ -31,31 +31,31 @@ public abstract class CollidableBody extends Body {
     protected CollidableBody() {
     }
 
-    protected CollidableBody( Point2D position, Vector2D velocity,
-                              Vector2D acceleration, double mass, double charge ) {
-        super( position, velocity, acceleration, mass, charge );
+    protected CollidableBody(Point2D position, Vector2D velocity,
+                             Vector2D acceleration, double mass, double charge) {
+        super(position, velocity, acceleration, mass, charge);
     }
 
     public boolean isCollidable() {
         return collidable;
     }
 
-    public void stepInTime( double dt ) {
+    public void stepInTime(double dt) {
         // Save the velocity and position before they are updated. This information
         // is used in collision calculations
-        if( velocityPrev == null ) {
+        if (velocityPrev == null) {
             velocityPrev = new Vector2D.Double();
         }
-        velocityPrev.setComponents( getVelocity().getX(), getVelocity().getY() );
-        if( positionPrev == null ) {
-            positionPrev = new Point2D.Double( getPosition().getX(), getPosition().getY() );
+        velocityPrev.setComponents(getVelocity().getX(), getVelocity().getY());
+        if (positionPrev == null) {
+            positionPrev = new Point2D.Double(getPosition().getX(), getPosition().getY());
         }
-        positionPrev.setLocation( getPosition() );
+        positionPrev.setLocation(getPosition());
 
-        super.stepInTime( dt );
+        super.stepInTime(dt);
     }
 
-    public void setCollidable( boolean collidable ) {
+    public void setCollidable(boolean collidable) {
         this.collidable = collidable;
     }
 
@@ -73,16 +73,16 @@ public abstract class CollidableBody extends Body {
         return containedBodies;
     }
 
-    public void addContainedBody( Body body ) {
-        containedBodies.add( body );
+    public void addContainedBody(Body body) {
+        containedBodies.add(body);
     }
 
-    public void removeContainedBody( Body body ) {
-        containedBodies.remove( body );
+    public void removeContainedBody(Body body) {
+        containedBodies.remove(body);
     }
 
-    public boolean containsBody( Body body ) {
-        return containedBodies.contains( body );
+    public boolean containsBody(Body body) {
+        return containedBodies.contains(body);
     }
 
     public int numContainedBodies() {
@@ -92,11 +92,11 @@ public abstract class CollidableBody extends Body {
     //
     // Constraint related methods
     //
-    public void addConstraint( Constraint constraintSpec ) {
-        constraints.add( constraintSpec );
+    public void addConstraint(Constraint constraintSpec) {
+        constraints.add(constraintSpec);
     }
 
-    public void removeConstraint( Constraint constraintSpec ) {
-        constraints.remove( constraintSpec );
+    public void removeConstraint(Constraint constraintSpec) {
+        constraints.remove(constraintSpec);
     }
 }

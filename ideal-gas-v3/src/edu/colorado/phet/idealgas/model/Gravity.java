@@ -7,28 +7,30 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.AbstractModelElement;
 import edu.colorado.phet.mechanics.Body;
 
+import java.util.EventListener;
+import java.util.EventObject;
 import java.util.List;
 
-public class Gravity implements ModelElement {
+public class Gravity extends AbstractModelElement {
     //public class Gravity implements Force {
     //public class Gravity implements Force {
 
-    private Vector2D acceleration;
+    private Vector2D acceleration = new Vector2D.Double();
     private IdealGasModel model;
 
-    public Gravity( IdealGasModel model ) {
+    public Gravity(IdealGasModel model) {
         this.model = model;
-        this.setAmt( 0 );
+        this.setAmt(0);
     }
 
-    public void stepInTime( double dt ) {
+    public void stepInTime(double dt) {
         List bodies = model.getBodies();
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
-            body.setAcceleration( body.getAcceleration().add( acceleration ) );
+        for (int i = 0; i < bodies.size(); i++) {
+            Body body = (Body) bodies.get(i);
+            body.setAcceleration(body.getAcceleration().add(acceleration));
         }
     }
 
@@ -36,7 +38,32 @@ public class Gravity implements ModelElement {
         return acceleration.getY();
     }
 
-    public void setAmt( double amt ) {
-        this.acceleration = new Vector2D.Double( 0, amt );
+    public void setAmt(double amt) {
+        double oldAmt = acceleration.getMagnitude();
+        this.acceleration = new Vector2D.Double(0, amt);
+        double change = acceleration.getMagnitude() - oldAmt;
+        fireEvent(new ChangeEvent(this, change));
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Inner classes
+
+    public interface ChangeListener extends EventListener {
+        void gravityChanged(Gravity.ChangeEvent event);
+    }
+
+    public class ChangeEvent extends EventObject {
+        private double change;
+
+        public ChangeEvent(Object source, double change) {
+            super(source);
+            this.change = change;
+        }
+
+        public double getChange() {
+            return change;
+        }
+    }
+
 }

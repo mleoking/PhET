@@ -17,20 +17,28 @@ import java.awt.geom.Point2D;
 
 public class Balloon extends HollowSphere {
 
+    public static final double MIN_RADIUS = 10;
+
     private ScalarDataRecorder insidePressureRecorder;
     private ScalarDataRecorder outsidePressureRecorder;
 
     // Attributes for adjusting the size of the balloon
     private int timeStepsSinceLastRadiusAdjustment = 0;
-    private int timeStepsBetweenRadiusAdjustments = 20;
+    private int timeStepsBetweenRadiusAdjustments = 5;
+//    private int timeStepsBetweenRadiusAdjustments = 20;
     private double aveInOutPressureRatio = 0;
     // Exponent for the power function that adjusts the size of the balloon when
     // the internal or external pressure changes
+//    private double dampingExponent = 015;
     private double dampingExponent = 0.02;
     // Temporary varaibles, pre-allocated for performance
     private Vector2D momentumPre = new Vector2D.Double();
     private Vector2D momentumPost = new Vector2D.Double();
     private Box2D box;
+    private double aDouble;
+
+
+    public static Balloon instance;
 
     /**
      * @param center
@@ -39,17 +47,19 @@ public class Balloon extends HollowSphere {
      * @param mass
      * @param radius
      */
-    public Balloon( Point2D center,
-                    Vector2D velocity,
-                    Vector2D acceleration,
-                    double mass,
-                    double radius,
-                    Box2D box,
-                    AbstractClock clock ) {
-        super( center, velocity, acceleration, mass, radius );
+    public Balloon(Point2D center,
+                   Vector2D velocity,
+                   Vector2D acceleration,
+                   double mass,
+                   double radius,
+                   Box2D box,
+                   AbstractClock clock) {
+        super(center, velocity, acceleration, mass, radius);
         this.box = box;
-        insidePressureRecorder = new ScalarDataRecorder( clock );
-        outsidePressureRecorder = new ScalarDataRecorder( clock );
+        insidePressureRecorder = new ScalarDataRecorder(clock);
+        outsidePressureRecorder = new ScalarDataRecorder(clock);
+
+        instance = this;
     }
 
 //    public void reInitialize() {
@@ -67,7 +77,7 @@ public class Balloon extends HollowSphere {
 //                                                     0,
 //                                                     GasMolecule.s_defaultRadius );
 
-    public void collideWithParticle( CollidableBody particle ) {
+    public void collideWithParticle(CollidableBody particle) {
 
         // Get the momentum of the balloon before the collision
 //        momentumPre.setX( getVelocity().getX() );
@@ -84,59 +94,60 @@ public class Balloon extends HollowSphere {
 //        super.collideWithParticle( sphericalBody );
 
         // Get the new momentum of the balloon
-        momentumPost.setX( this.getVelocity().getX() );
-        momentumPost.setY( this.getVelocity().getY() );
-        momentumPost = momentumPost.scale( this.getMass() );
+        momentumPost.setX(this.getVelocity().getX());
+        momentumPost.setY(this.getVelocity().getY());
+        momentumPost = momentumPost.scale(this.getMass());
 
         // Compute the change in momentum and record it as pressure
-        Vector2D momentumChange = momentumPost.subtract( momentumPre );
+        Vector2D momentumChange = momentumPost.subtract(momentumPre);
         double impact = momentumChange.getMagnitude();
         // todo: change this to a test that relies on containsBody, when that is correctly implemented
-        ScalarDataRecorder recorder = this.contains( particle )
-                                      ? insidePressureRecorder
-                                      : outsidePressureRecorder;
-        recorder.addDataRecordEntry( impact );
-        momentumPre.setComponents( momentumPost.getX(), momentumPost.getY() );
+        ScalarDataRecorder recorder = this.contains(particle)
+                ? insidePressureRecorder
+                : outsidePressureRecorder;
+        recorder.addDataRecordEntry(impact);
+        momentumPre.setComponents(momentumPost.getX(), momentumPost.getY());
     }
 
-    private boolean contains( Body body ) {
-        double distSq = this.getCenter().distanceSq( body.getCM() );
+    private boolean contains(Body body) {
+        double distSq = this.getCenter().distanceSq(body.getCM());
         return distSq < this.getRadius() * this.getRadius();
     }
 
     /**
      * @param dt
      */
-    public void stepInTime( double dt ) {
+    public void stepInTime(double dt) {
 
-        super.stepInTime( dt );
+        super.stepInTime(dt);
 
         // Compute average pressure differential
         insidePressureRecorder.computeDataStatistics();
         outsidePressureRecorder.computeDataStatistics();
-        double outsidePressure = Math.max( outsidePressureRecorder.getDataTotal(), 1 );
+        double outsidePressure = Math.max(outsidePressureRecorder.getDataTotal(), 1);
         double currInOutPressureRatio = insidePressureRecorder.getDataTotal() / outsidePressure;
 //        double currInOutPressureRatio = insidePressureRecorder.getDataTotal() / outsidePressureRecorder.getDataTotal();
-        if( !Double.isNaN( currInOutPressureRatio )
-            && currInOutPressureRatio != 0
-            && currInOutPressureRatio != Double.POSITIVE_INFINITY
-            && currInOutPressureRatio != Double.NEGATIVE_INFINITY ) {
-            aveInOutPressureRatio = ( ( aveInOutPressureRatio * timeStepsSinceLastRadiusAdjustment )
-                                      + ( insidePressureRecorder.getDataTotal() / outsidePressureRecorder.getDataTotal() ) )
-                                    / ( ++timeStepsSinceLastRadiusAdjustment );
+        if (!Double.isNaN(currInOutPressureRatio)
+                && currInOutPressureRatio != 0
+                && currInOutPressureRatio != Double.POSITIVE_INFINITY
+                && currInOutPressureRatio != Double.NEGATIVE_INFINITY) {
+            aveInOutPressureRatio = ((aveInOutPressureRatio * timeStepsSinceLastRadiusAdjustment)
+                    + (insidePressureRecorder.getDataTotal() / outsidePressureRecorder.getDataTotal()))
+                    / (++timeStepsSinceLastRadiusAdjustment);
         }
 
         // Adjust the radius of the balloon
         //Make sure the balloon doesn't expand beyond the box
-        double maxRadius = Math.min( ( box.getMaxX() - box.getMinX() ) / 2,
-                                     ( box.getMaxY() - box.getMinY() ) / 2 );
-        if( timeStepsSinceLastRadiusAdjustment >= timeStepsBetweenRadiusAdjustments ) {
+        double maxRadius = Math.min((box.getMaxX() - box.getMinX()) / 2,
+                (box.getMaxY() - box.getMinY()) / 2);
+        timeStepsSinceLastRadiusAdjustment++;
+        if (timeStepsSinceLastRadiusAdjustment >= timeStepsBetweenRadiusAdjustments) {
             timeStepsSinceLastRadiusAdjustment = 0;
 
-            double newRadius = Math.min( this.getRadius() * Math.pow( aveInOutPressureRatio, dampingExponent ), maxRadius );
-            if( !Double.isNaN( newRadius ) ) {
-                newRadius = Math.min( maxRadius, Math.max( newRadius, 20 ) );
-                this.setRadius( newRadius );
+            double newRadius = Math.min(this.getRadius() * Math.pow(aveInOutPressureRatio, dampingExponent), maxRadius);
+            if (!Double.isNaN(newRadius)) {
+                aDouble = newRadius = Math.min(maxRadius, Math.max(newRadius, MIN_RADIUS));
+                this.setRadius(newRadius);
             }
         }
     }
