@@ -13,8 +13,7 @@ import edu.colorado.phet.movingman.elements.Man;
 public class OscMotion implements StepMotion {
     double k;//spring constant.
     double center = 0;
-    double initialVelocity = 1;
-    private double amplitude = 2;
+    private double initX = 2;
     private MovingManModule module;
 
     public OscMotion( MovingManModule module, double k ) {
@@ -23,12 +22,8 @@ public class OscMotion implements StepMotion {
     }
 
     public double stepInTime( Man man, double dt ) {
-        if( Math.abs( man.getX() ) < .01 && Math.abs( module.getMan().getVelocity() ) < .01 ) {
-            module.getMan().setVelocity( 0 );
-            man.setX( amplitude );
-        }
-        //f=ma
-        double acceleration = -k * ( man.getX() - center );
+        double x = man.getX() - center;
+        double acceleration = -k * x;
         double vnew = module.getMan().getVelocity() + acceleration * dt;
         module.getMan().setVelocity( vnew );
         double xnew = man.getX() + vnew * dt;
@@ -37,5 +32,10 @@ public class OscMotion implements StepMotion {
 
     public void setK( double k ) {
         this.k = k;
+    }
+
+    public void initialize( Man man ) {
+        module.getMan().setVelocity( 0 );
+        man.setX( initX );
     }
 }
