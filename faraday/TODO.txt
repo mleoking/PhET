@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- AC frequency should be sinusoidal
 - show frequency & amplitude graph on the ACSourceGraphic
 - adjust electron animation so that electrons move farther
 - behavior of AC/DC amplitude around "zero" should be smoother
@@ -45,12 +44,13 @@ phetcommon:
 - bug: ApparatusPanel2 resize problems
 - bug: MathUtil.clamp behavior with Double.NaN
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
-- bug: ix PhetShapeGraphic.contains so that stroke width is taken into account, test with CompassGraphic
+- bug: fix PhetShapeGraphic.contains so that stroke width is taken into account, test with CompassGraphic
 - make PhetTextGraphic handle <br>, deprecate PhetMultiLineTextGraphic
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
 v0r16...
+(3/7) - make AC vary sinusoidally
 (3/7) - put controls directly on AC graphic
 (3/4) - label battery amplitude in volts, -10 to +10
 (3/4) - put amplitude control directly on battery graphic
