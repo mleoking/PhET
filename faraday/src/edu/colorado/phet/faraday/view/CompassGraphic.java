@@ -145,22 +145,6 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
     }
     
     //----------------------------------------------------------------------------
-    // Override inherited methods
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates when we become visible.
-     * 
-     * @param visible true for visible, false for invisible
-     */
-    public void setVisible( boolean visible ) {
-        if ( visible != super.isVisible() ) {
-            super.setVisible( visible );
-            update();
-        }
-    }
-    
-    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
 
