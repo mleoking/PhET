@@ -50,15 +50,11 @@ public class IdealGasControlPanel extends JPanel {
     }
 
     private void init() {
-
-//        this.setLayout( new FlowLayout( FlowLayout.LEFT ) );
-//        this.setPreferredSize( new Dimension( 140, 300 ) );
         this.setLayout( new GridBagLayout() );
         gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                                  GridBagConstraints.CENTER,
                                                                  GridBagConstraints.HORIZONTAL,
                                                                  new Insets(0,0,0,0), 0, 0 );
-
         add( addConstantParamControls(), gbc );
         gbc.gridy++;
         add( addGravityControls(), gbc );

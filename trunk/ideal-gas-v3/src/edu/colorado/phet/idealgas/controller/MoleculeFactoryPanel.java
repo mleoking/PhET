@@ -97,7 +97,7 @@ public class MoleculeFactoryPanel extends JPanel {
         return new Vector2D.Double( s * Math.cos( theta ), s * Math.sin( theta ) );
     }
 
-    private void setNumParticles( int numParticles ) {
+    protected void setNumParticles( int numParticles ) {
         int dn = numParticles - currNumMolecules;
         if( dn > 0 ) {
             for( int i = 0; i < dn; i++ ) {

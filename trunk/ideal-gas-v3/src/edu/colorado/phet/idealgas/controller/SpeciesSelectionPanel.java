@@ -40,9 +40,7 @@ public class SpeciesSelectionPanel extends JPanel {
 
         heavySpeciesRB.setSelected( true );
         heavySpeciesRB.addActionListener( new ActionListener() {
-            public void actionPerformed
-                    ( ActionEvent
-                    event ) {
+            public void actionPerformed( ActionEvent event ) {
                 if( heavySpeciesRB.isSelected() ) {
                     gasSource.setCurrentGasSpecies( HeavySpecies.class );
                 }

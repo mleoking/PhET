@@ -25,24 +25,6 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
     private IdealGasModel idealGasModel;
 
 
-    //    public PumpMoleculeCmd( IdealGasModel model, double initialEnergy ) {
-    //        this( model, model.getCurrentGasSpecies() );
-    //        this.initialEnergy = ( initialEnergy == 0 ? DEFAULT_ENERGY : initialEnergy );
-    //    }
-    //
-    //    public PumpMoleculeCmd( IdealGasModel model ) {
-    //        this( model, model.getCurrentGasSpecies() );
-    //    }
-    //
-    //    public PumpMoleculeCmd( IdealGasModel model,
-    //                            Class speciesClass ) {
-    //        super( model, s_gasFactory.create( model,
-    //                                           model.getAverageMoleculeEnergy() ));
-    //        this.model = model;
-    //        this.speciesClass = speciesClass;
-    //        this.initialEnergy = DEFAULT_ENERGY;
-    //    }
-
     public PumpMoleculeCmd( IdealGasModel model,
                             GasMolecule molecule,
                             Module module ) {
@@ -55,7 +37,6 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
 
     public void doIt() {
         super.doIt();
-//        molecule.setModel( model );
 
         PhetGraphic graphic = null;
         if( molecule instanceof HeavySpecies ) {
