@@ -205,6 +205,8 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             
             // This will be flattened after we've added graphics to it.
             GraphicLayerSet graphicLayerSet = new GraphicLayerSet( component );
+            RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            graphicLayerSet.setRenderingHints( hints );
             
             // Meter body
             PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.VOLTMETER_IMAGE );
@@ -287,8 +289,6 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                 Dimension size = graphicLayerSet.getSize();
                 BufferedImage bufferedImage = new BufferedImage( size.width, size.height, BufferedImage.TYPE_INT_ARGB );
                 Graphics2D g2 = bufferedImage.createGraphics();
-                RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-                g2.setRenderingHints( hints );
                 graphicLayerSet.paint( g2 );
                 setImage( bufferedImage );
             }
