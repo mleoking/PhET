@@ -57,8 +57,6 @@ public class NuclearPhysicsModule extends Module {
                 apparatusPanel.repaint();
             }
         } );
-        boolean b = clock.hasStarted();
-        b = clock.isRunning();
 
         JPanel controlPanel = new NuclearPhysicsControlPanel( this );
         super.setControlPanel( controlPanel );
