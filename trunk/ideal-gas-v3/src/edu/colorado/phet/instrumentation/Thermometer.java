@@ -107,7 +107,8 @@ public class Thermometer extends PhetGraphic {
         g.fill( innerRect );
 
         double v = Double.isNaN( value ) ? 0 : value / 1000;
-        String temperatureStr = formatter.format( v ) + '\u00b0' + "K";
+        String temperatureStr = formatter.format( v ) + "K";
+//        String temperatureStr = formatter.format( v ) + '\u00b0' + "K";
         g.setColor( Color.black );
         int strLocY = (int)innerRect.getMinY() + fontMetrics.getHeight();
         g.drawString( temperatureStr, (int)innerRect.getMaxX() - 5 - fontMetrics.stringWidth( temperatureStr ), strLocY );
