@@ -38,27 +38,27 @@ public interface Function {
     }
 
     public static class LinearFunction implements Function {
-        private double xMin;
-        private double xMax;
-        private double yMin;
-        private double yMax;
+        private double minInput;
+        private double maxInput;
+        private double minOutput;
+        private double maxOutput;
 
         private double t1;
         private double scale;
         private double t2;
 
-        public LinearFunction( double xMin, double xMax, double yMin, double yMax ) {
-            this.xMin = xMin;
-            this.xMax = xMax;
-            this.yMin = yMin;
-            this.yMax = yMax;
+        public LinearFunction( double minInput, double maxInput, double minOutput, double maxOutput ) {
+            this.minInput = minInput;
+            this.maxInput = maxInput;
+            this.minOutput = minOutput;
+            this.maxOutput = maxOutput;
             update();
         }
 
         protected void update() {
-            t1 = ( -xMin );
-            scale = ( yMax - yMin ) / ( xMax - xMin );
-            t2 = yMin;
+            t1 = ( -minInput );
+            scale = ( maxOutput - minOutput ) / ( maxInput - minInput );
+            t2 = minOutput;
         }
 
         public double evaluate( double x ) {
@@ -69,42 +69,42 @@ public interface Function {
         }
 
         public Function createInverse() {
-            return new LinearFunction( yMin, yMax, xMin, xMax );
+            return new LinearFunction( minOutput, maxOutput, minInput, maxInput );
         }
 
         public double getMinInput() {
-            return xMin;
+            return minInput;
         }
 
         public double getMaxInput() {
-            return xMax;
+            return maxInput;
         }
 
         public double getMinOutput() {
-            return yMin;
+            return minOutput;
         }
 
         public double getMaxOutput() {
-            return yMax;
+            return maxOutput;
         }
 
         public double getInputRange() {
-            return xMax - xMin;
+            return maxInput - minInput;
         }
 
         public double getOutputRange() {
-            return yMax - yMin;
+            return maxOutput - minOutput;
         }
 
-        public void setInput( double xMin, double xMax ) {
-            this.xMin = xMin;
-            this.xMax = xMax;
+        public void setInput( double minInput, double maxInput ) {
+            this.minInput = minInput;
+            this.maxInput = maxInput;
             update();
         }
 
-        public void setOutput( double yMin, double yMax ) {
-            this.yMin = yMin;
-            this.yMax = yMax;
+        public void setOutput( double minOutput, double maxOutput ) {
+            this.minOutput = minOutput;
+            this.maxOutput = maxOutput;
             update();
         }
     }
