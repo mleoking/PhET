@@ -60,7 +60,7 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
 
     // Magnet parameters
-    private static final double MAGNET_STRENGTH = 200;
+    private static final double MAGNET_STRENGTH = 0.75 * FaradayConfig.MAGNET_STRENGTH_MAX;
 
     //----------------------------------------------------------------------------
     // Instance data

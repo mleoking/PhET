@@ -8,29 +8,21 @@ IN PROGRESS:
 HIGH PRIORITY:
 - after a collision, don't start dragging again until cursor is over the object
 - "spike" emf changes are not being displayed
-- change sliders to "ModelSlider" used by other simulations
-- magnet strength scale change to 10-100 (no units)
-- loop area change 50-150 (no units)
-- group Coil items (Loops, Area, Indicator, Show Electrons)
-- group Magnet items (Strength, Flip Polarity, Show Field, Show Compass)
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
 - Electromagnet module
 - check performance of grid with calc disable & drawing enabled
-- cache grid needles at 1-degree angles to eliminate rotation transform
-- optimize performance
 - check performance with a profiler
 - Transformer module requirements
-- remove AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf as possible optimization
-- check for unnecessary notification, events and updates
 
 LOW PRIORITY:
+- check for unnecessary notification, events and updates
+- replace EasyGridBagLayout with SwingUtils.addGridBagComponent
 - background color (use new PhetApplication interface)
 - disable "See Inside Magnet" control when grid is off
 - transparent bar magnet layer so that field meter looks like it's inside it
 - agree on control labels
-- Wiggle Me's
 - remove unused images from JAR file
 - remove unused i18n strings
 - Help/MegaHelp
@@ -39,6 +31,11 @@ LOW PRIORITY:
 - delete DeveloperControlsPanel when we don't need it anymore
 - remove DebuggerGraphic from modules
 - move test-src programs to examples project
+
+POSSIBLE OPTIMIZATIONS:
+- draw grid needles as images instead of shapes
+- cache grid needles at N-degree angles to eliminate rotation transform
+- eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf
 
 phetcommon:
 - hand cursor bug, doesn't revert to arrow if cursor is outside graphic's bounds
@@ -50,6 +47,10 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/17) - change magnet strength control to a percentage
+(2/17) - change loop area control to a percentage
+(2/17) - group Coil items (Loops, Area, Indicator, Show Electrons)
+(2/17) - group Magnet items (Strength, Flip Polarity, Show Field, Show Compass)
 (2/17) - hide play/pause/stop buttons
 (2/17) - add skeleton for "Electromagnet" module
 (2/17) - rename "Connect to Coil" -> "Indicator"
@@ -176,6 +177,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(2/17) - change sliders to "ModelSlider" used by other simulations (No - not used by many others, has problems)
 (2/15) - encapulate all rescaling of emf into one place (already encapsulated in Rescaler)
 (2/10) - PickupCoilGraphic leaves screen turds (ApparatusPanel2 problem)
 (2/10) - make lightbulb ramp up/down instead of immediate on/off (looks fine as is)
