@@ -232,10 +232,14 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             {
                 double speed = _turbineModel.getSpeed();
                 
-                // Amount of water
-                int waterWidth = (int) Math.abs( speed * MAX_WATER_WIDTH );
-                _waterShape.setBounds( -( waterWidth / 2 ), 0, waterWidth, _parentBounds.height );
-                _waterGraphic.setShape( _waterShape );
+                if ( speed == 0 ) {
+                    _waterGraphic.setShape( null );
+                }
+                else {
+                    int waterWidth = (int) Math.abs( speed * MAX_WATER_WIDTH );
+                    _waterShape.setBounds( -( waterWidth / 2 ), 0, waterWidth, _parentBounds.height );
+                    _waterGraphic.setShape( _waterShape );
+                }
             }
 
             repaint();
