@@ -1,6 +1,8 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.cck.common;
 
+import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
+
 import java.awt.*;
 
 /**

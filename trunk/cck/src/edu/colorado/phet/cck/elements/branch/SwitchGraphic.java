@@ -2,9 +2,9 @@
 package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.CCK2Module;
-import edu.colorado.phet.cck.common.SimpleObserver;
 import edu.colorado.phet.cck.elements.branch.components.Switch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 

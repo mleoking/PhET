@@ -1,11 +1,11 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.cck.elements.branch.components;
 
-import edu.colorado.phet.cck.common.SimpleObserver;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.cck.elements.xml.SwitchData;
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 
 import java.util.ArrayList;
 

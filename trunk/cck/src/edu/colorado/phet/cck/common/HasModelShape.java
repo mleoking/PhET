@@ -1,5 +1,7 @@
 package edu.colorado.phet.cck.common;
 
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+
 import java.awt.*;
 
 /**

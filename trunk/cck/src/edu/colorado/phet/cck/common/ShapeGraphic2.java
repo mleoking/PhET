@@ -1,6 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.cck.common;
 
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;

@@ -1,10 +1,10 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.cck.elements.dvm;
 
-import edu.colorado.phet.cck.common.SimpleObserver;
 import edu.colorado.phet.cck.elements.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.elements.circuit.LeadWireConnection;
 import edu.colorado.phet.cck.elements.junction.Junction;
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.graphics.HashedImageLoader;
