@@ -97,4 +97,6 @@ public class SoundConfig {
 
     public static int s_meterStickBaseX = 400;
     public static int s_meterStickBaseY = 500;
+
+    public static double HELP_LAYER = Double.MAX_VALUE;
 }
