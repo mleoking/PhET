@@ -15,6 +15,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.faraday.module.ElectromagnetModule;
 import edu.colorado.phet.faraday.module.MagnetAndCoilModule;
 import edu.colorado.phet.faraday.module.BarMagnetModule;
 import edu.colorado.phet.faraday.module.TransformerModule;
@@ -49,8 +50,9 @@ public class FaradayApplicationModel extends ApplicationModel {
         // Simulation Modules
         BarMagnetModule barMagnetModule = new BarMagnetModule( this );
         MagnetAndCoilModule magnetAndCoilModule = new MagnetAndCoilModule( this );
+        ElectromagnetModule electromagnetModule = new ElectromagnetModule( this );
         TransformerModule transformerModule = new TransformerModule( this );
-        this.setModules( new Module[] { barMagnetModule, magnetAndCoilModule, transformerModule } );
+        this.setModules( new Module[] { barMagnetModule, magnetAndCoilModule, electromagnetModule, transformerModule } );
 
         // Initial module to be displayed.
         this.setInitialModule( barMagnetModule );
