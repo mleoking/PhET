@@ -6,6 +6,7 @@ import edu.colorado.phet.cck.elements.branch.BranchObserver;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
@@ -13,8 +14,6 @@ import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * User: Sam Reid
@@ -45,8 +44,8 @@ public class BranchParticleGraphic implements Graphic {
                 stateChanged();
             }
         });
-        particle.addObserver(new Observer() {
-            public void update(Observable o, Object arg) {
+        particle.addObserver(new SimpleObserver() {
+            public void update() {
                 stateChanged();
             }
         });

@@ -26,10 +26,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.*;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -140,6 +137,7 @@ public class CCK2Module extends Module {
     private AmmeterGraphic ammeterGraphic;
     private boolean helpVisible = false;
     private static final double AMMETER_BRANCH_Y = 1.0;
+    private Rectangle2D.Double modelRect;
 
     public BufferedImage getFlameImage() {
         return flameImage;
@@ -161,7 +159,7 @@ public class CCK2Module extends Module {
         Color backgroundColor = new Color(166, 177, 204);//not so bright
 //        Color backgroundColor=new Color(220, 220, 249);
         getApparatusPanel().setBackground(backgroundColor);
-        Rectangle2D.Double modelRect = new Rectangle2D.Double(0, 0, 10, 10);
+        modelRect = new Rectangle2D.Double(0, 0, 10, 10);
         transform = new ModelViewTransform2D(modelRect, new Rectangle(0, 0, 1, 1));
 
         circuit = new Circuit();
@@ -184,63 +182,8 @@ public class CCK2Module extends Module {
         particleRenderer = new ParticleRenderer(particleSet, particleSetGraphic);
         getApparatusPanel().addGraphic(particleRenderer, 1000);
 
-        creationX1 = 8.0;
-        creationX2 = 9.5;
-
-        dragDY = 1.05;
-        int dragYInit = 9;
-        dragY = dragYInit;
-
-        final Resistor dragBranch = new Resistor(circuit, creationX1, dragY, creationX2, dragY, 1);
-        dragY -= dragDY;
-        final Battery batteryWithWires = new Battery(circuit, creationX1, dragY, creationX2, dragY, 9, 0);
-        dragY -= dragDY;
-        final BufferedImage battIm = imageSuite.getLifelikeSuite().getBatteryImage();
-        final double modelWidthBatt = transform.viewToModelDifferentialX(battIm.getWidth());
-//        double battSep = modelWidthBatt;
-//        final Battery batteryWithoutWires = new Battery(circuit, creationX1, dragY, creationX1 + battSep, dragY, 9.0, 1);
-//        final double batty = dragY;
-//        dragY -= dragDY;
-        final Bulb bulbCreateBranch = new Bulb(circuit, creationX1, dragY, creationX2, dragY - .5, new PhetVector(.5, 0), 10);
-        dragY -= dragDY;
-        final Switch switchCreateBranch = new Switch(circuit, creationX1, dragY, creationX2, dragY);
-        dragY -= dragDY;
-        final Wire wireDragBranch = new Wire(circuit, creationX1, dragY, creationX2, dragY);
-
-        Rectangle2D.Double creationPanelRect = new Rectangle2D.Double(creationX1 - 1.2, dragY - .5, modelRect.width - creationX1 - .1 + 1.2, dragYInit - dragY + 1);
-        HasModelShape hsm = new FixedModelShape(creationPanelRect);
-        ShapeGraphic2 creationPanelGraphic = new ShapeGraphic2(hsm, getTransform(), new Color(244, 201, 255), new BasicStroke(2));
-        getApparatusPanel().addGraphic(creationPanelGraphic, -1);
-
-
-        DragToCreate createResistor = getDragToCreate(dragBranch, "Resistor");
-
-        getApparatusPanel().addGraphic(createResistor, -1);
-
-//        transform.addTransformListener(new TransformListener() {
-//            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
-//                //Not quite working.
-//                double modelWidthBatt = transform.viewToModelDifferentialX(battIm.getWidth() + DefaultCompositeBranchGraphic.JUNCTION_RADIUS*4);
-//                batteryWithoutWires.setLength(modelWidthBatt);
-////                batteryWithoutWires.setStartPointLocation(creationX1, batty);
-////                batteryWithoutWires.setEndPointLocation(creationX1 + modelWidthBatt, batty);
-////                batteryWithoutWires.resetDirVector();
-//            }
-//        });
-//        DragToCreate createBattery = getDragToCreate(batteryWithoutWires, "Battery");
-//        getApparatusPanel().addGraphic(createBattery, -1);
-
-        DragToCreate createBattery2 = getDragToCreate(batteryWithWires, "Battery w/ Wires");
-        getApparatusPanel().addGraphic(createBattery2, -1);
-
-        DragToCreate createBulb = getDragToCreate(bulbCreateBranch, "Light Bulb");
-        getApparatusPanel().addGraphic(createBulb, -1);
-
-        DragToCreate createSwitch = getDragToCreate(switchCreateBranch, "Switch");
-        getApparatusPanel().addGraphic(createSwitch, -1);
-
-        DragToCreate createWire = getDragToCreate(wireDragBranch, "Wire");
-        getApparatusPanel().addGraphic(createWire, -1);
+        Graphic creationPanel = newCreationPanel();
+        getApparatusPanel().addGraphic(creationPanel, -1);
 
         clickToDeselect = new ClickToDeselect(circuit);
         getApparatusPanel().addGraphic(clickToDeselect, -10);
@@ -302,6 +245,89 @@ public class CCK2Module extends Module {
         setLifelikeWireColor(COPPER);
         JPanel controlPanel = new CCKControlPanel(this);
         super.setControlPanel(controlPanel);
+    }
+
+    private Graphic newCreationPanel() {
+        CompositeInteractiveGraphic graphic = new CompositeInteractiveGraphic();
+        creationX1 = 8.0;
+        creationX2 = 9.5;
+//        creationX1=1;
+//        creationX2=2.5;
+
+        dragDY = 1.05;
+        int dragYInit = 9;
+        dragY = dragYInit;
+
+        final Resistor dragBranch = new Resistor(circuit, creationX1, dragY, creationX2, dragY, 1);
+        dragY -= dragDY;
+        final Battery batteryWithWires = new Battery(circuit, creationX1, dragY, creationX2, dragY, 9, 0);
+        dragY -= dragDY;
+        final BufferedImage battIm = imageSuite.getLifelikeSuite().getBatteryImage();
+        final double modelWidthBatt = transform.viewToModelDifferentialX(battIm.getWidth());
+//        double battSep = modelWidthBatt;
+//        final Battery batteryWithoutWires = new Battery(circuit, creationX1, dragY, creationX1 + battSep, dragY, 9.0, 1);
+//        final double batty = dragY;
+//        dragY -= dragDY;
+        final Bulb bulbCreateBranch = new Bulb(circuit, creationX1, dragY, creationX2, dragY - .5, new PhetVector(.5, 0), 10);
+        dragY -= dragDY;
+        final Switch switchCreateBranch = new Switch(circuit, creationX1, dragY, creationX2, dragY);
+        dragY -= dragDY;
+        final Wire wireDragBranch = new Wire(circuit, creationX1, dragY, creationX2, dragY);
+
+        Rectangle2D.Double creationPanelRect = new Rectangle2D.Double(creationX1 - 1.2, dragY - .5, modelRect.width - creationX1 - .1 + 1.2, dragYInit - dragY + 1);
+        HasModelShape hsm = new FixedModelShape(creationPanelRect);
+        ShapeGraphic2 creationPanelGraphic = new ShapeGraphic2(hsm, getTransform(), new Color(244, 201, 255), new BasicStroke(2));
+        graphic.addGraphic(creationPanelGraphic, -1);
+//        getApparatusPanel().addGraphic(creationPanelGraphic, -1);
+
+
+        DragToCreate createResistor = getDragToCreate(dragBranch, "Resistor");
+
+        graphic.addGraphic(createResistor, -1);
+//        getApparatusPanel().addGraphic(createResistor, -1);
+
+//        transform.addTransformListener(new TransformListener() {
+//            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
+//                //Not quite working.
+//                double modelWidthBatt = transform.viewToModelDifferentialX(battIm.getWidth() + DefaultCompositeBranchGraphic.JUNCTION_RADIUS*4);
+//                batteryWithoutWires.setLength(modelWidthBatt);
+////                batteryWithoutWires.setStartPointLocation(creationX1, batty);
+////                batteryWithoutWires.setEndPointLocation(creationX1 + modelWidthBatt, batty);
+////                batteryWithoutWires.resetDirVector();
+//            }
+//        });
+//        DragToCreate createBattery = getDragToCreate(batteryWithoutWires, "Battery");
+//        getApparatusPanel().addGraphic(createBattery, -1);
+
+        DragToCreate createBattery2 = getDragToCreate(batteryWithWires, "Battery w/ Wires");
+//        getApparatusPanel().addGraphic(createBattery2, -1);
+        graphic.addGraphic(createBattery2, -1);
+
+        DragToCreate createBulb = getDragToCreate(bulbCreateBranch, "Light Bulb");
+//        getApparatusPanel().addGraphic(createBulb, -1);
+        graphic.addGraphic(createBulb, -1);
+
+        DragToCreate createSwitch = getDragToCreate(switchCreateBranch, "Switch");
+//        getApparatusPanel().addGraphic(createSwitch, -1);
+        graphic.addGraphic(createSwitch, -1);
+
+        DragToCreate createWire = getDragToCreate(wireDragBranch, "Wire");
+//        getApparatusPanel().addGraphic(createWire, -1);
+        graphic.addGraphic(createWire, -1);
+
+//        BufferedImage buffer=new BufferedImage(1100,1100,BufferedImage.TYPE_INT_RGB);
+//        final BufferedGraphic bufferedGraphic=new BufferedGraphic(buffer, graphic, Color.white, new BasicGraphicsSetup());
+//        bufferedGraphic.setTransform(AffineTransform.getTranslateInstance(0,0));
+//        bufferedGraphic.repaintBuffer();
+//
+//        TransformListener tl=new TransformListener() {
+//            public void transformChanged(ModelViewTransform2D mvt) {
+//                bufferedGraphic.repaintBuffer();
+//            }
+//        };
+//        getTransform().addTransformListener(tl);
+        return graphic;
+//        return graphic;
     }
 //    public static final Color COPPER=new Color(235,160,40);
 //    public static final Color COPPER=new Color(214, 18, 34);

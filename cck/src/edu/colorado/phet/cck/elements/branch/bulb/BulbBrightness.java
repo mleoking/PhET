@@ -16,6 +16,7 @@ public class BulbBrightness {
 
     private BulbTransform lt;
     private LookupOp lo;
+    private BufferedImage out = null;
 
     public BulbBrightness() {
         RenderingHints rh = new RenderingHints(null);
@@ -25,8 +26,11 @@ public class BulbBrightness {
     }
 
     public BufferedImage operate(BufferedImage root, double intensity) {
+        System.out.println("intensity = " + intensity);
         lt.brightness = intensity;
-        BufferedImage out = lo.createCompatibleDestImage(root, root.getColorModel());
+        if (out == null) {
+            out = lo.createCompatibleDestImage(root, root.getColorModel());
+        }
 
 //        System.out.println("root.getColorModel() = " + root.getColorModel());
         return lo.filter(root, out);

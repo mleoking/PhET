@@ -32,9 +32,9 @@ public class RoughDraftApplicator implements KirkhoffSolutionApplicator {
 
     public void clearCircuit(Circuit c) {
         for (int i = 0; i < c.numBranches(); i++) {
-            c.branchAt(i).setCurrent(0);
+            c.branchAt(i).setCurrentNoUpdate(0);
             if (!(c.branchAt(i) instanceof Battery)) {
-                c.branchAt(i).setVoltageDrop(0);
+                c.branchAt(i).setVoltageDropNoUpdate(0);
             }
         }
     }
@@ -198,13 +198,14 @@ public class RoughDraftApplicator implements KirkhoffSolutionApplicator {
                     HasResistance hr = (HasResistance) b;
                     double res = hr.getResistance();
                     double amps = interpreter.getCurrent(i);
-                    b.setCurrent(amps);
+//                    b.setCurrent(amps);
                     double volts = 0;
                     if (res == 0)
                         volts = 0;
                     else
                         volts = interpreter.getVoltage(i);
-                    b.setVoltageDrop(volts);
+                    b.setCurrentAndVoltage(amps, volts);
+//                    b.setVoltageDrop(volts);
 //                    logger.fine("Set values for i=" + i + ", current=" + amps + ", volts=" + volts);
                 } else if (b instanceof Battery) {
                     Battery batt = (Battery) b;

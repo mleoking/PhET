@@ -75,19 +75,21 @@ public class Bulb extends Branch implements HasResistance {
     }
 
     private void updateIntensity() {
+        double voltage = getVoltageDrop();
         double current = Math.abs(super.getCurrent());
         double power = Math.abs(current * getVoltageDrop());
         LinearTransform1d map = new LinearTransform1d(0, 1000, .2, 1);
-        this.intensity = map.operate(power);
-        if (intensity > 1)
-            intensity = 1;
-        if (intensity < 0)
-            intensity = 0;
-        if (power == 0)
-            intensity = 0;
+        double temp = map.operate(power);
 
-        System.out.println("current = " + current + ", voltage=" + getVoltageDrop() + ", power=" + power + ", intensity=" + intensity);
-        setIntensity(intensity);
+        if (temp > 1)
+            temp = 1;
+        if (temp < 0)
+            temp = 0;
+        if (power == 0)
+            temp = 0;
+
+        System.out.println("current = " + current + ", voltage=" + voltage + ", power=" + power + ", intensity=" + temp);
+        setIntensity(temp);
     }
 
     public void setCurrent(double current) {
@@ -198,5 +200,12 @@ public class Bulb extends Branch implements HasResistance {
 
     public void setControlPointLocation(PhetVector ctrl) {
         this.ctrl = ctrl;
+    }
+
+    public void setCurrentAndVoltage(double amps, double volts) {
+        super.setCurrentNoUpdate(amps);
+        super.setVoltageDropNoUpdate(volts);
+        updateIntensity();
+        fireCurrentChanged();
     }
 }

@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.elements.branch.BranchObserver;
 import edu.colorado.phet.cck.elements.circuit.JunctionGroup;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.model.AutomatedObservable;
+import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
 
 
 /**
@@ -15,7 +15,7 @@ import edu.colorado.phet.common.model.AutomatedObservable;
  * Time: 3:33:22 AM
  * Copyright (c) Sep 4, 2003 by Sam Reid
  */
-public class BranchParticle extends AutomatedObservable {
+public class BranchParticle extends SimpleObservable {
     double x;
     Branch branch;
 
