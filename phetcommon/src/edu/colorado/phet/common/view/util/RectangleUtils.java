@@ -72,11 +72,34 @@ public class RectangleUtils {
         if( rectangles.length == 0 ) {
             return null;
         }
-        Rectangle union = new Rectangle( rectangles[0] );
-        for( int i = 1; i < rectangles.length; i++ ) {
+        Rectangle union = null;//new Rectangle( rectangles[0] );
+        for( int i = 0; i < rectangles.length; i++ ) {
             Rectangle rectangle = rectangles[i];
-            union = union.union( rectangle );
+            if( rectangle != null ) {
+                if( union == null ) {
+                    union = new Rectangle( rectangle );
+                }
+                else {
+                    union = union.union( rectangle );
+                }
+            }
+
         }
         return union;
+    }
+
+    public static boolean areEqual( Rectangle a, Rectangle b ) {
+        if( a == null && b == null ) {
+            return true;
+        }
+        else if( a != null && b == null ) {
+            return false;
+        }
+        else if( a == null && b != null ) {
+            return false;
+        }
+        else {
+            return a.equals( b );
+        }
     }
 }
