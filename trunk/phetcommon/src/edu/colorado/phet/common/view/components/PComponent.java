@@ -11,6 +11,7 @@
 package edu.colorado.phet.common.view.components;
 
 import edu.colorado.phet.common.util.EventRegistry;
+import edu.colorado.phet.common.util.EventChannel;
 
 import java.util.EventListener;
 import java.util.EventObject;
@@ -24,7 +25,7 @@ import java.util.EventObject;
  * @author Ron LeMaster
  * @version $Revision$
  */
-abstract public class PComponent {
+abstract public class PComponent implements EventChannel {
     private EventRegistry eventRegistry = new EventRegistry();
 
     public void addListener( EventListener listener ) {

@@ -12,6 +12,7 @@ package edu.colorado.phet.common.model;
 
 import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.EventChannel;
 
 import java.util.EventListener;
 import java.util.EventObject;
@@ -27,7 +28,7 @@ import java.util.EventObject;
  * @author Ron LeMaster
  * @version $Revision$
  */
-abstract public class AbstractModelElement extends SimpleObservable implements ModelElement {
+abstract public class AbstractModelElement extends SimpleObservable implements ModelElement, EventChannel {
 
     private EventRegistry eventRegistry = new EventRegistry();
 
