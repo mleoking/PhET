@@ -8,6 +8,7 @@
 package edu.colorado.phet.common.view.components.clockgui;
 
 import edu.colorado.phet.common.model.FixedClock;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -33,7 +34,7 @@ public class ClockControlPanelBackup extends JPanel {
     }
 
     private void buildClockControlPanel() {
-        this.add(new JLabel("dt (sec):"));
+        this.add(new JLabel( SimStrings.get( "ClockControlPanel.DTLabel" ) + ":"));
         dtSpinner.setValue(new Double(clock.getRequestedDT()));
         this.add(dtSpinner);
         dtSpinner.addChangeListener(new ChangeListener() {
@@ -41,7 +42,7 @@ public class ClockControlPanelBackup extends JPanel {
                 updateClock();
             }
         });
-        this.add(new JLabel("sleep interval (msec):"));
+        this.add(new JLabel( SimStrings.get( "ClockControlPanel.SleepIntervalLabel" ) + ":"));
         sleepIntervalTF.setText(Integer.toString(clock.getRequestedWaitTime()));
         this.add(sleepIntervalTF);
     }

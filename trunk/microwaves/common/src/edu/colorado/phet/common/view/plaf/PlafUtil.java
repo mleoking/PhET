@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.view.plaf;
 
 //import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,9 +22,9 @@ import java.util.ArrayList;
  */
 public class PlafUtil {
     static {
-        UIManager.installLookAndFeel("Canary", new ClientLookAndFeel().getClass().getName());
-        UIManager.installLookAndFeel("Lecture I", new LectureLookAndFeel().getClass().getName());
-        UIManager.installLookAndFeel("Lecture II", new LectureLookAndFeel2().getClass().getName());
+        UIManager.installLookAndFeel( SimStrings.get( "PlafUtil.CanaryText" ), new ClientLookAndFeel().getClass().getName());
+        UIManager.installLookAndFeel( SimStrings.get( "PlafUtil.Lecture1Text" ), new LectureLookAndFeel().getClass().getName());
+        UIManager.installLookAndFeel( SimStrings.get( "PlafUtil.Lecture2Text" ), new LectureLookAndFeel2().getClass().getName());
     }
 
     public static JMenuItem[] getLookAndFeelItems() {

@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.view.plaf;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
@@ -62,7 +64,7 @@ public class LectureLookAndFeel2 extends MetalLookAndFeel {
     }
 
     private void install() {
-        UIManager.installLookAndFeel("Lecture", getClass().getName());
+        UIManager.installLookAndFeel( SimStrings.get( "LectureLookAndFeel2.LectureText" ), getClass().getName());
     }
 
 

@@ -23,6 +23,7 @@ import edu.colorado.phet.microwave.view.FieldVector;
 import edu.colorado.phet.microwave.view.MicrowaveControlPanel;
 import edu.colorado.phet.microwave.view.OvenGraphic;
 import edu.colorado.phet.waves.model.WaveMedium;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -213,8 +214,8 @@ public abstract class MicrowaveModule extends Module {
     //
     public static class ControlMenu extends JMenu {
         public ControlMenu() {
-            super( "Controls" );
-            JMenuItem physicalParamsMI = new JMenuItem( "Physical parameters..." );
+            super( SimStrings.get( "MicrowaveModule.ControlMenu" ) );
+            JMenuItem physicalParamsMI = new JMenuItem( SimStrings.get( "MicrowaveModule.PhysicalParametersMenuItem" ) );
             this.add( physicalParamsMI );
             physicalParamsMI.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -262,7 +263,7 @@ public abstract class MicrowaveModule extends Module {
             getContentPane().setLayout( new GridBagLayout() );
             int rowIdx = 0;
             try {
-                GraphicsUtil.addGridBagComponent( getContentPane(), new JLabel( "Molecule Polar Sensitivity" ),
+                GraphicsUtil.addGridBagComponent( getContentPane(), new JLabel( SimStrings.get( "MicrowaveModule.PolarSesitivityLabel" ) ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
@@ -275,7 +276,7 @@ public abstract class MicrowaveModule extends Module {
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( getContentPane(), new JLabel( "Damping" ),
+                GraphicsUtil.addGridBagComponent( getContentPane(), new JLabel( SimStrings.get( "MicrowaveModule.DampingLabel" ) ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );

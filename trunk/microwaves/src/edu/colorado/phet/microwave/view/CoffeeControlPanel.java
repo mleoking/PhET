@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.microwave.CoffeeModule;
 import edu.colorado.phet.microwave.MicrowaveModule;
 import edu.colorado.phet.microwave.model.MicrowaveModel;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -50,7 +51,7 @@ public class CoffeeControlPanel extends JPanel {
         module.setMicrowaveAmplitude( 0.33 );
 
         // Button to toggle the microwave
-        JButton onOffBtn = new JButton( "Start/Stop" );
+        JButton onOffBtn = new JButton( SimStrings.get( "CoffeeControlPanel.StartStopButton" ) );
         onOffBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.toggleMicrowave();
@@ -58,16 +59,16 @@ public class CoffeeControlPanel extends JPanel {
         } );
 
         powerBtnGrp = new ButtonGroup();
-        pct100RB = new JRadioButton( "100%" );
+        pct100RB = new JRadioButton( SimStrings.get( "CoffeeControlPanel.FullPowerRadioButton" ) );
         pct100RB.addActionListener( powerBtnActionListener );
         powerBtnGrp.add( pct100RB );
-        pct75RB = new JRadioButton( "75%" );
+        pct75RB = new JRadioButton( SimStrings.get( "CoffeeControlPanel.ThreeQuarterPowerRadioButton" ) );
         pct75RB.addActionListener( powerBtnActionListener );
         powerBtnGrp.add( pct75RB );
-        pct50RB = new JRadioButton( "50%" );
+        pct50RB = new JRadioButton( SimStrings.get( "CoffeeControlPanel.HalfPowerRadioButton" ) );
         pct50RB.addActionListener( powerBtnActionListener );
         powerBtnGrp.add( pct50RB );
-        pct25RB = new JRadioButton( "25%" );
+        pct25RB = new JRadioButton( SimStrings.get( "CoffeeControlPanel.QuarterPowerRadioButton" ) );
         pct25RB.addActionListener( powerBtnActionListener );
         powerBtnGrp.add( pct25RB );
         JPanel powerBtnPane = new JPanel( new GridBagLayout() );
@@ -85,17 +86,17 @@ public class CoffeeControlPanel extends JPanel {
         catch( AWTException e ) {
             e.printStackTrace();
         }
-        powerBtnPane.setBorder( BorderFactory.createTitledBorder( "Power" ) );
+        powerBtnPane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "CoffeeControlPanel.PowerBorderTitle" ) ) );
 
 
         // Button to set field display type
-        noFieldViewRB = new JRadioButton( "None" );
+        noFieldViewRB = new JRadioButton( SimStrings.get( "CoffeeControlPanel.NoneRadioButton" ) );
         noFieldViewRB.addActionListener( fieldViewActionListener );
-        fullViewRB = new JRadioButton( "Full field" );
+        fullViewRB = new JRadioButton( SimStrings.get( "CoffeeControlPanel.FullFieldRadioButton" ) );
         fullViewRB.addActionListener( fieldViewActionListener );
-        singleViewRB = new JRadioButton( "Single line" );
+        singleViewRB = new JRadioButton( SimStrings.get( "CoffeeControlPanel.SingleLineRadioButton" ) );
         singleViewRB.addActionListener( fieldViewActionListener );
-        splineViewRB = new JRadioButton( "Curve" );
+        splineViewRB = new JRadioButton( SimStrings.get( "CoffeeControlPanel.CurveRadioButton" ) );
         splineViewRB.addActionListener( fieldViewActionListener );
         fieldViewBtnGrp = new ButtonGroup();
         fieldViewBtnGrp.add( fullViewRB );
@@ -120,10 +121,10 @@ public class CoffeeControlPanel extends JPanel {
         catch( AWTException e ) {
             e.printStackTrace();
         }
-        fieldViewRBPane.setBorder( BorderFactory.createTitledBorder( "Field View" ) );
+        fieldViewRBPane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "CoffeeControlPanel.FieldViewBorderTitle" ) ) );
 
         // A Reset onOffBtn
-        JButton resetBtn = new JButton( "Reset" );
+        JButton resetBtn = new JButton( SimStrings.get( "CoffeeControlPanel.ResetButton" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();

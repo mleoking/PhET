@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -39,7 +40,7 @@ public class MeasuringTape extends MouseInputAdapter {
 
         // Lay out the display
         Frame frame = PhetApplication.instance().getApplicationView().getPhetFrame();
-        dialog = new JDialog( frame, "Measure" );
+        dialog = new JDialog( frame, SimStrings.get( "MeasuringTape.DialogTitle" ) );
         dialog.setUndecorated( true );
         Container contentPane = dialog.getContentPane();
         contentPane.setLayout( new GridBagLayout() );
