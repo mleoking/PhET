@@ -29,6 +29,7 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.module.BarMagnetModule;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
+import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 /**
@@ -47,6 +48,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
     private AbstractMagnet _magnetModel;
     private Compass _compassModel;
     private BarMagnetGraphic _magnetGraphic;
+    private CompassGridGraphic _gridGraphic;
     private FieldMeterGraphic _fieldMeterGraphic;
 
     // UI components
@@ -54,7 +56,9 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
     private JLabel _strengthValue;
     private JSlider _strengthSlider;
     private JCheckBox _seeInsideCheckBox;
-    private JCheckBox _fieldMeterCheckBox, _compassCheckBox; 
+    private JCheckBox _gridCheckBox;
+    private JCheckBox _fieldMeterCheckBox;
+    private JCheckBox _compassCheckBox; 
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,21 +74,30 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
      * @param magnetModel
      * @param compassModel
      * @param magnetGraphic
+     * @param gridGraphic
      * @param fieldMeterGraphic
      */
-    public BarMagnetControlPanel( BarMagnetModule module, AbstractMagnet magnetModel, Compass compassModel, BarMagnetGraphic magnetGraphic, FieldMeterGraphic fieldMeterGraphic ) {
+    public BarMagnetControlPanel( 
+            BarMagnetModule module, 
+            AbstractMagnet magnetModel, 
+            Compass compassModel, 
+            BarMagnetGraphic magnetGraphic, 
+            CompassGridGraphic gridGraphic, 
+            FieldMeterGraphic fieldMeterGraphic ) {
 
         super( module );
 
         assert ( magnetModel != null );
         assert ( compassModel != null );
         assert ( magnetGraphic != null );
+        assert ( gridGraphic != null );
         assert ( fieldMeterGraphic != null );
 
         // Things we'll be controlling.
         _magnetModel = magnetModel;
         _compassModel = compassModel;
         _magnetGraphic = magnetGraphic;
+        _gridGraphic = gridGraphic;
         _fieldMeterGraphic = fieldMeterGraphic;
 
         JPanel fillerPanel = new JPanel();
@@ -142,6 +155,9 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
             // Magnet transparency on/off
             _seeInsideCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.seeInside" ) );
 
+            // Compass Grid on/off
+            _gridCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.showGrid" ) );
+            
             // Field Meter on/off
             _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.showFieldMeter" ) );
 
@@ -154,8 +170,9 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
             layout.addFilledComponent( strengthPanel, row++, 0, GridBagConstraints.HORIZONTAL );
             layout.addComponent( _flipPolarityButton, row++, 0 );
             layout.addComponent( _seeInsideCheckBox, row++, 0 );
-            layout.addComponent( _fieldMeterCheckBox, row++, 0 );
+            layout.addComponent( _gridCheckBox, row++, 0 );
             layout.addComponent( _compassCheckBox, row++, 0 );
+            layout.addComponent( _fieldMeterCheckBox, row++, 0 );
         }
 
         // Add panels.
@@ -166,6 +183,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
         EventListener listener = new EventListener();
         _flipPolarityButton.addActionListener( listener );
         _strengthSlider.addChangeListener( listener );
+        _gridCheckBox.addActionListener( listener );
         _seeInsideCheckBox.addActionListener( listener );
         _fieldMeterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
@@ -173,6 +191,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
         // Update control panel to match the components that it's controlling.
         _strengthSlider.setValue( (int) ( 100.0 * _magnetModel.getStrength() / FaradayConfig.BAR_MAGNET_STRENGTH_MAX ) );
         _seeInsideCheckBox.setSelected( _magnetGraphic.isTransparencyEnabled() );
+        _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
     }
@@ -208,6 +227,11 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
                 // Magnet polarity
                 _magnetModel.setDirection( _magnetModel.getDirection() + Math.PI );
                 _compassModel.startMovingNow();
+            }
+            else if ( e.getSource() == _gridCheckBox ) {
+                // Grid enable
+                _gridGraphic.resetSpacing();
+                _gridGraphic.setVisible( _gridCheckBox.isSelected() );
             }
             else if ( e.getSource() == _seeInsideCheckBox ) {
                 // Magnet transparency enable
