@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.faraday.model;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**
@@ -25,10 +25,8 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
 
     private AbstractVoltageSource _voltageSource;
     
-    public SourceCoil( AbstractVoltageSource voltageSource ) {
+    public SourceCoil() {
         super();
-        assert( voltageSource != null );
-        setVoltageSource( voltageSource );
     }
     
     public void finalize() {
@@ -58,8 +56,11 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
-        if ( isEnabled() ) {
-            setVoltage( _voltageSource.getVoltage() );
+        if ( isEnabled() && _voltageSource != null ) {
+            double sourceVoltage = _voltageSource.getVoltage();
+            int numberOfLoops = getNumberOfLoops();
+            double voltage = ( numberOfLoops / FaradayConfig.ELECTROMAGNET_LOOPS_MAX ) * sourceVoltage;  // XXX hack
+            setVoltage( voltage );
             notifyObservers();
         }
     }

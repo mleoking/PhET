@@ -43,8 +43,8 @@ public class BatteryGraphic extends PhetImageGraphic implements SimpleObserver {
         _batteryModel = batteryModel;
         _batteryModel.addObserver( this );
         
-        // Registration point is the center of the image.
-        setRegistrationPoint( getImage().getWidth() / 2, getImage().getHeight() / 2 );
+        // Registration point is the bottom center of the image.
+        setRegistrationPoint( getImage().getWidth() / 2, getImage().getHeight() );
         
         update();
     }
@@ -66,6 +66,7 @@ public class BatteryGraphic extends PhetImageGraphic implements SimpleObserver {
      */
     public void update() {
 
+        setVisible( _batteryModel.isEnabled() );
         if ( isVisible() ) {
             
             clearTransform();

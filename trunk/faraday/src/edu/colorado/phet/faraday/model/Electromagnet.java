@@ -31,32 +31,25 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    SourceCoil _coilModel;
     AbstractVoltageSource _voltageSourceModel;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Electromagnet( SourceCoil coilModel, AbstractVoltageSource voltageSourceModel ) {
+    public Electromagnet( AbstractVoltageSource voltageSourceModel ) {
         super();
-        assert( coilModel != null );
         assert( voltageSourceModel != null );
-        
-        _coilModel = coilModel;
-        _coilModel.addObserver( this );
         
         _voltageSourceModel = voltageSourceModel;
         _voltageSourceModel.addObserver( this );
     }
     
     public void finalize() {
-        _coilModel.removeObserver( this );
-        _coilModel = null;
         _voltageSourceModel.removeObserver( this );
         _voltageSourceModel = null;
     }
-
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
@@ -65,14 +58,12 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
-        double voltage = _voltageSourceModel.getVoltage();
-        double numberOfLoops = _coilModel.getNumberOfLoops();
-        double strength = voltage; //XXX hack, not right
-        if ( strength < 0 ) {
-            System.out.println( "Electromagnet.update: flipping polarity" ); //DEBUG
-            flipPolarity();
-            strength = Math.abs( strength );
-        }
-        setStrength( strength );
+        double strength = _voltageSourceModel.getVoltage(); //XXX hack
+//        if ( strength < 0 ) {
+//            System.out.println( "Electromagnet.update: flipping polarity" ); //DEBUG
+//            flipPolarity();
+//            strength = Math.abs( strength );
+//        }
+        setStrength( Math.abs( strength ) );
     }
 }

@@ -23,13 +23,13 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.ElectromagnetControlPanel;
-import edu.colorado.phet.faraday.model.Battery;
-import edu.colorado.phet.faraday.model.Compass;
-import edu.colorado.phet.faraday.model.Electromagnet;
-import edu.colorado.phet.faraday.model.SourceCoil;
+import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
-import edu.colorado.phet.faraday.view.*;
+import edu.colorado.phet.faraday.view.CompassGraphic;
+import edu.colorado.phet.faraday.view.CompassGridGraphic;
+import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
+import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 
 /**
@@ -103,23 +103,32 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
      
         // Battery
         Battery batteryModel = new Battery();
+        batteryModel.setMaxVoltage( FaradayConfig.BATTERY_VOLTAGE_MAX );
         batteryModel.setVoltage( BATTERY_VOLTAGE );
         
+        // AC Source 
+        ACSource acSourceModel = new ACSource();
+        acSourceModel.setMaxVoltage( FaradayConfig.AC_VOLTAGE_MAX );
+        acSourceModel.setVoltage( 0 );
+        acSourceModel.setEnabled( false );
+        model.addModelElement( acSourceModel );
+        
         // Source Coil
-        SourceCoil sourceCoilModel = new SourceCoil( batteryModel );
+        SourceCoil sourceCoilModel = new SourceCoil();
+        sourceCoilModel.setVoltageSource( batteryModel );
         sourceCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
         sourceCoilModel.setRadius( LOOP_RADIUS );
         sourceCoilModel.setDirection( 0 /* radians */ );
         sourceCoilModel.setLocation( SOURCE_COIL_LOCATION );
         
         // Electromagnet
-        Electromagnet electromagnetModel = new Electromagnet( sourceCoilModel, batteryModel );
+        Electromagnet electromagnetModel = new Electromagnet( sourceCoilModel );
         electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
         electromagnetModel.setMinStrength( 0 );
         electromagnetModel.setStrength( 0 );
         electromagnetModel.setLocation( MAGNET_LOCATION );
         electromagnetModel.setDirection( 0 /* radians */ );
-        electromagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE ); // XXX
+        electromagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE ); // XXX should be based on coil graphic size
         model.addModelElement( electromagnetModel );
          
         // Rescaler
@@ -141,14 +150,16 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         this.setApparatusPanel( apparatusPanel );
         
         // Bar Magnet
-        ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, electromagnetModel, sourceCoilModel, batteryModel );
+        ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, 
+                electromagnetModel, sourceCoilModel, batteryModel, acSourceModel );
         electromagnetGraphic.setRescaler( rescaler );
         apparatusPanel.addChangeListener( electromagnetGraphic );
         apparatusPanel.addGraphic( electromagnetGraphic.getForeground(), ELECTROMAGNET_FRONT_LAYER );
         apparatusPanel.addGraphic( electromagnetGraphic.getBackground(), ELECTROMAGNET_BACK_LAYER );
         
         // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, electromagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, 
+                electromagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
         _gridGraphic.setRescaler( rescaler );
         _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         _gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
@@ -185,7 +196,7 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
 
         // Control Panel
         ElectromagnetControlPanel controlPanel = new ElectromagnetControlPanel( this, 
-                batteryModel, compassModel, _gridGraphic, fieldMeterGraphic );
+                batteryModel, acSourceModel, compassModel, _gridGraphic, fieldMeterGraphic );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
