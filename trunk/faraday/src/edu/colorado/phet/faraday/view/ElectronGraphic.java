@@ -131,8 +131,8 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
             }
             
             // Set the electron's location.
-            int x = (int)_electronModel.getLocation().getX();
-            int y = (int)_electronModel.getLocation().getY();
+            int x = (int)_electronModel.getX();
+            int y = (int)_electronModel.getY();
             setLocation( x, y );
             
             repaint();
