@@ -196,15 +196,27 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     }
 
     /**
+     * It seems that things work right when this doesn't do anything
+     *
      * @param change
      */
     private void adjustEnergyForGravity( double change ) {
         double deltaPE = 0;
+
+        // DO NOTHING!!!
+        if( true ) {
+            return;
+        }
+
         for( int i = 0; i < this.numModelElements(); i++ ) {
             ModelElement element = this.modelElementAt( i );
             if( element instanceof Body ) {
                 Body body = (Body)element;
-                deltaPE = body.getPosition().getY() * change * body.getMass();
+                // Don't consider bodies that have infinite mass. That indicates that
+                // they are imobile
+                if( body.getMass() != Double.POSITIVE_INFINITY ) {
+                    deltaPE = body.getPosition().getY() * change * body.getMass();
+                }
             }
         }
         deltaKE += deltaPE;

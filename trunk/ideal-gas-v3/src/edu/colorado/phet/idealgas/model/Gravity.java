@@ -29,9 +29,6 @@ public class Gravity implements ModelElement {
         List bodies = model.getBodies();
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            if( getAmt() > 0 ) {
-//                System.out.println( "Gravity.stepInTime" );
-            }
             body.setAcceleration( body.getAcceleration().add( acceleration ) );
         }
     }
