@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.colorvision3.control;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -12,6 +11,8 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -20,16 +21,23 @@ import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
-import edu.colorado.phet.colorvision3.view.BoundsOutline;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
- * SpectrumSlider is a UI component, similar to a JSlider, for selecting a color
- * from the visible spectrum.  In addition to showing the currently selected color,
- * it optionally depicts a transmission width. 
+ * SpectrumSlider is a UI component, similar to a JSlider, for selecting a
+ * wavelength from the visible spectrum.  
+ * <p>
+ * The slider track shows the spectru of colors that correspond to visible
+ * wavelengths.  As the slider knob is moved, the knob color changes to match
+ * the seleted wavelength.  If a transmission width has been set, then a 
+ * bell curve is overlayed on the spectrum, aligned with the knob. 
+ * <p>
+ * The slider value is determined by the position of the slider knob,
+ * and corresponds to a wavelength in the range VisibleColor.MIN_WAVELENGTH
+ * to VisibleColor.MAX_WAVELENGTH, inclusive.
  * <p>
  * The default orientation of the slider is horizontal. See setOrientation
  * for a description of the UI layout for each orientation.
@@ -247,6 +255,29 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   public int getOrientation()
   {
     return _orientation;
+  }
+  
+  /**
+   * Scales the slider's spectrum graphic.
+   * <p>
+   * Scaling is cumulative.
+   * If you scale to a larger size, the spectrum image quality may begin to suffer.
+   * Note that scaling does not change the size of the slider knob; use setKnobSize.
+   * 
+   * @param scaleX the X scale
+   * @param scaleY the Y scale
+   */
+  public void scale( double scaleX, double scaleY )
+  {
+    // Scale the spectrum image and create a new PhetImageGraphic.
+    AffineTransform tx = new AffineTransform();
+    tx.scale( scaleX, scaleY );
+    AffineTransformOp op = new AffineTransformOp( tx, AffineTransformOp.TYPE_BILINEAR );
+    BufferedImage image = _spectrum.getImage();
+    BufferedImage newImage = op.filter( image, null );
+    _spectrum = new PhetImageGraphic( _component, newImage );
+    
+    updateUI();
   }
   
   /**
@@ -526,7 +557,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
         g2.setClip( oldClip );
       }
       
-      BoundsOutline.paint( g2, getBounds(), Color.GREEN, new BasicStroke(1f) ); // DEBUG
+      //BoundsOutline.paint( g2, getBounds(), Color.GREEN, new BasicStroke(1f) ); // DEBUG
     }
   }
   
