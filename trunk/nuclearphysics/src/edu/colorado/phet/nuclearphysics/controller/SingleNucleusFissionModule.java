@@ -62,8 +62,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         getPhysicalPanel().clear();
         getPotentialProfilePanel().removeAllGraphics();
         getModel().removeModelElement( nucleus );
-//        setNucleus( null );
-//        setUraniumNucleus( null );
+        //        setNucleus( null );
+        //        setUraniumNucleus( null );
     }
 
     public void start() {
@@ -115,7 +115,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         double v2 = daughter2.getVelocity().getLength();
         daughter2.setVelocity( (float)( v2 * Math.cos( theta + Math.PI ) ), (float)( v2 * Math.sin( theta + Math.PI ) ) );
 
-// Remove the neutron and old nucleus
+        // Remove the neutron and old nucleus
         getModel().removeModelElement( products.getInstigatingNeutron() );
         getModel().removeModelElement( products.getParent() );
         List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
@@ -128,11 +128,11 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         this.getPhysicalPanel().removeGraphic( ng );
         getPotentialProfilePanel().removeNucleusGraphic( products.getParent() );
 
-// Remove the potential profile for the old nucleus and replace it with a gray one
-//        potentialProfilePanel.removePotentialProfile( products.getParent().getPotentialProfile() );
-//        potentialProfilePanel.addNucleus( products.getParent(), Color.gray );
+        // Remove the potential profile for the old nucleus and replace it with a gray one
+        //        potentialProfilePanel.removePotentialProfile( products.getParent().getPotentialProfile() );
+        //        potentialProfilePanel.addNucleus( products.getParent(), Color.gray );
 
-// Add fission products
+        // Add fission products
         Neutron[] neutronProducts = products.getNeutronProducts();
         for( int i = 0; i < neutronProducts.length; i++ ) {
             NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
@@ -140,11 +140,12 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
             getPhysicalPanel().addGraphic( npg );
         }
 
-// Add a model element that will make the daughter nuclei slide down the
-// profile
+        // Add a model element that will make the daughter nuclei slide down the
+        // profile
         getModel().addModelElement( new ModelElement() {
-            private double forceScale = 0.05;
-//            private double forceScale = 0.0005;
+            private double forceScale = 0.1;
+            //            private double forceScale = 0.05;
+            //            private double forceScale = 0.0005;
 
             public void stepInTime( double dt ) {
                 stepDaughterNucleus( products.getParent(), products.getDaughter1() );
@@ -168,12 +169,13 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
                 }
                 daughter.setAcceleration( a );
 
-// Set the nucleus' potential energy. If the nucles isn't outside the peaks of the
-// profile, it's potential keeps it at the top of the profile. Otherwise, it slides
-// down the profile
+                // Set the nucleus' potential energy. If the nucles isn't outside the peaks of the
+                // profile, it's potential keeps it at the top of the profile. Otherwise, it slides
+                // down the profile
                 double potential = 0;
-// I don't know why the -10 is needed here, but it is. I don't have time to figure out why
-                if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 7 ) ) {
+                // I don't know why the -10 is needed here, but it is. I don't have time to figure out why.
+                // Without it, the 
+                if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 10 ) ) {
                     potential = profile.getMaxPotential();
                 }
                 else {
@@ -191,16 +193,16 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         getPotentialProfilePanel().addNucleusGraphic( dn1 );
         getPotentialProfilePanel().addNucleusGraphic( dn2 );
 
-// Add some pizzazz
+        // Add some pizzazz
         Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
                                     25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
     }
 
 
-//
-// Inner classes
-//
+    //
+    // Inner classes
+    //
     private class InternalNeutronGun implements Runnable {
         private long waitTime = 1000;
         private boolean kill = false;

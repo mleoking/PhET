@@ -75,7 +75,7 @@
   <component name="ProjectRootManager" version="2" assert-keyword="false" project-jdk-name="java version &quot;1.4.2_02&quot;" />
   <component name="libraryTable" />
   <component name="uidesigner-configuration">
-    <option name="INSTRUMENT_CLASSES" value="true" />
+    <option name="INSTRUMENT_CLASSES" value="false" />
     <option name="COPY_FORMS_RUNTIME_TO_OUTPUT" value="true" />
   </component>
 </project>

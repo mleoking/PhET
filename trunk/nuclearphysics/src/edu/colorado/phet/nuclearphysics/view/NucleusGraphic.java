@@ -86,6 +86,7 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
                 protonGraphic.paint( g, nucleus.getRadius() + dx, nucleus.getRadius() + dy );
             }
         }
+        g.dispose();
         return bi;
     }
 

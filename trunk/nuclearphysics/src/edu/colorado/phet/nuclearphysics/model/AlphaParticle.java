@@ -21,7 +21,7 @@ public class AlphaParticle extends Nucleus {
     public static final double RADIUS = NuclearParticle.RADIUS * 2;
     // Controls how fast the alpha particle accelerates down the profile
     private static double forceScale = 0.05;
-//    private static double forceScale = 0.0008;
+    //    private static double forceScale = 0.0008;
 
 
     //
@@ -60,6 +60,9 @@ public class AlphaParticle extends Nucleus {
                 double dy = d * Math.sin( theta );
                 setLocation( dx, dy );
                 this.setPotential( nucleus.getPotentialProfile().getWellPotential() );
+                if( this.getPotential() == 0 ) {
+                    System.out.println( "!!!" );
+                }
             }
             else {
                 // Accelerate the alpha particle away from the nucleus, with a force

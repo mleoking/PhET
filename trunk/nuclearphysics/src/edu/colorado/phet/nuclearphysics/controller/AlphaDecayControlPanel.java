@@ -112,7 +112,7 @@ public class AlphaDecayControlPanel extends JPanel {
             running = true;
             while( running ) {
                 try {
-                    Thread.sleep( 50 );
+                    Thread.sleep( 100 );
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();
@@ -120,8 +120,8 @@ public class AlphaDecayControlPanel extends JPanel {
                 final double runningTime = module.getModel().getClock().getRunningTime() - startTime;
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-//                        timerTF.setText( Double.toString( runningTime ) );
-//                        timerTF.setText( "foo");
+                        //                        timerTF.setText( Double.toString( runningTime ) );
+                        //                        timerTF.setText( "foo");
                         System.out.println( "!!!!!" );
                         timerTF.setText( formatter.format( new Double( runningTime ) ) );
                         AlphaDecayControlPanel.this.repaint();

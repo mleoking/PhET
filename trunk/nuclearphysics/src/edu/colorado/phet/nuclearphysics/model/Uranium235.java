@@ -17,8 +17,10 @@ import java.util.Random;
 
 public class Uranium235 extends Nucleus {
     private static Random random = new Random();
+
     // Regulates how fast the profile rises when fission occurs
-    private static final int morphSpeedFactor = 5;
+    private static final int morphSpeedFactor = 2;
+    //    private static final int morphSpeedFactor = 5;
 
     private ArrayList decayListeners = new ArrayList();
     private AlphaParticle[] alphaParticles = new AlphaParticle[4];
@@ -27,6 +29,7 @@ public class Uranium235 extends Nucleus {
     private Neutron fissionInstigatingNeutron;
     private BaseModel model;
     private boolean doMorph = false;
+    private double jiggleOrgX;
 
     public Uranium235( Point2D.Double position, BaseModel model ) {
         super( position, 92, 143 );
@@ -64,6 +67,10 @@ public class Uranium235 extends Nucleus {
         // cause another fission event. It will be destroyed later.
         neutron.setLocation( 100E3, 100E3 );
         neutron.setVelocity( 0, 0 );
+
+        // Make note of the x coordinate of the nucleus, so we can keep the jiggling
+        // centered
+        jiggleOrgX = this.getLocation().getX();
     }
 
     public void stepInTime( double dt ) {
@@ -100,6 +107,10 @@ public class Uranium235 extends Nucleus {
             setPotential( getPotential() + morphSpeedFactor );
             if( getPotential() > getPotentialProfile().getMaxPotential()
                 || !doMorph ) {
+                // Before we morph, make sure the parent nucleus is centered. That is, don't
+                // leave it where itr jittered to.
+                this.setLocation( jiggleOrgX, this.getLocation().getY() );
+                doNecking();
                 super.fission( fissionInstigatingNeutron );
             }
 
@@ -109,13 +120,11 @@ public class Uranium235 extends Nucleus {
             morphTargetNeutrons -= incr;
 
             // Jiggle the nucleus
-//            double d = 0.5;
-//            double dx = random.nextGaussian() * d * ( random.nextBoolean() ? 1 : -1 );
-//            double dy = random.nextGaussian() * d * ( random.nextBoolean() ? 1 : -1 );
-//            this.setLocation( getLocation().getX() + dx, getLocation().getY() + dy );
-//            if( temp * morphTargetNeutrons <= 0 ) {
-//                super.fission( fissionInstigatingNeutron );
-//            }
+            double d = 1.8;
+            double dx = random.nextGaussian() * d * ( random.nextBoolean() ? 1 : -1 );
+            double dy = random.nextGaussian() * d * ( random.nextBoolean() ? 1 : -1 );
+            this.setLocation( jiggleOrgX + dx, getLocation().getY() + dy );
+            //            this.setLocation( getLocation().getX() + dx, getLocation().getY() + dy );
         }
     }
 
@@ -162,5 +171,12 @@ public class Uranium235 extends Nucleus {
             this.morphTargetNeutrons = 1;
             this.morphTargetProtons = 1;
         }
+    }
+
+    /**
+     * Do something to make the morphing nucleus neck down before it finally spits
+     */
+    private void doNecking() {
+        // ?????
     }
 }
