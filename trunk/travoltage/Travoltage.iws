@@ -65,12 +65,12 @@
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="SHOW_CHECKIN_OPTIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_FILE_COMMIT" value="false" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
     <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
     <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
@@ -291,7 +291,7 @@
     <option name="HIDE_WARNINGS" value="false" />
   </component>
   <component name="FileEditorManager" split-orientation="horizontal" split-proportion="0.5">
-    <first-group selected-file="file://$PROJECT_DIR$/.cvsignore">
+    <first-group selected-file="file://$PROJECT_DIR$/src/edu/colorado/phet/common/utils/AlphaFixer.java">
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/common/SystemAdapter.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
           <state line="5" column="13" selection-start="147" selection-end="147" vertical-scroll-proportion="0.14437367">
@@ -338,7 +338,7 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/common/utils/AlphaFixer.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="13" column="13" selection-start="388" selection-end="388" vertical-scroll-proportion="0.3970276">
+          <state line="8" column="27" selection-start="331" selection-end="331" vertical-scroll-proportion="0.2236842">
             <folding />
           </state>
         </provider>
@@ -352,7 +352,7 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/common/PanelAdapter.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="21" column="32" selection-start="561" selection-end="561" vertical-scroll-proportion="0.6857749">
+          <state line="6" column="13" selection-start="202" selection-end="202" vertical-scroll-proportion="0.14437367">
             <folding />
           </state>
         </provider>
@@ -397,8 +397,14 @@
     <expanded_node url="edu.colorado" module="Travoltage" type="package" />
   </component>
   <component name="ProjectPane">
-    <expanded_node url="file://$PROJECT_DIR$" module="Travoltage" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/phet/common" module="Travoltage" type="directory" />
     <expanded_node url="" module="Travoltage" type="module" />
+    <expanded_node url="file://$PROJECT_DIR$/src/edu" module="Travoltage" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado" module="Travoltage" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/phet/common/utils" module="Travoltage" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$" module="Travoltage" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src" module="Travoltage" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/phet" module="Travoltage" type="directory" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" splitterProportion="0.5">
@@ -779,7 +785,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/common/utils/AlphaFixer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="388" selection-end="388" vertical-scroll-proportion="0.3970276">
+        <state line="8" column="27" selection-start="331" selection-end="331" vertical-scroll-proportion="0.2236842">
           <folding />
         </state>
       </provider>
@@ -807,7 +813,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/common/PanelAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="32" selection-start="561" selection-end="561" vertical-scroll-proportion="0.6857749">
+        <state line="6" column="13" selection-start="202" selection-end="202" vertical-scroll-proportion="0.14437367">
           <folding />
         </state>
       </provider>

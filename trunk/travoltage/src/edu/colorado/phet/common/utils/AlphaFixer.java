@@ -4,6 +4,11 @@ import java.awt.image.BufferedImage;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 
+/**
+ * This class converts a specified pixel value to pure see-through.  This
+ * is only useful before you know how to use an image-editing program that supports
+ * alpha-values explicitly.
+ */
 public class AlphaFixer {
     public static AlphaTable TABLE = new AlphaTable();
 
