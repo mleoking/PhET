@@ -187,7 +187,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public void setUseOffscreenBuffer( boolean useOffscreenBuffer ) {
         // Todo: Determine if the following two lines help or not
 //        setOpaque( useOffscreenBuffer );
-//        setDoubleBuffered( !useOffscreenBuffer );
+        setDoubleBuffered( !useOffscreenBuffer );
         this.useOffscreenBuffer = useOffscreenBuffer;
     }
 
