@@ -69,8 +69,7 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
      * @return the intensity (0.0 - 1.0)
      */
     public double getIntensity() {
-        double voltage = Math.abs( _voltageSourceModel.getVoltage() );
-        double intensity = voltage / _voltageSourceModel.getMaxVoltage();
+        double intensity = Math.abs( _voltageSourceModel.getVoltage() / _voltageSourceModel.getMaxVoltage() );
         intensity = MathUtil.clamp( 0, intensity, 1 );
         if ( intensity == Double.NaN ) {
             System.out.println( "WARNING: LightBulb.stepInTime: intensity=NaN" );
