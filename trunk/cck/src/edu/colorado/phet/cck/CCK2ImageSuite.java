@@ -35,7 +35,7 @@ public class CCK2ImageSuite {
     private BufferedImage bulb;
 
     public BufferedImage getParticleImage() throws IOException {
-        return imageLoader.loadImage("images/spheres/particle-blue-sml.gif");
+        return imageLoader.loadImage( "images/spheres/particle-blue-sml.gif" );
     }
 
     public int getParticleImageWidth() throws IOException {
@@ -47,14 +47,14 @@ public class CCK2ImageSuite {
     }
 
     private void loadImages() throws IOException {
-        resistorImage = imageLoader.loadBufferedImage(resistorImageLocation);
-        BufferedImage batteryImage = imageLoader.loadBufferedImage(batteryImageLocation);
-        lifelikeImageSuite = new ImageSuite(resistorImage, batteryImage, closedImage);
-        BufferedImage schr = imageLoader.loadBufferedImage(schematicResistorImage);
-        BufferedImage schswit = imageLoader.loadBufferedImage(switchImage);
+        resistorImage = imageLoader.loadBufferedImage( resistorImageLocation );
+        BufferedImage batteryImage = imageLoader.loadBufferedImage( batteryImageLocation );
+        lifelikeImageSuite = new ImageSuite( resistorImage, batteryImage, closedImage );
+        BufferedImage schr = imageLoader.loadBufferedImage( schematicResistorImage );
+        BufferedImage schswit = imageLoader.loadBufferedImage( switchImage );
 //        BufferedImage schbatt = ImageIO.read(getClass().getClassLoader().getResource(schematicBatteryImage));
-        BufferedImage schbatt = imageLoader.loadImage(schematicBatteryImage);
-        schematicImageSuite = new ImageSuite(schr, schbatt, schswit);
+        BufferedImage schbatt = imageLoader.loadImage( schematicBatteryImage );
+        schematicImageSuite = new ImageSuite( schr, schbatt, schswit );
     }
 
     public ImageSuite getLifelikeSuite() {
@@ -66,22 +66,23 @@ public class CCK2ImageSuite {
     }
 
     public BufferedImage getClosedSwitchImage() throws IOException {
-        return imageLoader.loadImage("images/switches/knifeBoard.gif");
+        return imageLoader.loadImage( "images/switches/knifeBoard.gif" );
     }
 
     public BufferedImage getBaseSwitchImage() throws IOException {
-        return imageLoader.loadImage("images/switches/knifeBoard.gif");
+        return imageLoader.loadImage( "images/switches/knifeBoard.gif" );
     }
 
     public BufferedImage getBulbImage() throws IOException {
 //        return imageLoader.loadImage("images/schematic/bulb-knob.gif");//Loads smooth alpha, not bitchannel.
-        if (bulb == null)
-            bulb = new CommonImageLoader2().loadBufferedImage("images/schematic/bulb-knob.gif");
+        if( bulb == null ) {
+            bulb = new CommonImageLoader2().loadBufferedImage( "images/schematic/bulb-knob.gif" );
+        }
         return bulb;
     }
 
     public BufferedImage getImageHandle() throws IOException {
-        return imageLoader.loadImage("images/switches/handle4.gif");
+        return imageLoader.loadImage( "images/switches/handle4.gif" );
     }
 
     public BufferedImage getResistorImage() {
@@ -96,6 +97,6 @@ public class CCK2ImageSuite {
 //    }
 
     public BufferedImage getAmmeterImage() throws IOException {
-        return imageLoader.loadImage("images/ammeterbranch.gif");
+        return imageLoader.loadImage( "images/ammeterbranch.gif" );
     }
 }

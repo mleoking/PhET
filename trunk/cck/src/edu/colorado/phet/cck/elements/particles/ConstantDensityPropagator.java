@@ -27,94 +27,108 @@ public class ConstantDensityPropagator implements Propagator {
     double density = CCK2Module.ELECTRON_SEPARATION;
     private double time = 0;
 
-    public ConstantDensityPropagator(Circuit circuit, ParticleSet particleSet) {
+    public ConstantDensityPropagator( Circuit circuit, ParticleSet particleSet ) {
         this.circuit = circuit;
         this.particleSet = particleSet;
     }
 
-    private double clamp(double speed) {
-        if (speed < 0) {
-            if (speed < -maxSpeed)
+    private double clamp( double speed ) {
+        if( speed < 0 ) {
+            if( speed < -maxSpeed ) {
                 return -maxSpeed;
-        } else {
-            if (speed > maxSpeed)
+            }
+        }
+        else {
+            if( speed > maxSpeed ) {
                 return maxSpeed;
+            }
         }
         return speed;
     }
 
-    public void propagate(BranchParticle bp, double dt) {
+    public void propagate( BranchParticle bp, double dt ) {
         double speed = bp.getBranch().getCurrent() * currentSpeedScale;
 //       System.out.println("speed = " + speed);
-        speed = clamp(speed);
+        speed = clamp( speed );
 //        System.out.println("Clamped speed = " + speed);
         //Apply any necessary clamps.
 //        if (speed == 0)
 //            speed = .001;
         double x = bp.getPosition();
         x += dt * speed;
-        if (x > bp.getBranch().getLength()) {
-            particleSet.removeParticle(bp);
-        } else if (x < 0) {
-            particleSet.removeParticle(bp);
-        } else
-            bp.setPosition(x);
+        if( x > bp.getBranch().getLength() ) {
+            particleSet.removeParticle( bp );
+        }
+        else if( x < 0 ) {
+            particleSet.removeParticle( bp );
+        }
+        else {
+            bp.setPosition( x );
+        }
     }
 
-    public void stepInTime(double dt) {
+    public void stepInTime( double dt ) {
         time += dt;
         //Create any new particles?
 
-        for (int i = 0; i < circuit.numBranches(); i++) {
-            Branch b = circuit.branchAt(i);
-            JunctionGroup start = circuit.getJunctionGroup(b.getStartJunction());
+        for( int i = 0; i < circuit.numBranches(); i++ ) {
+            Branch b = circuit.branchAt( i );
+            JunctionGroup start = circuit.getJunctionGroup( b.getStartJunction() );
             boolean startJunction = true;
-            if (b.getCurrent() < 0) {
-                start = circuit.getJunctionGroup(b.getEndJunction());
+            if( b.getCurrent() < 0 ) {
+                start = circuit.getJunctionGroup( b.getEndJunction() );
                 startJunction = false;
             }
-            double distToClosest = getDistanceToClosestParticle(b, start);
-            if (distToClosest >= density) {
-                BranchParticle bp = new BranchParticle(b);
-                if (!startJunction) {
-                    bp.setPosition(b.getLength());
+            double distToClosest = getDistanceToClosestParticle( b, start );
+            if( distToClosest >= density ) {
+                BranchParticle bp = new BranchParticle( b );
+                if( !startJunction ) {
+                    bp.setPosition( b.getLength() );
                 }
-                particleSet.addParticle(bp);
+                particleSet.addParticle( bp );
             }
         }
     }
 
-    private Branch[] getOutgoingBranches(final JunctionGroup jg) {
-        Branch[] branches = circuit.getBranches(jg, new ObjectSelector() {
-            public boolean isValid(Object o) {
-                Branch b = (Branch) o;
-                if (jg.contains(b.getStartJunction())) {
-                    if (b.getCurrent() > 0)
+    private Branch[] getOutgoingBranches( final JunctionGroup jg ) {
+        Branch[] branches = circuit.getBranches( jg, new ObjectSelector() {
+            public boolean isValid( Object o ) {
+                Branch b = (Branch)o;
+                if( jg.contains( b.getStartJunction() ) ) {
+                    if( b.getCurrent() > 0 ) {
                         return true;
-                    else
+                    }
+                    else {
                         return false;
-                } else if (jg.contains(b.getEndJunction())) {
-                    if (b.getCurrent() < 0)
+                    }
+                }
+                else if( jg.contains( b.getEndJunction() ) ) {
+                    if( b.getCurrent() < 0 ) {
                         return true;
-                    else
+                    }
+                    else {
                         return false;
-                } else
-                    throw new RuntimeException("Branch not contained.");
+                    }
+                }
+                else {
+                    throw new RuntimeException( "Branch not contained." );
+                }
             }
-        });
+        } );
         return branches;
     }
 
-    public Branch getOutgoingBranch(final JunctionGroup jg) {
-        Branch[] branches = getOutgoingBranches(jg);
-        if (branches.length == 0)
+    public Branch getOutgoingBranch( final JunctionGroup jg ) {
+        Branch[] branches = getOutgoingBranches( jg );
+        if( branches.length == 0 ) {
             return null;
+        }
         else {
-            int index = random.nextInt(branches.length);
+            int index = random.nextInt( branches.length );
             double biggestDistToClosest = 0;//Choose the branch with the farthest distance to the next particle.
-            for (int i = 0; i < branches.length; i++) {
-                double distToClosest = getDistanceToClosestParticle(branches[i], jg);
-                if (distToClosest > biggestDistToClosest) {
+            for( int i = 0; i < branches.length; i++ ) {
+                double distToClosest = getDistanceToClosestParticle( branches[i], jg );
+                if( distToClosest > biggestDistToClosest ) {
                     biggestDistToClosest = distToClosest;
                     index = i;
                 }
@@ -123,15 +137,15 @@ public class ConstantDensityPropagator implements Propagator {
         }
     }
 
-    private double getDistanceToClosestParticle(Branch branch, JunctionGroup jg) {
-        BranchParticle[] bp = particleSet.getBranchParticles(branch);
+    private double getDistanceToClosestParticle( Branch branch, JunctionGroup jg ) {
+        BranchParticle[] bp = particleSet.getBranchParticles( branch );
         double closestDist = Double.POSITIVE_INFINITY;
-        for (int i = 0; i < bp.length; i++) {
+        for( int i = 0; i < bp.length; i++ ) {
             BranchParticle particle = bp[i];
             PhetVector pv = particle.getPosition2D();
             Point2D.Double jgLoc = jg.getLocation();
-            double dist = jgLoc.distance(pv.getX(), pv.getY());
-            if (dist < closestDist) {
+            double dist = jgLoc.distance( pv.getX(), pv.getY() );
+            if( dist < closestDist ) {
                 closestDist = dist;
             }
         }

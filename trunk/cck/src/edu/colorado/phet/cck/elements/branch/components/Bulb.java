@@ -10,7 +10,7 @@ import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.cck.elements.xml.BulbData;
 import edu.colorado.phet.common.math.LinearTransform1d;
 import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.util.ArrayList;
 
@@ -40,71 +40,76 @@ public class Bulb extends Branch implements HasResistance {
         return vecFromStartJunction;
     }
 
-    public Bulb(Circuit parent, double x1, double y1, double x2, double y2, PhetVector vecFromStartJunction, double resistance) {
-        super(parent, x1, y1, x2, y2);
+    public Bulb( Circuit parent, double x1, double y1, double x2, double y2, PhetVector vecFromStartJunction, double resistance ) {
+        super( parent, x1, y1, x2, y2 );
         this.vecFromStartJunction = vecFromStartJunction;
-        this.ctrl = new PhetVector(x1, y1).getAddedInstance(vecFromStartJunction);
+        this.ctrl = new PhetVector( x1, y1 ).getAddedInstance( vecFromStartJunction );
         this.resistance = resistance;
-        addObserver(new BranchObserver() {
-            public void junctionMoved(Branch branch2, Junction junction) {
+        addObserver( new BranchObserver() {
+            public void junctionMoved( Branch branch2, Junction junction ) {
                 recomputeState();
-                if (recursing)
+                if( recursing ) {
                     return;
+                }
                 recursing = true;
-                if (junction == getStartJunction()) {
-                    getEndJunction().setLocation(getStartJunction().getX() + .22, getStartJunction().getY() - .42);
-                } else if (junction == getEndJunction()) {
-                    getStartJunction().setLocation(getEndJunction().getX() - .22, getEndJunction().getY() + .42);
+                if( junction == getStartJunction() ) {
+                    getEndJunction().setLocation( getStartJunction().getX() + .22, getStartJunction().getY() - .42 );
+                }
+                else if( junction == getEndJunction() ) {
+                    getStartJunction().setLocation( getEndJunction().getX() - .22, getEndJunction().getY() + .42 );
                 }
                 recursing = false;//What a crazy hack.
             }
 
-            public void currentOrVoltageChanged(Branch branch2) {
+            public void currentOrVoltageChanged( Branch branch2 ) {
             }
-        });
+        } );
         recomputeState();
     }
 
-    public void setVoltageDrop(double voltageDrop) {
-        super.setVoltageDrop(voltageDrop);
+    public void setVoltageDrop( double voltageDrop ) {
+        super.setVoltageDrop( voltageDrop );
         updateIntensity();
     }
 
-    public double sigmoid(double x, double dx) {
-        return 1.0 / (1.0 + Math.exp(-x + dx));
+    public double sigmoid( double x, double dx ) {
+        return 1.0 / ( 1.0 + Math.exp( -x + dx ) );
     }
 
     private void updateIntensity() {
         double voltage = getVoltageDrop();
-        double current = Math.abs(super.getCurrent());
-        double power = Math.abs(current * getVoltageDrop());
-        LinearTransform1d map = new LinearTransform1d(0, 1000, .2, 1);
-        double temp = map.operate(power);
+        double current = Math.abs( super.getCurrent() );
+        double power = Math.abs( current * getVoltageDrop() );
+        LinearTransform1d map = new LinearTransform1d( 0, 1000, .2, 1 );
+        double temp = map.operate( power );
 
-        if (temp > 1)
+        if( temp > 1 ) {
             temp = 1;
-        if (temp < 0)
+        }
+        if( temp < 0 ) {
             temp = 0;
-        if (power == 0)
+        }
+        if( power == 0 ) {
             temp = 0;
+        }
 
-        System.out.println("current = " + current + ", voltage=" + voltage + ", power=" + power + ", intensity=" + temp);
-        setIntensity(temp);
+        System.out.println( "current = " + current + ", voltage=" + voltage + ", power=" + power + ", intensity=" + temp );
+        setIntensity( temp );
     }
 
-    public void setCurrent(double current) {
-        super.setCurrent(current);
+    public void setCurrent( double current ) {
+        super.setCurrent( current );
         updateIntensity();
     }
 
     private void recomputeState() {
-        cb = new CompositeBranch(getCircuit(), getX1(), getY1());
+        cb = new CompositeBranch( getCircuit(), getX1(), getY1() );
 //        double length = super.getLength();//distance between endpoints.
 //        this.vecFromStartJunction = vecFromStartJunction;
-        this.ctrl = new PhetVector(getX1(), getY1()).getAddedInstance(vecFromStartJunction);
+        this.ctrl = new PhetVector( getX1(), getY1() ).getAddedInstance( vecFromStartJunction );
 //        ctrl = new Point2D.Double(getX1(), getY1());
 
-        PhetVector forward = new PhetVector(ctrl.getX() - getX1(), ctrl.getY() - getY1()).getNormalizedInstance();
+        PhetVector forward = new PhetVector( ctrl.getX() - getX1(), ctrl.getY() - getY1() ).getNormalizedInstance();
 //        double length = forward.getMagnitude();
 //        forward = forward.getNormalizedInstance();
 //        PhetVector forward = super.getDirection().getNormalizedInstance();
@@ -113,33 +118,33 @@ public class Bulb extends Branch implements HasResistance {
 
 //        double lengthA = length / 2.0 - width/ 2.0;
 //        cb.addRelativePoint(forward.getScaledInstance(lengthA));
-        cb.addRelativePoint(forward.getScaledInstance(.1));
+        cb.addRelativePoint( forward.getScaledInstance( .1 ) );
 
 //        double lengthUp=1;
 //        double lengthUp = height*.25;
         double lengthUp = height * .35;
-        cb.addRelativePoint(up.getScaledInstance(lengthUp));
-        cb.addRelativePoint(forward.getScaledInstance(width / 2.0));
+        cb.addRelativePoint( up.getScaledInstance( lengthUp ) );
+        cb.addRelativePoint( forward.getScaledInstance( width / 2.0 ) );
 
-        cb.addRelativePoint(up.getScaledInstance(-lengthUp - .15));
+        cb.addRelativePoint( up.getScaledInstance( -lengthUp - .15 ) );
         this.secondStartPoint = cb.getEndPoint();
-        cb.lineTo(super.getX2(), super.getY2());
+        cb.lineTo( super.getX2(), super.getY2() );
     }
 
-    public PhetVector getMovedInstance(PhetVector start, PhetVector dir, double dist) {
-        return start.getAddedInstance(dir.getScaledInstance(dist / dir.getMagnitude()));
+    public PhetVector getMovedInstance( PhetVector start, PhetVector dir, double dist ) {
+        return start.getAddedInstance( dir.getScaledInstance( dist / dir.getMagnitude() ) );
     }
 
-    public PhetVector getMovedInstance(PhetVector start, double angle, double magnitude) {
-        PhetVector pv = PhetVector.parseAngleAndMagnitude(angle, magnitude);
-        return getMovedInstance(start, pv, magnitude);
+    public PhetVector getMovedInstance( PhetVector start, double angle, double magnitude ) {
+        PhetVector pv = PhetVector.parseAngleAndMagnitude( angle, magnitude );
+        return getMovedInstance( start, pv, magnitude );
     }
 
     public double getResistance() {
         return resistance;
     }
 
-    public void setResistance(double resistance) {
+    public void setResistance( double resistance ) {
         this.resistance = resistance;
         parent.fireConnectivityChanged();
         fireCurrentChanged();
@@ -149,26 +154,27 @@ public class Bulb extends Branch implements HasResistance {
         return cb.getLength();
     }
 
-    public PhetVector getPosition2D(double x) {
-        PhetVector loc = cb.getPosition2D(x);
-        if (loc == null)
+    public PhetVector getPosition2D( double x ) {
+        PhetVector loc = cb.getPosition2D( x );
+        if( loc == null ) {
             loc = new PhetVector();
+        }
         return loc;
     }
 
-    public boolean containsScalarLocation(double x) {
-        return cb.containsScalarLocation(x);
+    public boolean containsScalarLocation( double x ) {
+        return cb.containsScalarLocation( x );
     }
 
     public Branch copy() {
-        return new Bulb(parent, getX1(), getY1(), getX2(), getY2(), getVecFromStartJunction().getAddedInstance(0, 0), resistance);
+        return new Bulb( parent, getX1(), getY1(), getX2(), getY2(), getVecFromStartJunction().getAddedInstance( 0, 0 ), resistance );
     }
 
     public BranchData toBranchData() {
-        return new BulbData(this);
+        return new BulbData( this );
     }
 
-    public void setImageParametersModelCoords(double width, double height) {
+    public void setImageParametersModelCoords( double width, double height ) {
         this.width = width;
         this.height = height;
         recomputeState();
@@ -178,10 +184,10 @@ public class Bulb extends Branch implements HasResistance {
         return secondStartPoint;
     }
 
-    public void setIntensity(double intensity) {
+    public void setIntensity( double intensity ) {
         this.intensity = intensity;
-        for (int i = 0; i < intensityObservers.size(); i++) {
-            SimpleObserver simpleObserver = (SimpleObserver) intensityObservers.get(i);
+        for( int i = 0; i < intensityObservers.size(); i++ ) {
+            SimpleObserver simpleObserver = (SimpleObserver)intensityObservers.get( i );
             simpleObserver.update();
         }
     }
@@ -190,21 +196,21 @@ public class Bulb extends Branch implements HasResistance {
         return intensity;
     }
 
-    public void addIntensityObserver(SimpleObserver so) {
-        this.intensityObservers.add(so);
+    public void addIntensityObserver( SimpleObserver so ) {
+        this.intensityObservers.add( so );
     }
 
     public PhetVector getControlPoint() {
         return ctrl;
     }
 
-    public void setControlPointLocation(PhetVector ctrl) {
+    public void setControlPointLocation( PhetVector ctrl ) {
         this.ctrl = ctrl;
     }
 
-    public void setCurrentAndVoltage(double amps, double volts) {
-        super.setCurrentNoUpdate(amps);
-        super.setVoltageDropNoUpdate(volts);
+    public void setCurrentAndVoltage( double amps, double volts ) {
+        super.setCurrentNoUpdate( amps );
+        super.setVoltageDropNoUpdate( volts );
         updateIntensity();
         fireCurrentChanged();
     }

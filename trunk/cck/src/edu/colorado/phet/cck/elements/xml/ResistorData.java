@@ -15,11 +15,11 @@ public class ResistorData extends BranchData {
     public ResistorData() {
     }
 
-    public ResistorData(Branch b) {
-        super(b);
+    public ResistorData( Branch b ) {
+        super( b );
     }
 
-    public Branch toBranch(Circuit parent) {
-        return new Resistor(parent, x0, y0, x1, y1, resistance);
+    public Branch toBranch( Circuit parent ) {
+        return new Resistor( parent, x0, y0, x1, y1, resistance );
     }
 }

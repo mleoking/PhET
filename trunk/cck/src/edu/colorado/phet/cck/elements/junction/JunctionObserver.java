@@ -9,7 +9,7 @@ package edu.colorado.phet.cck.elements.junction;
  * Copyright (c) Aug 31, 2003 by Sam Reid
  */
 public interface JunctionObserver {
-    void locationChanged(Junction junction2);
+    void locationChanged( Junction junction2 );
 
     void connectivityChanged();
 }

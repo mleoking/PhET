@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Oct 30, 2003 by Sam Reid
  */
 public class BatteryGraphic extends ConnectibleImageGraphic {
-    public BatteryGraphic(final Circuit circuit, ModelViewTransform2D transform, final Branch branch, final CCK2Module module, BufferedImage image, Stroke highlightStroke, Color highlightColor) {
-        super(circuit, transform, branch, module, image, highlightStroke, highlightColor);
+    public BatteryGraphic( final Circuit circuit, ModelViewTransform2D transform, final Branch branch, final CCK2Module module, BufferedImage image, Stroke highlightStroke, Color highlightColor ) {
+        super( circuit, transform, branch, module, image, highlightStroke, highlightColor );
     }
 }

@@ -9,6 +9,6 @@ import edu.colorado.phet.cck.elements.branch.BareBranch;
  * Copyright (c) Jan 31, 2004 by Sam Reid
  */
 public class BareBranchData extends BranchData {
-    public BareBranchData(BareBranch bareBranch) {
+    public BareBranchData( BareBranch bareBranch ) {
     }
 }

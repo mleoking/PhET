@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * Copyright (c) Sep 3, 2003 by Sam Reid
  */
 public interface KirkhoffSolutionApplicator {
-    public void apply(Equation[] ke, CircuitGraph circuit, MatrixTable mt);
+    public void apply( Equation[] ke, CircuitGraph circuit, MatrixTable mt );
 
-    void setLogger(Logger logger);
+    void setLogger( Logger logger );
 }

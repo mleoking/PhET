@@ -8,16 +8,17 @@ package edu.colorado.phet.cck.elements.kirkhoff.equations;
  * Copyright (c) Sep 3, 2003 by Sam Reid
  */
 public class JunctionEquation extends KirkhoffEquation {
-    public JunctionEquation(int numBranches) {
-        super(numBranches);
+    public JunctionEquation( int numBranches ) {
+        super( numBranches );
     }
 
     public String toString() {
         String current = "JunctionEquation:<current coeffs=[";
-        for (int i = 0; i < numBranches; i++) {
+        for( int i = 0; i < numBranches; i++ ) {
             current += "" + data[i];
-            if (i < numBranches - 1)
+            if( i < numBranches - 1 ) {
                 current += ", ";
+            }
         }
         current += "]>";
         return current;

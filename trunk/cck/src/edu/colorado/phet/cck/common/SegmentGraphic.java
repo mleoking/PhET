@@ -30,7 +30,7 @@ public class SegmentGraphic implements Graphic, TransformListener {
     private Stroke highlightStroke;
     private Color highlightColor;
 
-    public SegmentGraphic(ModelViewTransform2D transform, double x, double y, double x2, double y2, Color color, Stroke stroke, Stroke highlightStroke, Color highlightColor) {
+    public SegmentGraphic( ModelViewTransform2D transform, double x, double y, double x2, double y2, Color color, Stroke stroke, Stroke highlightStroke, Color highlightColor ) {
         this.transform = transform;
         this.x = x;
         this.y = y;
@@ -40,17 +40,18 @@ public class SegmentGraphic implements Graphic, TransformListener {
         this.stroke = stroke;
         this.highlightStroke = highlightStroke;
         this.highlightColor = highlightColor;
-        transform.addTransformListener(this);
+        transform.addTransformListener( this );
         update();
     }
 
-    public void setSelected(boolean selected) {
+    public void setSelected( boolean selected ) {
         this.selected = selected;
     }
 
     public Shape getShape() {
-        if (shapeValid)
+        if( shapeValid ) {
             return shape;
+        }
         else {
             validateShape();
             return shape;
@@ -58,38 +59,38 @@ public class SegmentGraphic implements Graphic, TransformListener {
     }
 
     private void validateShape() {
-        this.shape = stroke.createStrokedShape(new Line2D.Double(start.x, start.y, end.x, end.y));
+        this.shape = stroke.createStrokedShape( new Line2D.Double( start.x, start.y, end.x, end.y ) );
         shapeValid = true;
     }
 
     private void update() {
-        start = transform.modelToView(x, y);
-        end = transform.modelToView(x2, y2);
+        start = transform.modelToView( x, y );
+        end = transform.modelToView( x2, y2 );
 //        this.selected=
     }
 
-    public void paint(Graphics2D g) {
+    public void paint( Graphics2D g ) {
 
-        if (start != null) {
-            if (selected) {
-                g.setColor(highlightColor);
-                g.setStroke(highlightStroke);
-                g.drawLine(start.x, start.y, end.x, end.y);
+        if( start != null ) {
+            if( selected ) {
+                g.setColor( highlightColor );
+                g.setStroke( highlightStroke );
+                g.drawLine( start.x, start.y, end.x, end.y );
             }
-            g.setColor(color);
-            g.setStroke(stroke);
-            g.drawLine(start.x, start.y, end.x, end.y);
+            g.setColor( color );
+            g.setStroke( stroke );
+            g.drawLine( start.x, start.y, end.x, end.y );
 //            g.setColor(Color.blue);
 //            g.fillRect(start.x, start.y, 20, 20);
 //            g.fillRect(end.x, end.y, 20, 20);
         }
     }
 
-    public void transformChanged(ModelViewTransform2D mvt) {
+    public void transformChanged( ModelViewTransform2D mvt ) {
         update();
     }
 
-    public void setState(double x, double y, double x2, double y2) {
+    public void setState( double x, double y, double x2, double y2 ) {
         this.x = x;
         this.y = y;
         this.x2 = x2;
@@ -102,7 +103,7 @@ public class SegmentGraphic implements Graphic, TransformListener {
         return start;
     }
 
-    public void setColor(Color color) {
+    public void setColor( Color color ) {
         this.color = color;
     }
 }

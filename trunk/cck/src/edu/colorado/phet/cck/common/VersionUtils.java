@@ -18,7 +18,7 @@ public class VersionUtils {
         int buildNumber;
         String buildTime;
 
-        public VersionInfo(int buildNumber, String buildTime) {
+        public VersionInfo( int buildNumber, String buildTime ) {
             this.buildNumber = buildNumber;
             this.buildTime = buildTime;
         }
@@ -44,38 +44,41 @@ public class VersionUtils {
     </target>
 
     */
-    public static void showBuildNumber(PhetApplication app) {
-        VersionInfo vi = readVersionInfo(app);
-        JOptionPane.showMessageDialog(app.getApplicationView().getPhetFrame(), "Build number=" + vi.getBuildNumber() + "\n" + "BuildTime=" + vi.getBuildTime());
+    public static void showBuildNumber( PhetApplication app ) {
+        VersionInfo vi = readVersionInfo( app );
+        JOptionPane.showMessageDialog( app.getApplicationView().getPhetFrame(), "Build number=" + vi.getBuildNumber() + "\n" + "BuildTime=" + vi.getBuildTime() );
     }
 
-    public static VersionInfo readVersionInfo(PhetApplication app) {
+    public static VersionInfo readVersionInfo( PhetApplication app ) {
         ClassLoader cl = app.getClass().getClassLoader();
-        URL buildNumberURL = cl.getResource("build.number");
-        System.out.println("buildNumberURL = " + buildNumberURL);
+        URL buildNumberURL = cl.getResource( "build.number" );
+        System.out.println( "buildNumberURL = " + buildNumberURL );
         int buildNum = -1;
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(buildNumberURL.openStream()));
+            BufferedReader br = new BufferedReader( new InputStreamReader( buildNumberURL.openStream() ) );
             String line = br.readLine();
-            while (line != null) {
-                if (line.toLowerCase().startsWith("build.number=")) {
-                    String number = line.substring("build.number=".length());
-                    buildNum = Integer.parseInt(number);
+            while( line != null ) {
+                if( line.toLowerCase().startsWith( "build.number=" ) ) {
+                    String number = line.substring( "build.number=".length() );
+                    buildNum = Integer.parseInt( number );
                 }
                 line = br.readLine();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-        } catch (IOException e) {
+        }
+        catch( FileNotFoundException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
-        InputStream buildTimeURL = cl.getResourceAsStream("build.time.stamp.txt");
+        catch( IOException e ) {
+            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+        }
+        InputStream buildTimeURL = cl.getResourceAsStream( "build.time.stamp.txt" );
         String buildTimeStr = "-1";
         try {
-            buildTimeStr = new BufferedReader(new InputStreamReader(buildTimeURL)).readLine();
-        } catch (IOException e) {
+            buildTimeStr = new BufferedReader( new InputStreamReader( buildTimeURL ) ).readLine();
+        }
+        catch( IOException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
-        return new VersionInfo(buildNum, buildTimeStr);
+        return new VersionInfo( buildNum, buildTimeStr );
     }
 }

@@ -19,7 +19,7 @@ public interface AbstractBranchGraphic extends InteractiveGraphic, TransformList
 
     Branch getBranch();
 
-    void setWireColor(Color color);
+    void setWireColor( Color color );
 
     InteractiveGraphic getMainBranchGraphic();
 }

@@ -7,5 +7,5 @@ package edu.colorado.phet.cck.elements.particles;
  * Copyright (c) Sep 8, 2003 by Sam Reid
  */
 public interface ObjectSelector {
-    boolean isValid(Object o);
+    boolean isValid( Object o );
 }

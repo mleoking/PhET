@@ -12,19 +12,19 @@ import java.util.ArrayList;
 public class DirectedPath {
     ArrayList pathElements = new ArrayList();
 
-    public DirectedPath(DirectedPathElement start) {
-        pathElements.add(start);
+    public DirectedPath( DirectedPathElement start ) {
+        pathElements.add( start );
     }
 
-    public DirectedPath(DirectedPath path, DirectedPathElement next) {
-        pathElements.addAll(path.pathElements);
-        pathElements.add(next);
+    public DirectedPath( DirectedPath path, DirectedPathElement next ) {
+        pathElements.addAll( path.pathElements );
+        pathElements.add( next );
     }
 
-    public boolean containsEdge(DirectedEdge e) {
-        for (int i = 0; i < pathElements.size(); i++) {
-            DirectedPathElement directedPathElement = (DirectedPathElement) pathElements.get(i);
-            if (directedPathElement.getEdge() == e) {
+    public boolean containsEdge( DirectedEdge e ) {
+        for( int i = 0; i < pathElements.size(); i++ ) {
+            DirectedPathElement directedPathElement = (DirectedPathElement)pathElements.get( i );
+            if( directedPathElement.getEdge() == e ) {
                 return true;
             }
         }
@@ -32,30 +32,32 @@ public class DirectedPath {
     }
 
     public boolean isLoop() {
-        return (pathElements.size() > 1) && (getStartVertex() == getEndVertex());
+        return ( pathElements.size() > 1 ) && ( getStartVertex() == getEndVertex() );
     }
 
-    public DirectedPathElement pathElementAt(int i) {
-        return (DirectedPathElement) pathElements.get(i);
+    public DirectedPathElement pathElementAt( int i ) {
+        return (DirectedPathElement)pathElements.get( i );
     }
 
     public Object getEndVertex() {
-        return pathElementAt(pathElements.size() - 1).getEndVertex();
+        return pathElementAt( pathElements.size() - 1 ).getEndVertex();
     }
 
     private Object getStartVertex() {
-        return pathElementAt(0).getStartVertex();
+        return pathElementAt( 0 ).getStartVertex();
     }
 
     public Object lastVertex() {
         return getEndVertex();
     }
 
-    public boolean isLegalStep(DirectedPathElement next) {
-        if (containsEdge(next.getEdge()))
+    public boolean isLegalStep( DirectedPathElement next ) {
+        if( containsEdge( next.getEdge() ) ) {
             return false;//no crossing the same bridge twice in one directed path.
-        else
+        }
+        else {
             return true;
+        }
     }
 
     public String toString() {
@@ -64,15 +66,15 @@ public class DirectedPath {
 
     public String toVertexString() {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < pathElements.size(); i++) {
-            DirectedPathElement directedPathElement = (DirectedPathElement) pathElements.get(i);
-            sb.append(directedPathElement.getStartVertex());
-            if (i < pathElements.size() - 1) {
-                sb.append(", ");
+        for( int i = 0; i < pathElements.size(); i++ ) {
+            DirectedPathElement directedPathElement = (DirectedPathElement)pathElements.get( i );
+            sb.append( directedPathElement.getStartVertex() );
+            if( i < pathElements.size() - 1 ) {
+                sb.append( ", " );
             }
         }
-        if (pathElements.size() > 1) {
-            sb.append(", " + lastVertex());
+        if( pathElements.size() > 1 ) {
+            sb.append( ", " + lastVertex() );
         }
         return "<" + sb.toString() + ">";
     }
@@ -81,15 +83,16 @@ public class DirectedPath {
         return pathElements.size();
     }
 
-    public Object vertexAt(int index) {
-        return this.pathElementAt(index).getStartVertex();
+    public Object vertexAt( int index ) {
+        return this.pathElementAt( index ).getStartVertex();
     }
 
-    public boolean containsEdgeData(Object data) {
-        for (int i = 0; i < pathElements.size(); i++) {
-            DirectedPathElement directedPathElement = (DirectedPathElement) pathElements.get(i);
-            if (directedPathElement.getEdge().getData() == data)
+    public boolean containsEdgeData( Object data ) {
+        for( int i = 0; i < pathElements.size(); i++ ) {
+            DirectedPathElement directedPathElement = (DirectedPathElement)pathElements.get( i );
+            if( directedPathElement.getEdge().getData() == data ) {
                 return true;
+            }
         }
         return false;
     }

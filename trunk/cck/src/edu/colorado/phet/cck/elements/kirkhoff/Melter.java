@@ -13,19 +13,20 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 public class Melter {
     double maxCurrent = 30;
 
-    public void doMelt(Circuit parent) {
-        for (int i = 0; i < parent.numBranches(); i++) {
-            Branch b = parent.branchAt(i);
-            doMelt(b);
+    public void doMelt( Circuit parent ) {
+        for( int i = 0; i < parent.numBranches(); i++ ) {
+            Branch b = parent.branchAt( i );
+            doMelt( b );
         }
     }
 
-    private void doMelt(Branch b) {
+    private void doMelt( Branch b ) {
         double i = b.getCurrent();
-        if (i > maxCurrent) {
-            b.setOnFire(true);
-        } else {
-            b.setOnFire(false);
+        if( i > maxCurrent ) {
+            b.setOnFire( true );
+        }
+        else {
+            b.setOnFire( false );
         }
     }
 }

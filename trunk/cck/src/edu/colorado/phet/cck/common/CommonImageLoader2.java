@@ -19,7 +19,7 @@ public class CommonImageLoader2 implements ImageLoader {
     public CommonImageLoader2() {
     }
 
-    public BufferedImage loadBufferedImage(String name) throws IOException {
-        return cil.loadBufferedImage(name);
+    public BufferedImage loadBufferedImage( String name ) throws IOException {
+        return cil.loadBufferedImage( name );
     }
 }

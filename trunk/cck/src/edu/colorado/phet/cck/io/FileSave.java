@@ -32,17 +32,17 @@ public class FileSave {
     public FileSave() {
     }
 
-    public String toXMLString(Circuit circuit) throws ValidationException, MarshalException {
-        CircuitData cd = new CircuitData(circuit);
+    public String toXMLString( Circuit circuit ) throws ValidationException, MarshalException {
+        CircuitData cd = new CircuitData( circuit );
         StringWriter sw = new StringWriter();
-        Marshaller.marshal(cd, sw);
+        Marshaller.marshal( cd, sw );
         String circuitxml = sw.toString();
         return circuitxml;
     }
 
-    public void save(Circuit circuit, Component parent) {
+    public void save( Circuit circuit, Component parent ) {
         ServiceSource ss = new ServiceSource();
-        FileSaveService fos = ss.getFileSaveService(parent);
+        FileSaveService fos = ss.getFileSaveService( parent );
 
 //        CircuitCodec cc = new CircuitCodec();
 //        XMLMap map = cc.toXML(s.getCircuit());
@@ -52,15 +52,18 @@ public class FileSave {
         try {
 //            Marshaller.marshal(cd, sw);
 //            String circuitxml = sw.toString();
-            String circuitxml = toXMLString(circuit);
-            InputStream stream = new ByteArrayInputStream(circuitxml.getBytes());
-            FileContents data = new InputStreamFileContents("circuitxml", stream);
-            FileContents out = fos.saveAsFileDialog("circuit.cck", new String[]{"cck"}, data);
-        } catch (MarshalException e) {
+            String circuitxml = toXMLString( circuit );
+            InputStream stream = new ByteArrayInputStream( circuitxml.getBytes() );
+            FileContents data = new InputStreamFileContents( "circuitxml", stream );
+            FileContents out = fos.saveAsFileDialog( "circuit.cck", new String[]{"cck"}, data );
+        }
+        catch( MarshalException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-        } catch (ValidationException e) {
+        }
+        catch( ValidationException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-        } catch (IOException e) {
+        }
+        catch( IOException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
     }

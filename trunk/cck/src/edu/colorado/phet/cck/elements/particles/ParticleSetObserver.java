@@ -8,7 +8,7 @@ package edu.colorado.phet.cck.elements.particles;
  * Copyright (c) Sep 5, 2003 by Sam Reid
  */
 public interface ParticleSetObserver {
-    void particleRemoved(BranchParticle bp);
+    void particleRemoved( BranchParticle bp );
 
-    void particleAdded(BranchParticle bp);
+    void particleAdded( BranchParticle bp );
 }

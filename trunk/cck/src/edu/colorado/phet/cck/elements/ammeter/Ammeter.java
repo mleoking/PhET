@@ -1,7 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.cck.elements.ammeter;
 
-import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObservable;
 
 import java.awt.geom.Point2D;
 
@@ -15,16 +15,16 @@ public class Ammeter extends SimpleObservable {
     double x;
     double y;
 
-    public Ammeter(double x, double y) {
+    public Ammeter( double x, double y ) {
         this.x = x;
         this.y = y;
     }
 
     public Point2D.Double getLocation() {
-        return new Point2D.Double(x, y);
+        return new Point2D.Double( x, y );
     }
 
-    public void translate(double dx, double dy) {
+    public void translate( double dx, double dy ) {
         x += dx;
         y += dy;
         updateObservers();

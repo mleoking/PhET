@@ -11,24 +11,25 @@ public class DefaultImageLoader implements ImageLoader {
     ClassLoader loader;
     Component observer;
 
-    public DefaultImageLoader(ClassLoader loader, Component observer) {
+    public DefaultImageLoader( ClassLoader loader, Component observer ) {
         this.loader = loader;
         this.observer = observer;
     }
 
-    public URL getResource(String name) {
-        return loader.getResource(name);
+    public URL getResource( String name ) {
+        return loader.getResource( name );
     }
 
-    public BufferedImage loadBufferedImage(String name) {
+    public BufferedImage loadBufferedImage( String name ) {
         //URL fileLoc=findResource("images/"+name,c);
-        URL fileLoc = loader.getResource(name);
+        URL fileLoc = loader.getResource( name );
         try {
-            Image img = observer.getToolkit().createImage(fileLoc);
-            BufferedImage argb = ImageConverter.toBufferedImageARGB(img, observer);
+            Image img = observer.getToolkit().createImage( fileLoc );
+            BufferedImage argb = ImageConverter.toBufferedImageARGB( img, observer );
             return argb;
-        } catch (Exception e) {
-            throw new RuntimeException(e.toString() + " -> looked for resource : " + name + ", fileLoc=" + fileLoc);
+        }
+        catch( Exception e ) {
+            throw new RuntimeException( e.toString() + " -> looked for resource : " + name + ", fileLoc=" + fileLoc );
         }
     }
 }

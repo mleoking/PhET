@@ -9,10 +9,10 @@ import edu.colorado.phet.cck.elements.branch.Branch;
  * Copyright (c) Aug 28, 2003 by Sam Reid
  */
 public interface CircuitObserver {
-    void branchAdded(Circuit circuit2, Branch branch);
+    void branchAdded( Circuit circuit2, Branch branch );
 
-    void branchRemoved(Circuit circuit2, Branch branch);
+    void branchRemoved( Circuit circuit2, Branch branch );
 
-    void connectivityChanged(Circuit circuit2);
+    void connectivityChanged( Circuit circuit2 );
 
 }

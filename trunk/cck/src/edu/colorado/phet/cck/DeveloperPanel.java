@@ -21,73 +21,73 @@ public class DeveloperPanel {
     JFrame frame;
     CCK2Module module;
 
-    public DeveloperPanel(final CCK2Module module) {
+    public DeveloperPanel( final CCK2Module module ) {
         this.module = module;
         panel = new JPanel();
-        JButton debugKirkhoff = new JButton("Apply Kirkhoff");
-        debugKirkhoff.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        JButton debugKirkhoff = new JButton( "Apply Kirkhoff" );
+        debugKirkhoff.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 module.applyKirkhoffsLaws();
             }
-        });
-        final JCheckBox jcb = new JCheckBox("Kirkhoff Logging", module.isKirkhoffLoggingEnabled());
-        jcb.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                module.setKirkhoffLogging(jcb.isSelected());
+        } );
+        final JCheckBox jcb = new JCheckBox( "Kirkhoff Logging", module.isKirkhoffLoggingEnabled() );
+        jcb.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setKirkhoffLogging( jcb.isSelected() );
             }
-        });
+        } );
 
         JPanel alphaPanel = new JPanel();
-        alphaPanel.setBorder(BorderFactory.createTitledBorder("Wire Resistance"));
-        alphaPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        alphaPanel.setBorder( BorderFactory.createTitledBorder( "Wire Resistance" ) );
+        alphaPanel.setLayout( new FlowLayout( FlowLayout.CENTER ) );
 
 //        double sca=Wire.getResistanceScale();
 //        double d=.1;
         int numSteps = 400;
         double max = 1.0 / Wire.DEFAULT_RESISTANCE_SCALE;
         double min = 0;
-        double stepSize = (max - min) / numSteps;
-        SpinnerNumberModel snm = new SpinnerNumberModel(Wire.getResistanceScale(), 0.0, max, stepSize);
-        final JSpinner js = new JSpinner(snm);
-        js.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                Double val = (Double) js.getValue();
+        double stepSize = ( max - min ) / numSteps;
+        SpinnerNumberModel snm = new SpinnerNumberModel( Wire.getResistanceScale(), 0.0, max, stepSize );
+        final JSpinner js = new JSpinner( snm );
+        js.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                Double val = (Double)js.getValue();
                 double v = val.doubleValue();
 
-                Wire.setResistanceScale(v * Wire.DEFAULT_RESISTANCE_SCALE);
+                Wire.setResistanceScale( v * Wire.DEFAULT_RESISTANCE_SCALE );
                 module.applyKirkhoffsLaws();
                 module.updateDVMAndAmmeter();
                 module.getApparatusPanel().repaint();
             }
-        });
+        } );
 
-        alphaPanel.add(js);
-        JButton def = new JButton("Restore Default");
-        def.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                js.setValue(new Double(1));
+        alphaPanel.add( js );
+        JButton def = new JButton( "Restore Default" );
+        def.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                js.setValue( new Double( 1 ) );
 
-                Wire.setResistanceScale(1 * Wire.DEFAULT_RESISTANCE_SCALE);
+                Wire.setResistanceScale( 1 * Wire.DEFAULT_RESISTANCE_SCALE );
                 module.applyKirkhoffsLaws();
                 module.updateDVMAndAmmeter();
                 module.getApparatusPanel().repaint();
             }
-        });
-        alphaPanel.add(def);
+        } );
+        alphaPanel.add( def );
 //        js.setBorder(BorderFactory.createTitledBorder("Wire Resistance Scale"));
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(jcb);
-        panel.add(debugKirkhoff);
-        panel.add(alphaPanel);
+        panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
+        panel.add( jcb );
+        panel.add( debugKirkhoff );
+        panel.add( alphaPanel );
     }
 
     public void show() {
-        if (frame == null) {
-            frame = new JFrame("DeveloperPanel");
-            frame.setContentPane(panel);
+        if( frame == null ) {
+            frame = new JFrame( "DeveloperPanel" );
+            frame.setContentPane( panel );
             frame.pack();
         }
-        frame.setVisible(true);
+        frame.setVisible( true );
 //        Thread t = new Thread(new Runnable() {
 //            public void run() {
 //                try {

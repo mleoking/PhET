@@ -23,21 +23,22 @@ public class BranchData {
     public BranchData() {
     }
 
-    public BranchData(Branch b) {
+    public BranchData( Branch b ) {
         this.x0 = b.getX1();
         this.x1 = b.getX2();
         this.y0 = b.getY1();
         this.y1 = b.getY2();
         this.voltageDrop = b.getVoltageDrop();
-        if (b instanceof HasResistance)
-            this.resistance = ((HasResistance) b).getResistance();
+        if( b instanceof HasResistance ) {
+            this.resistance = ( (HasResistance)b ).getResistance();
+        }
     }
 
     public double getVoltageDrop() {
         return voltageDrop;
     }
 
-    public void setVoltageDrop(double voltageDrop) {
+    public void setVoltageDrop( double voltageDrop ) {
         this.voltageDrop = voltageDrop;
     }
 
@@ -45,7 +46,7 @@ public class BranchData {
         return resistance;
     }
 
-    public void setResistance(double resistance) {
+    public void setResistance( double resistance ) {
         this.resistance = resistance;
     }
 
@@ -53,7 +54,7 @@ public class BranchData {
         return x0;
     }
 
-    public void setX0(double x0) {
+    public void setX0( double x0 ) {
         this.x0 = x0;
     }
 
@@ -61,7 +62,7 @@ public class BranchData {
         return y0;
     }
 
-    public void setY0(double y0) {
+    public void setY0( double y0 ) {
         this.y0 = y0;
     }
 
@@ -69,7 +70,7 @@ public class BranchData {
         return x1;
     }
 
-    public void setX1(double x1) {
+    public void setX1( double x1 ) {
         this.x1 = x1;
     }
 
@@ -77,11 +78,11 @@ public class BranchData {
         return y1;
     }
 
-    public void setY1(double y1) {
+    public void setY1( double y1 ) {
         this.y1 = y1;
     }
 
-    public Branch toBranch(Circuit parent) {
-        return new BareBranch(parent, x0, y0, x1, y1);
+    public Branch toBranch( Circuit parent ) {
+        return new BareBranch( parent, x0, y0, x1, y1 );
     }
 }

@@ -14,7 +14,7 @@ public class DeleteAction {
     String text;
     Branch branch;
 
-    public DeleteAction(Branch branch) {
+    public DeleteAction( Branch branch ) {
 //        this.componentName = componentName;
         this.branch = branch;
         this.text = "Delete";
@@ -25,6 +25,6 @@ public class DeleteAction {
     }
 
     public void invoke() {
-        branch.getCircuit().removeBranch(branch);
+        branch.getCircuit().removeBranch( branch );
     }
 }

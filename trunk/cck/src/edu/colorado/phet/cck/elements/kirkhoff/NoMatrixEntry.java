@@ -8,7 +8,7 @@ package edu.colorado.phet.cck.elements.kirkhoff;
  * To change this template use Options | File Templates.
  */
 public class NoMatrixEntry extends Exception {
-    public NoMatrixEntry(String s) {
-        super(s);
+    public NoMatrixEntry( String s ) {
+        super( s );
     }
 }

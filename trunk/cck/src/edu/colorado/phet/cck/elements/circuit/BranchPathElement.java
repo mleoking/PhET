@@ -15,15 +15,17 @@ public class BranchPathElement {
     Junction startJunction;
     Branch branch;
 
-    public BranchPathElement(Junction startJunction, Branch branch) {
+    public BranchPathElement( Junction startJunction, Branch branch ) {
         this.startJunction = startJunction;
         this.branch = branch;
-        if (!branch.containsJunction(startJunction)) {
-            Junction candidate = branch.getEquivalentJunction(startJunction);
-            if (candidate == null)
-                throw new RuntimeException("Mismatched branch/junction.");
-            else
+        if( !branch.containsJunction( startJunction ) ) {
+            Junction candidate = branch.getEquivalentJunction( startJunction );
+            if( candidate == null ) {
+                throw new RuntimeException( "Mismatched branch/junction." );
+            }
+            else {
                 this.startJunction = candidate;
+            }
         }
     }
 
@@ -32,7 +34,7 @@ public class BranchPathElement {
     }
 
     public Junction getEndJunction() {
-        return branch.getOppositeJunction(startJunction);
+        return branch.getOppositeJunction( startJunction );
     }
 
     public Junction getStartJunction() {
@@ -44,31 +46,38 @@ public class BranchPathElement {
     }
 
     public boolean isCorrectDirection() {
-        return branch.getStartJunction().hasConnection(startJunction);
+        return branch.getStartJunction().hasConnection( startJunction );
     }
 
     public double getVoltageDrop() {
-        if (branch instanceof Battery) {
-            Battery b = (Battery) branch;
-            if (b.getStartJunction().hasConnection(startJunction)) {
+        if( branch instanceof Battery ) {
+            Battery b = (Battery)branch;
+            if( b.getStartJunction().hasConnection( startJunction ) ) {
                 //with the battery.
                 return +b.getVoltageDrop();
-            } else
+            }
+            else {
                 return -b.getVoltageDrop();
+            }
         }
         double current = branch.getCurrent();
-        if (current == 0)
+        if( current == 0 ) {
             return 0;
-        if (isCorrectDirection()) {
+        }
+        if( isCorrectDirection() ) {
             //his start is my start.
-            if (current > 0)
-                return -Math.abs(branch.getVoltageDrop());
-            else
-                return Math.abs(branch.getVoltageDrop());
-        } else {
-            if (current > 0)
-                return Math.abs(branch.getVoltageDrop());
-            return -Math.abs(branch.getVoltageDrop());
+            if( current > 0 ) {
+                return -Math.abs( branch.getVoltageDrop() );
+            }
+            else {
+                return Math.abs( branch.getVoltageDrop() );
+            }
+        }
+        else {
+            if( current > 0 ) {
+                return Math.abs( branch.getVoltageDrop() );
+            }
+            return -Math.abs( branch.getVoltageDrop() );
         }
     }
 }

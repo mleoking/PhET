@@ -18,21 +18,21 @@ public class MyConsoleHandler extends Handler {
     Formatter formatter;
 
     public MyConsoleHandler() {
-        this(System.err, new SimpleFormatter());
+        this( System.err, new SimpleFormatter() );
     }
 
-    public MyConsoleHandler(Formatter formatter) {
-        this(System.err, formatter);
+    public MyConsoleHandler( Formatter formatter ) {
+        this( System.err, formatter );
     }
 
-    public MyConsoleHandler(PrintStream output, Formatter formatter) {
+    public MyConsoleHandler( PrintStream output, Formatter formatter ) {
         this.output = output;
         this.formatter = formatter;
     }
 
-    public void publish(LogRecord record) {
-        String out = formatter.format(record);
-        output.println(out);
+    public void publish( LogRecord record ) {
+        String out = formatter.format( record );
+        output.println( out );
     }
 
     public void flush() {
