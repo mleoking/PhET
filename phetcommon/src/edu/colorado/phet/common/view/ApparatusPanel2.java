@@ -61,6 +61,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private ScaledComponentLayout scaledComponentLayout;
     private ModelElement paintModelElement;
     private PanelResizeHandler panelResizeHandler;
+    private MouseProcessor mouseProcessor;
+    private BaseModel model;
+    private boolean autopaint;
 
     /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
@@ -84,9 +87,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     protected void init( BaseModel model, AbstractClock clock ) {
-
+        this.model = model;
         // The following lines use a mouse processor in the model loop
-        MouseProcessor mouseProcessor = new MouseProcessor( getGraphic(), clock );
+        mouseProcessor = new MouseProcessor( getGraphic(), clock );
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
@@ -106,6 +109,34 @@ public class ApparatusPanel2 extends ApparatusPanel {
         transformManager = new TransformManager( this );
         paintStrategy = new DefaultPaintStrategy( this );
         scaledComponentLayout = new ScaledComponentLayout( this );
+    }
+
+    /**
+     * Returns true if this panel repaints after each stepInTime().
+     *
+     * @return
+     */
+    protected boolean isAutoPaint() {
+        return autopaint;
+    }
+
+    /**
+     * Sets whether this ApparatusPanel automatically repaints itself after each stepInTime().
+     *
+     * @param autopaint
+     */
+    protected void setAutoPaint( boolean autopaint ) {
+        this.autopaint = autopaint;
+        if( autopaint ) {
+            if( !model.containsModelElement( paintModelElement ) ) {
+                model.addModelElement( paintModelElement );
+            }
+        }
+        else {
+            while( model.containsModelElement( paintModelElement ) ) {
+                model.removeModelElement( paintModelElement );
+            }
+        }
     }
 
     public TransformManager getTransformManager() {
