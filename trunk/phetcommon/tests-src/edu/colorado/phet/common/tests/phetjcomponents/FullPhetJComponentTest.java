@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
@@ -44,7 +45,9 @@ public class FullPhetJComponentTest {
                 System.out.println( "e = " + e );
             }
         } );
-        PhetJComponent buttonPhetJ = new PhetJComponent( ap, jb );
+//        PhetJComponent buttonPhetJ = PhetJComponent.newInstance( ap, jb );
+        PhetJComponent buttonPhetJ = PhetJComponent.newInstance( ap, jb );
+
         ap.addGraphic( buttonPhetJ );
         frame.setContentPane( ap );
         frame.setSize( 600, 600 );
@@ -55,11 +58,11 @@ public class FullPhetJComponentTest {
 
         JTextField text = new JTextField( 10 );
         text.setBorder( BorderFactory.createTitledBorder( "TextField" ) );
-        PhetJComponent textFieldPhetJ = new PhetJComponent( ap, text );
+        PhetJComponent textFieldPhetJ = PhetJComponent.newInstance( ap, text );
         ap.addGraphic( textFieldPhetJ );
         textFieldPhetJ.setLocation( 100, 300 );
 
-        PhetJComponent checkBoxPhetJ = new PhetJComponent( ap, new JCheckBox( "Checkbox" ) );
+        PhetJComponent checkBoxPhetJ = PhetJComponent.newInstance( ap, new JCheckBox( "Checkbox" ) );
         ap.addGraphic( checkBoxPhetJ );
         checkBoxPhetJ.setLocation( 300, 50 );
 
@@ -67,8 +70,8 @@ public class FullPhetJComponentTest {
         JRadioButton jRadioButton2 = new JRadioButton( "The other Option" );
         jRadioButton.setSelected( true );
 
-        PhetJComponent radioButton1 = new PhetJComponent( ap, jRadioButton );
-        PhetJComponent radioButton2 = new PhetJComponent( ap, jRadioButton2 );
+        PhetJComponent radioButton1 = PhetJComponent.newInstance( ap, jRadioButton );
+        PhetJComponent radioButton2 = PhetJComponent.newInstance( ap, jRadioButton2 );
         ap.addGraphic( radioButton1 );
         ap.addGraphic( radioButton2 );
         radioButton1.scale( 1.3 );
@@ -115,12 +118,12 @@ public class FullPhetJComponentTest {
             }
         } );
 
-        PhetJComponent phetJComponent = new PhetJComponent( ap, pressIt );
+        PhetJComponent phetJComponent = PhetJComponent.newInstance( ap, pressIt );
         ap.addGraphic( phetJComponent );
         phetJComponent.setLocation( 300, 100 );
 
 
-        PhetJComponent pauseComponent = new PhetJComponent( ap, pauseIt );
+        PhetJComponent pauseComponent = PhetJComponent.newInstance( ap, pauseIt );
         ap.addGraphic( pauseComponent );
         pauseComponent.setLocation( phetJComponent.getX() + phetJComponent.getWidth() + 5, phetJComponent.getY() );
 
@@ -146,7 +149,7 @@ public class FullPhetJComponentTest {
                 }
             } );
             slider.setLabelTable( labels );
-            PhetJComponent zslider = new PhetJComponent( ap, slider );
+            PhetJComponent zslider = PhetJComponent.newInstance( ap, slider );
             ap.addGraphic( zslider );
             zslider.setLocation( 400, 300 );
 
@@ -171,15 +174,16 @@ public class FullPhetJComponentTest {
                 }
             } );
             slider.setLabelTable( labels );
-            PhetJComponent zslider = new PhetJComponent( ap, slider );
+            PhetJComponent zslider = PhetJComponent.newInstance( ap, slider );
             ap.addGraphic( zslider );
             zslider.setLocation( 100, 400 );
             zslider.rotate( Math.PI / 32 );
             zslider.scale( 1.3 );
         }
 
-        JButton draggableButton = new JButton( "DraggableButton", new ImageIcon( ImageLoader.loadBufferedImage( "images/x-30.png" ) ) );
-        final PhetJComponent phetJComponentDraggable = new PhetJComponent( ap, draggableButton );
+        JButton draggableButton = new JButton( "DraggableButton" );
+//        JButton draggableButton = new JButton( "DraggableButton", new ImageIcon( ImageLoader.loadBufferedImage( "images/x-30.png" ) ) );
+        final PhetJComponent phetJComponentDraggable = PhetJComponent.newInstance( ap, draggableButton );
         phetJComponentDraggable.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent translationEvent ) {
                 phetJComponentDraggable.setLocation( translationEvent.getX(), translationEvent.getY() );
@@ -191,7 +195,7 @@ public class FullPhetJComponentTest {
         JTextArea textArea = new JTextArea( "This land is your land\nThis land is my land.", 2, 15 );
         textArea.setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.blue, 2 ), "Text Area!" ) );
         textArea.setFont( new Font( "Lucida Sans", Font.BOLD, 22 ) );
-        PhetJComponent pj = new PhetJComponent( ap, textArea );
+        PhetJComponent pj = PhetJComponent.newInstance( ap, textArea );
         pj.setLocation( 15, 200 );
 //        pj.scale( 1.45);
         pj.scale( 0.8 );
@@ -205,12 +209,12 @@ public class FullPhetJComponentTest {
 //        Component[] ch = jSpinner.getComponents();
 //        for( int i = 0; i < ch.length; i++ ) {
 //            JComponent component = (JComponent)ch[i];
-//            PhetJComponent pjStar = new PhetJComponent( ap, component );
+//            PhetJComponent pjStar = PhetJComponent.newInstance( ap, component );
 //            Point loc = component.getLocation();
 //            ap.addGraphic( pjStar );
 //            pjStar.setLocation( loc.x+i*10,loc.y );
 //        }
-//        PhetJComponent pj = new PhetJComponent( ap, jSpinner );
+//        PhetJComponent pj = PhetJComponent.newInstance( ap, jSpinner );
 //        ap.addGraphic( pj );
 //        pj.setLocation( 50, 350 );
 

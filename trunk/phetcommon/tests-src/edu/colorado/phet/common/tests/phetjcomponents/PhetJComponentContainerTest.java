@@ -18,12 +18,12 @@ import java.awt.event.ActionListener;
  * Time: 8:49:52 PM
  * To change this template use File | Settings | File Templates.
  */
-public class BasicPhetJComponentTest {
+public class PhetJComponentContainerTest {
     private JFrame frame;
     private ApparatusPanel2 ap;
     private SwingTimerClock swingTimerClock;
 
-    public BasicPhetJComponentTest() {
+    public PhetJComponentContainerTest() {
         /*Set up the application frame and apparatusPanel.*/
         frame = new JFrame( "Frame" );
         swingTimerClock = new SwingTimerClock( 1, 30 );
@@ -51,20 +51,28 @@ public class BasicPhetJComponentTest {
             }
         } );
 
-        /**Wrap the JComponent in a PhetGraphic called PhetJComponent*/
-        PhetJComponent buttonPhetJ = PhetJComponent.newInstance( ap, jb );
-        ap.addGraphic( buttonPhetJ );
-
-        /**Now you can decorate or manipule the PhetGraphic as per usual.*/
-        buttonPhetJ.setCursorHand();
-        buttonPhetJ.scale( 1.5 );
-        buttonPhetJ.setLocation( 100, 100 );
+//        /**Wrap the JComponent in a PhetGraphic called PhetJComponent*/
+//        PhetJComponent buttonPhetJ = new PhetJComponent( ap, jb );
+//        ap.addGraphic( buttonPhetJ );
+//
+//        /**Now you can decorate or manipule the PhetGraphic as per usual.*/
+//        buttonPhetJ.setCursorHand();
+//        buttonPhetJ.scale( 1.5 );
+//        buttonPhetJ.setLocation( 100, 100 );
 
         /**That's all.*/
+
+        JPanel jPanel = new JPanel();
+        jPanel.setBorder( BorderFactory.createTitledBorder( "hello" ) );
+        jPanel.add( new JLabel( "text" ) );
+//        jPanel.add( new JLabel( "label2"));
+        PhetJComponent panelComponent = PhetJComponent.newInstance( ap, jPanel );
+        ap.addGraphic( panelComponent );
+
     }
 
     public static void main( String[] args ) {
-        new BasicPhetJComponentTest().start();
+//        PhetJComponent.newInstance().start();
     }
 
     private void start() {
