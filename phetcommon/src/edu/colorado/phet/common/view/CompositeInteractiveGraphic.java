@@ -30,7 +30,9 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
         graphicMap = new MultiMap();
         mouseManager = new MouseManager( graphicMap );
     }
-
+    public MultiMap getGraphicMap(){
+        return graphicMap;
+    }
     public void paint( Graphics2D g ) {
         Iterator it = graphicMap.iterator();
         while( it.hasNext() ) {
@@ -106,7 +108,9 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
     public void mouseMoved( MouseEvent e ) {
         mouseManager.mouseMoved( e );
     }
-
+    public void addGraphic(Graphic graphic){
+        addGraphic(graphic,0);
+    }
     public void addGraphic( Graphic graphic, double layer ) {
         this.graphicMap.add( new Double( layer ), graphic );
     }
