@@ -3,14 +3,13 @@
 package edu.colorado.phet.colorvision3.view;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
 import edu.colorado.phet.colorvision3.model.Spotlight;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 /**
@@ -19,7 +18,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$
  */
-public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObserver
+public class SpotlightGraphic extends PhetImageGraphic implements SimpleObserver
 {
 	//----------------------------------------------------------------------------
 	// Class data
@@ -34,8 +33,6 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
 
   // The model that describes the spotlight.
   private Spotlight _spotlightModel;
-  // The graphic used to visually depict the spotlight.
-  private PhetImageGraphic _spotlightGraphic;
   // Rotate transformed used in rendering.
   private AffineTransform _rotate;
     
@@ -51,14 +48,10 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
    */
   public SpotlightGraphic( ApparatusPanel apparatus, Spotlight spotlightModel )
   {
-    super( apparatus );
+    super( apparatus, ColorVisionConfig.SPOTLIGHT_IMAGE );
     
     // Save a reference to the model.
     _spotlightModel = spotlightModel;
-   
-    // Spotlight graphic
-    _spotlightGraphic = new PhetImageGraphic( apparatus, ColorVisionConfig.SPOTLIGHT_IMAGE );
-    this.addGraphic( _spotlightGraphic );
     
     // Sync the view with the model.
     update();
@@ -74,27 +67,23 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
    */
   public void update()
   {
-    // Location
-    {
-      Rectangle spotBounds = _spotlightGraphic.getBounds();
-      int x = (int)( _spotlightModel.getX() - spotBounds.width + BULB_OFFSET );
-      int y = (int)( _spotlightModel.getY() - (spotBounds.height/2) );
-      _spotlightGraphic.setPosition( x, y );
-    }
+    BufferedImage image = super.getImage();
+   
+    // Location (translation)
+    int x = (int)( _spotlightModel.getX() - image.getWidth() + BULB_OFFSET );
+    int y = (int)( _spotlightModel.getY() - (image.getHeight()/2) );
 
-    // Direction.
-    {
-      // Convert to radians.
-      double radians = Math.toRadians( _spotlightModel.getDirection() );
+    // Direction (rotation about the center of the bulb within the spotlight)
+    double radians = Math.toRadians( _spotlightModel.getDirection() );
+    int centerX = (int) (image.getWidth() - BULB_OFFSET);
+    int centerY = (int) (image.getHeight()/2);
     
-      // Rotate about the right-center edge of the spotlight image.
-      Rectangle bounds = _spotlightGraphic.getBounds();
-      int centerX = (int) (bounds.x + (bounds.width) - BULB_OFFSET);
-      int centerY = (int) (bounds.y + (bounds.height/2));
-    
-      // Create the transform.
-      _rotate = AffineTransform.getRotateInstance( radians, centerX, centerY );
-    }
+    // Apply translation + rotation transforms
+    AffineTransform transform = new AffineTransform();
+    transform.translate( 0, 0 );
+    transform.translate( x, y );
+    transform.rotate( radians, centerX, centerY );
+    super.setTransform( transform );
     
     super.repaint();
   }
@@ -112,16 +101,8 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
   {
     if ( isVisible() )
     {
-      super.saveGraphicsState( g2 );
-      {
-        // Draw the spotlight image, rotated to match its direction.
-        if ( _rotate != null )
-        {
-          g2.transform( _rotate );
-        }
-        _spotlightGraphic.paint( g2 );
-      }
-      super.restoreGraphicsState();
+      super.paint( g2 );
+      BoundsOutline.paint( g2, this ); // DEBUG
     }
   }
 
