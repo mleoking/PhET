@@ -108,7 +108,6 @@ public class CollimatedBeam extends Particle {
 
     public void setWavelength( double wavelength ) {
         this.wavelength = wavelength;
-        WavelengthChangeEvent event = new WavelengthChangeEvent();
         wavelengthChangeListenerProxy.wavelengthChanged( new WavelengthChangeEvent() );
     }
 
@@ -187,7 +186,7 @@ public class CollimatedBeam extends Particle {
     private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmittedListener.class );
     private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getListenerProxy();
 
-    public void addRateChangeListner( RateChangeListener rateChangeListener ) {
+    public void addRateChangeListener( RateChangeListener rateChangeListener ) {
         rateChangeEventChannel.addListener( rateChangeListener );
     }
 

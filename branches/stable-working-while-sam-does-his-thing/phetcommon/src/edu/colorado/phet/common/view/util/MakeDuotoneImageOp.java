@@ -54,23 +54,45 @@ public class MakeDuotoneImageOp implements BufferedImageOp {
             dest = createCompatibleDestImage( src, src.getColorModel() );
         }
         ColorModel cm = src.getColorModel();
-        double grayRefLevel = ( baseColor.getRed() + baseColor.getGreen() + baseColor.getBlue() ) / ( 255 * 3 );
+        double grayRefLevel = getGrayLevel( baseColor );
         for( int x = 0; x < src.getWidth(); x++ ) {
             for( int y = 0; y < src.getHeight(); y++ ) {
                 int rgb = src.getRGB( x, y );
                 int alpha = cm.getAlpha( rgb );
-                double red = cm.getRed( rgb );
-                double green = cm.getGreen( rgb );
-                double blue = cm.getBlue( rgb );
-                double gray = ( red + green + blue ) / ( 3 );
-                int newRed = getComponent( gray, (double)baseColor.getRed(), grayRefLevel );
-                int newGreen = getComponent( gray, (double)baseColor.getGreen(), grayRefLevel );
-                int newBlue = getComponent( gray, (double)baseColor.getBlue(), grayRefLevel );
-                int newRGB = alpha * 0x01000000 + newRed * 0x00010000 + newGreen * 0x000000100 + newBlue * 0x00000001;
+                int red = cm.getRed( rgb );
+                int green = cm.getGreen( rgb );
+                int blue = cm.getBlue( rgb );
+                int newRGB = getDuoToneRGB( red, green, blue, alpha, grayRefLevel, baseColor );
                 dest.setRGB( x, y, newRGB );
             }
         }
         return dest;
+    }
+
+    /**
+     * Returns an RGB value that is a duotone
+     *
+     * @param grayRefLevel
+     * @return
+     */
+    public static int getDuoToneRGB( int red, int green, int blue, int alpha, double grayRefLevel, Color baseColor ) {
+        double gray = ( red + green + blue ) / ( 3 );
+        int newRed = getComponent( gray, (double)baseColor.getRed(), grayRefLevel );
+        int newGreen = getComponent( gray, (double)baseColor.getGreen(), grayRefLevel );
+        int newBlue = getComponent( gray, (double)baseColor.getBlue(), grayRefLevel );
+        int newRGB = alpha * 0x01000000 + newRed * 0x00010000 + newGreen * 0x000000100 + newBlue * 0x00000001;
+        return newRGB;
+    }
+
+    /**
+     * Returns the relative "gray" level of an RGB value
+     *
+     * @param color
+     * @return
+     */
+    public static double getGrayLevel( Color color ) {
+        double grayRefLevel = ( color.getRed() + color.getGreen() + color.getBlue() ) / ( 255 * 3 );
+        return grayRefLevel;
     }
 
     /**
@@ -94,7 +116,7 @@ public class MakeDuotoneImageOp implements BufferedImageOp {
      * @param grayRefLevel
      * @return
      */
-    private int getComponent( double grayLevel, double componentRefLevel, double grayRefLevel ) {
+    private static int getComponent( double grayLevel, double componentRefLevel, double grayRefLevel ) {
         int result = 0;
 
         // if the grayLevel is 255, we simply return 255
