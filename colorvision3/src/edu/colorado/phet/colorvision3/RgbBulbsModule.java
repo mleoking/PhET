@@ -25,7 +25,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 
@@ -168,7 +168,7 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
 		this.setControlPanel( new RgbBulbsControlPanel( this ) );
 
 		// Apparatus Panel
-		ApparatusPanel apparatusPanel = new ApparatusPanel();
+		ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model );
 		apparatusPanel.setBackground( APPARATUS_BACKGROUND );
 		this.setApparatusPanel( apparatusPanel );
 			

@@ -9,7 +9,6 @@ o filter notch curve is not drawn correctly, Y scale is off
 o spectrum graphic bounds get changed when I render the SpectrumSlider bounds
 
 MEDIUM:
-o try using ApparatusPanel2 for application scaling
 o move "enabled" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
 
 LOW:
