@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.movingman.Man;
 import edu.colorado.phet.movingman.MovingManModule;
-import edu.colorado.phet.movingman.common.PhetLookAndFeel;
+import edu.colorado.phet.movingman.common.plaf.PhetLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.border.Border;

@@ -3,7 +3,7 @@ package edu.colorado.phet.movingman;
 
 //import edu.colorado.phet.common.math.transforms.functions.RangeToRange;
 
-import edu.colorado.phet.movingman.common.math.RangeToRange;
+import edu.colorado.phet.movingman.common.RangeToRange;
 import edu.colorado.phet.movingman.plots.BoxedPlot;
 import edu.colorado.phet.movingman.plots.CursorGraphic;
 import edu.colorado.phet.movingman.plots.PlotAndText;

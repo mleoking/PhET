@@ -3,7 +3,7 @@ package edu.colorado.phet.movingman;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.movingman.common.math.RangeToRange;
+import edu.colorado.phet.movingman.common.RangeToRange;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -29,7 +29,6 @@ public class WalkWayGraphic implements Graphic {
     private BufferedImage house;
     private Stroke borderStroke = new BasicStroke( 1 );
 
-//    Color textColor=Color.balc;
     public WalkWayGraphic( MovingManModule module, int numTickMarks ) throws IOException {
         this( module, numTickMarks, -10, 10 );
     }

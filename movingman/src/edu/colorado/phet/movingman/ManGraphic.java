@@ -8,7 +8,7 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.movingman.common.CircularBuffer;
 import edu.colorado.phet.movingman.common.DragHandler;
-import edu.colorado.phet.movingman.common.math.RangeToRange;
+import edu.colorado.phet.movingman.common.RangeToRange;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

@@ -2,7 +2,7 @@ package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.movingman.Man;
 import edu.colorado.phet.movingman.MovingManModule;
-import edu.colorado.phet.movingman.common.PhetLookAndFeel;
+import edu.colorado.phet.movingman.common.plaf.PhetLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

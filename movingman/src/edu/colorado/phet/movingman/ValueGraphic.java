@@ -1,8 +1,8 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.movingman.common.ObservingGraphic;
 import edu.colorado.phet.movingman.plots.BoxedPlot;
 import edu.colorado.phet.movingman.plots.DataSeries;
 
