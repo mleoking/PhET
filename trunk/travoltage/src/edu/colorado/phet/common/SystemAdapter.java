@@ -18,11 +18,4 @@ public class SystemAdapter implements ParticleContainer {
         sys.remove( p );
     }
 
-    public int numParticles() {
-        return sys.numParticles();
-    }
-
-    public Particle particleAt( int i ) {
-        return sys.particleAt( i );
-    }
 }

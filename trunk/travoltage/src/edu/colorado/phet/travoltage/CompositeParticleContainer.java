@@ -16,10 +16,6 @@ public class CompositeParticleContainer {
         v.add( pc );
     }
 
-    public void remove( ParticleContainer pc ) {
-        v.remove( pc );
-    }
-
     public void add( Particle p ) {
         for( int i = 0; i < v.size(); i++ ) {
             ( (ParticleContainer)v.get( i ) ).add( p );

@@ -1,11 +1,13 @@
 package edu.colorado.phet.travoltage;
 
 import edu.colorado.phet.common.PanelAdapter;
+import edu.colorado.phet.common.SwingWiggleMe;
 import edu.colorado.phet.common.SystemAdapter;
 import edu.colorado.phet.common.gui.*;
 import edu.colorado.phet.common.gui.grabber.ParticleGrabber;
 import edu.colorado.phet.common.gui.grabber.ParticleThrower;
 import edu.colorado.phet.common.phys2d.DoublePoint;
+import edu.colorado.phet.common.phys2d.Law;
 import edu.colorado.phet.common.phys2d.System2D;
 import edu.colorado.phet.common.phys2d.SystemRunner;
 import edu.colorado.phet.common.phys2d.laws.CoulombsLaw;
@@ -35,15 +37,15 @@ public class TravoltageApplet extends JApplet {
     private String applicationLocale = null;
 
     public void init() {
-        if ( applicationLocale == null ) {
-            applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+        if( applicationLocale == null ) {
+            applicationLocale = Toolkit.getProperty( "javaws.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 Locale.setDefault( new Locale( applicationLocale ) );
             }
         }
         SimStrings.setStrings( localizedStringsPath );
 
-        ParticlePanel pp = new ParticlePanel();
+        final ParticlePanel pp = new ParticlePanel();
 
         AudioClip ouch = ResourceLoader.loadAudioClip( "sound/OuchSmallest.wav", pp );
         AudioClip zzt = ResourceLoader.loadAudioClip( "sound/ShockSmallest.wav", pp );
@@ -67,7 +69,7 @@ public class TravoltageApplet extends JApplet {
 
         CompositeParticleContainer cpc = new CompositeParticleContainer();
         cpc.add( tp );
-        System2D sys = new System2D();
+        final System2D sys = new System2D();
         double dt = .15;
         int wait = 35;
         SystemRunner sr = new SystemRunner( sys, dt, wait );
@@ -166,6 +168,34 @@ public class TravoltageApplet extends JApplet {
 
         cpc.add( dsl );
         pp.add( dsl );//add the travoltage painter
+
+        final SwingWiggleMe wiggleMe = new SwingWiggleMe( "<html>Rub the foot<br>on the carpet</html>",
+                                                          20, 300, 30, 3.0 );
+        final Law lx = new Law() {
+            public void iterate( double time, System2D system ) {
+                wiggleMe.stepInTime( time );
+            }
+        };
+        sys.addLaw( lx );
+        final Component[] c = wiggleMe.getLabel();
+        for( int i = 0; i < c.length; i++ ) {
+            Component component = c[i];
+            pp.add( component );
+        }
+        pp.addMouseMotionListener( new MouseMotionListener() {
+            public void mouseDragged( MouseEvent e ) {
+                wiggleMe.setActive( false );
+                for( int i = 0; i < c.length; i++ ) {
+                    Component component = c[i];
+                    pp.remove( component );
+                }
+                sys.removeLaw( lx );
+            }
+
+            public void mouseMoved( MouseEvent e ) {
+            }
+        } );
+//        particlePanel.add(wiggleMe.getLabel());
     }
 
     public int getJohnHeight() {
@@ -180,18 +210,18 @@ public class TravoltageApplet extends JApplet {
 
     public static void main( String[] args ) {
         TravoltageApplet applet = new TravoltageApplet();
-        
+
         String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
+        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
             applet.applicationLocale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( applet.applicationLocale ));
+            Locale.setDefault( new Locale( applet.applicationLocale ) );
         }
-            
+
         applet.init();
         Dimension size = new Dimension( applet.getJohnWidth(), applet.getJohnHeight() );
         applet.setSize( size );
 
-        JFrame f = new JFrame( SimStrings.get( "TravoltageApplication.title" ) );
+        JFrame f = new JFrame( "Travoltage" );
         f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         f.setContentPane( applet );
         f.pack();

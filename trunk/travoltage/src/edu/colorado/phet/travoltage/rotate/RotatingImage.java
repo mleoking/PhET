@@ -18,7 +18,6 @@ public class RotatingImage implements MouseMotionListener, MouseListener, Painte
     int x;
     int y;
     Component paintMe;
-    double range;
     int xCM;
     int yCM;
     double offsetAngle;
@@ -27,16 +26,11 @@ public class RotatingImage implements MouseMotionListener, MouseListener, Painte
         this.offsetAngle = offsetAngle;
         this.xCM = xCM;
         this.yCM = yCM;
-        this.range = range;
         this.x = x;
         this.y = y;
         this.im = im;
         this.angle = angle;
         this.paintMe = paintMe;
-    }
-
-    public double getAngle() {
-        return angle;
     }
 
     public Point getPivot() {

@@ -16,10 +16,6 @@ public class DoublePoint {
         return v.toString();
     }
 
-    public double length() {
-        return getLength();
-    }
-
     public double getLength() {
         return Math.sqrt( x * x + y * y );
     }
@@ -54,10 +50,6 @@ public class DoublePoint {
 
     public DoublePoint multiply( double scale ) {
         return new DoublePoint( this.x * scale, this.y * scale );
-    }
-
-    public double dot( DoublePoint p ) {
-        return p.x * this.x + p.y * this.y;
     }
 
     public double distance( DoublePoint p ) {

@@ -26,11 +26,6 @@ public class ParticleGrabber implements MouseListener, MouseMotionListener {
         this.ps = new ParticleSelector( pp );
     }
 
-    public void fireResetAction( System2D sys, ParticlePanel pp ) {
-        this.sys = sys;
-        this.pp = pp;
-    }
-
     public void mouseClicked( MouseEvent me ) {
     }
 

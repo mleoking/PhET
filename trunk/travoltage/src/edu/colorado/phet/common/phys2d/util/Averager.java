@@ -37,15 +37,6 @@ public class Averager implements Serializable {
     }
 
     /**
-     * Returns the number of values since last reset().
-     *
-     * @return the number of values since last reset().
-     */
-    public int numValues() {
-        return num;
-    }
-
-    /**
      * Reset the Averager.
      */
     public void reset() {

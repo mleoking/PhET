@@ -21,10 +21,6 @@ public class ParticleList implements ParticleContainer //an adapter.
         v.add( e );
     }
 
-    public Particle remove( int i ) {
-        return (Particle)v.remove( i );
-    }
-
     public void remove( Particle e ) {
         v.remove( e );
     }

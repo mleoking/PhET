@@ -7,16 +7,8 @@ import edu.colorado.phet.common.phys2d.Propagator;
 public class VelocityUpdate implements Propagator {
     double max;
 
-    public VelocityUpdate() {
-        this( Double.MAX_VALUE );
-    }
-
     public VelocityUpdate( double maxSpeed ) {
         this.max = maxSpeed;
-    }
-
-    public void setMaxSpeed( double max ) {
-        this.max = max;
     }
 
     public void propagate( double time, Particle p ) {

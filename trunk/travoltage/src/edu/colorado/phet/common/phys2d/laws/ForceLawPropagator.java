@@ -17,14 +17,6 @@ public class ForceLawPropagator extends ParticleList implements Propagator {
         this.law = law;
     }
 
-    public void setForceLaw( ForceLaw law ) {
-        this.law = law;
-    }
-
-    public ForceLaw getForceLaw() {
-        return law;
-    }
-
     public DoublePoint getForce( double dt, Particle p ) {
         DoublePoint force = new DoublePoint();
         //edu.colorado.phet.common.util.Debug.traceln("Num sources="+sources.size());

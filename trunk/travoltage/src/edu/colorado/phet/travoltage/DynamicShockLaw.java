@@ -10,7 +10,6 @@ import edu.colorado.phet.travoltage.rotate.RotatingImage;
 
 import java.applet.AudioClip;
 import java.awt.*;
-import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -27,7 +26,6 @@ public class DynamicShockLaw implements AngleListener, ParticleContainer, Painte
     int maxSparkPoints;
     //AudioClip[]clips;
     AudioProxy ap;
-    static final Random random = new Random();
 
     public DynamicShockLaw( RotatingImage arm, int doorknobX, int doorknobY, GoToElbow gte, Spark s, int maxSparkPoints, AudioClip[] clips ) {
         this.ap = new AudioProxy( clips, 1000 );
@@ -39,14 +37,6 @@ public class DynamicShockLaw implements AngleListener, ParticleContainer, Painte
         this.doorknobY = doorknobY;
         electrons = new Vector();
         this.gte = gte;
-    }
-
-    public int numParticles() {
-        return electrons.size();
-    }
-
-    public Particle particleAt( int i ) {
-        return (Particle)electrons.get( i );
     }
 
     public void add( Particle p ) {

@@ -7,12 +7,9 @@ import edu.colorado.phet.common.phys2d.propagators.PositionUpdate;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
-import java.util.Random;
 
 public class TravoltaImageBounce implements Propagator {
-    static final Random randy = new Random();
 
-    BufferedImage bi;
     Raster r;
     int[] pixel;
     PositionUpdate pu = new PositionUpdate();
@@ -24,14 +21,8 @@ public class TravoltaImageBounce implements Propagator {
 //        this.ac = ac;
 //        this.pp = pp;
         this.pv = pv;
-        this.bi = bi;
         this.r = bi.getData();
         this.pixel = new int[r.getNumBands()];
-    }
-
-    public void setImage( BufferedImage bi ) {
-        this.bi = bi;
-        this.r = bi.getData();
     }
 
     public void propagate( double dt, Particle p ) {
@@ -65,31 +56,6 @@ public class TravoltaImageBounce implements Propagator {
                 pu.propagate( 1.2 * dt, p );
             }
         }
-    }
-
-    private void exitElectron() {
-//  				//edu.colorado.phet.common.util.Debug.traceln("EXIT!");
-//  				/*Remove the edu.colorado.phet.common.*/
-//  			sys.remove(p);
-//  			for (int k=0;k<sys.numLaws();k++)
-//  			    if (sys.lawAt(k) instanceof ParticleContainer)
-//  				((ParticleContainer)sys.lawAt(k)).remove(p);
-			
-//  			DoublePoint right=new DoublePoint(12,0);
-//  			p.setVelocity(right);
-//  			pu.propagate(1.2*dt,p);
-//  			DoublePoint newPos=p.getPosition();
-//  			if (newPos.getX()>r.getWidth()-10)
-//  			    {
-//  			    }
-//  			pp.repaint();
-//  			pp.remove(p);
-			
-//  			int rand=randy.nextInt(ac.length);
-//  			AudioClip a=ac[rand];
-//  			a.play();
-
-
     }
 
     public boolean isInside( int[] pixel ) {
