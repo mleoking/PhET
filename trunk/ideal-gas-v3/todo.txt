@@ -1,3 +1,5 @@
+- The hot air balloon's stepInTime() doesn't seem to be getting called 
+
 - Add collision detectors and collisions for the hollow sphere classes
 
 - check CollidableBody.stepInTimeNoNotify()
