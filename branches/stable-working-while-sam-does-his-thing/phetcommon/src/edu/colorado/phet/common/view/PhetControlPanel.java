@@ -62,11 +62,11 @@ public class PhetControlPanel extends JPanel {
         this.add( hp, BorderLayout.SOUTH );
         setHelpPanelEnabled( module.hasHelp() );
 
+        // Panel for simulation-specific controls
+        setControlPane( new JPanel() );
         JPanel centerPane = new JPanel();
         centerPane.add( controlPane );
-        JScrollPane scrollPane = new JScrollPane( centerPane );
-        scrollPane.setBorder( null );
-        this.add( scrollPane, BorderLayout.CENTER );
+        setControlPane( controlPane );
     }
 
     public PhetControlPanel( Module module, JPanel panel ) {
@@ -138,8 +138,18 @@ public class PhetControlPanel extends JPanel {
         this.repaint();
     }
 
+    /**
+     * Sets the central pane in the control panel. Provided wiht public access primarilly for
+     * backward compatibility to older simulations.
+     *
+     * @param controlPane
+     */
     public void setControlPane( JPanel controlPane ) {
-        this.controlPane = controlPane;
+        JPanel centerPane = new JPanel();
+        centerPane.add( controlPane );
+        JScrollPane scrollPane = new JScrollPane( centerPane );
+        scrollPane.setBorder( null );
+        this.add( scrollPane, BorderLayout.CENTER );
     }
 
     public JPanel getControlPane() {
