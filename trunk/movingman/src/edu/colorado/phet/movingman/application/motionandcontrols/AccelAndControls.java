@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,19 +21,22 @@ import javax.swing.event.ChangeListener;
  */
 public class AccelAndControls extends MotionAndControls {
 
-    AccelMotion motion;
+    private AccelMotion motion;
     private MovingManModule module;
     private JSpinner accelSpinner;
     private JSlider slider;
     private TransformSlider transformslider;
     private JSpinner initialVelocitySpinner;
+    private GridBagConstraints gridBagConstraints;
 
     public AccelAndControls( final MovingManModule module ) {
         super( "Accelerate" );
         motion = new AccelMotion( module.getMotionState() );
         this.module = module;
         controlPanel = new JPanel();
-        controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
+        controlPanel.setLayout( new GridBagLayout() );
+        Insets insets = new Insets( 0, 0, 0, 0 );
+        gridBagConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0 );
 
         initialVelocitySpinner = new JSpinner( new SpinnerNumberModel( 0, -3, 3, .1 ) );
         TitledBorder border = BorderFactory.createTitledBorder( "Initial Velocity" );
@@ -42,7 +46,9 @@ public class AccelAndControls extends MotionAndControls {
                 setInitialVelocity();
             }
         } );
-        controlPanel.add( initialVelocitySpinner );
+        add( initialVelocitySpinner );
+
+//        controlPanel.add( initialVelocitySpinner );
 
         double minAccel = -2;
         double maxAccel = 2;
@@ -56,7 +62,8 @@ public class AccelAndControls extends MotionAndControls {
         } );
 
         accelSpinner.setBorder( BorderFactory.createTitledBorder( "Acceleration" ) );
-        controlPanel.add( accelSpinner );
+        add( accelSpinner );
+//        controlPanel.add( accelSpinner );
         super.setMotion( motion );
         super.setControlPanel( controlPanel );
 
@@ -68,18 +75,22 @@ public class AccelAndControls extends MotionAndControls {
         transformslider.addLabel( maxAccel, createLabel( "" + maxAccel ) );
         transformslider.addLabel( 0, createLabel( "0.0" ) );
         slider.setPaintLabels( true );
-//        slider.setSnapToTicks(true);
-        controlPanel.add( slider );
+        add( slider );
+//        controlPanel.add( slider );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double modelValue = transformslider.getModelValue();
-//                int value = slider.getValue();
-//                double modelvalue=transformslider.sliderToModelValue(value);
                 accelSpinner.setValue( new Double( modelValue ) );
                 doChangeEvent();
             }
         } );
-        controlPanel.add( new JLabel( "in meters per second squared." ) );
+        add( new JLabel( "in meters per second squared." ) );
+//        controlPanel.add( new JLabel( "in meters per second squared." ) );
+    }
+
+    private void add( JComponent initialVelocitySpinner ) {
+        controlPanel.add( initialVelocitySpinner, gridBagConstraints );
+        gridBagConstraints.gridy++;
     }
 
     private void setInitialVelocity() {

@@ -7,6 +7,7 @@ import edu.colorado.phet.movingman.elements.stepmotions.OscMotion;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,13 +21,30 @@ public class OscillateAndPanel extends MotionAndControls {
     private JPanel controlPanel;
     private MovingManModule module;
 //    private Object module;
+    public static class VerticalLayoutPanel extends JPanel {
+        private GridBagConstraints gridBagConstraints;
+
+        public VerticalLayoutPanel() {
+            setLayout( new GridBagLayout() );
+            gridBagConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
+        }
+
+        public GridBagConstraints getGridBagConstraints() {
+            return gridBagConstraints;
+        }
+
+        public Component add( Component comp ) {
+            super.add( comp, gridBagConstraints );
+            gridBagConstraints.gridy++;
+            return null;
+        }
+    }
 
     public OscillateAndPanel( MovingManModule module ) {
         super( "Oscillate" );
         this.module = module;
         oscillate = new OscMotion( module.getMotionState(), .01 );
-        controlPanel = new JPanel();
-        controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
+        controlPanel = new VerticalLayoutPanel();
         double min = 0;
         double max = 2;
         int numSteps = 20;
@@ -42,7 +60,7 @@ public class OscillateAndPanel extends MotionAndControls {
 
         controlPanel.add( js );
         super.setControlPanel( controlPanel );
-        controlPanel.add( new JLabel( "That's the Spring Constant, in Newtons per Meter." ) );
+        controlPanel.add( new JLabel( "<html>That's the Spring Constant, <br>in Newtons per Meter.</html>" ) );
         super.setMotion( oscillate );
     }
 
