@@ -243,6 +243,7 @@ public class MagnetAndCoilModule extends Module {
         double direction = _magnetModel.getDirection();
         direction = ( direction + 180 ) % 360;
         _magnetModel.setDirection( direction );
+        _pickupCoilModel.updateEmf();
         setSmoothingEnabled( true );
     }
     
@@ -254,6 +255,7 @@ public class MagnetAndCoilModule extends Module {
     public void setMagnetStrength( double strength ) {
         setSmoothingEnabled( false );
         _magnetModel.setStrength( strength );
+        _pickupCoilModel.updateEmf();
         setSmoothingEnabled( true );
     }
     
@@ -293,6 +295,7 @@ public class MagnetAndCoilModule extends Module {
     public void setNumberOfPickupLoops( int numberOfLoops ) {
         setSmoothingEnabled( false );
         _pickupCoilModel.setNumberOfLoops( numberOfLoops );
+        _pickupCoilModel.updateEmf();
         setSmoothingEnabled( true );
     }
     
@@ -304,6 +307,7 @@ public class MagnetAndCoilModule extends Module {
     public void setPickupLoopRadius( double radius ) {
         setSmoothingEnabled( false );
         _pickupCoilModel.setRadius( radius );
+        _pickupCoilModel.updateEmf();
         setSmoothingEnabled( true );
     }
     
