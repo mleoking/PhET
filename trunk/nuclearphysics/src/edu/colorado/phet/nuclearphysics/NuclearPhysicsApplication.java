@@ -71,7 +71,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
             Object[] defaults = {
                 "TextField.font", font
                 , "Spinner.font", font
-                , "FormattedTextField", font
+                , "FormattedTextField.font", font
             };
             table.putDefaults( defaults );
         }
