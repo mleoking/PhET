@@ -1,3 +1,6 @@
+- Put color L&F on panels
+- Enable reset for all modules
+- Look in to moving wall collisions
 - ScalarDataRecorder should computeDataStatistics everytime a datum is added if it isn't a clocked recorder. When I
 do it, then make computeDataStatistics() private.
 - make needle on dial gauge triangular
