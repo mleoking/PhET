@@ -175,11 +175,11 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
         if ( isVisible() ) {
             AbstractVector2D B = _magnetModel.getStrength( getLocation() );
             
-            // Format field values
+            // Format field values, use "student" coordinate system (+X right, +Y up, +angle counterclockwise)
             String b = _formatter.format( new Double( B.getMagnitude() ) );
             String bx = _formatter.format( new Double( B.getX() ) );
-            String by = _formatter.format( new Double( B.getY() ) );
-            String angle = _formatter.format( new Double( Math.toDegrees( B.getAngle() ) ) );
+            String by = _formatter.format( new Double( -(B.getY()) ) ); // flip sign
+            String angle = _formatter.format( new Double( Math.toDegrees( -(B.getAngle()) ) ) ); // flip sign
             
             // Set field values
             _bText.setText( b );
