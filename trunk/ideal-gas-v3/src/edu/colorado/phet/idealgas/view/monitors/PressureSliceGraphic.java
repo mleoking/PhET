@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
-import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
@@ -16,6 +15,7 @@ import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.model.Box2D;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
@@ -32,46 +32,58 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
     private int pressureSliceHeight = 10;
     private double boxLeftEdge;
     private double boxLowerEdge;
-    private double boxTopEdge;
     private double boxRightEdge;
-    private boolean selected;
     private Box2D box;
     private NumberFormat pressureFormatter = new DecimalFormat( "#.##" );
     private NumberFormat heightFormatter = new DecimalFormat( "#.##" );
     private double temperature;
     private double pressure;
 
-    public PressureSliceGraphic( Component component, PressureSlice pressureSlice, Box2D box ) {
+    public PressureSliceGraphic( Component component, PressureSlice pressureSlice, final Box2D box ) {
         super( null );
+        this.pressureSlice = pressureSlice;
 
-        final PhetGraphic internalGraphic = new InternalGraphic( component, pressureSlice, box );
+        final PhetGraphic internalGraphic = new InternalGraphic( component );
         this.setBoundedGraphic( internalGraphic );
         this.addCursorHandBehavior();
         this.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
-                y += dy;
+                double newY = Math.min( box.getMaxY(),
+                                       Math.max( y + dy, box.getMinY() ));
+                y = newY;
             }
         } );
-//        init( pressureSlice );
-        this.pressureSlice = pressureSlice;
         this.box = box;
         y = box.getMinY() + ( box.getMaxY() - box.getMinY() ) / 2;
         pressureSlice.setY( y );
-//        pressureSlice.addObserver( this );
-    }
-
-    protected void setPosition( Particle body ) {
-        // NOP
     }
 
     private class InternalGraphic extends PhetShapeGraphic implements SimpleObserver {
+        private Area drawingArea = new Area();
 
-        InternalGraphic( Component component, PressureSlice pressureSlice, Box2D box ) {
-            super( component, boundingRect, null );
+        InternalGraphic( Component component ) {
+            super( component, null, null );
+            setShape( drawingArea );
             pressureSlice.addObserver( this );
+            update();
+        }
+
+        protected Rectangle determineBounds() {
+            return drawingArea.getBounds();
+        }
+
+        public boolean contains( int x, int y ) {
+            return boundingRect.contains( x, y ) || readoutRectangle.contains( x, y );
         }
 
         public void update() {
+            pressure = pressureSlice.getPressure();
+
+            // Clear the drawing area and rebuild it
+            drawingArea.exclusiveOr( drawingArea );
+            drawingArea.add( new Area( boundingRect ));
+            drawingArea.add( new Area( readoutRectangle ));
+            setBoundsDirty();
             repaint();
         }
 
@@ -87,8 +99,6 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
             boxLeftEdge = box.getMinX();
             boxRightEdge = box.getMaxX();
             boxLowerEdge = box.getMaxY();
-            boxTopEdge = box.getMinY();
-
             boundingRect.setRect( boxLeftEdge, y - pressureSliceHeight / 2,
                                   boxRightEdge - boxLeftEdge,
                                   pressureSliceHeight );
@@ -147,69 +157,5 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
 
     }
 
-    //
-    // Mouse-related methods
-    //
-
-//    Point2D.Float dragStartPt = new Point2D.Float();
-//    Point2D.Float imageStartPt = new Point2D.Float();
-//    private double dy;
-//
-//    public void mouseClicked( MouseEvent e ) {
-//    }
-//
-//    public void mousePressed( MouseEvent e ) {
-//        if( isInHotSpot( e.getPoint() ) ) {
-//            selected = true;
-//            getApparatusPanel().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
-//            dy = e.getPoint().getY() - y;
-//            dragStartPt.setLocation( e.getPoint() );
-//        }
-//    }
-//
-//    public void mouseReleased( MouseEvent e ) {
-//        if( selected ) {
-//            selected = false;
-//            getApparatusPanel().setCursor( Cursor.getDefaultCursor() );
-//        }
-//    }
-//
-//    public void mouseEntered( MouseEvent e ) {
-//    }
-//
-//    public void mouseExited( MouseEvent e ) {
-//        getApparatusPanel().setCursor( Cursor.getDefaultCursor() );
-//    }
-//
-//    public void mouseDragged( MouseEvent e ) {
-//        if( selected ) {
-//            y = (float)( e.getY() - dy );
-//            y = Math.max( y, boxTopEdge + pressureSliceHeight );
-//            y = Math.min( y, boxLowerEdge - pressureSliceHeight );
-//            pressureSlice.setY( y );
-//
-//            // We do this so the panel will update even if the clock is stopped
-//            this.getApparatusPanel().invalidate();
-//            this.getApparatusPanel().repaint();
-//        }
-//    }
-//
-//    public void mouseMoved( MouseEvent e ) {
-//        if( this.isInHotSpot( e.getPoint() ) ) {
-//            getApparatusPanel().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-//        }
-//    }
-//
-//    public boolean isInHotSpot( Point p ) {
-//        return boundingRect.contains( p ) || readoutRectangle.contains( p );
-//    }
-//
-//    protected Point2D.Float getDragStartPt() {
-//        return dragStartPt;
-//    }
-//
-//    protected Point2D.Float getImageStartPt() {
-//        return imageStartPt;
-//    }
 }
 
