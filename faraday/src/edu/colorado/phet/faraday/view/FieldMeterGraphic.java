@@ -28,14 +28,17 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
 
 
 /**
- * FieldProbeGraphic is a magnetic field probe.
+ * FieldMeterGraphic is a meter that measure a magnetic field.
  * It displays the magnitude (total and X/Y components) and direction of
- * the magnetic field at a point in 2D space.
+ * the magnetic field at a point in 2D space. Values are displayed in
+ * a coordinate system in which +X is to the right, +Y is up, and 
+ * +direction is counterclockwise, and 0 degrees points down the
+ * positive X axis.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObserver {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -86,7 +89,7 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
      * @param component the parent Component
      * @param magnetModel the magnet whose field is being probed
      */
-    public FieldProbeGraphic( Component component, AbstractMagnet magnetModel ) {
+    public FieldMeterGraphic( Component component, AbstractMagnet magnetModel ) {
         super( component );
         assert( component != null );
         assert( magnetModel != null );
@@ -175,11 +178,11 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
         if ( isVisible() ) {
             AbstractVector2D B = _magnetModel.getStrength( getLocation() );
             
-            // Format field values, use "student" coordinate system (+X right, +Y up, +angle counterclockwise)
+            // Format field values, adjust coordinate system.
             String b = _formatter.format( new Double( B.getMagnitude() ) );
             String bx = _formatter.format( new Double( B.getX() ) );
-            String by = _formatter.format( new Double( -(B.getY()) ) ); // flip sign
-            String angle = _formatter.format( new Double( Math.toDegrees( -(B.getAngle()) ) ) ); // flip sign
+            String by = _formatter.format( new Double( -(B.getY()) ) ); // +Y is up
+            String angle = _formatter.format( new Double( Math.toDegrees( -(B.getAngle()) ) ) ); // +angle is counterclockwise
             
             // Set field values
             _bText.setText( b );

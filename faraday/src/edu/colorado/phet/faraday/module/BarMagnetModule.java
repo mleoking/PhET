@@ -47,6 +47,7 @@ public class BarMagnetModule extends Module {
     private static final double GRID_LAYER = 1;
     private static final double MAGNET_LAYER = 2;
     private static final double COMPASS_LAYER = 3;
+    private static final double METER_LAYER = 4;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
@@ -73,7 +74,7 @@ public class BarMagnetModule extends Module {
     // View
     private BarMagnetGraphic _magnetGraphic;
     private CompassGridGraphic _gridGraphic;
-    private FieldProbeGraphic _probeGraphic;
+    private FieldMeterGraphic _fieldMeterGraphic;
     
     // Control
     private BarMagnetControlPanel _controlPanel;
@@ -141,16 +142,16 @@ public class BarMagnetModule extends Module {
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
-        // Field Probe
-        _probeGraphic = new FieldProbeGraphic( apparatusPanel, _magnetModel );
-        _probeGraphic.setLocation( 100, 100 );
-        apparatusPanel.addGraphic( _probeGraphic, DEBUG_LAYER );
+        // Field Meter
+        _fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _magnetModel );
+        _fieldMeterGraphic.setLocation( 100, 100 );
+        apparatusPanel.addGraphic( _fieldMeterGraphic, METER_LAYER );
         
         // Debugger
         DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
         debugger.setLocationColor( Color.GREEN );
         debugger.setLocationStrokeWidth( 1 );
-//        debugger.add( _probeGraphic );
+//        debugger.add( __fieldMeterGraphic );
         apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
         
         //----------------------------------------------------------------------------
@@ -189,7 +190,7 @@ public class BarMagnetModule extends Module {
         _controlPanel.setMagnetStrength( _magnetModel.getStrength() );
         _controlPanel.setMagnetSize( _magnetModel.getSize() );
         _controlPanel.setMagnetTransparencyEnabled( false );
-        _controlPanel.setProbeEnabled( true );
+        _controlPanel.setMeterEnabled( true );
         _controlPanel.setCompassEnabled( _compassModel.isEnabled() );
         
         // Debug controls
@@ -226,12 +227,12 @@ public class BarMagnetModule extends Module {
     }
     
     /**
-     * Enables and disables the B-Field probe.
+     * Enables and disables the Field Meter.
      * 
      * @param enabled true to enable, false to disable
      */
-    public void setProbeEnabled( boolean enabled ) {
-        _probeGraphic.setVisible( enabled );
+    public void setMeterEnabled( boolean enabled ) {
+        _fieldMeterGraphic.setVisible( enabled );
     }
     
     /**
