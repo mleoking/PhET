@@ -604,9 +604,9 @@ public class CCK3ControlPanel extends JPanel {
         private PhetSlider resistivitySlider;
         private GridBagConstraints constraints;
         private JCheckBox internalResistanceEnabled;
+        private JCheckBox hideElectrons;
 
         void addMe( Component component ) {
-//            System.out.println( "constraints = " + constraints.gridy );
             add( component, constraints );
             constraints.gridy++;
         }
@@ -614,20 +614,8 @@ public class CCK3ControlPanel extends JPanel {
         public AdvancedControlPanel( final CCK3Module module ) {
             this.module = module;
             Insets insets = new Insets( 0, 0, 0, 0 );
-            int gridHeight = 4;
             constraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
             setLayout( new GridBagLayout() );
-//            final JCheckBox resistivityEnabled = new JCheckBox( "Resistivity", module.getResistivityManager().isEnabled() );
-//            resistivityEnabled.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    module.setResistivityEnabled( resistivityEnabled.isSelected() );
-//                    resistivitySlider.setEnabled( resistivityEnabled.isSelected() );
-//                    if( resistivityEnabled.isSelected() ) {
-//                        resistivitySlider.requestSliderFocus();
-//                    }
-//                }
-//            } );
-//            addMe( resistivityEnabled );
             resistivitySlider = new PhetSlider( "Wire Resistivity", "resistance/length", 0, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
             resistivitySlider.setBorder( null );
             resistivitySlider.getTitleLabel().setFont( CCKLookAndFeel.getFont() );
@@ -652,7 +640,6 @@ public class CCK3ControlPanel extends JPanel {
                     module.getResistivityManager().setResistivity( value );
                 }
             } );
-//            resistivitySlider.setEnabled( resistivityEnabled.isSelected() );
 
             internalResistanceEnabled = new JCheckBox( "<html>Battery<br>Internal Resistance</html>", module.isInternalResistanceOn() );
             internalResistanceEnabled.addActionListener( new ActionListener() {
@@ -670,6 +657,13 @@ public class CCK3ControlPanel extends JPanel {
             } );
             addMe( printKirkhoffsLaws );
 
+            hideElectrons = new JCheckBox( "Hide Electrons", !module.isElectronsVisible() );
+            hideElectrons.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setElectronsVisible( !hideElectrons.isSelected() );
+                }
+            } );
+            addMe( hideElectrons );
             JButton close = new JButton( "Close" );
             close.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -684,7 +678,6 @@ public class CCK3ControlPanel extends JPanel {
                 dialog = new JDialog( (Frame)parent, "Advanced Controls" );
                 dialog.setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
                 dialog.setModal( false );
-//                dialog.setUndecorated( true );
                 dialog.setContentPane( this );
                 SwingUtilities.updateComponentTreeUI( dialog );
                 dialog.pack();

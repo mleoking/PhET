@@ -23,7 +23,7 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
 
     public void branchesMoved( Branch[] branches ) {
         ArrayList moved = new ArrayList( Arrays.asList( branches ) );
-        int num = module.getParticleSet().numParticles();
+//        int num = module.getParticleSet().numParticles();
 //        System.out.println( "num= " + num );
 //        relayout( branches );
         ArrayList branchesToRelayout = new ArrayList();
@@ -39,7 +39,7 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
         }
         Branch[] torelayout = (Branch[])branchesToRelayout.toArray( new Branch[0] );
         relayout( torelayout );
-        int numAfter = module.getParticleSet().numParticles();
+//        int numAfter = module.getParticleSet().numParticles();
 //        System.out.println( "numAfter = " + numAfter );
     }
 
@@ -55,24 +55,26 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
         ParticleSetGraphic psg = module.getParticleSetGraphic();
         Electron[] electrons = ps.removeParticles( branch );
         psg.removeGraphics( electrons );
-        double offset = CCK3Module.ELECTRON_DX / 2;
-        double startingPoint = offset;
-        double endingPoint = branch.getLength() - offset;
-        //compress or expand, but fix a particle at startingPoint and endingPoint.
-        double L = endingPoint - startingPoint;
-        double desiredDensity = 1 / CCK3Module.ELECTRON_DX;
-        double N = L * desiredDensity;
-        int integralNumberParticles = (int)Math.ceil( N );
-        double mydensity = ( integralNumberParticles - 1 ) / L;
-        double dx = 1 / mydensity;
-        if( mydensity == 0 ) {
-            integralNumberParticles = 0;
-        }
-        for( int i = 0; i < integralNumberParticles; i++ ) {
-            double x = i * dx + startingPoint;
-            Electron e = new Electron( branch, x );
-            ps.addParticle( e );
-            psg.addGraphic( e );
+        if( module.isElectronsVisible() ) {
+            double offset = CCK3Module.ELECTRON_DX / 2;
+            double startingPoint = offset;
+            double endingPoint = branch.getLength() - offset;
+            //compress or expand, but fix a particle at startingPoint and endingPoint.
+            double L = endingPoint - startingPoint;
+            double desiredDensity = 1 / CCK3Module.ELECTRON_DX;
+            double N = L * desiredDensity;
+            int integralNumberParticles = (int)Math.ceil( N );
+            double mydensity = ( integralNumberParticles - 1 ) / L;
+            double dx = 1 / mydensity;
+            if( mydensity == 0 ) {
+                integralNumberParticles = 0;
+            }
+            for( int i = 0; i < integralNumberParticles; i++ ) {
+                double x = i * dx + startingPoint;
+                Electron e = new Electron( branch, x );
+                ps.addParticle( e );
+                psg.addGraphic( e );
+            }
         }
     }
 }
