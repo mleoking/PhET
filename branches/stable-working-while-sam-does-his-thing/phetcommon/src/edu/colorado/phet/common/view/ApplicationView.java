@@ -16,15 +16,14 @@ public class ApplicationView {
     private ClockControlPanel clockControlPanel;
 
     private BasicPhetPanel basicPhetPanel;
-    private ApplicationModel appDescriptor;
 
-    public ApplicationView( ApplicationModel applicationModel, JComponent apparatusPanelContainer ) throws IOException {
-        this.appDescriptor = applicationModel;
+    public ApplicationView( ApplicationModel applicationModel, JComponent apparatusPanelContainer )
+            throws IOException {
         if( applicationModel.getUseClockControlPanel() ) {
             clockControlPanel = new ClockControlPanel( applicationModel.getClock() );
         }
         basicPhetPanel = new BasicPhetPanel( apparatusPanelContainer, null, null, clockControlPanel );
-        phetFrame = new PhetFrame( applicationModel );
+        phetFrame = applicationModel.getFrame();
         phetFrame.setContentPane( basicPhetPanel );
     }
 

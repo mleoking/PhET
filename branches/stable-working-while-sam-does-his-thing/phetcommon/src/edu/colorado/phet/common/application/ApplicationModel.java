@@ -4,6 +4,7 @@ package edu.colorado.phet.common.application;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.PhetFrame;
 
 /**
  * This class is essentially a data structure that contains specifications for the top-level
@@ -19,6 +20,7 @@ public class ApplicationModel {
     private Module initialModule;
     private AbstractClock clock;
     boolean useClockControlPanel = true;
+    private PhetFrame frame;
 
     public ApplicationModel( String windowTitle, String description, String version ) {
         this( windowTitle, description, version, new FrameSetup.CenteredWithInsets( 200, 200 ) );
@@ -29,6 +31,7 @@ public class ApplicationModel {
         this.description = description;
         this.version = version;
         this.frameSetup = frameSetup;
+        this.frame = new PhetFrame( this );
         SimStrings.setStrings( "localization/CommonStrings" );
     }
 
@@ -139,5 +142,9 @@ public class ApplicationModel {
 
     public String getName() {
         return name;
+    }
+
+    public PhetFrame getFrame() {
+        return frame;
     }
 }
