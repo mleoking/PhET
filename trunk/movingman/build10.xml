@@ -101,8 +101,8 @@
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac classpath="lib/smoothmetal.jar;lib/jep-2.24.jar" srcdir="src-hellophet-46" destdir="${classes}"/>
-        <javac classpath="lib/smoothmetal.jar;lib/jep-2.24.jar" srcdir="${src}" destdir="${classes}"/>
+        <!--        <javac classpath="lib/smoothmetal.jar;lib/jep-2.24.jar" srcdir="src-hellophet-46" destdir="${classes}"/>-->
+        <javac classpath="C:\PhET\intellij-projects\charts\classes;C:\PhET\intellij-projects\phetcommon\classes;lib/smoothmetal.jar;lib/jep-2.24.jar" srcdir="${src}" destdir="${classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
@@ -226,14 +226,13 @@
             <arg line="${basedir}"></arg>
         </exec>
     </target>
-    <target name="Test SCP">
-        <!--        <scp file="build.properties" todir="reids:password@ucsub.colorado.edu:/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>-->
-        <scp file="build.properties"
-            todir="reids@ucsub.colorado.edu:/home1/reids"
-            keyfile="${user.home}/.ssh/id_dsa"
-            passphrase="my extremely secret passphrase"
-            />
-    </target>
+    <!--    <target name="Test SCP">-->
+    <!--        <scp file="build.properties"-->
+    <!--            todir="reids@ucsub.colorado.edu:/home1/reids"-->
+    <!--            keyfile="${user.home}/.ssh/id_dsa"-->
+    <!--            passphrase="my extremely secret passphrase"-->
+    <!--            />-->
+    <!--    </target>-->
 
 
 </project>
