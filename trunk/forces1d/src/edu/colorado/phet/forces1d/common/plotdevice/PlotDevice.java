@@ -1,18 +1,18 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.forces1d.common.plotdevice;
 
+import edu.colorado.phet.chart.BufferedLinePlot;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
-import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.controllers.HorizontalCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.model.DataSeries;
@@ -54,33 +54,42 @@ public class PlotDevice extends CompositePhetGraphic {
     private FloatingControl floatingControl;
     private String units;
     private JLabel titleLable;
-    private PhetTextGraphic superScriptGraphic;
     private Font verticalTitleFont = MMFontManager.getFontSet().getVerticalTitleFont();
     private ArrayList listeners = new ArrayList();
-    private PhetTextGraphic textGraphic;
+    private PhetTextGraphic timeLabel;
+    private double value = Double.NaN;
+    private BufferedPhetGraphic bufferedPhetGraphic;
+    private boolean controllable;
+    private Point buttonLoc = new Point();
 
-    public void setDataSeriesVisible( int index, boolean visible ) {
-        chartComponent.setDataSeriesVisible( index, visible );
-    }
 
-    public PlotDevice( final ParameterSet parameters )
+    public PlotDevice( final ParameterSet parameters, BufferedPhetGraphic bufferedPhetGraphic )
             throws IOException {
         super( parameters.panel );
+        this.controllable = parameters.controllable;
+        this.bufferedPhetGraphic = bufferedPhetGraphic;
+//        this.rectangleListener=rectangleListener;
         this.plotDeviceView = parameters.plotDeviceView;
         this.units = parameters.units;
         this.title = parameters.title;
         this.plotDeviceModel = parameters.plotDeviceModel;
-        this.timer = parameters.timer;
+        this.timer = parameters.plotDeviceModel.getRecordingTimer();
         this.color = parameters.color;
         this.stroke = parameters.stroke;
-        chartComponent = new ChartComponent( parameters.panel, parameters.inputBox, parameters.series, parameters.xShift );
+        int singleClickZoom = parameters.singleClickZoom;
+        int holdDownZoom = parameters.holdDownZoom;
+        double maxZoomRange = parameters.maxZoomRange;
+        chartComponent = new ChartComponent( parameters.panel, parameters.inputBox, parameters.series, parameters.xShift, holdDownZoom, singleClickZoom, maxZoomRange );
         ApparatusPanel panel = parameters.panel;
         Rectangle2D.Double inputBox = parameters.inputBox;
 
         horizontalCursor = new HorizontalCursor( panel, chartComponent.getChart(), new Color( 15, 0, 255, 50 ), new Color( 50, 0, 255, 150 ), 8 );
         horizontalCursor.addListener( new HorizontalCursor.Listener() {
             public void modelValueChanged( double modelX ) {
-                plotDeviceModel.cursorMovedToTime( modelX );
+                //TODO, need to get the index for this time.  This will enable cursor dragging.
+                int index = plotDeviceModel.convertTimeToIndex( modelX );
+                plotDeviceModel.cursorMovedToTime( modelX, index );
+
             }
         } );
         panel.addGraphic( horizontalCursor, 1000 );
@@ -99,7 +108,14 @@ public class PlotDevice extends CompositePhetGraphic {
             }
         } );
         verticalChartSlider = new VerticalChartSlider( chartComponent.getChart() );
-
+        verticalChartSlider.addListener( new VerticalChartSlider.Listener() {
+            public void valueChanged( double value ) {
+                for( int i = 0; i < listeners.size(); i++ ) {
+                    Listener listener = (Listener)listeners.get( i );
+                    listener.valueChanged( value );
+                }
+            }
+        } );
         setCloseHandler( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setVisible( false );
@@ -139,13 +155,27 @@ public class PlotDevice extends CompositePhetGraphic {
                 horizontalCursor.setX( 0 );
             }
         } );
-        textGraphic = new PhetTextGraphic( panel, MMFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, 0, 0 );
+        timeLabel = new PhetTextGraphic( panel, MMFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, 0, 0 );
+        addGraphic( chartComponent.getChart() );
+        addGraphic( timeLabel );
+        respectControllable();
+    }
+
+
+    public void setDataSeriesVisible( int index, boolean visible ) {
+        chartComponent.setDataSeriesVisible( index, visible );
+    }
+
+    private void respectControllable() {
+        if( !controllable ) {
+            setSliderVisible( false );
+            textBox.setEditable( false );
+        }
     }
 
     private void setInputRange( Rectangle2D.Double inputBox ) {
         Range2D range = new Range2D( inputBox );
         getChart().setRange( range );
-//        chartComponent.refitCurve();
         plotDeviceView.repaintBackground( getChart().getViewBounds() );
     }
 
@@ -164,9 +194,17 @@ public class PlotDevice extends CompositePhetGraphic {
         }
     }
 
+
     public void setValue( double value ) {
-        verticalChartSlider.setValue( value );
-        setTextValue( value );
+        if( value != this.value ) {
+            verticalChartSlider.setValue( value );
+            setTextValue( value );
+            for( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener)listeners.get( i );
+                listener.valueChanged( value );
+            }
+            this.value = value;
+        }
     }
 
     public Chart getChart() {
@@ -177,14 +215,25 @@ public class PlotDevice extends CompositePhetGraphic {
         chartComponent.addSeries( dataSeries, color, title, stroke );
     }
 
-    public void addSuperScript( String s ) {
-        Font superScriptFont = new Font( "Lucida Sans", Font.BOLD, 12 );
-        superScriptGraphic = new PhetTextGraphic( plotDeviceView.getApparatusPanel(), superScriptFont, s, color, 330, 230 );
-        plotDeviceView.getApparatusPanel().addGraphic( superScriptGraphic, 999 );
+    public void setButtonLoc( int x, double y ) {
+        this.buttonLoc.setLocation( x, y );
+        showButton.reshape( buttonLoc.x, buttonLoc.y, showButton.getPreferredSize().width, showButton.getPreferredSize().height );
+    }
+
+    public int getButtonHeight() {
+        return this.showButton.getHeight();
+    }
+
+    public void repaintBuffer() {
+        if( isVisible() ) {
+            chartComponent.repaintBuffer();
+        }
     }
 
     public static interface Listener {
-        void nominalValueChanged( double value );
+        void readoutChanged( double value );
+
+        void valueChanged( double value );
     }
 
     public void addListener( Listener listener ) {
@@ -198,13 +247,10 @@ public class PlotDevice extends CompositePhetGraphic {
         }
         if( !textBox.getText().equals( valueString ) ) {
             textBox.setText( valueString );
-        }
-//        chartComponent.setText(valueString+" "+units);//TODO this is broken for Series
-//        chartComponent.readoutValue.setText( valueString + " " + units );
-//        moveScript();
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.nominalValueChanged( value );
+            for( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener)listeners.get( i );
+                listener.readoutChanged( value );
+            }
         }
     }
 
@@ -277,40 +323,10 @@ public class PlotDevice extends CompositePhetGraphic {
         int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
         int floatX = floaterX + dw / 2;
         floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
-
-//        chartComponent.refitCurve();
         chartComponent.setViewBounds( rectangle );
+        Point ctr = RectangleUtils.getCenter( chartComponent.determineBounds() );
+        timeLabel.setLocation( ctr );
     }
-
-
-    public void paint( Graphics2D g ) {
-        if( isVisible() ) {
-            GraphicsState state = new GraphicsState( g );
-            getChart().paint( g );
-            Point pt = getChart().getModelViewTransform().modelToView( 15, 0 );
-            pt.y -= 3;
-            textGraphic.setLocation( pt.x, pt.y - textGraphic.getHeight() );
-            textGraphic.paint( g );
-            Rectangle bounds = textGraphic.getBounds();
-            Point2D tail = RectangleUtils.getRightCenter( bounds );
-            tail = new Point2D.Double( tail.getX() + 5, tail.getY() );
-//            Point2D tip = new Point2D.Double( tail.getX() + 30, tail.getY() );
-
-
-//            Arrow arrow = new Arrow( tail, tip, 9, 9, 5 );
-//            PhetShapeGraphic psg = new PhetShapeGraphic( plotDeviceView.getApparatusPanel(), arrow.getShapeGraphic(), Color.red, new BasicStroke( 1 ), Color.black );
-//            psg.paint( g );
-//            g.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
-//            g.drawString( "Time", (float)tail.getX(), (float)( tail.getY() - g.getFont().getStringBounds( "Time", g.getFontRenderContext() ).getHeight() ) );
-//            g.setClip( getChart().getViewBounds() );
-//            g.setColor( color );
-//            g.setStroke( stroke );
-//            g.draw( chartComponent.seriesAt( 0 ).path );
-
-            state.restoreGraphics();
-        }
-    }
-
 
     public ModelViewTransform2D getModelViewTransform() {
         return getChart().getModelViewTransform();
@@ -329,7 +345,7 @@ public class PlotDevice extends CompositePhetGraphic {
 
         plotDeviceView.getApparatusPanel().setLayout( null );
         plotDeviceView.getApparatusPanel().add( showButton );
-        showButton.reshape( 100, 100, showButton.getPreferredSize().width, showButton.getPreferredSize().height );
+        showButton.reshape( buttonLoc.x, buttonLoc.y, showButton.getPreferredSize().width, showButton.getPreferredSize().height );
         plotDeviceView.relayout();
         showButton.setVisible( !visible );
         textBox.setVisible( visible );
@@ -337,9 +353,7 @@ public class PlotDevice extends CompositePhetGraphic {
 
         floatingControl.setVisible( visible );
         titleLable.setVisible( visible );
-        if( superScriptGraphic != null ) {
-            superScriptGraphic.setVisible( visible );
-        }
+        respectControllable();
     }
 
     public void update() {
@@ -352,10 +366,6 @@ public class PlotDevice extends CompositePhetGraphic {
 
     public void setSliderVisible( boolean b ) {
         verticalChartSlider.setVisible( b );
-    }
-
-    public void addSliderListener( VerticalChartSlider.Listener listener ) {
-        verticalChartSlider.addListener( listener );
     }
 
     public VerticalChartSlider getVerticalChartSlider() {
@@ -372,10 +382,15 @@ public class PlotDevice extends CompositePhetGraphic {
     }
 
     public void cursorMovedToTime( double time, int index ) {
-        horizontalCursor.setX( time );
-        DataSeries dataSeries = chartComponent.seriesAt( 0 ).dataSeries;
-        verticalChartSlider.setValue( dataSeries.pointAt( index ) );
-        setTextValue( dataSeries.pointAt( index ) );
+        if( index < chartComponent.seriesAt( 0 ).dataSeries.size() ) {
+
+            horizontalCursor.setX( time );
+            DataSeries dataSeries = chartComponent.seriesAt( 0 ).dataSeries;
+            verticalChartSlider.setValue( dataSeries.pointAt( index ) );
+            setTextValue( dataSeries.pointAt( index ) );
+            chartComponent.cursorMovedToTime( time, index );
+        }//TODO we'll have to handle multiple series.
+
     }
 
     public void setCursorVisible( boolean visible ) {
@@ -507,6 +522,20 @@ public class PlotDevice extends CompositePhetGraphic {
             seriesAt( index ).setVisible( visible );
         }
 
+        public void cursorMovedToTime( double time, int index ) {
+            for( int i = 0; i < series.size(); i++ ) {
+                Series series1 = (Series)series.get( i );
+                series1.cursorMovedToTime( time, index );
+            }
+        }
+
+        public void repaintBuffer() {
+            for( int i = 0; i < series.size(); i++ ) {
+                Series series1 = (Series)series.get( i );
+                series1.repaintBuffer();
+            }
+        }
+
         public class Series {
             DataSet dataSet;
             DataSeries dataSeries;
@@ -514,15 +543,14 @@ public class PlotDevice extends CompositePhetGraphic {
             Stroke stroke;
             PhetTextGraphic readout;
             PhetTextGraphic readoutValue;
-            private LinePlot dataSetGraphic;
+            private BufferedLinePlot bufferedLinePlot;
+            DecimalFormat format = new DecimalFormat( "0.0" );
 
             public Series( String name, ApparatusPanel panel, DataSeries dataSeries, Stroke stroke, Color color ) {
                 Font readoutFont = MMFontManager.getFontSet().getReadoutFont();
                 this.dataSeries = dataSeries;
                 dataSet = new DataSet();
-
-                dataSetGraphic = new LinePlot( dataSet, stroke, color );
-                chart.addDataSetGraphic( dataSetGraphic );
+                bufferedLinePlot = new BufferedLinePlot( chart, dataSet, stroke, color, bufferedPhetGraphic );
                 dataSeries.addListener( new DataSeries.Listener() {
                     public void changed() {
                         update( (float)timer.getTime() );
@@ -534,15 +562,6 @@ public class PlotDevice extends CompositePhetGraphic {
                 panel.addGraphic( readoutValue, 10000 );
             }
 
-//            public void refitCurve() {
-//                Point2D.Double[] copy = dataSet.toArray();
-//                dataSet.clear();
-//                for( int i = 0; i < copy.length; i++ ) {
-//                    Point2D.Double aDouble = copy[i];
-//                    dataSet.addPoint( aDouble );
-//                }
-//            }
-
             public void reset() {
                 dataSet.clear();
                 dataSeries.reset();
@@ -551,17 +570,7 @@ public class PlotDevice extends CompositePhetGraphic {
             public void setVisible( boolean visible ) {
                 readout.setVisible( visible );
                 readoutValue.setVisible( visible );
-                if( visible ) {
-                    while( !chart.containsDataSetGraphic( dataSetGraphic ) ) {
-                        chart.addDataSetGraphic( dataSetGraphic );
-                    }
-                }
-                else {
-                    while( chart.containsDataSetGraphic( dataSetGraphic ) ) {
-                        chart.removeDataSetGraphic( dataSetGraphic );
-                    }
-                }
-//                chart.ad
+                bufferedLinePlot.setVisible( visible );
             }
 
             public void setViewBounds( Rectangle rectangle ) {
@@ -585,13 +594,36 @@ public class PlotDevice extends CompositePhetGraphic {
                         return;
                     }
                     Point2D.Double pt = new Point2D.Double( time - xShift, position );
-                    dataSet.addPoint( pt );
+                    dataSet.addPoint( pt );//this causes a repaint.
+                    String text = format.format( position ) + " " + units;
+                    readoutValue.setText( text );
+
                     horizontalCursor.setMaxX( time );//so it can't be dragged past the end of recorded pressTime.
                 }
             }
+
+            public void cursorMovedToTime( double time, int index ) {
+                double value = dataSeries.pointAt( index );
+                String text = format.format( value ) + " " + units;
+                readoutValue.setText( text );
+            }
+
+            public void repaintBuffer() {
+                bufferedLinePlot.clear();
+                dataSet.clear();
+                bufferedLinePlot.setAutoRepaint( false );
+                for( int i = 0; i < dataSeries.size(); i++ ) {
+                    double pt = dataSeries.pointAt( i );
+                    double time = plotDeviceModel.convertIndexToTime( i );
+                    dataSet.addPoint( time, pt );
+                }
+                bufferedLinePlot.setAutoRepaint( true );
+                bufferedLinePlot.repaintAll();
+            }
         }
 
-        public ChartComponent( ApparatusPanel panel, Rectangle2D inputBox, DataSeries dataSeries, double xShift ) throws IOException {
+        public ChartComponent( ApparatusPanel panel, Rectangle2D inputBox, DataSeries dataSeries, double xShift,
+                               double holdDownZoom, double singleClickZoom, double maxZoomRange ) throws IOException {
             Font axisFont = MMFontManager.getFontSet().getAxisFont();
 
             chart = new Chart( panel, new Range2D( inputBox ), new Rectangle( 0, 0, 100, 100 ) );
@@ -610,7 +642,7 @@ public class PlotDevice extends CompositePhetGraphic {
             chart.getXAxis().setMajorGridlines( new double[]{2, 4, 6, 8, 10, 12, 14, 16, 18, 20} ); //to ignore the 0.0
             chart.getXAxis().setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{6, 6}, 0 ) );
             chart.getYAxis().setMinorTicksVisible( false );
-            double spacing = inputBox.getHeight() / 21;
+            double spacing = inputBox.getHeight() / 10;
             chart.getYAxis().setMajorTickSpacing( spacing );
 //            chart.getHorizontalTicks().setMajorTickSpacing( spacing );
             chart.getVerticalTicks().setMajorTickSpacing( spacing );
@@ -624,11 +656,10 @@ public class PlotDevice extends CompositePhetGraphic {
 
             BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
             BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
-            final double smooth = 1;
-            ActionListener smoothPos = new Increment( smooth );
-            ActionListener smoothNeg = new Decrement( smooth );
-            ActionListener incPos = new Increment( 5 );
-            ActionListener incNeg = new Decrement( 5 );
+            ActionListener smoothPos = new Increment( holdDownZoom );
+            ActionListener smoothNeg = new Decrement( holdDownZoom, maxZoomRange );
+            ActionListener incPos = new Increment( singleClickZoom );
+            ActionListener incNeg = new Decrement( singleClickZoom, maxZoomRange );
             magPlus = new MagButton( new ImageIcon( imgPlus ), smoothPos, incPos, "Zoom In" );
             magMinus = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, "Zoom Out" );
             panel.add( magPlus );
@@ -650,15 +681,7 @@ public class PlotDevice extends CompositePhetGraphic {
         public void setInputRange( Rectangle2D.Double inputBox ) {
             Range2D range = new Range2D( inputBox );
             chart.setRange( range );
-//            refitCurve();
         }
-
-//        private void refitCurve() {
-//            for( int i = 0; i < series.size(); i++ ) {
-//                Series series1 = (Series)series.get( i );
-//                series1.refitCurve();
-//            }
-//        }
 
         public double getxShift() {
             return xShift;
@@ -693,6 +716,7 @@ public class PlotDevice extends CompositePhetGraphic {
             for( int i = 0; i < series.size(); i++ ) {
                 seriesAt( i ).update( time );
             }
+            horizontalCursor.setMaxX( time );
         }
 
         public void setMagnitude( double magnitude ) {
@@ -729,20 +753,22 @@ public class PlotDevice extends CompositePhetGraphic {
 
         class Decrement implements ActionListener {
             double increment;
+            double maxRange;
 
-            public Decrement( double increment ) {
+            public Decrement( double increment, double maxRange ) {
                 this.increment = increment;
+                this.maxRange = maxRange;
             }
 
             public void actionPerformed( ActionEvent e ) {
                 Range2D origRange = chart.getRange();
                 double diffY = origRange.getMaxY();
                 double newDiffY = diffY + increment;
-                int MAX = 100;
+                double MAX = maxRange;
                 if( newDiffY < MAX ) {
                     setMagnitude( newDiffY );
                     setPaintYLines( getYLines( newDiffY, 5 ) );
-                    plotDeviceView.repaintBackground();
+                    plotDeviceView.repaintBackground();//TODO this could just repaint this part (not the whole thing.)
                 }
             }
 
@@ -794,32 +820,44 @@ public class PlotDevice extends CompositePhetGraphic {
         private PlotDeviceModel plotDeviceModel;
         private PlotDeviceView plotDeviceView;
         private DataSeries series;
-        private PhetTimer timer;
+//        private PhetTimer timer;
         private Color color;
         private Stroke stroke;
         private Rectangle2D.Double inputBox;
         private double xShift;
         private String units;
         private String labelStr;
+        private boolean controllable;
+        public int singleClickZoom = 5;
+        public int holdDownZoom = 1;
+        public double maxZoomRange = 100;
 
         public ParameterSet( ApparatusPanel panel, String title, final PlotDeviceModel plotDeviceModel,
                              final PlotDeviceView plotDeviceView,
-                             final DataSeries series, PhetTimer timer, Color color,
+                             final DataSeries series, Color color,
                              Stroke stroke, Rectangle2D.Double inputBox,
-                             double xShift, String units, String labelStr ) {
+                             double xShift, String units, String labelStr, boolean controllable ) {
             this.panel = panel;
             this.title = title;
             this.plotDeviceModel = plotDeviceModel;
             this.plotDeviceView = plotDeviceView;
             this.series = series;
-            this.timer = timer;
+//            this.timer = recordTimer;
             this.color = color;
             this.stroke = stroke;
             this.inputBox = inputBox;
             this.xShift = xShift;
             this.units = units;
             this.labelStr = labelStr;
+            this.controllable = controllable;
         }
+
+        public void setZoomRates( int singleClickZoom, int holdDownZoom, double maxZoomRange ) {
+            this.singleClickZoom = singleClickZoom;
+            this.holdDownZoom = holdDownZoom;
+            this.maxZoomRange = maxZoomRange;
+        }
+
     }
 
     public static class TextBox extends JPanel {
@@ -829,7 +867,7 @@ public class PlotDevice extends CompositePhetGraphic {
         static Font font = MMFontManager.getFontSet().getTextBoxFont();
         private PlotDevice plotDevice;
 
-        public TextBox( PlotDeviceModel module, int text, String labelText, PlotDevice plotDevice ) {
+        public TextBox( PlotDeviceModel module, int text, String labelText, final PlotDevice plotDevice ) {
             this.plotDevice = plotDevice;
             textField = new JTextField( text );
             label = new JLabel( labelText );
@@ -846,12 +884,10 @@ public class PlotDevice extends CompositePhetGraphic {
                 }
 
                 public void keyPressed( KeyEvent e ) {
-//                    System.out.println( "pressed" );
                 }
 
                 public void keyReleased( KeyEvent e ) {
                     changedByUser = true;
-                    //TODO a bug detecting VK_ENTER on my machine.
                     if( e.getKeyCode() == KeyEvent.VK_ENTER ) {
                         System.out.println( "pressed enter." );
                         parseAndSetValue();
@@ -869,7 +905,7 @@ public class PlotDevice extends CompositePhetGraphic {
                 }
 
                 public void recordingPaused() {
-                    textField.setEditable( true );
+                    textField.setEditable( true && plotDevice.controllable );
                 }
 
                 public void recordingFinished() {
@@ -881,7 +917,7 @@ public class PlotDevice extends CompositePhetGraphic {
                 }
 
                 public void playbackPaused() {
-                    textField.setEditable( true );
+                    textField.setEditable( true && plotDevice.controllable );
                 }
 
                 public void playbackFinished() {
@@ -889,11 +925,11 @@ public class PlotDevice extends CompositePhetGraphic {
                 }
 
                 public void reset() {
-                    textField.setEditable( true );
+                    textField.setEditable( true && plotDevice.controllable );
                 }
 
                 public void rewind() {
-                    textField.setEditable( true );
+                    textField.setEditable( true && plotDevice.controllable );
                 }
             } );
         }
@@ -901,8 +937,8 @@ public class PlotDevice extends CompositePhetGraphic {
         private void parseAndSetValue() {
             String text = getText();
             double value = Double.parseDouble( text );
-
             plotDevice.setValue( value );//needs error handling.
+
         }
 
         public void clearChangedByUser() {

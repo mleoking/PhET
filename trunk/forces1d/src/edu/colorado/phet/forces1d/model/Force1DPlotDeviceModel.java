@@ -15,19 +15,20 @@ public class Force1DPlotDeviceModel extends PlotDeviceModel {
     private Force1DModule module;
     private Force1DModel model;
 
-    public Force1DPlotDeviceModel( Force1DModule module, final Force1DModel model, double maxTime ) {
-        super( maxTime );
+    public Force1DPlotDeviceModel( Force1DModule module, final Force1DModel model, double maxTime, double timeScale ) {
+        super( maxTime, timeScale );
         this.module = module;
         this.model = model;
         addListener( new PlotDeviceModel.ListenerAdapter() {
             public void recordingStarted() {
-                model.setPaused( false );
+                setPaused( false );
             }
 
             public void recordingPaused() {
-                model.setPaused( true );
+                setPaused( true );
             }
         } );
+
     }
 
     public void reset() {
@@ -35,15 +36,16 @@ public class Force1DPlotDeviceModel extends PlotDeviceModel {
     }
 
     protected void stepRecord( double dt ) {
-        double value = model.getAppliedForce();
-        model.addAppliedForcePoint( value, dt );
+        model.stepRecord( dt );
     }
 
-    protected void stepPlayback( double dt ) {
+    protected void stepPlayback( double dt, double time, int index ) {
+//        System.out.println( "playback, dt=" + dt );
+        model.stepPlayback( dt, time, index );
     }
 
-    public void cursorMovedToTime( double modelX ) {
-        module.cursorMovedToTime( modelX );
+    public void cursorMovedToTime( double modelX, int index ) {
+        module.cursorMovedToTime( modelX, index );
     }
 
 

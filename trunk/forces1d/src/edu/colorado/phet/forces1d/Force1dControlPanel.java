@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d;
 
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
@@ -12,7 +13,6 @@ import edu.colorado.phet.forces1d.view.Force1dObject;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -22,12 +22,13 @@ import java.awt.event.ItemListener;
  * Time: 11:11:57 AM
  * Copyright (c) Nov 22, 2004 by Sam Reid
  */
-public class Force1dControlPanel extends VerticalLayoutPanel {
-    Force1DModule module;
+public class Force1dControlPanel extends ControlPanel {
+    private Force1DModule module;
     private Force1DModel model;
     public static final double MAX_KINETIC_FRICTION = 2.0;
 
     public Force1dControlPanel( final Force1DModule module ) {
+        super( module );
         this.module = module;
         model = module.getForceModel();
         final JComboBox jcb = new JComboBox( module.getImageElements() );
@@ -50,11 +51,11 @@ public class Force1dControlPanel extends VerticalLayoutPanel {
                 model.setGravity( value );
             }
         } );
-        ModelSlider appliedForce = createControl( 0, -100, 100, .5, "Applied Force", "N", new SpinnerHandler() {
-            public void changed( double value ) {
-                model.setAppliedForce( value );
-            }
-        } );
+//        ModelSlider appliedForce = createControl( 0, -100, 100, .5, "Applied Force", "N", new SpinnerHandler() {
+//            public void changed( double value ) {
+//                model.setAppliedForce( value );
+//            }
+//        } );
         final ModelSlider staticFriction = createControl( 0.10, 0, MAX_KINETIC_FRICTION, .01, "Static Friction", "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setStaticFriction( value );
@@ -74,8 +75,23 @@ public class Force1dControlPanel extends VerticalLayoutPanel {
         controls.add( kineticFriction );
 
         controls.setBorder( Force1DUtil.createTitledBorder( "Controls" ) );
-        setAnchor( GridBagConstraints.CENTER );
-        setFill( GridBagConstraints.NONE );
+        //TODO for vertical layout panel.
+//        setAnchor( GridBagConstraints.CENTER );
+//        setFill( GridBagConstraints.NONE );
+
+
+        final JCheckBox barriers = new JCheckBox( "Barriers" );
+        barriers.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                if( !barriers.isSelected() ) {
+                    module.getForceModel().setBoundsOpen();
+                }
+                else {
+                    module.getForceModel().setBoundsWalled();
+                }
+            }
+        } );
+        add( barriers );
         add( controls );
         model.getBlock().addListener( new Block.Listener() {
             public void positionChanged() {
@@ -112,6 +128,10 @@ public class Force1dControlPanel extends VerticalLayoutPanel {
             }
         } );
         setup( module.imageElementAt( 0 ) );
+
+//        DefaultPlaybackPanel dpp = new DefaultPlaybackPanel( module.getForceModel().getPlotDeviceModel() );
+//        add( dpp );
+        super.setHelpPanelEnabled( true );
     }
 
     private void setup( Force1dObject force1dObject ) {

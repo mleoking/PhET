@@ -25,57 +25,55 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
     private BlockGraphic blockGraphic;
     private WalkwayGraphic container;
     private int y = 50;
-    private int maxArrowLength = 150;
 
-    public OffscreenPointerGraphic( final Force1DPanel component, final BlockGraphic blockGraphic, final WalkwayGraphic container ) {
+    public OffscreenPointerGraphic( final Force1DPanel component, final BlockGraphic blockGraphic, final WalkwayGraphic walkway ) {
         super( component );
         this.blockGraphic = blockGraphic;
-        this.container = container;
+        this.container = walkway;
 
-//        textGraphic = new PhetShadowTextGraphic( component, "", font, 0, 0, Color.blue, 2, 2, Color.white );
         textGraphic = new PhetTextGraphic( component, font, "", Color.blue, 0, 0 );
         Stroke stroke = new BasicStroke( 1.0f );
         arrowGraphic = new PhetShapeGraphic( component, null, Color.yellow, stroke, Color.black );
         addGraphic( textGraphic );
         addGraphic( arrowGraphic );
 
-
-//        final PhetShapeGraphic debugShapeGraphic=new PhetShapeGraphic( component,null,new BasicStroke( 3.0f),Color.green );
-//        component.addGraphic( debugShapeGraphic,Double.POSITIVE_INFINITY );
-//        final PhetShapeGraphic containerDebugGraphic=new PhetShapeGraphic( component,null,new BasicStroke( 3.0f),Color.yellow );
-//        component.addGraphic( containerDebugGraphic,Double.POSITIVE_INFINITY );
         blockGraphic.addPhetGraphicListener( new PhetGraphicListener() {
             public void phetGraphicChanged( PhetGraphic phetGraphic ) {
-                boolean neg = blockGraphic.getX() <= 0;
-                boolean pos = blockGraphic.getX() >= component.getWidth();
+                boolean neg = blockGraphic.getBounds().getX() <= walkway.getBounds().getX();
+                boolean pos = blockGraphic.getBounds().getX() >= walkway.getBounds().getX() + walkway.getWidth();
                 int insetX = 30;
                 if( neg || pos ) {
                     Block block = blockGraphic.getBlock();
                     double x = block.getPosition();
                     String locStr = decimalFormat.format( x );
                     textGraphic.setText( locStr + " meters" );
-//                    setBoundsDirty();
+//                    int yRel = 10;
+                    int yRel = textGraphic.getHeight() + 10;
 
-                    int yRel = 10;
-                    Point2D.Double source = new Point2D.Double( 0, yRel );
-                    Point2D.Double dst = new Point2D.Double( x, yRel );
+                    Point2D.Double source = new Point2D.Double( textGraphic.getWidth() / 2, yRel );
+                    Point2D.Double dst = new Point2D.Double( source.getX() + x, yRel );
                     AbstractVector2D arrowVector = new Vector2D.Double( source, dst );
+                    int maxArrowLength = textGraphic.getWidth() / 2;
                     if( arrowVector.getMagnitude() > maxArrowLength ) {
                         arrowVector = arrowVector.getInstanceOfMagnitude( maxArrowLength );
                     }
+
                     Arrow arrow = new Arrow( source, arrowVector.getDestination( source ), 20, 20, 10, 0.2, true );
                     Shape shape = arrow.getShape();
+
                     arrowGraphic.setShape( shape );
                     setBoundsDirty();
                     Rectangle bounds = getBounds();
-
-//                    debugShapeGraphic.setShape( bounds );
-//                    containerDebugGraphic.setShape( container.getBounds() );
                     if( pos ) {
-                        setLocation( container.getX() + container.getWidth() - bounds.width - insetX, y );
+                        //TODO these used to use walkway.getX(), when that meant x on the screen.
+                        setLocation( (int)( walkway.getBounds().getX() + walkway.getWidth() - bounds.width - insetX ), y );
                     }
                     else {
-                        setLocation( container.getX() + insetX, y );
+//                        int x1 = walkway.getX();
+//                        int x2 = (int)walkway.getBounds().getX();
+//                        System.out.println( "x1 = " + x1 + ", x2=" + x2 );
+//                        setLocation( walkway.getX() + insetX, y );
+                        setLocation( (int)( walkway.getBounds().getX() + insetX ), y );
                     }
                     setVisible( true );
                 }
@@ -87,5 +85,13 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
             public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
             }
         } );
+    }
+
+    public PhetTextGraphic getTextGraphic() {
+        return textGraphic;
+    }
+
+    public PhetShapeGraphic getArrowGraphic() {
+        return arrowGraphic;
     }
 }

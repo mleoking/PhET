@@ -23,7 +23,7 @@ public class Force1DPlotDeviceView implements PlotDeviceView {
     }
 
     public void relayout() {
-        module.relayout();
+        module.relayoutPlots();
     }
 
     public Color getBackgroundColor() {
@@ -35,9 +35,11 @@ public class Force1DPlotDeviceView implements PlotDeviceView {
     }
 
     public void repaintBackground() {
+        module.relayoutPlots();
     }
 
     public void repaintBackground( Rectangle viewBounds ) {
+        module.relayoutPlots();
     }
 
 //    public BufferedPhetGraphic getBackground() {

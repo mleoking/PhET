@@ -4,7 +4,10 @@ package edu.colorado.phet.forces1d.view;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.Force1DUtil;
@@ -34,8 +37,8 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
     private FreeBodyDiagram.ForceArrow mg;
     private FreeBodyDiagram.ForceArrow normal;
     private FreeBodyDiagram.ForceArrow appliedForce;
-    double yScale = 1.0 / 30.0;
-    double xScale = 0.1;
+    private double yScale = 1.0 / 30.0;
+    private double xScale = 0.1;
     private ForceArrow frictionForce;
     private ForceArrow netForce;
     private Force1DLookAndFeel laf;
@@ -51,6 +54,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
         addGraphic( background );
         axes = new AxesGraphic( component );
         addGraphic( axes );
+        axes.setVisible( false );
 
         mg = new ForceArrow( component, this, laf.getWeightColor(), "mg", new Vector2D.Double( 0, 80 ) );
         addForceArrow( mg );
@@ -58,13 +62,14 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
         normal = new ForceArrow( component, this, laf.getNormalColor(), "N", new Vector2D.Double( 0, 80 ) );
         addForceArrow( normal );
 
-        appliedForce = new ForceArrow( component, this, laf.getAppliedForceColor(), "Fa", new Vector2D.Double() );
+//        appliedForce = new ForceArrow( component, this, laf.getAppliedForceColor(), "Fa", new Vector2D.Double() );
+        appliedForce = new ForceArrow( component, this, laf.getAppliedForceColor(), "<html>F<sub>a</html>", new Vector2D.Double() );
         addForceArrow( appliedForce );
 
-        frictionForce = new ForceArrow( component, this, laf.getFrictionForceColor(), "Ff", new Vector2D.Double() );
+        frictionForce = new ForceArrow( component, this, laf.getFrictionForceColor(), "<html>F<sub>f</html>", new Vector2D.Double() );
         addForceArrow( frictionForce );
 
-        netForce = new ForceArrow( component, this, laf.getNetForceColor(), "Fnet", new Vector2D.Double() );
+        netForce = new ForceArrow( component, this, laf.getNetForceColor(), "<html>F<sub>net</html>", new Vector2D.Double() );
         addForceArrow( netForce );
 
         netForce.setOrigin( 0, 30 );
@@ -79,8 +84,9 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
                 model.setAppliedForce( appliedForceRequest );
             }
         } );
-        PhetTextGraphic titleGraphic = new PhetTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 12 ), "Free Body Diagram", Color.blue, 0, 0 );
+        PhetTextGraphic titleGraphic = new PhetTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 12 ), "Free Body Diagram", Color.blue, 20, 0 );
         addGraphic( titleGraphic );
+        setCursorHand();
     }
 
     private void updateXForces() {
@@ -126,11 +132,12 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
 
     public static class ForceArrow extends CompositePhetGraphic {
         private PhetShapeGraphic shapeGraphic;
-        private PhetShadowTextGraphic textGraphic;
+        private PhetGraphic textGraphic;
         private FreeBodyDiagram fbd;
         private double dx;
         private double dy;
         private String name;
+        private Arrow lastArrow;
 
         public ForceArrow( Component component, FreeBodyDiagram fbd, Color color, String name, Vector2D.Double v ) {
             super( component );
@@ -139,7 +146,8 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             shapeGraphic = new PhetShapeGraphic( component, null, Force1DUtil.transparify( color, 150 ), new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), Force1DUtil.transparify( Color.black, 128 ) );
             addGraphic( shapeGraphic );
             Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
-            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, color, 1, 1, Color.black );
+//            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, color, 1, 1, Color.black );
+            textGraphic = new HTMLGraphic( component, name, font, color );
             addGraphic( textGraphic );
             setVector( v );
         }
@@ -154,7 +162,10 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             origin = new Point2D.Double( origin.getX() + dx, origin.getY() + dy );
             Arrow arrow = new Arrow( origin, v.getDestination( origin ), 30, 30, 10, 0.5, true );
             Shape sh = arrow.getShape();
-            shapeGraphic.setShape( sh );
+            if( lastArrow == null || !lastArrow.equals( arrow ) ) {
+                shapeGraphic.setShape( sh );
+            }
+            lastArrow = arrow;
 
             Rectangle b = sh.getBounds();
             Point ctr = RectangleUtils.getCenter( b );

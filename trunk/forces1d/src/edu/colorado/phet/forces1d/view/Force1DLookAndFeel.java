@@ -10,11 +10,14 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class Force1DLookAndFeel {
-    private Color appliedForceColor = Color.green;
-    private Color netForceColor = Color.blue;
+    private Color appliedForceColor = Color.blue;
+    private Color netForceColor = Color.green;
     private Color frictionForceColor = Color.red;
     private Color weightColor = Color.magenta;
     private Color normalColor = Color.orange;
+    private Color accelColor = Color.blue;
+    private Color velColor = Color.red;
+    private Color positionColor = Color.green;
 
     public Color getAppliedForceColor() {
         return appliedForceColor;
@@ -34,5 +37,17 @@ public class Force1DLookAndFeel {
 
     public Color getNormalColor() {
         return normalColor;
+    }
+
+    public Color getAccelerationColor() {
+        return accelColor;
+    }
+
+    public Color getVelocityColor() {
+        return velColor;
+    }
+
+    public Color getPositionColor() {
+        return positionColor;
     }
 }
