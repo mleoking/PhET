@@ -42,7 +42,7 @@ public class TestParametricCoil extends JComponent {
     private static final Color END_POINT_COLOR = Color.BLUE;
     
     // Debugging parameters
-    private static final boolean DRAW_POINTS = true;
+    private static final boolean DRAW_POINTS = false;
     private static final boolean DRAW_ORIGIN = false;
     private static final boolean DRAW_FRONT = true;
     private static final boolean DRAW_BACK = true;
@@ -267,32 +267,44 @@ public class TestParametricCoil extends JComponent {
         for ( int i = 0; i < _numberOfLoops && DRAW_BACK; i++ ) {
             
             int offset = firstLoopCenter + ( i * loopSpacing );
-            
-            g2.setPaint( new GradientPaint( 0, (int)(_radius * .40), LOOP_DARKEST_COLOR, 0, (int)(_radius * .90), LOOP_MIDDLE_COLOR ) );
-            
+                        
             // Back bottom
             {
+                g2.setPaint( new GradientPaint( 0, (int)(_radius * 0.92), LOOP_DARKEST_COLOR, 0, (int)(_radius), LOOP_MIDDLE_COLOR ) );
                 Point e1 = new Point( (int)(_radius * .25) + offset, 0 );
                 Point e2 = new Point( offset, (int)(_radius) );
                 Point c = new Point( (int)(_radius * .35) + offset, (int)(_radius * 1.2) );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
             
-            // Back top
-            {
-                Point e1 = new Point( (int)(_radius * .25) + offset, 0 );
-                Point e2 = new Point( -loopSpacing + (int)(_radius * .15) + offset, -_radius );
-                Point c = new Point( (int)(_radius * .15) + offset, (int)(-_radius * .70));
-                drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
+            if ( i != 0 ) {
+                // Back top
+                {
+                    g2.setPaint( new GradientPaint( 0, (int)-(_radius), LOOP_MIDDLE_COLOR, 0, (int)-(_radius * 0.92), LOOP_DARKEST_COLOR ) );
+                    Point e1 = new Point( (int) ( _radius * .25 ) + offset, 0 );
+                    Point e2 = new Point( -loopSpacing + offset, -_radius );
+                    Point c = new Point( (int) ( _radius * .15 ) + offset, (int) ( -_radius * 1.2 ) );
+                    drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
+                }
             }
-
-            // Left connection wire
-            if ( i == 0 ) {
-                Point e1 = new Point( -loopSpacing + (int)(_radius * .15) + offset, -_radius );
-                Point e2 = new Point( e1.x - 15, e1.y - 40 );
-                Point c = new Point( e1.x - 20, e1.y - 20 );
-                g2.setPaint( new GradientPaint( e2.x, 0, LOOP_MIDDLE_COLOR, e1.x, 0, LOOP_DARKEST_COLOR ) );
-                drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
+            else {
+                // Back top (left-most)
+                {
+                    g2.setPaint( LOOP_DARKEST_COLOR );
+                    Point e1 = new Point( (int) ( _radius * .25 ) + offset, 0 );
+                    Point e2 = new Point( -loopSpacing/2 + offset, -_radius );
+                    Point c = new Point( (int) ( _radius * .15 ) + offset, (int) ( -_radius * .70 ) );
+                    drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
+                }
+                
+                // Left connection wire
+                if ( i == 0 ) {
+                    Point e1 = new Point( -loopSpacing/2 + offset, -_radius );
+                    Point e2 = new Point( e1.x - 15, e1.y - 40 );
+                    Point c = new Point( e1.x - 20, e1.y - 20 );
+                    g2.setPaint( new GradientPaint( e2.x, 0, LOOP_MIDDLE_COLOR, e1.x, 0, LOOP_DARKEST_COLOR ) );
+                    drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
+                }
             }
         }
         
@@ -311,30 +323,20 @@ public class TestParametricCoil extends JComponent {
             }
             
             // Front top
-            if ( i < _numberOfLoops - 1 )
             {
                 Point e1 = new Point( (int) ( -_radius * .25 ) + offset, 0 );
-                Point e2 = new Point( (int) ( _radius * .15 ) + offset, -_radius );
-                Point c = new Point( (int) ( -_radius * .20 ) + offset, (int) ( -_radius * 1.30 ) );
+                Point e2 = new Point( offset, -_radius );
+                Point c = new Point( (int) ( -_radius * .25 ) + offset, (int) ( -_radius * 0.8 ) );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
-            else {
-                // Front top of right-most loop (shorter than the others for joining with connection wire)
-                {
-                    Point e1 = new Point( (int) ( -_radius * .25 ) + offset, 0 );
-                    Point e2 = new Point( -loopSpacing + (int) ( _radius * .25 ) + offset, -_radius );
-                    Point c = new Point( (int) ( -_radius * .25 ) + offset, (int) ( -_radius * .8 ) );
-                    drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
-                }
 
-                // Right connection wire
-                {
-                    g2.setPaint( LOOP_MIDDLE_COLOR );
-                    Point e1 = new Point( -loopSpacing + (int) ( _radius * .25 ) + offset, -_radius );
-                    Point e2 = new Point( e1.x + 15, e1.y - 40 );
-                    Point c = new Point( e1.x + 20, e1.y - 20 );
-                    drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
-                }
+            // Right connection wire
+            if ( i == _numberOfLoops - 1 ) {
+                g2.setPaint( LOOP_MIDDLE_COLOR );
+                Point e1 = new Point( offset, -_radius );
+                Point e2 = new Point( e1.x + 15, e1.y - 40 );
+                Point c = new Point( e1.x + 20, e1.y - 20 );
+                drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
         }
         
