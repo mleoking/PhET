@@ -146,6 +146,7 @@ public class MagnetAndCoilModule extends Module {
             new CompassGridGraphic( apparatusPanel, magnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
         gridGraphic.setLocation( GRID_LOCATION );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        gridGraphic.setVisible( false );
         apparatusPanel.addGraphic( gridGraphic, GRID_LAYER );
         
         // CompassGraphic
