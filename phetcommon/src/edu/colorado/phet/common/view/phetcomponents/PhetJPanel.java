@@ -9,11 +9,11 @@
  * Date modified : $Date: 
  */
 
-package edu.colorado.phet.common.tests.phetjcomponents;
+package edu.colorado.phet.common.view.phetcomponents;
 
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.ApparatusPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,6 @@ import java.awt.*;
 public class PhetJPanel extends GraphicLayerSet {
 
     /**
-     *
      * @param ap
      * @param jp
      */
@@ -38,7 +37,8 @@ public class PhetJPanel extends GraphicLayerSet {
         dummyFrame.pack();
 
         // Add a PhetJComponent for the the JPanel itself
-        this.addGraphic( new PhetJComponent( ap, jp ) );
+        PhetGraphic graphic = PhetJComponent.newInstance( ap, jp );
+        this.addGraphic( graphic );
 
         // Go through the components in the JPanel and add aPhetJComponent for
         // each of them. Use the location that Swing determined for the JComponent
@@ -50,7 +50,8 @@ public class PhetJPanel extends GraphicLayerSet {
             Point location = new Point( (int)component.getLocation().getX(),
                                         (int)component.getLocation().getY() );
             if( component instanceof JComponent ) {
-                pjc = new PhetJComponent( ap, (JComponent)component );
+//                pjc = new PhetJComponent( ap, (JComponent)component );
+                pjc = PhetJComponent.newInstance( ap, jp );
             }
             if( component instanceof JPanel ) {
                 pjc = new PhetJPanel( ap, (JPanel)component );
