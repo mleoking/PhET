@@ -16,6 +16,7 @@ HIGH PRIORITY:
 - collision detection between magnet and coil
 
 MEDIUM PRIORITY:
+- is CompassGraphic.setVisible needed?
 - disable "See Inside Magnet" control when grid is off
 - optimize performance
 - check performance with a profiler
