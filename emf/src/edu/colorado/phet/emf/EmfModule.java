@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.coreadditions.PhetControlPanel;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
@@ -62,7 +63,7 @@ public class EmfModule extends Module {
 
 
     public EmfModule( AbstractClock clock ) {
-        super( "EMF" );
+        super( SimStrings.get( "ModuleTitle.EmfModule" ) );
         super.setModel( new EmfModel( clock ) );
 
         final Point origin = new Point( 125, 300 );
@@ -149,9 +150,7 @@ public class EmfModule extends Module {
         createWiggleMeGraphic( origin, mvTx );
 
         // Create some help items
-        HelpItem helpItem1 = new HelpItem( "Move the electron with the mouse,\n" +
-                                           "or click on \"Oscillate\" on the \n" +
-                                           "control panel",
+        HelpItem helpItem1 = new HelpItem( SimStrings.get( "EmfModule.help1" ),
                                            origin.getX() + 15, origin.getY() + 10,
                                            HelpItem.RIGHT, HelpItem.BELOW );
         helpItem1.setForegroundColor( Color.black);
@@ -180,8 +179,8 @@ public class EmfModule extends Module {
                                      ( current.y + ( stop.y - current.y ) * .04 ) );
                 g.setFont( font );
                 g.setColor( new Color( 0, 100, 0 ) );
-                String s1 = "Wiggle the";
-                String s2 = "electron!";
+                String s1 = SimStrings.get( "EmfModule.Wiggle" );
+                String s2 = SimStrings.get( "EmfModule.Electron" );
                 g.drawString( s1, (int)current.getX(), (int)current.getY() - g.getFontMetrics( font ).getHeight() );
                 g.drawString( s2, (int)current.getX(), (int)current.getY() );
                 Point2D.Double arrowTail = new Point2D.Double( current.getX() + SwingUtilities.computeStringWidth( g.getFontMetrics( font ), s2 ) + 10,
@@ -234,12 +233,12 @@ public class EmfModule extends Module {
             stripChartDlg.getContentPane().setLayout( new GridBagLayout() );
             new StripChartDelegate( receivingElectron, receiverStripChart );
             new StripChartDelegate( electron, senderStripChart );
-            stripChartDlg.setTitle( "Electron Positions" );
+            stripChartDlg.setTitle( SimStrings.get( "EmfModule.ChartTitle" ) );
 
             try {
                 int rowIdx = 0;
                 GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(),
-                                                  new JLabel( "Transmitter" ),
+                                                  new JLabel( SimStrings.get( "EmfModule.Transmitter" ) ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.WEST );
@@ -249,12 +248,12 @@ public class EmfModule extends Module {
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.WEST );
                 GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(),
-                                                  new JLabel( "<html>Time<br></html>" ),
+                                                  new JLabel( SimStrings.get( "EmfModule.TimeLabel" ) ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
                 GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(),
-                                                  new JLabel( "Receiver" ),
+                                                  new JLabel( SimStrings.get( "EmfModule.Receiver" ) ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.WEST );
@@ -264,7 +263,7 @@ public class EmfModule extends Module {
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.WEST );
                 GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(),
-                                                  new JLabel( "<html>Time<br></html>" ),
+                                                  new JLabel( SimStrings.get( "EmfModule.TimeLabel" ) ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );

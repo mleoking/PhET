@@ -8,6 +8,7 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.MessageFormatter;
 import edu.colorado.phet.emf.Config;
 import edu.colorado.phet.emf.EmfModule;
@@ -82,13 +83,13 @@ public class EmfControlPanel extends JPanel {
      */
     private class OptionControlPane extends JPanel {
         //        JCheckBox autoscaleCB = new JCheckBox( MessageFormatter.format( ( "Autoscale vectors" ) ) );
-        private JRadioButton fullFieldRB = new JRadioButton( "Full field" );
-        private JRadioButton splineCurveWVectorsRB = new JRadioButton( "Curve with Vectors" );
-        private JRadioButton splineCurveRB = new JRadioButton( "Curve" );
-        JRadioButton hideFieldRB = new JRadioButton( "None" );
-        private JCheckBox stripChartCB = new JCheckBox( "Display strip chart" );
-        private JRadioButton staticFieldRB = new JRadioButton( "Static field" );
-        private JRadioButton dynamicFieldRB = new JRadioButton( "Radiated field " );
+        private JRadioButton fullFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.FullRadioButton" ) );
+        private JRadioButton splineCurveWVectorsRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveVectorsRadioButton" ) );
+        private JRadioButton splineCurveRB = new JRadioButton( SimStrings.get( "EmfControlPanel.CurveRadioButton" ) );
+        JRadioButton hideFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.NoneRadioButton" ) );
+        private JCheckBox stripChartCB = new JCheckBox( SimStrings.get( "EmfControlPanel.StripChartCheckBox" ) );
+        private JRadioButton staticFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.StaticFieldRadioButton" ) );
+        private JRadioButton dynamicFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.RadiatedFieldRadioButton" ) );
         private ButtonGroup fieldDisplayRBGroup;
 
         OptionControlPane() {
@@ -100,7 +101,7 @@ public class EmfControlPanel extends JPanel {
             fieldTypeRBGroup.add( dynamicFieldRB );
             fieldTypeRBGroup.add( staticFieldRB );
             JPanel fieldVectorPane = new JPanel( new GridLayout( 2, 1 ) );
-            fieldVectorPane.setBorder( BorderFactory.createTitledBorder( "Field Displayed" ) );
+            fieldVectorPane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldVectorBorder" ) ) );
             fieldVectorPane.add( dynamicFieldRB );
             fieldVectorPane.add( staticFieldRB );
 
@@ -114,7 +115,7 @@ public class EmfControlPanel extends JPanel {
             fieldDisplayRBGroup.add( fullFieldRB );
             fullFieldRB.addActionListener( new DisplayTypeRBActionListener() );
             JPanel fieldDisplayPane = new JPanel( new GridLayout( 4, 1 ) );
-            fieldDisplayPane.setBorder( BorderFactory.createTitledBorder( "Display Type" ) );
+            fieldDisplayPane.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldDisplayBorder" ) ) );
             fieldDisplayPane.add( splineCurveWVectorsRB );
             fieldDisplayPane.add( splineCurveRB );
             fieldDisplayPane.add( fullFieldRB );
@@ -128,7 +129,7 @@ public class EmfControlPanel extends JPanel {
             // Field sense options
             ButtonGroup fieldSenseRBGroup = new ButtonGroup();
             JPanel fieldSensePane = new JPanel( new GridLayout( 2, 1 ) );
-            JRadioButton fFieldRB = new JRadioButton( MessageFormatter.format( "Force on\nelectron" ) );
+            JRadioButton fFieldRB = new JRadioButton( MessageFormatter.format( SimStrings.get( "EmfControlPanel.ForceFieldRadioButton" ) ) );
             fFieldRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setFieldSense( FieldLatticeView.FORCE_ON_ELECTRON );
@@ -136,7 +137,7 @@ public class EmfControlPanel extends JPanel {
             } );
             fieldSenseRBGroup.add( fFieldRB );
             fieldSensePane.add( fFieldRB );
-            JRadioButton eFieldRB = new JRadioButton( "Electric field" );
+            JRadioButton eFieldRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ElectricFieldRadioButton" ) );
             eFieldRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setFieldSense( FieldLatticeView.ELECTRIC_FIELD );
@@ -144,7 +145,7 @@ public class EmfControlPanel extends JPanel {
             } );
             fieldSenseRBGroup.add( eFieldRB );
             fieldSensePane.add( eFieldRB );
-            TitledBorder fieldSenseBorder = BorderFactory.createTitledBorder( "Field Sense" );
+            TitledBorder fieldSenseBorder = BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.FieldSenseBorder" ) );
             fieldSensePane.setBorder( fieldSenseBorder );
 
             // Option check boxes
@@ -166,14 +167,14 @@ public class EmfControlPanel extends JPanel {
                 }
             } );
 
-            JButton recenterButton = new JButton( "Recenter" );
+            JButton recenterButton = new JButton( SimStrings.get( "EmfControlPanel.RecenterButton" ) );
             recenterButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.recenterElectrons();
                 }
             } );
 
-            final JCheckBox useBufferedImageCB = new JCheckBox( "Use buffered image" );
+            final JCheckBox useBufferedImageCB = new JCheckBox( SimStrings.get( "EmfControlPanel.UseBufferedImageCheckBox" ) );
             useBufferedImageCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setUseBufferedImage( useBufferedImageCB.isSelected() );
@@ -265,9 +266,9 @@ public class EmfControlPanel extends JPanel {
      */
     private class MovementControlPane extends JPanel {
 
-        JRadioButton sineRB = new JRadioButton( "Oscillate" );
-        JRadioButton manualRB = new JRadioButton( "Manual" );
-        JCheckBox coordinateFACB = new JCheckBox( MessageFormatter.format( "Coordinate frequency\nand amplitude" ) );
+        JRadioButton sineRB = new JRadioButton( SimStrings.get( "EmfControlPanel.OscillateRadioButton" ) );
+        JRadioButton manualRB = new JRadioButton( SimStrings.get( "EmfControlPanel.ManualRadioButton" ) );
+        JCheckBox coordinateFACB = new JCheckBox( MessageFormatter.format( SimStrings.get( "EmfControlPanel.CoordinateFACheckBox" ) ) );
         ButtonGroup rbGroup = new ButtonGroup();
         JSlider freqSlider = new JSlider( 0, 200, 100 );
         int maxAmplitude = 100;
@@ -282,7 +283,7 @@ public class EmfControlPanel extends JPanel {
             rbGroup.add( manualRB );
             EtchedBorder etchedBorder = (EtchedBorder)BorderFactory.createEtchedBorder();
             this.setBorder( etchedBorder );
-            this.setBorder( BorderFactory.createTitledBorder( "Transmitter Movement" ) );
+            this.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.TransmitterMovementBorder" ) ) );
 
             sineRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -336,7 +337,7 @@ public class EmfControlPanel extends JPanel {
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
-                freqLabel = new JLabel( "Frequency" );
+                freqLabel = new JLabel( SimStrings.get( "EmfControlPanel.FrequencyLabel" ) );
                 GraphicsUtil.addGridBagComponent( this, freqLabel,
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
@@ -345,7 +346,7 @@ public class EmfControlPanel extends JPanel {
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.CENTER );
-                ampLabel = new JLabel( "Amplitude" );
+                ampLabel = new JLabel( SimStrings.get( "EmfControlPanel.AmplitudeLabel" ) );
                 GraphicsUtil.addGridBagComponent( this, ampLabel,
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
@@ -392,7 +393,7 @@ public class EmfControlPanel extends JPanel {
 
         Legend() {
             setLayout( new GridBagLayout() );
-            this.setBorder( BorderFactory.createTitledBorder( "Legend" ) );
+            this.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "EmfControlPanel.LegendBorder" ) ) );
             ImageIcon electronImg = null;
             try {
                 electronImg = new ImageIcon( ImageLoader.loadBufferedImage( Config.smallElectronImg ) );
@@ -402,7 +403,8 @@ public class EmfControlPanel extends JPanel {
             }
             int rowIdx = 0;
             try {
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Electron", electronImg, SwingConstants.LEFT ),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "EmfControlPanel.ElectronLabel" ),
+                                                  electronImg, SwingConstants.LEFT ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
