@@ -10,7 +10,6 @@ package edu.colorado.phet.instrumentation;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Observable;
 
 public class BarGauge extends AbstractGauge {
 
@@ -78,7 +77,6 @@ public class BarGauge extends AbstractGauge {
                          location.getY() + maxScreenLevel - screenLevel,
                          bar.getWidth(),
                          screenLevel );
-            System.out.println( "screenLevel = " + screenLevel + "   level = " + level );
         }
         else {
             double newMaxX = bar.getMaxX() - level / 1000;

@@ -7,7 +7,6 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.*;
@@ -25,8 +24,7 @@ import java.text.NumberFormat;
 /**
  * This panel displays the composite state of all gas species in the system
  */
-public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver {
-    //public class GasMonitorPanel extends MonitorPanel {
+public class GasMonitorPanel extends JPanel {
 
     private Method[] temperatureMethods;
     private Method[] moleculeCountMethods;
@@ -59,7 +57,6 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
      */
     public GasMonitorPanel( Class[] speciesClasses, IdealGasModel model ) {
         this.model = model;
-        //        model.addObserver( this );
         linkToSpeciesClasses( speciesClasses );
         init();
     }
@@ -68,8 +65,6 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
      *
      */
     private void init() {
-
-        setUpdateInterval( 500 );
 
         this.setPreferredSize( new Dimension( 400, 120 ) );
         Border border = new TitledBorder( "Gas Properties" );
@@ -154,8 +149,6 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
     long then = 0;
 
     public void update() {
-        //    public void update( Observable observable, Object o ) {
-
 
         // Get the temperature
         double temperature = this.getTemperature();
@@ -186,32 +179,22 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
         runningTotalTemp += temperature;
         runningTotalPress += pressure;
 
-        if( now - getLastUpdateTime() >= getUpdateInterval() ) {
-
-            setLastUpdateTime( now );
-
-            //Display the text readings
-            if( Double.isNaN( temperature ) ) {
-                temperature = 0;
-            }
-            temperatureTF.setText( temperatureFormat.format( temperature * s_temperatureReadoutFactor ) );
-
-            // Set the graphic displays
-            thermometerFillHeight = (int)( runningTotalTemp / ( sampleCnt * 8000 ) );
-            thermometerFillHeight = thermometerFillHeight / scaleFactor;
-            //            pressureGauge.setLevel( runningTotalPress / sampleCnt );
-
-            runningTotalPress = 0;
-            runningTotalTemp = 0;
-            sampleCnt = 0;
-            this.invalidate();
-            this.repaint();
+        //Display the text readings
+        if( Double.isNaN( temperature ) ) {
+            temperature = 0;
         }
-        else { // if( now - getLastUpdateTime() >= getUpdateInterval() )
-            //            sampleCnt++;
-            //            runningTotalTemp += temperature;
-            //            runningTotalPress += pressure;
-        }
+        temperatureTF.setText( temperatureFormat.format( temperature * s_temperatureReadoutFactor ) );
+
+        // Set the graphic displays
+        thermometerFillHeight = (int)( runningTotalTemp / ( sampleCnt * 8000 ) );
+        thermometerFillHeight = thermometerFillHeight / scaleFactor;
+        //            pressureGauge.setLevel( runningTotalPress / sampleCnt );
+
+        runningTotalPress = 0;
+        runningTotalTemp = 0;
+        sampleCnt = 0;
+        this.invalidate();
+        this.repaint();
 
         if( model.getBox() != null ) {
             // Scale factor is the same one used by the graphical pressure slice

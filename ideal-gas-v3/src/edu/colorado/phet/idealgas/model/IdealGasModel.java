@@ -111,19 +111,19 @@ public class IdealGasModel extends BaseModel {
     /**
      *
      */
-    public void setGravity( Gravity gravity ) {
-        // We remove first, then add. This handles situations where
-        // gravity is already in the system, and when it is not
-        if( gravity != null ) {
-            this.removeExternalForce( gravity );
-            this.addExternalForce( gravity );
-        }
-        else {
-            this.removeExternalForce( this.gravity );
-        }
-        this.gravity = gravity;
-        notifyObservers();
-    }
+    //    public void setGravity( Gravity gravity ) {
+    //        // We remove first, then add. This handles situations where
+    //        // gravity is already in the system, and when it is not
+    //        if( gravity != null ) {
+    //            this.removeExternalForce( gravity );
+    //            this.addExternalForce( gravity );
+    //        }
+    //        else {
+    //            this.removeExternalForce( this.gravity );
+    //        }
+    //        this.gravity = gravity;
+    //        notifyObservers();
+    //    }
 
     /**
      *
@@ -218,6 +218,12 @@ public class IdealGasModel extends BaseModel {
         // Managing energy step 1: Get the amount of kinetic energy in the system
         // before anything happens
         double totalPreKE = this.getTotalKineticEnergy();
+
+        // Clear the accelerations on the bodies in the model
+        //        for( int i = 0; i < bodies.size(); i++ ) {
+        //            Body body = (Body)bodies.get( i );
+        //            body.setAccelerationNoUpdate( 0, 0 );
+        //        }
 
         addHeatFromStove();
 

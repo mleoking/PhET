@@ -8,7 +8,6 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
@@ -28,7 +27,7 @@ import java.util.Random;
 
 public class IdealGasControlPanel extends JPanel {
 
-    private Gravity gravity = new Gravity( 0 );
+    //    private Gravity gravity = new Gravity( 0 );
     private NumberFormat gravityFormat = NumberFormat.getInstance();
     private JTextField gravityTF;
     private JCheckBox gravityOnCB;
@@ -144,6 +143,7 @@ public class IdealGasControlPanel extends JPanel {
         JPanel rightPanel = new JPanel( new GridLayout( 1, 1 ) );
 
         // Add control for gravity, set default to OFF
+        //        gravitySlider = new JSlider( JSlider.VERTICAL, 0, 5000, 0 );
         gravitySlider = new JSlider( JSlider.VERTICAL, 0, s_gravityControlPanelHeight - 30, 0 );
         gravityOnCB = new JCheckBox( "On" );
         leftPanel.add( gravityOnCB );
@@ -321,15 +321,14 @@ public class IdealGasControlPanel extends JPanel {
 
         gravityTF.setText( gravityFormat.format( value ) );
         if( !isEnabled ) {
-            module.setGravity( null );
-            //            this.application.setGravity( null );
+            module.setGravity( 0 );
+            //            module.setGravity( null );
         }
         else {
-
+            module.setGravity( value );
             // The "-" sign is to work with screen and world coords
-            gravity.setAmt( -value );
-            module.setGravity( gravity );
-            //            this.application.setGravity( gravity );
+            //            gravity.setAmt( -value );
+            //            module.setGravity( gravity );
         }
     }
 

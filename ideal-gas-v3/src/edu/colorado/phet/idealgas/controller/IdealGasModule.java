@@ -24,7 +24,7 @@ import java.awt.geom.Point2D;
 public class IdealGasModule extends Module {
     private IdealGasModel idealGasModel;
     private PressureSensingBox box;
-    private Gravity gravity = new Gravity( 0 );
+    private Gravity gravity;
     private Pump pump;
 
     public IdealGasModule( AbstractClock clock ) {
@@ -34,7 +34,8 @@ public class IdealGasModule extends Module {
         idealGasModel = new IdealGasModel( clock.getDt() );
         setModel( idealGasModel );
 
-        //        idealGasModel.addModelElement( gravity );
+        gravity = new Gravity( idealGasModel );
+        idealGasModel.addModelElement( gravity );
 
         // Create the box
         double xOrigin = 132 + IdealGasConfig.X_BASE_OFFSET;
@@ -50,7 +51,6 @@ public class IdealGasModule extends Module {
 
         setApparatusPanel( new BaseIdealGasApparatusPanel( this, box, pump ) );
         IdealGasMonitorPanel monitorPanel = new IdealGasMonitorPanel( idealGasModel );
-        idealGasModel.addObserver( monitorPanel );
         setMonitorPanel( monitorPanel );
 
         // Set up the box
@@ -80,9 +80,10 @@ public class IdealGasModule extends Module {
         ( (BaseIdealGasApparatusPanel)getApparatusPanel() ).setStove( value );
     }
 
-    public void setGravity( Gravity gravity ) {
-        System.out.println( "not implemented" );
-    }
+    //    public void setGravity( Gravity gravity ) {
+    ////        idealGasModel.setGravityEnabled( false );
+    //        idealGasModel.setGravity( gravity );
+    //    }
 
     public void setPressureSliceEnabled( boolean selected ) {
         System.out.println( "not implemented" );
@@ -90,5 +91,9 @@ public class IdealGasModule extends Module {
 
     public void setRulerEnabed( boolean selected ) {
         System.out.println( "not implemented" );
+    }
+
+    public void setGravity( double value ) {
+        gravity.setAmt( value );
     }
 }
