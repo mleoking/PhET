@@ -140,7 +140,7 @@ public class GenericRescaler implements IRescaler {
             }
             else {
                 double exponent = _maxExponent - ( referenceScale * ( _maxExponent - _minExponent ) );
-                newScale = Math.pow( scale / _threshold, exponent );
+                newScale = referenceScale * Math.pow( scale / _threshold, exponent );
                 newScale = MathUtil.clamp( 0, newScale, 1 );
             }
         }
