@@ -18,7 +18,6 @@ public class Block {
     private double acceleration = 0.0;
     private ArrayList listeners = new ArrayList();
     private Force1DModel model;
-//    boolean stopped;
 
     public Block( Force1DModel model ) {
         this.model = model;

@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.view.util.Animation;
+import edu.colorado.phet.common.view.util.FrameSequence;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
@@ -21,7 +21,7 @@ public class Force1DUtil {
     private static Font borderFont = new Font( "Lucida Sans", Font.PLAIN, 12 );
 
     public static void main( String[] args ) throws IOException {
-        Animation animation = new Animation( "animations/pusher/pusher-3", 19 );
+        FrameSequence animation = new FrameSequence( "animations/pusher/pusher-3", 19 );
         System.out.println( "animation = " + animation );
         for( int i = 0; i < animation.getNumFrames(); i++ ) {
             BufferedImage image = animation.getFrame( i );

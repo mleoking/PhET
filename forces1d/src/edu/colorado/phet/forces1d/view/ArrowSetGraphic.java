@@ -73,6 +73,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         PhetShadowTextGraphic textGraphic;
         PhetShapeGraphic shapeGraphic;
         final Font font = new Font( "Lucida Sans", Font.BOLD, 13 );
+        private Arrow lastArrow;
 
         public ForceArrowGraphic( Component component, String name, Color color, int dy, ForceComponent forceComponent ) {
             super( component );
@@ -82,7 +83,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             this.forceComponent = forceComponent;
             textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, Color.black, 1, 1, Color.yellow );
             shapeGraphic = new PhetShapeGraphic( component, null, color, new BasicStroke( 1 ), Color.black );
-
+//            shapeGraphic.setAutoRepaint( false );
             addGraphic( shapeGraphic );
             addGraphic( textGraphic );
         }
@@ -103,11 +104,19 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             Point2D.Double tail = new Point2D.Double( viewCtr.x, viewCtr.y );
             Point2D tip = new Vector2D.Double( viewLength, 0 ).getDestination( tail );
             Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
+
             Shape forceArrowShape = forceArrow.getShape();
-            shapeGraphic.setShape( forceArrowShape );
-            Shape forceArrowBody = forceArrow.getTailShape();
-            textGraphic.setLocation( forceArrowBody.getBounds().x, forceArrowBody.getBounds().y + textGraphic.getHeight() );
+//            Area area=new Area( forceArrowShape );
+            if( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
+                shapeGraphic.setShape( forceArrowShape );
+
+                Shape forceArrowBody = forceArrow.getTailShape();
+                textGraphic.setLocation( forceArrowBody.getBounds().x, forceArrowBody.getBounds().y + textGraphic.getHeight() );
+            }
+//            setBoundsDirty();
+            this.lastArrow = forceArrow;
         }
+
     }
 
     private void updateForceArrows() {
@@ -115,6 +124,8 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         applied.update();
         total.update();
         checkTextOverlap();
+//        friction.repaint();
+//        applied.repaint();
     }
 
     private void checkTextOverlap() {

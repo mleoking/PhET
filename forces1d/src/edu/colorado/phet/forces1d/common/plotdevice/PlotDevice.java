@@ -9,10 +9,8 @@ import edu.colorado.phet.chart.controllers.HorizontalCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -801,16 +799,19 @@ public class PlotDevice extends CompositePhetGraphic {
             getChart().paint( g );
             Point pt = getChart().getModelViewTransform().modelToView( 15, 0 );
             pt.y -= 3;
-            textGraphic.setLocation( pt.x, pt.y );
-//            textGraphic.paint( g );
+            textGraphic.setLocation( pt.x, pt.y - textGraphic.getHeight() );
+            textGraphic.paint( g );
             Rectangle bounds = textGraphic.getBounds();
             Point2D tail = RectangleUtils.getRightCenter( bounds );
             tail = new Point2D.Double( tail.getX() + 5, tail.getY() );
-            Point2D tip = new Point2D.Double( tail.getX() + 30, tail.getY() );
-            Arrow arrow = new Arrow( tail, tip, 9, 9, 5 );
-            PhetShapeGraphic psg = new PhetShapeGraphic( plotDeviceView.getApparatusPanel(), arrow.getShape(), Color.red, new BasicStroke( 1 ), Color.black );
-            psg.paint( g );
+//            Point2D tip = new Point2D.Double( tail.getX() + 30, tail.getY() );
 
+
+//            Arrow arrow = new Arrow( tail, tip, 9, 9, 5 );
+//            PhetShapeGraphic psg = new PhetShapeGraphic( plotDeviceView.getApparatusPanel(), arrow.getShape(), Color.red, new BasicStroke( 1 ), Color.black );
+//            psg.paint( g );
+//            g.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
+//            g.drawString( "Time", (float)tail.getX(), (float)( tail.getY() - g.getFont().getStringBounds( "Time", g.getFontRenderContext() ).getHeight() ) );
 //            g.setClip( getChart().getViewBounds() );
 //            g.setColor( color );
 //            g.setStroke( stroke );

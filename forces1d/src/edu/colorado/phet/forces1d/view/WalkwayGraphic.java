@@ -1,6 +1,6 @@
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.math.LinearTransform1d;
+import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -23,28 +23,31 @@ import java.text.DecimalFormat;
  * To change this template use Options | File Templates.
  */
 public class WalkwayGraphic extends PhetGraphic {
-    private int numTickMarks = 21;
+//    private int numTickMarks = 21;
+    private int numTickMarks = 6;
     private double treex;
     private double housex;
     private Force1DModule module;
     private DecimalFormat format = new DecimalFormat( "##" );
-    private Font font = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private Font font = new Font( "Lucida Sans", Font.BOLD, 19 );
+//    private Font font = new Font( "Lucida Sans", Font.BOLD, 20 );
     private BufferedImage tree;
     private BufferedImage house;
     private Stroke borderStroke = new BasicStroke( 1 );
-    private LinearTransform1d transform;
+    private Function.LinearFunction transform;
     private int floorHeight = 4;
     private int height;
     private Rectangle floor;
 
-    public WalkwayGraphic( ApparatusPanel panel, Force1DModule module, int numTickMarks, LinearTransform1d transform ) throws IOException {
+    public WalkwayGraphic( ApparatusPanel panel, Force1DModule module, int numTickMarks, Function.LinearFunction transform ) throws IOException {
         this( panel, module, numTickMarks, -10, 10, transform );
     }
 
-    public WalkwayGraphic( ApparatusPanel panel, Force1DModule module, int numTickMarks, double treex, double housex, LinearTransform1d transform ) throws IOException {
+    public WalkwayGraphic( ApparatusPanel panel, Force1DModule module, int numTickMarks, double treex, double housex, Function.LinearFunction transform ) throws IOException {
         super( panel );
         this.module = module;
         this.numTickMarks = numTickMarks;
+        this.numTickMarks = 11;
         this.treex = treex;
         this.housex = housex;
         tree = ImageLoader.loadBufferedImage( "images/tree.gif" );
@@ -97,7 +100,7 @@ public class WalkwayGraphic extends PhetGraphic {
 
         for( int i = 0; i < numTickMarks; i++ ) {
             double modelx = transform.getMinInput() + i * modelDX;
-            int viewx = (int)transform.transform( modelx );
+            int viewx = (int)transform.evaluate( modelx );
 
             Point dst = new Point( viewx, height - 20 );
             graphics2D.drawLine( viewx, height, dst.x, dst.y );
@@ -115,9 +118,9 @@ public class WalkwayGraphic extends PhetGraphic {
         graphics2D.setPaint( new GradientPaint( floor.x, floor.y, root, floor.x, floor.y + floor.height, Color.white ) );
         graphics2D.fill( floor );
         //Tree at -10.
-        int treex = (int)( transform.transform( this.treex ) - tree.getWidth() / 2 );
+        int treex = (int)( transform.evaluate( this.treex ) - tree.getWidth() / 2 );
         int treey = 10;
-        int housex = (int)( transform.transform( this.housex ) - house.getWidth() / 2 );
+        int housex = (int)( transform.evaluate( this.housex ) - house.getWidth() / 2 );
         int housey = 10;
         graphics2D.drawImage( tree, treex, treey, null );
         graphics2D.drawImage( house, housex, housey, null );
