@@ -67,11 +67,11 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
   private static final double HELP_LAYER = Double.MAX_VALUE;
 
   // Colors
-  private static Color APPARATUS_BACKGROUND = Color.BLACK;
-  private static Color LABEL_COLOR = Color.WHITE;
+  private static Color APPARATUS_BACKGROUND = ColorVisionConfig.APPARATUS_BACKGROUND;
+  private static Color LABEL_COLOR = ColorVisionConfig.LABEL_COLOR;
     
   // Fonts
-  private static Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 18 );
+  private static Font LABEL_FONT = ColorVisionConfig.LABEL_FONT;
   
 	// Locations of model components
 	private static final double PERSON_X      = 450;

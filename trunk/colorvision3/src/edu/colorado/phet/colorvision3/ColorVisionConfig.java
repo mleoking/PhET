@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.colorvision3;
 
+import java.awt.Color;
+import java.awt.Font;
+
 /**
  * ColorVisionConfig contains global configuration values for the Color Vision application.
  * See ColorVisionStrings.properties for localized Strings that are visible to the user.
@@ -36,6 +39,13 @@ public class ColorVisionConfig
 	public static final int APP_FRAME_HEIGHT = 768;
 	public static final int CONTROL_PANEL_MIN_WIDTH = 150;
 
+  // Colors
+  public static Color APPARATUS_BACKGROUND = Color.BLACK;
+  public static Color LABEL_COLOR = Color.WHITE;
+    
+  // Fonts
+  public static Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 18 );
+  
 	//----------------------------------------------------------------------------
 	// Constructors
   //----------------------------------------------------------------------------
