@@ -4,9 +4,15 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
+<<<<<<< ApparatusPanel2.java
  * Modified by : $Author$
  * Revision : $Revision$
  * Date modified : $Date$
+=======
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+>>>>>>> 1.26.2.1
  */
 package edu.colorado.phet.common.view;
 
@@ -46,7 +52,11 @@ import java.util.LinkedList;
  * </ul>
  *
  * @author Ron LeMaster
+<<<<<<< ApparatusPanel2.java
  * @version $Revision$
+=======
+ * @version $Revision$
+>>>>>>> 1.26.2.1
  * @see edu.colorado.phet.common.view.graphics.Graphic
  */
 public class ApparatusPanel2 extends ApparatusPanel {
@@ -64,10 +74,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     private AffineTransform graphicTx = new AffineTransform();
     private AffineTransform mouseTx = new AffineTransform();
-    private Rectangle orgBounds;
+    private Rectangle renderedBounds;
     private HashMap componentOrgLocationsMap = new HashMap();
     private boolean modelPaused = false;
-    private ResizeHandler resizeHandler;
+    private double scale = 1.0;
 
     /**
      * Privided for JavaBeans conformance
@@ -101,7 +111,25 @@ public class ApparatusPanel2 extends ApparatusPanel {
         this.addMouseMotionListener( mouseProcessor );
         this.addKeyListener( getGraphic().getKeyAdapter() );//TODO key events should go in processing thread as well.
 
+<<<<<<< ApparatusPanel2.java
+        model.addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                //TODO: even if we use an offscreen buffer, we could still just throw the changed part to the screen.
+                if( useOffscreenBuffer ) {
+//                    Rectangle region = RectangleUtils.union( (Rectangle[])rectangles.toArray( new Rectangle[0] ) );
+                    Rectangle region = new Rectangle( 0, 0, getWidth(), getHeight() );
+                    paintImmediately( region );
+                }
+                else {
+                    megapaintImmediately();
+                }
+                // Clear the rectangles so they get garbage collectged
+                rectangles.clear();
+            }
+        } );
+=======
 //        model.addModelElement(new MyModelElement());
+>>>>>>> 1.26.2.1
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
@@ -119,8 +147,42 @@ public class ApparatusPanel2 extends ApparatusPanel {
         } );
 
         // Add a listener what will adjust things if the size of the panel changes
-        resizeHandler = new ResizeHandler();
-        this.addComponentListener( resizeHandler );
+//        resizeHandler = new ResizeHandler();
+        this.addComponentListener( new ComponentAdapter() {
+
+            public void componentResized( ComponentEvent e ) {
+                if( renderedBounds == null ) {
+                    resetRenderingSize();
+                }
+                else {
+                    // Setup the affine transforms for graphics and mouse events
+                    double sx = getWidth() / renderedBounds.getWidth();
+                    double sy = getHeight() / renderedBounds.getHeight();
+                    // Using a single scale factor keeps the aspect ratio constant
+                    double s = Math.min( sx, sy );
+                    setScale( s );
+                }
+                bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+            }
+
+        } );
+    }
+
+    public void resetRenderingSize() {
+        renderedBounds = ApparatusPanel2.this.getBounds();
+        saveSwingComponentCoordinates( 1.0 );
+        setScale( 1.0 );
+        paintImmediately( 0, 0, getWidth(), getHeight() );
+    }
+
+    private void saveSwingComponentCoordinates( double scale ) {
+        Component[] components = getComponents();
+        for( int i = 0; i < components.length; i++ ) {
+            Component component = components[i];
+            Point location = component.getLocation();
+            //factor out the old scale, if any.
+            componentOrgLocationsMap.put( component, new Point( (int)( location.x / scale ), (int)( location.y / scale ) ) );
+        }
     }
 
     public void setClock( AbstractClock clock ) {
@@ -175,23 +237,27 @@ public class ApparatusPanel2 extends ApparatusPanel {
         return graphicTx;
     }
 
-    public Component add( Component comp ) {
+    private void saveLocation( Component comp ) {
         componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
+    }
+
+    public Component add( Component comp ) {
+        saveLocation( comp );
         return super.add( comp );
     }
 
     public void add( Component comp, Object constraints ) {
-        componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
+        saveLocation( comp );
         super.add( comp, constraints );
     }
 
     public Component add( Component comp, int index ) {
-        componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
+        saveLocation( comp );
         return super.add( comp, index );
     }
 
     public Component add( String name, Component comp ) {
-        componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
+        saveLocation( comp );
         return super.add( name, comp );
     }
 
@@ -291,6 +357,34 @@ public class ApparatusPanel2 extends ApparatusPanel {
         g2.setStroke( origStroke );
     }
 
+    public double getScale() {
+        return scale;
+    }
+
+    public void setScale( double scale ) {
+        graphicTx = AffineTransform.getScaleInstance( scale, scale );
+        this.scale = scale;
+        System.out.println( "Set graphics to scale: " + scale );
+        try {
+            mouseTx = graphicTx.createInverse();
+        }
+        catch( NoninvertibleTransformException e1 ) {
+            e1.printStackTrace();
+        }
+        layoutSwingComponents();
+    }
+
+    private void layoutSwingComponents() {
+        Component[] components = ApparatusPanel2.this.getComponents();
+        for( int i = 0; i < components.length; i++ ) {
+            Component component = components[i];
+            Point origLocation = (Point)componentOrgLocationsMap.get( component );
+            if( origLocation != null ) {
+                Point newLocation = new Point( (int)( origLocation.getX() * scale ), (int)( origLocation.getY() * scale ) );
+                component.setLocation( newLocation );
+            }
+        }
+    }
     ///////////////////////////////////////////////////////////////////////////
     // Inner classes
     //
@@ -429,68 +523,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
     }
 
-    //This may be the wrong name for what this does.
-    public void resetRenderingSize() {
-        orgBounds = null;
-        componentOrgLocationsMap.clear();
-        resizeHandler.doResize();
-    }
-
-    /**
-     * Handles the state of the ApparatusPanel2 if it is resized
-     */
-    private class ResizeHandler extends ComponentAdapter {
-
-        /**
-         * This code suffers from the problem that rendering might accidentally happen at a small resolution.
-         * We should offer a means for re-rendering, that is, setting the orgBounds to null for a redraw.
-         *
-         * @param e
-         */
-        public void componentResized( ComponentEvent e ) {
-            doResize();
-        }
-
-        private void doResize() {
-            if( orgBounds == null ) {
-                orgBounds = ApparatusPanel2.this.getBounds();
-                Component[] components = ApparatusPanel2.this.getComponents();
-                for( int i = 0; i < components.length; i++ ) {
-                    Component component = components[i];
-                    if( !componentOrgLocationsMap.containsKey( component ) ) {
-                        Point location = component.getLocation();
-                        componentOrgLocationsMap.put( component, new Point( location ) );
-                    }
-                }
-            }
-
-            // Setup the affine transforms for graphics and mouse events
-            double sx = ApparatusPanel2.this.getBounds().getWidth() / orgBounds.getWidth();
-            double sy = ApparatusPanel2.this.getBounds().getHeight() / orgBounds.getHeight();
-            // Using a single scale factor keeps the aspect ratio constant
-            double s = Math.min( sx, sy );
-            graphicTx = AffineTransform.getScaleInstance( s, s );
-            System.out.println( "Set graphics to scale: " + s );
-            try {
-                mouseTx = graphicTx.createInverse();
-            }
-            catch( NoninvertibleTransformException e1 ) {
-                e1.printStackTrace();
-            }
-            bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
-
-            // Adjust the locations of Swing components
-            Component[] components = ApparatusPanel2.this.getComponents();
-            for( int i = 0; i < components.length; i++ ) {
-                Component component = components[i];
-                Point p = (Point)componentOrgLocationsMap.get( component );
-                if( p != null ) {
-                    Point pNew = new Point( (int)( p.getX() * s ), (int)( p.getY() * s ) );
-                    component.setLocation( pNew );
-                }
-            }
-
-        }
+    protected Rectangle getRenderedBounds() {
+        return renderedBounds;
     }
 
     //////////////////////////////////////////////////////

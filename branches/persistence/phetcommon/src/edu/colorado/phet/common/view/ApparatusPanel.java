@@ -19,11 +19,10 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -68,10 +67,50 @@ public class ApparatusPanel extends JPanel {
         // don't get the default layout manager. This allows us
         // to lay out components with absolute coordinates
         super( null );
-        this.graphic = new GraphicLayerSet( this );
-        this.addMouseListener( graphic.getMouseHandler() );
-        this.addMouseMotionListener( graphic.getMouseHandler() );
-        this.addKeyListener( graphic.getKeyAdapter() );
+        setGraphic( new GraphicLayerSet( this ));
+    }
+
+    /**
+     * Sets the GraphicLayerSet for the ApparatusPanel, and attaches its listeners to the panel, after
+     * getting rid of the old ones. Also tells all the PhetGraphics in the new GraphicLayerSet that their
+     * containing component is this AppratusPanel. 
+     * @param newGraphic
+     */
+    public void setGraphic( GraphicLayerSet newGraphic ) {
+
+        this.graphic = newGraphic;
+
+        // Hook up all the graphics to the apparatus panel
+        Iterator gIt = graphic.getGraphicMap().iterator();
+        while( gIt.hasNext() ) {
+            Object obj = gIt.next();
+            if( obj instanceof PhetGraphic ) {
+                PhetGraphic phetGraphic = (PhetGraphic)obj;
+                phetGraphic.setComponent( this );
+            }
+        }
+
+        // Clear the old handlers
+        MouseListener[] mouseListeners = this.getMouseListeners();
+        for( int i = 0; i < mouseListeners.length; i++ ) {
+            MouseListener mouseListener = mouseListeners[i];
+            this.removeMouseListener( mouseListener );
+        }
+        MouseMotionListener[] mouseMostionListeners = this.getMouseMotionListeners();
+        for( int i = 0; i < mouseMostionListeners.length; i++ ) {
+            MouseMotionListener mouseMostionListener = mouseMostionListeners[i];
+            this.removeMouseMotionListener( mouseMostionListener );
+        }
+        KeyListener[] keyListeners = this.getKeyListeners();
+        for( int i = 0; i < keyListeners.length; i++ ) {
+            KeyListener keyListener = keyListeners[i];
+            this.removeKeyListener( keyListener );
+        }
+
+        // Add the new handlers
+        this.addMouseListener( newGraphic.getMouseHandler() );
+        this.addMouseMotionListener( newGraphic.getMouseHandler() );
+        this.addKeyListener( newGraphic.getKeyAdapter() );
     }
 
     public void addGraphicsSetup( GraphicsSetup setup ) {
@@ -168,9 +207,4 @@ public class ApparatusPanel extends JPanel {
     public GraphicLayerSet getGraphic() {
         return graphic;
     }
-
-    public void setGraphic( GraphicLayerSet graphic ) {
-        this.graphic = graphic;
-    }
-
 }
