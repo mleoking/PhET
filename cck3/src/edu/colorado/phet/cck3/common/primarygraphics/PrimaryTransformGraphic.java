@@ -14,8 +14,8 @@ public class PrimaryTransformGraphic extends PrimaryGraphic {
     PrimaryGraphic graphic;
     AffineTransform transform;
 
-    public PrimaryTransformGraphic( Component component, PrimaryGraphic graphic, AffineTransform transform ) {
-        super( component );
+    public PrimaryTransformGraphic( PrimaryGraphic graphic, AffineTransform transform ) {
+        super( graphic.getComponent() );
         this.graphic = graphic;
         this.transform = transform;
     }
@@ -33,9 +33,15 @@ public class PrimaryTransformGraphic extends PrimaryGraphic {
     }
 
     public void translate( double dx, double dy ) {
-//        transform.translate( dx, dy );
         transform.preConcatenate( AffineTransform.getTranslateInstance( dx, dy ) );
         setBoundsDirty();
         repaint();
     }
+
+    public void rotate( double angle ) {
+        transform.preConcatenate( AffineTransform.getRotateInstance( angle));
+        setBoundsDirty();
+        repaint();
+    }
+
 }

@@ -73,11 +73,11 @@ public class ClockControlPanel extends JPanel {
         buttonPanel.add( step );
         this.add( buttonPanel, BorderLayout.CENTER );
 
-        ImageIcon logo = new ImageIcon( new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" ) );
-        logoButton = new JButton( logo );
-        logoButton.setToolTipText( "Full Frame" );
-        logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
-        this.add( logoButton, BorderLayout.EAST );
+//        ImageIcon logo = new ImageIcon( new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" ) );
+//        logoButton = new JButton( logo );
+//        logoButton.setToolTipText( "Full Frame" );
+//        logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
+//        this.add( logoButton, BorderLayout.EAST );
 
         play.setEnabled( false );
         pause.setEnabled( true );

@@ -176,7 +176,8 @@ public class CCK3Module extends Module {
 
         aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, 1.2 );
         imageSuite = new CCK2ImageSuite();
-        CCK3ControlPanel controlPanel = new CCK3ControlPanel( this );
+        CCK3ControlPanel controlPanel = null;
+        controlPanel = new CCK3ControlPanel( this );
         this.cck3controlPanel = controlPanel;
         setControlPanel( controlPanel );
     }
@@ -316,19 +317,19 @@ public class CCK3Module extends Module {
         } );
         help = new CCKHelp( this );
         //a debugging element.
-//        ModelElement me = new ModelElement() {
-//            public void stepInTime( double dt ) {
-//                int numJunctions = circuit.numJunctions();
-//                int numBranches = circuit.numBranches();
-//                String text = "numJunctions=" + numJunctions + ", branches=" + numBranches;
-//                if( !debugText.equals( text ) ) {
-//                    debugText = text;
-//                    int ival = (int)( Math.random() * 10 );
-//                    System.out.println( ival + ": " + text );
-//                }
-//            }
-//        };
-//        getModel().addModelElement( me );
+        //        ModelElement me = new ModelElement() {
+        //            public void stepInTime( double dt ) {
+        //                int numJunctions = circuit.numJunctions();
+        //                int numBranches = circuit.numBranches();
+        //                String text = "numJunctions=" + numJunctions + ", branches=" + numBranches;
+        //                if( !debugText.equals( text ) ) {
+        //                    debugText = text;
+        //                    int ival = (int)( Math.random() * 10 );
+        //                    System.out.println( ival + ": " + text );
+        //                }
+        //            }
+        //        };
+        //        getModel().addModelElement( me );
         setSeriesAmmeterVisible( false );
         testInit();
     }
@@ -361,33 +362,33 @@ public class CCK3Module extends Module {
     }
 
     private void testInit() {
-//        Branch branch = circuit.createBranch( 4, 4, 7, 4 );
-//        circuitGraphic.addWireGraphic( branch );
-//
-//        Branch branch2 = circuit.createBranch( 4, 2, 7, 2 );
-//        circuitGraphic.addWireGraphic( branch2 );
+        //        Branch branch = circuit.createBranch( 4, 4, 7, 4 );
+        //        circuitGraphic.addWireGraphic( branch );
+        //
+        //        Branch branch2 = circuit.createBranch( 4, 2, 7, 2 );
+        //        circuitGraphic.addWireGraphic( branch2 );
 
-//        Battery battery = new Battery( new Point2D.Double( 1, 1 ), new Vector2D.Double( 1, 3 ), 1, .5, getKirkhoffListener() );
-//        circuitGraphic.addGraphic( battery );
-//        circuit.addBranch( battery );
-//
-//        final Resistor resistor = new Resistor( new Point2D.Double( 1, 3 ), new Vector2D.Double( 1, 0 ), RESISTOR_LENGTH, RESISTOR_HEIGHT, getKirkhoffListener() );
-//        circuitGraphic.addGraphic( resistor );
-//        circuit.addBranch( resistor );
-//
-//        Switch switch1 = new Switch( new Point2D.Double( 5, 5 ), new Vector2D.Double( 1, 0 ), .9, .8, getKirkhoffListener() );
-//        circuit.addBranch( switch1 );
-//        circuitGraphic.addGraphic( switch1 );
-//        double SUPER_BULB_SCALE = 3;
-//        final Bulb bulb = new Bulb( new Point2D.Double( 5, 5 ), new ImmutableVector2D.Double( 0, 1 ),
-//                                    BULB_DIMENSION.getLength() * SUPER_BULB_SCALE / 3,
-//                                    BULB_DIMENSION.getLength() * SUPER_BULB_SCALE,
-//                                    BULB_DIMENSION.getHeight() * SUPER_BULB_SCALE,
-//                                    getKirkhoffListener() );
-//        circuit.addBranch( bulb );
-//        circuitGraphic.addGraphic( bulb );
-//
-//        layout.relayout( circuit.getBranches() );
+        //        Battery battery = new Battery( new Point2D.Double( 1, 1 ), new Vector2D.Double( 1, 3 ), 1, .5, getKirkhoffListener() );
+        //        circuitGraphic.addGraphic( battery );
+        //        circuit.addBranch( battery );
+        //
+        //        final Resistor resistor = new Resistor( new Point2D.Double( 1, 3 ), new Vector2D.Double( 1, 0 ), RESISTOR_LENGTH, RESISTOR_HEIGHT, getKirkhoffListener() );
+        //        circuitGraphic.addGraphic( resistor );
+        //        circuit.addBranch( resistor );
+        //
+        //        Switch switch1 = new Switch( new Point2D.Double( 5, 5 ), new Vector2D.Double( 1, 0 ), .9, .8, getKirkhoffListener() );
+        //        circuit.addBranch( switch1 );
+        //        circuitGraphic.addGraphic( switch1 );
+        //        double SUPER_BULB_SCALE = 3;
+        //        final Bulb bulb = new Bulb( new Point2D.Double( 5, 5 ), new ImmutableVector2D.Double( 0, 1 ),
+        //                                    BULB_DIMENSION.getLength() * SUPER_BULB_SCALE / 3,
+        //                                    BULB_DIMENSION.getLength() * SUPER_BULB_SCALE,
+        //                                    BULB_DIMENSION.getHeight() * SUPER_BULB_SCALE,
+        //                                    getKirkhoffListener() );
+        //        circuit.addBranch( bulb );
+        //        circuitGraphic.addGraphic( bulb );
+        //
+        //        layout.relayout( circuit.getBranches() );
 
         layout.relayout( circuit.getBranches() );
     }
@@ -557,7 +558,7 @@ public class CCK3Module extends Module {
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             circuitGraphic.addGraphic( circuit.branchAt( i ) );
         }
-//        circuitGraphic.fixJunctionGraphics();
+        //        circuitGraphic.fixJunctionGraphics();
         layout.relayout( circuit.getBranches() );
         kirkhoffSolver.apply( circuit );
         getApparatusPanel().repaint();
