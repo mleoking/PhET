@@ -7,10 +7,10 @@
  */
 package edu.colorado.phet.idealgas.view;
 
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.HotAirBalloon;
 
@@ -23,11 +23,13 @@ import java.io.IOException;
 
 public class HotAirBalloonGraphic extends PhetGraphic implements SimpleObserver {
 
-    private static Stroke s_defaultStroke = new BasicStroke( 2.0F );
+    private static float s_strokeWidth = 2.0F;
+    private static Stroke s_defaultStroke = new BasicStroke( s_strokeWidth );
     private static Color s_defaultColor = Color.ORANGE;
     private static float s_balloonOpacity = 0.3f;
 
-    private Arc2D.Float balloonShape = new Arc2D.Float( Arc2D.CHORD );
+    private Arc2D.Double balloonShape = new Arc2D.Double( Arc2D.CHORD );
+    private Rectangle bounds = new Rectangle();
     private BufferedImage burner;
     private BufferedImage flames;
     private int flameHeight;
@@ -47,22 +49,28 @@ public class HotAirBalloonGraphic extends PhetGraphic implements SimpleObserver 
         }
 
         imgObs = new ImageObserver() {
-                    public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
-                        return false;
-                    }
-                };
+            public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
+                return false;
+            }
+        };
 
         // Initialize the graphic
         update();
     }
 
     protected Rectangle determineBounds() {
-        return balloonShape.getBounds();
+        bounds.setBounds( (int)( balloonShape.getMinX() - s_strokeWidth / 2 ),
+                          (int)( balloonShape.getMinY() - s_strokeWidth / 2 ),
+                          (int)( balloonShape.getWidth() + s_strokeWidth ),
+                          (int)( balloonShape.getHeight() + burner.getHeight() + s_strokeWidth / 2 ) );
+        return bounds;
     }
 
     public void update() {
         this.setPosition();
         flameHeight = (int)HotAirBalloon.s_heatSource * 2 / 3;
+        setBoundsDirty();
+        repaint();
     }
 
     /**
@@ -72,10 +80,10 @@ public class HotAirBalloonGraphic extends PhetGraphic implements SimpleObserver 
         double start = -( 90 - ( balloon.getOpeningAngle() / 2 ) );
         double end = 360 - balloon.getOpeningAngle();
         balloonShape.setArc( balloon.getCenter().getX() - balloon.getRadius(),
-                    balloon.getCenter().getY() - balloon.getRadius(),
-                    balloon.getRadius() * 2, balloon.getRadius() * 2,
-                    start, end,
-                    Arc2D.CHORD );
+                             balloon.getCenter().getY() - balloon.getRadius(),
+                             balloon.getRadius() * 2, balloon.getRadius() * 2,
+                             start, end,
+                             Arc2D.CHORD );
     }
 
     public void paint( Graphics2D g ) {
@@ -89,6 +97,7 @@ public class HotAirBalloonGraphic extends PhetGraphic implements SimpleObserver 
         GraphicsUtil.setAlpha( g, s_balloonOpacity );
         g.fill( balloonShape );
 
+        GraphicsUtil.setAlpha( g, 1 );
         Rectangle2D opening = balloon.getOpening();
         int centerX = (int)( opening.getMaxX() + opening.getMinX() ) / 2;
         int stoveWidth = (int)( ( opening.getMaxX() - opening.getMinX() ) ) * 2 / 3;

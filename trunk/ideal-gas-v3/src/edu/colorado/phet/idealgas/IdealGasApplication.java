@@ -10,7 +10,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.idealgas.controller.*;
+import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
 
 public class IdealGasApplication extends PhetApplication {
 
@@ -26,18 +26,18 @@ public class IdealGasApplication extends PhetApplication {
                                            IdealGasConfig.s_waitTime ) );
 
             // Create the modules
-            Module idealGasModule = new IdealGasModule( getClock() );
-            Module measurementModule = new MeasurementModule( getClock() );
-            Module rigidSphereModuleI = new RigidSphereModuleI( getClock() );
-            Module rigidSphereModuleII = new RigidHollowSphereModuleII( getClock() );
-            Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
+//            Module idealGasModule = new IdealGasModule( getClock() );
+//            Module measurementModule = new MeasurementModule( getClock() );
+//            Module rigidSphereModuleI = new RigidSphereModuleI( getClock() );
+//            Module rigidSphereModuleII = new RigidHollowSphereModuleII( getClock() );
+//            Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
             Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
             Module[] modules = new Module[]{
-                idealGasModule,
-                measurementModule,
-                rigidSphereModuleI,
-                rigidSphereModuleII,
-                heliumBalloonModule,
+//                idealGasModule,
+//                measurementModule,
+//                rigidSphereModuleI,
+//                rigidSphereModuleII,
+//                heliumBalloonModule,
                 hotAirBalloonModule
             };
             setModules( modules );
@@ -45,7 +45,8 @@ public class IdealGasApplication extends PhetApplication {
 //            setInitialModule( rigidSphereModuleII );
 //            setInitialModule( rigidSphereModuleI );
 //            setInitialModule( measurementModule );
-            setInitialModule( idealGasModule );
+            setInitialModule( hotAirBalloonModule );
+//            setInitialModule( idealGasModule );
         }
     }
 
