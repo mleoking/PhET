@@ -7,13 +7,15 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.colorvision3.event.ColorChangeEvent;
 import edu.colorado.phet.colorvision3.event.ColorChangeListener;
 import edu.colorado.phet.colorvision3.model.Person;
 import edu.colorado.phet.colorvision3.model.Spotlight;
 import edu.colorado.phet.colorvision3.model.VisibleColor;
-import edu.colorado.phet.colorvision3.view.IntensityControl;
+import edu.colorado.phet.colorvision3.view.IntensitySlider;
 import edu.colorado.phet.colorvision3.view.PersonGraphic;
 import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
 import edu.colorado.phet.colorvision3.view.RgbBulbsControlPanel;
@@ -32,7 +34,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$
  */
-public class RgbBulbsModule extends Module implements ColorChangeListener
+public class RgbBulbsModule extends Module implements ChangeListener, ColorChangeListener
 {	
 	//----------------------------------------------------------------------------
 	// Class data
@@ -61,12 +63,12 @@ public class RgbBulbsModule extends Module implements ColorChangeListener
 	private static final int GREEN_SPOTLIGHT_Y    = RED_SPOTLIGHT_Y + 220;
 	private static final int BLUE_SPOTLIGHT_X     = RED_SPOTLIGHT_X;
 	private static final int BLUE_SPOTLIGHT_Y     = GREEN_SPOTLIGHT_Y + (GREEN_SPOTLIGHT_Y - RED_SPOTLIGHT_Y);
-	private static final int RED_CONTROL_X        = 50;
-	private static final int RED_CONTROL_Y        = 85;
-	private static final int GREEN_CONTROL_X      = RED_CONTROL_X;
-	private static final int GREEN_CONTROL_Y      = 260;
-	private static final int BLUE_CONTROL_X       = RED_CONTROL_X;
-	private static final int BLUE_CONTROL_Y       = 435;
+	private static final int RED_SLIDER_X        = 50;
+	private static final int RED_SLIDER_Y        = 85;
+	private static final int GREEN_SLIDER_X      = RED_SLIDER_X;
+	private static final int GREEN_SLIDER_Y      = 260;
+	private static final int BLUE_SLIDER_X       = RED_SLIDER_X;
+	private static final int BLUE_SLIDER_Y       = 435;
 	
 	// Angles
 	private static final double RED_SPOTLIGHT_ANGLE   = 27.0;
@@ -75,7 +77,7 @@ public class RgbBulbsModule extends Module implements ColorChangeListener
 
 	// Bounds
 	private static final Rectangle BEAM_BOUNDS = new Rectangle( 0, 0, PERSON_X + 160, 10000 );
-	private static final Dimension INTENSITY_CONTROL_SIZE = new Dimension(20,100);
+	private static final Dimension INTENSITY_SLIDER_SIZE = new Dimension(20,100);
 	
 	//----------------------------------------------------------------------------
 	// Instance data
@@ -83,9 +85,11 @@ public class RgbBulbsModule extends Module implements ColorChangeListener
 	
 	// Models
 	private Person _personModel;
+	private Spotlight _redSpotlightModel, _blueSpotlightModel, _greenSpotlightModel;
 	
 	// Views
-	private PhotonBeamGraphic _redBeam, _greenBeam, _blueBeam;
+	private PhotonBeamGraphic _redPhotonBeam, _greenPhotonBeam, _bluePhotonBeam;
+	private IntensitySlider _redSlider, _greenSlider, _blueSlider;
 	
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -116,25 +120,25 @@ public class RgbBulbsModule extends Module implements ColorChangeListener
 		_personModel.setLocation( PERSON_X, PERSON_Y );
 		
 		// Red Spotlight model
-		Spotlight redModel = new Spotlight();
-		redModel.setColor( VisibleColor.RED );
-		redModel.setIntensity( Spotlight.INTENSITY_MIN );
-		redModel.setLocation( RED_SPOTLIGHT_X, RED_SPOTLIGHT_Y );
-		redModel.setDirection( RED_SPOTLIGHT_ANGLE );
+		_redSpotlightModel = new Spotlight();
+		_redSpotlightModel.setColor( VisibleColor.RED );
+		_redSpotlightModel.setIntensity( Spotlight.INTENSITY_MIN );
+		_redSpotlightModel.setLocation( RED_SPOTLIGHT_X, RED_SPOTLIGHT_Y );
+		_redSpotlightModel.setDirection( RED_SPOTLIGHT_ANGLE );
 	
 		// Green Spotlight model
-		Spotlight greenModel = new Spotlight();
-		greenModel.setColor( VisibleColor.GREEN );
-		greenModel.setIntensity( Spotlight.INTENSITY_MIN );
-		greenModel.setLocation( GREEN_SPOTLIGHT_X, GREEN_SPOTLIGHT_Y );
-		greenModel.setDirection( GREEN_SPOTLIGHT_ANGLE );
+		_greenSpotlightModel = new Spotlight();
+		_greenSpotlightModel.setColor( VisibleColor.GREEN );
+		_greenSpotlightModel.setIntensity( Spotlight.INTENSITY_MIN );
+		_greenSpotlightModel.setLocation( GREEN_SPOTLIGHT_X, GREEN_SPOTLIGHT_Y );
+		_greenSpotlightModel.setDirection( GREEN_SPOTLIGHT_ANGLE );
 		
 		// Blue Spotlight model
-		Spotlight blueModel = new Spotlight();
-		blueModel.setColor( VisibleColor.BLUE );
-		blueModel.setIntensity( Spotlight.INTENSITY_MIN );
-		blueModel.setLocation( BLUE_SPOTLIGHT_X, BLUE_SPOTLIGHT_Y );
-		blueModel.setDirection( BLUE_SPOTLIGHT_ANGLE );
+		_blueSpotlightModel = new Spotlight();
+		_blueSpotlightModel.setColor( VisibleColor.BLUE );
+		_blueSpotlightModel.setIntensity( Spotlight.INTENSITY_MIN );
+		_blueSpotlightModel.setLocation( BLUE_SPOTLIGHT_X, BLUE_SPOTLIGHT_Y );
+		_blueSpotlightModel.setDirection( BLUE_SPOTLIGHT_ANGLE );
 		
 		//----------------------------------------------------------------------------
 		// View
@@ -154,46 +158,46 @@ public class RgbBulbsModule extends Module implements ColorChangeListener
 		// Do not call apparatusPanel.addGraphic!
     
     // Red spotlight graphic
-    SpotlightGraphic redSpotlight = new SpotlightGraphic( apparatusPanel, redModel );
+    SpotlightGraphic redSpotlight = new SpotlightGraphic( apparatusPanel, _redSpotlightModel );
     apparatusPanel.addGraphic( redSpotlight, RED_SPOTLIGHT_LAYER );
  
     // Green spotlight graphic
-    SpotlightGraphic greenSpotlight = new SpotlightGraphic( apparatusPanel, greenModel );
+    SpotlightGraphic greenSpotlight = new SpotlightGraphic( apparatusPanel, _greenSpotlightModel );
     apparatusPanel.addGraphic( greenSpotlight, GREEN_SPOTLIGHT_LAYER );
     
     // Blue spotlight graphic
-    SpotlightGraphic blueSpotlight = new SpotlightGraphic( apparatusPanel, blueModel );
+    SpotlightGraphic blueSpotlight = new SpotlightGraphic( apparatusPanel, _blueSpotlightModel );
     apparatusPanel.addGraphic( blueSpotlight, BLUE_SPOTLIGHT_LAYER );
      
     // Red photon beam
-    _redBeam = new PhotonBeamGraphic( apparatusPanel, redModel );
-    _redBeam.setBounds( BEAM_BOUNDS );
-    apparatusPanel.addGraphic( _redBeam, RED_BEAM_LAYER );
+    _redPhotonBeam = new PhotonBeamGraphic( apparatusPanel, _redSpotlightModel );
+    _redPhotonBeam.setBounds( BEAM_BOUNDS );
+    apparatusPanel.addGraphic( _redPhotonBeam, RED_BEAM_LAYER );
 
     // Green photon beam
-    _greenBeam = new PhotonBeamGraphic( apparatusPanel, greenModel );
-    _greenBeam.setBounds( BEAM_BOUNDS );
-    apparatusPanel.addGraphic( _greenBeam, GREEN_BEAM_LAYER );
+    _greenPhotonBeam = new PhotonBeamGraphic( apparatusPanel, _greenSpotlightModel );
+    _greenPhotonBeam.setBounds( BEAM_BOUNDS );
+    apparatusPanel.addGraphic( _greenPhotonBeam, GREEN_BEAM_LAYER );
     
     // Blue photon beam
-    _blueBeam = new PhotonBeamGraphic( apparatusPanel, blueModel );
-    _blueBeam.setBounds( BEAM_BOUNDS );
-    apparatusPanel.addGraphic( _blueBeam, BLUE_BEAM_LAYER );
+    _bluePhotonBeam = new PhotonBeamGraphic( apparatusPanel, _blueSpotlightModel );
+    _bluePhotonBeam.setBounds( BEAM_BOUNDS );
+    apparatusPanel.addGraphic( _bluePhotonBeam, BLUE_BEAM_LAYER );
 
     // Red intensity control
-    IntensityControl redControl = new IntensityControl( redModel, JSlider.VERTICAL, INTENSITY_CONTROL_SIZE );
-    redControl.setLocation( RED_CONTROL_X, RED_CONTROL_Y );
-    apparatusPanel.add( redControl );
+    _redSlider = new IntensitySlider( VisibleColor.RED, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+    _redSlider.setLocation( RED_SLIDER_X, RED_SLIDER_Y );
+    apparatusPanel.add( _redSlider );
        
     // Green intensity control
-    IntensityControl greenControl = new IntensityControl( greenModel, JSlider.VERTICAL, INTENSITY_CONTROL_SIZE );
-    greenControl.setLocation( GREEN_CONTROL_X, GREEN_CONTROL_Y );
-    apparatusPanel.add( greenControl );
+    _greenSlider = new IntensitySlider( VisibleColor.GREEN, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+    _greenSlider.setLocation( GREEN_SLIDER_X, GREEN_SLIDER_Y );
+    apparatusPanel.add( _greenSlider );
  
     // Blue intensity control
-    IntensityControl blueControl = new IntensityControl( blueModel, JSlider.VERTICAL, INTENSITY_CONTROL_SIZE );
-    blueControl.setLocation( BLUE_CONTROL_X, BLUE_CONTROL_Y );
-    apparatusPanel.add( blueControl );
+    _blueSlider = new IntensitySlider( VisibleColor.BLUE, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+    _blueSlider.setLocation( BLUE_SLIDER_X, BLUE_SLIDER_Y );
+    apparatusPanel.add( _blueSlider );
     
 		//----------------------------------------------------------------------------
 		// Observers
@@ -202,14 +206,14 @@ public class RgbBulbsModule extends Module implements ColorChangeListener
     // Models notify their associated views of any updates.
     _personModel.addObserver( personGraphic );
     
-    redModel.addObserver( redSpotlight );
-    redModel.addObserver( _redBeam );
+    _redSpotlightModel.addObserver( redSpotlight );
+    _redSpotlightModel.addObserver( _redPhotonBeam );
     
-    greenModel.addObserver( greenSpotlight );
-    greenModel.addObserver( _greenBeam );
+    _greenSpotlightModel.addObserver( greenSpotlight );
+    _greenSpotlightModel.addObserver( _greenPhotonBeam );
     
-    blueModel.addObserver( blueSpotlight );
-    blueModel.addObserver( _blueBeam );
+    _blueSpotlightModel.addObserver( blueSpotlight );
+    _blueSpotlightModel.addObserver( _bluePhotonBeam );
     
 		//----------------------------------------------------------------------------
 		// Listeners
@@ -217,14 +221,19 @@ public class RgbBulbsModule extends Module implements ColorChangeListener
 
     // Photon beams are notified when the simulation clock ticks.
     // Since photon beams are not model elements, we must register for clock ticks explicitly.
-    clock.addClockTickListener( _redBeam );
-    clock.addClockTickListener( _greenBeam );
-    clock.addClockTickListener( _blueBeam );
+    clock.addClockTickListener( _redPhotonBeam );
+    clock.addClockTickListener( _greenPhotonBeam );
+    clock.addClockTickListener( _bluePhotonBeam );
     
-    // Photon beams notify the RgbBulbsController when their perceived intensity changes.
-    _redBeam.addColorChangeListener( this );
-    _greenBeam.addColorChangeListener( this );
-    _blueBeam.addColorChangeListener( this );
+    // Photon beams notify when their perceived intensity changes.
+    _redPhotonBeam.addColorChangeListener( this );
+    _greenPhotonBeam.addColorChangeListener( this );
+    _bluePhotonBeam.addColorChangeListener( this );
+    
+    // Slider notify when they are moved.
+    _redSlider.addChangeListener( this );
+    _greenSlider.addChangeListener( this );
+    _blueSlider.addChangeListener( this );
     
 		//----------------------------------------------------------------------------
 		// Help
@@ -239,35 +248,49 @@ public class RgbBulbsModule extends Module implements ColorChangeListener
   //----------------------------------------------------------------------------
 	
   /**
-   * Handles a ColorChangeEvent.
-   * The new perceived color is calculated and set.
+   * Handles a ColorChangeEvent, received when a photon hits the person.
    * 
    * @param event the event
    */
   public void colorChanged( ColorChangeEvent event )
   {
-		VisibleColor color = getPerceivedColor();
-		_personModel.setColor( color ); 
+    // Ignore the color information in the event, and consult the photon beams.
+    // Each beam contributes one color component.
+    int red = (int) ((_redPhotonBeam.getPerceivedIntensity() / 100) * 255 );
+    int green = (int) ((_greenPhotonBeam.getPerceivedIntensity() / 100) * 255 );
+    int blue = (int) ((_bluePhotonBeam.getPerceivedIntensity() / 100) * 255 );
+    
+    // Scale alpha to match the intensity of the maximum component value.
+    int alpha = Math.max( red, Math.max(green, blue) );
+    
+    // Update the color perceived by the person.
+		VisibleColor perceivedColor = new VisibleColor( red, green, blue, alpha );
+		_personModel.setColor( perceivedColor ); 
   }
 
   /**
-   * Gets the perceived color produced by the combination of photon beams.
-   * Each photon beam contributes one color component (RGB).
-   * Alpha is scaled to match the intensity of the maximum component value.
-   * 
-   * @return the perceived color
+   * Handles a ChangeEvent, received when a slider is moved.
+   *
+   * @param event the event
    */
-  private VisibleColor getPerceivedColor()
+  public void stateChanged( ChangeEvent event )
   {
-    double maxIntensity = Spotlight.INTENSITY_MAX;
-    
-    // Each beam contributes one color component.
-    int red = (int) ((_redBeam.getPerceivedIntensity() / maxIntensity) * 255 );
-    int green = (int) ((_greenBeam.getPerceivedIntensity() / maxIntensity) * 255 );
-    int blue = (int) ((_blueBeam.getPerceivedIntensity() / maxIntensity) * 255 );
-    int alpha = Math.max( red, Math.max(green, blue) );
-
-		return new VisibleColor( red, green, blue, alpha );
+    if ( event.getSource() == _redSlider )
+    {
+      _redSpotlightModel.setIntensity( _redSlider.getValue() );
+    }
+    else if ( event.getSource() == _greenSlider )
+    {
+      _greenSpotlightModel.setIntensity( _greenSlider.getValue() );
+    }
+    else if ( event.getSource() == _blueSlider )
+    {
+      _blueSpotlightModel.setIntensity( _blueSlider.getValue() );
+    }
+    else
+    {
+      throw new IllegalArgumentException( "unexpected ChangeEvent from " + event.getSource() );
+    }
   }
   
 }
