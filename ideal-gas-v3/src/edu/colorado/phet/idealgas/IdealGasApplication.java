@@ -57,8 +57,8 @@ public class IdealGasApplication extends PhetApplication {
         }
     }
 
-    public IdealGasApplication() {
-        super( new IdealGasApplicationModel() );
+    public IdealGasApplication( String[] args) {
+        super( new IdealGasApplicationModel(), args );
 //        this.getApplicationView().getPhetFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.startApplication();
     }
@@ -92,6 +92,6 @@ public class IdealGasApplication extends PhetApplication {
         }
 
         SimStrings.setStrings( IdealGasConfig.localizedStringsPath );
-        new IdealGasApplication();
+        new IdealGasApplication( args );
     }
 }

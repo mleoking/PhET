@@ -38,6 +38,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     private boolean isResizingNorth = false;
     private boolean isResizingSouth = false;
     private double hotSpotRadius = 4;
+    private int strokeWidth = 1;
 
     /**
      * @param wall
@@ -49,7 +50,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     public WallGraphic( Wall wall, Component component, Paint fill, Paint borderPaint,
                         int translationDirection ) {
         this( wall, component, fill, translationDirection );
-        setStroke( new BasicStroke( 1f ) );
+        setStroke( new BasicStroke( strokeWidth ) );
         setBorderPaint( borderPaint );
     }
 
