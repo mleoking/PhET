@@ -6,19 +6,21 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 import java.awt.*;
+import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
 public class Uranium235Graphic extends NucleusGraphic {
-    private static Font isotopeFont = new Font( "SansSerif", Font.BOLD, 12 );
-    private static Font elementFont = new Font( "SansSerif", Font.BOLD, 30 );
+    private static Font isotopeFont = new Font( "SansSerif", Font.BOLD, 16 );
+    private static Font elementFont = new Font( "SansSerif", Font.BOLD, 34 );
 //    private static Font isotopeFont = new Font( "Serif", Font.BOLD, 12 );
 //    private static Font elementFont = new Font( "Serif", Font.BOLD, 30 );
     private static Color color = Color.yellow;
     private static AffineTransform nucleusTx = new AffineTransform();
-    private static Stroke fontOutlineStroke = new BasicStroke( 0.5f );
+    private static Stroke fontOutlineStroke = new BasicStroke( 1f );
 
     private boolean displayLabel = true;
 
@@ -56,17 +58,31 @@ public class Uranium235Graphic extends NucleusGraphic {
         g.transform( nucleusTx );
 
         if( displayLabel ) {
+            GraphicsUtil.setAntiAliasingOn( g );
+            FontRenderContext frc = g.getFontRenderContext();
+
             g.setColor( color );
             g.setFont( isotopeFont );
             FontMetrics fm = g.getFontMetrics();
             g.drawString( "235", -fm.stringWidth( "235" ), 0 );
+
+//            TextLayout tla = new TextLayout( "235", isotopeFont, frc );
+//            Shape shapeA = tla.getOutline( null );
+//            g.setColor( Color.black );
+//            g.setStroke( fontOutlineStroke );
+//            AffineTransform outlineTxA = AffineTransform.getTranslateInstance( -fm.stringWidth( "235" ), 0 );
+//            g.transform( outlineTxA );
+//            g.draw( shapeA );
+//            g.setTransform( orgTx );
+
+
             int dy = fm.getHeight() * 3 / 4;
+            g.setColor( color );
             g.setFont( elementFont );
             g.drawString( "U", 0, dy );
 
-//            FontRenderContext frc = g.getFontRenderContext();
-//                    TextLayout tl = new TextLayout( "U", elementFont, frc);
-//                    Shape shape =  tl.getOutline(null);
+//            TextLayout tl = new TextLayout( "U", elementFont, frc );
+//            Shape shape = tl.getOutline( null );
 //            g.setColor( Color.black );
 //            g.setStroke( fontOutlineStroke );
 //            AffineTransform outlineTx = AffineTransform.getTranslateInstance( 0, dy );

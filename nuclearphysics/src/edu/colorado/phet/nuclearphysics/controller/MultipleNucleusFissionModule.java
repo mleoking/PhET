@@ -10,6 +10,8 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions.Body;
+import edu.colorado.phet.coreadditions.ContactDetector;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
@@ -40,6 +42,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     private Point2D.Double neutronLaunchPoint;
     private Line2D.Double neutronPath;
     private ArrayList daughterNuclei = new ArrayList();
+    private ArrayList bodies = new ArrayList();
 
     public MultipleNucleusFissionModule( AbstractClock clock ) {
         super( "Chain Reaction", clock );
@@ -57,6 +60,35 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
                 }
             }
         } );
+
+//        final CollisionGod cg = new CollisionGod( new Rectangle2D.Double( -2000, -1000, 4000, 2000 ),
+//                                                  3, 3 );
+//        final NucleusNeutronContactDetector detector = new NucleusNeutronContactDetector();
+
+        // Add a model element that watches for collisions between neutrons and
+        // U235 nuclei
+        getModel().addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+//                for( int i = 0; i < u235Nuclei.size(); i++ ) {
+//                    Uranium235 uranium235 = (Uranium235)u235Nuclei.get( i );
+//                    List l = cg.getContactingBodies( uranium235, neutrons, detector );
+//                    if( l.size() > 0 ) {
+//                        uranium235.fission( (Neutron)l.get( 0 ) );
+//                    }
+//                }
+                for( int j = 0; j < u235Nuclei.size(); j++ ) {
+                    Uranium235 u235 = (Uranium235)u235Nuclei.get( j );
+                    for( int i = 0; i < neutrons.size(); i++ ) {
+                        Neutron neutron = (Neutron)neutrons.get( i );
+                        if( neutron.getLocation().distanceSq( u235.getLocation() )
+                            <= u235.getRadius() * u235.getRadius() ) {
+                            u235.fission( neutron );
+                        }
+                    }
+                }
+
+            }
+        } );
     }
 
     public void start() {
@@ -69,7 +101,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         getModel().addModelElement( centralNucleus );
         addU235Nucleus( centralNucleus );
 
-        // Clear out any leftover nuclei from previous runs
+// Clear out any leftover nuclei from previous runs
         for( int i = 0; i < daughterNuclei.size(); i++ ) {
             Nucleus nucleus = (Nucleus)daughterNuclei.get( i );
             NucleusGraphic.removeGraphicForNucleus( nucleus );
@@ -98,6 +130,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         for( int i = 0; i < neutrons.size(); i++ ) {
             Neutron neutron = (Neutron)neutrons.get( i );
             getModel().removeModelElement( neutron );
+
+            bodies.remove( neutron );
         }
         for( int i = 0; i < neutronGraphics.size(); i++ ) {
             getPhysicalPanel().removeGraphic( (Graphic)neutronGraphics.get( i ) );
@@ -111,7 +145,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     }
 
     private void computeNeutronLaunchParams() {
-        // Compute how we'll fire the neutron
+        // Compute how we'll fire the neutronz
         double bounds = 600 / getPhysicalPanel().getScale();
         neutronLaunchGamma = random.nextDouble() * Math.PI * 2;
         double x = bounds * Math.cos( neutronLaunchGamma );
@@ -169,11 +203,15 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         nucleus.addFissionListener( this );
         getPhysicalPanel().addNucleus( nucleus );
         getModel().addModelElement( nucleus );
+
+        bodies.add( nucleus );
     }
 
     public void removeU235Nucleus( Uranium235 nucleus ) {
         u235Nuclei.remove( nucleus );
         removeNucleus( nucleus );
+
+        bodies.remove( nucleus );
     }
 
     public void removeU238Nucleus( Uranium238 nucleus ) {
@@ -197,6 +235,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         Neutron neutron = new Neutron( neutronLaunchPoint, neutronLaunchGamma + Math.PI );
         neutrons.add( neutron );
         super.addNeutron( neutron );
+
+        bodies.add( neutron );
     }
 
     public void fission( FissionProducts products ) {
@@ -206,7 +246,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         getModel().removeModelElement( products.getParent() );
         nuclei.remove( products.getParent() );
 
-        // We know this must be a U235 nucleus
+// We know this must be a U235 nucleus
         u235Nuclei.remove( products.getParent() );
         List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
         for( int i = 0; i < graphics.size(); i++ ) {
@@ -216,7 +256,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         NeutronGraphic ng = (NeutronGraphic)NeutronGraphic.getGraphicForNeutron( products.getInstigatingNeutron() );
         this.getPhysicalPanel().removeGraphic( ng );
 
-        // Add fission products
+// Add fission products
         super.addNucleus( products.getDaughter1() );
         super.addNucleus( products.getDaughter2() );
         daughterNuclei.add( products.getDaughter1() );
@@ -230,15 +270,41 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
             neutronGraphics.add( npg );
         }
 
-        // Add some pizzazz
+// Add some pizzazz
         Kaboom kaboom = new Kaboom( products.getParent().getLocation(),
                                     25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
+
+// Manage the list of collidable bodies
+        bodies.remove( products.getParent() );
+        bodies.add( products.getDaughter1() );
+        bodies.add( products.getDaughter2() );
+        for( int i = 0; i < neutronProducts.length; i++ ) {
+            bodies.add( neutronProducts[i] );
+        }
     }
 
-    //
-    // Inner classes
-    //
+//
+// Inner classes
+//
+
+    public class NucleusNeutronContactDetector implements ContactDetector {
+        public boolean areInContact( Body body1, Body body2 ) {
+            boolean areInContact = false;
+            if( body1 != body2 ) {
+                if( body1 instanceof Nucleus && body2 instanceof Neutron ) {
+                    areInContact = ( (Nucleus)body1 ).getLocation().distanceSq( ( (Neutron)body2 ).getLocation() )
+                                   <= ( (Nucleus)body1 ).getRadius() * ( (Nucleus)body1 ).getRadius();
+                }
+                if( body2 instanceof Nucleus && body1 instanceof Neutron ) {
+                    areInContact = ( (Nucleus)body2 ).getLocation().distanceSq( ( (Neutron)body1 ).getLocation() )
+                                   <= ( (Nucleus)body2 ).getRadius() * ( (Nucleus)body2 ).getRadius();
+                }
+            }
+            return areInContact;
+        }
+    }
+
 //    private class InternalNeutronGun implements Runnable {
 //        private long waitTime = 1000;
 //        private boolean kill = false;

@@ -19,11 +19,11 @@ public class Neutron extends NuclearParticle {
 
     public Neutron( Point2D.Double location, double theta ) {
         super( location );
-        setVelocity( (float)Config.neutronSpeed, 0 );
-        setDirectionOfTravel( theta );
+//        setVelocity( (float)Config.neutronSpeed, 0 );
+        setVelocity( theta );
     }
 
-    public void setDirectionOfTravel( double theta ) {
+    public void setVelocity( double theta ) {
         setVelocity( (float)( Math.cos( theta ) * Config.neutronSpeed ),
                      (float)( Math.sin( theta ) * Config.neutronSpeed ) );
     }

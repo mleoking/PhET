@@ -26,8 +26,10 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
     private AbstractClock clock;
     private double orgDt;
     private Uranium235 nucleus;
+    private Neutron neutron;
 
     public SingleNucleusFissionModule( AbstractClock clock ) {
+
         super( "Fission: One Nucleus", clock );
         this.clock = clock;
         super.addControlPanelElement( new SingleNucleusFissionControlPanel( this ) );
@@ -39,6 +41,20 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
                 }
             }
         } );
+
+        // Add a model element that will watch for collisions between the
+        // nucleus and neutron
+        getModel().addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                if( neutron != null
+                    && neutron.getLocation().distanceSq( nucleus.getLocation() )
+                       <= nucleus.getRadius() * nucleus.getRadius() ) {
+                    nucleus.fission( neutron );
+                }
+            }
+        } );
+
+
     }
 
     public void stop() {
@@ -76,7 +92,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         double gamma = random.nextDouble() * Math.PI * 2;
         double x = bounds * Math.cos( gamma );
         double y = bounds * Math.sin( gamma );
-        Neutron neutron = new Neutron( new Point2D.Double( x, y ), gamma + Math.PI );
+        neutron = new Neutron( new Point2D.Double( x, y ), gamma + Math.PI );
         super.addNeutron( neutron );
     }
 
@@ -91,7 +107,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         double v2 = daughter2.getVelocity().getLength();
         daughter2.setVelocity( (float)( v2 * Math.cos( theta + Math.PI ) ), (float)( v2 * Math.sin( theta + Math.PI ) ) );
 
-        // Remove the neutron and old nucleus
+// Remove the neutron and old nucleus
         getModel().removeModelElement( products.getInstigatingNeutron() );
         getModel().removeModelElement( products.getParent() );
         List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
@@ -104,11 +120,11 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         this.getPhysicalPanel().removeGraphic( ng );
         getPotentialProfilePanel().removeNucleusGraphic( products.getParent() );
 
-        // Remove the potential profile for the old nucleus and replace it with a gray one
+// Remove the potential profile for the old nucleus and replace it with a gray one
 //        potentialProfilePanel.removePotentialProfile( products.getParent().getPotentialProfile() );
 //        potentialProfilePanel.addNucleus( products.getParent(), Color.gray );
 
-        // Add fission products
+// Add fission products
         Neutron[] neutronProducts = products.getNeutronProducts();
         for( int i = 0; i < neutronProducts.length; i++ ) {
             NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
@@ -116,8 +132,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
             getPhysicalPanel().addGraphic( npg );
         }
 
-        // Add a model element that will make the daughter nuclei slide down the
-        // profile
+// Add a model element that will make the daughter nuclei slide down the
+// profile
         getModel().addModelElement( new ModelElement() {
             private double forceScale = 0.05;
 //            private double forceScale = 0.0005;
@@ -144,11 +160,11 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
                 }
                 daughter.setAcceleration( a );
 
-                // Set the nucleus' potential energy. If the nucles isn't outside the peaks of the
-                // profile, it's potential keeps it at the top of the profile. Otherwise, it slides
-                // down the profile
+// Set the nucleus' potential energy. If the nucles isn't outside the peaks of the
+// profile, it's potential keeps it at the top of the profile. Otherwise, it slides
+// down the profile
                 double potential = 0;
-                // I don't know why the -10 is needed here, but it is. I don't have time to figure out why
+// I don't know why the -10 is needed here, but it is. I don't have time to figure out why
                 if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 7 ) ) {
                     potential = profile.getMaxPotential();
                 }
@@ -167,16 +183,16 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         getPotentialProfilePanel().addNucleusGraphic( dn1 );
         getPotentialProfilePanel().addNucleusGraphic( dn2 );
 
-        // Add some pizzazz
+// Add some pizzazz
         Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
                                     25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
     }
 
 
-    //
-    // Inner classes
-    //
+//
+// Inner classes
+//
     private class InternalNeutronGun implements Runnable {
         private long waitTime = 1000;
         private boolean kill = false;
@@ -206,4 +222,5 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
             SingleNucleusFissionModule.this.neutronToAdd = neutron;
         }
     }
+
 }
