@@ -6,6 +6,9 @@
 
 - scalarDataRecorder should be re-written so it doesn't need a clock, but rather observes an ScalarReporter
 
+- clean up constraints. In particular, there is a lot of duplication in HollowSphereMustContain and
+HollowSphereMustNotContain
+
 
 
 - Gravity: there is a lot of code in the model that refers to a gravity object, but all the
