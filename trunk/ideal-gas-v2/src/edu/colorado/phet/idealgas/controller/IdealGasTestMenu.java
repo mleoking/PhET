@@ -8,11 +8,11 @@
 package edu.colorado.phet.idealgas.controller;
 
 //import edu.colorado.phet.controller.*;
-//import edu.colorado.phet.physics.body.PhysicalEntity;
+//import edu.colorado.phet.model.body.PhysicalEntity;
 //import edu.colorado.phet.idealgas.graphics.HollowSphereGraphic;
 //import edu.colorado.phet.idealgas.graphics.BalloonPressureMonitor;
 //import edu.colorado.phet.idealgas.graphics.IdealGasMonitorPanel;
-//import edu.colorado.phet.idealgas.physics.body.Balloon;
+//import edu.colorado.phet.idealgas.model.body.Balloon;
 import edu.colorado.phet.common.application.PhetApplication;
 
 import javax.swing.*;

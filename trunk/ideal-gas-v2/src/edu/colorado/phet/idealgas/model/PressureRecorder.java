@@ -5,7 +5,7 @@
  * Time: 1:56:39 PM
  * To change this template use Options | File Templates.
  */
-package edu.colorado.phet.idealgas.physics;
+package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.physics.PhysicalSystem;
 

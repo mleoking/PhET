@@ -1,12 +1,12 @@
-// edu.colorado.phet.idealgas.physics.body.Sphere
+// edu.colorado.phet.idealgas.model.body.Sphere
 /*
  * User: Administrator
  * Date: Jan 5, 2003
  * Time: 8:09:49 AM
  */
-package edu.colorado.phet.idealgas.physics.body;
+package edu.colorado.phet.idealgas.model.body;
 
-//import edu.colorado.phet.physics.collision.CollisionLaw;
+//import edu.colorado.phet.model.collision.CollisionLaw;
 import edu.colorado.phet.physics.Vector2D;
 import edu.colorado.phet.physics.body.Body;
 import edu.colorado.phet.physics.collision.CollidableBody;

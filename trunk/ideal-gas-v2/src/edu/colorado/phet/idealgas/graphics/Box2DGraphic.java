@@ -6,10 +6,10 @@
 package edu.colorado.phet.idealgas.graphics;
 
 //import edu.colorado.phet.graphics.ShapeGraphic;
-import edu.colorado.phet.idealgas.physics.PressureSensingBox;
-//import edu.colorado.phet.physics.PhysicalSystem;
-//import edu.colorado.phet.physics.Vector2D;
-//import edu.colorado.phet.physics.body.Particle;
+import edu.colorado.phet.idealgas.model.PressureSensingBox;
+//import edu.colorado.phet.model.PhysicalSystem;
+//import edu.colorado.phet.model.Vector2D;
+//import edu.colorado.phet.model.body.Particle;
 import edu.colorado.phet.physics.collision.Box2D;
 import edu.colorado.phet.physics.collision.CollidableBody;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;

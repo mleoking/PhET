@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.graphics;
 
-//import edu.colorado.phet.physics.PhysicalSystem;
+//import edu.colorado.phet.model.PhysicalSystem;
 //import edu.colorado.phet.util.ThreadHelper;
 //import edu.colorado.phet.graphics.MonitorPanel;
 

@@ -10,9 +10,9 @@ package edu.colorado.phet.idealgas.graphics;
 import edu.colorado.phet.idealgas.controller.IdealGasConfig;
 //import edu.colorado.phet.graphics.util.ResourceLoader;
 //import edu.colorado.phet.graphics.MonitorPanel;
-import edu.colorado.phet.idealgas.physics.*;
-//import edu.colorado.phet.physics.Gravity;
-//import edu.colorado.phet.physics.PhysicalSystem;
+import edu.colorado.phet.idealgas.model.*;
+//import edu.colorado.phet.model.Gravity;
+//import edu.colorado.phet.model.PhysicalSystem;
 //import edu.colorado.phet.controller.Config;
 
 import javax.swing.*;

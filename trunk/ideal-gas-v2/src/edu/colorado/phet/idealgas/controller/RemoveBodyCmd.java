@@ -7,8 +7,8 @@
 package edu.colorado.phet.idealgas.controller;
 
 //import edu.colorado.phet.controller.command.Command;
-//import edu.colorado.phet.physics.body.Body;
-//import edu.colorado.phet.physics.PhysicalSystem;
+//import edu.colorado.phet.model.body.Body;
+//import edu.colorado.phet.model.PhysicalSystem;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.mechanics.Body;
 

@@ -1,12 +1,12 @@
 /**
  * Class: PressureSlice
- * Package: edu.colorado.phet.physics
+ * Package: edu.colorado.phet.model
  * Author: Another Guy
  * Date: Jan 13, 2004
  */
 package edu.colorado.phet.idealgas;
 
-import edu.colorado.phet.idealgas.physics.*;
+import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.controller.IdealGasConfig;
 import edu.colorado.phet.physics.collision.Box2D;
 import edu.colorado.phet.mechanics.Body;

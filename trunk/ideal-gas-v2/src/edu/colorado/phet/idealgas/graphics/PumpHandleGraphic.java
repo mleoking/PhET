@@ -8,7 +8,7 @@ package edu.colorado.phet.idealgas.graphics;
 
 //import edu.colorado.phet.controller.Config;
 //import edu.colorado.phet.graphics.MovableImageGraphic;
-import edu.colorado.phet.idealgas.physics.Pump;
+import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.controller.IdealGasConfig;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;

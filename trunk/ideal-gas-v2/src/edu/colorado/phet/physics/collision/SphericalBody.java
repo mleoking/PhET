@@ -1,6 +1,6 @@
 /**
  * Class: SphericalBody
- * Package: edu.colorado.phet.physics.body
+ * Package: edu.colorado.phet.model.body
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
@@ -10,7 +10,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
-//import edu.colorado.phet.physics.collision.CollidableBody;
+//import edu.colorado.phet.model.collision.CollidableBody;
 
 /**
  * NOTE: This class is not thread-safe!!!!!

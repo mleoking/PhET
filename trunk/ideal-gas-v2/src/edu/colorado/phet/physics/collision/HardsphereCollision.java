@@ -1,6 +1,6 @@
 /**
  * Class: HardsphereCollision
- * Package: edu.colorado.phet.lasers.physics
+ * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 21, 2003
  */

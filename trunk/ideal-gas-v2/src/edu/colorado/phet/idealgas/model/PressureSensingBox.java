@@ -5,7 +5,7 @@
  * Created by: Ron LeMaster
  * Date: Oct 29, 2002
  */
-package edu.colorado.phet.idealgas.physics;
+package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.physics.collision.Box2D;
 import edu.colorado.phet.physics.collision.SphericalBody;

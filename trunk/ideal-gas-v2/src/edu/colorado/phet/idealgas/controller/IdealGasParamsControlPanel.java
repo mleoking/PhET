@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.idealgas.physics.HeavySpecies;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
 
 import javax.swing.*;
 import javax.swing.border.Border;

@@ -1,6 +1,6 @@
 /*
  * Class: Wall
- * Package: edu.colorado.phet.physics
+ * Package: edu.colorado.phet.model
  *
  * Created by: Ron LeMaster
  * Date: Dec 12, 2002

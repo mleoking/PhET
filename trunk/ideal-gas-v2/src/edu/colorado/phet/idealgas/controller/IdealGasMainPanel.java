@@ -8,7 +8,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.idealgas.controller.IdealGasControlPanel;
 import edu.colorado.phet.idealgas.graphics.*;
-import edu.colorado.phet.idealgas.physics.IdealGasSystem;
+import edu.colorado.phet.idealgas.model.IdealGasSystem;
 //import edu.colorado.phet.controller.PhetMainPanel;
 //import edu.colorado.phet.controller.PhetApplication;
 //import edu.colorado.phet.controller.TabbedMainPanel;
@@ -16,8 +16,8 @@ import edu.colorado.phet.idealgas.physics.IdealGasSystem;
 //import edu.colorado.phet.graphics.ApparatusPanel;
 //import edu.colorado.phet.graphics.GraphicFactory;
 //import edu.colorado.phet.graphics.PhetGraphic;
-//import edu.colorado.phet.physics.PhysicalSystem;
-//import edu.colorado.phet.physics.body.Particle;
+//import edu.colorado.phet.model.PhysicalSystem;
+//import edu.colorado.phet.model.body.Particle;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicPhetPanel;
@@ -88,7 +88,7 @@ public class IdealGasMainPanel extends TabbedMainPanel {
         GraphicFactory graphicFactory = PhetApplication.instance().getGraphicFactory();
 
         // If it's a particle, only add it to the current apparatus panel
-        if( body instanceof edu.colorado.phet.idealgas.physics.body.IdealGasParticle ) {
+        if( body instanceof edu.colorado.phet.idealgas.model.body.IdealGasParticle ) {
             ApparatusPanel apparatusPanel = getApparatusPanel();
             PhetGraphic graphic = graphicFactory.createGraphic( body, apparatusPanel );
             apparatusPanel.addGraphic( graphic, level );
