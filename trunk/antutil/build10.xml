@@ -29,6 +29,10 @@
         Build File.
     </description>
 
+    <taskdef name="copyclasspath" classname="org.reids.anttasks.CopyClasspath"/>
+    <taskdef name="createresourcetag" classname="org.reids.anttasks.CreateResourcesTag"/>
+    <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile"/>
+
     <target name="Clean Dependencies">
         <delete dir="${idea.classes}"></delete>
         <mkdir dir="${idea.classes}"></mkdir>
@@ -46,7 +50,6 @@
         <mkdir dir="${backup}/${distname}_src_${backup.time}"/>
         <copy todir="${backup}/${distname}_src_${backup.time}">
             <fileset dir="${src}"/>
-            <fileset dir="${tests-src}"/>
         </copy>
     </target>
 
@@ -72,18 +75,6 @@
         </copy>
         <copyclasspath directory="${backup}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>
     </target>
-
-    <!--    <target name="Backup Dev and Lib to desktop" depends="init">-->
-    <!--        <mkdir dir="${desktop}"/>-->
-    <!--        <tstamp>-->
-    <!--            <format property="backup.time" pattern="d-MMMM-yyyy h-mmaa" locale="en" timezone="MST"></format>-->
-    <!--        </tstamp>-->
-    <!--        <mkdir dir="${desktop}/${distname}_dev_${backup.time}"/>-->
-    <!--        <copy todir="${desktop}/${distname}_dev_${backup.time}">-->
-    <!--            <fileset dir="${development}"/>-->
-    <!--        </copy>-->
-    <!--        <copyclasspath directory="${desktop}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>-->
-    <!--    </target>-->
 
     <target name="Clean"
         description="clean up">
@@ -176,10 +167,6 @@
         <copyclasspath directory="${destdir}/lib" ignore="${ignorepath}"/>
         <CreateBatchFile mainJar="bin/${distname}.jar" libDir="${destdir}/lib" mainClassName="${main.class}" outputFile="${destdir}/run_${distname}.bat"/>
     </target>
-
-    <taskdef name="copyclasspath" classname="org.reids.anttasks.CopyClasspath"/>
-    <taskdef name="createresourcetag" classname="org.reids.anttasks.CreateResourcesTag"/>
-    <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile"/>
 
     <target name="Copy Classpath To lib">
         <delete dir="${lib}"/>
