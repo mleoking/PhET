@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.common.model.clock;
 
+import java.util.EventListener;
+
 
 /**
  * ClockTickListener
@@ -17,6 +19,7 @@ package edu.colorado.phet.common.model.clock;
  * @author ?
  * @version $Revision$
  */
-public interface ClockTickListener {
-    public void clockTicked( AbstractClock c, double dt );
+public interface ClockTickListener extends EventListener {
+
+    public void clockTicked( ClockTickEvent event );
 }

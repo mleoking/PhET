@@ -12,6 +12,7 @@ package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.view.ApparatusPanel;
 
 import java.awt.*;
@@ -55,7 +56,7 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         }
     }
 
-    public void clockTicked( AbstractClock c, double dt ) {
+    public void clockTicked( ClockTickEvent event ) {
         r = ( r - 1 + 255 ) % 255;
         g = ( g - 2 + 255 ) % 255;
         b = ( b - 3 + 255 ) % 255;

@@ -33,10 +33,10 @@ public class CompositeClockTickListener implements ClockTickListener {
         return list.size();
     }
 
-    public void clockTicked( AbstractClock c, double dt ) {
+    public void clockTicked( ClockTickEvent event ) {
         for( int i = 0; i < list.size(); i++ ) {
             ClockTickListener clockListener = (ClockTickListener)list.get( i );
-            clockListener.clockTicked( c, dt );
+            clockListener.clockTicked( event );
         }
     }
 
