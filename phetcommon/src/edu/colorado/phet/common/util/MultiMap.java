@@ -21,6 +21,11 @@ import java.util.*;
 public class MultiMap extends TreeMap {
     private long lastModified = 0;
 
+    /**
+     * @deprecated
+     * @param key
+     * @param value
+     */
     public void add( Object key, Object value ) {
         put( key, value );
     }
