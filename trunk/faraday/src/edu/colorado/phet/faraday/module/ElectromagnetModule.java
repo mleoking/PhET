@@ -177,16 +177,6 @@ public class ElectromagnetModule extends FaradayModule {
         electromagnetGraphic.getCollisionDetector().add( compassGraphic );
         compassGraphic.getCollisionDetector().add( electromagnetGraphic );
         
-        // DEBUG
-        {
-            batteryModel.setEnabled( false );
-            acPowerSupplyModel.setEnabled( true );
-            sourceCoilModel.setVoltageSource( acPowerSupplyModel );
-            compassModel.setEnabled( false );
-            gridGraphic.setVisible( false );
-            electromagnetGraphic.getCoilGraphic().setElectronAnimationEnabled( false );
-        }
-        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
