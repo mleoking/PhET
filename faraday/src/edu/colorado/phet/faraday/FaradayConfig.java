@@ -41,9 +41,8 @@ public class FaradayConfig {
     public static final double HELP_LAYER = Double.MAX_VALUE;
     
     // Images
-    public static final String IMAGES_DIRECTORY = "images/";
+    private static final String IMAGES_DIRECTORY = "images/";
     public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
-    public static final String BAR_MAGNET_TRANSPARENT_IMAGE = IMAGES_DIRECTORY + "barMagnetTransparent.png";
     public static final String COIL1_FRONT_IMAGE = IMAGES_DIRECTORY + "coil1_front.png";
     public static final String COIL1_BACK_IMAGE = IMAGES_DIRECTORY + "coil1_back.png";
     public static final String COIL2_FRONT_IMAGE = IMAGES_DIRECTORY + "coil2_front.png";
