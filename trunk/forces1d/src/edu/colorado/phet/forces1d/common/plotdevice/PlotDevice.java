@@ -155,7 +155,7 @@ public class PlotDevice extends CompositePhetGraphic {
                     yOffset += seriesAt( i ).readout.getBounds().height + 2;
                 }
                 readout.setLocation( chart.getViewBounds().x + 15, chart.getViewBounds().y + readout.getHeight() - 5 + yOffset );
-                readoutValue.setLocation( readout.getX() + readout.getWidth() + 5, readout.getY() );
+                readoutValue.setLocation( readout.getLocation().x + readout.getWidth() + 5, readout.getLocation().y );
             }
 
             public void update( float time ) {
@@ -799,7 +799,7 @@ public class PlotDevice extends CompositePhetGraphic {
         if( isVisible() ) {
             GraphicsState state = new GraphicsState( g );
             getChart().paint( g );
-            Point pt = getChart().getTransform().modelToView( 15, 0 );
+            Point pt = getChart().getModelViewTransform().modelToView( 15, 0 );
             pt.y -= 3;
             textGraphic.setLocation( pt.x, pt.y );
 //            textGraphic.paint( g );
@@ -821,8 +821,8 @@ public class PlotDevice extends CompositePhetGraphic {
     }
 
 
-    public ModelViewTransform2D getTransform() {
-        return getChart().getTransform();
+    public ModelViewTransform2D getModelViewTransform() {
+        return getChart().getModelViewTransform();
     }
 
     public void setVisible( boolean visible ) {

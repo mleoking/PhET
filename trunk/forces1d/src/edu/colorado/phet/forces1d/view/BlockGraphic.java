@@ -65,6 +65,11 @@ public class BlockGraphic extends CompositePhetGraphic {
         return new Dimension( width, height );
     }
 
+    protected Rectangle determineBounds() {
+        return super.determineBounds();
+    }
+
+    //Workaround for lack of equals in java's RoundRectangle2D.
     public static class RoundRect extends RoundRectangle2D.Double {
 
         public RoundRect( double x, double y, double w, double h, double arcw, double arch ) {
@@ -79,6 +84,10 @@ public class BlockGraphic extends CompositePhetGraphic {
             }
             return false;
         }
+
+        public String toString() {
+            return "x=" + super.getX() + ", y=" + super.getY() + ", width=" + super.getWidth() + ", height=" + super.getHeight();
+        }
     }
 
     public void update() {
@@ -91,6 +100,11 @@ public class BlockGraphic extends CompositePhetGraphic {
         r.setFrameFromCenter( center.x, center.y, center.x + dim.width / 2, center.y + dim.height / 2 );
         graphic.setShape( r );
         graphic.setColor( color );
+//        setLocation( (int)r.getX(),(int)r.getY());
+//        System.out.println( "r = " + r );
+        setBoundsDirty();
+        repaint();
+//        notifyChanged();//how to notify without knowing whether shape changed or color changed?
     }
 
     public Point getCenter() {

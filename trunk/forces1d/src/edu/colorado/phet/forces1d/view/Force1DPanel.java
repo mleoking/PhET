@@ -32,12 +32,11 @@ public class Force1DPanel extends ApparatusPanel {
     private BlockGraphic blockGraphic;
     private ArrowSetGraphic arrowSetGraphic;
     private ModelViewTransform2D transform2D;
-//    private Chart chart;
     private LinearTransform1d walkwayTransform;
     private BufferedPhetGraphic bufferedPhetGraphic;
     private PlotDevice forcePlotDevice;
     private WalkwayGraphic walkwayGraphic;
-    private ManGraphic manGraphic;
+    private LeanerGraphic leanerGraphic;
     private Force1DModel model;
     private PlotDeviceView plotDeviceView;
     private RepaintDebugGraphic repaintDebugGraphic;
@@ -50,11 +49,11 @@ public class Force1DPanel extends ApparatusPanel {
         walkwayGraphic = new WalkwayGraphic( this, module, 21, getWalkwayTransform() );
         blockGraphic = new BlockGraphic( this, module.getForceModel().getBlock(), model, transform2D, walkwayTransform );
         arrowSetGraphic = new ArrowSetGraphic( this, blockGraphic, model, transform2D );
-        manGraphic = new ManGraphic( this );
+        leanerGraphic = new LeanerGraphic( this, blockGraphic );
         addGraphic( walkwayGraphic );
         addGraphic( blockGraphic );
-//        addGraphic( manGraphic, 1000 );
-        manGraphic.setLocation( 400, 100 );
+        addGraphic( leanerGraphic, 1000 );
+        leanerGraphic.setLocation( 400, 100 );
 
         addGraphic( arrowSetGraphic );
 
@@ -159,22 +158,22 @@ public class Force1DPanel extends ApparatusPanel {
         repaint();
     }
 
-    public void repaint( int x, int y, int width, int height ) {
-//        new Exception("Repaint").printStackTrace( );
-        super.repaint( x, y, width, height );
-        StackTraceElement[] str = new Exception( "Repaint" ).getStackTrace();
-        for( int i = 0; i < str.length && i < 5; i++ ) {
-            StackTraceElement stackTraceElement = str[i];
-            System.out.println( "" + i + ": " + stackTraceElement );
-        }
-        System.out.println( "..." );
-//        System.out.println( "str = " + str );
-    }
-
-    public void repaint( Rectangle r ) {
-//        new Exception("Repaint").printStackTrace( );
-        super.repaint( r );
-    }
+//    public void repaint( int x, int y, int width, int height ) {
+////        new Exception("Repaint").printStackTrace( );
+//        super.repaint( x, y, width, height );
+//        StackTraceElement[] str = new Exception( "Repaint" ).getStackTrace();
+//        for( int i = 0; i < str.length && i < 5; i++ ) {
+//            StackTraceElement stackTraceElement = str[i];
+//            System.out.println( "" + i + ": " + stackTraceElement );
+//        }
+//        System.out.println( "..." );
+////        System.out.println( "str = " + str );
+//    }
+//
+//    public void repaint( Rectangle r ) {
+////        new Exception("Repaint").printStackTrace( );
+//        super.repaint( r );
+//    }
 
     public void relayout() {
         if( getWidth() > 0 && getHeight() > 0 ) {
@@ -214,5 +213,9 @@ public class Force1DPanel extends ApparatusPanel {
     public void reset() {
         forcePlotDevice.reset();
         repaint( 0, 0, getWidth(), getHeight() );
+    }
+
+    public Force1DModule getModule() {
+        return module;
     }
 }
