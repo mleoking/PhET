@@ -109,7 +109,7 @@ public class FaradayConfig {
     public static final double AC_MAXAMPLITUDE_MAX = 1.0;  // 0...1
     public static final double AC_MAXAMPLITUDE_MIN = 0.0;  // 0...1
     public static final double AC_FREQUENCY_MAX = 1.0;  // 0...1
-    public static final double AC_FREQUENCY_MIN = 0.25;  // 0...1
+    public static final double AC_FREQUENCY_MIN = 0.05;  // 0...1
     
     //----------------------------------------------------------------------------
     // Constructors
