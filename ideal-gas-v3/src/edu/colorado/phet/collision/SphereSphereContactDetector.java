@@ -10,12 +10,11 @@ import edu.colorado.phet.idealgas.model.SphericalBody;
 
 import java.awt.geom.Point2D;
 
-public class SphereSphereContactDetector extends ContactDetector {
+public class SphereSphereContactDetector implements ContactDetector {
 
-    private Point2D tempVector = new Point2D.Double();
-    //    private Vector2D tempVector = new Vector2D.Double();
+    private Point2D tempPt = new Point2D.Double();
 
-    protected boolean applies( CollidableBody bodyA, CollidableBody bodyB ) {
+    public boolean applies( CollidableBody bodyA, CollidableBody bodyB ) {
         return ( bodyA instanceof SphericalBody && bodyB instanceof SphericalBody );
     }
 
@@ -41,15 +40,13 @@ public class SphereSphereContactDetector extends ContactDetector {
     }
 
     private boolean spheresOverlap( SphericalBody sbA, SphericalBody sbB ) {
-        tempVector.setLocation( sbA.getPosition() );
-        double distance = tempVector.distance( sbB.getPosition() );
+        tempPt.setLocation( sbA.getPosition() );
+        double distance = tempPt.distance( sbB.getPosition() );
         return ( distance <= sbA.getRadius() + sbB.getRadius() );
     }
-
 
     private boolean boundingBoxesOverlap( SphericalBody sbA, SphericalBody sbB ) {
         return ( Math.abs( sbA.getPosition().getX() - sbB.getPosition().getX() ) <= sbA.getRadius() + sbB.getRadius()
                  && Math.abs( sbA.getPosition().getY() - sbB.getPosition().getY() ) <= sbA.getRadius() + sbB.getRadius() );
     }
-
 }
