@@ -4,6 +4,7 @@ package edu.colorado.phet.colorvision3.control;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -11,6 +12,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineMetrics;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
@@ -67,7 +70,9 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   // Minimum and maximum range, inclusive.
   private int _minimum, _maximum; 
   // Textual label, placed above the slider.
-  private String _label;  
+  private String _labelString;
+  // Font used for the label.
+  private Dimension _labelDimension;
   // Textual label, in a form optimized for rendering.
   private AttributedString _attributedString; 
   // Transmission width, in pixels.
@@ -209,12 +214,22 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
    */
   public void setLabel( String label, Color color, Font font )
   {
-    _label = label;
+    _labelString = label;
     
-    // Pre-process for rendering.
-    _attributedString = new AttributedString( _label );
+    // Pre-process the label String for rendering.
+    _attributedString = new AttributedString( _labelString );
     _attributedString.addAttribute( TextAttribute.FOREGROUND, color );
     _attributedString.addAttribute( TextAttribute.FONT, font );
+    
+    // Determine the label dimensions.
+    // This will be used in calculating the SpectrumSlider bounds.
+    // Note that we use the font height to calculate the label width,
+    // since LineMetrics tell us nothing about the width.
+    FontRenderContext frc = new FontRenderContext( null, true, false );
+    LineMetrics metrics = font.getLineMetrics( _labelString, frc );
+    float height = metrics.getHeight();
+    int numChars = metrics.getNumChars();
+    _labelDimension = new Dimension( (int)(numChars * height), (int)height );
   }
   
   /**
@@ -224,7 +239,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
    */
   public String getLabel()
   {
-    return _label;
+    return _labelString;
   }
   
   /**
@@ -287,19 +302,29 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
 
   /**
    * Determines the bounds.
-   * Note that this algorithm currently ignores the optional label,
-   * since it has no bounds prior to being passed to the graphics 
-   * context for rendering.
    * 
    * @return the bounds
    */
   protected Rectangle determineBounds()
   {
-    // TODO: add the bounds for the label
-    Rectangle r1 = _spectrum.getBounds();
-    Rectangle r2 = _knob.getBounds();
-    r1.add( r2 );
-    return r1;
+    // Start with the spectrum graphic's bounds.
+    Rectangle bounds = _spectrum.getBounds();
+    
+    // Add the knob's bounds.
+    Rectangle r = _knob.getBounds();
+    bounds.add( r );
+    
+    // If a label has been set, add it's bounding box.
+    if ( _labelDimension != null )
+    {
+      r = new Rectangle( _location.x + LABEL_X_OFFSET, 
+                         _location.y + LABEL_Y_OFFSET - _labelDimension.height,
+                         _labelDimension.width, 
+                         _labelDimension.height );
+      bounds.add( r );
+    }
+    
+    return bounds;
   }
 
 	//----------------------------------------------------------------------------
