@@ -49,21 +49,21 @@ public class PickupCoilGraphic {
      * Sole constructor.
      * 
      * @param component the parent Component
-     * @param coilModel the coil model
+     * @param pickupCoilModel the pickup coil model
      * @param lightBulbModel the lightbulb model
      * @param voltMeterModel the voltmeter model
      */
     public PickupCoilGraphic( 
             Component component, 
-            PickupCoil coilModel, 
+            PickupCoil pickupCoilModel, 
             LightBulb lightBulbModel,
             VoltMeter voltMeterModel ) {
         assert ( component != null );
-        assert ( coilModel != null );
+        assert ( pickupCoilModel != null );
         assert ( lightBulbModel != null );
         assert ( voltMeterModel != null );
-        _foreground = new ForegroundGraphic( component, coilModel, lightBulbModel, voltMeterModel );
-        _background = new BackgroundGraphic( component, coilModel, lightBulbModel );
+        _foreground = new ForegroundGraphic( component, pickupCoilModel, lightBulbModel, voltMeterModel );
+        _background = new BackgroundGraphic( component, pickupCoilModel, lightBulbModel );
     }
     
     /**
@@ -115,7 +115,7 @@ public class PickupCoilGraphic {
         // Instance data
         //----------------------------------------------------------------------------
 
-        private PickupCoil _coilModel;
+        private PickupCoil _pickupCoilModel;
         private LightBulb _lightBulbModel;
         private PhetImageGraphic _coilFront;
         private PhetImageGraphic _electronsFront;
@@ -130,19 +130,19 @@ public class PickupCoilGraphic {
          * Sole constructor.
          * 
          * @param component the parent Component
-         * @param coilModel the coil model
+         * @param pickupCoilModel the pickup coil model
          * @param lightBulbModel the lightbulb model
          * @param voltMeterModel the voltmeter model
          */
         public ForegroundGraphic( 
                 Component component, 
-                PickupCoil coilModel,  
+                PickupCoil pickupCoilModel,  
                 LightBulb lightBulbModel, 
                 VoltMeter voltMeterModel ) {
             super( component );
 
-            _coilModel = coilModel;
-            _coilModel.addObserver( this );
+            _pickupCoilModel = pickupCoilModel;
+            _pickupCoilModel.addObserver( this );
             _lightBulbModel = lightBulbModel;
             _lightBulbModel.addObserver( this );
 
@@ -150,19 +150,19 @@ public class PickupCoilGraphic {
             _coilFront = null;
 
             // Lightbulb
-            _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel, coilModel.getMagnet() );
+            _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel, pickupCoilModel.getMagnet() );
 
             // Voltmeter
-            _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel, coilModel.getMagnet() );
+            _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel, pickupCoilModel.getMagnet() );
 
             // Interactivity
             super.setCursorHand();
             super.addTranslationListener( new TranslationListener() {
 
                 public void translationOccurred( TranslationEvent e ) {
-                    double x = _coilModel.getX() + e.getDx();
-                    double y = _coilModel.getY() + e.getDy();
-                    _coilModel.setLocation( x, y );
+                    double x = _pickupCoilModel.getX() + e.getDx();
+                    double y = _pickupCoilModel.getY() + e.getDy();
+                    _pickupCoilModel.setLocation( x, y );
                 }
             } );
 
@@ -174,8 +174,8 @@ public class PickupCoilGraphic {
          * Call this method prior to releasing all references to an object of this type.
          */
         public void finalize() {
-            _coilModel.removeObserver( this );
-            _coilModel = null;
+            _pickupCoilModel.removeObserver( this );
+            _pickupCoilModel = null;
             _lightBulbModel.removeObserver( this );
             _lightBulbModel = null;
         }
@@ -205,12 +205,12 @@ public class PickupCoilGraphic {
             if ( isVisible() ) {
 
                 // Position this composite graphic.
-                setLocation( (int) _coilModel.getX(), (int) _coilModel.getY() );
+                setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
 
                 // Set the number of loops in the coil.
                 {
                     Component component = getComponent();
-                    int numberOfLoops = _coilModel.getNumberOfLoops();
+                    int numberOfLoops = _pickupCoilModel.getNumberOfLoops();
                     if ( numberOfLoops == 1 ) {
                         _coilFront = new PhetImageGraphic( component, FaradayConfig.COIL1_FRONT_IMAGE );
                         _electronsFront = new PhetImageGraphic( component, FaradayConfig.ELECTRONS1_FRONT_IMAGE );
@@ -236,7 +236,7 @@ public class PickupCoilGraphic {
 
                 // Set the area of the loops.
                 // Assumes both images are the same size and the loop orientation is vertical.
-                double scale = ( 2 * _coilModel.getRadius() ) / _coilFront.getImage().getHeight();
+                double scale = ( 2 * _pickupCoilModel.getRadius() ) / _coilFront.getImage().getHeight();
                 _coilFront.clearTransform();
                 _coilFront.scale( scale );
                 _electronsFront.clearTransform();
@@ -268,7 +268,7 @@ public class PickupCoilGraphic {
         // Instance data
         //----------------------------------------------------------------------------
 
-        private PickupCoil _coilModel;
+        private PickupCoil _pickupCoilModel;
         private LightBulb _lightBulbModel;
         private PhetImageGraphic _coilBack;
         private PhetImageGraphic _electronsBack;
@@ -281,14 +281,14 @@ public class PickupCoilGraphic {
          * Sole constructor.
          * 
          * @param component the parent Component
-         * @param coilModel the coil model
+         * @param pickupCoilModel the pickup coil model
          * @param lightBulbModel the lightbulb model
          */
-        public BackgroundGraphic( Component component, PickupCoil coilModel, LightBulb lightBulbModel ) {
+        public BackgroundGraphic( Component component, PickupCoil pickupCoilModel, LightBulb lightBulbModel ) {
             super( component );
 
-            _coilModel = coilModel;
-            _coilModel.addObserver( this );
+            _pickupCoilModel = pickupCoilModel;
+            _pickupCoilModel.addObserver( this );
             _lightBulbModel = lightBulbModel;
             _lightBulbModel.addObserver( this );
 
@@ -300,9 +300,9 @@ public class PickupCoilGraphic {
             super.addTranslationListener( new TranslationListener() {
 
                 public void translationOccurred( TranslationEvent e ) {
-                    double x = _coilModel.getX() + e.getDx();
-                    double y = _coilModel.getY() + e.getDy();
-                    _coilModel.setLocation( x, y );
+                    double x = _pickupCoilModel.getX() + e.getDx();
+                    double y = _pickupCoilModel.getY() + e.getDy();
+                    _pickupCoilModel.setLocation( x, y );
                 }
             } );
 
@@ -314,8 +314,8 @@ public class PickupCoilGraphic {
          * Call this method prior to releasing all references to an object of this type.
          */
         public void finalize() {
-            _coilModel.removeObserver( this );
-            _coilModel = null;
+            _pickupCoilModel.removeObserver( this );
+            _pickupCoilModel = null;
             _lightBulbModel.removeObserver( this );
             _lightBulbModel = null;
         }
@@ -345,12 +345,12 @@ public class PickupCoilGraphic {
             if ( isVisible() ) {
 
                 // Position this composite graphic.
-                setLocation( (int) _coilModel.getX(), (int) _coilModel.getY() );
+                setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
 
                 // Set the number of loops in the coil.
                 {
                     Component component = getComponent();
-                    int numberOfLoops = _coilModel.getNumberOfLoops();
+                    int numberOfLoops = _pickupCoilModel.getNumberOfLoops();
                     if ( numberOfLoops == 1 ) {
                         _coilBack = new PhetImageGraphic( component, FaradayConfig.COIL1_BACK_IMAGE );
                         _electronsBack = new PhetImageGraphic( component, FaradayConfig.ELECTRONS1_BACK_IMAGE );
@@ -374,7 +374,7 @@ public class PickupCoilGraphic {
 
                 // Set the area of the loops.
                 // Assumes foreground and background images are the same size and the loop orientation is vertical.
-                double scale = ( 2 * _coilModel.getRadius() ) / _coilBack.getImage().getHeight();
+                double scale = ( 2 * _pickupCoilModel.getRadius() ) / _coilBack.getImage().getHeight();
                 _coilBack.clearTransform();
                 _coilBack.scale( scale );
                 _electronsBack.clearTransform();

@@ -29,7 +29,7 @@ public class LightBulb extends SimpleObservable implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PickupCoil _coilModel;
+    private PickupCoil _pickupCoilModel;
     private boolean _enabled;
     
     //----------------------------------------------------------------------------
@@ -39,13 +39,13 @@ public class LightBulb extends SimpleObservable implements SimpleObserver {
     /**
      * Sole constructor.
      * 
-     * @param resistance the resistance of the bulb
+     * @param pickupCoilModel the pickup coil that the lightbulb is across
      */
-    public LightBulb( PickupCoil coilModel ) {
+    public LightBulb( PickupCoil pickupCoilModel ) {
         super();
         
-        _coilModel = coilModel;
-        _coilModel.addObserver( this );
+        _pickupCoilModel = pickupCoilModel;
+        _pickupCoilModel.addObserver( this );
 
         _enabled = true;
     }
@@ -55,8 +55,8 @@ public class LightBulb extends SimpleObservable implements SimpleObserver {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _coilModel.removeObserver( this );
-        _coilModel = null;
+        _pickupCoilModel.removeObserver( this );
+        _pickupCoilModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -70,7 +70,7 @@ public class LightBulb extends SimpleObservable implements SimpleObserver {
      * @return the intensity (0.0 - 1.0)
      */
     public double getIntensity() {
-        double voltage = Math.abs( _coilModel.getVoltage() );
+        double voltage = Math.abs( _pickupCoilModel.getVoltage() );
         double intensity = voltage / FaradayConfig.MAX_EMF;
         intensity = MathUtil.clamp( 0, intensity, 1 );
         if ( intensity == Double.NaN ) {

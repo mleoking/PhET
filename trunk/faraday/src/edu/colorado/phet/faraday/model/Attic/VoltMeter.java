@@ -33,7 +33,7 @@ public class VoltMeter extends SimpleObservable implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PickupCoil _coilModel;
+    private PickupCoil _pickupCoilModel;
     private boolean _enabled;
     
     //----------------------------------------------------------------------------
@@ -43,14 +43,14 @@ public class VoltMeter extends SimpleObservable implements SimpleObserver {
     /**
      * Sole constructor.
      * 
-     * @param voltageSourceModel the voltage source
+     * @param pickupCoilModel the pickup coil that the meter is across
      */
-    public VoltMeter( PickupCoil coilModel ) {
+    public VoltMeter( PickupCoil pickupCoilModel ) {
         super();
         
-        assert( coilModel != null );
-        _coilModel = coilModel;
-        _coilModel.addObserver( this );
+        assert( pickupCoilModel != null );
+        _pickupCoilModel = pickupCoilModel;
+        _pickupCoilModel.addObserver( this );
         
         _enabled = true;
     }
@@ -60,8 +60,8 @@ public class VoltMeter extends SimpleObservable implements SimpleObserver {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _coilModel.removeObserver( this );
-        _coilModel = null;
+        _pickupCoilModel.removeObserver( this );
+        _pickupCoilModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -74,7 +74,7 @@ public class VoltMeter extends SimpleObservable implements SimpleObserver {
      * @return the voltage, in volts
      */
     public double getVoltage() {
-        return _coilModel.getVoltage();
+        return _pickupCoilModel.getVoltage();
     }
     
     /**
