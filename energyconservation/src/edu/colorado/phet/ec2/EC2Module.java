@@ -135,7 +135,7 @@ public class EC2Module extends Module implements ModuleSplineInterface {
     }
 
     public EC2Module() {
-        super( SimStrings.get( "Energy Conservation Module V2" ) );
+        super( SimStrings.get( "ModuleTitle.EnergyConservationModule" ) );
 
         ApparatusPanel mypanel = new ApparatusPanel();
         buffer = new BufferedGraphic3( mypanel, new GradientPaint( 0, 0, Color.red, 200, 350, new Color( 200, 200, 240 ) ) );
@@ -651,12 +651,12 @@ public class EC2Module extends Module implements ModuleSplineInterface {
     public static void main( String[] args ) throws UnsupportedLookAndFeelException {
         String applicationLocale = System.getProperty( "javaws.locale" );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
+            SimStrings.setLocale( new Locale( applicationLocale ) );
         }
         String argsKey = "user.language=";
         if( args.length > 0 && args[0].startsWith( argsKey )) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ));
+            SimStrings.setLocale( new Locale( locale ));
         }
 
         SimStrings.setStrings( localizedStringsPath );
@@ -677,6 +677,7 @@ public class EC2Module extends Module implements ModuleSplineInterface {
         ApplicationDescriptor desc = new ApplicationDescriptor( SimStrings.get( "EnergyConservationApplication.title" ),
                                                                 SimStrings.get( "EnergyConservationApplication.description" ),
                                                                 SimStrings.get( "EnergyConservationApplication.version" ), fullScreen );
+        desc.setName( "energyconservation" );
         IClock c = new DynamicClock( 1, 1000, ThreadPriority.MIN ) {
             public void tickOnce( double dt ) {
             }
