@@ -38,7 +38,7 @@ public class LaserConfig {
     public static final String localizedStringsPath = "localization/LasersStrings";
 
     // Physical things
-    public static Point2D.Double ORIGIN = new Point2D.Double( 150, 150 );
+    public static Point2D.Double ORIGIN = new Point2D.Double( 150, 200 );
 
     public static final int DEFAULT_STIMULATING_PHOTON_RATE = 20;
     public static final int MINIMUM_STIMULATING_PHOTON_RATE = 0;
@@ -59,12 +59,9 @@ public class LaserConfig {
     public static final int CONTROL_FONT_SIZE = 12;
     public static final int CONTROL_FONT_STYLE = Font.BOLD;
     public static final String IMAGE_DIRECTORY = "images/";
-    public static final String ATOM_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-med.gif";
-    public static final String GROUND_STATE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-gray-med.gif";
-    public static final String HIGH_ENERGY_STATE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-med.gif";
-    public static final String MIDDLE_ENERGY_STATE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-med.gif";
+    public static final String ATOM_IMAGE_FILE = IMAGE_DIRECTORY + "particle-gray-med.gif";
     public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "photon-comet.png";
-//        public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-med.gif";
+    //        public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-med.gif";
     public static final String MID_HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-deep-red-xsml.gif";
     public static final String HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
     public static final String LOW_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";

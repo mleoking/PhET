@@ -10,10 +10,8 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -23,7 +21,6 @@ import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.BlueBeamGraphic;
 import edu.colorado.phet.lasers.view.LampGraphic;
-import edu.colorado.phet.coreadditions.ColorFromWavelength;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -33,11 +30,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.IndexColorModel;
 import java.io.IOException;
 
 public class SingleAtomModule extends BaseLaserModule {
     private Atom atom;
+    private PhetImageGraphic pumpingLampGraphic;
 
     public SingleAtomModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
@@ -90,7 +87,7 @@ public class SingleAtomModule extends BaseLaserModule {
                                 (int)sbmDim.getWidth() + 10, (int)sbmDim.getHeight() + 10 );
             sbmPanel.add( sbm );
             sbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-//            sbmPanel.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+            //            sbmPanel.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             sbmPanel.setOpaque( false );
             getApparatusPanel().add( sbmPanel );
 
@@ -100,7 +97,7 @@ public class SingleAtomModule extends BaseLaserModule {
             pumpingBeamTx.translate( getLaserOrigin().getX() + beamImage.getHeight() + s_boxWidth / 2 - beamImage.getHeight() / 2, 10 );
             pumpingBeamTx.rotate( Math.PI / 2 );
             BufferedImage pumpingBeamLamp = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( beamImage, null );
-            PhetImageGraphic pumpingLampGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), pumpingBeamLamp, pumpingBeamTx );
+            pumpingLampGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), pumpingBeamLamp, pumpingBeamTx );
             addGraphic( pumpingLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
             // Add the beam control
@@ -110,7 +107,7 @@ public class SingleAtomModule extends BaseLaserModule {
             pbmPanel.setBounds( (int)( pumpingBeamTx.getTranslateX() + pumpingLampGraphic.getWidth() ), 10,
                                 (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );
             pbmPanel.add( pbm );
-//            pbmPanell.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+            //            pbmPanell.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             pbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             pbmPanel.setOpaque( false );
             getApparatusPanel().add( pbmPanel );

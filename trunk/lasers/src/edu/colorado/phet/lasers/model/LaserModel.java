@@ -19,7 +19,6 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.HighEnergyState;
 import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
@@ -34,7 +33,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LaserModel extends BaseModel implements Atom.Listener {
+public class LaserModel extends BaseModel {
 
     static public Point2D ORIGIN = new Point2D.Double( 100, 300 );
     static private int width = 800;
@@ -90,19 +89,12 @@ public class LaserModel extends BaseModel implements Atom.Listener {
         if( modelElement instanceof ResonatingCavity ) {
             this.resonatingCavity = (ResonatingCavity)modelElement;
         }
-        if( modelElement instanceof Atom ) {
-            ( (Atom)modelElement ).addListener( this );
-        }
     }
 
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
         if( modelElement instanceof Collidable ) {
             bodies.remove( modelElement );
-        }
-        if( modelElement instanceof Atom ) {
-            ( (Atom)modelElement ).removeListener( this );
-            atoms.remove( modelElement );
         }
         if( modelElement instanceof Photon ) {
             photons.remove( modelElement );
@@ -207,7 +199,6 @@ public class LaserModel extends BaseModel implements Atom.Listener {
         boundingRectangle.setRect( bounds );
     }
 
-
     private class CollisionMechanism {
         private ArrayList collisionExperts = new ArrayList();
 
@@ -236,22 +227,6 @@ public class LaserModel extends BaseModel implements Atom.Listener {
                     }
                 }
             }
-        }
-    }
-
-    // Implementation of Atom.Listener
-    public void photonEmitted( Atom atom, Photon photon ) {
-    }
-
-    public void leftSystem( Atom atom ) {
-    }
-
-    public void stateChanged( Atom atom, AtomicState oldState, AtomicState newState ) {
-        if( oldState instanceof ModelElement ) {
-            removeModelElement( (ModelElement)oldState );
-        }
-        if( newState instanceof ModelElement ) {
-            addModelElement( (ModelElement)newState );
         }
     }
 }

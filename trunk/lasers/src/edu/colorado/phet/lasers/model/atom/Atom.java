@@ -12,8 +12,12 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.collision.SphericalBody;
+import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.photon.Photon;
+
+import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  *
@@ -47,12 +51,63 @@ public class Atom extends SphericalBody {
 
     private AtomicState state;
     private SubscriptionService subscriptionService = new SubscriptionService();
+    private EventRegistry eventRegistry = new EventRegistry();
 
-    public interface Listener {
-        void photonEmitted( Atom atom, Photon photon );
-        void leftSystem( Atom atom );
-        void stateChanged( Atom atom, AtomicState oldState, AtomicState newState );
+    public void addListener( EventListener listener ) {
+        eventRegistry.addListener( listener );
     }
+
+    public void removeListener( EventListener listener ) {
+        eventRegistry.removeListener( listener );
+    }
+
+    public class StateChangeEvent extends EventObject {
+        public StateChangeEvent() {
+            super( Atom.this );
+        }
+
+        public AtomicState getState() {
+            return Atom.this.getState();
+        }
+    }
+
+    public interface StateChangeListener extends EventListener {
+        void stateChangeOccurred( StateChangeEvent event );
+    }
+
+    public class PhotonEmissionEvent extends EventObject {
+        private Photon photon;
+
+        public PhotonEmissionEvent( Photon photon ) {
+            super( Atom.this );
+            this.photon = photon;
+        }
+
+        public Photon getPhoton() {
+            return photon;
+        }
+    }
+
+    public interface PhotonEmissionListener extends EventListener {
+        void photonEmissionOccurred( PhotonEmissionEvent event );
+    }
+
+    public class RemovalEvent extends EventObject {
+        public RemovalEvent() {
+            super( Atom.this );
+        }
+    }
+
+    public interface RemovalListener extends EventListener {
+        void removalOccurred( RemovalEvent event );
+    }
+
+
+    //    public interface Listener {
+    //        void photonEmitted( Atom atom, Photon photon );
+    //        void leftSystem( Atom atom );
+    //        void stateChanged( Atom atom, AtomicState oldState, AtomicState newState );
+    //    }
 
     public Atom() {
         super( s_radius );
@@ -60,13 +115,13 @@ public class Atom extends SphericalBody {
         setState( GroundState.instance() );
     }
 
-    public void addListener( Listener listner ) {
-        subscriptionService.addListener( listner );
-    }
-
-    public void removeListener( Listener listener ) {
-        subscriptionService.removeListener( listener );
-    }
+    //    public void addListener( Listener listner ) {
+    //        subscriptionService.addListener( listner );
+    //    }
+    //
+    //    public void removeListener( Listener listener ) {
+    //        subscriptionService.removeListener( listener );
+    //    }
 
     public void collideWithPhoton( Photon photon ) {
         state.collideWithPhoton( this, photon );
@@ -90,12 +145,7 @@ public class Atom extends SphericalBody {
             this.stateLifetimeManager = new SpontaneouslyEmittingState.StateLifetimeManager( this );
         }
 
-        notifyObservers();
-        this.subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
-            public void doNotify( Object obj ) {
-                ( (Listener)obj ).stateChanged( Atom.this, oldState, newState );
-            }
-        } );
+        eventRegistry.fireEvent( new StateChangeEvent() );
     }
 
     public void stepInTime( double dt ) {
@@ -106,19 +156,10 @@ public class Atom extends SphericalBody {
      *
      */
     void emitPhoton( final Photon emittedPhoton ) {
-        subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
-            public void doNotify( Object obj ) {
-                ( (Listener)obj ).photonEmitted( Atom.this, emittedPhoton );
-            }
-        } );
+        eventRegistry.fireEvent( new PhotonEmissionEvent( emittedPhoton ) );
     }
 
     public void removeFromSystem() {
-        subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
-            public void doNotify( Object obj ) {
-                ( (Listener)obj ).leftSystem( Atom.this );
-            }
-        } );
         state.decrementNumInState();
     }
 }

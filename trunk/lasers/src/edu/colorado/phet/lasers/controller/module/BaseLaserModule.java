@@ -21,7 +21,6 @@ import edu.colorado.phet.lasers.controller.LaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.SpontaneouslyEmittingState;
 import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
@@ -135,6 +134,41 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
         setControlPanel( controlPanel );
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Implementations of listeners interfaces
+    //
+    public class AtomPhotonEmissionListener implements Atom.PhotonEmissionListener {
+        public void photonEmissionOccurred( Atom.PhotonEmissionEvent event ) {
+            Photon photon = event.getPhoton();
+            getModel().addModelElement( photon );
+            final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+            addGraphic( pg, LaserConfig.PHOTON_LAYER );
+
+            // Add a listener that will remove the graphic if the photon leaves the system
+            // todo: change to new listener model
+            photon.addListener( new Photon.Listener() {
+                public void leavingSystem( Photon photon ) {
+                    getApparatusPanel().removeGraphic( pg );
+                }
+            } );
+        }
+    }
+
+    public class AtomRemovalListener implements Atom.RemovalListener {
+        private AtomGraphic atomGraphic;
+
+        public AtomRemovalListener( AtomGraphic atomGraphic ) {
+            this.atomGraphic = atomGraphic;
+        }
+
+        public void removalOccurred( Atom.RemovalEvent event ) {
+            getApparatusPanel().removeGraphic( atomGraphic );
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Setters and getters
+    //
     protected Point2D getLaserOrigin() {
         return laserOrigin;
     }
@@ -152,6 +186,9 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
         return (LaserModel)getModel();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////
+    // Other methods
+    //
     protected void addAtom( Atom atom ) {
         getModel().addModelElement( atom );
         final AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
@@ -159,25 +196,13 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
 
         // Add a listener to the atom that will create a photon graphic if the atom
         // emits a photon
-        atom.addListener( new Atom.Listener() {
-            public void photonEmitted( Atom atom, Photon photon ) {
-                getModel().addModelElement( photon );
-                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
-                addGraphic( pg, LaserConfig.PHOTON_LAYER );
+        atom.addListener( new AtomPhotonEmissionListener() );
 
-                // Add a listener that will remove the graphic if the photon leaves the system
-                photon.addListener( new Photon.Listener() {
-                    public void leavingSystem( Photon photon ) {
-                        getApparatusPanel().removeGraphic( pg );
-                    }
-                } );
-            }
-
-            public void leftSystem( Atom atom ) {
+        atom.addListener( new AtomRemovalListener( atomGraphic ) );
+        atom.addListener( new Atom.RemovalListener() {
+            public void removalOccurred( Atom.RemovalEvent event ) {
                 getApparatusPanel().removeGraphic( atomGraphic );
-            }
-
-            public void stateChanged( Atom atom, AtomicState oldState, AtomicState newState ) {
+                System.out.println( "!!!" );
             }
         } );
     }
