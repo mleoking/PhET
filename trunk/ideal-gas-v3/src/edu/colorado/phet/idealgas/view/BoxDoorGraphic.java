@@ -124,11 +124,11 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
 
     public void mouseDragged( MouseEvent e ) {
         super.mouseDragged( e );
-        try {
-            Thread.sleep( 20 );
-        }
-        catch( InterruptedException e1 ) {
-            e1.printStackTrace();
-        }
+//        try {
+//            Thread.sleep( 20 );
+//        }
+//        catch( InterruptedException e1 ) {
+//            e1.printStackTrace();
+//        }
     }
 }

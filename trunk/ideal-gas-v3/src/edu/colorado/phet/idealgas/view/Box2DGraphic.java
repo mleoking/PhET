@@ -75,12 +75,12 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
 
     public void mouseDragged( MouseEvent e ) {
         super.mouseDragged( e );
-        try {
-            Thread.sleep( 10 );
-        }
-        catch( InterruptedException e1 ) {
-            e1.printStackTrace();
-        }
+//        try {
+//            Thread.sleep( 10 );
+//        }
+//        catch( InterruptedException e1 ) {
+//            e1.printStackTrace();
+//        }
     }
 
     private class InternalBoxGraphic extends PhetShapeGraphic implements SimpleObserver {

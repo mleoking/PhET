@@ -45,6 +45,9 @@ public class ApparatusPanel extends JPanel {
 
     ArrayList graphicsSetups = new ArrayList();
 
+    protected ApparatusPanel( Object dummy ) {
+    }
+
     public ApparatusPanel() {
         // Call superclass constructor with null so that we
         // don't get the default layout manager. This allows us
@@ -73,6 +76,9 @@ public class ApparatusPanel extends JPanel {
         graphic.clear();
     }
 
+    protected void superPaint( Graphics g ) {
+        super.paintComponent( g );
+    }
     /**
      * Draws all the Graphic objects in the ApparatusPanel
      *
