@@ -62,8 +62,8 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
     }
 
     public void update() {
-        int offsetX = -2 * (int)Box2DGraphic.s_thickness;
-        int offsetY = 3 * (int)Box2DGraphic.s_thickness;
+        int offsetX = -( (int)Box2DGraphic.s_thickness + 4);
+        int offsetY = (int)Box2DGraphic.s_thickness + 6;
 
         int nextLocationX = (int)box.getMinX() - currPusherFrame.getHeight( null ) + offsetX;
         boolean wallMoving = nextLocationX != location.x;
