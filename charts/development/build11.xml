@@ -69,6 +69,7 @@
         description="compile the source ">
         <delete dir="${ant.classes}"/>
         <mkdir dir="${ant.classes}"/>
+        <echo message="cp=${ant.lib}/phetcommon.jar"/>
         <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar" destdir="${ant.classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->

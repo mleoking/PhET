@@ -79,7 +79,8 @@
     <target name="Compile" depends="init, Build Dependencies, Clean"
         description="compile the source ">
         <mkdir dir="${ant.classes}"/>
-        <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;${ant.lib}/smoothmetal.jar" destdir="${ant.classes}"/>
+        <!--        <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;${ant.lib}/smoothmetal.jar" destdir="${ant.classes}"/>-->
+        <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;lib/smoothmetal.jar" destdir="${ant.classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
@@ -135,6 +136,7 @@
         <mkdir dir="${destdir}/lib"/>
         <copy todir="${destdir}/lib">
             <fileset dir="${ant.lib}"/>
+            <fileset dir="lib"/>
         </copy>
         <exec dir="${destdir}" executable="${explorer}">
             <arg line="${destdir}"/>
@@ -147,6 +149,7 @@
         <ant antfile="${phetcommon.build.file}" target="Generate Jar" inheritall="false">
             <property name="jardest" value="${ant.lib}/phetcommon.jar"/>
         </ant>
+        <echo message="Using: ${phetcommon.build.file}"></echo>
         <ant antfile="${phetcommon.build.file}" target="Copy Lib" inheritall="false">
             <property name="libdest" value="${ant.lib}"/>
         </ant>
