@@ -31,4 +31,16 @@
 ^phetcommon\(/\|$\) mail -s "CVS commit" samreid
 ^phetcommon\(/\|$\) mail -s "CVS commit" joetreat
 
+# Notifications for Chris Malley
 ^colorvision3\(/\|$\) mail -s "CVS commit" cmalley
+
+# Notifications for Ron LeMaster
+^charts\(/\|$\) mail -s "CVS commit" ronlemaster
+^collision\(/\|$\) mail -s "CVS commit" ronlemaster
+^emf\(/\|$\) mail -s "CVS commit" ronlemaster
+^sound-2\(/\|$\) mail -s "CVS commit" ronlemaster
+^greenhouse\(/\|$\) mail -s "CVS commit" ronlemaster
+^ideal-gas-v3\(/\|$\) mail -s "CVS commit" ronlemaster
+^lasers\(/\|$\) mail -s "CVS commit" ronlemaster
+^nuclearphysics\(/\|$\) mail -s "CVS commit" ronlemaster
+^PhET-installer(/\|$\) mail -s "CVS commit" ronlemaster
