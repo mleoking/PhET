@@ -84,10 +84,12 @@ public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
         GraphicsState gs = new GraphicsState( g );
         g.setColor( color );
         g.fill( bounds );
-
-        g.setColor( waveColor );
-        g.draw( wave );
         standingWave.paint( g );
+
+        // Debug code
+        //        g.setColor( waveColor );
+        //        g.draw( wave );
+
         gs.restoreGraphics();
     }
 

@@ -314,8 +314,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
                                                 this.getBounds().getY() + getImage().getMinY(),
                                                 getImage().getWidth(),
                                                 getImage().getHeight() );
-        //        g.setColor( Color.GREEN );
-        //        g.draw( r );
+        g.setColor( Color.GREEN );
+        g.draw( r );
         g.fillArc( (int)debugPosition.getX(), (int)debugPosition.getY(), 2, 2, 0, 360 );
     }
 

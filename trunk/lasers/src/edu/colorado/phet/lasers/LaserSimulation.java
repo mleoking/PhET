@@ -38,13 +38,18 @@ public class LaserSimulation extends PhetApplication {
                    SimStrings.get( "LasersApplication.description" ),
                    SimStrings.get( "LasersApplication.version" ) );
 
+
             AbstractClock clock = new SwingTimerClock( 7, 40 );
             //            AbstractClock clock = new SwingTimerClock( 10, 40 );
             setClock( clock );
             setFrameCenteredSize( 900, 600 );
 
-            Module singleAtomModule = new SingleAtomModule( clock );
-            Module multipleAtomModule = new MultipleAtomModule( clock );
+            // Create a frame
+            //            PhetFrame frame = new PhetFrame( this );
+            //            setFrame( frame );
+
+            Module singleAtomModule = new SingleAtomModule( getFrame() );
+            Module multipleAtomModule = new MultipleAtomModule( getFrame() );
             Module[] modules = new Module[]{
                 singleAtomModule,
                 multipleAtomModule

@@ -13,7 +13,7 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -49,8 +49,8 @@ public class MultipleAtomModule extends BaseLaserModule {
     /**
      *
      */
-    public MultipleAtomModule( AbstractClock clock ) {
-        super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), clock );
+    public MultipleAtomModule( PhetFrame frame ) {
+        super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), frame );
 
         // Set the control panel
         setControlPanel( new MultipleAtomControlPanel( this ) );
@@ -116,7 +116,7 @@ public class MultipleAtomModule extends BaseLaserModule {
 
             // Add the beam control
             JPanel pbmPanel = new JPanel();
-            BeamControl pbm = new BeamControl( pumpingBeam );
+            BeamControl pbm = new BeamControl( pumpingBeam, 0, LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE );
             Dimension pbmDim = pbm.getPreferredSize();
             pbmPanel.setBounds( (int)( pumpingBeamTx.getTranslateX() - ( pumpingLampGraphic.getHeight() * pumpScaleY ) - pbmDim.getWidth() ), 10,
                                 (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );

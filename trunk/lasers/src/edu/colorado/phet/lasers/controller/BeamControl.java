@@ -37,6 +37,10 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
     private CollimatedBeam wavelengthLimitingBeam;
 
     public BeamControl( final CollimatedBeam beam ) {
+        this( beam, LaserConfig.MINIMUM_SEED_PHOTON_RATE, LaserConfig.MAXIMUM_SEED_PHOTON_RATE );
+    }
+
+    public BeamControl( final CollimatedBeam beam, int minRate, int maxRate ) {
         this.beam = beam;
         beam.addListener( this );
 
@@ -51,10 +55,7 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
         //        photonRateTF.setText( Double.toString( LaserConfig.DEFAULT_SEED_PHOTON_RATE ) );
 
         // Create the intesity slider
-        photonRateSlider = new JSlider( JSlider.HORIZONTAL,
-                                        LaserConfig.MINIMUM_SEED_PHOTON_RATE,
-                                        LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                                        0 );
+        photonRateSlider = new JSlider( JSlider.HORIZONTAL, minRate, maxRate, 0 );
 
         photonRateSlider.setPreferredSize( sliderDimension );
         photonRateSlider.setPaintTicks( true );
