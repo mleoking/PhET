@@ -54,6 +54,7 @@ phetcommon:
 
 DONE:
 v0r17...
+(3/9) - add water faucet to control turbine speed
 (3/9) - redo AC graphic
 (3/9) - fixed the bounds & registration point of FaradaySlider
 (3/8) - first pass at Generator module
