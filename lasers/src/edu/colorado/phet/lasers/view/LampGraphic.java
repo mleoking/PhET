@@ -25,7 +25,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
 
-public class LampGraphic extends PhetImageGraphic {
+public class LampGraphic extends PhetImageGraphic implements CollimatedBeam.WavelengthChangeListener {
     private CollimatedBeam beam;
     private double currWavelength;
     private Color color;
@@ -36,6 +36,20 @@ public class LampGraphic extends PhetImageGraphic {
     public LampGraphic( CollimatedBeam beam, Component component, BufferedImage image, AffineTransform transform ) {
         super( component, image, transform );
         this.beam = beam;
+        beam.addListener2( this );
+        update();
+    }
+
+    public void wavelengthChangeOccurred( CollimatedBeam.WavelengthChangeEvent event ) {
+        update();
+    }
+
+    private void update() {
+        if( currWavelength != beam.getWavelength() ) {
+            currWavelength = beam.getWavelength();
+            color = VisibleColor.wavelengthToColor( currWavelength );
+            repaint();
+        }
     }
 
     public void paint( Graphics2D g ) {
@@ -43,10 +57,10 @@ public class LampGraphic extends PhetImageGraphic {
         super.paint( g );
         GraphicsUtil.setAntiAliasingOn( g );
         g.transform( getTransform() );
-        if( currWavelength != beam.getWavelength() ) {
-            currWavelength = beam.getWavelength();
-            color = VisibleColor.wavelengthToColor( currWavelength );
-        }
+//        if( currWavelength != beam.getWavelength() ) {
+//            currWavelength = beam.getWavelength();
+//            color = VisibleColor.wavelengthToColor( currWavelength );
+//        }
         g.setColor( color );
         g.fill( lens );
         g.setStroke( bezelStroke );
