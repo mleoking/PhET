@@ -11,7 +11,6 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
@@ -37,8 +36,8 @@ public class NuclearPhysicsModule extends Module {
             }
         } );
 
-        apparatusPanel = new ApparatusPanel2( getModel() );
-        //        apparatusPanel = new ApparatusPanel();
+        //        apparatusPanel = new ApparatusPanel2( getModel() );
+        apparatusPanel = new ApparatusPanel();
         super.setApparatusPanel( apparatusPanel );
 
         physicalPanel = new PhysicalPanel( getModel() );

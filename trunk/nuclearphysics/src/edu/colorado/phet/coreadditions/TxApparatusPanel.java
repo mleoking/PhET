@@ -17,7 +17,7 @@ import java.util.HashMap;
  * An ApparatusPanel that handles TxGraphics
  */
 public class TxApparatusPanel extends ApparatusPanel2 {
-    //public class TxApparatusPanel extends ApparatusPanel {
+    //    public class TxApparatusPanel extends ApparatusPanel {
     private HashMap txGraphicMap = new HashMap();
     private AffineTransform atx = new AffineTransform();
 
