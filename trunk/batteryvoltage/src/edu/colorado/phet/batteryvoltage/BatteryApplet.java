@@ -4,6 +4,7 @@
 
 package edu.colorado.phet.batteryvoltage;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.electron.utils.ImageLoader;
 import edu.colorado.phet.electron.utils.ResourceLoader4;
 import edu.colorado.phet.phys2d.System2D;
@@ -13,12 +14,26 @@ import edu.colorado.phet.phys2d.gui.SystemRunnerControl;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Locale;
 import java.util.Random;
 
 public class BatteryApplet extends JApplet {
     private SystemRunnerControl timeControls;
 
+    public static boolean applet = true;
+
+    // Localization
+    public static final String localizedStringsPath = "localization/BatteryVoltageStrings";
+
     public BatteryApplet() {
+        if ( applet ) {
+            String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+                Locale.setDefault( new Locale( applicationLocale ) );
+            }
+            SimStrings.setStrings( localizedStringsPath );
+        }
+
         int width = 500;
         int height = 300;
         int barrierX = 100;
@@ -55,6 +70,20 @@ public class BatteryApplet extends JApplet {
     }
 
     public static void main( String[] args ) {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( localizedStringsPath );
+        
+        BatteryApplet.applet = false;
+
         JFrame f = new JFrame();
         f.setContentPane( new BatteryApplet() );
         f.setSize( new Dimension( 850, 525 ) );

@@ -1,5 +1,6 @@
 package edu.colorado.phet.phys2d.gui;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.phys2d.SystemRunner;
 
 import javax.swing.*;
@@ -40,7 +41,7 @@ public class SystemRunnerControl {
                 updateSystem();
             }
         } );
-        dtSlider.setBorder( BorderFactory.createTitledBorder( "Time Increment" ) );
+        dtSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "SystemRunnerControl.TimeIncrementSlider" ) ) );
         panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
 
         this.waitTimeSlider = new JSlider( 0, 100, 50 );
@@ -50,7 +51,7 @@ public class SystemRunnerControl {
                 updateSystem();
             }
         } );
-        waitTimeSlider.setBorder( BorderFactory.createTitledBorder( "Wait Time" ) );
+        waitTimeSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "SystemRunnerControl.WaitTimeSlider" ) ) );
         panel.add( dtSlider );
         panel.add( dtField );
         panel.add( waitTimeSlider );
@@ -72,7 +73,7 @@ public class SystemRunnerControl {
 
         int waitReadout = waitTimeSlider.getValue();
         double wait = waitSliderRange.convertTo( waitRange, waitReadout );
-        waitField.setText( "waitTime=" + ( (int)wait ) );
+        waitField.setText( SimStrings.get( "SystemRunnerControl.WaitTimeText" ) + "=" + ( (int)wait ) );
         sr.setWaitTime( (int)wait );
     }
 }
