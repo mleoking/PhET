@@ -26,7 +26,7 @@ public class CursorTest {
         VerticalChartSlider verticalChartSlider = new VerticalChartSlider( ch );
 
 //        HorizontalCursor cursor = new HorizontalCursor( ch, new Color( 200, 200, 0, 150 ), new Color( 150, 150, 0, 50 ), 8 );
-        HorizontalCursor cursor = new HorizontalCursor( ch, new Color( 200, 200, 255, 120 ), new Color( 150, 150, 255, 255 ), 8 );
+        HorizontalCursor cursor = new HorizontalCursor( apparatusPanel, ch, new Color( 200, 200, 255, 120 ), new Color( 150, 150, 255, 255 ), 8 );
         cursor.addListener( new HorizontalCursor.Listener() {
             public void modelValueChanged( double modelX ) {
                 System.out.println( "modelX = " + modelX );

@@ -2,8 +2,7 @@
 package edu.colorado.phet.chart.controllers;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.common.view.graphics.BoundedGraphic;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.event.MouseInputAdapter;
@@ -17,16 +16,31 @@ import java.util.ArrayList;
  * Time: 9:02:00 AM
  * Copyright (c) Jul 1, 2003 by Sam Reid
  */
-public class HorizontalCursor extends DefaultInteractiveGraphic {
-    private CursorGraphic cursorGraphic;
+public class HorizontalCursor extends PhetGraphic {
+
     private ArrayList listeners = new ArrayList();
     private double minX = Double.NEGATIVE_INFINITY;
     private double maxX = Double.POSITIVE_INFINITY;
 
-    public HorizontalCursor( final Chart chart, Color fillColor, Color outlineColor, int width ) {
-        super( new CursorGraphic( chart, fillColor, outlineColor, width ) );
-        cursorGraphic = (CursorGraphic)super.getGraphic();
-        addCursorHandBehavior();
+    private Chart chart;
+    private Color outlineColor;
+    private Color fillColor;
+    double modelX = 0;
+    int width = 8;
+    boolean visible = true;
+    private Stroke stroke = new BasicStroke( 1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 2, new float[]{6, 4}, 0 );
+    private Rectangle shape = null;
+
+    public HorizontalCursor( Component component, final Chart chart, Color fillColor, Color outlineColor, int width ) {
+        super( component );
+
+        this.chart = chart;
+        this.fillColor = fillColor;
+        this.outlineColor = outlineColor;
+        this.width = width;
+        shape = new Rectangle();
+//        cursorGraphic = (CursorGraphic)super.getGraphic();
+        setCursorHand();
         addMouseInputListener( new MouseInputAdapter() {
             public void mouseDragged( MouseEvent e ) {
                 double newX = chart.getTransform().viewToModelX( e.getX() );
@@ -34,8 +48,8 @@ public class HorizontalCursor extends DefaultInteractiveGraphic {
                 newX = Math.min( newX, chart.getRange().getMaxX() );
                 newX = Math.max( newX, minX );
                 newX = Math.min( newX, maxX );
-                if( newX != cursorGraphic.modelX ) {
-                    cursorGraphic.setModelX( newX );
+                if( newX != modelX ) {
+                    setModelX( newX );
                     for( int i = 0; i < listeners.size(); i++ ) {
                         Listener listener = (Listener)listeners.get( i );
                         listener.modelValueChanged( newX );
@@ -48,14 +62,15 @@ public class HorizontalCursor extends DefaultInteractiveGraphic {
                 update();
             }
         } );
-    }
-
-    public void update() {
-        cursorGraphic.update();
+        update();
     }
 
     public void setX( double x ) {
-        cursorGraphic.setModelX( x );
+        setModelX( x );
+    }
+
+    protected Rectangle determineBounds() {
+        return null;
     }
 
     public interface Listener {
@@ -74,63 +89,47 @@ public class HorizontalCursor extends DefaultInteractiveGraphic {
         this.maxX = maxX;
     }
 
-    private static class CursorGraphic implements BoundedGraphic {
-        private Chart chart;
-        private Color outlineColor;
-        private Color fillColor;
-        double modelX = 0;
-        int width = 8;
-        boolean visible = true;
-        private Stroke stroke = new BasicStroke( 1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 2, new float[]{6, 4}, 0 );
-        private Rectangle shape = null;
 
-        public CursorGraphic( Chart chart, Color fillColor, Color outlineColor, int width ) {
-            this.chart = chart;
-            this.fillColor = fillColor;
-            this.outlineColor = outlineColor;
-            this.width = width;
-            shape = new Rectangle();
-            update();
-        }
+    public void setVisible( boolean visible ) {
+        this.visible = visible;
+    }
 
-        public void setVisible( boolean visible ) {
-            this.visible = visible;
-        }
-
-        public void paint( Graphics2D g ) {
-            if( visible && shape != null ) {
-                GraphicsState state = new GraphicsState( g );
-                g.setColor( outlineColor );
-                g.setStroke( stroke );
-                g.draw( shape );
-                g.setColor( fillColor );
-                g.fill( shape );
-                state.restoreGraphics();
-            }
-        }
-
-        public void update() {
-            Rectangle origShape = stroke.createStrokedShape( shape ).getBounds();
-            int xCenter = chart.getTransform().modelToViewX( modelX );
-            int x = xCenter - width / 2;
-            int y = chart.getViewBounds().y;
-            int height = chart.getViewBounds().height;
-            shape.setBounds( x, y, width, height );
-
-            Rectangle newShape = stroke.createStrokedShape( shape ).getBounds();
-            Rectangle union = origShape.union( newShape );
-            chart.getComponent().repaint( union.x, union.y, union.width, union.height );
-//            System.out.println( "xCenter = " + xCenter );
-        }
-
-        public boolean contains( int x, int y ) {
-            return visible && shape != null && shape.contains( x, y );
-        }
-
-        public void setModelX( double modelX ) {
-//            System.out.println( "modelX = " + modelX );
-            this.modelX = modelX;
-            update();
+    public void paint( Graphics2D g ) {
+        if( visible && shape != null ) {
+            GraphicsState state = new GraphicsState( g );
+            g.setColor( outlineColor );
+            g.setStroke( stroke );
+            g.draw( shape );
+            g.setColor( fillColor );
+            g.fill( shape );
+            state.restoreGraphics();
         }
     }
+
+    public void update() {
+        Rectangle origShape = stroke.createStrokedShape( shape ).getBounds();
+        int xCenter = chart.getTransform().modelToViewX( modelX );
+        int x = xCenter - width / 2;
+        int y = chart.getViewBounds().y;
+        int height = chart.getViewBounds().height;
+        shape.setBounds( x, y, width, height );
+
+        Rectangle newShape = stroke.createStrokedShape( shape ).getBounds();
+        Rectangle union = origShape.union( newShape );
+        chart.getComponent().repaint( union.x, union.y, union.width, union.height );
+//            System.out.println( "xCenter = " + xCenter );
+    }
+
+    public boolean contains( int x, int y ) {
+        return visible && shape != null && shape.contains( x, y );
+    }
+
+    public void setModelX( double modelX ) {
+//            System.out.println( "modelX = " + modelX );
+        this.modelX = modelX;
+        update();
+    }
+//    private static class CursorGraphic {
+//
+//    }
 }
