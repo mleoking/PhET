@@ -1,6 +1,7 @@
 package edu.colorado.phet.motion2d;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -81,19 +82,19 @@ public class Motion2DPanel extends JPanel
         buttonFlag = SHOW_NEITHER;
         setBackground( Color.yellow );
 
-        btnLabel = new JLabel( "Velocity or Acceleration?" );
+        btnLabel = new JLabel( SimStrings.get( "Motion2DPanel.VelocityAccelerationLabel" ) );
         btnLabel.setBackground( Color.yellow );
-        vButton = new JRadioButton( "Show one", false );
-        aButton = new JRadioButton( "Show the other", false );
-        bothButton = new JRadioButton( "Show both", true );
-        neitherButton = new JRadioButton( "Show neither", false );
+        vButton = new JRadioButton( SimStrings.get( "Motion2DPanel.ShowVelocityRadioButton" ), false );
+        aButton = new JRadioButton( SimStrings.get( "Motion2DPanel.ShowAccelerationRadioButton" ), false );
+        bothButton = new JRadioButton( SimStrings.get( "Motion2DPanel.ShowBothRadioButton" ), true );
+        neitherButton = new JRadioButton( SimStrings.get( "Motion2DPanel.ShowNeitherRadioButton" ), false );
         buttonGroup = new ButtonGroup();
         setup( vButton );
         setup( aButton );
         setup( bothButton );
         setup( neitherButton );
-//        hideMouseButton = new JButton( "Show mouse cursor" );
-        moreButton = new JButton( "More controls" );
+//        hideMouseButton = new JButton( SimStrings.get( "Motion2DPanel.ShowMouseCursorButton" );
+        moreButton = new JButton( SimStrings.get( "Motion2DPanel.MoreControlsButton" ) );
 
         northPanel.add( btnLabel );
         northPanel.add( vButton );
@@ -133,7 +134,8 @@ public class Motion2DPanel extends JPanel
         bothButton.doClick();
 
         Point pt = new Point( 20, yNow );
-        wiggleMe = new WiggleMe( this, pt, new Vector2D.Double( 0, 1 ), 20, 5, "Drag Me" );
+        wiggleMe = new WiggleMe( this, pt, new Vector2D.Double( 0, 1 ), 20, 5,
+                                    SimStrings.get( "Motion2DPanel.WiggleMeText" ) );
 //        pt = new Point( (int)( xNow - wiggleMe.getWidth() ), yNow );
 
         wiggleMe.setCenter( pt );
