@@ -21,6 +21,8 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
@@ -57,6 +59,7 @@ public abstract class PhetGraphic {
 
     /*A bit of state to facilitate interactivity.*/
     protected CompositeMouseInputListener mouseInputListener = new CompositeMouseInputListener();//delegate
+    protected CompositeKeyListener keyListener = new CompositeKeyListener();//delegate
     private CursorControl cursorControl;
     private MouseInputAdapter popupHandler;
     private ArrayList listeners = new ArrayList();
@@ -916,6 +919,55 @@ public abstract class PhetGraphic {
                 e.printStackTrace();
                 throw new RuntimeException( e );
             }
+        }
+    }
+
+    ////////////////////////////////////////////////////
+    ////////
+    /////////       Key Listener code
+
+    public void addKeyListener( KeyListener keyListener ) {
+        this.keyListener.addKeyListener( keyListener );
+    }
+
+    public void removeKeyListener( KeyListener keyListener ) {
+        this.keyListener.removeKeyListener( keyListener );
+    }
+
+    public int numKeyListeners() {
+        return keyListener.numKeyListeners();
+    }
+
+    /**
+     * Not for client use.
+     *
+     * @param e
+     */
+    public void fireKeyTyped( KeyEvent e ) {
+        if( isVisible() ) {
+            keyListener.keyTyped( e );
+        }
+    }
+
+    /**
+     * Not for client use.
+     *
+     * @param e
+     */
+    public void fireKeyPressed( KeyEvent e ) {
+        if( isVisible() ) {
+            keyListener.keyPressed( e );
+        }
+    }
+
+    /**
+     * Not for client use.
+     *
+     * @param e
+     */
+    public void fireKeyReleased( KeyEvent e ) {
+        if( isVisible() ) {
+            keyListener.keyReleased( e );
         }
     }
 }
