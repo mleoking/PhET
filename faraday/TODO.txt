@@ -14,6 +14,14 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- use PhetGraphic.skipRectangleComputations to bypass calls to AffineTransform.createTransformedShape
+- turn off coil edges in Faraday computation to see if light intensity becomes sinusoidal
+- switch to a dynamic clock with median filtering of dt
+- look for methods in Graphics that are faster than Graphics2D.fill for rendering needles
+- switch to offscreen buffer
+- calculate periods of Generator and AC so that delta flux is zero/max at correct point
+- add a dialog that warns about performance implications of turning on grid
+- add a way to change the scale of the voltmeter and lightbulb, for situations where coil and magnet are in fixed positions
 - if water wheel hits critical angles, then its rotation appears jerky at some speeds
 - make electrons move at same speed whether grid is on or off
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
