@@ -1,14 +1,16 @@
 "To Do" list for "colorvision3" project
 
 HIGH:
-(DONE) o determine source of animation slowdown in phetcommon branch (PhetGraphic changes?)
+(DONE) o pre-fitler beam sometimes not visible
+o photons slow way down when switching filter on
 o Help based on Kathy's requirements
 o font antialiasing on Windows (and Linux?)
 
 MEDIUM:
+(DONE) o delay in 0-photons when dragging IntensitySlider to 0
+o SpectrumSlider jumpiness reported by Kathy
+o wiggle me for Single Bulb module
 o optimize all image files for Web
-(DONE) o support orientation of SpectrumSlider
-(DONE) o support scaling of SpectrumSlider
 
 LOW:
 o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
