@@ -1,6 +1,28 @@
 "To Do" list for "colorvision3" project
 
 HIGH:
+RBG Bulbs module:
+1. Add a "wiggle me" that disappears as soon as one of the sliders is moved.
+    Position this wiggle-me so that it is pointing at the knob of the top (red) slider.
+
+Single Bulb module:
+2. When the bulb is white, reduce the number of photons passed by the filter
+    to half of the number currently passed.
+3. Standardize behavior of the sliders. When the user changes his/her drag direction,
+    do not move the slider knob until the cursor is over the knob.
+4. Use a non-gray color for the simulation's background, ala other PhET simulations.
+(DONE) 5. Rename "Beam Type" to "Beam View" in the control panel.
+(DONE) 6. Add more space between the control groups in the control panel.
+(DONE) 7. Use a larger font for the title of each control group in the control panel.
+8. Move the Filter on/off control out of the control panel and into the apparatus panel.
+    Locate it directly below the filter holder. Make it clear to the user how to select
+    "on" and "off" states for the filter.
+9. When the filter is "off", hide only the filter.  The Filter Color slider and filter stand
+    should remain visible.
+
+Global issues;
+10. Work with Kathy on Help, defer MegaHelp.
+11. Pause when the simulation is minimized.
 
 MEDIUM:
 o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
