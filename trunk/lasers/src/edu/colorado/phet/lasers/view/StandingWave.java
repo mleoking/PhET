@@ -82,16 +82,17 @@ public class StandingWave extends PhetGraphic implements ModelElement {
     public void paint( Graphics2D g2 ) {
         if( wavePath != null ) {
             saveGraphicsState( g2 );
-            g2.setStroke( new BasicStroke( 2 ) );
-            g2.setColor( Color.black );
-            //            g2.setColor( color );
+            g2.setColor( color );
             g2.draw( wavePath );
             restoreGraphicsState();
         }
     }
 
+    double elapsedTime = 0;
+
     public void stepInTime( double dt ) {
         wavePath = new GeneralPath();
+        elapsedTime += dt;
         wavePath.moveTo( (float)pts[0].getX(), (float)pts[0].getY() );
         for( int i = 0; i < pts.length; i++ ) {
             double x = origin.getX() + ( dx * i );
