@@ -10,6 +10,8 @@ IN PROGRESS:
 - make QuadBezierSpline a subclass of QuadCurve.Double
 
 HIGH PRIORITY:
+- check performance of grid with calc disable & drawing enabled
+- cache grid needles at 1-degree angles to eliminate rotation transform
 - collision detection between compass and magnet
 - collision detection between magnet and coil
 
