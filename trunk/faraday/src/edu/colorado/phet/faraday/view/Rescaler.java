@@ -16,19 +16,39 @@ import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**
- * FaradayUtils is a collection of static utility functions.
+ * Rescaler is a collection of static functions for rescaling values.
+ * Since the magnetic field drops off at the rate of the distance cubed,
+ * the visual effect is not very useful.  These functions rescale the 
+ * a value so that it is a bit more linear.
+ * <p>
+ * Some places where this is used include:
+ * <ul>
+ * <li>display of field strength by compass grid needles
+ * <li>lightbulb's rays
+ * <li>voltmeter reading
+ * <li>electron speed in the pickup coil
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FaradayUtils {
+public class Rescaler {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
+    /*
+     * WARNING! These constants determine rescaling throughout the simulation.
+     */
+    
+    // Values below this value are rescaled.
     private static final double RESCALE_THRESHOLD = 0.8;
+    
+    // Approach this rescaling exponent as value approaches 1.
     private static final double RESCALE_MAX_EXPONENT = 0.8;
+    
+    // Approach this rescaling exponent as value approaches 0.
     private static final double RESCALE_MIN_EXPONENT = 0.3;
     
     //----------------------------------------------------------------------------
@@ -36,7 +56,7 @@ public class FaradayUtils {
     //----------------------------------------------------------------------------
     
     /* Not intended for instantiation */
-    private FaradayUtils() {}
+    private Rescaler() {}
     
     //----------------------------------------------------------------------------
     // Utilities

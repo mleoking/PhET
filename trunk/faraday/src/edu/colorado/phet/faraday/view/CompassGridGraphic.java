@@ -308,7 +308,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
                     double scale = ( magnitude / magnetStrength );
                     
                     // Adjust the scale to improve the visual effect.
-                    scale = FaradayUtils.rescale( scale, magnetStrength );
+                    scale = Rescaler.rescale( scale, magnetStrength );
                     scale = MathUtil.clamp( 0, scale, 1 );
                     
                     // Set the needle strength.

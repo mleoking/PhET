@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- encapulate all rescaling of emf into one place (in model?...)
+
 - collision detection between compass and magnet
 - collision detection between magnet and coil
 - compass grid does not fill the apparatus panel
@@ -154,6 +154,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(2/15) - encapulate all rescaling of emf into one place (already encapsulated in Rescaler)
 (2/10) - PickupCoilGraphic leaves screen turds (ApparatusPanel2 problem)
 (2/10) - make lightbulb ramp up/down instead of immediate on/off (looks fine as is)
 (2/7) - repaint compass grid when background color changes, in case we're switching rendering strategies (no longer necessary)
