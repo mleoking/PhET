@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.controller
  * Author: Another Guy
  * Date: Mar 26, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.controller;
 

@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.controller
  * Author: Another Guy
  * Date: Mar 21, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -70,7 +75,8 @@ public class LaserApplication extends PhetApplication {
 
 
     public void displayHighToMidEmission( boolean selected ) {
-        LaserGraphicFactory.instance().setHighToMidEmissionsVisible( selected );
+        throw new RuntimeException( "TBI" );
+//        LaserGraphicFactory.instance().setHighToMidEmissionsVisible( selected );
     }
 
     //

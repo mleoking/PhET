@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 31, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.model.mirror;
 
@@ -59,8 +64,9 @@ public class PartialMirror extends Mirror {
     public boolean reflects( Photon photon ) {
         boolean result = super.reflects( photon );
         if( result && !partialStrategy.reflects( photon )) {
-            result = false;
-            photon.setCollidable( false );
+            throw new RuntimeException( "TBI" );
+//            result = false;
+//            photon.setCollidable( false );
         }
         return result;
     }

@@ -3,15 +3,18 @@
  * Package: edu.colorado.phet.lasers.controller
  * Author: Another Guy
  * Date: Mar 21, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.controller;
-
-//import edu.colorado.phet.controller.Config;
 
 import java.awt.geom.Point2D;
 import java.awt.*;
 
-public class LaserConfig /*extends Config*/ {
+public class LaserConfig {
 
     private static final LaserConfig instance = new LaserConfig();
 
@@ -60,5 +63,8 @@ public class LaserConfig /*extends Config*/ {
     public static final String MID_HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-deep-red-xsml.gif";
     public static final String HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
     public static final String LOW_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";
+
+    // Graphics layers
+    public static final double CAVITY_LAYER = 10;
 
 }

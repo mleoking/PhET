@@ -4,12 +4,18 @@
  * User: Ron LeMaster
  * Date: Mar 28, 2003
  * Time: 11:01:44 AM
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.model.collision;
 
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.collision.Collision;
 import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.collision.SphereWallCollision;
 import edu.colorado.phet.common.model.Particle;
 
 import java.awt.geom.Point2D;
@@ -26,7 +32,7 @@ public class AtomWallCollision extends SphereWallCollision {
     }
 
     public AtomWallCollision( Atom atom, Wall wall ) {
-        super( atom, wall );
+//        super( atom, wall );
     }
 
     /**
@@ -49,7 +55,7 @@ public class AtomWallCollision extends SphereWallCollision {
     //
     // Static fields and methods
     //
-    static public void register() {
-        CollisionFactory.addPrototype( new AtomWallCollision() );
-    }
+//    static public void register() {
+//        CollisionFactory.addPrototype( new AtomWallCollision() );
+//    }
 }

@@ -1,16 +1,19 @@
-/** Sam Reid*/
+/**
+ * User: Sam Reid
+ * Date: Jun 25, 2004
+ * Time: 5:59:39 PM
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-/**
- * User: Sam Reid
- * Date: Jun 25, 2004
- * Time: 5:59:39 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
- */
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
     private AffineTransform transform;
@@ -84,6 +87,10 @@ public class PhetImageGraphic extends PhetGraphic {
             shapeDirty = true;
             repaint();
         }
+    }
+
+    public void setImage( BufferedImage image ) {
+        this.image = image;
     }
 
     public BufferedImage getImage() {

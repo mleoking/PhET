@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.view
  * Author: Another Guy
  * Date: Mar 21, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.view;
 
@@ -14,7 +19,6 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.LaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.CavityMustContainAtom;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -99,6 +103,7 @@ public abstract class BaseLaserModule extends Module {
         cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
         getModel().addModelElement( cavity );
         ResonatingCavityGraphic cavityGraphic = new ResonatingCavityGraphic( getApparatusPanel(), cavity );
+        addGraphic( cavityGraphic, LaserConfig.CAVITY_LAYER );
 //        cavityGraphic.init( cavity );
 //        new AddResonatingCavityCmd( cavity ).doIt();
 
@@ -146,8 +151,8 @@ public abstract class BaseLaserModule extends Module {
 
     protected void addAtom( Atom atom ) {
         getModel().addModelElement( atom );
-        ResonatingCavity cavity = getLaserModel().getResonatingCavity();
-        Constraint constraintSpec = new CavityMustContainAtom( cavity, atom );
-        cavity.addConstraint( constraintSpec );
+//        ResonatingCavity cavity = getLaserModel().getResonatingCavity();
+//        Constraint constraintSpec = new CavityMustContainAtom( cavity, atom );
+//        cavity.addConstraint( constraintSpec );
     }
 }
