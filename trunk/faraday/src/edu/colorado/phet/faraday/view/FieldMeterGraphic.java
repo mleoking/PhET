@@ -74,6 +74,12 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     // Field format
     private static final String FIELD_FORMAT = "###0.00";
     
+    // Offensive formatted values and their corrections. Dependent on FIELD_FORMAT !!
+    private static final String STRING_NEGATIVE_ZERO = "-0.00";
+    private static final String STRING_POSITIVE_ZERO = "0.00";
+    private static final String STRING_NEGATIVE_PI = "-180.00";
+    private static final String STRING_POSITIVE_PI = "180.00";
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -189,21 +195,48 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     public void update() {
         
         if ( isVisible() ) {
+            
+            // Get the values, adjust the coordinate system.
             AbstractVector2D B = _magnetModel.getStrength( getLocation() );
+            double b = B.getMagnitude();
+            double bx = B.getX();
+            double by = -B.getY(); // +Y is up
+            double angle = -( B.getAngle() );  // +angle is counterclockwise
+    
+            // Format the values.
+            String bString = _formatter.format( new Double( b ) );
+            String bxString = _formatter.format( new Double( bx ) );
+            String byString = _formatter.format( new Double( by ) );
+            String angleString = _formatter.format( new Double( Math.toDegrees( angle ) ) );
             
-            // Format field values, adjust coordinate system.
-            String b = _formatter.format( new Double( B.getMagnitude() ) );
-            String bx = _formatter.format( new Double( B.getX() ) );
-            String by = _formatter.format( new Double( -(B.getY()) ) ); // +Y is up
-            String angle = _formatter.format( new Double( Math.toDegrees( -(B.getAngle()) ) ) ); // +angle is counterclockwise
+            /*
+             * Correct some offensive looking values.
+             * We need to perform this format-dependent check on the strings
+             * because a value like -0.00005 will display as -0.00.
+             */
+            if ( bString.equals( STRING_NEGATIVE_ZERO ) ) {
+                bString = STRING_POSITIVE_ZERO;
+            }
+            if ( bxString.equals( STRING_NEGATIVE_ZERO ) ) {
+                bxString = STRING_POSITIVE_ZERO;
+            }
+            if ( byString.equals( STRING_NEGATIVE_ZERO ) ) {
+                byString = STRING_POSITIVE_ZERO;
+            }
+            if ( angleString.equals( STRING_NEGATIVE_ZERO ) ) {
+                angleString = STRING_POSITIVE_ZERO;
+            }
+            else if ( angleString.equals( STRING_NEGATIVE_PI ) ) {
+                angleString = STRING_POSITIVE_PI;
+            }
             
-            // Set field values
-            _bText.setText( b );
-            _bxText.setText( bx );
-            _byText.setText( by );
-            _angleText.setText( angle );
+            // Set the text graphics.
+            _bText.setText( bString );
+            _bxText.setText( bxString );
+            _byText.setText( byString );
+            _angleText.setText( angleString );
             
-            // Right justify (registration point at bottom right)
+            // Right justify the text graphics (registration point at bottom right)
             _bText.setRegistrationPoint( _bText.getBounds().width, _bText.getBounds().height );
             _bxText.setRegistrationPoint( _bxText.getBounds().width, _bxText.getBounds().height );
             _byText.setRegistrationPoint( _byText.getBounds().width, _byText.getBounds().height );
