@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - water wheel hitches as it rotates, because it's adjusting to hit critial angles
 - make electrons move at same speed whether grid is on or off
 - verify that AC hits zero crossings, check with lightbulb
-- check voltmeter ticks on Windows, they appear to be "off" on the left side of the guage
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 - calibrate lightbulb
 - calibrate voltmeter
@@ -58,6 +57,8 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/23) - move voltmeter tick marks in one pixel so that they look good on Windows
+(3/23) - reuse the same AffineTransform each time a compass grid needle needs updating (optimization)
 (3/23) - make compass grid use apparatus panel's canvas size to compute its bounds
 (3/23) - reduce JAR file size by 50% by saving all image files with Photoshop's "Save for Web" feature.
 (3/23) - resize barMagnet.png to eliminate need for scaling, set model size based on image size.
