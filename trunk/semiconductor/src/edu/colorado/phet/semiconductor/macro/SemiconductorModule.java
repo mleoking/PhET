@@ -276,12 +276,12 @@ public class SemiconductorModule extends Module implements Graphic {
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
         String applicationLocale = System.getProperty( "javaws.locale" );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
+            SimStrings.setLocale( new Locale( applicationLocale ) );
         }
         String argsKey = "user.language=";
         if( args.length > 0 && args[0].startsWith( argsKey )) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ));
+            SimStrings.setLocale( new Locale( locale ));
         }
 
         SimStrings.setStrings( localizedStringsPath );
@@ -292,6 +292,7 @@ public class SemiconductorModule extends Module implements Graphic {
         ApplicationDescriptor ad = new ApplicationDescriptor( SimStrings.get( "SemiconductorApplication.title" ),
                                 SimStrings.get( "SemiconductorApplication.description" ),
                                 SimStrings.get( "SemiconductorApplication.version" ), fs );
+        ad.setName( "semiconductor" );
         SwingTimerClock clock = new SwingTimerClock( 1, 45, true );
         SemiconductorModule module = new SemiconductorModule( clock );
         PhetApplication pa = new PhetApplication( ad, module, clock );
