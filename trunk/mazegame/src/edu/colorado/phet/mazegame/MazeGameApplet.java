@@ -3,9 +3,9 @@ package edu.colorado.phet.mazegame;
 //import edu.colorado.phet.common.view.util.GraphicsUtil;
 //import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.imageio.ImageIO;
 import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -15,24 +15,19 @@ import java.io.IOException;
 public class MazeGameApplet extends JApplet {
     static int fullHeight = 500;	//height and width of applet
     static int fullWidth = 700;		//Must find way to pass in from html
-    AudioClip tada, bangouch, cork, figaro, twiddle;  //sound effects
+    AudioClip cork, figaro;  //sound effects
     Image ballImage, splat;  //gifs
     JPanel topRowPanel = new JPanel();
     JPanel bottomRowPanel = new JPanel();
-    JPanel bottomLeftPanel = new JPanel();
 
-    public static Border raisedBevel, loweredBevel, compound1, compound2;
+    public static Border raisedBevel, loweredBevel;
     ParticleArena pArena = new ParticleArena( this );
 
     public void init() {
-//new JFrame("Init").setVisible(true);
         raisedBevel = BorderFactory.createRaisedBevelBorder();  //Why won't this go in the preamble?
         loweredBevel = BorderFactory.createLoweredBevelBorder();
-        compound1 = BorderFactory.createCompoundBorder( raisedBevel, loweredBevel );
 
         //Top Row Panel
-
-
         GridLayout gLayoutT = new GridLayout( 1, 1 );
         topRowPanel.setLayout( gLayoutT );
         topRowPanel.add( pArena );
@@ -58,8 +53,8 @@ public class MazeGameApplet extends JApplet {
         //splat = getImage(getDocumentBase(), "sunburst.gif");
         try {
 
-            splat=ImageIO.read( getClass().getClassLoader().getResource( "RedBang.gif"));
-            ballImage=ImageIO.read( getClass().getClassLoader().getResource( "ballsmall2.gif"));
+            splat = ImageIO.read( getClass().getClassLoader().getResource( "RedBang.gif" ) );
+            ballImage = ImageIO.read( getClass().getClassLoader().getResource( "ballsmall2.gif" ) );
 //            splat = ImageLoader.loadBufferedImage( "RedBang.gif" );//getImage(getDocumentBase(), "RedBang.gif");
 //            ballImage = ImageLoader.loadBufferedImage( "ballsmall2.gif" );//getImage(getDocumentBase(), "ballsmall2.gif");
         }
@@ -69,7 +64,6 @@ public class MazeGameApplet extends JApplet {
 
 //new JFrame("Starting audio load").setVisible(true);
         MyClipLoader audioLoader = new MyClipLoader( getClass().getClassLoader(), this );//AudioLoaderFactory().getAudioLoader(this);//.new AudioLoader(getClass().getClassLoader());
-        tada = audioLoader.loadAudioClip( "tada.WAV" );//getAudioClip(getDocumentBase(), "tada.WAV");
         cork = audioLoader.loadAudioClip( "cork.au" );//getAudioClip(getDocumentBase(), "cork.au");
         figaro = audioLoader.loadAudioClip( "figaro.au" );//getAudioClip(getDocumentBase(), "figaro.au");
 //        figaro.play() ;
@@ -91,11 +85,11 @@ public class MazeGameApplet extends JApplet {
     }
 
     private static void centerFrameOnScreen( JFrame f ) {
-        Dimension size=Toolkit.getDefaultToolkit().getScreenSize();
-        int dw=size.width-f.getWidth();
-        int dh=size.height-f.getHeight();
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        int dw = size.width - f.getWidth();
+        int dh = size.height - f.getHeight();
 
-        f.setBounds( dw/2,dh/2,f.getWidth(), f.getHeight());
+        f.setBounds( dw / 2, dh / 2, f.getWidth(), f.getHeight() );
     }
 
     public static class Exit implements WindowListener {

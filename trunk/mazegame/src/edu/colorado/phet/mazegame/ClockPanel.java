@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 
 public class ClockPanel extends JPanel {
     private Timer myTimer1;
-    public static final int ONE_SEC = 1000;   //time step in milliseconds
     public static final int TENTH_SEC = 100;
 
     private Font myClockFont;
@@ -23,43 +22,43 @@ public class ClockPanel extends JPanel {
     private double clockTime;  	//time in seconds
     private String clockTimeString;
 
-    private Border raisedBevel, loweredBevel, compound1, compound2;
+    private Border raisedBevel, loweredBevel, compound1;
 
     public ClockPanel() {
-        setBackground(Color.white);
+        setBackground( Color.white );
 
         raisedBevel = BorderFactory.createRaisedBevelBorder();
         loweredBevel = BorderFactory.createLoweredBevelBorder();
-        compound1 = BorderFactory.createCompoundBorder(raisedBevel, loweredBevel);
-        setBorder(compound1);
+        compound1 = BorderFactory.createCompoundBorder( raisedBevel, loweredBevel );
+        setBorder( compound1 );
 
         clockTick = 0;  		//initial clock setting in clock ticks
-        clockTime = ((double) clockTick) / 10.0;
+        clockTime = ( (double)clockTick ) / 10.0;
 
-        clockTimeString = new Double(clockTime).toString();
-        myClockFont = new Font("Serif", Font.PLAIN, 25);
+        clockTimeString = new Double( clockTime ).toString();
+        myClockFont = new Font( "Serif", Font.PLAIN, 25 );
 
         timeLbl = new JLabel();
-        timeLbl.setBackground(Color.white);
-        timeLbl.setFont(myClockFont);
-        timeLbl.setText(clockTimeString);
+        timeLbl.setBackground( Color.white );
+        timeLbl.setFont( myClockFont );
+        timeLbl.setText( clockTimeString );
 
-        add(timeLbl);
+        add( timeLbl );
 
         //startBtn = new JButton("Start");
         //stopBtn = new JButton("Stop");
         //resetBtn = new JButton("Reset");
 
 
-        myTimer1 = new Timer(TENTH_SEC, new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+        myTimer1 = new Timer( TENTH_SEC, new ActionListener() {
+            public void actionPerformed( ActionEvent evt ) {
                 clockTick++;
-                clockTime = ((double) clockTick) / 10.0;
-                clockTimeString = new Double(clockTime).toString();
-                timeLbl.setText(clockTimeString);
+                clockTime = ( (double)clockTick ) / 10.0;
+                clockTimeString = new Double( clockTime ).toString();
+                timeLbl.setText( clockTimeString );
                 //System.out.println(clockTime);
             }
-        });
+        } );
 
     }//end of edu.colorado.phet.mazegame.ClockPanel constructor
 
@@ -74,9 +73,9 @@ public class ClockPanel extends JPanel {
 
     public void reset() {
         clockTick = 0;
-        clockTime = ((double) clockTick) / 10.0;
-        clockTimeString = new Double(clockTime).toString();
-        timeLbl.setText(clockTimeString);
+        clockTime = ( (double)clockTick ) / 10.0;
+        clockTimeString = new Double( clockTime ).toString();
+        timeLbl.setText( clockTimeString );
     }
 
     public double getTime() {

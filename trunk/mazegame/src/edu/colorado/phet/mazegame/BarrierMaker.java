@@ -5,17 +5,11 @@ package edu.colorado.phet.mazegame;
 import java.awt.*;
 
 class MyRectangle extends Rectangle {
-    int startX, startY;
-    int endX, endY;
     int minX, minY;
     int width2, height2;  //instance variables width,height of parent Rectangle class preserved
 
     public MyRectangle( int startX, int startY, int endX, int endY ) {
         super( Math.min( startX, endX ), Math.min( startY, endY ), Math.abs( startX - endX ), Math.abs( startY - endY ) );
-        this.startX = startX;
-        this.startY = startY;
-        this.endX = endX;
-        this.endY = endY;
         this.minX = Math.min( startX, endX );
         this.minY = Math.min( startY, endY );
         this.width2 = Math.abs( startX - endX );

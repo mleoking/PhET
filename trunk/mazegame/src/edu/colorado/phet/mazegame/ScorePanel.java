@@ -1,9 +1,5 @@
 package edu.colorado.phet.mazegame;
 
-import edu.colorado.phet.mazegame.ControlBoxPanel;
-import edu.colorado.phet.mazegame.ClockPanel;
-import edu.colorado.phet.mazegame.ParticleArena;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,32 +15,29 @@ public class ScorePanel extends JPanel implements ItemListener {
     boolean traceOn;
     boolean clockOn;
 
-    JButton startBtn = new JButton("Restart");
-    JButton pauseBtn = new JButton("Pause");
-    JButton resetBtn = new JButton("Reset");
+    JButton startBtn = new JButton( "Restart" );
+    JButton pauseBtn = new JButton( "Pause" );
+    JButton resetBtn = new JButton( "Reset" );
     //JButton soundBtn = new JButton("Sound ON/OFF");
-    JCheckBox soundChkBox = new JCheckBox("Sound", true);
-    JCheckBox traceChkBox = new JCheckBox("Trace", false);
-    JButton scoreBtn = new JButton("Start Game");
+    JCheckBox soundChkBox = new JCheckBox( "Sound", true );
+    JCheckBox traceChkBox = new JCheckBox( "Trace", false );
+    JButton scoreBtn = new JButton( "Start Game" );
 
-    JRadioButton radio0 = new JRadioButton("Practice", true);
-    JRadioButton radio1 = new JRadioButton("Level 1", false);
-    JRadioButton radio2 = new JRadioButton("Level 2", false);
-    JRadioButton radio3 = new JRadioButton("Certain Death", false);
+    JRadioButton radio0 = new JRadioButton( "Practice", true );
+    JRadioButton radio1 = new JRadioButton( "Level 1", false );
+    JRadioButton radio2 = new JRadioButton( "Level 2", false );
+    JRadioButton radio3 = new JRadioButton( "Certain Death", false );
 
     ButtonGroup radioGroup = new ButtonGroup();
     ClockPanel myClock1;
 
-    JLabel timeLbl = new JLabel("Time:");
+    JLabel timeLbl = new JLabel( "Time:" );
 
     //JLabel timeInSecLbl = new JLabel("0.0");
-    JLabel collisionsLbl = new JLabel("Collisions:");
-    JLabel nbrCollisionsLbl = new JLabel("0");
-    JLabel scoreLbl = new JLabel("Score:");
-    JLabel ptsScoreLbl = new JLabel("No game");
-    Font myBigFont = new Font("serif", Font.PLAIN, 20);
-
-    //JLabel startStopLbl = new JLabel("Press start to begin");
+    JLabel collisionsLbl = new JLabel( "Collisions:" );
+    JLabel nbrCollisionsLbl = new JLabel( "0" );
+    JLabel scoreLbl = new JLabel( "Score:" );
+    JLabel ptsScoreLbl = new JLabel( "No game" );
 
     JPanel panel1 = new JPanel();
     JPanel panel2 = new JPanel();
@@ -57,9 +50,9 @@ public class ScorePanel extends JPanel implements ItemListener {
     JPanel panel4R = new JPanel();	//Panel 4, Right
 
 
-    public ScorePanel(ParticleArena pArena, ControlBoxPanel cbPanel) {
+    public ScorePanel( ParticleArena pArena, ControlBoxPanel cbPanel ) {
 
-        setBackground(Color.green);
+        setBackground( Color.green );
         this.cbPanel = cbPanel;
         this.pArena = pArena;
         this.myClock1 = new ClockPanel();
@@ -70,157 +63,161 @@ public class ScorePanel extends JPanel implements ItemListener {
         //pauseBtn.setBackground(Color.green);
         //resetBtn.setBackground(Color.green);
 
-        panel1.setBackground(Color.green);
-        panel2.setBackground(Color.green);
-        panel3L.setBackground(Color.green);
-        panel3R.setBackground(Color.green);
-        panel4L.setBackground(Color.green);
-        panel4M.setBackground(Color.green);
-        panel4R.setBackground(Color.green);
+        panel1.setBackground( Color.green );
+        panel2.setBackground( Color.green );
+        panel3L.setBackground( Color.green );
+        panel3R.setBackground( Color.green );
+        panel4L.setBackground( Color.green );
+        panel4M.setBackground( Color.green );
+        panel4R.setBackground( Color.green );
 
-        radio0.setBackground(Color.green);
-        radio1.setBackground(Color.green);
-        radio2.setBackground(Color.green);
-        radio3.setBackground(Color.green);
+        radio0.setBackground( Color.green );
+        radio1.setBackground( Color.green );
+        radio2.setBackground( Color.green );
+        radio3.setBackground( Color.green );
 
-        soundChkBox.setBackground(Color.green);
-        traceChkBox.setBackground(Color.green);
+        soundChkBox.setBackground( Color.green );
+        traceChkBox.setBackground( Color.green );
 
         //panel1.add(startStopLbl);
-        panel1.add(startBtn);
-        panel1.add(pauseBtn);
-        panel1.add(resetBtn);
+        panel1.add( startBtn );
+        panel1.add( pauseBtn );
+        panel1.add( resetBtn );
 
-        panel2.add(radio0);
-        panel2.add(radio1);
-        panel2.add(radio2);
-        panel2.add(radio3);
+        panel2.add( radio0 );
+        panel2.add( radio1 );
+        panel2.add( radio2 );
+        panel2.add( radio3 );
 
-        panel3L.add(scoreBtn);
-        panel3R.add(soundChkBox);
-        panel3R.add(traceChkBox);
+        panel3L.add( scoreBtn );
+        panel3R.add( soundChkBox );
+        panel3R.add( traceChkBox );
         //panel3R.add(soundBtn);
 
-        panel3.setLayout(new GridLayout(1, 2));
-        panel3.add(panel3L);
-        panel3.add(panel3R);
+        panel3.setLayout( new GridLayout( 1, 2 ) );
+        panel3.add( panel3L );
+        panel3.add( panel3R );
 
         //timeInSecLbl.setFont(myBigFont);
 
 
-        nbrCollisionsLbl.setBackground(Color.white);
-        ptsScoreLbl.setBackground(Color.white);
+        nbrCollisionsLbl.setBackground( Color.white );
+        ptsScoreLbl.setBackground( Color.white );
 
-        panel4L.add(timeLbl);
-        panel4L.add(myClock1);
+        panel4L.add( timeLbl );
+        panel4L.add( myClock1 );
         //panel4.add(timeInSecLbl);
-        panel4M.add(collisionsLbl);
-        panel4M.add(nbrCollisionsLbl);
-        panel4R.add(scoreLbl);
-        panel4R.add(ptsScoreLbl);
+        panel4M.add( collisionsLbl );
+        panel4M.add( nbrCollisionsLbl );
+        panel4R.add( scoreLbl );
+        panel4R.add( ptsScoreLbl );
 
-        panel4.setLayout(new GridLayout(1, 3));
-        panel4.add(panel4L);
-        panel4.add(panel4M);
-        panel4.add(panel4R);
+        panel4.setLayout( new GridLayout( 1, 3 ) );
+        panel4.add( panel4L );
+        panel4.add( panel4M );
+        panel4.add( panel4R );
 
 
-        GridLayout gLayout = new GridLayout(4, 1, 3, 3);
-        this.setLayout(gLayout);
-        this.add(panel1);
-        this.add(panel2);
-        this.add(panel3);
-        this.add(panel4);
+        GridLayout gLayout = new GridLayout( 4, 1, 3, 3 );
+        this.setLayout( gLayout );
+        this.add( panel1 );
+        this.add( panel2 );
+        this.add( panel3 );
+        this.add( panel4 );
 
-        startBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent aevt) {
+        startBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent aevt ) {
                 ScorePanel.this.pArena.start();
-                if (clockOn) myClock1.start();
+                if( clockOn ) {
+                    myClock1.start();
+                }
                 //startStopLbl.setText("Drag tip of arrow");
-                startBtn.setEnabled(false);
-                pauseBtn.setEnabled(true);
-                resetBtn.setEnabled(true);
+                startBtn.setEnabled( false );
+                pauseBtn.setEnabled( true );
+                resetBtn.setEnabled( true );
             }
-        });//end of anonymous inner class
+        } );//end of anonymous inner class
 
-        pauseBtn.addActionListener(new PauseHandler());
+        pauseBtn.addActionListener( new PauseHandler() );
 
-        resetBtn.addActionListener(new ResetHandler());
+        resetBtn.addActionListener( new ResetHandler() );
 
-        scoreBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent aevt) {
+        scoreBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent aevt ) {
                 myClock1.start();
                 clockOn = true;
             }
 
-        }); //end of anonymous class
+        } ); //end of anonymous class
 
 
         //soundBtn.addActionListener(new SoundBtnHandler());
-        soundChkBox.addActionListener(new SoundChkBoxHandler());
-        traceChkBox.addActionListener(new TraceChkBoxHandler());
+        soundChkBox.addActionListener( new SoundChkBoxHandler() );
+        traceChkBox.addActionListener( new TraceChkBoxHandler() );
 
 
-        radio0.addItemListener(this);
-        radio1.addItemListener(this);
-        radio2.addItemListener(this);
-        radio3.addItemListener(this);
+        radio0.addItemListener( this );
+        radio1.addItemListener( this );
+        radio2.addItemListener( this );
+        radio3.addItemListener( this );
 
-        radioGroup.add(radio0);
-        radioGroup.add(radio1);
-        radioGroup.add(radio2);
-        radioGroup.add(radio3);
+        radioGroup.add( radio0 );
+        radioGroup.add( radio1 );
+        radioGroup.add( radio2 );
+        radioGroup.add( radio3 );
 
     }//end of constructor
 
     class PauseHandler implements ActionListener {
-        public void actionPerformed(ActionEvent aevt) {
+        public void actionPerformed( ActionEvent aevt ) {
             ScorePanel.this.pArena.stop();
             myClock1.stop();
             //startStopLbl.setText("Press start to begin.");
-            startBtn.setText("Restart");
-            startBtn.setEnabled(true);
-            pauseBtn.setEnabled(false);
-            resetBtn.setEnabled(true);
+            startBtn.setText( "Restart" );
+            startBtn.setEnabled( true );
+            pauseBtn.setEnabled( false );
+            resetBtn.setEnabled( true );
         }
     }
 
 
     class ResetHandler implements ActionListener {
-        public void actionPerformed(ActionEvent aevt) {
+        public void actionPerformed( ActionEvent aevt ) {
             ScorePanel.this.pArena.start();
             ScorePanel.this.cbPanel.reset();
             myClock1.stop();
             myClock1.reset();
             clockOn = false;
-            ptsScoreLbl.setText("0");
+            ptsScoreLbl.setText( "0" );
             //startStopLbl.setText("Drag tip of arrow");
-            startBtn.setEnabled(false);
-            pauseBtn.setEnabled(true);
+            startBtn.setEnabled( false );
+            pauseBtn.setEnabled( true );
         }
     }
 
     class SoundChkBoxHandler implements ActionListener {
-        public void actionPerformed(ActionEvent aevt) {
-            if (soundChkBox.isSelected()) {
+        public void actionPerformed( ActionEvent aevt ) {
+            if( soundChkBox.isSelected() ) {
                 soundOn = true;
-            } else {
+            }
+            else {
                 soundOn = false;
             }
         }
     }
 
     class TraceChkBoxHandler implements ActionListener {
-        public void actionPerformed(ActionEvent aevt) {
-            if (traceChkBox.isSelected()) {
+        public void actionPerformed( ActionEvent aevt ) {
+            if( traceChkBox.isSelected() ) {
                 //cbPanel.getTrace().moveTo((float)cbPanel.getX(), (float)cbPanel.getY());
                 traceOn = true;
-                cbPanel.setTraceState(traceOn);
+                cbPanel.setTraceState( traceOn );
 
-            } else {
+            }
+            else {
                 traceOn = false;
-                cbPanel.setTraceState(traceOn);
-                cbPanel.setTraceStartedState(false);
+                cbPanel.setTraceState( traceOn );
+                cbPanel.setTraceStartedState( false );
                 cbPanel.setTraceToZero();
                 cbPanel.repaint();
             }
@@ -232,17 +229,20 @@ public class ScorePanel extends JPanel implements ItemListener {
     }
 
 
-    public void itemStateChanged(ItemEvent ievt) {
-        if (ievt.getSource() == radio0) {
-            pArena.setBarrierState(0);
+    public void itemStateChanged( ItemEvent ievt ) {
+        if( ievt.getSource() == radio0 ) {
+            pArena.setBarrierState( 0 );
             //System.out.println("barrier state is " + pArena.getBarrierState());
-        } else if (ievt.getSource() == radio1) {
-            pArena.setBarrierState(1);
+        }
+        else if( ievt.getSource() == radio1 ) {
+            pArena.setBarrierState( 1 );
             //System.out.println("barrier state is " + pArena.getBarrierState());
-        } else if (ievt.getSource() == radio2) {
-            pArena.setBarrierState(2);
-        } else if (ievt.getSource() == radio3) {
-            pArena.setBarrierState(3);
+        }
+        else if( ievt.getSource() == radio2 ) {
+            pArena.setBarrierState( 2 );
+        }
+        else if( ievt.getSource() == radio3 ) {
+            pArena.setBarrierState( 3 );
         }
     }
 
