@@ -85,8 +85,9 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 	private static final int POST_FILTER_BEAM_DISTANCE = 470;
 	
 	// Bounds
-	private static final Rectangle PHOTON_BEAM_BOUNDS = 
-	  new Rectangle( 0, 0, (int) (PERSON_X + 160), 10000 );
+	private static final Rectangle PHOTON_BEAM_BOUNDS =
+	  new Rectangle( 0, 0, (int)(PERSON_X + 160), 10000 );
+	  //new Rectangle( (int)SPOTLIGHT_X, (int)(SPOTLIGHT_Y - 125), (int)(PERSON_X - SPOTLIGHT_X + 100), 250 );
 	
 	//----------------------------------------------------------------------------
 	// Instance data
@@ -146,7 +147,7 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 		_spotlightModel.setIntensity( Spotlight.INTENSITY_MAX );
 		_spotlightModel.setLocation( SPOTLIGHT_X, SPOTLIGHT_Y );
 		_spotlightModel.setDirection( SPOTLIGHT_ANGLE );
-		_spotlightModel.setIntensity( 50 ); // to limit number of photons
+		_spotlightModel.setIntensity( 50 /* percent */ ); // to limit number of photons
 		
 		// Filter model
 		_filterModel = new Filter();
@@ -155,6 +156,7 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 		// Photon beam model
 		_photonBeamModel = new PhotonBeam( _spotlightModel, _filterModel );
 		_photonBeamModel.setBounds( PHOTON_BEAM_BOUNDS );
+		model.addModelElement( _photonBeamModel );
 		
     // Pre-filter columnar beam model (unfiltered)
     _preFilterBeamModel = new SolidBeam( _spotlightModel );
@@ -192,12 +194,12 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     
     // Pre-filter columnar beam
     _preFilterBeamGraphic = new SolidBeamGraphic( apparatusPanel, _preFilterBeamModel );
-    _preFilterBeamGraphic.setAlphaScale( 90 );
+    _preFilterBeamGraphic.setAlphaScale( 95 /* percent */ );
     apparatusPanel.addGraphic( _preFilterBeamGraphic, PRE_FILTER_BEAM_LAYER );
     
     // Post-filter columnar beam
     _postFilterBeamGraphic = new SolidBeamGraphic( apparatusPanel, _postFilterBeamModel );
-    _postFilterBeamGraphic.setAlphaScale( 90 );
+    _postFilterBeamGraphic.setAlphaScale( 95 /* percent */ );
     apparatusPanel.addGraphic( _postFilterBeamGraphic, POST_FILTER_BEAM_LAYER );
     
     // Photon beam
@@ -239,7 +241,7 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     _wavelengthPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 210, 100 );
     _wavelengthPipe.setLocation( WAVELENGTH_PIPE_LOCATION );
     apparatusPanel.addGraphic( _wavelengthPipe, WAVELENGTH_PIPE_LAYER );
-    
+
 		//----------------------------------------------------------------------------
 		// Observers
     //----------------------------------------------------------------------------
@@ -271,8 +273,6 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     
     _photonBeamModel.addColorChangeListener( this );
     _postFilterBeamModel.addColorChangeListener( this );
-    
-    clock.addClockTickListener( _photonBeamModel );
     
 		//----------------------------------------------------------------------------
 		// Help
