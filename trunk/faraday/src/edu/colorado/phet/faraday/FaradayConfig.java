@@ -56,6 +56,8 @@ public class FaradayConfig {
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightbulb.png";
     public static final String LIGHTBULB_ICON = IMAGES_DIRECTORY + "lightbulb_icon.png";
     public static final String LIGHTBULB_ICON_SELECTED = IMAGES_DIRECTORY + "lightbulb_icon_selected.png";
+    public static final String METER_PROBE_IMAGE = IMAGES_DIRECTORY + "meterProbe.png";
+    public static final String RESISTOR_IMAGE = IMAGES_DIRECTORY + "resistor.png";
     public static final String SLIDER_KNOB_IMAGE = IMAGES_DIRECTORY + "sliderKnob.png";
     public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = IMAGES_DIRECTORY + "sliderKnobHighlight.png";
     public static final String TURBINE_PIVOT_IMAGE = IMAGES_DIRECTORY + "turbinePivot.png";
