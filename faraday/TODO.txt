@@ -6,7 +6,6 @@ IN PROGRESS:
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 
 HIGH PRIORITY:
-- add an X/Y axis at center of the AC display
 - keep zero-crossing of AC sine wave at origin of the XY axis
 - trace/scan the AC wave with a cursor that represents "now"
 - add playback controls to relevant modules (override Module.activate/deactivate)
@@ -63,7 +62,9 @@ PHETCOMMON:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
-v0r19...\
+v0r19...
+(3/17) - fix bug in the number of cycles displayed by AC
+(3/17) - add an X/Y axis at center of the AC display
 (3/16) - ACSource -> ACPowerSupply throughout the source code & data files
 (3/16) - set low end of AC frequency to 10%
 (3/16) - label ACSourceGraphic with "AC Power Supply"

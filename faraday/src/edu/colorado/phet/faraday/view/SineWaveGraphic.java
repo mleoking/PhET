@@ -47,8 +47,8 @@ public class SineWaveGraphic extends PhetShapeGraphic {
     
     // Wave must be drawn in this viewport.
     private Dimension _viewportSize;
-    // Range for the number of cycles to draw.
-    private double _minCycles, _maxCycles;
+    // Maximum number of cycles to draw.
+    private double _maxCycles;
     // The wave's amplitude.
     private double _amplitude;
     // The wave's frequency.
@@ -69,9 +69,7 @@ public class SineWaveGraphic extends PhetShapeGraphic {
         assert( viewportSize != null );
         
         _viewportSize = viewportSize;
-        setRegistrationPoint( 0, _viewportSize.height / 2 ); // left center
         
-        _minCycles = 1;
         _maxCycles = 5;
         
         setBorderColor( Color.GREEN );
@@ -81,25 +79,6 @@ public class SineWaveGraphic extends PhetShapeGraphic {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the number of cycles that will be displayed as frequency approaches 0.
-     * 
-     * @param minCycles
-     */
-    public void setMinCycles( double minCycles ) {
-        assert( minCycles > 0 );
-        _minCycles = minCycles;
-    }
-    
-    /**
-     * Gets the number of cycles that will be displayed as frequency approaches 0.
-     * 
-     * @return the number of cycles
-     */
-    public double getMinCycles() {
-        return _minCycles;
-    }
     
     /**
      * Sets the number of cycles that will be displayed when the frequency == 1.
@@ -168,22 +147,20 @@ public class SineWaveGraphic extends PhetShapeGraphic {
      * after changing paramter values.
      */
     public void update() {
-        assert( _maxCycles > _minCycles );
         
         if ( isVisible() ) {
             
             // Number of points to fill the viewport.
             final double numPoints = _viewportSize.width / DX;
             // Number of wave cycles to fill the viewport at the current frequency.
-            final double numCycles = _minCycles + ( _frequency * ( _maxCycles - _minCycles) );
+            final double numCycles = _frequency * _maxCycles;
             // Change in angle per change in X.
             final double deltaAngle = Math.toRadians( numCycles * 360 / numPoints );
             
-            GeneralPath wavePath = new GeneralPath();
-            wavePath.moveTo( 0, 0 );
-            
-            double x = 0;
+            double x = -_viewportSize.width / 2;
             double angle = 0;
+            GeneralPath wavePath = new GeneralPath();
+            wavePath.moveTo( (float) x, 0f );
             for ( int i = 0; i < numPoints; i++ ) {
                 x += DX;
                 angle += deltaAngle;
