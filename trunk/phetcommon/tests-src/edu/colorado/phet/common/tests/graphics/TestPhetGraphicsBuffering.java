@@ -121,6 +121,18 @@ public class TestPhetGraphicsBuffering extends JFrame {
         panel.addMouseListener( new MouseAdapter() {
             public void mouseReleased( MouseEvent e ) {
                 panel.requestFocus();
+//                bufferedPhetGraphic.repaintBuffer();
+            }
+        } );
+        panel.addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+                bufferedPhetGraphic.repaintBuffer();
+            }
+
+            public void keyReleased( KeyEvent e ) {
+            }
+
+            public void keyTyped( KeyEvent e ) {
             }
         } );
         clock = new SwingTimerClock( 1, 30, true );
