@@ -7,7 +7,10 @@
 package edu.colorado.phet.chart.test;
 
 import edu.colorado.phet.chart.*;
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 
 import javax.swing.*;
@@ -21,12 +24,15 @@ public class DynamicChartTest {
     static ArrayList toPaint = new ArrayList();
 
     public static void main( String[] args ) {
-        final ApparatusPanel apparatusPanel = new ApparatusPanel() {
+        BaseModel model = new BaseModel();
+        AbstractClock clock = new SwingTimerClock( 1, 30 );
+        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock ) {
             public void repaint( long tm, int x, int y, int width, int height ) {
                 Rectangle repaint = new Rectangle( x, y, width, height );
                 toPaint.add( repaint );
             }
         };
+        clock.start();
         BasicGraphicsSetup gs = new BasicGraphicsSetup();
 
         apparatusPanel.addGraphicsSetup( gs );
@@ -53,10 +59,12 @@ public class DynamicChartTest {
         apparatusPanel.addGraphic( chart );
 
         final int insets = 20;
+        chart.setLocation( 50, 50 );
         apparatusPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                Rectangle viewBounds = new Rectangle( insets, insets, e.getComponent().getWidth() - insets * 2, e.getComponent().getHeight() - insets * 2 );
-                chart.setViewBounds( viewBounds );
+//                Rectangle renderSize = new Rectangle( insets, insets, e.getComponent().getWidth() - insets * 2, e.getComponent().getHeight() - insets * 2 );
+                Rectangle renderSize = new Rectangle( 0, 0, 600, 600 );
+                chart.setViewBounds( renderSize );
                 Color leftColor = new Color( 255, 255, 255 );
                 Color rightColor = new Color( 140, 160, 255 );
                 chart.setBackground( new GradientPaint( 0, 0, leftColor, e.getComponent().getWidth(), e.getComponent().getHeight(), rightColor, false ) );

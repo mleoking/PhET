@@ -289,6 +289,10 @@ public class Chart extends PhetGraphic {
 
     public void paint( Graphics2D graphics2D ) {
         if( isVisible() ) {
+
+            super.saveGraphicsState( graphics2D );
+            graphics2D.transform( getNetTransform() );
+
             //paint the background
             graphics2D.setPaint( background );
             graphics2D.fill( viewBounds );
@@ -321,6 +325,7 @@ public class Chart extends PhetGraphic {
             if( title != null ) {
                 title.paint( graphics2D );
             }
+            super.restoreGraphicsState();
         }
     }
 
