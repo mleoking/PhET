@@ -27,6 +27,8 @@
 
 
 ^phetcommon\(/\|$\) mail -s "CVS commit" ronlemaster
-^phetcommon\(/\|$\) mail -s "CVS commit" malleyc
+^phetcommon\(/\|$\) mail -s "CVS commit" cmalley
 ^phetcommon\(/\|$\) mail -s "CVS commit" samreid
 ^phetcommon\(/\|$\) mail -s "CVS commit" joetreat
+
+^colorvision3\(/\|$\) mail -s "CVS commit" cmalley
