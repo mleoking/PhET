@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- fix coil collision bounds to include the coil ends
 - EMF drops near the AC Power Supply, then pops back up over the AC Power Supply (put pickupcoil right next to electromagnet coil)
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - add a dialog that warns about performance implications of turning on grid
@@ -48,6 +49,7 @@ PHETCOMMON:
 
 DONE:
 v0r21...
+(4/6) - change coil collision bounds to include the coil ends
 (4/5) - add a resistor & probes to the Voltmeter indicator
 (4/4) - make compass needle do a simple rotation (instead of a flip) when rotational kinematics is disabled
 (4/4) - make compass react more quickly when rotational kinematics is enabled
@@ -341,7 +343,8 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
-(4/5) - - lightbulb flashes the first time that you visit each module (Carl likes this, leave it in)
+(4/6) - put compass in top layer so it doesn't get hidden behind larger objects (compass needs to move through coil)
+(4/5) - lightbulb flashes the first time that you visit each module (Carl likes this, leave it in)
 (4/4) - eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf (not possible)
 (4/4) - add scaling of pixel-space (not necessary, but would be done in DipoleMagnet.getStrengthInside)
 (3/29) - draw needles using Graphics.fillPolygon (no performance improvement)
