@@ -17,8 +17,11 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.persistence.test.model.TestParticle;
 import edu.colorado.phet.persistence.test.util.PersistentGeneralPath;
+import edu.colorado.phet.persistence.test.util.PersistentStroke;
+import edu.colorado.phet.persistence.test.util.PersistentGradientPaint;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,6 +31,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.awt.geom.AffineTransform;
 import java.awt.*;
+import java.awt.font.FontRenderContext;
 import java.beans.XMLEncoder;
 import java.beans.XMLDecoder;
 import java.io.FileOutputStream;
@@ -168,16 +172,18 @@ public class TestSaveState extends PhetApplication {
     }
 
     static void beanTest2() {
+
+        BasicStroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
+        PersistentStroke pStroke = new PersistentStroke( stroke );
+        ApparatusPanel panel = new ApparatusPanel();
+        Module_D.OutlineTextGraphic g = new Module_D.OutlineTextGraphic( panel, "L", new Font( "Lucida Sans", Font.ITALIC, 68 ),
+                                                                         0, 0, Color.yellow, pStroke, Color.black );
+
+        GradientPaint gp = new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue );
+        PersistentGradientPaint pgp = new PersistentGradientPaint( gp );
+//        g.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
+
         XMLEncoder e = new XMLEncoder( System.out );
-        Rectangle r = new Rectangle( 10, 20, 30, 40 );
-
-        GeneralPath gp = new GeneralPath( );
-        gp.moveTo( 0,0 );
-        gp.lineTo( 10, 10 );
-        gp.lineTo( 10, 0 );
-        gp.closePath();
-
-        PersistentGeneralPath pgp = new PersistentGeneralPath( gp );
         e.writeObject( pgp );
         e.close();
 
@@ -185,16 +191,15 @@ public class TestSaveState extends PhetApplication {
         e2.writeObject( pgp );
         e2.close();
         XMLDecoder d2 = getTestDecoder();
-        PersistentGeneralPath pgp2 = (PersistentGeneralPath)d2.readObject();
+        PersistentGradientPaint pgp2 = (PersistentGradientPaint)d2.readObject();
         d2.close();
-
 
         System.exit(0);
     }
 
     public static void main( String[] args ) {
 //        beanTest();
-        beanTest2();
+//        beanTest2();
 
         PhetApplication app = new TestSaveState( new AppModel() );
 
