@@ -75,7 +75,6 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
         if( alpha > 0 ) {
             saveGraphicsState( g2 );
             GraphicsUtil.setAlpha( g2, alpha );
-//            GraphicsUtil.setAlpha( g2, (double)( 255 - level ) / 255 );
             super.paint( g2 );
 
             restoreGraphicsState();

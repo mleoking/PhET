@@ -68,6 +68,8 @@ public class BaseLaserModule extends Module {
     private int lasingPhotonView = PHOTON_DISCRETE;
     private BeamCurtainGraphic beamCurtainGraphic;
     private LaserWaveGraphic waveGraphic;
+    private LampGraphic pumpLampGraphic;
+
     private int numPhotons;
     private boolean displayHighLevelEmissions;
     protected boolean threeEnergyLevels;
@@ -405,6 +407,9 @@ public class BaseLaserModule extends Module {
         getApparatusPanel().paintImmediately( getApparatusPanel().getBounds() );
     }
 
+    protected void setPumpLampGraphic( LampGraphic lampGraphic ) {
+        pumpLampGraphic = lampGraphic;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Other methods
@@ -443,6 +448,10 @@ public class BaseLaserModule extends Module {
 
     public Component getEnergyLevelsDialog() {
         return energyLevelsDialog;
+    }
+
+    public LampGraphic getPumpLampGraphic() {
+        return pumpLampGraphic;
     }
 
 
