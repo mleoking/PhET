@@ -10,8 +10,9 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.sound.model.*;
+import edu.colorado.phet.sound.view.RgbReporter;
 
-public class SoundModule extends Module {
+public class SoundModule extends Module implements RgbReporter {
     private boolean audioEnabled = false;
     private boolean savedAudioEnabled = audioEnabled;
     private Wavefront primaryWavefront;
@@ -107,5 +108,15 @@ public class SoundModule extends Module {
     public void setOscillatorFrequency( double dopplerFrequency ) {
         getPrimaryOscillator().setFrequency( (float)dopplerFrequency );
         getOctaveOscillator().setFrequency( (float)dopplerFrequency * 2 );
+    }
+
+    /**
+     * Default behavior is to return middle gray
+     * @param x
+     * @param y
+     * @return
+     */
+    public int rgbAt( int x, int y ) {
+        return 128;
     }
 }

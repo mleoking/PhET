@@ -71,7 +71,7 @@ public class WallInterferenceModule extends SoundModule {
 
         // Set up the interferring wavefront graphic
         interferringWaverfrontGraphic = new WaveMediumGraphic( soundModel.getWaveMedium(),
-                                                               getApparatusPanel() );
+                                                               getApparatusPanel(), this );
         this.addGraphic( interferringWaverfrontGraphic, 7 );
         positionInterferingWavefront();
 

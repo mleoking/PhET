@@ -47,8 +47,19 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         controlPanel.addPanel( new BoxAirDensityControlPanel( attenuationFunction ) );
     }
 
+    public int rgbAt( int x, int y ) {
+        if( boxInteriorGraphic.contains( x, y ) ){
+            System.out.println( "!!!" );            
+            return boxInteriorGraphic.getGrayLevel();
+        }
+        else {
+            return super.rgbAt( x, y );
+        }
+    }
+
     static class AirBoxGraphic extends PhetShapeGraphic {
         static Color[] grayLevels = new Color[256];
+        private int grayLevel;
 
         static {
             for( int i = 0; i < 256; i++ ) {
@@ -61,8 +72,12 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         }
 
         void setAirDensity( double density ) {
-            int grayLevel = 255 - (int)( 128 * density );
+            grayLevel = 255 - (int)( 128 * density );
             this.setPaint( grayLevels[grayLevel] );
+        }
+
+        int getGrayLevel() {
+            return grayLevel;
         }
     }
 

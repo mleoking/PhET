@@ -47,8 +47,9 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     private double rotationAngle = 0;
     private AffineTransform lineRotationXform;
     private WaveMedium waveMedium;
+    private RgbReporter rgbReporter;
 
-    private int grayScaleZero = s_lineColor.length / 2;
+    //    private int grayScaleZero = s_lineColor.length / 2;
 
     static public boolean drawTest;
 
@@ -63,11 +64,12 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     /**
      * todo: rename WaveMediumGraphic
      */
-    public WaveMediumGraphic( WaveMedium waveMedium, Component component ) {
+    public WaveMediumGraphic( WaveMedium waveMedium, Component component, RgbReporter rgbReporter ) {
         super( component, createBufferedImage() );
 
         // Hook up to the WaveMedium we are observing
         this.waveMedium = waveMedium;
+        this.rgbReporter = rgbReporter;
         waveMedium.addObserver( this );
 
         buffImg = super.getImage();
@@ -92,6 +94,26 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         clip.lineTo( (float)x1, (float)( origin.getY() + dy ) );
         clip.closePath();
         //        g2DBuffImg.setClip( clip );
+    }
+
+    /**
+     * Gets the color corresponding to a particular amplitude at a particular point. The idea is to
+     * match the zero pressure point in the wave medium to the background color reported by the
+     * rgbReporter
+     * @param amplitude
+     * @param x
+     * @param y
+     * @return
+     */
+    Color getColorForAmplitude( double amplitude, int x, int y ) {
+        System.out.println( "x = " + x );
+        if( x < 10 ) {
+            System.out.println( "???" );
+        }
+        int zeroGray = rgbReporter.rgbAt( x, y );
+        double normalizedAmplitude = amplitude / SoundConfig.s_maxAmplitude * zeroGray;
+        int colorIndex = Math.min( (int)( ( normalizedAmplitude ) + zeroGray ), s_lineColor.length - 1 );
+        return s_lineColor[colorIndex];
     }
 
     private void setGraphicsHints( Graphics2D g2 ) {
@@ -192,9 +214,10 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
                     double distSq = ( x * x ) + ( y * y );
                     int dist = (int)Math.sqrt( distSq );
                     if( dist < waveMedium.getMaxX() ) {
-                        double normalizedAmplitude = amplitudes[dist] / SoundConfig.s_maxAmplitude * grayScaleZero;
-                        int colorIndex = (int)( ( normalizedAmplitude ) + s_lineColor.length / 2 );
-                        gBi.setColor( s_lineColor[colorIndex] );
+//                        double normalizedAmplitude = amplitudes[dist] / SoundConfig.s_maxAmplitude * getGrayScaleZero();
+//                        int colorIndex = (int)( ( normalizedAmplitude ) + s_lineColor.length / 2 );
+//                        gBi.setColor( s_lineColor[colorIndex] );
+                        gBi.setColor( getColorForAmplitude( amplitudes[dist], x, y ) );
                         gBi.fillRect( (int)origin.getX() + x, (int)origin.getY() + y, dx, dy );
                     }
                 }
@@ -207,9 +230,10 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
 
                 // Negative in front of amplitude is to make black indicate high pressure, and white
                 // indicate low pressure
-                double normalizedAmplitude = amplitudes[i] / SoundConfig.s_maxAmplitude * grayScaleZero;
-                int colorIndex = (int)( ( normalizedAmplitude ) + grayScaleZero );
-                g.setColor( s_lineColor[colorIndex] );
+//                double normalizedAmplitude = amplitudes[i] / SoundConfig.s_maxAmplitude * getGrayScaleZero();
+//                int colorIndex = (int)( ( normalizedAmplitude ) + grayScaleZero );
+//                g.setColor( s_lineColor[colorIndex] );
+                g.setColor( getColorForAmplitude( amplitudes[i], (int)( i * stroke ), 0 ) );
                 if( this.isPlanar ) {
                     end1.setLocation( origin.getX() + rad2 + ( i * stroke ), origin.getY() - height / 2 );
                     end2.setLocation( origin.getX() + rad2 + ( i * stroke ), origin.getY() + height / 2 );
@@ -240,10 +264,6 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     public Point2D.Double getOrigin() {
         return origin;
     }
-
-    //
-    // Abstract methods
-    //
 
     /**
      *
