@@ -15,10 +15,13 @@ import java.awt.AlphaComposite;
 import java.awt.Component;
 import java.awt.Composite;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
@@ -50,8 +53,11 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
     // The parent graphic.
     private CompositePhetGraphic _parent;
     
-    // Is this electron on the background layer?
-    private boolean _onBackground;
+    // Foreground image.
+    private BufferedImage _foregroundImage;
+    
+    // Background image.
+    private BufferedImage _backgroundImage;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -64,7 +70,7 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
      * @param electronModel the electron that this graphic represents
      */
     public ElectronGraphic( Component component, CompositePhetGraphic parent, Electron electronModel ) {
-        super( component, FaradayConfig.ELECTRON_IMAGE );
+        super( component );
         
         assert( component != null );
         assert( parent != null );
@@ -73,8 +79,15 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
         _electronModel = electronModel;
         _electronModel.addObserver( this );
         
-        _parent = parent;
-        _onBackground = false;
+        try {
+            _foregroundImage = ImageLoader.loadBufferedImage( FaradayConfig.ELECTRON_FOREGROUND_IMAGE );
+            _backgroundImage = ImageLoader.loadBufferedImage( FaradayConfig.ELECTRON_BACKGROUND_IMAGE );
+        }
+        catch ( IOException e ) {
+            // Bail if this happens.
+            throw new RuntimeException( e );
+        }
+        setImage( _foregroundImage );
         
         int rx = getImage().getWidth() / 2;
         int ry = getImage().getHeight() / 2;
@@ -104,16 +117,25 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
         if ( isVisible() ) {
             
             ElectronPathDescriptor descriptor = _electronModel.getPathDescriptor();
-            
-            // Are we on the background layer?
-            _onBackground = ( descriptor.getLayer() == ElectronPathDescriptor.BACKGROUND );
                 
             // Jump between foreground and background.
             CompositePhetGraphic parent = descriptor.getParent();
             if ( parent != _parent ) {
-                _parent.removeGraphic( this );
+                
+                // Change the parent.
+                if ( _parent != null ) {
+                    _parent.removeGraphic( this );
+                }
                 parent.addGraphic( this );
                 _parent = parent;
+                
+                // Change the image.
+                if ( descriptor.getLayer() == ElectronPathDescriptor.BACKGROUND ) {
+                    setImage( _backgroundImage );
+                }
+                else { 
+                    setImage( _foregroundImage );
+                }
             }
             
             // Set the electron's location.
@@ -123,29 +145,5 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
             
             repaint();
         }
-    }
-    
-    //----------------------------------------------------------------------------
-    // PhetImageGraphic overrides
-    //----------------------------------------------------------------------------
-
-    /**
-     * Draws the electron.  
-     * If transparency is enabled, use alpha compositing to make the electron transparent.
-     * 
-     * @param g2 the graphics context
-     */
-    public void paint( Graphics2D g2 ) {
-        if ( isVisible() ) {
-            if ( _onBackground ) {
-                Composite oldComposite = g2.getComposite(); // save
-                g2.setComposite( COMPOSITE );
-                super.paint( g2 );
-                g2.setComposite( oldComposite ); // restore
-            }
-            else {
-                super.paint( g2 );
-            }
-        }   
     }
 }

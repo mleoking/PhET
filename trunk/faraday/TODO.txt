@@ -54,6 +54,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/25) - use two different images for electron instead of changing alpha (optimization)
 (3/25) - reduce amount of memory allocation in DipoleMagnet, reuse mutable objects (optimization)
 (3/25) - remove extra notifyObservers from Electron model, causing 2 updates of Electron view per clock tick (optimization)
 (3/25) - remove bounds stuff in CompassGridNeedle, not needed (5% optimization)
