@@ -47,12 +47,37 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
     private double datum = Double.NaN;
     private Color backgroundColor = new Color( 245, 255, 250 );
 
+    /**
+     *
+     * @param dataSource
+     * @param component
+     * @param x
+     * @param y
+     * @param diam
+     * @param min
+     * @param max
+     * @param title
+     * @param units
+     */
     public DialGauge( ScalarObservable dataSource, Component component,
                       double x, double y, double diam, double min, double max,
                       String title, String units ) {
         this( dataSource, component, x, y, diam, min, max, title, units, s_defaultFont );
     }
 
+    /**
+     *
+     * @param dataSource
+     * @param component
+     * @param x
+     * @param y
+     * @param diam
+     * @param min
+     * @param max
+     * @param title
+     * @param units
+     * @param font
+     */
     public DialGauge( ScalarObservable dataSource, Component component,
                       double x, double y, double diam, double min, double max,
                       String title, String units, Font font ) {

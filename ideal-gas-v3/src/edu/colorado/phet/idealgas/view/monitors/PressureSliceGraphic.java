@@ -119,10 +119,8 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
                                   boxRightEdge - boxLeftEdge,
                                   pressureSliceHeight );
             readoutRectangle.setRoundRect( (int)boundingRect.getMinX() - ( readoutWidth + borderThickness * 2 ),
-//            readoutRectangle.setRoundRect( (int)boundingRect.getMinX() - 110,
                                            (int)boundingRect.getMinY() - ( readoutHeight / 2 ) - borderThickness,
                                            ( readoutWidth + borderThickness * 2 ), readoutHeight + 2 * borderThickness, 10, 10 );
-//                                           110, readoutHeight + 2 * borderThickness, 10, 10 );
 
             // Draw the slice itself, over the box
             g2.setColor( Color.YELLOW );
@@ -161,7 +159,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
             if( Double.isInfinite( temperature ) || Double.isNaN( temperature ) ) {
                 temperature = 0.0;
             }
-            String temperatureStr = "T = " + temperatureFormatter.format( temperature ) + " ºK";
+            String temperatureStr = "T = " + temperatureFormatter.format( temperature ) + " K";
             g2.setColor( Color.black );
             strLocY += fontMetrics.getHeight();
             g2.drawString( temperatureStr, readoutLocation.x + 5, strLocY );
