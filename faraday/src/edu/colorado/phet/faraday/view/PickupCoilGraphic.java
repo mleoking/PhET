@@ -196,26 +196,29 @@ public class PickupCoilGraphic
     
     public void update() {
 
-        // Location
-        _foreground.setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
-        _background.setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
-        
-        // Position the lightbulb and voltmeter at the top of the coil.
-        _foreground.clearTransform();
-        _background.clearTransform();
-        _bounds.setBounds( _coilGraphic.getForeground().getBounds() );
-        _bounds.union( _coilGraphic.getBackground().getBounds() );
-        int x = -10;
-        int y = -( _bounds.height / 2 ) - 5;
-        _lightbulbGraphic.setLocation( x, y );
-        _voltmeterGraphic.setLocation( x, y );
-        
-        // Direction (do this *after* positioning lightbulb and voltmeter!)
-        _foreground.rotate( _pickupCoilModel.getDirection() );
-        _background.rotate( _pickupCoilModel.getDirection() );
-        
-        _foreground.repaint();
-        _background.repaint();
+        if ( _foreground.isVisible() ) {
+            
+            // Location
+            _foreground.setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
+            _background.setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
+
+            // Position the lightbulb and voltmeter at the top of the coil.
+            _foreground.clearTransform();
+            _background.clearTransform();
+            _bounds.setBounds( _coilGraphic.getForeground().getBounds() );
+            _bounds.union( _coilGraphic.getBackground().getBounds() );
+            int x = -10;
+            int y = -( _bounds.height / 2 ) - 5;
+            _lightbulbGraphic.setLocation( x, y );
+            _voltmeterGraphic.setLocation( x, y );
+
+            // Direction (do this *after* positioning lightbulb and voltmeter!)
+            _foreground.rotate( _pickupCoilModel.getDirection() );
+            _background.rotate( _pickupCoilModel.getDirection() );
+
+            _foreground.repaint();
+            _background.repaint();
+        }
     }
     
     //----------------------------------------------------------------------------
