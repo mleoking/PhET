@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+
 - Electromagnet module "first pass"
 
 HIGH PRIORITY:
@@ -45,6 +46,7 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/24) - wire up amplitude & frequency controls to AC source
 (2/23) - fix magnet hierarcy, BarMagnet and Electromagnet are subclasses of DipoleMagnet
 (2/23) - connect Lightbulb and Voltmeter to an AbstractVoltageSource instead of a PickupCoil
 (2/23) - do not embed MAX_EMF in any classes, make it a settable property of an AbstractVoltageSource

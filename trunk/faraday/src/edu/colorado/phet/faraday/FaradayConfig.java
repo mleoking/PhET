@@ -101,9 +101,9 @@ public class FaradayConfig {
 
     // AC parameters
     public static final double AC_VOLTAGE_MAX = 100.0;
-    public static final double AC_AMPLITUDE_MAX = 100.0;
-    public static final double AC_FREQUENCY_MAX = 100.0;
-    public static final double AC_FREQUENCY_MIN = 50.0;
+    public static final double AC_AMPLITUDE_MAX = 1.0;  // 0...1
+    public static final double AC_FREQUENCY_MAX = 1.0;  // 0...1
+    public static final double AC_FREQUENCY_MIN = 0.5;  // 0...1
     
     //----------------------------------------------------------------------------
     // Constructors
