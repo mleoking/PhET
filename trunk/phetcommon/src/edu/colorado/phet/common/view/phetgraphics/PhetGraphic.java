@@ -16,7 +16,6 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationHandler;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.RectangleUtils;
-//import edu.colorado.phet.common.util.persistence.PersistentAffineTransform;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -121,6 +120,7 @@ public abstract class PhetGraphic {
 
     /**
      * Provided for Java Beans conformance
+     *
      * @return
      */
     public GraphicLayerSet getParent() {
@@ -606,7 +606,7 @@ public abstract class PhetGraphic {
         if( location.x != x || location.y != y ) {
             location.setLocation( x, y );
             setBoundsDirty();
-            repaint();
+            autorepaint();
         }
     }
 
