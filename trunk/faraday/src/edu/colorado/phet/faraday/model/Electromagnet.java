@@ -31,39 +31,53 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    AbstractVoltageSource _voltageSourceModel;
+    private AbstractCoil _coilModel;
+    private boolean _isFlipped;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Electromagnet( AbstractVoltageSource voltageSourceModel ) {
+    public Electromagnet( AbstractCoil coilModel ) {
         super();
-        assert( voltageSourceModel != null );
+        assert( coilModel != null );
         
-        _voltageSourceModel = voltageSourceModel;
-        _voltageSourceModel.addObserver( this );
+        _coilModel = coilModel;
+        _coilModel.addObserver( this );
+        
+        _isFlipped = false;
     }
     
     public void finalize() {
-        _voltageSourceModel.removeObserver( this );
-        _voltageSourceModel = null;
+        _coilModel.removeObserver( this );
+        _coilModel = null;
     }
     
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
-
+    
     /*
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
-        double strength = _voltageSourceModel.getVoltage(); //XXX hack
-//        if ( strength < 0 ) {
-//            System.out.println( "Electromagnet.update: flipping polarity" ); //DEBUG
-//            flipPolarity();
-//            strength = Math.abs( strength );
-//        }
-        setStrength( Math.abs( strength ) );
+        
+        // Get the voltage across the ends of the coil.
+        double voltage = _coilModel.getVoltage();
+        
+        // Flip the polarity
+        int sign = ( voltage < 0 ) ? -1 : +1;
+        if ( sign == 1 && _isFlipped ) {
+            flipPolarity();
+            _isFlipped = false;
+        }
+        else if ( sign == -1 && !_isFlipped ) {
+            flipPolarity();
+            _isFlipped = true;
+        }
+        
+        // Set the strength -- see Kirchhoff's rule.
+        double strength = Math.abs( voltage );
+        setStrength( strength );
     }
 }
