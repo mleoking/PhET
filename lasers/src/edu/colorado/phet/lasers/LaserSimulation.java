@@ -1,5 +1,5 @@
 /**
- * Class: LaserSimulation
+ * Class: LaserApplication
  * Package: edu.colorado.phet.lasers.controller
  * Author: Another Guy
  * Date: Mar 21, 2003
