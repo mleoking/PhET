@@ -1,5 +1,5 @@
 /*Copyright, Sam Reid, 2003.*/
-package edu.colorado.phet.common.model.simpleobservable;
+package edu.colorado.phet.common.util;
 
 import java.util.ArrayList;
 
@@ -16,11 +16,22 @@ public class SimpleObservable {
         observers.add( so );
     }
 
-    public void updateObservers() {
+    public void notifyObservers() {
         for( int i = 0; i < observers.size(); i++ ) {
             SimpleObserver simpleObserver = (SimpleObserver)observers.get( i );
             simpleObserver.update();
         }
+    }
+
+    /**
+     * @deprecated
+     */
+    public void updateObservers() {
+        notifyObservers();
+        //        for( int i = 0; i < observers.size(); i++ ) {
+        //            SimpleObserver simpleObserver = (SimpleObserver)observers.get( i );
+        //            simpleObserver.update();
+        //        }
     }
 
     public void removeObserver( SimpleObserver obs ) {

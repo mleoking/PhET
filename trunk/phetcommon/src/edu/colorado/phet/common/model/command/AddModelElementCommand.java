@@ -10,6 +10,9 @@ package edu.colorado.phet.common.model.command;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 
+/**
+ * @deprecated 
+ */
 public class AddModelElementCommand implements Command {
     ModelElement me;
     BaseModel m;
