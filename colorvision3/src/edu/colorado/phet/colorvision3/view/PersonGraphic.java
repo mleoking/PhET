@@ -100,7 +100,7 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
                                         (int)(_personModel.getY() + HEAD_Y_OFFSET) );
     _thoughtBubbleGraphic.setLocation( (int)(_personModel.getX() + THOUGHT_BUBBLE_X_OFFSET), 
                                       (int)(_personModel.getY() + THOUGHT_BUBBLE_Y_OFFSET) );
-    _thoughtBubbleGraphic.setFill( _personModel.getColor() );
+    _thoughtBubbleGraphic.setPaint( _personModel.getColor() );
     
     super.repaint();
   }
