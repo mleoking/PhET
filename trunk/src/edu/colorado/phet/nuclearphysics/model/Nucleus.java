@@ -17,10 +17,10 @@ public class Nucleus extends Body {
     private PotentialProfile potentialProfile;
     private Point2D.Double position;
 
-    public Nucleus( Point2D.Double position, int numProtons, int numNeutrons,
-                    PotentialProfile potentialProfile ) {
-        super( position, new Vector2D(), new Vector2D(), 0, 0 );
-        this.position = position;
+    public Nucleus(Point2D.Double position, int numProtons, int numNeutrons,
+                   PotentialProfile potentialProfile) {
+        super(position, new Vector2D(), new Vector2D(), 0, 0);
+        this.setLocation(position.getX(), position.getY());
         this.numProtons = numProtons;
         this.numNeutrons = numNeutrons;
         this.potentialProfile = potentialProfile;
@@ -46,11 +46,7 @@ public class Nucleus extends Body {
         return potentialProfile;
     }
 
-    public Point2D.Double getPosition() {
-        return position;
-    }
-
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );    //To change body of overridden methods use File | Settings | File Templates.
+    public void stepInTime(double dt) {
+        super.stepInTime(dt);
     }
 }

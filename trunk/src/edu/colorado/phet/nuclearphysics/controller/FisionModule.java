@@ -8,18 +8,13 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
-import edu.colorado.phet.nuclearphysics.model.Uranium2235;
-import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
+import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 import edu.colorado.phet.nuclearphysics.view.PotentialProfileGraphic;
-import edu.colorado.phet.nuclearphysics.view.ProtonGraphic;
+import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -30,97 +25,83 @@ import java.awt.geom.Point2D;
 public class FisionModule extends Module {
     private ApparatusPanel apparatusPanel;
     private PotentialProfile potentialProfile;
-    private ApparatusPanel potentialProfilePanel;
+    private PotentialProfilePanel potentialProfilePanel;
     private ApparatusPanel physicalPanel;
     private Uranium2235 uraniumNucleus;
 
-    public FisionModule( AbstractClock clock ) {
-        super( "Fision" );
+    public FisionModule(AbstractClock clock) {
+        super("Fision");
 
         apparatusPanel = new ApparatusPanel();
-        super.setApparatusPanel( apparatusPanel );
+        super.setApparatusPanel(apparatusPanel);
 
-        potentialProfilePanel = new ApparatusPanel();
-        BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Potential Profile" );
-        potentialProfilePanel.setBorder( titledBorder );
+        potentialProfilePanel = new PotentialProfilePanel();
+        BevelBorder baseBorder = (BevelBorder) BorderFactory.createRaisedBevelBorder();
+        Border titledBorder = BorderFactory.createTitledBorder(baseBorder, "Potential Profile");
+        potentialProfilePanel.setBorder(titledBorder);
 
         physicalPanel = new ApparatusPanel();
-        BevelBorder baseBorder2 = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        Border titledBorder2 = BorderFactory.createTitledBorder( baseBorder2, "Physical System" );
-        physicalPanel.setBorder( titledBorder2 );
+        BevelBorder baseBorder2 = (BevelBorder) BorderFactory.createRaisedBevelBorder();
+        Border titledBorder2 = BorderFactory.createTitledBorder(baseBorder2, "Physical System");
+        physicalPanel.setBorder(titledBorder2);
 
 
-        apparatusPanel.setLayout( new GridLayout( 1, 2 ) );
-        apparatusPanel.add( potentialProfilePanel );
-        apparatusPanel.add( physicalPanel );
+        apparatusPanel.setLayout(new GridLayout(1, 2));
+        apparatusPanel.add(potentialProfilePanel);
+        apparatusPanel.add(physicalPanel);
 
 
 
         // Start the model
-        this.setModel( new BaseModel( clock ) );
-        this.getModel().addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
+        this.setModel(new FisionModel(clock));
+        this.getModel().addModelElement(new ModelElement() {
+            public void stepInTime(double dt) {
                 apparatusPanel.repaint();
             }
-        } );
+        });
         boolean b = clock.hasStarted();
         b = clock.isRunning();
 
 
-        potentialProfile = new PotentialProfile( 250, 400, 75 );
-        PotentialProfileGraphic ppg = new PotentialProfileGraphic( potentialProfile,
-                                                                   new Point2D.Double( 250, 600 ) );
-        potentialProfilePanel.addGraphic( ppg );
+        potentialProfile = new PotentialProfile(250, 400, 75);
+        PotentialProfileGraphic ppg = new PotentialProfileGraphic(potentialProfile);
 
-        System.out.println( potentialProfilePanel.getWidth() );
-        uraniumNucleus = new Uranium2235( new Point2D.Double( 300, 400 ) );
-        addNeucleus( uraniumNucleus );
-        uraniumNucleus.setVelocity( 10, 10 );
-//        addNeucleus( new Nucleus( new Point2D.Double( 400, 400 ), 5, 3, potentialProfile ));
+        potentialProfilePanel.addPotentialProfile(ppg);
 
+        uraniumNucleus = new Uranium2235(new Point2D.Double(200, 400));
+        addNeucleus(uraniumNucleus);
 
-        JPanel controlPanel = new FisionControlPanel( this );
-        super.setControlPanel( controlPanel );
+        JPanel controlPanel = new FisionControlPanel(this);
+        super.setControlPanel(controlPanel);
 
     }
 
-    private void addNeucleus( Nucleus nucleus ) {
-        this.getModel().addModelElement( nucleus );
-        NucleusGraphic ng = new NucleusGraphic( nucleus );
-        physicalPanel.addGraphic( ng );
+    public void activate(PhetApplication app) {
     }
 
-    private void addProton( double x, double y ) {
-        NuclearParticle p = new NuclearParticle( new Point2D.Double( x, y ) );
-        ProtonGraphic pg = new ProtonGraphic( p );
-        physicalPanel.addGraphic( pg );
+    public void deactivate(PhetApplication app) {
     }
 
-    private void addNeutron( double x, double y ) {
-        NuclearParticle p = new NuclearParticle( new Point2D.Double( x, y ) );
-        NeutronGraphic ng = new NeutronGraphic( p );
-        physicalPanel.addGraphic( ng );
+
+    private void addNeucleus(Nucleus nucleus) {
+        this.getModel().addModelElement(nucleus);
+        NucleusGraphic ng = new NucleusGraphic(nucleus);
+        physicalPanel.addGraphic(ng);
+        potentialProfilePanel.addNucleus(ng);
     }
 
-    public void activate( PhetApplication app ) {
-    }
-
-    public void deactivate( PhetApplication app ) {
-    }
-
-    public void setProfileMaxHeight( double modelValue ) {
-        potentialProfile.setMaxPotential( modelValue );
+    public void setProfileMaxHeight(double modelValue) {
+        potentialProfile.setMaxPotential(modelValue);
         potentialProfilePanel.repaint();
     }
 
-    public void setProfileWellDepth( double wellDepth ) {
-        potentialProfile.setWellDepth( wellDepth );
+    public void setProfileWellDepth(double wellDepth) {
+        potentialProfile.setWellDepth(wellDepth);
         potentialProfilePanel.repaint();
     }
 
-    public void setProfileWidth( double profileWidth ) {
-        potentialProfile.setWidth( profileWidth );
+    public void setProfileWidth(double profileWidth) {
+        potentialProfile.setWidth(profileWidth);
         potentialProfilePanel.repaint();
     }
 
@@ -129,6 +110,14 @@ public class FisionModule extends Module {
     }
 
     public void testDecay() {
-//        uraniumNucleus.decay();
+        DecayProducts dp = uraniumNucleus.decay();
+        getModel().removeModelElement(dp.getN0());
+        getModel().addModelElement(dp.getN1());
+        getModel().addModelElement(dp.getN2());
+        physicalPanel.removeGraphic(NucleusGraphic.getGraphic(dp.getN0()));
+        NucleusGraphic n1g = new NucleusGraphic(dp.getN1());
+        physicalPanel.addGraphic(n1g);
+        NucleusGraphic n2g = new NucleusGraphic(dp.getN2());
+        physicalPanel.addGraphic(n2g);
     }
 }
