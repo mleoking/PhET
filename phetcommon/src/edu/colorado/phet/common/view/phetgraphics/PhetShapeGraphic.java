@@ -129,5 +129,6 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void setPaint( Paint paint ) {
         this.fill = paint;
+        repaint();
     }
 }
