@@ -41,6 +41,7 @@ phetcommon:
 
 DONE:
 v0r12...
+(2/9) - localize mnemonics for menus and menu items
 (2/9) - lightBulb -> lightbulb, voltMeter -> voltmeter
 (2/9) - move background color control out of FaradayApplication
 (2/9) - beautify Control Panels

@@ -61,12 +61,12 @@ public class FaradayApplication extends PhetApplication {
         
         // Options menu
         JMenu optionsMenu = new JMenu( SimStrings.get( "Menubar.options" ) );
-        optionsMenu.setMnemonic( 'O' );
+        optionsMenu.setMnemonic( SimStrings.get( "Menubar.options.mnemonic").charAt(0) );
         getPhetFrame().addMenu( optionsMenu );
 
         // Background Color menu item
         JMenuItem backgroundColorMenuItem = new JMenuItem( SimStrings.get( "Menubar.backgroundColor" ) );
-        backgroundColorMenuItem.setMnemonic( 'B' );
+        backgroundColorMenuItem.setMnemonic( SimStrings.get( "Menubar.backgroundColor.mnemonic").charAt(0) );
         backgroundColorMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleBackgroundColorMenuItem();
@@ -76,7 +76,7 @@ public class FaradayApplication extends PhetApplication {
 
         // Grid Controls dialog
         JMenuItem gridControlsMenuItem = new JMenuItem( SimStrings.get( "Menubar.gridControls" ) );
-        gridControlsMenuItem.setMnemonic( 'G' );
+        gridControlsMenuItem.setMnemonic( SimStrings.get( "Menubar.gridControls.mnemonic").charAt(0) );
         gridControlsMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleGridControlsMenuItem();
