@@ -16,6 +16,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**
@@ -74,6 +75,9 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     // Needle deflection angle
     private double _needleAngle;
     
+    // Rescales the voltage.
+    private IRescaler _rescaler;
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -87,6 +91,7 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
         super();
         
         assert( pickupCoilModel != null );
+        
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
         
@@ -107,6 +112,15 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Set the rescaler, applied to the voltage read.
+     * 
+     * @param rescaler
+     */
+    public void setRescaler( IRescaler rescaler ) {
+        _rescaler = rescaler;
+    }
     
     /**
      * Enables or disables the state of the voltmeter.
@@ -193,12 +207,14 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     private double getDesiredNeedleAngle() {
         //  Convert the voltage to a value in the range -1...+1.
         double voltage = _pickupCoilModel.getVoltage() / FaradayConfig.MAX_EMF;
-
-        // Rescale the voltage to improve the visual effect.
-        double sign = ( voltage < 0 ) ? -1 : +1;
-        voltage = sign * _pickupCoilModel.getMagnet().rescale( Math.abs( voltage ) );
         voltage = MathUtil.clamp( -1, voltage, +1 );
-
+        
+        // Rescale the voltage to improve the visual effect.
+        if ( _rescaler != null ) {
+            double sign = ( voltage < 0 ) ? -1 : +1;
+            voltage = sign * _rescaler.rescale( Math.abs( voltage ) );
+        }
+        
         // Determine the needle deflection angle.
         return voltage * MAX_NEEDLE_ANGLE;
     }

@@ -22,6 +22,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**
@@ -50,6 +51,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     
     // The magnet model element that the grid is observing.
     private AbstractMagnet _magnetModel;
+    
+    // Handles rescaling the field to improve the visual effect.
+    private IRescaler _rescaler;
     
     // The spacing between compass needles, in pixels.
     private int _xSpacing, _ySpacing;
@@ -110,6 +114,15 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    /**
+     * Set the rescaler, used to make values look better when displayed.
+     * 
+     * @param rescaler
+     */
+    public void setRescaler( IRescaler rescaler ) {
+        _rescaler = rescaler;
+    }
     
     /**
      * Sets the spacing between points on the grid.
@@ -313,13 +326,13 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
                     if ( magnetStrength != 0 ) {
                         
                         scale = ( magnitude / magnetStrength );
+                        scale = MathUtil.clamp( 0, scale, 1 );
                         
                         // Adjust the scale to improve the visual effect.
-                        scale = _magnetModel.rescale( scale );
-                        scale = MathUtil.clamp( 0, scale, 1 );
+                        if ( _rescaler != null ) {
+                            scale = _rescaler.rescale( scale );
+                        }
                     }
-                    
-
                     
                     // Set the needle strength.
                     needle.setStrength( scale );

@@ -44,6 +44,8 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/23) - created MagneticFieldRescaler, instantiated and used throughout a module
+(2/23) - create "rescaler" hierarchy to provide better abstraction over rescaling of value for display
 (2/22) - set up control panel for Electromagnet module
 (2/22) - add "Show Field" control to Bar Magnet module
 (2/22) - put a thicker border around groups of UI controls

@@ -18,15 +18,14 @@ import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.Voltmeter;
+import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**
@@ -44,7 +43,6 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
     //----------------------------------------------------------------------------
     
     private Voltmeter _voltmeterModel;
-    private AbstractMagnet _magnetModel;
     private PhetShapeGraphic _needle;
 
     //----------------------------------------------------------------------------
@@ -59,15 +57,13 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
      * @param voltmeterModel
      * @param magnetModel
      */
-    public VoltmeterGraphic( Component component, Voltmeter voltmeterModel, AbstractMagnet magnetModel ) {
+    public VoltmeterGraphic( Component component, Voltmeter voltmeterModel ) {
         super( component );
         assert( component != null );
         assert( voltmeterModel != null );
-        assert( magnetModel != null );
 
         _voltmeterModel = voltmeterModel;
         _voltmeterModel.addObserver( this );
-        _magnetModel = magnetModel; // No need to observe magnet.
         
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );

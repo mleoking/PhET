@@ -25,6 +25,7 @@ import edu.colorado.phet.faraday.model.AbstractCoil;
 import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.QuadBezierSpline;
+import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**
@@ -117,6 +118,9 @@ public class CoilGraphic implements SimpleObserver {
     // Used to determine if the voltage across the coil has changed.
     private double _voltage;
     
+    // Rescales the electron speed.
+    private IRescaler _rescaler;
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -125,10 +129,13 @@ public class CoilGraphic implements SimpleObserver {
      * Sole constructor.
      * 
      * @param component parent Component
+     * @param baseModel
      * @param coilModel the coil that this graphic is watching
+     * @param rescaler
      */
     public CoilGraphic( Component component, BaseModel baseModel, AbstractCoil coilModel ) {
         assert( component != null );
+        assert( baseModel != null );
         assert( coilModel != null );
         
         _component = component;
@@ -172,6 +179,15 @@ public class CoilGraphic implements SimpleObserver {
     // Accessors
     //----------------------------------------------------------------------------
 
+    /**
+     * Set the rescaler, applied to the electron speed.
+     * 
+     * @param rescaler
+     */
+    public void setRescaler( IRescaler rescaler ) {
+        _rescaler = rescaler;
+    }
+    
     /**
      * Gets the PhetGraphic that contains the foreground elements of the coil.
      * 
@@ -624,12 +640,12 @@ public class CoilGraphic implements SimpleObserver {
     private double calculateElectronSpeed() {
         
         double speed = _coilModel.getVoltage() / FaradayConfig.MAX_EMF;
+        speed = MathUtil.clamp( -1, speed, +1 );
         
         // Rescale the speed to improve the visual effect.
-        if ( _coilModel.getMagnet() != null ) {  //XXX
+        if ( _rescaler != null ) {
             double sign = ( speed < 0 ) ? -1 : +1;
-            speed = sign * _coilModel.getMagnet().rescale( Math.abs( speed ) );
-            speed = MathUtil.clamp( -1, speed, +1 );
+            speed = sign * _rescaler.rescale( Math.abs( speed ) );
         }
 
         return speed;

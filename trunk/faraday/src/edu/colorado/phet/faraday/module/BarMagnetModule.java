@@ -23,13 +23,11 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
-import edu.colorado.phet.faraday.view.BarMagnetGraphic;
-import edu.colorado.phet.faraday.view.CompassGraphic;
-import edu.colorado.phet.faraday.view.CompassGridGraphic;
-import edu.colorado.phet.faraday.view.FieldMeterGraphic;
+import edu.colorado.phet.faraday.util.IRescaler;
+import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
+import edu.colorado.phet.faraday.view.*;
 
 
 /**
@@ -100,6 +98,9 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         barMagnetModel.setDirection( 0 /* radians */ );
         barMagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
         model.addModelElement( barMagnetModel );
+
+        // Rescaler
+        IRescaler rescaler = new MagneticFieldRescaler( barMagnetModel );
         
         // Compass model
         Compass compassModel = new Compass( barMagnetModel );
@@ -115,7 +116,7 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
-
+        
         // Bar Magnet
         BarMagnetGraphic barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, barMagnetModel );
         apparatusPanel.addChangeListener( barMagnetGraphic );
@@ -123,6 +124,7 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic.setRescaler( rescaler );
         _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         _gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
         apparatusPanel.addChangeListener( _gridGraphic );

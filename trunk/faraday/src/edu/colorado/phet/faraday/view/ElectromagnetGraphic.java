@@ -29,6 +29,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.model.Battery;
 import edu.colorado.phet.faraday.model.Electromagnet;
 import edu.colorado.phet.faraday.model.SourceCoil;
+import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**
@@ -116,6 +117,15 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     // Accessors
     //----------------------------------------------------------------------------
 
+    /**
+     * Set the rescaler, used to make values look better when displayed.
+     * 
+     * @param rescaler
+     */
+    public void setRescaler( IRescaler rescaler ) {
+        _coilGraphic.setRescaler( rescaler );
+    }
+    
     /**
      * Gets the PhetGraphic that contains the foreground elements of the coil.
      * 
