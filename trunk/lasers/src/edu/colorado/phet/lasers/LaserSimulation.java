@@ -41,7 +41,7 @@ public class LaserSimulation extends PhetApplication {
 
             AbstractClock clock = new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND );
             setClock( clock );
-            setFrameCenteredSize( 900, 600 );
+            setFrameCenteredSize( 1024, 660 );
 
             Module singleAtomModule = new SingleAtomModule( getFrame(), clock );
             Module multipleAtomModule = new MultipleAtomModule( getFrame(), clock );

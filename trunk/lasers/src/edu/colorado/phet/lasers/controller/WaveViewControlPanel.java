@@ -52,9 +52,10 @@ public class WaveViewControlPanel extends JPanel {
         lasingPhotonBG.add( lasingPhotonViewRB );
         lasingPhotonBG.add( lasingWaveViewRB );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                         GridBagConstraints.WEST,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 5, 5, 5, 5 ), 0, 0 );
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.HORIZONTAL,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+//                                                         new Insets( 5, 5, 5, 5 ), 0, 0 );
         lasingViewPanel.add( lasingPhotonViewRB, gbc );
         gbc.gridy++;
         lasingViewPanel.add( lasingWaveViewRB, gbc );
@@ -80,7 +81,8 @@ public class WaveViewControlPanel extends JPanel {
 
         gbc.gridy = 0;
         this.add( pumpViewPanel, gbc );
-        gbc.gridy++;
+        gbc.gridx++;
+//        gbc.gridy++;
         this.add( lasingViewPanel, gbc );
 
         // Set the initial conditions
