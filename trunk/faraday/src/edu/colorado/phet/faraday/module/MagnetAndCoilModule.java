@@ -154,6 +154,7 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, magnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
         _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        _gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
         _gridGraphic.setVisible( false );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
         
@@ -232,5 +233,12 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
      */
     public Dimension getGridNeedleSize() {
         return _gridGraphic.getNeedleSize();
+    }
+    
+    /*
+     * @see edu.colorado.phet.faraday.module.ICompassGridModule#setAlphaEnabled(boolean)
+     */
+    public void setAlphaEnabled( boolean enabled ) {
+        _gridGraphic.setAlphaEnabled( enabled );
     }
 }
