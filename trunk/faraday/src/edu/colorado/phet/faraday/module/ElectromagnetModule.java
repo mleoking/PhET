@@ -141,7 +141,7 @@ public class ElectromagnetModule extends FaradayModule {
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
         
-        // Bar Magnet
+        // Electromagnet
         ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, 
                 electromagnetModel, sourceCoilModel, batteryModel, acSourceModel );
         apparatusPanel.addChangeListener( electromagnetGraphic );
