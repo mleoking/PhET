@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class Button3D extends CompositePhetGraphic {
     private double shearX = -0.35;
-    int origDepth = 7;
+    private int origDepth = 7;
     private String text;
     private Paint enterColor = Color.orange;
     private Paint buttonColor;

@@ -4,7 +4,7 @@ package edu.colorado.phet.forces1d.view;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.ApparatusPanel3;
-import edu.colorado.phet.forces1d.common.JButton3D;
+import edu.colorado.phet.forces1d.common.JAnimatedButton3D;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -21,7 +21,7 @@ import java.awt.event.*;
 public class FreeBodyDiagramSuite {
     private FreeBodyDiagramPanel diagramPanel;
     private JCheckBox checkBox;
-    private JButton3D windowButton;
+    private JAnimatedButton3D windowButton;
     private Force1DModule module;
     private JDialog dialog;
     private JPanel dialogContentPane;
@@ -40,7 +40,8 @@ public class FreeBodyDiagramSuite {
             }
         } );
 
-        windowButton = new JButton3D( "Windowize FBD" );
+//        windowButton = new JButton3D( "Windowize FBD" );
+        windowButton = new JAnimatedButton3D( "Windowize FBD" );
         windowButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setWindowed();
