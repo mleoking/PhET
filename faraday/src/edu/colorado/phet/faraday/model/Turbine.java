@@ -97,6 +97,18 @@ public class Turbine extends BarMagnet implements ModelElement {
         return _maxRotationDelta;
     }
     
+    /**
+     * Gets the number of rotations per minute.
+     * 
+     * @return rotations per minute
+     */
+    public double getRPM() {
+        double framesPerSecond = 24; //XXX
+        double framePerMinute = 60 * framesPerSecond;
+        double maxRPM = ( framePerMinute * _maxRotationDelta ) / ( 2 * Math.PI );
+        return Math.abs( _speed * maxRPM );
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------

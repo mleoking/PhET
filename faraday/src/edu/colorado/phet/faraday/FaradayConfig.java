@@ -64,6 +64,7 @@ public class FaradayConfig {
     public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltmeter.png";
     public static final String VOLTMETER_ICON = IMAGES_DIRECTORY + "voltmeter_icon.png";
     public static final String VOLTMETER_ICON_SELECTED = IMAGES_DIRECTORY + "voltmeter_icon_selected.png";
+    public static final String WATER_WHEEL_IMAGE = IMAGES_DIRECTORY + "waterWheel.png";
 
     // Dimensions
     public static final int APP_FRAME_WIDTH = 1024;

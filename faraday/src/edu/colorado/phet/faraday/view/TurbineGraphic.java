@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.text.MessageFormat;
 
 import javax.swing.event.ChangeListener;
 
@@ -23,6 +24,8 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.FaradaySlider;
 import edu.colorado.phet.faraday.model.Turbine;
@@ -40,14 +43,17 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double BAR_MAGNET_LAYER = 1;
-    private static final double PIVOT_LAYER = 2;
-    private static final double WATER_LAYER = 3;
-    private static final double FAUCET_LAYER = 4;
-    private static final double SLIDER_LAYER = 5;
+    private static final double WATER_WHEEL_LAYER = 1;
+    private static final double BAR_MAGNET_LAYER = 2;
+    private static final double PIVOT_LAYER = 3;
+    private static final double WATER_LAYER = 4;
+    private static final double FAUCET_LAYER = 5;
+    private static final double SLIDER_LAYER = 6;
+    private static final double RPM_LAYER = 7;
     
-    private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
-    private static final Color VALUE_COLOR = Color.BLACK;
+    private static final Color RPM_COLOR = Color.GREEN;
+    private static final Font RPM_VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
+    private static final Font RPM_UNITS_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
     
     private static final double MAX_WATER_WIDTH = 40.0;
     private static final Color WATER_COLOR = new Color( 194, 234, 255, 180 );
@@ -61,6 +67,8 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     private PhetShapeGraphic _waterGraphic;
     private Rectangle _waterShape;
     private BarMagnetGraphic _barMagnetGraphic;
+    private PhetImageGraphic _waterWheelGraphic;
+    private PhetTextGraphic _rpmGraphic;
     private FaradaySlider _flowSlider;
     
     //----------------------------------------------------------------------------
@@ -87,7 +95,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
         {
             PhetImageGraphic faucet = new PhetImageGraphic( component, FaradayConfig.FAUCET_IMAGE );
             addGraphic( faucet, FAUCET_LAYER );
-            faucet.setLocation( -215, -350 );
+            faucet.setLocation( -230, -350 );
         }
         
         // Water
@@ -99,7 +107,27 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             _waterShape = new Rectangle( 0, 0, 0, 0 );
             _waterGraphic.setShape( _waterShape );
             
-            _waterGraphic.setLocation( -97, -245 );
+            _waterGraphic.setLocation( -112, -245 );
+        }
+        
+        // Water Flow slider
+        {
+            _flowSlider = new FaradaySlider( component, 65 );
+            addGraphic( _flowSlider, SLIDER_LAYER );
+            _flowSlider.setMinimum( 0 );
+            _flowSlider.setMaximum( 100 );
+            _flowSlider.setValue( 0 );
+            _flowSlider.centerRegistrationPoint();
+            _flowSlider.setLocation( -175, -322 );
+            _flowSlider.addChangeListener( new SliderListener() );
+        }
+        
+        // Water Wheel
+        {
+            _waterWheelGraphic = new PhetImageGraphic( component, FaradayConfig.WATER_WHEEL_IMAGE );
+            _waterWheelGraphic.centerRegistrationPoint();
+            _waterWheelGraphic.setLocation( 0, 0 );
+            addGraphic( _waterWheelGraphic, WATER_WHEEL_LAYER );
         }
         
         // Bar magnet
@@ -125,17 +153,19 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             pivotGraphic.centerRegistrationPoint();
             pivotGraphic.setLocation( 0, 0 );
         }
-        
-        // Water Flow slider
+
+        // RPM readout
         {
-            _flowSlider = new FaradaySlider( component, 65 );
-            addGraphic( _flowSlider, SLIDER_LAYER );
-            _flowSlider.setMinimum( 0 );
-            _flowSlider.setMaximum( 100 );
-            _flowSlider.setValue( 0 );
-            _flowSlider.centerRegistrationPoint();
-            _flowSlider.setLocation( -160, -322 );
-            _flowSlider.addChangeListener( new SliderListener() );
+            _rpmGraphic = new PhetTextGraphic( component, RPM_VALUE_FONT, "", RPM_COLOR );
+            addGraphic( _rpmGraphic, RPM_LAYER );
+            _rpmGraphic.centerRegistrationPoint();
+            _rpmGraphic.setLocation( 0, 10 );
+
+            String s = SimStrings.get( "TurbineGraphic.rpm" );
+            PhetTextGraphic rpmUnits = new PhetTextGraphic( component, RPM_UNITS_FONT, s, RPM_COLOR );
+            addGraphic( rpmUnits, RPM_LAYER );
+            rpmUnits.centerRegistrationPoint();
+            rpmUnits.setLocation( 0, 22 );
         }
         
         update();
@@ -182,6 +212,20 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
                 _barMagnetGraphic.clearTransform();
                 _barMagnetGraphic.rotate( _turbineModel.getDirection() );
                 _barMagnetGraphic.scale( 0.5, 0.5 ); //XXX rescale the image file and remove this line
+                
+                _waterWheelGraphic.clearTransform();
+                _waterWheelGraphic.rotate( _turbineModel.getDirection() );
+            }
+            
+            // Update the RPM readout.
+            {
+                int rpms = (int) _turbineModel.getRPM();
+                
+                // Set the text
+                _rpmGraphic.setText( String.valueOf( rpms ) );
+
+                // Center justify
+                _rpmGraphic.centerRegistrationPoint();
             }
             
             // Update the water flow.
