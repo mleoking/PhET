@@ -105,13 +105,13 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
         setVisible( _electronModel.isEnabled() );
         if ( isVisible() ) {
             
-            ElectronPathDescriptor cd = _electronModel.getPathDescriptor();
+            ElectronPathDescriptor descriptor = _electronModel.getPathDescriptor();
             
             // Are we on the background layer?
-            _onBackground = ( cd.getLayer() == ElectronPathDescriptor.BACKGROUND );
+            _onBackground = ( descriptor.getLayer() == ElectronPathDescriptor.BACKGROUND );
                 
             // Jump between foreground and background.
-            CompositePhetGraphic parent = cd.getParent();
+            CompositePhetGraphic parent = descriptor.getParent();
             if ( parent != _parent ) {
                 _parent.removeGraphic( this );
                 parent.addGraphic( this );

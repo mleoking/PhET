@@ -47,7 +47,7 @@ public class Electron extends SpacialObservable implements ModelElement {
     // Index of the descriptor that describes the curve the electron is currently on.
     private int _pathIndex;
     
-    // Electron's position along the current curve (0-1)
+    // Electron's position along the current curve (1=startPoint, 0=endPoint)
     private double _pathPosition;
     
     // Electron's speed & direction (-1...+1)
@@ -139,8 +139,8 @@ public class Electron extends SpacialObservable implements ModelElement {
         _pathPosition = pathPosition;
         
         // Evaluate the quadratic to determine XY location.
-        ElectronPathDescriptor cd = (ElectronPathDescriptor) _path.get( _pathIndex );
-        QuadBezierSpline curve = cd.getCurve();
+        ElectronPathDescriptor descriptor = (ElectronPathDescriptor) _path.get( _pathIndex );
+        QuadBezierSpline curve = descriptor.getCurve();
         Point2D location = curve.evaluate( _pathPosition );
         super.setLocation( location );
     }
@@ -231,8 +231,8 @@ public class Electron extends SpacialObservable implements ModelElement {
             }
             
             // Evaluate the quadratic to determine XY location.
-            ElectronPathDescriptor cd = (ElectronPathDescriptor)_path.get( _pathIndex );
-            QuadBezierSpline curve = cd.getCurve();
+            ElectronPathDescriptor descriptor = (ElectronPathDescriptor)_path.get( _pathIndex );
+            QuadBezierSpline curve = descriptor.getCurve();
             Point2D location = curve.evaluate( _pathPosition );
             super.setLocation( location );
             
