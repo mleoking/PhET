@@ -28,8 +28,8 @@ public class ColorVisionConfig
 	public static final String HEAD_FOREGROUND_IMAGE = IMAGES_DIRECTORY + "headForeground.png";
 	public static final String SPECTRUM_IMAGE = IMAGES_DIRECTORY + "spectrum.gif";
 	public static final String SPOTLIGHT_IMAGE = IMAGES_DIRECTORY + "spotlight.gif";
-	public static final String SWITCH_ON_IMAGE = IMAGES_DIRECTORY + "switchOn.gif";
-	public static final String SWITCH_OFF_IMAGE = IMAGES_DIRECTORY + "switchOff.gif";
+	public static final String SWITCH_ON_IMAGE = IMAGES_DIRECTORY + "chromeSwitchOn.png";
+	public static final String SWITCH_OFF_IMAGE = IMAGES_DIRECTORY + "chromeSwitchOff.png";
 	
 	// Dimensions
 	public static final int APP_FRAME_WIDTH = 1024;

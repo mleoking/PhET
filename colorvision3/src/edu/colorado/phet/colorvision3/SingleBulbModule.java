@@ -3,6 +3,7 @@
 package edu.colorado.phet.colorvision3;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -31,6 +32,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 
@@ -50,23 +52,27 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 
 	// Rendering layers
   private static final double PERSON_BACKGROUND_LAYER = 1;
-  private static final double WAVELENGTH_PIPE_LAYER = 2;
-  private static final double WAVELENGTH_SLIDER_LAYER = 3;
-  private static final double FILTER_PIPE_LAYER = 4;
-  private static final double FILTER_SLIDER_LAYER = 5;
-  private static final double POST_FILTER_BEAM_LAYER = 6;
-  private static final double FILTER_HOLDER_LAYER = 7;
-  private static final double FILTER_LAYER = 8;
-  private static final double PRE_FILTER_BEAM_LAYER = 9;
-  private static final double PHOTON_BEAM_LAYER = 10;
-  private static final double SPOTLIGHT_LAYER = 11;
-  private static final double PERSON_FOREGROUND_LAYER = 12;
-  private static final double FILTER_SWITCH_LAYER = 13;
+  private static final double BULB_PIPE_LAYER = 2;
+  private static final double BULB_SLIDER_LAYER = 3;
+  private static final double FILTER_SWITCH_LAYER = 4;
+  private static final double FILTER_PIPE_LAYER = 5;
+  private static final double FILTER_SLIDER_LAYER = 6;
+  private static final double POST_FILTER_BEAM_LAYER = 7;
+  private static final double FILTER_HOLDER_LAYER = 8;
+  private static final double FILTER_LAYER = 9;
+  private static final double PRE_FILTER_BEAM_LAYER = 10;
+  private static final double PHOTON_BEAM_LAYER = 11;
+  private static final double SPOTLIGHT_LAYER = 12;
+  private static final double PERSON_FOREGROUND_LAYER = 13;
   private static final double HELP_LAYER = Double.MAX_VALUE;
 
   // Colors
-  private static Color APPARATUS_BACKGROUND = Color.black;
+  private static Color APPARATUS_BACKGROUND = Color.BLACK;
+  private static Color LABEL_COLOR = Color.WHITE;
     
+  // Fonts
+  private static Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 18 );
+  
 	// Locations of model components
 	private static final double PERSON_X      = 450;
 	private static final double PERSON_Y      =  25;
@@ -76,12 +82,13 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	private static final double FILTER_Y      = 250;
 	
 	// Locations of view components
-	private static final Point FILTER_SWITCH_LOCATION     = new Point( 330, 440 );
-	private static final Point FILTER_HOLDER_LOCATION     = new Point( 342, 395 );
-	private static final Point FILTER_SLIDER_LOCATION     = new Point( 100, 515 );
-	private static final Point FILTER_PIPE_LOCATION       = new Point( 249, 415 );
-	private static final Point WAVELENGTH_SLIDER_LOCATION = new Point( 100, 100 );
-	private static final Point WAVELENGTH_PIPE_LOCATION   = new Point(  50, 112 );
+	private static final Point FILTER_SWITCH_LOCATION       = new Point( 352, 457 );
+	private static final Point FILTER_SWITCH_LABEL_LOCATION = new Point( 350, 558 );
+	private static final Point FILTER_HOLDER_LOCATION       = new Point( 342, 395 );
+	private static final Point FILTER_SLIDER_LOCATION       = new Point( 100, 515 );
+	private static final Point FILTER_PIPE_LOCATION         = new Point( 249, 415 );
+	private static final Point BULB_SLIDER_LOCATION         = new Point( 100, 100 );
+	private static final Point BULB_PIPE_LOCATION           = new Point(  50, 112 );
 	
   //Angles
 	private static final double SPOTLIGHT_ANGLE = 0.0;
@@ -112,13 +119,13 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	// Controls
 	private SingleBulbControlPanel _controlPanel;
 	private SpectrumSlider _filterSlider;
-	private SpectrumSlider _wavelengthSlider;
+	private SpectrumSlider _bulbSlider;
 	private ToggleSwitch _filterSwitch;
 	
 	// Graphics that require control
 	private FilterGraphic _filterGraphic;
 	private PipeGraphic _filterPipe;
-	private PipeGraphic _wavelengthPipe;
+	private PipeGraphic _bulbPipe;
 	private SolidBeamGraphic _preFilterBeamGraphic;
 	private SolidBeamGraphic _postFilterBeamGraphic;
 	private PhotonBeamGraphic _photonBeamGraphic;
@@ -222,18 +229,18 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     _photonBeamGraphic = new PhotonBeamGraphic( apparatusPanel, _photonBeamModel );
     apparatusPanel.addGraphic( _photonBeamGraphic, PHOTON_BEAM_LAYER );
     
-    // Filter slider
+    // Filter Color slider
     _filterSlider = new SpectrumSlider( apparatusPanel );
     _filterSlider.setLocation( FILTER_SLIDER_LOCATION );
-    _filterSlider.setLabel( SimStrings.get("filterSlider.label") );
+    _filterSlider.setLabel( SimStrings.get("filterSlider.label"), LABEL_COLOR, LABEL_FONT );
     _filterSlider.setTransmissionWidth( _filterModel.getTransmissionWidth()/2 );
     apparatusPanel.addGraphic( _filterSlider, FILTER_SLIDER_LAYER );
     
-    // Wavelength slider
-    _wavelengthSlider = new SpectrumSlider( apparatusPanel );
-    _wavelengthSlider.setLocation( WAVELENGTH_SLIDER_LOCATION );
-    _wavelengthSlider.setLabel( SimStrings.get("wavelengthSlider.label") );
-    apparatusPanel.addGraphic( _wavelengthSlider, WAVELENGTH_SLIDER_LAYER );
+    // Bulb Color slider
+    _bulbSlider = new SpectrumSlider( apparatusPanel );
+    _bulbSlider.setLocation( BULB_SLIDER_LOCATION );
+    _bulbSlider.setLabel( SimStrings.get("bulbSlider.label"), LABEL_COLOR, LABEL_FONT );
+    apparatusPanel.addGraphic( _bulbSlider, BULB_SLIDER_LAYER );
     
     // Pipe connecting filter control to filter.
     _filterPipe = new PipeGraphic( apparatusPanel );
@@ -244,17 +251,24 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     apparatusPanel.addGraphic( _filterPipe, FILTER_PIPE_LAYER );
     
     // Pipe connecting wavelength control to spotlight. 
-    _wavelengthPipe = new PipeGraphic( apparatusPanel );
-    _wavelengthPipe.setThickness( 6 );
-    _wavelengthPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 0, 100 );
-    _wavelengthPipe.addSegment( PipeGraphic.VERTICAL,   0, 0, 215 );
-    _wavelengthPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 210, 100 );
-    _wavelengthPipe.setLocation( WAVELENGTH_PIPE_LOCATION );
-    apparatusPanel.addGraphic( _wavelengthPipe, WAVELENGTH_PIPE_LAYER );
+    _bulbPipe = new PipeGraphic( apparatusPanel );
+    _bulbPipe.setThickness( 6 );
+    _bulbPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 0, 100 );
+    _bulbPipe.addSegment( PipeGraphic.VERTICAL,   0, 0, 215 );
+    _bulbPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 210, 100 );
+    _bulbPipe.setLocation( BULB_PIPE_LOCATION );
+    apparatusPanel.addGraphic( _bulbPipe, BULB_PIPE_LAYER );
 
+    // Filter on/off switch
     _filterSwitch = new ToggleSwitch( apparatusPanel, ColorVisionConfig.SWITCH_ON_IMAGE, ColorVisionConfig.SWITCH_OFF_IMAGE  );
     _filterSwitch.setLocation( FILTER_SWITCH_LOCATION );
     apparatusPanel.addGraphic( _filterSwitch, FILTER_SWITCH_LAYER );
+    
+    // Filter switch label
+    String string3 = SimStrings.get( "filterSwitch.label" );
+    PhetTextGraphic filterSwitchLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, 
+        string3, LABEL_COLOR, FILTER_SWITCH_LABEL_LOCATION.x, FILTER_SWITCH_LABEL_LOCATION.y );
+    apparatusPanel.addGraphic( filterSwitchLabel );
     
 		//----------------------------------------------------------------------------
 		// Observers
@@ -283,7 +297,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 		
     _controlPanel.addChangeListener( this );
     _filterSlider.addChangeListener( this );
-    _wavelengthSlider.addChangeListener( this );
+    _bulbSlider.addChangeListener( this );
     _filterSwitch.addChangeListener( this );
     
     _photonBeamModel.addColorChangeListener( this );
@@ -304,7 +318,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 		_controlPanel.setBeamType( SingleBulbControlPanel.PHOTON_BEAM );
 		double wavelength = ((VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH)/2) + VisibleColor.MIN_WAVELENGTH;
 		_filterSlider.setValue( (int)wavelength );
-		_wavelengthSlider.setValue( (int)wavelength );
+		_bulbSlider.setValue( (int)wavelength );
 		_filterSwitch.setOn( true );
 		
 	} // constructor
@@ -347,14 +361,14 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
       double wavelength = _filterSlider.getValue();
       _filterModel.setTransmissionPeak( wavelength );
     }
-    else if ( event.getSource() == _wavelengthSlider )
+    else if ( event.getSource() == _bulbSlider )
     {
       // The wavelength slider was moved.
       VisibleColor bulbColor = VisibleColor.WHITE;
       int bulbType = _controlPanel.getBulbType();
       if ( bulbType == SingleBulbControlPanel.MONOCHROMATIC_BULB )
       {
-        bulbColor = new VisibleColor( _wavelengthSlider.getValue() );
+        bulbColor = new VisibleColor( _bulbSlider.getValue() );
       }
       _spotlightModel.setColor( bulbColor );
     }
@@ -374,15 +388,15 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
       // Bulb Type
       if ( bulbType == SingleBulbControlPanel.WHITE_BULB )
       {
-        _wavelengthSlider.setVisible( false );
-        _wavelengthPipe.setVisible( false );
+        _bulbSlider.setVisible( false );
+        _bulbPipe.setVisible( false );
         _spotlightModel.setColor( VisibleColor.WHITE );
       }
       else
       {
-        _wavelengthSlider.setVisible( true );
-        _wavelengthPipe.setVisible( true );
-        double wavelength = _wavelengthSlider.getValue();
+        _bulbSlider.setVisible( true );
+        _bulbPipe.setVisible( true );
+        double wavelength = _bulbSlider.getValue();
         VisibleColor bulbColor = new VisibleColor( wavelength );
         _spotlightModel.setColor( bulbColor );
       }
