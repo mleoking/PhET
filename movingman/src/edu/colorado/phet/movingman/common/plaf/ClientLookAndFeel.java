@@ -6,13 +6,13 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 
 public class ClientLookAndFeel extends MetalLookAndFeel {
-    Color backgroundColor = new Color(200, 240, 200);
-    Color buttonBackgroundColor = new Color(220, 220, 240);
+    Color backgroundColor = new Color( 200, 240, 200 );
+    Color buttonBackgroundColor = new Color( 220, 220, 240 );
 
-    protected void initComponentDefaults(UIDefaults table) {
-        super.initComponentDefaults(table);
-        ColorUIResource background = new ColorUIResource(backgroundColor);
-        ColorUIResource buttonBackground = new ColorUIResource(buttonBackgroundColor);
+    protected void initComponentDefaults( UIDefaults table ) {
+        super.initComponentDefaults( table );
+        ColorUIResource background = new ColorUIResource( backgroundColor );
+        ColorUIResource buttonBackground = new ColorUIResource( buttonBackgroundColor );
         Object[] defaults = {
             "Panel.background", background
             , "Menu.background", background
@@ -24,7 +24,7 @@ public class ClientLookAndFeel extends MetalLookAndFeel {
             , "Button.background", buttonBackground
 
         };
-        table.putDefaults(defaults);
+        table.putDefaults( defaults );
     }
 
 }

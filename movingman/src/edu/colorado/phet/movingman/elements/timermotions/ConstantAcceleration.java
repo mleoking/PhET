@@ -13,20 +13,20 @@ public class ConstantAcceleration implements TimerMotion {
     double x0;
     private double acceleration;
 
-    public ConstantAcceleration(double x0, double acceleration) {
+    public ConstantAcceleration( double x0, double acceleration ) {
         this.x0 = x0;
         this.acceleration = acceleration;
     }
 
-    public double getPosition(double time) {
+    public double getPosition( double time ) {
         return .5 * acceleration * time * time + x0;
     }
 
-    public void setInitialPosition(double x) {
+    public void setInitialPosition( double x ) {
         this.x0 = x;
     }
 
-    public void setAcceleration(double acceleration) {
+    public void setAcceleration( double acceleration ) {
         this.acceleration = acceleration;
     }
 

@@ -20,43 +20,45 @@ public class SimplePlot implements ObservingGraphic {
     private Stroke stroke;
     private int yoffset;
     private float scale;
-    GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+    GeneralPath path = new GeneralPath( GeneralPath.WIND_EVEN_ODD );
     float t = 0;
     private boolean started;
 
-    public SimplePlot(DataSeries mh, Timer timer, Color color, Stroke stroke, int yoffset, float scale) {
+    public SimplePlot( DataSeries mh, Timer timer, Color color, Stroke stroke, int yoffset, float scale ) {
         this.mh = mh;
         this.timer = timer;
         this.color = color;
         this.stroke = stroke;
         this.yoffset = yoffset;
         this.scale = scale;
-        mh.addObserver(this);
+        mh.addObserver( this );
         mh.updateObservers();
-        timer.addObserver(this);
+        timer.addObserver( this );
     }
 
-    public void paint(Graphics2D g) {
-        if (started) {
-            g.setStroke(stroke);
-            g.setColor(color);
-            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g.draw(path);
+    public void paint( Graphics2D g ) {
+        if( started ) {
+            g.setStroke( stroke );
+            g.setColor( color );
+            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            g.draw( path );
         }
     }
 
-    public void update(Observable o, Object arg) {
-        float time = (float) timer.getTime();
-        if (mh.size() <= 1) {
+    public void update( Observable o, Object arg ) {
+        float time = (float)timer.getTime();
+        if( mh.size() <= 1 ) {
             path.reset();
             started = false;
-        } else if (mh.size() == 2) {
-            float position = (float) mh.getLastPoint() * scale + yoffset;
-            path.moveTo(time, position);
+        }
+        else if( mh.size() == 2 ) {
+            float position = (float)mh.getLastPoint() * scale + yoffset;
+            path.moveTo( time, position );
             started = true;
-        } else {
-            float position = (float) mh.getLastPoint() * scale + yoffset;
-            path.lineTo(time, position);
+        }
+        else {
+            float position = (float)mh.getLastPoint() * scale + yoffset;
+            path.lineTo( time, position );
         }
         t++;
     }

@@ -14,12 +14,12 @@ public class DragHandler {
     private Point viewStart;
     private Point newLocation = new Point();
 
-    public DragHandler(Point mouseStart, Point viewStart) {
+    public DragHandler( Point mouseStart, Point viewStart ) {
         this.dragStartPt = mouseStart;
         this.viewStart = viewStart;
     }
 
-    public Point getNewLocation(Point p) {
+    public Point getNewLocation( Point p ) {
         int dx = p.x - dragStartPt.x;
         int dy = p.y - dragStartPt.y;
         newLocation.x = dx + viewStart.x;

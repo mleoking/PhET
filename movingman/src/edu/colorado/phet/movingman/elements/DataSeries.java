@@ -18,20 +18,20 @@ public class DataSeries extends ModelElement {
     public DataSeries() {
     }
 
-    public void addPoint(double x) {
-        this.pts.add(new Double(x));
+    public void addPoint( double x ) {
+        this.pts.add( new Double( x ) );
         updateObservers();
     }
 
     public double getLastPoint() {
-        return lastPointAt(0);
+        return lastPointAt( 0 );
     }
 
     public int size() {
         return pts.size();
     }
 
-    public void stepInTime(double dt) {
+    public void stepInTime( double dt ) {
 //        this.dt = dt;
     }
 
@@ -40,22 +40,22 @@ public class DataSeries extends ModelElement {
         updateObservers();
     }
 
-    public double lastPointAt(int i) {
-        return pointAt(pts.size() - 1 - i);
+    public double lastPointAt( int i ) {
+        return pointAt( pts.size() - 1 - i );
     }
 
-    public double pointAt(int i) {
-        return ((Double) pts.get(i)).doubleValue();
+    public double pointAt( int i ) {
+        return ( (Double)pts.get( i ) ).doubleValue();
     }
 
-    public boolean indexInBounds(int index) {
+    public boolean indexInBounds( int index ) {
 
         return index >= 0 && index < pts.size();
     }
 
-    public void addAll(DataSeries dataSeries) {
-        for (int i = 0; i < dataSeries.size(); i++) {
-            addPoint(dataSeries.pointAt((i)));
+    public void addAll( DataSeries dataSeries ) {
+        for( int i = 0; i < dataSeries.size(); i++ ) {
+            addPoint( dataSeries.pointAt( ( i ) ) );
         }
     }
 

@@ -28,63 +28,63 @@ public class ApplicationModelControlPanel extends JPanel {
     Resettable resetHandler;
     private JButton resetButton;
 
-    public ApplicationModelControlPanel(ApplicationModel runner) {
-        this(runner, null);
+    public ApplicationModelControlPanel( ApplicationModel runner ) {
+        this( runner, null );
     }
 
-    public ApplicationModelControlPanel(final ApplicationModel runner, final Resettable rh) {
+    public ApplicationModelControlPanel( final ApplicationModel runner, final Resettable rh ) {
         this.model = runner;
         ImageLoader cil = new ImageLoader();
 
         String root = "images/icons/java/media/";
-        BufferedImage playU = cil.loadBufferedImage(root + "Play24.gif");
-        BufferedImage pauseU = cil.loadBufferedImage(root + "Pause24.gif");
-        BufferedImage stepU = cil.loadBufferedImage(root + "StepForward24.gif");
-        ImageIcon playIcon = new ImageIcon(playU);
-        ImageIcon pauseIcon = new ImageIcon(pauseU);
-        ImageIcon stepIcon = new ImageIcon(stepU);
+        BufferedImage playU = cil.loadBufferedImage( root + "Play24.gif" );
+        BufferedImage pauseU = cil.loadBufferedImage( root + "Pause24.gif" );
+        BufferedImage stepU = cil.loadBufferedImage( root + "StepForward24.gif" );
+        ImageIcon playIcon = new ImageIcon( playU );
+        ImageIcon pauseIcon = new ImageIcon( pauseU );
+        ImageIcon stepIcon = new ImageIcon( stepU );
         this.rh = rh;
-        play = new JButton("Play", playIcon);
-        pause = new JButton("Pause", pauseIcon);
-        step = new JButton("Step", stepIcon);
-        step.setEnabled(false);
+        play = new JButton( "Play", playIcon );
+        pause = new JButton( "Pause", pauseIcon );
+        step = new JButton( "Step", stepIcon );
+        step.setEnabled( false );
 
-        play.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                model.setRunning(true);
-                play.setEnabled(false);
-                pause.setEnabled(true);
-                step.setEnabled(false);
+        play.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.setRunning( true );
+                play.setEnabled( false );
+                pause.setEnabled( true );
+                step.setEnabled( false );
             }
-        });
-        pause.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                model.setRunning(false);
-                play.setEnabled(true);
-                pause.setEnabled(false);
-                step.setEnabled(true);
+        } );
+        pause.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.setRunning( false );
+                play.setEnabled( true );
+                pause.setEnabled( false );
+                step.setEnabled( true );
             }
-        });
+        } );
 
-        step.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                model.execute(new Command() {
+        step.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.execute( new Command() {
                     public void doIt() {
                         //model.stepInTime();
                         model.tickOnce();
                     }
-                });
+                } );
 //                model.execute(new SingleStepCommand());
 //                new SingleStepCommand(model).doItLater();
 //                model.execute(new SingleStepCommand(model));
 
 //                new SingleStepCommand().doIt();
             }
-        });
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        add(play);
-        add(pause);
-        add(step);
+        } );
+        setLayout( new BoxLayout( this, BoxLayout.X_AXIS ) );
+        add( play );
+        add( pause );
+        add( step );
 //        if( rh != null ) {
 //            BufferedImage resetU = cil.loadBufferedImage( root + "Stop24.gif" );
 //            ImageIcon resetIcon = new ImageIcon( resetU );
@@ -98,30 +98,32 @@ public class ApplicationModelControlPanel extends JPanel {
 //        }
 
 
-        BufferedImage resetU = cil.loadBufferedImage(root + "Stop24.gif");
-        ImageIcon resetIcon = new ImageIcon(resetU);
-        resetButton = new JButton("Reset", resetIcon);
-        resetButton.addActionListener(new ResetActionListener());
-        if (rh != null)
-            add(resetButton);
+        BufferedImage resetU = cil.loadBufferedImage( root + "Stop24.gif" );
+        ImageIcon resetIcon = new ImageIcon( resetU );
+        resetButton = new JButton( "Reset", resetIcon );
+        resetButton.addActionListener( new ResetActionListener() );
+        if( rh != null ) {
+            add( resetButton );
+        }
 
-        play.setEnabled(false);
-        pause.setEnabled(true);
+        play.setEnabled( false );
+        pause.setEnabled( true );
     }
 
     class ResetActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed( ActionEvent e ) {
             resetHandler.reset();
         }
 
     }
 
-    public void setResettable(Resettable r) {
-        if (r == null) {
-            remove(resetButton);
-        } else {
+    public void setResettable( Resettable r ) {
+        if( r == null ) {
+            remove( resetButton );
+        }
+        else {
             resetHandler = r;
-            add(resetButton);
+            add( resetButton );
         }
     }
 

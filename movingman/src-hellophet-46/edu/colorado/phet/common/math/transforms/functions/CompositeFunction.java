@@ -12,17 +12,17 @@ import java.util.ArrayList;
 public class CompositeFunction implements Function {
     ArrayList f = new ArrayList();
 
-    public void addFunction(Function fn) {
-        f.add(fn);
+    public void addFunction( Function fn ) {
+        f.add( fn );
     }
 
-    public Function functionAt(int i) {
-        return (Function) f.get(i);
+    public Function functionAt( int i ) {
+        return (Function)f.get( i );
     }
 
-    public double evaluate(double in) {
-        for (int i = 0; i < f.size(); i++) {
-            in = functionAt(i).evaluate(in);
+    public double evaluate( double in ) {
+        for( int i = 0; i < f.size(); i++ ) {
+            in = functionAt( i ).evaluate( in );
         }
         return in;
         //return 0;

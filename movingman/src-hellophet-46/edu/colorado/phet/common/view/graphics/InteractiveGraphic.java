@@ -7,18 +7,17 @@
 package edu.colorado.phet.common.view.graphics;
 
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public interface InteractiveGraphic extends Graphic {
-    boolean canHandleMousePress(MouseEvent event);
+    boolean canHandleMousePress( MouseEvent event );
 
-    void mousePressed(MouseEvent event);
+    void mousePressed( MouseEvent event );
 
-    void mouseDragged(MouseEvent event);
+    void mouseDragged( MouseEvent event );
 
-    void mouseReleased(MouseEvent event);
+    void mouseReleased( MouseEvent event );
 
-    void mouseEntered(MouseEvent event);
+    void mouseEntered( MouseEvent event );
 
-    void mouseExited(MouseEvent event);
+    void mouseExited( MouseEvent event );
 }

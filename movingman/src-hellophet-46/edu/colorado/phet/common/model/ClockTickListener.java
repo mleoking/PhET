@@ -7,5 +7,5 @@
 package edu.colorado.phet.common.model;
 
 public interface ClockTickListener {
-    public void clockTicked(Clock c, double dt);
+    public void clockTicked( Clock c, double dt );
 }

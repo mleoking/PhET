@@ -14,31 +14,31 @@ public class ApplicationModel implements ClockTickListener {
     CommandQueue commandQueue = new CommandQueue();
     BaseModel currentBaseModel;
 
-    public ApplicationModel(double dt, int waitTime, ThreadPriority priority) {
-        clock = new Clock(this, dt, waitTime, priority);
+    public ApplicationModel( double dt, int waitTime, ThreadPriority priority ) {
+        clock = new Clock( this, dt, waitTime, priority );
     }
 
     public ApplicationModel() {
-        this(1, 20, ThreadPriority.NORMAL);
+        this( 1, 20, ThreadPriority.NORMAL );
     }
 
-    public void setBaseModel(BaseModel model) {
+    public void setBaseModel( BaseModel model ) {
 
-        if (this.currentBaseModel != model) {
-            if (this.currentBaseModel != null) {
-                clock.removeClockTickListener(this.currentBaseModel);
+        if( this.currentBaseModel != model ) {
+            if( this.currentBaseModel != null ) {
+                clock.removeClockTickListener( this.currentBaseModel );
             }
-            clock.addClockTickListener(model);
+            clock.addClockTickListener( model );
             this.currentBaseModel = model;
         }
     }
 
-    public synchronized void execute(Command c) {
-        commandQueue.addCommand(c);
+    public synchronized void execute( Command c ) {
+        commandQueue.addCommand( c );
     }
 
-    public void setRunning(boolean b) {
-        clock.setRunning(b);
+    public void setRunning( boolean b ) {
+        clock.setRunning( b );
     }
 
     public void start() {
@@ -49,7 +49,7 @@ public class ApplicationModel implements ClockTickListener {
         return clock;
     }
 
-    public synchronized void clockTicked(Clock c, double dt) {
+    public synchronized void clockTicked( Clock c, double dt ) {
         commandQueue.doIt();
     }
 
@@ -61,8 +61,8 @@ public class ApplicationModel implements ClockTickListener {
         return clock.getDt();
     }
 
-    public void setDt(double dt) {
-        clock.setDt(dt);
+    public void setDt( double dt ) {
+        clock.setDt( dt );
     }
 
 }

@@ -13,11 +13,11 @@ public class Timer extends ModelElement {
     double time = 0;
     private double timerScale;
 
-    public Timer(double timerScale) {
+    public Timer( double timerScale ) {
         this.timerScale = timerScale;
     }
 
-    public void stepInTime(double dt) {
+    public void stepInTime( double dt ) {
         time += dt * timerScale;
         updateObservers();
     }
@@ -31,7 +31,7 @@ public class Timer extends ModelElement {
         updateObservers();
     }
 
-    public void setTime(double time) {
+    public void setTime( double time ) {
         this.time = time;
         updateObservers();
     }

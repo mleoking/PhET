@@ -10,11 +10,11 @@ package edu.colorado.phet.common.math.transforms.functions;
 public class Translate implements Function {
     double dx;
 
-    public Translate(double dx) {
+    public Translate( double dx ) {
         this.dx = dx;
     }
 
-    public double evaluate(double in) {
+    public double evaluate( double in ) {
         return in + dx;
     }
 }

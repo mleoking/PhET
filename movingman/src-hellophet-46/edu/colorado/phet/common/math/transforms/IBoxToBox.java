@@ -14,7 +14,7 @@ public interface IBoxToBox extends Transform {
 
     public Rectangle2D.Double getOutputBounds();
 
-    public void setInputBounds(Rectangle2D.Double in);
+    public void setInputBounds( Rectangle2D.Double in );
 
-    public void setOutputBounds(Rectangle2D.Double out);
+    public void setOutputBounds( Rectangle2D.Double out );
 }

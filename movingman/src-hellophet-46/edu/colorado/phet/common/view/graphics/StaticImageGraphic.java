@@ -19,7 +19,7 @@ public class StaticImageGraphic implements Graphic {
     private int y;
 
     public StaticImageGraphic( String imageName, int x, int y ) {
-        this( new ImageLoader().loadBufferedImage(imageName), x, y );
+        this( new ImageLoader().loadBufferedImage( imageName ), x, y );
     }
 
     public StaticImageGraphic( BufferedImage image, int x, int y ) {

@@ -6,9 +6,8 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -50,6 +49,7 @@ public class PhetFrame extends JFrame {
 
     /**
      * Adds a JMenu before the Help Menu.
+     *
      * @param menu
      */
     public void addMenu( JMenu menu ) {

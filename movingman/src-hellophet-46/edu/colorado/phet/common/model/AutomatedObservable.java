@@ -13,8 +13,8 @@ public class AutomatedObservable extends Observable {
         super.notifyObservers();
     }
 
-    public void updateObservers(Object arg) {
+    public void updateObservers( Object arg ) {
         super.setChanged();
-        super.notifyObservers(arg);
+        super.notifyObservers( arg );
     }
 }

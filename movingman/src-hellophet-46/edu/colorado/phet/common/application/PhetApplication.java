@@ -9,7 +9,9 @@ package edu.colorado.phet.common.application;
 import edu.colorado.phet.common.model.ApplicationModel;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.ApplicationView;
-import edu.colorado.phet.common.view.apparatuspanelcontainment.*;
+import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
+import edu.colorado.phet.common.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
+import edu.colorado.phet.common.view.apparatuspanelcontainment.TabbedApparatusPanelContainer;
 
 public class PhetApplication {
     ApplicationView view;
@@ -27,49 +29,49 @@ public class PhetApplication {
         return containerStrategy;
     }
 
-    public PhetApplication(ApplicationDescriptor descriptor, Module m) {
-        this(descriptor, SingleApparatusPanelContainer.getFactory(), new Module[]{m});
+    public PhetApplication( ApplicationDescriptor descriptor, Module m ) {
+        this( descriptor, SingleApparatusPanelContainer.getFactory(), new Module[]{m} );
     }
 
     /**
      * Create a PhET Application that uses a TabbedApparatusPanelStrategy.
      */
-    public PhetApplication(ApplicationDescriptor descriptor, Module[] modules) {
-        this(descriptor, new TabbedApparatusPanelContainer.Factory(), modules);
+    public PhetApplication( ApplicationDescriptor descriptor, Module[] modules ) {
+        this( descriptor, new TabbedApparatusPanelContainer.Factory(), modules );
     }
 
-    public PhetApplication(ApplicationDescriptor descriptor,
-                           ApparatusPanelContainerFactory containerStrategy, Module[] modules) {
+    public PhetApplication( ApplicationDescriptor descriptor,
+                            ApparatusPanelContainerFactory containerStrategy, Module[] modules ) {
         this.descriptor = descriptor;
         this.containerStrategy = containerStrategy;
         model = new ApplicationModel();
-        moduleManager = new ModuleManager(this);
+        moduleManager = new ModuleManager( this );
 
-        view = new ApplicationView(this);
+        view = new ApplicationView( this );
         setModuleObservers();
 
-        moduleManager.addAllModules(modules);
+        moduleManager.addAllModules( modules );
 
     }
 
 
     private void setModuleObservers() {
 
-        moduleManager.addModuleObserver(new ModuleObserver() {
-            public void moduleAdded(Module m) {
+        moduleManager.addModuleObserver( new ModuleObserver() {
+            public void moduleAdded( Module m ) {
             }
 
-            public void activeModuleChanged(Module m) {
-                model.setBaseModel(m.getModel());
+            public void activeModuleChanged( Module m ) {
+                model.setBaseModel( m.getModel() );
             }
-        });
+        } );
 
     }
 
-    public void startApplication(Module initialModule) {
-        moduleManager.setActiveModule(initialModule);
+    public void startApplication( Module initialModule ) {
+        moduleManager.setActiveModule( initialModule );
         model.start();
-        view.setVisible(true);
+        view.setVisible( true );
     }
 
     public ModuleManager getModuleManager() {
@@ -90,6 +92,7 @@ public class PhetApplication {
 
     /**
      * TODO: Added by RJL, 6/20/03
+     *
      * @param moduleClass
      */
     public void activateModuleOfClass( Class moduleClass ) {

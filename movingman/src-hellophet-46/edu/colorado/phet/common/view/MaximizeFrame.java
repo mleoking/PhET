@@ -16,10 +16,10 @@ public class MaximizeFrame implements FrameSetup {
     public MaximizeFrame() {
     }
 
-    public void initialize(JFrame jFrame) {
-        jFrame.setVisible(true);
+    public void initialize( JFrame jFrame ) {
+        jFrame.setVisible( true );
         //Just in case extended state not supported.
-        new FullScreen().initialize(jFrame);
-        jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        new FullScreen().initialize( jFrame );
+        jFrame.setExtendedState( JFrame.MAXIMIZED_BOTH );
     }
 }

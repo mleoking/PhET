@@ -13,14 +13,14 @@ public class LineSegment {
     Stroke stroke;
     Color c;
 
-    public LineSegment(Stroke stroke, Color c) {
+    public LineSegment( Stroke stroke, Color c ) {
         this.stroke = stroke;
         this.c = c;
     }
 
-    public void paint(Graphics2D g, int x, int y, int x2, int y2) {
-        g.setColor(c);
-        g.setStroke(stroke);
-        g.drawLine(x, y, x2, y2);
+    public void paint( Graphics2D g, int x, int y, int x2, int y2 ) {
+        g.setColor( c );
+        g.setStroke( stroke );
+        g.drawLine( x, y, x2, y2 );
     }
 }

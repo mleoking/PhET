@@ -14,16 +14,16 @@ import java.awt.image.BufferedImage;
 public class PositionedImageGraphic implements PositionedGraphic {
     BufferedImage bi;
 
-    public PositionedImageGraphic(BufferedImage bi) {
+    public PositionedImageGraphic( BufferedImage bi ) {
         this.bi = bi;
     }
 
-    public void paint(Graphics2D g, int x, int y) {
-        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
-        g.drawRenderedImage(bi, at);
+    public void paint( Graphics2D g, int x, int y ) {
+        AffineTransform at = AffineTransform.getTranslateInstance( x, y );
+        g.drawRenderedImage( bi, at );
     }
 
-    public Rectangle getRectangle(int x, int y) {
-        return new Rectangle(x, y, bi.getWidth(), bi.getHeight());
+    public Rectangle getRectangle( int x, int y ) {
+        return new Rectangle( x, y, bi.getWidth(), bi.getHeight() );
     }
 }

@@ -14,9 +14,9 @@ public class FullScreen implements FrameSetup {
     public FullScreen() {
     }
 
-    public void initialize(JFrame frame) {
+    public void initialize( JFrame frame ) {
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(0, 0);
-        frame.setSize(d);
+        frame.setLocation( 0, 0 );
+        frame.setSize( d );
     }
 }

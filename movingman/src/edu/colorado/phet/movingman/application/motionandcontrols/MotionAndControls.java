@@ -17,7 +17,7 @@ public abstract class MotionAndControls {
     JPanel controlPanel;
     String name;
 
-    public MotionAndControls(String name) {
+    public MotionAndControls( String name ) {
         this.name = name;
     }
 
@@ -25,7 +25,7 @@ public abstract class MotionAndControls {
         return name;
     }
 
-    public MotionAndControls(StepMotion motion, JPanel controlPanel) {
+    public MotionAndControls( StepMotion motion, JPanel controlPanel ) {
         this.motion = motion;
         this.controlPanel = controlPanel;
     }
@@ -34,7 +34,7 @@ public abstract class MotionAndControls {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName( String name ) {
         this.name = name;
     }
 
@@ -46,20 +46,20 @@ public abstract class MotionAndControls {
         return controlPanel;
     }
 
-    public void setMotion(StepMotion motion) {
+    public void setMotion( StepMotion motion ) {
         this.motion = motion;
     }
 
-    public void setControlPanel(JPanel controlPanel) {
+    public void setControlPanel( JPanel controlPanel ) {
         this.controlPanel = controlPanel;
     }
 
-    public static JLabel createLabel(String text) {
-        JLabel labbie = new JLabel(text);
+    public static JLabel createLabel( String text ) {
+        JLabel labbie = new JLabel( text );
         return labbie;
     }
 
-    public void initialize(Man man) {
+    public void initialize( Man man ) {
     }
 
     public abstract void collidedWithWall();

@@ -13,7 +13,7 @@ import edu.colorado.phet.common.model.ModelElement;
 public class Deletion implements ObservationType {
     ModelElement target;
 
-    public Deletion(ModelElement target) {
+    public Deletion( ModelElement target ) {
         this.target = target;
     }
 

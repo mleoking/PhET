@@ -8,5 +8,5 @@ package edu.colorado.phet.movingman.application;
  * To change this template use Options | File Templates.
  */
 public interface DataSeriesListener {
-    public void dataPointChanged(double pt, Object source);
+    public void dataPointChanged( double pt, Object source );
 }

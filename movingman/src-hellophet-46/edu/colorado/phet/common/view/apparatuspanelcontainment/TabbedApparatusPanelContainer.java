@@ -8,7 +8,6 @@ package edu.colorado.phet.common.view.apparatuspanelcontainment;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleManager;
-import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

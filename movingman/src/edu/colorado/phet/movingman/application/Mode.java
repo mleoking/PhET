@@ -14,7 +14,7 @@ public abstract class Mode extends ModelElement {
     private MovingManModule module;
 
 
-    public Mode(MovingManModule module, String name) {
+    public Mode( MovingManModule module, String name ) {
         this.module = module;
         this.name = name;
     }
@@ -27,8 +27,8 @@ public abstract class Mode extends ModelElement {
         return super.toString();
     }
 
-    public boolean equals(Object obj) {
-        return obj.toString().equals(name);
+    public boolean equals( Object obj ) {
+        return obj.toString().equals( name );
     }
 
     public abstract void initialize();

@@ -13,21 +13,21 @@ import java.util.ArrayList;
 public class CompositePositionedGraphic implements PositionedGraphic {
     ArrayList a = new ArrayList();
 
-    public void addLocalPaintable(PositionedGraphic lp) {
-        a.add(lp);
+    public void addLocalPaintable( PositionedGraphic lp ) {
+        a.add( lp );
     }
 
     public int numPaints() {
         return a.size();
     }
 
-    public PositionedGraphic paintAt(int i) {
-        return (PositionedGraphic) a.get(i);
+    public PositionedGraphic paintAt( int i ) {
+        return (PositionedGraphic)a.get( i );
     }
 
-    public void paint(Graphics2D g, int x, int y) {
-        for (int i = 0; i < numPaints(); i++) {
-            paintAt(i).paint(g, x, y);
+    public void paint( Graphics2D g, int x, int y ) {
+        for( int i = 0; i < numPaints(); i++ ) {
+            paintAt( i ).paint( g, x, y );
         }
     }
 }

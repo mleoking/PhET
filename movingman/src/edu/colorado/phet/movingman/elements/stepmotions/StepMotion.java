@@ -9,6 +9,6 @@ import edu.colorado.phet.movingman.elements.Man;
  * Copyright (c) Jul 15, 2003 by Sam Reid
  */
 public interface StepMotion {
-    public double stepInTime(Man man, double dt);
+    public double stepInTime( Man man, double dt );
 //    void setInitialPosition(double x);
 }

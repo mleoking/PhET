@@ -16,15 +16,15 @@ public class RangeToRange implements Function {
     double outStart;
     double outEnd;
 
-    public RangeToRange(double inStart, double inEnd, double outStart, double outEnd) {
+    public RangeToRange( double inStart, double inEnd, double outStart, double outEnd ) {
         this.inStart = inStart;
         this.inEnd = inEnd;
         this.outStart = outStart;
         this.outEnd = outEnd;
-        t1 = new Translate(-inStart);
-        double scale = (outEnd - outStart) / (inEnd - inStart);
-        s = new Scale(scale);
-        t2 = new Translate(outStart);
+        t1 = new Translate( -inStart );
+        double scale = ( outEnd - outStart ) / ( inEnd - inStart );
+        s = new Scale( scale );
+        t2 = new Translate( outStart );
     }
 
     public double getLowInputPoint() {
@@ -43,15 +43,15 @@ public class RangeToRange implements Function {
         return outEnd;
     }
 
-    public double evaluate(double in) {
-        in = t1.evaluate(in);
-        in = s.evaluate(in);
-        in = t2.evaluate(in);
+    public double evaluate( double in ) {
+        in = t1.evaluate( in );
+        in = s.evaluate( in );
+        in = t2.evaluate( in );
         return in;
     }
 
     public RangeToRange invert() {
-        return new RangeToRange(outStart, outEnd, inStart, inEnd);
+        return new RangeToRange( outStart, outEnd, inStart, inEnd );
     }
 
     public double getInputWidth() {

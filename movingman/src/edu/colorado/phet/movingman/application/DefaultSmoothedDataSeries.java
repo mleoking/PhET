@@ -19,11 +19,11 @@ public class DefaultSmoothedDataSeries {
     DefaultSmoothedDataSeries derivative;
     int numSmoothingPoints;
 
-    public DefaultSmoothedDataSeries(int numSmoothingPoints) {
+    public DefaultSmoothedDataSeries( int numSmoothingPoints ) {
         this.numSmoothingPoints = numSmoothingPoints;
     }
 
-    public void setDerivative(DefaultSmoothedDataSeries derivative) {
+    public void setDerivative( DefaultSmoothedDataSeries derivative ) {
         this.derivative = derivative;
     }
 
@@ -33,39 +33,40 @@ public class DefaultSmoothedDataSeries {
 
     public void updateSmoothedSeries() {
         Average avg = new Average();
-        for (int i = 0; i < numSmoothingPoints && i < data.size(); i++) {
-            avg.update(data.lastPointAt(i));
+        for( int i = 0; i < numSmoothingPoints && i < data.size(); i++ ) {
+            avg.update( data.lastPointAt( i ) );
         }
         double value = avg.value();
-        if (Double.isNaN(value))
+        if( Double.isNaN( value ) ) {
             value = 0;
-        smoothed.addPoint(value);
-        for (int i = 0; i < listeners.size(); i++) {
-            DataSeriesListener dataSeriesListener = (DataSeriesListener) listeners.get(i);
-            dataSeriesListener.dataPointChanged(value, this);
+        }
+        smoothed.addPoint( value );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            DataSeriesListener dataSeriesListener = (DataSeriesListener)listeners.get( i );
+            dataSeriesListener.dataPointChanged( value, this );
         }
     }
 
-    public void addDataSeriesListener(DataSeriesListener listener) {
-        this.listeners.add(listener);
+    public void addDataSeriesListener( DataSeriesListener listener ) {
+        this.listeners.add( listener );
     }
 
     public DataSeries getSmoothedDataSeries() {
         return smoothed;
     }
 
-    public void updateDerivative(double dt) {
-        if (smoothed.size() >= 2) {
-            double x1 = smoothed.lastPointAt(0);
-            double x0 = smoothed.lastPointAt(1);
+    public void updateDerivative( double dt ) {
+        if( smoothed.size() >= 2 ) {
+            double x1 = smoothed.lastPointAt( 0 );
+            double x0 = smoothed.lastPointAt( 1 );
             double dx = x1 - x0;
             double vel = dx / dt;
-            derivative.addPoint(vel);
+            derivative.addPoint( vel );
         }
     }
 
-    public void addPoint(double pt) {
-        data.addPoint(pt);
+    public void addPoint( double pt ) {
+        data.addPoint( pt );
     }
 
     public int numSmoothedPoints() {
@@ -77,11 +78,11 @@ public class DefaultSmoothedDataSeries {
         smoothed.reset();
     }
 
-    public double smoothedPointAt(int index) {
-        return smoothed.pointAt(index);
+    public double smoothedPointAt( int index ) {
+        return smoothed.pointAt( index );
     }
 
-    public void setNumSmoothingPoints(int numSmoothingPoints) {
+    public void setNumSmoothingPoints( int numSmoothingPoints ) {
         this.numSmoothingPoints = numSmoothingPoints;
     }
 }
