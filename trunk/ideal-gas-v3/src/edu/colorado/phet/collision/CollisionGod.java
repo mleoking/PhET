@@ -10,7 +10,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.IdealGasParticle;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Rectangle2D;
@@ -50,7 +49,7 @@ public class CollisionGod implements ModelElement {
         regions = new Region[numRegionsX][numRegionsY];
         regionWidth = bounds.getWidth() / numRegionsX;
         regionHeight = bounds.getHeight() / numRegionsY;
-        regionOverlap = 2 * IdealGasParticle.s_defaultRadius;
+        regionOverlap = 2 * GasMolecule.s_defaultRadius;
 
         for( int i = 0; i < numRegionsX; i++ ) {
             for( int j = 0; j < numRegionsY; j++ ) {
@@ -236,7 +235,8 @@ public class CollisionGod implements ModelElement {
     }
 
     private List findRegionsForOrig( Body body ) {
-        IdealGasParticle igp = (IdealGasParticle)body;
+
+        // tod: clean up. Use body everywhere in this method
         int iLimit = numRegionsX;
         int jLimit = numRegionsY;
         for( int i = 0; i < iLimit; i++ ) {
@@ -250,11 +250,11 @@ public class CollisionGod implements ModelElement {
                     iLimit = Math.min( ( i + 2 ), numRegionsX );
                     jLimit = Math.min( ( j + 2 ), numRegionsY );
                     if( !regions[i][j].contains( body ) ) {
-                        regions[i][j].add( igp );
+                        regions[i][j].add( body );
                     }
                 }
                 else {
-                    regions[i][j].remove( igp );
+                    regions[i][j].remove( body );
                 }
             }
         }

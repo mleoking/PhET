@@ -12,7 +12,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * A 2 dimensional box
@@ -29,7 +28,7 @@ public class Box2D extends CollidableBody {
     private Wall leftWall;
     private Object leftWallMonitor = new Object();
     private double leftWallVx = 0;
-    private ArrayList containedBodies = new ArrayList();
+//    private ArrayList containedBodies = new ArrayList();
 
     private SphereWallContactDetector detector = new SphereWallContactDetector();
 
@@ -188,9 +187,11 @@ public class Box2D extends CollidableBody {
         return false;
     }
 
-    private boolean containsBody( SphericalBody particle ) {
-        return containedBodies.contains( particle );
-    }
+//    private boolean containsBody( SphericalBody particle ) {
+//        super.containsBody( )
+//        return getContainedBodies().contains( particle );
+////        return containedBodies.contains( particle );
+//    }
 
     /**
      *
@@ -288,9 +289,9 @@ public class Box2D extends CollidableBody {
         return 0;
     }
 
-    public void addContainedBody( Body body ) {
-        containedBodies.add( body );
-    }
+//    public void addContainedBody( Body body ) {
+//        addContainedBody( body );
+//    }
 
     /**
      * @param particle

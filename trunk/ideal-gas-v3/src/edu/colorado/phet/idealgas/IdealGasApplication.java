@@ -39,11 +39,11 @@ public class IdealGasApplication extends PhetApplication {
                 heliumBalloonModule
             };
             setModules( modules );
-            setInitialModule( heliumBalloonModule );
+//            setInitialModule( heliumBalloonModule );
 //            setInitialModule( rigidSphereModuleII );
 //            setInitialModule( rigidSphereModuleI );
-//                        setInitialModule( measurementModule );
-//            setInitialModule( idealGasModule );
+//            setInitialModule( measurementModule );
+            setInitialModule( idealGasModule );
         }
     }
 

@@ -69,12 +69,10 @@ public class HeliumBalloonModule extends IdealGasModule {
         }
 
         // Put some light gas inside the balloon
-//        IdealGasParticle p1 = null;
 //        int num = 0;
 //        int num = 1;
         int num = 6;
 //        int num = 4;
-        int sign = 1;
         for( int i = 1; i <= num; i++ ) {
             for( int j = 0; j < num; j++ ) {
                 double v = initialVelocity * HeavySpecies.getMoleculeMass() / LightSpecies.getMoleculeMass();

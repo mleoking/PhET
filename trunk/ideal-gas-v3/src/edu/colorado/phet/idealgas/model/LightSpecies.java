@@ -87,7 +87,7 @@ public class LightSpecies extends GasMolecule {
         return new Integer( s_instances.size() );
     }
 
-    public static void removeParticle( IdealGasParticle particle ) {
+    public static void removeParticle( LightSpecies particle ) {
         s_instances.remove( particle );
     }
 

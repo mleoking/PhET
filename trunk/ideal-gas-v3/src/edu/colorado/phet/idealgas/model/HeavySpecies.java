@@ -79,7 +79,7 @@ public class HeavySpecies extends GasMolecule {
         return new Integer( s_instances.size() );
     }
 
-    public static void removeParticle( IdealGasParticle particle ) {
+    public static void removeParticle( HeavySpecies particle ) {
         s_instances.remove( particle );
     }
 

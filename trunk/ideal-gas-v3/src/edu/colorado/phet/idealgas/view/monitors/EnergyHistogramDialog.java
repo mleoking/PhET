@@ -7,23 +7,23 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.idealgas.IdealGasApplication;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.instrumentation.Histogram;
 import edu.colorado.phet.mechanics.Body;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EnergyHistogramDialog extends JDialog {
 
@@ -47,7 +47,7 @@ public class EnergyHistogramDialog extends JDialog {
     public EnergyHistogramDialog( Frame owner, IdealGasModel model ) throws HeadlessException {
         super( owner );
         this.model = model;
-        this.setTitle( "IdealGasParticle Statistics" );
+        this.setTitle( "Particle Statistics" );
 
         this.application = application;
         this.setResizable( false );
@@ -97,10 +97,10 @@ public class EnergyHistogramDialog extends JDialog {
 
         // Create and start updaters for the histograms
         Updater updater = new Updater( model );
-        updater.addClient( new EnergyUpdaterClient( model, energyHistogram ));
-        updater.addClient( new SpeedUpdaterClient( speedHistogram ));
-        updater.addClient( new SpeciesSpeedUpdaterClient( HeavySpecies.class, heavySpeedHistogram ));
-        updater.addClient( new SpeciesSpeedUpdaterClient( LightSpecies.class, lightSpeedHistogram ));
+        updater.addClient( new EnergyUpdaterClient( model, energyHistogram ) );
+        updater.addClient( new SpeedUpdaterClient( speedHistogram ) );
+        updater.addClient( new SpeciesSpeedUpdaterClient( HeavySpecies.class, heavySpeedHistogram ) );
+        updater.addClient( new SpeciesSpeedUpdaterClient( LightSpecies.class, lightSpeedHistogram ) );
         updater.start();
     }
 
@@ -242,6 +242,7 @@ public class EnergyHistogramDialog extends JDialog {
 
     private class EnergyUpdaterClient extends UpdaterClient {
         private IdealGasModel model;
+
         EnergyUpdaterClient( IdealGasModel model, Histogram histogram ) {
             super( histogram );
             this.model = model;
@@ -265,7 +266,7 @@ public class EnergyHistogramDialog extends JDialog {
             this.histogram = histogram;
         }
 
-         void clear() {
+        void clear() {
             histogram.clear();
             histogram.setClippingLevel( this.getClippingLevel() );
         }
@@ -275,6 +276,7 @@ public class EnergyHistogramDialog extends JDialog {
         }
 
         abstract int getClippingLevel();
+
         abstract double getBodyAttribute( Body body );
     }
 

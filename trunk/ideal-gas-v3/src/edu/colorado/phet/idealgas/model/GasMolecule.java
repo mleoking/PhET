@@ -12,34 +12,12 @@ import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  *
  */
-public abstract class GasMolecule extends IdealGasParticle {
-
-    public static Point2D getCm( List instances ) {
-        Point2D cm = new Point2D.Double();
-        for( int i = 0; i < instances.size(); i++ ) {
-            GasMolecule molecule = (GasMolecule)instances.get( i );
-            cm.setLocation( cm.getX() + molecule.getPosition().getX(),
-                            cm.getY() + molecule.getPosition().getY() );
-        }
-        if( instances.size() != 0 ) {
-            cm.setLocation( cm.getX() / instances.size(),
-                            cm.getY() / instances.size() );
-        }
-        return cm;
-    }
-
-    // List of contraints that must be applied to the IdealGasParticle's state
-    // at the end of each stepInTime
-    protected ArrayList constraints = new ArrayList();
-    // Working copy of constraint list used in case a constraint
-    // needs to modify the real constraint list
-    private ArrayList workingList = new ArrayList();
+public class GasMolecule extends SphericalBody {
 
     // List of GasMolecule.Observers
     private ArrayList observers = new ArrayList();
@@ -49,12 +27,7 @@ public abstract class GasMolecule extends IdealGasParticle {
     }
 
     public GasMolecule( Point2D position, Vector2D velocity, Vector2D acceleration, float mass ) {
-        super( position, velocity, acceleration, mass );
-    }
-
-    public GasMolecule( Point2D position, Vector2D velocity, Vector2D acceleration,
-                        float mass, float charge ) {
-        super( position, velocity, acceleration, mass, charge );
+        super( position, velocity, acceleration, mass, s_radius );
     }
 
     public void addObserver( GasMolecule.Observer observer ) {
@@ -83,32 +56,38 @@ public abstract class GasMolecule extends IdealGasParticle {
     }
 
     public double getRadius() {
-        return s_moleculeRadius;
+        return s_radius;
     }
 
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-        // Iterate the receiver's constraints. We iterate a copy of the list, in case
-        // any of the constraints need to add or remove constraints from the list
-        workingList.clear();
-        workingList.addAll( constraints );
-        for( Iterator iterator = workingList.iterator(); iterator.hasNext(); ) {
-            Constraint constraintSpec = (Constraint)iterator.next();
-            constraintSpec.apply();
+
+    public void setPosition( double x, double y ) {
+        super.setPosition( x, y );
+    }
+
+    public void setPosition( Point2D position ) {
+        super.setPosition( position );
+    }
+
+    public void removeYourselfFromSystem() {
+        for( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer)observers.get( i );
+            observer.removedFromSystem();
         }
     }
 
     //
     // Static fields and methods
     //
-    private static float s_moleculeRadius = 5.0f;
+    private static float s_radius = 5.0f;
+    // The default radius for a particle
+    public final static float s_defaultRadius = 5.0f;
 
     public static void enableParticleParticleInteractions( boolean interactionsEnabled ) {
         if( interactionsEnabled ) {
-            s_moleculeRadius = 5.0f;
+            s_radius = 5.0f;
         }
         else {
-            s_moleculeRadius = 0.0f;
+            s_radius = 0.0f;
         }
     }
 
@@ -201,30 +180,17 @@ public abstract class GasMolecule extends IdealGasParticle {
         return new Double( totalSpeed / denominator );
     }
 
-    //
-    // Constraint related methods
-    //
-    public void addConstraint( Constraint constraintSpec ) {
-        constraints.add( constraintSpec );
-    }
-
-    public void removeConstraint( Constraint constraintSpec ) {
-        constraints.remove( constraintSpec );
-    }
-
-
-    public void setPosition( double x, double y ) {
-        super.setPosition( x, y );
-    }
-
-    public void setPosition( Point2D position ) {
-        super.setPosition( position );
-    }
-
-    public void removeYourselfFromSystem() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
-            observer.removedFromSystem();
+    public static Point2D getCm( List instances ) {
+        Point2D cm = new Point2D.Double();
+        for( int i = 0; i < instances.size(); i++ ) {
+            GasMolecule molecule = (GasMolecule)instances.get( i );
+            cm.setLocation( cm.getX() + molecule.getPosition().getX(),
+                            cm.getY() + molecule.getPosition().getY() );
         }
+        if( instances.size() != 0 ) {
+            cm.setLocation( cm.getX() / instances.size(),
+                            cm.getY() / instances.size() );
+        }
+        return cm;
     }
 }
