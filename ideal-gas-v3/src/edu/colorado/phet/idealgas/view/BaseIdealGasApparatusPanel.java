@@ -38,15 +38,16 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
     protected DefaultInteractiveGraphic doorGraphicImage;
     private PhetGraphic boxGraphic;
 
-    // Array of images for the pusher animation
+    // Array of images for the pusher pusher
     private Animation pusher;
     private Image currPusherFrame;
 
-    // Array of images for the leaner animation
+    // Array of images for the leaner pusher
     private Animation leaner;
     private Image currLeanerFrame;
 
     private Vector2D[] opening = new Vector2D[2];
+    private IdealGasModel model;
 
 
     /**
@@ -68,13 +69,14 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
      *
      */
     public void init( final Module module ) {
+        model = (IdealGasModel)module.getModel();
 
         try {
-            // Load the pusher animation
-            pusher = new Animation( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
-            currPusherFrame = pusher.getCurrFrame();
+            // Load the pusher pusher
+//            pusher = new Animation( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
+//            currPusherFrame = pusher.getCurrFrame();
 
-            // Load the leaner animation
+            // Load the leaner pusher
             leaner = new Animation( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
             currLeanerFrame = leaner.getCurrFrame();
 
@@ -174,20 +176,20 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
     protected void paintComponent( Graphics graphics ) {
 
         super.paintComponent( graphics );
-        //        Graphics2D g2 = (Graphics2D)graphics;
+//                Graphics2D g2 = (Graphics2D)graphics;
         //        Box2DGraphic box = (Box2DGraphic)this.getBoxGraphic();
         //        float boxLeftEdge = (float)( (Shape)box.getRep() ).getBounds2D().getMinX();
         //        float boxLowerEdge = (float)( (Shape)box.getRep() ).getBounds2D().getMaxY();
         //
-        //        // If we're doing constant pressure, paint a pusher frame
-        //        if( getIdealGasSystem().isConstantPressure() || box.isDragging() ) {
-        //            g2.drawImage( currPusherFrame, (int)boxLeftEdge - 107, 400 + IdealGasConfig.Y_BASE_OFFSET, this );
-        //        }
-        //
-        //        // If we're doing constant volume, paint a leaner frame
-        //        if( getIdealGasSystem().isConstantVolume() && !box.isDragging() ) {
-        //            g2.drawImage( currLeanerFrame, (int)boxLeftEdge - 107, 400 + IdealGasConfig.Y_BASE_OFFSET, this );
-        //        }
+//                // If we're doing constant pressure, paint a pusher frame
+//                if( model.isConstantPressure() || box.isDragging() ) {
+//                    g2.drawImage( currPusherFrame, (int)boxLeftEdge - 107, 400 + IdealGasConfig.Y_BASE_OFFSET, this );
+//                }
+//
+//                // If we're doing constant volume, paint a leaner frame
+//                if( model.isConstantVolume() && !box.isDragging() ) {
+//                    g2.drawImage( currLeanerFrame, (int)boxLeftEdge - 107, 400 + IdealGasConfig.Y_BASE_OFFSET, this );
+//                }
         //
         //        // Compute and draw lines for coordinates of each species' CM
         //        if( getIdealGasApplication().isCmLinesOn() ) {

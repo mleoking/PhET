@@ -25,7 +25,7 @@ public class IdealGasApplication extends PhetApplication {
                                            IdealGasConfig.s_waitTime ) );
 
             // Create the modules
-            Module idealGasModule = new IdealGasModule();
+            Module idealGasModule = new IdealGasModule( getClock() );
             Module[] modules = new Module[] {
                 idealGasModule
             };
