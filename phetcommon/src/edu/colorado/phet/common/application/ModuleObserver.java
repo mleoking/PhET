@@ -6,9 +6,13 @@
  */
 package edu.colorado.phet.common.application;
 
-
+/**
+ * Observes additions and removals of Modules, change in the active Module.
+ */
 public interface ModuleObserver {
     public void moduleAdded( Module m );
 
     public void activeModuleChanged( Module m );
+
+    public void moduleRemoved( Module m );
 }

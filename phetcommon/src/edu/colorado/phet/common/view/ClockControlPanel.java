@@ -18,11 +18,10 @@ import java.io.IOException;
  * Copyright (runner) May 18, 2003 by Sam Reid
  */
 public class ClockControlPanel extends JPanel {
-    JButton play;
-    JButton pause;
-    JButton step;
-    AbstractClock clock;
-    private JButton logoButton;
+    private JButton play;
+    private JButton pause;
+    private JButton step;
+    private AbstractClock clock;
 
     public ClockControlPanel( final AbstractClock runner ) throws IOException {
         this.clock = runner;
@@ -77,7 +76,4 @@ public class ClockControlPanel extends JPanel {
         pause.setEnabled( true );
     }
 
-    public JButton getLogoButton() {
-        return logoButton;
-    }
 }

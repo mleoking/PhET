@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
  * elements of a PhetApplication.
  */
 public class ApplicationModel {
+    private String name;
     private String windowTitle;
     private String description;
     private String version;
@@ -29,10 +30,6 @@ public class ApplicationModel {
         this.frameSetup = frameSetup;
     }
 
-    public static FrameSetup getDefaultFrameSetup() {
-        return new FrameSetup.MaxExtent();
-    }
-
     public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module[] m, AbstractClock clock ) {
         this.windowTitle = windowTitle;
         this.description = description;
@@ -51,6 +48,10 @@ public class ApplicationModel {
         setClock( clock );
         setModule( m );
         setInitialModule( m );
+    }
+
+    public void setName( String name ) {
+        this.name = name;
     }
 
     public void setModules( Module[] modules ) {
@@ -138,5 +139,9 @@ public class ApplicationModel {
      */
     public void setFrameMaximized( int insetX, int insetY ) {
         setFrameSetup( new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( insetX, insetY ) ) );
+    }
+
+    public String getName() {
+        return name;
     }
 }

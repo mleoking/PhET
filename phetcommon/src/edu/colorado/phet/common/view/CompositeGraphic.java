@@ -44,7 +44,7 @@ public class CompositeGraphic implements BoundedGraphic {
      *
      * @param x
      * @param y
-     * @return
+     * @return true if this graphic contains the specified point.
      */
     public boolean contains( int x, int y ) {
         if( visible ) {
