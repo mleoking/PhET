@@ -66,8 +66,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     private static final double PERSON_FOREGROUND_LAYER = 13;
     private static final double BULB_SLIDER_LABEL_LAYER = 14;
     private static final double FILTER_SLIDER_LABEL_LAYER = 15;
-    private static final double FILTER_SWITCH_LABEL_LAYER = 16;
-    private static final double WIGGLE_ME_LAYER = 17;
+    private static final double WIGGLE_ME_LAYER = 16;
     private static final double HELP_LAYER = Double.MAX_VALUE;
 
     // Colors
@@ -86,8 +85,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     private static final double FILTER_Y = 250;
 
     // Locations of view components
-    private static final Point FILTER_SWITCH_LOCATION = new Point( 330, 485 );
-    private static final Point FILTER_SWITCH_LABEL_LOCATION = new Point( 330, 570 );
+    private static final Point FILTER_SWITCH_LOCATION = new Point( 330, 440 );
     private static final Point FILTER_HOLDER_LOCATION = new Point( 342, 395 );
     private static final Point FILTER_SLIDER_LOCATION = new Point( 100, 515 );
     private static final Point FILTER_SLIDER_LABEL_LOCATION = new Point( 100, 500 );
@@ -95,7 +93,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     private static final Point BULB_SLIDER_LOCATION = new Point( 100, 100 );
     private static final Point BULB_SLIDER_LABEL_LOCATION = new Point( 100, 85 );
     private static final Point BULB_PIPE_LOCATION = new Point( 50, 112 );
-    private static final Point WIGGLE_ME_LOCATION = new Point( 212, 565 );
+    private static final Point WIGGLE_ME_LOCATION = new Point( 215, 560 );
 
     //Angles
     private static final double SPOTLIGHT_ANGLE = 0.0;
@@ -279,10 +277,6 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
         _filterSwitch = new ToggleSwitch( apparatusPanel, ColorVisionConfig.SWITCH_ON_IMAGE, ColorVisionConfig.SWITCH_OFF_IMAGE );
         _filterSwitch.setLocation( FILTER_SWITCH_LOCATION );
         apparatusPanel.addGraphic( _filterSwitch, FILTER_SWITCH_LAYER );
-
-        // Filter switch label
-        PhetTextGraphic filterSwitchLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, SimStrings.get( "filterSwitch.label" ), LABEL_COLOR, FILTER_SWITCH_LABEL_LOCATION.x, FILTER_SWITCH_LABEL_LOCATION.y );
-        apparatusPanel.addGraphic( filterSwitchLabel, FILTER_SWITCH_LABEL_LAYER );
 
         //----------------------------------------------------------------------------
         // Observers

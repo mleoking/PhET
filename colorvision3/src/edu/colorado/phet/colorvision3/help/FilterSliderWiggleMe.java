@@ -63,7 +63,7 @@ public class FilterSliderWiggleMe extends WiggleMe {
         {
             // Arrow pointing left.
             Point2D tip = new Point2D.Double( 0, 0 );
-            Point2D tail = new Point2D.Double( 20, 20 );
+            Point2D tail = new Point2D.Double( 25, 10 );
             Arrow arrow = new Arrow( tail, tip, 6, 6, 2, 100, false );
             arrowShape = arrow.getShape();
             arrowBounds = arrowShape.getBounds();
