@@ -16,7 +16,6 @@ import java.awt.Component;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
@@ -114,10 +113,12 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         if( isVisible() ) {
             
             // DEBUG
-            System.out.println( "CompassGraphic.update - " +
-                    "direction=" + _compassModel.getDirection() +
-                    " B=[" + _compassModel.getFieldStrength().getMagnitude() + 
-                    " @ " + Math.toDegrees( _compassModel.getFieldStrength().getAngle() ) + "]" );
+            System.out.println( "CompassGraphic.update: " +
+                    " location=" + _compassModel.getLocation() +
+                    " direction=" + _compassModel.getDirection() +
+                    " B=" + _compassModel.getFieldStrength().getMagnitude() + 
+                    " [" + _compassModel.getFieldStrength().getX() + "," + _compassModel.getFieldStrength().getY() + "]" +
+                    " @ " + Math.toDegrees( _compassModel.getFieldStrength().getAngle() )  );
 
             // Rotation of the needle
             _needle.setDirection( _compassModel.getDirection() );

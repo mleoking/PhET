@@ -88,7 +88,7 @@ public class BarMagnetModule extends Module {
     
     // View
     private PickupCoilGraphic _pickupCoilGraphic;
-    private GridGraphic _gridGraphic;
+    private CompassGridGraphic _gridGraphic;
     
     // Control
     private BarMagnetControlPanel _controlPanel;
@@ -118,8 +118,8 @@ public class BarMagnetModule extends Module {
         this.setModel( model );
         
         // Bar Magnet
-        if ( FaradayConfig.HOLLYWOOD_ENABLED) {
-            System.out.println( "*** HOLLYWOOD is enabled ***" ); // DEBUG
+        if ( FaradayConfig.HOLLYWOOD_MAGNET ) {
+            System.out.println( "*** HOLLYWOOD_MAGNET is enabled ***" ); // DEBUG
             _magnetModel = new HollywoodMagnet();
         }
         else {
@@ -132,7 +132,8 @@ public class BarMagnetModule extends Module {
         
         // Compass model
         AbstractCompass compassModel = null;
-        if ( FaradayConfig.HOLLYWOOD_ENABLED ) {
+        if ( FaradayConfig.HOLLYWOOD_COMPASS ) {
+            System.out.println( "*** HOLLYWOOD_COMPASS is enabled ***" ); // DEBUG
             compassModel = new HollywoodCompass( _magnetModel );
         }
         else {
@@ -168,7 +169,7 @@ public class BarMagnetModule extends Module {
         apparatusPanel.addGraphic( _pickupCoilGraphic, COIL_BACK_LAYER ); // XXX
         
         // Grid
-        _gridGraphic = new GridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
         _gridGraphic.setLocation( GRID_LOCATION );
         _gridGraphic.setNeedleSize( GRID_NEEDLE_SIZE );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );

@@ -67,55 +67,61 @@ public class BarMagnet extends AbstractMagnet {
         AffineTransform transform = new AffineTransform();
         transform.rotate( radians, getX(), getY() );
         transform.translate( -getX(), -getY() );
-        Point2D p2 = transform.transform( p, null );
+        Point2D pNormalized = transform.transform( p, null );
         
         // Bounds that define the "inside" of the magnet.
-        double x = -(getWidth() / 2);
-        double y = -( getHeight() / 2 );
-        double width = getWidth();
-        double height = getHeight();
-        Rectangle2D bounds = new Rectangle2D.Double( x, y, width, height );
+        Rectangle2D bounds = new Rectangle2D.Double( -(getWidth()/2), -(getHeight()/2), getWidth(), getHeight() );
               
         // Choose the appropriate algorithm based on
         // whether the point is inside or outside the magnet.
-        AbstractVector2D vB = null;
-        if ( bounds.contains( p2 ) )  {
-            vB = getStrengthInside( p2 );
+        AbstractVector2D B = null;
+        if ( bounds.contains( pNormalized ) )  {
+            B = getStrengthInside( pNormalized );
         }
         else
         {
-            vB = getStrengthOutside( p2 );
+            B = getStrengthOutside( pNormalized );
         }
         
         // Adjust the field vector to match the magnet's direction.
-        vB = vB.getRotatedInstance( Math.toRadians( getDirection() ) );
+        B = B.getRotatedInstance( Math.toRadians( getDirection() ) );
 
-        return vB;
+        // Clamp magnitude to magnet strength.
+        double magnetStrength = super.getStrength();
+        double magnitude = B.getMagnitude();
+        if ( magnitude > magnetStrength ) {
+            B = ImmutableVector2D.Double.parseAngleAndMagnitude( magnetStrength, B.getAngle() );
+            System.out.println( "BarMagnet.getStrengthOutside - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
+        }
+        
+        return B;
     }
     
     /**
      * Gets the magnetic field strength at a point inside the magnet.
-     * This is a constant for all points inside the magnet.
+     * This is constant for all points inside the magnet.
      * <p>
      * This algorithm makes the following assumptions:
      * <ul>
      * <li>the point is guaranteed to be inside the magnet
+     * <li>the magnet's direction is 0.0 (north pole pointing down the positive X axis)
      * </ul>
      * 
      * @param p the point
      * @return magnetic field strength vector
      */
     private AbstractVector2D getStrengthInside( Point2D p ) {
-        return new ImmutableVector2D.Double( -(getStrength()), 0 );
+        return new ImmutableVector2D.Double( getStrength(), 0 );
     }
     
     /**
      * Gets the magnetic field strength at a point outside the magnet.
+     * The magnitude is guaranteed to be >=0 and <= the magnet strength.
      * <p>
      * This algorithm makes the following assumptions:
      * <ul>
      * <li>the magnet's location is (0,0)
-     * <li>the magnet's direction is 0.0
+     * <li>the magnet's direction is 0.0 (north pole pointing down the positive X axis)
      * <li>the magnet's physical center is at (0,0)
      * <li>the magnet's width > height
      * <li>the point is guaranteed to be outside the magnet
@@ -156,12 +162,6 @@ public class BarMagnet extends AbstractMagnet {
         
         // Total field strength is the vector sum.
         AbstractVector2D BT = BN.getAddedInstance( BS );
-        double magnitude = BT.getMagnitude();
-        if ( magnitude > magnetStrength ) {
-            // Clamp magnitude to magnet strength.
-            BT = ImmutableVector2D.Double.parseAngleAndMagnitude( magnetStrength, BT.getAngle() );
-            System.out.println( "BarMagnet.getStrengthOutside - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
-        }
         
         return BT;
     }

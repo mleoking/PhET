@@ -30,6 +30,9 @@ import edu.colorado.phet.common.math.AbstractVector2D;
  */
 public class HollywoodMagnet extends AbstractMagnet {
   
+    // Relationship between distance and strength.
+    private static final double DISTANCE_PER_GAUSS = 1.0;
+        
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -51,21 +54,20 @@ public class HollywoodMagnet extends AbstractMagnet {
     public AbstractVector2D getStrength( Point2D p ) {
         
         /* 
-         * Magnitude (in Gauss).
+         * Magnitude (in Gauss) drops off linearly as distance increases.
          */
         double magnitude = 0.0;
         {
             double strength = super.getStrength();
             double distance = p.distance( super.getLocation() );
 
-//            // HACK Assume that magnet "strength" is the radius (in pixels) of the magnetic field.
-//            if ( distance > strength ) {
-//                magnitude = 0;
-//            }
-//            else {
-//                magnitude = strength - ( strength * ( distance / strength ) );
-//            }
-            magnitude = strength / Math.pow( distance, 3.0 );
+            double range = strength * DISTANCE_PER_GAUSS;
+            if ( distance > range ) {
+                magnitude = 0;
+            }
+            else {
+                magnitude = strength - ( distance / DISTANCE_PER_GAUSS );
+            }
         }
         
         /*

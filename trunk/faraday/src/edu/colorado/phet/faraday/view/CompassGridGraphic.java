@@ -19,20 +19,21 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.faraday.model.IMagnet;
 
 
 /**
- * GridGraphic is the graphical representation of a "compass grid".
+ * CompassGridGraphic is the graphical representation of a "compass grid".
  * As an alternative to a field diagram, the grid shows the strength
  * and orientation of a magnet field at various points in 2D space.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GridGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class CompassGridGraphic extends CompositePhetGraphic implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -65,7 +66,7 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
      * @param xSpacing space between grid points in the X direction
      * @param ySpacing space between grid points in the Y direction
      */
-    public GridGraphic( Component component, IMagnet magnetModel, int xSpacing, int ySpacing) {
+    public CompassGridGraphic( Component component, IMagnet magnetModel, int xSpacing, int ySpacing) {
         super( component );
         
         _magnetModel = magnetModel;
@@ -127,7 +128,7 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
         // Determine how many compasses are needed to fill the parent component.
         int xCount = (int)(width / xSpacing) + 2;  // HACK
         int yCount = (int)(height / ySpacing) + 2;  // HACK
-        //System.out.println( "GridGraphic.setSpacing - grid is " + xCount + "x" + yCount ); // DEBUG
+        //System.out.println( "CompassGridGraphic.setSpacing - grid is " + xCount + "x" + yCount ); // DEBUG
         
         // Create the compasses.
         CompassNeedleGraphic needle;
@@ -219,31 +220,44 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
             double magnetStrength = _magnetModel.getStrength();
             for( int i = 0; i < _needles.size(); i++ ) {
 
+                // Next compass needle...
                 CompassNeedleGraphic needle = (CompassNeedleGraphic) _needles.get( i );
 
+                // Get the magnetic field information at the needle's location.
                 Point2D p = needle.getLocation();
-
                 AbstractVector2D fieldStrength = _magnetModel.getStrength( p );
-                needle.setDirection( Math.toDegrees( fieldStrength.getAngle() ) );
+                double angle = fieldStrength.getAngle();
+                double magnitude = fieldStrength.getMagnitude();
                 
-                /* HACK:
-                 * This is a hack to make the needles fade out linearly.
-                 * It does not take into account arbitrary rotation of the magnet.
-                 * It also does not use the magnitude component of the field strength vector.
-                 */
-                double pixelsPerGauss = 1;
-                double range = _magnetModel.getStrength() / pixelsPerGauss;
-                double dCenter = p.distance( _magnetModel.getLocation() );
-                double dSouth = p.distance( _magnetModel.getX() - (_magnetModel.getSize().width/2), _magnetModel.getY() );
-                double dNorth = p.distance( _magnetModel.getX() + (_magnetModel.getSize().width/2), _magnetModel.getY() );
-                double distance = Math.min( dCenter, Math.min( dSouth, dNorth ) );
-                if ( distance > range ) {
-                    needle.setStrength( 0.0 );
-                }
-                else {
-                    double scale = (range - distance) / range; 
-                    needle.setStrength( scale );
-                }
+                // Set the needle's direction.
+                needle.setDirection( Math.toDegrees( angle ) );
+                
+                // Set the needle's strength.
+                double distance = p.distance( _magnetModel.getLocation() );
+                double scale = ( magnitude / magnetStrength );
+                //scale = ( 10 * magnitude * distance ) / Math.pow( magnetStrength, 2 ); // XXX ????
+
+                scale = MathUtil.clamp( 0, scale, 1 );
+                needle.setStrength( scale );
+                
+//                /* HACK:
+//                 * This is a hack to make the needles fade out linearly.
+//                 * It does not take into account arbitrary rotation of the magnet.
+//                 * It also does not use the magnitude component of the field strength vector.
+//                 */
+//                double pixelsPerGauss = 1;
+//                double range = _magnetModel.getStrength() / pixelsPerGauss;
+//                double dCenter = p.distance( _magnetModel.getLocation() );
+//                double dSouth = p.distance( _magnetModel.getX() - (_magnetModel.getSize().width/2), _magnetModel.getY() );
+//                double dNorth = p.distance( _magnetModel.getX() + (_magnetModel.getSize().width/2), _magnetModel.getY() );
+//                double distance = Math.min( dCenter, Math.min( dSouth, dNorth ) );
+//                if ( distance > range ) {
+//                    needle.setStrength( 0.0 );
+//                }
+//                else {
+//                    double scale = (range - distance) / range; 
+//                    needle.setStrength( scale );
+//                }
             }
             repaint();
         }
