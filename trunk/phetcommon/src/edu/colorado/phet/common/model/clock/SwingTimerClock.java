@@ -43,11 +43,19 @@ public class SwingTimerClock extends AbstractClock {
 
     protected void doPause() {
         timer.stop();
+        for( int i = 0; i < getClockStateListeners().size(); i++ ) {
+            ClockStateListener clockStateListener = (ClockStateListener)getClockStateListeners().get( i );
+            clockStateListener.pausedStateChanged( true );
+        }
     }
 
     protected void doUnpause() {
         lastTickTime = System.currentTimeMillis();
         timer.restart();
+        for( int i = 0; i < getClockStateListeners().size(); i++ ) {
+            ClockStateListener clockStateListener = (ClockStateListener)getClockStateListeners().get( i );
+            clockStateListener.pausedStateChanged( false );
+        }
     }
 
     private class Ticker implements ActionListener {

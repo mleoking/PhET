@@ -8,9 +8,7 @@ package edu.colorado.phet.collision;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.idealgas.model.HorizontalWall;
 import edu.colorado.phet.idealgas.model.SphericalBody;
-import edu.colorado.phet.idealgas.model.VerticalWall;
 import edu.colorado.phet.idealgas.model.Wall;
 
 //import edu.colorado.phet.idealgas.physics.body.Wall;
@@ -64,19 +62,16 @@ public class SphereWallContactDetector extends ContactDetector {
 
         // If the sphere managed to go all the way through the wall in a single step,
         // we need to count that as contact, too.
-        if( wall instanceof VerticalWall ) {
-            double d = ( wall.getPosition().getX() - sphere.getPosition().getX() )
-                       * ( wall.getPosition().getX() - sphere.getPositionPrev().getX() );
-            result |= ( d < 0 );
-        }
-        if( wall instanceof HorizontalWall ) {
-            double d = ( wall.getPosition().getY() - sphere.getPosition().getY() )
-                       * ( wall.getPosition().getY() - sphere.getPositionPrev().getY() );
-//            if( d < 0 ){
-//                System.out.println( "@@@" );
-//            }
-            result |= ( d < 0 );
-        }
+//        if( wall instanceof VerticalWall ) {
+//            double d = ( wall.getPosition().getX() - sphere.getPosition().getX() )
+//                       * ( wall.getPosition().getX() - sphere.getPositionPrev().getX() );
+//            result |= ( d < 0 );
+//        }
+//        if( wall instanceof HorizontalWall ) {
+//            double d = ( wall.getPosition().getY() - sphere.getPosition().getY() )
+//                       * ( wall.getPosition().getY() - sphere.getPositionPrev().getY() );
+//            result |= ( d < 0 );
+//        }
 
 //        // If the previous result is true, determine if a line through the sphere's
 //        // CM perpendicular to the line on which the wall lies passes through the

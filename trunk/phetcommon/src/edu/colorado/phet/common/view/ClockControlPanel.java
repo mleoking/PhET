@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ import java.io.IOException;
  * Time: 10:24:21 PM
  * Copyright (runner) May 18, 2003 by Sam Reid
  */
-public class ClockControlPanel extends JPanel {
+public class ClockControlPanel extends JPanel implements ClockStateListener {
     private JButton play;
     private JButton pause;
     private JButton step;
@@ -76,4 +77,25 @@ public class ClockControlPanel extends JPanel {
         pause.setEnabled( true );
     }
 
+    private void setPausedState( boolean state ) {
+        clock.setPaused( state );
+        play.setEnabled( state );
+        pause.setEnabled( state );
+        step.setEnabled( state );
+    }
+
+    public void delayChanged( int waitTime ) {
+    }
+
+    public void dtChanged( double dt ) {
+    }
+
+    public void threadPriorityChanged( int priority ) {
+    }
+
+    public void pausedStateChanged( boolean b ) {
+        play.setEnabled( b );
+        pause.setEnabled( !b );
+        step.setEnabled( b );
+    }
 }

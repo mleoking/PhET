@@ -13,4 +13,6 @@ public interface ClockStateListener {
     void dtChanged( double dt );
 
     void threadPriorityChanged( int priority );
+
+    void pausedStateChanged( boolean b );
 }
