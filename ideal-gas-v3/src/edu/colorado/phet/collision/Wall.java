@@ -33,6 +33,7 @@ public class Wall extends CollidableBody {
     private Rectangle2D rep = new Rectangle2D.Double();
     private Rectangle2D movementBounds;
     private Rectangle2D prevRep = new Rectangle2D.Double();
+    private double minimumWallThickness;
 
     /**
      * @param bounds
@@ -83,13 +84,18 @@ public class Wall extends CollidableBody {
     }
 
     /**
-     * Will note expand the wall outside of its movement bounds
+     * Will not expand the wall outside of its movement bounds, and maintains the walls minimum dimensions
      *
      * @param bounds
      */
     public void setBounds( Rectangle2D bounds ) {
 
-        // Constrain the wall to be within the movement bounds
+        if( bounds.getWidth() < this.minimumWallThickness ) {
+            return;
+        }
+
+
+        // Constrain the wall to be within the movement bounds, and maintain minimum dimensions
         double minX = Math.max( Math.min( bounds.getMinX(), movementBounds.getMaxX() ), movementBounds.getMinX() );
         double minY = Math.max( Math.min( bounds.getMinY(), movementBounds.getMaxY() ), movementBounds.getMinY() );
         double maxX = Math.min( Math.max( bounds.getMaxX(), movementBounds.getMinX() ), movementBounds.getMaxX() );
@@ -99,12 +105,14 @@ public class Wall extends CollidableBody {
         setPosition( minX, minY );
     }
 
+    //I just changed this to return a new object
     public Rectangle2D getBounds() {
-        return rep;
+//        return rep;
+        return new Rectangle2D.Double( rep.getX(), rep.getY(), rep.getWidth(), rep.getHeight() );
     }
 
     public Rectangle2D getPrevBounds() {
-        return prevRep;
+        return new Rectangle2D.Double( prevRep.getX(), prevRep.getY(), prevRep.getWidth(), prevRep.getHeight() );
     }
 
     public void setMovementBounds( Rectangle2D movementBounds ) {
@@ -159,6 +167,10 @@ public class Wall extends CollidableBody {
         changeEventChannel.removeListener( listener );
     }
 
+    public void setMinimumWidth( double wallThickness ) {
+        this.minimumWallThickness = wallThickness;
+    }
+
     public interface ChangeListener extends EventListener {
         void wallChanged( ChangeEvent event );
     }
@@ -172,6 +184,4 @@ public class Wall extends CollidableBody {
             return (Wall)getSource();
         }
     }
-
-
 }
