@@ -182,7 +182,8 @@ public class MagnetAndCoilModule extends Module {
         
         // Debugger
         DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
-//        debugger.add( _pickupCoilGraphic );
+//        debugger.add( _pickupCoilGraphic.getForeground(), Color.RED, Color.RED );
+//        debugger.add( _pickupCoilGraphic.getBackground(), Color.GREEN, Color.GREEN );
         apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
 
         //----------------------------------------------------------------------------
