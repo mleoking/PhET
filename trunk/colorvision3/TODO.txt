@@ -2,9 +2,11 @@
 
 HIGH:
 o correct "overshoot" behavior of SpectrumSlider
-o Help with Kathy
+o Help based on Kathy's requirements
+o font antialiasing on Windows (and Linux?)
 
 MEDIUM:
+o optimize all image files for Web
 o optimize reuse of Photons in PhotonBeam
 o support orientation of SpectrumSlider
 o support scaling of SpectrumSlider
