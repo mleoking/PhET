@@ -102,7 +102,6 @@ public abstract class AbstractGrid implements Graphic {
         return output;
     }
 
-
     private static double[] getGridLinesv3( double origin, double min, double max, double spacing ) {
         int n = (int)( ( ( min - origin ) / spacing ) + 1 );
         int numGridLines = (int)( ( max - min ) / spacing ) + 1;

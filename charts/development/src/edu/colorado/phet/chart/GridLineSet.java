@@ -62,4 +62,8 @@ public class GridLineSet {
     public void setMinorGridlinesStroke( Stroke stroke ) {
         minorGrid.setStroke( stroke );
     }
+
+    public void setMajorTickLabelsVisible( boolean visible ) {
+        majorGrid.setTicksVisible( visible );
+    }
 }

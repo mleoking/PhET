@@ -60,7 +60,13 @@ public class Chart implements Graphic {
         Range2D range = ( (DataSetGraphic)dataSetGraphics.get( 0 ) ).getDataSet().getRange();
         for( int i = 1; i < dataSetGraphics.size(); i++ ) {
             DataSetGraphic dataSetGraphic = (DataSetGraphic)dataSetGraphics.get( i );
-            range = range.union( dataSetGraphic.getDataSet().getRange() );
+            Range2D nextRange = dataSetGraphic.getDataSet().getRange();
+            if( range == null ) {
+                range = nextRange;
+            }
+            else if( nextRange != null ) {
+                range = range.union( nextRange );
+            }
         }
         return range;
     }

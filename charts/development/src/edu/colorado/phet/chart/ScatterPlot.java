@@ -31,6 +31,10 @@ public class ScatterPlot extends DataSetGraphic {
         }
     }
 
+    public void setScatterPaint( ScatterPaint scatterPaint ) {
+        this.scatterPaint = scatterPaint;
+    }
+
     public interface ScatterPaint {
         void paint( Point point, Graphics2D graphics2D );
     }
