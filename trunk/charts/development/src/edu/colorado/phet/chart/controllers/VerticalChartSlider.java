@@ -21,21 +21,16 @@ public class VerticalChartSlider {
     private JSlider slider;
     private ArrayList listeners = new ArrayList();
     private boolean visible = false;
+    private int numTicks = 1000;
 
     public VerticalChartSlider( final Chart chart ) {
         this.chart = chart;
-        final int numTicks = 1000;
         slider = new JSlider( JSlider.VERTICAL, 0, numTicks, numTicks / 2 );
         Rectangle viewBounds = chart.getViewBounds();
         int x = viewBounds.x;
         int y = viewBounds.y;
         slider.setLocation( x, y );
-
         setVisible( true );
-//        if( component instanceof JComponent ) {
-//            JComponent jc = (JComponent)component;
-//            jc.add( slider );
-
         update();
         Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
         int insetGuess = vert.getIconHeight() / 2;
@@ -43,8 +38,6 @@ public class VerticalChartSlider {
         slider.reshape( x - dx, y - insetGuess, slider.getPreferredSize().width, viewBounds.height + insetGuess * 2 );
         slider.setBackground( new Color( 255, 255, 255, 0 ) );
         slider.setOpaque( false );
-//            slider.setSnapToTicks( true );
-
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int value = slider.getValue();
@@ -66,6 +59,7 @@ public class VerticalChartSlider {
         int y = viewBounds.y;
         Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
         int insetGuess = vert.getIconHeight() / 2;
+        //TODO this crashed once with vert=null.
         int dx = vert.getIconWidth();
         slider.reshape( x - dx, y - insetGuess, slider.getPreferredSize().width, viewBounds.height + insetGuess * 2 );
     }
@@ -82,8 +76,23 @@ public class VerticalChartSlider {
                 jc.remove( slider );
             }
         }
-//        JComponent jc = (JComponent)component;
-//        jc.add( slider );
+    }
+
+    public void setValue( double y ) {
+        double viewY = chart.getTransform().modelToViewY( y );
+        Rectangle r = chart.getViewBounds();
+        LinearTransform1d transform1d = new LinearTransform1d( r.y + r.height, r.y, 0, numTicks );
+        int tick = (int)transform1d.operate( viewY );
+        ChangeListener[] s = slider.getChangeListeners();
+        for( int i = 0; i < s.length; i++ ) {
+            ChangeListener changeListener = s[i];
+            slider.removeChangeListener( changeListener );
+        }
+        slider.setValue( tick );
+        for( int i = 0; i < s.length; i++ ) {
+            ChangeListener changeListener = s[i];
+            slider.addChangeListener( changeListener );
+        }
     }
 
     public interface Listener {

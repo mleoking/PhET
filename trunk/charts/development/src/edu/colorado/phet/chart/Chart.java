@@ -8,6 +8,9 @@ package edu.colorado.phet.chart;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -31,6 +34,8 @@ public class Chart implements Graphic {
     private Stroke outlineStroke = new BasicStroke( 1 );
     private Color outlineColor = Color.black;
     private ModelViewTransform2D transform;
+    private ArrayList listeners = new ArrayList();
+    private AbstractTitle title;
 
     public Chart( Component component, Range2D range, Rectangle viewBounds ) {
         this.component = component;
@@ -43,6 +48,61 @@ public class Chart implements Graphic {
         this.verticalTicks = new TickMarkSet( this, AbstractGrid.VERTICAL, 1, 2 );
         this.horizontalTicks = new TickMarkSet( this, AbstractGrid.HORIZONTAL, 1, 2 );
         this.transform = new ModelViewTransform2D( range.getBounds(), viewBounds );
+    }
+
+    public void setVerticalTitle( String title, Color color, Font font ) {
+        setTitle( new VerticalTitle( this, title, font, color ) );
+    }
+
+    private void setTitle( AbstractTitle title ) {
+        this.title = title;
+    }
+
+    public interface Listener {
+        void transformChanged( Chart chart );
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public static abstract class AbstractTitle implements Graphic {
+        private Chart chart;
+        String title;
+        Font font;
+        Color color;
+
+        public AbstractTitle( Chart chart, String title, Font font, Color color ) {
+            this.chart = chart;
+            this.title = title;
+            this.font = font;
+            this.color = color;
+        }
+
+    }
+
+    public static class VerticalTitle extends AbstractTitle {
+        private Chart chart;
+
+        public VerticalTitle( Chart chart, String title, Font font, Color color ) {
+            super( chart, title, font, color );
+            this.chart = chart;
+        }
+
+        public void paint( Graphics2D g ) { //TODO this implementation is slow but correct.
+            GraphicsState state = new GraphicsState( g );
+            PhetTextGraphic ptg = new PhetTextGraphic( chart.getComponent(), font, title, color, 0, 0 );
+            Rectangle rect = ptg.getBounds();
+            Rectangle chartRect = chart.getViewBounds();
+            Rectangle frame = chart.getVerticalTicks().getMajorTickTextBounds();
+            if( frame == null ) {
+                frame = chart.getViewBounds();
+            }
+            g.translate( chartRect.x - rect.getHeight() - frame.width * 1.2, chartRect.y + chartRect.height - chartRect.height / 2 + rect.width / 2 );
+            g.rotate( -Math.PI / 2 );
+            ptg.paint( g );
+            state.restoreGraphics();
+        }
     }
 
     public static class TickMarkSet {
@@ -79,6 +139,10 @@ public class Chart implements Graphic {
 
         public void setMajorOffset( int dx, int dy ) {
             majorTicks.setOffset( dx, dy );
+        }
+
+        public Rectangle getMajorTickTextBounds() {
+            return RectangleUtils.union( majorTicks.getTextBounds() );
         }
     }
 
@@ -221,6 +285,10 @@ public class Chart implements Graphic {
         graphics2D.setStroke( outlineStroke );
         graphics2D.setColor( outlineColor );
         graphics2D.draw( viewBounds );
+
+        if( title != null ) {
+            title.paint( graphics2D );
+        }
     }
 
     public Axis getXAxis() {
@@ -254,6 +322,10 @@ public class Chart implements Graphic {
         for( int i = 0; i < dataSetGraphics.size(); i++ ) {
             DataSetGraphic dataSetGraphic = (DataSetGraphic)dataSetGraphics.get( i );
             dataSetGraphic.transformChanged();
+        }
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.transformChanged( this );
         }
     }
 
