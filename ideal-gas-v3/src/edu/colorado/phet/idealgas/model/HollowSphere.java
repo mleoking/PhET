@@ -24,6 +24,10 @@ public class HollowSphere extends IdealGasParticle {
         super( center, velocity, acceleration, mass, radius );
     }
 
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+    }
+
     /**
      *
      */
