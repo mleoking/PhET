@@ -32,9 +32,9 @@ public class Force1DModel implements ModelElement {
     private SmoothDataSeries positionDataSeries;
     private ArrayList listeners = new ArrayList();
     private Force1DPlotDeviceModel plotDeviceModel;
-    private BoundaryCondition open = new Open();
-    private BoundaryCondition walls = new Walls();
-    private BoundaryCondition boundaryCondition = open;
+    private BoundaryCondition open;
+    private BoundaryCondition walls;
+    private BoundaryCondition boundaryCondition;
     private ArrayList boundaryConditionListeners = new ArrayList();
     private SmoothDataSeries gravitySeries;
     private SmoothDataSeries staticSeries;
@@ -43,14 +43,18 @@ public class Force1DModel implements ModelElement {
 
     public Force1DModel( Force1DModule module ) {
         block = new Block( this );
+        open = new BoundaryCondition.Open( this );
+        walls = new BoundaryCondition.Walls( this );
+        boundaryCondition = open;
         int numSmoothingPoints = 8;
+        plotDeviceModel = new Force1DPlotDeviceModel( module, this, MAX_TIME, 1 / 50.0 );
+
         appliedForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
         netForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
         accelerationDataSeries = new SmoothDataSeries( numSmoothingPoints );
         frictionForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
         velocityDataSeries = new SmoothDataSeries( numSmoothingPoints );
         positionDataSeries = new SmoothDataSeries( numSmoothingPoints );
-        plotDeviceModel = new Force1DPlotDeviceModel( module, this, MAX_TIME, 1 / 50.0 );
         gravitySeries = new SmoothDataSeries( numSmoothingPoints );
         staticSeries = new SmoothDataSeries( numSmoothingPoints );
         kineticSeries = new SmoothDataSeries( numSmoothingPoints );
@@ -61,61 +65,11 @@ public class Force1DModel implements ModelElement {
         return netForce;
     }
 
-    public interface BoundaryCondition {
-        public void apply();
-
-        double getWallForce( double appliedForce, double frictionForce );
-    }
-
-    public void addBoundaryConditionListener( BoundaryConditionListener boundaryConditionListener ) {
+    public void addBoundaryConditionListener( BoundaryCondition.Listener boundaryConditionListener ) {
         boundaryConditionListeners.add( boundaryConditionListener );
     }
 
-    public static interface BoundaryConditionListener {
-        void boundaryConditionOpen();
-
-        void boundaryConditionWalls();
-    }
-
-    public class Open implements BoundaryCondition {
-
-        public void apply() {
-            setWallForce( 0.0 );
-        }
-
-        public double getWallForce( double appliedForce, double frictionForce ) {
-            return 0.0;
-        }
-    }
-
-    public class Walls implements BoundaryCondition {
-
-        public void apply() {
-            if( block.getPosition() > 10 ) {
-                block.setPosition( 10 );
-                block.setAcceleration( 0.0 );
-                block.setVelocity( 0.0 );
-            }
-            else if( block.getPosition() < -10 ) {
-                block.setPosition( -10 );
-                block.setAcceleration( 0.0 );
-                block.setVelocity( 0.0 );
-            }
-        }
-
-        public double getWallForce( double appliedForce, double frictionForce ) {
-            boolean right = block.getPosition() >= 10.0 && appliedForce > 0;
-            boolean left = block.getPosition() <= -10.0 && appliedForce < 0;
-            if( right || left ) {
-                return -( appliedForce + frictionForce );
-            }
-            else {
-                return 0.0;
-            }
-        }
-    }
-
-    private void setWallForce( double wallForce ) {
+    void setWallForce( double wallForce ) {
         if( this.wallForce != wallForce ) {
             this.wallForce = wallForce;
         }
@@ -128,7 +82,7 @@ public class Force1DModel implements ModelElement {
     public void setBoundsOpen() {
         this.boundaryCondition = open;
         for( int i = 0; i < boundaryConditionListeners.size(); i++ ) {
-            BoundaryConditionListener boundaryConditionListener = (BoundaryConditionListener)boundaryConditionListeners.get( i );
+            BoundaryCondition.Listener boundaryConditionListener = (BoundaryCondition.Listener)boundaryConditionListeners.get( i );
             boundaryConditionListener.boundaryConditionOpen();
         }
     }
@@ -136,7 +90,7 @@ public class Force1DModel implements ModelElement {
     public void setBoundsWalled() {
         this.boundaryCondition = walls;
         for( int i = 0; i < boundaryConditionListeners.size(); i++ ) {
-            BoundaryConditionListener boundaryConditionListener = (BoundaryConditionListener)boundaryConditionListeners.get( i );
+            BoundaryCondition.Listener boundaryConditionListener = (BoundaryCondition.Listener)boundaryConditionListeners.get( i );
             boundaryConditionListener.boundaryConditionWalls();
         }
     }
@@ -153,7 +107,6 @@ public class Force1DModel implements ModelElement {
                 this.frictionForce = frictionForceDataSeries.smoothedPointAt( index );
             }
             setAppliedForce( appliedForceDataSeries.smoothedPointAt( index ) );
-//        setGravity( );//TODO do we want provisions for changing gravity?
             block.setAcceleration( accelerationDataSeries.smoothedPointAt( index ) );
             block.setVelocity( velocityDataSeries.smoothedPointAt( index ) );
             block.setPosition( positionDataSeries.smoothedPointAt( index ) );
@@ -213,10 +166,6 @@ public class Force1DModel implements ModelElement {
     public double getStoredFrictionForceValue() {
         return frictionForce;
     }
-    //TODO this was previously used by ArrowSetGraphic.ForceArrow
-//    public double getTotalForce() {
-//        return getStoredFrictionForceValue() + getAppliedForce();
-//    }
 
     public PlotDeviceModel getPlotDeviceModel() {
         return plotDeviceModel;
@@ -262,8 +211,6 @@ public class Force1DModel implements ModelElement {
         void appliedForceChanged();
 
         void gravityChanged();
-
-//        void wallForceChanged();
     }
 
     public double getGravity() {
@@ -308,9 +255,6 @@ public class Force1DModel implements ModelElement {
         netForce = appliedForce + frictionForce + wallForce;
         double acc = netForce / block.getMass();
         block.setAcceleration( acc );
-//        if( wallForce == -netForce && netForce != 0.0 ) {
-//            System.out.println( "acc = " + acc );
-//        }
     }
 
     public double getFrictionForce() {

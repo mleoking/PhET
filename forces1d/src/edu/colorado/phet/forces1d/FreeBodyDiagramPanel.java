@@ -53,7 +53,5 @@ public class FreeBodyDiagramPanel {
 
     public void setVisible( boolean visible ) {
         apparatusPanel.setVisible( visible );
-//        freeBodyDiagram.setVisible( visible );
-//        freeBodyDiagram.setComponent( apparatusPanel );
     }
 }

@@ -82,7 +82,6 @@ public class Block {
 
     public void setAcceleration( double acceleration ) {
         this.acceleration = acceleration;
-//        System.out.println( "acceleration = " + acceleration );
     }
 
     public void stepInTime( double dt ) {
@@ -91,13 +90,10 @@ public class Block {
         velocity += acceleration * dt;
 
         if( changedSign( origVelocity, velocity ) ) {
-//            System.out.println( "clampedVelocity ." );
-//            velocity = 0.0;
             if( Math.abs( velocity ) < 0.1 ) {
                 velocity = 0;
             }
         }
-//        System.out.println( "velocity = " + velocity );
         position += velocity * dt;
 
         if( origPosition != position ) {
@@ -106,8 +102,6 @@ public class Block {
                 listener.positionChanged();
             }
         }
-        //constant acceleration.
-//        System.out.println( "position = " + position );
     }
 
     static class Sign {
@@ -160,9 +154,6 @@ public class Block {
     }
 
     public boolean isMoving() {
-//        return !stopped;
-//        double threshold=.1;
-//        return Math.abs(velocity)>=threshold;
         return velocity != 0.0;
     }
 

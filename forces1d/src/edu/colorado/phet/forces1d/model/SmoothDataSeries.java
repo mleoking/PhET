@@ -47,7 +47,7 @@ public class SmoothDataSeries {
         if( dataToDerive.size() > 2 ) {
             double x1 = dataToDerive.lastPointAt( 0 );
             double x0 = dataToDerive.lastPointAt( 2 );
-            double dx = x1 - x0;
+            double dx = x1 - x0;//median algorithm is smoothest.
             double vel = dx / dt / 2;
             derivative.addPoint( vel );
         }

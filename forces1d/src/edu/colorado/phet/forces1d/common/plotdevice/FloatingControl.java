@@ -4,7 +4,7 @@ package edu.colorado.phet.forces1d.common.plotdevice;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.forces1d.view.MMFontManager;
+import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +37,7 @@ public class FloatingControl extends VerticalLayoutPanel {
     }
 
     static class ControlButton extends JButton {
-        static Font font = MMFontManager.getFontSet().getControlButtonFont();
+        static Font font = PlotDeviceFontManager.getFontSet().getControlButtonFont();
 
         public ControlButton( String text ) {
             super( text );

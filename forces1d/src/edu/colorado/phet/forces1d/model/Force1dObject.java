@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.forces1d.view;
+package edu.colorado.phet.forces1d.model;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 

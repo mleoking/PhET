@@ -7,7 +7,7 @@ import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.forces1d.view.Force1dObject;
+import edu.colorado.phet.forces1d.model.Force1dObject;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -159,8 +159,9 @@ public class Force1dControlPanel extends ControlPanel {
     public void updateGraphics() {
         freeBodyDiagramSuite.updateGraphics();
     }
+
+    interface SpinnerHandler {
+        void changed( double value );
+    }
 }
 
-interface SpinnerHandler {
-    void changed( double value );
-}

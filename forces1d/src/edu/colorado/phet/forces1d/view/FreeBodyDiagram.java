@@ -155,6 +155,10 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
         updateAll();
     }
 
+//    public static Color transparify( Color c, int alpha ) {
+//        return new Color( c.getRed(), c.getGreen(), c.getBlue(), alpha );
+//    }
+
     public static class ForceArrow extends CompositePhetGraphic {
         private PhetShapeGraphic shapeGraphic;
         private PhetGraphic textGraphic;
