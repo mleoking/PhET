@@ -24,14 +24,13 @@ import java.io.IOException;
 /**
  *
  */
-//public class BaseIdealGasApparatusPanel extends TestApparatusPanel {
 public class BaseIdealGasApparatusPanel extends TestApparatusPanel {
-//public class BaseIdealGasApparatusPanel extends ApparatusPanel {
+    //public class BaseIdealGasApparatusPanel extends ApparatusPanel {
 
     // Coordinates of the intake port on the box
     private static boolean toolTipsSet = false;
 
-//    private PumpHandleGraphic handleGraphicImage;
+    //    private PumpHandleGraphic handleGraphicImage;
     private PhetImageGraphic flamesGraphicImage;
     private PhetImageGraphic iceGraphicImage;
     protected DefaultInteractiveGraphic doorGraphicImage;
@@ -79,7 +78,7 @@ public class BaseIdealGasApparatusPanel extends TestApparatusPanel {
         }
 
         // Set the size of the panel
-//        this.setPreferredSize( new Dimension( 600, 520 ) );
+        //        this.setPreferredSize( new Dimension( 600, 520 ) );
     }
 
 

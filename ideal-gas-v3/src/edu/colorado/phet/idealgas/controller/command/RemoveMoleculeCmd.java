@@ -8,8 +8,8 @@
 package edu.colorado.phet.idealgas.controller.command;
 
 import edu.colorado.phet.common.model.Command;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import java.util.List;
 
@@ -26,11 +26,11 @@ public class RemoveMoleculeCmd implements Command {
         List bodies = idealGasModel.getBodies();
         for( int i = 0; i < bodies.size(); i++ ) {
             Object obj = bodies.get( i );
-            if( currentGasSpecies.isInstance( obj )) {
+            if( currentGasSpecies.isInstance( obj ) ) {
                 bodies.remove( i );
                 GasMolecule molecule = (GasMolecule)obj;
                 idealGasModel.removeModelElement( molecule );
-                molecule.removeYourselfFromSystem();
+                //                molecule.removeYourselfFromSystem();
                 break;
             }
         }

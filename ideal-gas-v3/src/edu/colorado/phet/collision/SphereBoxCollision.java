@@ -36,18 +36,21 @@ public class SphereBoxCollision implements Collision {
         if( ( sx - r ) <= box.getMinX() ) {
             sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             double wx = box.getMinX();
-            double dx = wx - (sx - r);
+            double dx = wx - ( sx - r );
             double newX = sx + ( dx + 2 );
             sphere.setPosition( newX, sphere.getPosition().getY() );
 
             // Handle giving particle kinetic energy if the wall is moving
             double vx0 = sphere.getVelocity().getX();
             double vx1 = vx0 + box.getLeftWallVx();
+            double energyPre = sphere.getKineticEnergy();
             sphere.setVelocity( vx1, sphere.getVelocity().getY() );
+            double energyPost = sphere.getKineticEnergy();
 
             // Add the energy to the system, so it doesn't get
             // taken back out when energy conservation is performed
-            model.addKineticEnergyToSystem( box.getLeftWallVx() );
+            model.addKineticEnergyToSystem( energyPost - energyPre );
+            //            model.addKineticEnergyToSystem( box.getLeftWallVx() );
         }
 
         // Collision with right wall?

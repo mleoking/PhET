@@ -46,6 +46,7 @@ public class ApparatusPanel extends JPanel {
     ArrayList graphicsSetups = new ArrayList();
 
     protected ApparatusPanel( Object dummy ) {
+        super( null );
     }
 
     public ApparatusPanel() {
@@ -79,6 +80,7 @@ public class ApparatusPanel extends JPanel {
     protected void superPaint( Graphics g ) {
         super.paintComponent( g );
     }
+
     /**
      * Draws all the Graphic objects in the ApparatusPanel
      *
