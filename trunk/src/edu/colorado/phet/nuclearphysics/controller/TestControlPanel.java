@@ -24,17 +24,17 @@ public class TestControlPanel extends JPanel {
     public TestControlPanel( NuclearPhysicsModule module ) {
         this.module = module;
         setLayout( new GridBagLayout() );
-        int rowIdx = 0;
-        try {
-            GraphicsUtil.addGridBagComponent( this, new PotentialControlPanel( module.getPotentialProfile() ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-        }
-        catch( AWTException e ) {
-            e.printStackTrace();
-        }
+//        int rowIdx = 0;
+//        try {
+//            GraphicsUtil.addGridBagComponent( this, new PotentialControlPanel( module.getPotentialProfile() ),
+//                                              0, rowIdx++,
+//                                              1, 1,
+//                                              GridBagConstraints.NONE,
+//                                              GridBagConstraints.CENTER );
+//        }
+//        catch( AWTException e ) {
+//            e.printStackTrace();
+//        }
     }
 
     private class PotentialControlPanel extends JPanel {

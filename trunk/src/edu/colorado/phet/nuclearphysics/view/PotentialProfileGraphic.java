@@ -8,7 +8,6 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.coreadditions.AlphaSetter;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
 import java.awt.*;
@@ -56,19 +55,6 @@ public class PotentialProfileGraphic implements Graphic {
     public void paint( Graphics2D g ) {
         g.drawImage( image, -image.getWidth( imgObs ) / 2,
                      -image.getHeight( imgObs ), imgObs );
-//        g.drawImage( image, (int)origin.getX() - image.getWidth( imgObs ) / 2,
-//                     (int)origin.getY() - image.getHeight( imgObs ), imgObs );
-
-//        GraphicsUtil.setAntiAliasingOn( g );
-//        g.setColor( color );
-//        g.setStroke( stroke );
-//        profileTx.setToIdentity();
-//        profileTx.translate( origin.getX(), origin.getY() );
-//        g.draw( profileTx.createTransformedShape( profile.getPath() ) );
-//        g.setColor( backgroundColor );
-//        AlphaSetter.set( g, .5 );
-//        g.fill( profileTx.createTransformedShape( profile.getBackgroundPath() ) );
-//        AlphaSetter.set( g, 1 );
     }
 
     private Image buildImage() {
@@ -81,9 +67,9 @@ public class PotentialProfileGraphic implements Graphic {
         // Note that the profile path is centered on the y axis, so half of it
         // has negative x coordinates. That's why is has to be translated
         g.setColor( backgroundColor );
-        AlphaSetter.set( g, 1 );
+        GraphicsUtil.setAlpha( g, 1 );
         g.fill( profileTx.createTransformedShape( profile.getBackgroundPath() ) );
-        AlphaSetter.set( g, 1 );
+        GraphicsUtil.setAlpha( g, 1 );
         g.setColor( color );
         g.setStroke( stroke );
         profileTx.setToIdentity();

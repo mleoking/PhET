@@ -13,10 +13,11 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
-import edu.colorado.phet.nuclearphysics.view.*;
+import edu.colorado.phet.nuclearphysics.view.Kaboom;
+import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
+import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
+import edu.colorado.phet.nuclearphysics.view.OneNucleusModule;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.Random;
@@ -120,15 +121,7 @@ public class FissionModule extends OneNucleusModule {
                                     25, 300, getPotentialProfilePanel() );
         getPhysicalPanel().addGraphic( kaboom );
 
-        // Remove the old potential panel and add one for each of the new nuclei
-        getApparatusPanel().remove( getPotentialProfilePanel() );
-        JPanel newPotentialProfilePanel = new JPanel( new GridLayout( 2, 1 ) );
-        PotentialProfilePanel ppp1 = new PotentialProfilePanel( n1.getPotentialProfile() );
-        PotentialProfilePanel ppp2 = new PotentialProfilePanel( n2.getPotentialProfile() );
-        newPotentialProfilePanel.add( ppp1 );
-        newPotentialProfilePanel.add( ppp2 );
-        getApparatusPanel().add( newPotentialProfilePanel, 0 );
-        getApparatusPanel().validate();
+        // Add one energy profile for each of the daughter nuclei
 
     }
 

@@ -7,7 +7,7 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.nuclearphysics.view.AlphaRadiationModule;
+import edu.colorado.phet.nuclearphysics.view.AlphaDecayModule;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -19,7 +19,7 @@ import java.awt.*;
 public class AlphaDecayControlPanel extends JPanel {
     private NuclearPhysicsModule module;
 
-    public AlphaDecayControlPanel( final AlphaRadiationModule module ) {
+    public AlphaDecayControlPanel( final AlphaDecayModule module ) {
         this.module = module;
 
         JButton replayBtn = new JButton( "Replay" );

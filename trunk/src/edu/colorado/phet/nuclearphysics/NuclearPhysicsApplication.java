@@ -13,8 +13,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.controller.FissionModule;
-import edu.colorado.phet.nuclearphysics.controller.TestModule;
-import edu.colorado.phet.nuclearphysics.view.AlphaRadiationModule;
+import edu.colorado.phet.nuclearphysics.view.AlphaDecayModule;
 
 public class NuclearPhysicsApplication extends PhetApplication {
 
@@ -33,10 +32,10 @@ public class NuclearPhysicsApplication extends PhetApplication {
                                                                    "0.1" );
         // Note: a ThreadedClock here ends up looking balky
         AbstractClock clock = new SwingTimerClock( 10, 50, true );
-        Module testModule = new TestModule( clock );
-        Module alphaModule = new AlphaRadiationModule( clock );
+//        Module testModule = new TestModule( clock );
+        Module alphaModule = new AlphaDecayModule( clock );
         Module fissionModule = new FissionModule( clock );
-        Module[] modules = new Module[]{alphaModule, fissionModule, testModule};
+        Module[] modules = new Module[]{alphaModule, fissionModule};//, testModule};
         NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc, modules, clock );
 //        app.startApplication( fissionModule );
         app.startApplication( alphaModule );
