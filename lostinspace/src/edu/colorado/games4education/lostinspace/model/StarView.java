@@ -8,11 +8,11 @@ package edu.colorado.games4education.lostinspace.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StarView {
     private double povTheta;
-    private double povX;
-    private double povY;
+    private Point2D.Double povPt = new Point2D.Double();
     private StarField starField;
     private double viewAngle;
     private ArrayList visibleStars = new ArrayList();
@@ -23,28 +23,56 @@ public class StarView {
     }
 
     public void setPov( double x, double y, double theta ) {
-        this.povX = x;
-        this.povY = y;
+        this.povPt.setLocation( x, y );
         this.povTheta = theta;
 
         visibleStars.clear();
         visibleStars = determineVisibleStars( this.starField );
     }
 
-    public ArrayList determineVisibleStars( StarField starField ) {
+    private ArrayList determineVisibleStars( StarField starField ) {
         ArrayList visibleStars = null;
 
-        // For all the stars in the star field
+        // For all the starList in the star field
+        List starList = starField.getStars();
+        for( int i = 0; i < starList.size(); i++ ) {
+            Star star = (Star)starList.get( i );
+            if( isVisible( star ) ){
+                visibleStars.add( star );
+            }
+        }
+        return visibleStars;
+    }
+
+    private boolean isVisible( Star star ) {
+        boolean result = false;
 
         // Perform xform from star's cartesian coords to
         // polar coords based on our POV
+        double r = povPt.distance( star.getLocation() );
+        double dx = star.getLocation().getX() - povPt.getX();
+        double dy = star.getLocation().getY() - povPt.getY();
+        double theta;
+        if( dx == 0 ) {
+            if( dy > 0 ) {
+                theta = Math.PI / 2;
+            }
+            else {
+                theta = Math.PI * 3 / 2;
+            }
+        }
+        else {
+            theta = Math.atan(  dy / dx );
+            theta = ( dx < 0 ? theta + Math.PI / 2 : theta );
+        }
+        PolarCoords polarCoords = new PolarCoords( r, theta );
 
         // Determine if the star is in our field of view
 
         // If star is visible, add it to the result list
-
-        return visibleStars;
+        return result;
     }
+
 
     public ArrayList getVisibleStars() {
         return visibleStars;

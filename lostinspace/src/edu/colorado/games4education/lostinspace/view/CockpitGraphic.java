@@ -13,28 +13,36 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.games4education.lostinspace.controller.CockpitModule;
+import edu.colorado.games4education.lostinspace.controller.ParallaxButton;
+import edu.colorado.games4education.lostinspace.controller.PhotometerButton;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
 
 public class CockpitGraphic extends CompositeInteractiveGraphic implements ImageObserver {
 
+    Point2D.Double photometerButtonLocation = new Point2D.Double( 140, 555 );
+    Point2D.Double parallaxButtonLocation = new Point2D.Double( 425, 535 );
+
     private BufferedImage cockpitImage;
     private BufferedImage joystickImage;
     private AffineTransform cockpitTx = new AffineTransform();
     private AffineTransform joystickTx = new AffineTransform();
-    private ApparatusPanel apparatusPanel;
 
     private double joystickLayer = 10;
+    private CockpitModule module;
 
-    public CockpitGraphic( ApparatusPanel apparatusPanel ) {
-        this.apparatusPanel = apparatusPanel;
+    public CockpitGraphic( CockpitModule module ) {
+        this.module = module;
         ImageLoader imgLoader = new ImageLoader();
         try {
             cockpitImage = imgLoader.loadImage( "images/cockpit-view.gif" );
@@ -47,6 +55,9 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
 
         joystickTx.concatenate( cockpitTx );
         joystickTx.translate( 530, 480 );
+
+        addGraphic( new ParallaxButton( module, parallaxButtonLocation), joystickLayer );
+        addGraphic( new PhotometerButton( module, photometerButtonLocation ), joystickLayer );
     }
 
     public void paint( Graphics2D g ) {
@@ -54,14 +65,15 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
         g.fillRect( 0, 0, cockpitImage.getWidth(), cockpitImage.getHeight() );
         g.drawImage( cockpitImage, cockpitTx, this );
         super.paint( g );
-//        joystickTx.translate( 530, 480 );
-//        g.drawImage( joystickImage, joystickTx, this );
     }
 
     public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
         return false;
     }
 
+    //
+    // Inner classes
+    //
     class JoystickGraphic extends DefaultInteractiveGraphic {
         private Point2D.Double testPt = new Point2D.Double();
         private Point2D.Double knobCenter = new Point2D.Double( 40, 10 );

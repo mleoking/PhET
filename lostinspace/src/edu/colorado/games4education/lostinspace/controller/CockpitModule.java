@@ -24,24 +24,24 @@ import java.awt.geom.Rectangle2D;
 public class CockpitModule extends Module {
 
     private UniverseModel model;
+    private PhotometerReticle photometerReticle;
+    private ParallaxReticle parallaxReticle;
 
-    public CockpitModule( AbstractClock clock ) {
+    public CockpitModule( UniverseModel model ) {
         super( "Cockpit" );
-        model = new UniverseModel( clock );
+        this.model = model;
         ApparatusPanel apparatusPanel = new ApparatusPanel();
         ModuleManager m;
         setApparatusPanel( apparatusPanel );
         setModel( model );
 
-        apparatusPanel.addGraphic( new CockpitGraphic( apparatusPanel ), Config.cockpitLayer );
+        apparatusPanel.addGraphic( new CockpitGraphic( this ), Config.cockpitLayer );
 
-        ParallaxReticle parallaxReticle = new ParallaxReticle( apparatusPanel );
+        parallaxReticle = new ParallaxReticle( apparatusPanel );
         parallaxReticle.setLocation(400, 200 );
-        apparatusPanel.addGraphic( parallaxReticle, Config.measurementInstrumentLayer );
 
-        PhotometerReticle photometerReticle = new PhotometerReticle( apparatusPanel );
+        photometerReticle = new PhotometerReticle( apparatusPanel );
         photometerReticle.setLocation( 200, 200 );
-        apparatusPanel.addGraphic( photometerReticle, Config.measurementInstrumentLayer );
 
         StarField starField = new StarField();
         StarView starView = new StarView( starField, Math.PI / 2 );
@@ -52,5 +52,27 @@ public class CockpitModule extends Module {
         setControlPanel( new CockpitControlPanel() );
 
 
+    }
+
+    public void setParallaxReticleOn( boolean isOn ) {
+        if( isOn ) {
+            getApparatusPanel().addGraphic( parallaxReticle, Config.measurementInstrumentLayer );
+            getApparatusPanel().repaint();
+        }
+        else {
+            getApparatusPanel().removeGraphic( parallaxReticle );
+            getApparatusPanel().repaint();
+        }
+    }
+
+    public void setPhotometerReticle( boolean isOn ) {
+        if( isOn ) {
+            getApparatusPanel().addGraphic( photometerReticle, Config.measurementInstrumentLayer );
+            getApparatusPanel().repaint();
+        }
+        else {
+            getApparatusPanel().removeGraphic( photometerReticle );
+            getApparatusPanel().repaint();
+        }
     }
 }
