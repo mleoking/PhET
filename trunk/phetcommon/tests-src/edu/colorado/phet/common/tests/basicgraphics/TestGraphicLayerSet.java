@@ -4,12 +4,15 @@
  * Author: Another Guy
  * Date: Nov 12, 2004
  */
-package edu.colorado.phet.common.view.phetgraphics;
+package edu.colorado.phet.common.tests.basicgraphics;
 
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 
 import javax.swing.*;
 import java.awt.*;

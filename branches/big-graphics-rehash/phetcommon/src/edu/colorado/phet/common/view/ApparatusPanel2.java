@@ -75,18 +75,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
-        //        this.addMouseListener( mouseDelegator );
-        //        this.addMouseMotionListener( mouseDelegator );
 
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                //                Graphics g = PhetApplication.instance().getApplicationView().getPhetFrame().getGraphics();
-                //                myPaintComponent( g );
-                //                myPaintComponents( g );
-                //                updateBuffer();
                 megapaintImmediately();
-                //                paintImmediately( 0, 0, getWidth(), getHeight() );
-
             }
         } );
         //        setOpaque( true );
@@ -189,10 +181,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
     }
 
-//    public CompositeInteractiveGraphicMouseDelegator getMouseDelegator() {
-//        return mouseDelegator;
-//    }
-
     public void addGraphicsSetup( GraphicsSetup setup ) {
         graphicsSetups.add( setup );
     }
@@ -240,13 +228,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
 
     private void drawIt( Graphics2D g2 ) {
-        //        Graphics2D gImg = (Graphics2D)bImg.getGraphics();
-        //        GraphicsState gs2 = new GraphicsState( gImg );
-        //        gImg.transform( graphicTx );
-        //        graphic.paint( gImg );
-        //        gs2.restoreGraphics();
-        ////        g2.setClip( repaintArea );
-
         if( repaintArea == null ) {
             repaintArea = this.getBounds();
         }
@@ -275,15 +256,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         g2.setColor( origColor );
         g2.setStroke( origStroke );
-        //        g2.draw( this.getBounds() );
-        //        if( repaintArea != null ) {
-        //            g2.setColor( Color.green );
-        //            g2.setStroke( new BasicStroke( 7, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 0.1f, new float[]{15, 15}, 0 ) );
-        //            g2.draw( repaintArea );
-        //        }
-
-        //        long dt=System.currentTimeMillis()-now;
-        //        System.out.println( "dt = " + dt );
     }
 
     public void addGraphic( PhetGraphic graphic, double level ) {

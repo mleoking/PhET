@@ -25,7 +25,7 @@ public class PhetBufferedGraphic extends PhetImageGraphic {
 
     public void repaintBuffer() {
         graphic.paint( buffer.createGraphics() );
-        repaint();
+        forceRepaint();
     }
 
     public BufferedImage getBuffer() {
