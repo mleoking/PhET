@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.GraphicsSetup;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImagingOpException;
 
 /**
  * BufferedPhetGraphic
@@ -57,7 +58,12 @@ public class BufferedPhetGraphic extends PhetGraphic {
             g2.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
         }
         if( buffer != null ) {
-            graphicLayerSet.paint( g2 );
+            try {
+                graphicLayerSet.paint( g2 );
+            }
+            catch( ImagingOpException ioe ) {
+                System.out.println( "ioe = " + ioe );
+            }
             imageGraphic.setImage( buffer );
 
             imageGraphic.setBoundsDirty();
@@ -104,14 +110,14 @@ public class BufferedPhetGraphic extends PhetGraphic {
     }
 
     public void paint( Graphics2D g2 ) {
-        if ( isVisible() ) {
-          super.saveGraphicsState( g2 );
-          RenderingHints hints = getRenderingHints();
-          if( hints != null ) {
-              g2.setRenderingHints( hints );
-          }
-          imageGraphic.paint( g2 );
-          super.restoreGraphicsState();
+        if( isVisible() ) {
+            super.saveGraphicsState( g2 );
+            RenderingHints hints = getRenderingHints();
+            if( hints != null ) {
+                g2.setRenderingHints( hints );
+            }
+            imageGraphic.paint( g2 );
+            super.restoreGraphicsState();
         }
     }
 
