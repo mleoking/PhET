@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.control;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -126,7 +127,9 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         JPanel magnetPanel = new JPanel();
         {
             // Title
-            TitledBorder magnetBorder = BorderFactory.createTitledBorder( SimStrings.get( "MagnetAndCoilModule.magnetControls" ) );
+            Border border = BorderFactory.createLineBorder( Color.BLACK, 2 );
+            String title = SimStrings.get( "MagnetAndCoilModule.magnetControls" );
+            TitledBorder magnetBorder = BorderFactory.createTitledBorder( border, title );
             magnetBorder.setTitleFont( getTitleFont() );
             magnetPanel.setBorder( magnetBorder );
             
@@ -186,7 +189,9 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         {
             // Titled border with some space above it.
             Border outsideBorder = BorderFactory.createEmptyBorder( 10, 0, 0, 0 );  // top, left, bottom, right
-            TitledBorder insideBorder = BorderFactory.createTitledBorder( SimStrings.get( "MagnetAndCoilModule.coilControls" ) );
+            Border border = BorderFactory.createLineBorder( Color.BLACK, 2 );
+            String title = SimStrings.get( "MagnetAndCoilModule.coilControls" );
+            TitledBorder insideBorder = BorderFactory.createTitledBorder( border, title );
             insideBorder.setTitleFont( getTitleFont() );
             Border coilBorder = BorderFactory.createCompoundBorder( outsideBorder, insideBorder );
             coilPanel.setBorder( coilBorder );
@@ -378,7 +383,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 // Read the value
                 int percent = _strengthSlider.getValue();
                 // Update the model.
-                int strength = (int) ( (  percent / 100.0 ) * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+                double strength = (  percent / 100.0 ) * FaradayConfig.BAR_MAGNET_STRENGTH_MAX;
                 _magnetModel.setStrength( strength );
                 // Update the label.
                 Object[] args = { new Integer( percent ) };
@@ -389,7 +394,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 // Read the value.
                 int percent = _radiusSlider.getValue();
                 // Update the model.
-                int radius = (int) ( ( percent / 100.0 ) * FaradayConfig.MAX_PICKUP_RADIUS );
+                double radius = ( percent / 100.0 ) * FaradayConfig.MAX_PICKUP_RADIUS;
                 _pickupCoilModel.setRadius( radius );
                 // Update the label.
                 Object[] args = { new Integer( percent ) };
