@@ -13,6 +13,7 @@ import edu.colorado.phet.distanceladder.exercise.XmlExercise;
 import edu.colorado.phet.distanceladder.model.Star;
 import edu.colorado.phet.distanceladder.model.NormalStar;
 import edu.colorado.phet.distanceladder.model.UniverseModel;
+import edu.colorado.phet.distanceladder.Config;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,8 +24,8 @@ public class Level1 extends Exercise {
     private Star[] starField = new Star[]{
         new NormalStar( Color.green, 1E6, new Point2D.Double( 100, -20 ), -45 ),
         new NormalStar( Color.red, 1E6, new Point2D.Double( 250, 10 ), -5 ),
-        new NormalStar( Color.blue, 1E6, new Point2D.Double( 1000, 30 ), 5 ),
-        new NormalStar( Color.yellow, 1E6, new Point2D.Double( 5E3, -15 ), 0 )
+        new NormalStar( Color.blue, 1E6, new Point2D.Double( Config.universeWidth / 4, 30 ), 5 ),
+        new NormalStar( Color.yellow, 1E6, new Point2D.Double( Config.universeWidth / 2, -15 ), 0 )
     };
 
     public Level1( JFrame frame, UniverseModel model ) {

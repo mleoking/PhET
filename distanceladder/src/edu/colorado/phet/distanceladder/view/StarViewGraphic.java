@@ -69,14 +69,18 @@ public class StarViewGraphic extends CompositeInteractiveGraphic implements Simp
             starGraphic = (StarGraphic)starToGraphicMap.get( visibleStar );
             double d = starView.getPov().distanceSq( visibleStar.getLocation() );
             // Set the radius of the star based on how close it is to the POV
-            double radius = Math.max( 40000 / d, minStarRadius );
+            double radius = minStarRadius;
+//            double radius = Math.max( 40000 / d, minStarRadius );
 //            double radius = Math.min( 15, Math.max( 40000 / d, 2 ));
+            double brightness = Math.min( 1 , 0.25 *  Config.universeWidth / visibleStar.getLocation().distance( starView.getPov() ));
+//            double brightness = visibleStar.getLuminance() * ( 1 / visibleStar.getLocation().distanceSq( starView.getPov() ) );
             if( starGraphic == null ) {
-                starGraphic = new StarGraphic( radius, visibleStar.getColor(), new Point2D.Double() );
+                starGraphic = new StarGraphic( visibleStar, radius, visibleStar.getColor(), new Point2D.Double(), brightness );
                 starToGraphicMap.put( visibleStar, starGraphic );
                 this.addGraphic( starGraphic, 1 / d );
             }
-            starGraphic.update( starView.getApparentLocation( visibleStar ), radius );
+
+            starGraphic.update( starView.getApparentLocation( visibleStar ), radius, brightness );
         }
 
         // Remove stars that aren't visible

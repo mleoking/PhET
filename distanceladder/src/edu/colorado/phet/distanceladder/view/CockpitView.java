@@ -83,6 +83,9 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
 
         Rectangle bounds = module.getApparatusPanel().getBounds();
         double scaleX = bounds.getWidth() / cockpitImage.getWidth();
+        double scaleY = bounds.getHeight() / cockpitImage.getHeight();
+        double scale = Math.min( scaleX, scaleY );
+//        atx = AffineTransform.getScaleInstance( scale, scale );
         atx = AffineTransform.getScaleInstance( scaleX, scaleX );
         AffineTransform orgTx = g.getTransform();
         g.transform( atx );

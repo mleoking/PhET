@@ -51,7 +51,7 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
         for( int i = 0; i < stars.size(); i++ ) {
             Star star = (Star)stars.get( i );
             if( starToGraphicMap.get( star ) == null ) {
-                StarGraphic sg = new StarGraphic( 3, star.getColor(), star.getLocation() );
+                StarGraphic sg = new StarGraphic( star, 5, star.getColor(), star.getLocation(), 1 );
                 this.addGraphic( sg );
             }
         }

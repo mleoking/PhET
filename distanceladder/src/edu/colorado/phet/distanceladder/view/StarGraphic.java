@@ -22,15 +22,19 @@ public class StarGraphic implements Graphic {
     private AffineTransform starTx = new AffineTransform();
     private Ellipse2D.Double circle = new Ellipse2D.Double();
     private double radius;
+    private double apparentBrightness;
+    private Star star;
 
-    public StarGraphic( double radius, Paint paint, Point2D.Double location ) {
+    public StarGraphic( Star star, double radius, Paint paint, Point2D.Double location, double apparentBrightnes ) {
+        this.star = star;
+        this.apparentBrightness = apparentBrightnes;
         setRadius( radius );
         this.paint = paint;
         setLocation( location );
     }
 
-    public StarGraphic( double radius, Paint paint ) {
-        this( radius, paint, new Point2D.Double() );
+    public StarGraphic( Star star, double radius, Paint paint, double brightness ) {
+        this( star, radius, paint, new Point2D.Double(), brightness  );
     }
 
     public void setRadius( double radius ) {
@@ -47,13 +51,17 @@ public class StarGraphic implements Graphic {
         AffineTransform orgTx = g.getTransform();
         GraphicsUtil.setAntiAliasingOn( g );
         g.transform( starTx );
+
+        double alpha = apparentBrightness;
+        GraphicsUtil.setAlpha( g, alpha );
         g.setPaint( paint );
 
         g.fill( circle );
         g.setTransform( orgTx );
     }
 
-    public void update( Point2D.Double location, double radius ) {
+    public void update( Point2D.Double location, double radius, double apparentBrightnes ) {
+        this.apparentBrightness = apparentBrightnes;
         setRadius( radius );
         setLocation( location );
     }
