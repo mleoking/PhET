@@ -8,7 +8,7 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.movingman.common.GraphicsSetup;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -70,22 +70,23 @@ public class ApparatusPanel extends JPanel implements Observer {
 //        mh.currentIG = null;
     }
 
+    GraphicsSetup graphicsSetup = new GraphicsSetup();
+
     /**
      * Draws all the Graphic objects in the ApparatusPanel
      *
      * @param graphics
      */
+
+
     protected void paintComponent( Graphics graphics ) {
-
+        Graphics2D g2 = (Graphics2D)graphics;
+        graphicsSetup.saveState( g2 );
+//        g2.setComposite( AlphaComposite.SrcAtop );
         super.paintComponent( graphics );
-
-        // Draw a bounding rectangle
-//        Rectangle boundingRect = this.getBounds();
-//        graphics.setColor( Color.black );
-//        graphics.drawRect( 0, 0,
-//                           (int)boundingRect.getWidth() - 2,
-//                           (int)boundingRect.getHeight() - 2 );
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         compositeGraphic.paint( (Graphics2D)graphics );
+        graphicsSetup.restoreState( g2 );
     }
 
     /**
@@ -103,16 +104,16 @@ public class ApparatusPanel extends JPanel implements Observer {
         compositeGraphic.removeGraphic( graphic );
     }
 
-    /**
-     * Returns the InteractiveGraphic in the ApparatusPanel that should
-     * handle a specified mouse event
-     *
-     * @param e
-     * @return
-     */
-    private InteractiveGraphic determineMouseHandler( MouseEvent e ) {
-        return compositeGraphic.determineMouseHandler( e );
-    }
+//    /**
+//     * Returns the InteractiveGraphic in the ApparatusPanel that should
+//     * handle a specified mouse event
+//     *
+//     * @param e
+//     * @return
+//     */
+//    private InteractiveGraphic determineMouseHandler( MouseEvent e ) {
+//        return compositeGraphic.determineMouseHandler( e );
+//    }
 
     public void update( Observable o, Object arg ) {
         repaint();

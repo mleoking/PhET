@@ -19,7 +19,7 @@ public class ApplicationModel implements ClockTickListener {
     }
 
     public ApplicationModel() {
-        this( 1, 20, ThreadPriority.NORMAL );
+        this( 1, 30, ThreadPriority.NORMAL );
     }
 
     public void setBaseModel( BaseModel model ) {

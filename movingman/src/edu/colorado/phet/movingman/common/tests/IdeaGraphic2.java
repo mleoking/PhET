@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman.common.tests;
 
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.movingman.common.GraphicsSetup;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -112,9 +113,12 @@ public class IdeaGraphic2 implements InteractiveGraphic {
         this.rect = a;
     }
 
+    GraphicsSetup gs = new GraphicsSetup();
+
     public void paint( Graphics2D g ) {
-        Stroke origStroke = g.getStroke();
+
         if( visible ) {
+            gs.saveState( g );
             g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             g.setColor( Color.black );
 
@@ -133,9 +137,9 @@ public class IdeaGraphic2 implements InteractiveGraphic {
             if( image != null ) {
                 g.drawImage( image, x, y - image.getHeight() * 2, null );
             }
-
+            gs.restoreState( g );
         }
-        g.setStroke( origStroke );
+
     }
 
     public Point getImageCenter() {

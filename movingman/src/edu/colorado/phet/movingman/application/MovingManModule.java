@@ -22,6 +22,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -113,8 +114,8 @@ public class MovingManModule extends Module {
             }
         } );
         getApparatusPanel().addGraphic( manGraphic, 1 );
-        recordingTimer = new Timer( TIMER_SCALE );
-        playbackTimer = new Timer( TIMER_SCALE );
+        recordingTimer = new Timer( "Record", TIMER_SCALE );
+        playbackTimer = new Timer( "Playback", TIMER_SCALE );
         timerGraphic = new TimeGraphic( this, recordingTimer, playbackTimer, 80, 40 );
         getApparatusPanel().addGraphic( timerGraphic, 1 );
 
@@ -125,9 +126,7 @@ public class MovingManModule extends Module {
         super.setControlPanel( movingManControlPanel );
         mainModelElement = new ModelElement() {
             public void stepInTime( double dt ) {
-                if( paused ) {
-                }
-                else {
+                if( !paused ) {
                     mode.stepInTime( dt );
                 }
             }
@@ -247,8 +246,26 @@ public class MovingManModule extends Module {
         return paused;
     }
 
+    ArrayList stateListeners = new ArrayList();
+
+    public BufferedGraphicForComponent getBackground() {
+        return backgroundGraphic;
+    }
+
+    interface StateListener {
+        void stateChanged( MovingManModule module );
+    }
+
+    public void addStateListener( StateListener stateListener ) {
+        stateListeners.add( stateListener );
+    }
+
     public void setPaused( boolean paused ) {
         this.paused = paused;
+        for( int i = 0; i < stateListeners.size(); i++ ) {
+            StateListener stateListener = (StateListener)stateListeners.get( i );
+            stateListener.stateChanged( this );
+        }
     }
 
     public Color getPurple() {
@@ -425,6 +442,7 @@ public class MovingManModule extends Module {
         getVelocityString().update( null, null );
         getAccelString().update( null, null );
         backgroundGraphic.paintBufferedImage();
+        getApparatusPanel().repaint();
     }
 
     private void setReplayTimeIndex( int timeIndex ) {

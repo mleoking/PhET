@@ -11,15 +11,22 @@ import edu.colorado.phet.common.model.ModelElement;
  */
 public class Timer extends ModelElement {
     private double time = 0;
+    private String name;
     private double timerScale;
 
-    public Timer( double timerScale ) {
+    public Timer( String name, double timerScale ) {
+        this.name = name;
         this.timerScale = timerScale;
     }
 
     public void stepInTime( double dt ) {
         time += dt * timerScale;
+//        System.out.println( "this = " + this+", stepping in time" );
         updateObservers();
+    }
+
+    public String toString() {
+        return "Timer, name=" + name;
     }
 
     public double getTime() {

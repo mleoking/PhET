@@ -131,6 +131,8 @@ public abstract class MotionSuite {
 
     private void pauseMotion() {
         module.setPaused( true );
+
+        //fix the buttons.
         goButton.setEnabled( true );
         pauseButton.setEnabled( false );
         module.getMovingManControlPanel().motionPaused();

@@ -4,6 +4,7 @@ package edu.colorado.phet.movingman.elements;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.movingman.application.MovingManModule;
+import edu.colorado.phet.movingman.common.GraphicsSetup;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -40,7 +41,10 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
         update( recordingTimer, null );
     }
 
+    GraphicsSetup gs = new GraphicsSetup();
+
     public void paint( Graphics2D g ) {
+        gs.saveState( g );
         this.frc = g.getFontRenderContext();
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g.setFont( f );
@@ -49,6 +53,7 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
 //        g.setColor( Color.green );
 //        g.setStroke( new BasicStroke() );
 //        g.draw( getShape() );
+        gs.restoreState( g );
     }
 
     public void update( Observable o, Object arg ) {
@@ -58,16 +63,16 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
         double seconds = scalarTime;// * timerDisplayScale; //TIMING
         Rectangle r = getShape();
         this.timeStr = decimalFormat.format( seconds ) + " seconds";
-        paintImmediately( r, getShape() );
+        repaint( r, getShape() );
     }
 
-    private void paintImmediately( Rectangle r, Rectangle r2 ) {
+    private void repaint( Rectangle r, Rectangle r2 ) {
         if( r == null || r2 == null ) {
             return;
         }
         Rectangle union = r2.union( r );
 //        System.out.println( "union = " + union );
-//        module.getApparatusPanel().paintImmediately( union );
+//        module.getApparatusPanel().repaint( union );
         module.getApparatusPanel().paintSoon( union );
     }
 

@@ -1,10 +1,10 @@
 package edu.colorado.phet.common.view;
 
+import smooth.basic.SmoothTitledBorder;
 import smooth.metal.SmoothLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
@@ -86,15 +86,7 @@ public class PhetLookAndFeel extends SmoothLookAndFeel {
         table.putDefaults( defaults );
     }
 
-
     public static Border createSmoothBorder( String s ) {
-        Border border = new TitledBorder( s ) {
-            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
-                Graphics2D g2 = (Graphics2D)g;
-                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-                super.paintBorder( c, g, x, y, width, height );
-            }
-        };
-        return border;
+        return new SmoothTitledBorder( s );
     }
 }
