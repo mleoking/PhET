@@ -23,7 +23,6 @@ import edu.colorado.phet.faraday.model.AbstractCoil;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
 import edu.colorado.phet.faraday.model.QuadBezierSpline;
-import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**
@@ -116,9 +115,6 @@ public class CoilGraphic implements SimpleObserver {
     
     // Used to determine if the voltage across the coil has changed.
     private double _voltage;
-    
-    // Rescales the electron animation speed.
-    private IRescaler _rescaler;
     
     // Collision bounds
     private Rectangle[] _collisionBounds;
@@ -308,24 +304,6 @@ public class CoilGraphic implements SimpleObserver {
      */
     public Rectangle getBounds() {
         return _foreground.getBounds().union( _background.getBounds() );
-    }
-    
-    /**
-     * Sets the rescaler used to rescale the electron speed.
-     * 
-     * @param rescaler the rescaler
-     */
-    public void setRescaler( IRescaler rescaler ) {
-        _rescaler = rescaler;
-    }
-    
-    /**
-     * Gets the rescaler used to rescale the electron speed.
-     * 
-     * @param the rescaler
-     */
-    public IRescaler getRescaler() {
-        return _rescaler;
     }
     
     //----------------------------------------------------------------------------
@@ -651,17 +629,8 @@ public class CoilGraphic implements SimpleObserver {
      * 
      * @return the speed, from -1...+1 inclusive
      */
-    private double calculateElectronSpeed() {
-        
-        double speed = _coilModel.getAmplitude();
-        
-        // Rescale the speed to improve the visual effect.
-        if ( _rescaler != null ) {
-            double sign = ( speed < 0 ) ? -1 : +1;
-            speed = sign * _rescaler.rescale( Math.abs( speed ) );
-        }
-
-        return speed;
+    private double calculateElectronSpeed() {       
+        return _coilModel.getAmplitude();
     }
     
     /**

@@ -18,14 +18,12 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.Lightbulb;
-import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**
@@ -66,7 +64,6 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     //----------------------------------------------------------------------------
     
     private Lightbulb _lightBulbModel;
-    private IRescaler _rescaler;
     private double _previousIntensity;
     private ArrayList _rays; // array of PhetShapeGraphic
     private Color _rayColor;
@@ -115,19 +112,6 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
         _lightBulbModel.removeObserver( this );
         _lightBulbModel = null;
     }
-
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Set the rescaler, applied to the intensity.
-     * 
-     * @param rescaler
-     */
-    public void setRescaler( IRescaler rescaler ) {
-        _rescaler = rescaler;
-    }
     
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
@@ -149,11 +133,6 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
             
             // Get the light intensity, a value in the range 0...+1.
             double intensity = _lightBulbModel.getIntensity();
-            
-            // Rescale the intensity to improve the visual effect.
-            if ( _rescaler != null ) {
-                intensity = _rescaler.rescale( intensity );
-            }
 
             // If the intensity hasn't changed, do nothing.
             if ( _previousIntensity == intensity ) {

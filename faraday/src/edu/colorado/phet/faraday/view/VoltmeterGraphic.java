@@ -21,14 +21,9 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.*;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.Voltmeter;
-import edu.colorado.phet.faraday.util.IRescaler;
 
 /**
  * VoltmeterGraphic is the graphic representation of a voltmeter.
@@ -130,19 +125,6 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
     public void finalize() {
         _voltmeterModel.removeObserver( this );
         _voltmeterModel = null;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Set the rescaler, applied to the voltage.
-     * 
-     * @param rescaler
-     */
-    public void setRescaler( IRescaler rescaler ) {
-       _voltmeterModel.setRescaler( rescaler );  // HACK: scaling should be done in the view !
     }
     
     //----------------------------------------------------------------------------

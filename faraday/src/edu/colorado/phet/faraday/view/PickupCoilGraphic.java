@@ -30,9 +30,6 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.Voltmeter;
-import edu.colorado.phet.faraday.util.ElectronSpeedRescaler;
-import edu.colorado.phet.faraday.util.LightbulbRescaler;
-import edu.colorado.phet.faraday.util.VoltmeterRescaler;
 
 /**
  * PickupCoilGraphic is the graphical representation of a pickup coil,
