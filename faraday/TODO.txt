@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- voodoo to optimize compass grid
 - add Verlet behavior to voltmeter needle
 - make lightbulb ramp up/down instead of immediate on/off
 - show important "spikes" in induced emf (consider totally disabling smoothing)
@@ -37,6 +38,7 @@ phetcommon:
 
 DONE:
 v0r11...
+(2/4) - adjust top part of coil loop for collision detection & shading
 (2/3) - add background color chooser to menubar (ala CCK)
 (2/3, 3:26PM) - synchronize phetcommon-HEAD to pick up major "persistence" merge
 (2/3) - various adjustments to handle arbitrary orientation of the coil
