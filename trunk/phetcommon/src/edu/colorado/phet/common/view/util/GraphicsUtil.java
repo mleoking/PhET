@@ -22,7 +22,7 @@ public class GraphicsUtil {
      *
      * @param bImage
      * @param theta  Angle the image is to be rotated, in radians.
-     * @return
+     * @return the rotated image.
      */
     public static BufferedImage getRotatedImage( BufferedImage bImage, double theta ) {
         // Determine the correct point of the image about which to rotate it. If we don't

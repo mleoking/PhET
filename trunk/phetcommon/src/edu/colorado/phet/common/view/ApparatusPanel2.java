@@ -142,7 +142,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     /**
      * Returns the AffineTransform used by the apparatus panel to size and place graphics
      *
-     * @return
+     * @return the transform for this panel.
      */
     public AffineTransform getGraphicTx() {
         return graphicTx;
