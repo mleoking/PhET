@@ -15,7 +15,7 @@ import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.coreadditions.ColorFromWavelength;
@@ -89,11 +89,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         colorMap.put( new Double( Photon.DEEP_RED ), new Color( 100, 0, 0 ) );
     }
 
-
     // A map of maps for holding photon animations. Inner maps hold animations keyed
     // by their angle of travel. The outer map keys the inner maps by color
     static HashMap s_animationMap = new HashMap();
-    // The angle at which the photon is moving
 
     // Generated all the photon animations
     static {
@@ -190,10 +188,12 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         }
     }
 
-    static public void setAllVisible( boolean isVisible ) {
-        for( int i = 0; i < s_instances.size(); i++ ) {
-            PhotonGraphic photonGraphic = (PhotonGraphic)s_instances.get( i );
-            photonGraphic.setVisible( isVisible );
+    static public void setAllVisible( boolean areVisible ) {
+        synchronized( s_instances ) {
+            for( int i = 0; i < s_instances.size(); i++ ) {
+                PhotonGraphic photonGraphic = (PhotonGraphic)s_instances.get( i );
+                photonGraphic.setVisible( areVisible );
+            }
         }
     }
 
@@ -291,7 +291,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         }
 
         // Rotate the image
-        BufferedImage bi2 = GraphicsUtil.getRotatedImage( bi, theta );
+        BufferedImage bi2 = BufferedImageUtils.getRotatedImage( bi, theta );
         setImage( bi2 );
     }
 
@@ -409,6 +409,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     public void paint( Graphics2D g ) {
         saveGraphicsState( g );
         super.paint( g );
+        //        g.setColor( color );
+        //        g.fillOval( (int)this.getBounds().getX(), (int)this.getBounds().getY(), 4, 4 );
         rect.setRect( this.getBounds().getX() + getImage().getMinX(),
                       this.getBounds().getY() + getImage().getMinY(),
                       getImage().getWidth(),
