@@ -292,9 +292,11 @@ public abstract class PhetGraphic {
      * @param transform the transform to concatenate.
      */
     protected void concatenateTransform( AffineTransform transform ) {
-        this.transform.concatenate( transform );
-        setBoundsDirty();
-        autorepaint();
+        if( !transform.isIdentity() ) {
+            this.transform.concatenate( transform );
+            setBoundsDirty();
+            autorepaint();
+        }
     }
 
     /**
@@ -303,9 +305,11 @@ public abstract class PhetGraphic {
      * @param transform the transform to pre-concatenate.
      */
     protected void preConcatenateTransform( AffineTransform transform ) {
-        this.transform.preConcatenate( transform );
-        setBoundsDirty();
-        autorepaint();
+        if( !transform.isIdentity() ) {
+            this.transform.preConcatenate( transform );
+            setBoundsDirty();
+            autorepaint();
+        }
     }
 
     /**
