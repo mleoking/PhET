@@ -16,9 +16,8 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -101,8 +100,8 @@ public class TestPhetApplication {
     static class PhotonGraphic extends PhetGraphic {
         private Photon ph;
 
-        public PhotonGraphic( ApparatusPanel ap,Photon ph ) {
-            super(ap);
+        public PhotonGraphic( ApparatusPanel ap, Photon ph ) {
+            super( ap );
             this.ph = ph;
         }
 
@@ -112,7 +111,7 @@ public class TestPhetApplication {
         }
 
         protected Rectangle determineBounds() {
-            return new Rectangle( (int)ph.x,(int)ph.y,2,2);
+            return new Rectangle( (int)ph.x, (int)ph.y, 2, 2 );
         }
     }
 
@@ -125,7 +124,7 @@ public class TestPhetApplication {
             Photon ph = new Photon( 100, 100 );
             addModelElement( ph );
 
-            PhetGraphic g = new PhotonGraphic(getApparatusPanel(), ph );
+            PhetGraphic g = new PhotonGraphic( getApparatusPanel(), ph );
             addGraphic( g, 0 );
 
             ph.addObserver( new SimpleObserver() {
@@ -150,7 +149,7 @@ public class TestPhetApplication {
         Module[] m = new Module[]{module, module2, module3, modulePhotons};
 
         ApplicationModel applicationModel = new ApplicationModel( "Test app", "My Test", ".10" );
-        applicationModel.setName( "apptest" );
+        applicationModel.setName( "phetcommon" );
         applicationModel.setClock( clock );
         applicationModel.setModules( m );
         applicationModel.setInitialModule( modulePhotons );

@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 /**
  * PhetFrame
@@ -55,7 +56,12 @@ public class PhetFrame extends JFrame {
             }
         } );
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = new HelpMenu( appDescriptor );
+        try {
+            this.helpMenu = new HelpMenu( appDescriptor );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         defaultFileMenu = new PhetFileMenu();
         menuBar.add( defaultFileMenu );
         menuBar.add( helpMenu );
