@@ -808,7 +808,7 @@ public class PlotDevice extends CompositePhetGraphic {
 
 
 //            Arrow arrow = new Arrow( tail, tip, 9, 9, 5 );
-//            PhetShapeGraphic psg = new PhetShapeGraphic( plotDeviceView.getApparatusPanel(), arrow.getShape(), Color.red, new BasicStroke( 1 ), Color.black );
+//            PhetShapeGraphic psg = new PhetShapeGraphic( plotDeviceView.getApparatusPanel(), arrow.getShapeGraphic(), Color.red, new BasicStroke( 1 ), Color.black );
 //            psg.paint( g );
 //            g.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
 //            g.drawString( "Time", (float)tail.getX(), (float)( tail.getY() - g.getFont().getStringBounds( "Time", g.getFontRenderContext() ).getHeight() ) );

@@ -8,14 +8,13 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.forces1d.common.PhetSlider;
+import edu.colorado.phet.forces1d.common.PhetButton;
 import edu.colorado.phet.forces1d.common.TitleGraphic;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -24,27 +23,22 @@ import java.awt.geom.AffineTransform;
  * Copyright (c) Dec 16, 2004 by Sam Reid
  */
 
-public class TestSlider {
+public class TestButton {
     public static void main( String[] args ) {
         AbstractClock clock = new SwingTimerClock( 1, 30 );
         final BaseModel model = new BaseModel();
         ApparatusPanel2 panel = new ApparatusPanel2( model, clock );
+//        ApparatusPanel panel = new ApparatusPanel( );
         panel.addGraphicsSetup( new BasicGraphicsSetup() );
         panel.addRepaintDebugGraphic( clock );
-        final PhetSlider phetSlider = new PhetSlider( panel, 0, 100, 50, true );
-        phetSlider.setBackgroundColor( Color.orange );
-//        phetSlider.getBackgroundGraphic().setVisible( false );
-        panel.addGraphic( phetSlider );
+        final PhetButton button = new PhetButton( panel, "Test Button" );
+        panel.addGraphic( button );
+
         JFrame jf = new JFrame( "Test Frame" );
         jf.setContentPane( panel );
         jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         jf.setSize( 600, 600 );
         jf.show();
-        phetSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                System.out.println( "Changed,  value=" + phetSlider.getValue() );
-            }
-        } );
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
                 model.stepInTime( event.getDt() );
@@ -52,15 +46,20 @@ public class TestSlider {
         } );
         clock.start();
 
-        final TitleGraphic titleGraphic = new TitleGraphic( panel, "Velocity = 0 m/s", phetSlider );
+        final TitleGraphic titleGraphic = new TitleGraphic( panel, "Velocity = 0 m/s", button );
         panel.addGraphic( titleGraphic );
-        phetSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                double value = phetSlider.getValue();
-                titleGraphic.setTitle( "Velocity = " + value + " m/s" );
+
+        button.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "Button pressed!" );
+                titleGraphic.setTitle( "Velocity Changed." );
+//                button.setBackgroundColor( Color.green);
             }
         } );
-        phetSlider.setLocation( 100, 100 );
-        phetSlider.transform( AffineTransform.getRotateInstance( Math.PI / 12 ) );
+        button.setLocation( 100, 100 );
+        button.setBackgroundColor( Color.blue );
+//        button.setFont( new Font( "Lucida Sans",Font.PLAIN, 12) );
+        button.setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
+        button.setBorderStroke( new BasicStroke( 2 ) );
     }
 }

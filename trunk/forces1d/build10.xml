@@ -103,7 +103,7 @@
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
         <!--        <javac classpath="lib/smoothmetal.jar;lib/jep-2.24.jar" srcdir="src-hellophet-46" destdir="${classes}"/>-->
-        <javac classpath="C:\PhET\intellij-projects\charts\classes;C:\PhET\intellij-projects\phetcommon\classes;C:\PhET\projects-ii\phetcommon\lib\smoothmetal.jar" srcdir="${src}" destdir="${classes}"/>
+        <javac classpath="C:\Documents and Settings\Sam Reid\IdeaProjects\phetcommon\classes;C:\Documents and Settings\Sam Reid\IdeaProjects\Charts\classes;C:\phet-dev\checkout\phetcommon\lib\smoothmetal.jar" srcdir="${src}" destdir="${classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
@@ -210,7 +210,7 @@
             </fileset>
         </copy>
         <!--        <copyclasspath directory="${destdir}/lib" ignore="${ignorepath}"/>-->
-        <CreateBatchFile mainJar="${distname}.jar" libDir="${destdir}/lib" mainClassName="${main.class}" outputFile="${destdir}/run_${distname}.bat"/>
+        <!--        <CreateBatchFile mainJar="${distname}.jar" libDir="${destdir}/lib" mainClassName="${main.class}" outputFile="${destdir}/run_${distname}.bat"/>-->
         <exec dir="${destdir}" executable="explorer">
             <arg line="${destdir}"/>
         </exec>

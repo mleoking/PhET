@@ -87,4 +87,12 @@ public class AffineTransformBuilder {
     public double getX() {
         return location.x;
     }
+
+    public void setY( double y ) {
+        this.location.y = y;
+    }
+
+    public double getY() {
+        return this.location.y;
+    }
 }
