@@ -20,7 +20,6 @@
     </orderEntry>
     <orderEntry type="module" module-name="Mechanics" />
     <orderEntry type="module" module-name="PhetCommon" />
-    <orderEntry type="module" module-name="collision" />
     <orderEntryProperties />
   </component>
 </module>
