@@ -11,7 +11,14 @@ import java.awt.geom.Point2D;
  * Marker class.
  */
 public class GrabBagResistor extends Resistor {
-    public GrabBagResistor( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl ) {
+    private GrabBagItem itemInfo;
+
+    public GrabBagResistor( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl, GrabBagItem itemInfo ) {
         super( start, dir, length, height, kl );
+        this.itemInfo = itemInfo;
+    }
+
+    public GrabBagItem getItemInfo() {
+        return itemInfo;
     }
 }
