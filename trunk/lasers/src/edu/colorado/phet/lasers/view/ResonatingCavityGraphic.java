@@ -42,6 +42,7 @@ public class ResonatingCavityGraphic extends PhetGraphic implements SimpleObserv
     public void paint( Graphics2D g ) {
         GraphicsState gs = new GraphicsState( g );
         GraphicsUtil.setAntiAliasingOn( g );
+        g.setColor( Color.black );
         g.draw( rep );
         g.setColor( Color.white );
         g.fill( end1 );

@@ -161,7 +161,6 @@ public class MultipleAtomModule extends BaseLaserModule {
         config.setPumpingPhotonRate( 0 );
         config.setReflectivity( 0.7 );
         config.configureSystem( getLaserModel() );
-
     }
 
     /**

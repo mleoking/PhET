@@ -97,7 +97,8 @@ public class BaseLaserModule extends Module {
         laserModel.setBounds( new Rectangle2D.Double( 0, 0, 800, 600 ) );
 
         // Create the apparatus panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getModel(), clock );
+        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getModel(), clock );
+        apparatusPanel.setUseOffscreenBuffer( true );
         //        ApparatusPanel apparatusPanel = new ApparatusPanel();
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
