@@ -158,14 +158,6 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             _frequencyFormat = SimStrings.get( "ACSourceGraphic.frequency.format" );
         }
         
-//        // Wave background
-//        {
-//            Shape shape = new Rectangle( 0, 0, 150, 135 );
-//            PhetShapeGraphic graphBackground = new PhetShapeGraphic( component, shape, Color.BLACK );
-//            addGraphic( graphBackground, WAVE_BACKGROUND_LAYER );
-//            graphBackground.setLocation( 50, 37 );
-//        }
-        
         // Wave
         {
             GeneralPath path = new GeneralPath();
@@ -182,7 +174,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             _waveGraphic.setStroke( new BasicStroke( 10f ) );
             addGraphic( _waveGraphic, WAVE_LAYER );
             _waveGraphic.setRegistrationPoint( _waveGraphic.getWidth()/2, 0 );
-            _waveGraphic.setLocation( 118, 70 );
+            _waveGraphic.setLocation( 132, 100 );
             _waveGraphic.scale( WAVE_SCALE_X, WAVE_SCALE_Y );
         }
         
