@@ -64,9 +64,9 @@ public class BarMagnet extends AbstractMagnet {
         // The point we received is based on the magnet's actual location and origin.
         // So transform the point accordingly, adjusting for location and rotation of the magnet.
         double radians = Math.toRadians( -(getDirection()) );
-        AffineTransform transform = new AffineTransform();
-        transform.rotate( radians, getX(), getY() );
+        AffineTransform transform = new AffineTransform();       
         transform.translate( -getX(), -getY() );
+        transform.rotate( radians, getX(), getY() );
         Point2D pNormalized = transform.transform( p, null );
         
         // Bounds that define the "inside" of the magnet.
