@@ -81,21 +81,19 @@
 		var max = Math.max(red, Math.max(green, blue));
 		max = Math.max(this.myColorTransform.rb, Math.max(this.myColorTransform.gb, this.myColorTransform.bb));
 		alpha = 100*max/255;
-		//	_root.alpha = alpha;
 		this.alpha = alpha;
 		return alpha;
 	}
 
-	var cnt;
 	function onEnterFrame(){
+/*		
 		var photons:Array = Photon.getInstances();
-//		trace("filter: " + cnt++ + " : " + photons);
 		for(var i=0; i<photons.length; i++){
-			trace("filter: " + photons[i]._x);
 			if(photons[i]._x > this.xLoc){
 				trace("filter !!");
 				photons[i].setRgb(0);
 			}
 		}
+*/		
 	}
 }

@@ -1,10 +1,8 @@
 ﻿class Photon extends MovieClip {
-	// This shows how a class can be defined in the main timeline, instead
 	private var ds:Number = 15;
-	private var s:Number = 30;
+	private var s:Number = 20;
 	private var rgb:Number;
 	private var theta:Number;
-	//Object.registerClass("PhotonSymbol", Photon);
 	private static var instances:Array = new Array();
 	static function deleteInstance(p) {
 		for (var i = 0; i < Photon.instances.length; i++) {
@@ -14,7 +12,6 @@
 		}
 	}
 	static function getInstances() {
-//		trace("photon: " + instances.length );
 		return instances;
 	}
 	static function getPhotonsWithinBounds(x, y, w, h) {

@@ -26,7 +26,6 @@
 		if(ctxArray == undefined ) {
 			genCtxArray();
 		}
-		_root.breakpoint();
 		var found:Boolean = false;
 		var result:Object;
 		var eps:Number = 2;
@@ -38,8 +37,6 @@
 				result = ctxArray[i];
 			}		
 		}
-		trace("ColorUtil: " + (minWavelength + i));
-		traceCtx(ctxArray[i]);
 		return minWavelength + i;
 	}
 	static function getPercentFilteredLight():Number {
@@ -106,7 +103,6 @@
 				var green = Math.round(255 * (SSS * g));
 				var blue = Math.round(255 * (SSS * b));
 				var ctx = {rb:red, gb:green, bb:blue};
-				trace("ColorUtil: " + j );
 				ctxArray[j] = ctx;
 //			}
 			/*
