@@ -28,3 +28,6 @@
 #ALL mail -s "CVS commit" ronlemaster
 
 ^phetcommon\(/\|$\) mail -s "CVS commit" ronlemaster
+^phetcommon\(/\|$\) mail -s "CVS commit" malleyc
+^phetcommon\(/\|$\) mail -s "CVS commit" samreid
+^phetcommon\(/\|$\) mail -s "CVS commit" joetreat
