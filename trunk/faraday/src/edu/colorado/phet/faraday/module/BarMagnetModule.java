@@ -87,6 +87,7 @@ public class BarMagnetModule extends Module {
     // View
     private BarMagnetGraphic _magnetGraphic;
     private CompassGridGraphic _gridGraphic;
+    private FieldProbeGraphic _probeGraphic;
     
     // Control
     private BarMagnetControlPanel _controlPanel;
@@ -167,9 +168,9 @@ public class BarMagnetModule extends Module {
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
         // Field Probe
-        FieldProbeGraphic probeGraphic = new FieldProbeGraphic( apparatusPanel, _magnetModel );
-        probeGraphic.setLocation( 100, 100 );
-        apparatusPanel.addGraphic( probeGraphic, DEBUG_LAYER );
+        _probeGraphic = new FieldProbeGraphic( apparatusPanel, _magnetModel );
+        _probeGraphic.setLocation( 100, 100 );
+        apparatusPanel.addGraphic( _probeGraphic, DEBUG_LAYER );
         
         // Debugger
         DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
@@ -206,6 +207,7 @@ public class BarMagnetModule extends Module {
     public void reset() {
         _controlPanel.setMagnetStrength( MAGNET_STRENGTH );
         _controlPanel.setMagnetTransparencyEnabled( false );
+        _controlPanel.setProbeEnabled( true );
         _controlPanel.setMagnetSize( MAGNET_SIZE );
         _controlPanel.setGridSpacing( GRID_X_SPACING, GRID_Y_SPACING );
         _controlPanel.setGridNeedleSize( GRID_NEEDLE_SIZE );
@@ -236,6 +238,15 @@ public class BarMagnetModule extends Module {
      */
     public void setMagnetTransparencyEnabled( boolean enabled ) {
         _magnetGraphic.setTransparencyEnabled( enabled );
+    }
+    
+    /**
+     * Enables and disables the B-Field probe.
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    public void setProbeEnabled( boolean enabled ) {
+        _probeGraphic.setVisible( enabled );
     }
     
     /**

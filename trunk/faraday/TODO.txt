@@ -12,7 +12,6 @@ HIGH:
 - show electrons flowing (blue) when lightbulb is enabled, keep constant size
 - keep compass from going inside magnet
 - when flipping polarity, jiggle the compass so that it starts moving sooner
-- control to turn BFieldProbe on/off
 - redo BFieldProbe graphic, use CCK probe
 - redo coil graphic (constant wire gauge, fix colors)
 
@@ -31,6 +30,7 @@ phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 
 DONE:
+(1/20) - control to turn BFieldProbe on/off
 (1/20) - "see inside magnet" feature
 (1/20) - no change in EMF when point moves around inside magnet (THIS IS CORRECT! Mike)
 (1/20) - rename module Compass Grid -> Bar Magnet
