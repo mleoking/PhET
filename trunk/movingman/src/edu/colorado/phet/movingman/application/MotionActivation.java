@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,6 +20,7 @@ import java.awt.event.WindowEvent;
 public class MotionActivation {
     MovingManModule module;
     JDialog dialog;
+    static ArrayList dialogs = new ArrayList();
 
     public MotionActivation( MovingManModule module ) {
         this.module = module;
@@ -31,6 +33,9 @@ public class MotionActivation {
             dialog = null;
         }
         dialog = new JDialog( (Frame)SwingUtilities.getWindowAncestor( module.getApparatusPanel() ), "Controls", false );
+//        dialog.setUndecorated( true );
+//        dialog.getRootPane().getRootPane().setWindowDecorationStyle( JRootPane.COLOR_CHOOSER_DIALOG );
+        dialogs.add( dialog );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 if( module.isMotionMode() ) {
@@ -94,5 +99,12 @@ public class MotionActivation {
                                                 (int)( frameBounds.getMinY() + frameBounds.getHeight() / 2 - dialog.getHeight() / 2 ),
                                                 dialog.getWidth(), dialog.getHeight() );
         dialog.setBounds( dialogBounds );
+    }
+
+    public void clearDialogs() {
+        for( int i = 0; i < dialogs.size(); i++ ) {
+            JDialog jDialog = (JDialog)dialogs.get( i );
+            jDialog.setVisible( false );
+        }
     }
 }

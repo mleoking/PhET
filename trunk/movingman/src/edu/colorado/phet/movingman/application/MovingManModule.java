@@ -432,6 +432,7 @@ public class MovingManModule extends Module {
         getVelocityString().update( null, null );
         getAccelString().update( null, null );
         backgroundGraphic.paintBufferedImage();
+        setPauseMode();
     }
 
     private void setReplayTimeIndex( int timeIndex ) {

@@ -18,8 +18,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
@@ -40,9 +39,10 @@ public class MovingManControlPanel extends JPanel {
     MotionAndControls selectedMotion;
     private MotionActivation mact;
     private JButton slowMotion;
-    private JComboBox comboBox;
+//    private JComboBox comboBox;
     private ActionListener manualSetup;
     private String recordMouseString;
+    private ArrayList motionButtons;
 
     public JButton getAnotherPauseButton() {
         return anotherPauseButton;
@@ -99,7 +99,7 @@ public class MovingManControlPanel extends JPanel {
         } );
 
         ImageIcon recordIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Movie24.gif" ) );
-        record = new JButton( "Manual Control", recordIcon );
+        record = new JButton( "Record", recordIcon );
         manualSetup = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setRecordMode();
@@ -243,50 +243,49 @@ public class MovingManControlPanel extends JPanel {
         };
         still.setName( "Stand Very Still" );
         final String init = ( "Choose Motion" );
-//        final Object[] motions = new Object[]{new LinearAndPanel( module ),
-//                                              new OscillateAndPanel( module ),
-//                                              new AccelAndControls( module ),
-//                                              still};
 
-        final Object[] motions = new Object[]{still, new LinearAndPanel( module ),
-                                              new AccelAndControls( module ),
-                                              new OscillateAndPanel( module )
+        final MotionAndControls[] motions = new MotionAndControls[]{still, new LinearAndPanel( module ),
+                                                                    new AccelAndControls( module ),
+                                                                    new OscillateAndPanel( module )
         };
 
-        String hyphens = "---------------";
-        final String recordMouseString = "Manual Control";
-        comboBox = new JComboBox();
-        comboBox.addItem( init );
-        comboBox.addItem( hyphens );
-        this.recordMouseString = recordMouseString;
-        comboBox.addItem( this.recordMouseString );
-        comboBox.addItem( hyphens );
-        for( int i = 0; i < motions.length; i++ ) {
-            comboBox.addItem( motions[i] );
-        }
+        JPanel motionPanel = new JPanel();
+        motionPanel.setBorder( BorderFactory.createTitledBorder( "Motions" ) );
 
-        comboBox.setBorder( BorderFactory.createRaisedBevelBorder() );
-        comboBox.addItemListener( new ItemListener() {
-            public void itemStateChanged( ItemEvent e ) {
-                Object selected = comboBox.getSelectedItem();
+        motionPanel.setLayout( new BoxLayout( motionPanel, BoxLayout.Y_AXIS ) );
+
+        this.recordMouseString = "Manual Control";
+        JRadioButton jrb = new JRadioButton( recordMouseString );
+        jrb.setSelected( true );
+        motionButtons = new ArrayList();
+        motionButtons.add( jrb );
+        ButtonGroup bg = new ButtonGroup();
+
+        ActionListener changeListener = new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                int index = getSelectedButton();
                 module.getManGraphic().setShowIdea( false );
-                if( selected instanceof String ) {
-                    if( selected.equals( init ) ) {
-                    }
-                    else if( selected.equals( recordMouseString ) ) {
-                        manualSetup.actionPerformed( null );
-                    }
-                    else {
-                        comboBox.setSelectedIndex( 0 );
-                    }
+                if( index == 0 ) {
+                    setManualMode();
                 }
                 else {
-                    MotionAndControls macy = (MotionAndControls)selected;
-                    selectedMotion = macy;
-                    mact.setupInDialog( macy, MovingManControlPanel.this );
+                    MotionAndControls mac = motions[index - 1];
+                    selectedMotion = mac;
+                    mact.setupInDialog( mac, MovingManControlPanel.this );
                 }
             }
-        } );
+        };
+
+        for( int i = 0; i < motions.length; i++ ) {
+            motionButtons.add( new JRadioButton( motions[i].toString() ) );
+        }
+        for( int i = 0; i < motionButtons.size(); i++ ) {
+            JRadioButton jRadioButton = (JRadioButton)motionButtons.get( i );
+            motionPanel.add( jRadioButton );
+            bg.add( jRadioButton );
+            jRadioButton.addActionListener( changeListener );
+        }
+
         JPanel northPanel = new JPanel();
         northPanel.setLayout( new BoxLayout( northPanel, BoxLayout.Y_AXIS ) );
 
@@ -296,7 +295,6 @@ public class MovingManControlPanel extends JPanel {
             JMenuItem item = items[i];
             viewMenu.add( item );
         }
-//        addLookAndFeelItems(viewMenu);
 
         new Thread( new Runnable() {
             public void run() {
@@ -314,10 +312,8 @@ public class MovingManControlPanel extends JPanel {
             }
         } ).start();
 
-        northPanel.add( comboBox );
-
+        northPanel.add( motionPanel );
         final JCheckBox invertAxes = new JCheckBox( "Invert X-Axis", false );
-//        invertAxes.setFont(new Font("dialog",0,8));
         invertAxes.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setRightDirPositive( !invertAxes.isSelected() );
@@ -325,7 +321,16 @@ public class MovingManControlPanel extends JPanel {
         } );
         northPanel.add( invertAxes );
         panel.add( northPanel, BorderLayout.NORTH );
+    }
 
+    private int getSelectedButton() {
+        for( int i = 0; i < motionButtons.size(); i++ ) {
+            JRadioButton jRadioButton = (JRadioButton)motionButtons.get( i );
+            if( jRadioButton.isSelected() ) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static DataSeries parseString( String str ) {
@@ -341,7 +346,13 @@ public class MovingManControlPanel extends JPanel {
 
     public void setManualMode() {
         manualSetup.actionPerformed( null );
-        comboBox.setSelectedItem( recordMouseString );
+        setSelectedItem( 0 );
+        mact.clearDialogs();
+    }
+
+    private void setSelectedItem( int index ) {
+        JRadioButton button = (JRadioButton)motionButtons.get( index );
+        button.setSelected( true );
     }
 
     public static String toString( DataSeries data ) {
@@ -377,8 +388,11 @@ public class MovingManControlPanel extends JPanel {
         return mediaPanel;
     }
 
-    public void resetComboBox() {
-        comboBox.setSelectedIndex( 0 );
-    }
+//    public void resetComboBox() {
+//        comboBox.setSelectedIndex( 0 );
+//    }
 
+    public void resetComboBox() {
+        setSelectedItem( 0 );
+    }
 }
