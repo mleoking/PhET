@@ -76,6 +76,6 @@ public class ApparatusConfiguration {
         MiddleEnergyState.instance().setMeanLifetime( getMiddleEnergySpontaneousEmissionTime() );
         model.getPumpingBeam().setPhotonsPerSecond( getPumpingPhotonRate() );
         model.getStimulatingBeam().setPhotonsPerSecond( getStimulatedPhotonRate() );
-        model.getResonatingCavity().setReflectivity( getReflectivity() );
+//        model.getResonatingCavity().setReflectivity( getReflectivity() );
     }
 }

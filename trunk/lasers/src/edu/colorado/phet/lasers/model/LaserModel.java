@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LaserModel extends BaseModel {
+public class LaserModel extends BaseModel implements Photon.LeftSystemEventListener {
 
     static public Point2D ORIGIN = new Point2D.Double( 100, 300 );
     static private int width = 800;
@@ -52,6 +52,7 @@ public class LaserModel extends BaseModel {
     private ArrayList photons = new ArrayList();
     private ArrayList atoms = new ArrayList();
     private ArrayList mirrors = new ArrayList();
+    private CollisionMechanism collisionMechanism;
 
     /**
      *
@@ -59,12 +60,12 @@ public class LaserModel extends BaseModel {
     public LaserModel() {
 
         // Set up the system of collision experts
-        final CollisionMechanism collisionMechanism = new CollisionMechanism();
+        collisionMechanism = new CollisionMechanism();
         collisionMechanism.addCollisionExpert( new SphereSphereExpert() );
         collisionMechanism.addCollisionExpert( new PhotonAtomCollisonExpert() );
         collisionMechanism.addCollisionExpert( new SphereBoxExpert() );
         collisionMechanism.addCollisionExpert( new PhotonMirrorCollisonExpert() );
-        this.addModelElement( new ModelElement() {
+        addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 collisionMechanism.doIt( photons, atoms );
                 collisionMechanism.doIt( photons, mirrors );
@@ -79,6 +80,7 @@ public class LaserModel extends BaseModel {
         }
         if( modelElement instanceof Photon ) {
             photons.add( modelElement );
+            ((Photon)modelElement).addListener( this );
         }
         if( modelElement instanceof Atom ) {
             atoms.add( modelElement );
@@ -214,7 +216,8 @@ public class LaserModel extends BaseModel {
             for( int i = 0; i < collidablesA.size(); i++ ) {
                 Collidable collidable1 = (Collidable)collidablesA.get( i );
                 if( !( collidable1 instanceof Photon )
-                    || ( resonatingCavity.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) ) ) {
+                    || ( resonatingCavity.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) )
+                    || ( resonatingCavity.getBounds().contains( ( (Photon)collidable1 ).getPositionPrev() ) ) ) {
                     for( int j = 0; j < collidablesB.size(); j++ ) {
                         Collidable collidable2 = (Collidable)collidablesB.get( j );
                         if( !( collidable2 instanceof Photon )
@@ -228,5 +231,11 @@ public class LaserModel extends BaseModel {
                 }
             }
         }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Listener implementations
+    public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
+        removeModelElement( event.getPhoton() );
     }
 }

@@ -51,7 +51,6 @@ public class Atom extends SphericalBody {
 
 
     private AtomicState state;
-    private SubscriptionService subscriptionService = new SubscriptionService();
     private EventRegistry eventRegistry = new EventRegistry();
 
     public void addListener( EventListener listener ) {
@@ -76,23 +75,6 @@ public class Atom extends SphericalBody {
         void stateChangeOccurred( StateChangeEvent event );
     }
 
-    //    public class PhotonEmissionEvent extends EventObject {
-    //        private Photon photon;
-    //
-    //        public PhotonEmissionEvent( Photon photon ) {
-    //            super( Atom.this );
-    //            this.photon = photon;
-    //        }
-    //
-    //        public Photon getPhoton() {
-    //            return photon;
-    //        }
-    //    }
-
-    //    public interface PhotonEmissionListener extends EventListener {
-    //        void photonEmissionOccurred( PhotonEmissionEvent event );
-    //    }
-
     public class RemovalEvent extends EventObject {
         public RemovalEvent() {
             super( Atom.this );
@@ -103,26 +85,11 @@ public class Atom extends SphericalBody {
         void removalOccurred( RemovalEvent event );
     }
 
-
-    //    public interface Listener {
-    //        void photonEmitted( Atom atom, Photon photon );
-    //        void leftSystem( Atom atom );
-    //        void stateChanged( Atom atom, AtomicState oldState, AtomicState newState );
-    //    }
-
     public Atom() {
         super( s_radius );
         setMass( s_mass );
         setState( GroundState.instance() );
     }
-
-    //    public void addListener( Listener listner ) {
-    //        subscriptionService.addListener( listner );
-    //    }
-    //
-    //    public void removeListener( Listener listener ) {
-    //        subscriptionService.removeListener( listener );
-    //    }
 
     public void collideWithPhoton( Photon photon ) {
         state.collideWithPhoton( this, photon );
@@ -150,6 +117,7 @@ public class Atom extends SphericalBody {
     }
 
     public void stepInTime( double dt ) {
+
         super.stepInTime( dt );
     }
 

@@ -1,3 +1,9 @@
+- Move reflectivity control to the apparatus panel
+- SpontaneouslyEmittingState should be refactored to be a StateLifetimeManager
+- Reintegrate the mirros into the cavity, rather than having them be separate objects at the module level.
+- Photon doesn't use the free pool. Get rid of it.
+
+
 - EnergyLevelMonitorPanel is an observer of the model. This causes lots of repaints. Instead, it should just be
 a AtomicState.PopulationChangeListener, or the EnergyLevelGraphics should be, and the squiggles listen to the beams
 - unify use of ModelViewTx1D in EnergyLevelGraphic and EnergyLevelMonitorPanel. The latter should set the transform
