@@ -46,21 +46,23 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
         //        List bodies = PhysicalSystem.instance().getBodies();
         int bodiesRecorded = 0;
         double momentum = 0;
-        double ke = 0;
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             if( body instanceof GasMolecule ) {
-                double yPrev = body.getPosition().getY() - body.getVelocity().getY() * dt;
-                if( ( yPrev - y ) * ( body.getPosition().getY() - y ) < 0 ) {
+                GasMolecule gm = (GasMolecule)body;
+                if( gm.getPositionPrev() != null &&
+                    ( gm.getPositionPrev().getY() - y ) * ( gm.getPosition().getY() - y ) < 0 ) {
                     bodiesRecorded++;
                     momentum += Math.abs( body.getVelocity().getY() * body.getMass() );
-                    ke += body.getKineticEnergy();
                     momentum = Math.abs( body.getVelocity().getY() * body.getMass() );
                     pressureRecorder.addDataRecordEntry( momentum );
                     temperatureRecorder.addDataRecordEntry( body.getKineticEnergy() );
                 }
             }
         }
+
+//        System.out.println( "bodiesRecorded = " + bodiesRecorded );
+
         //        if( bodiesRecorded > 0 ) {
         //            pressureRecorder.addDataRecordEntry( momentum / bodiesRecorded );
         //            temperatureRecorder.addDataRecordEntry( ke / bodiesRecorded );
@@ -90,5 +92,9 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
 
     public float getContactOffset( Body body ) {
         return 0;
+    }
+
+    public double getY() {
+        return y;
     }
 }

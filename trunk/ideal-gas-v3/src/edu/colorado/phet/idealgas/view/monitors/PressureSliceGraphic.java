@@ -40,7 +40,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
     private double temperature;
     private double pressure;
 
-    public PressureSliceGraphic( Component component, PressureSlice pressureSlice, final Box2D box ) {
+    public PressureSliceGraphic( Component component, final PressureSlice pressureSlice, final Box2D box ) {
         super( null );
         this.pressureSlice = pressureSlice;
 
@@ -52,6 +52,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
                 double newY = Math.min( box.getMaxY(),
                                         Math.max( y + dy, box.getMinY() ) );
                 y = newY;
+                pressureSlice.setY( y );
             }
         } );
         this.box = box;
