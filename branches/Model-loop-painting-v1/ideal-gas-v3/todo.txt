@@ -1,4 +1,4 @@
-- averaging control on pressure slice tool
+done - averaging control on pressure slice tool
 
 - make pressure slice tool transparent
 
@@ -10,7 +10,7 @@ done - "Gas in Balloon" panel needs to be wider
 
 done - How air balloon control should be wider
 
-- white rectangle on right of apparatus panel obscures pump if frame made smaller
+done - white rectangle on right of apparatus panel obscures pump if frame made smaller
 
 done - replace "CM" with "center of mass" on measure tool dialog
 
