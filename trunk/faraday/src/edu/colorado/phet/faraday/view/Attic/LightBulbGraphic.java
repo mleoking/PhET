@@ -43,7 +43,7 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final double EMISSION_LAYER = 0;
+    private static final double RAYS_LAYER = 0;
     private static final double BULB_LAYER = 1;
     private static final int MAX_RAYS = 40; // maximum number of light rays
     private static final int MAX_RAY_LENGTH = 300;
@@ -174,7 +174,7 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
                 ray.setStroke( _rayStroke );
                 
                 // Add the ray to the composite graphic and to the array.
-                addGraphic( ray );
+                addGraphic( ray, RAYS_LAYER );
                 _rays.add( ray );
 
                 // Increment the angle.
