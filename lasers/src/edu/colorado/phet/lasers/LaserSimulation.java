@@ -45,6 +45,7 @@ public class LaserSimulation extends PhetApplication {
                 multipleAtomModule
             };
             setModules( modules );
+            //            setInitialModule( multipleAtomModule );
             setInitialModule( singleAtomModule );
         }
     }

@@ -22,47 +22,43 @@ import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
  *
  */
-public class MultipleAtomBaseModule extends BaseLaserModule {
+public class MultipleAtomModule extends BaseLaserModule {
 
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
     static protected final double s_boxHeight = 150;
     static protected final double s_boxWidth = 500;
     static protected final double s_laserOffsetX = 100;
 
-    private CollimatedBeam stimulatingBeam;
-    private CollimatedBeam pumpingBeam;
     private double s_maxSpeed = .1;
     private ArrayList atoms;
 
     /**
      *
      */
-    public MultipleAtomBaseModule( String title, AbstractClock clock ) {
-        super( title, clock );
-        stimulatingBeam = new CollimatedBeam( getLaserModel(),
-                                              Photon.RED,
-                                              s_origin,
-                                              s_boxHeight - Photon.s_radius,
-                                              s_boxWidth + s_laserOffsetX * 2,
-                                              new Vector2D.Double( 1, 0 ) );
+    public MultipleAtomModule( AbstractClock clock ) {
+        super( "Multiple Atoms", clock );
+
+        CollimatedBeam stimulatingBeam = ( (LaserModel)getModel() ).getStimulatingBeam();
+        stimulatingBeam.setBounds( new Rectangle2D.Double( s_origin.getX(), s_origin.getY(),
+                                                           s_boxWidth + s_laserOffsetX * 2,
+                                                           s_boxHeight - Photon.s_radius ) );
+        stimulatingBeam.setDirection( new Vector2D.Double( 1, 0 ) );
         stimulatingBeam.addListener( this );
         stimulatingBeam.setActive( true );
-        getLaserModel().setStimulatingBeam( stimulatingBeam );
 
-        pumpingBeam = new CollimatedBeam( getLaserModel(),
-                                          Photon.BLUE,
-                                          new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
-                                          s_boxHeight + s_laserOffsetX * 2,
-                                          s_boxWidth,
-                                          new Vector2D.Double( 0, 1 ) );
+        CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
+        Point2D pumpingBeamOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX, 0 );
+        pumpingBeam.setBounds( new Rectangle2D.Double( pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
+                                                       s_boxWidth, s_boxHeight + s_laserOffsetX * 2 ) );
+        pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.addListener( this );
         pumpingBeam.setActive( true );
-        getLaserModel().setPumpingBeam( pumpingBeam );
     }
 
     /**
