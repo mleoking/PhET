@@ -606,7 +606,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         public void componentResized() {
             Rectangle bounds = transformManager.getReferenceBounds();
-            bImg = new BufferedImage( (int)bounds.getWidth(), (int)bounds.getHeight(), BufferedImage.TYPE_INT_ARGB );
+            bImg = new BufferedImage( (int)bounds.getWidth(), (int)bounds.getHeight(), BufferedImage.TYPE_INT_RGB );
         }
     }
 
