@@ -41,4 +41,13 @@ public class ModelViewTransform1D {
         }
     }
 
+    public void setModelRange( double minModel, double maxModel ) {
+        modelToView.setInput( minModel, maxModel );
+        update();//TODO check to see that we changed before firing an update.
+    }
+
+    public void setViewRange( int minView, int maxView ) {
+        modelToView.setOutput( minView, maxView );
+        update();
+    }
 }
