@@ -158,6 +158,13 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
      */
     private static class BackgroundGraphic extends PhetImageGraphic {
         
+        // Layers
+        private static final double RESISTOR_LAYER = 1;
+        private static final double PROBE_LAYER = 2;
+        private static final double BODY_LAYER = 3;
+        private static final double TITLE_LAYER = 4;
+        private static final double GUAGE_LAYER = 5;
+        
         // Guage
         private static final int GUAGE_RADIUS = NEEDLE_LENGTH;
         private static final Color GUAGE_COLOR = Color.BLACK;
@@ -188,11 +195,11 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             // This will be flattened after we've added graphics to it.
             GraphicLayerSet graphicLayerSet = new GraphicLayerSet( component );
             RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-            graphicLayerSet.setRenderingHints( hints );
+            graphicLayerSet.setRenderingHints( hints );    
             
             // Meter body
             PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.VOLTMETER_IMAGE );
-            graphicLayerSet.addGraphic( body );
+            graphicLayerSet.addGraphic( body, BODY_LAYER );
             
             // Title label
             {
@@ -200,7 +207,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                 PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
                 title.centerRegistrationPoint();
                 title.setLocation( body.getWidth() / 2, body.getHeight() + 3 );
-                graphicLayerSet.addGraphic( title );
+                graphicLayerSet.addGraphic( title, TITLE_LAYER );
             }
             
             // Meter guage, a 180-degree chorded arc.
@@ -212,7 +219,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                 guage.setStroke( GUAGE_STROKE );
                 guage.centerRegistrationPoint();
                 guage.setLocation( PIVOT_POINT );
-                graphicLayerSet.addGraphic( guage );
+                graphicLayerSet.addGraphic( guage, GUAGE_LAYER  );
             }
             
             // Vertical line at zero-point of guage.
@@ -222,7 +229,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                 line.setBorderColor( GUAGE_COLOR );
                 line.setStroke( GUAGE_STROKE );
                 line.setLocation( PIVOT_POINT );
-                graphicLayerSet.addGraphic( line );
+                graphicLayerSet.addGraphic( line, GUAGE_LAYER  );
             }
             
             // Major and minor tick marks around the outside of the guage.
@@ -249,7 +256,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                     positiveTick.setLocation( PIVOT_POINT );
                     positiveTick.translate( 0, -GUAGE_RADIUS );
                     positiveTick.rotate( Math.toRadians( angle ) );
-                    graphicLayerSet.addGraphic( positiveTick );
+                    graphicLayerSet.addGraphic( positiveTick, GUAGE_LAYER );
                     
                     // Negative tick mark
                     PhetShapeGraphic negativeTick = new PhetShapeGraphic( component );
@@ -259,11 +266,31 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                     negativeTick.setLocation( PIVOT_POINT );
                     negativeTick.translate( 0, -GUAGE_RADIUS );
                     negativeTick.rotate( Math.toRadians( -angle ) );
-                    graphicLayerSet.addGraphic( negativeTick );
+                    graphicLayerSet.addGraphic( negativeTick, GUAGE_LAYER );
                     
                     angle += MINOR_TICK_SPACING;
                     tickCount++;
                 }
+            }
+
+            // Resistor
+            PhetImageGraphic resistor = new PhetImageGraphic( component, FaradayConfig.RESISTOR_IMAGE );
+            resistor.centerRegistrationPoint();
+            resistor.setLocation( body.getWidth() / 2, body.getHeight() + 40 );
+            graphicLayerSet.addGraphic( resistor, RESISTOR_LAYER );
+            
+            // Probes
+            {
+                int xOffset = 53;
+                int yOffset = body.getHeight() - 52;
+                
+                PhetImageGraphic leftProbe = new PhetImageGraphic( component, FaradayConfig.METER_PROBE_IMAGE );
+                leftProbe.setLocation( xOffset, yOffset );
+                graphicLayerSet.addGraphic( leftProbe, PROBE_LAYER );
+                
+                PhetImageGraphic rightProbe = new PhetImageGraphic( component, FaradayConfig.METER_PROBE_IMAGE );
+                rightProbe.setLocation( xOffset + resistor.getWidth() + 2, leftProbe.getY() );
+                graphicLayerSet.addGraphic( rightProbe, PROBE_LAYER );
             }
             
             // Flatten the graphic layer set.

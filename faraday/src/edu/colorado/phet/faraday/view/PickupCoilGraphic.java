@@ -99,6 +99,7 @@ public class PickupCoilGraphic
         
         // Graphics components
         _coilGraphic = new CoilGraphic( component, pickupCoilModel, baseModel );
+        _coilGraphic.setEndsConnected( true );
         _lightbulbGraphic = new LightbulbGraphic( component, lightbulbModel );;
         _voltmeterGraphic = new VoltmeterGraphic( component, voltmeterModel );
         
@@ -243,9 +244,9 @@ public class PickupCoilGraphic
             _bounds.setBounds( _coilGraphic.getForeground().getBounds() );
             _bounds.union( _coilGraphic.getBackground().getBounds() );
             int x = -10;
-            int y = -( _bounds.height / 2 ) - 5;
+            int y = -( _bounds.height / 2 );
             _lightbulbGraphic.setLocation( x, y );
-            _voltmeterGraphic.setLocation( x, y );
+            _voltmeterGraphic.setLocation( x + 5, y + 5 );
 
             // Direction (do this *after* positioning lightbulb and voltmeter!)
             _foreground.rotate( _pickupCoilModel.getDirection() );
