@@ -1,3 +1,4 @@
+- position beam graphics from the beam origin
 - AtomGraphic should just be a listener, not a SimpleObserver
 - Photons jump to right when stimulated emissoin happens
 - Put off..max labels on intensity slider

@@ -18,7 +18,6 @@ import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.LaserModel;
 
-import javax.swing.event.EventListenerList;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
@@ -48,7 +47,6 @@ public class CollimatedBeam extends Particle {
     private LaserModel model;
     private SubscriptionService bulletinBoard = new SubscriptionService();
     private LinkedList photons = new LinkedList();
-    private EventListenerList listeners = new EventListenerList();
 
     public interface Listener {
         void photonCreated( CollimatedBeam beam, Photon photon );
@@ -70,24 +68,6 @@ public class CollimatedBeam extends Particle {
         eventRegistry.addListener( listener );
     }
 
-    private void fireEvent( WavelengthChangeEvent event, Class listenerType ) {
-        Object[] listeners = this.listeners.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listenerType.isAssignableFrom( (Class)listeners[i] ) ) {
-                ( (WavelengthChangeListener)listeners[i + 1] ).wavelengthChangeOccurred( event );
-            }
-        }
-    }
-
-    private void fireRateChangeEvent( RateChangeEvent event ) {
-        Object[] listeners = this.listeners.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( RateChangeListener.class.isAssignableFrom( (Class)listeners[i] ) ) {
-                ( (RateChangeListener)listeners[i + 1] ).rateChangeOccurred( event );
-            }
-        }
-    }
-
     public class RateChangeEvent extends EventObject {
         public RateChangeEvent() {
             super( CollimatedBeam.this );
@@ -100,14 +80,6 @@ public class CollimatedBeam extends Particle {
 
     public interface RateChangeListener extends EventListener {
         public void rateChangeOccurred( RateChangeEvent event );
-    }
-
-    public void addListener( EventListener listener ) {
-        listeners.add( listener.getClass(), listener );
-    }
-
-    public void removeListener( EventListener listener ) {
-        listeners.remove( listener.getClass(), listener );
     }
 
     public class WavelengthChangeEvent extends EventObject {
@@ -124,14 +96,6 @@ public class CollimatedBeam extends Particle {
         public void wavelengthChangeOccurred( WavelengthChangeEvent event );
     }
 
-    private void fireWavelengthChangeEvent( WavelengthChangeEvent event ) {
-        Object[] listeners = this.listeners.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( WavelengthChangeListener.class.isAssignableFrom( (Class)listeners[i] ) ) {
-                ( (WavelengthChangeListener)listeners[i + 1] ).wavelengthChangeOccurred( event );
-            }
-        }
-    }
 
     public void setBounds( Rectangle2D rect ) {
         this.bounds = rect;
@@ -179,7 +143,7 @@ public class CollimatedBeam extends Particle {
         }
         this.photonsPerSecond = photonsPerSecond;
         nextTimeToProducePhoton = getNextTimeToProducePhoton();
-        fireRateChangeEvent( new RateChangeEvent() );
+        eventRegistry.fireEvent( new RateChangeEvent() );
     }
 
     public void setWavelength( int wavelength ) {
@@ -246,14 +210,22 @@ public class CollimatedBeam extends Particle {
     }
 
     private double genPositionY() {
-        double yDelta = velocity.getX() != 0 ? Math.random() * bounds.getHeight() : 0;
-        yDelta -= bounds.getHeight() / 2;
+        double yDelta = 0;
+        // Things are different if we're firing horizontally or vertically
+        if( velocity.getX() != 0 ) {
+            yDelta = Math.random() * bounds.getHeight();
+        }
+        System.out.println( "bounds: " + bounds + "   getPosition().getY(): " + getPosition().getY() + "   yDelta: " + yDelta );
         return this.getPosition().getY() + yDelta;
     }
 
     private double genPositionX() {
-        double xDelta = velocity.getY() != 0 ? Math.random() * bounds.getWidth() : 0;
-        xDelta -= bounds.getWidth() / 2;
+        // Things are different if we're firing horizontally or vertically
+        double xDelta = 0;
+        if( velocity.getY() != 0 ) {
+            xDelta = Math.random() * bounds.getWidth() - bounds.getWidth() / 2;
+            System.out.println( "bounds: " + bounds );
+        }
         return this.getPosition().getX() + xDelta;
     }
 

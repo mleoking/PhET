@@ -160,6 +160,7 @@ public class Atom extends SphericalBody {
     }
 
     public void removeFromSystem() {
+        eventRegistry.fireEvent( new RemovalEvent() );
         state.decrementNumInState();
     }
 }
