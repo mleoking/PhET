@@ -6,12 +6,14 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
@@ -55,14 +57,19 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
     private Point2D.Double position = new Point2D.Double();
     Nucleus nucleus;
     private Image img;
+    private AffineTransform atx = new AffineTransform();
 
     public NucleusGraphic( Nucleus nucleus ) {
         nucleus.addObserver( this );
         register( this, nucleus );
         this.nucleus = nucleus;
-        this.position.x = nucleus.getLocation().getX();
-        this.position.y = nucleus.getLocation().getY();
+        this.position.x = nucleus.getPosition().getX();
+        this.position.y = nucleus.getPosition().getY();
         img = computeImage();
+    }
+
+    public void setTransform( AffineTransform atx ) {
+        this.atx = atx;
     }
 
     protected Image computeImage() {
@@ -90,22 +97,27 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
         return bi;
     }
 
-    public void paint( Graphics2D graphics, double x, double y ) {
-        Graphics2D g2 = (Graphics2D)graphics;
+    public void paint( Graphics2D g2, double x, double y ) {
+        GraphicsState gs = new GraphicsState( g2 );
+        g2.transform( atx );
         g2.drawImage( img,
                       (int)( x - nucleus.getRadius() - NuclearParticle.RADIUS ),
                       (int)( y - nucleus.getRadius() - NuclearParticle.RADIUS ),
                       this );
+        gs.restoreGraphics();
     }
 
-    public void paint( Graphics2D g ) {
+    public void paint( Graphics2D g2 ) {
+        GraphicsState gs = new GraphicsState( g2 );
+        g2.transform( atx );
         update();
-        g.drawImage( img, (int)position.getX(), (int)position.getY(), this );
+        g2.drawImage( img, (int)position.getX(), (int)position.getY(), this );
+        gs.restoreGraphics();
     }
 
     public void update() {
-        this.position.x = nucleus.getLocation().getX() - nucleus.getRadius() - NuclearParticle.RADIUS;
-        this.position.y = nucleus.getLocation().getY() - nucleus.getRadius() - NuclearParticle.RADIUS;
+        this.position.x = nucleus.getPosition().getX() - nucleus.getRadius() - NuclearParticle.RADIUS;
+        this.position.y = nucleus.getPosition().getY() - nucleus.getRadius() - NuclearParticle.RADIUS;
     }
 
     public Nucleus getNucleus() {

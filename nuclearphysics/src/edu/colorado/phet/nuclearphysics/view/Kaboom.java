@@ -22,7 +22,7 @@ public class Kaboom implements Graphic, Runnable {
     private static String kaboomStr = "Kaboom!!!";
     private static AffineTransform kaboomStrTx;
 
-    private Point2D.Double location;
+    private Point2D location;
     private double radius;
     private Ellipse2D.Double shape = new Ellipse2D.Double();
     private double maxRadius;
@@ -31,7 +31,7 @@ public class Kaboom implements Graphic, Runnable {
     private double kaboomAlpha = 0.4;
 
 
-    public Kaboom( Point2D.Double location,
+    public Kaboom( Point2D location,
                    double radiusIncr,
                    double maxRadius,
                    ApparatusPanel apparatusPanel ) {
@@ -58,11 +58,11 @@ public class Kaboom implements Graphic, Runnable {
         g.fill( shape );
         GraphicsUtil.setAlpha( g, 1 );
 
-//        g.setFont( kaboomFont );
-//        g.setColor( Color.black );
-//        g.transform( kaboomStrTx );
-//        g.drawString( kaboomStr, 200, 200 );
-//
+        //        g.setFont( kaboomFont );
+        //        g.setColor( Color.black );
+        //        g.transform( kaboomStrTx );
+        //        g.drawString( kaboomStr, 200, 200 );
+        //
         g.setTransform( orgTx );
     }
 

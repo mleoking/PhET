@@ -17,9 +17,9 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.GraphicsSetup;
-import edu.colorado.phet.common.view.RevertableGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
@@ -44,22 +44,22 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private static String yAxisLabel = "Potential Energy";
     private static Font axisLabelFont;
     private static float ghostAlpha = 1f;
-//    private static float ghostAlpha = 0.6f;
+    //    private static float ghostAlpha = 0.6f;
     private static double profileLayer = 10;
     private static double nucleusLayer = 20;
     private static AffineTransform atx = new AffineTransform();
-    private static RevertableGraphicsSetup nucleusGraphicsSetup = new RevertableGraphicsSetup() {
-        private Composite orgComposite;
-
-        public void setup( Graphics2D graphics ) {
-            orgComposite = graphics.getComposite();
-            GraphicsUtil.setAlpha( graphics, 0.5 );
-        }
-
-        public void revert( Graphics2D graphics ) {
-            graphics.setComposite( orgComposite );
-        }
-    };
+    //    private static RevertableGraphicsSetup nucleusGraphicsSetup = new RevertableGraphicsSetup() {
+    //        private Composite orgComposite;
+    //
+    //        public void setup( Graphics2D graphics ) {
+    //            orgComposite = graphics.getComposite();
+    //            GraphicsUtil.setAlpha( graphics, 0.5 );
+    //        }
+    //
+    //        public void revert( Graphics2D graphics ) {
+    //            graphics.setComposite( orgComposite );
+    //        }
+    //    };
     private static GraphicsSetup decayProductGraphicsSetup = new GraphicsSetup() {
         public void setup( Graphics2D graphics ) {
             GraphicsUtil.setAlpha( graphics, 0.8 );
@@ -145,7 +145,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
             nucleusTx.concatenate( profileTx );
             nucleusTx.translate( 0, -nucleus.getPotential() );
             nucleusTx.scale( 0.5, 0.5 );
-            nucleusTx.translate( nucleus.getLocation().getX(), -nucleus.getLocation().getY() );
+            nucleusTx.translate( nucleus.getPosition().getX(), -nucleus.getPosition().getY() );
             g2.transform( nucleusTx );
             ng.paint( g2 );
             g2.setTransform( orgTx );
@@ -155,8 +155,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
         Iterator wellParticlesIt = wellParticles.keySet().iterator();
         while( wellParticlesIt.hasNext() ) {
             AlphaParticleGraphic alphaParticleGraphic = (AlphaParticleGraphic)wellParticlesIt.next();
-            double xStat = alphaParticleGraphic.getNucleus().getLocation().getX();
-            double yStat = alphaParticleGraphic.getNucleus().getLocation().getY();
+            double xStat = alphaParticleGraphic.getNucleus().getPosition().getX();
+            double yStat = alphaParticleGraphic.getNucleus().getPosition().getY();
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
             GraphicsUtil.setAlpha( g2, ghostAlpha );
             AffineTransform orgTx = g2.getTransform();
@@ -200,7 +200,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
         g2.fill( arrowhead );
         g2.setTransform( tempTx );
         g2.transform( AffineTransform.getTranslateInstance( 0, yAxisMin ) );
-//        g2.transform( AffineTransform.getRotateInstance( 0 );
+        //        g2.transform( AffineTransform.getRotateInstance( 0 );
         g2.fill( arrowhead );
         g2.setTransform( tempTx );
         g2.transform( AffineTransform.getTranslateInstance( 0, yAxisMax ) );
@@ -221,7 +221,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
         g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
         g2.setTransform( orgTx );
         strLoc.setLocation( this.getWidth() / 2 + 10,
-//        strLoc.setLocation( this.getWidth() - fm.stringWidth( xAxisLabel ) - 10,
+                            //        strLoc.setLocation( this.getWidth() - fm.stringWidth( xAxisLabel ) - 10,
                             profileTx.getTranslateY() + fm.getHeight() );
         g2.drawString( xAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
     }
@@ -240,7 +240,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
         nucleus.getPotentialProfile().addObserver( ppg );
         ppg.setOrigin( new Point2D.Double( 0, 0 ) );
         potentialProfileMap.put( nucleus.getPotentialProfile(), ppg );
-        addGraphic( ppg, nucleusLayer, profileTx );
+        TxGraphic txg = new TxGraphic( ppg, profileTx );
+        addGraphic( txg, nucleusLayer );
     }
 
     public void removePotentialProfile( PotentialProfile potentialProfile ) {
@@ -280,7 +281,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     public void addOriginCenteredGraphic( Graphic graphic ) {
-        this.addGraphic( graphic, profileTx );
+        TxGraphic txg = new TxGraphic( graphic, profileTx );
+        this.addGraphic( txg );
     }
 
     public void addNucleusGraphic( Nucleus nucleus ) {
@@ -310,4 +312,5 @@ public class PotentialProfilePanel extends ApparatusPanel {
             ppg.setColor( color );
         }
     }
+
 }

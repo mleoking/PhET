@@ -12,7 +12,7 @@ public class Rubidium extends Nucleus {
     private static final int numNeutrons = 56;
     private static final int numProtons = 37;
 
-    public Rubidium( Point2D.Double position ) {
+    public Rubidium( Point2D position ) {
         super( position, numProtons, numNeutrons );
     }
 }

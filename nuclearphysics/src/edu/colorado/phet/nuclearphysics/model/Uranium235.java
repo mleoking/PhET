@@ -65,12 +65,12 @@ public class Uranium235 extends Nucleus {
         fissionInstigatingNeutron = neutron;
         // Move the neutron way, way away so it doesn't show and doesn't
         // cause another fission event. It will be destroyed later.
-        neutron.setLocation( 100E3, 100E3 );
+        neutron.setPosition( 100E3, 100E3 );
         neutron.setVelocity( 0, 0 );
 
         // Make note of the x coordinate of the nucleus, so we can keep the jiggling
         // centered
-        jiggleOrgX = this.getLocation().getX();
+        jiggleOrgX = this.getPosition().getX();
     }
 
     public void stepInTime( double dt ) {
@@ -78,18 +78,18 @@ public class Uranium235 extends Nucleus {
         // See if any of the alpha particles has escaped, and initiate alpha decay if it has
         for( int j = 0; j < alphaParticles.length; j++ ) {
             AlphaParticle alphaParticle = alphaParticles[j];
-            if( alphaParticle.getLocation().distanceSq( this.getLocation() ) - alphaParticle.getRadius()
+            if( alphaParticle.getPosition().distanceSq( this.getPosition() ) - alphaParticle.getRadius()
                 > getPotentialProfile().getAlphaDecayX() * getPotentialProfile().getAlphaDecayX() ) {
 
                 // set the alpha particle directly on the profile
-                double d = alphaParticle.getLocation().distance( this.getLocation() );
-                double dx = alphaParticle.getLocation().getX() - this.getLocation().getX();
-                double dy = alphaParticle.getLocation().getY() - this.getLocation().getY();
+                double d = alphaParticle.getPosition().distance( this.getPosition() );
+                double dx = alphaParticle.getPosition().getX() - this.getPosition().getX();
+                double dy = alphaParticle.getPosition().getY() - this.getPosition().getY();
                 dx *= this.getPotentialProfile().getAlphaDecayX() / d * MathUtil.getSign( dx );
                 dy *= this.getPotentialProfile().getAlphaDecayX() / d * MathUtil.getSign( dy );
                 alphaParticle.setPotential( getPotentialProfile().getHillY( getPotentialProfile().getAlphaDecayX() ) );
-                int sign = MathUtil.getSign( alphaParticle.getLocation().getX() - this.getLocation().getX() );
-                alphaParticle.setLocation( this.getLocation().getX() + dx * sign, this.getLocation().getY() + dy );
+                int sign = MathUtil.getSign( alphaParticle.getPosition().getX() - this.getPosition().getX() );
+                alphaParticle.setPosition( this.getPosition().getX() + dx * sign, this.getPosition().getY() + dy );
 
                 AlphaDecayProducts decayProducts = new AlphaDecayProducts( this, alphaParticle );
                 for( int i = 0; i < decayListeners.size(); i++ ) {
@@ -109,7 +109,7 @@ public class Uranium235 extends Nucleus {
                 || !doMorph ) {
                 // Before we morph, make sure the parent nucleus is centered. That is, don't
                 // leave it where itr jittered to.
-                this.setLocation( jiggleOrgX, this.getLocation().getY() );
+                this.setPosition( jiggleOrgX, this.getPosition().getY() );
                 doNecking();
                 super.fission( fissionInstigatingNeutron );
             }
@@ -123,28 +123,28 @@ public class Uranium235 extends Nucleus {
             double d = 1.8;
             double dx = random.nextGaussian() * d * ( random.nextBoolean() ? 1 : -1 );
             double dy = random.nextGaussian() * d * ( random.nextBoolean() ? 1 : -1 );
-            this.setLocation( jiggleOrgX + dx, getLocation().getY() + dy );
-            //            this.setLocation( getLocation().getX() + dx, getLocation().getY() + dy );
+            this.setPosition( jiggleOrgX + dx, getPosition().getY() + dy );
+            //            this.setPosition( getPosition().getX() + dx, getPosition().getY() + dy );
         }
     }
 
     public FissionProducts getFissionProducts( Neutron neutron ) {
 
-        Nucleus daughter1 = new Rubidium( this.getLocation() );
+        Nucleus daughter1 = new Rubidium( this.getPosition() );
         double theta = random.nextDouble() * Math.PI;
         double vx = Config.fissionDisplacementVelocity * Math.cos( theta );
         double vy = Config.fissionDisplacementVelocity * Math.sin( theta );
         daughter1.setVelocity( (float)( -vx ), (float)( -vy ) );
         daughter1.setPotential( this.getPotential() );
 
-        Nucleus daughter2 = new Cesium( this.getLocation() );
+        Nucleus daughter2 = new Cesium( this.getPosition() );
         daughter2.setVelocity( (float)( vx ), (float)( vy ) );
         daughter2.setPotential( this.getPotential() );
 
         Neutron[] neutronProducts = new Neutron[3];
         for( int i = 0; i < 3; i++ ) {
             theta = random.nextDouble() * Math.PI * 2;
-            neutronProducts[i] = new Neutron( this.getLocation(), theta );
+            neutronProducts[i] = new Neutron( this.getPosition(), theta );
         }
 
         FissionProducts fp = new FissionProducts( this, neutron,

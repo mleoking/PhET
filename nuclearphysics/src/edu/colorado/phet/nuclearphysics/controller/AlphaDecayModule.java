@@ -42,6 +42,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         // DEBUG ONLY!!!
         //        clock.setDt( clock.getDt() / 10 );
 
+
         getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
         physicalPanel = new AlphaDecayPhysicalPanel();
         super.setPhysicalPanel( physicalPanel );
@@ -154,8 +155,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     private void setRingAttributes( Nucleus nucleus ) {
         if( nucleus.getPotentialProfile().getAlphaDecayX() < 0 ) {
             double radius = Math.abs( nucleus.getPotentialProfile().getAlphaDecayX() );
-            double x = getNucleus().getLocation().getX() - radius;
-            double y = getNucleus().getLocation().getY() - radius;
+            double x = getNucleus().getPosition().getX() - radius;
+            double y = getNucleus().getPosition().getY() - radius;
             alphaRing = new Ellipse2D.Double( x, y, radius * 2, radius * 2 );
             leaderLine1 = new Line2D.Double( x, -1000, x, 1000 );
             leaderLine2 = new Line2D.Double( x + radius * 2, -1000, x + radius * 2, 1000 );

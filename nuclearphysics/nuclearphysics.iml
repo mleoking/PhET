@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module version="4" relativePaths="false">
+<module version="4" relativePaths="false" type="JAVA_MODULE">
   <component name="ModuleRootManager" />
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/classes" />
@@ -18,7 +18,9 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="PhetCommon-2" level="application" />
+    <orderEntry type="module" module-name="Mechanics" />
+    <orderEntry type="module" module-name="PhetCommon" />
+    <orderEntryProperties />
   </component>
 </module>
 

@@ -48,7 +48,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 if( neutron != null
-                    && neutron.getLocation().distanceSq( nucleus.getLocation() )
+                    && neutron.getPosition().distanceSq( nucleus.getPosition() )
                        <= nucleus.getRadius() * nucleus.getRadius() ) {
                     nucleus.fission( neutron );
                 }
@@ -78,12 +78,14 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
     }
 
     public void activate( PhetApplication app ) {
+        super.activate( app );
         orgDt = clock.getDt();
         clock.setDt( orgDt / 4 );
         this.start();
     }
 
     public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
         clock.setDt( orgDt );
         this.stop();
     }
@@ -109,10 +111,10 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         // Constrain velocity of the daughter nuclei to be more or less horizontal
         double theta = ( random.nextDouble() * Math.PI / 2 ) - ( Math.PI / 4 );
         Nucleus daughter1 = products.getDaughter1();
-        double v1 = daughter1.getVelocity().getLength();
+        double v1 = daughter1.getVelocity().getMagnitude();
         daughter1.setVelocity( (float)( v1 * Math.cos( theta ) ), (float)( v1 * Math.sin( theta ) ) );
         Nucleus daughter2 = products.getDaughter2();
-        double v2 = daughter2.getVelocity().getLength();
+        double v2 = daughter2.getVelocity().getMagnitude();
         daughter2.setVelocity( (float)( v2 * Math.cos( theta + Math.PI ) ), (float)( v2 * Math.sin( theta + Math.PI ) ) );
 
         // Remove the neutron and old nucleus
@@ -153,19 +155,19 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
             }
 
             private void stepDaughterNucleus( Nucleus parent, Nucleus daughter ) {
-                double d = daughter.getLocation().distance( parent.getLocation() );
+                double d = daughter.getPosition().distance( parent.getPosition() );
                 Vector2D a = null;
                 PotentialProfile profile = parent.getPotentialProfile();
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
                 force = Double.isNaN( force ) ? 0 : force;
                 force = -profile.getDyDx( -d ) * forceScale;
                 if( daughter.getVelocity().getX() == 0 && daughter.getVelocity().getY() == 0 ) {
-                    double dx = daughter.getLocation().getX() - parent.getLocation().getX();
-                    double dy = daughter.getLocation().getY() - parent.getLocation().getY();
-                    a = new Vector2D( (float)dx, (float)dy ).normalize().multiply( (float)force );
+                    double dx = daughter.getPosition().getX() - parent.getPosition().getX();
+                    double dy = daughter.getPosition().getY() - parent.getPosition().getY();
+                    a = new Vector2D.Double( (float)dx, (float)dy ).normalize().scale( force );
                 }
                 else {
-                    a = new Vector2D( daughter.getVelocity() ).normalize().multiply( (float)force );
+                    a = new Vector2D.Double( daughter.getVelocity() ).normalize().scale( force );
                 }
                 daughter.setAcceleration( a );
 
@@ -187,7 +189,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
 
         Nucleus dn1 = products.getDaughter1();
         Nucleus dn2 = products.getDaughter2();
-        dn2.setLocation( 0, 0 );
+        dn2.setPosition( 0, 0 );
         super.addNucleus( dn1, null );
         super.addNucleus( dn2, null );
         getPotentialProfilePanel().addNucleusGraphic( dn1 );

@@ -9,7 +9,9 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
@@ -54,7 +56,7 @@ public class PhysicalPanel extends ApparatusPanel {
     }
 
     public synchronized void addGraphic( Graphic graphic ) {
-        super.addGraphic( graphic, nucleonTx );
+        addGraphic( graphic, nucleonTx );
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
@@ -65,8 +67,11 @@ public class PhysicalPanel extends ApparatusPanel {
         nucleonTx.concatenate( originTx );
         nucleonTx.concatenate( scaleTx );
 
+        Graphics2D g2 = (Graphics2D)graphics;
+        GraphicsState gs = new GraphicsState( g2 );
         GraphicsUtil.setAlpha( (Graphics2D)graphics, 1 );
-        super.paintComponent( graphics );
+        super.paintComponent( g2 );
+        gs.restoreGraphics();
     }
 
     public void clear() {
@@ -75,6 +80,16 @@ public class PhysicalPanel extends ApparatusPanel {
             removeGraphic( (Graphic)modelElementToGraphicMap.get( (Nucleus)it.next() ) );
         }
         modelElementToGraphicMap.clear();
+    }
+
+    protected void addGraphic( Graphic graphic, double level, AffineTransform atx ) {
+        TxGraphic txg = new TxGraphic( graphic, atx );
+        super.addGraphic( txg, level );
+    }
+
+    protected void addGraphic( Graphic graphic, AffineTransform atx ) {
+        TxGraphic txg = new TxGraphic( graphic, atx );
+        super.addGraphic( txg );
     }
 
     //

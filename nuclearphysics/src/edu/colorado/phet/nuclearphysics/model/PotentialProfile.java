@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.coreadditions.CubicUtil;
 import edu.colorado.phet.nuclearphysics.Config;
 
@@ -198,7 +198,7 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
         alphaDecayX = getHillX( -getWellPotential() );
 
         // Tell everyone we've changed
-        updateObservers();
+        notifyObservers();
     }
 
     public GeneralPath getPath() {
@@ -311,7 +311,7 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
             this.maxPotential = 2 * nucleus.getNumProtons();
             this.wellDepth = 0.5 * nucleus.getNumNeutrons();
             this.generate();
-            updateObservers();
+            notifyObservers();
         }
     }
 

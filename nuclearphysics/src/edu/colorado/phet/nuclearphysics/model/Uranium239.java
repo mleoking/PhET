@@ -15,7 +15,7 @@ public class Uranium239 extends Nucleus {
     private Neutron fissionInstigatingNeutron;
     private BaseModel model;
 
-    public Uranium239( Point2D.Double position, BaseModel model ) {
+    public Uranium239( Point2D position, BaseModel model ) {
         super( position, 92, 147 );
         this.model = model;
     }

@@ -14,7 +14,7 @@ public class Cesium extends Nucleus {
     private static final int numNeutrons = 86;
     private static final int numProtons = 55;
 
-    public Cesium( Point2D.Double position ) {
+    public Cesium( Point2D position ) {
         super( position, numProtons, numNeutrons );
     }
 }
