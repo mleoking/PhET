@@ -6,7 +6,6 @@ IN PROGRESS:
 - Turbine.getRPM should use the frame rate of the simulation clock
 
 HIGH PRIORITY:
-- set minimum AC frequency to 5%
 - make electrons move at same speed whether grid is on or off
 - verify that AC hits zero crossings, check with lightbulb
 - make generator pickup coil non-moveable, aligned with turbine magnet
@@ -63,6 +62,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/22) - set minimum AC frequency to 5%
 (3/22) - put water behind magnet in turbine
 (3/22) - limit turbine to 100 RPM
 (3/22) - add RPM readout to turbine
