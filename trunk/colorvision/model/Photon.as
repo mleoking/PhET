@@ -2,11 +2,12 @@
 	private var isVisible:Boolean;
 	private var xLoc:Number;
 	private var yLoc:Number;
-	private var ds:Number = 10;
-	private var s:Number = 15;
 	private var rgb:Number;
 	private var wavelength:Number;	
 	private var theta:Number;
+
+	public static var ds:Number = 10;
+	public static var length:Number = 3;
 	private static var instances:Array = new Array();
 	private static var init:Boolean = false;
 	static function stepInstances() {
@@ -21,9 +22,7 @@
 			var p2 = instances[i];
 //			if (Photon.instances[i] == p) {
 			if (instances[i] == p) {
-				var l = instances.length;
 				Photon.instances.splice(i, 1);
-				var l2 = instances.length;
 			}
 		}
 	}
@@ -44,16 +43,24 @@
 		this.xLoc = x;
 		this.yLoc = y;
 		this.theta = theta;
-		this.wavelength = wavelength;
-		this.rgb = ColorUtil.getColor(wavelength);
+		setWavelength(wavelength);
+//		this.rgb = ColorUtil.getColor(wavelength);
 		this.isVisible = true;
 		Photon.instances.push(this);
 	}
 	function getX():Number {
 		return xLoc;
 	}
+	function setLocation(xLoc:Number, yLoc:Number):Void{
+		this.xLoc = xLoc;
+		this.yLoc = yLoc;
+	}
 	function getWavelength():Number{
 		return this.wavelength;
+	}
+	function setWavelength(wavelength:Number){
+		this.wavelength = wavelength;
+		this.rgb = ColorUtil.getColor(wavelength);
 	}
 	function setRgb(rgb) {
 		this.rgb = rgb;
@@ -73,7 +80,7 @@
 		if (this.isVisible) {
 			g.lineStyle(1, this.rgb, 100);
 			g.moveTo(this.xLoc, this.yLoc);
-			g.lineTo(this.xLoc - s * Math.cos(this.theta), this.yLoc - s * Math.sin(this.theta));
+			g.lineTo(this.xLoc - length * Math.cos(this.theta), this.yLoc - length * Math.sin(this.theta));
 		}
 	}
 }
