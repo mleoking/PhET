@@ -17,7 +17,8 @@ import edu.colorado.phet.semiconductor.macro.circuit.battery.BatteryListener;
 import edu.colorado.phet.semiconductor.macro.doping.DopantChangeListener;
 import edu.colorado.phet.semiconductor.macro.doping.DopantType;
 import edu.colorado.phet.semiconductor.macro.energy.bands.*;
-import edu.colorado.phet.semiconductor.macro.energy.statemodels.CompleteStateModel;
+import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelWithCriteria;
+import edu.colorado.phet.semiconductor.macro.energy.statemodels.PStateModel2;
 import edu.colorado.phet.semiconductor.macro.energy.states.ExitLeftState;
 import edu.colorado.phet.semiconductor.macro.energy.states.ExitRightState;
 import edu.colorado.phet.semiconductor.macro.energy.states.MoveToCell;
@@ -58,8 +59,8 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     private double particleWidth;
     private BufferedImage plusImage;
 
-//    StateModel stateModel;
-    final StateModel stateModel = new CompleteStateModel( this );
+    ChoiceStateModel stateModel = new ChoiceStateModel( this );
+//    final StateModel stateModel = new CompleteStateModel( this );
     private Speed speed;
     private Rectangle2D.Double bounds;
     private BucketSection bucketSection;
@@ -81,6 +82,9 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 //        stateModelSet = new StateModelSet( this );
         //TODO
         //stateModel = stateModelSet.getNullModel();
+        PStateModel2 psm2 = new PStateModel2( this, 1, 0 );
+        ModelWithCriteria mwc = new ModelWithCriteria( DopantType.P, .1, 10, psm2 );
+        stateModel.addModel( mwc );
     }
 
     public int numParticles() {
@@ -256,13 +260,13 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         bandSets.add( bandSet );
     }
 
-    public void stepInTime( double v ) {
+    public void stepInTime( double dt ) {
         for( int i = 0; i < particles.size(); i++ ) {
             BandParticle bandParticle = (BandParticle)particles.get( i );
-            bandParticle.stepInTime( v );
+            bandParticle.stepInTime( dt );
         }
 //        if( stateModel != null ) {
-        stateModel.updateStates();
+        stateModel.stepInTime( dt );
 //        }
         /**Fudge for widening depletion region for NPN*/
 //        if( isNPN() ) {
@@ -512,10 +516,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public EntryPoint[] getSources() {
-        if( stateModel == null ) {
-            return new EntryPoint[0];
-        }
-        return stateModel.getEntryPoints();
+        return new EntryPoint[0];
     }
 
     public double getVoltage() {
@@ -869,11 +870,11 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public BandParticle[] getParticles( SemiconductorBandSet bandSet ) {
-        ArrayList list=new ArrayList( );
-        for (int i=0;i<numParticles();i++){
-            BandParticle bp=particleAt( i );
-            if (bp.getBandSet()==bandSet){
-                list.add(bp);
+        ArrayList list = new ArrayList();
+        for( int i = 0; i < numParticles(); i++ ) {
+            BandParticle bp = particleAt( i );
+            if( bp.getBandSet() == bandSet ) {
+                list.add( bp );
             }
         }
         return (BandParticle[])list.toArray( new BandParticle[0] );

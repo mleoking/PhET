@@ -2,10 +2,10 @@
 package edu.colorado.phet.semiconductor.macro.energy.statemodels;
 
 import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.semiconductor.macro.EntryPoint;
 import edu.colorado.phet.semiconductor.macro.doping.DopantType;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
-import edu.colorado.phet.semiconductor.macro.energy.StateModel;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
@@ -23,14 +23,14 @@ import java.util.Random;
  * Time: 11:23:16 PM
  * Copyright (c) Apr 13, 2004 by Sam Reid
  */
-public class CompleteStateModel implements StateModel {
+public class CompleteStateModel implements ModelElement {
     EnergySection energySection;
 
     public CompleteStateModel( EnergySection energySection ) {
         this.energySection = energySection;
     }
 
-    public void updateStates() {
+    public void stepInTime( double dt ) {
 
         for( int i = 0; i < energySection.numParticles(); i++ ) {
             BandParticle bp = energySection.particleAt( i );
@@ -117,15 +117,15 @@ public class CompleteStateModel implements StateModel {
     }
 
     private void applyUnexcited( BandParticle bp ) {
-        boolean okToExcite=false;
+        boolean okToExcite = false;
         if( energySection.numBandSets() == 1 ) {
             SemiconductorBandSet bandset = bp.getBandSet();
             int levelInBand = bp.getEnergyCell().getEnergyLevelBandIndex();
-            if( bandset.getDopantType()!=null&&levelInBand == bandset.getDopantType().getNumFilledLevels()-1) {
-                okToExcite=true;
+            if( bandset.getDopantType() != null && levelInBand == bandset.getDopantType().getNumFilledLevels() - 1 ) {
+                okToExcite = true;
             }
         }
-        if (!okToExcite){
+        if( !okToExcite ) {
             return;
         }
         //calculate the voltage on the particle
@@ -244,7 +244,7 @@ public class CompleteStateModel implements StateModel {
         if( energySection.getVoltage() > 0 ) {
 
             int max = getMax( energySection.getLeftBand() );
-            EnergyCell cell = getHighestFreeCell( 0, energySection.getLeftBand().getDopantType().getNumFilledLevels(),energySection.getLeftBand().getDopantType().getNumFilledLevels() );
+            EnergyCell cell = getHighestFreeCell( 0, energySection.getLeftBand().getDopantType().getNumFilledLevels(), energySection.getLeftBand().getDopantType().getNumFilledLevels() );
 //            EnergyCell cell = getHighestFreeCell( 0, 0,max);
             if( cell == null ) {
                 return new EntryPoint[0];
@@ -256,8 +256,8 @@ public class CompleteStateModel implements StateModel {
         else if( energySection.getVoltage() < 0 ) {
 
             int max = getMax( energySection.getRightBand() );
-            int column=energySection.numBandSets() * 2 - 1;
-            EnergyCell cell = getHighestFreeCell( column, energySection.getLeftBand().getDopantType().getNumFilledLevels(),energySection.getLeftBand().getDopantType().getNumFilledLevels() );
+            int column = energySection.numBandSets() * 2 - 1;
+            EnergyCell cell = getHighestFreeCell( column, energySection.getLeftBand().getDopantType().getNumFilledLevels(), energySection.getLeftBand().getDopantType().getNumFilledLevels() );
             if( cell == null ) {
                 return new EntryPoint[0];
             }
@@ -301,4 +301,5 @@ public class CompleteStateModel implements StateModel {
         }
         return null;
     }
+
 }

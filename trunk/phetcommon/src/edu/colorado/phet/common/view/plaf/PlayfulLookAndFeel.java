@@ -44,6 +44,7 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
         ColorUIResource foreground = new ColorUIResource( foregroundColor );
         FontUIResource fontResource = new FontUIResource( font );
         InsetsUIResource insets = new InsetsUIResource( 2, 2, 2, 2 );
+
         def = new ArrayList();
         for( int i = 0; i < types.length; i++ ) {
             String type = types[i];

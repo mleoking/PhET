@@ -23,10 +23,22 @@ public class MyButtonUI extends MetalButtonUI {
 //                                                      getResource( "images/components/webt/round-button-pressed.gif" ) );
 //    private static ImageIcon unpressed = new ImageIcon( TestComponents.class.getClassLoader().
 //                                                        getResource( "images/components/webt/round-button.gif" ) );
+
+//    static String onstr="images/animfactory/suites/alum/alum_on_md_wht-round.gif";
+//    static String offstr="images/animfactory/suites/alum/alum_off_md_wht-round.gif";
+
+    static String offstr = "images/animfactory/suites/graymarble/gray_marble_off_md_wht-dia.gif";
+    static String onstr = "images/animfactory/suites/graymarble/gray_marble_on_md_wht-dia.gif";
+
+
     private static ImageIcon pressed = new ImageIcon( TestComponents.class.getClassLoader().
-                                                      getResource( "images/components/webt/redbump_on_md_wht.gif" ) );
+                                                      getResource( onstr ) );
     private static ImageIcon unpressed = new ImageIcon( TestComponents.class.getClassLoader().
-                                                        getResource( "images/components/webt/redbump_off_md_wht.gif" ) );
+                                                        getResource( offstr ) );
+//    private static ImageIcon pressed = new ImageIcon( TestComponents.class.getClassLoader().
+//                                                      getResource( "images/components/webt/redbump_on_md_wht.gif" ) );
+//    private static ImageIcon unpressed = new ImageIcon( TestComponents.class.getClassLoader().
+//                                                        getResource( "images/components/webt/redbump_off_md_wht.gif" ) );
     private JButton button;
     private Icon origUnpressed;
     private Icon origPressed;
