@@ -26,7 +26,6 @@ public class Pump extends SimpleObservable {
     protected static final float PI_OVER_2 = (float)Math.PI / 2;
     protected static final float PI_OVER_4 = (float)Math.PI / 4;
     protected static final float MAX_V = -30;
-    protected static final float DEFAULT_ENERGY = 15000;
 
     private IdealGasModel model;
     private Class currentGasSpecies = HeavySpecies.class;
@@ -57,7 +56,7 @@ public class Pump extends SimpleObservable {
     protected GasMolecule pumpGasMolecule() {
 
         // Add a new gas molecule to the system
-        double moleculeEnergy = Math.max( DEFAULT_ENERGY, model.getAverageMoleculeEnergy() );
+        double moleculeEnergy = Math.max( IdealGasModel.DEFAULT_ENERGY, model.getAverageMoleculeEnergy() );
         GasMolecule newMolecule = pumpGasMolecule( this.currentGasSpecies,
                                                    moleculeEnergy );
         new PumpMoleculeCmd( model, newMolecule, module ).doIt();
