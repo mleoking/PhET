@@ -13,8 +13,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.colorvision3.control.IntensitySlider;
 import edu.colorado.phet.colorvision3.control.RgbBulbsControlPanel;
-import edu.colorado.phet.colorvision3.event.ColorChangeEvent;
-import edu.colorado.phet.colorvision3.event.ColorChangeListener;
+import edu.colorado.phet.colorvision3.event.VisibleColorChangeEvent;
+import edu.colorado.phet.colorvision3.event.VisibleColorChangeListener;
 import edu.colorado.phet.colorvision3.model.Person;
 import edu.colorado.phet.colorvision3.model.PhotonBeam;
 import edu.colorado.phet.colorvision3.model.Spotlight;
@@ -36,7 +36,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$
  */
-public class RgbBulbsModule extends Module implements ChangeListener, ColorChangeListener
+public class RgbBulbsModule extends Module implements ChangeListener, VisibleColorChangeListener
 {	
 	//----------------------------------------------------------------------------
 	// Class data
@@ -265,11 +265,11 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
   //----------------------------------------------------------------------------
 	
   /**
-   * Handles a ColorChangeEvent, received when a photon hits the person.
+   * Handles a VisibleColorChangeEvent, received when a photon hits the person.
    * 
    * @param event the event
    */
-  public void colorChanged( ColorChangeEvent event )
+  public void colorChanged( VisibleColorChangeEvent event )
   {
     // Ignore the color information in the event, and consult the photon beams.
     // Each beam contributes one color component.
