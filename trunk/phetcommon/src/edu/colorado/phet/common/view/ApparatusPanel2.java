@@ -29,7 +29,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -292,11 +291,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         g2.setColor( origColor );
         g2.setStroke( origStroke );
     }
-
-    private List getGraphicsSetups() {
-        return new ArrayList();//TODO this looks wrong.
-    }
-
 
     ///////////////////////////////////////////////////////////////////////////
     // Inner classes
