@@ -11,32 +11,20 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 public class GroundState extends AtomicState {
 
-    static private int s_numInstances = 0;
-    static public int s_wavelength = Photon.GRAY;
-
-    static public interface Listener {
+    public interface Listener {
         void numInstancesChanged( int numInstances );
     }
 
-    static public int getNumInstances() {
-        return s_numInstances;
-    }
-
     private static GroundState instance = new GroundState();
-
     public static GroundState instance() {
         return instance;
     }
 
 
-    //
-    // Instance
-    //
     private GroundState() {
         setEnergyLevel( 0 );
-    }
-
-    public void stepInTime( double dt ) {
+        setEmittedPhotonWavelength( Photon.GRAY );
+        setMeanLifetime(  Double.POSITIVE_INFINITY );
     }
 
     public void collideWithPhoton( Atom atom, Photon photon ) {
@@ -57,18 +45,5 @@ public class GroundState extends AtomicState {
         else {
             //            System.out.println( "no emission" );
         }
-
-    }
-
-    void incrNumInState() {
-        s_numInstances++;
-    }
-
-    void decrementNumInState() {
-        s_numInstances--;
-    }
-
-    int getNumAtomsInState() {
-        return getNumInstances();
     }
 }

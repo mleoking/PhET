@@ -60,23 +60,12 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
     private CollimatedBeam stimulatingBeam;
     private CollimatedBeam pumpingBeam;
 
-    public class PEL implements CollimatedBeam.PhotonEmittedEventListener {
-        int cnt;
-
-        // Just a test of the listener system
-        public void photonEmittedEventOccurred( CollimatedBeam.PhotonEmittedEvent event ) {
-            //            System.out.println( "cnt: " + cnt++ );
-        }
-    };
-
 
     /**
      *
      */
     public BaseLaserModule( String title, AbstractClock clock ) {
         super( title );
-
-        //        EventRegistry.instance.addListener( new PEL() );
 
         // Create the model
         laserModel = new LaserModel();

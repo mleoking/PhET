@@ -45,11 +45,11 @@ public class MiddleEnergyHalfLifeControl extends JPanel {
         spontaneousEmissionTimeSlider.setMajorTickSpacing( 100 );
         spontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.setMiddleEnergySpontaneousEmissionTime( spontaneousEmissionTimeSlider.getValue() );
+                model.setMiddleEnergyMeanLifetime( spontaneousEmissionTimeSlider.getValue() );
                 spontaneousEmissionTimeTF.setText( Double.toString( spontaneousEmissionTimeSlider.getValue() ) );
             }
         } );
-        model.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
+        model.setMiddleEnergyMeanLifetime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
 
         this.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,

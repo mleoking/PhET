@@ -20,6 +20,8 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.HighEnergyState;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -114,16 +116,10 @@ public class LaserModel extends BaseModel implements Atom.Listener {
         this.resonatingCavity = resonatingCavity;
     }
 
-    /**
-     * @return
-     */
     public CollimatedBeam getStimulatingBeam() {
         return stimulatingBeam;
     }
 
-    /**
-     * @param stimulatingBeam
-     */
     public void setStimulatingBeam( CollimatedBeam stimulatingBeam ) {
         if( stimulatingBeam != null ) {
             removeModelElement( stimulatingBeam );
@@ -132,17 +128,10 @@ public class LaserModel extends BaseModel implements Atom.Listener {
         this.stimulatingBeam = stimulatingBeam;
     }
 
-
-    /**
-     * @return
-     */
     public CollimatedBeam getPumpingBeam() {
         return pumpingBeam;
     }
 
-    /**
-     * @param pumpingBeam
-     */
     public void setPumpingBeam( CollimatedBeam pumpingBeam ) {
         if( pumpingBeam != null ) {
             removeModelElement( pumpingBeam );
@@ -151,44 +140,26 @@ public class LaserModel extends BaseModel implements Atom.Listener {
         this.pumpingBeam = pumpingBeam;
     }
 
-    /**
-     * @param time
-     */
-    public void setHighEnergySpontaneousEmissionTime( double time ) {
-        Atom.setHighEnergySpontaneousEmissionTime( time );
+    public void setHighEnergyMeanLifetime( double time ) {
+        HighEnergyState.instance().setMeanLifetime( time );
     }
 
-    /**
-     * @param time
-     */
-    public void setMiddleEnergySpontaneousEmissionTime( double time ) {
-        Atom.setMiddleEnergySpontaneousEmissionTime( time );
+    public void setMiddleEnergyMeanLifetime( double time ) {
+        MiddleEnergyState.instance().setMeanLifetime( time );
     }
 
-    /**
-     * @return
-     */
     public int getNumGroundStateAtoms() {
         return Atom.getNumGroundStateAtoms();
     }
 
-    /**
-     * @return
-     */
     public int getNumMiddleStateAtoms() {
         return Atom.getNumMiddleStateAtoms();
     }
 
-    /**
-     * @return
-     */
     public int getNumHighStateAtoms() {
         return Atom.getNumHighStateAtoms();
     }
 
-    /***
-     *
-     */
     public void removeAtoms() {
         for( int i = 0; i < bodies.size(); i++ ) {
             ModelElement modelElement = (ModelElement)bodies.get( i );

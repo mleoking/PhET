@@ -55,13 +55,14 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
                 throw new RuntimeException( "Atom not in a spontaneously emitting state" );
             }
 
+            // Get the lifetime for this state
             if( lifetimeFixed ) {
                 // This line gives a fixed death time
-                deathTime = state.getLifeTime();
+                deathTime = state.getMeanLifeTime();
             }
             else {
                 // Assign a deathtime based on an exponential distribution
-                deathTime = -Math.log( temp ) * state.getLifeTime();
+                deathTime = -Math.log( temp ) * state.getMeanLifeTime();
             }
             lifeTime = 0;
         }
@@ -107,5 +108,5 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
 
     abstract protected AtomicState nextLowerEnergyState();
 
-    abstract protected double getEmittedPhotonWavelength();
+//    abstract protected double getEmittedPhotonWavelength();
 }
