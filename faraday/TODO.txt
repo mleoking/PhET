@@ -1,4 +1,6 @@
+===============================================================================
 "To Do" list for "faraday" simulation
+===============================================================================
 
 IN PROGRESS:
 - use median values only when magnet or coil are being dragged
@@ -8,12 +10,19 @@ HIGH:
 - no change in EMF when point moves around inside magnet
 - calibration of everything so that sensitivity can be adjusted
 - separate PhetCoilGraphic into foreground & background layers
-- show electrons flowing (blue) when lightbulb is enabled
+- show electrons flowing (blue) when lightbulb is enabled, keep constant size
+- "show inside magnet" feature
+- keep compass from going inside magnet
+- when flipping polarity, jiggle the compass so that it starts moving sooner
+
+- control to turn BFieldProbe on/off
+- redo BFieldProbe graphic, use CCK probe
+- redo coil graphic (constantwire gauge, fix colors)
 
 MEDIUM:
 - lightbulb emission graphic (same as CCK?)
-- collision avoidance (which objects?)
-- use Ron's enhancements to ControlPanel
+- collision detection (which objects?)
+- add inertia to voltmeter needle
 - Transformer module requirements
 
 LOW:
@@ -21,7 +30,14 @@ LOW:
 - Help/MegaHelp
 - correct lighting on flipped bar magnet
 
+phetcommon:
+- MathUtil.clamp behavior with Double.NaN
+
 DONE:
+(1/20) - rename module Compass Grid -> Bar Magnet
+(1/20) - rename module Bar Magnet -> Magnet & Coil
+(1/20) - redo compass graphic
+(1/20) - use Ron's enhancements to ControlPanel
 (1/19) - sample graphic for electron "look"
 (1/19) - draw pickup coil correctly when loop area is changed
 (1/19) - redo coil graphic, more of a tilt, thicker wire, copper/brown color
@@ -41,4 +57,5 @@ DONE:
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
-(1/18) - add inertia to voltmeter needle
+
+===============================================================================
