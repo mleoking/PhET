@@ -51,7 +51,7 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
 
         // If the photon has the same energy level as the difference between
         // this state and the high energy one, then we go to that state
-        if( photon.getWavelength() == Photon.DEEP_RED ) {
+        if( photon.getEnergy() == HighEnergyState.instance().getEnergyLevel() - this.getEnergyLevel() ) {
 
             // Absorb the photon and change state
             photon.removeFromSystem();

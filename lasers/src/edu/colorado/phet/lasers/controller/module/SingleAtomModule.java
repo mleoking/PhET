@@ -120,6 +120,9 @@ public class SingleAtomModule extends BaseLaserModule {
             e.printStackTrace();
         }
 
+        // Enable only the stimulating beam to start with
+        stimulatingBeam.setIsEnabled( true );
+
         ApparatusConfiguration config = new ApparatusConfiguration();
         config.setStimulatedPhotonRate( 1 );
         config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
@@ -149,6 +152,7 @@ public class SingleAtomModule extends BaseLaserModule {
         if( pumpingLampGraphic != null ) {
             pumpingLampGraphic.setVisible( threeEnergyLevels );
             pumpingBeamControlPanel.setVisible( threeEnergyLevels );
+            getLaserModel().getPumpingBeam().setIsEnabled( threeEnergyLevels );
         }
     }
 }

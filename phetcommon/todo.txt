@@ -1,3 +1,22 @@
+11/19/04
+=========
+Versions
+--------
+names will be V<m>R<n>
+
+Tag format
+--------
+<sim-nam><Vm><Rn>
+
+Projects directories
+--------
+Merge projects1, 2, & 3 into a single directory named dev
+
+create dev/lib for common jars
+
+
+11/12/04
+==========
 PhetGraphic - Chris
     setLocation( Point)
     setLocation( int x, int y );
@@ -47,3 +66,4 @@ Misc - Ron
     check paint() of PhetGraphic subclasses
     rewrite GraphicsState to check what things need to be restored in restoreState();
         also, handle paintMode & XORMode
+

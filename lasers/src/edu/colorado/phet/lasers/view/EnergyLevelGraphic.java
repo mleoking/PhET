@@ -36,6 +36,7 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
     public EnergyLevelGraphic( final Component component, AtomicState atomicState, Color color, double xLoc, double width ) {
         super( null );
         this.atomicState = atomicState;
+        atomicState.addListener( this );
         this.color = color;
         this.xLoc = xLoc;
         this.width = width;
@@ -44,9 +45,6 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
         addCursorBehavior( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
         addTranslationBehavior( new EnergyLevelTranslator() );
-
-        atomicState.addEnergyLevelChangeListener( this );
-
     }
 
     public void setBasePosition( double x, double y ) {

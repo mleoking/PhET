@@ -47,6 +47,7 @@ public class CollimatedBeam extends Particle {
     private LaserModel model;
     private SubscriptionService bulletinBoard = new SubscriptionService();
     private LinkedList photons = new LinkedList();
+    private boolean isEnabled;
 
     public interface Listener {
         void photonCreated( CollimatedBeam beam, Photon photon );
@@ -232,4 +233,13 @@ public class CollimatedBeam extends Particle {
         temp = 1;
         return temp / ( photonsPerSecond / 1000 );
     }
+
+    public void setIsEnabled( boolean isEnabled ) {
+        this.isEnabled = isEnabled;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
 }
+
