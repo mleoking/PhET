@@ -1,3 +1,11 @@
+/* Copyright University of Colorado, 2004 */
+/*
+ * CVS Info:
+ * Current revision:   $Revision$
+ * On branch:          $Name$
+ * Latest change by:   $Author$
+ * On date:            $Date$
+ */
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.model.BaseModel;
@@ -14,11 +22,7 @@ import java.awt.geom.Point2D;
  * Author: Another Guy
  * Date: Nov 22, 2004
  * <p/>
- * CVS Info:
- * Current revision:   $Revision$
- * On branch:          $Name$
- * Latest change by:   $Author$
- * On date:            $Date$
+ * A sinusoidal standing wave.
  */
 public class StandingWave extends PhetGraphic implements ModelElement {
 
@@ -27,10 +31,11 @@ public class StandingWave extends PhetGraphic implements ModelElement {
     private double period;
     private double amplitude;
     private Color color;
+    // Steps in x for which each piece-wise segment of the standing wave is computed
     private double dx = 2;
     private GeneralPath wavePath = new GeneralPath();;
     private int numPts;
-    double elapsedTime = 0;
+    private double elapsedTime = 0;
 
 
     public StandingWave( Component component, Point2D origin, double extent,
@@ -75,7 +80,7 @@ public class StandingWave extends PhetGraphic implements ModelElement {
     }
 
     protected Rectangle determineBounds() {
-        return null;
+        return wavePath.getBounds();
     }
 
     public void paint( Graphics2D g2 ) {
@@ -90,17 +95,9 @@ public class StandingWave extends PhetGraphic implements ModelElement {
         elapsedTime += dt;
         double a = Math.sin( ( elapsedTime / period ) * Math.PI );
         wavePath.moveTo( (float)origin.getX(), (float)origin.getY() );
-        //        for( int i = 0; i < numPts - 3; i+=3 ) {
         for( int i = 0; i < numPts; i += 3 ) {
             double x = dx * i;
             double y = amplitude * ( a * Math.sin( ( x / lambda ) * Math.PI ) );
-            //            double x1 = dx * (i + 1);
-            //            double y1 = amplitude * ( a * Math.sin( ( x1 / lambda ) * Math.PI ) );
-            //            double x2 = dx * (i + 2);
-            //            double y2 = amplitude * ( a * Math.sin( ( x2 / lambda ) * Math.PI ) );
-            //            wavePath.curveTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ),
-            //                              (float)( x1 + origin.getX() ), (float)( y1 + origin.getY() ),
-            //                              (float)( x2 + origin.getX() ), (float)( y2 + origin.getY() ));
             wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
         }
     }

@@ -4,12 +4,9 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.LaserSimulation;
-import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -49,8 +46,8 @@ public class SingleAtomControlPanel extends LaserControlPanel {
         final String addMirrorsStr = SimStrings.get( "LaserControlPanel.AddMirrorsCheckBox" );
         final String removeMirrorsStr = SimStrings.get( "LaserControlPanel.RemoveMirrorsCheckBox" );
         final JCheckBox mirrorCB = new JCheckBox( addMirrorsStr );
-        mirrorCB.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+        mirrorCB.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 if( mirrorCB.isSelected() ) {
                     mirrorCB.setText( removeMirrorsStr );
                     module.setMirrorsEnabled( true );

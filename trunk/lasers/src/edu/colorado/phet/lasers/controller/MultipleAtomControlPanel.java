@@ -7,9 +7,9 @@ import edu.colorado.phet.lasers.controller.module.WaveViewControlPanel;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Class: MultipleAtomControlPanel
@@ -31,8 +31,8 @@ public class MultipleAtomControlPanel extends LaserControlPanel {
         final String addMirrorsStr = SimStrings.get( "LaserControlPanel.AddMirrorsCheckBox" );
         final String removeMirrorsStr = SimStrings.get( "LaserControlPanel.RemoveMirrorsCheckBox" );
         final JCheckBox mirrorCB = new JCheckBox( addMirrorsStr );
-        mirrorCB.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+        mirrorCB.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 if( mirrorCB.isSelected() ) {
                     mirrorCB.setText( removeMirrorsStr );
                     module.setMirrorsEnabled( true );

@@ -48,8 +48,8 @@ public class LaserSimulation extends PhetApplication {
             //            PhetFrame frame = new PhetFrame( this );
             //            setFrame( frame );
 
-            Module singleAtomModule = new SingleAtomModule( getFrame() );
-            Module multipleAtomModule = new MultipleAtomModule( getFrame() );
+            Module singleAtomModule = new SingleAtomModule( getFrame(), clock );
+            Module multipleAtomModule = new MultipleAtomModule( getFrame(), clock );
             Module[] modules = new Module[]{
                 singleAtomModule,
                 multipleAtomModule
