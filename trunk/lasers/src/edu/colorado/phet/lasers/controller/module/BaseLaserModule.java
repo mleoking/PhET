@@ -153,6 +153,7 @@ public class BaseLaserModule extends Module {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
+        Photon.setStimulationBounds( cavity.getBounds() );
         appFrame = app.getApplicationView().getPhetFrame();
         energyLevelsDialog.setVisible( true );
         //        energyLevelsDialog.setVisible( energyDialogIsVisible );
@@ -270,8 +271,6 @@ public class BaseLaserModule extends Module {
             getModel().addModelElement( rightMirror );
             getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.MIRROR_LAYER );
             getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.MIRROR_LAYER );
-            //            getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.CAVITY_LAYER );
-            //            getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
 
             // Put a reflectivity control on the panel
             JPanel reflectivityControl = new RightMirrorReflectivityControlPanel( rightMirror );
@@ -328,17 +327,21 @@ public class BaseLaserModule extends Module {
             // Is it a pumping beam photon, and are we viewing discrete photons?
             if( pumpingPhotonView == PHOTON_DISCRETE
                 && photon.getWavelength() == pumpingBeam.getWavelength() ) {
+                // Create a photon graphic, add it to the appratus panel and attach a
+                // listener to the photon that will remove the graphic if and when the
+                // photon goes away
                 PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
-                // Add a listener that will remove the graphic if the photon leaves the system
                 photon.addListener( new PhotonLeftSystemListener( pg ) );
             }
             // Is it a lasing wavelength photon, and are we viewing discrete photons?
             else if( lasingPhotonView == PHOTON_DISCRETE
                      && photon.getWavelength() == MiddleEnergyState.instance().getWavelength() ) {
+                // Create a photon graphic, add it to the appratus panel and attach a
+                // listener to the photon that will remove the graphic if and when the
+                // photon goes away
                 PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
-                // Add a listener that will remove the graphic if the photon leaves the system
                 photon.addListener( new PhotonLeftSystemListener( pg ) );
             }
         }

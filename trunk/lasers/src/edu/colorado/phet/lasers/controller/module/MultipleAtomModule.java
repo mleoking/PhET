@@ -168,6 +168,7 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         Atom atom = null;
         atoms = new ArrayList();
+        //        int numAtoms = 4;
         int numAtoms = 20;
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new Atom( getModel() );
@@ -177,8 +178,7 @@ public class MultipleAtomModule extends BaseLaserModule {
             do {
                 placed = true;
                 atom.setPosition( ( cavityBounds.getX() + ( Math.random() ) * ( cavityBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
-                                  //                atom.setPosition( ( cavityBounds.getX() + ( Math.random() ) * ( cavityBounds.getWidth() - atom.getRadius() * 2 ) + atom.getRadius() ),
-                                  ( cavityBounds.getY() + ( Math.random() ) * ( cavityBounds.getHeight() - atom.getRadius() * 2 ) ) + atom.getRadius() );
+                                  ( cavityBounds.getY() + ( Math.random() ) * ( cavityBounds.getHeight() - atom.getRadius() * 4 ) ) + atom.getRadius() * 2 );
                 for( int j = 0; j < atoms.size(); j++ ) {
                     Atom atom2 = (Atom)atoms.get( j );
                     double d = atom.getPosition().distance( atom2.getPosition() );

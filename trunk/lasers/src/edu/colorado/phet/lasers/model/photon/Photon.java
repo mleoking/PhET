@@ -18,6 +18,7 @@ import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
@@ -43,6 +44,9 @@ public class Photon extends Particle implements Collidable {
     static private double PLANCK = 6.626E-34;
     static private Random random = new Random();
     static private EventRegistry classEventRegistry = new EventRegistry();
+    // The bounds within which a stimulated photon must be created. This keeps them inside the
+    // laser cavity
+    static private Rectangle2D stimulationBounds;
 
     public static double energyToWavelength( double energy ) {
         return PLANCK / energy;
@@ -51,7 +55,6 @@ public class Photon extends Particle implements Collidable {
     public static double wavelengthToEnergy( double wavelength ) {
         return PLANCK / wavelength;
     }
-
 
     // Free pool of photons. We do this so we don't have to use the heap
     // at run-time
@@ -79,8 +82,15 @@ public class Photon extends Particle implements Collidable {
                                    stimulatingPhoton.getVelocity() );
         int yOffset = stimulatingPhoton.numStimulatedPhotons * 8;
         int sign = random.nextBoolean() ? 1 : -1;
-        newPhoton.setPosition( stimulatingPhoton.getPosition().getX(),
-                               stimulatingPhoton.getPosition().getY() + ( yOffset * sign ) );
+        double dy = yOffset * sign;
+        double newY = stimulatingPhoton.getPosition().getY() + dy;
+        // Keep the photon inside the cavity.
+        // todo: if we get the photon graphic positioned better, this may change.
+        if( newY < stimulationBounds.getMinY() + Photon.RADIUS * 2
+            || newY > stimulationBounds.getMaxY() + Photon.RADIUS * 2 ) {
+            newY = stimulatingPhoton.getPosition().getY() - dy;
+        }
+        newPhoton.setPosition( stimulatingPhoton.getPosition().getX(), newY );
         return newPhoton;
     }
 
@@ -98,11 +108,15 @@ public class Photon extends Particle implements Collidable {
         classEventRegistry.addListener( listener );
     }
 
+    public static void setStimulationBounds( Rectangle2D stimulationBounds ) {
+        Photon.stimulationBounds = stimulationBounds;
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////
     // Instance
     //
-    private ArrayList eventRegistry = new ArrayList();
-    //    private EventRegistry eventRegistry = new EventRegistry();
+    //    private ArrayList eventRegistry = new ArrayList();
+    private EventRegistry eventRegistry = new EventRegistry();
     private int numStimulatedPhotons;
     // If this photon was produced by the stimulation of another, this
     // is a reference to that photon.
@@ -131,13 +145,13 @@ public class Photon extends Particle implements Collidable {
     }
 
     public void addListener( EventListener listener ) {
-        eventRegistry.add( listener );
-        //        eventRegistry.addListener( listener );
+        //        eventRegistry.add( listener );
+        eventRegistry.addListener( listener );
     }
 
     public void removeListener( EventListener listener ) {
-        eventRegistry.remove( listener );
-        //        eventRegistry.removeListener( listener );
+        //        eventRegistry.remove( listener );
+        eventRegistry.removeListener( listener );
     }
 
     /**
@@ -146,13 +160,13 @@ public class Photon extends Particle implements Collidable {
      * again. This helps prevent us from flogging the heap.
      */
     public void removeFromSystem() {
-        //        eventRegistry.fireEvent( new LeftSystemEvent() );
-        for( int i = 0; i < eventRegistry.size(); i++ ) {
-            EventListener eventListener = (EventListener)eventRegistry.get( i );
-            if( eventListener instanceof LeftSystemEventListener ) {
-                ( (LeftSystemEventListener)eventRegistry.get( i ) ).leftSystemEventOccurred( new LeftSystemEvent() );
-            }
-        }
+        eventRegistry.fireEvent( new LeftSystemEvent() );
+        //        for( int i = 0; i < eventRegistry.size(); i++ ) {
+        //            EventListener eventListener = (EventListener)eventRegistry.get( i );
+        //            if( eventListener instanceof LeftSystemEventListener ) {
+        //                ( (LeftSystemEventListener)eventRegistry.get( i ) ).leftSystemEventOccurred( new LeftSystemEvent() );
+        //            }
+        //        }
         this.removeAllObservers();
         //        freePool.add( this );
         //        setChanged();
@@ -194,13 +208,13 @@ public class Photon extends Particle implements Collidable {
     public void setVelocity( double vx, double vy ) {
         VelocityChangedEvent vce = new VelocityChangedEvent();
         super.setVelocity( vx, vy );
-        //        eventRegistry.fireEvent( vce );
-        for( int i = 0; i < eventRegistry.size(); i++ ) {
-            EventListener eventListener = (EventListener)eventRegistry.get( i );
-            if( eventListener instanceof VelocityChangedListener ) {
-                ( (VelocityChangedListener)eventRegistry.get( i ) ).velocityChanged( new VelocityChangedEvent() );
-            }
-        }
+        eventRegistry.fireEvent( vce );
+        //        for( int i = 0; i < eventRegistry.size(); i++ ) {
+        //            EventListener eventListener = (EventListener)eventRegistry.get( i );
+        //            if( eventListener instanceof VelocityChangedListener ) {
+        //                ( (VelocityChangedListener)eventRegistry.get( i ) ).velocityChanged( new VelocityChangedEvent() );
+        //            }
+        //        }
     }
 
     public Vector2D getVelocityPrev() {

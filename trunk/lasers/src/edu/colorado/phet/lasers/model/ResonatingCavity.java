@@ -36,6 +36,7 @@ public class ResonatingCavity extends Box2D {
     }
 
     public Rectangle2D getBounds() {
+        determineBounds();
         return bounds;
     }
 
