@@ -20,6 +20,7 @@ public class ParticleGraphic implements Graphic {
     protected ParticleGraphic( Particle particle, Color color ) {
         this.particle = particle;
         this.color = color;
+        this.radius = particle.getRadius();
     }
 
     public void paint( Graphics2D g ) {
