@@ -70,6 +70,7 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void setBorderPaint( Paint border ) {
         this.border = border;
+        autorepaint();
     }
 
     public void paint( Graphics2D g2 ) {
