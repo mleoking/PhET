@@ -262,10 +262,10 @@ public abstract class PhetGraphic {
     public boolean isVisible() {
         // If we have a parent, check to see if it is visible
         if( parent != null ) {
-            return parent.isVisible() && this.visible;
+            return parent.isVisible() && this.visible;//shouldn't we add a call to getComponent().isShowing()? 
         }
         else {
-            return visible;
+            return visible;//this too?
         }
     }
 
