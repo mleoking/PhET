@@ -1,6 +1,6 @@
 /**
  * Class: InteractiveGraphic
- * Package: edu.colorado.phet.common.view.graphics.paint
+ * Package: edu.colorado.phet.common.view.graphics.repaint
  * Author: Another Guy
  * Date: May 21, 2003
  */

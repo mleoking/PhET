@@ -226,5 +226,14 @@
             <arg line="${basedir}"></arg>
         </exec>
     </target>
+    <target name="Test SCP">
+        <!--        <scp file="build.properties" todir="reids:password@ucsub.colorado.edu:/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet"/>-->
+        <scp file="build.properties"
+            todir="reids@ucsub.colorado.edu:/home1/reids"
+            keyfile="${user.home}/.ssh/id_dsa"
+            passphrase="my extremely secret passphrase"
+            />
+    </target>
+
 
 </project>
