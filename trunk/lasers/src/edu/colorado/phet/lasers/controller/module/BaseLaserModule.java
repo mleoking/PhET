@@ -196,6 +196,9 @@ public class BaseLaserModule extends Module {
     }
 
     protected void createMirrors() {
+//        PartialMirror rightMirror = laserModel.getRightMirror();
+//        PartialMirror leftMirror = laserModel.getLeftMirror();
+
         // If there already mirrors in the model, get rid of them
         if( rightMirror != null ) {
             getModel().removeModelElement( rightMirror );
@@ -210,6 +213,8 @@ public class BaseLaserModule extends Module {
         Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(),
                                          cavity.getPosition().getY() + cavity.getHeight() );
         rightMirror = new PartialMirror( p1, p2 );
+//        laserModel.setRightMirror( rightMirror );
+
 //        rightMirror.addReflectionStrategy( new LeftReflecting() );
         rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
         // The left mirror is 100% reflecting
@@ -219,6 +224,7 @@ public class BaseLaserModule extends Module {
                                          cavity.getPosition().getY() + cavity.getHeight() );
         leftMirror = new PartialMirror( p3, p4 );
         leftMirror.setReflectivity( 1.0 );
+//        laserModel.setLeftMirror( leftMirror );
 //        leftMirror.addReflectionStrategy( new RightReflecting() );
         leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
 
@@ -302,7 +308,7 @@ public class BaseLaserModule extends Module {
             case PHOTON_WAVE:
                 if( waveGraphic == null ) {
                     waveGraphic = new LaserWaveGraphic( getApparatusPanel(), getCavity(),
-                                                        rightMirror, getLaserModel(), getLaserModel().getMiddleEnergyState() );
+                                                        rightMirror, this, getLaserModel().getMiddleEnergyState() );
                 }
                 waveGraphic.setVisible( true );
                 seedBeam.setFanout( seedBeamFanout );
@@ -355,6 +361,10 @@ public class BaseLaserModule extends Module {
 
     public PartialMirror getRightMirror() {
         return rightMirror;
+    }
+
+    public boolean isMirrorsEnabled() {
+        return mirrorsEnabled;
     }
 
     public CollimatedBeam getPumpingBeam() {

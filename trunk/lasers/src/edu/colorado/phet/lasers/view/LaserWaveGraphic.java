@@ -8,6 +8,7 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -44,9 +45,10 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
     private ApparatusPanel apparatusPanel;
 
     public LaserWaveGraphic( ApparatusPanel apparatusPanel, ResonatingCavity cavity,
-                             PartialMirror mirror, LaserModel model, AtomicState atomicState ) {
+                             PartialMirror mirror, BaseLaserModule module, AtomicState atomicState ) {
 
         this.apparatusPanel = apparatusPanel;
+        LaserModel model = module.getLaserModel();
 
         // Have the model tell us when the number of lasing photons changes
         model.addLaserListener( this );
@@ -66,14 +68,16 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
 
         // Create the non-lasing wave graphics
         double dTheta = 20;
+        double dy = cavity.getHeight() / numNonLasingExternalWaveGraphics;
         int j = numNonLasingExternalWaveGraphics / 2;
-        Point2D nonLasingWaveOrigin = new Point2D.Double( cavity.getMinX() + cavity.getWidth() + LaserConfig.MIRROR_THICKNESS,
-                                                          cavity.getMinY() + cavity.getHeight() / 2 );
         for( int i = 0; i < numNonLasingExternalWaveGraphics; i++ ) {
             double theta = ( i - j ) * dTheta;
+            double yOffset = (i - j ) * dy;
+            Point2D nonLasingWaveOrigin = new Point2D.Double( cavity.getMinX() + cavity.getWidth(),
+                                                              cavity.getMinY() + ( cavity.getHeight() / 2 ) + yOffset );
             WaveGraphic waveGraphic = new NonLasingWaveGraphic( apparatusPanel, nonLasingWaveOrigin, cavity.getWidth(),
                                                                 cavity.getWidth() / cyclesInCavity, 100,
-                                                                getNumLasingPhotons(), atomicState, model,
+                                                                getNumLasingPhotons(), atomicState, module,
                                                                 Math.toRadians( theta ) );
             nonLasingExternalWaveGraphics[i] = waveGraphic;
         }
@@ -93,7 +97,6 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
             nonLasingExternalWaveGraphics[i].setVisible( isVisible );
         }
     }
-
 
     public WaveGraphic[] getNonLasingExternalWaveGraphics() {
         return nonLasingExternalWaveGraphics;
@@ -129,9 +132,11 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
     private void update() {
         internalStandingWaveGraphic.setAmplitude( getInternalAmplitude() );
         externalTravelingWaveGraphic.setAmplitude( getExternalAmplitude() );
+
+        // UPdate the non-lasing wave graphics. Reduce the amplitude by a large factor
         for( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
             WaveGraphic waveGraphic = nonLasingExternalWaveGraphics[i];
-            int amp = getNumLasingPhotons() > LaserConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() / 5 );
+            int amp = getNumLasingPhotons() > LaserConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() / 8 );
             waveGraphic.setAmplitude( amp );
         }
     }

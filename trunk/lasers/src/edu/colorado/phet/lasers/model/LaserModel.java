@@ -23,6 +23,7 @@ import edu.colorado.phet.lasers.model.atom.*;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
+import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
@@ -49,6 +50,8 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private ArrayList photons = new ArrayList();
     private ArrayList atoms = new ArrayList();
     private ArrayList mirrors = new ArrayList();
+    private PartialMirror rightMirror;
+    private PartialMirror leftMirror;
     private CollisionMechanism collisionMechanism;
     private int numPhotons;
 
@@ -221,6 +224,24 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         addModelElement( pumpingBeam );
         this.pumpingBeam = pumpingBeam;
     }
+
+//    public PartialMirror getRightMirror() {
+//        return rightMirror;
+//    }
+//
+//    public void setRightMirror( PartialMirror rightMirror ) {
+//        this.rightMirror = rightMirror;
+//        addModelElement( rightMirror );
+//    }
+//
+//    public PartialMirror getLeftMirror() {
+//        return leftMirror;
+//    }
+//
+//    public void setLeftMirror( PartialMirror leftMirror ) {
+//        this.leftMirror = leftMirror;
+//        addModelElement( leftMirror );
+//    }
 
     public void setHighEnergyMeanLifetime( double time ) {
         getHighEnergyState().setMeanLifetime( time );

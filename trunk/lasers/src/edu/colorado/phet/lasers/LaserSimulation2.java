@@ -34,41 +34,41 @@ import java.util.Locale;
 
 public class LaserSimulation2 extends PhetApplication {
 
-    public static class LaserAppModel extends ApplicationModel {
-        public LaserAppModel() {
-            super( SimStrings.get( "LasersApplication.title" ),
-                   SimStrings.get( "LasersApplication.description" ),
-                   SimStrings.get( "LasersApplication.version" ) );
-
-
-            AbstractClock clock = new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND );
-            setClock( clock );
-
-            // Determine the resolution of the screen
-            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            setFrameCenteredSize( 1024, 750 );
-            if( dim.getWidth() == 1024 || dim.getHeight() == 768 ) {
-                FrameSetup fs = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 750 ) );
-                setFrameSetup( fs );
-            }
-
-
-            Module singleAtomModule = new SingleAtomModule( clock );
-            Module multipleAtomModule = new MultipleAtomModule( clock );
-            Module photoModule = new PhotoModule( clock );
-//            Module kaboomModule = new TestKaboomModule();
-            Module[] modules = new Module[]{
-                singleAtomModule,
-                multipleAtomModule,
-                photoModule                
-//                kaboomModule
-            };
-            setModules( modules );
-//            setInitialModule( multipleAtomModule );
-            setInitialModule( singleAtomModule );
-//            setInitialModule( kaboomModule );
-        }
-    }
+//    public static class LaserAppModel extends ApplicationModel {
+//        public LaserAppModel() {
+//            super( SimStrings.get( "LasersApplication.title" ),
+//                   SimStrings.get( "LasersApplication.description" ),
+//                   SimStrings.get( "LasersApplication.version" ) );
+//
+//
+//            AbstractClock clock = new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND );
+//            setClock( clock );
+//
+//            // Determine the resolution of the screen
+//            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//            setFrameCenteredSize( 1024, 750 );
+//            if( dim.getWidth() == 1024 || dim.getHeight() == 768 ) {
+//                FrameSetup fs = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 750 ) );
+//                setFrameSetup( fs );
+//            }
+//
+//
+//            Module singleAtomModule = new SingleAtomModule( clock );
+//            Module multipleAtomModule = new MultipleAtomModule( clock );
+//            Module photoModule = new PhotoModule( clock );
+////            Module kaboomModule = new TestKaboomModule();
+//            Module[] modules = new Module[]{
+//                singleAtomModule,
+//                multipleAtomModule,
+//                photoModule
+////                kaboomModule
+//            };
+//            setModules( modules );
+////            setInitialModule( multipleAtomModule );
+//            setInitialModule( singleAtomModule );
+////            setInitialModule( kaboomModule );
+//        }
+//    }
 
     public LaserSimulation2( String[] args ) {
         super( args,
@@ -95,17 +95,6 @@ public class LaserSimulation2 extends PhetApplication {
         addModule( multipleAtomModule );
         addModule( photoModule );
         setInitialModule( singleAtomModule );
-//        Module[] modules = new Module[]{
-//            singleAtomModule,
-//            multipleAtomModule,
-//            photoModule
-////                kaboomModule
-//        };
-//        setModules( modules );
-////            setInitialModule( multipleAtomModule );
-//        setInitialModule( singleAtomModule );
-////            setInitialModule( kaboomModule );
-//    }
     }
 
     public void displayHighToMidEmission( boolean selected ) {
@@ -138,9 +127,9 @@ public class LaserSimulation2 extends PhetApplication {
         simulation.startApplication();
     }
 
-//----------------------------------------------------------------
-// Definition of look and feel
-//----------------------------------------------------------------
+    //----------------------------------------------------------------
+    // Definition of look and feel
+    //----------------------------------------------------------------
 
     private static class LaserAppLookAndFeel extends LandF {
         static Color yellowishBackground = new Color( 255, 255, 214 );

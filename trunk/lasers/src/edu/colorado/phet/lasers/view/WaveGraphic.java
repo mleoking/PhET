@@ -112,7 +112,7 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement, A
 //        g2.fill( curtainBounds );
 //        GraphicsUtil.setAlpha( g2, 1 );
 
-        if( amplitude > 0 ) {
+        if( amplitude > 0 && isVisible() ) {
             g2.setStroke( stroke );
             g2.setColor( color );
             g2.draw( wavePath );
