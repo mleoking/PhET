@@ -1,10 +1,11 @@
 package edu.colorado.phet.mazegame;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+//import edu.colorado.phet.common.view.util.GraphicsUtil;
+//import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.imageio.ImageIO;
 import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -56,8 +57,11 @@ public class MazeGameApplet extends JApplet {
 
         //splat = getImage(getDocumentBase(), "sunburst.gif");
         try {
-            splat = ImageLoader.loadBufferedImage( "RedBang.gif" );//getImage(getDocumentBase(), "RedBang.gif");
-            ballImage = ImageLoader.loadBufferedImage( "ballsmall2.gif" );//getImage(getDocumentBase(), "ballsmall2.gif");
+
+            splat=ImageIO.read( getClass().getClassLoader().getResource( "RedBang.gif"));
+            ballImage=ImageIO.read( getClass().getClassLoader().getResource( "ballsmall2.gif"));
+//            splat = ImageLoader.loadBufferedImage( "RedBang.gif" );//getImage(getDocumentBase(), "RedBang.gif");
+//            ballImage = ImageLoader.loadBufferedImage( "ballsmall2.gif" );//getImage(getDocumentBase(), "ballsmall2.gif");
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -81,11 +85,17 @@ public class MazeGameApplet extends JApplet {
         f.setContentPane( mg );
         mg.init();
         f.setSize( 700, 500 );
-        GraphicsUtil.centerFrameOnScreen( f );
+        centerFrameOnScreen( f );
         f.setVisible( true );
         f.addWindowListener( new Exit() );
+    }
 
+    private static void centerFrameOnScreen( JFrame f ) {
+        Dimension size=Toolkit.getDefaultToolkit().getScreenSize();
+        int dw=size.width-f.getWidth();
+        int dh=size.height-f.getHeight();
 
+        f.setBounds( dw/2,dh/2,f.getWidth(), f.getHeight());
     }
 
     public static class Exit implements WindowListener {
