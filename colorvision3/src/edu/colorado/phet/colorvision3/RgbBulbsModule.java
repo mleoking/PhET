@@ -57,7 +57,7 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
   private static final double HELP_LAYER = Double.MAX_VALUE;
 
   // Colors 
-	private static final Color APPARATUS_BACKGROUND = Color.black;
+	private static final Color APPARATUS_BACKGROUND = ColorVisionConfig.APPARATUS_BACKGROUND;
 
 	// Locations of model components
 	private static final double PERSON_X             = 450;
