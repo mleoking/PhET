@@ -126,7 +126,6 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         switch( source ) {
             case SoundApparatusPanel.LISTENER_SOURCE:
                 setListener( headListener );
-                //                getPrimaryOscillator().setAmplitude( amplitudeAtHead );
                 getPrimaryOscillator().setInterferenceOverideEnabled( true );
                 break;
             case SoundApparatusPanel.SPEAKER_SOURCE:
