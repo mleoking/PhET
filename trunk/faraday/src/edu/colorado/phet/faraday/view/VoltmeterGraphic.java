@@ -176,6 +176,8 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
 
             // Set the meter value.
             setValue( value );
+            
+            repaint();
         }
     }
 }
