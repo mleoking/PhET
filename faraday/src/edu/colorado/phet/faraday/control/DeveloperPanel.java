@@ -23,12 +23,9 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.AbstractCompass;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
-import edu.colorado.phet.faraday.module.BarMagnetModule;
-import edu.colorado.phet.faraday.view.BarMagnetGraphic;
+import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
-import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 
 /**
@@ -47,6 +44,7 @@ public class DeveloperPanel extends JPanel {
     // Model & view components to be controlled.
     private AbstractMagnet _magnetModel;
     private CompassGridGraphic _gridGraphic;
+    private CoilGraphic _coilGraphic;
     private ApparatusPanel _apparatusPanel;
     
     // Debugging components
@@ -56,7 +54,8 @@ public class DeveloperPanel extends JPanel {
     private JLabel _magnetWidthValue, _magnetHeightValue;
     private JLabel _gridSpacingValue;
     private JLabel _needleWidthValue, _needleHeightValue;
-    private JButton _backgroundColorButton;
+    private JButton _apparatusBackgroundColorButton;
+    private JButton _coilForeColorButton, _coilMiddleColorButton, _coilBackColorButton;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -69,23 +68,23 @@ public class DeveloperPanel extends JPanel {
      * reflects the structure of the panel.
      * 
      * @param magnetModel
-     * @param compassModel
-     * @param magnetGraphic
      * @param gridGraphic
-     * @param fieldMeterGraphic
+     * @param coilGraphic
      * @param apparatusPanel
      */
-    public DeveloperPanel( AbstractMagnet magnetModel, CompassGridGraphic gridGraphic, ApparatusPanel apparatusPanel ) {
+    public DeveloperPanel( AbstractMagnet magnetModel, CompassGridGraphic gridGraphic, CoilGraphic coilGraphic, ApparatusPanel apparatusPanel ) {
         
         super();
         
         assert ( magnetModel != null );
         assert ( gridGraphic != null );
         assert ( apparatusPanel != null );
+        // OK if coilGraphic is null
         
         // Things we'll be controlling.
         _magnetModel = magnetModel;
         _gridGraphic = gridGraphic;
+        _coilGraphic = coilGraphic;
         _apparatusPanel = apparatusPanel;
         
         //  Titled border
@@ -206,8 +205,22 @@ public class DeveloperPanel extends JPanel {
             needleHeightPanel.add( _needleHeightValue );
         }
 
-        // Background Color button
-        _backgroundColorButton = new JButton( "Background Color..." );
+        // Colors panel
+        JPanel colorsPanel = new JPanel();
+        {
+            colorsPanel.setLayout( new BoxLayout( colorsPanel, BoxLayout.Y_AXIS ) );
+            
+            _apparatusBackgroundColorButton = new JButton( "Apparatus Background Color..." );
+            colorsPanel.add( _apparatusBackgroundColorButton );
+            if ( coilGraphic != null ) {
+                _coilForeColorButton = new JButton( "Coil Foreground Color..." );
+                _coilMiddleColorButton = new JButton( "Coil Middleground Color..." );
+                _coilBackColorButton = new JButton( "Coil Background Color..." );
+                colorsPanel.add( _coilForeColorButton );
+                colorsPanel.add( _coilMiddleColorButton );
+                colorsPanel.add( _coilBackColorButton );
+            }
+        }
 
         //  Layout
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
@@ -216,7 +229,7 @@ public class DeveloperPanel extends JPanel {
         add( gridDensityPanel );
         add( needleWidthPanel );
         add( needleHeightPanel );
-        add( _backgroundColorButton );
+        add( colorsPanel );
         
         // Wire up event handling.
         EventListener listener = new EventListener();
@@ -225,7 +238,12 @@ public class DeveloperPanel extends JPanel {
         _gridSpacingSlider.addChangeListener( listener );
         _needleWidthSlider.addChangeListener( listener );
         _needleHeightSlider.addChangeListener( listener );
-        _backgroundColorButton.addActionListener( listener );
+        _apparatusBackgroundColorButton.addActionListener( listener );
+        if ( coilGraphic != null ) {
+            _coilForeColorButton.addActionListener( listener );
+            _coilMiddleColorButton.addActionListener( listener );
+            _coilBackColorButton.addActionListener( listener );
+        }
         
         // Update control panel to match the components that it's controlling.
         _magnetWidthSlider.setValue( (int) _magnetModel.getSize().width );
@@ -246,7 +264,7 @@ public class DeveloperPanel extends JPanel {
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    private class EventListener implements ActionListener, ChangeListener, ColorDialog.Listener {
+    private class EventListener implements ActionListener, ChangeListener {
 
         /** Sole constructor */
         public EventListener() {}
@@ -262,8 +280,61 @@ public class DeveloperPanel extends JPanel {
          * @throws IllegalArgumentException if the event is unexpected
          */
         public void actionPerformed( ActionEvent e ) {
-            if ( e.getSource() == _backgroundColorButton ) {
-                ColorDialog.showDialog( "Background Color", _apparatusPanel, _apparatusPanel.getBackground(), this );
+            if ( e.getSource() == _apparatusBackgroundColorButton ) {
+                ColorDialog.Listener listener = new ColorDialog.Listener() {
+                    public void colorChanged( Color color ) {
+                        _apparatusPanel.setBackground( color );
+                    }
+                    public void ok( Color color ) {
+                        _apparatusPanel.setBackground( color );
+                    }
+                    public void cancelled( Color color ) {
+                        _apparatusPanel.setBackground( color );
+                    }  
+                };
+                ColorDialog.showDialog( "Apparatus Background Color", _apparatusPanel, _apparatusPanel.getBackground(), listener );
+            }
+            else if ( e.getSource() == _coilForeColorButton ) {
+                ColorDialog.Listener listener = new ColorDialog.Listener() {
+                    public void colorChanged( Color color ) {
+                        _coilGraphic.setColors( color, null, null );
+                    }
+                    public void ok( Color color ) {
+                        _coilGraphic.setColors( color, null, null );
+                    }
+                    public void cancelled( Color color ) {
+                        _coilGraphic.setColors( color, null, null );
+                    }  
+                };
+                ColorDialog.showDialog( "Coil Foreground Color", _apparatusPanel, _coilGraphic.getForegroundColor(), listener );
+            }
+            else if ( e.getSource() == _coilMiddleColorButton ) {
+                ColorDialog.Listener listener = new ColorDialog.Listener() {
+                    public void colorChanged( Color color ) {
+                        _coilGraphic.setColors( null, color, null );
+                    }
+                    public void ok( Color color ) {
+                        _coilGraphic.setColors( null, color, null );
+                    }
+                    public void cancelled( Color color ) {
+                        _coilGraphic.setColors( null, color, null );
+                    }  
+                };
+                ColorDialog.showDialog( "Coil Middleground Color", _apparatusPanel, _coilGraphic.getMiddlegroundColor(), listener );
+            }
+            else if ( e.getSource() == _coilBackColorButton ) {
+                ColorDialog.Listener listener = new ColorDialog.Listener() {
+                    public void colorChanged( Color color ) {
+                        _coilGraphic.setColors( null, null, color );
+                    }
+                    public void ok( Color color ) {
+                        _coilGraphic.setColors( null, null, color );
+                    }
+                    public void cancelled( Color color ) {
+                        _coilGraphic.setColors( null, null, color );
+                    }  
+                };
+                ColorDialog.showDialog( "Coil Background Color", _apparatusPanel, _coilGraphic.getBackgroundColor(), listener );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
@@ -318,38 +389,6 @@ public class DeveloperPanel extends JPanel {
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
             }
-        }
-        
-        //----------------------------------------------------------------------------
-        // ColorDialog.Listener implementation
-        //----------------------------------------------------------------------------
-        
-        /**
-         * Handles selection in the color chooser.
-         * 
-         * @param color the selected color
-         */
-        public void colorChanged( Color color ) {
-            _apparatusPanel.setBackground( color );
-        }
-        
-        /**
-         * Handles "OK" button in the color chooser.
-         * 
-         * @param color the selected color
-         */
-        public void ok( Color color ) {
-            _apparatusPanel.setBackground( color );
-        }
-        
-        /**
-         * Handles "Canel" button in the color chooser.
-         * Restore the original color.
-         * 
-         * @param color the color to restore
-         */
-        public void cancelled( Color color ) {
-            _apparatusPanel.setBackground( color );
         }
     }
 }

@@ -34,9 +34,9 @@ public class CoilGraphic implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     // Loop parameters
-    private static final Color FORE_COLOR = new Color( 153, 102, 51 ); // light brown
-    private static final Color MIDDLE_COLOR = new Color( 92, 52, 12 ); // dark brown
-    private static final Color BACK_COLOR = new Color( 40, 23, 3 ); // really dark brown
+    private static final Color FOREGROUND_COLOR = new Color( 153, 102, 51 ); // light brown
+    private static final Color MIDDLEGROUND_COLOR = new Color( 92, 52, 12 ); // dark brown
+    private static final Color BACKGROUND_COLOR = new Color( 40, 23, 3 ); // really dark brown
     private static final int WIRE_WIDTH = 16;
     private static final double LOOP_SPACING_FACTOR = 0.3; // ratio of loop spacing to loop radius
     
@@ -50,7 +50,7 @@ public class CoilGraphic implements SimpleObserver {
     private CompositePhetGraphic _background;
     private boolean _currentFlowAnimationEnabled;
     private Stroke _loopStroke;
-    private Color _foreColor, _middleColor, _backColor;
+    private Color _foregroundColor, _middlegroundColor, _backgroundColor;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -78,9 +78,9 @@ public class CoilGraphic implements SimpleObserver {
         
         _currentFlowAnimationEnabled = false;
         _loopStroke = new BasicStroke( WIRE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL );
-        _foreColor = FORE_COLOR;
-        _middleColor = MIDDLE_COLOR;
-        _backColor = BACK_COLOR;
+        _foregroundColor = FOREGROUND_COLOR;
+        _middlegroundColor = MIDDLEGROUND_COLOR;
+        _backgroundColor = BACKGROUND_COLOR;
         
         update();
     }
@@ -144,21 +144,33 @@ public class CoilGraphic implements SimpleObserver {
      * Colors are changed only if their corresponding parameter is not null.
      * For example, to change only the foreground color, use setColor(Color.RED,null,null).
      * 
-     * @param foreColor the foreground color
-     * @param middleColor the middleground color
-     * @param backColor the background color
+     * @param foregroundColor the foreground color
+     * @param middlegroundColor the middleground color
+     * @param backgroundColor the background color
      */
-    public void setColors( Color foreColor, Color middleColor, Color backColor ) {
-        if ( foreColor != null ) {
-            _foreColor = foreColor;
+    public void setColors( Color foregroundColor, Color middlegroundColor, Color backgroundColor ) {
+        if ( foregroundColor != null ) {
+            _foregroundColor = foregroundColor;
         }
-        if ( middleColor != null ) {
-            _middleColor = middleColor;
+        if ( middlegroundColor != null ) {
+            _middlegroundColor = middlegroundColor;
         }
-        if ( backColor != null ) {
-            _backColor = backColor;
+        if ( backgroundColor != null ) {
+            _backgroundColor = backgroundColor;
         }
         update();
+    }
+    
+    public Color getForegroundColor() {
+        return _foregroundColor;
+    }
+    
+    public Color getMiddlegroundColor() {
+        return _middlegroundColor;
+    }
+    
+    public Color getBackgroundColor() {
+        return _backgroundColor;
     }
     
     //----------------------------------------------------------------------------
@@ -188,7 +200,7 @@ public class CoilGraphic implements SimpleObserver {
             
             int offset = firstLoopCenter + ( i * loopSpacing );
             
-            Paint paint = new GradientPaint( 0, (int)(radius * .40), _backColor, 0, (int)(radius * .90), _middleColor );
+            Paint paint = new GradientPaint( 0, (int)(radius * .40), _backgroundColor, 0, (int)(radius * .90), _middlegroundColor );
             
             // Back bottom
             {
@@ -223,7 +235,7 @@ public class CoilGraphic implements SimpleObserver {
                 Point end1 = new Point( -loopSpacing + (int)(radius * .15) + offset, (int)-radius );
                 Point end2 = new Point( end1.x - 15, end1.y - 40 );
                 Point control = new Point( end1.x - 20, end1.y - 20 );
-                paint = new GradientPaint( end2.x, 0, _middleColor, end1.x, 0, _backColor );
+                paint = new GradientPaint( end2.x, 0, _middlegroundColor, end1.x, 0, _backgroundColor );
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
@@ -239,7 +251,7 @@ public class CoilGraphic implements SimpleObserver {
             
             int offset = firstLoopCenter + ( i * loopSpacing );;
             
-            Paint paint = new GradientPaint( (int)(-radius * .25) + offset, 0, _foreColor, (int)(-radius * .15) + offset, 0, _middleColor );
+            Paint paint = new GradientPaint( (int)(-radius * .25) + offset, 0, _foregroundColor, (int)(-radius * .15) + offset, 0, _middlegroundColor );
             
             // Front bottom
             {
@@ -286,7 +298,7 @@ public class CoilGraphic implements SimpleObserver {
 
                 // Right connection wire
                 {
-                    paint = _middleColor;
+                    paint = _middlegroundColor;
                     Point end1 = new Point( -loopSpacing + (int) ( radius * .25 ) + offset, (int)-radius );
                     Point end2 = new Point( end1.x + 15, end1.y - 40 );
                     Point control = new Point( end1.x + 20, end1.y - 20 );

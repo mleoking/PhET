@@ -145,7 +145,7 @@ public class BarMagnetModule extends Module {
         BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this, 
                 magnetModel, compassModel, magnetGraphic, fieldMeterGraphic );
         if ( FaradayConfig.ENABLE_DEVELOPER_CONTROLS ) {
-            controlPanel.addFullWidth( new DeveloperPanel( magnetModel, gridGraphic, apparatusPanel ) );
+            controlPanel.addFullWidth( new DeveloperPanel( magnetModel, gridGraphic, null, apparatusPanel ) );
         }
         this.setControlPanel( controlPanel );
         
