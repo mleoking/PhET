@@ -10,6 +10,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 
 public class Gravity implements Force {
+//public class Gravity implements Force {
 
     private Vector2D acceleration;
 

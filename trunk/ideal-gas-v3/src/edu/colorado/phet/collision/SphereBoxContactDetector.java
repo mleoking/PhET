@@ -22,9 +22,6 @@ public class SphereBoxContactDetector extends ContactDetector {
         SphericalBody sphere = null;
         box = bodyA instanceof Box2D ? (Box2D)bodyA : (Box2D)bodyB;
         sphere = bodyA instanceof SphericalBody ? (SphericalBody)bodyA : (SphericalBody)bodyB;
-        if(box.isInContactWithParticle( sphere )) {
-            System.out.println( "!!" );
-        }
         return box.isInContactWithParticle( sphere );
     }
 }

@@ -42,18 +42,18 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
     /**
      *
      */
-    public BaseIdealGasApparatusPanel( Module module, Box2D box ) {
-        init( module, box );
+    public BaseIdealGasApparatusPanel( Module module, Box2D box, Pump pump ) {
+        init( module, box, pump );
     }
 
-    protected BaseIdealGasApparatusPanel( Module module, Box2D box, String name ) {
-        init( module, box );
+    protected BaseIdealGasApparatusPanel( Module module, Box2D box, Pump pump, String name ) {
+        init( module, box, pump );
     }
 
     /**
      *
      */
-    public void init( final Module module, Box2D box ) {
+    public void init( final Module module, Box2D box, Pump pump ) {
 
         // Set the background color
         this.setBackground( Color.white );        
@@ -66,8 +66,6 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
             BufferedImage pumpImg = ImageLoader.loadBufferedImage( IdealGasConfig.PUMP_IMAGE_FILE );
             BufferedImage handleImg = ImageLoader.loadBufferedImage( IdealGasConfig.HANDLE_IMAGE_FILE );
             PhetImageGraphic handleGraphic = new PhetImageGraphic( this, handleImg );
-
-            Pump pump = new Pump( module, box );
             handleGraphicImage = new PumpHandleGraphic( pump, handleGraphic,
                                                         IdealGasConfig.X_BASE_OFFSET + 549, IdealGasConfig.Y_BASE_OFFSET + 238,
                                                         IdealGasConfig.X_BASE_OFFSET + 549, IdealGasConfig.Y_BASE_OFFSET + 100,
