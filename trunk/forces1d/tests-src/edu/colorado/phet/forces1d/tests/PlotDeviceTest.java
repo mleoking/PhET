@@ -51,7 +51,7 @@ public class PlotDeviceTest {
     private static ApparatusPanel createPanel() {
         AbstractClock clock = new SwingTimerClock( 1, 30 );
         final BaseModel model = new BaseModel();
-        final ApparatusPanel2 panel = new ApparatusPanel2( model, clock );
+        final ApparatusPanel2 panel = new ApparatusPanel2( clock );
 //        ApparatusPanel panel = new ApparatusPanel();
         panel.addGraphicsSetup( new BasicGraphicsSetup() );
         panel.addRepaintDebugGraphic( clock );

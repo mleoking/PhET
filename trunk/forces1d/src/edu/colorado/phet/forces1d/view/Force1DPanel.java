@@ -62,7 +62,7 @@ public class Force1DPanel extends ApparatusPanel2 {
     private boolean goButtonPressed;
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
-        super( module.getModel(), module.getClock() );
+        super( module.getClock() );
 //        setAutoPaint( false );
         this.backgroundGraphic = new BufferedPhetGraphic( this, 800, 800, Color.white );
         backgroundGraphic.setGraphicsSetup( new BasicGraphicsSetup() );
