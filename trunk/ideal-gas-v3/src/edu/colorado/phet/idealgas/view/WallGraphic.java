@@ -31,11 +31,16 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     public static final int ALL = 0, EAST_WEST = 1, NORTH_SOUTH = 2;
     public static final Object NORTH = new Object();
     private Wall wall;
-    private int translationDirection;
     private List resizableDirections = new ArrayList();
-    private Rectangle2D movementBounds;
 
-
+    /**
+     *
+     * @param wall
+     * @param component
+     * @param fill
+     * @param borderPaint
+     * @param translationDirection
+     */
     public WallGraphic( Wall wall, Component component, Paint fill, Paint borderPaint,
                         int translationDirection ) {
         this( wall, component, fill, translationDirection );
@@ -43,13 +48,18 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         setBorderPaint( borderPaint );
     }
 
+    /**
+     *
+     * @param wall
+     * @param component
+     * @param fill
+     * @param translationDirection
+     */
     public WallGraphic( Wall wall, Component component, Paint fill,
                         int translationDirection ) {
         super( component, wall.getBounds(), fill );
         this.wall = wall;
         wall.addChangeListener( this );
-        this.translationDirection = translationDirection;
-        this.movementBounds = wall.getMovementBounds();
 
         // Add a listener for resize events
         addTranslationListener( new Resizer() );
@@ -70,6 +80,10 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         }
     }
 
+    /**
+     * Sets the wall to be resizable in a specified direction.
+     * @param direction
+     */
     public void setResizable( Object direction ) {
         resizableDirections.add( direction );
     }
@@ -82,7 +96,6 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         Wall wall = event.getWall();
         setBounds( new Rectangle( (int)wall.getBounds().getX(), (int)wall.getBounds().getY(),
                                   (int)wall.getBounds().getWidth(), (int)wall.getBounds().getHeight() ) );
-        movementBounds = wall.getMovementBounds();
         setBoundsDirty();
         repaint();
     }
