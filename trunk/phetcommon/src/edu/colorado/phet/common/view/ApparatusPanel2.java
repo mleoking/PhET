@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.util.EventChannel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,9 +24,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -56,13 +55,17 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     private AffineTransform graphicTx = new AffineTransform();
     private AffineTransform mouseTx = new AffineTransform();
-    private Rectangle referenceBounds;
     private HashMap componentOrgLocationsMap = new HashMap();
     private boolean modelPaused = false;
     private double scale = 1.0;
     private boolean referenceSizeSet;
     protected ClockTickListener paintTickListener;
     protected ModelElement paintModelElement;
+
+    // Bounds of the panel when scale is 1:1
+    private Rectangle referenceBounds;
+    // Size of the canvas that PhetGraphics on this panel draw to
+    private Dimension canvasSize = new Dimension();
 
     /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
@@ -124,23 +127,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         //I need more fine grained control, since I have two modules using the same clock.  Isn't this the normal thing?
 
         // Add a listener what will adjust things if the size of the panel changes
-        this.addComponentListener( new ComponentAdapter() {
-
-            public void componentResized( ComponentEvent e ) {
-                if( !referenceSizeSet ) {
-                    setReferenceSize();
-                }
-                else {
-                    // Setup the affine transforms for graphics and mouse events
-                    double sx = getWidth() / referenceBounds.getWidth();
-                    double sy = getHeight() / referenceBounds.getHeight();
-                    // Using a single scale factor keeps the aspect ratio constant
-                    double s = Math.min( sx, sy );
-                    setScale( s );
-                }
-                bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
-            }
-        } );
+        this.addComponentListener( new PanelResizeHandler() );
     }
 
     /**
@@ -171,6 +158,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
         saveSwingComponentCoordinates( 1.0 );
         setScale( 1.0 );
         paintImmediately( 0, 0, getWidth(), getHeight() );
+
+        //
+        determineCanvasSize();
 
         System.out.println( "referenceBounds = " + referenceBounds );
     }
@@ -368,23 +358,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         gs.restoreGraphics();
     }
 
-    public double getScale() {
-        return scale;
-    }
-
-    public void setScale( double scale ) {
-        graphicTx = AffineTransform.getScaleInstance( scale, scale );
-        this.scale = scale;
-        System.out.println( "Set graphics to scale: " + scale );
-        try {
-            mouseTx = graphicTx.createInverse();
-        }
-        catch( NoninvertibleTransformException e1 ) {
-            e1.printStackTrace();
-        }
-        layoutSwingComponents();
-    }
-
     /**
      * Adjust the locations of Swing components based on the current scale
      */
@@ -412,23 +385,86 @@ public class ApparatusPanel2 extends ApparatusPanel {
     /**
      * Gets the size of the drawing area (the canvas) that is available to clients.
      * This is the size of the apparatus panel, adjusted for scaling.
-     * This method is intended for use by clients who need to know how big 
+     * This method is intended for use by clients who need to know how big
      * an area is available for drawing.
-     * <p>
-     * An example: The client is a "grid" that needs to cover all visible space in 
+     * <p/>
+     * An example: The client is a "grid" that needs to cover all visible space in
      * the apparatus panel.  The apparatus panel's size is currently 500x250, and its
-     * scaling is 0.5.  If the grid uses 500x250, it will only 25% of the 
-     * apparatus panel after scaling.  Using getVirtualCanvasSize adjusts for 
+     * scaling is 0.5.  If the grid uses 500x250, it will only 25% of the
+     * apparatus panel after scaling.  Using getVirtualCanvasSize adjusts for
      * scaling and returns 1000x500 (ie, 500/0.5 x 250/0.5).
      *
      * @return the size
      */
     public Dimension getVirtualCanvasSize() {
         Dimension size = new Dimension();
-        size.setSize( getWidth()/scale, getHeight()/scale );
+        size.setSize( getWidth() / scale, getHeight() / scale );
         return size;
     }
-    
+
+    //-----------------------------------------------------------------
+    // Resizing and scaling
+    //-----------------------------------------------------------------
+
+    private class PanelResizeHandler extends ComponentAdapter {
+        public void componentResized( ComponentEvent e ) {
+            if( !referenceSizeSet ) {
+                setReferenceSize();
+            }
+            else {
+                // Setup the affine transforms for graphics and mouse events
+                double sx = getWidth() / referenceBounds.getWidth();
+                double sy = getHeight() / referenceBounds.getHeight();
+                // Using a single scale factor keeps the aspect ratio constant
+                double s = Math.min( sx, sy );
+                setScale( s );
+                determineCanvasSize();
+            }
+            bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+        }
+    }
+
+    /**
+     * Computes the size of the canvas on which PhetGraphics attached to this panel are drawn.
+     * If the size changed, an referenceSizeChanged is called on all ChangeListeners
+     */
+    private void determineCanvasSize() {
+        double refAspectRatio = referenceBounds.getHeight() / referenceBounds.getWidth();
+        double currAspectRatio = (double)getHeight() / getWidth();
+        double widthFactor = 1;
+        double heightFactor = 1;
+        if( currAspectRatio < refAspectRatio ) {
+            widthFactor = refAspectRatio / currAspectRatio;
+        }
+        else {
+            heightFactor = currAspectRatio / refAspectRatio;
+        }
+        Dimension oldSize = new Dimension( canvasSize );
+        canvasSize.setSize( referenceBounds.getWidth() * widthFactor, referenceBounds.getHeight() * heightFactor );
+        if( oldSize.width != canvasSize.width || oldSize.height != canvasSize.height ) {
+            changeListenerProxy.referenceSizeChanged( new ChangeEvent( ApparatusPanel2.this ) );
+        }
+    }
+
+    public double getScale() {
+        return scale;
+    }
+
+    public void setScale( double scale ) {
+        graphicTx = AffineTransform.getScaleInstance( scale, scale );
+        this.scale = scale;
+        System.out.println( "Set graphics to scale: " + scale );
+        try {
+            mouseTx = graphicTx.createInverse();
+        }
+        catch( NoninvertibleTransformException e1 ) {
+            e1.printStackTrace();
+        }
+        layoutSwingComponents();
+    }
+
+
+
     //-------------------------------------------------------------------------
     // Inner classes
     //-------------------------------------------------------------------------
@@ -565,6 +601,34 @@ public class ApparatusPanel2 extends ApparatusPanel {
         public void mouseMoved( MouseEvent e ) {
             this.addMouseMotionEvent( e );
         }
+    }
+
+    //-----------------------------------------------------------------
+    // Event-related classes
+    //-----------------------------------------------------------------
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( ApparatusPanel2 source ) {
+            super( source );
+        }
+
+        public Dimension getCanvasSize() {
+            return canvasSize;
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void referenceSizeChanged( ChangeEvent event );
+    }
+
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
     }
 }
 
