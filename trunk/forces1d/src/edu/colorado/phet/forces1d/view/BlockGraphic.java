@@ -93,6 +93,10 @@ public class BlockGraphic extends CompositePhetGraphic {
         return super.determineBounds();
     }
 
+    public Block getBlock() {
+        return block;
+    }
+
     //Workaround for lack of equals in java's RoundRectangle2D.
     public static class RoundRect extends RoundRectangle2D.Double {
 
