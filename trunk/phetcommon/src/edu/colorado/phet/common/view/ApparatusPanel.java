@@ -213,10 +213,12 @@ public class ApparatusPanel extends JPanel {
 
     protected void drawBorder( Graphics2D g2 ) {
         if( displayBorder ) {
+            GraphicsState gs = new GraphicsState( g2 );
             g2.setColor( Color.black );
             g2.setStroke( borderStroke );
             Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1 );
             g2.draw( border );
+            gs.restoreGraphics();
         }
     }
 
