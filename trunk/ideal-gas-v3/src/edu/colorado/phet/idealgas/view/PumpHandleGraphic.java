@@ -7,6 +7,7 @@
 package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.Boundary;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.idealgas.model.Pump;
@@ -26,7 +27,7 @@ public class PumpHandleGraphic extends DefaultInteractiveGraphic {
     private int lastYPumped;
     private int lastYTracked = Integer.MAX_VALUE;
 
-    public PumpHandleGraphic( Pump pump, PhetImageGraphic image, int x, int y,
+    public PumpHandleGraphic( Pump pump, final PhetImageGraphic image, int x, int y,
                               int minX, int minY,
                               int maxX, int maxY ) {
         super( image );
@@ -34,6 +35,15 @@ public class PumpHandleGraphic extends DefaultInteractiveGraphic {
         this.image = image;
         image.setPosition( x, y );
 
+        Boundary hitArea = new Boundary() {
+            public boolean contains( int x, int y ) {
+                boolean result = x >= image.getBounds().getMinX() && x <= image.getBounds().getMaxX()
+                                 && y >= image.getBounds().getMinY() && y <= image.getBounds().getMinY() + 10;
+                if( result )
+                return result;
+            }
+        };
+        super.setBoundary( hitArea );
         this.addCursorHandBehavior();
         this.addTranslationBehavior( new PumpHandleTranslator( x, y, minX, minY, maxX, maxY ) );
         this.setGraphic( image );
