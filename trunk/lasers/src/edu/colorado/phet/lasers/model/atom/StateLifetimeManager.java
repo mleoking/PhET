@@ -1,8 +1,8 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
@@ -50,7 +50,7 @@ class StateLifetimeManager implements ModelElement {
         if( lifeTime >= deathTime ) {
 
             if( emitOnStateChange ) {
-                double speed = Photon.s_speed;
+                double speed = Photon.SPEED;
                 double theta = Math.random() * Math.PI * 2;
                 double x = speed * Math.cos( theta );
                 double y = speed * Math.sin( theta );
