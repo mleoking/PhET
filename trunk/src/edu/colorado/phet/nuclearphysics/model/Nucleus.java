@@ -8,6 +8,7 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.coreadditions.Body;
+import edu.colorado.phet.coreadditions.RandomGaussian;
 
 import java.awt.geom.Point2D;
 
@@ -17,7 +18,6 @@ public class Nucleus extends Body {
     private double radius;
     private PotentialProfile potentialProfile;
     private Point2D.Double statisticalLocationOffset = new Point2D.Double();
-//    private Point2D.Double position;
 
     public Nucleus( Point2D.Double position, int numProtons, int numNeutrons,
                     PotentialProfile potentialProfile ) {
@@ -58,7 +58,7 @@ public class Nucleus extends Body {
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        double d = ( Math.random() - 0.5 ) * maxStatisticalLocationOffset * 2;
+        double d = ( RandomGaussian.get() * potentialProfile.getAlphaDecayX() / 3 ) * ( Math.random() > 0.5 ? 1 : -1 );
         double theta = Math.random() * Math.PI * 2;
         double dx = d * Math.cos( theta );
         double dy = d * Math.sin( theta );
@@ -69,9 +69,6 @@ public class Nucleus extends Body {
         return statisticalLocationOffset;
     }
 
-    public double distFromProfileHill() {
-        return potentialProfile.getDistFromHill( statisticalLocationOffset );
-    }
 
     //
     // Statics

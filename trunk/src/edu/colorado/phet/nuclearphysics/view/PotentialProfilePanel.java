@@ -19,6 +19,7 @@ import java.awt.geom.Point2D;
 
 public class PotentialProfilePanel extends ApparatusPanel {
     private NucleusGraphic nucleusGraphic;
+    private NucleusGraphic decayGraphic;
     private PotentialProfileGraphic profileGraphic;
     private PotentialProfile potentialProfile;
     private Point2D.Double origin;
@@ -65,6 +66,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
         // Center the profile in the panel
         origin.setLocation( this.getWidth() / 2, this.getHeight() * 2 / 3 );
         double xWell = origin.getX();
+
+        // What's with the / 10?
         double yWell = origin.getY() - profileGraphic.getProfile().getWellPotential() - 10;
         Graphics2D g2 = (Graphics2D)graphics;
 
@@ -80,20 +83,44 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
 
         if( nucleusGraphic != null ) {
-            AffineTransform atx = scaleInPlaceTx( .3, xWell, yWell );
+            double scale = 0.3;
+            AffineTransform atx = scaleInPlaceTx( scale, xWell, yWell );
             AffineTransform orgTx = g2.getTransform();
             g2.setTransform( atx );
-            nucleusGraphic.paintPotentialRendering( g2, (int)xWell, (int)yWell );
+
+            Nucleus nucleus = nucleusGraphic.getNucleus();
+            double xStat = nucleus.getStatisticalLocationOffset().getX();
+            double yStat = nucleus.getStatisticalLocationOffset().getY();
+            double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
+            double x = origin.getX() + (int)( d / scale );
+            double y = yWell;
+            nucleusGraphic.paint( g2, (int)x, (int)y );
+
             g2.setTransform( orgTx );
         }
 
-        // Paint a dot on the hill for the spot at the same level as the well
-        double yTest = -potentialProfile.getWellPotential();
-        for( int j = 0; j < 1; j++ ) {
-            double xTest = potentialProfile.getAlphaDecayX();
-            g2.setColor( Color.red );
-            g2.fillOval( (int)xTest + (int)origin.getX() - 5, (int)origin.getY() + (int)yTest - 5, 10, 10 );
+        if( decayGraphic != null ) {
+            double scale = 0.3;
+            AffineTransform atx = scaleInPlaceTx( scale, xWell, yWell );
+            AffineTransform orgTx = g2.getTransform();
+            g2.setTransform( atx );
+            double x = potentialProfile.getAlphaDecayX() *
+                       ( decayGraphic.getNucleus().getStatisticalLocationOffset().getX() > 0 ? 1 : -1 );
+            decayGraphic.paint( g2, (int)( (int)origin.getX() + ( (NucleusDecayGraphic)decayGraphic ).getX() / scale ),
+                                (int)( ( (NucleusDecayGraphic)decayGraphic ).getY() ) );
+//            decayGraphic.paint( g2, (int)( (int)origin.getX() + x / scale ),
+//                                                       (int)yWell );
+//            decayGraphic.paint( g2, (int)( (int)origin.getX() + ( potentialProfile.getAlphaDecayX()) / scale ),
+//                                                       (int)yWell );
+            g2.setTransform( orgTx );
         }
+        // Paint a dot on the hill for the spot at the same level as the well
+//        double yTest = -potentialProfile.getWellPotential();
+//        for( int j = 0; j < 1; j++ ) {
+//            double xTest = potentialProfile.getAlphaDecayX();
+//            g2.setColor( Color.red );
+//            g2.fillOval( (int)xTest + (int)origin.getX() - 5, (int)origin.getY() + (int)yTest - 5, 10, 10 );
+//        }
 
     }
 
@@ -121,6 +148,11 @@ public class PotentialProfilePanel extends ApparatusPanel {
         this.addPotentialProfile( new PotentialProfileGraphic( potentialProfile ) );
     }
 
+    public void addDecayProduct( Nucleus decayNucleus ) {
+        this.decayGraphic = new NucleusDecayGraphic( decayNucleus );
+    }
+
+
     //
     // Statics
     //
@@ -134,5 +166,30 @@ public class PotentialProfilePanel extends ApparatusPanel {
         atx.scale( scale, scale );
         atx.translate( -x, -y );
         return atx;
+    }
+
+
+    //
+    // Inner classes
+    //
+    private class NucleusDecayGraphic extends NucleusGraphic {
+        private double x;
+        private double y;
+
+        public NucleusDecayGraphic( Nucleus nucleus ) {
+            super( nucleus );
+            double x = potentialProfile.getAlphaDecayX() *
+                       ( decayGraphic.getNucleus().getStatisticalLocationOffset().getX() > 0 ? 1 : -1 );
+            this.x = x;
+            this.y = origin.getY() - profileGraphic.getProfile().getWellPotential() - 10;
+        }
+
+        public double getX() {
+            return x;
+        }
+
+        public double getY() {
+            return y;
+        }
     }
 }
