@@ -9,7 +9,7 @@ import edu.colorado.phet.cck.elements.branch.components.Resistor;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.selection.SelectionListener;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
@@ -264,19 +264,19 @@ public class ImageBranchGraphic extends CompositeInteractiveGraphic implements T
     }
 
     public void update() {
-        PhetVector start = branch.getStart();
-        PhetVector end = branch.getEnd();
+        ImmutableVector2D.Double start = branch.getStart();
+        ImmutableVector2D.Double end = branch.getEnd();
         double length = getBranchLength();
-        PhetVector dir = branch.getDirection();
+        ImmutableVector2D dir = branch.getDirection();
         double modelWidthForImage = transform.viewToModelDifferentialX( imagePortion.getImageWidth() );
         double segmentLength = ( length - modelWidthForImage ) / 2;
 
-        PhetVector preEndVector = start.getAddedInstance( dir.getScaledInstance( segmentLength ) );
+        ImmutableVector2D preEndVector = start.getAddedInstance( dir.getScaledInstance( segmentLength ) );
         pre.getTarget().setState( start.getX(), start.getY(), preEndVector.getX(), preEndVector.getY() );
 
-        PhetVector secondStartPoint = getSecondStartPoint( start, dir, segmentLength, modelWidthForImage );
+        ImmutableVector2D secondStartPoint = getSecondStartPoint( start, dir, segmentLength, modelWidthForImage );
         post.getTarget().setState( secondStartPoint.getX(), secondStartPoint.getY(), end.getX(), end.getY() );
-        PhetVector imageCenterModel = start.getAddedInstance( dir.getScaledInstance( segmentLength + modelWidthForImage / 2 ) );
+        ImmutableVector2D imageCenterModel = start.getAddedInstance( dir.getScaledInstance( segmentLength + modelWidthForImage / 2 ) );
         Point imCtr = transform.modelToView( imageCenterModel );
         angle = Math.atan2( imCtr.y - pre.getTarget().getStartPoint().y, imCtr.x - pre.getTarget().getStartPoint().x );
         AffineTransform imageTransform = getImageTransform( imagePortion.getImage(), angle, imCtr.getX(), imCtr.getY() );
@@ -291,7 +291,7 @@ public class ImageBranchGraphic extends CompositeInteractiveGraphic implements T
         textDisplay.setLocation( bounds.x, bounds.y );
     }
 
-    protected PhetVector getSecondStartPoint( PhetVector start, PhetVector dir, double segmentLength, double modelWidthForImage ) {
+    protected ImmutableVector2D getSecondStartPoint( ImmutableVector2D start, ImmutableVector2D dir, double segmentLength, double modelWidthForImage ) {
         return start.getAddedInstance( dir.getScaledInstance( segmentLength + modelWidthForImage ) );
     }
 

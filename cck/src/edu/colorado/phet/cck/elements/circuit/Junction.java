@@ -4,7 +4,7 @@ package edu.colorado.phet.cck.elements.circuit;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.selection.CompositeSelectionListener;
 import edu.colorado.phet.cck.selection.SelectionListener;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -114,7 +114,7 @@ public class Junction {
         return y;
     }
 
-    public double distance( PhetVector start ) {
+    public double distance( ImmutableVector2D.Double start ) {
         return Point2D.Double.distance( start.getX(), start.getY(), x, y );
     }
 
@@ -170,8 +170,8 @@ public class Junction {
         }
     }
 
-    public PhetVector getVector() {
-        return new PhetVector( x, y );
+    public ImmutableVector2D.Double getVector() {
+        return new ImmutableVector2D.Double( x, y );
     }
 
     public Point2D.Double getLocation() {

@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchObserver;
 import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.elements.circuit.JunctionGroup;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 
 
@@ -59,7 +59,7 @@ public class BranchParticle extends SimpleObservable {
         return x;
     }
 
-    public PhetVector getPosition2D() {
+    public ImmutableVector2D getPosition2D() {
         return branch.getPosition2D( x );
     }
 

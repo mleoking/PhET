@@ -72,7 +72,7 @@ public class TestSerialize {
 //        c.addBranch(w);
 //        Wire w2 = new Wire(c, 100, 100, 300, 450);
 //        c.addBranch(w2);
-//        Bulb bulb = new Bulb(c, 234, 234.9999, 0, 1, new PhetVector(.5, 0), 1);
+//        Bulb bulb = new Bulb(c, 234, 234.9999, 0, 1, new ImmutableVector2D.Double(.5, 0), 1);
 //        c.addBranch(bulb);
         Battery batt = new Battery( c, 0, 0, 130, 0, 20, 1 );
         c.addBranch( batt );
