@@ -323,7 +323,8 @@ public class GraphicLayerSet extends PhetGraphic {
 
     /**
      * Determine the PhetGraphic suited for handling a click at the specified point.
-     * If no such graphic is identified, then this GraphicLayerSet is returned.
+     * If no such graphic is identified and this GraphicLayerSet is interested in
+     * mouse events, then this GraphicLayerSet is returned.
      *
      * @param p the mouse point.
      * @return the handler.
@@ -345,23 +346,18 @@ public class GraphicLayerSet extends PhetGraphic {
                         result = ( (GraphicLayerSet) g ).getHandler( p );
                     }
                     else if( g.contains( p.x, p.y ) ) {
-                        if( g.numMouseInputListeners() != 0 ) {
-                            // We've picked a graphic and it has a mouse listener.
-                            result = g;
-                        }
-                        else {
-                            // We've picked a graphic but it has no mouse listener.
-                            // Bail out now so we don't pick a graphic behind this one.
-                            break;
-                        }
+                        // We picked this graphic.
+                        result = g;
                     }
                 }
             }
         }
         
-        // We didn't pick a graphic.  If this GraphicLayerSet has a mouse listener, 
-        // and it contains the point, then it becomes the default handler.
-        if( result == null && isVisible() && numMouseInputListeners() != 0 && this.contains( p ) ) {
+        // We picked a graphic with no mouse listener, 
+        // and this GraphicLayerSet does have a mouse listener.
+        // So let the GraphicLayerSet handle the event.
+        if ( result != null && result.numMouseInputListeners() == 0 && 
+                isVisible() && numMouseInputListeners() != 0 && this.contains( p ) ) {
             result = this;
         }
         
