@@ -14,6 +14,7 @@ package edu.colorado.phet.faraday.view;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.event.MouseInputAdapter;
 
@@ -25,6 +26,8 @@ import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.model.Compass;
 
@@ -93,34 +96,14 @@ public class CompassGraphic extends CompositePhetGraphic
         
         setRenderingHints(new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
-        // Ring & lens, center at (0,0)
-        Shape ringShape = new Ellipse2D.Double( -( RING_DIAMETER/2), -( RING_DIAMETER/2), RING_DIAMETER, RING_DIAMETER );
-        PhetShapeGraphic ring = new PhetShapeGraphic( component );
-        ring.setShape( ringShape );
-        ring.setPaint( LENS_COLOR );
-        ring.setBorderColor( RING_COLOR );
-        ring.setStroke( new BasicStroke( RING_WIDTH ) );
-        addGraphic( ring );
+        // Body of the compass
+        BodyGraphic body = new BodyGraphic( component);
+        body.centerRegistrationPoint();
+        addGraphic( body );
         
-        // Indicators at evenly-spaced increments around the ring.
-        int angle = 0; // degrees
-        PhetShapeGraphic indicatorGraphic = null;
-        Shape indicatorShape = new Ellipse2D.Double( -(INDICATOR_DIAMETER/2), -(INDICATOR_DIAMETER/2), INDICATOR_DIAMETER, INDICATOR_DIAMETER ); 
-        while ( angle < 360 ) {
-            indicatorGraphic = new PhetShapeGraphic( component );
-            indicatorGraphic.setShape( indicatorShape );
-            indicatorGraphic.setPaint( INDICATOR_COLOR );
-            AbstractVector2D v = ImmutableVector2D.Double.parseAngleAndMagnitude( RING_DIAMETER/2, Math.toRadians( angle ) );
-            int rx = (int) v.getX();
-            int ry = (int) v.getY();
-            indicatorGraphic.setRegistrationPoint( rx, ry );
-            addGraphic( indicatorGraphic );
-            angle += INDICATOR_INCREMENT;
-        }
- 
         // Needle
         _needle = new CompassNeedleGraphic( component );
-        _needle.setSize( NEEDLE_SIZE.width, NEEDLE_SIZE.height );
+        _needle.setSize( NEEDLE_SIZE );
         _needle.setDirection( _compassModel.getDirection() );
         addGraphic( _needle );
         
@@ -245,6 +228,58 @@ public class CompassGraphic extends CompositePhetGraphic
         
         public void mouseReleased( MouseEvent event ) {
             _stopDragging = false;
+        }
+    }
+    
+    /**
+     * BodyGraphic creates a the compass body from a bunch of static graphic components.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private static class BodyGraphic extends PhetImageGraphic {
+        public BodyGraphic( Component component ) {
+            super( component );
+            
+            // This will be flattened after we've added graphics to it.
+            GraphicLayerSet graphicLayerSet = new GraphicLayerSet( component );
+            RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            graphicLayerSet.setRenderingHints( hints );
+            
+            // Ring & lens, center at (0,0)
+            Shape ringShape = new Ellipse2D.Double( -( RING_DIAMETER/2), -( RING_DIAMETER/2), RING_DIAMETER, RING_DIAMETER );
+            PhetShapeGraphic ring = new PhetShapeGraphic( component );
+            ring.setShape( ringShape );
+            ring.setPaint( LENS_COLOR );
+            ring.setBorderColor( RING_COLOR );
+            ring.setStroke( new BasicStroke( RING_WIDTH ) );
+            graphicLayerSet.addGraphic( ring );
+            
+            // Indicators at evenly-spaced increments around the ring.
+            int angle = 0; // degrees
+            PhetShapeGraphic indicatorGraphic = null;
+            Shape indicatorShape = new Ellipse2D.Double( -(INDICATOR_DIAMETER/2), -(INDICATOR_DIAMETER/2), INDICATOR_DIAMETER, INDICATOR_DIAMETER ); 
+            while ( angle < 360 ) {
+                indicatorGraphic = new PhetShapeGraphic( component );
+                indicatorGraphic.setShape( indicatorShape );
+                indicatorGraphic.setPaint( INDICATOR_COLOR );
+                AbstractVector2D v = ImmutableVector2D.Double.parseAngleAndMagnitude( RING_DIAMETER/2, Math.toRadians( angle ) );
+                int rx = (int) v.getX();
+                int ry = (int) v.getY();
+                indicatorGraphic.setRegistrationPoint( rx, ry );
+                graphicLayerSet.addGraphic( indicatorGraphic );
+                angle += INDICATOR_INCREMENT;
+            }
+            
+            // Flatten the graphic layer set.
+            {
+                Dimension size = graphicLayerSet.getSize();
+                BufferedImage bufferedImage = new BufferedImage( size.width, size.height, BufferedImage.TYPE_INT_ARGB );
+                Graphics2D g2 = bufferedImage.createGraphics();
+                graphicLayerSet.translate( size.width/2, size.height/2 );
+                graphicLayerSet.paint( g2 );
+                setImage( bufferedImage );
+            }
         }
     }
 }
