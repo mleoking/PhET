@@ -14,13 +14,14 @@ public class MaxExtentFrameSetup implements FrameSetup {
     public MaxExtentFrameSetup() {
     }
 
-    public MaxExtentFrameSetup(FrameSetup pre) {
+    public MaxExtentFrameSetup( FrameSetup pre ) {
         this.pre = pre;
     }
 
-    public void initialize(JFrame frame) {
-        if (pre != null)
-            pre.initialize(frame);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    public void initialize( JFrame frame ) {
+        if( pre != null ) {
+            pre.initialize( frame );
+        }
+        frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
     }
 }

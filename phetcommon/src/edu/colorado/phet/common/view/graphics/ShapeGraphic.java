@@ -19,30 +19,30 @@ public class ShapeGraphic implements Graphic, Boundary {
     private Paint fillPaint;
     private Stroke outlineStroke;
 
-    public ShapeGraphic(Shape shape, Paint fill) {
-        this(shape, fill, null, null);
+    public ShapeGraphic( Shape shape, Paint fill ) {
+        this( shape, fill, null, null );
     }
 
-    public ShapeGraphic(Shape shape, Paint outline, Stroke stroke) {
-        this(shape, null, outline, stroke);
+    public ShapeGraphic( Shape shape, Paint outline, Stroke stroke ) {
+        this( shape, null, outline, stroke );
     }
 
-    public ShapeGraphic(Shape shape, Paint fill, Paint outline, Stroke stroke) {
+    public ShapeGraphic( Shape shape, Paint fill, Paint outline, Stroke stroke ) {
         this.shape = shape;
         this.fillPaint = fill;
         this.outlinePaint = outline;
         this.outlineStroke = stroke;
     }
 
-    public void paint(Graphics2D g) {
-        if (fillPaint != null) {
-            g.setPaint(fillPaint);
-            g.fill(shape);
+    public void paint( Graphics2D g ) {
+        if( fillPaint != null ) {
+            g.setPaint( fillPaint );
+            g.fill( shape );
         }
-        if (outlineStroke != null) {
-            g.setPaint(outlinePaint);
-            g.setStroke(outlineStroke);
-            g.draw(shape);
+        if( outlineStroke != null ) {
+            g.setPaint( outlinePaint );
+            g.setStroke( outlineStroke );
+            g.draw( shape );
         }
     }
 
@@ -50,7 +50,7 @@ public class ShapeGraphic implements Graphic, Boundary {
         return shape;
     }
 
-    public void setShape(Shape shape) {
+    public void setShape( Shape shape ) {
         this.shape = shape;
     }
 
@@ -58,7 +58,7 @@ public class ShapeGraphic implements Graphic, Boundary {
         return outlinePaint;
     }
 
-    public void setOutlinePaint(Paint outlinePaint) {
+    public void setOutlinePaint( Paint outlinePaint ) {
         this.outlinePaint = outlinePaint;
     }
 
@@ -66,7 +66,7 @@ public class ShapeGraphic implements Graphic, Boundary {
         return fillPaint;
     }
 
-    public void setFillPaint(Paint fillPaint) {
+    public void setFillPaint( Paint fillPaint ) {
         this.fillPaint = fillPaint;
     }
 
@@ -74,12 +74,12 @@ public class ShapeGraphic implements Graphic, Boundary {
         return outlineStroke;
     }
 
-    public void setOutlineStroke(Stroke outlineStroke) {
+    public void setOutlineStroke( Stroke outlineStroke ) {
         this.outlineStroke = outlineStroke;
     }
 
-    public boolean contains(int x, int y) {
-        return shape.contains(x, y);
+    public boolean contains( int x, int y ) {
+        return shape.contains( x, y );
     }
 
 

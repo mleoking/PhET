@@ -14,14 +14,14 @@ public class TxBoundary implements Boundary {
     AffineTransform transform;
     ModelBoundary modelBounds;
 
-    public TxBoundary(ModelBoundary modelBounds, AffineTransform transform) {
+    public TxBoundary( ModelBoundary modelBounds, AffineTransform transform ) {
         this.transform = transform;
         this.modelBounds = modelBounds;
     }
 
-    public boolean contains(int x, int y) {
-        Point2D modelCoordinate = transform.transform(new Point(x, y), null);
-        return modelBounds.contains(modelCoordinate.getX(), modelCoordinate.getY());
+    public boolean contains( int x, int y ) {
+        Point2D modelCoordinate = transform.transform( new Point( x, y ), null );
+        return modelBounds.contains( modelCoordinate.getX(), modelCoordinate.getY() );
     }
 
 }

@@ -7,5 +7,5 @@ package edu.colorado.phet.common.view.graphics.mousecontrols;
  * Copyright (c) Oct 9, 2003 by Sam Reid
  */
 public interface Translatable {
-    public void translate(double dx, double dy);
+    public void translate( double dx, double dy );
 }

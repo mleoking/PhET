@@ -21,12 +21,13 @@ public class MathUtil {
      * @param d
      * @return +1 or -1
      */
-    public static int getSign(double d) {
-        if (d != 0
-                && !Double.isNaN(d)
-                && !Double.isInfinite(d)) {
-            return (int) (Math.abs(d) / d);
-        } else {
+    public static int getSign( double d ) {
+        if( d != 0
+            && !Double.isNaN( d )
+            && !Double.isInfinite( d ) ) {
+            return (int)( Math.abs( d ) / d );
+        }
+        else {
             return 1;
         }
     }
@@ -41,11 +42,11 @@ public class MathUtil {
      * @return The roots of the equation, if not imaginary. Otherwise,
      *         returns NaN
      */
-    public static float[] quadraticRoots(float[] quadRoots, float a, float b, float c) {
-        float sqrt = (float) Math.sqrt((b * b) - 4 * a * c);
+    public static float[] quadraticRoots( float[] quadRoots, float a, float b, float c ) {
+        float sqrt = (float)Math.sqrt( ( b * b ) - 4 * a * c );
 
-        quadRoots[0] = (-b + sqrt) / (2 * a);
-        quadRoots[1] = (-b - sqrt) / (2 * a);
+        quadRoots[0] = ( -b + sqrt ) / ( 2 * a );
+        quadRoots[1] = ( -b - sqrt ) / ( 2 * a );
         return quadRoots;
     }
 
@@ -57,9 +58,9 @@ public class MathUtil {
      * @param c
      * @return the roots of a quadratic equation
      */
-    public static float[] quadraticRoots(float a, float b, float c) {
+    public static float[] quadraticRoots( float a, float b, float c ) {
         float[] roots = new float[2];
-        return quadraticRoots(roots, a, b, c);
+        return quadraticRoots( roots, a, b, c );
     }
 
     /**
@@ -70,8 +71,8 @@ public class MathUtil {
      * @param eps The tolerance to be applied to the equality test
      * @return true if the two values are within epsilon of each other (exclusive).
      */
-    public static boolean isApproxEqual(float x, float y, float eps) {
-        return Math.abs(x - y) < eps;
+    public static boolean isApproxEqual( float x, float y, float eps ) {
+        return Math.abs( x - y ) < eps;
     }
 
     /**
@@ -82,18 +83,18 @@ public class MathUtil {
      * @param lineAngle
      * @return the position of the reflection of a point across a line.
      */
-    public static Point2D.Double reflectPointHorizontal(Point2D p, Point2D linePt1, double lineAngle) {
+    public static Point2D.Double reflectPointHorizontal( Point2D p, Point2D linePt1, double lineAngle ) {
 
-        double bx = linePt1.getX() + (linePt1.getY() - p.getY()) / Math.tan(Math.toRadians(lineAngle));
+        double bx = linePt1.getX() + ( linePt1.getY() - p.getY() ) / Math.tan( Math.toRadians( lineAngle ) );
 
         // Note that this line is what constrains this to a horizontal reflection
         double by = p.getY();
-        Point2D b = new Point2D.Double(bx, by);
-        double d = p.distance(b);
+        Point2D b = new Point2D.Double( bx, by );
+        double d = p.distance( b );
         double beta = 180 - 2 * lineAngle;
-        double ppx = bx + d * Math.cos(Math.toRadians(beta));
-        double ppy = by + d * Math.sin(Math.toRadians(beta));
-        Point2D.Double pp = new Point2D.Double(ppx, ppy);
+        double ppx = bx + d * Math.cos( Math.toRadians( beta ) );
+        double ppy = by + d * Math.sin( Math.toRadians( beta ) );
+        Point2D.Double pp = new Point2D.Double( ppx, ppy );
         return pp;
     }
 
@@ -104,8 +105,8 @@ public class MathUtil {
      * @param l2
      * @return the intersection of two line segments.
      */
-    public static Point2D.Double getLineSegmentsIntersection(Line2D l1, Line2D l2) {
-        return getLineSegmentsIntersection(l1.getP1(), l1.getP2(), l2.getP1(), l2.getP2());
+    public static Point2D.Double getLineSegmentsIntersection( Line2D l1, Line2D l2 ) {
+        return getLineSegmentsIntersection( l1.getP1(), l1.getP2(), l2.getP1(), l2.getP2() );
     }
 
     /**
@@ -118,8 +119,8 @@ public class MathUtil {
      * @param p4
      * @return the intersection of two line segments.
      */
-    public static Point2D.Double getLineSegmentsIntersection(Point2D p1, Point2D p2,
-                                                             Point2D p3, Point2D p4) {
+    public static Point2D.Double getLineSegmentsIntersection( Point2D p1, Point2D p2,
+                                                              Point2D p3, Point2D p4 ) {
         Point2D.Double result = new Point2D.Double();
         double x1 = p1.getX();
         double y1 = p1.getY();
@@ -130,25 +131,27 @@ public class MathUtil {
         double x4 = p4.getX();
         double y4 = p4.getY();
 
-        double numA = (x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3);
-        double numB = (x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3);
-        double denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+        double numA = ( x4 - x3 ) * ( y1 - y3 ) - ( y4 - y3 ) * ( x1 - x3 );
+        double numB = ( x2 - x1 ) * ( y1 - y3 ) - ( y2 - y1 ) * ( x1 - x3 );
+        double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if (denom == 0) {
-            result.setLocation(Float.NaN, Float.NaN);
-        } else {
+        if( denom == 0 ) {
+            result.setLocation( Float.NaN, Float.NaN );
+        }
+        else {
             double ua = numA / denom;
             double ub = numB / denom;
 
             // ua and ub must both be in the range 0 to 1 for the segments
             // to have an interesection pt.
-            if (!(ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1)) {
-                result.setLocation(Float.NaN, Float.NaN);
-            } else {
-                double x = x1 + ua * (x2 - x1);
-                double y = y1 + ua * (y2 - y1);
-                result.setLocation(x, y);
+            if( !( ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1 ) ) {
+                result.setLocation( Float.NaN, Float.NaN );
+            }
+            else {
+                double x = x1 + ua * ( x2 - x1 );
+                double y = y1 + ua * ( y2 - y1 );
+                result.setLocation( x, y );
             }
         }
         return result;
@@ -164,8 +167,8 @@ public class MathUtil {
      * @param p4 Point on line
      * @return the intersection of a segment with a line.
      */
-    public static Point2D.Double getSegmentLineIntersection(Point2D.Double p1, Point2D.Double p2,
-                                                            Point2D.Double p3, Point2D.Double p4) {
+    public static Point2D.Double getSegmentLineIntersection( Point2D.Double p1, Point2D.Double p2,
+                                                             Point2D.Double p3, Point2D.Double p4 ) {
         Point2D.Double result = new Point2D.Double();
         double x1 = p1.getX();
         double y1 = p1.getY();
@@ -176,25 +179,27 @@ public class MathUtil {
         double x4 = p4.getX();
         double y4 = p4.getY();
 
-        double numA = (x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3);
-        double numB = (x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3);
-        double denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+        double numA = ( x4 - x3 ) * ( y1 - y3 ) - ( y4 - y3 ) * ( x1 - x3 );
+        double numB = ( x2 - x1 ) * ( y1 - y3 ) - ( y2 - y1 ) * ( x1 - x3 );
+        double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if (denom == 0) {
-            result.setLocation(Float.NaN, Float.NaN);
-        } else {
+        if( denom == 0 ) {
+            result.setLocation( Float.NaN, Float.NaN );
+        }
+        else {
             double ua = numA / denom;
             double ub = numB / denom;
 
             // ua and ub must both be in the range 0 to 1 for the segments
             // to have an interesection pt.
-            if (!(ub >= 0 && ub <= 1)) {
-                result.setLocation(Double.NaN, Double.NaN);
-            } else {
-                double x = x1 + ua * (x2 - x1);
-                double y = y1 + ua * (y2 - y1);
-                result.setLocation(x, y);
+            if( !( ub >= 0 && ub <= 1 ) ) {
+                result.setLocation( Double.NaN, Double.NaN );
+            }
+            else {
+                double x = x1 + ua * ( x2 - x1 );
+                double y = y1 + ua * ( y2 - y1 );
+                result.setLocation( x, y );
             }
         }
         return result;
@@ -210,8 +215,8 @@ public class MathUtil {
      * @param p4
      * @return the intersection of two lines.
      */
-    public static Point2D.Double getLinesIntersection(Point2D.Double p1, Point2D.Double p2,
-                                                      Point2D.Double p3, Point2D.Double p4) {
+    public static Point2D.Double getLinesIntersection( Point2D.Double p1, Point2D.Double p2,
+                                                       Point2D.Double p3, Point2D.Double p4 ) {
         Point2D.Double result = new Point2D.Double();
         double x1 = p1.getX();
         double y1 = p1.getY();
@@ -222,17 +227,18 @@ public class MathUtil {
         double x4 = p4.getX();
         double y4 = p4.getY();
 
-        double numA = (x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3);
-        double denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+        double numA = ( x4 - x3 ) * ( y1 - y3 ) - ( y4 - y3 ) * ( x1 - x3 );
+        double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if (denom == 0) {
-            result.setLocation(Double.NaN, Double.NaN);
-        } else {
+        if( denom == 0 ) {
+            result.setLocation( Double.NaN, Double.NaN );
+        }
+        else {
             double ua = numA / denom;
-            double x = x1 + ua * (x2 - x1);
-            double y = y1 + ua * (y2 - y1);
-            result.setLocation(x, y);
+            double x = x1 + ua * ( x2 - x1 );
+            double y = y1 + ua * ( y2 - y1 );
+            result.setLocation( x, y );
         }
         return result;
     }
@@ -252,18 +258,19 @@ public class MathUtil {
      * @param y4
      * @return true if a segment intersects a line.
      */
-    public static boolean segmentIntersectsLine(float x1, float y1,
-                                                float x2, float y2,
-                                                float x3, float y3,
-                                                float x4, float y4) {
+    public static boolean segmentIntersectsLine( float x1, float y1,
+                                                 float x2, float y2,
+                                                 float x3, float y3,
+                                                 float x4, float y4 ) {
         boolean result = false;
-        float numA = (x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3);
-        float denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+        float numA = ( x4 - x3 ) * ( y1 - y3 ) - ( y4 - y3 ) * ( x1 - x3 );
+        float denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if (denom == 0) {
+        if( denom == 0 ) {
             result = false;
-        } else {
+        }
+        else {
             float ua = numA / denom;
             // ub must both be in the range 0 to 1 for the segment to
             // to interesect the line
@@ -279,18 +286,20 @@ public class MathUtil {
      * @param b2
      * @return the intersection of two lines.
      */
-    public static Point2D.Float getLinesIntersection(float m1, float b1, float m2, float b2) {
+    public static Point2D.Float getLinesIntersection( float m1, float b1, float m2, float b2 ) {
 
-        Point2D.Float result = new Point2D.Float(0, 0);
-        if (m1 == m2) {
-            result.setLocation(Float.NaN, Float.NaN);
-        } else if (m1 == Float.NEGATIVE_INFINITY || m1 == Float.POSITIVE_INFINITY) {
+        Point2D.Float result = new Point2D.Float( 0, 0 );
+        if( m1 == m2 ) {
+            result.setLocation( Float.NaN, Float.NaN );
+        }
+        else if( m1 == Float.NEGATIVE_INFINITY || m1 == Float.POSITIVE_INFINITY ) {
             // Handle vertical lines!!
-            throw new RuntimeException("Method does not handle vertical lines yet");
-        } else {
-            float x = (b2 - b1) / (m1 - m2);
+            throw new RuntimeException( "Method does not handle vertical lines yet" );
+        }
+        else {
+            float x = ( b2 - b1 ) / ( m1 - m2 );
             float y = m1 * x + b1;
-            result.setLocation(x, y);
+            result.setLocation( x, y );
         }
         return result;
     }

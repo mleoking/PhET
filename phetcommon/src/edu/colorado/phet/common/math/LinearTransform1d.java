@@ -13,17 +13,17 @@ public class LinearTransform1d {
     double minOutput;
     double maxOutput;
 
-    public LinearTransform1d(double minInput, double maxInput, double minOutput, double maxOutput) {
+    public LinearTransform1d( double minInput, double maxInput, double minOutput, double maxOutput ) {
         this.minInput = minInput;
         this.maxInput = maxInput;
         this.minOutput = minOutput;
         this.maxOutput = maxOutput;
     }
 
-    public double operate(double input) {
+    public double operate( double input ) {
         //could do bounds checking.
-        double slope = (maxOutput - minOutput) / (maxInput - minInput);
-        double output = (input - minInput) * slope + minOutput;
+        double slope = ( maxOutput - minOutput ) / ( maxInput - minInput );
+        double output = ( input - minInput ) * slope + minOutput;
         return output;
     }
 
@@ -43,12 +43,12 @@ public class LinearTransform1d {
         return maxOutput;
     }
 
-    public static void main(String[] args) {
-        LinearTransform1d map = new LinearTransform1d(-10, 10, 2, 3);
+    public static void main( String[] args ) {
+        LinearTransform1d map = new LinearTransform1d( -10, 10, 2, 3 );
 
-        for (double d = map.getMinInput(); d <= map.getMaxInput(); d += .01) {
-            double out = map.operate(d);
-            System.out.println("in = " + d + ", out=" + out);
+        for( double d = map.getMinInput(); d <= map.getMaxInput(); d += .01 ) {
+            double out = map.operate( d );
+            System.out.println( "in = " + d + ", out=" + out );
         }
     }
 }

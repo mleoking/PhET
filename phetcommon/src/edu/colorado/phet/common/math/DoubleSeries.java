@@ -7,18 +7,18 @@ package edu.colorado.phet.common.math;
 public class DoubleSeries {
     TimeSeries s;
 
-    public DoubleSeries(int length) {
-        s = new TimeSeries(length);
+    public DoubleSeries( int length ) {
+        s = new TimeSeries( length );
     }
 
-    public void add(double d) {
-        s.add(new Double(d));
+    public void add( double d ) {
+        s.add( new Double( d ) );
     }
 
     public double sum() {
-        Double[] d = (Double[]) this.s.toArray(new Double[0]);
+        Double[] d = (Double[])this.s.toArray( new Double[0] );
         double avg = 0;
-        for (int i = 0; i < d.length; i++) {
+        for( int i = 0; i < d.length; i++ ) {
             avg += d[i].doubleValue();
         }
         return avg;

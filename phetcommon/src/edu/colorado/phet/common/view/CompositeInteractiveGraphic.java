@@ -30,9 +30,11 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
         graphicMap = new MultiMap();
         mouseManager = new MouseManager( graphicMap );
     }
-    public MultiMap getGraphicMap(){
+
+    public MultiMap getGraphicMap() {
         return graphicMap;
     }
+
     public void paint( Graphics2D g ) {
         Iterator it = graphicMap.iterator();
         while( it.hasNext() ) {
@@ -108,25 +110,28 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
     public void mouseMoved( MouseEvent e ) {
         mouseManager.mouseMoved( e );
     }
-    public void addGraphic(Graphic graphic){
-        addGraphic(graphic,0);
+
+    public void addGraphic( Graphic graphic ) {
+        addGraphic( graphic, 0 );
     }
+
     public void addGraphic( Graphic graphic, double layer ) {
         this.graphicMap.add( new Double( layer ), graphic );
     }
 
     /**
-Alternative to a large many to many composite interactive graphic implementation.
-
-     We will also need to handle transforming mouse events, etc...
- */
-    public void addGraphic2(Graphic graphic, double layer,AffineTransform atx,RevertableGraphicsSetup graphicSetup){
-        addGraphic(new RevertibleGraphic(graphic,atx,graphicSetup),layer);
+     * Alternative to a large many to many composite interactive graphic implementation.
+     * <p/>
+     * We will also need to handle transforming mouse events, etc...
+     */
+    public void addGraphic2( Graphic graphic, double layer, AffineTransform atx, RevertableGraphicsSetup graphicSetup ) {
+        addGraphic( new RevertibleGraphic( graphic, atx, graphicSetup ), layer );
         /**Doing this keeps the mappings 1-1, not many to many, and keeps the paint method here nice and small, as it should be.*/
 //        this.graphicMap.add( new Double( layer ), graphic );
 //        this.graphicTxMap.put( graphic, atx );
 //        this.graphicSetupMap.put( graphic, graphicSetup );
     }
+
     public void addGraphic( Graphic graphic, double layer,
                             AffineTransform atx, RevertableGraphicsSetup graphicSetup ) {
         this.graphicMap.add( new Double( layer ), graphic );

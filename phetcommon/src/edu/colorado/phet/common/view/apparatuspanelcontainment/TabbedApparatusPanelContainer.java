@@ -22,26 +22,26 @@ public class TabbedApparatusPanelContainer implements ApparatusPanelContainer {
     Module current;
     JTabbedPane tabbedPane = new JTabbedPane();
 
-    public TabbedApparatusPanelContainer(final ModuleManager mm) {
+    public TabbedApparatusPanelContainer( final ModuleManager mm ) {
         this.mm = mm;
-        tabbedPane.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
+        tabbedPane.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
                 int selectedIdx = tabbedPane.getSelectedIndex();
-                current = mm.moduleAt(selectedIdx);
-                mm.setActiveModule(selectedIdx);
+                current = mm.moduleAt( selectedIdx );
+                mm.setActiveModule( selectedIdx );
             }
-        });
-        mm.addModuleObserver(this);
+        } );
+        mm.addModuleObserver( this );
     }
 
-    public void moduleAdded(Module module) {
-        tabbedPane.addTab(module.getName(), module.getApparatusPanel());
+    public void moduleAdded( Module module ) {
+        tabbedPane.addTab( module.getName(), module.getApparatusPanel() );
     }
 
-    public void activeModuleChanged(Module m) {
-        if (current != m) {
-            int index = mm.indexOf(m);
-            tabbedPane.setSelectedIndex(index);
+    public void activeModuleChanged( Module m ) {
+        if( current != m ) {
+            int index = mm.indexOf( m );
+            tabbedPane.setSelectedIndex( index );
 //            m.getApparatusPanel().updateTransform();
         }
     }
@@ -56,8 +56,8 @@ public class TabbedApparatusPanelContainer implements ApparatusPanelContainer {
     }
 
     public static class Factory implements ApparatusPanelContainerFactory {
-        public ApparatusPanelContainer createApparatusPanelContainer(ModuleManager manager) {
-            return new TabbedApparatusPanelContainer(manager);
+        public ApparatusPanelContainer createApparatusPanelContainer( ModuleManager manager ) {
+            return new TabbedApparatusPanelContainer( manager );
         }
     }
 }

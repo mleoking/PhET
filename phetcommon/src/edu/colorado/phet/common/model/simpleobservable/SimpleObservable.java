@@ -12,19 +12,19 @@ import java.util.ArrayList;
 public class SimpleObservable {
     ArrayList observers = new ArrayList();
 
-    public void addObserver(SimpleObserver so) {
-        observers.add(so);
+    public void addObserver( SimpleObserver so ) {
+        observers.add( so );
     }
 
     public void updateObservers() {
-        for (int i = 0; i < observers.size(); i++) {
-            SimpleObserver simpleObserver = (SimpleObserver) observers.get(i);
+        for( int i = 0; i < observers.size(); i++ ) {
+            SimpleObserver simpleObserver = (SimpleObserver)observers.get( i );
             simpleObserver.update();
         }
     }
 
-    public void removeObserver(SimpleObserver obs) {
-        observers.remove(obs);
+    public void removeObserver( SimpleObserver obs ) {
+        observers.remove( obs );
     }
 }
 

@@ -21,10 +21,11 @@ public abstract class AbstractClock {
     private int executionState = NOT_STARTED;
     private double dt;
 
-    public AbstractClock(double dt, int delay, boolean isFixed) {
-        if (isFixed) {
+    public AbstractClock( double dt, int delay, boolean isFixed ) {
+        if( isFixed ) {
             tickConverter = new Static();
-        } else {
+        }
+        else {
             tickConverter = new TimeScaling();
         }
         this.delay = delay;
@@ -55,8 +56,8 @@ public abstract class AbstractClock {
         return executionState != NOT_STARTED;
     }
 
-    public void addClockStateListener(ClockStateListener csl) {
-        clockStateListeners.add(csl);
+    public void addClockStateListener( ClockStateListener csl ) {
+        clockStateListeners.add( csl );
     }
 
     public double getRunningTime() {
@@ -64,28 +65,32 @@ public abstract class AbstractClock {
     }
 
     public synchronized void start() {
-        if (executionState == NOT_STARTED || executionState == DEAD) {
+        if( executionState == NOT_STARTED || executionState == DEAD ) {
             doStart();
-            setRunningTime(0);
+            setRunningTime( 0 );
             this.executionState = RUNNING;
-        } else {
-            throw new RuntimeException("Clock cannot be started twice.");
+        }
+        else {
+            throw new RuntimeException( "Clock cannot be started twice." );
         }
     }
 
-    public void setPaused(boolean paused) {
-        if (paused) {
-            if (executionState == RUNNING) {
+    public void setPaused( boolean paused ) {
+        if( paused ) {
+            if( executionState == RUNNING ) {
                 this.executionState = PAUSED;
-            } else {
-                throw new RuntimeException("Only running clocks can be paused.");
             }
-        } else {
-            if (executionState == PAUSED) {
+            else {
+                throw new RuntimeException( "Only running clocks can be paused." );
+            }
+        }
+        else {
+            if( executionState == PAUSED ) {
                 doUnpause();
                 this.executionState = RUNNING;
-            } else {
-                throw new RuntimeException("Only paused clocks can be unpaused.");
+            }
+            else {
+                throw new RuntimeException( "Only paused clocks can be unpaused." );
             }
         }
     }
@@ -94,7 +99,7 @@ public abstract class AbstractClock {
      * The clock must be running and paused to do tickOnce().
      */
     public void tickOnce() {
-        clockTicked(getSimulationTime(delay));
+        clockTicked( getSimulationTime( delay ) );
     }
 
     protected abstract void doPause();
@@ -114,24 +119,24 @@ public abstract class AbstractClock {
         this.runningTime = 0;
     }
 
-    protected void clockTicked(double dt) {
+    protected void clockTicked( double dt ) {
         runningTime += dt;
-        timeListeners.clockTicked(this, dt);
+        timeListeners.clockTicked( this, dt );
     }
 
     public String toString() {
         return getClass().getName() + ", time=" + this.getRunningTime();
     }
 
-    public void removeClockTickListener(ClockTickListener listener) {
-        timeListeners.removeClockTickListener(listener);
+    public void removeClockTickListener( ClockTickListener listener ) {
+        timeListeners.removeClockTickListener( listener );
     }
 
-    public void addClockTickListener(ClockTickListener tickListener) {
-        timeListeners.addClockTickListener(tickListener);
+    public void addClockTickListener( ClockTickListener tickListener ) {
+        timeListeners.addClockTickListener( tickListener );
     }
 
-    protected void setRunningTime(double runningTime) {
+    protected void setRunningTime( double runningTime ) {
         this.runningTime = runningTime;
     }
 
@@ -139,34 +144,34 @@ public abstract class AbstractClock {
         return clockStateListeners;
     }
 
-    protected double getSimulationTime(long actualDelay) {
-        return tickConverter.getSimulationTime(actualDelay);
+    protected double getSimulationTime( long actualDelay ) {
+        return tickConverter.getSimulationTime( actualDelay );
     }
 
     public long getDelay() {
         return delay;
     }
 
-    public void setDt(double dt) {
+    public void setDt( double dt ) {
         this.dt = dt;
     }
 
-    public void setDelay(int delay) {
+    public void setDelay( int delay ) {
         this.delay = delay;
     }
 
     private interface TickConverter {
-        double getSimulationTime(long wallTimeSinceLastTick);
+        double getSimulationTime( long wallTimeSinceLastTick );
     }
 
     private class TimeScaling implements TickConverter {
-        public double getSimulationTime(long wallTimeSinceLastTick) {
+        public double getSimulationTime( long wallTimeSinceLastTick ) {
             return dt / delay * wallTimeSinceLastTick;
         }
     }
 
     public class Static implements TickConverter {
-        public double getSimulationTime(long wallTimeSinceLastTick) {
+        public double getSimulationTime( long wallTimeSinceLastTick ) {
             return dt;
         }
     }

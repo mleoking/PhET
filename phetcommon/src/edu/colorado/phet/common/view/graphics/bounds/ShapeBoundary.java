@@ -14,11 +14,11 @@ import java.awt.*;
 public class ShapeBoundary implements Boundary {
     Shape shape;
 
-    public ShapeBoundary(Shape shape) {
+    public ShapeBoundary( Shape shape ) {
         this.shape = shape;
     }
 
-    public boolean contains(int x, int y) {
-        return shape.contains(x, y);
+    public boolean contains( int x, int y ) {
+        return shape.contains( x, y );
     }
 }

@@ -13,14 +13,14 @@ public class TxTranslatable implements Translatable {
     AffineTransform viewToModelTx;
     Translatable translatable;
 
-    public TxTranslatable(Translatable translatable, AffineTransform viewToModelTx) {
+    public TxTranslatable( Translatable translatable, AffineTransform viewToModelTx ) {
         this.viewToModelTx = viewToModelTx;
         this.translatable = translatable;
     }
 
-    public void translate(double dx, double dy) {
-        Point2D.Double orig = new Point2D.Double(dx, dy);
-        Point2D out = viewToModelTx.deltaTransform(orig, null);
-        translatable.translate(out.getX(), out.getY());
+    public void translate( double dx, double dy ) {
+        Point2D.Double orig = new Point2D.Double( dx, dy );
+        Point2D out = viewToModelTx.deltaTransform( orig, null );
+        translatable.translate( out.getX(), out.getY() );
     }
 }

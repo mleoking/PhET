@@ -7,8 +7,9 @@ import java.awt.*;
  */
 public interface Graphic {
     /**
-     *  Render this Graphic on a Graphics2D.
+     * Render this Graphic on a Graphics2D.
+     *
      * @param g the Graphics2D on which to paint.
      */
-    public void paint(Graphics2D g);
+    public void paint( Graphics2D g );
 }

@@ -9,7 +9,7 @@ public class TimeSeries {
     ArrayList list;
     private int size;
 
-    public TimeSeries(int size) {
+    public TimeSeries( int size ) {
         this.size = size;
         list = new ArrayList();
     }
@@ -18,26 +18,26 @@ public class TimeSeries {
         return size;
     }
 
-    public void add(Object obj) {
-        list.add(obj);
-        if (list.size() > size) {
-            list.remove(0);
+    public void add( Object obj ) {
+        list.add( obj );
+        if( list.size() > size ) {
+            list.remove( 0 );
         }
     }
 
-    public Object[] toArray(Object[] type) {
-        return list.toArray(type);
+    public Object[] toArray( Object[] type ) {
+        return list.toArray( type );
     }
 
     public String toString() {
         return list.toString();
     }
 
-    public static void main(String[] args) {
-        TimeSeries ts = new TimeSeries(5);
-        for (int i = 0; i < 10; i++) {
-            ts.add(new Integer(i));
-            System.out.println("i=" + i + ", ts=" + ts);
+    public static void main( String[] args ) {
+        TimeSeries ts = new TimeSeries( 5 );
+        for( int i = 0; i < 10; i++ ) {
+            ts.add( new Integer( i ) );
+            System.out.println( "i=" + i + ", ts=" + ts );
         }
     }
 }

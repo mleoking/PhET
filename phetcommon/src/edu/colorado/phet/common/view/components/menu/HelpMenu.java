@@ -14,24 +14,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HelpMenu extends JMenu {
-    public HelpMenu(final PhetApplication app) {
-        super("Help");
-        this.setMnemonic('h');
+    public HelpMenu( final PhetApplication app ) {
+        super( "Help" );
+        this.setMnemonic( 'h' );
 
-        final JMenuItem about = new JMenuItem("About");
-        about.setMnemonic('a');
+        final JMenuItem about = new JMenuItem( "About" );
+        about.setMnemonic( 'a' );
         final String name = app.getApplicationDescriptor().getWindowTitle();
         String desc = app.getApplicationDescriptor().getDescription();
         String version = app.getApplicationDescriptor().getVersion();
         String message = name + "\n" + desc + "\nVersion: " + version;
-        VersionUtils.VersionInfo inf = VersionUtils.readVersionInfo(app);
+        VersionUtils.VersionInfo inf = VersionUtils.readVersionInfo( app );
         message += "\nBuild Number: " + inf.getBuildNumber() + "\nBuild Time: " + inf.getBuildTime();
         final String msg = message;
-        about.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(about, msg, "About " + name, JOptionPane.INFORMATION_MESSAGE);
+        about.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                JOptionPane.showMessageDialog( about, msg, "About " + name, JOptionPane.INFORMATION_MESSAGE );
             }
-        });
-        add(about);
+        } );
+        add( about );
     }
 }

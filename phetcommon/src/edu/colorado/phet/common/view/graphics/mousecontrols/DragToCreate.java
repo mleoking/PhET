@@ -17,33 +17,33 @@ public class DragToCreate implements MouseInputListener {
     private CompositeInteractiveGraphic target;
     private double layer;
 
-    public DragToCreate(InteractiveGraphicCreator interactiveGraphicCreator, CompositeInteractiveGraphic target, double layer) {
+    public DragToCreate( InteractiveGraphicCreator interactiveGraphicCreator, CompositeInteractiveGraphic target, double layer ) {
         this.interactiveGraphicCreator = interactiveGraphicCreator;
         this.target = target;
         this.layer = layer;
     }
 
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked( MouseEvent e ) {
     }
 
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed( MouseEvent e ) {
     }
 
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased( MouseEvent e ) {
     }
 
-    public void mouseEntered(MouseEvent e) {
+    public void mouseEntered( MouseEvent e ) {
     }
 
-    public void mouseExited(MouseEvent e) {
+    public void mouseExited( MouseEvent e ) {
     }
 
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDragged( MouseEvent e ) {
         InteractiveGraphic graphic = interactiveGraphicCreator.newInstance();
-        target.addGraphic(graphic, layer);
-        target.getMouseManager().startDragging(graphic, e);
+        target.addGraphic( graphic, layer );
+        target.getMouseManager().startDragging( graphic, e );
     }
 
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved( MouseEvent e ) {
     }
 }

@@ -22,45 +22,46 @@ public class PhetApplication {
     private ApplicationDescriptor descriptor;
     private ApparatusPanelContainerFactory containerStrategy;
 
-    public PhetApplication(ApplicationDescriptor descriptor, Module m, AbstractClock clock) {
-        this(descriptor, SingleApparatusPanelContainer.getFactory(), new Module[]{m}, clock);
+    public PhetApplication( ApplicationDescriptor descriptor, Module m, AbstractClock clock ) {
+        this( descriptor, SingleApparatusPanelContainer.getFactory(), new Module[]{m}, clock );
     }
 
     /**
      * Create a PhET Application that uses a TabbedApparatusPanelStrategy.
      */
-    public PhetApplication(ApplicationDescriptor descriptor, Module[] modules, AbstractClock clock) {
-        this(descriptor, new TabbedApparatusPanelContainer.Factory(), modules, clock);
+    public PhetApplication( ApplicationDescriptor descriptor, Module[] modules, AbstractClock clock ) {
+        this( descriptor, new TabbedApparatusPanelContainer.Factory(), modules, clock );
     }
 
-    public PhetApplication(ApplicationDescriptor descriptor,
-                           ApparatusPanelContainerFactory containerStrategy,
-                           Module[] modules, AbstractClock clock) {
+    public PhetApplication( ApplicationDescriptor descriptor,
+                            ApparatusPanelContainerFactory containerStrategy,
+                            Module[] modules, AbstractClock clock ) {
         // The clock reference must be set before the call
         this.clock = clock;
         this.descriptor = descriptor;
         this.containerStrategy = containerStrategy;
-        moduleManager = new ModuleManager(this);
+        moduleManager = new ModuleManager( this );
 
         try {
-            view = new ApplicationView(this);
-        } catch (IOException e) {
+            view = new ApplicationView( this );
+        }
+        catch( IOException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
-        moduleManager.addAllModules(modules);
+        moduleManager.addAllModules( modules );
         s_instance = this;
 
-        clock.addClockTickListener(moduleManager);
+        clock.addClockTickListener( moduleManager );
     }
 
-    public void setClock(AbstractClock clock) {
+    public void setClock( AbstractClock clock ) {
         this.clock = clock;
     }
 
-    public void startApplication(Module initialModule) {
-        moduleManager.setActiveModule(initialModule);
+    public void startApplication( Module initialModule ) {
+        moduleManager.setActiveModule( initialModule );
         clock.start();
-        view.setVisible(true);
+        view.setVisible( true );
     }
 
     public ModuleManager getModuleManager() {
@@ -78,8 +79,8 @@ public class PhetApplication {
     /**
      * @param moduleClass
      */
-    public void activateModuleOfClass(Class moduleClass) {
-        moduleManager.activateModuleOfClass(moduleClass);
+    public void activateModuleOfClass( Class moduleClass ) {
+        moduleManager.activateModuleOfClass( moduleClass );
     }
 
     public ApplicationDescriptor getDescriptor() {

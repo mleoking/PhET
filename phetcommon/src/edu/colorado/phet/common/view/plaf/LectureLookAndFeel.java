@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class LectureLookAndFeel extends MetalLookAndFeel {
-    Color backgroundColor = new Color(60, 80, 60);
-    Color buttonBackgroundColor = new Color(60, 60, 100);
-    Color controlTextColor = new Color(230, 230, 230);
-    Font controlFont = new Font("SansSerif", Font.BOLD, 22);
+    Color backgroundColor = new Color( 60, 80, 60 );
+    Color buttonBackgroundColor = new Color( 60, 60, 100 );
+    Color controlTextColor = new Color( 230, 230, 230 );
+    Font controlFont = new Font( "SansSerif", Font.BOLD, 22 );
     static String[] controlTypes = new String[]{
         "Menu",
         "MenuItem",
@@ -22,20 +22,20 @@ public class LectureLookAndFeel extends MetalLookAndFeel {
         "Label"
     };
 
-    protected void initComponentDefaults(UIDefaults table) {
-        super.initComponentDefaults(table);
+    protected void initComponentDefaults( UIDefaults table ) {
+        super.initComponentDefaults( table );
         ArrayList def = new ArrayList();
-        ColorUIResource textColor = new ColorUIResource(controlTextColor);
-        FontUIResource fuir = new FontUIResource(controlFont);
-        for (int i = 0; i < controlTypes.length; i++) {
+        ColorUIResource textColor = new ColorUIResource( controlTextColor );
+        FontUIResource fuir = new FontUIResource( controlFont );
+        for( int i = 0; i < controlTypes.length; i++ ) {
             String controlType = controlTypes[i];
-            def.add(controlType + ".foreground");
-            def.add(textColor);
-            def.add(controlType + ".font");
-            def.add(fuir);
+            def.add( controlType + ".foreground" );
+            def.add( textColor );
+            def.add( controlType + ".font" );
+            def.add( fuir );
         }
-        ColorUIResource background = new ColorUIResource(backgroundColor);
-        ColorUIResource buttonBackground = new ColorUIResource(buttonBackgroundColor);
+        ColorUIResource background = new ColorUIResource( backgroundColor );
+        ColorUIResource buttonBackground = new ColorUIResource( buttonBackgroundColor );
 
         Object[] defaults = {
             "Panel.background", background
@@ -47,9 +47,9 @@ public class LectureLookAndFeel extends MetalLookAndFeel {
             , "CheckBox.background", background
             , "Button.background", buttonBackground
         };
-        def.addAll(Arrays.asList(defaults));
+        def.addAll( Arrays.asList( defaults ) );
 
-        table.putDefaults(def.toArray());
+        table.putDefaults( def.toArray() );
     }
 
 }
