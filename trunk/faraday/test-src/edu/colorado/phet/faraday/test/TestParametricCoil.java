@@ -1,5 +1,7 @@
 /* Copyright 2005, University of Colorado */
 
+package edu.colorado.phet.faraday.test;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -40,8 +42,10 @@ public class TestParametricCoil extends JComponent {
     private static final Color END_POINT_COLOR = Color.BLUE;
     
     // Debugging parameters
-    private static final boolean DRAW_POINTS = false;
+    private static final boolean DRAW_POINTS = true;
     private static final boolean DRAW_ORIGIN = false;
+    private static final boolean DRAW_FRONT = true;
+    private static final boolean DRAW_BACK = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -260,7 +264,7 @@ public class TestParametricCoil extends JComponent {
         int firstLoopCenter = -( loopSpacing * (_numberOfLoops - 1) / 2 );
         
         // Back of loops
-        for ( int i = 0; i < _numberOfLoops; i++ ) {
+        for ( int i = 0; i < _numberOfLoops && DRAW_BACK; i++ ) {
             
             int offset = firstLoopCenter + ( i * loopSpacing );
             
@@ -269,8 +273,8 @@ public class TestParametricCoil extends JComponent {
             // Back bottom
             {
                 Point e1 = new Point( (int)(_radius * .25) + offset, 0 );
-                Point e2 = new Point( (int)(_radius * .15) + offset, (int)(_radius * .98) );
-                Point c = new Point( (int)(_radius * .30) + offset, (int)(_radius * .80) );
+                Point e2 = new Point( offset, (int)(_radius) );
+                Point c = new Point( (int)(_radius * .35) + offset, (int)(_radius * 1.2) );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
             
@@ -293,17 +297,16 @@ public class TestParametricCoil extends JComponent {
         }
         
         // Front of loops
-        for ( int i = 0; i < _numberOfLoops; i++ ) {
+        for ( int i = 0; i < _numberOfLoops && DRAW_FRONT; i++ ) {
             
             int offset = firstLoopCenter + ( i * loopSpacing );;
             
             g2.setPaint( new GradientPaint( (int)(-_radius * .25) + offset, 0, LOOP_LIGHTEST_COLOR, (int)(-_radius * .15) + offset, 0, LOOP_MIDDLE_COLOR ) );
-            
             // Front bottom
             {
                 Point e1 = new Point( (int)(-_radius * .25) + offset, 0 );
-                Point e2 = new Point( (int)(_radius * .13) + offset, _radius );
-                Point c = new Point( (int)(-_radius * .25) + offset, (int)(_radius * 1.30) );
+                Point e2 = new Point( offset, (int)(_radius) );
+                Point c = new Point( (int)(-_radius * .25) + offset, (int)(_radius * 0.8) );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
             
