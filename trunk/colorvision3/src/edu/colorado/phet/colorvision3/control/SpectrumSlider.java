@@ -5,17 +5,10 @@ package edu.colorado.phet.colorvision3.control;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
-import java.awt.font.TextAttribute;
-import java.text.AttributedString;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -23,7 +16,6 @@ import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
-import edu.colorado.phet.colorvision3.view.BellCurve;
 import edu.colorado.phet.colorvision3.view.BoundsOutline;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
@@ -39,52 +31,32 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * @version $Id$ $Name$
  */
 public class SpectrumSlider extends DefaultInteractiveGraphic
-{
-	//----------------------------------------------------------------------------
-	// Class data
-  //----------------------------------------------------------------------------
-
-  // Default label font
-  private static final Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 12 );
-  // Default label color
-  private static final Color LABEL_COLOR = Color.BLACK;
-  // Label X offset, relative to upper-left of spectrum graphic.
-  private static final int LABEL_X_OFFSET = 0;
-  // Label Y offset, relative to upper-left of spectrum graphic.
-  private static final int LABEL_Y_OFFSET = -15;
- 
+{ 
 	//----------------------------------------------------------------------------
 	// Instance data
   //----------------------------------------------------------------------------
 
   // The parent Component.
   private Component _component;
-  // The upper left corner of the spectrum graphic.
-  private Point _location;
-  // The spectrum graphic.
-  private PhetImageGraphic _spectrum;
-  // The slider knob.
-  private SpectrumSliderKnob _knob; 
-  // Curve for displaying transmission width.
-  private BellCurve _curve;
-  //The bounds for dragging the slider knob.
-  private Rectangle _dragBounds; 
-  // Event listeners.
-  private EventListenerList _listenerList; 
   // The current value.
   private int _value;
   // Minimum and maximum range, inclusive.
   private int _minimum, _maximum; 
-  // Textual label, placed above the slider.
-  private String _labelString;
-  // Font used for the label.
-  private Dimension _labelDimension;
-  // Textual label, in a form optimized for rendering.
-  private AttributedString _attributedString; 
   // Transmission width, in pixels.
   private double _transmissionWidth;
+  // The upper left corner of the spectrum graphic.
+  private Point _location;
+  //The bounds that constrain dragging of the slider knob.
+  private Rectangle _dragBounds;
   // Location of the mouse relative to the knob when a drag is started.
   private int _mouseOffset;
+  // Event listeners.
+  private EventListenerList _listenerList; 
+  
+  // The spectrum graphic.
+  private PhetImageGraphic _spectrum;
+  // The slider knob.
+  private SpectrumSliderKnob _knob;
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -101,23 +73,24 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   
     // Initialize instance data.
     _component = component;
-    _spectrum = new PhetImageGraphic( component, ColorVisionConfig.SPECTRUM_IMAGE );
-    _knob = new SpectrumSliderKnob( component );
-    _curve = null;
-    _dragBounds = new Rectangle( 0, 0, 0, 0); // set correctly by setLocation
-    _listenerList = new EventListenerList();
     _value = 0;
     _minimum = (int) VisibleColor.MIN_WAVELENGTH;
     _maximum = (int) VisibleColor.MAX_WAVELENGTH;
     _transmissionWidth = 0;
+    _dragBounds = new Rectangle( 0, 0, 0, 0); // set correctly by setLocation
     _mouseOffset = 0;
+    _listenerList = new EventListenerList();
     
-    // Interactivity
+    // Initialize graphical components.
+    _spectrum = new PhetImageGraphic( component, ColorVisionConfig.SPECTRUM_IMAGE );
+    _knob = new SpectrumSliderKnob( component );
+    
+    // Initialize interactivity
     super.setBoundedGraphic( _knob );
     super.addCursorHandBehavior();
     super.addMouseInputListener( new SpectrumSliderMouseInputListener() );
 
-    // This recalculates the location of all graphic elements.
+    // This call recalculates the location of all graphic elements.
     setLocation( 0, 0 );
   }
   
@@ -128,7 +101,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   /**
    * Sets the slider value.
    *
-   * @param value the value, silently clamped to the slider's range
+   * @param value the value, silently clamped to the slider's range (ala JSlider)
    */
   public void setValue( int value )
   {
@@ -205,58 +178,27 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   {
     return _maximum;
   }
-  
-  /**
-   * Sets the label, using a default color and font.
-   * The label is positioned above the spectrum graphic.
-   * If more precise control over the location of the label is required,
-   * create a label separately.
-   * 
-   * @param label the label
-   */
-  public void setLabel( String label )
-  {
-    setLabel( label, LABEL_COLOR, LABEL_FONT );
-  }
 
-  /** 
-   * Sets the label, using a specified color and font.
+  /**
+   * Sets the transmission width.
+   * Setting the width to zero effectively disables drawing of the curve.
    * 
-   * @param label the label
-   * @param color the color
-   * @param font the font
+   * @param width the width, in pixels
    */
-  public void setLabel( String label, Color color, Font font )
+  public void setTransmissionWidth( double width )
   {
-    _labelString = label;
-    _attributedString = null;
-    _labelDimension = null;
-    
-    if ( _labelString != null )
-    {
-      // Pre-process the label String for rendering.
-      _attributedString = new AttributedString( _labelString );
-      _attributedString.addAttribute( TextAttribute.FOREGROUND, color );
-      _attributedString.addAttribute( TextAttribute.FONT, font );
-      
-      // Determine the label dimensions for bounds calculations.
-      FontMetrics fontMetrics = _component.getFontMetrics( font );
-      int height = fontMetrics.getHeight();
-      int width = fontMetrics.stringWidth( label );
-      _labelDimension = new Dimension( width, height );
-    }
-    
+    _transmissionWidth = width;
     repaint();
   }
-  
+
   /**
-   * Gets the label.
-   * 
-   * @return the label
+   * Gets the transmission width.
+   *
+   * @return width in pixels
    */
-  public String getLabel()
+  public double getTransmissionWidth()
   {
-    return _labelString;
+    return _transmissionWidth;
   }
   
   /**
@@ -303,33 +245,6 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   }
   
   /**
-   * Sets the transmission width.
-   * Setting the width to zero effectively disables drawing of the curve.
-   * 
-   * @param width the width, in pixels
-   */
-  public void setTransmissionWidth( double width )
-  {
-    _transmissionWidth = width;
-    _curve = null;
-    if ( width > 0 )
-    {
-      _curve = new BellCurve( _component, (int)width, _spectrum.getBounds().height );
-    }
-    repaint();
-  }
-
-  /**
-   * Gets the transmission width.
-   *
-   * @return width in pixels
-   */
-  public double getTransmissionWidth()
-  {
-    return _transmissionWidth;
-  }
-  
-  /**
    * Gets the bounds.
    * 
    * @return the bounds
@@ -343,22 +258,14 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
     // Add the knob's bounds.
     bounds.add( _knob.getBounds() );
     
-    // If a label has been set, add it's bounding box.
-    if ( _labelDimension != null )
-    {
-      Rectangle r = new Rectangle(
-                         _location.x + LABEL_X_OFFSET, 
-                         _location.y + LABEL_Y_OFFSET - _labelDimension.height,
-                         _labelDimension.width, 
-                         _labelDimension.height );
-      bounds.add( r );
-    }
-    
     return bounds;
   }
 
   /*
    * Overrides superclass implementation.
+   * The superclass doesn't properly repaint.
+   * 
+   * @param visible true for visible, false for invisible
    */
   public void setVisible( boolean visible )
   {
@@ -367,6 +274,18 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
       super.setVisible( visible );
       repaint();
     }
+  }
+  
+  /**
+   * Sets the border color used to outline the knob.
+   * Setting this to null effectively disables the border.
+   *
+   * @param color the Color to use for the border
+   */
+  public void setKnobBorderColor( Color color )
+  {
+    _knob.setBorderColor( color );
+    repaint();
   }
   
   /*
@@ -401,7 +320,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   }
   
   /**
-   * Renders the slider.
+   * Draws the slider.
    * 
    * @param g2 the graphics context
    */
@@ -415,40 +334,15 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
       // Draw the slider knob.
       super.paint( g2 );
       
-      // Draw the optional transmission width curve.
-      if ( _curve != null )
-      { 
-        // Set its location to line up with the knob.
-        // HACK: If this is done in setValue method, anti-aliasing is inconsistent.
+      // Draw the optional transmission width curve.  
+      if ( _transmissionWidth != 0 )
+      {
         int x = _knob.getLocation().x + _knob.getBounds().width/2;
         int y = _spectrum.getBounds().y;
-        _curve.setLocation( x, y );
-        
-        // Save graphics state.
-        Shape oldClip = g2.getClip();
-
-        // Draw the curve, clipped to the spectrum graphic's bounds.
-        g2.setClip( new Rectangle(_spectrum.getBounds()) );
-        _curve.paint( g2 );
-        
-        // Restore graphics state.
-        g2.setClip( oldClip );
-      }
-      
-      // Draw the optional label.
-      if ( _attributedString != null )
-      {
-        // Save graphics state
-        RenderingHints oldHints = g2.getRenderingHints();
-        
-        // Request antialiasing.
-        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        g2.setRenderingHints( hints );
-        g2.drawString( _attributedString.getIterator(), 
-            _location.x + LABEL_X_OFFSET, _location.y + LABEL_Y_OFFSET );
-        
-        // Restore graphics state
-        g2.setRenderingHints( oldHints );
+        int w = (int)_transmissionWidth;
+        int h = _spectrum.getBounds().height;
+        BellCurve curve = new BellCurve( _component, x, y, w, h );
+        curve.paint( g2 );
       }
       
       BoundsOutline.paint( g2, getBounds(), Color.GREEN, new BasicStroke(1f) ); // DEBUG
