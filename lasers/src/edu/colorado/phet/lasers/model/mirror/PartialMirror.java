@@ -11,10 +11,12 @@
  */
 package edu.colorado.phet.lasers.model.mirror;
 
-import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.common.util.EventRegistry;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+
 
 /**
  * This class represents partially reflecting mirror.
@@ -25,9 +27,35 @@ public class PartialMirror extends Mirror {
     // 0 an 1
     // Default partial reflection strategy
     private Partial partialStrategy;
+    private EventRegistry eventRegistry = new EventRegistry();
 
 
-    public PartialMirror ( Point2D end1, Point2D end2 ) {
+    ///////////////////////////////////////////////////////////////////////
+    // Events and listeners
+    //
+    public interface ReflectivityChangeListener extends EventListener {
+        void reflectivityChanged( ReflectivityChangedEvent event );
+    }
+
+    public class ReflectivityChangedEvent extends EventObject {
+        public ReflectivityChangedEvent( Object source ) {
+            super( source );
+        }
+
+        public double getReflectivity() {
+            return ( (PartialMirror)source ).getReflectivity();
+        }
+    }
+
+    public void addListener( EventListener listener ) {
+        eventRegistry.addListener( listener );
+    }
+
+
+    //////////////////////////////////////////////////////////////////////
+    // Instance
+    //
+    public PartialMirror( Point2D end1, Point2D end2 ) {
         super( end1, end2 );
         partialStrategy = new Partial( 1.0f );
         this.addReflectionStrategy( partialStrategy );
@@ -39,6 +67,7 @@ public class PartialMirror extends Mirror {
 
     public void setReflectivity( double reflectivity ) {
         partialStrategy.setReflectivity( reflectivity );
+        eventRegistry.fireEvent( new ReflectivityChangedEvent( this ) );
     }
 
     public void addReflectionStrategy( ReflectionStrategy reflectionStrategy ) {
@@ -64,13 +93,13 @@ public class PartialMirror extends Mirror {
      * @param photon
      * @return
      */
-//    public boolean reflects( Photon photon ) {
-//        boolean result = super.reflects( photon );
-//        if( result && !partialStrategy.reflects( photon )) {
-//            throw new RuntimeException( "TBI" );
-////            result = false;
-////            photon.setCollidable( false );
-//        }
-//        return result;
-//    }
+    //    public boolean reflects( Photon photon ) {
+    //        boolean result = super.reflects( photon );
+    //        if( result && !partialStrategy.reflects( photon )) {
+    //            throw new RuntimeException( "TBI" );
+    ////            result = false;
+    ////            photon.setCollidable( false );
+    //        }
+    //        return result;
+    //    }
 }

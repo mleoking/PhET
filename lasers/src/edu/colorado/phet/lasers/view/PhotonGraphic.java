@@ -188,7 +188,15 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
 
         velocity = new Vector2D.Double( photon.getVelocity() );
         createImage();
-        setPosition( photon );
+
+        double w = getBounds().getWidth();
+        double h = getBounds().getHeight();
+        double cx = this.getBounds().getX() + w / 2;
+        double cy = this.getBounds().getY() + h / 2;
+        double x = cx + w * Math.cos( photon.getVelocity().getAngle() );
+        double y = cy + h * Math.sin( photon.getVelocity().getAngle() );
+        setPosition( (int)( photon.getPosition().getX() - x ), (int)( photon.getPosition().getY() - y ) );
+        //        setPosition( photon );
     }
 
     private void createImage() {
@@ -272,6 +280,15 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
 
     public void update() {
         setPosition( photon );
+
+        double w = getBounds().getWidth();
+        double h = getBounds().getHeight();
+        double cx = this.getBounds().getX() + w / 2;
+        double cy = this.getBounds().getY() + h / 2;
+        double x = w * Math.cos( photon.getVelocity().getAngle() );
+        double y = h * Math.sin( photon.getVelocity().getAngle() );
+        setPosition( (int)( photon.getPosition().getX() - x ), (int)( photon.getPosition().getY() - y ) );
+
         // Get the next frame of the animaton
         //        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;
         //        setImage( animation[currAnimationFrameNum] );
@@ -309,14 +326,24 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     }
 
     public void paint( Graphics2D g ) {
+        saveGraphicsState( g );
         super.paint( g );
         Rectangle2D r = new Rectangle2D.Double( this.getBounds().getX() + getImage().getMinX(),
                                                 this.getBounds().getY() + getImage().getMinY(),
                                                 getImage().getWidth(),
                                                 getImage().getHeight() );
-        g.setColor( Color.GREEN );
-        g.draw( r );
-        g.fillArc( (int)debugPosition.getX(), (int)debugPosition.getY(), 2, 2, 0, 360 );
+
+        //        double w = getBounds().getWidth();
+        //        double h = getBounds().getHeight();
+        //        double cx = this.getBounds().getX() + w / 2;
+        //        double cy = this.getBounds().getY() + h / 2;
+        //        double x = cx + w * Math.cos( photon.getVelocity().getAngle() );
+        //        double y = cy + h * Math.sin( photon.getVelocity().getAngle() );
+        //        g.setColor( Color.GREEN );
+        //        g.draw( r );
+        //        g.fillArc( (int)x - 4, (int)y - 4, 8, 8, 0, 360 );
+
+        restoreGraphicsState();
     }
 
     public void velocityChanged( Photon.VelocityChangedEvent event ) {

@@ -99,14 +99,15 @@ public class LaserSimulation extends PhetApplication {
         static Color purpleishBackground = new Color( 200, 197, 220 );
         //        static Color backgroundColor = yellowishBackground;
         //        static Color backgroundColor = yellowishBackground;
-        static Color backgroundColor = new Color( 98, 98, 98 );
+        //        static Color backgroundColor = new Color( 98, 98, 98 );
         //        static Color backgroundColor = new Color( 98, 116, 108 );
-        //        static Color backgroundColor = greenishBackground;
+        static Color backgroundColor = greenishBackground;
         //        static Color backgroundColor = purpleishBackground;
         //        static Color buttonBackgroundColor = new Color( 220, 230, 160 );
         static Color buttonBackgroundColor = yellowishBackground;
         //        static Color buttonBackgroundColor = new Color( 180, 170, 160 );
         //        static Color buttonBackgroundColor = new Color( 165, 160, 219 );
+        //        static Color controlTextColor = new Color( 220, 220, 220 );
         static Color controlTextColor = new Color( 38, 56, 48 );
         //        static Color controlTextColor = yellowishBackground;
         //        static Color controlTextColor = new Color( 0, 0, 0 );
