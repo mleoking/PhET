@@ -13,7 +13,6 @@ package edu.colorado.phet.common.view.phetgraphics;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import java.awt.*;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -34,7 +33,7 @@ public class PhetShadowTextGraphic extends PhetGraphic {
     }
 
     public void paint( Graphics2D g2 ) {
-        if ( isVisible() ) {
+        if( isVisible() ) {
             super.saveGraphicsState( g2 );
             RenderingHints hints = getRenderingHints();
             if( hints != null ) {
@@ -78,5 +77,12 @@ public class PhetShadowTextGraphic extends PhetGraphic {
 
     public void setShadowColor( Color color ) {
         this.background.setColor( color );
+    }
+
+    public void setFont( Font font ) {
+        foreground.setFont( font );
+        background.setFont( font );
+        setBoundsDirty();
+        autorepaint();
     }
 }
