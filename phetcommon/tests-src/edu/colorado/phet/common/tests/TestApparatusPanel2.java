@@ -4,6 +4,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -34,7 +35,7 @@ public class TestApparatusPanel2 {
         public TestAppModel() {
             super( "", "", "" );
             this.setClock( new SwingTimerClock( 10, 40, true ) );
-            TestModule module = new TestModule( this );
+            TestModule module = new TestModule( this, getClock() );
             setModule( module );
             setFrameCenteredSize( 400, 300 );
             setInitialModule( module );
@@ -43,13 +44,13 @@ public class TestApparatusPanel2 {
 
     static class TestModule extends Module {
 
-        protected TestModule( TestAppModel model ) {
-            super( "ApparatusPanel2 Test" );
+        protected TestModule( TestAppModel model, AbstractClock clock ) {
+            super( "ApparatusPanel2 Test", clock );
 
 //            BaseModel model = new BaseModel();
 //            ApparatusPanel ap = new ApparatusPanel();
             BaseModel baseModel = new BaseModel();
-            ApparatusPanel ap = new ApparatusPanel2( baseModel, model.getClock() );
+            ApparatusPanel ap = new ApparatusPanel2( model.getClock() );
             setApparatusPanel( ap );
             setModel( baseModel );
 

@@ -163,7 +163,8 @@ public class CollisionTest {
 
         boolean useAP2 = true;
         boolean offscreen = true;
-        int numParticles = 3;
+//        int numParticles = 300;
+        int numParticles = 600;
         final CollisionModule module = new CollisionModule( "name", clock, useAP2, offscreen, numParticles );
         JFrame jf = new JFrame();
         jf.setSize( 600, 600 );
