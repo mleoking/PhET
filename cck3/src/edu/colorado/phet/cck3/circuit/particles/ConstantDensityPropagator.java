@@ -181,7 +181,7 @@ public class ConstantDensityPropagator implements ModelElement {
             }
             CircuitLocation[] loc = getLocations( e, dt, overshoot, under );
             if( loc.length == 0 ) {
-                System.out.println( "No outgoing wires for current=" + current );
+//                System.out.println( "No outgoing wires for current=" + current );
 //                new KirkhoffSolver().apply( circuit );
 //                RuntimeException re = new RuntimeException( "No outgoing wires, current=" + current );
 ////                re.printStackTrace();

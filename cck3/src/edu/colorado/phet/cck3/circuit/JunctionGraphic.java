@@ -33,7 +33,8 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
     private CircuitListener circuitListener;
     private static int instanceCount = 0;
     private PhetTextGraphic debugGraphic;
-    private boolean showLabel = false;
+//    private boolean showLabel = false;
+    private boolean showLabel = true;
 
     public JunctionGraphic( Component parent, Junction junction, ModelViewTransform2D transform, double radius, Circuit circuit ) {
         super( parent );

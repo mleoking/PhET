@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
+import edu.colorado.phet.cck3.circuit.kirkhoff.NodeAnalysis;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 
 import javax.swing.*;
@@ -81,7 +82,10 @@ public class CCKKeyListener implements KeyListener {
                 System.out.println( "Relayout = " + i );
             }
         }
-
+        else if( e.getKeyCode() == KeyEvent.VK_K ) {
+            NodeAnalysis na = new NodeAnalysis();
+            na.apply( cck.getCircuit() );
+        }
     }
 
     public void keyTyped( KeyEvent e ) {
