@@ -1,8 +1,6 @@
 package edu.colorado.phet.common.math;
 
-import java.io.Serializable;
-
-public class Average implements Serializable {
+public class Average {
     double average;
     double sum;
     int num;

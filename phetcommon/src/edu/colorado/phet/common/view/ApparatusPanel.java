@@ -46,17 +46,19 @@ public class ApparatusPanel extends JPanel {
         this.addMouseListener(graphic);
         this.addMouseMotionListener(graphic);
 
-        Graphic borderGraphic = new Graphic() {
-            public void paint(Graphics2D g) {
-                Rectangle boundingRect = getBounds();
-                g.setStroke(borderStroke);
-                g.setColor(Color.black);
-                g.drawRect(2, 2,
-                        (int) boundingRect.getWidth() - 4,
-                        (int) boundingRect.getHeight() - 4);
-            }
-        };
+        Graphic borderGraphic = new BorderGraphic();
         addGraphic(borderGraphic, Double.POSITIVE_INFINITY);
+    }
+
+    class BorderGraphic implements Graphic {
+        public void paint(Graphics2D g) {
+            Rectangle boundingRect = getBounds();
+            g.setStroke(borderStroke);
+            g.setColor(Color.black);
+            g.drawRect(2, 2,
+                    (int) boundingRect.getWidth() - 4,
+                    (int) boundingRect.getHeight() - 4);
+        }
     }
 
     public void addGraphicsSetup(GraphicsSetup setup) {

@@ -67,10 +67,6 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
         this.graphic = graphic;
     }
 
-//    public void setMouseControl( MouseInputListener mouseControl ) {
-//        this.mouseControl = mouseControl;
-//    }
-
     public void setBoundary(Boundary boundary) {
         this.boundary = boundary;
     }

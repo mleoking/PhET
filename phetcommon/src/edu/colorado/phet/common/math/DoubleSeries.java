@@ -16,7 +16,7 @@ public class DoubleSeries {
     }
 
     public double sum() {
-        Double[] d = (Double[]) this.s.getArray(new Double[0]);
+        Double[] d = (Double[]) this.s.toArray(new Double[0]);
         double avg = 0;
         for (int i = 0; i < d.length; i++) {
             avg += d[i].doubleValue();
@@ -25,6 +25,6 @@ public class DoubleSeries {
     }
 
     public double average() {
-        return sum() / ((double) s.length());
+        return sum() / s.length();
     }
 }

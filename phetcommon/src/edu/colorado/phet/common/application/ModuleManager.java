@@ -65,10 +65,6 @@ public class ModuleManager implements ClockTickListener {
         }
     }
 
-//    public ArrayList getModules() {
-//        return modules;
-//    }
-
     public void setActiveModule(int i) {
         setActiveModule(moduleAt(i));
     }

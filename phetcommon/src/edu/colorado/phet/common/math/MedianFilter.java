@@ -28,18 +28,6 @@ public class MedianFilter {
     }
 
     private static double getMedianInternal(double[] data) {
-//        boolean swapped = true;
-//        while( swapped ) {
-//            swapped = false;
-//            for( int j = 0; j < data.length - 1; j++ ) {
-//                if( data[j] > data[j + 1 ]) {
-//                    double t = data[j];
-//                    data[j] = data[j+1];
-//                    data[j+1] = t;
-//                    swapped = true;
-//                }
-//            }
-//        }
         Arrays.sort(data);
         return data[data.length / 2];
     }

@@ -19,14 +19,6 @@ public class ModelViewTransform2D {
     private CompositeTransformListener listeners = new CompositeTransformListener();
 
     /**
-     * Constructs a ModelViewTransform2d2 with model rectangle {0,0,1,1}.
-     * @param viewBounds
-     */
-//    public ModelViewTransform2D(Rectangle viewBounds) {
-//        this(new Rectangle2D.Double(0, 0, 1, 1), viewBounds);
-//    }
-
-    /**
      * Constructs a transform from the specified model bounds to view bounds.
      *
      * @param modelBounds
@@ -71,70 +63,12 @@ public class ModelViewTransform2D {
         int out = (int) (m * (y - modelBounds.y - modelBounds.height) + viewBounds.y);
         return out;
     }
-
-//    public AffineTransform toAffineTransform() {
-//        return toAffineTransform( new Point2D.Double() );
-//    }
-
     /**
      * Creates a new AffineTransform that corresponds to this transformation.
      *
      * @return a new AffineTransform that corresponds to this transformation.
      */
     public AffineTransform toAffineTransform() {
-//        Point2D.Double p = new Point2D.Double( 0, 0 );
-
-//        System.out.println( "src = " + src +"____________");
-//        System.out.println( "modelBounds = " + modelBounds );
-//        System.out.println( "viewBounds = " + viewBounds );
-//
-//        AffineTransform aTx = new AffineTransform();
-//        double sx = viewBounds.width / modelBounds.width;
-//        double sy = viewBounds.height / modelBounds.height;
-//
-//        Point2D p2 = aTx.transform( src, null );
-//
-//        System.out.println("after identity, p2="+p2);
-//
-//        // Move to origin
-//        aTx.translate( -viewBounds.x, -viewBounds.y );
-//        p2 = aTx.transform( src, null );
-//        System.out.println("after translate, p2="+p2);
-//
-//        // Scale to model coords
-//        aTx.scale( sx, sy );
-//        p2 = aTx.transform( src, null );
-//        System.out.println("after scale, p2="+p2);
-//
-//        // Flip it
-//        aTx.scale( 1, -1 );
-//        p2 = aTx.transform( src, null );
-//        System.out.println("after flip, p2="+p2);
-//
-//        // Translate back to final resting place
-//        aTx.translate( modelBounds.x, -(modelBounds.y + modelBounds.height) );
-//        p2 = aTx.transform( src, null );
-//        System.out.println("after translate, p2="+p2);
-//
-//        return aTx;
-
-//        aTx.scale( sx, sy );
-//        AffineTransform scaling=AffineTransform.getScaleInstance(sx,sy);
-//
-//        double tx=(viewBounds.x-modelBounds.x*sx);
-//        double ty=(viewBounds.y-modelBounds.y*sy);
-//        AffineTransform translate=AffineTransform.getTranslateInstance(tx,ty);
-
-        //////// old code below
-//        AffineTransform flip=AffineTransform.getScaleInstance(1,-1);
-
-//        AffineTransform total=new AffineTransform(scaling);
-//        total.preConcatenate(translate);
-////        total.concatenate(flip);
-//        return total;
-
-//        AffineTransform translation=
-
         double m00 = viewBounds.width / modelBounds.width;
         double m01 = 0;
         double m02 = viewBounds.x - m00 * modelBounds.x;

@@ -43,13 +43,13 @@ public class BaseModel extends CompositeModelElement implements ClockTickListene
      * the model thread ticks. If the model's clock is not running, the command
      * is executed immediately.
      *
-     * @param mmc
+     * @param cmd
      */
-    public synchronized void execute(Command mmc) {
+    public synchronized void execute(Command cmd) {
         if (!clock.isRunning()) {
-            mmc.doIt();
+            cmd.doIt();
         } else {
-            commandList.addCommand(mmc);
+            commandList.addCommand(cmd);
         }
     }
 

@@ -43,8 +43,6 @@ public class ThreadedClock extends AbstractClock implements Runnable {
     public void run() {
         //exits cleanly on deadthread
         while (!super.isDead()) {
-//            parent.clockTicked();
-
             try {
                 if (isPaused()) {
                     Thread.sleep(PAUSE_WAIT);
