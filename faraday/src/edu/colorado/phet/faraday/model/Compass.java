@@ -160,7 +160,9 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
      * angular velocity to get it going.
      */
     public void startMovingNow() {
-          _omega = 0.03;  // adjust as needed for desired behavior
+        if ( _rotationalKinematicsEnabled ) {
+            _omega = 0.03; // adjust as needed for desired behavior
+        }
     }
     
     //----------------------------------------------------------------------------
