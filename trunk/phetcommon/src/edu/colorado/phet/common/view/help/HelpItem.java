@@ -9,10 +9,8 @@ package edu.colorado.phet.common.view.help;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.graphics.TextGraphic;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Point2D;
@@ -40,7 +38,7 @@ public class HelpItem implements Graphic {
     }
 
     public HelpItem( String text, double x, double y,
-                       int horizontalAlignment, int verticalAlignment ) {
+                     int horizontalAlignment, int verticalAlignment ) {
         this.horizontalAlignment = horizontalAlignment;
         this.verticalAlignment = verticalAlignment;
         this.text = text;
@@ -77,7 +75,7 @@ public class HelpItem implements Graphic {
             FontRenderContext fontRenderContext;
             textGraphics = new ArrayList();
             String[] sa = tokenizeString( text );
-            int x = (int)( location.getX() + fontMetrics.getStringBounds( " ", g ).getWidth());
+            int x = (int)( location.getX() + fontMetrics.getStringBounds( " ", g ).getWidth() );
             for( int i = 0; i < sa.length; i++ ) {
                 int y = (int)location.getY() + ( i + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
                 TextGraphic textGraphicShadow = new TextGraphic( sa[i], font, (float)x + 1, (float)y + 1, Color.black );
@@ -88,14 +86,4 @@ public class HelpItem implements Graphic {
         }
     }
 
-    public static void main( String[] args ) {
-        JFrame frame = new JFrame( );
-        ApparatusPanel ap = new ApparatusPanel();
-        frame.setContentPane( ap );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        HelpItem hi = new HelpItem( "Hi there,\nSailor!", 100, 0 );
-        ap.addGraphic( hi );
-        frame.setSize(  500, 500 );
-        frame.setVisible( true );
-    }
 }

@@ -2,8 +2,7 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.components.media.Resettable;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,11 +24,11 @@ public class ClockControlPanel extends JPanel {
     AbstractClock clock;
     private JButton logoButton;
 
-    public ClockControlPanel( AbstractClock runner ) throws IOException {
-        this( runner, null );
-    }
+//    public ClockControlPanel( AbstractClock runner ) throws IOException {
+//        this( runner, null );
+//    }
 
-    public ClockControlPanel( final AbstractClock runner, final Resettable rh ) throws IOException {
+    public ClockControlPanel( final AbstractClock runner ) throws IOException {
         this.clock = runner;
         if( clock == null ) {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );

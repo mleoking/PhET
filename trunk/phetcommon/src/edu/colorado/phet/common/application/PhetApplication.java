@@ -3,8 +3,7 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApplicationView;
-import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
-import edu.colorado.phet.common.view.apparatuspanelcontainment.TabbedApparatusPanelContainer;
+import edu.colorado.phet.common.view.TabbedApparatusPanelContainer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -77,9 +76,9 @@ public class PhetApplication {
         return s_instance;
     }
 
-    public ApparatusPanelContainer getApparatusPanelContainer() {
-        return null;
-    }
+//    public ApparatusPanelContainer getApparatusPanelContainer() {
+//        return null;
+//    }
 
     public Module moduleAt( int i ) {
         return moduleManager.moduleAt( i );

@@ -40,7 +40,7 @@ public class FastPaintImageGraphic extends BufferedImageGraphic {
     }
 
     public void setPosition( Point ctr ) {
-        setTransform( getCenterTransform( ctr.x,ctr.y ) );
+        setTransform( getCenterTransform( ctr.x, ctr.y ) );
     }
 
 }

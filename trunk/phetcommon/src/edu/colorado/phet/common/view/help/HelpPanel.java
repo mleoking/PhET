@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.common.view.help;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class HelpPanel extends JPanel {
     private Module module;
 
 
-    public HelpPanel(final Module module) {
+    public HelpPanel( final Module module ) {
         this.module = module;
         miniHelpBtn = new JButton( showHelpStr );
         megaHelpBtn = new JButton( megaHelpStr );
@@ -43,8 +43,8 @@ public class HelpPanel extends JPanel {
         } );
         setLayout( this.layout );
         setOneButtonMode();
-        Dimension dim=megaHelpBtn.getPreferredSize();
-        setPreferredSize( new Dimension( (int)( dim.width*1.2 ),(int)(dim.height*1.2) ));
+        Dimension dim = megaHelpBtn.getPreferredSize();
+        setPreferredSize( new Dimension( (int)( dim.width * 1.2 ), (int)( dim.height * 1.2 ) ) );
     }
 
     private void setOneButtonMode() {
@@ -71,20 +71,20 @@ public class HelpPanel extends JPanel {
         super.remove( megaHelpBtn );
         miniHelpBtn.setText( hideHelpStr );
         try {
-            Insets insets = new Insets( 4,0,4,0);
+            Insets insets = new Insets( 4, 0, 4, 0 );
             GraphicsUtil.addGridBagComponent( HelpPanel.this,
                                               miniHelpBtn,
                                               0, 0,
                                               1, 2,
                                               GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER,insets );
+                                              GridBagConstraints.CENTER, insets );
 
             GraphicsUtil.addGridBagComponent( HelpPanel.this,
                                               megaHelpBtn,
                                               0, 2,
                                               1, 2,
                                               GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER,insets );
+                                              GridBagConstraints.CENTER, insets );
         }
         catch( AWTException e1 ) {
             e1.printStackTrace();
@@ -100,11 +100,4 @@ public class HelpPanel extends JPanel {
         repaint();
     }
 
-    public static void main( String[] args ) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.getContentPane().add( new HelpPanel(null) );
-        frame.setSize( 300, 300 );
-        frame.setVisible( true );
-    }
 }

@@ -88,39 +88,6 @@ public class GraphicsUtil {
     }
 
     /**
-     * Creates and AffineTransform that rotates about a specified point
-     *
-     * @param theta
-     * @param x
-     * @param y
-     * @return the rotated AffineTransform.
-     * @deprecated
-     */
-    public static AffineTransform rotateInPlace( double theta, double x, double y ) {
-        AffineTransform atx = new AffineTransform();
-        return rotateInPlaceTx( atx, theta, x, y );
-    }
-
-    /**
-     * Sets up an AffineTransform to rotate about a specified ppoint
-     *
-     * @param atx
-     * @param theta
-     * @param x
-     * @param y
-     * @return the rotated transform.
-     * @deprecated
-     */
-    public static AffineTransform rotateInPlaceTx( AffineTransform atx,
-                                                   double theta, double x, double y ) {
-        atx.setToIdentity();
-        atx.translate( x, y );
-        atx.rotate( theta );
-        atx.translate( -x, -y );
-        return atx;
-    }
-
-    /**
      * This method turns Java strings into HTML that is Java-printable. The primary
      * use of this is to put line breaks in messages with '\n' characters.
      * <p/>
@@ -153,12 +120,6 @@ public class GraphicsUtil {
     // component
     public static void setInitialFocus( Window w, final Component c ) {
         w.addWindowListener( new FocusSetter( c ) );
-        //        w.addWindowListener( new WindowAdapter() {
-        //            public void windowOpened( WindowEvent e ) {
-        //                c.requestFocus();
-        //                e.getWindow().removeWindowListener( this );
-        //            }
-        //        } );
     }
 
     private static class FocusSetter extends WindowAdapter {

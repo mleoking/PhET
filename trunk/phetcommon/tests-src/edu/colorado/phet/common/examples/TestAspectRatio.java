@@ -26,14 +26,14 @@ public class TestAspectRatio {
 //        AspectRatioLayout cl = new AspectRatioLayout( apparatusPanel, insetX, insetY, aspectRatio );
 //        container.setLayout( cl );
 //        container.add( apparatusPanel );
-        AspectRatioPanel arp=new AspectRatioPanel( apparatusPanel, insetX,insetY,aspectRatio );
+        AspectRatioPanel arp = new AspectRatioPanel( apparatusPanel, insetX, insetY, aspectRatio );
         arp.setBackground( Color.yellow );
 //        arp.setBorder( new );
         JFrame jf = new JFrame();
         jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         jf.setContentPane( arp );
         jf.pack();
-        jf.setSize( 600,600);
+        jf.setSize( 600, 600 );
         jf.setVisible( true );
     }
 }

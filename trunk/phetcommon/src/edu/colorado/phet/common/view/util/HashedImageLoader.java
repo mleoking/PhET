@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.view.util.graphics;
+package edu.colorado.phet.common.view.util;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

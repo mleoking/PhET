@@ -6,8 +6,6 @@ package edu.colorado.phet.common.model;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.command.Command;
-import edu.colorado.phet.common.model.command.CommandQueue;
 
 /**
  * This class is encompasses all the model elements in a physical system. It provides
@@ -19,13 +17,16 @@ import edu.colorado.phet.common.model.command.CommandQueue;
  */
 public class BaseModel extends CompositeModelElement implements ClockTickListener {
 
-    // FixedClock owns the ModelElement it ticks to
     private CommandQueue commandList = new CommandQueue();
 
     //Not allowed to mess with the way we call our abstract method.
-    public final void stepInTime( double dt ) {
+    public void stepInTime( double dt ) {
         commandList.doIt();
         super.stepInTime( dt );
+    }
+
+    protected CommandQueue getCommandList() {
+        return commandList;
     }
 
     /**

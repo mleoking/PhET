@@ -1,5 +1,5 @@
 /*Copyright, Sam Reid, 2003.*/
-package edu.colorado.phet.common.view.util.graphics;
+package edu.colorado.phet.common.view.util;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;

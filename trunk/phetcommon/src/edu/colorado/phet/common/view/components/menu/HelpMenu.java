@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.common.view.components.menu;
 
-import edu.colorado.phet.common.util.VersionUtils;
 import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.util.VersionUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

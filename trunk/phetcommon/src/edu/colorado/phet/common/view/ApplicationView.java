@@ -3,8 +3,6 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 
 import javax.swing.*;
@@ -15,13 +13,12 @@ import java.io.IOException;
  */
 public class ApplicationView {
     private PhetFrame phetFrame;
-    private ApparatusPanelContainer apparatusPanelContainer;
     private ClockControlPanel clockControlPanel;
 
     private BasicPhetPanel basicPhetPanel;
     private ApplicationModel appDescriptor;
 
-    public ApplicationView( ApplicationModel applicationModel, JComponent apparatusPanelContainer) throws IOException {
+    public ApplicationView( ApplicationModel applicationModel, JComponent apparatusPanelContainer ) throws IOException {
         this.appDescriptor = applicationModel;
         if( applicationModel.getUseClockControlPanel() ) {
             clockControlPanel = new ClockControlPanel( applicationModel.getClock() );
@@ -29,10 +26,6 @@ public class ApplicationView {
         basicPhetPanel = new BasicPhetPanel( apparatusPanelContainer, null, null, clockControlPanel );
         phetFrame = new PhetFrame( applicationModel );
         phetFrame.setContentPane( basicPhetPanel );
-    }
-
-    public ApparatusPanelContainer getApparatusPanelContainer() {
-        return apparatusPanelContainer;
     }
 
     public BasicPhetPanel getBasicPhetPanel() {
