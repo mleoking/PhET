@@ -140,7 +140,7 @@ public class PlotSet {
 
         positionPlot = new MMPlot( SimStrings.get( "PlotSet.PositionLabel" ), module,
                                    movingManModel.getPosition().getSmoothedDataSeries(), module.getRecordingTimer(),
-                                   Color.blue, plotStroke, positionInputBox, module.getBackground(), 0,
+                                   Color.blue, plotStroke, positionInputBox, module.getBuffer(), 0,
                                    SimStrings.get( "PlotSet.MetersAbbreviation" ),
                                    SimStrings.get( "PlotSet.PositionAbbreviation" ) + "=" );
         final MMPlot.TextBox positionBox = positionPlot.getTextBox();
@@ -153,18 +153,18 @@ public class PlotSet {
         positionBox.addKeyListener( textHandler );
 
         positionPlot.setPaintYLines( new double[]{5, 10} );
-        module.getBackground().addGraphic( positionPlot, 3 );
+        module.getBuffer().addGraphic( positionPlot, 3 );
         positionPlot.addSliderListener( new SliderHandler( module, positionSetter ) );
 
         Rectangle2D.Double velocityInputBox = new Rectangle2D.Double( minTime, -maxVelocity, movingManModel.getMaxTime() - minTime, maxVelocity * 2 );
         velocityPlot = new MMPlot( SimStrings.get( "PlotSet.VelocityLabel" ), module,
                                    movingManModel.getVelocitySeries().getSmoothedDataSeries(), module.getRecordingTimer(),
-                                   Color.red, plotStroke, velocityInputBox, module.getBackground(), xshiftVelocity,
+                                   Color.red, plotStroke, velocityInputBox, module.getBuffer(), xshiftVelocity,
                                    SimStrings.get( "PlotSet.MetersPerSecondAbbreviation" ),
                                    SimStrings.get( "PlotSet.VelocityAbbreviation" ) + "=" );
         velocityPlot.setMagnitude( 12 );
         velocityPlot.setPaintYLines( new double[]{5, 10} );
-        module.getBackground().addGraphic( velocityPlot, 4 );
+        module.getBuffer().addGraphic( velocityPlot, 4 );
         final MMPlot.TextBox velocityBox = velocityPlot.getTextBox();
         ManSetter velSetter = new ManSetter() {
             public void setValue( Man man, double value ) {
@@ -178,11 +178,11 @@ public class PlotSet {
         Rectangle2D.Double accelInputBox = new Rectangle2D.Double( minTime, -maxAccel, movingManModel.getMaxTime() - minTime, maxAccel * 2 );
         accelerationPlot = new MMPlot( SimStrings.get( "PlotSet.AccelerationLabel" ), module,
                                        movingManModel.getAcceleration().getSmoothedDataSeries(), module.getRecordingTimer(),
-                                       Color.black, plotStroke, accelInputBox, module.getBackground(), xshiftAcceleration,
+                                       Color.black, plotStroke, accelInputBox, module.getBuffer(), xshiftAcceleration,
                                        SimStrings.get( "PlotSet.MetersPerSecondSquaredAbbreviation" ),
                                        SimStrings.get( "PlotSet.AccelerationAbbreviation" ) + "=" );
 //        accelerationPlot.addSuperScript( "2" );
-        module.getBackground().addGraphic( accelerationPlot, 5 );
+        module.getBuffer().addGraphic( accelerationPlot, 5 );
 
         accelerationPlot.setPaintYLines( new double[]{5, 10} );
         accelerationPlot.setMagnitude( 12 );
@@ -225,8 +225,8 @@ public class PlotSet {
     }
 
     public void setNumSmoothingPoints( int n ) {
-        double velocityOffset = n / 2 * MovingManModule.TIME_SCALE;
-        double accelOffset = n * MovingManModule.TIME_SCALE;
+        double velocityOffset = n / 2 * MovingManModule.getTimeScale();
+        double accelOffset = n * MovingManModule.getTimeScale();
         velocityPlot.setShift( velocityOffset );
         accelerationPlot.setShift( accelOffset );
     }

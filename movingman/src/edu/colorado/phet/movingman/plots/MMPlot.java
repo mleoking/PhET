@@ -17,9 +17,7 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.movingman.MMFontManager;
-import edu.colorado.phet.movingman.MMTimer;
-import edu.colorado.phet.movingman.MovingManModule;
+import edu.colorado.phet.movingman.*;
 import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
 import edu.colorado.phet.movingman.common.ScreenSizeHandlerFactory;
 
@@ -172,7 +170,7 @@ public class MMPlot extends PhetGraphic {
                     }
                 }
             } );
-            module.addListener( new MovingManModule.ListenerAdapter() {
+            module.addListener( new TimeListenerAdapter() {
                 public void recordingStarted() {
                     setButtons( false, true, true );
                 }
@@ -326,7 +324,7 @@ public class MMPlot extends PhetGraphic {
         module.getApparatusPanel().add( titleLable );
         floatingControl = new FloatingControl( module );//, titleLable );
         module.getApparatusPanel().add( floatingControl );
-        module.addListener( new MovingManModule.ListenerAdapter() {
+        module.addListener( new TimeListenerAdapter() {
             public void rewind() {
                 horizontalCursor.setX( 0 );
             }
@@ -342,7 +340,7 @@ public class MMPlot extends PhetGraphic {
             double time = module.getPlaybackTimer().getTime() + getxShift();
             double maxTime = module.getRecordingTimer().getTime();
             time = Math.min( time, maxTime );
-            index = (int)( time / MovingManModule.TIME_SCALE );
+            index = (int)( time / MovingManModule.getTimeScale() );
 //            System.out.println( "index = " + index );
         }
         if( series.indexInBounds( index ) ) {
@@ -411,7 +409,7 @@ public class MMPlot extends PhetGraphic {
             add( label );
             add( textField );
             setBorder( BorderFactory.createLineBorder( Color.black ) );
-            module.addListener( new MovingManModule.Listener() {
+            module.addListener( new TimeListener() {
                 public void recordingStarted() {
                     textField.setEditable( false );
                 }
@@ -831,7 +829,7 @@ public class MMPlot extends PhetGraphic {
             }
             if( path.getCurrentPoint() != null ) {
                 path.lineTo( (float)b.getX(), (float)b.getY() );
-                Graphics2D g2 = module.getBackground().getImage().createGraphics();
+                Graphics2D g2 = module.getBuffer().getImage().createGraphics();
                 g2.setStroke( new BasicStroke( 2 ) );
                 g2.setColor( color );
                 g2.setClip( chart.getViewBounds() );

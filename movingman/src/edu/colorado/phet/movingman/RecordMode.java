@@ -12,10 +12,10 @@ import edu.colorado.phet.common.view.util.SimStrings;
 public class RecordMode extends Mode {
     private MovingManModule module;
 
-    public RecordMode( final MovingManModule module ) {
+    public RecordMode( final MovingManModule module, MovingManTimeModel movingManTimeModel ) {
         super( module, SimStrings.get( "RecordMode.ModeName" ), true );
         this.module = module;
-        module.addListener( new MovingManModule.ListenerAdapter() {
+        movingManTimeModel.addListener( new TimeListenerAdapter() {
             public void recordingStarted() {
                 module.setNumSmoothingPoints( 2 );
             }
