@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.model;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
@@ -160,37 +161,56 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         // Flux at the center of the coil.
         double centerFlux = 0;
         {
+            // Determine the point that corresponds to the center.
             Point2D location = getLocation();
+            
+            // Find the B field vector at that point.
             AbstractVector2D strength = _magnetModel.getStrength( location );
+            
+            // Calculate the flux.
             double B = strength.getMagnitude();
-            double theta = Math.abs( strength.getAngle() - getDirection() );
             double A = getArea();
+            double theta = Math.abs( strength.getAngle() - getDirection() );
             centerFlux = B * A * Math.cos( theta );
         }
         
         // Flux at the top edge of the coil.
         double topFlux = 0;
         {
+            // Determine the point that corresponds to the top edge, adjusted for coil rotation.
             double x = getX();
             double y = getY() - getRadius();
-            Point2D location = new Point2D.Double( x, y );
+            AffineTransform transform = new AffineTransform();
+            transform.rotate( getDirection(), getX(), getY() );
+            Point2D location = transform.transform( new Point2D.Double( x, y ), null );
+            
+            // Find the B field vector at that point.
             AbstractVector2D strength = _magnetModel.getStrength( location );
+            
+            // Calculate the flux.
             double B = strength.getMagnitude();
-            double theta = Math.abs( strength.getAngle() - getDirection() );
             double A = getArea();
-            topFlux = B * A * Math.cos( theta ); 
+            double theta = Math.abs( strength.getAngle() - getDirection() );
+            topFlux = B * A * Math.cos( theta );
         }
         
         // Flux at the bottom edge of the coil.
         double bottomFlux = 0;
         {
+            // Determine the point that corresponds to the bottom edge, adjusted for coil rotation.
             double x = getX();
             double y = getY() + getRadius();
-            Point2D location = new Point2D.Double( x, y );
+            AffineTransform transform = new AffineTransform();
+            transform.rotate( getDirection(), getX(), getY() );
+            Point2D location = transform.transform( new Point2D.Double( x, y ), null );
+            
+            // Find the B field vector at that point.
             AbstractVector2D strength = _magnetModel.getStrength( location );
+            
+            // Calculate the flux.
             double B = strength.getMagnitude();
-            double theta = Math.abs( strength.getAngle() - getDirection() );
             double A = getArea();
+            double theta = Math.abs( strength.getAngle() - getDirection() );
             bottomFlux = B * A * Math.cos( theta ); 
         }
         
