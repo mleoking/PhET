@@ -15,6 +15,7 @@ import edu.colorado.phet.colorvision3.model.Photon;
 import edu.colorado.phet.colorvision3.model.PhotonBeam;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
  * PhotonBeamGraphic provides a view of a PhotonBeam.
@@ -116,8 +117,15 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver
           w = (int) photon.getWidth();
           h = (int) photon.getHeight();
           
+          VisibleColor color = photon.getColor();
+          if ( color.getWavelength() == VisibleColor.WHITE_WAVELENGTH )
+          {
+            double wavelength = genWavelength();
+            color = new VisibleColor( wavelength );
+          }
+          
           // WORKAROUND: Huge performance improvement by converting VisibleColor to Color.
-          g2.setPaint( photon.getColor().toColor() );
+          g2.setPaint( color.toColor() );
           // Head of photon is at (x,y), assumes left-to-right motion!
           g2.drawLine( x, y, x-w, y-h ); 
         }
@@ -131,6 +139,15 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver
     }
   } // paint
 
+  /**
+   * Generates a random wavelength.
+   */
+  private double genWavelength()
+  {
+    double range = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
+    return (Math.random() * range) + VisibleColor.MIN_WAVELENGTH;
+  }
+  
 }
 
 
