@@ -39,7 +39,6 @@ public class HorizontalCursor extends PhetGraphic {
         this.outlineColor = outlineColor;
         this.width = width;
         shape = new Rectangle();
-//        cursorGraphic = (CursorGraphic)super.getGraphic();
         setCursorHand();
         addMouseInputListener( new MouseInputAdapter() {
             public void mouseDragged( MouseEvent e ) {
@@ -117,7 +116,6 @@ public class HorizontalCursor extends PhetGraphic {
         Rectangle newShape = stroke.createStrokedShape( shape ).getBounds();
         Rectangle union = origShape.union( newShape );
         chart.getComponent().repaint( union.x, union.y, union.width, union.height );
-//            System.out.println( "xCenter = " + xCenter );
     }
 
     public boolean contains( int x, int y ) {
@@ -125,11 +123,8 @@ public class HorizontalCursor extends PhetGraphic {
     }
 
     public void setModelX( double modelX ) {
-//            System.out.println( "modelX = " + modelX );
         this.modelX = modelX;
         update();
     }
-//    private static class CursorGraphic {
-//
-//    }
+
 }
