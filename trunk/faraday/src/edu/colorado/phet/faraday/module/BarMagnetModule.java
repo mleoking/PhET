@@ -116,13 +116,7 @@ public class BarMagnetModule extends Module {
         this.setModel( model );
         
         // Bar Magnet
-        if ( FaradayConfig.HOLLYWOOD_MAGNET ) {
-            System.out.println( "*** HOLLYWOOD_MAGNET is enabled ***" ); // DEBUG
-            _magnetModel = new HollywoodMagnet();
-        }
-        else {
-            _magnetModel = new BarMagnet();
-        }
+        _magnetModel = new BarMagnet();
         _magnetModel.setStrength( MAGNET_STRENGTH );
         _magnetModel.setLocation( MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );
@@ -130,14 +124,7 @@ public class BarMagnetModule extends Module {
         model.addModelElement( _magnetModel );
         
         // Compass model
-        _compassModel = null;
-        if ( FaradayConfig.HOLLYWOOD_COMPASS ) {
-            System.out.println( "*** HOLLYWOOD_COMPASS is enabled ***" ); // DEBUG
-            _compassModel = new HollywoodCompass( _magnetModel );
-        }
-        else {
-            _compassModel = new Compass( _magnetModel );
-        }
+        _compassModel = new Compass( _magnetModel );
         _compassModel.setLocation( COMPASS_LOCATION );
         model.addModelElement( _compassModel );
         

@@ -76,10 +76,6 @@ public class FaradayConfig {
     public static final int MIN_SOURCE_LOOPS = 1;
     public static final int MAX_SOURCE_LOOPS = 4;
     public static final double MAX_EMF = 1.0E5;
-
-    // Enables "Hollywood" versions of various model elements.
-    public static final boolean HOLLYWOOD_MAGNET = false;
-    public static final boolean HOLLYWOOD_COMPASS = false;
     
     //----------------------------------------------------------------------------
     // Constructors
