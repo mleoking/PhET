@@ -153,7 +153,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
                 double previousAngle = _angle;
 
                 // Compute the angle.
-                _angle += _deltaAngle;
+                _angle += ( dt * _deltaAngle );
 
                 // Adjust the angle so that we hit all peaks and zero crossings.
                 if ( _criticalAnglesEnabled ) {

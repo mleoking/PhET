@@ -51,6 +51,8 @@ PHETCOMMON:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
+v0r21
+(3/29) - make all ModelElements compliant with fixed or variable clock (use dt in stepInTime)
 v0r20...
 (3/29) - add Developer menu to control various internal knobs
 (3/29) - optimize getCollisionBounds implementations so that rectangles are reused

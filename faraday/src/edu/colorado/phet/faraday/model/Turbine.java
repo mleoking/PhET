@@ -134,7 +134,7 @@ public class Turbine extends BarMagnet implements ModelElement {
         if ( _speed != 0 ) {
             
             double previousDirection = getDirection();
-            double newDirection = getDirection() + ( _speed * _maxDelta );
+            double newDirection = getDirection() + ( dt * _speed * _maxDelta );
 
             // Adjust the angle so that we hit all peaks and zero crossings.
             if ( _criticalAnglesEnabled ) {

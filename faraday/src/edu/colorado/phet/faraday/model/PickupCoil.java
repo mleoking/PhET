@@ -101,18 +101,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      */
     public void stepInTime( double dt ) {
         if ( isEnabled() ) {
-            updateEmf();
+            updateEmf( dt );
         }
     }
-    
-    //----------------------------------------------------------------------------
-    // Update methods
-    //----------------------------------------------------------------------------
     
     /**
      * Updates the emf, using Faraday's Law.
      */
-    private void updateEmf() {
+    private void updateEmf( double dt ) {
         
         // Flux at the center of the coil.
         double centerFlux = 0;
@@ -185,8 +181,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         _deltaFlux = flux - _flux;
         _flux = flux;
         
-        // Calculate the induced EMF.
-        double emf = -( getNumberOfLoops() * _deltaFlux );
+        //********************************************
+        // Faraday's Law - Calculate the induced EMF.
+        //********************************************
+        double emf = -getNumberOfLoops() * ( _deltaFlux / dt );
         
         // Kirchhoff's rule -- voltage across the ends of the coil equals the emf.
         double voltage = emf;
