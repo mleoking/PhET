@@ -16,10 +16,6 @@ import java.awt.*;
 
 public class LaserControlPanel extends PhetControlPanel {
 
-    /**
-     *
-     * @param application
-     */
     public LaserControlPanel( Module module, JPanel controls ) {
         super( module, controls );
 //    public LaserControlPanel( PhetApplication application ) {

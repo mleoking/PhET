@@ -27,6 +27,76 @@ import java.util.List;
  */
 public class Photon extends SphericalBody {
 
+    static public double s_speed = 1;
+//    static public double s_speed = 500;
+    static public double s_radius = 10;
+    static public int RED = 680;
+    static public int DEEP_RED = 640;
+    static public int BLUE = 400;
+    static public int GRAY = Integer.MAX_VALUE;
+
+    // Free pool of photons. We do this so we don't have to use the heap
+    // at run-time
+    static private int freePoolSize = 2000;
+    static private ArrayList freePool = new ArrayList( freePoolSize );
+    // Populate the free pool
+    static {
+        for( int i = 0; i < freePoolSize; i++ ){
+            freePool.add( new Photon() );
+        }
+    }
+
+    static public Photon create() {
+        Photon newPhoton = null;
+        /*if( !freePool.isEmpty() ) {
+            newPhoton = (Photon)freePool.remove( 0 );
+        }
+        else */{
+            newPhoton = new Photon();
+//            freePool.add( new Photon() );
+        }
+        return newPhoton;
+    }
+
+    static public Photon create( Photon photon ) {
+        Photon newPhoton = create();
+        newPhoton.setVelocity( new Vector2D.Double( photon.getVelocity() ));
+        newPhoton.setWavelength( photon.getWavelength() );
+        newPhoton.numStimulatedPhotons = photon.numStimulatedPhotons;
+        return newPhoton;
+    }
+
+    static public Photon createStimulated( Photon stimulatingPhoton ) {
+        stimulatingPhoton.numStimulatedPhotons++;
+        if( stimulatingPhoton.numStimulatedPhotons > 1 ) {
+//            System.out.println( "!!!" );
+        }
+
+        Photon newPhoton = create();
+        newPhoton.setVelocity( new Vector2D.Double( stimulatingPhoton.getVelocity() ));
+        newPhoton.setWavelength( stimulatingPhoton.getWavelength() );
+        int yOffset = stimulatingPhoton.numStimulatedPhotons * 4;
+        newPhoton.setPosition( stimulatingPhoton.getPosition().getX(),
+                               stimulatingPhoton.getPosition().getY() - yOffset );
+//                               stimulatingPhoton.getPosition().getY() - stimulatingPhoton.getRadius() );
+
+        return newPhoton;
+    }
+
+    /**
+     * If the photon is created by a CollimatedBeam, it should use this method,
+     * so that the photon can tell the CollimatedBeam if it is leaving the system.
+     * @param beam
+     */
+    static public Photon create( CollimatedBeam beam ) {
+        Photon newPhoton = create();
+        newPhoton.beam = beam;
+        newPhoton.setWavelength( beam.getWavelength() );
+        return newPhoton;
+    }
+
+
+
     private int numObservers;
     private int numStimulatedPhotons;
     // If this photon was produced by the stimulation of another, this
@@ -135,77 +205,4 @@ public class Photon extends SphericalBody {
     }
 
 
-    //
-    // Static fields and methods
-    //
-    static public double s_speed = 500;
-    static public double s_radius = 10;
-    static public int RED = 680;
-    static public int DEEP_RED = 640;
-    static public int BLUE = 400;
-    static public int GRAY = Integer.MAX_VALUE;
-
-    // Free pool of photons. We do this so we don't have to use the heap
-    // at run-time
-    static private int freePoolSize = 2000;
-    static private ArrayList freePool = new ArrayList( freePoolSize );
-    // Populate the free pool
-    static {
-        for( int i = 0; i < freePoolSize; i++ ){
-            freePool.add( new Photon() );
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    static public Photon create() {
-        Photon newPhoton = null;
-        /*if( !freePool.isEmpty() ) {
-            newPhoton = (Photon)freePool.remove( 0 );
-        }
-        else */{
-            newPhoton = new Photon();
-//            freePool.add( new Photon() );
-        }
-        return newPhoton;
-    }
-
-    static public Photon create( Photon photon ) {
-        Photon newPhoton = create();
-        newPhoton.setVelocity( new Vector2D.Double( photon.getVelocity() ));
-        newPhoton.setWavelength( photon.getWavelength() );
-        newPhoton.numStimulatedPhotons = photon.numStimulatedPhotons;
-        return newPhoton;
-    }
-
-    static public Photon createStimulated( Photon stimulatingPhoton ) {
-        stimulatingPhoton.numStimulatedPhotons++;
-        if( stimulatingPhoton.numStimulatedPhotons > 1 ) {
-//            System.out.println( "!!!" );
-        }
-
-        Photon newPhoton = create();
-        newPhoton.setVelocity( new Vector2D.Double( stimulatingPhoton.getVelocity() ));
-        newPhoton.setWavelength( stimulatingPhoton.getWavelength() );
-        int yOffset = stimulatingPhoton.numStimulatedPhotons * 4;
-        newPhoton.setPosition( stimulatingPhoton.getPosition().getX(),
-                               stimulatingPhoton.getPosition().getY() - yOffset );
-//                               stimulatingPhoton.getPosition().getY() - stimulatingPhoton.getRadius() );
-
-        return newPhoton;
-    }
-
-    /**
-     * If the photon is created by a CollimatedBeam, it should use this method,
-     * so that the photon can tell the CollimatedBeam if it is leaving the system.
-     * @param beam
-     */
-    static public Photon create( CollimatedBeam beam ) {
-        Photon newPhoton = create();
-        newPhoton.beam = beam;
-        newPhoton.setWavelength( beam.getWavelength() );
-        return newPhoton;
-    }
 }

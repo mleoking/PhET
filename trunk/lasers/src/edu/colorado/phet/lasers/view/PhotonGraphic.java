@@ -28,6 +28,127 @@ import java.io.IOException;
 
 public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
 
+    //
+    // Static fields and methods
+    //
+    static protected int s_imgHeight = (int)Photon.s_radius;
+    static protected int s_imgLength = 20;
+
+    static String s_imageName = LaserConfig.PHOTON_IMAGE_FILE;
+    static String s_highEnergyImageName = LaserConfig.HIGH_ENERGY_PHOTON_IMAGE_FILE;
+    static String s_midEnergyImageName = LaserConfig.MID_HIGH_ENERGY_PHOTON_IMAGE_FILE;
+    static String s_lowEnergyImageName = LaserConfig.LOW_ENERGY_PHOTON_IMAGE_FILE;
+    static BufferedImage s_particleImage;
+    static BufferedImage s_highEnergyImage;
+    static BufferedImage s_midEnergyImage;
+    static BufferedImage s_lowEnergyImage;
+
+    static {
+        try {
+            s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
+            s_highEnergyImage = ImageLoader.loadBufferedImage( s_highEnergyImageName );
+            s_midEnergyImage = ImageLoader.loadBufferedImage( s_midEnergyImageName );
+            s_lowEnergyImage = ImageLoader.loadBufferedImage( s_lowEnergyImageName );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    // A map that matches photon wavelengths to display colors
+    static HashMap colorMap = new HashMap();
+
+    static {
+        colorMap.put( new Double( Photon.RED ), Color.red );
+        colorMap.put( new Double( Photon.BLUE ), Color.blue );
+        colorMap.put( new Double( Photon.DEEP_RED ), new Color( 100, 0, 0 ) );
+    }
+
+
+    // A map of maps for holding photon animations. Inner maps hold animations keyed
+    // by their angle of travel. The outer map keys the inner maps by color
+    static HashMap s_animationMap = new HashMap();
+
+    // Generated all the photon animations
+    static {
+        HashMap blueAnimationMap = new HashMap();
+        s_animationMap.put( new Double( Photon.BLUE ), blueAnimationMap );
+        HashMap deepRedAnimationMap = new HashMap();
+        s_animationMap.put( new Double( Photon.DEEP_RED ), deepRedAnimationMap );
+        HashMap redAnimationMap = new HashMap();
+        s_animationMap.put( new Double( Photon.RED ), redAnimationMap );
+        generateAnimation( Photon.RED, redAnimationMap );
+        generateAnimation( Photon.BLUE, blueAnimationMap );
+        generateAnimation( Photon.DEEP_RED, deepRedAnimationMap );
+    }
+
+    /**
+     * Generates all the images for the animation of a specified wavelength
+     *
+     * @param wavelength
+     * @param animationMap
+     */
+    static private void generateAnimation( double wavelength, HashMap animationMap ) {
+
+        int numImgs = (int)( ( 20f / 680 ) * wavelength );
+        for( double theta = 0; theta < Math.PI * 2;
+            theta = theta + 0.3 ) {
+//            theta = ( Math.round( ( theta + 0.1 ) * 10 ) ) / 10 ) {
+
+            BufferedImage[] animation = new BufferedImage[numImgs];
+//            Image[] animation = new Image[numImgs];
+            // Compute the size of buffered image needed to hold the rotated copy of the
+            // base generator image, and create the transform op for doing the rotation
+            AffineTransform xform = AffineTransform.getRotateInstance( theta, s_imgLength / 2, s_imgHeight / 2 );
+            int xPrime = (int)( s_imgLength * Math.abs( Math.cos( theta ) ) + s_imgHeight * Math.abs( Math.sin( theta ) ) );
+            int yPrime = (int)( s_imgLength * Math.abs( Math.sin( theta ) ) + s_imgHeight * Math.abs( Math.cos( theta ) ) );
+            AffineTransformOp xformOp = new AffineTransformOp( xform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
+
+            // Generate the frames for the animation
+            double phaseAngleIncr = ( Math.PI * 2 ) / numImgs;
+            for( int i = 0; i < numImgs; i++ ) {
+                double phaseAngle = phaseAngleIncr * i;
+                BufferedImage buffImg = computeGeneratorImage( wavelength, phaseAngle );
+                BufferedImage animationFrame = new BufferedImage( xPrime, yPrime, BufferedImage.TYPE_INT_ARGB );
+                animationFrame = xformOp.filter( buffImg, null );
+                animation[i] = animationFrame;
+//                animation[i] = Toolkit.getDefaultToolkit().createImage( animationFrame.getSource() );
+            }
+            animationMap.put( new Double( theta ), animation );
+        }
+    }
+
+    /**
+     *
+     */
+    static private BufferedImage computeGeneratorImage( double wavelength, double phaseAngle ) {
+
+        // A buffered image for generating the image data
+        BufferedImage img = new BufferedImage( s_imgLength,
+                                               s_imgHeight,
+                                               BufferedImage.TYPE_INT_ARGB );
+        Graphics2D g2d = img.createGraphics();
+        int kPrev = s_imgHeight / 2;
+        int iPrev = 0;
+        double freqFactor = 10 * wavelength / 680;
+        for( int i = 0; i < s_imgLength; i++ ) {
+            int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * s_imgHeight / 2 + s_imgHeight / 2 );
+            for( int j = 0; j < s_imgHeight; j++ ) {
+                if( j == k ) {
+                    Color c = (Color)colorMap.get( new Double( wavelength ) );
+                    g2d.setColor( c );
+                    g2d.drawLine( iPrev, kPrev, i, k );
+                    iPrev = i;
+                    kPrev = k;
+                }
+            }
+        }
+        g2d.dispose();
+        return img;
+    }
+
+
+
     private Vector2D velocity;
 //    private BufferedImage buffImg = new BufferedImage( s_imgLength, s_imgHeight, BufferedImage.TYPE_INT_ARGB );
     private BufferedImage[] animation;
@@ -39,6 +160,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         // Need to subtract half the width and height of the image to locate it
         // properly
         super( component, s_particleImage );
+        photon.addObserver( this );
+
 //        super( s_particleImage, particle.getPosition().getX(), particle.getPosition().getY() );
 //        this.setImage( buffImg );
 //        init( particle );
@@ -183,129 +306,4 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         double y = particle.getPosition().getY() - particle.getRadius();
         setPosition( (int)x, (int)y );
     }
-
-    //
-    // Static fields and methods
-    //
-    static protected int s_imgHeight = (int)Photon.s_radius;
-    static protected int s_imgLength = 20;
-
-    static String s_imageName = LaserConfig.PHOTON_IMAGE_FILE;
-    static String s_highEnergyImageName = LaserConfig.HIGH_ENERGY_PHOTON_IMAGE_FILE;
-    static String s_midEnergyImageName = LaserConfig.MID_HIGH_ENERGY_PHOTON_IMAGE_FILE;
-    static String s_lowEnergyImageName = LaserConfig.LOW_ENERGY_PHOTON_IMAGE_FILE;
-    static BufferedImage s_particleImage;
-    static BufferedImage s_highEnergyImage;
-    static BufferedImage s_midEnergyImage;
-    static BufferedImage s_lowEnergyImage;
-
-    static {
-//        ResourceLoader loader = new ResourceLoader();
-//        s_particleImage = loader.getPhotonImage( s_imageName ).getImage();
-//        s_highEnergyImage = loader.getPhotonImage( s_highEnergyImageName ).getImage();
-//        s_midEnergyImage = loader.getPhotonImage( s_midEnergyImageName ).getImage();
-//        s_lowEnergyImage = loader.getPhotonImage( s_lowEnergyImageName ).getImage();
-        try {
-            s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
-            s_highEnergyImage = ImageLoader.loadBufferedImage( s_highEnergyImageName );
-            s_midEnergyImage = ImageLoader.loadBufferedImage( s_midEnergyImageName );
-            s_lowEnergyImage = ImageLoader.loadBufferedImage( s_lowEnergyImageName );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    // A map that matches photon wavelengths to display colors
-    static HashMap colorMap = new HashMap();
-
-    static {
-        colorMap.put( new Double( Photon.RED ), Color.red );
-        colorMap.put( new Double( Photon.BLUE ), Color.blue );
-        colorMap.put( new Double( Photon.DEEP_RED ), new Color( 100, 0, 0 ) );
-    }
-
-
-    // A map of maps for holding photon animations. Inner maps hold animations keyed
-    // by their angle of travel. The outer map keys the inner maps by color
-    static HashMap s_animationMap = new HashMap();
-
-    // Generated all the photon animations
-    static {
-        HashMap blueAnimationMap = new HashMap();
-        s_animationMap.put( new Double( Photon.BLUE ), blueAnimationMap );
-        HashMap deepRedAnimationMap = new HashMap();
-        s_animationMap.put( new Double( Photon.DEEP_RED ), deepRedAnimationMap );
-        HashMap redAnimationMap = new HashMap();
-        s_animationMap.put( new Double( Photon.RED ), redAnimationMap );
-        generateAnimation( Photon.RED, redAnimationMap );
-        generateAnimation( Photon.BLUE, blueAnimationMap );
-        generateAnimation( Photon.DEEP_RED, deepRedAnimationMap );
-    }
-
-    /**
-     * Generates all the images for the animation of a specified wavelength
-     *
-     * @param wavelength
-     * @param animationMap
-     */
-    static private void generateAnimation( double wavelength, HashMap animationMap ) {
-
-        int numImgs = (int)( ( 20f / 680 ) * wavelength );
-        for( double theta = 0; theta < Math.PI * 2;
-             theta = ( Math.round( ( theta + 0.1f ) * 10 ) ) / 10 ) {
-
-            Image[] animation = new Image[numImgs];
-            // Compute the size of buffered image needed to hold the rotated copy of the
-            // base generator image, and create the transform op for doing the rotation
-            AffineTransform xform = AffineTransform.getRotateInstance( theta, s_imgLength / 2, s_imgHeight / 2 );
-            int xPrime = (int)( s_imgLength * Math.abs( Math.cos( theta ) ) + s_imgHeight * Math.abs( Math.sin( theta ) ) );
-            int yPrime = (int)( s_imgLength * Math.abs( Math.sin( theta ) ) + s_imgHeight * Math.abs( Math.cos( theta ) ) );
-            AffineTransformOp xformOp = new AffineTransformOp( xform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
-
-            // Generate the frames for the animation
-            double phaseAngleIncr = ( Math.PI * 2 ) / numImgs;
-            for( int i = 0; i < numImgs; i++ ) {
-                double phaseAngle = phaseAngleIncr * i;
-                BufferedImage buffImg = computeGeneratorImage( wavelength, phaseAngle );
-                BufferedImage animationFrame = new BufferedImage( xPrime, yPrime, BufferedImage.TYPE_INT_ARGB );
-                animationFrame = xformOp.filter( buffImg, null );
-                animation[i] = Toolkit.getDefaultToolkit().createImage( animationFrame.getSource() );
-            }
-            animationMap.put( new Double( theta ), animation );
-        }
-    }
-
-    /**
-     *
-     */
-    static private BufferedImage computeGeneratorImage( double wavelength, double phaseAngle ) {
-
-        // A buffered image for generating the image data
-        BufferedImage img = new BufferedImage( s_imgLength,
-                                               s_imgHeight,
-                                               BufferedImage.TYPE_INT_ARGB );
-        Graphics2D g2d = img.createGraphics();
-        int kPrev = s_imgHeight / 2;
-        int iPrev = 0;
-        double freqFactor = 10 * wavelength / 680;
-        for( int i = 0; i < s_imgLength; i++ ) {
-            int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * s_imgHeight / 2 + s_imgHeight / 2 );
-            for( int j = 0; j < s_imgHeight; j++ ) {
-                if( j == k ) {
-                    Color c = (Color)colorMap.get( new Double( wavelength ) );
-                    g2d.setColor( c );
-                    g2d.drawLine( iPrev, kPrev, i, k );
-                    iPrev = i;
-                    kPrev = k;
-                }
-            }
-        }
-        g2d.dispose();
-        return img;
-    }
 }
-
-
-
-
