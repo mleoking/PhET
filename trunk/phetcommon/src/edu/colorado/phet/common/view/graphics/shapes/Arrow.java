@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
  */
 public class Arrow {
 
-    private GeneralPath arrowPath = new GeneralPath();
+    private GeneralPath arrowPath = new GeneralPath();//This causes real problems because equals is not overriden.
     private GeneralPath headShape = new GeneralPath();
     private GeneralPath tailShape = new GeneralPath();
     private Point2D tailLocation;
@@ -28,6 +28,15 @@ public class Arrow {
     boolean isHeadDynamic = false;
     private double fractionalHeadHeight;
     private boolean scaleTailToo;
+
+    public boolean equals( Object obj ) {
+        if( obj instanceof Arrow ) {
+            Arrow a = (Arrow)obj;
+            return a.tailLocation.equals( tailLocation ) && a.tipLocation.equals( tipLocation ) && a.headHeight == headHeight
+                   && a.headWidth == headWidth && a.tailWidth == tailWidth && a.isHeadDynamic == isHeadDynamic;
+        }
+        return false;
+    }
 
     public Arrow( Point2D tailLocation, Point2D tipLocation, double headHeight, double headWidth, double tailWidth ) {
         init( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
@@ -53,6 +62,7 @@ public class Arrow {
         init( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
         computeArrow();
     }
+
 
     void init( Point2D tailLocation, Point2D tipLocation, double headHeight, double headWidth, double tailWidth ) {
         this.tailLocation = tailLocation;

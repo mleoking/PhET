@@ -41,6 +41,7 @@ public abstract class PhetGraphic {
     private MouseInputAdapter popupHandler;
     private ArrayList listeners = new ArrayList();
     private boolean ignoreMouse = false;
+    private boolean autorepaint = true;
 
     /**
      * Construct a PhetGraphic on the specified component.
@@ -272,9 +273,7 @@ public abstract class PhetGraphic {
         }
         int dx = x - currentLocation.x;
         int dy = y - currentLocation.y;
-        transform.translate( dx, dy );
-        setBoundsDirty();
-        repaint();
+        transform( AffineTransform.getTranslateInstance( dx, dy ) );
     }
 
     /**
@@ -283,10 +282,11 @@ public abstract class PhetGraphic {
      * @param transform
      */
     public void transform( AffineTransform transform ) {
-//        this.transform.concatenate( transform );
-        this.transform.preConcatenate( transform );
-        setBoundsDirty();
-        repaint();
+        if( !transform.isIdentity() ) {//does this work properly?
+            this.transform.preConcatenate( transform );
+            setBoundsDirty();
+            autorepaint();
+        }
     }
 
     /**
@@ -442,5 +442,13 @@ public abstract class PhetGraphic {
 
     public abstract void paint( Graphics2D g );
 
+    public void autorepaint() {
+        if( autorepaint ) {
+            repaint();
+        }
+    }
 
+    public void setAutoRepaint( boolean autorepaint ) {
+        this.autorepaint = autorepaint;
+    }
 }

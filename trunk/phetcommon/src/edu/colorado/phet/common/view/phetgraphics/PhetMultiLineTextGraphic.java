@@ -64,7 +64,7 @@ public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
         this.text = text;
         init();
         setBoundsDirty();
-        repaint();
+        autorepaint();
     }
 
     public void setText( String text ) {

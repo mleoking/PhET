@@ -75,19 +75,19 @@ public class PhetTextGraphic extends PhetGraphic {
         }
         this.text = text;
         setBoundsDirty();
-        repaint();
+        autorepaint();
     }
 
     public void setColor( Color color ) {
         this.color = color;
         setBoundsDirty();
-        repaint();
+        autorepaint();
     }
 
     public void setFont( Font font ) {
         this.font = font;
         setBoundsDirty();
-        repaint();
+        autorepaint();
     }
 
 }
