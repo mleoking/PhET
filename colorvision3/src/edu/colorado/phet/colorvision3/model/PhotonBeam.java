@@ -279,7 +279,14 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
     else
     {
       // Number of photons is based on the light source intensity.
-      allocCount = (int) ((_spotlightModel.getIntensity() / 100) * _maxPhotons);
+      double intensity = _spotlightModel.getIntensity();
+      allocCount = (int) ((intensity / 100) * _maxPhotons);
+      if ( intensity != 0 && allocCount == 0 ) 
+      { 
+        // Cast double to int causes a zero rounding error for low intensities.
+        // If the intensity is non-zero, always emit at least one photon.
+        allocCount = 1; 
+      }
     }
     
     // For each photon...
@@ -504,7 +511,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
    */
   public void update()
   {
-    notifyObservers();
+    // Optimization: do nothing since models are consulted in stepInTime.
   }
   
 	//----------------------------------------------------------------------------
