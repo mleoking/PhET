@@ -27,13 +27,12 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
     // Class data
     //----------------------------------------------------------------------------
     
-    private double MIN_STEPS_PER_CYCLE = 10;
+    private static final double MIN_STEPS_PER_CYCLE = 10;
         
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-//    private double _voltage; 
     private double _maxAmplitude; // 0...1
     private double _frequency; // 0...1
     private int _sign; // -1 or +1
@@ -44,7 +43,6 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
     
     public ACSource() {
         super();
-//        _voltage = 0.0;
         _maxAmplitude = 1.0; // biggest
         _frequency = 1.0; // fastest
         _sign = +1; // positive voltage
@@ -84,10 +82,6 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
         return _frequency;
     }
     
-//    public double getVoltage() {
-//        return _voltage;
-//    }
-    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -100,8 +94,17 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
 
             double amplitude = 0.0;
             if ( _maxAmplitude != 0.0 ) {
+
+                // Adjust the amplitude based on frequency.
                 double delta = Math.abs( _frequency * _maxAmplitude / MIN_STEPS_PER_CYCLE );
                 amplitude = getAmplitude() + ( _sign * delta );
+
+                // Make sure we always hit zero as we pass it.
+                if ( ( amplitude > 0 && getAmplitude() < 0 ) || ( amplitude < 0 && getAmplitude() > 0 ) ) {
+                    amplitude = 0;
+                }
+
+                // Switch directions when we hit the maximum amplitude.
                 if ( amplitude > _maxAmplitude ) {
                     _sign = -1;
                     amplitude = _maxAmplitude - delta;
@@ -113,5 +116,5 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
             }
             setAmplitude( amplitude );
         }
-    } 
+    }
 }
