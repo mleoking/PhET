@@ -90,7 +90,8 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
                     currLeanerFrame = leaner.getPrevFrame();
                 }
                 // todo: replace hard-coded number here
-                int frameNum = (int)Math.min( ( newPressure / 120 ) * leaner.getNumFrames(), leaner.getNumFrames() - 1 );
+                int frameNum = (int)Math.min( ( newPressure / IdealGasConfig.MAX_GAUGE_PRESSURE ) * leaner.getNumFrames(), leaner.getNumFrames() - 1 );
+//                int frameNum = (int)Math.min( ( newPressure / 120 ) * leaner.getNumFrames(), leaner.getNumFrames() - 1 );
                 currLeanerFrame = leaner.getFrame( frameNum );
                 if( model.isConstantVolume() ) {
                     currFrame = currLeanerFrame;

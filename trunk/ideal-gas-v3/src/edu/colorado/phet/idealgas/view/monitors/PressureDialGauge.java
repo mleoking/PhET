@@ -10,6 +10,7 @@ package edu.colorado.phet.idealgas.view.monitors;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.coreadditions.ScalarObservable;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
 import edu.colorado.phet.instrumentation.DialGauge;
@@ -36,7 +37,7 @@ public class PressureDialGauge implements Graphic {
         center = new Point2D.Double( box.getMaxX() + radius + stemLength, pressureSlice.getY() );
         pressureGauge = new DialGauge( new ObservablePressureBox(), component,
                                        center.getX(), center.getY(),
-                                       radius * 2, 0, 3, "Pressure", "Atm",
+                                       radius * 2, 0, IdealGasConfig.MAX_GAUGE_PRESSURE, "Pressure", "Atm",
                                        font );
         pressureGauge.setBackground( new Color( 230, 255, 230 ) );
         stem = new Rectangle2D.Double( box.getMaxX(), center.getY() - stemThickness / 2,
