@@ -17,10 +17,16 @@ import edu.colorado.phet.sound.model.SoundModel;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.*;
 import java.util.LinkedList;
 
 public class ListenerGraphic extends DefaultInteractiveGraphic {
 
+    //
+    // Static fields and methods
+    //
+    protected static int s_earOffsetX = 25;
+    protected static int s_earOffsetY = 105;
     private float s_dopplerShiftScaleFactor = 10f;
 
     private double lastEventX;
@@ -32,6 +38,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     private Point2D.Double location;
     private PhetImageGraphic image;
     private SoundModule module;
+    private Point2D.Double earLocation = new Point2D.Double();
 
     /**
      *
@@ -77,9 +84,11 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
             location.setLocation( x, y );
             image.setPosition( (int)x, (int)y );
 
-            double earOffsetX = 15;
-            double earOffsetY = 30;
-            listener.setLocation( new Point2D.Double( x - SoundConfig.s_wavefrontBaseX + earOffsetX, y - SoundConfig.s_wavefrontBaseY + earOffsetY ) );
+            ListenerGraphic.this.earLocation.setLocation( ListenerGraphic.this.getLocation().getX() + s_earOffsetX,
+                                     ListenerGraphic.this.getLocation().getY() + s_earOffsetY );
+            // The hard-coded 100 is to account for the width of the speaker graphic. It should be done in a
+            // different way
+            listener.setLocation( new Point2D.Double( earLocation.x - ( SoundConfig.s_wavefrontBaseX + 100 ), earLocation.y - SoundConfig.s_wavefrontBaseY ));
         }
     }
 
@@ -158,7 +167,6 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
 
     /**
      * When the mouse is released, restore the oscillator frequency to its nono-doppler value
-     *
      * @param e
      */
     public void mouseReleased( MouseEvent e ) {
@@ -171,4 +179,10 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     protected Listener getListener() {
         return listener;
     }
+
+//    public void paint( Graphics2D g ) {
+//        super.paint( g );
+//        g.setColor( Color.red );
+//        g.drawArc( (int)earLocation.x, (int)earLocation.y, 5, 5, 0, 360 );
+//    }
 }

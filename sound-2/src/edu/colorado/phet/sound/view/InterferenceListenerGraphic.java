@@ -7,15 +7,25 @@
 package edu.colorado.phet.sound.view;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.sound.TwoSpeakerInterferenceModule;
+import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
 
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.*;
 
-public class InterferenceListenerGraphic extends ListenerGraphic {
+public class InterferenceListenerGraphic extends ListenerGraphic implements InteractiveSpeakerGraphic.MouseReleaseListener {
+
+    //
+    // Static fields and methods
+    //
+//    private static int s_earOffsetX = 25;
+//    private static int s_earOffsetY = 105;
 
     private Point2D.Double audioSourceA;
     private Point2D.Double audioSourceB;
@@ -25,16 +35,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
     private SoundModel soundModel;
 
     /**
-     * @param image
-     * @param x
-     * @param y
-     * @param minX
-     * @param minY
-     * @param maxX
-     * @param maxY
-     * @param audioSourceA
-     * @param audioSourceB
-     * @param interferringWavefront
+     *
      */
     public InterferenceListenerGraphic( TwoSpeakerInterferenceModule module, Listener listener,
                                         PhetImageGraphic image, double x, double y,
@@ -42,13 +43,15 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
                                         double maxX, double maxY,
                                         Point2D.Double audioSourceA,
                                         Point2D.Double audioSourceB,
-                                        Wavefront interferringWavefront ) {
+                                        Wavefront interferringWavefront,
+                                        InteractiveSpeakerGraphic moveableSpeaker ) {
         super( module, listener, image, x, y, minX, minY, maxX, maxY );
         this.soundModule = module;
         this.soundModel = (SoundModel)module.getModel();
         this.audioSourceA = audioSourceA;
         this.audioSourceB = audioSourceB;
         this.interferringWavefront = interferringWavefront;
+        moveableSpeaker.addListener( this );
         updateAmplitude();
     }
 
@@ -61,6 +64,14 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
             updateAmplitude();
         }
     }
+
+//    public void paint( Graphics2D g ) {
+//        super.paint( g );
+//        g.setColor( Color.red );
+//        g.drawArc( (int)audioSourceA.x, (int)audioSourceA.y, 5, 5, 0, 360 );
+//        g.drawArc( (int)audioSourceB.x, (int)audioSourceB.y, 5, 5, 0, 360 );
+//        g.drawArc( (int)earLocation.x, (int)earLocation.y, 5, 5, 0, 360 );
+//    }
 
     /**
      * @param e
@@ -75,7 +86,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
     /**
      *
      */
-    private void updateAmplitude() {
+    private synchronized void updateAmplitude() {
         // todo: this should be part of the model, not figured out here!!!
         // Determine the difference in distance of the listener's ear to
         // each audio source in units of phase angle of the current frequency
@@ -102,9 +113,37 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
         this.audioSourceB = audioSourceB;
     }
 
-    //
-    // Static fields and methods
-    //
-    private static int s_earOffsetX = 0;
-    private static int s_earOffsetY = 78;
+    public void mouseReleased( final InteractiveSpeakerGraphic interactiveGraphic ) {
+        // Determine how far away the speaker that moved is, then set a
+        // timer to wait until the first wave leaving it now will reach us.
+        // When the timer pops, update our amplitude
+        double dist = this.getLocation().distance( interactiveGraphic.getAudioSourceLocation() );
+        final double numTimeSteps = dist / SoundConfig.PROPOGATION_SPEED;
+        final long waitTime = (long)numTimeSteps * SoundConfig.s_waitTime;
+        Thread sleeper = new Thread( new Runnable() {
+            int counter;
+            public void run() {
+                ModelElement counterModelElement = new ModelElement() {
+                    public synchronized void stepInTime( double dt ) {
+                        counter++;
+                    }
+                } ;
+                InterferenceListenerGraphic.this.soundModel.addModelElement( counterModelElement );
+                while( counter < numTimeSteps  ) {
+                    // NOP
+                }
+//                try {
+//                    Thread.sleep( waitTime );
+//                }
+//                catch( InterruptedException e ) {
+//                    e.printStackTrace();
+//                }
+                soundModel.removeModelElement( counterModelElement );
+                audioSourceA = interactiveGraphic.getAudioSourceLocation();
+                InterferenceListenerGraphic.this.updateAmplitude();
+                System.out.println( "!!!" );
+            }
+        });
+        sleeper.start();
+    }
 }

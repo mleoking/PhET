@@ -100,7 +100,8 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
                                                                                (double)SoundConfig.s_headBaseX + 150, (double)SoundConfig.s_headBaseY + 200,
                                                                                audioSourceA,
                                                                                audioSourceB,
-                                                                               soundModel.getPrimaryWavefront() );
+                                                                               soundModel.getPrimaryWavefront(),
+                                                                               iSpeakerGraphicA );
             getApparatusPanel().addGraphic( listenerGraphic, 9 );
 
             // Add help items
