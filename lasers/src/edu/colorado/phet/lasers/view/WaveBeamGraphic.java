@@ -18,6 +18,8 @@ import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.PhotonSource;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * Class: BlueBeamGraphic
@@ -41,6 +43,14 @@ public class WaveBeamGraphic extends PhetGraphic implements PhotonSource.RateCha
         this.beam = beam;
         beam.addRateChangeListener( this );
         beam.addWavelengthChangeListener( this );
+
+        // Add a listener to hear when the apparatus panel resizes, so we will make the beam cover
+        // teh panel
+        component.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+//                update();
+            }
+        } );
         update();
     }
 
@@ -64,6 +74,7 @@ public class WaveBeamGraphic extends PhetGraphic implements PhotonSource.RateCha
         bounds.setRect( beam.getBounds().getX(), beam.getBounds().getY(),
                         beam.getBounds().getWidth(), getComponent().getHeight() - beam.getBounds().getY() );
         setBoundsDirty();
+        System.out.println( "bounds = " + bounds );
         repaint();
     }
 

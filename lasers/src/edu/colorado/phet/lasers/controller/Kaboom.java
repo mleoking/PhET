@@ -27,7 +27,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.view.KaboomGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,8 +88,8 @@ public class Kaboom implements ModelElement {
         BufferedImage snapshot = BufferedImageUtils.toBufferedImage( ap.getSnapshot() );
 
         // Make a static image of the current state of the apparatus panel, and use it as a background
-        wholeBackground = new PhetImageGraphic( ap, snapshot );
-        ap.addGraphic( wholeBackground, blackBacgroundLayer - 1 );
+//        wholeBackground = new PhetImageGraphic( ap, snapshot );
+//        ap.addGraphic( wholeBackground, blackBacgroundLayer - 1 );
 
         // Make a white rectangle to cover the cavity and the area to the right of it
         backgroundGraphic = new PhetShapeGraphic( ap,
@@ -99,40 +98,41 @@ public class Kaboom implements ModelElement {
                        blackBacgroundLayer );
         SwingTimerClock clock = new SwingTimerClock( 1, 40, AbstractClock.FRAMES_PER_SECOND );
 
-        int numCols = 4;
-        int tileWidth = (int)( bounds.getWidth() / numCols );
-        int tileHeight = tileWidth;
-        for( double x = bounds.getMinX(); x < bounds.getMaxX() - 1; x += tileWidth ) {
-            for( double y = bounds.getMinY(); y < bounds.getMaxY() - 1; y += tileHeight ) {
-                x = Math.min( x, bounds.getMaxX() - tileWidth - 1 );
-                y = Math.min( y, bounds.getMaxY() - tileHeight - 1 );
-                BufferedImage tile = snapshot.getSubimage( (int)x, (int)y, tileWidth, tileHeight );
-
-                double spin = random.nextDouble() * 10 * ( random.nextBoolean() ? 1 : -1 );
-                double zoom = 0;
-                double flipFactorX = random.nextDouble();
-                while( flipFactorX > 0.2 ) {
-                    flipFactorX = random.nextDouble();
-                }
-                double flipFactorY = random.nextDouble();
-                while( flipFactorY > 0.2 ) {
-                    flipFactorY = random.nextDouble();
-                }
-                while( zoom < .97 || zoom > .99 ) {
-                    zoom = random.nextDouble();
-                }
-                double txX = ( ( x + tile.getWidth() / 2 ) - ap.getWidth() / 2 ) * 0.03;
-                double txY = ( ( y + tile.getHeight() / 2 ) - ap.getHeight() / 2 ) * 0.03;
-                graphic = new KaboomGraphic( ap, tile, clock, new Point( (int)x + tile.getWidth() / 2,
-                                                                         (int)y + tile.getHeight() / 2 ),
-                                             zoom, spin, 0, 0, flipFactorX, flipFactorY, txX, txY );
-                ap.addGraphic( graphic, tileLayer );
-                graphic.setPosition( (int)x, (int)y );
-                kaboomGraphics.add( graphic );
-            }
-        }
+//        int numCols = 4;
+//        int tileWidth = (int)( bounds.getWidth() / numCols );
+//        int tileHeight = tileWidth;
+//        for( double x = bounds.getMinX(); x < bounds.getMaxX() - 1; x += tileWidth ) {
+//            for( double y = bounds.getMinY(); y < bounds.getMaxY() - 1; y += tileHeight ) {
+//                x = Math.min( x, bounds.getMaxX() - tileWidth - 1 );
+//                y = Math.min( y, bounds.getMaxY() - tileHeight - 1 );
+//                BufferedImage tile = snapshot.getSubimage( (int)x, (int)y, tileWidth, tileHeight );
+//
+//                double spin = random.nextDouble() * 10 * ( random.nextBoolean() ? 1 : -1 );
+//                double zoom = 0;
+//                double flipFactorX = random.nextDouble();
+//                while( flipFactorX > 0.2 ) {
+//                    flipFactorX = random.nextDouble();
+//                }
+//                double flipFactorY = random.nextDouble();
+//                while( flipFactorY > 0.2 ) {
+//                    flipFactorY = random.nextDouble();
+//                }
+//                while( zoom < .97 || zoom > .99 ) {
+//                    zoom = random.nextDouble();
+//                }
+//                double txX = ( ( x + tile.getWidth() / 2 ) - ap.getWidth() / 2 ) * 0.03;
+//                double txY = ( ( y + tile.getHeight() / 2 ) - ap.getHeight() / 2 ) * 0.03;
+//                graphic = new KaboomGraphic( ap, tile, clock, new Point( (int)x + tile.getWidth() / 2,
+//                                                                         (int)y + tile.getHeight() / 2 ),
+//                                             zoom, spin, 0, 0, flipFactorX, flipFactorY, txX, txY );
+//                ap.addGraphic( graphic, tileLayer );
+//                graphic.setPosition( (int)x, (int)y );
+//                kaboomGraphics.add( graphic );
+//            }
+//        }
 
         // Add the flames
+        clock.doStart();
         Flames flames = new Flames( ap, clock );
         flames.setPosition( (int)cavity.getBounds().getMinX(), (int)cavity.getBounds().getMaxY() - flames.getHeight() );
         ap.addGraphic( flames, tileLayer - .5 );
