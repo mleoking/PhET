@@ -169,7 +169,9 @@ public class TravoltageApplet extends JApplet {
         cpc.add( dsl );
         pp.add( dsl );//add the travoltage painter
 
-        final SwingWiggleMe wiggleMe = new SwingWiggleMe( "<html>Rub the foot<br>on the carpet</html>",
+//        String wiggleMeString="<html>Rub the foot<br>on the carpet</html>";
+        String wiggleMeString = SimStrings.get( "TravoltageApplet.wiggleMeText" );
+        final SwingWiggleMe wiggleMe = new SwingWiggleMe( wiggleMeString,
                                                           20, 300, 30, 3.0 );
         final Law lx = new Law() {
             public void iterate( double time, System2D system ) {
