@@ -44,19 +44,19 @@ public class FaradayConfig {
     public static final String IMAGES_DIRECTORY = "images/";
     public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
     public static final String BAR_MAGNET_TRANSPARENT_IMAGE = IMAGES_DIRECTORY + "barMagnetTransparent.png";
-    public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
     public static final String COIL1_FRONT_IMAGE = IMAGES_DIRECTORY + "coil1_front.png";
     public static final String COIL1_BACK_IMAGE = IMAGES_DIRECTORY + "coil1_back.png";
     public static final String COIL2_FRONT_IMAGE = IMAGES_DIRECTORY + "coil2_front.png";
     public static final String COIL2_BACK_IMAGE = IMAGES_DIRECTORY + "coil2_back.png";
+    public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
+    public static final String ELECTRONS1_BACK_IMAGE = IMAGES_DIRECTORY + "electrons1_back.png";
+    public static final String ELECTRONS1_FRONT_IMAGE = IMAGES_DIRECTORY + "electrons1_front.png";
+    public static final String ELECTRONS2_BACK_IMAGE = IMAGES_DIRECTORY + "electrons2_back.png";
+    public static final String ELECTRONS2_FRONT_IMAGE = IMAGES_DIRECTORY + "electrons2_front.png";
+    public static final String FIELD_PROBE_IMAGE = IMAGES_DIRECTORY + "fieldProbe.png";
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightBulb.png";
     public static final String LIGHT_EMISSION_IMAGE = IMAGES_DIRECTORY + "lightEmission.png";
-    public static final String METER_BODY_IMAGE = IMAGES_DIRECTORY + "voltMeterBody.png";
-    public static final String FIELD_PROBE_IMAGE = IMAGES_DIRECTORY + "fieldProbe.png";
-    public static final String ELECTRONS1_FRONT_IMAGE = IMAGES_DIRECTORY + "electrons1_front.png";
-    public static final String ELECTRONS1_BACK_IMAGE = IMAGES_DIRECTORY + "electrons1_back.png";
-    public static final String ELECTRONS2_FRONT_IMAGE = IMAGES_DIRECTORY + "electrons2_front.png";
-    public static final String ELECTRONS2_BACK_IMAGE = IMAGES_DIRECTORY + "electrons2_back.png";
+    public static final String VOLTMETER_BODY_IMAGE = IMAGES_DIRECTORY + "voltMeterBody.png";
 
     // Dimensions
     public static final int APP_FRAME_WIDTH = 1024;
