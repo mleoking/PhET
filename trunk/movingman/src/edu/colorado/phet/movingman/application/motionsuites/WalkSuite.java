@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman.application.motionsuites;
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.graphics.TransformSlider;
 import edu.colorado.phet.movingman.application.MovingManModule;
-import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 import edu.colorado.phet.movingman.common.VerticalLayoutPanel;
 import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.StepMotion;
@@ -22,7 +22,6 @@ import javax.swing.event.ChangeListener;
  */
 public class WalkSuite extends MotionSuite {
     private WalkMotion motion;
-    private JPanel controlPanel;
     private MovingManModule module;
     private JSpinner velocitySpinner;
     private JSlider slider;
@@ -32,11 +31,9 @@ public class WalkSuite extends MotionSuite {
     static final double MIN_VEL = -3;
 
     public WalkSuite( final MovingManModule module ) {
-        super( "Walk" );
+        super( module, "Walk" );
         motion = new WalkMotion( module.getMotionState() );
         this.module = module;
-        controlPanel = new JPanel();
-        controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
 
         //Takes model to view.
 //        RangeToRange manPositionTransform = module.getManPositionTransform();
@@ -59,7 +56,7 @@ public class WalkSuite extends MotionSuite {
         Border tb = PhetLookAndFeel.createSmoothBorder( "Velocity" );
         velocityPanel.setBorder( tb );
 
-        controlPanel.add( velocityPanel );
+        getControlPanel().add( velocityPanel );
 
         transformslider = new TransformSlider( minVelocity, maxVelocity, 200 );
         slider = transformslider.getSlider();
@@ -100,10 +97,6 @@ public class WalkSuite extends MotionSuite {
         motion.setVelocity( d.doubleValue() * module.getTimeScale() );
         module.getMotionMode().setLatestTime();
         transformslider.setModelValue( d.doubleValue() );
-    }
-
-    public JPanel getControlPanel() {
-        return controlPanel;
     }
 
     public void initialize( Man man ) {

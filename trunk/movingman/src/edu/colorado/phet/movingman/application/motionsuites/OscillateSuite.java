@@ -1,8 +1,7 @@
 package edu.colorado.phet.movingman.application.motionsuites;
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.movingman.application.MovingManModule;
-import edu.colorado.phet.movingman.common.PhetLookAndFeel;
-import edu.colorado.phet.movingman.common.VerticalLayoutPanel;
 import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.OscMotion;
 
@@ -19,14 +18,12 @@ import javax.swing.event.ChangeListener;
  */
 public class OscillateSuite extends MotionSuite {
     private OscMotion oscillate;
-    private JPanel controlPanel;
     private MovingManModule module;
 
     public OscillateSuite( MovingManModule module ) {
-        super( "Oscillate" );
+        super( module, "Oscillate" );
         this.module = module;
         oscillate = new OscMotion( module.getMotionState(), .01 );
-        controlPanel = new VerticalLayoutPanel();
         double min = 0;
         double max = 2;
         int numSteps = 20;
@@ -40,14 +37,10 @@ public class OscillateSuite extends MotionSuite {
         } );
         js.setBorder( PhetLookAndFeel.createSmoothBorder( "Spring Constant" ) );
 
-        controlPanel.add( js );
-        super.setControlPanel( controlPanel );
-        controlPanel.add( new JLabel( "<html>That's the Spring Constant, <br>in Newtons per Meter.</html>" ) );
+        getControlPanel().add( js );
+//        super.setControlPanel( controlPanel );
+        getControlPanel().add( new JLabel( "<html>That's the Spring Constant, <br>in Newtons per Meter.</html>" ) );
         super.setMotion( oscillate );
-    }
-
-    public JPanel getControlPanel() {
-        return controlPanel;
     }
 
     public void collidedWithWall() {

@@ -12,7 +12,6 @@ import edu.colorado.phet.common.view.*;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.movingman.application.motionsuites.MotionSuite;
-import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 import edu.colorado.phet.movingman.elements.*;
 import edu.colorado.phet.movingman.elements.Timer;
 import edu.colorado.phet.movingman.elements.stepmotions.MotionState;
@@ -64,6 +63,7 @@ public class MovingManModule extends Module {
     private int numSmoothingPoints = 10;
     private WalkWayGraphic walkwayGraphic;
     public static PhetFrame FRAME;
+    private MotionSuite motionSuite;//selected motion, or null if none selected
 
     public Color getPurple() {
         return purple;
@@ -539,6 +539,7 @@ public class MovingManModule extends Module {
     public void setMotionMode( MotionSuite mac ) {//StepMotion motion) {
         motionMode.setMotion( mac );
         setMode( motionMode );
+        movingManControlPanel.setMotionState();
     }
 
     public BoxedPlot getPositionGraphic() {
@@ -581,9 +582,6 @@ public class MovingManModule extends Module {
         }
     }
 
-    public MovingManControlPanel getMovingManControlPanel() {
-        return movingManControlPanel;
-    }
 
     public int getVisiblePlotCount() {
         int sum = 0;
@@ -635,6 +633,10 @@ public class MovingManModule extends Module {
 
     public void reset() {
         reset( 0 );
+        setPauseMode();
+        if( motionSuite != null ) {
+            motionSuite.reset();
+        }
     }
 
     public double getVelocity() {
@@ -661,10 +663,17 @@ public class MovingManModule extends Module {
         reset( init );
     }
 
+    public void setMotionSuite( MotionSuite motionSuite ) {
+        if( this.motionSuite != null ) {
+            this.motionSuite.deactivate();
+        }
+        this.motionSuite = motionSuite;
+    }
+
     public class MotionMode extends Mode {
         private StepMotion motion;
         private int numSmoothingPointsMotion = 3;
-        private MotionSuite mac;
+        private MotionSuite motionSuite;
 
         public MotionMode( MovingManModule module ) {
             super( module, "Motion" );
@@ -681,7 +690,7 @@ public class MovingManModule extends Module {
             accelerationPlot.getGrid().setPaintYLines( new double[]{-3, -1.5, 0, 1.5, 3} );
             setNumSmoothingPoints( numSmoothingPointsMotion );
 
-            mac.initialize( getMan() );
+            motionSuite.initialize( getMan() );
         }
 
         public void setLatestTime() {
@@ -691,7 +700,7 @@ public class MovingManModule extends Module {
 
         public void setMotion( MotionSuite mac ) {
             this.motion = mac.getStepMotion();
-            this.mac = mac;
+            this.motionSuite = mac;
         }
 
         public void stepInTime( double dt ) {
@@ -724,11 +733,11 @@ public class MovingManModule extends Module {
         }
 
         private void timeFinished() {
-            movingManControlPanel.getAnotherPauseButton().doClick( 100 );
+            motionSuite.timeFinished();
         }
 
         public void collidedWithWall() {
-            mac.collidedWithWall();
+            motionSuite.collidedWithWall();
         }
     }
 
@@ -809,6 +818,10 @@ public class MovingManModule extends Module {
                 movingManControlPanel.setPaused();
             }
         }
+    }
+
+    public MovingManControlPanel getMovingManControlPanel() {
+        return movingManControlPanel;
     }
 }
 
