@@ -5,6 +5,7 @@ import edu.colorado.phet.chart.*;
 import edu.colorado.phet.chart.controllers.HorizontalCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -80,7 +81,7 @@ public class CursorRectangleTest {
         jFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         jFrame.setVisible( true );
         clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( AbstractClock c, double dt ) {
+            public void clockTicked( ClockTickEvent cte ) {
                 ds.addPoint( x, 10 * Math.sin( x / 3 ) );
                 x += 0.07;
                 if( x > ch.getRange().getMaxX() ) {
