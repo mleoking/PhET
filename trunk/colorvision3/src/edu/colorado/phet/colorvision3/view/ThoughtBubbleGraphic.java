@@ -15,7 +15,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * ThoughtBubbleGraphic displays a "thought bubble", used to show perceived color.
@@ -23,27 +23,14 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$
  */
-public class ThoughtBubbleGraphic extends PhetGraphic
+public class ThoughtBubbleGraphic extends PhetShapeGraphic
 {
-	//----------------------------------------------------------------------------
-	// Class data
-  //----------------------------------------------------------------------------
-  
-  // Stroke used for the bubble outline.
-  private static Stroke STROKE = new BasicStroke( 1f );
-  
 	//----------------------------------------------------------------------------
 	// Instance data
   //----------------------------------------------------------------------------
   
   // Location, relative to upper-left corner of bounding box.
   private Point _location;
-  // Paint used to fill the bubble.
-  private Paint _fill;
-  // Paint used to draw the bubble's outline.
-  private Paint _border;
-  // Area that describes the bubble's shape.
-  private Area _area;
 
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -56,92 +43,48 @@ public class ThoughtBubbleGraphic extends PhetGraphic
    */
   public ThoughtBubbleGraphic( Component parent )
   {
-    super( parent );
+    super( parent, null, null );
+
+    // Outline
+    super.setBorderColor( Color.WHITE );
+    super.setStroke( new BasicStroke(1f) );
     
-    // Initialize member data.
-    _location = new Point(0,0);
-    _border = Color.white;
-    _fill = new Color( 0,0,0,0 );
-    _area = new Area();
+    // Fill color
+    super.setPaint( new Color(0,0,0,0) );
     
-    // Use constructive area geometry to describe the "thought bubble".
+    // Use constructive area geometry to describe the "thought bubble" shape.
     // The "thought bubble" is an Area, composed by adding a set of ellipses.
+    // Origin is the upper left corner of the area's bounding box.
+    Area area = new Area();
     {
       // Bulges on left end, top to bottom.
-      _area.add( new Area( new Ellipse2D.Double(  25,  10, 100,  50 ) ) );
-      _area.add( new Area( new Ellipse2D.Double(   0,  35, 100,  50 ) ) );
-      _area.add( new Area( new Ellipse2D.Double(  15,  75, 100,  30 ) ) );
+      area.add( new Area( new Ellipse2D.Double(  25,  10, 100,  50 ) ) );
+      area.add( new Area( new Ellipse2D.Double(   0,  35, 100,  50 ) ) );
+      area.add( new Area( new Ellipse2D.Double(  15,  75, 100,  30 ) ) );
       // Bulges on right end, top to bottom.
-      _area.add( new Area( new Ellipse2D.Double( 125,  10, 100,  50 ) ) );
-      _area.add( new Area( new Ellipse2D.Double( 150,  25, 100,  50 ) ) );
-      _area.add( new Area( new Ellipse2D.Double( 125,  50, 100,  50 ) ) );
+      area.add( new Area( new Ellipse2D.Double( 125,  10, 100,  50 ) ) );
+      area.add( new Area( new Ellipse2D.Double( 150,  25, 100,  50 ) ) );
+      area.add( new Area( new Ellipse2D.Double( 125,  50, 100,  50 ) ) );
       // Bulge in top center.
-      _area.add( new Area( new Ellipse2D.Double(  50,   0, 150, 100 ) ) );
+      area.add( new Area( new Ellipse2D.Double(  50,   0, 150, 100 ) ) );
       // Bulge in bottom center.
-      _area.add( new Area( new Ellipse2D.Double(  60,  65, 100,  50 ) ) );
+      area.add( new Area( new Ellipse2D.Double(  60,  65, 100,  50 ) ) );
       // 3 blips, top to bottom.
-      _area.add( new Area( new Ellipse2D.Double( 150, 115,  40,  20 )) );
-      _area.add( new Area( new Ellipse2D.Double( 165, 145,  30,  15 )) );
-      _area.add( new Area( new Ellipse2D.Double( 175, 170,  20,  10 )) );
+      area.add( new Area( new Ellipse2D.Double( 150, 115,  40,  20 )) );
+      area.add( new Area( new Ellipse2D.Double( 165, 145,  30,  15 )) );
+      area.add( new Area( new Ellipse2D.Double( 175, 170,  20,  10 )) );
     }
+    super.setShape( area );
+    
+    // Request antialiasing.
+    RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+    super.setRenderingHints( hints );
   }
 
 	//----------------------------------------------------------------------------
 	// Accessors
   //----------------------------------------------------------------------------
 
-  /**
-   * Gets the bounds of the thought bubble.
-   * 
-   * @return the bounds
-   */
-  protected Rectangle determineBounds()
-  {
-    Rectangle r = _area.getBounds();
-    Rectangle bounds = new Rectangle( _location.x, _location.y, r.width, r.height );
-    return bounds;
-  }
-
-  /**
-   * Gets the paint used to draw the border.
-   * 
-   * @return the border paint
-   */
-  public Paint getBorder()
-  {
-    return _border;
-  }
-  
-  /**
-   * Sets the paint used to draw the border.
-   * 
-   * @param border the border paint
-   */
-  public void setBorder( Paint border )
-  {
-    _border = border;
-  }
-  
-  /**
-   * Gets the paint used to fill the area.
-   * 
-   * @return the fill paint
-   */
-  public Paint getFill()
-  {
-    return _fill;
-  }
-  
-  /**
-   * Sets the paint used to fill the area.
-   * 
-   * @param fill the fill paint
-   */
-  public void setFill( Paint fill )
-  {
-    _fill = fill;
-  }
-  
   /**
    * Gets the position.
    * 
@@ -160,7 +103,12 @@ public class ThoughtBubbleGraphic extends PhetGraphic
    */
   public void setLocation( Point location )
   {
+    if ( _location != null )
+    {
+      super.translate( -_location.x, -_location.y );
+    }
     _location = location;
+    super.translate( location.x, location.y );
   }
   
   /** 
@@ -180,7 +128,6 @@ public class ThoughtBubbleGraphic extends PhetGraphic
 
   /*
    * Renders the thought bubble.
-   * Graphics state is saved and restored.
    * 
    * @param g2 the grpahics context
    */
@@ -188,22 +135,8 @@ public class ThoughtBubbleGraphic extends PhetGraphic
   {
     if ( super.isVisible() )
     {
-      super.saveGraphicsState( g2 );
-      {
-        // Request antialiasing.
-        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        g2.setRenderingHints( hints );
-        // Translate to location.
-        g2.transform( AffineTransform.getTranslateInstance(_location.x, _location.y) );
-        // Fill the area.
-        g2.setPaint( _fill );
-        g2.fill( _area );
-        // Draw the border.
-        g2.setStroke( STROKE );
-        g2.setPaint( _border );
-        g2.draw( _area );
-      }
-      super.restoreGraphicsState();
+      super.paint( g2 );
+      BoundsOutline.paint( g2, this ); // DEBUG
     }
   }
 
