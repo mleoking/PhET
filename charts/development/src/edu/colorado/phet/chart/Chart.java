@@ -109,6 +109,7 @@ public class Chart extends PhetGraphic {
 
         public Rectangle getBounds() {
             Shape rect = graphic.getBounds();
+//            Rectangle chartRect = chart.getViewBounds();
             Rectangle chartRect = chart.getViewBounds();
             Rectangle frame = chart.getVerticalTicks().getMajorTickTextBounds();
             if( frame == null ) {
@@ -129,6 +130,7 @@ public class Chart extends PhetGraphic {
             if( frame == null ) {
                 frame = chart.getViewBounds();
             }
+            frame.width = 60;//TODO this looks like a hack.
             g.translate( chartRect.x - frame.width, chartRect.y + chartRect.height - chartRect.height / 2 + rect.width / 2 );
             g.rotate( -Math.PI / 2 );
             graphic.paint( g );
@@ -365,7 +367,10 @@ public class Chart extends PhetGraphic {
         Rectangle vert = verticalTicks.getMajorTickTextBounds();
         Rectangle horiz = horizontalTicks.getMajorTickTextBounds();
         Rectangle union = RectangleUtils.union( new Rectangle[]{r, vert, horiz} );
-        return union;
+        AffineTransform transform = getNetTransform();
+        Rectangle visibleBounds = transform.createTransformedShape( union ).getBounds();
+        return visibleBounds;
+//        return union;
     }
 
     public void repaint() {
