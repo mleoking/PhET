@@ -38,6 +38,11 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
         potentialProfilePanel.addNucleus( nucleus );
     }
 
+    protected void addNucleus( Nucleus nucleus, Color color ) {
+        super.addNucleus( nucleus );
+        potentialProfilePanel.addNucleus( nucleus, color );
+    }
+
     protected PotentialProfilePanel getPotentialProfilePanel() {
         return potentialProfilePanel;
     }

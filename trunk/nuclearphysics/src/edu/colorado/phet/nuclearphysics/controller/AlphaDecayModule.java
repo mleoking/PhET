@@ -13,6 +13,7 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
+import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 
 import java.awt.*;
@@ -110,13 +111,19 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         this.getPhysicalPanel().addOriginCenteredGraphic( ringGraphic );
 
         // Add leader lines from the ring up to the profile
-        final Stroke leaderLineStroke = new BasicStroke( 1f );
+//        final Stroke leaderLineStroke = new BasicStroke( 1f );
+        float miterLimit = 10f;
+        float[] dashPattern = {10f};
+        float dashPhase = 5f;
+        final Stroke leaderLineStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
+                                                         BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
+
         leaderLines = new Graphic() {
             public void paint( Graphics2D g ) {
                 if( leaderLine1 != null && leaderLine2 != null ) {
                     g.setColor( Color.black );
                     g.setStroke( leaderLineStroke );
-                    GraphicsUtil.setAlpha( g, 0.3 );
+                    GraphicsUtil.setAlpha( g, 0.2 );
                     g.draw( leaderLine1 );
                     g.draw( leaderLine2 );
                     GraphicsUtil.setAlpha( g, 1 );
@@ -176,6 +183,11 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getPotentialProfilePanel().addPotentialProfile( decayProducts.getDaughter() );
 
         addRingGraphic( decayProducts.getDaughter() );
+
+        // Make a bang!
+        Kaboom kaboom = new Kaboom( new Point2D.Double(),
+                                    25, 300, getPhysicalPanel() );
+        getPhysicalPanel().addGraphic( kaboom );
     }
 
     //

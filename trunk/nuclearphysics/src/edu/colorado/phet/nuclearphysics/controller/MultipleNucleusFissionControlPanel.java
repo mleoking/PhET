@@ -36,6 +36,8 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
     private MultipleNucleusFissionModule module;
     private JSpinner numU235Spinner;
     private JSpinner numU238Spinner;
+    private JTextField percentDecayTF;
+    private int startNumU235;
 
     public MultipleNucleusFissionControlPanel( final MultipleNucleusFissionModule module ) {
         super();
@@ -55,6 +57,11 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 if( modelNum != viewNum ) {
                     numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
                 }
+
+                int currNumU235 = ( (Integer)numU235Spinner.getValue() ).intValue();
+                if( startNumU235 != 0 ) {
+                    percentDecayTF.setText( Integer.toString( ( startNumU235 - currNumU235 ) * 100 / startNumU235 ) );
+                }
             }
         } );
 
@@ -64,6 +71,8 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         fireNeutronBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.fireNeutron();
+                percentDecayTF.setText( "0" );
+                startNumU235 = ( (Integer)numU235Spinner.getValue() ).intValue();
             }
         } );
 
@@ -101,6 +110,10 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             }
         } );
 
+        percentDecayTF = new JTextField( 8 );
+        percentDecayTF.setHorizontalAlignment( JTextField.RIGHT );
+        percentDecayTF.setText( "0" );
+
         // Layout the panel
         setLayout( new GridBagLayout() );
         int rowIdx = 0;
@@ -125,6 +138,16 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
+            GraphicsUtil.addGridBagComponent( this, new JLabel( "Percent U235 fissioned" ),
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
+            GraphicsUtil.addGridBagComponent( this, percentDecayTF,
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
             GraphicsUtil.addGridBagComponent( this, fireNeutronBtn,
                                               0, rowIdx++,
                                               1, 1,
@@ -141,14 +164,15 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         }
     }
 
-    private void setNumU235Nuclei( int num ) {
-        for( int i = 0; i < num - module.getU235Nuclei().size(); i++ ) {
+    private synchronized void setNumU235Nuclei( int num ) {
+        int delta = num - module.getU235Nuclei().size();
+        for( int i = 0; i < delta; i++ ) {
             Point2D.Double location = findLocationForNewNucleus();
             if( location != null ) {
                 module.addU235Nucleus( new Uranium235( location, module.getModel() ) );
             }
         }
-        for( int i = 0; i < module.getU235Nuclei().size() - num; i++ ) {
+        for( int i = 0; i < -delta; i++ ) {
             int numNuclei = module.getU235Nuclei().size();
             Uranium235 nucleus = (Uranium235)module.getU235Nuclei().get( random.nextInt( numNuclei ) );
             module.removeU235Nucleus( nucleus );

@@ -57,6 +57,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     }
 
     public void start() {
+
         // Add a bunch of nuclei, including one in the middle that we can fire a
         // neutron at
         Uranium235 centralNucleus = new Uranium235( new Point2D.Double(), getModel() );
@@ -103,7 +104,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         orgDelay = this.clock.getDelay();
         orgDt = this.clock.getDt();
         this.clock.setDelay( 10 );
-        this.clock.setDt( orgDt );
+        this.clock.setDt( orgDt * 0.6 );
 //        neutronGun = new NeutronGun();
 //        Thread neutronGunThread = new Thread( neutronGun );
 //        neutronGunThread.start();

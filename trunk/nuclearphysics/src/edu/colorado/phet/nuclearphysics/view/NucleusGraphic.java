@@ -86,7 +86,6 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
     }
 
     public void paint( Graphics2D graphics, double x, double y ) {
-//    public void paint( Graphics graphics, int x, int y ) {
         Graphics2D g2 = (Graphics2D)graphics;
         g2.drawImage( img,
                       (int)( x - nucleus.getRadius() - NuclearParticle.RADIUS ),
