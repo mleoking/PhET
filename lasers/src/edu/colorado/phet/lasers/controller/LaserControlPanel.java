@@ -13,6 +13,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.LaserSimulation;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.controller.module.WaveViewControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 import javax.swing.*;
@@ -141,6 +142,8 @@ public class LaserControlPanel extends PhetControlPanel {
             //            this.add( new RightMirrorReflectivityControlPanel( mirror ), gbc );
             //            gbc.gridy++;
             //            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ), gbc );
+
+            this.add( new WaveViewControlPanel( laserModule ), gbc );
 
             // Set the number of energy levels we'll see
             twoLevelsRB.setSelected( true );

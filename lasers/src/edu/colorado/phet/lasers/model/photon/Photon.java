@@ -41,6 +41,7 @@ public class Photon extends Particle implements Collidable {
     static public double BLUE = 440;
     static public double GRAY = 5000;
     static private double PLANCK = 6.626E-34;
+    static private EventRegistry classEventRegistry = new EventRegistry();
 
     public static double energyToWavelength( double energy ) {
         return PLANCK / energy;
@@ -65,6 +66,7 @@ public class Photon extends Particle implements Collidable {
 
     static public Photon create() {
         Photon newPhoton = new Photon();
+        classEventRegistry.fireEvent( new PhotonEmittedEvent( Photon.class, newPhoton ) );
         return newPhoton;
     }
 
@@ -86,6 +88,10 @@ public class Photon extends Particle implements Collidable {
         Photon newPhoton = create();
         newPhoton.setWavelength( wavelength );
         return newPhoton;
+    }
+
+    static public void addClassListener( EventListener listener ) {
+        classEventRegistry.addListener( listener );
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
