@@ -3,6 +3,7 @@
 HIGH:
 (DONE) o pre-fitler beam sometimes not visible
 (DONE) o photons slow way down when switching filter on
+(DONE) o new images for filter switch
 o background color on Windows
 o Help, based on Kathy's requirements
 
@@ -17,5 +18,6 @@ o font antialiasing on Windows (and Linux?)
 o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
 o convert to PhET code formatting conventions
 (DONE) o add CVS headers
+o delete unused images & assets
 
 
