@@ -14,6 +14,7 @@ package edu.colorado.phet.faraday.view;
 import java.awt.Component;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.Battery;
@@ -25,26 +26,35 @@ import edu.colorado.phet.faraday.model.Battery;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BatteryGraphic extends PhetImageGraphic implements SimpleObserver {
+public class BatteryGraphic extends CompositePhetGraphic implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private Battery _batteryModel;
+    private PhetImageGraphic _batteryGraphic;
     
     //----------------------------------------------------------------------------
     // Constructors and finalizers
     //----------------------------------------------------------------------------
     
     public BatteryGraphic( Component component, Battery batteryModel ) {
-        super( component, FaradayConfig.BATTERY_IMAGE );
+        super( component );
         
         _batteryModel = batteryModel;
         _batteryModel.addObserver( this );
         
-        // Registration point is the bottom center of the image.
-        setRegistrationPoint( getImage().getWidth() / 2, getImage().getHeight() );
+        // Battery image
+        {
+            _batteryGraphic = new PhetImageGraphic( component, FaradayConfig.BATTERY_IMAGE );
+            addGraphic( _batteryGraphic );
+
+            // Registration point is the bottom center of the image.
+            int rx = _batteryGraphic.getImage().getWidth() / 2;
+            int ry = _batteryGraphic.getImage().getHeight();
+            _batteryGraphic.setRegistrationPoint( rx, ry );
+        }
         
         update();
     }
@@ -69,11 +79,11 @@ public class BatteryGraphic extends PhetImageGraphic implements SimpleObserver {
         setVisible( _batteryModel.isEnabled() );
         if ( isVisible() ) {
             
-            clearTransform();
+            _batteryGraphic.clearTransform();
             
             double voltage = _batteryModel.getVoltage();
             if ( voltage < 0 ) {
-               scale( -1, 1 );  // horizontal reflection to indicate voltage polarity
+               _batteryGraphic.scale( -1, 1 );  // horizontal reflection to indicate voltage polarity
             }
             
             repaint();
