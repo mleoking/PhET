@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
+import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -154,8 +155,13 @@ public class CircuitGraphic extends CompositeGraphic {
                         rg = null;
                     }
                     else {
-                        rg = new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
-                        rg.setVisible( readoutGraphicsVisible );
+                        if( branch instanceof GrabBagResistor ) {
+                            rg = new GrabBagReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
+                        }
+                        else {
+                            rg = new ReadoutGraphic( module, branch, transform, module.getApparatusPanel(), module.getDecimalFormat() );
+                            rg.setVisible( readoutGraphicsVisible );
+                        }
                     }
                     if( rg != null ) {
                         readoutMap.put( branch, rg );
@@ -209,7 +215,9 @@ public class CircuitGraphic extends CompositeGraphic {
         Collection values = readoutMap.values();
         for( Iterator iterator = values.iterator(); iterator.hasNext(); ) {
             ReadoutGraphic readoutGraphic = (ReadoutGraphic)iterator.next();
-            readoutGraphic.setVisible( visible );
+            if( !( readoutGraphic.getBranch() instanceof GrabBagResistor ) ) {
+                readoutGraphic.setVisible( visible );
+            }
         }
     }
 

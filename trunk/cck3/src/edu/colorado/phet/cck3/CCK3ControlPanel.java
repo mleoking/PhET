@@ -41,8 +41,12 @@ public class CCK3ControlPanel extends JPanel {
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;
     private GrabBagButton grabBagButton;
+    private boolean useAdvancedControlPanel;
+    private JPanel circuitPanel;
 
     public CCK3ControlPanel( final CCK3Module module ) {
+        useAdvancedControlPanel = !CCK3Module.SHOW_GRAB_BAG;
+
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
         JLabel titleLabel = new JLabel( new ImageIcon( getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) );
@@ -56,7 +60,10 @@ public class CCK3ControlPanel extends JPanel {
         } );
         this.module = module;
         JPanel filePanel = makeFilePanel();
-        JPanel circuitPanel = makeCircuitPanel();
+        if( useAdvancedControlPanel ) {
+            circuitPanel = makeAdvancedPanel();
+        }
+
         JPanel visualPanel = makeVisualPanel();
         JPanel toolPanel = makeToolPanel();
         JPanel sizePanel = makeSizePanel();
@@ -129,8 +136,10 @@ public class CCK3ControlPanel extends JPanel {
         controlPanel.add( sizePanel, constraints );
         constraints.gridy++;
 
-        controlPanel.add( circuitPanel, constraints );
-        constraints.gridy++;
+        if( useAdvancedControlPanel ) {
+            controlPanel.add( circuitPanel, constraints );
+            constraints.gridy++;
+        }
 
         add( controlPanel, BorderLayout.CENTER );
         JPanel helpPanel = new JPanel( new GridBagLayout() );
@@ -311,8 +320,10 @@ public class CCK3ControlPanel extends JPanel {
         visualizationPanel.setLayout( new BoxLayout( visualizationPanel, BoxLayout.Y_AXIS ) );
 
         visualizationPanel.add( lifelike );
-        visualizationPanel.add( schematic );
-        if( !module.isVirtualLabMode() ) {
+        if( !CCK3Module.SHOW_GRAB_BAG ) {
+            visualizationPanel.add( schematic );
+        }
+        if( !module.isVirtualLabMode() || CCK3Module.SHOW_GRAB_BAG ) {
             visualizationPanel.add( showReadouts );
         }
 //        return placeInPanel( "Visual", visualizationPanel, new Insets( 0, 10, 0, 10 ) );
@@ -594,7 +605,7 @@ public class CCK3ControlPanel extends JPanel {
         return panel;
     }
 
-    private JPanel makeCircuitPanel() {
+    private JPanel makeAdvancedPanel() {
 //        JCheckBox advanced = new JCheckBox( "Advanced", false );
 //        advanced.addActionListener( new ActionListener() {
 //            public void actionPerformed( ActionEvent e ) {
@@ -625,8 +636,11 @@ public class CCK3ControlPanel extends JPanel {
         } );
 
         advancedControlPanel.setVisible( false );
-        circuitPanel.add( expand );
-        circuitPanel.add( advancedControlPanel );
+        {
+            circuitPanel.add( expand );
+
+            circuitPanel.add( advancedControlPanel );
+        }
         return placeInPanel( "Advanced", circuitPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 

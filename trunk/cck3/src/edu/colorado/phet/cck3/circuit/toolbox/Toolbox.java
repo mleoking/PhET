@@ -93,14 +93,17 @@ public class Toolbox extends CompositeGraphic {
             y += dy;
         }
         {
-            BufferedImage resistorImage = module.getImageSuite().getResistorImage();
-            double initalResistorHeight = CCK3Module.RESISTOR_DIMENSION.getHeightForLength( componentWidth );
-            Resistor resistor = new Resistor( new Point2D.Double( componentX, y ), dir, componentWidth, initalResistorHeight, module.getKirkhoffListener() );
-            ResistorGraphic rg = new ResistorGraphic( resistorImage, parent, resistor, transform );
-            SchematicResistorGraphic srg = new SchematicResistorGraphic( parent, resistor, transform, schematicWireThickness );
-            resistorSource = new BranchSource.ResistorSource( rg, srg, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCK3Module.RESISTOR_DIMENSION, module );
-            addSource( resistorSource );
-            y += dy;
+
+            if( !CCK3Module.SHOW_GRAB_BAG ) {
+                BufferedImage resistorImage = module.getImageSuite().getResistorImage();
+                double initalResistorHeight = CCK3Module.RESISTOR_DIMENSION.getHeightForLength( componentWidth );
+                Resistor resistor = new Resistor( new Point2D.Double( componentX, y ), dir, componentWidth, initalResistorHeight, module.getKirkhoffListener() );
+                ResistorGraphic rg = new ResistorGraphic( resistorImage, parent, resistor, transform );
+                SchematicResistorGraphic srg = new SchematicResistorGraphic( parent, resistor, transform, schematicWireThickness );
+                resistorSource = new BranchSource.ResistorSource( rg, srg, module.getCircuitGraphic(), parent, resistor, module.getKirkhoffListener(), CCK3Module.RESISTOR_DIMENSION, module );
+                addSource( resistorSource );
+                y += dy;
+            }
         }
         {
             double battToolHeight = CCK3Module.BATTERY_DIMENSION.getHeightForLength( componentWidth );
@@ -208,7 +211,9 @@ public class Toolbox extends CompositeGraphic {
         wireSource.setVisible( visible );
         batterySource.setVisible( visible );
         bulbSource.setVisible( visible );
-        resistorSource.setVisible( visible );
+        if( resistorSource != null ) {
+            resistorSource.setVisible( visible );
+        }
         switchSource.setVisible( visible );
         ammeterSource.setVisible( visible );
     }
@@ -226,7 +231,9 @@ public class Toolbox extends CompositeGraphic {
         wireSource.setLifelike( lifelike );
         batterySource.setLifelike( lifelike );
         bulbSource.setLifelike( lifelike );
-        resistorSource.setLifelike( lifelike );
+        if( resistorSource != null ) {
+            resistorSource.setLifelike( lifelike );
+        }
         switchSource.setLifelike( lifelike );
         ammeterSource.setLifelike( lifelike );
     }

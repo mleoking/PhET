@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
@@ -57,10 +58,17 @@ public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implem
                 changed();
             }
         };
-        if( debug ) {
+//<<<<<<< CircuitComponentImageGraphic.java
+        if( CCK3Module.DEBUG_ALL ) {
             debugText = new PhetTextGraphic( getComponent(), new Font( "dialog", 0, 12 ), "", Color.black, 0, 0 );
             addGraphic( debugText );
         }
+//=======
+//        if( debug ) {
+//            debugText = new PhetTextGraphic( getComponent(), new Font( "dialog", 0, 12 ), "", Color.black, 0, 0 );
+//            addGraphic( debugText );
+//        }
+//>>>>>>> 1.11
         transform.addTransformListener( transformListener );
         changed();
         setVisible( true );
