@@ -10,12 +10,16 @@
  */
 package edu.colorado.phet.common.view.util;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  * This level of granularity is required because different loaders return different
@@ -51,7 +55,7 @@ public class ImageLoader {
         setPhetLoader();
         conversionStrategy = new ConversionStrategy() {
             public BufferedImage toBufferedImage( Image image ) {
-                return GraphicsUtil.toBufferedImage( image );
+                return BufferedImageUtils.toBufferedImage( image );
             }
         };
     }
