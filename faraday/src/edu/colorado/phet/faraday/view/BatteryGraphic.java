@@ -103,7 +103,7 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
             _amplitudeSlider.addTick( 0 );
             
             _amplitudeSlider.centerRegistrationPoint();
-            _amplitudeSlider.setLocation( _batteryGraphic.getWidth() / 2, 42 );
+            _amplitudeSlider.setLocation( 105, 35 );
             _amplitudeSlider.addChangeListener( new SliderListener() );
         }
         

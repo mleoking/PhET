@@ -13,19 +13,14 @@ package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.ElectromagnetControlPanel;
-import edu.colorado.phet.faraday.control.GraphicSlider;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
@@ -99,22 +94,28 @@ public class ElectromagnetModule extends FaradayModule {
         Battery batteryModel = new Battery();
         batteryModel.setMaxVoltage( FaradayConfig.BATTERY_VOLTAGE_MAX  );
         batteryModel.setAmplitude( 1.0 );
+        batteryModel.setEnabled( false );
         
         // AC Source
         ACSource acSourceModel = new ACSource();
         acSourceModel.setMaxVoltage( FaradayConfig.AC_VOLTAGE_MAX );
         acSourceModel.setMaxAmplitude( 0.5 );
         acSourceModel.setFrequency( 0.5 );
-        acSourceModel.setEnabled( false );
+        acSourceModel.setEnabled( true );
         model.addModelElement( acSourceModel );
         
         // Source Coil
         SourceCoil sourceCoilModel = new SourceCoil();
+        sourceCoilModel.setLocation( SOURCE_COIL_LOCATION );
         sourceCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
         sourceCoilModel.setRadius( LOOP_RADIUS );
         sourceCoilModel.setDirection( 0 /* radians */ );
-        sourceCoilModel.setVoltageSource( batteryModel );
-        sourceCoilModel.setLocation( SOURCE_COIL_LOCATION );
+        if ( batteryModel.isEnabled() ) {
+            sourceCoilModel.setVoltageSource( batteryModel );
+        }
+        else {
+            sourceCoilModel.setVoltageSource( acSourceModel );
+        }
         
         // Electromagnet
         Electromagnet electromagnetModel = new Electromagnet( sourceCoilModel );
@@ -173,7 +174,23 @@ public class ElectromagnetModule extends FaradayModule {
         fieldMeterGraphic.setVisible( false );
         apparatusPanel.addChangeListener( fieldMeterGraphic );
         apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
-          
+
+
+//        // XXX test bounds & registration point of FaradaySlider
+//        FaradaySlider testSlider = new FaradaySlider( apparatusPanel, 100 );
+//        addGraphic( testSlider, DEBUG_LAYER );
+//        {
+//            PhetGraphic background = new PhetShapeGraphic( apparatusPanel, new Rectangle( 0, 0, 200, 50 ), Color.GRAY );
+//            testSlider.setBackground( background );
+//            testSlider.setMinimum( -100 );
+//            testSlider.setMaximum( 100 );
+//            testSlider.setValue( 0 );
+//            testSlider.addTick( -100 );
+//            testSlider.addTick( 100 );
+//            testSlider.addTick( 0 );
+//            testSlider.setLocation( 100, 100 );
+//        }
+        
 //        // XXX Slider test
 //        {
 //            PhetGraphic knob = new PhetShapeGraphic( apparatusPanel, new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED );
@@ -190,13 +207,13 @@ public class ElectromagnetModule extends FaradayModule {
 //            slider.setValue( 75 );
 //            apparatusPanel.addGraphic( slider, DEBUG_LAYER );
 //        }
-        
+
         // Debugger
-//      DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
-//      debugger.setLocationColor( Color.GREEN );
-//      debugger.add( fieldMeterGraphic );
-//      apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
-        
+//        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
+//        debugger.setLocationColor( Color.GREEN );
+//        debugger.add( testSlider );
+//        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
+
         // Collision detection
         electromagnetGraphic.getCollisionDetector().add( compassGraphic );
         compassGraphic.getCollisionDetector().add( electromagnetGraphic );

@@ -87,7 +87,7 @@ public class GraphicSlider extends GraphicLayerSet {
         _minimum = 0;
         _maximum = 100;
         _value = ( _maximum - _minimum ) / 2;
-        _tickSize = new Dimension( 1, 20 );
+        _tickSize = new Dimension( 1, 12 );
         _listenerList = new EventListenerList();
         
         // Enable anti-aliasing.
@@ -319,7 +319,7 @@ public class GraphicSlider extends GraphicLayerSet {
             double percent = ( tickValue - _minimum ) / (double) ( _maximum - _minimum );
             int x = (int) ( _dragBounds.x + (int) ( percent * _dragBounds.width ) );
             
-            Shape shape = new Line2D.Double( x, 0, x, _tickSize.height );
+            Shape shape = new Line2D.Double( x, _track.getY(), x, _track.getY() + _tickSize.height );
             PhetShapeGraphic tick = new PhetShapeGraphic( getComponent() );
             tick.setShape( shape );
             tick.setBorderColor( Color.BLACK );

@@ -43,17 +43,17 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private static final double BOX_LAYER = 1;
-    private static final double SLIDER_LAYER = 2;
-    private static final double VALUE_LAYER = 3;
-    private static final double LABEL_LAYER = 4;
-    private static final double WAVE_BACKGROUND_LAYER = 5;
-    private static final double WAVE_LAYER = 6;
-    private static final double WAVE_OVERLAY_LAYER = 7;
+    private static final double WAVE_BACKGROUND_LAYER = 2;
+    private static final double WAVE_LAYER = 3;
+    private static final double WAVE_OVERLAY_LAYER = 4;
+    private static final double LABEL_LAYER = 5;
+    private static final double SLIDER_LAYER = 6;
+    private static final double VALUE_LAYER = 7;
     
-    private static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
-    private static final Color LABEL_COLOR = Color.BLACK;
-    private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
-    private static final Color VALUE_COLOR = Color.BLACK;
+    private static final Font TITLE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
+    private static final Color TITLE_COLOR = Color.WHITE;
+    private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
+    private static final Color VALUE_COLOR = Color.GREEN;
     
     private static final double WAVE_SCALE_X = 0.17;
     private static final double WAVE_SCALE_Y = 0.11;
@@ -104,10 +104,11 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
         
         // Title label
         {
-            PhetTextGraphic title = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
-            addGraphic( title, LABEL_LAYER );            
-            title.setLocation( 55, 5 );
-            title.setText( SimStrings.get( "ACSourceGraphic.title" ) );
+            String s = SimStrings.get( "ACSourceGraphic.title" );
+            PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
+            addGraphic( title, LABEL_LAYER );
+            title.centerRegistrationPoint();
+            title.setLocation( _acBoxGraphic.getWidth() / 2, 36 );
         }
         
         // Amplitude slider
@@ -115,20 +116,21 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             _amplitudeSlider = new FaradaySlider( component, 100 /* track length */ );            
             addGraphic( _amplitudeSlider, SLIDER_LAYER );
             
-            _amplitudeSlider.centerRegistrationPoint();
-            _amplitudeSlider.rotate( -Math.PI / 2 );  // rotate -90 degrees
-            _amplitudeSlider.setLocation( 40, ( _acBoxGraphic.getHeight() / 2 ) + 5 );
             _amplitudeSlider.setMinimum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MIN ) );
             _amplitudeSlider.setMaximum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MAX ) );
             _amplitudeSlider.setValue( (int) ( 100.0 * _acSourceModel.getMaxAmplitude() ) );
+            
+            _amplitudeSlider.centerRegistrationPoint();
+            _amplitudeSlider.rotate( -Math.PI / 2 );  // rotate -90 degrees
+            _amplitudeSlider.setLocation( 32, 130 );
             _amplitudeSlider.addChangeListener( new SliderListener() );
         }
         
         // Amplitude value
         {
             _amplitudeValue = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
-            addGraphic( _amplitudeValue, VALUE_LAYER );            
-            _amplitudeValue.setLocation( 45, 45 );
+            addGraphic( _amplitudeValue, VALUE_LAYER );
+            _amplitudeValue.setLocation( 45, 70 );
             
             _amplitudeFormat = SimStrings.get( "ACSourceGraphic.amplitude.format" );
         }
@@ -137,12 +139,13 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
         {
             _frequencySlider = new FaradaySlider( component, 100 /* track length */ );            
             addGraphic( _frequencySlider, SLIDER_LAYER );
-            
-            _frequencySlider.centerRegistrationPoint();
-            _frequencySlider.setLocation( ( _acBoxGraphic.getWidth() / 2 ) - 5, _acBoxGraphic.getHeight() - 10  );
+
             _frequencySlider.setMinimum( (int) ( 100.0 * FaradayConfig.AC_FREQUENCY_MIN ) );
             _frequencySlider.setMaximum( (int) ( 100.0 * FaradayConfig.AC_FREQUENCY_MAX ) );
             _frequencySlider.setValue( (int) ( 100.0 * _acSourceModel.getFrequency() ) );
+            
+            _frequencySlider.centerRegistrationPoint();
+            _frequencySlider.setLocation( 102, 190 );
             _frequencySlider.addChangeListener( new SliderListener() );
         }
 
@@ -150,18 +153,18 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
         {
             _frequencyValue = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
             addGraphic( _frequencyValue, VALUE_LAYER );
-            _frequencyValue.setLocation( 198, 160 );
+            _frequencyValue.setLocation( 210, 207 );
             
             _frequencyFormat = SimStrings.get( "ACSourceGraphic.frequency.format" );
         }
         
-        // Wave background
-        {
-            Shape shape = new Rectangle( 0, 0, 131, 90 );
-            PhetShapeGraphic graphBackground = new PhetShapeGraphic( component, shape, Color.BLACK );
-            addGraphic( graphBackground, WAVE_BACKGROUND_LAYER );
-            graphBackground.setLocation( 50, 25 );
-        }
+//        // Wave background
+//        {
+//            Shape shape = new Rectangle( 0, 0, 150, 135 );
+//            PhetShapeGraphic graphBackground = new PhetShapeGraphic( component, shape, Color.BLACK );
+//            addGraphic( graphBackground, WAVE_BACKGROUND_LAYER );
+//            graphBackground.setLocation( 50, 37 );
+//        }
         
         // Wave
         {
@@ -225,7 +228,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
                 // Right justify
                 int rx = _amplitudeValue.getBounds().width;
                 int ry = _amplitudeValue.getBounds().height;
-                _amplitudeValue.setRegistrationPoint( rx, ry );
+                _amplitudeValue.setRegistrationPoint( rx, ry ); // lower right
             }
             
             // Update the displayed frequency.

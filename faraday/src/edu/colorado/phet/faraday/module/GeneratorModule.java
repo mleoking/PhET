@@ -172,17 +172,6 @@ public class GeneratorModule extends FaradayModule {
         apparatusPanel.addChangeListener( fieldMeterGraphic );
         apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
         
-//        // XXX test bounds & registration point of FaradaySlider
-//        FaradaySlider _speedSlider = new FaradaySlider( apparatusPanel, 100 );
-//        addGraphic( _speedSlider, DEBUG_LAYER );
-//        _speedSlider.setMinimum( -100 );
-//        _speedSlider.setMaximum( 100 );
-//        _speedSlider.setValue( 0 );
-//        _speedSlider.addTick( -100 );
-//        _speedSlider.addTick( 100 );
-//        _speedSlider.addTick( 0 );
-//        _speedSlider.setLocation( 100, 100 );
-        
         // Debugger
 //        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
 //        debugger.add( _speedSlider );
