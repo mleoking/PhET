@@ -30,6 +30,7 @@ public class GroundState extends AtomicState {
                 photon.removeFromSystem();
 
                 decrementNumInState();
+                // todo: change things so this signature isn't so redundant
                 getAtom().setState( new HighEnergyState( getAtom() ) );
             }
             if( photon.getWavelength() == Photon.RED ) {
