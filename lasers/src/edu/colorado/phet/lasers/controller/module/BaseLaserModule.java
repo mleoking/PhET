@@ -411,13 +411,13 @@ public class BaseLaserModule extends Module {
         atom.addLeftSystemListener( new AtomRemovalListener( atomGraphic ) );
         atom.addChangeListener( new AtomChangeListener() );
 
-        if( atom.getState() instanceof GroundState ) {
+        if( atom.getCurrState() instanceof GroundState ) {
             numGroundStateAtoms++;
         }
-        if( atom.getState() instanceof MiddleEnergyState ) {
+        if( atom.getCurrState() instanceof MiddleEnergyState ) {
             numMiddleStateAtoms++;
         }
-        if( atom.getState() instanceof HighEnergyState ) {
+        if( atom.getCurrState() instanceof HighEnergyState ) {
             numHighStateAtoms++;
         }
     }
@@ -468,7 +468,7 @@ public class BaseLaserModule extends Module {
             // Was the photon emitted by an atom?
             if( source instanceof Atom ) {
                 Atom atom = (Atom)source;
-                if( atom.getState() instanceof HighEnergyState
+                if( atom.getCurrState() instanceof HighEnergyState
                     && !displayHighLevelEmissions ) {
                     isPhotonGraphicVisible = false;
                 }

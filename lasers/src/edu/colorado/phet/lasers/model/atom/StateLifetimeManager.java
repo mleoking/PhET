@@ -29,7 +29,7 @@ class StateLifetimeManager implements ModelElement {
         while( temp == 0 ) {
             temp = Math.random();
         }
-        state = atom.getState();
+        state = atom.getCurrState();
 
         // Get the lifetime for this state
         if( lifetimeFixed ) {
@@ -68,7 +68,7 @@ class StateLifetimeManager implements ModelElement {
             }
 
             // Change state
-            atom.setState( state.getNextLowerEnergyState() );
+            atom.setCurrState( state.getNextLowerEnergyState() );
 
             // Remove us from the model
             kill();

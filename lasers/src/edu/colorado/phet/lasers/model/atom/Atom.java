@@ -1,13 +1,12 @@
-/**
- * Created by IntelliJ IDEA.
- * User: Another Guy
- * Date: Mar 21, 2003
- * Time: 12:10:01 PM
- * To change this template use Options | File Templates.
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.model.atom;
 
@@ -62,32 +61,38 @@ public class Atom extends SolidSphere {
     //
     private StateLifetimeManager stateLifetimeManager;
     private BaseModel model;
-    private AtomicState state;
+    private AtomicState currState;
+    private AtomicState[] states;
 
-    public Atom( BaseModel model ) {
+    public Atom( BaseModel model, int numStates ) {
         super( s_radius );
         this.model = model;
         setMass( s_mass );
-        setState( GroundState.instance() );
+        setCurrState( GroundState.instance() );
+        setNumEnergyLevels( numStates );
     }
 
     public void collideWithPhoton( Photon photon ) {
-        state.collideWithPhoton( this, photon );
+        currState.collideWithPhoton( this, photon );
     }
 
-    public AtomicState getState() {
-        return state;
+    public AtomicState getCurrState() {
+        return currState;
+    }
+
+    public AtomicState[] getStates() {
+        return states;
     }
 
     /**
-     * Sets the energy state of the atom. If this is a state from which the atom can spontanteously
+     * Sets the energy currState of the atom. If this is a currState from which the atom can spontanteously
      * change, a StateLifetimeManager is instatiated to control the change.
      *
      * @param newState
      */
 
-    public void setState( final AtomicState newState ) {
-        final AtomicState oldState = this.state;
+    public void setCurrState( final AtomicState newState ) {
+        final AtomicState oldState = this.currState;
 
         if( oldState != null ) {
             oldState.decrementNumInState();
@@ -96,7 +101,7 @@ public class Atom extends SolidSphere {
             stateLifetimeManager.kill();
         }
         newState.incrNumInState();
-        this.state = newState;
+        this.currState = newState;
         boolean emitPhotonOnLeavingState = false;
         if( newState instanceof MiddleEnergyState ) {
             emitPhotonOnLeavingState = true;
@@ -129,9 +134,24 @@ public class Atom extends SolidSphere {
     }
 
     public void removeFromSystem() {
-        state.decrementNumInState();
+        currState.decrementNumInState();
         leftSystemListenerProxy.leftSystem( new LeftSystemEvent( this ) );
-        changeListenerProxy.stateChanged( new ChangeEvent( this, null, this.getState() ) );
+        changeListenerProxy.stateChanged( new ChangeEvent( this, null, this.getCurrState() ) );
+    }
+
+    /**
+     * Populates the list of AtomicStates that this atom can be in, based on the
+     * specified number of energy levels it can occupy
+     *
+     * @param numEnergyLevels
+     */
+    public void setNumEnergyLevels( int numEnergyLevels ) {
+        states = new AtomicState[numEnergyLevels];
+        states[0] = GroundState.instance();
+        states[1] = MiddleEnergyState.instance();
+        if( numEnergyLevels == 3 ) {
+            states[2] = HighEnergyState.instance();
+        }
     }
 
 
@@ -190,7 +210,7 @@ public class Atom extends SolidSphere {
         }
 
         public AtomicState getState() {
-            return getAtom().getState();
+            return getAtom().getCurrState();
         }
     }
 

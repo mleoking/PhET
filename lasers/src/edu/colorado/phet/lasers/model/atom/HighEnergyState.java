@@ -65,18 +65,19 @@ public class HighEnergyState extends AtomicState {
             atom.emitPhoton( emittedPhoton );
 
             // Change state
-            atom.setState( GroundState.instance() );
+            atom.setCurrState( GroundState.instance() );
         }
 
         // If the photon has the same energy level as the difference between
         // this state and the high energy one, then we go to that state
+        // TODO: I don't think this can ever happen, so it can come out
         if( photon.getEnergy() == HighEnergyState.instance().getEnergyLevel() - this.getEnergyLevel() ) {
 
             // Absorb the photon and change state
             photon.removeFromSystem();
 
             // Change state
-            atom.setState( HighEnergyState.instance() );
+            atom.setCurrState( HighEnergyState.instance() );
         }
     }
 

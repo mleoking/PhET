@@ -142,7 +142,8 @@ public class MultipleAtomModule extends BaseLaserModule {
 //        int numAtoms = 8;
 //        int numAtoms = 20;
         for( int i = 0; i < numAtoms; i++ ) {
-            atom = new Atom( getModel() );
+            int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
+            atom = new Atom( getModel(), numEnergyLevels );
             boolean placed = false;
 
             // Place atoms so they don't overlap
@@ -214,6 +215,13 @@ public class MultipleAtomModule extends BaseLaserModule {
         super.setThreeEnergyLevels( threeEnergyLevels );
         this.threeEnergyLevels = threeEnergyLevels;
         getLaserModel().getPumpingBeam().setEnabled( true );
+        if( atoms != null ) {
+            int numEnergyLevels = threeEnergyLevels ? 3 : 2;
+            for( int i = 0; i < atoms.size(); i++ ) {
+                Atom atom = (Atom)atoms.get( i );
+                atom.setNumEnergyLevels( numEnergyLevels );
+            }
+        }
     }
 
     public void setSwingComponentsVisible( boolean areVisible ) {

@@ -107,6 +107,30 @@ public abstract class AtomicState {
 
     abstract public void collideWithPhoton( Atom atom, Photon photon );
 
+    /**
+     * Searches through the states of a specified atom for one whose energy differential between it and
+     * a specified energy matches the energy in a specified photon. The reason the energy needs to be
+     * specified as a parameter is that the GroundState has to pretend it has energy of 0 for the colors
+     * and such to work right, but other states can use their actual energies.
+     *
+     * @param atom
+     * @param photon
+     * @param energy
+     * @return
+     */
+    public AtomicState getStimulatedState( Atom atom, Photon photon, double energy ) {
+        AtomicState result = null;
+        AtomicState[] states = atom.getStates();
+        for( int stateIdx = states.length - 1;
+             stateIdx >= 0 && states[stateIdx] != this && result == null;
+             stateIdx-- ) {
+            if( photon.getEnergy() == states[stateIdx].getEnergyLevel() - energy ) {
+                result = states[stateIdx];
+            }
+        }
+        return result;
+    }
+
     abstract public AtomicState getNextLowerEnergyState();
 
     abstract public AtomicState getNextHigherEnergyState();
