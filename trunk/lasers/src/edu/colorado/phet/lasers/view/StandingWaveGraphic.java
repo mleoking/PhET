@@ -8,7 +8,8 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -41,6 +42,7 @@ public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.
     private Stroke stroke = new BasicStroke( 2f );
     private PartialMirror mirror;
     private Rectangle bounds;
+    private AtomicState atomicState;
 
     public StandingWaveGraphic( Component component, ResonatingCavity cavity,
                                 PartialMirror mirror, BaseModel model, AtomicState atomicState ) {
@@ -49,6 +51,7 @@ public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.
         // Register with the Photon class so we will get notified when photons are created
         Photon.addClassListener( this );
 
+        this.atomicState = atomicState;
         this.mirror = mirror;
         internalWaveOrigin = new Point2D.Double( cavity.getMinX(), cavity.getMinY() + cavity.getHeight() / 2 );
         internalStandingWave = new StandingWave( component, internalWaveOrigin, cavity.getWidth(),
@@ -79,17 +82,26 @@ public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.
         return bounds;
     }
 
-    public void paint( Graphics2D g ) {
-        GraphicsState gs = new GraphicsState( g );
-        g.setStroke( stroke );
-        internalStandingWave.paint( g );
-        externalStandingWave.paint( g );
-
-        // Debug code
-        //        g.setColor( Color.green );
-        //        g.draw( bounds );
-        gs.restoreGraphics();
-    }
+    /**
+     * Vestigial. Each of the waves gets added independently to the apparatus panel
+     *
+     * @return
+     */
+//    public void paint( Graphics2D g ) {
+//        GraphicsState gs = new GraphicsState( g );
+//
+//        g.setStroke( stroke );
+//        internalStandingWave.paint( g );
+//        externalStandingWave.paint( g );
+//
+//        g.setColor( actualColor );
+//        g.fill( rExternal );
+//
+//        // Debug code
+//        g.setColor( Color.green );
+//        g.draw( bounds );
+//        gs.restoreGraphics();
+//    }
 
     private double getExternalAmplitude() {
         double n = getInternalAmplitude();
@@ -114,6 +126,34 @@ public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.
         return externalStandingWave;
     }
 
+    private void update() {
+        Color baseColor = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
+        int minLevel = 200;
+        // The power function here controls the ramp-up of actualColor intensity
+        int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( getInternalAmplitude() / getMaxInternalAmplitude() ), .6 ) ) );
+
+        internalStandingWave.setAmplitude( getInternalAmplitude() );
+        externalStandingWave.setAmplitude( getExternalAmplitude() );
+    }
+
+    private double getMaxInternalAmplitude() {
+        return 70;
+    }
+
+
+    /**
+     * Determines the color to paint the rectangle.
+     *
+     * @param baseColor
+     * @param level
+     * @return
+     */
+    private Color getActualColor( Color baseColor, int level ) {
+        double grayRefLevel = MakeDuotoneImageOp.getGrayLevel( baseColor );
+        int newRGB = MakeDuotoneImageOp.getDuoToneRGB( level, level, level, 255, grayRefLevel, baseColor );
+        return new Color( newRGB );
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////
     // Interface implementations
     //
@@ -121,8 +161,7 @@ public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.
         Photon photon = event.getPhoton();
         if( lasingPhotons.contains( photon ) ) {
             lasingPhotons.remove( photon );
-            internalStandingWave.setAmplitude( getInternalAmplitude() );
-            externalStandingWave.setAmplitude( getExternalAmplitude() );
+            update();
         }
     }
 
@@ -132,9 +171,7 @@ public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.
         if( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
             || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow ) {
             lasingPhotons.add( photon );
-            internalStandingWave.setAmplitude( getNumLasingPhotons() );
-            internalStandingWave.setAmplitude( getInternalAmplitude() );
-            externalStandingWave.setAmplitude( getExternalAmplitude() );
+            update();
         }
     }
 }

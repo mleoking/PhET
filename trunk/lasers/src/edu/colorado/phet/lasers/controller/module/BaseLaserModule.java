@@ -228,7 +228,7 @@ public class BaseLaserModule extends Module {
                 break;
             case PHOTON_CURTAIN:
                 if( beamGraphic == null ) {
-                    beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
+                    beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam );
                 }
                 addGraphic( beamGraphic, 1 );
                 PhotonGraphic.setAllVisible( false, getPumpingBeam().getWavelength() );
