@@ -51,15 +51,14 @@ import java.util.*;
 public class ApparatusPanel2 extends ApparatusPanel {
 
     private static final boolean DEBUG_OUTPUT_ENABLED = false;
+
+    private TransformManager transformManager;
     private PaintStrategy paintStrategy;
 
     private ArrayList rectangles = new ArrayList();
     private Rectangle repaintArea;
 
-    private TransformManager transformManager;
-
     private HashMap componentOrgLocationsMap = new HashMap();
-    private boolean modelPaused = false;
     protected ClockTickListener paintTickListener;
     protected ModelElement paintModelElement;
 
@@ -72,29 +71,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     public ApparatusPanel2( BaseModel model, AbstractClock clock ) {
         super( null );
-        init( model );
-
-        // Add a listener that keeps track of when the clock is paused and unpaused. this
-        // is needed so the mouse will still work if the clock is paused.
-        clock.addClockStateListener( new ClockStateListener() {
-            public void delayChanged( int waitTime ) {
-            }
-
-            public void dtChanged( double dt ) {
-            }
-
-            public void threadPriorityChanged( int priority ) {
-            }
-
-            public void pausedStateChanged( boolean isPaused ) {
-                modelPaused = isPaused;
-            }
-
-            public void stateChanged( ClockStateEvent event ) {
-            }
-        } );
-        modelPaused = clock.isPaused();
-        transformManager = new TransformManager( this );
+        init( model, clock );
     }
 
     /**
@@ -103,12 +80,12 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     public ApparatusPanel2( BaseModel model ) {
         super( null );
-        init( model );
+        init( model, null );
     }
 
-    protected void init( BaseModel model ) {
+    protected void init( BaseModel model, AbstractClock clock ) {
         // The following lines use a mouse processor in the model loop
-        MouseProcessor mouseProcessor = new MouseProcessor( getGraphic() );
+        MouseProcessor mouseProcessor = new MouseProcessor( getGraphic(), clock );
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
@@ -125,6 +102,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         // Add a listener what will adjust things if the size of the panel changes
         this.addComponentListener( new PanelResizeHandler() );
+        transformManager = new TransformManager( this );
     }
 
     /**
@@ -434,9 +412,12 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * Handles mouse events in the model loop
      */
     private class MouseProcessor implements ModelElement, MouseListener, MouseMotionListener {
-        LinkedList mouseEventList;
-        LinkedList mouseMotionEventList;
+        private LinkedList mouseEventList;
+        private LinkedList mouseMotionEventList;
+        private AbstractClock clock;
         private GraphicLayerSet handler;
+        private boolean modelPaused;
+
         // The following Runnable is used to process mouse events when the model clock is paused
         private Runnable pausedEventListProcessor = new Runnable() {
             public void run() {
@@ -445,10 +426,21 @@ public class ApparatusPanel2 extends ApparatusPanel {
             }
         };
 
-        public MouseProcessor( GraphicLayerSet mouseDelegator ) {
+
+        public MouseProcessor( GraphicLayerSet mouseDelegator, final AbstractClock clock ) {
+            this.clock = clock;
             mouseEventList = new LinkedList();
             mouseMotionEventList = new LinkedList();
             this.handler = mouseDelegator;
+            
+            // Add a listener that keeps track of when the clock is paused and unpaused. this
+            // is needed so the mouse will still work if the clock is paused.
+            this.clock.addClockStateListener( new ClockStateListener() {
+                public void stateChanged( ClockStateEvent event ) {
+                    modelPaused = clock.isPaused();
+                }
+            } );
+            this.modelPaused = clock.isPaused();
         }
 
         public void stepInTime( double dt ) {
