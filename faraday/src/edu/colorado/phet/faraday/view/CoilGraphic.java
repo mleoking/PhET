@@ -65,7 +65,6 @@ public class CoilGraphic implements SimpleObserver {
     private static final Color FOREGROUND_COLOR = new Color( 153, 102, 51 ); // light brown
     private static final Color MIDDLEGROUND_COLOR = new Color( 92, 52, 12 ); // dark brown
     private static final Color BACKGROUND_COLOR = new Color( 40, 23, 3 ); // really dark brown
-    private static final double LOOP_SPACING_FACTOR = 0.3; // ratio of loop spacing to loop radius
     
     // Space between electrons, determines the number of electrons add to each curve.
     private static final int ELECTRON_SPACING = 25;
@@ -111,6 +110,9 @@ public class CoilGraphic implements SimpleObserver {
     
     // Used to determine if the wire width has changed.
     private double _wireWidth;
+    
+    // Use to determine if the loop spacing has changed.
+    private double _loopSpacing;
     
     // Used to determine if the voltage across the coil has changed.
     private double _voltage;
@@ -160,6 +162,7 @@ public class CoilGraphic implements SimpleObserver {
         _numberOfLoops = -1; // force update
         _loopRadius = -1; // force update
         _wireWidth = -1; // force update
+        _loopSpacing = -1; // force update
         _voltage = -1;  // force update
         
         _topBounds = new Rectangle();
@@ -369,11 +372,13 @@ public class CoilGraphic implements SimpleObserver {
         boolean changed = false;
         if ( _numberOfLoops != _coilModel.getNumberOfLoops() ||
              _loopRadius != _coilModel.getRadius() ||
-             _wireWidth != _coilModel.getWireWidth() ) {
+             _wireWidth != _coilModel.getWireWidth() ||
+             _loopSpacing != _coilModel.getLoopSpacing() ) {
             changed = true;
             _numberOfLoops = _coilModel.getNumberOfLoops();
             _loopRadius = _coilModel.getRadius();
             _wireWidth = _coilModel.getWireWidth();
+            _loopSpacing = _coilModel.getLoopSpacing();
         }
         return changed;
     }
@@ -422,8 +427,7 @@ public class CoilGraphic implements SimpleObserver {
         
         final int numberOfLoops = _coilModel.getNumberOfLoops();
 
-        // Loop spacing, in pixels.
-        final int loopSpacing = (int)(radius * LOOP_SPACING_FACTOR );
+        final int loopSpacing = (int) _coilModel.getLoopSpacing();
         
         // Start at the left-most loop, keeping the coil centered.
         final int xStart = -( loopSpacing * (numberOfLoops - 1) / 2 );

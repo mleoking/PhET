@@ -31,6 +31,8 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
     private double _radius;
     // Width of the wire.
     private double _wireWidth;
+    // Spacing between the loops
+    private double _loopSpacing;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -38,10 +40,10 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
     
     /**
      * Zero-argument constructor.
-     * Creates a default coil with one loop, radius=10.0, wireWidth=16.0
+     * Creates a default coil with one loop, radius=10, wireWidth=16, loopSpacing=25
      */
     public AbstractCoil() {
-        this( 1, 10.0, 16.0 );
+        this( 1, 10, 16, 25 );
     }
     
     /**
@@ -50,10 +52,11 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
      * @param numberOfLoops number of loops in the coil
      * @param radius radius used for all loops
      */
-    public AbstractCoil( int numberOfLoops, double radius, double wireWidth ) {
+    public AbstractCoil( int numberOfLoops, double radius, double wireWidth, double loopSpacing ) {
         setNumberOfLoops( numberOfLoops );
         setRadius( radius );
         setWireWidth( wireWidth );
+        setLoopSpacing( loopSpacing );
     }
     
     //----------------------------------------------------------------------------
@@ -65,12 +68,9 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
      * This method destroys any existing loops and creates a new set.
      * 
      * @param numberOfLoops the number of loops
-     * @throws IllegalArgumentException if numberOfLoops is not > 0
      */
     public void setNumberOfLoops( int numberOfLoops ) {
-        if ( ! (numberOfLoops > 0 ) ) {
-            throw new IllegalArgumentException( "numberOfLoops must be > 0: " + numberOfLoops );
-        }
+        assert( numberOfLoops >  0 );
         if ( numberOfLoops != _numberOfLoops ) {
             _numberOfLoops = numberOfLoops;
             updateSelf();
@@ -92,12 +92,9 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
      * This radius is shared by all loops in the coil.
      * 
      * @param radius the radius
-     * @throws IllegalArgumentException if radius is not > 0
      */
     public void setRadius( double radius ) {
-        if ( ! (radius > 0) ) {
-            throw new IllegalArgumentException( "radius must be > 0: " + radius );
-        }
+        assert( radius > 0 );
         if ( radius != _radius ) {
             _radius = radius;
             updateSelf();
@@ -130,9 +127,7 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
      * @param wireWidth the wire width, in pixels
      */
     public void setWireWidth( double wireWidth ) {
-        if ( ! (wireWidth > 0) ) {
-            throw new IllegalArgumentException( "wireWidth must be > 0: " + wireWidth );
-        }
+        assert( wireWidth > 0 );
         if ( wireWidth != _wireWidth ) {
             _wireWidth = wireWidth;
             updateSelf();
@@ -147,5 +142,28 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
      */
     public double getWireWidth() {
         return _wireWidth;
+    }
+    
+    /**
+     * Sets the spacing between loops in the coil.
+     * 
+     * @param loopSpacing the spacing, in pixels
+     */
+    public void setLoopSpacing( double loopSpacing ) {
+        assert( loopSpacing > 0 );
+        if ( loopSpacing != _loopSpacing ) {
+            _loopSpacing = loopSpacing;
+            updateSelf();
+            notifyObservers();
+        }
+    }
+    
+    /**
+     * Gets the spacing between loops in the coil.
+     * 
+     * @return the spacing, in pixels
+     */
+    public double getLoopSpacing() {
+        return _loopSpacing;
     }
 }
