@@ -1,5 +1,8 @@
 ﻿class SingleBulbModule extends Module {
 	private var bulbIsMonochromatic:Boolean;
+	public static var solidBeamView:Number = 1;
+	public static var photonBeamView:Number = 2;
+
 	public function setBulbMonochromatic(bulbIsMonochromatic:Boolean):Void {
 		this.bulbIsMonochromatic = bulbIsMonochromatic;
 
@@ -33,4 +36,15 @@
 		ctx.aa = _root.filter1.percentPassed( _root.bulb1.getWavelength() );
 		return ctx;
 	}
+	public function setBeamView( viewType:Number):Void{
+		if( viewType == SingleBulbModule.solidBeamView){
+			_root.beam1_A._visible = true;
+			_root.beam1_B._visible = true;
+		}
+		else if( viewType == SingleBulbModule.photonBeamView){
+			_root.beam1_A._visible = false;
+			_root.beam1_B._visible = false;
+		}
+	}
+	
 }
