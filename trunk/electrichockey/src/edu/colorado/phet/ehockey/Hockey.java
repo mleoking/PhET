@@ -2,6 +2,8 @@ package edu.colorado.phet.ehockey;
 
 //Mediator applet for Electric edu.colorado.phet.ehockey.Hockey
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.applet.AudioClip;
 import java.awt.*;
@@ -94,18 +96,8 @@ public class Hockey extends JApplet implements Runnable {
     }
 
     public static void main( String[] args ) {
+        SimStrings.init( args, HockeyConfig.localizedStringPath );
 
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            SimStrings.setLocale( new Locale( applicationLocale ) );
-        }
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            SimStrings.setLocale( new Locale( locale ));
-        }
-
-        SimStrings.setStrings( HockeyConfig.localizedStringPath );
         isApplet = false;
 
         JFrame f = new JFrame( SimStrings.get( "HockeyApplication.Title" ) );
