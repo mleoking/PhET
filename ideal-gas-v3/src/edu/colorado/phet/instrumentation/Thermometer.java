@@ -38,6 +38,7 @@ public class Thermometer extends PhetGraphic {
     private BasicStroke rectStroke = new BasicStroke( 3 );
     private BasicStroke columnStroke = new BasicStroke( 1 );
     private Color rectColor = Color.yellow;
+    private int readoutWidth;
 
 
     public Thermometer( Component component, Point2D.Double location, double maxScreenLevel, double thickness,
@@ -52,7 +53,7 @@ public class Thermometer extends PhetGraphic {
         scale = maxScreenLevel / maxLevel;
         this.maxScreenLevel = maxScreenLevel;
         fontMetrics = component.getFontMetrics( font );
-        int readoutWidth = fontMetrics.stringWidth( "XXXXXXX" );
+        readoutWidth = fontMetrics.stringWidth( "XXXXXXX" );
         boundingRect = new Rectangle2D.Double( location.getX(), location.getY(),
                                                readoutWidth + rectBorderThickness,
                                                maxScreenLevel + bulb.getHeight() );
@@ -121,11 +122,16 @@ public class Thermometer extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
+        boundingRect = new Rectangle2D.Double( location.getX(), location.getY(),
+                                               readoutWidth + rectBorderThickness,
+                                               maxScreenLevel + bulb.getHeight() );
+
         double minX = Math.min( boundingRect.getMinX(), readoutRect.getMinX() );
         double minY = Math.min( boundingRect.getMinY(), readoutRect.getMinY() );
         double w = Math.max( boundingRect.getMaxX(), readoutRect.getMaxX() ) - minX;
         double h = Math.max( boundingRect.getMaxY(), readoutRect.getMaxY() ) - minY;
         boundingRect.setRect( minX, minY, w, h );
+//        System.out.println( "boundingRect = " + boundingRect );
         return RectangleUtils.toRectangle( boundingRect );
     }
 }

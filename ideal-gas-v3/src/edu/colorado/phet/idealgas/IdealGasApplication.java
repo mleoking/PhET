@@ -35,8 +35,10 @@ public class IdealGasApplication extends PhetApplication {
 //                                         IdealGasConfig.s_waitTime, true ) );
             //            setClock( new ThreadedClock( IdealGasConfig.s_timeStep,
             //                                         10, false,Thread.MAX_PRIORITY ) );
-                        setClock( new SwingTimerClock( IdealGasConfig.s_timeStep,
-                                                       IdealGasConfig.s_waitTime ) );
+//                        setClock( new SwingTimerClock( IdealGasConfig.s_timeStep,
+//                                                       IdealGasConfig.s_waitTime,false ) );
+            setClock( new SwingTimerClock( IdealGasConfig.s_timeStep,
+                                                       IdealGasConfig.s_waitTime,true ) );
 
             // Create the modules
             Module idealGasModule = new IdealGasModule( getClock() );

@@ -24,6 +24,7 @@ import java.io.IOException;
 /**
  *
  */
+//public class BaseIdealGasApparatusPanel extends TestApparatusPanel {
 public class BaseIdealGasApparatusPanel extends TestApparatusPanel {
 //public class BaseIdealGasApparatusPanel extends ApparatusPanel {
 

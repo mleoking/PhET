@@ -15,11 +15,11 @@ import edu.colorado.phet.common.view.CompositeInteractiveGraphicMouseDelegator;
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -56,14 +56,19 @@ public class TestApparatusPanel extends ApparatusPanel {
     BufferedImage bImg;
 
     ArrayList graphicsSetups = new ArrayList();
-    private boolean paintEnabled;
+    //    private boolean paintEnabled;
+    private BufferStrategy strategy;
+    private ArrayList rectangles = new ArrayList();
+    private Rectangle onion;
 
     public TestApparatusPanel( BaseModel model ) {
         super( null );
         MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
-        model.addModelElement( mouseProcessor );
-        this.addMouseListener( mouseProcessor );
-        this.addMouseMotionListener( mouseProcessor );
+        //        model.addModelElement( mouseProcessor );
+        this.addMouseListener( mouseDelegator );
+        this.addMouseMotionListener( mouseDelegator );
+        //        this.addMouseListener( mouseProcessor );
+        //        this.addMouseMotionListener( mouseProcessor );
 
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -71,11 +76,41 @@ public class TestApparatusPanel extends ApparatusPanel {
                 //                myPaintComponent( g );
                 //                myPaintComponents( g );
                 updateBuffer();
-                paintImmediately( 0, 0, getWidth(), getHeight() );
+                megapaintImmediately();
+                //                paintImmediately( 0, 0, getWidth(), getHeight() );
+
             }
         } );
         //        setOpaque( true );
         //        setDoubleBuffered( false );
+        this.addComponentListener( new ComponentAdapter() {
+            public void componentShown( ComponentEvent e ) {
+                if( strategy == null ) {
+                    strategy = SwingUtilities.getWindowAncestor( TestApparatusPanel.this ).getBufferStrategy();
+                    if( !strategy.getCapabilities().isPageFlipping() ) {
+                        System.out.println( "Page flipping not supported." );
+                    }
+                    if( strategy.getCapabilities().isFullScreenRequired() ) {
+                        System.out.println( "Full screen is required for buffering." );
+                    }
+                    System.out.println( "strategy = " + strategy );
+                }
+            }
+        } );
+    }
+
+    private void megapaintImmediately() {
+        if( rectangles.size() == 0 ) {
+            return;
+        }
+        else {
+            Rectangle union = (Rectangle)rectangles.remove( 0 );
+            while( rectangles.size() > 0 ) {
+                union = union.union( (Rectangle)rectangles.remove( 0 ) );
+            }
+            onion = union;
+            paintImmediately( union );
+        }
     }
 
     public CompositeInteractiveGraphicMouseDelegator getMouseDelegator() {
@@ -95,22 +130,40 @@ public class TestApparatusPanel extends ApparatusPanel {
 
     public void repaint( long tm, int x, int y, int width, int height ) {
         //super.repaint( tm, x, y, width, height );
+        megarepaint( x, y, width, height );
+    }
+
+    private void megarepaint( int x, int y, int width, int height ) {
+        if( rectangles == null ) {
+            rectangles = new ArrayList();
+        }
+        Rectangle r = new Rectangle( x, y, width, height );
+        //                System.out.println( "r = " + r );
+        if( r.x < 5 ) {
+            //            new Exception( "r=" + r ).printStackTrace();
+        }
+        rectangles.add( r );
+        //        super.repaint( 0,x,y,width, height);
     }
 
     public void repaint( Rectangle r ) {
         //        super.repaint( r );
+        megarepaint( r.x, r.y, r.width, r.height );
     }
 
     public void repaint() {
         //        super.repaint();
+        //        megarepaint( 0, 0, getWidth(), getHeight() );
     }
 
     public void repaint( int x, int y, int width, int height ) {
         //        super.repaint( x, y, width, height );
+        megarepaint( x, y, width, height );
     }
 
     public void repaint( long tm ) {
         //        super.repaint( tm );
+        //        repaint();
     }
 
     AffineTransform IDENTITY = AffineTransform.getTranslateInstance( 0, 0 );
@@ -125,6 +178,7 @@ public class TestApparatusPanel extends ApparatusPanel {
             updateBuffer();
         }
         else {
+            //            drawIt( (Graphics2D)graphics );
             ( (Graphics2D)graphics ).drawRenderedImage( bImg, IDENTITY );
         }
     }
@@ -137,13 +191,46 @@ public class TestApparatusPanel extends ApparatusPanel {
             bImg = new BufferedImage( this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB );
         }
         Graphics2D g2 = (Graphics2D)bImg.getGraphics();
+        drawIt( g2 );
+        //
+        //        g2.setBackground( super.getBackground() );
+        //        g2.clearRect( 0, 0, getWidth(), getHeight() );
+        //        for( int i = 0; i < graphicsSetups.size(); i++ ) {
+        //            GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
+        //            graphicsSetup.setup( g2 );
+        //        }
+        //        graphic.paint( g2 );
+        //        Color origColor = g2.getColor();
+        //        Stroke origStroke = g2.getStroke();
+        //
+        //        g2.setColor( Color.black );
+        //        g2.setStroke( borderStroke );
+        //        Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1 );
+        //        g2.draw( border );
+        //
+        //        g2.setColor( origColor );
+        //        g2.setStroke( origStroke );
+        //        //        g2.draw( this.getBounds() );
+        ////        if( onion != null ) {
+        ////            g2.setColor( Color.green );
+        ////            g2.setStroke( new BasicStroke( 7, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 0.1f, new float[]{15, 15}, 0 ) );
+        ////            g2.draw( onion );
+        ////        }
+    }
 
+    private void drawIt( Graphics2D g2 ) {
+        //        Graphics2D g2 = (Graphics2D)bImg.getGraphics();
+        //        g2.setClip( onion );
+        long now = System.currentTimeMillis();
         g2.setBackground( super.getBackground() );
-        g2.clearRect( 0, 0, getWidth(), getHeight() );
+        g2.clearRect( 0, 0, this.getWidth(), this.getHeight() );
+        g2.clearRect( onion.x, onion.y, onion.width, onion.height );
         for( int i = 0; i < graphicsSetups.size(); i++ ) {
             GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
             graphicsSetup.setup( g2 );
         }
+
+
         graphic.paint( g2 );
         Color origColor = g2.getColor();
         Stroke origStroke = g2.getStroke();
@@ -156,6 +243,13 @@ public class TestApparatusPanel extends ApparatusPanel {
         g2.setColor( origColor );
         g2.setStroke( origStroke );
         //        g2.draw( this.getBounds() );
+        //        if( onion != null ) {
+        //            g2.setColor( Color.green );
+        //            g2.setStroke( new BasicStroke( 7, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 0.1f, new float[]{15, 15}, 0 ) );
+        //            g2.draw( onion );
+        //        }
+        long dt=System.currentTimeMillis()-now;
+        System.out.println( "dt = " + dt );
     }
 
     public void addGraphic( Graphic graphic, double level ) {
