@@ -71,7 +71,7 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
         
         // Meter body
         {
-            PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.METER_BODY_IMAGE );
+            PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.VOLTMETER_BODY_IMAGE );
             addGraphic( body );
             int rx = body.getImage().getWidth() / 2;
             int ry = body.getImage().getHeight();
