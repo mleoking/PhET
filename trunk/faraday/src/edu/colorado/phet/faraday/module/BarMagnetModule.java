@@ -116,7 +116,7 @@ public class BarMagnetModule extends FaradayModule {
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
         gridGraphic.setRescaler( rescaler );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
-        gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
+        gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         apparatusPanel.addChangeListener( gridGraphic );
         apparatusPanel.addGraphic( gridGraphic, COMPASS_GRID_LAYER );
         super.setCompassGridGraphic( gridGraphic );

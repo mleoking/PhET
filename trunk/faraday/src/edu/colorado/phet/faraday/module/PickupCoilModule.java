@@ -147,7 +147,7 @@ public class PickupCoilModule extends FaradayModule {
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
         gridGraphic.setRescaler( new CompassGridRescaler( barMagnetModel ) );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
-        gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
+        gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         gridGraphic.setVisible( false );
         apparatusPanel.addChangeListener( gridGraphic );
         apparatusPanel.addGraphic( gridGraphic, COMPASS_GRID_LAYER );

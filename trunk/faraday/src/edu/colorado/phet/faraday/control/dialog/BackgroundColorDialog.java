@@ -115,9 +115,7 @@ public class BackgroundColorDialog implements ColorChooserFactory.Listener {
             Module module = moduleManager.moduleAt( i );
             moduleManager.moduleAt( i ).getApparatusPanel().setBackground( color );
             if ( module instanceof ICompassGridModule ) {
-                // If the color is black, don't use alpha.
-                boolean alphaEnabled = ( ! color.equals( Color.BLACK ) );
-                ( (ICompassGridModule) module ).setAlphaEnabled( alphaEnabled );
+                ( (ICompassGridModule) module ).setGridBackground( color );
             }
         }
         _app.getPhetFrame().repaint();
