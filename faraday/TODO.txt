@@ -3,12 +3,12 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- use median values always, except when changing polarity, #loops or radius
 
 HIGH:
-- bounds of light rays are not always correct (doesn't fully draw or doesn't fully erase)
 - calibration of everything so that sensitivity can be adjusted
 - collision detection between compass and magnet
+- bounds of light rays are not always correct (doesn't fully draw or doesn't fully erase)
 - redo coil graphic (constant wire gauge, fix colors)
 - show electrons flowing (blue) when lightbulb is enabled, keep constant size
 - collision detection between magnet and coil
@@ -16,7 +16,7 @@ HIGH:
 MEDIUM:
 - add inertia to voltmeter needle?
 - Transformer module requirements
-- should B Field Meter show XY component magnitudes in window coordinate system (+Y down)?
+- B Field Meter coordinate system (+Y down?)
 
 LOW:
 - Wiggle Me's
