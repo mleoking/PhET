@@ -4,6 +4,7 @@ package edu.colorado.phet.cck;
 import edu.colorado.phet.cck.elements.ImageSuite;
 import edu.colorado.phet.cck.util.CommonImageLoader;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.CommonImageLoader2;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
