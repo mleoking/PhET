@@ -29,13 +29,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 public class FaradayApplication extends PhetApplication {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    // The background color for the application's main Frame.
-    private static final Color BACKGROUND = new Color( 148, 166, 158 );
-
-    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
