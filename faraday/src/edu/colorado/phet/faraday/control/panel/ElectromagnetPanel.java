@@ -173,13 +173,13 @@ public class ElectromagnetPanel extends FaradayPanel {
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         int row = 0;
+        layout.addFilledComponent( sourcePanel, row++, 0, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( loopsPanel, row++, 0 );
         layout.addComponent( _gridCheckBox, row++, 0 );
         layout.addComponent( _compassCheckBox, row++, 0 );
         layout.addComponent( _fieldMeterCheckBox, row++, 0 );
         layout.addComponent( _electronsCheckBox, row++, 0 );
-        layout.addComponent( loopsPanel, row++, 0 );
-        layout.addFilledComponent( sourcePanel, row++, 0, GridBagConstraints.HORIZONTAL );
-        
+
         // Wire up event handling.
         EventListener listener = new EventListener();
         _batteryRadioButton.addActionListener( listener );
