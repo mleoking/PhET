@@ -56,15 +56,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     }
     
     //----------------------------------------------------------------------------
-    // AbstractVoltageSource override
-    //----------------------------------------------------------------------------
-    
-    // Kirchhoff's rule -- voltage across the ends of the coil equals the emf.
-    public double getVoltage() {
-        return _emf;
-    }
-    
-    //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
     
@@ -162,11 +153,11 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         // Calculate the induced EMF.
         double emf = -( getNumberOfLoops() * deltaFlux );
         
-        // Update the emf if it has changed.
-        if ( emf != _emf ) {
-            _emf = emf;
-            notifyObservers();
-        }
+        // Kirchhoff's rule -- voltage across the ends of the coil equals the emf.
+        double voltage = emf;
+        
+        // Update the amplitude of this voltage source.
+        setAmplitude( voltage / getMaxVoltage() );
         
 //        // DEBUG: use this to determine the maximum EMF in the simulation.
 //        if ( Math.abs(emf) > Math.abs(_maxEmf) ) {
