@@ -46,6 +46,10 @@ public class DoubleGeneralPath {
         path.moveTo( (float)x, (float)y );
     }
 
+    public void quadTo( double x1, double y1, double x2, double y2 ) {
+        path.quadTo( (float)x1, (float)y1, (float)x2, (float)y2 );
+    }
+
     public void moveTo( double x, double y ) {
         path.moveTo( (float)x, (float)y );
     }
