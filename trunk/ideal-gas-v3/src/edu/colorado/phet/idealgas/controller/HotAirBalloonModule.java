@@ -22,6 +22,9 @@ public class HotAirBalloonModule extends IdealGasModule {
     private static final double initialVelocity = 35;
 
     private HotAirBalloon balloon;
+    private double initRadius;
+    private double initX;
+    private double initY;
 
     public HotAirBalloonModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.HotAirBalloon" ) );
@@ -33,13 +36,13 @@ public class HotAirBalloonModule extends IdealGasModule {
         Box2D box = getIdealGasModel().getBox();
 
         // Add the hot air balloon to the model
-        double habRadius = 50;
-        double habX = box.getMinX() + box.getWidth() / 2;
-        double habY = box.getMaxY() - habRadius;
-        balloon = new HotAirBalloon( new Point2D.Double( habX, habY ),
+        initRadius = 50;
+        initX = box.getMinX() + box.getWidth() / 2;
+        initY = box.getMaxY() - initRadius;
+        balloon = new HotAirBalloon( new Point2D.Double( initX, initY ),
                                      new Vector2D.Double( 0, 0 ),
                                      new Vector2D.Double( 0, 0 ),
-                                     200, habRadius,
+                                     200, initRadius,
                                      60,
                                      getIdealGasModel() );
         box.setMinimumWidth( balloon.getRadius() * 3 );
@@ -101,5 +104,13 @@ public class HotAirBalloonModule extends IdealGasModule {
         controlPanel.addComponent( new HotAirBalloonControlPanel( balloon ) );
         this.setControlPanel( new PhetControlPanel( this ) );
         getControlPanel().add( controlPanel );
+    }
+
+    /**
+     * Places the balloon back at its initial location
+     */
+    public void reset() {
+        super.reset();
+        balloon.setPosition( new Point2D.Double( initX, initY ) );
     }
 }
