@@ -70,10 +70,10 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
-        // Probe body with registration point at top center.
+        // Probe body with registration point at crosshairs.
         PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.FIELD_PROBE_IMAGE );
         int rx = body.getImage().getWidth() / 2;
-        int ry = 0;
+        int ry = 21;
         body.setRegistrationPoint( rx, ry );
         addGraphic( body );
         
@@ -81,8 +81,8 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
         Font font = new Font( "SansSerif", Font.PLAIN, 12 );
         Color color = Color.WHITE;
         int xText = -20;
-        int yText = 42;
-        int ySpacing = 19;
+        int yText = 56;
+        int ySpacing = 18;
         
         // B text
         _bText = new PhetTextGraphic( component, font, "1234567890-E1", color, xText, yText );
