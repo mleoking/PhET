@@ -23,6 +23,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * ModelSlider combines title, slider, and textfield, with units for normal usage.
@@ -155,6 +157,20 @@ public class ModelSlider extends JPanel {
         slider.setMinorTickSpacing( dMinor );
     }
 
+    public void setModelLabels( Hashtable modelLabels ) {
+        Hashtable viewLabels = new Hashtable();
+        Set keys = modelLabels.keySet();
+        Iterator it = keys.iterator();
+        while( it.hasNext() ) {
+            Object o = (Object)it.next();
+            Number modelValue = (Number)o;
+            double v = modelValue.doubleValue();
+            int viewValue = modelViewTransform.modelToView( v );
+            viewLabels.put( new Integer( viewValue ), modelLabels.get( o ) );
+        }
+        slider.setLabelTable( viewLabels );
+    }
+
     private void createSlider() {
         int initSliderValue = modelViewTransform.modelToView( initialValue );
         if( initSliderValue < SLIDER_MIN || initSliderValue > SLIDER_MAX ) {
@@ -252,6 +268,9 @@ public class ModelSlider extends JPanel {
         }
         modelViewTransform = new ModelViewTransform1D( min, max, SLIDER_MIN, SLIDER_MAX );
         setValue( val );
+    }
+
+    public void setModelTicks( double[] ticks ) {
     }
 
     public static class IllegalValueException extends Exception {
