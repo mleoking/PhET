@@ -22,9 +22,9 @@ import java.io.IOException;
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
     // Affine transform relative to the image's origin
-    private AffineTransform relativeTx;
+    private AffineTransform relativeTx = new AffineTransform();
     // Affine transform relative to the image's location
-    private AffineTransform absoluteTx;
+    private AffineTransform absoluteTx = new AffineTransform();
     private AffineTransformOp atxOp = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR );
     private boolean shapeDirty = true;
     private Shape shape;
@@ -54,13 +54,15 @@ public class PhetImageGraphic extends PhetGraphic {
     public PhetImageGraphic( Component component, BufferedImage image, int x, int y ) {
         super( component );
         this.image = image;
-        this.relativeTx = AffineTransform.getTranslateInstance( x, y );
+        location.setLocation( x, y );
+        setAbsoluteTx();
+        //        this.relativeTx = AffineTransform.getTranslateInstance( x, y );
     }
 
     public PhetImageGraphic( Component component, BufferedImage image, AffineTransform transform ) {
         super( component );
         this.image = image;
-        this.relativeTx = transform;
+        this.setTransform( transform );
     }
 
     public Shape getShape() {
@@ -106,11 +108,11 @@ public class PhetImageGraphic extends PhetGraphic {
         setAbsoluteTx();
     }
 
-//    public void setPositionCentered( int x, int y, double scale ) {
-//        AffineTransform tx=AffineTransform.getTranslateInstance( x-image.getWidth( )/2,y-image.getHeight( )/2);
-//        tx.scale( scale, scale );
-//        setTransform( tx );
-//    }
+    //    public void setPositionCentered( int x, int y, double scale ) {
+    //        AffineTransform tx=AffineTransform.getTranslateInstance( x-image.getWidth( )/2,y-image.getHeight( )/2);
+    //        tx.scale( scale, scale );
+    //        setTransform( tx );
+    //    }
 
     /**
      * @param relativeTransform An affine relativeTx that is relative to the
