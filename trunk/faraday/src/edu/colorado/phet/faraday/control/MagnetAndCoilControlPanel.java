@@ -312,6 +312,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 double direction = _magnetModel.getDirection();
                 direction = ( direction + 180 ) % 360;
                 _magnetModel.setDirection( direction );
+                _compassModel.startMovingNow();
                 _pickupCoilModel.updateEmf();
                 _pickupCoilModel.setSmoothingEnabled( true );
             }
