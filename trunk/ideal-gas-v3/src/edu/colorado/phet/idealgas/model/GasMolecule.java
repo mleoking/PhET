@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
+import edu.colorado.phet.collision.SolidSphere;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  *
  */
-public class GasMolecule extends SphericalBody {
+public class GasMolecule extends SolidSphere {
 
     public Vector2D getVelocity() {
         return super.getVelocity();

@@ -15,11 +15,9 @@ import edu.colorado.phet.idealgas.model.SphericalBody;
 import java.awt.geom.Point2D;
 
 public class SphereHollowSphereCollision implements Collision {
-    //public class SphereHollowSphereCollision extends HardsphereCollision {
     private HollowSphere hollowSphere;
     private SphericalBody sphere;
     private Vector2D loa = new Vector2D.Double();
-    private SphereHollowSphereContactDetector contactDetector = new SphereHollowSphereContactDetector();
 
     public SphereHollowSphereCollision( HollowSphere hollowSphere, SphericalBody sphere ) {
         this.hollowSphere = hollowSphere;
@@ -35,12 +33,8 @@ public class SphereHollowSphereCollision implements Collision {
     }
 
     public void collide() {
-        //        super.collide( hollowSphere, sphere, getLoa( hollowSphere, sphere), dt, model );
         double dist = Math.sqrt( hollowSphere.getPosition().distanceSq( sphere.getPosition() ) );
         double ratio = hollowSphere.getRadius() / dist;
-        //        Point2D.Double contactPt = new Point2D.Double( hollowSphere.getPosition().getX() + ( sphere.getPosition().getX() - hollowSphere.getPosition().getX() ) * ratio,
-        //                                                       hollowSphere.getPosition().getY() + ( sphere.getPosition().getY() - hollowSphere.getPosition().getY() ) * ratio );
-//        double sphereOffset = ( dist < hollowSphere.getRadius() ) ? sphere.getRadius() : -sphere.getRadius();
         Point2D.Double contactPt = new Point2D.Double( hollowSphere.getPosition().getX() + ( sphere.getPosition().getX() - hollowSphere.getPosition().getX() ) * ratio,
                                                        hollowSphere.getPosition().getY() + ( sphere.getPosition().getY() - hollowSphere.getPosition().getY() ) * ratio );
 
@@ -85,12 +79,11 @@ public class SphereHollowSphereCollision implements Collision {
         Point2D.Double linePt = new Point2D.Double( contactPt.getX() - offsetX, contactPt.getY() - offsetY );
         Point2D p = MathUtil.reflectPointAcrossLine( sphere.getPosition(), linePt,
                                                      Math.atan2( tangentVector.getY(), tangentVector.getX() ) );
-        System.out.println( "\nbodyB old position: " + sphere.getPosition() );
+//        System.out.println( "\nbodyB old position: " + sphere.getPosition() );
         sphere.setPosition( p );
-        System.out.println( "sphere new position: " + sphere.getPosition() );
-        System.out.println( "contact pt: " + contactPt );
-        System.out.println( "tangentVector: " + tangentVector );
-
+//        System.out.println( "sphere new position: " + sphere.getPosition() );
+//        System.out.println( "contact pt: " + contactPt );
+//        System.out.println( "tangentVector: " + tangentVector );
 
         // Compute the relative velocities of the contact points
         //            vAng1.setComponents( (float)( -hollowSphere.getOmega() * r1.getY() ), (float)( hollowSphere.getOmega() * r1.getX() ) );

@@ -50,8 +50,8 @@ public class SphereHollowSphereContactDetector implements ContactDetector {
         double distPrev = sphere.getPositionPrev().distance( hollowSphere.getPositionPrev() );
         double radS = sphere.getRadius();
         double radH = hollowSphere.getRadius();
-        if( ( dist + radS > radH && distPrev + radS < radH )
-            || ( dist - radS < radH && distPrev - radS > radH ) ) {
+        if( ( dist + radS >= radH && distPrev + radS < radH )
+            || ( dist - radS <= radH && distPrev - radS > radH ) ) {
             result = true;
         }
 

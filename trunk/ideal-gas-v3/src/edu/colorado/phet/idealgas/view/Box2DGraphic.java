@@ -36,7 +36,6 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
         this.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
                 double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - box.getMinimumWidth() );
-//                double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - 50 );
                 box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
             }
         } );

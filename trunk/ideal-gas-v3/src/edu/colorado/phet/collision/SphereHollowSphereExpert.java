@@ -24,8 +24,10 @@ public class SphereHollowSphereExpert implements CollisionExpert {
     public boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean haveCollided = false;
         if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB ) ) {
-            Collision collision = new SphereHollowSphereCollision( (HollowSphere)bodyA,
+            Collision collision = new SphereSphereCollision( (HollowSphere)bodyA,
                                                                    (SphericalBody)bodyB );
+//            Collision collision = new SphereHollowSphereCollision( (HollowSphere)bodyA,
+//                                                                   (SphericalBody)bodyB );
             collision.collide();
             haveCollided = true;
         }

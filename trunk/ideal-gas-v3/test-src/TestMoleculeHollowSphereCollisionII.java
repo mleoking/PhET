@@ -82,9 +82,9 @@ public class TestMoleculeHollowSphereCollisionII extends PhetApplication {
             final HollowSphere sphere1 = sphere;
             testBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m[0] = new HeavySpecies( new Point2D.Double( sphere1.getPosition().getX() + 37,
-                                                                 sphere1.getPosition().getY() ),
-                                             new Vector2D.Double( 100, 0 ),
+                    m[0] = new HeavySpecies( new Point2D.Double( sphere1.getPosition().getX(),
+                                                                 sphere1.getPosition().getY()),
+                                             new Vector2D.Double( -100, -130 ),
                                              new Vector2D.Double(),
                                              5 );
 //                    m[0] = new HeavySpecies( new Point2D.Double( 383.3, 389.35 ),
