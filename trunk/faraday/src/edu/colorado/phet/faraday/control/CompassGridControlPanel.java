@@ -24,7 +24,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.module.CompassGridModule;
 
 /**
@@ -60,6 +59,7 @@ public class CompassGridControlPanel extends ControlPanel {
     private JSlider _needleWidthSlider, _needleHeightSlider;
     private JLabel _strengthValue, _magnetWidthValue, _magnetHeightValue;
     private JLabel _xSpacingValue, _ySpacingValue, _needleWidthValue, _needleHeightValue;
+    private JButton _resetButton;
     
     /**
      * Sole constructor.
@@ -76,11 +76,6 @@ public class CompassGridControlPanel extends ControlPanel {
         {
             Font defaultFont = panel.getFont();
             Font titleFont = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
-            
-            // WORKAROUND: Filler to set consistent panel width
-            JPanel fillerPanel = new JPanel();
-            fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
-            fillerPanel.add( Box.createHorizontalStrut( FaradayConfig.CONTROL_PANEL_MIN_WIDTH ) );
             
             // Bar Magnet panel
             JPanel barMagnetPanel = new JPanel();
@@ -271,16 +266,27 @@ public class CompassGridControlPanel extends ControlPanel {
                 gridPanel.add( heightPanel );
             }
             
+            JPanel resetPanel = new JPanel();
+            {
+              // Reset button
+              _resetButton = new JButton( "Reset All" );
+              
+              resetPanel.setLayout( new BoxLayout( resetPanel, BoxLayout.X_AXIS ) );
+              resetPanel.add( _resetButton );
+            }
+            
+            
             // Layout so that control groups fill horizontal space.
             BorderLayout layout = new BorderLayout();
             layout.setVgap( 20 ); // vertical space between control groups
             panel.setLayout( layout );
-            panel.add( fillerPanel, BorderLayout.NORTH );
-            panel.add( barMagnetPanel, BorderLayout.CENTER );
-            panel.add( gridPanel, BorderLayout.SOUTH );
+            panel.add( barMagnetPanel, BorderLayout.NORTH );
+            panel.add( gridPanel, BorderLayout.CENTER );
+            panel.add( resetPanel, BorderLayout.SOUTH );
             
             // Wire up event handling
             EventListener listener = new EventListener();
+            _resetButton.addActionListener( listener );
             _flipPolarityButton.addActionListener( listener );
             _strengthSlider.addChangeListener( listener );
             _magnetWidthSlider.addChangeListener( listener );
@@ -319,6 +325,9 @@ public class CompassGridControlPanel extends ControlPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _flipPolarityButton ) {
                 _module.flipBarMagnetPolarity();
+            }
+            else if ( e.getSource() == _resetButton ) {
+                _module.reset();
             }
             else {
                  throw new IllegalArgumentException( "unexpected event: " + e );

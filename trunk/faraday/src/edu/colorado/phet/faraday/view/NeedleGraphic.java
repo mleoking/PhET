@@ -19,12 +19,12 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 
 /**
- * MiniCompassShape
+ * NeedleGraphic
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class MiniCompassShape extends PhetGraphic {
+public class NeedleGraphic extends PhetGraphic {
 
     private Point _location;
     private double _direction;
@@ -35,7 +35,7 @@ public class MiniCompassShape extends PhetGraphic {
     /**
      * @param component
      */
-    public MiniCompassShape( Component component ) {
+    public NeedleGraphic( Component component ) {
         
         super( component );
         
