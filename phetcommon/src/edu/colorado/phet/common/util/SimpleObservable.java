@@ -26,5 +26,9 @@ public class SimpleObservable {
     public void removeObserver( SimpleObserver obs ) {
         observers.remove( obs );
     }
+
+    public void removeAllObservers() {
+        observers.clear();
+    }
 }
 

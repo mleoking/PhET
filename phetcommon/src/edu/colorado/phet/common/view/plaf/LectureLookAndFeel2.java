@@ -22,7 +22,7 @@ public class LectureLookAndFeel2 extends MetalLookAndFeel {
         this.font = font;
         this.foregroundColor = foregroundColor;
         this.backgroundColor = backgroundColor;
-        install();
+//        install();
     }
 
     String[] types = new String[]{
@@ -61,9 +61,9 @@ public class LectureLookAndFeel2 extends MetalLookAndFeel {
         def.add( o );
     }
 
-    private void install() {
-        UIManager.installLookAndFeel( "Lecture", getClass().getName() );
-    }
+//    private void install() {
+//        UIManager.installLookAndFeel( "Lecture", getClass().getName() );
+//    }
 
 
 }

@@ -7,7 +7,6 @@
 package edu.colorado.phet.common.view.help;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +18,9 @@ public class HelpPanel extends JPanel {
     private String showHelpStr = "Help!";
     private String hideHelpStr = "Hide Help";
     private String megaHelpStr = "Megahelp";
-    private GridBagLayout layout = new GridBagLayout();
     private JButton miniHelpBtn;
     private JButton megaHelpBtn;
     private Module module;
-
 
     public HelpPanel( final Module module ) {
         this.module = module;
@@ -46,63 +43,31 @@ public class HelpPanel extends JPanel {
                 module.showMegaHelp();
             }
         } );
-        setLayout( this.layout );
+//        setLayout( new GridBagLayout() );
+//        setLayout( new SpringLayout() );
+        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+        init();
         setOneButtonMode();
-        Dimension dim = megaHelpBtn.getPreferredSize();
-        setPreferredSize( new Dimension( (int)( dim.width * 1.2 ), (int)( dim.height * 1.2 ) ) );
+    }
+
+    private void init() {
+        Insets insets = new Insets( 0, 0, 0, 0 );
+        GridBagConstraints gbc = new GridBagConstraints();
+//        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 2, 0, 0,
+//                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
+        add( miniHelpBtn );//, gbc );
+//        gbc.gridy = 2;      /
+        add( megaHelpBtn );//, gbc );
     }
 
     private void setOneButtonMode() {
-        super.remove( miniHelpBtn );
-        super.remove( megaHelpBtn );
+        megaHelpBtn.setVisible( false );
         miniHelpBtn.setText( showHelpStr );
-
-        try {
-            GraphicsUtil.addGridBagComponent( this, miniHelpBtn, 0, 0,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER,
-                                              new Insets( 4, 0, 4, 0 ) );
-        }
-        catch( AWTException e ) {
-            e.printStackTrace();
-        }
-
-        relayout();
     }
 
     private void setTwoButtonMode() {
-        super.remove( miniHelpBtn );
-        super.remove( megaHelpBtn );
+        megaHelpBtn.setVisible( true );
         miniHelpBtn.setText( hideHelpStr );
-        try {
-            Insets insets = new Insets( 4, 0, 4, 0 );
-            GraphicsUtil.addGridBagComponent( HelpPanel.this,
-                                              miniHelpBtn,
-                                              0, 0,
-                                              1, 2,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER, insets );
-
-            GraphicsUtil.addGridBagComponent( HelpPanel.this,
-                                              megaHelpBtn,
-                                              0, 2,
-                                              1, 2,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER, insets );
-        }
-        catch( AWTException e1 ) {
-            e1.printStackTrace();
-        }
-        relayout();
-
-    }
-
-    private void relayout() {
-        layout.layoutContainer( this );
-        invalidate();
-        validate();
-        repaint();
     }
 
 }

@@ -58,7 +58,7 @@ public class ApparatusPanel extends JPanel {
                 g.setStroke( borderStroke );
                 g.drawRect( 0, 0, getWidth() - 1, getHeight() - 1 );
             }
-        }, Double.NEGATIVE_INFINITY );
+        }, Double.POSITIVE_INFINITY );
     }
 
     public CompositeInteractiveGraphicMouseDelegator getMouseDelegator() {

@@ -13,24 +13,25 @@ public class DynamicLookAndFeel extends MetalLookAndFeel {
     Color foregroundColor;
     Color backgroundColor;
 
-    public DynamicLookAndFeel( Font font, Color foregroundColor, Color backgroundColor ) {
-        this.font = font;
-        this.foregroundColor = foregroundColor;
-        this.backgroundColor = backgroundColor;
-    }
-
-    String[] types = new String[]{
+    private String[] types = new String[]{
         "Button", "MenuItem", "Panel", "Dialog",
         "CheckBox", "RadioButton", "ComboBox",
         "Menu", "MenuItem", "MenuBar",
         "Slider"
     };
 
+    public DynamicLookAndFeel( Font font, Color foregroundColor, Color backgroundColor ) {
+        this.font = font;
+        this.foregroundColor = foregroundColor;
+        this.backgroundColor = backgroundColor;
+    }
+
     protected void initComponentDefaults( UIDefaults table ) {
         super.initComponentDefaults( table );
         ColorUIResource background = new ColorUIResource( backgroundColor );
         ColorUIResource foreground = new ColorUIResource( foregroundColor );
         FontUIResource fontResource = new FontUIResource( font );
+
         InsetsUIResource insets = new InsetsUIResource( 2, 2, 2, 2 );
         ArrayList def = new ArrayList();
         for( int i = 0; i < types.length; i++ ) {
@@ -44,6 +45,7 @@ public class DynamicLookAndFeel extends MetalLookAndFeel {
             def.add( type + ".margin" );
             def.add( insets );
         }
+        def.add( "Component" );
         Object[] defaults = def.toArray();
         table.putDefaults( defaults );
     }
