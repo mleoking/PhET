@@ -1,3 +1,5 @@
+/* Copyright 2003-2004, University of Colorado */
+
 /*
  * CVS Info -
  * Filename : $Source$
@@ -6,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.util;
+package edu.colorado.phet.common.util.proxy;
 
 import edu.colorado.phet.common.util.EventChannel;
 
