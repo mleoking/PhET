@@ -105,7 +105,7 @@ public class DynamicChartTest {
 //                            }
                         }
                     }
-                    Range2D dataBounds = chart.getDataRange();
+                    Range2D dataBounds = chart.getDataRange();//TODO should this be renamed to unconfuse chart.getRange()?
                     if( dataBounds.getWidth() > 0 && dataBounds.getHeight() > 0 ) {
                         chart.setRange( dataBounds.getScaledRange( 1.2, 1.2 ) );
                     }

@@ -14,3 +14,7 @@ The client should know about those marked with a *.
 
 So I will move those to upper level, as public classes, and the others to upper level as package-protected classes.
 We can change this at any time.
+
+Aspect ratio?
+
+Ensure Axis is not painted when not in chart Range.
