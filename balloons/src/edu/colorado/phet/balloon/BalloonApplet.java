@@ -6,11 +6,7 @@ package edu.colorado.phet.balloon;
 
 import phet.paint.*;
 import phet.paint.particle.ParticlePainterAdapter;
-import phet.phys2d.DoublePoint;
-import phet.phys2d.ParticleLaw;
-import phet.phys2d.System2D;
-import phet.phys2d.SystemRunner;
-import phet.phys2d.Repaint;
+import phet.phys2d.*;
 import phet.utils.AlphaFixer2;
 import phet.utils.ImageLoader;
 import phet.utils.ResourceLoader4;
@@ -22,6 +18,9 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+/**
+ * Test comment.
+ */
 public class BalloonApplet extends JApplet {
     static final int CHARGE_LEVEL = 1;
     static boolean isApplet = true;
