@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.common.model.clock;
 
-import edu.colorado.phet.common.util.EventRegistry;
-
 import javax.swing.event.EventListenerList;
 import java.util.ArrayList;
 
