@@ -33,8 +33,6 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
   private static final int FILTER_CENTER_OFFSET = 12;
   // How far to advance a photon when it hits the filter
   private static final int FILTERED_PHOTON_ADVANCE = 20;
-  // Photons per 1% intensity.
-  public static final int PHOTONS_PER_INTENSITY = 5;
   // Photon delta.
   public static final int PHOTON_DS = 10;
 
@@ -58,6 +56,8 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
   private EventListenerList _listenerList;
   // Is the beam enabled?
   private boolean _enabled;
+  // Number of photons emitted when the light model is at 100% intensity.
+  private int _maxPhotons;
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -80,6 +80,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
     _photons = new ArrayList();
     _listenerList = new EventListenerList();
     _enabled = true;
+    _maxPhotons = 20;
   }
   
   /**
@@ -172,6 +173,26 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
     return _enabled;
   }
  
+  /**
+   * Sets the number of photons emitted when the light source is at 100% intensity.
+   * 
+   * @param maxPhotons the number of photons
+   */
+  public void setMaxPhotons( int maxPhotons )
+  {
+    _maxPhotons = maxPhotons;
+  }
+  
+  /**
+   * Gets the number of photons emitted when the light source is at 100% intensity.
+   * 
+   * @return the number of photons.
+   */
+  public int getMaxPhotons()
+  {
+    return _maxPhotons;
+  }
+  
 	//----------------------------------------------------------------------------
 	// ModelElement implementation
   //----------------------------------------------------------------------------
@@ -202,7 +223,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
     // If the intensity is changing to from non-zero to zero, emit one 
     // photon with zero intensity to ensure that zero intensity is 
     // perceived by the viewer.
-    int allocCount = (int) (_spotlightModel.getIntensity() / PHOTONS_PER_INTENSITY);
+    int allocCount = (int) ((_spotlightModel.getIntensity() / 100) * _maxPhotons);
     if ( allocCount == 0 && _perceivedIntensity != 0.0 )
     {
       allocCount = 1;
