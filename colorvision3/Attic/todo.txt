@@ -1,10 +1,8 @@
 "To Do" list for "colorvision3" project
 
 HIGH:
-o clipping bug with display of filter transmission width on filter spectrum slider
 
 MEDIUM:
-o make all control panels the same size, so that apparatus doesn't resize when switching modules
 o Ant build scripts
 
 LOW:

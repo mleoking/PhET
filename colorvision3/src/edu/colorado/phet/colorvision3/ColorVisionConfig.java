@@ -32,6 +32,7 @@ public class ColorVisionConfig
 	// Dimensions
 	public static final int APP_FRAME_WIDTH = 1024;
 	public static final int APP_FRAME_HEIGHT = 768;
+	public static final int CONTROL_PANEL_MIN_WIDTH = 150;
 
 	//----------------------------------------------------------------------------
 	// Constructors
