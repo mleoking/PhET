@@ -65,7 +65,7 @@
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="SHOW_CHECKIN_OPTIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added buttons to the cockpit to toggle the parallax and photometer reticles on and off" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -93,7 +93,20 @@
         <option name="CLASS_FILTERS_ENABLED" value="false" />
         <option name="INSTANCE_FILTERS_ENABLED" value="false" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/StarGraphic.java" line="42">
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/model/StarView.java" line="79">
+        <option name="ENABLED" value="true" />
+        <option name="SUSPEND_VM" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="LOG_MESSAGE" value="" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/test/CockpitModuleTest.java" line="47">
         <option name="ENABLED" value="true" />
         <option name="SUSPEND_VM" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -132,62 +145,17 @@
     <option name="HIDE_WARNINGS" value="false" />
   </component>
   <component name="FileEditorManager" split-orientation="horizontal" split-proportion="0.5">
-    <first-group selected-file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/CockpitGraphic.java">
-      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/PhotometerReticle.java" pinned="false">
+    <first-group selected-file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/StarViewGraphic.java">
+      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/model/Point2DPolar.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="58" column="0" selection-start="1868" selection-end="1868" vertical-scroll-proportion="1.3788928">
-            <folding>
-              <element signature="imports" expanded="true" />
-            </folding>
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/CockpitGraphic.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="58" column="71" selection-start="2281" selection-end="2281" vertical-scroll-proportion="0.28200692">
-            <folding>
-              <element signature="imports" expanded="true" />
-            </folding>
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/ParallaxButton.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="30" column="65" selection-start="1092" selection-end="1092" vertical-scroll-proportion="0.6401384">
-            <folding>
-              <element signature="imports" expanded="true" />
-            </folding>
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/PhotometerButton.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="31" column="38" selection-start="1120" selection-end="1128" vertical-scroll-proportion="0.47058824">
+          <state line="39" column="25" selection-start="1023" selection-end="1023" vertical-scroll-proportion="0.83416253">
             <folding />
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/model/StarField.java" pinned="false">
+      <entry file="file://$PROJECT_DIR$/test/StarViewTest.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="29" column="0" selection-start="651" selection-end="651" vertical-scroll-proportion="0.7058824">
-            <folding>
-              <element signature="imports" expanded="true" />
-            </folding>
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/StarMapModule.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="25" column="56" selection-start="841" selection-end="841" vertical-scroll-proportion="0.5588235">
-            <folding>
-              <element signature="imports" expanded="true" />
-            </folding>
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/StarMapGraphic.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="26" column="0" selection-start="747" selection-end="747" vertical-scroll-proportion="0.5882353">
+          <state line="140" column="0" selection-start="3994" selection-end="4910" vertical-scroll-proportion="0.9004975">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -196,17 +164,51 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/CockpitModule.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="44" column="0" selection-start="1598" selection-end="1598" vertical-scroll-proportion="0.4831261">
+          <state line="54" column="34" selection-start="2031" selection-end="2031" vertical-scroll-proportion="0.19402985">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/LostInSpaceApplication.java" pinned="false">
+      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/model/StarView.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="33" column="56" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.5737122">
+          <state line="63" column="29" selection-start="1901" selection-end="1901" vertical-scroll-proportion="0.8192372">
             <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/StarViewGraphic.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="43" column="10" selection-start="1584" selection-end="1584" vertical-scroll-proportion="0.7064677">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/CockpitGraphic.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="62" column="0" selection-start="2402" selection-end="2402" vertical-scroll-proportion="0.22719735">
+            <folding>
+              <element signature="imports" expanded="true" />
+            </folding>
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/test/CockpitModuleTest.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="47" column="0" selection-start="1930" selection-end="1930" vertical-scroll-proportion="0.46766168">
+            <folding>
+              <element signature="imports" expanded="true" />
+            </folding>
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/StarGraphic.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="42" column="0" selection-start="1214" selection-end="1214" vertical-scroll-proportion="0.8623549">
+            <folding>
+              <element signature="imports" expanded="true" />
+            </folding>
           </state>
         </provider>
       </entry>
@@ -225,19 +227,21 @@
   </component>
   <component name="J2EEProjectPane" />
   <component name="PackagesPane">
+    <expanded_node url="edu" module="LostInSpace" type="package" />
+    <expanded_node url="edu.colorado.games4education" module="LostInSpace" type="package" />
+    <expanded_node url="" module="LostInSpace" type="module" />
     <expanded_node url="edu.colorado.games4education.lostinspace" module="LostInSpace" type="package" />
     <expanded_node url="edu.colorado" module="LostInSpace" type="package" />
-    <expanded_node url="" module="LostInSpace" type="module" />
-    <expanded_node url="edu.colorado.games4education" module="LostInSpace" type="package" />
-    <expanded_node url="edu" module="LostInSpace" type="package" />
   </component>
   <component name="ProjectPane">
+    <expanded_node url="" module="LostInSpace" type="module" />
     <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller" module="LostInSpace" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace" module="LostInSpace" type="directory" />
     <expanded_node url="file://$PROJECT_DIR$" module="LostInSpace" type="directory" />
     <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view" module="LostInSpace" type="directory" />
     <expanded_node url="file://$PROJECT_DIR$/src" module="LostInSpace" type="directory" />
-    <expanded_node url="" module="LostInSpace" type="module" />
+    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace" module="LostInSpace" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/model" module="LostInSpace" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/test" module="LostInSpace" type="directory" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" splitterProportion="0.5">
@@ -305,8 +309,15 @@
     <configuration name="&lt;template&gt;" type="WebLogic Instance" default="true" selected="false">
       <setting name="WEBLOGIC_INSTANCE_CONFIGURATION_NAME" value="" />
     </configuration>
-    <configuration name="Lost In space" type="Application" default="false" selected="true">
+    <configuration name="Lost In space" type="Application" default="false" selected="false">
       <option name="MAIN_CLASS_NAME" value="edu.colorado.games4education.lostinspace.LostInSpaceApplication" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Games4Education\final\development" />
+      <module name="LostInSpace" />
+    </configuration>
+    <configuration name="CockpitTest" type="Application" default="false" selected="true">
+      <option name="MAIN_CLASS_NAME" value="CockpitModuleTest" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Games4Education\final\development" />
@@ -361,18 +372,18 @@
     <frame x="-4" y="-4" width="1288" height="1002" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33066362" order="10" />
+      <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.20709382" order="10" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.29692557" order="0" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="1" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.17475729" order="0" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.39816934" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.32951945" order="10" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="6" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.22997712" order="2" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.22768879" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.18461539" order="2" />
       <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.39016017" order="4" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.22768879" order="4" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" order="0" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
@@ -447,116 +458,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/CockpitControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="356" selection-end="356" vertical-scroll-proportion="0.4857143">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/StarGraphic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="42" selection-start="1470" selection-end="1470" vertical-scroll-proportion="1.2445923">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/ParallaxReticle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="0" selection-start="3397" selection-end="3681" vertical-scroll-proportion="1.3261231">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/PhotometerReticle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="0" selection-start="1868" selection-end="1868" vertical-scroll-proportion="1.3788928">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/model/StarField.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="0" selection-start="651" selection-end="651" vertical-scroll-proportion="0.7058824">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/LostInSpaceApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="56" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.5737122">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/StarMapModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="56" selection-start="841" selection-end="841" vertical-scroll-proportion="0.5588235">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/StarMapGraphic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="0" selection-start="747" selection-end="747" vertical-scroll-proportion="0.5882353">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/CockpitModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="0" selection-start="1598" selection-end="1598" vertical-scroll-proportion="0.4831261">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/j2sdk1.4.2_03/src.zip!/javax/swing/event/MouseInputListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="17" selection-start="478" selection-end="478" vertical-scroll-proportion="0.4117647">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/common2/development/src/edu/colorado/phet/common/view/graphics/mousecontrols/CompositeMouseInputListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="23" selection-start="743" selection-end="743" vertical-scroll-proportion="0.48096886">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/PhET/common2/development/src/edu/colorado/phet/common/view/graphics/DefaultInteractiveGraphic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="21" selection-start="793" selection-end="793" vertical-scroll-proportion="0.19800332">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/PhotometerButton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="38" selection-start="1120" selection-end="1128" vertical-scroll-proportion="0.47058824">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/CockpitGraphic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="71" selection-start="2281" selection-end="2281" vertical-scroll-proportion="0.28200692">
+        <state line="58" column="0" selection-start="1868" selection-end="1868" vertical-scroll-proportion="1.043257">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -565,7 +469,114 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/ParallaxButton.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="65" selection-start="1092" selection-end="1092" vertical-scroll-proportion="0.6401384">
+        <state line="30" column="65" selection-start="1092" selection-end="1092" vertical-scroll-proportion="0.76547843">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/PhotometerButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="38" selection-start="1120" selection-end="1128" vertical-scroll-proportion="0.51031893">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/StarMapModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="56" selection-start="841" selection-end="841" vertical-scroll-proportion="0.60600376">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/StarMapGraphic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="0" selection-start="747" selection-end="747" vertical-scroll-proportion="0.6378987">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/model/Point2DPolar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="25" selection-start="1023" selection-end="1023" vertical-scroll-proportion="0.83416253">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/model/StarField.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="16" selection-start="608" selection-end="608" vertical-scroll-proportion="0.6666667">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/LostInSpaceApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="0" selection-start="1045" selection-end="1393" vertical-scroll-proportion="0.5494949">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/StarViewTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="140" column="0" selection-start="3994" selection-end="4910" vertical-scroll-proportion="0.9004975">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/StarGraphic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="0" selection-start="1214" selection-end="1214" vertical-scroll-proportion="0.8623549">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/CockpitModuleTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="0" selection-start="1930" selection-end="1930" vertical-scroll-proportion="0.46766168">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/model/StarView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="29" selection-start="1901" selection-end="1901" vertical-scroll-proportion="0.8192372">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/CockpitGraphic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="62" column="0" selection-start="2402" selection-end="2402" vertical-scroll-proportion="0.22719735">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/view/StarViewGraphic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="10" selection-start="1584" selection-end="1584" vertical-scroll-proportion="0.7064677">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/games4education/lostinspace/controller/CockpitModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="34" selection-start="2031" selection-end="2031" vertical-scroll-proportion="0.19402985">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,18 +24,25 @@ public class StarViewGraphic extends CompositeInteractiveGraphic {
     private Container container;
     private StarView starView;
     private Rectangle2D.Double background;
+    private AffineTransform starViewTx = new AffineTransform();
     private HashMap starToGraphicMap = new HashMap();
 
-    public StarViewGraphic( Container container, StarView starView, Rectangle2D.Double bounds ) {
+    public StarViewGraphic( Container container, StarView starView,
+                            Rectangle2D.Double bounds, AffineTransform starViewTx ) {
         this.container = container;
         this.starView = starView;
         this.background = bounds;
+        this.starViewTx.setToIdentity();
+        this.starViewTx.translate( bounds.getMinX() + bounds.getWidth() / 2, bounds.getMinY() + bounds.getHeight() / 2 );
     }
 
     public void paint( Graphics2D g ) {
+        AffineTransform orgTx = g.getTransform();
+        g.transform( starViewTx );
         g.setColor( Color.black );
-        g.draw( background );
+//        g.draw( background );
         super.paint( g );
+        g.setTransform( orgTx );
     }
 
     public void update() {
@@ -42,7 +50,7 @@ public class StarViewGraphic extends CompositeInteractiveGraphic {
         for( int i = 0; i < visibleStars.size(); i++ ) {
             Star visibleStar = (Star)visibleStars.get( i );
             StarGraphic starGraphic = (StarGraphic)starToGraphicMap.get( visibleStar );
-            if( starGraphic != null ) {
+            if( starGraphic == null ) {
                 starGraphic = new StarGraphic( 10, Color.white, new Point2D.Double() );
                 starToGraphicMap.put( visibleStar, starGraphic );
                 this.addGraphic( starGraphic, Config.starLayer );

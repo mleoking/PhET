@@ -20,12 +20,18 @@ import edu.colorado.games4education.lostinspace.Config;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
 
 public class CockpitModule extends Module {
 
     private UniverseModel model;
     private PhotometerReticle photometerReticle;
     private ParallaxReticle parallaxReticle;
+    private StarField starField;
+    private StarView starView;
+    private StarViewGraphic starViewGraphic;
+    private AffineTransform starViewOriginTx = new AffineTransform();
+    private CockpitGraphic cockpitGraphic;
 
     public CockpitModule( UniverseModel model ) {
         super( "Cockpit" );
@@ -35,23 +41,41 @@ public class CockpitModule extends Module {
         setApparatusPanel( apparatusPanel );
         setModel( model );
 
-        apparatusPanel.addGraphic( new CockpitGraphic( this ), Config.cockpitLayer );
+        cockpitGraphic = new CockpitGraphic( this );
+        apparatusPanel.addGraphic( cockpitGraphic, Config.cockpitLayer );
 
         parallaxReticle = new ParallaxReticle( apparatusPanel );
-        parallaxReticle.setLocation(400, 200 );
+        parallaxReticle.setLocation( 400, 200 );
 
         photometerReticle = new PhotometerReticle( apparatusPanel );
         photometerReticle.setLocation( 200, 200 );
 
-        StarField starField = new StarField();
-        StarView starView = new StarView( starField, Math.PI / 2 );
-        StarViewGraphic starViewGraphic = new StarViewGraphic( apparatusPanel,
-                                                               starView,
-                                                               new Rectangle2D.Double( 50, 50, 600, 400 ));
+        starField = new StarField();
+        starView = new StarView( starField, Math.PI / 2 );
+        starViewGraphic = new StarViewGraphic( apparatusPanel,
+                                               starView,
+                                               new Rectangle2D.Double( 50, 50, 600, 400 ),
+                                               starViewOriginTx );
+        apparatusPanel.addGraphic( starViewGraphic, Config.starLayer );
         apparatusPanel.addGraphic( new StarGraphic( 10, Color.red, new Point2D.Double( 300, 300 ) ), Config.starLayer );
         setControlPanel( new CockpitControlPanel() );
 
 
+    }
+
+    public void update() {
+        starViewOriginTx.setToIdentity();
+        starViewOriginTx.setToTranslation( getApparatusPanel().getWidth() / 2, getApparatusPanel().getHeight() / 2 );
+        starViewGraphic.update();
+        getApparatusPanel().repaint();
+    }
+
+    public StarField getStarField() {
+        return starField;
+    }
+
+    public StarView getStarView() {
+        return starView;
     }
 
     public void setParallaxReticleOn( boolean isOn ) {
