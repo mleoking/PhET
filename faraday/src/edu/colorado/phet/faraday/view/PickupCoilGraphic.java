@@ -54,9 +54,16 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
      */
     public PickupCoilGraphic( Component component, PickupCoil coilModel, LightBulb lightBulbModel, VoltMeter voltMeterModel ) {
         super( component );
+        assert( component != null );
+        assert( coilModel != null );
+        assert( lightBulbModel != null );
+        assert( voltMeterModel != null );
         
         _coilModel = coilModel;
         _coilModel.addObserver( this );
+        
+        // Coil -- these are set in update method
+        _coilFront = _coilBack = null;
         
         // Lightbulb
         _bulb = new LightBulbGraphic( component, lightBulbModel );
@@ -80,7 +87,6 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
             }
         } );
         
-        setBulbEnabled( true );
         update();
     }
     
@@ -91,32 +97,6 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
     public void finalize() {
         _coilModel.removeObserver( this );
         _coilModel = null;
-    }
-
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Enables the lightbulb.
-     * Disables the voltmeter as a side effect.
-     * 
-     * @param enabled true to enable, false to disable.
-     */
-    public void setBulbEnabled( boolean enabled ) {
-        _bulb.setVisible( enabled );
-        _meter.setVisible( !enabled );
-    }
-
-    /**
-     * Enables the voltmeter.
-     * Disables the lightbulb as a side effect.
-     * 
-     * @param enabled true to enable, false to disable.
-     */
-    public void setMeterEnabled( boolean enabled ) {
-        _bulb.setVisible( !enabled );
-        _meter.setVisible( enabled );
     }
     
     //----------------------------------------------------------------------------
@@ -142,7 +122,7 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
      */
     public void update() {
         if( isVisible() ) {
-            
+
             // Position this composite graphic.
             setLocation( (int) _coilModel.getX(), (int) _coilModel.getY() );
 

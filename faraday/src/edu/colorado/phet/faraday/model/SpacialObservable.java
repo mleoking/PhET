@@ -52,6 +52,7 @@ public class SpacialObservable extends SimpleObservable {
      */
     public SpacialObservable( Point2D location, double direction ) {
         super();
+        assert( location != null );
         _location = new Point2D.Double( location.getX(), location.getY() );
         _direction = direction;
     }
@@ -66,6 +67,7 @@ public class SpacialObservable extends SimpleObservable {
      * @param location the location
      */
     public void setLocation( final Point2D location ) {
+        assert( location != null );
         setLocation( location.getX(), location.getY() );
     }
     

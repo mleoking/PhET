@@ -70,6 +70,7 @@ public class TransformerModule extends Module {
     public TransformerModule( ApplicationModel appModel ) {
 
         super( SimStrings.get( "TransformerModule.title" ) );
+        assert( appModel != null );
 
         //----------------------------------------------------------------------------
         // Model

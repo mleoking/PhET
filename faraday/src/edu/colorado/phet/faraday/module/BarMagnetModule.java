@@ -83,6 +83,8 @@ public class BarMagnetModule extends Module {
     
     // Model
     private AbstractMagnet _magnetModel;
+    private LightBulb _lightBulbModel;
+    private VoltMeter _voltMeterModel;
     private PickupCoil _pickupCoilModel;
     
     // View
@@ -104,7 +106,8 @@ public class BarMagnetModule extends Module {
     public BarMagnetModule( ApplicationModel appModel ) {
 
         super( SimStrings.get( "BarMagnetModule.title" ) );
-
+        assert( appModel != null );
+        
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -142,6 +145,14 @@ public class BarMagnetModule extends Module {
         compassModel.setLocation( COMPASS_LOCATION );
         model.addModelElement( compassModel );
         
+        // Lightbulb
+        _lightBulbModel = new LightBulb( LIGHT_BULB_RESISTANCE );
+        model.addModelElement( _lightBulbModel );
+        
+        // Volt Meter
+        _voltMeterModel = new VoltMeter( VOLTMETER_RESISTANCE );
+        model.addModelElement( _voltMeterModel );
+        
         // Pickup Coil
         _pickupCoilModel = new PickupCoil( _magnetModel );
         _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
@@ -150,14 +161,6 @@ public class BarMagnetModule extends Module {
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         model.addModelElement( _pickupCoilModel );
        
-        // Lightbulb
-        LightBulb lightBulbModel = new LightBulb( _pickupCoilModel, LIGHT_BULB_RESISTANCE );
-        model.addModelElement( lightBulbModel );
-        
-        // Volt Meter
-        VoltMeter voltMeterModel = new VoltMeter( _pickupCoilModel, VOLTMETER_RESISTANCE );
-        model.addModelElement( voltMeterModel );
-        
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -172,7 +175,7 @@ public class BarMagnetModule extends Module {
         apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
         
         // Pickup AbstractCoil
-        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel, lightBulbModel, voltMeterModel );
+        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel, _lightBulbModel, _voltMeterModel );
         apparatusPanel.addGraphic( _pickupCoilGraphic, COIL_BACK_LAYER ); // XXX
         
         // Grid
@@ -222,14 +225,22 @@ public class BarMagnetModule extends Module {
      * Resets everything to the initial state.
      */
     public void reset() {
-        _controlPanel.setCompassGridEnabled( false );
-        _controlPanel.setMagnetStrength( MAGNET_STRENGTH );
-        _controlPanel.setLoopRadius( (int)LOOP_RADIUS );
-        _controlPanel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
-        _controlPanel.setBulbEnabled( true );
-        _controlPanel.setMeterEnabled( false );
-        _controlPanel.setCompassGridEnabled( true );
+        // Set state.
+        _magnetModel.setStrength( MAGNET_STRENGTH );
+        _pickupCoilModel.setRadius( (int)LOOP_RADIUS );
+        _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
+        _pickupCoilModel.setResistor( _lightBulbModel );
+        _lightBulbModel.setEnabled( true );
+        _voltMeterModel.setEnabled( false );
         _gridGraphic.setVisible( true );
+        
+        // Synchronize control panel.
+        _controlPanel.setMagnetStrength( _magnetModel.getStrength() );
+        _controlPanel.setLoopRadius( _pickupCoilModel.getRadius() );
+        _controlPanel.setNumberOfLoops( _pickupCoilModel.getNumberOfLoops() );
+        _controlPanel.setBulbEnabled( _lightBulbModel.isEnabled() );
+        _controlPanel.setMeterEnabled( _voltMeterModel.isEnabled() );
+        _controlPanel.setCompassGridEnabled( _gridGraphic.isVisible() );
     }
     
     /**
@@ -288,7 +299,14 @@ public class BarMagnetModule extends Module {
      */
     public void setBulbEnabled( boolean enabled ) {
         //System.out.println( "setBulbEnabled " + enabled ); // DEBUG
-        _pickupCoilGraphic.setBulbEnabled( enabled );
+        _lightBulbModel.setEnabled( enabled );
+        _voltMeterModel.setEnabled( !enabled );
+        if ( enabled ) {
+            _pickupCoilModel.setResistor( _lightBulbModel );
+        }
+        else {
+            _pickupCoilModel.setResistor( _voltMeterModel );
+        }
     }
     
     /**
@@ -296,6 +314,6 @@ public class BarMagnetModule extends Module {
      */
     public void setMeterEnabled( boolean enabled ) {
         //System.out.println( "setMeterEnabled " + enabled ); // DEBUG
-        _pickupCoilGraphic.setMeterEnabled( enabled );
+        setBulbEnabled( !enabled );
     }
 }

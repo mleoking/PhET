@@ -54,10 +54,10 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
      * Sets the magnitude of the magnet's strength, in Gauss.
      * 
      * @param strength the strength
-     * @throws IllegalArgumentException if strength is < 0
+     * @throws IllegalArgumentException if strength is not >= 0
      */
     public void setStrength( double strength ) {
-        if ( strength <= 0 ) {
+        if ( ! (strength >= 0 ) ) {
             throw new IllegalArgumentException( "strength must be >= 0 : " + strength );
         }
         if ( strength != _strength ) {
@@ -90,6 +90,7 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
      * @throws IllegalArgumentException if both dimensions are not > 0
      */
     public void setSize( Dimension size ) {
+        assert( size != null );
         setSize( size.getWidth(), size.getHeight() );
     }
     
@@ -98,11 +99,14 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
      * 
      * @param width the width
      * @param height the height
-     * @throws IllegalArgumentException if width or height is not > 0
+     * @throws IllegalArgumentException if width or height is not > 0, or if height >= width
      */
     public void setSize( double width, double height ) {
-        if ( width <= 0 || height <= 0 ) {
+        if ( ! (width > 0 && height > 0) ) {
             throw new IllegalArgumentException( "dimensions must be > 0" );
+        }
+        if ( width <= height ) {
+            throw new IllegalArgumentException( "width must be > height" );
         }
         if ( width != _size.getWidth() || height != _size.getHeight() ) {
             _size.setSize( width, height );

@@ -58,6 +58,8 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
      */
     public FieldProbeGraphic( Component component, AbstractMagnet magnetModel ) {
         super( component );
+        assert( component != null );
+        assert( magnetModel != null );
         
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );

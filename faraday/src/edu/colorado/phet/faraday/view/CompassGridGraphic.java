@@ -68,6 +68,8 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
      */
     public CompassGridGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing) {
         super( component );
+        assert( component != null );
+        assert( magnetModel != null );
         
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
@@ -190,6 +192,7 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
      * @param needleSize the needle size
      */
     public void setNeedleSize( final Dimension needleSize ) {
+        assert( needleSize != null );
         _needleSize = new Dimension( needleSize );
         for ( int i = 0; i < _needles.size(); i++ ) {
             CompassNeedleGraphic needle = (CompassNeedleGraphic)_needles.get(i);

@@ -65,7 +65,9 @@ public class BarMagnet extends AbstractMagnet {
      * @see edu.colorado.phet.faraday.model.IMagnet#getStrength(java.awt.geom.Point2D)
      */
     public AbstractVector2D getStrength( Point2D p ) {
-     
+        assert( p != null );
+        assert( getWidth() > getHeight() );
+ 
         // All of our calculations are based a magnet located at the origin,
         // with the north pole pointing down the X-axis.
         // The point we received is based on the magnet's actual location and origin.
@@ -118,6 +120,7 @@ public class BarMagnet extends AbstractMagnet {
      * @return magnetic field strength vector
      */
     private AbstractVector2D getStrengthInside( Point2D p ) {
+        assert( p != null );
         return new ImmutableVector2D.Double( getStrength(), 0 );
     }
     
@@ -139,6 +142,8 @@ public class BarMagnet extends AbstractMagnet {
      * @return magnetic field strength vector
      */
     private AbstractVector2D getStrengthOutside( Point2D p ) {
+        assert( p != null );
+        assert( getWidth() > getHeight() );
         
         // Magnet strength.
         double magnetStrength = super.getStrength();

@@ -56,6 +56,8 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
      */
     public VoltMeterGraphic( Component component, VoltMeter voltMeterModel ) {
         super( component );
+        assert( component != null );
+        assert( voltMeterModel != null );
 
         _voltMeterModel = voltMeterModel;
         _voltMeterModel.addObserver( this );
@@ -124,6 +126,7 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
+        setVisible( _voltMeterModel.isEnabled() );
         if ( isVisible() ) {
             double voltage = _voltMeterModel.getVoltage();
             System.out.println( "VoltMeterGraphic.update: voltage=" + voltage ); // DEBUG

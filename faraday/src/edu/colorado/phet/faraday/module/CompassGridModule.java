@@ -102,6 +102,7 @@ public class CompassGridModule extends Module {
     public CompassGridModule( ApplicationModel appModel ) {
         
         super( SimStrings.get( "CompassGridModule.title" ) );
+        assert( appModel != null );
 
         //----------------------------------------------------------------------------
         // Model
