@@ -19,14 +19,20 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
+import javax.swing.event.EventListenerList;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  *
  */
 public class Photon extends Particle implements Collidable {
 
+    ////////////////////////////////////////////////////////////////////////////////////////
+    // Class
+    //
     static public double s_speed = 1;
     static public double s_radius = 10;
     static public int RED = 680;
@@ -96,7 +102,27 @@ public class Photon extends Particle implements Collidable {
         return newPhoton;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Inner classes & interfaces
+    //
+    public class LeftSystemEvent extends EventObject {
+        public LeftSystemEvent( Object source ) {
+            super( source );
+        }
 
+        public Photon getPhoton() {
+            return (Photon)source;
+        }
+    }
+
+    public interface LeftSystemEventListener extends EventListener {
+        public void leftSystemEventOccurred( LeftSystemEvent event );
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Instance
+    //
+    private EventListenerList listenerList = new EventListenerList();
     private int numObservers;
     private int numStimulatedPhotons;
     // If this photon was produced by the stimulation of another, this
@@ -107,6 +133,22 @@ public class Photon extends Particle implements Collidable {
     private Photon childPhoton;
     private CollidableAdapter collidableAdapter;
     private boolean isCollidable;
+
+    public void addLeftSystemEventListener( LeftSystemEventListener listener ) {
+        listenerList.add( LeftSystemEventListener.class, listener );
+    }
+
+    public void removeLeftSystemEventListener( LeftSystemEventListener listener ) {
+        listenerList.remove( LeftSystemEventListener.class, listener );
+    }
+
+    private void fireLeftSystemEvent( LeftSystemEvent event ) {
+        EventListener[] listeners = listenerList.getListeners( LeftSystemEventListener.class );
+        for( int i = 0; i < listeners.length; i++ ) {
+            LeftSystemEventListener listener = (LeftSystemEventListener)listeners[i];
+            listener.leftSystemEventOccurred( event );
+        }
+    }
 
     public synchronized void addObserver( SimpleObserver o ) {
         super.addObserver( o );
@@ -161,7 +203,7 @@ public class Photon extends Particle implements Collidable {
         if( beam != null ) {
             beam.removePhoton( this );
         }
-
+        this.removeAllObservers();
         //        freePool.add( this );
         //        setChanged();
         //        notifyObservers( Particle.S_REMOVE_BODY );

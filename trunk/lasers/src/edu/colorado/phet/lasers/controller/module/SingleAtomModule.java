@@ -8,9 +8,12 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -22,13 +25,13 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class SingleAtomBaseModule extends BaseLaserModule {
+public class SingleAtomModule extends BaseLaserModule {
     private Atom atom;
     private CollimatedBeam stimulatingBeam;
     private CollimatedBeam pumpingBeam;
 
-    public SingleAtomBaseModule( String title ) {
-        super( title );
+    public SingleAtomModule( AbstractClock clock ) {
+        super( "One Atom", clock );
 
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() + s_boxHeight / 2 - Photon.s_radius );
@@ -70,6 +73,16 @@ public class SingleAtomBaseModule extends BaseLaserModule {
             e.printStackTrace();
         }
 
+        LaserControlPanel controlPanel = new LaserControlPanel( this, clock );
+        controlPanel.setMaxPhotonRate( 5 );
+        setControlPanel( controlPanel );
+
+        ApparatusConfiguration config = new ApparatusConfiguration();
+        config.setStimulatedPhotonRate( 1 );
+        config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
+        config.setPumpingPhotonRate( 0 );
+        config.setReflectivity( 0.7 );
+        config.configureSystem( getLaserModel() );
     }
 
     public void activate( PhetApplication app ) {
@@ -90,20 +103,20 @@ public class SingleAtomBaseModule extends BaseLaserModule {
 
 
     public void photonCreated( CollimatedBeam beam, Photon photon ) {
-//        if( beam == stimulatingBeam ) {
-            final PhotonGraphic photonGraphic = new PhotonGraphic( getApparatusPanel(), photon );
-            addGraphic( photonGraphic, LaserConfig.PHOTON_LAYER );
+        //        if( beam == stimulatingBeam ) {
+        final PhotonGraphic photonGraphic = new PhotonGraphic( getApparatusPanel(), photon );
+        addGraphic( photonGraphic, LaserConfig.PHOTON_LAYER );
 
-            // Add a listener that will remove the graphic from the apparatus panel when the
-            // photon leaves the system
-            photon.addListener( new Photon.Listener() {
-                public void leavingSystem( Photon photon ) {
-                    getApparatusPanel().removeGraphic( photonGraphic );
-                }
-            } );
-//        }
-//        else if( beam == pumpingBeam ) {
-//
-//        }
+        // Add a listener that will remove the graphic from the apparatus panel when the
+        // photon leaves the system
+        photon.addListener( new Photon.Listener() {
+            public void leavingSystem( Photon photon ) {
+                getApparatusPanel().removeGraphic( photonGraphic );
+            }
+        } );
+        //        }
+        //        else if( beam == pumpingBeam ) {
+        //
+        //        }
     }
 }

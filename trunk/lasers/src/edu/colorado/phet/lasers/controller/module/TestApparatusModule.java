@@ -13,12 +13,13 @@
 package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 
 import java.awt.geom.Point2D;
 
-public class TestApparatusModule extends SingleAtomBaseModule {
+public class TestApparatusModule extends SingleAtomModule {
 
     //    private MonitorPanel monitorPanel = new TwoEnergyLevelMonitorPanel();
     //    private PhetControlPanel controlPanel = new TwoLevelControlPanel();
@@ -26,8 +27,9 @@ public class TestApparatusModule extends SingleAtomBaseModule {
     /**
      *
      */
-    public TestApparatusModule() {
-        super( "Test" );
+    public TestApparatusModule( AbstractClock clock ) {
+        super( clock );
+        //        super( "Test" );
     }
 
     public void activate( PhetApplication app ) {

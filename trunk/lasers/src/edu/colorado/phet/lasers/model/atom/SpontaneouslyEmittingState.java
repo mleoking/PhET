@@ -99,7 +99,6 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
         protected Photon emitPhoton() {
             Photon emittedPhoton = Photon.create();
             emittedPhoton.setWavelength( state.getEmittedPhotonWavelength() );
-
             return emittedPhoton;
         }
 
