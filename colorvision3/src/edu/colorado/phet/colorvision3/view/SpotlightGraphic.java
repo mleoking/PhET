@@ -109,17 +109,20 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
    * @param g2 the graphics context
    */
   public void paint( Graphics2D g2 )
-  {    
-    super.saveGraphicsState( g2 );
+  {
+    if ( isVisible() )
     {
-      // Draw the spotlight image, rotated to match its direction.
-      if ( _rotate != null )
+      super.saveGraphicsState( g2 );
       {
-        g2.transform( _rotate );
+        // Draw the spotlight image, rotated to match its direction.
+        if ( _rotate != null )
+        {
+          g2.transform( _rotate );
+        }
+        _spotlightGraphic.paint( g2 );
       }
-      _spotlightGraphic.paint( g2 );
+      super.restoreGraphicsState();
     }
-    super.restoreGraphicsState();
   }
 
 }
