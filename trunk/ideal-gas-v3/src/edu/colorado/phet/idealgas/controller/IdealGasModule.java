@@ -56,12 +56,13 @@ import java.util.EventObject;
 
 public class IdealGasModule extends Module {
 
+    protected static WiggleMeGraphic wiggleMeGraphic;
+
     private IdealGasModel idealGasModel;
     private PressureSensingBox box;
     private Gravity gravity;
     private Pump pump;
     private CmLines cmLines;
-    private static WiggleMeGraphic wiggleMeGraphic;
 
     private PressureSlice pressureSlice;
     private AbstractClock clock;
@@ -85,6 +86,8 @@ public class IdealGasModule extends Module {
     private PressureSlice gaugeSlice;
     private Mannequin pusher;
     private BoxDoorGraphic boxDoorGraphic;
+    private PumpHandleGraphic pumpHandleGraphic;
+    private PumpSpeciesSelectorPanel2 pumpSelectorPanel;
 
 
     /**
@@ -218,7 +221,6 @@ public class IdealGasModule extends Module {
                                                                     IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
                                                                     box );
         this.addGraphic( boxDoorGraphic, -6 );
-
     }
 
     /**
@@ -228,7 +230,6 @@ public class IdealGasModule extends Module {
         StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
         stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
                                      IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 30, 300, 120 );
-//        getApparatusPanel().add( stoveControlPanel );
 
         StoveControlPanel2 scp2 = new StoveControlPanel2( this );
         scp2.setLocation( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET + 100,
@@ -236,13 +237,11 @@ public class IdealGasModule extends Module {
         getApparatusPanel().addGraphic( scp2 );
 
         // Add buttons for selecting the species that the pump will produce
-//        PumpSpeciesSelectorPanel pumpSelectorPanel = new PumpSpeciesSelectorPanel( this );
-//        pumpSelectorPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + 590, IdealGasConfig.Y_BASE_OFFSET + 300,
-//                                     200, 150 );
-        PumpSpeciesSelectorPanel2 pumpSelectorPanel = new PumpSpeciesSelectorPanel2( this );
+        pumpSelectorPanel = new PumpSpeciesSelectorPanel2( this );
         pumpSelectorPanel.setLocation( IdealGasConfig.X_BASE_OFFSET + 630, IdealGasConfig.Y_BASE_OFFSET + 300 );
+        pumpSelectorPanel.setLocation( (int)(pumpGraphic.getLocation().getX() + pumpGraphic.getWidth() - pumpSelectorPanel.getWidth() + 10 ),
+                                       (int)(pumpGraphic.getLocation().getY() + pumpGraphic.getHeight() + 26) );
         getApparatusPanel().addGraphic( pumpSelectorPanel );
-//        getApparatusPanel().add( pumpSelectorPanel );
         getApparatusPanel().revalidate();
     }
 
@@ -258,10 +257,10 @@ public class IdealGasModule extends Module {
             BufferedImage handleImg = ImageLoader.loadBufferedImage( IdealGasConfig.HANDLE_IMAGE_FILE );
             PhetImageGraphic handleGraphic = new PhetImageGraphic( getApparatusPanel(), handleImg );
 
-            PumpHandleGraphic handleGraphicImage = new PumpHandleGraphic( getApparatusPanel(), pump, handleGraphic,
-                                                                          IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238,
-                                                                          IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 100,
-                                                                          IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238 );
+            pumpHandleGraphic = new PumpHandleGraphic( getApparatusPanel(), pump, handleGraphic,
+                                                                                      IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238,
+                                                                                      IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 100,
+                                                                                      IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238 );
 
             bluePumpImg = new BufferedImage( basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
             redPumpImg = new BufferedImage( basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
@@ -271,8 +270,9 @@ public class IdealGasModule extends Module {
             redOp.filter( basePumpImg, redPumpImg );
             currentPumpImg = bluePumpImg;
 
-            this.addGraphic( handleGraphicImage, -6 );
+            this.addGraphic( pumpHandleGraphic, -6 );
             pumpGraphic = new PhetImageGraphic( getApparatusPanel(), currentPumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
+            pumpGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             this.addGraphic( pumpGraphic, -4 );
 
             if( wiggleMeGraphic == null ) {
@@ -298,6 +298,16 @@ public class IdealGasModule extends Module {
         }
     }
 
+    protected void removePumpGraphic() {
+        getApparatusPanel().removeGraphic( pumpGraphic );
+        getApparatusPanel().removeGraphic( pumpHandleGraphic );
+        getApparatusPanel().removeGraphic( pumpSelectorPanel );
+    }
+
+    protected void setPumpSelectorPanelTitle( String title ) {
+        pumpSelectorPanel.setTitle( title );        
+    }
+
     protected Pump.PumpingEnergyStrategy getPumpingEnergyStrategy() {
         return new Pump.ConstantEnergyStrategy( idealGasModel );
     }
@@ -307,17 +317,17 @@ public class IdealGasModule extends Module {
                                            "Wall can be moved\nleft and right",
                                            box.getPosition().getX(), box.getPosition().getY(),
                                            HelpItem.BELOW, HelpItem.LEFT );
-        helpItem1.setForegroundColor( IdealGasConfig.helpColor );
+        helpItem1.setForegroundColor( IdealGasConfig.HELP_COLOR );
         addHelpItem( helpItem1 );
         HelpItem helpItem2 = new HelpItem( getApparatusPanel(),
                                            "Door can be slid\nleft and right",
                                            box.getPosition().getX() + 100, box.getPosition().getY() - 50 );
-        helpItem2.setForegroundColor( IdealGasConfig.helpColor );
+        helpItem2.setForegroundColor( IdealGasConfig.HELP_COLOR );
         addHelpItem( helpItem2 );
         HelpItem helpItem3 = new HelpItem( getApparatusPanel(),
                                            "Heat can be removed or added\nby adjusting stove",
                                            box.getPosition().getX() + 50, box.getMaxY() + 50 );
-        helpItem3.setForegroundColor( IdealGasConfig.helpColor );
+        helpItem3.setForegroundColor( IdealGasConfig.HELP_COLOR );
         addHelpItem( helpItem3 );
     }
 

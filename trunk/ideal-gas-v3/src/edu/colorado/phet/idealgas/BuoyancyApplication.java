@@ -34,7 +34,7 @@ public class BuoyancyApplication extends PhetApplication {
                    IdealGasConfig.FRAME_SETUP );
 
             // Create the clock
-            SwingTimerClock clock = new SwingTimerClock( IdealGasConfig.s_timeStep, IdealGasConfig.s_waitTime, true );
+            SwingTimerClock clock = new SwingTimerClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true );
             setClock( clock );
 
             // Create the modules
@@ -53,7 +53,8 @@ public class BuoyancyApplication extends PhetApplication {
 //            setInitialModule( rigidSphereModule );
 
             // Set the initial size
-            setFrameCenteredSize( 1020, 700 );
+            setFrameCenteredSize( 920, 700 );
+//            setFrameCenteredSize( 1020, 700 );
         }
     }
 

@@ -70,7 +70,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         addGas( xDiag, xOrigin, yDiag, yOrigin );
 
         // Turn on gravity
-        setGravity( IdealGasConfig.s_maxGravity / 10 );
+        setGravity( IdealGasConfig.MAX_GRAVITY / 10 );
 
         // Add controls to the control panel that are specific to this module
         JPanel controlPanel = new JPanel( new GridBagLayout() );

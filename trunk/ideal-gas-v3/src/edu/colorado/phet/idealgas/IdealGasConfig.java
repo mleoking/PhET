@@ -11,46 +11,34 @@
 package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.idealgas.view.ColorScheme;
 
 import java.awt.*;
 
 /**
- *
+ * Configuration parameters for the simulation.
  */
 public class IdealGasConfig {
 
     public static final String localizedStringsPath = "localization/IdealGasStrings";
 
-    public static boolean fastPaint;
-    public static boolean regionTest;
-    public static boolean heatOnlyFromFloor;
-    public static boolean jStartTest;
+    // Global control parameters
+    public static boolean REGION_TEST;
+    public static boolean HEAT_ONLY_FROM_FLOOR;
 
-    // Images
-    public static final String IMAGE_DIRECTORY = "images/";
-    public static final String HELP_ITEM_ICON_IMAGE_FILE = IMAGE_DIRECTORY + "help-item-icon.gif";
-    public static Color BACKGROUND_COLOR = Color.white;
-
-    public String getTitle() {
-        return TITLE;
-    }
-
-    public float getTimeStep() {
-        return s_timeStep;
-    }
-
-    public int getWaitTime() {
-        return s_waitTime;
-    }
+    // Color Scheme
+    public static ColorScheme BLACK_BACKGROUND_COLOR_SCHEME = new ColorScheme( Color.black, Color.white, new Color( 120,120,120) );
+    public static ColorScheme WHITE_BACKGROUND_COLOR_SCHEME = new ColorScheme( Color.white, Color.black, Color.black );
+    public static ColorScheme COLOR_SCHEME = BLACK_BACKGROUND_COLOR_SCHEME;
 
     // Physical constants
-//    public static final float s_timeStep = 0.061f;
-    public static final float s_timeStep = 0.1f;
-    public static final int s_waitTime = 40;
-    public static final double temperatureScaleFactor = 20;
+//    public static final float TIME_STEP = 0.061f;
+    public static final float TIME_STEP = 0.1f;
+    public static final int WAIT_TIME = 40;
+    public static final double TEMPERATURE_SCALE_FACTOR = 20;
     public static final double MAX_GAUGE_PRESSURE = 6.0;
 //    public static final double MAX_GAUGE_PRESSURE = 3.0;
-    public static final int s_maxGravity = 40;
+    public static final int MAX_GRAVITY = 40;
 
     // Title, description and version number
     public static final String TITLE = "Ideal Gas Law";
@@ -59,6 +47,8 @@ public class IdealGasConfig {
     public static final String VERSION = "0.01";
 
     // Images
+    public static final String IMAGE_DIRECTORY = "images/";
+    public static final String HELP_ITEM_ICON_IMAGE_FILE = IMAGE_DIRECTORY + "help-item-icon.gif";
     public static final String BLUE_PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
     public static final String RED_PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";
     public static final String GREEN_PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-green-xsml.gif";
@@ -80,15 +70,14 @@ public class IdealGasConfig {
     public static final String THERMOMETER_IMAGE_FILE = IMAGE_DIRECTORY + "thermometer.gif";
 
     public static final String RULER_IMAGE_FILE = IMAGE_DIRECTORY + "10-nanometer-stick.png";
-//    public static final String RULER_IMAGE_FILE = IMAGE_DIRECTORY + "meter-stick.gif";
 
     // Animation images
     public static final String ANIMATION_DIRECTORY = IMAGE_DIRECTORY + "animations/";
     public static final int NUM_PUSHER_ANIMATION_FRAMES = 19;
-    public static final String PUSHER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher/pusher-3";
+    public static final String PUSHER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-light/pusher-3";
     public static final int NUM_LEANER_ANIMATION_FRAMES = 15;
-    public static final String LEANER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-leaning/pusher-leaning";
-    public static final String PUSHER_ANIMATION_IMAGE_FILE_TYPE = "gif";
+    public static final String LEANER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-leaning-light/pusher-leaning-light";
+    public static final String PUSHER_ANIMATION_IMAGE_FILE_TYPE = "png";
 
     // Offset for locating objects in the apparatus panel
     public static final int X_BASE_OFFSET = 30;
@@ -103,7 +92,7 @@ public class IdealGasConfig {
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 920, 700 );
 
     // Colors
-    public static final Color helpColor = new Color( 50, 150, 50 );
+    public static final Color HELP_COLOR = new Color( 50, 150, 50 );
 
     // Sounds
     public static final String SOUND_DIRECTORY = "http://sounds/";

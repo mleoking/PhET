@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 
-public class Pump extends SimpleObservable implements GasSource {
+public class
+        Pump extends SimpleObservable implements GasSource {
 
 
     // Coordinates of the intake port on the box

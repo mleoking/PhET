@@ -30,8 +30,8 @@ public class TestMoleculeHollowSphereCollision extends PhetApplication {
                    IdealGasConfig.FRAME_SETUP );
 
             // Create the clock
-            SwingTimerClock clock = new SwingTimerClock( IdealGasConfig.s_timeStep,
-                                                         IdealGasConfig.s_waitTime );
+            SwingTimerClock clock = new SwingTimerClock( IdealGasConfig.TIME_STEP,
+                                                         IdealGasConfig.WAIT_TIME );
             setClock( clock );
 
             // Create the modules

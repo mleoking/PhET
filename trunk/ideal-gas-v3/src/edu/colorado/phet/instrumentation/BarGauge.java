@@ -21,6 +21,7 @@ public class BarGauge extends AbstractGauge {
     private double scale;
     private Point2D location;
     private double maxScreenLevel;
+    private Color outlineColor = Color.black;
 
 
     /**
@@ -57,6 +58,13 @@ public class BarGauge extends AbstractGauge {
     }
 
     /**
+     * 
+     * @return
+     */
+    public Rectangle getBounds() {
+        return frame.getBounds();
+    }
+    /**
      * @param g
      */
     public void paint( Graphics2D g ) {
@@ -64,9 +72,13 @@ public class BarGauge extends AbstractGauge {
         g.setColor( color );
         g.draw( bar );
         g.fill( bar );
-        g.setColor( Color.black );
+        g.setColor( outlineColor );
         g.draw( frame );
         g.setColor( oldColor );
+    }
+
+    public void setOutlineColor( Color outlineColor ) {
+        this.outlineColor = outlineColor;
     }
 
     public void setLevel( double level ) {

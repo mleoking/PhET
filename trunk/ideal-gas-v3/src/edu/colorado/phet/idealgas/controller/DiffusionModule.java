@@ -15,6 +15,7 @@ import edu.colorado.phet.collision.VerticalWallFixupStrategy;
 import edu.colorado.phet.collision.Wall;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
@@ -39,6 +40,10 @@ public class DiffusionModule extends AdvancedModule {
     private int wallThickness = (int)GasMolecule.s_defaultRadius * 8;
     private double minimumWallSeparation = GasMolecule.s_defaultRadius * 2;
 
+    /**
+     *
+     * @param clock
+     */
     public DiffusionModule( final AbstractClock clock ) {
         super( clock, "Diffusion" );
 
@@ -108,6 +113,10 @@ public class DiffusionModule extends AdvancedModule {
 
         // Add the particle counters     
         addParticleCounters();
+
+        // Change title of control under the pump
+        setPumpSelectorPanelTitle( SimStrings.get( "IdealGasControlPanel.Pump_Particles"));
+
 
         JButton backupButton = new JButton( "Backup" );
 //        getControlPanel().add( backupButton );

@@ -31,8 +31,11 @@ public class AdvancedGasApplication extends PhetApplication {
                    IdealGasConfig.VERSION,
                    IdealGasConfig.FRAME_SETUP );
 
+            // Set the color scheme
+            IdealGasConfig.COLOR_SCHEME = IdealGasConfig.WHITE_BACKGROUND_COLOR_SCHEME;
+
             // Create the clock
-            SwingTimerClock clock = new SwingTimerClock( IdealGasConfig.s_timeStep, IdealGasConfig.s_waitTime, true );
+            SwingTimerClock clock = new SwingTimerClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true );
             setClock( clock );
 
             // Create the modules
@@ -46,7 +49,7 @@ public class AdvancedGasApplication extends PhetApplication {
             setInitialModule( movableWallsModule );
 
             // Set the initial size
-            setFrameCenteredSize( 1020, 700 );
+            setFrameCenteredSize( 920, 700 );
         }
     }
 

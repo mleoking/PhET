@@ -24,10 +24,21 @@ import java.io.IOException;
 
 public class Box2DGraphic extends CompositePhetGraphic {
 
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+
     public static double s_thickness = 12;
 //    public static double s_thickness = 4;
     private static Stroke s_defaultStroke = new BasicStroke( (float)s_thickness );
-    private static Color s_defaultColor = Color.black;
+//    public static Color s_wallColor = Color.black;
+    public static Color s_wallColor = new Color( 180, 180, 180 );
+    private static Color s_openingColor;
+
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
+
     private Box2D box;
     private boolean graphicSelected;
     private int wallSpeedLimit = 3;
@@ -35,6 +46,11 @@ public class Box2DGraphic extends CompositePhetGraphic {
     private InternalBoxGraphic internalBoxGraphic;
     private Rectangle2D.Double mouseableArea = new Rectangle2D.Double();
 
+    /**
+     *
+     * @param component
+     * @param box
+     */
     public Box2DGraphic( Component component, final Box2D box ) {
         super( component );
 
@@ -108,7 +124,7 @@ public class Box2DGraphic extends CompositePhetGraphic {
         private Point wallHandleLocation;
 
         public InternalBoxGraphic( Component component ) {
-            super( component, null, s_defaultStroke, s_defaultColor );
+            super( component, null, s_defaultStroke, s_wallColor );
             box.addObserver( this );
             this.setShape( mouseableArea );
             try {
@@ -149,12 +165,11 @@ public class Box2DGraphic extends CompositePhetGraphic {
             g.drawImage( wallHandle, (int)wallHandleLocation.x, (int)wallHandleLocation.y,
                          wallHandle.getWidth(), wallHandle.getHeight(), null );
             g.setStroke( s_defaultStroke );
-            g.setColor( s_defaultColor );
-            g.setColor( new Color( 180, 180, 180 ) );
-//            g.setColor( new Color( 180, 180, 180 ) );
+            g.setColor( s_wallColor );
             g.draw( rect );
 
-            g.setColor( Color.black );
+            s_openingColor = Color.black;
+            g.setColor( s_openingColor );
 //            g.setColor( Color.white );
             g.fill( openingRect );
 
