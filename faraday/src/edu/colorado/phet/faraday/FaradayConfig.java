@@ -51,7 +51,8 @@ public class FaradayConfig {
     public static final String BATTERY_ICON = IMAGES_DIRECTORY + "battery_icon.png";
     public static final String BATTERY_ICON_SELECTED = IMAGES_DIRECTORY + "battery_icon_selected.png";
     public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
-    public static final String ELECTRON_IMAGE = IMAGES_DIRECTORY + "electron.png";
+    public static final String ELECTRON_FOREGROUND_IMAGE = IMAGES_DIRECTORY + "electron_foreground.png";
+    public static final String ELECTRON_BACKGROUND_IMAGE = IMAGES_DIRECTORY + "electron_background.png";
     public static final String FAUCET_IMAGE = IMAGES_DIRECTORY + "faucet.png";
     public static final String FIELD_METER_IMAGE = IMAGES_DIRECTORY + "fieldMeter.png";
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightbulb.png";
