@@ -1,6 +1,7 @@
-- Put color L&F on panels
+- move wall until it catches up with the cursor
+- scale graphics
+- Collision problems: Overlapping particles "dance"
 - Enable reset for all modules
-- Look in to moving wall collisions
 - ScalarDataRecorder should computeDataStatistics everytime a datum is added if it isn't a clocked recorder. When I
 do it, then make computeDataStatistics() private.
 - make needle on dial gauge triangular
@@ -19,3 +20,6 @@ do it, then make computeDataStatistics() private.
 - clean up constraints. In particular, there is a lot of duplication in HollowSphereMustContain and
 HollowSphereMustNotContain
 - hierarchy of Body/.../IdealGasParticle is way too big. Clean it up!
+------------------------------------
+- Put color L&F on panels
+- Look in to moving wall collisions
