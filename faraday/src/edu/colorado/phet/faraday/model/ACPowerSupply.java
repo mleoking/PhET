@@ -78,12 +78,6 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         if ( maxAmplitude != _maxAmplitude ) {
             _maxAmplitude = maxAmplitude;
             _angle = 0.0;
-            
-            // Make sure the amplitude stays in range.
-            double amplitude = getAmplitude();
-            double clamplitude = MathUtil.clamp( -maxAmplitude, amplitude, maxAmplitude );
-            setAmplitude( clamplitude );
-            
             notifyObservers();
         }
     }
