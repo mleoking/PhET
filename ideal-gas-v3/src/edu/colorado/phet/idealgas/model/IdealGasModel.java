@@ -28,7 +28,6 @@ public class IdealGasModel extends BaseModel {
     // is removed from the system.
     private static double s_escapeOffset = -30;
 
-    private IdealGasConfig config = new IdealGasConfig();
     private Gravity gravity;
     private double heatSource;
     private PressureSensingBox box;
