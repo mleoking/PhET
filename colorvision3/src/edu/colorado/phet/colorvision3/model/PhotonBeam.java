@@ -268,24 +268,24 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
     boolean hasEnabledFilter = ( _filterModel != null && _filterModel.isEnabled() );
     
     // Determine how many photons to emit from the light source. 
-    int allocCount = 0;
+    int emitCount = 0;
     if ( _spotlightModel.getIntensity() == 0 && _perceivedIntensity != 0 )
     {
       // If the light intensity is changing to from non-zero to zero, 
       // emit one photon with zero intensity to ensure that zero intensity 
       // is perceived by the viewer.
-      allocCount = 1;
+      emitCount = 1;
     }
     else
     {
       // Number of photons is based on the light source intensity.
       double intensity = _spotlightModel.getIntensity();
-      allocCount = (int) ((intensity / 100) * _maxPhotons);
-      if ( intensity != 0 && allocCount == 0 ) 
+      emitCount = (int) ((intensity / 100) * _maxPhotons);
+      if ( intensity != 0 && emitCount == 0 ) 
       { 
-        // Cast double to int causes a zero rounding error for low intensities.
+        // Casting double to int causes a zero rounding error for low intensities.
         // If the intensity is non-zero, always emit at least one photon.
-        allocCount = 1; 
+        emitCount = 1; 
       }
     }
     
@@ -311,7 +311,8 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
         else if ( hasFilter && ! photon.isFiltered() && 
                   photon.getX() > _filterModel.getX() + FILTER_CENTER_OFFSET )
         {
-          // HACK: Above expression assumes the photon is traveling left-to-right.      
+          // HACK: The above expression assumes the photon is traveling left-to-right.
+          
           // If the photon has just passed the filter, mark it as filtered,
           // regardless of whether the filter is enabled.  A photon is subject 
           // to filtering only at the moment that it passed the filter, and
@@ -351,20 +352,10 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
       
       // If the photon is not in use and we need to allocate photons,
       // then reuse the photon.
-      if ( (! photon.isInUse()) && allocCount > 0 )
+      if ( (! photon.isInUse()) && emitCount > 0 )
       {
-        double x = genX( _spotlightModel.getX() );
-        double y = _spotlightModel.getY();
-        double direction = genDirection( _spotlightModel.getDirection() );
- 
-        photon.setLocation( x, y );
-        photon.setDirection( direction );
-        photon.setIntensity( _spotlightModel.getIntensity() );
-        photon.setInUse( true );
-        photon.setFiltered( false );
-        photon.setColor( _spotlightModel.getColor() );
-        
-        allocCount--;
+        reusePhoton( photon );
+        emitCount--;
       }
     } // for each photon
 
@@ -391,13 +382,26 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
         // Monochrome photons are culled based on the how much of the
         // last filtered photon was passed.
         cull = (int) (count - (count * lastPercentPassed / 100));
+        if ( cull == count && lastPercentPassed > 0 )
+        {
+          // Handle double-to-int conversion error.
+          // If the filter passes some light, then pass at least one photon.
+           cull = count - 1;
+        }
       }
       
       // Cull the photons by marking them as available.
       for ( int i = 0; i < cull; i++ )
       {
-        ((Photon)filteredPhotons.get(i)).setInUse( false );
+        photon = (Photon)filteredPhotons.get(i);
+        photon.setInUse( false );
         passedCount--;
+        if ( emitCount > 0 )
+        {
+          // If we still need to emit photons, use this one.
+          reusePhoton( photon );
+          emitCount--;
+        }
       }
       
       // Convert white photons to the filter's color.
@@ -411,13 +415,8 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
       }
     }
     
-    // NOTE: Culling may have marked some photons as available by this point.
-    // Rather than make another trip through the photons array, we'll choose
-    // to allocate new photons if needed.  The available photons will be 
-    // reused the next time this method is called.
-    
-    // If we didn't find enough available photons, allocate some new ones.
-    while ( allocCount > 0 )
+    // If we still need to emit photons, allocate some new ones.
+    while ( emitCount > 0 )
     {
       photon = new Photon( _spotlightModel.getColor(), 
                            _spotlightModel.getIntensity(), 
@@ -426,20 +425,38 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
                            genDirection( _spotlightModel.getDirection() ) );
       _photons.add( photon );
       
-      allocCount--;
+      emitCount--;
     }
     
     // If filtering is enabled and we passed no photons, and there is still 
-    // a visible perceived color, then send a photon with "no color", starting 
+    // a visible perceived color, then emit one photon with "no color", starting 
     // at the location of the last photon that the filter blocked.
     if ( hasEnabledFilter && 
-         passedCount == 0 &&
-         _perceivedColor != null && 
+         passedCount == 0 && 
          _perceivedColor.getWavelength() != VisibleColor.INVISIBLE_WAVELENGTH )
     {
-      // NOTE: It would be better, but more costly, to use an available photon.
-      photon = new Photon( VisibleColor.INVISIBLE, 0, lastBlockedX, lastBlockedY, _spotlightModel.getDirection() );
-      _photons.add( photon );
+      // First try to reuse an available photon.
+      boolean found = false;
+      for ( int i = 0; i < _photons.size() & !found; i++ )
+      {
+        photon = (Photon)_photons.get(i);
+        if ( ! photon.isInUse() )
+        {
+          photon.setInUse( true );
+          photon.setFiltered( false );
+          photon.setLocation( lastBlockedX, lastBlockedY );
+          photon.setDirection( _spotlightModel.getDirection() );
+          photon.setColor( VisibleColor.INVISIBLE );
+          photon.setIntensity( 0 );
+        }
+      }
+      
+      // If we didn't find an available photon, create a new one.
+      if ( !found )
+      {
+        photon = new Photon( VisibleColor.INVISIBLE, 0, lastBlockedX, lastBlockedY, _spotlightModel.getDirection() );
+        _photons.add( photon );
+      }
     }
     
     // If the perceived color or intensity has changed...
@@ -500,6 +517,33 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
     delta *= ( Math.random() > 0.5 ) ? 1 : -1;
     // Add the delta to the original direction.
     return (direction + delta);
+  }
+  
+  /**
+   * Reuses a photon by assigning it the attributes of the spotlight.
+   * 
+   * @param photon the photon to reuse
+   * @throws IllegalArgumentException if the photon is in use
+   */
+  private void reusePhoton( Photon photon )
+  {
+    if ( photon.isInUse() )
+    {
+      throw new IllegalArgumentException( "the photon provided is still in use" );
+    }
+    else
+    {
+      double x = genX( _spotlightModel.getX() );
+      double y = _spotlightModel.getY();
+      double direction = genDirection( _spotlightModel.getDirection() );
+      
+      photon.setInUse( true );
+      photon.setFiltered( false );
+      photon.setLocation( x, y );
+      photon.setDirection( direction );
+      photon.setColor( _spotlightModel.getColor() );
+      photon.setIntensity( _spotlightModel.getIntensity() );
+    }
   }
   
 	//----------------------------------------------------------------------------
