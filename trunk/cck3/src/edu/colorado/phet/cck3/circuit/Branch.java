@@ -2,10 +2,11 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.circuit.particles.Electron;
+import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import net.n3.nanoxml.IXMLElement;
 import net.n3.nanoxml.XMLElement;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * Time: 1:32:58 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class Branch extends SimpleObservable {
+public class Branch extends SimpleObservableDebug {
 //    public static final double WIRE_RESISTANCE_MIN = 0.0001;
     double resistance;//WIRE_RESISTANCE_MIN;
     double current;
@@ -98,6 +99,20 @@ public class Branch extends SimpleObservable {
             notifyObservers();
             fireKirkhoffChange();
         }
+    }
+
+    public void notifyObservers() {
+        SimpleObserver[] so = getObservers();
+        for( int i = 0; i < so.length; i++ ) {
+            SimpleObserver simpleObserver = so[i];
+            if( simpleObserver instanceof Electron.Observer ) {
+                Electron.Observer e = (Electron.Observer)simpleObserver;
+                if( e.isDeleted() ) {
+                    removeObserver( simpleObserver );
+                }
+            }
+        }
+        super.notifyObservers();
     }
 
     public void setCurrent( double current ) {
@@ -241,6 +256,5 @@ public class Branch extends SimpleObservable {
     public void delete() {
         removeAllObservers();
     }
-
 
 }

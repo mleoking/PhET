@@ -3,8 +3,8 @@ package edu.colorado.phet.cck3.circuit.tools;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -402,7 +402,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
         }
     }
 
-    public class CableGraphic extends SimpleObservable implements Graphic {
+    public class CableGraphic extends SimpleObservableDebug implements Graphic {
         private ModelViewTransform2D transform;
         private Color color;
         private LeadGraphic leadGraphic;

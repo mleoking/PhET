@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.CursorControl;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
@@ -89,10 +90,16 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
     private Shape getHandleShape() {
         double x = 0;
         double y = 0;
-        double w = leverGraphic.getImage().getWidth() * .4;
+        double w = leverGraphic.getImage().getWidth() * .35;//.4
         double h = leverGraphic.getImage().getHeight();
+//        int pixelsWidth = 6;int pixelsHeight = 6;
+//        int pixelsWidth = 60;
+//        int pixelsHeight = 60;
 
+        double dw = w * .28;
+        double dh = h * .28;
         Rectangle2D r = new Rectangle2D.Double( x, y, w, h );
+        r = RectangleUtils.expand( r, dw, dh );
         Shape sh = leverGraphic.getTransform().createTransformedShape( r );
         return sh;
     }

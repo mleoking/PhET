@@ -20,8 +20,12 @@ import edu.colorado.phet.cck3.common.WiggleMe;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -115,6 +119,11 @@ public class CCK3Module extends Module {
     private boolean electronsVisible = true;
     private PhetFrame phetFrame;
     public static boolean SHOW_GRAB_BAG = false;
+    private MagicalRepaintPanel magicPanel;
+
+    public MagicalRepaintPanel getMagicPanel() {
+        return magicPanel;
+    }
 
     public CCK3Module() throws IOException {
         this( false );
@@ -129,27 +138,21 @@ public class CCK3Module extends Module {
         this.virtualLabMode = virtualLabMode;
 //        Color backgroundColor = new Color( 166, 177, 204 );//not so bright
 
-        setApparatusPanel( new ApparatusPanel() {
-            public void repaint( long tm, int x, int y, int width, int height ) {
-                super.repaint( tm, x, y, width, height );
-            }
-
-            public void repaint( Rectangle r ) {
-                super.repaint( r );
-            }
-
-            public void repaint() {
-                super.repaint();
-            }
-
-            public void repaint( int x, int y, int width, int height ) {
-                super.repaint( x, y, width, height );
-            }
-
-            public void repaint( long tm ) {
-                super.repaint( tm );
-            }
-        } );
+        magicPanel = new MagicalRepaintPanel();
+        setApparatusPanel( magicPanel );
+//
+//        setApparatusPanel( new ApparatusPanel() );
+//        setApparatusPanel( new ApparatusPanel() {
+//            protected void paintComponent( Graphics graphics ) {
+////                long time = System.currentTimeMillis();
+//                super.paintComponent( graphics );
+////                long now = System.currentTimeMillis();
+////                long dx = now - time;
+////                if( dx != 0 ) {
+////                    System.out.println( "Paint Time= " + dx );
+////                }
+//            }
+//        } );
         getApparatusPanel().addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 getApparatusPanel().requestFocus();
@@ -175,7 +178,18 @@ public class CCK3Module extends Module {
         setup.setBicubicInterpolation();
         getApparatusPanel().addGraphicsSetup( setup );
 
-        setModel( new BaseModel() );
+        setModel( new BaseModel() {
+            //Not allowed to mess with the way we call our abstract method.
+            public void stepInTime( double dt ) {
+//                long time = System.currentTimeMillis();
+                super.stepInTime( dt );
+//                long now = System.currentTimeMillis();
+//                long dx = now - time;
+//                if( dx != 0 ) {
+//                    System.out.println( "Base Model = " + dx );
+//                }
+            }
+        } );
         kirkhoffSolver = new KirkhoffSolver();
         kirkhoffListener = new KirkhoffListener() {
             public void circuitChanged() {
@@ -364,6 +378,7 @@ public class CCK3Module extends Module {
         //        };
         //        getModel().addModelElement( me );
         setSeriesAmmeterVisible( false );
+
     }
 
     public void setHelpEnabled( boolean h ) {
@@ -625,7 +640,7 @@ public class CCK3Module extends Module {
     }
 
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
-        SwingTimerClock clock = new SwingTimerClock( 1, 30, true );
+        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
 
         boolean debugMode = false;
         if( Arrays.asList( args ).contains( "debug" ) ) {
@@ -717,6 +732,11 @@ public class CCK3Module extends Module {
         app.getApplicationView().getPhetFrame().doLayout();
         app.getApplicationView().getPhetFrame().repaint();
         cck.getApparatusPanel().addKeyListener( new CCKKeyListener( cck, colorG ) );
+        cck.getApparatusPanel().addKeyListener( new SimpleKeyEvent( KeyEvent.VK_D ) {
+            public void invoke() {
+                cck.debugListeners();
+            }
+        } );
         cck.getApparatusPanel().requestFocus();
 //        PlafUtil.updateFrames();
         if( debugMode ) {
@@ -729,10 +749,6 @@ public class CCK3Module extends Module {
                 c.invalidate();
                 c.validate();
                 c.repaint();
-//                if( c instanceof JComponent ) {
-//                    JComponent jc = (JComponent)c;
-////                    jc.paintImmediately( 0,0,jc.getWidth(), jc.getHeight() );
-//                }
             }
         };
         frame.addWindowFocusListener( new WindowFocusListener() {
@@ -741,12 +757,10 @@ public class CCK3Module extends Module {
             }
 
             public void windowLostFocus( WindowEvent e ) {
-//                repainter.run();
             }
         } );
         frame.addWindowListener( new WindowAdapter() {
             public void windowActivated( WindowEvent e ) {
-//                repainter.run();
             }
 
             public void windowStateChanged( WindowEvent e ) {
@@ -770,6 +784,40 @@ public class CCK3Module extends Module {
                 repainter.run();
             }
         } );
+        clock.addClockTickListener( new ClockTickListener() {
+            public void clockTicked( AbstractClock c, double dt ) {
+                cck.clockTickFinished();
+            }
+        } );
+    }
+
+    private void clockTickFinished() {
+        if( magicPanel != null ) {
+            magicPanel.synchronizeImmediately();
+        }
+    }
+
+    public static class SimpleKeyEvent implements KeyListener {
+        int keycode;
+
+        protected SimpleKeyEvent( int keycode ) {
+            this.keycode = keycode;
+        }
+
+        public void keyPressed( KeyEvent e ) {
+        }
+
+        public void keyReleased( KeyEvent e ) {
+            if( e.getKeyCode() == keycode ) {
+                invoke();
+            }
+        }
+
+        public void invoke() {
+        }
+
+        public void keyTyped( KeyEvent e ) {
+        }
     }
 
     private void setFrame( PhetFrame phetFrame ) {
@@ -823,6 +871,30 @@ public class CCK3Module extends Module {
         this.electronsVisible = visible;
         layout.branchesMoved( circuit.getBranches() );
         getApparatusPanel().repaint();
+    }
+
+    private void add( Branch branch ) {
+        circuitGraphic.getCircuit().addBranch( branch );
+        circuitGraphic.addGraphic( branch );
+    }
+
+    public void addTestCircuit() {
+        Branch b1 = toolbox.getBatterySource().createBranch();
+        add( b1 );
+        Branch b2 = toolbox.getResistorSource().createBranch();
+        add( b2 );
+        Branch b3 = toolbox.getWireSource().createBranch();
+        add( b3 );
+
+        new BranchSet( circuit, new Branch[]{b1} ).translate( -5, 0 );
+        AbstractVector2D dv = new Vector2D.Double( b2.getStartJunction().getPosition(), b1.getEndJunction().getPosition() );
+        new BranchSet( circuit, new Branch[]{b2} ).translate( dv );
+        b3.getStartJunction().setPosition( b2.getEndJunction().getX(), b2.getEndJunction().getY() );
+        b3.getEndJunction().setPosition( b1.getStartJunction().getX(), b1.getStartJunction().getY() );
+        relayout( new Branch[]{b1, b2, b3} );
+        circuitGraphic.collapseJunctions( b1.getEndJunction(), b2.getStartJunction() );
+        circuitGraphic.collapseJunctions( b2.getEndJunction(), b3.getStartJunction() );
+        circuitGraphic.collapseJunctions( b3.getEndJunction(), b1.getStartJunction() );
     }
 
     public static class ResistivityManager extends CircuitListenerAdapter {
@@ -963,4 +1035,89 @@ public class CCK3Module extends Module {
         }
     }
 
+    public void debugListeners() {
+        int numTransformListeners = transform.numTransformListeners();
+        int numCircuitListeners = circuit.numCircuitListeners();
+        System.out.println( "numCircuitListeners = " + numCircuitListeners );
+        System.out.println( "numTransformListeners = " + numTransformListeners );
+        System.out.println( "Arrays.asList( transform.getTransformListeners() ) = " + Arrays.asList( transform.getTransformListeners() ) );
+        System.out.println( "circuit.getCircuitListeners() = " + Arrays.asList( circuit.getCircuitListeners() ) );
+        int jg = JunctionGraphic.getInstanceCount();
+        System.out.println( "jg = " + jg );
+//        SimpleObservableDebug[] sod = SimpleObservableDebug.instances();
+//        for( int i = 0; i < sod.length; i++ ) {
+//            SimpleObservableDebug observable = sod[i];
+//            System.out.println( "observable[" + i + "] < x" + observable.numObservers() + ">  = " + observable );
+//        }
+
+//        for( int i = 0; i < sod.length; i++ ) {
+//            SimpleObservableDebug observable = sod[i];
+//            System.out.println( "observable[" + i + "] < x" + observable.numObservers() + ">  = " + observable );
+//            SimpleObserver[] so = observable.getObservers();
+//            System.out.println( "Arrays.asList( so ) = " + Arrays.asList( so ) );
+//        }
+    }
+
+    static class MagicalRepaintPanel extends ApparatusPanel {
+        private ArrayList rectangles = new ArrayList();
+
+        public MagicalRepaintPanel() {
+            addMouseMotionListener( new MouseMotionAdapter() {
+                public void mouseDragged( MouseEvent e ) {
+                    synchronizeImmediately();
+                    try {
+                        Thread.sleep( 10 );
+                    }
+                    catch( InterruptedException e1 ) {
+                        e1.printStackTrace();
+                    }
+                }
+            } );
+        }
+
+        public void repaint( long tm, int x, int y, int width, int height ) {
+            repaint( x, y, width, height );
+        }
+
+        public void repaint( Rectangle r ) {
+            repaint( r.x, r.y, r.width, r.height );
+        }
+
+        public void repaint() {
+            repaint( 0, 0, getWidth(), getHeight() );
+        }
+
+        public void repaint( int x, int y, int width, int height ) {
+            if( rectangles != null ) {
+                Rectangle r = new Rectangle( x, y, width, height );
+                rectangles.add( r );
+            }
+        }
+
+        public void repaint( long tm ) {
+            repaint();
+        }
+
+        public void synchronizeImmediately() {
+            Rectangle rect = union();
+            if( rect != null ) {
+                paintImmediately( rect );
+            }
+            rectangles.clear();
+        }
+
+        private Rectangle union() {
+            if( rectangles.size() == 0 ) {
+                return new Rectangle();
+            }
+            else {
+                Rectangle union = (Rectangle)rectangles.get( 0 );
+                for( int i = 1; i < rectangles.size(); i++ ) {
+                    Rectangle rectangle = (Rectangle)rectangles.get( i );
+                    union = union.union( rectangle );
+                }
+                return union;
+            }
+        }
+    }
 }

@@ -25,16 +25,18 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
     private JunctionGraphic junctionGraphic;
     private ModelViewTransform2D transform;
     private CircuitGraphic.DragMatch dragMatch;
+    private MouseInputAdapter input;
 
-    public InteractiveWireJunctionGraphic( final CircuitGraphic circuitGraphic, final JunctionGraphic jg, final ModelViewTransform2D transform, CCK3Module module ) {
-        super( jg );
+    public InteractiveWireJunctionGraphic( final CircuitGraphic circuitGraphic, final JunctionGraphic junctionGraphic,
+                                           final ModelViewTransform2D transform, CCK3Module module ) {
+        super( junctionGraphic );
         final Circuit circuit = circuitGraphic.getCircuit();
         this.circuitGraphic = circuitGraphic;
-        this.junctionGraphic = jg;
+        this.junctionGraphic = junctionGraphic;
         this.transform = transform;
         addCursorHandBehavior();
 
-        MouseInputAdapter input = new MouseInputAdapter() {
+        input = new MouseInputAdapter() {
             public void mouseEntered( MouseEvent e ) {
             }
 
@@ -57,7 +59,7 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
                 }
 
                 BranchSet bs = new BranchSet( circuit, sc );
-                bs.addJunction( jg.getJunction() );
+                bs.addJunction( junctionGraphic.getJunction() );
                 bs.translate( dx );
             }
 

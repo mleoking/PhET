@@ -32,17 +32,19 @@ public class ElectronGraphic extends PhetImageGraphic {
     private ModelViewTransform2D transform;
     private CCK3Module module;
     private TransformListener transformListener;
+    private SimpleObserver electronObserver;
 
     public ElectronGraphic( final Electron electron, ModelViewTransform2D transform, BufferedImage image, Component parent, CCK3Module module ) {
         super( parent, image, createTransformStatic( electron, transform, image ) );
         this.electron = electron;
         this.transform = transform;
         this.module = module;
-        electron.addObserver( new SimpleObserver() {
+        electronObserver = new SimpleObserver() {
             public void update() {
                 doUpdate();
             }
-        } );
+        };
+        electron.addObserver( electronObserver );
         transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 doUpdate();
@@ -55,6 +57,7 @@ public class ElectronGraphic extends PhetImageGraphic {
 
     public void delete() {
         transform.removeTransformListener( transformListener );
+        electron.removeObserver( electronObserver );
     }
 
     private static AffineTransform createTransformStatic( Electron electron, ModelViewTransform2D transform, BufferedImage image ) {
@@ -64,7 +67,7 @@ public class ElectronGraphic extends PhetImageGraphic {
         Point2D at = electron.getPosition();
         at = transform.modelToView( at );
         if( at.getX() < 1 ) {
-            System.out.println( "Less than 1" );
+//            System.out.println( "view coordinate was Less than 1" );
         }
         Rectangle2D src = new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() );
         Rectangle2D dst = new Rectangle2D.Double( at.getX() - imWidth / 2, at.getY() - imHeight / 2, imWidth, imHeight );
@@ -112,7 +115,7 @@ public class ElectronGraphic extends PhetImageGraphic {
         Point2D at = electron.getPosition();
         at = transform.modelToView( at );
         if( at.getX() < 1 ) {
-            System.out.println( "Less than 1" );
+//            System.out.println( "view coordinate was Less than 1" );
         }
         Rectangle2D src = new Rectangle2D.Double( 0, 0, getImage().getWidth(), getImage().getHeight() );
         Rectangle2D dst = new Rectangle2D.Double( at.getX() - imWidth / 2, at.getY() - imHeight / 2, imWidth, imHeight );

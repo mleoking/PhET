@@ -32,6 +32,7 @@ public class Bulb extends CircuitComponent {
     }
 
     private void init( KirkhoffListener kl ) {
+        double height = super.getHeight();
         filament = new Filament( kl, getStartJunction(), getEndJunction(), 3, height * .25, width * .8, height * .061 );
         so = new SimpleObserver() {
             public void update() {
@@ -47,14 +48,15 @@ public class Bulb extends CircuitComponent {
     public Bulb( KirkhoffListener kl, Junction startJunction, Junction endjJunction, double width, double length, double height ) {
         super( kl, startJunction, endjJunction, length, height );
         this.width = width;
-        this.height = height;
+
+        super.setHeight( height );
         init( kl );
     }
 
     public Bulb( KirkhoffListener kl, Junction startJunction, Junction endJunction, double width, double length, double height, boolean schematic ) {
         super( kl, startJunction, endJunction, length, height );
         this.width = width;
-        this.height = height;
+        super.setHeight( height );
         init( kl );
         setSchematic( schematic, null );
     }

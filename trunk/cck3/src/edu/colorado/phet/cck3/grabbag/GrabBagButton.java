@@ -39,6 +39,11 @@ public class GrabBagButton extends JButton {
         contentPane.setAnchor( GridBagConstraints.CENTER );
         contentPane.setFill( GridBagConstraints.NONE );
 
+        JLabel click = new JLabel( "Click on an item to add it." );
+        contentPane.add( click );
+        JLabel empty = new JLabel( " " );
+        contentPane.add( empty );
+
         dialog.setContentPane( contentPane );
         for( int i = 0; i < bag.numItems(); i++ ) {
             final GrabBagItem it = bag.itemAt( i );
@@ -57,6 +62,7 @@ public class GrabBagButton extends JButton {
 
         SwingUtilities.updateComponentTreeUI( dialog );
         GraphicsUtil.centerWindowOnScreen( dialog );
+        dialog.pack();
     }
 
     private void showItem( GrabBagItem it ) {

@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.common.view.components.PhetSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
@@ -26,6 +27,7 @@ public abstract class ComponentEditor extends JDialog {
     private Circuit circuit;
     private PhetSlider slider;
     private JPanel contentPane;
+    private CircuitListener circuitListener;
 
     public ComponentEditor( final CCK3Module module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
@@ -52,10 +54,24 @@ public abstract class ComponentEditor extends JDialog {
         JButton done = new JButton( "Done" );
         done.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                boolean r = module.getCircuitGraphic().isReadoutGraphicsVisible();
-                setVisible( false );
-                if( r ) {
-                    setReadoutVisible( true );
+                boolean ok = slider.testCommit();
+                if( ok ) {
+                    boolean bo = false;
+                    InteractiveGraphic ccig = module.getCircuitGraphic().getGraphic( element );
+                    if( ccig instanceof CircuitComponentInteractiveGraphic ) {
+                        CircuitComponentInteractiveGraphic cx = (CircuitComponentInteractiveGraphic)ccig;
+                        CCKMenu menu = cx.getMenu();
+                        if( menu.isVisiblityRequested() ) {
+                            bo = true;
+                        }
+                    }
+//                    CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)module.getCircuitGraphic().getGraphic( element );
+//                    System.out.println( "ccig.getClass() = " + ccig.getClass() );
+                    boolean r = module.getCircuitGraphic().isReadoutGraphicsVisible() || bo;
+                    setVisible( false );
+                    if( r ) {
+                        setReadoutVisible( true );
+                    }
                 }
             }
         } );
@@ -71,7 +87,7 @@ public abstract class ComponentEditor extends JDialog {
             public void windowLostFocus( WindowEvent e ) {
             }
         } );
-        circuit.addCircuitListener( new CircuitListener() {
+        circuitListener = new CircuitListener() {
             public void junctionRemoved( Junction junction ) {
             }
 
@@ -98,7 +114,8 @@ public abstract class ComponentEditor extends JDialog {
             }
 
 
-        } );
+        };
+        circuit.addCircuitListener( circuitListener );
         pack();
         GraphicsUtil.centerDialogInParent( this );
         addWindowStateListener( new WindowStateListener() {
@@ -220,5 +237,9 @@ public abstract class ComponentEditor extends JDialog {
 //            super.element.setResistance( value );
             battery.setInternalResistance( value );
         }
+    }
+
+    public void delete() {
+        circuit.removeCircuitListener( circuitListener );
     }
 }

@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.help.HelpItem;
@@ -81,7 +81,7 @@ public class PositionedHelpItem extends CCKCompositePhetGraphic {
         changed();
     }
 
-    public abstract static class Target extends SimpleObservable {
+    public abstract static class Target extends SimpleObservableDebug {
         public abstract Point getTextLocation();
 
         public abstract Arrow getArrow( PhetMultiLineTextGraphic textGraphic );

@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 
 import java.util.ArrayList;
 
@@ -77,4 +78,7 @@ public class BranchSet {
         branches.remove( b );
     }
 
+    public void translate( double dx, double dy ) {
+        translate( new Vector2D.Double( dx, dy ) );
+    }
 }

@@ -1,8 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.common.util.SimpleObservable;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
 
 import java.awt.geom.Point2D;
 
@@ -12,7 +11,7 @@ import java.awt.geom.Point2D;
  * Time: 1:37:51 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class Junction extends SimpleObservable {
+public class Junction extends SimpleObservableDebug {
     private double x;
     private double y;
     private int label = 0;
@@ -51,20 +50,6 @@ public class Junction extends SimpleObservable {
         this.x = x;
         this.y = y;
         notifyObservers();
-    }
-
-    public void notifyObservers() {
-        super.notifyObservers();
-    }
-
-    public void addObserver( SimpleObserver so ) {
-        super.addObserver( so );
-//        new Exception( "Num Observers++: " + super.numObservers() ).printStackTrace();
-    }
-
-    public void removeObserver( SimpleObserver obs ) {
-        super.removeObserver( obs );
-//        new Exception( "Num Observers-- " + super.numObservers() ).printStackTrace();
     }
 
     public double getDistance( Junction junction ) {

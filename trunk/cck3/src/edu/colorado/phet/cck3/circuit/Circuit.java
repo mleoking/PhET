@@ -34,6 +34,16 @@ public class Circuit {
 
     public void addCircuitListener( CircuitListener listener ) {
         listeners.add( listener );
+//        System.out.println( "Added " + listeners.size() + "th Circuit listener = " + listener );
+    }
+
+    public int numCircuitListeners() {
+        return listeners.size();
+    }
+
+    public void removeCircuitListener( CircuitListener listener ) {
+        listeners.remove( listener );
+//        System.out.println( "Removed  " + listeners.size() + "th Circuit listener = " + listener );
     }
 
     public String toString() {
@@ -384,7 +394,7 @@ public class Circuit {
             Branch branch = out[i];
             Junction opposite = branch.opposite( at );
             if( !visited.contains( branch ) ) {  //don't cross the same bridge twice.
-                visited.add( branch );
+//                visited.add( branch );
                 double dv = branch.getVoltageDrop();
                 if( branch instanceof Battery ) {
                     Battery batt = (Battery)branch;
@@ -393,15 +403,16 @@ public class Circuit {
                 if( branch.getEndJunction() == opposite ) {
                     dv *= -1;
                 }
-                return getVoltage( visited, opposite, target, volts + dv );
+                ArrayList copy = new ArrayList( visited );
+                copy.add( branch );
+                double result = getVoltage( copy, opposite, target, volts + dv );
+                if( !Double.isInfinite( result ) ) {
+                    return result;
+                }
             }
         }
         //no novel path to target, so voltage is infinite
         return Double.POSITIVE_INFINITY;
-    }
-
-    public void removeCircuitListener( CircuitListener circuitListener ) {
-        listeners.remove( circuitListener );
     }
 
     public static Circuit parseXML( IXMLElement xml, KirkhoffListener kl, CCK3Module module ) {
@@ -605,5 +616,9 @@ public class Circuit {
             CircuitListener circuitListener = (CircuitListener)listeners.get( i );
             circuitListener.junctionsConnected( j1, j2, replacement );
         }
+    }
+
+    public CircuitListener[] getCircuitListeners() {
+        return (CircuitListener[])listeners.toArray( new CircuitListener[0] );
     }
 }

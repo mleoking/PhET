@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -18,11 +19,11 @@ import java.net.URL;
  * Copyright (c) Sep 14, 2004 by Sam Reid
  */
 public class GrabBagItem {
-    URL imageURL;
-    String name;
-    double resistance;
+    private URL imageURL;
+    private String name;
+    private double resistance;
     private BufferedImage image;
-    double modelLength;
+    private double modelLength;
 
     public GrabBagItem( URL imageURL, String name, double resistance, double modelLength ) {
         this.modelLength = modelLength;
@@ -63,8 +64,12 @@ public class GrabBagItem {
         return "name=" + name + ", imageURL=" + imageURL + ", resistance=" + resistance;
     }
 
+    private static final Random random = new Random();
+
     public Resistor createBranch( CCK3Module module ) {
-        Point2D start = new Point2D.Double( 5, 5 );
+        double x = random.nextDouble() * 5 + 2.5;
+        double y = random.nextDouble() * 5 + 2.5;
+        Point2D start = new Point2D.Double( x, y );
         Vector2D.Double dir = new Vector2D.Double( 1, 0 );
         double height = modelLength / image.getWidth() * image.getHeight();
         GrabBagResistor res = new GrabBagResistor( start, dir, modelLength, height, module.getKirkhoffListener() );

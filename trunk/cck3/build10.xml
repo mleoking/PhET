@@ -101,9 +101,12 @@
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="${src}" destdir="${classes}"/>
+
+        <javac srcdir="C:\PhET\projects-ii\phetcommon\src" destdir="${classes}"/>
+        <javac srcdir="${src}" classpath="${classes}" destdir="${classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
-        <javac srcdir="${tests-src}" destdir="${classes}"/>
+        <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
+
     </target>
 
     <target name="Generate Build Info">
@@ -124,6 +127,7 @@
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
+            <fileset dir="C:\PhET\projects-ii\phetcommon\data"/>
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
@@ -135,7 +139,7 @@
         <javadoc destdir="${javadoc}" author="true" version="true" use="true">
             <packageset dir="src" defaultexcludes="yes">
             </packageset>
-            <bottom><![CDATA[<i>Copyright &#169; 2003 Sam Reid. All Rights Reserved.</i>]]></bottom>
+            <bottom><![CDATA[<i>Copyright &#169; 2004 Sam Reid. All Rights Reserved.</i>]]></bottom>
             <link href="http://java.sun.com/products/jdk/1.4/docs/api/"/>
         </javadoc>
     </target>

@@ -3,7 +3,6 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 import java.awt.*;
@@ -14,16 +13,13 @@ import java.awt.*;
  * Time: 9:05:19 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class TotalBranchGraphic extends CompositeGraphic {
+public class TotalBranchGraphic {
 
     private InteractiveBranchGraphic interactiveBranchGraphic;
     private InteractiveWireJunctionGraphic interactiveJunctionGraphic1;
     private InteractiveWireJunctionGraphic interactiveJunctionGraphic2;
-    private CircuitGraphic circuitGraphic;
 
     public TotalBranchGraphic( CircuitGraphic circuitGraphic, final Branch branch, ApparatusPanel apparatusPanel, final ModelViewTransform2D transform, Color color, double junctionRadius, CCK3Module module, double wireThickness ) {
-        this.circuitGraphic = circuitGraphic;
-
         BranchGraphic bg = new BranchGraphic( branch, apparatusPanel, wireThickness, transform, color );
         interactiveBranchGraphic = new InteractiveBranchGraphic( circuitGraphic, bg, transform, module );
 
@@ -31,9 +27,6 @@ public class TotalBranchGraphic extends CompositeGraphic {
         JunctionGraphic jg2 = new JunctionGraphic( apparatusPanel, branch.getEndJunction(), transform, junctionRadius, circuitGraphic.getCircuit() );
         interactiveJunctionGraphic1 = new InteractiveWireJunctionGraphic( circuitGraphic, jg, transform, module );
         interactiveJunctionGraphic2 = new InteractiveWireJunctionGraphic( circuitGraphic, jg2, transform, module );
-        addGraphic( interactiveBranchGraphic );
-        addGraphic( interactiveJunctionGraphic1 );
-        addGraphic( interactiveJunctionGraphic2 );
     }
 
     public InteractiveBranchGraphic getInteractiveBranchGraphic() {
