@@ -9,8 +9,10 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.SphereBalloonExpert;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
@@ -25,6 +27,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
 
     private HollowSphere balloon;
     private Class gasSpecies = LightSpecies.class;
+    private Object containerAffected;
 
     public HeliumBalloonModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.HeliumBalloon" ) );
@@ -115,8 +118,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
                                       insets, 0, 0 );
 //        controlPanel.add( new SpeciesSelectionPanel( HeliumBalloonModule.this ), gbc );
 //        gbc.gridy = 1;
-        controlPanel.add( new MoleculeFactoryPanel( this, balloon, gasSpecies), gbc );
-//        controlPanel.add( new HeliumBalloonModule.MoleculeFactoryPanel( this ), gbc );
+//        controlPanel.add( new MoleculeFactoryPanel( this, balloon, gasSpecies ), gbc );
+        controlPanel.add( new HeliumBalloonModule.HeliumFactoryPanel(), gbc );
 //        getControlPanel().add( controlPanel );
         getIdealGasControlPanel().addComponent( controlPanel );
     }
@@ -129,46 +132,41 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
         return gasSpecies;
     }
 
-//    private class MoleculeFactoryPanel extends MoleculeFactoryPanel {
-//        Random random = new Random();
-//
-//        MoleculeFactoryPanel( IdealGasModule module ) {
-//            super( module );
-//        }
-//
-//        protected void pumpMolecule( GasMolecule molecule ) {
-//            super.pumpMolecule( molecule );
-//            balloon.addContainedBody( molecule );
-//        }
-//
-//        protected Class getCurrentGasSpecies() {
-//            return gasSpecies;
-//        }
-//
-//        protected Point2D getNewMoleculeLocation() {
-//            double r = random.nextDouble() - GasMolecule.s_defaultRadius;
-//            double theta = random.nextDouble() * Math.PI * 2;
-//            Point2D.Double p = new Point2D.Double( balloon.getPosition().getX() + r * Math.cos( theta ),
-//                                                   balloon.getPosition().getY() + r * Math.sin( theta ) );
-//            return p;
-//        }
-//
-//        protected Vector2D getNewMoleculeVelocity() {
-//            double s = 0;
-//            if( getCurrentGasSpecies() == HeavySpecies.class ) {
-//                s = getIdealGasModel().getHeavySpeciesAveSpeed();
-//                if( s == 0 ) {
-//                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / HeavySpecies.getMoleculeMass() );
-//                }
-//            }
-//            if( getCurrentGasSpecies() == LightSpecies.class ) {
-//                s = getIdealGasModel().getLightSpeciesAveSpeed();
-//                if( s == 0 ) {
-//                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / LightSpecies.getMoleculeMass() );
-//                }
-//            }
-//            double theta = random.nextDouble() * Math.PI * 2;
-//            return new Vector2D.Double( s * Math.cos( theta ), s * Math.sin( theta ) );
-//        }
-//    }
+    public void removeGasMoleculeFromBalloon() {
+        Command cmd = new RemoveMoleculeCmd( getIdealGasModel(), LightSpecies.class );
+        cmd.doIt();
+    }
+
+    public class HeliumFactoryPanel extends MoleculeFactoryPanel {
+        private int currNumMolecules;
+
+        public HeliumFactoryPanel() {
+            super( HeliumBalloonModule.this, balloon, gasSpecies );
+        }
+
+        protected void setNumParticles( int numParticles ) {
+            int dn = numParticles - currNumMolecules;
+            if( dn > 0 ) {
+                for( int i = 0; i < dn; i++ ) {
+                    Class species = getCurrentGasSpecies();
+                    Point2D location = getNewMoleculeLocation();
+                    Vector2D velocity = getNewMoleculeVelocity();
+                    GasMolecule gm = null;
+                    if( species == HeavySpecies.class ) {
+                        gm = new HeavySpecies( location, velocity, new Vector2D.Double() );
+                    }
+                    if( species == LightSpecies.class ) {
+                        gm = new LightSpecies( location, velocity, new Vector2D.Double() );
+                    }
+                    pumpMolecule( gm );
+                }
+            }
+            else if( dn < 0 ) {
+                for( int i = 0; i < -dn; i++ ) {
+                    removeGasMoleculeFromBalloon();
+                }
+            }
+            currNumMolecules += dn;
+        }
+    }
 }

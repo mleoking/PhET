@@ -32,17 +32,6 @@ public class LightSpecies extends GasMolecule {
         s_instances.add( this );
     }
 
-    /**
-     *
-     */
-    /**
-     *
-     */
-    public void removeYourselfFromSystem() {
-        LightSpecies.removeParticle( this );
-        notifyObservers();
-    }
-
 
     //
     // Static fields and methods

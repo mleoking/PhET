@@ -191,9 +191,9 @@ public class IdealGasModule extends Module {
             PhetImageGraphic handleGraphic = new PhetImageGraphic( getApparatusPanel(), handleImg );
 
             PumpHandleGraphic handleGraphicImage = new PumpHandleGraphic( pump, handleGraphic,
-                                                                          IdealGasConfig.X_BASE_OFFSET + 549, IdealGasConfig.Y_BASE_OFFSET + 238,
-                                                                          IdealGasConfig.X_BASE_OFFSET + 549, IdealGasConfig.Y_BASE_OFFSET + 100,
-                                                                          IdealGasConfig.X_BASE_OFFSET + 549, IdealGasConfig.Y_BASE_OFFSET + 238 );
+                                                                          IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238,
+                                                                          IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 100,
+                                                                          IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238 );
             this.addGraphic( handleGraphicImage, -6 );
             PhetImageGraphic pumpGraphic = new PhetImageGraphic( getApparatusPanel(), pumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
             this.addGraphic( pumpGraphic, -4 );
@@ -220,9 +220,6 @@ public class IdealGasModule extends Module {
             e.printStackTrace();
         }
 
-//        IdealGasMonitorPanel monitorPanel = new IdealGasMonitorPanel( idealGasModel );
-//        setMonitorPanel( monitorPanel );
-
         // Set up the box
         Box2DGraphic boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
         addGraphic( boxGraphic, 10 );
@@ -235,7 +232,6 @@ public class IdealGasModule extends Module {
         idealGasControlPanel = new IdealGasControlPanel( this );
         PhetControlPanel controlPanel = new PhetControlPanel( this, idealGasControlPanel);
         setControlPanel( controlPanel );
-//        setControlPanel( new IdealGasControlPanel( this ) );
 
         //        Rendered renderer = new Rendered( getApparatusPanel() );
         //        idealGasModel.addModelElement( renderer );

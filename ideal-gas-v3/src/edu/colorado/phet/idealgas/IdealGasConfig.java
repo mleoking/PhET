@@ -54,7 +54,8 @@ public class IdealGasConfig {
     public static final String GREEN_PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-green-xsml.gif";
 
     public static final String PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "molecule.gif";
-    public static final String PUMP_IMAGE_FILE = IMAGE_DIRECTORY + "pump-body.gif";
+    public static final String PUMP_IMAGE_FILE = IMAGE_DIRECTORY + "bicycle-pump.gif";
+//    public static final String PUMP_IMAGE_FILE = IMAGE_DIRECTORY + "pump-body.gif";
     public static final String HANDLE_IMAGE_FILE = IMAGE_DIRECTORY + "handle.gif";
     public static final String BOX_IMAGE_FILE = IMAGE_DIRECTORY + "box.gif";
 
