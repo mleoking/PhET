@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.colorvision3;
 
+import java.awt.Color;
 import java.util.Locale;
 
 import edu.colorado.phet.colorvision3.view.BoundsOutline;
@@ -17,7 +18,11 @@ import edu.colorado.phet.common.view.util.SimStrings;
  */
 public class ColorVisionApplication extends PhetApplication
 {
+  // The background color for the application's main Frame.
+  private static final Color BACKGROUND = new Color(148, 166, 158);
+  // Whether to turn on rendering of PhetGraphic bounds
   private static final boolean BOUNDS_OUTLINE_ENABLED = false; // DEBUG
+  
   /**
    * Sole constructor.
    * 
@@ -57,7 +62,7 @@ public class ColorVisionApplication extends PhetApplication
 	    // Initialize simulation strings using resource bundle for the locale.
 	    SimStrings.setStrings( ColorVisionConfig.LOCALIZATION_BUNDLE_BASENAME );
 	  }
-	    
+	      
 	  // Get stuff needed to initialize the application model.
 		String title = SimStrings.get( "ColorVisionApplication.title" );
 		String description = SimStrings.get( "ColorVisionApplication.description" );
@@ -72,6 +77,7 @@ public class ColorVisionApplication extends PhetApplication
 		
 		// Create and start the application.
 		PhetApplication app = new ColorVisionApplication( appModel );
+		app.getApplicationView().getPhetFrame().setBackground( BACKGROUND );
 		app.startApplication();
 	}
 }
