@@ -13,9 +13,6 @@ import java.awt.geom.Point2D;
 
 public class HollowSphere extends SphericalBody {
 
-    /**
-     *
-     */
     public HollowSphere( Point2D center,
                          Vector2D velocity,
                          Vector2D acceleration,
@@ -24,20 +21,7 @@ public class HollowSphere extends SphericalBody {
         super( center, velocity, acceleration, mass, radius );
     }
 
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-    }
 
-    /**
-     *
-     */
-//    public boolean isInContactWithHollowSphere( HollowSphere sphere ) {
-//        return false;
-//    }
-
-    /**
-     *
-     */
     public boolean isInContactWithParticle( CollidableBody particle ) {
 
         double sep = this.getPosition().distance( particle.getPosition() );
