@@ -74,7 +74,6 @@ public class Thermometer extends PhetGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        System.out.println( "!!!!" );
         GraphicsState gs = new GraphicsState( g );
         GraphicsUtil.setAntiAliasingOn( g );
         g.setFont( font );

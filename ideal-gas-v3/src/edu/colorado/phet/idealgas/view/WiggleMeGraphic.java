@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.idealgas.view;
 
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
@@ -16,10 +18,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class WiggleMeGraphic extends PhetGraphic implements Runnable {
+public class WiggleMeGraphic extends PhetGraphic {
 
-    private Runnable loop;
     private Component component;
+    private BaseModel model;
     Point2D.Double current = new Point2D.Double();
     String family = "Sans Serif";
     int style = Font.BOLD;
@@ -28,15 +30,30 @@ public class WiggleMeGraphic extends PhetGraphic implements Runnable {
     private Point2D.Double startLocation;
     private Color color = IdealGasConfig.helpColor;
     private Rectangle redrawArea;
+    private ModelElement wiggleMeModelElement;
 
-    public WiggleMeGraphic( Component component, Point2D.Double startLocation ) {
+    public WiggleMeGraphic( final Component component, final Point2D.Double startLocation, BaseModel model ) {
         super( component );
         this.component = component;
-        loop = this;
+        this.model = model;
         this.startLocation = startLocation;
         current.setLocation( startLocation );
-        redrawArea = new Rectangle( (int)startLocation.getX(), (int)startLocation.getY(),
-                                    200, 30 );
+        redrawArea = new Rectangle( (int)startLocation.getX(), (int)startLocation.getY() - 50,
+                                    110, 60 );
+        wiggleMeModelElement = new ModelElement() {
+                    double cnt = 0;
+                    public void stepInTime( double dt ) {
+                        cnt += 0.1;
+                        current.setLocation( startLocation.getX() + 30 * Math.cos( cnt ),
+                                             startLocation.getY() + 15 * Math.sin( cnt ) );
+                        component.invalidate();
+                        component.repaint( (int)redrawArea.getX(), (int)redrawArea.getY(), redrawArea.width, redrawArea.height );
+                    }
+                };
+    }
+
+    public void start() {
+        model.addModelElement( wiggleMeModelElement );
     }
 
     protected Rectangle determineBounds() {
@@ -44,26 +61,29 @@ public class WiggleMeGraphic extends PhetGraphic implements Runnable {
     }
 
     public void kill() {
-        loop = null;
+        model.removeModelElement( wiggleMeModelElement );
     }
 
-    public void run() {
-        double cnt = 0;
-        while( loop == this ) {
-            try {
-                Thread.sleep( 50 );
-            }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-            }
-            cnt += 0.2;
-            current.setLocation( startLocation.getX() + 30 * Math.cos( cnt ),
-                                 startLocation.getY() + 15 * Math.sin( cnt ) );
-            //            component.invalidate();
-            //            component.repaint();
-            repaint();
-        }
-    }
+//    public void run() {
+//        double cnt = 0;
+//        while( loop == this ) {
+//            try {
+//                Thread.sleep( 50 );
+//            }
+//            catch( InterruptedException e ) {
+//                e.printStackTrace();
+//            }
+//            cnt += 0.2;
+//            current.setLocation( startLocation.getX() + 30 * Math.cos( cnt ),
+//                                 startLocation.getY() + 15 * Math.sin( cnt ) );
+//
+////            this.setBoundsDirty();
+////            this.repaint();
+//            component.invalidate();
+//            component.repaint();
+////            component.repaint( (int)redrawArea.getX(), (int)redrawArea.getY(), redrawArea.width, redrawArea.height );
+//        }
+//    }
 
     public void paint( Graphics2D g ) {
         RenderingHints orgRH = g.getRenderingHints();
@@ -79,6 +99,7 @@ public class WiggleMeGraphic extends PhetGraphic implements Runnable {
         Point2D.Double arrowTip = new Point2D.Double( arrowTail.getX() + 15, arrowTail.getY() + 12 );
         Arrow arrow = new Arrow( arrowTail, arrowTip, 6, 6, 2, 100, false );
         g.fill( arrow.getShape() );
+
         g.setRenderingHints( orgRH );
     }
 }

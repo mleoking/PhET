@@ -35,7 +35,6 @@ class IdealGasThermometer extends Thermometer implements SimpleObserver {
         newTemperature *= IdealGasConfig.temperatureScaleFactor;
 
         if( temperature != newTemperature ) {
-            System.out.println( "temperature: " + temperature );
             temperature = newTemperature;
             super.setValue( temperature );
             super.setBoundsDirty();//TODO uncomment this line.

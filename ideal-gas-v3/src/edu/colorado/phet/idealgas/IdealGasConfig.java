@@ -44,6 +44,7 @@ public class IdealGasConfig {
     public static final float s_timeStep = 0.05f;
     public static final int s_waitTime = 20;
     public static final double temperatureScaleFactor = 20;
+    public static final double MAX_GAUGE_PRESSURE = 3.0;
 
     // Title, description and version number
     public static final String TITLE = "Ideal Gas Law";

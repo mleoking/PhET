@@ -158,10 +158,12 @@ public class IdealGasModule extends Module {
 
             if( wiggleMeGraphic == null ) {
                 wiggleMeGraphic = new WiggleMeGraphic( getApparatusPanel(),
-                                                       new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 470, IdealGasConfig.Y_BASE_OFFSET + 200 ) );
+                                                       new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 470, IdealGasConfig.Y_BASE_OFFSET + 200 ),
+                                                       getModel() );
                 addGraphic( wiggleMeGraphic, 40 );
-                Thread wiggleMeThread = new Thread( wiggleMeGraphic );
-                wiggleMeThread.start();
+                wiggleMeGraphic.start();
+//                Thread wiggleMeThread = new Thread( wiggleMeGraphic );
+//                wiggleMeThread.start();
             }
             pump.addObserver( new SimpleObserver() {
                 public void update() {
@@ -326,4 +328,6 @@ public class IdealGasModule extends Module {
     protected IdealGasControlPanel getIdealGasControlPanel() {
         return idealGasControlPanel;
     }
+
+
 }
