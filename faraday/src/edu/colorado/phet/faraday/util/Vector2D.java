@@ -186,9 +186,9 @@ public class Vector2D {
     //----------------------------------------------------------------------------
     
     /**
-     * Clears the vector, by setting its magnitude and angle to zero.
+     * Zeros out the vector, so that its magnitude and angle are zero.
      */
-    public void clear() {
+    public void zero() {
         setMagnitudeAngle( 0, 0 );
     }
     
