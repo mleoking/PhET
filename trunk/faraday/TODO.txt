@@ -13,7 +13,7 @@ MEDIUM PRIORITY:
 - set Electromagnet model size based on size of the coil in the Electromagnet graphic
 - bug: changing the number of loops when the AC is connected makes the grid disappear
 - bug: electrons in source coil seem to get "off" in the left-most loop
-- bug: electrons appear to flow faster in a coil with fewer loops with the same voltage
+- bug: electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
 - bug: not enough visual difference between the min & max voltage/amplitude settings
 - show frequency & amplitude graph on the ACSourceGraphic
 - Transformer module requirements
