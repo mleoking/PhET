@@ -59,14 +59,14 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
         {
             _acSourceGraphic = new PhetImageGraphic( component, FaradayConfig.AC_SOURCE_IMAGE );
             addGraphic( _acSourceGraphic );
-
-            // Registration point is the bottom center of the image.
-            int rx = _acSourceGraphic.getImage().getWidth() / 2;
-            int ry = _acSourceGraphic.getImage().getHeight();
-            _acSourceGraphic.setRegistrationPoint( rx, ry );
-
+            
             _acSourceGraphic.scale( 0.40 ); // XXX
         }
+        
+        // Registration point is the bottom center.
+        int rx = getWidth() / 2;
+        int ry = getHeight();
+        setRegistrationPoint( rx, ry );
         
         update();
     }
