@@ -36,6 +36,7 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
     // Class data
     //----------------------------------------------------------------------------
     
+    // Composite with alpha, used when electron is on the background layer.
     private static final Composite COMPOSITE = 
         AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.5f );
     
@@ -43,9 +44,14 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
     // Instance data
     //----------------------------------------------------------------------------
     
+    // The electron that this graphic represents.
     private Electron _electronModel;
+    
+    // The parent graphic.
     private CompositePhetGraphic _parent;
-    private boolean _isBackground;
+    
+    // Is this electron on the background layer?
+    private boolean _onBackground;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -55,7 +61,7 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
      * Sole constructor.
      * 
      * @param component the parent Component
-     * @param electronModel the electron being displayed
+     * @param electronModel the electron that this graphic represents
      */
     public ElectronGraphic( Component component, CompositePhetGraphic parent, Electron electronModel ) {
         super( component, FaradayConfig.ELECTRON_IMAGE );
@@ -68,7 +74,7 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
         _electronModel.addObserver( this );
         
         _parent = parent;
-        _isBackground = false;
+        _onBackground = false;
         
         int rx = getImage().getWidth() / 2;
         int ry = getImage().getHeight() / 2;
@@ -102,7 +108,7 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
             CurveDescriptor cd = _electronModel.getCurveDescriptor();
             
             // Are we on the background layer?
-            _isBackground = ( cd.getLayer() == CurveDescriptor.BACKGROUND );
+            _onBackground = ( cd.getLayer() == CurveDescriptor.BACKGROUND );
                 
             // Jump between foreground and background.
             CompositePhetGraphic parent = cd.getParent();
@@ -133,7 +139,7 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
      */
     public void paint( Graphics2D g2 ) {
         if ( isVisible() ) {
-            if ( _isBackground ) {
+            if ( _onBackground ) {
                 Composite oldComposite = g2.getComposite(); // save
                 g2.setComposite( COMPOSITE );
                 super.paint( g2 );
