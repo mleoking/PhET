@@ -71,6 +71,8 @@ public class Axis extends GraphicLayerSet {
             PhetShapeGraphic phetShapeGraphic = new PhetShapeGraphic( chart.getComponent(), line, stroke, color );
             lineGraphic.addGraphic( phetShapeGraphic );
         }
+        majorTicks.update();
+        minorTicks.update();
     }
 
     protected AxisTicks getMinorTicks() {

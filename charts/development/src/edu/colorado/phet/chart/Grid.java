@@ -24,7 +24,7 @@ public class Grid extends AbstractGrid {
         update();
     }
 
-    void update() {
+    protected void update() {
         clear();
         int orientation = super.getOrientation();
         Chart chart = super.getChart();

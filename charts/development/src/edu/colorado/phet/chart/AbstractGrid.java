@@ -17,7 +17,7 @@ public abstract class AbstractGrid extends CompositePhetGraphic {
     public final static int HORIZONTAL = 1;
     public final static int VERTICAL = 2;
 
-    private boolean visible = true;
+//    private boolean visible = true;
     private Chart chart;
     private int orientation;
     private Stroke stroke;
@@ -36,27 +36,25 @@ public abstract class AbstractGrid extends CompositePhetGraphic {
 
     public void setStroke( Stroke stroke ) {
         this.stroke = stroke;
+        update();
     }
 
     public void setColor( Color color ) {
         this.color = color;
+        update();
     }
+
+    protected abstract void update();
 
     public void setSpacing( double spacing ) {
         this.spacing = spacing;
         lines = null;
+        update();
     }
 
     public void setCrossesOtherAxisAt( double crossesOtherAxisAt ) {
         this.crossesOtherAxisAt = crossesOtherAxisAt;
-    }
-
-    public void setVisible( boolean visible ) {
-        this.visible = visible;
-    }
-
-    public boolean isVisible() {
-        return visible;
+        update();
     }
 
     public Stroke getStroke() {
@@ -131,5 +129,6 @@ public abstract class AbstractGrid extends CompositePhetGraphic {
 
     public void setGridlines( double[] lines ) {
         this.lines = lines;
+        update();
     }
 }

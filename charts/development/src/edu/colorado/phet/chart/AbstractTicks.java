@@ -44,18 +44,18 @@ public abstract class AbstractTicks extends AbstractGrid {
         update();
     }
 
-    private void update() {
+    protected void update() {
         labelGraphics.clear();
         tickGraphics.clear();
-        Chart chart = super.getChart();
-        if( super.getOrientation() == HORIZONTAL ) {
-            double[] gridLines = getGridLines( super.getCrossesOtherAxisAt(), chart.getRange().getMinX(), chart.getRange().getMaxX(), super.getSpacing() );
+        Chart chart = getChart();
+        if( getOrientation() == HORIZONTAL ) {
+            double[] gridLines = getGridLines( getCrossesOtherAxisAt(), chart.getRange().getMinX(), chart.getRange().getMaxX(), getSpacing() );
             for( int i = 0; i < gridLines.length; i++ ) {
                 double gridLineX = gridLines[i];
                 int x = chart.transformX( gridLineX );
                 int y = getHorizontalTickY();
                 Line2D.Double line = new Line2D.Double( x, y - tickHeight / 2, x, y + tickHeight / 2 );
-                PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, super.getStroke(), super.getColor() );
+                PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
                 tickGraphics.addGraphic( lineGraphic );
 
                 String string = format.format( gridLineX );
@@ -64,14 +64,14 @@ public abstract class AbstractTicks extends AbstractGrid {
                 labelGraphics.addGraphic( labelGraphic );
             }
         }
-        else if( super.getOrientation() == VERTICAL ) {
-            double[] gridLines = getGridLines( super.getCrossesOtherAxisAt(), chart.getRange().getMinY(), chart.getRange().getMaxY(), super.getSpacing() );
+        else if( getOrientation() == VERTICAL ) {
+            double[] gridLines = getGridLines( getCrossesOtherAxisAt(), chart.getRange().getMinY(), chart.getRange().getMaxY(), getSpacing() );
             for( int i = 0; i < gridLines.length; i++ ) {
                 double gridLineY = gridLines[i];
                 int x = getVerticalTickX();
                 int y = chart.transformY( gridLineY );
                 Line2D.Double line = new Line2D.Double( x - tickHeight / 2, y, x + tickHeight / 2, y );
-                PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, super.getStroke(), super.getColor() );
+                PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
                 tickGraphics.addGraphic( lineGraphic );
 
                 String string = format.format( gridLineY );
@@ -88,26 +88,32 @@ public abstract class AbstractTicks extends AbstractGrid {
 
     public void setShowLabels( boolean showLabels ) {
         this.showLabels = showLabels;
+        update();
     }
 
     public void setFont( Font font ) {
         this.font = font;
+        update();
     }
 
     public void setFormatter( DecimalFormat formatter ) {
         this.format = formatter;
+        update();
     }
 
     public void setTickHeight( int tickHeight ) {
         this.tickHeight = tickHeight;
+        update();
     }
 
     public void setNumberFormat( NumberFormat numberFormat ) {
         this.format = numberFormat;
+        update();
     }
 
     public void setLabelsVisible( boolean visible ) {
         showLabels = visible;
+        update();
     }
 
     public abstract int getVerticalTickX();
