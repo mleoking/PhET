@@ -88,7 +88,7 @@ public class IdealGasConfig {
     public static final String PUSHER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher/pusher-3";
     public static final int NUM_LEANER_ANIMATION_FRAMES = 15;
     public static final String LEANER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-leaning/pusher-leaning";
-    public static final String PUSHER_ANIMATION_IMAGE_FILE_TYPE = "png";
+    public static final String PUSHER_ANIMATION_IMAGE_FILE_TYPE = "gif";
 
     // Offset for locating objects in the apparatus panel
     public static final int X_BASE_OFFSET = 30;
