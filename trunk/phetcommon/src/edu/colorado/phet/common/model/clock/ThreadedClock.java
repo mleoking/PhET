@@ -6,19 +6,18 @@
  */
 package edu.colorado.phet.common.model.clock;
 
-import edu.colorado.phet.common.model.ThreadPriority;
 
 public class ThreadedClock extends AbstractClock implements Runnable {
-    protected ThreadPriority priority;
+    protected int priority;
     protected Thread t;
     private static final int PAUSE_WAIT = Integer.MAX_VALUE;
     private boolean selfInterrupt;
 
     public ThreadedClock( double dt, int delay, boolean isFixed ) {
-        this( dt, delay, isFixed, ThreadPriority.NORMAL );
+        this( dt, delay, isFixed, Thread.NORM_PRIORITY );
     }
 
-    public ThreadedClock( double dt, int waitTime, boolean isFixed, ThreadPriority priority ) {
+    public ThreadedClock( double dt, int waitTime, boolean isFixed, int priority ) {
         super( dt, waitTime, isFixed );
         this.priority = priority;
         t = new Thread( this );
@@ -65,8 +64,8 @@ public class ThreadedClock extends AbstractClock implements Runnable {
         }
     }
 
-    public void setThreadPriority( ThreadPriority tp ) {
-        t.setPriority( tp.intValue() );
+    public void setThreadPriority( int tp ) {
+        t.setPriority( tp );
         this.priority = tp;
         for( int i = 0; i < getClockStateListeners().size(); i++ ) {
             ClockStateListener clockStateListener = (ClockStateListener)getClockStateListeners().get( i );
@@ -74,7 +73,7 @@ public class ThreadedClock extends AbstractClock implements Runnable {
         }
     }
 
-    public ThreadPriority getThreadPriority() {
+    public int getThreadPriority() {
         return priority;
     }
 

@@ -11,6 +11,8 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -52,7 +54,15 @@ public class TestGraphics {
 
         ShapeGraphic sg = new ShapeGraphic( area, Color.red );
         //        ShapeBoundary sb = new ShapeBoundary( area );
-        DefaultInteractiveGraphic graphic = new DefaultInteractiveGraphic( sg );
+        final DefaultInteractiveGraphic graphic = new DefaultInteractiveGraphic( sg );
+        final JCheckBox visible = new JCheckBox( "Visible", true );
+        visible.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                graphic.setVisible( visible.isSelected() );
+            }
+        } );
+        panel.add( visible );
+        visible.reshape( 200, 200, 80, 80 );
         panel.addGraphic( graphic );
 
         //        HandCursorControl hand=new HandCursorControl();

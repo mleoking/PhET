@@ -85,7 +85,7 @@ public class TestClock extends PhetApplication {
         AbstractClock clock = new ThreadedClock( 10, 20, false );
         final MyModule m = new MyModule( "asdf", clock );
         ApplicationModel ad = new ApplicationModel( "appname", "mydescritpion",
-                                                    "myversion", new FrameSetup.Absolute( 400, 400 ) );
+                                                    "myversion", new FrameSetup.CenteredWithSize( 400, 400 ) );
         TestClock tc = new TestClock( ad, m, clock );
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( AbstractClock c, double dt ) {

@@ -19,7 +19,7 @@ public class ApplicationModel {
     boolean useClockControlPanel = true;
 
     public ApplicationModel( String windowTitle, String description, String version ) {
-        this( windowTitle, description, version, new FrameSetup.Center( 200, 200 ) );
+        this( windowTitle, description, version, new FrameSetup.CenteredWithInsets( 200, 200 ) );
     }
 
     public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup ) {
@@ -119,5 +119,24 @@ public class ApplicationModel {
 
     public void setFrameSetup( FrameSetup frameSetup ) {
         this.frameSetup = frameSetup;
+    }
+
+    public void setFrameCenteredSize( int width, int height ) {
+        setFrameSetup( new FrameSetup.CenteredWithSize( width, height ) );
+    }
+
+    public void setFrameCenteredInsets( int insetX, int insetY ) {
+        setFrameSetup( new FrameSetup.CenteredWithInsets( insetX, insetY ) );
+    }
+
+    /**
+     * The insets are a fallback-plan, when the frame is un-max-extented,
+     * the frame will be centered with these specified insets.
+     *
+     * @param insetX
+     * @param insetY
+     */
+    public void setFrameMaximized( int insetX, int insetY ) {
+        setFrameSetup( new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( insetX, insetY ) ) );
     }
 }

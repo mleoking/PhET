@@ -8,8 +8,6 @@ package edu.colorado.phet.common.view.util;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
@@ -22,7 +20,7 @@ public class GraphicsUtil {
 
     public static void fastRepaint( final Component parent, final Rectangle bounds ) {
         boolean dolater = false;
-//        boolean dolater=true;
+        //        boolean dolater=true;
         if( dolater ) {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
@@ -115,28 +113,6 @@ public class GraphicsUtil {
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         return g2;
     }
-
-    // This method sets the initial focus in a window to a specified
-    // component
-    public static void setInitialFocus( Window w, final Component c ) {
-        w.addWindowListener( new FocusSetter( c ) );
-    }
-
-    private static class FocusSetter extends WindowAdapter {
-        Component initComp;
-
-        FocusSetter( Component c ) {
-            initComp = c;
-        }
-
-        public void windowOpened( WindowEvent e ) {
-            initComp.requestFocus();
-
-            // Since this listener is no longer needed, remove it
-            e.getWindow().removeWindowListener( this );
-        }
-    }
-
 
     // This method maximizes a frame; the iconified bit is not affected.
     public static void maximizeFrame( Frame frame ) {
@@ -277,25 +253,11 @@ public class GraphicsUtil {
         }
     }
 
-    /**
-     * Places a frame on the screen, centered left and right and placed
-     * vertically at the golden mean
-     *
-     * @param frame
-     */
-    public static void centerFrameOnScreen( JFrame frame ) {
-        centerWindowOnScreen( frame );
-    }
-
     public static void centerWindowOnScreen( Window window ) {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenSize = tk.getScreenSize();
         window.setLocation( (int)( screenSize.getWidth() / 2 - window.getWidth() / 2 ),
                             (int)( screenSize.getHeight() / 2 - window.getHeight() / 2 ) );
-    }
-
-    public static void centerDialogOnScreen( JDialog dialog ) {
-        centerWindowOnScreen( dialog );
     }
 
     /**

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, PhET, 2003.*/
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
 import javax.swing.event.MouseInputListener;

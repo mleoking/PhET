@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.common.view.graphics.transforms;
 
-//import edu.colorado.phet.common.math.PhetVector;
-
 import edu.colorado.phet.common.math.AbstractVector2D;
 
 import java.awt.*;

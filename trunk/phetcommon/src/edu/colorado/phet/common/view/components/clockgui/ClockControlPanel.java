@@ -7,7 +7,6 @@
  */
 package edu.colorado.phet.common.view.components.clockgui;
 
-import edu.colorado.phet.common.model.ThreadPriority;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.model.clock.ThreadedClock;
@@ -71,31 +70,31 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
             min = new JRadioButton( "Minimum" );
             min.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    c.setThreadPriority( ThreadPriority.MIN );
+                    c.setThreadPriority( Thread.MIN_PRIORITY );
                 }
             } );
 
             norm = new JRadioButton( "Normal" );
             norm.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    c.setThreadPriority( ThreadPriority.NORMAL );
+                    c.setThreadPriority( Thread.NORM_PRIORITY );
                 }
             } );
             max = new JRadioButton( "Maximum" );
             max.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    c.setThreadPriority( ThreadPriority.MAX );
+                    c.setThreadPriority( Thread.MAX_PRIORITY );
                 }
             } );
-            ThreadPriority prior = c.getThreadPriority();
+            int priority = c.getThreadPriority();
 
-            if( prior == ThreadPriority.MIN ) {
+            if( priority == Thread.MIN_PRIORITY ) {
                 min.setSelected( true );
             }
-            else if( prior == ThreadPriority.MAX ) {
+            else if( priority == Thread.MAX_PRIORITY ) {
                 max.setSelected( true );
             }
-            else if( prior == ThreadPriority.NORMAL ) {
+            else if( priority == Thread.NORM_PRIORITY ) {
                 norm.setSelected( true );
             }
             ButtonGroup bg = new ButtonGroup();
@@ -168,14 +167,14 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         this.dtSpinner.setValue( new Double( dt ) );
     }
 
-    public void threadPriorityChanged( ThreadPriority prior ) {
-        if( prior == ThreadPriority.MIN ) {
+    public void threadPriorityChanged( int priority ) {
+        if( priority == Thread.MIN_PRIORITY ) {
             tpp.min.setSelected( true );
         }
-        else if( prior == ThreadPriority.MAX ) {
+        else if( priority == Thread.MAX_PRIORITY ) {
             tpp.max.setSelected( true );
         }
-        else if( prior == ThreadPriority.NORMAL ) {
+        else if( priority == Thread.NORM_PRIORITY ) {
             tpp.norm.setSelected( true );
         }
     }

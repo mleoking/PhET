@@ -11,9 +11,9 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Jan 2, 2004 by Sam Reid
  */
 public class BufferedImageGraphic implements BoundedGraphic {
-    BufferedImage image;
+    private BufferedImage image;
     protected AffineTransform transform = new AffineTransform();
-    boolean shapeDirty = true;
+    private boolean shapeDirty = true;
     private Shape sh;
 
     public BufferedImageGraphic( BufferedImage image ) {
@@ -51,6 +51,7 @@ public class BufferedImageGraphic implements BoundedGraphic {
     public void setLocation( Point ctr ) {
         setLocation( ctr.x, ctr.y );
     }
+
 
     public void setLocation( int centerX, int centerY ) {
         setTransform( getCenterTransform( centerX, centerY ) );
