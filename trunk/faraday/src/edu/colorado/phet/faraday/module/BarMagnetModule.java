@@ -141,7 +141,6 @@ public class BarMagnetModule extends FaradayModule {
         // Debugger
 //        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
 //        debugger.setLocationColor( Color.GREEN );
-//        debugger.setLocationStrokeWidth( 1 );
 //        debugger.add( compassGraphic );
 //        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
         
