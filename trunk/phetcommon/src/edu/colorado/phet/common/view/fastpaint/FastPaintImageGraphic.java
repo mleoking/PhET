@@ -1,9 +1,3 @@
-/**
- * Class: FastPaintImageGraphic
- * Package: edu.colorado.phet.common.view.fastpaint
- * Author: Another Guy
- * Date: May 19, 2004
- */
 package edu.colorado.phet.common.view.fastpaint;
 
 import edu.colorado.phet.common.view.graphics.BufferedImageGraphic;
@@ -27,7 +21,8 @@ public class FastPaintImageGraphic extends BufferedImageGraphic {
     }
 
     public Rectangle getVisibleRect() {
-        return super.getShape().getBounds();
+        Rectangle visibleBounds = super.getShape().getBounds();
+        return visibleBounds;
     }
 
     public void setImage( BufferedImage image ) {
@@ -45,16 +40,7 @@ public class FastPaintImageGraphic extends BufferedImageGraphic {
     }
 
     public void setPosition( Point ctr ) {
-        Rectangle origRect = getVisibleRect();
-        super.setPosition( ctr );
-        Rectangle newRect = getVisibleRect();
-        GraphicsUtil.fastRepaint( parent, origRect, newRect );
+        setTransform( getCenterTransform( ctr.x,ctr.y ) );
     }
 
-    public void setLocation( int centerX, int centerY ) {
-        Rectangle origRect = getVisibleRect();
-        super.setLocation( centerX, centerY );
-        Rectangle newRect = getVisibleRect();
-        GraphicsUtil.fastRepaint( parent, origRect, newRect );
-    }
 }

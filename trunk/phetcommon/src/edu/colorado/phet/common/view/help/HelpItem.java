@@ -1,108 +1,101 @@
 /**
- * Class: OnScreenHelpItemOld
- * Package: edu.colorado.phet.graphics.graphics
- * User: Ron LeMaster
- * Date: Feb 4, 2003
- * Time: 10:13:05 AM
- * To change this template use Options | File Templates.
+ * Class: HelpItem
+ * Package: edu.colorado.phet.common.view.help
+ * Author: Another Guy
+ * Date: May 24, 2004
  */
 package edu.colorado.phet.common.view.help;
 
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.ShapeGraphic;
+import edu.colorado.phet.common.view.graphics.TextGraphic;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.font.FontRenderContext;
 import java.awt.geom.Point2D;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
-/**
- * Class for on-screen help. An icon appears on the screen, and if the mouse is left
- * for a moment on the icon, text is displayed.
- * <p/>
- * Line breaks can be specified in the text with the standard "\n" escape character,
- * or by using the same HTML tags that are used for Swing tools tips.
- */
-public class HelpItem extends JLabel {
+public class HelpItem implements Graphic {
+    public final static int TOP = 1;
+    public final static int BOTTOM = 2;
+    public final static int LEFT = 3;
+    public final static int CENTER = 4;
+    public final static int RIGHT = 5;
 
-    private Color color;
+    ShapeGraphic backgroundGraphic;
+    ArrayList textGraphics;
+    int horizontalAlignment;
+    int verticalAlignment;
+    private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private String text;
+    private Color color = new Color( 156, 156, 0 );
+    private Point2D.Double location;
 
-    public HelpItem( String text, int x, int y ) {
-        this( text, new Point2D.Float( x, y ), Color.BLACK );
+    public HelpItem( String text, double x, double y ) {
+        this( text, x, y, CENTER, CENTER );
     }
 
-    public HelpItem( String text, int x, int y, Color color ) {
-        this( text, new Point2D.Float( x, y ), color );
+    public HelpItem( String text, double x, double y,
+                       int horizontalAlignment, int verticalAlignment ) {
+        this.horizontalAlignment = horizontalAlignment;
+        this.verticalAlignment = verticalAlignment;
+        this.text = text;
+        this.location = new Point2D.Double( x, y );
     }
 
-    public HelpItem( String text, Point2D.Float location ) {
-        this( text, location, Color.BLACK );
-    }
-
-    public HelpItem( String text, Point2D.Float location, Color color ) {
-        this.setIcon( new ImageIcon( s_helpItemIcon ) );
-
-        String displayString = text;
-        if( text.indexOf( "\n" ) != -1 ) {
-            displayString = xformText( text );
+    private String[] tokenizeString( String inputText ) {
+        StringTokenizer st = new StringTokenizer( inputText, "\n" );
+        ArrayList list = new ArrayList();
+        while( st.hasMoreTokens() ) {
+            String next = st.nextToken();
+            list.add( next );
         }
-        setToolTipText( displayString );
-        setLocation( new Point( (int)location.getX(), (int)location.getY() ) );
-        setColor( color );
-        this.setBounds( (int)location.getX(), (int)location.getY(),
-                        s_helpItemIcon.getWidth( this ), s_helpItemIcon.getHeight( this ) );
+        return (String[])list.toArray( new String[0] );
     }
 
-    //    public void setLocation( int x, int y ) {
-    //        this.setBounds((int) location.getX(), (int) location.getY(),
-    //                s_helpItemIcon.getWidth(this), s_helpItemIcon.getHeight(this));
-    //    }
-    /**
-     * @param inString
-     * @return
-     */
-    private String xformText( String inString ) {
-        StringBuffer outString = new StringBuffer( "<html>" );
-        int lastIdx = 0;
-        for( int nextIdx = inString.indexOf( "\n", lastIdx );
-             nextIdx != -1;
-             nextIdx = inString.indexOf( "\n", lastIdx ) ) {
-            outString.append( inString.substring( lastIdx, nextIdx ) );
-            if( nextIdx < inString.length() ) {
-                outString.append( "<br>" );
+    public void paint( Graphics2D g ) {
+        RenderingHints orgHints = g.getRenderingHints();
+        GraphicsUtil.setAntiAliasingOn( g );
+        placeTextGraphics( g );
+        if( backgroundGraphic != null ) {
+            backgroundGraphic.paint( g );
+        }
+        for( int i = 0; i < textGraphics.size(); i++ ) {
+            TextGraphic textGraphic = (TextGraphic)textGraphics.get( i );
+            textGraphic.paint( g );
+        }
+        g.setRenderingHints( orgHints );
+    }
+
+    private void placeTextGraphics( Graphics2D g ) {
+        if( textGraphics == null ) {
+            FontMetrics fontMetrics = g.getFontMetrics( font );
+            FontRenderContext fontRenderContext;
+            textGraphics = new ArrayList();
+            String[] sa = tokenizeString( text );
+            int x = (int)( location.getX() + fontMetrics.getStringBounds( " ", g ).getWidth());
+            for( int i = 0; i < sa.length; i++ ) {
+                int y = (int)location.getY() + ( i + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
+                TextGraphic textGraphicShadow = new TextGraphic( sa[i], font, (float)x + 1, (float)y + 1, Color.black );
+                textGraphics.add( textGraphicShadow );
+                TextGraphic textGraphic = new TextGraphic( sa[i], font, (float)x, (float)y, color );
+                textGraphics.add( textGraphic );
             }
-            lastIdx = nextIdx + 1;
         }
-        outString.append( inString.substring( lastIdx, inString.length() ) );
-        outString.append( "</html>" );
-        return outString.toString();
     }
 
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor( Color color ) {
-        this.color = color;
-    }
-
-    //
-    // Static fields and methods
-    //
-    public static final String IMAGE_DIRECTORY = "images/";
-    public static final String HELP_ITEM_ICON_IMAGE_FILE = IMAGE_DIRECTORY + "help-item-icon.gif";
-
-    private static Image s_helpItemIcon;
-    private static ImageLoader s_loader;
-
-    static {
-        s_loader = new ImageLoader();
-        try {
-            s_helpItemIcon = s_loader.loadImage( HELP_ITEM_ICON_IMAGE_FILE );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-        }
-        ToolTipManager.sharedInstance().setInitialDelay( 0 );
-        ToolTipManager.sharedInstance().setDismissDelay( Integer.MAX_VALUE );
+    public static void main( String[] args ) {
+        JFrame frame = new JFrame( );
+        ApparatusPanel ap = new ApparatusPanel();
+        frame.setContentPane( ap );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        HelpItem hi = new HelpItem( "Hi there,\nSailor!", 100, 0 );
+        ap.addGraphic( hi );
+        frame.setSize(  500, 500 );
+        frame.setVisible( true );
     }
 }

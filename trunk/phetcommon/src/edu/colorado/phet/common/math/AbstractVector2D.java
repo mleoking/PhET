@@ -47,6 +47,7 @@ public interface AbstractVector2D {
         private double y;
 
         protected Double() {
+            this(0,0);
         }
 
         protected Double( double x, double y ) {
@@ -171,6 +172,7 @@ public interface AbstractVector2D {
         private float y;
 
         protected Float() {
+            this(0,0);
         }
 
         protected Float( float x, float y ) {

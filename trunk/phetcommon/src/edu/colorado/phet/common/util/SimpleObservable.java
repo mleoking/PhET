@@ -23,17 +23,6 @@ public class SimpleObservable {
         }
     }
 
-    /**
-     * @deprecated
-     */
-    public void updateObservers() {
-        notifyObservers();
-        //        for( int i = 0; i < observers.size(); i++ ) {
-        //            SimpleObserver simpleObserver = (SimpleObserver)observers.get( i );
-        //            simpleObserver.update();
-        //        }
-    }
-
     public void removeObserver( SimpleObserver obs ) {
         observers.remove( obs );
     }

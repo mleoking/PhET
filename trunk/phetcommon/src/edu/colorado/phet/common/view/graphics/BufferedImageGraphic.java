@@ -1,4 +1,3 @@
-/*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.common.view.graphics;
 
 import java.awt.*;
@@ -13,7 +12,9 @@ import java.awt.image.BufferedImage;
  */
 public class BufferedImageGraphic implements BoundedGraphic {
     BufferedImage image;
-    AffineTransform transform = new AffineTransform();
+    protected AffineTransform transform = new AffineTransform();
+    boolean shapeDirty = true;
+    private Shape sh;
 
     public BufferedImageGraphic( BufferedImage image ) {
         this.image = image;
@@ -24,6 +25,7 @@ public class BufferedImageGraphic implements BoundedGraphic {
 
     public void setImage( BufferedImage image ) {
         this.image = image;
+        shapeDirty = true;
     }
 
     public BufferedImageGraphic( BufferedImage image, AffineTransform transform ) {
@@ -43,16 +45,21 @@ public class BufferedImageGraphic implements BoundedGraphic {
 
     public void setTransform( AffineTransform transform ) {
         this.transform = transform;
+        this.shapeDirty = true;
     }
 
-    public void setPosition( Point ctr ) {
-        setTransform( getCenterTransform( ctr ) );
+    public void setLocation( Point ctr ) {
+        setLocation( ctr.x, ctr.y );
     }
 
-    private AffineTransform getCenterTransform( Point ctr ) {
+    public void setLocation( int centerX, int centerY ) {
+        setTransform( getCenterTransform( centerX, centerY ) );
+    }
+
+    public AffineTransform getCenterTransform( int x, int y ) {
         double imWidth = image.getWidth();
         double imHeight = image.getHeight();
-        AffineTransform imageTransform = AffineTransform.getTranslateInstance( ctr.x - imWidth / 2, ctr.y - imHeight / 2 );
+        AffineTransform imageTransform = AffineTransform.getTranslateInstance( x - imWidth / 2, y - imHeight / 2 );
         return imageTransform;
     }
 
@@ -60,17 +67,16 @@ public class BufferedImageGraphic implements BoundedGraphic {
         return transform;
     }
 
-    public void setLocation( int centerX, int centerY ) {
-        setPosition( new Point( centerX, centerY ) );
-    }
-
     public boolean contains( int x, int y ) {
         return getShape().contains( x, y );
     }
 
     public Shape getShape() {
-        Rectangle r = new Rectangle( image.getWidth(), image.getHeight() );
-        Shape sh = transform.createTransformedShape( r );
+        if( shapeDirty || sh == null ) {
+            Rectangle r = new Rectangle( image.getWidth(), image.getHeight() );
+            sh = transform.createTransformedShape( r );
+            shapeDirty = false;
+        }
         return sh;
     }
 }
