@@ -12,8 +12,10 @@ import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import java.util.List;
+import java.util.Random;
 
 public class RemoveMoleculeCmd implements Command {
+    private static Random random = new Random();
     private IdealGasModel idealGasModel;
     private Class currentGasSpecies;
 
@@ -24,15 +26,31 @@ public class RemoveMoleculeCmd implements Command {
 
     public void doIt() {
         List bodies = idealGasModel.getBodies();
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Object obj = bodies.get( i );
-            if( currentGasSpecies.isInstance( obj ) ) {
-                bodies.remove( i );
-                GasMolecule molecule = (GasMolecule)obj;
-                idealGasModel.removeModelElement( molecule );
-                //                molecule.removeYourselfFromSystem();
-                break;
+
+        // Randomize which end of the list of bodies we start searching from,
+        // just to make sure there is no non-random effect on the temperature
+        // of the system
+        Object obj = null;
+        while( obj == null ) {
+            boolean randomB = random.nextBoolean();
+            if( randomB ) {
+                for( int i = 0; i < bodies.size(); i++ ) {
+                    obj = bodies.get( i );
+                    if( currentGasSpecies.isInstance( obj ) ) {
+                        break;
+                    }
+                }
+            }
+            else {
+                for( int i = bodies.size() - 1; i >= 0; i-- ) {
+                    obj = bodies.get( i );
+                    if( currentGasSpecies.isInstance( obj ) ) {
+                        break;
+                    }
+                }
             }
         }
+        GasMolecule molecule = (GasMolecule)obj;
+        idealGasModel.removeModelElement( molecule );
     }
 }
