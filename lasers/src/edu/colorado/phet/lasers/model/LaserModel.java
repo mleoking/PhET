@@ -11,29 +11,28 @@
  */
 package edu.colorado.phet.lasers.model;
 
-import edu.colorado.phet.collision.*;
+import edu.colorado.phet.collision.Collidable;
+import edu.colorado.phet.collision.CollisionExpert;
+import edu.colorado.phet.collision.SphereBoxExpert;
+import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.collision.AtomWallCollision;
-import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollision;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ArrayList;
 
 public class LaserModel extends BaseModel implements Atom.Listener {
-//public class LaserModel extends PhysicalSystem {
+    //public class LaserModel extends PhysicalSystem {
 
     static public Point2D ORIGIN = new Point2D.Double( 100, 300 );
     static private int width = 800;
@@ -69,42 +68,41 @@ public class LaserModel extends BaseModel implements Atom.Listener {
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
         if( modelElement instanceof Collidable ) {
-//        if( modelElement instanceof Body ) {
             bodies.add( modelElement );
         }
         if( modelElement instanceof ResonatingCavity ) {
             this.resonatingCavity = (ResonatingCavity)modelElement;
         }
         if( modelElement instanceof Atom ) {
-            ((Atom)modelElement).addListener( this );
+            ( (Atom)modelElement ).addListener( this );
         }
     }
 
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
         if( modelElement instanceof Collidable ) {
-//        if( modelElement instanceof Body ) {
             bodies.remove( modelElement );
         }
         if( modelElement instanceof Atom ) {
-            ((Atom)modelElement).removeListener( this );
+            ( (Atom)modelElement ).removeListener( this );
         }
     }
+
+    int cnt = 0;
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
 
         // Check to see if any photons need to be taken out of the system
-//        List bodies = this.getBodies();
         for( int i = 0; i < bodies.size(); i++ ) {
             Object obj = bodies.get( i );
             if( obj instanceof Photon ) {
                 Photon photon = (Photon)obj;
                 Point2D position = photon.getPosition();
                 if( !boundingRectangle.contains( position.getX(), position.getY() ) ) {
+                    System.out.println( "cnt: " + cnt++ );
                     removeModelElement( photon );
-//                    RemoveParticleCmd cmd = new RemoveParticleCmd( photon );
-//                    this.addPrepCmd( cmd );
+                    photon.removeFromSystem();
                 }
             }
         }
@@ -131,10 +129,10 @@ public class LaserModel extends BaseModel implements Atom.Listener {
     public void setStimulatingBeam( CollimatedBeam stimulatingBeam ) {
         if( stimulatingBeam != null ) {
             removeModelElement( stimulatingBeam );
-//            this.removeBody( stimulatingBeam );
+            //            this.removeBody( stimulatingBeam );
         }
         addModelElement( stimulatingBeam );
-//        addBody( stimulatingBeam );
+        //        addBody( stimulatingBeam );
         this.stimulatingBeam = stimulatingBeam;
     }
 
@@ -152,10 +150,10 @@ public class LaserModel extends BaseModel implements Atom.Listener {
     public void setPumpingBeam( CollimatedBeam pumpingBeam ) {
         if( pumpingBeam != null ) {
             removeModelElement( pumpingBeam );
-//            this.removeBody( pumpingBeam );
+            //            this.removeBody( pumpingBeam );
         }
         addModelElement( pumpingBeam );
-//        addBody( pumpingBeam );
+        //        addBody( pumpingBeam );
         this.pumpingBeam = pumpingBeam;
     }
 
@@ -164,7 +162,7 @@ public class LaserModel extends BaseModel implements Atom.Listener {
      */
     public void setHighEnergySpontaneousEmissionTime( double time ) {
         Atom.setHighEnergySpontaneousEmissionTime( time );
-//        Atom.setHighEnergySpontaneousEmissionTime( 1000 );
+        //        Atom.setHighEnergySpontaneousEmissionTime( 1000 );
     }
 
     /**
@@ -199,27 +197,27 @@ public class LaserModel extends BaseModel implements Atom.Listener {
      *
      */
     public void removeAtoms() {
-//        List bodies = getBodies();
+        //        List bodies = getBodies();
         for( int i = 0; i < bodies.size(); i++ ) {
             ModelElement modelElement = (ModelElement)bodies.get( i );
-//            PhysicalEntity modelElement = (PhysicalEntity)bodies.get( i );
+            //            PhysicalEntity modelElement = (PhysicalEntity)bodies.get( i );
             if( modelElement instanceof Atom ) {
                 removeModelElement( modelElement );
-//                RemoveParticleCmd cmd = new RemoveParticleCmd( (Atom)modelElement );
-//                this.addPrepCmd( cmd );
+                //                RemoveParticleCmd cmd = new RemoveParticleCmd( (Atom)modelElement );
+                //                this.addPrepCmd( cmd );
             }
         }
     }
 
     public void removePhotons() {
-//        List bodies = getBodies();
+        //        List bodies = getBodies();
         for( int i = 0; i < bodies.size(); i++ ) {
             ModelElement modelElement = (ModelElement)bodies.get( i );
-//            PhysicalEntity modelElement = (PhysicalEntity)bodies.get( i );
+            //            PhysicalEntity modelElement = (PhysicalEntity)bodies.get( i );
             if( modelElement instanceof Photon ) {
                 removeModelElement( modelElement );
-//                RemoveParticleCmd cmd = new RemoveParticleCmd( (Photon)modelElement );
-//                this.addPrepCmd( cmd );
+                //                RemoveParticleCmd cmd = new RemoveParticleCmd( (Photon)modelElement );
+                //                this.addPrepCmd( cmd );
             }
         }
     }
