@@ -36,7 +36,7 @@ import java.awt.geom.Rectangle2D;
 public class DiffusionModule extends IdealGasModule {
     private Wall lowerWall;
     private Wall upperWall;
-    private int wallThickness = (int)GasMolecule.s_defaultRadius * 4;
+    private int wallThickness = (int)GasMolecule.s_defaultRadius * 8;
     private double minimumWallSeparation = GasMolecule.s_defaultRadius * 2;
 
     public DiffusionModule( final AbstractClock clock ) {
@@ -87,7 +87,7 @@ public class DiffusionModule extends IdealGasModule {
 
 
         JButton testButton = new JButton( "Test" );
-        getControlPanel().add( testButton );
+//        getControlPanel().add( testButton );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( 314,
@@ -108,7 +108,7 @@ public class DiffusionModule extends IdealGasModule {
         } );
 
         JButton backupButton = new JButton( "Backup" );
-        getControlPanel().add( backupButton );
+//        getControlPanel().add( backupButton );
         backupButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModel().stepInTime( -clock.getDt() );

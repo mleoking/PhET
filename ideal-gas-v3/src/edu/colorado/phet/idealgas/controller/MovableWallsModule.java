@@ -28,6 +28,7 @@ import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.view.GraduatedWallGraphic;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 
 import javax.swing.*;
@@ -61,7 +62,7 @@ public class MovableWallsModule extends IdealGasModule {
     private Wall verticalWall;
     private Wall leftFloor;
     private Wall rightFloor;
-    private int wallThickness = (int)GasMolecule.s_defaultRadius * 4;
+    private int wallThickness = (int)GasMolecule.s_defaultRadius * 8;
     private ParticleCounter leftRegionParticleCounter;
     private ParticleCounter rightRegionParticleCounter;
 
@@ -79,13 +80,11 @@ public class MovableWallsModule extends IdealGasModule {
         verticalWall.setMinimumWidth( wallThickness );
         verticalWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + wallThickness,
                                                              box.getCorner1Y(),
-//                                                             box.getCorner1Y() + wallThickness,
                                                              box.getWidth() - 2 * wallThickness,
                                                              box.getHeight() ) );
-//                                                             box.getHeight() - wallThickness ) );
         verticalWall.setFixupStrategy( new VerticalWallFixupStrategy() );
         WallGraphic lowerWallGraphic = new WallGraphic( verticalWall, getApparatusPanel(),
-//        WallGraphic lowerWallGraphic = new GraduatedWallGraphic( verticalWall, getApparatusPanel(),
+        WallGraphic lowerWallGraphic = new GraduatedWallGraphic( verticalWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
         lowerWallGraphic.setIsResizable( true );
@@ -126,7 +125,7 @@ public class MovableWallsModule extends IdealGasModule {
 
 
         JButton testButton = new JButton( "Test" );
-        getControlPanel().add( testButton);
+//        getControlPanel().add( testButton);
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 HeavySpecies newMolecule = null;
@@ -153,7 +152,7 @@ public class MovableWallsModule extends IdealGasModule {
 
 
         JButton backupButton = new JButton( "Backup" );
-        getControlPanel().add( backupButton );
+//        getControlPanel().add( backupButton );
         backupButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModel().stepInTime( -clock.getDt() );

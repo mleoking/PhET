@@ -119,6 +119,10 @@ public class Pump extends SimpleObservable implements GasSource {
         return currentGasSpecies;
     }
 
+    public void setPumpingEnergyStrategy( PumpingEnergyStrategy pumpingEnergyStrategy ) {
+        this.pumpingEnergyStrategy = pumpingEnergyStrategy;
+    }
+
     /**
      *
      */
@@ -236,6 +240,9 @@ public class Pump extends SimpleObservable implements GasSource {
         private double fixedEnergy = IdealGasModel.DEFAULT_ENERGY;
 
         public FixedEnergyStrategy() {
+        }
+
+        public FixedEnergyStrategy( double fixedEnergy ) {
             this.fixedEnergy = fixedEnergy;
         }
 

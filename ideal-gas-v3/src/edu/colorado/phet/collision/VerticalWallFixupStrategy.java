@@ -26,19 +26,13 @@ public class VerticalWallFixupStrategy implements WallFixupStrategy {
         double dCD = wallDesc.CD.ptLineDistSq( sphere.getPosition() );
         double dAD = wallDesc.AD.ptLineDistSq( sphere.getPosition() );
 
-//        if( dBC < dAD ) {
-        if( sphere.getVelocity().getX() < 0 ) {
-            System.out.println( "BC" );
+        if( dBC < dAD ) {
             sphere.setPosition( wallDesc.BC.getX1(), sphere.getPosition().getY() );
             sphere.setVelocity( Math.abs( sphere.getVelocity().getX() ), sphere.getVelocity().getY() );
         }
         else {
-            System.out.println( "AD" );
             sphere.setPosition( wallDesc.AD.getX1(), sphere.getPosition().getY() );
             sphere.setVelocity( -Math.abs( sphere.getVelocity().getX() ), sphere.getVelocity().getY() );
         }
-
-
-//        if( sphere.getVelocity().getX() > 0 ) {
     }
 }
