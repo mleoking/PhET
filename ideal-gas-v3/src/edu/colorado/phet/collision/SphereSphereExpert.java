@@ -47,8 +47,9 @@ public class SphereSphereExpert implements CollisionExpert {
         SphericalBody sB = (SphericalBody)cbB;
 
         double dPrev = sA.getPositionPrev().distance( sB.getPositionPrev() );
-//        double dCurr = sA.getPosition().distance( sB.getPosition() );
-//        return dPrev > dCurr;
+//        if( dPrev > sA.getRadius() + sB.getRadius() ) {
+//            System.out.println( "tweak check failed" );
+//        }
         return dPrev > sA.getRadius() + sB.getRadius();
     }
 }

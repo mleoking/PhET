@@ -74,6 +74,7 @@ public class Thermometer extends PhetGraphic {
     }
 
     public void paint( Graphics2D g ) {
+        System.out.println( "!!!!" );
         GraphicsState gs = new GraphicsState( g );
         GraphicsUtil.setAntiAliasingOn( g );
         g.setFont( font );
@@ -131,7 +132,6 @@ public class Thermometer extends PhetGraphic {
         double w = Math.max( boundingRect.getMaxX(), readoutRect.getMaxX() ) - minX;
         double h = Math.max( boundingRect.getMaxY(), readoutRect.getMaxY() ) - minY;
         boundingRect.setRect( minX, minY, w, h );
-//        System.out.println( "boundingRect = " + boundingRect );
         return RectangleUtils.toRectangle( boundingRect );
     }
 }
