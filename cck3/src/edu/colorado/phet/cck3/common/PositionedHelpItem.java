@@ -46,6 +46,7 @@ public class PositionedHelpItem extends CompositePhetGraphic {
         arrowGraphic = new PhetShapeGraphic( component, new Area(), arrowColor );
         addGraphic( arrowGraphic );
         addGraphic( textGraphic );
+        setVisible( false );
     }
 
     public void changed() {
