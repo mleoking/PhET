@@ -44,7 +44,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
                                                          "0.1",
                                                          new FrameSetup.MaxExtent() );
         // Note: a ThreadedClock here ends up looking balky
-        SwingTimerClock clock = new SwingTimerClock( 10, 30, true );
+        SwingTimerClock clock = new SwingTimerClock( 10, 20, true );
         Module alphaModule = new AlphaDecayModule( clock );
         Module singleNucleusFissionModule = new SingleNucleusFissionModule( clock );
         Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( clock );

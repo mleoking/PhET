@@ -99,6 +99,7 @@ ignorepath      (those elements of the ant classpath that should not be
         <delete dir="${jars}"/>
         <mkdir dir="${jars}"/>
         <buildnumber/>
+        <echo message="${jars}/${distname}.jar"/>
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
@@ -161,6 +162,7 @@ ignorepath      (those elements of the ant classpath that should not be
         <delete dir="${lib}"/>
         <copyclasspath directory="${lib}" ignore="${ignorepath}"/>
     </target>
+
 
     <target name="Output Classpath to File">
         <echo file="classpath.output.txt" message="${java.class.path}"></echo>
