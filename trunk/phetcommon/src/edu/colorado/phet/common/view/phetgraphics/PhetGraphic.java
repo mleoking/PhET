@@ -12,6 +12,7 @@ import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -21,7 +22,7 @@ import java.util.Stack;
  * This class manages the current and previous bounds for painting, and whether the region is dirty.
  */
 public abstract class PhetGraphic {
-    private Point location = new Point();
+    private AffineTransform transform = new AffineTransform();
     private Rectangle lastBounds = null;
     private Rectangle bounds = null;
     private Component component;
@@ -30,8 +31,8 @@ public abstract class PhetGraphic {
     private RenderingHints savedRenderingHints;
     private RenderingHints renderingHints;
     private Stack graphicsStates = new Stack();
-    private CompositePhetGraphic parent;
-//    private boolean autoRepaint = true;
+    private GraphicLayerSet parent;
+//    private boolean autoRepaint = true;//TODO we may want this functionality in the near future.
 
     /*A bit of state to facilitate interactivity.*/
     protected CompositeMouseInputListener mouseInputListener = new CompositeMouseInputListener();//delegates to
@@ -54,14 +55,24 @@ public abstract class PhetGraphic {
      *
      * @param parent the Parent that contains this graphic.
      */
-    protected void setParent( CompositePhetGraphic parent ) {
+    protected void setParent( GraphicLayerSet parent ) {
         this.parent = parent;
     }
 
+    /**
+     * Adds a Listener for changes in this PhetGraphic.
+     *
+     * @param phetGraphicListener
+     */
     public void addPhetGraphicListener( PhetGraphicListener phetGraphicListener ) {
         listeners.add( phetGraphicListener );
     }
 
+    /**
+     * Get the rectangle within which this PhetGraphic lies.
+     *
+     * @return the rectangle within which this PhetGraphic lies.
+     */
     public Rectangle getBounds() {
         syncBounds();
         return bounds;
@@ -94,6 +105,9 @@ public abstract class PhetGraphic {
         return renderingHints;
     }
 
+    /**
+     * If the bounds are dirty, they are recomputed.
+     */
     protected void syncBounds() {
         if( boundsDirty ) {
             rebuildBounds();
@@ -101,10 +115,18 @@ public abstract class PhetGraphic {
         }
     }
 
+    /**
+     * Flags the bounds for recomputation when applicable.
+     */
     public void setBoundsDirty() {
         boundsDirty = true;
     }
 
+    /**
+     * Returns the Component within which this PhetGraphic is contained.
+     *
+     * @return
+     */
     public Component getComponent() {
         return component;
     }
@@ -133,6 +155,32 @@ public abstract class PhetGraphic {
         }
     }
 
+    public Dimension getSize() {
+        return new Dimension( getWidth(), getHeight() );
+    }
+
+    /**
+     * Returns the AffineTransform of this graphic, modified by all parents (if applicable).
+     *
+     * @return the complete AffineTransform of this graphic.
+     */
+    protected AffineTransform getTransform() {
+        if( parent != null ) {
+            AffineTransform parentTransform = parent.getTransform();
+            AffineTransform net = new AffineTransform( parentTransform );
+            net.concatenate( transform );
+            return net;
+        }
+        else {
+            return transform;
+        }
+    }
+
+    /**
+     * Set this graphic visible or invisible.
+     *
+     * @param visible
+     */
     public void setVisible( boolean visible ) {
         if( visible != this.visible ) {
             this.visible = visible;
@@ -195,22 +243,53 @@ public abstract class PhetGraphic {
     }
 
     /**
-     * Computes the Rectangle in which this graphic resides.  This is only called if the shape is dirty.
+     * Modifies the AffineTransform on this PhetGraphic so that the top-left corner lies at the specified coordinates.
      *
-     * @return the Rectangle that contains this graphic.
+     * @param p the new top left corner of this PhetGraphic.
      */
-    protected abstract Rectangle determineBounds();
-
     public void setLocation( Point p ) {
         setLocation( p.x, p.y );
     }
 
+    /**
+     * Modifies the AffineTransform on this PhetGraphic so that the top-left corner lies at the specified coordinates.
+     *
+     * @param x
+     * @param y
+     */
     public void setLocation( int x, int y ) {
-        this.location.setLocation( x, y );
+        //In order to respect our global transformation the best,
+        //this should translate our current location to the new location.
+        Point currentLocation = getLocation();
+        if( currentLocation == null ) {
+            currentLocation = new Point( 0, 0 );
+        }
+        int dx = x - currentLocation.x;
+        int dy = y - currentLocation.y;
+        transform.translate( dx, dy );
+        setBoundsDirty();
+        repaint();
     }
 
+    /**
+     * Preconcatenates the specified transform with this object's transform.
+     *
+     * @param transform
+     */
+    public void transform( AffineTransform transform ) {
+//        this.transform.concatenate( transform );
+        this.transform.preConcatenate( transform );
+        setBoundsDirty();
+        repaint();
+    }
+
+    /**
+     * Get the top left corner of the boundary of this PhetGraphic.
+     *
+     * @return
+     */
     public Point getLocation() {
-        return location;
+        return getBounds() == null ? null : getBounds().getLocation();
     }
 
     public int getWidth() {
@@ -221,20 +300,17 @@ public abstract class PhetGraphic {
         return getBounds().height;
     }
 
-    /*Danger, the term x is getting overriden.*/
     public int getX() {
-        return getLocation().x;
+        return getBounds().x;
     }
 
-    /*Danger, the term x is getting overriden.  This could mean getBounds().y*/
     public int getY() {
-        return getLocation().y;
+        return getBounds().y;
     }
 
     /**
      * Interactivity methods.
      */
-
     public void fireMouseClicked( MouseEvent e ) {
         if( isVisible() ) {
             mouseInputListener.mouseClicked( e );
@@ -344,5 +420,21 @@ public abstract class PhetGraphic {
         this.ignoreMouse = ignoreMouse;
     }
 
+    protected void notifyChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            PhetGraphicListener phetGraphicListener = (PhetGraphicListener)listeners.get( i );
+            phetGraphicListener.phetGraphicChanged( this );
+        }
+    }
+
+    /**
+     * Computes the Rectangle in which this graphic resides.  This is only called if the shape is dirty.
+     *
+     * @return the Rectangle that contains this graphic.
+     */
+    protected abstract Rectangle determineBounds();
+
     public abstract void paint( Graphics2D g );
+
+
 }
