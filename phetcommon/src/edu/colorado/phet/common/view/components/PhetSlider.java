@@ -1,9 +1,12 @@
-/**
- * Class: PhetSlider
- * Class: edu.colorado.phet.coreadditions
- * User: Ron LeMaster
- * Date: Nov 5, 2003
- * Time: 9:41:53 AM
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.components;
 
@@ -21,6 +24,12 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+/**
+ * PhetSlider
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class PhetSlider extends JPanel {
     private JTextField textField;
     private JSlider slider;

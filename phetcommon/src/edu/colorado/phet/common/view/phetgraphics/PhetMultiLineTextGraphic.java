@@ -1,4 +1,13 @@
-/** University of Colorado, PhET*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
@@ -7,10 +16,10 @@ import java.awt.*;
 import java.util.Arrays;
 
 /**
- * User: University of Colorado, PhET
- * Date: Jun 24, 2004
- * Time: 10:45:57 PM
- * Copyright (c) Jun 24, 2004 by University of Colorado, PhET
+ * PhetMultiLineTextGraphic
+ *
+ * @author ?
+ * @version $Revision$
  */
 public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
     private LineCreator lineCreator;

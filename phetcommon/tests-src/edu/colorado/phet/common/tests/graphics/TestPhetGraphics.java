@@ -46,7 +46,7 @@ public class TestPhetGraphics extends JFrame {
             },
             new TestPhetGraphicSource() {
                 public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    return new PhetShapeGraphic( panel, new Rectangle( 50, 50, 50, 50 ), Color.green, new BasicStroke( 2 ), Color.black );
+                    return new PhetShapeGraphic( panel, new Rectangle( 50, 50, 50, 50 ), Color.green, new BasicStroke( 1 ), Color.black );
                 }
             },
             new TestPhetGraphicSource() {

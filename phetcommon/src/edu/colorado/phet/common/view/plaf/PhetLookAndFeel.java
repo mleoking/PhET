@@ -1,3 +1,13 @@
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.plaf;
 
 import smooth.basic.SmoothTitledBorder;
@@ -11,6 +21,12 @@ import javax.swing.plaf.InsetsUIResource;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * PhetLookAndFeel
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class PhetLookAndFeel extends SmoothLookAndFeel {
     private static Font font;
     private static Color foregroundColor;

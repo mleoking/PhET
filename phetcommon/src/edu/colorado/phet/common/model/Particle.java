@@ -1,8 +1,12 @@
-/**
- * Class: Particle
- * Package: edu.colorado.phet.mechanics
- * Author: Another Guy
- * Date: Aug 22, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.model;
 
@@ -11,6 +15,12 @@ import edu.colorado.phet.common.util.SimpleObservable;
 
 import java.awt.geom.Point2D;
 
+/**
+ * Particle
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class Particle extends SimpleObservable implements ModelElement {
     private Point2D position = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();

@@ -1,4 +1,13 @@
-/* Copyright University of Colorado, 2003 */
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
@@ -13,6 +22,9 @@ import javax.swing.event.ChangeListener;
  * An on-screen container for the modules in an application. It displays the
  * modules' apparatus panels in tabbed panes. It is only used for applications
  * that have more than one module.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class TabbedApparatusPanelContainer extends JTabbedPane implements ModuleObserver {
     Module current;

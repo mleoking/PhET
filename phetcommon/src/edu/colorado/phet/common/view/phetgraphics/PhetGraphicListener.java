@@ -1,10 +1,20 @@
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 /**
- * User: University of Colorado, PhET
- * Date: Nov 15, 2004
- * Time: 5:50:26 PM
- * Copyright (c) Nov 15, 2004 by University of Colorado, PhET
+ * PhetGraphicListener
+ *
+ * @author ?
+ * @version $Revision$
  */
 public interface PhetGraphicListener {
     public void phetGraphicChanged( PhetGraphic phetGraphic );

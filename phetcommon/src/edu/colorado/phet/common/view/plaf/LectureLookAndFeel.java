@@ -1,3 +1,13 @@
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.plaf;
 
 import javax.swing.*;
@@ -8,6 +18,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * LectureLookAndFeel
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class LectureLookAndFeel extends MetalLookAndFeel {
     Color backgroundColor = new Color( 60, 80, 60 );
     Color buttonBackgroundColor = new Color( 60, 60, 100 );

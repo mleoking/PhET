@@ -1,10 +1,12 @@
+/* Copyright 2002-2004, University of Colorado */
+
 /*
- * Class: FixedClock
- * Package: edu.colorado.phet.graphicaldomain
- *
- * User: Ron LeMaster
- * Date: Oct 18, 2002
- * Time: 9:46:11 AM
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.components.clockgui;
 
@@ -17,6 +19,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * ClockDialog
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class ClockDialog extends JDialog {
 
     private AbstractClock clock;

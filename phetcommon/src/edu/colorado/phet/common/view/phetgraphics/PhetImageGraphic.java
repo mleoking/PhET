@@ -1,8 +1,12 @@
-/**
- * User: University of Colorado, PhET
- * Date: Jun 25, 2004
- * Time: 5:59:39 PM
- * Latest Change:
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
@@ -13,6 +17,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * PhetImageGraphic
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
     private boolean shapeDirty = true;

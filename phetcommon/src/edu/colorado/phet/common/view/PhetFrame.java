@@ -1,9 +1,12 @@
-/**
- * Class: PhetFrame
- * Package: edu.colorado.phet.common.view
- * Author: Another Guy
- * Date: May 28, 2003
- * Testing comment.asdf
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view;
 
@@ -16,6 +19,12 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * PhetFrame
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class PhetFrame extends JFrame {
     HelpMenu helpMenu;
     private JMenu defaultFileMenu;

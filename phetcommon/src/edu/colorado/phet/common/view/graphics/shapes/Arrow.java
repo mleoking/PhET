@@ -1,4 +1,13 @@
-/*Copyright, University of Colorado, PhET, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.graphics.shapes;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
@@ -8,10 +17,10 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 /**
- * User: University of Colorado, PhET
- * Date: Jan 3, 2004
- * Time: 4:49:08 PM
- * Copyright (c) Jan 3, 2004 by University of Colorado, PhET
+ * Arrow
+ *
+ * @author ?
+ * @version $Revision$
  */
 public class Arrow {
 

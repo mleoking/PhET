@@ -1,8 +1,12 @@
-/**
- * Class: HelpMenu
- * Package: edu.colorado.phet.common.view
- * Author: Another Guy
- * Date: May 28, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.components.menu;
 
@@ -14,6 +18,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * HelpMenu
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class HelpMenu extends JMenu {
     public HelpMenu( final ApplicationModel appDescriptor ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );

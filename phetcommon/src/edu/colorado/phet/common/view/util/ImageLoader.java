@@ -1,4 +1,13 @@
-/*Copyright, University of Colorado, PhET, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.util;
 
 import javax.imageio.ImageIO;
@@ -18,6 +27,9 @@ import java.net.URL;
  * and the conversion mechanism.
  * <p/>
  * All combinations do not return the same results.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class ImageLoader {
 

@@ -1,4 +1,13 @@
-/** University of Colorado, PhET*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -8,10 +17,10 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import java.awt.*;
 
 /**
- * User: University of Colorado, PhET
- * Date: Jul 1, 2004
- * Time: 3:33:37 AM
- * Copyright (c) Jul 1, 2004 by University of Colorado, PhET
+ * RepaintDebugGraphic
+ *
+ * @author ?
+ * @version $Revision$
  */
 public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListener {
     private int r = 255;

@@ -1,4 +1,13 @@
-/* Copyright University of Colorado, 2003 */
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -12,6 +21,9 @@ import java.io.IOException;
 
 /**
  * The content pane for the JFrame of a PhetApplication.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class BasicPhetPanel extends JPanel {
 

@@ -1,13 +1,23 @@
-/**
- * Class: FractionSpring
- * Package: edu.colorado.phet.coreadditions.layout
- * Author: Another Guy
- * Date: Jul 14, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.util;
 
 import javax.swing.*;
 
+/**
+ * FractionSpring
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class FractionSpring extends Spring {
 
     protected Spring parent;

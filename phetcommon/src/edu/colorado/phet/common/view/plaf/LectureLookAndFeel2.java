@@ -1,3 +1,13 @@
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.plaf;
 
 import javax.swing.*;
@@ -8,6 +18,12 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * LectureLookAndFeel2
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class LectureLookAndFeel2 extends MetalLookAndFeel {
     Font font;
     Color foregroundColor;
