@@ -8,6 +8,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
 import java.awt.*;
@@ -38,9 +39,11 @@ public class PotentialProfileGraphic implements Graphic {
     private Point2D.Double origin;
     AffineTransform profileTx = new AffineTransform();
     private Image image;
+    private Nucleus nucleus;
 
-    public PotentialProfileGraphic( PotentialProfile profile ) {
-        this.profile = profile;
+    public PotentialProfileGraphic( Nucleus nucleus ) {
+        this.nucleus = nucleus;
+        this.profile = nucleus.getPotentialProfile();
         image = buildImage();
     }
 
@@ -53,13 +56,22 @@ public class PotentialProfileGraphic implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
+        profileTx.setToIdentity();
+//        double dx = nucleus.getLocation().distance( 0, 0 ) * ( nucleus.getLocation().getX() >= 0 ? 1 : -1 );
+//        profileTx.translate( dx, 0 );
+        profileTx.translate( nucleus.getLocation().getX(), 0 );
+        AffineTransform orgTx = g.getTransform();
+        g.transform( profileTx );
         g.drawImage( image, -image.getWidth( imgObs ) / 2,
                      -image.getHeight( imgObs ), imgObs );
+        g.setTransform( orgTx );
     }
 
     private Image buildImage() {
+        AffineTransform atx = new AffineTransform();
+        int imageHeight = (int)Math.max( profile.getMaxPotential(), profile.getWellPotential() );
         BufferedImage bi = new BufferedImage( (int)( profile.getWidth() ),
-                                              (int)( profile.getMaxPotential() ),
+                                              imageHeight,
                                               BufferedImage.TYPE_INT_ARGB );
         Graphics2D g = (Graphics2D)bi.getGraphics();
         GraphicsUtil.setAntiAliasingOn( g );
@@ -68,13 +80,13 @@ public class PotentialProfileGraphic implements Graphic {
         // has negative x coordinates. That's why is has to be translated
         g.setColor( backgroundColor );
         GraphicsUtil.setAlpha( g, 1 );
-        g.fill( profileTx.createTransformedShape( profile.getBackgroundPath() ) );
+        g.fill( atx.createTransformedShape( profile.getBackgroundPath() ) );
         GraphicsUtil.setAlpha( g, 1 );
         g.setColor( color );
         g.setStroke( stroke );
-        profileTx.setToIdentity();
-        profileTx.translate( profile.getWidth() / 2, profile.getMaxPotential() );
-        g.draw( profileTx.createTransformedShape( profile.getPath() ) );
+        atx.setToIdentity();
+        atx.translate( profile.getWidth() / 2, imageHeight );
+        g.draw( atx.createTransformedShape( profile.getPath() ) );
         return bi;
     }
 

@@ -10,8 +10,8 @@ import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
 public class Config {
 
-    public static PotentialProfile u235PotentialProfile = new PotentialProfile( 500, 300, 75 );
-//    public static double AlphaLocationUncertaintySigmaFactor = 0.5;
-    public static double AlphaLocationUncertaintySigmaFactor = 0.333;
+    public static PotentialProfile u235PotentialProfile = new PotentialProfile( 500, 250, 75 );
+    public static double AlphaLocationUncertaintySigmaFactor = 0.4;
+//    public static double AlphaLocationUncertaintySigmaFactor = 0.333;
 
 }

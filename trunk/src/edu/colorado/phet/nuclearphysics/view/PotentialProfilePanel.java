@@ -199,7 +199,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     public synchronized void addNucleus( Nucleus nucleus ) {
-        addPotentialProfile( nucleus.getPotentialProfile() );
+        addPotentialProfile( nucleus );
+//        addPotentialProfile( nucleus.getPotentialProfile() );
         AffineTransform wellTx = new AffineTransform();
         wellTx.setToIdentity();
         wellTxs.put( nucleus, new AffineTransform() );
@@ -227,11 +228,18 @@ public class PotentialProfilePanel extends ApparatusPanel {
         this.addGraphic( leaderLines, profileTx );
     }
 
-    public void addPotentialProfile( PotentialProfile potentialProfile ) {
-        PotentialProfileGraphic ppg = new PotentialProfileGraphic( potentialProfile );
+    public void addPotentialProfile( Nucleus nucleus ) {
+//    public void addPotentialProfile( PotentialProfile potentialProfile ) {
+        PotentialProfileGraphic ppg = new PotentialProfileGraphic( nucleus );
         ppg.setOrigin( new Point2D.Double( 0, 0 ) );
-        potentialProfileMap.put( potentialProfile, ppg );
+        potentialProfileMap.put( nucleus.getPotentialProfile(), ppg );
+//        potentialProfileMap.put( potentialProfile, ppg );
         addGraphic( ppg, nucleusLayer, profileTx );
+    }
+
+    public void removePotentialProfile( PotentialProfile potentialProfile ) {
+        PotentialProfileGraphic ppg = (PotentialProfileGraphic)potentialProfileMap.get( potentialProfile );
+        removeGraphic( ppg );
     }
 
     public synchronized void addDecayProduct( Nucleus decayNucleus ) {

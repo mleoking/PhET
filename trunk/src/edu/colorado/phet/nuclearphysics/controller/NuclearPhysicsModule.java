@@ -13,32 +13,24 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.nuclearphysics.model.*;
-import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
-import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
+import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class NuclearPhysicsModule extends Module {
     private ApparatusPanel apparatusPanel;
-    private PotentialProfile potentialProfile;
-    private PotentialProfilePanel potentialProfilePanel;
-//    private PotentialProfilePanelOld potentialProfilePanel;
-    private AlphaDecayPhysicalPanel physicalPanel;
+//    private AlphaDecayPhysicalPanel physicalPanel;
+    private PhysicalPanel physicalPanel;
 
     public NuclearPhysicsModule( String name, AbstractClock clock ) {
         super( name );
-        potentialProfile = defaultProfile;
-        physicalPanel = new AlphaDecayPhysicalPanel();
-        potentialProfilePanel = new PotentialProfilePanel();
-//        potentialProfilePanel = new PotentialProfilePanelOld( potentialProfile );
+        physicalPanel = new PhysicalPanel();
         apparatusPanel = new ApparatusPanel();
         super.setApparatusPanel( apparatusPanel );
-
-        apparatusPanel.setLayout( new GridLayout( 2, 1 ) );
+        apparatusPanel.setLayout( new GridLayout( 1, 1 ) );
         apparatusPanel.add( physicalPanel );
-        apparatusPanel.add( potentialProfilePanel );
 
         // Start the model
         this.setModel( new FissionModel( clock ) );
@@ -50,6 +42,10 @@ public class NuclearPhysicsModule extends Module {
 
         JPanel controlPanel = new NuclearPhysicsControlPanel( this );
         super.setControlPanel( controlPanel );
+    }
+
+    public void setPhysicalPanel( PhysicalPanel physicalPanel ) {
+        this.physicalPanel = physicalPanel;
     }
 
     protected void addControlPanelElement( JPanel panel ) {
@@ -65,24 +61,13 @@ public class NuclearPhysicsModule extends Module {
     protected void addNeucleus( Nucleus nucleus ) {
         this.getModel().addModelElement( nucleus );
         physicalPanel.addNucleus( nucleus );
-        potentialProfilePanel.addNucleus( nucleus );
-//        potentialProfilePanel.setNucleus( nucleus );
-//        PotentialProfilePanel ppp = new PotentialProfilePanel();
-//        PotentialProfilePanelOld ppp = new PotentialProfilePanelOld( nucleus.getPotentialProfile() );
     }
 
-//    protected void addAlphaParticle( AlphaParticle alphaParticle ) {
+//    protected void addAlphaParticle( AlphaParticle alphaParticle, Nucleus nucleus ) {
 //        this.getModel().addModelElement( alphaParticle );
-//        potentialProfilePanel.addAlphaParticle( alphaParticle );
 //        physicalPanel.addAlphaParticle( alphaParticle );
 //    }
-
-    protected void addAlphaParticle( AlphaParticle alphaParticle, Nucleus nucleus ) {
-        this.getModel().addModelElement( alphaParticle );
-        ( (PotentialProfilePanel)potentialProfilePanel ).addAlphaParticle( alphaParticle, nucleus );
-        physicalPanel.addAlphaParticle( alphaParticle );
-    }
-
+//
     protected void addNeutron( NuclearParticle particle ) {
         this.getModel().addModelElement( particle );
         NeutronGraphic ng = new NeutronGraphic( particle );
@@ -94,25 +79,6 @@ public class NuclearPhysicsModule extends Module {
         NeutronGraphic ng = new NeutronGraphic( particle );
         physicalPanel.addGraphic( ng );
     }
-
-    public void setProfileMaxHeight( double modelValue ) {
-        potentialProfile.setMaxPotential( modelValue );
-        potentialProfilePanel.repaint();
-    }
-
-    public void setProfileWellDepth( double wellDepth ) {
-        potentialProfile.setWellDepth( wellDepth );
-        potentialProfilePanel.repaint();
-    }
-
-    public void setProfileWidth( double profileWidth ) {
-        potentialProfile.setWidth( profileWidth );
-        potentialProfilePanel.repaint();
-    }
-
-//    public PotentialProfile getPotentialProfile() {
-//        return this.potentialProfilePanel.getPotentialProfile();
-//    }
 
     protected void setUraniumNucleus( Uranium235 uraniumNucleus ) {
         addNeucleus( uraniumNucleus );
@@ -128,19 +94,12 @@ public class NuclearPhysicsModule extends Module {
         getModel().addModelElement( decayProducts.getN2() );
     }
 
-    protected AlphaDecayPhysicalPanel getPhysicalPanel() {
+    protected PhysicalPanel getPhysicalPanel() {
+//    protected AlphaDecayPhysicalPanel getPhysicalPanel() {
         return physicalPanel;
     }
 
-    protected PotentialProfilePanel getPotentialProfilePanel() {
-//    protected PotentialProfilePanelOld getPotentialProfilePanel() {
-        return potentialProfilePanel;
-    }
-
-
-    //
-    // Statics
-    //
-    private static PotentialProfile defaultProfile = new PotentialProfile( 300, 400, 75 );
-
+//    protected PotentialProfilePanel getPotentialProfilePanel() {
+//        return potentialProfilePanel;
+//    }
 }
