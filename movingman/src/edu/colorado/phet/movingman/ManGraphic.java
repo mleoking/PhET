@@ -13,8 +13,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * User: Sam Reid
@@ -22,7 +20,7 @@ import java.util.Observer;
  * Time: 12:25:37 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class ManGraphic implements InteractiveGraphic, Observer {
+public class ManGraphic implements InteractiveGraphic {
     private BufferedImage standingMan;
     private BufferedImage leftMan;
     private BufferedImage rightMan;
@@ -34,7 +32,7 @@ public class ManGraphic implements InteractiveGraphic, Observer {
     private DragHandler dragHandler;
     private BufferedImage currentImage;
     private RangeToRange inversion;
-    private CircularBuffer cb = new CircularBuffer( 10 );
+    private CircularBuffer buffer = new CircularBuffer( 4 );
     private double lastx = 0;
     private ArrayList listeners = new ArrayList();
 
@@ -51,45 +49,43 @@ public class ManGraphic implements InteractiveGraphic, Observer {
         rightMan = BufferedImageUtils.flipX( leftMan );
 
         currentImage = standingMan;
-        m.addObserver( this );
-        inversion = transform.invert();
-        update();
-    }
+        m.addListener( new Man.Listener() {
+            public void positionChanged( double x ) {
+                ManGraphic.this.positionChanged();
+            }
 
-    public void update() {
-        update( null, null );
+            public void velocityChanged( double velocity ) {
+            }
+
+            public void accelerationChanged( double acceleration ) {
+            }
+        } );
+        inversion = transform.invert();
+        positionChanged();
     }
 
     public void paint( Graphics2D g ) {
         g.drawImage( currentImage, x - currentImage.getWidth() / 2, y, null );
     }
 
-    public void update( Observable o, Object arg ) {
+    public void positionChanged() {
         Rectangle origRectangle = getRectangle();
 
         double output = transform.evaluate( m.getX() );
         int oldX = x;
         this.x = (int)output;
 
-        cb.addPoint( x - lastx );
-        lastx = x;
-        double velocity = cb.average();
-        BufferedImage origImage = currentImage;
-        if( velocity == 0 && currentImage != this.standingMan ) {
-            currentImage = this.standingMan;
+        if( oldX != x ) {
+            doRepaint( origRectangle );
         }
-        else if( velocity < 0 && currentImage != this.leftMan ) {
-            currentImage = this.leftMan;
-        }
-        else if( velocity > 0 && currentImage != this.rightMan ) {
-            currentImage = this.rightMan;
-        }
-        if( oldX != x || origImage != currentImage ) {
-            repaint( origRectangle, getRectangle() );
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
-                listener.manGraphicChanged();
-            }
+    }
+
+    private void doRepaint( Rectangle origRectangle ) {
+
+        repaint( origRectangle, getRectangle() );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.manGraphicChanged();
         }
     }
 
@@ -112,6 +108,26 @@ public class ManGraphic implements InteractiveGraphic, Observer {
 
     public void removeListener( Listener listener ) {
         listeners.remove( listener );
+    }
+
+    public void stepInTime( double dt ) {
+        Rectangle rect = getRectangle();
+        buffer.addPoint( x - lastx );
+        lastx = x;
+        double velocity = buffer.average();
+        BufferedImage origImage = currentImage;
+        if( velocity == 0 && currentImage != this.standingMan ) {
+            currentImage = this.standingMan;
+        }
+        else if( velocity < 0 && currentImage != this.leftMan ) {
+            currentImage = this.leftMan;
+        }
+        else if( velocity > 0 && currentImage != this.rightMan ) {
+            currentImage = this.rightMan;
+        }
+        if( currentImage != origImage ) {
+            doRepaint( rect );
+        }
     }
 
     interface Listener {
@@ -144,14 +160,15 @@ public class ManGraphic implements InteractiveGraphic, Observer {
     }
 
     public void mouseDragged( MouseEvent event ) {
-        if( !module.getRecordMode() || module.isPaused() ) {
-            module.getMovingManControlPanel().startRecordingManual();
+        if( !module.isRecordMode() || module.isPaused() || module.getNumSmoothingPoints() != 12 ) {
+            module.setRecordMode();
+            module.setNumSmoothingPoints( 12 );
+            module.setPaused( false );
         }
         final Point newPt = dragHandler.getNewLocation( event.getPoint() );
         int graphicsPt = newPt.x;
         double manPoint = inversion.evaluate( graphicsPt );
         m.setX( manPoint );
-        module.setWiggleMeVisible( false );
     }
 
     public void mouseMoved( MouseEvent e ) {
@@ -181,11 +198,10 @@ public class ManGraphic implements InteractiveGraphic, Observer {
     public void setTransform( RangeToRange transform ) {
         this.transform = transform;
         this.inversion = transform.invert();
-        update( null, null );
+        positionChanged();
     }
 
     public boolean contains( int x, int y ) {
-        Rectangle r = new Rectangle( this.x - currentImage.getWidth() / 2, this.y, currentImage.getWidth(), currentImage.getHeight() );
-        return r.contains( x, y );
+        return getRectangle().contains( x, y );
     }
 }

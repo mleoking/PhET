@@ -1,7 +1,8 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.movingman.common.AutomatedObservable;
+import java.util.ArrayList;
+
 
 /**
  * User: Sam Reid
@@ -9,7 +10,7 @@ import edu.colorado.phet.movingman.common.AutomatedObservable;
  * Time: 12:25:22 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class Man extends AutomatedObservable {
+public class Man {
     private double x;
     private double x0;
     private boolean grabbed = false;
@@ -17,6 +18,7 @@ public class Man extends AutomatedObservable {
     private double acceleration;
     private double min;
     private double max;
+    private ArrayList listeners = new ArrayList();
 
     public Man( double x, double min, double max ) {
         this.x0 = x;
@@ -25,13 +27,36 @@ public class Man extends AutomatedObservable {
         this.max = max;
     }
 
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public static interface Listener {
+        void positionChanged( double x );
+
+        void velocityChanged( double velocity );
+
+        void accelerationChanged( double acceleration );
+    }
+
     public double getVelocity() {
         return velocity;
     }
 
+    public void setAcceleration( double acceleration ) {
+        this.acceleration = acceleration;
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.accelerationChanged( acceleration );
+        }
+    }
+
     public void setVelocity( double velocity ) {
         this.velocity = velocity;
-//        System.out.println( "SET velocity = " + velocity );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.velocityChanged( velocity );
+        }
     }
 
     public boolean isGrabbed() {
@@ -54,13 +79,16 @@ public class Man extends AutomatedObservable {
             x = max;
         }
         this.x = x;
-        updateObservers();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.positionChanged( x );
+        }
     }
 
     public void reset() {
-        this.x = x0;
-        setVelocity( 0 );
-        updateObservers();
+        setX( x0 );
+        setVelocity( 0.0 );
+        setAcceleration( 0.0 );
     }
 
     public void stepInTime( double dt ) {
@@ -78,18 +106,11 @@ public class Man extends AutomatedObservable {
             }
         }
         else {
-            double origNewX = newX;
             newX = Math.min( newX, max );
             newX = Math.max( newX, min );
-            double clampedX = newX;
-
-            System.out.println( "origNewX = " + origNewX + ", \tclampedX=" + clampedX );
             setVelocity( newVelocity );
             setX( newX );
         }
     }
 
-    public void setAcceleration( double acceleration ) {
-        this.acceleration = acceleration;
-    }
 }

@@ -16,7 +16,6 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.movingman.MMTimer;
-import edu.colorado.phet.movingman.MovingManModel;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
 
@@ -31,8 +30,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * User: Sam Reid
@@ -40,7 +37,7 @@ import java.util.Observer;
  * Time: 12:54:39 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class MMPlot implements Graphic, Observer {
+public class MMPlot implements Graphic {
     private String title;
     private MovingManModule module;
     private DataSeries dataSeries;
@@ -55,7 +52,8 @@ public class MMPlot implements Graphic, Observer {
     private DataSet dataSet;
     private float lastTime;
     private Font axisFont = new Font( "Lucida Sans", Font.BOLD, 14 );
-    private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 16 );
+//    private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
     private Font readoutFont = new Font( "Lucida Sans", Font.BOLD, 22 );
     private VerticalChartSlider verticalChartSlider;
     private HorizontalCursor horizontalCursor;
@@ -66,17 +64,28 @@ public class MMPlot implements Graphic, Observer {
     private MagButton magMinus;
     private TextBox textBox;
     private boolean cursorVisible;
-    private PhetTextGraphic readoutTitle;
-    private PhetTextGraphic readoutUnits;
+    private PhetTextGraphic readout;
+    private PhetTextGraphic readoutValue;
 
     private DecimalFormat format = new DecimalFormat( "0.00" );
     private double value;
     private FloatingControl floatingControl;
+    private String units;
+    private JLabel titleLable;
+
+    public void valueChanged( double value ) {
+        verticalChartSlider.setValue( value );
+        setTextValue( value );
+    }
 
     static class FloatingControl extends VerticalLayoutPanel {
         static BufferedImage play;
         static BufferedImage pause;
         private MovingManModule module;
+        private JLabel titleLabel;
+        private JButton pauseButton;
+        private JButton recordButton;
+        private JButton resetButton;
 
         static {
             try {
@@ -89,39 +98,93 @@ public class MMPlot implements Graphic, Observer {
 
         }
 
-        public FloatingControl( final MovingManModule module ) {
+        static class ControlButton extends JButton {
+//            static Font font=new Font( "Lucida Sans",Font.PLAIN, 6);
+//            static Font font = new Font( "Lucida Sans", Font.PLAIN, 10 );
+            static Font font = new Font( "Lucida Sans", Font.PLAIN, 14 );
+
+            public ControlButton( String text ) {
+                super( text );
+                setFont( font );
+            }
+        }
+
+        public FloatingControl( final MovingManModule module, JLabel titleLabel ) {
             this.module = module;
-            final JButton pauseButton = new JButton( new ImageIcon( pause ) );
+            this.titleLabel = titleLabel;
+
+//            final JButton pauseButton = new JButton( new ImageIcon( pause ) );
+            pauseButton = new ControlButton( "Pause" );
             pauseButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setPaused( true );
                 }
             } );
-            final JButton playButton = new JButton( new ImageIcon( play ) );
-            playButton.addActionListener( new ActionListener() {
+//            final JButton recordButton = new JButton( new ImageIcon( play ) );
+            recordButton = new ControlButton( "Record" );
+            recordButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.setMode( module.getMotionMode() );
+                    module.setRecordMode();
                     module.setPaused( false );
                 }
             } );
-            module.addPauseListener( new MovingManModule.PauseListener() {
-                public void modulePaused() {
-                    playButton.setEnabled( true );
-                    pauseButton.setEnabled( false );
-                }
 
-                public void moduleStarted() {
-                    playButton.setEnabled( false );
-                    pauseButton.setEnabled( true );
+            resetButton = new ControlButton( "Reset" );
+            resetButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    boolean paused = module.isPaused();
+                    module.setPaused( true );
+                    int option = JOptionPane.showConfirmDialog( module.getApparatusPanel(), "Are you sure you want to clear the graphs?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION );
+                    if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
+                        module.reset();
+                    }
+                    else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
+                        module.setPaused( paused );
+                    }
                 }
             } );
-            add( playButton );
+            module.addListener( new MovingManModule.ListenerAdapter() {
+                public void recordingStarted() {
+                    setButtons( false, true, true );
+                }
+
+                public void recordingPaused() {
+                    setButtons( true, false, true );
+                }
+
+                public void recordingFinished() {
+                    setButtons( false, false, true );
+                }
+
+                public void reset() {
+                    setButtons( true, false, false );
+                }
+
+                public void rewind() {
+                    setButtons( true, false, true );
+                }
+            } );
+            add( titleLabel );
+            add( recordButton );
             add( pauseButton );
+            add( resetButton );
             pauseButton.setEnabled( false );
+        }
+
+        private void setButtons( boolean record, boolean pause, boolean reset ) {
+            recordButton.setEnabled( record );
+            pauseButton.setEnabled( pause );
+            resetButton.setEnabled( reset );
+        }
+
+        public void setVisible( boolean aFlag ) {
+            super.setVisible( aFlag );
         }
     }
 
-    public MMPlot( String title, final MovingManModule module, final DataSeries series, MMTimer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, BufferedGraphicForComponent buffer, double xShift, String units ) throws IOException {
+    public MMPlot( String title, final MovingManModule module, final DataSeries series, MMTimer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, BufferedGraphicForComponent buffer, double xShift, String units, String labelStr )
+            throws IOException {
+        this.units = units;
         this.title = title;
         this.module = module;
         this.dataSeries = series;
@@ -137,7 +200,12 @@ public class MMPlot implements Graphic, Observer {
         chart.setBackground( createBackground() );
         dataSet = new DataSet();
         setInputRange( inputBox );
-        timer.addObserver( this );
+//        timer.addObserver( this );
+        timer.addListener( new MMTimer.Listener() {
+            public void timeChanged() {
+                update();
+            }
+        } );
         chart.getHorizontalTicks().setVisible( false );
         chart.getHorizonalGridlines().setMajorGridlinesColor( Color.darkGray );
         chart.getVerticalGridlines().setMajorGridlinesColor( Color.darkGray );
@@ -156,13 +224,9 @@ public class MMPlot implements Graphic, Observer {
             }
         } );
         closeButton = new CloseButton();
+        closeButton.setToolTipText( "Close Graph" );
         module.getApparatusPanel().add( closeButton );
-        chart.setVerticalTitle( title, color, titleFont );
-        verticalChartSlider.addListener( new VerticalChartSlider.Listener() {
-            public void valueChanged( double value ) {
-                module.setWiggleMeVisible( false );
-            }
-        } );
+
         setCloseHandler( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setVisible( false );
@@ -176,105 +240,167 @@ public class MMPlot implements Graphic, Observer {
             }
         } );
 
-        BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/mag-plus-15.gif" );
-        BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/mag-minus-15.gif" );
+        BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/mag-plus-10.gif" );
+        BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/mag-minus-10.gif" );
         final double smooth = 1;
         ActionListener smoothPos = new Increment( smooth );
         ActionListener smoothNeg = new Decrement( smooth );
         ActionListener incPos = new Increment( 5 );
         ActionListener incNeg = new Decrement( 5 );
-        magPlus = new MagButton( new ImageIcon( imgPlus ), smoothPos, incPos );
-        magMinus = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg );
+        magPlus = new MagButton( new ImageIcon( imgPlus ), smoothPos, incPos, "Zoom In" );
+        magMinus = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, "Zoom Out" );
         module.getApparatusPanel().add( magPlus );
         module.getApparatusPanel().add( magMinus );
 
-        readoutTitle = new PhetTextGraphic( module.getApparatusPanel(), readoutFont, title + " = ", color, 100, 100 );
-        module.getApparatusPanel().addGraphic( readoutTitle, 10000 );
-        readoutUnits = new PhetTextGraphic( module.getApparatusPanel(), readoutFont, units, color, 100, 100 );
-        module.getApparatusPanel().addGraphic( readoutUnits, 10000 );
-        textBox = new TextBox( 4 );
-        textBox.setEditable( false );
+        readout = new PhetTextGraphic( module.getApparatusPanel(), readoutFont, title + " = ", color, 100, 100 );
+        module.getApparatusPanel().addGraphic( readout, 10000 );
+        readoutValue = new PhetTextGraphic( module.getApparatusPanel(), readoutFont, units, color, 100, 100 );
+        module.getApparatusPanel().addGraphic( readoutValue, 10000 );
+        textBox = new TextBox( module, 5, labelStr );
         textBox.setHorizontalAlignment( JTextField.RIGHT );
 
         module.getApparatusPanel().add( textBox );
-        textBox.setText( "0.00" );
 
-        Observer o = new Observer() {
-            public void update( Observable o, Object arg ) {
-                int index = 0;
-                if( module.isTakingData() ) {
-                    index = series.size() - 1;
-                }
-                else {
-                    double time = module.getPlaybackTimer().getTime() + getxShift();
-                    index = (int)( time / MovingManModel.TIMER_SCALE );
-                }
-                if( series.indexInBounds( index ) ) {
-                    value = series.pointAt( index );
-                    String valueString = format.format( value );
-                    if( valueString.equals( "-0.00" ) ) {
-                        valueString = "0.00";
-                    }
-                    if( !textBox.getText().equals( valueString ) ) {
-                        textBox.setText( valueString );
-                    }
-                }
-            }
-        };
-        module.getRecordingTimer().addObserver( o );
-        module.getPlaybackTimer().addObserver( o );
-        floatingControl = new FloatingControl( module );
-        module.getApparatusPanel().add( floatingControl );
-
-        module.getApparatusPanel().addMouseMotionListener( new MouseMotionListener() {
-            public void mouseDragged( MouseEvent e ) {
-            }
-
-            public void mouseMoved( MouseEvent e ) {
-                if( isVisible() ) {
-                    boolean vis = ( e.getY() > chart.getViewBounds().y && e.getY() < chart.getViewBounds().y + chart.getViewBounds().height );
-                    floatingControl.setVisible( vis );
-                    magPlus.setVisible( vis );
-                    magMinus.setVisible( vis );
-                    closeButton.setVisible( vis );
-                }
+        setTextValue( 0 );
+        module.getRecordingTimer().addListener( new MMTimer.Listener() {
+            public void timeChanged() {
+                updateTextBox( module, series );
             }
         } );
+        module.getPlaybackTimer().addListener( new MMTimer.Listener() {
+            public void timeChanged() {
+                updateTextBox( module, series );
+            }
+        } );
+
+        titleLable = new JLabel( title );
+        titleLable.setFont( titleFont );
+        titleLable.setBackground( module.getBackgroundColor() );
+        titleLable.setOpaque( true );
+        titleLable.setForeground( color );
+        floatingControl = new FloatingControl( module, titleLable );
+        module.getApparatusPanel().add( floatingControl );
+        module.addListener( new MovingManModule.ListenerAdapter() {
+            public void rewind() {
+                horizontalCursor.setX( 0 );
+            }
+        } );
+    }
+
+    private void updateTextBox( final MovingManModule module, final DataSeries series ) {
+        int index = 0;
+        if( module.isTakingData() ) {
+            index = series.size() - 1;
+        }
+        else {
+            double time = module.getPlaybackTimer().getTime() + getxShift();
+            index = (int)time;//(int)( time / MovingManModel.TIMER_SCALE );
+        }
+        if( series.indexInBounds( index ) ) {
+            value = series.pointAt( index );
+            setTextValue( value );
+        }
+    }
+
+    private void setTextValue( double value ) {
+        String valueString = format.format( value );
+        if( valueString.equals( "-0.00" ) ) {
+            valueString = "0.00";
+        }
+        if( !textBox.getText().equals( valueString ) ) {
+            textBox.setText( valueString );
+        }
+        readoutValue.setText( valueString + " " + units );
     }
 
     public TextBox getTextBox() {
         return textBox;
     }
 
-    public void setModulePaused( boolean paused ) {
-        textBox.setEditable( paused );
-    }
-
     public void requestTypingFocus() {
         textBox.requestFocusInWindow();
     }
 
-    public static class TextBox extends JTextField {
-        public TextBox( String text ) {
-            super( text );
-            init();
-        }
+    public static class TextBox extends JPanel {
+        JTextField textField;
+        JLabel label;
+        static Font font = new Font( "Lucida Sans", Font.PLAIN, 11 );
+        private MovingManModule module;
 
-        public TextBox( int text ) {
-            super( text );
-            init();
-        }
-
-        private void init() {
-            addMouseListener( new MouseAdapter() {
+        public TextBox( MovingManModule module, int text, String labelText ) {
+            this.module = module;
+            textField = new JTextField( text );
+            label = new JLabel( labelText );
+            setLayout( new FlowLayout( FlowLayout.CENTER ) );
+            textField.addMouseListener( new MouseAdapter() {
                 public void mousePressed( MouseEvent e ) {
                     if( isEnabled() ) {
-                        selectAll();
+                        textField.selectAll();
                     }
+                }
+            } );
+            label.setFont( font );
+            textField.setFont( font );
+            add( label );
+            add( textField );
+            setBorder( BorderFactory.createLineBorder( Color.black ) );
+            module.addListener( new MovingManModule.Listener() {
+                public void recordingStarted() {
+                    textField.setEditable( false );
+                }
+
+                public void recordingPaused() {
+                    textField.setEditable( true );
+                }
+
+                public void recordingFinished() {
+                    textField.setEditable( false );
+                }
+
+                public void playbackStarted() {
+                    textField.setEditable( false );
+                }
+
+                public void playbackPaused() {
+                    textField.setEditable( true );
+                }
+
+                public void playbackFinished() {
+                    textField.setEditable( false );
+                }
+
+                public void reset() {
+                    textField.setEditable( true );
+                }
+
+                public void rewind() {
+                    textField.setEditable( true );
                 }
             } );
         }
 
+        public synchronized void addKeyListener( KeyListener l ) {
+            textField.addKeyListener( l );
+        }
+
+        public void setEditable( boolean b ) {
+            textField.setEditable( b );
+        }
+
+        public void setHorizontalAlignment( int right ) {
+            textField.setHorizontalAlignment( right );
+        }
+
+        public String getText() {
+            return textField.getText();
+        }
+
+        public void setText( String valueString ) {
+            if( valueString.length() > textField.getColumns() ) {
+                valueString = valueString.subSequence( 0, textField.getColumns() ) + "";
+            }
+            textField.setText( valueString );
+        }
     }
 
     class Decrement implements ActionListener {
@@ -370,9 +496,10 @@ public class MMPlot implements Graphic, Observer {
     }
 
     class MagButton extends JButton {
-        public MagButton( Icon icon, ActionListener smooth, ActionListener click ) {
+        public MagButton( Icon icon, ActionListener smooth, ActionListener click, String tooltip ) {
             super( icon );
             addMouseListener( new RepeatClicker( smooth, click ) );
+            setToolTipText( tooltip );
         }
 
     }
@@ -408,7 +535,7 @@ public class MMPlot implements Graphic, Observer {
         path.reset();
         dataSet.clear();
         horizontalCursor.setMaxX( Double.POSITIVE_INFINITY );//so it can't be dragged past, hopefully.
-        textBox.setText( "0.00" );
+        setTextValue( 0 );
         verticalChartSlider.setValue( 0 );
     }
 
@@ -491,9 +618,9 @@ public class MMPlot implements Graphic, Observer {
         magPlus.setVisible( visible );
         magMinus.setVisible( visible );
 
-        readoutTitle.setVisible( visible );
+        readout.setVisible( visible );
         textBox.setVisible( visible );
-        readoutUnits.setVisible( visible );
+        readoutValue.setVisible( visible );
 
         floatingControl.setVisible( visible );
     }
@@ -543,7 +670,6 @@ public class MMPlot implements Graphic, Observer {
         chart.setBackground( createBackground() );
         verticalChartSlider.setOffsetX( chart.getVerticalTicks().getMajorTickTextBounds().width + 5 );
         verticalChartSlider.update();
-//        chart.getVerticalTicks().setMajorOffset( -verticalChartSlider.getSlider().getWidth() - 5, 0 );
         chart.getVerticalTicks().setMajorOffset( 0, 0 );
         Rectangle vb = chart.getViewBounds();
         int x = vb.x + vb.width - closeButton.getPreferredSize().width;
@@ -552,31 +678,28 @@ public class MMPlot implements Graphic, Observer {
 
         Dimension buttonSize = magPlus.getPreferredSize();
         JSlider js = verticalChartSlider.getSlider();
-//        int buttonX = js.getX() - buttonSize.width;
-        int buttonX = 5;
-        int buttonSeparator = 2;
-        int buttonY = js.getY() + js.getHeight() - 2 * buttonSize.height - buttonSeparator;
+        int magSep = 1;
+        int magOffsetY = 7;
+        int magY = js.getY() + js.getHeight() - 2 * buttonSize.height - magSep - magOffsetY;
 
-        magPlus.reshape( buttonX, buttonY, buttonSize.width, buttonSize.height );
-        magMinus.reshape( buttonX, buttonY + buttonSeparator + buttonSize.height, buttonSize.width, buttonSize.height );
+        int magX = chart.getViewBounds().x + 3;
+        magPlus.reshape( magX, magY, buttonSize.width, buttonSize.height );
+        magMinus.reshape( magX, magY + magSep + buttonSize.height, buttonSize.width, buttonSize.height );
 
+        readout.setPosition( chart.getViewBounds().x + 15, chart.getViewBounds().y + readout.getHeight() - 5 );
+        readoutValue.setPosition( readout.getX() + readout.getWidth() + 5, readout.getY() );
 
-        readoutTitle.setPosition( chart.getViewBounds().x + 15, chart.getViewBounds().y + readoutTitle.getHeight() - 5 );
-        Rectangle valueBounds = readoutTitle.getBounds();
-        textBox.reshape( valueBounds.x + valueBounds.width,
-                         valueBounds.y - 5,
-                         textBox.getPreferredSize().width,
-                         textBox.getPreferredSize().height );
-        readoutUnits.setPosition( textBox.getX() + textBox.getWidth() + 5, readoutTitle.getY() );
-
-//        int floaterX = js.getX() - floatingControl.getPreferredSize().width;
         int floaterX = 5;
         floatingControl.reshape( floaterX, chart.getViewBounds().y, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
+        textBox.reshape( floaterX,
+                         chart.getViewBounds().y + floatingControl.getPreferredSize().height + 5,
+                         textBox.getPreferredSize().width,
+                         textBox.getPreferredSize().height );
 
         refitCurve();
     }
 
-    public void update( Observable o, Object arg ) {
+    public void update() {
         float time = (float)timer.getTime();
         if( time == lastTime ) {
             return;
@@ -644,9 +767,10 @@ public class MMPlot implements Graphic, Observer {
         }
     }
 
-    public void cursorMovedToTime( double time ) {
+    public void cursorMovedToTime( double time, int index ) {
         horizontalCursor.setX( time );
-        verticalChartSlider.setValue( value );
+        verticalChartSlider.setValue( dataSeries.pointAt( index ) );
+        setTextValue( dataSeries.pointAt( index ) );
     }
 
     public void setCursorVisible( boolean visible ) {

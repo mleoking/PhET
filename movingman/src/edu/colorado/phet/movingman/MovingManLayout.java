@@ -19,7 +19,8 @@ public class MovingManLayout {
     private int topInset = 20;
     private int walkwayBottomInset = 55;
     private int spaceBetweenPlots = 20;
-    private int plotInsetX = 90;
+//    private int plotInsetX = 90;
+    private int plotInsetX = 137;
 
     private MMVerticalLayout verticalLayout;
     private MovingManModule module;
@@ -85,14 +86,6 @@ public class MovingManLayout {
             chartButton.setLocation( chartButton.getX(), y );
         }
 
-//        public void relayout() {
-//            if( !plot.isVisible() ) {
-//                component.add( chartButton );
-//            }
-//            else {
-//                component.remove( chartButton );
-//            }
-//        }
     }
 
     static class MMVerticalLayout {
@@ -105,10 +98,6 @@ public class MovingManLayout {
 
         public void addLayoutItem( LayoutItem layoutItem ) {
             layoutItems.add( layoutItem );
-        }
-
-        public void clear() {
-            layoutItems.clear();
         }
 
         public int getConstantHeight() {

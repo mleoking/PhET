@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
 public class DataSeries extends AutomatedObservable implements ModelElement {
-    ArrayList pts = new ArrayList();
+    private ArrayList pts = new ArrayList();
 
     public DataSeries() {
     }
@@ -49,12 +49,6 @@ public class DataSeries extends AutomatedObservable implements ModelElement {
 
     public boolean indexInBounds( int index ) {
         return index >= 0 && index < pts.size();
-    }
-
-    public void addAll( DataSeries dataSeries ) {
-        for( int i = 0; i < dataSeries.size(); i++ ) {
-            addPoint( dataSeries.pointAt( ( i ) ) );
-        }
     }
 
 }
