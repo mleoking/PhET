@@ -35,17 +35,7 @@ public class MicrowaveApplication {
     public static final String localizedStringsPath = "localization/MicrowavesStrings";
 
     public static void main( String[] args ) {
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            SimStrings.setLocale( new Locale( applicationLocale ) );
-        }
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            SimStrings.setLocale( new Locale( locale ) );
-        }
-
-        SimStrings.setStrings( localizedStringsPath );
+        SimStrings.init( args, localizedStringsPath );
 
         // Get a logger; the logger is automatically created if
         // it doesn't already exist

@@ -23,11 +23,7 @@ public class Motion2D {
     public static final String localizedStringsPath = "localization/Motion2dStrings";
     
     public static void main( String[] args ) {
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            SimStrings.setLocale( new Locale( locale ));
-        }
+        SimStrings.init( args, localizedStringsPath );
 
         Motion2DApplet ja = new Motion2DApplet();
         ja.init();

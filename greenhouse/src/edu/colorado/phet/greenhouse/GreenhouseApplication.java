@@ -44,6 +44,7 @@ public class GreenhouseApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        SimStrings.init( args, localizedStringsPath );
 
         // Log a few message at different severity levels
 //        PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel();
@@ -61,18 +62,6 @@ public class GreenhouseApplication extends PhetApplication {
 //                }
 //            }
 //        }
-
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            SimStrings.setLocale( new Locale( applicationLocale ) );
-        }
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            SimStrings.setLocale( new Locale( locale ));
-        }
-
-        SimStrings.setStrings( localizedStringsPath );
         
         Module greenhouseModule = new GreenhouseModule();
         Module greenhouseModule2 = new GlassPaneModule();
