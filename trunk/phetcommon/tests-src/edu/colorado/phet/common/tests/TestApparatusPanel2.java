@@ -87,6 +87,12 @@ public class TestApparatusPanel2 {
 
         public void fireMouseEntered( MouseEvent e ) {
             super.fireMouseEntered( e );
+            setColor( Color.blue );
+        }
+
+        public void fireMouseExited(MouseEvent e) {
+            super.fireMouseExited(e);
+            setColor( Color.red );            
         }
     }
 
