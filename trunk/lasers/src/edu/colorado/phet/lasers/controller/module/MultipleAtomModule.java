@@ -124,6 +124,11 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                          LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE,
                                                          null, null );
         getApparatusPanel().addGraphic( pumpBeamControl );
+
+        // Set the averaging time for the energy levels display
+        setEnergyLevelsAveragingPeriod( 2000 );
+
+
     }
 
     /**

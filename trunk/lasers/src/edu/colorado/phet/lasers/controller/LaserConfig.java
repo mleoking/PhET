@@ -65,7 +65,7 @@ public class LaserConfig {
 
     // Angle within which a photon is considered to be moving horizontally. This is used by the
     // mirrors to "cheat" photons into lasing, and by the wave graphic to determine its amplitude
-    public static double PHOTON_CHEAT_ANGLE = Math.toRadians( 10 );
+    public static double PHOTON_CHEAT_ANGLE = 5;
 
     // Thickness of the mirror graphics
     public static final double MIRROR_THICKNESS = 15;
