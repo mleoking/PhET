@@ -25,6 +25,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Area;
 
 /**
  * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
@@ -112,10 +113,15 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         private double thickness = 2;
         private Arrow arrow1;
         private Arrow arrow2;
+        private Rectangle boundingRect;
 
         protected EnergyLevelRep( Component component ) {
             super( component );
             color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
+            int xOffset = 20;
+            int arrowHt = 16;
+            int arrowHeadWd = 10;
+            int tailWd = 3;
         }
 
         private void update() {
@@ -131,9 +137,9 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
             if( isAdjustable ) {
                 int xOffset = 20;
-                int arrowHt = 14;
-                int arrowHeadWd = 8;
-                int tailWd = 2;
+                int arrowHt = 16;
+                int arrowHeadWd = 10;
+                int tailWd = 3;
                 arrow1 = new Arrow( new Point2D.Double( xLoc + width - xOffset, y ),
                                     new Point2D.Double( xLoc + width - xOffset, y + arrowHt ),
                                     arrowHeadWd, arrowHeadWd, tailWd );
@@ -141,24 +147,35 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
                                     new Point2D.Double( xLoc + width - xOffset, y - arrowHt ),
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
-
+            boundingRect = determineBoundsInternal();
             setBoundsDirty();
             repaint();
         }
 
         protected Rectangle determineBounds() {
-            return levelLine.getBounds();
+            return boundingRect;
+        }
+
+        private Rectangle determineBoundsInternal() {
+            if( arrow1 != null ) {
+                Area a = new Area( arrow1.getShape() );
+                a.add( new Area( arrow2.getShape() ));
+                a.add( new Area( levelLine ));
+                return a.getBounds();
+            }
+            else {
+                return levelLine.getBounds();
+            }
         }
 
         public void paint( Graphics2D g ) {
-
             saveGraphicsState( g );
             g.setColor( color );
             g.fill( levelLine );
             if( isAdjustable ) {
                 g.setColor( Color.DARK_GRAY );
-                g.fill( arrow1.getShape() );
-                g.fill( arrow2.getShape() );
+                g.draw( arrow1.getShape() );
+                g.draw( arrow2.getShape() );
             }
             restoreGraphicsState();
         }
