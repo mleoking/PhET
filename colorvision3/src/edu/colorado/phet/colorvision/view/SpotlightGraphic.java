@@ -16,6 +16,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.colorvision.ColorVisionConfig;
+import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
 import edu.colorado.phet.colorvision.model.Spotlight;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;

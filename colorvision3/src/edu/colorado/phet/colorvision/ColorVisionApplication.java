@@ -14,7 +14,7 @@ package edu.colorado.phet.colorvision;
 import java.awt.Color;
 import java.util.Locale;
 
-import edu.colorado.phet.colorvision.view.BoundsOutliner;
+import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;

@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.colorvision.event.VisibleColorChangeEvent;
-import edu.colorado.phet.colorvision.event.VisibleColorChangeListener;
+import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeEvent;
+import edu.colorado.phet.colorvision.coreadditions.event.VisibleColorChangeListener;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;

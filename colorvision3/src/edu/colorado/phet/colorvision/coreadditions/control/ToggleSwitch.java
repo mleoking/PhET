@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.colorvision.control;
+package edu.colorado.phet.colorvision.coreadditions.control;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -19,7 +19,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.colorvision.view.BoundsOutliner;
+import edu.colorado.phet.colorvision.coreadditions.view.BoundsOutliner;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 

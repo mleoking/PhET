@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.colorvision.event;
+package edu.colorado.phet.colorvision.coreadditions.event;
 
 import java.util.EventObject;
 
