@@ -12,14 +12,14 @@
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.PhetFrame;
 
 /**
  * This class is essentially a data structure that contains specifications for the top-level
  * elements of a PhetApplication.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
@@ -132,6 +132,11 @@ public class ApplicationModel {
 
     public void setFrameSetup( FrameSetup frameSetup ) {
         this.frameSetup = frameSetup;
+
+        // If we already have a frame, apply the setup to it
+        if( frame != null ) {
+            frameSetup.initialize( frame );
+        }
     }
 
     public void setFrameCenteredSize( int width, int height ) {
