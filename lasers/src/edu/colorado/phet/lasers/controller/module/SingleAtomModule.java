@@ -50,7 +50,7 @@ public class SingleAtomModule extends BaseLaserModule {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), frame, clock );
 
         // Set up the control panel, and start off with two energy levels
-        laserControlPanel = new UniversalLaserControlPanel( this );
+        laserControlPanel = new UniversalLaserControlPanel( this, clock );
 //        laserControlPanel = new SingleAtomControlPanel(this);
         setControlPanel( laserControlPanel );
 

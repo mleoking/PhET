@@ -39,7 +39,7 @@ public class HighLevelEmissionControlPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.NORTHWEST,
-                                                         GridBagConstraints.HORIZONTAL,
+                                                         GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         this.add( displayHighLevelEmissionsCB, gbc );
     }

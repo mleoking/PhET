@@ -1,5 +1,6 @@
 package edu.colorado.phet.lasers.controller;
 
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
@@ -29,24 +30,40 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
     private BasicOptionsPanel basicBasicOptionsPanel;
     private HighLevelEmissionControlPanel highLevelEmissionControlPanel;
 
-    public UniversalLaserControlPanel( final BaseLaserModule module ) {
+    public UniversalLaserControlPanel( final BaseLaserModule module, AbstractClock clock ) {
         super( module );
         this.laserModule = module;
 
+        // Add the energy levels panel. Note that it must be wrapped in another JPanel, because
+        // it has a null layout manager
+        JPanel energyPanel = new JPanel();
+        energyPanel.add( module.getEnergyLevelsMonitorPanel() );
+        addControl( energyPanel );
+
         waveViewControlPanel = new WaveViewControlPanel( module );
         highLevelEmissionControlPanel = new HighLevelEmissionControlPanel( module );
+
+        // Add the two/three level radio buttons
         basicBasicOptionsPanel = new BasicOptionsPanel( module.getThreeEnergyLevels() );
         addControl( basicBasicOptionsPanel );
 
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                         1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0,
+                                                         1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+//                                                         1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
-        optionsPanel.add( new MirrorOnOffControlPanel( module ), gbc );
+
+        // Add the options for mirror on/off
+        JPanel panel2 = createPanel2( module );
+
+        // Add the control for showing/hiding phtoton coming off high energy state
+        gbc.gridx = 0;
+        optionsPanel.add( panel2, gbc );
 
         // Add controls for the different views of beams and photons
-        optionsPanel.add( highLevelEmissionControlPanel, gbc );
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
         optionsPanel.add( waveViewControlPanel, gbc );
         JPanel container = new JPanel();
         Border border = BorderFactory.createEtchedBorder();
@@ -56,18 +73,30 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         super.addControl( container );
 
         // Reset button
+        gbc.fill = GridBagConstraints.NONE;
         JButton resetBtn = new JButton( "Reset" );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
             }
         } );
-        super.addControl( resetBtn );
+        optionsPanel.add( resetBtn, gbc );
+//        super.addControl( resetBtn );
 
         this.doLayout();
-        this.setPreferredSize( new Dimension( 190, (int)this.getSize().getHeight() ) );
+        this.setPreferredSize( new Dimension( 340, (int)this.getSize().getHeight() ) );
 
 //        setThreeEnergyLevels( module.getThreeEnergyLevels() );
+    }
+
+    private JPanel createPanel2( final BaseLaserModule module ) {
+        GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER, GridBagConstraints.VERTICAL,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        JPanel panel2 = new JPanel( new GridLayout( 1, 2 ) );
+        panel2.add( new MirrorOnOffControlPanel( module ), gbc );
+        panel2.add( highLevelEmissionControlPanel, gbc );
+        return panel2;
     }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {

@@ -175,7 +175,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         revalidate();
         repaint();
-        SwingUtilities.getWindowAncestor( this ).pack();
+//        SwingUtilities.getWindowAncestor( this ).pack();
     }
 
     /**

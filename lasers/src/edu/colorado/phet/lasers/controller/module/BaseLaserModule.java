@@ -113,7 +113,6 @@ public class BaseLaserModule extends Module {
         // Create the energy levels dialog
         createEnergyLevelsDialog( clock, frame );
 
-
         // Add the control panel
 //        LaserControlPanel controlPanel = new LaserControlPanel( this );
 //        setControlPanel( controlPanel );
@@ -180,7 +179,7 @@ public class BaseLaserModule extends Module {
         super.activate( app );
         Photon.setStimulationBounds( cavity.getBounds() );
         appFrame = app.getApplicationView().getPhetFrame();
-        energyLevelsDialog.setVisible( true );
+//        energyLevelsDialog.setVisible( true );
         MiddleEnergyState.instance().setMeanLifetime( middleStateMeanLifetime );
         HighEnergyState.instance().setMeanLifetime( highStateMeanLifetime );
     }
@@ -190,7 +189,7 @@ public class BaseLaserModule extends Module {
      */
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
-        energyLevelsDialog.setVisible( false );
+//        energyLevelsDialog.setVisible( false );
         middleStateMeanLifetime = MiddleEnergyState.instance().getMeanLifeTime();
         highStateMeanLifetime = HighEnergyState.instance().getMeanLifeTime();
     }
@@ -269,7 +268,7 @@ public class BaseLaserModule extends Module {
     }
 
     public void setEnergyLevelsVisible( boolean isVisible ) {
-        energyLevelsDialog.setVisible( isVisible );
+//        energyLevelsDialog.setVisible( isVisible );
     }
 
     public LaserModel getLaserModel() {
@@ -284,7 +283,8 @@ public class BaseLaserModule extends Module {
         return pumpingBeam;
     }
 
-    protected EnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
+    public EnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
+//    protected EnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
         return energyLevelsMonitorPanel;
     }
 
@@ -436,6 +436,10 @@ public class BaseLaserModule extends Module {
                 reflectivityControlPanel.setVisible( this.mirrorsEnabled );
             }
         }
+    }
+
+    public Component getEnergyLevelsDialog() {
+        return energyLevelsDialog;
     }
 
 

@@ -57,7 +57,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         setThreeEnergyLevels( true );
 
         // Set the control panel
-        laserControlPanel = new UniversalLaserControlPanel( this );
+        laserControlPanel = new UniversalLaserControlPanel( this, clock );
         setControlPanel( laserControlPanel );
 //        setControlPanel(new MultipleAtomControlPanel(this));
 
