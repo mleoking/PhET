@@ -43,6 +43,7 @@ public class PersistentGeneralPath implements Shape {
     }
 
     public void setPathGenerator( StateDescriptor stateDescriptor ) {
+        this.stateDescriptor = stateDescriptor;
         path = stateDescriptor.generate();
     }
 

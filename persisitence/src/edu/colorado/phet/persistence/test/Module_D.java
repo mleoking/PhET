@@ -28,6 +28,8 @@ import edu.colorado.phet.persistence.test.view.SimpleGraphic;
 import edu.colorado.phet.persistence.test.model.TestModel;
 import edu.colorado.phet.persistence.test.model.TestParticle;
 import edu.colorado.phet.persistence.test.util.PersistentGeneralPath;
+import edu.colorado.phet.persistence.test.util.PersistentStroke;
+import edu.colorado.phet.persistence.test.util.PersistentGradientPaint;
 
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.*;
@@ -87,10 +89,7 @@ public class Module_D extends Module implements Serializable {
         init();
     }
 
-    static interface TestPhetGraphicSource {
-        public PhetGraphic createGraphic( ApparatusPanel panel );
-    }
-
+//
     void init() {
         ApparatusPanel panel = getApparatusPanel();
 //            panel = new ApparatusPanel();
@@ -107,9 +106,15 @@ public class Module_D extends Module implements Serializable {
         cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
         cpg.addGraphic( new PhetShadowTextGraphic( panel, "compositegraphic", new Font( "Lucida Sans", 0, 12 ), 130, 30, Color.white, 1, 1, Color.black ) );
 
-        Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
-        OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new Font( "Lucida Sans", Font.ITALIC, 68 ), 0, 0, Color.yellow, stroke, Color.black );
-        g.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
+        BasicStroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
+        PersistentStroke pStroke = new PersistentStroke( stroke );
+        OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new Font( "Lucida Sans", Font.ITALIC, 68 ),
+                                                       0, 0, Color.yellow, pStroke, Color.black );
+//        OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new Font( "Lucida Sans", Font.ITALIC, 68 ), 0, 0, Color.yellow, stroke, Color.black );
+        GradientPaint border = new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue );
+        g.setBorderPaint( new PersistentGradientPaint( border ) );
+//        g.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
+
 
 //        addGraphicToPanel( pg1, panel ); // good
 //        addGraphicToPanel( pg2, panel );
@@ -125,52 +130,6 @@ public class Module_D extends Module implements Serializable {
 //        panel.addGraphic( cpg );
 //        panel.addGraphic( g );
 
-//            TestPhetGraphicSource[] graphics = new TestPhetGraphicSource[]{
-//                new TestPhetGraphicSource() {
-//                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
-//                        return new PhetTextGraphic( panel, new Font( "Lucida Sans", Font.BOLD, 24 ), "PhetGraphic Test", Color.blue, 100, 100 );
-//                    }
-//                },
-//                new TestPhetGraphicSource() {
-//                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
-//                        return new PhetShapeGraphic( panel, new Rectangle( 50, 50, 50, 50 ), Color.green, new BasicStroke( 1 ), Color.black );
-//                    }
-//                },
-//                new TestPhetGraphicSource() {
-//                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
-//                        return new PhetImageGraphic( panel, "images/Phet-Flatirons-logo-3-small.gif" );
-//                    }
-//                },
-//                new TestPhetGraphicSource() {
-//                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
-//                        return new PhetMultiLineTextGraphic( panel, new String[]{"PhET", "Multi-", "Line", "TextGraphic"}, new Font( "dialog", 0, 28 ), 0, 0, Color.red, 1, 1, Color.yellow );
-//                    }
-//                },
-//                new TestPhetGraphicSource() {
-//                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
-//                        return new PhetShadowTextGraphic( panel, "Shadowed", new Font( "dialog", Font.BOLD, 28 ), 0, 0, Color.blue, 1, 1, Color.green );
-//                    }
-//                },
-//                new TestPhetGraphicSource() {
-//                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
-//                        CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
-//                        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
-//                        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
-//                        cpg.addGraphic( new PhetShadowTextGraphic( panel, "compositegraphic", new Font( "Lucida Sans", 0, 12 ), 130, 30, Color.white, 1, 1, Color.black ) );
-//                        return cpg;
-//                    }
-//                },
-//                new TestPhetGraphicSource() {
-//                    public PhetGraphic createGraphic( ApparatusPanel panel ) {
-////                    Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 4, new float[]{6, 6}, 0 );
-//                        Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
-//                        final TestPhetGraphics.OutlineTextGraphic g = new TestPhetGraphics.OutlineTextGraphic( panel, "Outline Text", new Font( "Lucida Sans", Font.ITALIC, 68 ), 0, 0, Color.yellow, stroke, Color.black );
-//                        g.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
-//                        return g;
-//
-//                    }
-//                }
-//            };
     }
 
     int i = 0;
@@ -216,9 +175,12 @@ public class Module_D extends Module implements Serializable {
         private String text;
         private Font font;
         private FontRenderContext fontRenderContext;
-        Shape shape;
+        private Color color;
+        private Color borderColor;
+//        Shape shape;
 
         public OutlineTextGraphic() {
+            this.fontRenderContext = new FontRenderContext( new AffineTransform(), true, false );
         }
 
         public OutlineTextGraphic( Component component, String text, Font font, int x, int y, Color fillColor, Stroke stroke, Color strokeColor ) {
@@ -249,15 +211,11 @@ public class Module_D extends Module implements Serializable {
         }
 
         private Shape createTextShape() {
-//            Graphics2D g2 = (Graphics2D)getComponent().getGraphics();
-//            if( g2 != null ) {
-//                FontRenderContext frc = g2.getFontRenderContext();
             FontRenderContext frc = fontRenderContext;
             if( frc != null ) {
                 TextLayout textLayout = new TextLayout( text, font, frc );
                 return new PersistentGeneralPath( (GeneralPath)textLayout.getOutline( new AffineTransform() ));
             }
-//            }
             return new Rectangle();
         }
 
@@ -279,6 +237,14 @@ public class Module_D extends Module implements Serializable {
 
         public void setShape( Shape shape ) {
             super.setShape( shape );
+        }
+
+        public FontRenderContext getFontRenderContext() {
+            return fontRenderContext;
+        }
+
+        public void setFontRenderContext( FontRenderContext fontRenderContext ) {
+            this.fontRenderContext = fontRenderContext;
         }
     }
 }
