@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
@@ -142,44 +143,52 @@ public class ModuleManager {
      */
     public void saveState( String fileName ) {
 
-        XMLEncoder encoder = null;
-        try {
-            // Prevent the component for a PhetGraphic from being persisted for now. This keeps
-            // ApparatusPanel from being persisted, for now.
-            BeanInfo info = Introspector.getBeanInfo( PhetImageGraphic.class );
-            PropertyDescriptor[] propertyDescriptors = info.getPropertyDescriptors();
-            for( int i = 0; i < propertyDescriptors.length; i++ ) {
-                PropertyDescriptor pd = propertyDescriptors[i];
-                if( pd.getName().equals( "image" ) ) {
-                    pd.setValue( "transient", Boolean.TRUE );
+        JFileChooser fileChooser = new JFileChooser();
+//        fileChooser.addChoosableFileFilter( new PstFilter() );
+        fileChooser.showSaveDialog( phetApplication.getPhetFrame() );
+        File file = fileChooser.getSelectedFile();
+
+        if( file != null ) {
+            XMLEncoder encoder = null;
+            try {
+                // Prevent the component for a PhetGraphic from being persisted for now. This keeps
+                // ApparatusPanel from being persisted, for now.
+                BeanInfo info = Introspector.getBeanInfo( PhetImageGraphic.class );
+                PropertyDescriptor[] propertyDescriptors = info.getPropertyDescriptors();
+                for( int i = 0; i < propertyDescriptors.length; i++ ) {
+                    PropertyDescriptor pd = propertyDescriptors[i];
+                    if( pd.getName().equals( "image" ) ) {
+                        pd.setValue( "transient", Boolean.TRUE );
+                    }
                 }
+
+                OutputStream outputStream = new BufferedOutputStream( new FileOutputStream( file ) );
+//            OutputStream outputStream = new BufferedOutputStream( new FileOutputStream( fileName ) );
+                if( USE_GZIP_STREAMS ) {
+                    outputStream = new GZIPOutputStream( outputStream );
+                }
+                encoder = new XMLEncoder( outputStream );
+
+                encoder.setPersistenceDelegate( AffineTransform.class, new AffineTransformPersistenceDelegate() );
+                encoder.setPersistenceDelegate( BasicStroke.class, new BasicStrokePersistenceDelegate() );
+                encoder.setPersistenceDelegate( Ellipse2D.Double.class, new Ellipse2DPersistenceDelegate() );
+                encoder.setPersistenceDelegate( Ellipse2D.Float.class, new Ellipse2DPersistenceDelegate() );
+                encoder.setPersistenceDelegate( GeneralPath.class, new GeneralPathPersistenceDelegate() );
+                encoder.setPersistenceDelegate( GradientPaint.class, new GradientPaintPersistenceDelegate() );
+                encoder.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
+                encoder.setPersistenceDelegate( Point2D.Float.class, new Point2DPersistenceDelegate() );
+                encoder.setPersistenceDelegate( Rectangle2D.Double.class, new Rectangle2DPersistenceDelegate() );
+                encoder.setPersistenceDelegate( Rectangle2D.Float.class, new Rectangle2DPersistenceDelegate() );
+
             }
-
-            OutputStream outputStream = new BufferedOutputStream( new FileOutputStream( fileName ) );
-            if( USE_GZIP_STREAMS ) {
-                outputStream = new GZIPOutputStream( outputStream );
+            catch( Exception ex ) {
+                ex.printStackTrace();
             }
-            encoder = new XMLEncoder( outputStream );
-
-            encoder.setPersistenceDelegate( AffineTransform.class, new AffineTransformPersistenceDelegate() );
-            encoder.setPersistenceDelegate( BasicStroke.class, new BasicStrokePersistenceDelegate() );
-            encoder.setPersistenceDelegate( Ellipse2D.Double.class, new Ellipse2DPersistenceDelegate() );
-            encoder.setPersistenceDelegate( Ellipse2D.Float.class, new Ellipse2DPersistenceDelegate() );
-            encoder.setPersistenceDelegate( GeneralPath.class, new GeneralPathPersistenceDelegate() );
-            encoder.setPersistenceDelegate( GradientPaint.class, new GradientPaintPersistenceDelegate() );
-            encoder.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
-            encoder.setPersistenceDelegate( Point2D.Float.class, new Point2DPersistenceDelegate() );
-            encoder.setPersistenceDelegate( Rectangle2D.Double.class, new Rectangle2DPersistenceDelegate() );
-            encoder.setPersistenceDelegate( Rectangle2D.Float.class, new Rectangle2DPersistenceDelegate() );
-
+            Module module = getActiveModule();
+            StateDescriptor sd = module.getState();
+            encoder.writeObject( sd );
+            encoder.close();
         }
-        catch( Exception ex ) {
-            ex.printStackTrace();
-        }
-        Module module = getActiveModule();
-        StateDescriptor sd = module.getState();
-        encoder.writeObject( sd );
-        encoder.close();
     }
 
     /**
@@ -189,40 +198,62 @@ public class ModuleManager {
      * @param fileName
      */
     public void restoreState( String fileName ) {
-        XMLDecoder decoder = null;
-        try {
-            InputStream inputStream = new BufferedInputStream( new FileInputStream( fileName ) );
-            if( USE_GZIP_STREAMS ) {
-                inputStream = new GZIPInputStream( inputStream ) ;
-            }
-            decoder = new XMLDecoder( inputStream );
-        }
-        catch( FileNotFoundException e ) {
-            e.printStackTrace();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
 
-        // Read in the ModuleStateDescriptor
-        ModuleStateDescriptor sd = (ModuleStateDescriptor)decoder.readObject();
-        decoder.setExceptionListener( new ExceptionListener() {
-            public void exceptionThrown( Exception exception ) {
-                exception.printStackTrace();
-            }
-        } );
+        JFileChooser fileChooser = new JFileChooser();
+//        fileChooser.addChoosableFileFilter( new PstFilter() );
+        fileChooser.showOpenDialog( phetApplication.getPhetFrame() );
+        File file = fileChooser.getSelectedFile();
 
-        // Find the module that is of the same class as the one that we're
-        // restoring. Set it to be the active module, and tell it to
-        // restore itself from the saved state
-        for( int i = 0; i < modules.size(); i++ ) {
-            Module module = (Module)modules.get( i );
-            if( module.getClass().getName().equals( sd.getModuleClassName() ) ) {
-                setActiveModule( module );
-                sd.setState( module );
+        if( file != null ) {
+
+            XMLDecoder decoder = null;
+            try {
+                InputStream inputStream = new BufferedInputStream( new FileInputStream( file ) );
+//                InputStream inputStream = new BufferedInputStream( new FileInputStream( fileName ) );
+                if( USE_GZIP_STREAMS ) {
+                    inputStream = new GZIPInputStream( inputStream );
+                }
+                decoder = new XMLDecoder( inputStream );
+            }
+            catch( FileNotFoundException e ) {
+                e.printStackTrace();
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+
+            // Read in the ModuleStateDescriptor
+            ModuleStateDescriptor sd = (ModuleStateDescriptor)decoder.readObject();
+            decoder.setExceptionListener( new ExceptionListener() {
+                public void exceptionThrown( Exception exception ) {
+                    exception.printStackTrace();
+                }
+            } );
+
+            // Find the module that is of the same class as the one that we're
+            // restoring. Set it to be the active module, and tell it to
+            // restore itself from the saved state
+            for( int i = 0; i < modules.size(); i++ ) {
+                Module module = (Module)modules.get( i );
+                if( module.getClass().getName().equals( sd.getModuleClassName() ) ) {
+                    setActiveModule( module );
+                    sd.setState( module );
+                }
             }
         }
     }
 
+    /**
+     * File filter for *.pst files
+     */
+    private class PstFilter extends javax.swing.filechooser.FileFilter {
+        public boolean accept( File file ) {
+            String filename = file.getName();
+            return filename.endsWith( ".pst" ) || file.isDirectory();
+        }
 
+        public String getDescription() {
+            return "*.pst";
+        }
+    }
 }
