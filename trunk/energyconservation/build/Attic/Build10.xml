@@ -1,22 +1,25 @@
 <project name="General Ant Build Script" default="Publish Executables" basedir=".">
 
     <!--  Set ant output directories.  -->
-    <property name="ant.output" value="../ant_output"/>
+    <property name="ant.output" value="../../ant_output"/>
     <property name="classes" location="${ant.output}/classes"/>
     <property name="jars" location="${ant.output}/jars"/>
     <property name="javadoc" location="${ant.output}/javadoc"/>
     <property name="lib" location="${ant.output}/lib"/>
 
     <!--    Set current sister directories, for backup and release data. -->
-    <property name="development" location="../development"/>
-    <property name="backup" location="../backup"/>
-    <property name="releases" location="../releases"/>
+    <property name="development" location=".."/>
+    <property name="backup" location="../../backup"/>
+    <property name="releases" location="../../releases"/>
     <property name="idea.classes" location="${development}/classes"/>
 
     <!--  Set up child directories, for during the build.  -->
-    <property name="src" location="src"/>
-    <property name="tests-src" location="tests-src"/>
-    <property name="data" location="data"/>
+    <property name="src" location="../src"/>
+    <property name="src-pc" location="../src-hp-22"/>
+    <property name="src-pc2" location="../src-hpa-22"/>
+    <property name="data" location="../data"/>
+    <property name="data-pc" location="../data-hp-22"/>
+    <property name="data-pc2" location="../data-hpa-22"/>
 
     <property file="build.properties"/>
     <property file="../local.build.properties"/>
@@ -34,8 +37,8 @@
     <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile" classpath="${antutil}"/>
 
     <target name="Clean Dependencies">
-        <delete dir="${idea.classes}"/>
-        <mkdir dir="${idea.classes}"/>
+        <delete dir="${idea.classes}"></delete>
+        <mkdir dir="${idea.classes}"></mkdir>
     </target>
 
     <target name="init">
@@ -50,7 +53,8 @@
         <mkdir dir="${backup}/${distname}_src_${backup.time}"/>
         <copy todir="${backup}/${distname}_src_${backup.time}">
             <fileset dir="${src}"/>
-            <fileset dir="${tests-src}"/>
+            <fileset dir="${src-pc}"/>
+            <fileset dir="${src-pc2}"/>
         </copy>
     </target>
 
@@ -77,6 +81,18 @@
         <copyclasspath directory="${backup}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>
     </target>
 
+    <!--    <target name="Backup Dev and Lib to desktop" depends="init">-->
+    <!--        <mkdir dir="${desktop}"/>-->
+    <!--        <tstamp>-->
+    <!--            <format property="backup.time" pattern="d-MMMM-yyyy h-mmaa" locale="en" timezone="MST"></format>-->
+    <!--        </tstamp>-->
+    <!--        <mkdir dir="${desktop}/${distname}_dev_${backup.time}"/>-->
+    <!--        <copy todir="${desktop}/${distname}_dev_${backup.time}">-->
+    <!--            <fileset dir="${development}"/>-->
+    <!--        </copy>-->
+    <!--        <copyclasspath directory="${desktop}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>-->
+    <!--    </target>-->
+
     <target name="Clean"
         description="clean up">
         <delete dir="${classes}"/>
@@ -89,11 +105,9 @@
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="src-hp-22" destdir="${classes}"/>
-        <javac srcdir="src-hpa-22" destdir="${classes}"/>
-        <javac srcdir="${src}" classpath="${classes};lib/jcommon-0.9.5.jar;lib/jfreechart-0.9.20.jar" destdir="${classes}"/>
-        <!--    Uncomment the following line to add test classes to the output jar.    -->
-        <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
+        <javac srcdir="${src-pc}" destdir="${classes}"/>
+        <javac srcdir="${src-pc2}" destdir="${classes}"/>
+        <javac srcdir="${src}" classpath="${classes};../lib/jcommon-0.9.5.jar;../lib/jfreechart-0.9.20.jar" destdir="${classes}"/>
     </target>
 
     <target name="Generate Build Info">
@@ -114,7 +128,8 @@
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
-            <fileset dir="data-hp-22"/>
+            <fileset dir="${data-pc}"/>
+            <fileset dir="${data-pc2}"/>
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
@@ -126,7 +141,7 @@
         <javadoc destdir="${javadoc}" author="true" version="true" use="true">
             <packageset dir="src" defaultexcludes="yes">
             </packageset>
-            <bottom><![CDATA[<i>Copyright &#169; 2004 PhET. All Rights Reserved.</i>]]></bottom>
+            <bottom><![CDATA[<i>Copyright &#169; 2003 Sam Reid. All Rights Reserved.</i>]]></bottom>
             <link href="http://java.sun.com/products/jdk/1.4/docs/api/"/>
         </javadoc>
     </target>
@@ -193,11 +208,12 @@
         <copy todir="${destdir}">
             <fileset dir="${jars}"/>
         </copy>
-        <copy todir="${destdir}">
-            <fileset dir="." casesensitive="yes">
-                <include name="${distname}.jnlp"></include>
-            </fileset>
+        <mkdir dir="${destdir}/lib"/>
+        <copy todir="${destdir}/lib">
+            <fileset dir="../lib"/>
         </copy>
+        <!--        <copyclasspath directory="${destdir}/lib" ignore="${ignorepath}"/>-->
+        <CreateBatchFile mainJar="${distname}.jar" libDir="${destdir}/lib" mainClassName="${main.class}" outputFile="${destdir}/run_${distname}.bat"/>
         <exec dir="${destdir}" executable="explorer">
             <arg line="${destdir}"/>
         </exec>
@@ -206,6 +222,12 @@
     <target name="Open Explorer">
         <exec dir="${development}" executable="explorer">
             <arg line="${development}"></arg>
+        </exec>
+    </target>
+
+    <target name="Open Explorer Top">
+        <exec dir="${basedir}" executable="explorer">
+            <arg line="${basedir}"></arg>
         </exec>
     </target>
 
