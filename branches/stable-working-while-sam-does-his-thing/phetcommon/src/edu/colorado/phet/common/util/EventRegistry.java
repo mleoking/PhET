@@ -130,4 +130,10 @@ public class EventRegistry {
         }
         return num;
     }
+
+    public void removeAllListeners() {
+        eventTypeToListenerTypeMap = new IdentityHashMap();
+        listenerTypeToListenersMap = new IdentityHashMap();
+        eventTypeToInvocationMethodMap = new IdentityHashMap();       
+    }
 }

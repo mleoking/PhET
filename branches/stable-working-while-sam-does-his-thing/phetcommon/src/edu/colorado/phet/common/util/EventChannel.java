@@ -15,8 +15,6 @@ import java.util.EventObject;
 
 /**
  * EventChannel
- * An interface defining a channel to which EventListeners can subscribe and through which creators of EventObjects
- * can send then to listeners.
  *
  * @author Ron LeMaster
  * @version $Revision$

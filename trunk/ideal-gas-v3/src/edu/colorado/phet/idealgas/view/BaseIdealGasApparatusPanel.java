@@ -155,9 +155,9 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
         int baseFlameHeight = IdealGasConfig.Y_BASE_OFFSET + 545;
         int flameHeight = baseFlameHeight - value;
         int iceHeight = baseFlameHeight + value;
-        flamesGraphicImage.setPosition( (int)flamesGraphicImage.getTransform().getTranslateX(),
+        flamesGraphicImage.setPosition( (int)flamesGraphicImage.getPosition().getX(),
                                         (int)Math.min( (float)flameHeight, baseFlameHeight ) );
-        iceGraphicImage.setPosition( (int)iceGraphicImage.getTransform().getTranslateX(),
+        iceGraphicImage.setPosition( (int)iceGraphicImage.getPosition().getX(),
                                      (int)Math.min( (float)iceHeight, baseFlameHeight ) );
         this.repaint();
     }

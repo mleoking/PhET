@@ -23,6 +23,7 @@ public class MoleculeFactoryPanel extends JPanel {
     private IdealGasModule module;
     private HollowSphere balloon;
     private Class gasSpecies;
+    private JSpinner particleSpinner;
 
     MoleculeFactoryPanel( IdealGasModule module, HollowSphere balloon, Class gasSpecies ) {
         super( new GridBagLayout() );
@@ -41,7 +42,7 @@ public class MoleculeFactoryPanel extends JPanel {
         Integer max = new Integer( 1000 );
         Integer step = new Integer( 1 );
         SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
-        final JSpinner particleSpinner = new JSpinner( model );
+        particleSpinner = new JSpinner( model );
         particleSpinner.setPreferredSize( new Dimension( 50, 20 ) );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.EAST;
@@ -69,6 +70,12 @@ public class MoleculeFactoryPanel extends JPanel {
 
     protected Class getCurrentGasSpecies() {
         return gasSpecies;
+    }
+
+    protected void reset() {
+        particleSpinner.setEnabled( false );
+        particleSpinner.setValue( new Integer( 0 ));
+        particleSpinner.setEnabled( true );
     }
 
     protected Point2D getNewMoleculeLocation() {

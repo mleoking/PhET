@@ -130,13 +130,13 @@ public class ApparatusPanel2 extends ApparatusPanel {
             public void componentShown(ComponentEvent e) {
                 if (strategy == null) {
                     strategy = SwingUtilities.getWindowAncestor(ApparatusPanel2.this).getBufferStrategy();
-                    if (!strategy.getCapabilities().isPageFlipping()) {
-                        System.out.println("Page flipping not supported.");
-                    }
-                    if (strategy.getCapabilities().isFullScreenRequired()) {
-                        System.out.println("Full screen is required for buffering.");
-                    }
-                    System.out.println("strategy = " + strategy);
+//                    if (!strategy.getCapabilities().isPageFlipping()) {
+//                        System.out.println("Page flipping not supported.");
+//                    }
+//                    if (strategy.getCapabilities().isFullScreenRequired()) {
+//                        System.out.println("Full screen is required for buffering.");
+//                    }
+//                    System.out.println("strategy = " + strategy);
                 }
 
 

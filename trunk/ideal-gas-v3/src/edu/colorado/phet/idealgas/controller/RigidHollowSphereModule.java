@@ -157,12 +157,13 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
      * This subclass of the MoleculeFactoryPanel manages the gnarly details of adding and
      * removing instances of different species in the hollow sphere.
      */
-    public class SphereMoleculeFactoryPanel extends MoleculeFactoryPanel {
+    public class SphereMoleculeFactoryPanel extends MoleculeFactoryPanel implements IdealGasModule.ResetListener {
         private int currNumHeavyMolecules;
         private int currNumLightMolecules;
 
         public SphereMoleculeFactoryPanel() {
             super(RigidHollowSphereModule.this, sphere, gasSpecies);
+            RigidHollowSphereModule.this.addListener( this );
         }
 
         protected void setNumParticles(int numParticles) {
@@ -206,6 +207,12 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                     }
                 }
             }
+        }
+
+        public void resetOccurred(ResetEvent event) {
+            currNumHeavyMolecules = 0;
+            currNumLightMolecules = 0;
+            super.reset();
         }
     }
 }
