@@ -26,7 +26,6 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
     private CompositeMouseInputListener mouseControl;
     private Boundary boundary;
     private CursorControl handControl;
-//    private HandCursorControl handControl;
     private boolean visible = true;
 
     public DefaultInteractiveGraphic( BoundedGraphic boundedGraphic ) {

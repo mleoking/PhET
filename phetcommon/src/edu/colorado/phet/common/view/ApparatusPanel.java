@@ -8,6 +8,7 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.*;
@@ -111,6 +112,10 @@ public class ApparatusPanel extends JPanel {
 
     public void addGraphic( Graphic graphic, double level ) {
         this.graphic.addGraphic( graphic, level );
+        if( graphic instanceof PhetGraphic ) {
+            PhetGraphic phetGraphic = (PhetGraphic)graphic;
+            phetGraphic.repaint();
+        }
     }
 
     /**
