@@ -133,7 +133,7 @@ public class BarMagnetModule extends Module {
         DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
         debugger.setLocationColor( Color.GREEN );
         debugger.setLocationStrokeWidth( 1 );
-//        debugger.add( __fieldMeterGraphic );
+//        debugger.add( compassGraphic );
         apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
         
         //----------------------------------------------------------------------------
