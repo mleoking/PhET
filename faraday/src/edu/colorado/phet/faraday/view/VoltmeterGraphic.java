@@ -55,7 +55,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
 
     // Screw that holds the needle in place.
     private static final Color SCREW_COLOR = Color.BLUE;
-    private static final int SCREW_DIAMETER = 10;
+    private static final int SCREW_DIAMETER = 9;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -112,7 +112,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             screw.setShape( new Ellipse2D.Double( 0, 0, SCREW_DIAMETER, SCREW_DIAMETER ) );
             screw.setPaint( SCREW_COLOR );
             screw.centerRegistrationPoint();
-            screw.setLocation( PIVOT_POINT );
+            screw.setLocation( PIVOT_POINT.x - 1, PIVOT_POINT.y - 1 );
         }
         
         // Registration point at bottom center.
