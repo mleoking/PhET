@@ -13,6 +13,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * SpectrumSliderKnob is the knob on a SpectrumSlider.
+ * Note that the knob's origin is at the upper-left corner of its 
+ * bounding box, not at the knob's tip.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$ $Name$
