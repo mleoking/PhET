@@ -4,7 +4,7 @@ package edu.colorado.phet.cck.elements.circuit;
 import edu.colorado.phet.cck.CCK2Module;
 import edu.colorado.phet.cck.elements.branch.DefaultBranchInteractionHandler;
 import edu.colorado.phet.cck.selection.SelectionListener;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -97,7 +97,7 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener, B
         Point2D.Double modelMousePoint = module.getTransform().viewToModel( event.getX(), event.getY() );
         //see if any other points in range.
         Junction closest = junction.getBranch().getCircuit().getClosestJunction( junction, modelMousePoint.x, modelMousePoint.y );
-        if( closest != null && closest.distance( new PhetVector( modelMousePoint.x, modelMousePoint.y ) ) < DefaultBranchInteractionHandler.STICKY_DISTANCE ) {
+        if( closest != null && closest.distance( new ImmutableVector2D.Double( modelMousePoint.x, modelMousePoint.y ) ) < DefaultBranchInteractionHandler.STICKY_DISTANCE ) {
 //            junction.setLocationWithoutUpdate(closest.getX(), closest.getY());
             junction.setLocation( closest.getX(), closest.getY() );
         }
@@ -124,7 +124,7 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener, B
         Point2D.Double modelMousePoint = module.getTransform().viewToModel( event.getX(), event.getY() );
         Junction closest = junction.getBranch().getCircuit().getClosestJunction( junction, modelMousePoint.x, modelMousePoint.y );
 
-        if( closest != null && closest.distance( new PhetVector( modelMousePoint.x, modelMousePoint.y ) ) < DefaultBranchInteractionHandler.STICKY_DISTANCE ) {
+        if( closest != null && closest.distance( new ImmutableVector2D.Double( modelMousePoint.x, modelMousePoint.y ) ) < DefaultBranchInteractionHandler.STICKY_DISTANCE ) {
             junction.setLocation( closest.getX(), closest.getY() );
             junction.addConnection( closest );
             module.getApparatusPanel().repaint();

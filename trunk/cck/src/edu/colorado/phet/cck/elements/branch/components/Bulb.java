@@ -8,8 +8,8 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.cck.elements.xml.BulbData;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.LinearTransform1d;
-import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.util.ArrayList;
@@ -26,22 +26,22 @@ public class Bulb extends Branch implements HasResistance {
     double resistance;
     CompositeBranch cb;
     private double height;
-    private PhetVector secondStartPoint;
+    private ImmutableVector2D.Double secondStartPoint;
     private double intensity = 0;
     ArrayList intensityObservers = new ArrayList();
     private boolean recursing = false;
     private double width;
-    private PhetVector vecFromStartJunction;
-    private PhetVector ctrl;
+    private ImmutableVector2D vecFromStartJunction;
+    private ImmutableVector2D ctrl;
 
-    public PhetVector getVecFromStartJunction() {
+    public ImmutableVector2D getVecFromStartJunction() {
         return vecFromStartJunction;
     }
 
-    public Bulb( Circuit parent, double x1, double y1, double x2, double y2, PhetVector vecFromStartJunction, double resistance ) {
+    public Bulb( Circuit parent, double x1, double y1, double x2, double y2, ImmutableVector2D vecFromStartJunction, double resistance ) {
         super( parent, x1, y1, x2, y2 );
         this.vecFromStartJunction = vecFromStartJunction;
-        this.ctrl = new PhetVector( x1, y1 ).getAddedInstance( vecFromStartJunction );
+        this.ctrl = new ImmutableVector2D.Double( x1, y1 ).getAddedInstance( vecFromStartJunction );
         this.resistance = resistance;
         addObserver( new BranchObserver() {
             public void junctionMoved( Branch branch2, Junction junction ) {
@@ -104,15 +104,15 @@ public class Bulb extends Branch implements HasResistance {
         cb = new CompositeBranch( getCircuit(), getX1(), getY1() );
 //        double length = super.getLength();//distance between endpoints.
 //        this.vecFromStartJunction = vecFromStartJunction;
-        this.ctrl = new PhetVector( getX1(), getY1() ).getAddedInstance( vecFromStartJunction );
+        this.ctrl = new ImmutableVector2D.Double( getX1(), getY1() ).getAddedInstance( vecFromStartJunction );
 //        ctrl = new Point2D.Double(getX1(), getY1());
 
-        PhetVector forward = new PhetVector( ctrl.getX() - getX1(), ctrl.getY() - getY1() ).getNormalizedInstance();
+        ImmutableVector2D forward = new ImmutableVector2D.Double( ctrl.getX() - getX1(), ctrl.getY() - getY1() ).getNormalizedInstance();
 //        double length = forward.getMagnitude();
 //        forward = forward.getNormalizedInstance();
-//        PhetVector forward = super.getDirection().getNormalizedInstance();
+//        ImmutableVector2D.Double forward = super.getDirection().getNormalizedInstance();
 
-        PhetVector up = forward.getNormalVector().getNormalizedInstance();
+        ImmutableVector2D up = forward.getNormalVector().getNormalizedInstance();
 
 //        double lengthA = length / 2.0 - width/ 2.0;
 //        cb.addRelativePoint(forward.getScaledInstance(lengthA));
@@ -129,12 +129,12 @@ public class Bulb extends Branch implements HasResistance {
         cb.lineTo( super.getX2(), super.getY2() );
     }
 
-    public PhetVector getMovedInstance( PhetVector start, PhetVector dir, double dist ) {
+    public ImmutableVector2D getMovedInstance( ImmutableVector2D start, ImmutableVector2D dir, double dist ) {
         return start.getAddedInstance( dir.getScaledInstance( dist / dir.getMagnitude() ) );
     }
 
-    public PhetVector getMovedInstance( PhetVector start, double angle, double magnitude ) {
-        PhetVector pv = PhetVector.parseAngleAndMagnitude( angle, magnitude );
+    public ImmutableVector2D getMovedInstance( ImmutableVector2D.Double start, double angle, double magnitude ) {
+        ImmutableVector2D pv = ImmutableVector2D.Double.parseAngleAndMagnitude( angle, magnitude );
         return getMovedInstance( start, pv, magnitude );
     }
 
@@ -152,10 +152,10 @@ public class Bulb extends Branch implements HasResistance {
         return cb.getLength();
     }
 
-    public PhetVector getPosition2D( double x ) {
-        PhetVector loc = cb.getPosition2D( x );
+    public ImmutableVector2D getPosition2D( double x ) {
+        ImmutableVector2D loc = cb.getPosition2D( x );
         if( loc == null ) {
-            loc = new PhetVector();
+            loc = new ImmutableVector2D.Double();
         }
         return loc;
     }
@@ -178,7 +178,7 @@ public class Bulb extends Branch implements HasResistance {
         recomputeState();
     }
 
-    public PhetVector getSecondStartPoint() {
+    public ImmutableVector2D.Double getSecondStartPoint() {
         return secondStartPoint;
     }
 
@@ -198,11 +198,11 @@ public class Bulb extends Branch implements HasResistance {
         this.intensityObservers.add( so );
     }
 
-    public PhetVector getControlPoint() {
+    public ImmutableVector2D getControlPoint() {
         return ctrl;
     }
 
-    public void setControlPointLocation( PhetVector ctrl ) {
+    public void setControlPointLocation( ImmutableVector2D.Double ctrl ) {
         this.ctrl = ctrl;
     }
 

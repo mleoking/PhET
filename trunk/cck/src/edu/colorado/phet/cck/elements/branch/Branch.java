@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.elements.circuit.JunctionObserver;
 import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.cck.selection.CompositeSelectionListener;
 import edu.colorado.phet.cck.selection.SelectionListener;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
@@ -114,16 +114,16 @@ public abstract class Branch {
         endJunction.translate( x, y );
     }
 
-    public PhetVector getStart() {
+    public ImmutableVector2D.Double getStart() {
         return startJunction.getVector();
     }
 
-    public PhetVector getEnd() {
+    public ImmutableVector2D.Double getEnd() {
         return endJunction.getVector();
     }
 
-    public PhetVector getDirection() {
-        return new PhetVector( getX2() - getX1(), getY2() - getY1() ).getNormalizedInstance();
+    public ImmutableVector2D getDirection() {
+        return new ImmutableVector2D.Double( getX2() - getX1(), getY2() - getY1() ).getNormalizedInstance();
     }
 
     public double getLength() {
@@ -214,10 +214,10 @@ public abstract class Branch {
         fireCurrentChanged();
     }
 
-    public PhetVector getPosition2D( double x ) {
+    public ImmutableVector2D getPosition2D( double x ) {
         if( !containsScalarLocation( x ) ) {
 //            throw new RuntimeException("Particle not contained in wire.");//TODO fixme
-            return new PhetVector();
+            return new ImmutableVector2D.Double();
         }
         return getDirection().getScaledInstance( x ).getAddedInstance( getStart() );
     }

@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.elements.xml.BatteryData;
 import edu.colorado.phet.cck.elements.xml.BranchData;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 
 
 /**
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.math.PhetVector;
  */
 public class Battery extends Branch {
     boolean recursing = false;
-    private PhetVector dirVector;
+    private ImmutableVector2D.Double dirVector;
     public double DX;
     private double internalResistance = .000001;
     private double magnitude;
@@ -36,13 +36,13 @@ public class Battery extends Branch {
         return new BatteryData( this );
     }
 
-    public void setDirVector( PhetVector dirVector ) {
+    public void setDirVector( ImmutableVector2D.Double dirVector ) {
         this.dirVector = dirVector;
     }
 
     public Battery( Circuit parent, double x1, double y1, double x2, double y2, double voltageDrop, final double DX ) {
         super( parent, x1, y1, x2, y2 );
-        dirVector = new PhetVector( x2 - x1, y2 - y1 );
+        dirVector = new ImmutableVector2D.Double( x2 - x1, y2 - y1 );
         this.magnitude = dirVector.getMagnitude();
         this.DX = DX;
         setVoltageDrop( voltageDrop );
@@ -61,22 +61,22 @@ public class Battery extends Branch {
                 }
                 if( junction == getStartJunction() ) {
                     //rotate about the end junction.
-//                    PhetVector endLoc=getStartJunction().getVector().getAddedInstance(dirVector);
-                    PhetVector dir = getStartJunction().getVector().getSubtractedInstance( getEndJunction().getVector() ).getNormalizedInstance();
+//                    ImmutableVector2D.Double endLoc=getStartJunction().getVector().getAddedInstance(dirVector);
+                    ImmutableVector2D dir = getStartJunction().getVector().getSubtractedInstance( getEndJunction().getVector() ).getNormalizedInstance();
                     dir = dir.getScaledInstance( magnitude );
 
-                    PhetVector startLoc = getEndJunction().getVector().getAddedInstance( dir );
+                    ImmutableVector2D startLoc = getEndJunction().getVector().getAddedInstance( dir );
                     getStartJunction().setLocation( startLoc.getX(), startLoc.getY() );
-//                    PhetVector endLoc = getStartJunction().getVector().getAddedInstance(DX, 0);
+//                    ImmutableVector2D.Double endLoc = getStartJunction().getVector().getAddedInstance(DX, 0);
 //                    getEndJunction().setLocation(endLoc.getX(), endLoc.getY());
                 }
                 else if( junction == getEndJunction() ) {
-//                    PhetVector startLoc=getEndJunction().getVector().getAddedInstance(dirVector.getScaledInstance(-1.0));
+//                    ImmutableVector2D.Double startLoc=getEndJunction().getVector().getAddedInstance(dirVector.getScaledInstance(-1.0));
 
-                    PhetVector dir = getEndJunction().getVector().getSubtractedInstance( getStartJunction().getVector() ).getNormalizedInstance();
+                    ImmutableVector2D dir = getEndJunction().getVector().getSubtractedInstance( getStartJunction().getVector() ).getNormalizedInstance();
                     dir = dir.getScaledInstance( magnitude );
 
-                    PhetVector endLoc = getStartJunction().getVector().getAddedInstance( dir );
+                    ImmutableVector2D endLoc = getStartJunction().getVector().getAddedInstance( dir );
                     getEndJunction().setLocation( endLoc.getX(), endLoc.getY() );
 
                 }
@@ -94,7 +94,7 @@ public class Battery extends Branch {
     }
 
     public void resetDirVector() {
-        this.dirVector = new PhetVector( getEndJunction().getVector().getSubtractedInstance( getStartJunction().getVector() ) );
+        this.dirVector = new ImmutableVector2D.Double( getEndJunction().getVector().getSubtractedInstance( getStartJunction().getVector() ) );
 //        System.out.println("dirVector = " + dirVector);
     }
 
@@ -108,10 +108,10 @@ public class Battery extends Branch {
 
     public void setLength( double length ) {
         this.magnitude = length;
-        PhetVector dir = getEndJunction().getVector().getSubtractedInstance( getStartJunction().getVector() ).getNormalizedInstance();
+        ImmutableVector2D dir = getEndJunction().getVector().getSubtractedInstance( getStartJunction().getVector() ).getNormalizedInstance();
         dir = dir.getScaledInstance( magnitude );
 
-        PhetVector endLoc = getStartJunction().getVector().getAddedInstance( dir );
+        ImmutableVector2D endLoc = getStartJunction().getVector().getAddedInstance( dir );
         getEndJunction().setLocation( endLoc.getX(), endLoc.getY() );
     }
 

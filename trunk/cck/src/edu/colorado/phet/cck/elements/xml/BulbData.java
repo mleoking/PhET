@@ -4,7 +4,7 @@ package edu.colorado.phet.cck.elements.xml;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.components.Bulb;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 
 
 /**
@@ -43,6 +43,6 @@ public class BulbData extends BranchData {
     }
 
     public Branch toBranch( Circuit parent ) {
-        return new Bulb( parent, x0, y0, x1, y1, new PhetVector( vecx, vecy ), resistance );
+        return new Bulb( parent, x0, y0, x1, y1, new ImmutableVector2D.Double( vecx, vecy ), resistance );
     }
 }

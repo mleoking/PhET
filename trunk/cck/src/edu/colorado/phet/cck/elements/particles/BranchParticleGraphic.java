@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchObserver;
 import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -61,7 +61,7 @@ public class BranchParticleGraphic implements Graphic {
     }
 
     private void stateChanged() {
-        PhetVector loc = particle.getPosition2D();
+        ImmutableVector2D loc = particle.getPosition2D();
         this.viewCoord = transform.modelToView( loc );
         module.getApparatusPanel().repaint();
     }

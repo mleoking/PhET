@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.CCK2Module;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.circuit.JunctionGroup;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 
 import java.awt.geom.Point2D;
 import java.util.Random;
@@ -143,7 +143,7 @@ public class ConstantDensityPropagator implements Propagator {
         double closestDist = Double.POSITIVE_INFINITY;
         for( int i = 0; i < bp.length; i++ ) {
             BranchParticle particle = bp[i];
-            PhetVector pv = particle.getPosition2D();
+            ImmutableVector2D pv = particle.getPosition2D();
             Point2D.Double jgLoc = jg.getLocation();
             double dist = jgLoc.distance( pv.getX(), pv.getY() );
             if( dist < closestDist ) {

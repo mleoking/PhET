@@ -10,7 +10,7 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.elements.circuit.JunctionGraphic;
 import edu.colorado.phet.cck.elements.particles.ParticleSetGraphic;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
@@ -218,7 +218,7 @@ public class ConnectibleImageGraphic extends CompositeInteractiveGraphic impleme
 
 //        super.addGraphic(new Graphic() {
 //            public void paint(Graphics2D g) {
-////                PhetVector ctrl = bulbBranch.getControlPoint();
+////                ImmutableVector2D.Double ctrl = bulbBranch.getControlPoint();
 //                Point2D.Double in = branch.getStartJunction().getLocation();
 //                Point2D.Double out = branch.getEndJunction().getLocation();
 ////                paintJunctionHole(ctrl, Color.white, g);
@@ -275,7 +275,7 @@ public class ConnectibleImageGraphic extends CompositeInteractiveGraphic impleme
     }
 
 
-//    public void paintJunctionHole(PhetVector pt, Color c, Graphics2D g) {
+//    public void paintJunctionHole(ImmutableVector2D.Double pt, Color c, Graphics2D g) {
 //        paintJunctionHole(new Point2D.Double(pt.getX(), pt.getY()), c, g);
 //    }
 
@@ -310,14 +310,14 @@ public class ConnectibleImageGraphic extends CompositeInteractiveGraphic impleme
     }
 
     public void update() {
-        PhetVector start = branch.getStart();
-        PhetVector end = branch.getEnd();
+        ImmutableVector2D.Double start = branch.getStart();
+        ImmutableVector2D.Double end = branch.getEnd();
         double length = getBranchLength();
-        PhetVector dir = branch.getDirection();
+        ImmutableVector2D dir = branch.getDirection();
         double modelWidthForImage = transform.viewToModelDifferentialX( imagePortion.getImageWidth() );
         double segmentLength = ( length - modelWidthForImage ) / 2;
 
-        PhetVector imageCenterModel = start.getAddedInstance( dir.getScaledInstance( segmentLength + modelWidthForImage / 2 ) );
+        ImmutableVector2D imageCenterModel = start.getAddedInstance( dir.getScaledInstance( segmentLength + modelWidthForImage / 2 ) );
         Point imCtr = transform.modelToView( imageCenterModel );
 //        angle = Math.atan2(imCtr.y - pre.getTarget().getStartPoint().y, imCtr.x - pre.getTarget().getStartPoint().x);
 //        angle=-Math.atan2(start.getY()-end.getY(),start.getX()-end.getX());
@@ -337,7 +337,7 @@ public class ConnectibleImageGraphic extends CompositeInteractiveGraphic impleme
         textDisplay.setLocation( bounds.x, bounds.y );
     }
 
-    protected PhetVector getSecondStartPoint( PhetVector start, PhetVector dir, double segmentLength, double modelWidthForImage ) {
+    protected ImmutableVector2D getSecondStartPoint( ImmutableVector2D.Double start, ImmutableVector2D.Double dir, double segmentLength, double modelWidthForImage ) {
         return start.getAddedInstance( dir.getScaledInstance( segmentLength + modelWidthForImage ) );
     }
 

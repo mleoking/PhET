@@ -4,7 +4,7 @@ package edu.colorado.phet.cck.elements.circuit;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.components.HasResistance;
 import edu.colorado.phet.cck.elements.particles.ObjectSelector;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -176,8 +176,8 @@ public class Circuit {
 
     private void moveToNeighbor( Junction junction ) {
         Junction other = junction.getBranch().getOppositeJunction( junction );
-        PhetVector vector = new PhetVector( other.getX() - junction.getX(), other.getY() - junction.getY() );
-        vector.setMagnitude( .4 );//TODO MAGIC
+        ImmutableVector2D vector = new ImmutableVector2D.Double( other.getX() - junction.getX(), other.getY() - junction.getY() );
+        vector = vector.getInstanceOfMagnitude( .4 );//setMagnitude( .4 );//TODO MAGIC
         junction.translate( vector.getX(), vector.getY() );
     }
 

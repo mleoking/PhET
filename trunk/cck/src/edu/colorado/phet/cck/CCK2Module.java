@@ -25,7 +25,7 @@ import edu.colorado.phet.cck.util.MyConsoleHandler;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -34,13 +34,11 @@ import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
-import edu.colorado.phet.common.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.util.AspectRatioLayout;
 import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
@@ -293,7 +291,7 @@ public class CCK2Module extends Module {
 //        final Battery batteryWithoutWires = new Battery(circuit, creationX1, dragY, creationX1 + battSep, dragY, 9.0, 1);
 //        final double batty = dragY;
 //        dragY -= dragDY;
-        final Bulb bulbCreateBranch = new Bulb( circuit, creationX1, dragY, creationX2, dragY - .5, new PhetVector( .5, 0 ), 10 );
+        final Bulb bulbCreateBranch = new Bulb( circuit, creationX1, dragY, creationX2, dragY - .5, new ImmutableVector2D.Double( .5, 0 ), 10 );
         dragY -= dragDY;
         final Switch switchCreateBranch = new Switch( circuit, creationX1, dragY, creationX2, dragY );
         dragY -= dragDY;
@@ -626,13 +624,14 @@ public class CCK2Module extends Module {
 
     private static void enableAspectRatio( PhetApplication app, Module module ) {
         ApparatusPanelContainer apc = app.getApplicationView().getApparatusPanelContainer();
-        if( apc instanceof SingleApparatusPanelContainer ) {
-            SingleApparatusPanelContainer sapc = (SingleApparatusPanelContainer)apc;
-            sapc.getComponent().setLayout( new AspectRatioLayout( module.getApparatusPanel(), 10, 10, .75 ) );
-            app.getApplicationView().getBasicPhetPanel().invalidate();
-            app.getApplicationView().getBasicPhetPanel().validate();
-            app.getApplicationView().getBasicPhetPanel().repaint();
-        }
+        System.out.println( "Debugging for set aspect ratio: apc = " + apc );
+//        if( apc instanceof SingleApparatusPanelContainer ) {
+//            SingleApparatusPanelContainer sapc = (SingleApparatusPanelContainer)apc;
+//            sapc.getComponent().setLayout( new AspectRatioLayout( module.getApparatusPanel(), 10, 10, .75 ) );
+//            app.getApplicationView().getBasicPhetPanel().invalidate();
+//            app.getApplicationView().getBasicPhetPanel().validate();
+//            app.getApplicationView().getBasicPhetPanel().repaint();
+//        }
     }
 
     public void setLifelikeWireColor( Color color ) {

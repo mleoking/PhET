@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 
 import java.util.ArrayList;
 
@@ -37,7 +37,7 @@ public class CompositeBranch {
         this.y = y;
     }
 
-    public void addRelativePoint( PhetVector pt ) {
+    public void addRelativePoint( ImmutableVector2D pt ) {
         addRelativePoint( pt.getX(), pt.getY() );
     }
 
@@ -45,7 +45,7 @@ public class CompositeBranch {
         lineTo( this.x + x, this.y + y );
     }
 
-    public PhetVector getPosition2D( double x ) {
+    public ImmutableVector2D getPosition2D( double x ) {
         double totalDist = 0;
         for( int i = 0; i < branches.size(); i++ ) {
             Branch branch2 = (Branch)branches.get( i );
@@ -71,8 +71,8 @@ public class CompositeBranch {
         return dist;
     }
 
-    public PhetVector getEndPoint() {
-        return new PhetVector( x, y );
+    public ImmutableVector2D.Double getEndPoint() {
+        return new ImmutableVector2D.Double( x, y );
     }
 
 

@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.elements.branch.AbstractBranchGraphic;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchGraphicFactory;
 import edu.colorado.phet.cck.elements.branch.components.*;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.CompositeTransformListener;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -134,18 +134,18 @@ public class CircuitGraphic extends CompositeInteractiveGraphic implements Circu
 
     public double getDistFromVertex( Area b, AbstractBranchGraphic defaultCompositeBranchGraphic, boolean startVertex ) {
         Rectangle2D bounds = b.getBounds2D();
-        PhetVector centroid = new PhetVector( bounds.getX() + bounds.getWidth() / 2, bounds.getY() + bounds.getHeight() / 2 );
+        ImmutableVector2D.Double centroid = new ImmutableVector2D.Double( bounds.getX() + bounds.getWidth() / 2, bounds.getY() + bounds.getHeight() / 2 );
         Point2D.Double modelCentroid = module.getTransform().viewToModel( new Point( (int)centroid.getX(), (int)centroid.getY() ) );
-        PhetVector modelCentroidVtr = new PhetVector( modelCentroid.x, modelCentroid.y );
+        ImmutableVector2D.Double modelCentroidVtr = new ImmutableVector2D.Double( modelCentroid.x, modelCentroid.y );
         if( startVertex ) {
-            PhetVector src = defaultCompositeBranchGraphic.getBranch().getStart();
-            PhetVector dir = modelCentroidVtr.getSubtractedInstance( src );
+            ImmutableVector2D.Double src = defaultCompositeBranchGraphic.getBranch().getStart();
+            ImmutableVector2D dir = modelCentroidVtr.getSubtractedInstance( src );
             double dist = dir.getMagnitude();
             return dist;
         }
         else {
-            PhetVector src = defaultCompositeBranchGraphic.getBranch().getEnd();
-            PhetVector dir = modelCentroidVtr.getSubtractedInstance( src );
+            ImmutableVector2D.Double src = defaultCompositeBranchGraphic.getBranch().getEnd();
+            ImmutableVector2D dir = modelCentroidVtr.getSubtractedInstance( src );
             double dist = dir.getMagnitude();
             return dist;
         }
