@@ -7,7 +7,7 @@
 package edu.colorado.phet.common.view.graphics;
 
 import edu.colorado.phet.common.view.graphics.mousecontrols.CompositeMouseInputListener;
-import edu.colorado.phet.common.view.graphics.mousecontrols.HandCursorControl;
+import edu.colorado.phet.common.view.graphics.mousecontrols.CursorControl;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationControl;
 
@@ -25,7 +25,8 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
     private Graphic graphic;
     private CompositeMouseInputListener mouseControl;
     private Boundary boundary;
-    private HandCursorControl handControl;
+    private CursorControl handControl;
+//    private HandCursorControl handControl;
     private boolean visible = true;
 
     public DefaultInteractiveGraphic( BoundedGraphic boundedGraphic ) {
@@ -108,7 +109,14 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
      */
     public void addCursorHandBehavior() {
         if( handControl == null ) {
-            handControl = new HandCursorControl();
+            handControl = new CursorControl( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+            mouseControl.addMouseInputListener( handControl );
+        }
+    }
+
+    public void addCursorBehavior( Cursor customCursor ) {
+        if( handControl == null ) {
+            handControl = new CursorControl( customCursor );
             mouseControl.addMouseInputListener( handControl );
         }
     }

@@ -11,6 +11,10 @@ import java.awt.event.MouseEvent;
  * Time: 12:53:40 AM
  * Copyright (c) Oct 9, 2003 by Sam Reid
  */
+
+/**
+ * @deprecated
+ */
 public class HandCursorControl implements MouseInputListener {
     public void mouseClicked( MouseEvent e ) {
     }

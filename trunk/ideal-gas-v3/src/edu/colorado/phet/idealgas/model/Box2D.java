@@ -6,6 +6,7 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.collision.CollidableBody;
+import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;

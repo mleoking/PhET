@@ -32,6 +32,7 @@ public class IdealGasControlPanel extends JPanel {
 
     private static final int s_stoveSliderHeight = 80;
     private static final int s_gravityControlPanelHeight = 80;
+    private static final int s_maxGravity = 20;
 
     private NumberFormat gravityFormat = NumberFormat.getInstance();
     private JTextField gravityTF;
@@ -59,7 +60,6 @@ public class IdealGasControlPanel extends JPanel {
         add( addConstantParamControls(), gbc );
         gbc.gridy++;
         add( addGravityControls(), gbc );
-//        addGravityControls();
         JPanel speciesButtonPanel = new SpeciesSelectionPanel( module.getPump() );
         speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Gas_In_Pump" ) ) );
         gbc.gridy++;
@@ -141,31 +141,33 @@ public class IdealGasControlPanel extends JPanel {
      */
     private JPanel addGravityControls() {
 
-        gravityControlPanel = new JPanel( new GridLayout( 1, 2 ) );
-        gravityControlPanel.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, s_gravityControlPanelHeight ) );
-        JPanel leftPanel = new JPanel( new GridLayout( 2, 1 ) );
-        JPanel rightPanel = new JPanel( new GridLayout( 1, 1 ) );
-
+        gravityControlPanel = new JPanel( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,1,1,
+                                                         GridBagConstraints.WEST,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0,0,0,0 ), 0,0 );
         // Add control for gravity, set default to OFF
-        //        gravitySlider = new JSlider( JSlider.VERTICAL, 0, 5000, 0 );
-        gravitySlider = new JSlider( JSlider.VERTICAL, 0, 10, 0 );
-//        gravitySlider = new JSlider( JSlider.VERTICAL, 0, s_gravityControlPanelHeight - 30, 0 );
         gravityOnCB = new JCheckBox( SimStrings.get( "Common.On" ) );
-        leftPanel.add( gravityOnCB );
+        gravityControlPanel.add( gravityOnCB, gbc );
         gravityOnCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 updateGravity( gravityOnCB.isSelected(), gravitySlider.getValue() );
             }
         } );
         gravityOnCB.setSelected( false );
-        leftPanel.add( gravityOnCB );
-        gravityControlPanel.add( leftPanel );
 
-        gravitySlider.setPreferredSize( new Dimension( 25, 100 ) );
+        gravitySlider = new JSlider( JSlider.VERTICAL, 0, s_maxGravity, 0 );
+        gravitySlider.setPreferredSize( new Dimension( 60, 50 ) );
         gravitySlider.setPaintTicks( true );
-        gravitySlider.setMajorTickSpacing( 25 );
+        gravitySlider.setMajorTickSpacing( 10 );
         gravitySlider.setMinorTickSpacing( 5 );
-        rightPanel.add( gravitySlider );
+        Hashtable labelTable = new Hashtable();
+        labelTable.put( new Integer( 0 ), new JLabel( SimStrings.get( "Common.0" ) ) );
+        labelTable.put( new Integer( 20 ), new JLabel( SimStrings.get( "Common.Max" ) ) );
+        gravitySlider.setLabelTable( labelTable );
+        gravitySlider.setPaintLabels( true );
+        gbc.gridx = 1;
+        gravityControlPanel.add( gravitySlider, gbc );
         gravitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 updateGravity( gravityOnCB.isSelected(), gravitySlider.getValue() );
@@ -179,14 +181,10 @@ public class IdealGasControlPanel extends JPanel {
         gravityFormat.setMaximumFractionDigits( 2 );
         gravityFormat.setMinimumFractionDigits( 2 );
         gravityTF.setText( gravityFormat.format( 0 ) );
-        leftPanel.add( gravityTF );
-        //        rightPanel.add( gravityTF );
-        gravityControlPanel.add( rightPanel );
 
         Border gravityBorder = new TitledBorder( SimStrings.get( "Common.Gravity" ) );
         gravityControlPanel.setBorder( gravityBorder );
         return gravityControlPanel;
-//        this.add( gravityControlPanel );
     }
 
     /**

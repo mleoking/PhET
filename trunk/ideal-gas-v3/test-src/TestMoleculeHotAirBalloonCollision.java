@@ -1,5 +1,6 @@
 
 import edu.colorado.phet.collision.SphereHotAirBalloonExpert;
+import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -12,7 +13,10 @@ import edu.colorado.phet.idealgas.controller.AddModelElementCmd;
 import edu.colorado.phet.idealgas.controller.HotAirBalloon;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
-import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
 
 import javax.swing.*;

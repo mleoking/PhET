@@ -8,7 +8,6 @@ package edu.colorado.phet.collision;
 
 import edu.colorado.phet.idealgas.model.HollowSphere;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.SphericalBody;
 
 public class SphereHotAirBalloonExpert implements CollisionExpert {
 

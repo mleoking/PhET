@@ -8,7 +8,6 @@ package edu.colorado.phet.collision;
 
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.SphericalBody;
 
 public class SphereBoxExpert implements CollisionExpert, ContactDetector {
 
@@ -23,7 +22,6 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
     public boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean haveCollided = false;
         if( applies( bodyA, bodyB ) && areInContact( bodyA, bodyB ) ) {
-//        if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB ) ) {
             SphericalBody sphere = bodyA instanceof SphericalBody ?
                                    (SphericalBody)bodyA : (SphericalBody)bodyB;
             Box2D box = bodyA instanceof Box2D ?

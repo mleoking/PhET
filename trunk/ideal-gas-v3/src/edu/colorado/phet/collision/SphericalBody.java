@@ -4,9 +4,8 @@
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
-package edu.colorado.phet.idealgas.model;
+package edu.colorado.phet.collision;
 
-import edu.colorado.phet.collision.CollidableBody;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 
