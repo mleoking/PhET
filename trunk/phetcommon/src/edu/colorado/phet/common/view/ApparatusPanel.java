@@ -162,6 +162,13 @@ public class ApparatusPanel extends JPanel {
         return graphicsSetups;
     }
 
+    protected void setup( Graphics2D g2 ) {
+        for( int i = 0; i < graphicsSetups.size(); i++ ) {
+            GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
+            graphicsSetup.setup( g2 );
+        }
+    }
+
     /**
      * Draws all the Graphic objects in the ApparatusPanel
      *
@@ -171,10 +178,7 @@ public class ApparatusPanel extends JPanel {
         Graphics2D g2 = (Graphics2D)graphics;
         super.paintComponent( g2 );
         GraphicsState state = new GraphicsState( g2 );
-        for( int i = 0; i < graphicsSetups.size(); i++ ) {
-            GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
-            graphicsSetup.setup( g2 );
-        }
+        setup( g2 );
         graphic.paint( g2 );
         drawBorder( g2 );
         state.restoreGraphics();
