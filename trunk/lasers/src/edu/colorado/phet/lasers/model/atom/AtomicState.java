@@ -20,24 +20,24 @@ public abstract class AtomicState {
     // Class
     //
     // Determines how often a photon contacting an atom will result in a collision
-    static private double PLANCK = 6.626E-34;
+    //    static private double PLANCK = 6.626E-34;
     static public final double minWavelength = 350;
     static public final double maxWavelength = 800;
-    static public final double minEnergy = wavelengthToEnergy( maxWavelength );
-    static public final double maxEnergy = wavelengthToEnergy( minWavelength );
+    static public final double minEnergy = Photon.wavelengthToEnergy( maxWavelength );
+    static public final double maxEnergy = Photon.wavelengthToEnergy( minWavelength );
     static protected double s_collisionLikelihood = 1;
     static protected final double wavelengthTolerance = 10;
 
     //        static protected double s_collisionLikelihood = 0.2;
 
-    public static double energyToWavelength( double energy ) {
-        return PLANCK / energy;
-    }
-
-    public static double wavelengthToEnergy( double wavelength ) {
-        return PLANCK / wavelength;
-    }
-
+    //    public static double energyToWavelength( double energy ) {
+    //        return PLANCK / energy;
+    //    }
+    //
+    //    public static double wavelengthToEnergy( double wavelength ) {
+    //        return PLANCK / wavelength;
+    //    }
+    //
     //
     // Inner classes
     //
@@ -174,7 +174,7 @@ public abstract class AtomicState {
 
     public void setEnergyLevel( double energyLevel ) {
         this.energyLevel = energyLevel;
-        this.wavelength = energyToWavelength( energyLevel );
+        this.wavelength = Photon.energyToWavelength( energyLevel );
         fireEnergyLevelChangeEvent( new EnergyLevelChangeEvent( this ) );
     }
 
@@ -184,7 +184,7 @@ public abstract class AtomicState {
 
     protected void setEmittedPhotonWavelength( double wavelength ) {
         this.wavelength = wavelength;
-        this.energyLevel = wavelengthToEnergy( wavelength );
+        this.energyLevel = Photon.wavelengthToEnergy( wavelength );
     }
 
     protected double getEmittedPhotonWavelength() {

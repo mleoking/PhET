@@ -56,7 +56,6 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                  s_origin.getY() );
         CollimatedBeam stimulatingBeam = ( (LaserModel)getModel() ).getStimulatingBeam();
 
-
         Rectangle2D.Double stimulatingBeamBounds = new Rectangle2D.Double( beamOrigin.getX(), beamOrigin.getY(),
                                                                            s_boxWidth + s_laserOffsetX * 2, s_boxHeight );
         stimulatingBeam.setBounds( stimulatingBeamBounds );
@@ -91,7 +90,7 @@ public class MultipleAtomModule extends BaseLaserModule {
             AffineTransform atx = new AffineTransform();
             atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
             PhetImageGraphic stimulatingBeamGraphic = new LampGraphic( stimulatingBeam, getApparatusPanel(), beamImage, atx );
-            addGraphic( stimulatingBeamGraphic, LaserConfig.PHOTON_LAYER + 1 );
+            //            addGraphic( stimulatingBeamGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
             // Add the intensity control
             JPanel sbmPanel = new JPanel();
@@ -103,7 +102,7 @@ public class MultipleAtomModule extends BaseLaserModule {
             sbmPanel.add( sbm );
             //            sbmPanel.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             sbmPanel.setOpaque( false );
-            getApparatusPanel().add( sbmPanel );
+            //            getApparatusPanel().add( sbmPanel );
 
             // Pumping beam lamp
             double pumpScaleX = scaleX;
@@ -175,7 +174,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         }
 
         ApparatusConfiguration config = new ApparatusConfiguration();
-        config.setStimulatedPhotonRate( 2.0f );
+        config.setStimulatedPhotonRate( 0f );
         config.setMiddleEnergySpontaneousEmissionTime( 2000f );
         config.setPumpingPhotonRate( 0 );
         //        config.setPumpingPhotonRate( 100f );

@@ -39,6 +39,16 @@ public class Photon extends Particle implements Collidable {
     static public double DEEP_RED = 640;
     static public double BLUE = 400;
     static public double GRAY = 900;
+    static private double PLANCK = 6.626E-34;
+
+    public static double energyToWavelength( double energy ) {
+        return PLANCK / energy;
+    }
+
+    public static double wavelengthToEnergy( double wavelength ) {
+        return PLANCK / wavelength;
+    }
+
 
     // Free pool of photons. We do this so we don't have to use the heap
     // at run-time
@@ -215,8 +225,7 @@ public class Photon extends Particle implements Collidable {
     }
 
     public double getEnergy() {
-        // Some function based on wavelength
-        return ( 1 / getWavelength() );
+        return wavelengthToEnergy( wavelength );
     }
 
     public boolean hasCollidedWithAtom( Atom atom ) {

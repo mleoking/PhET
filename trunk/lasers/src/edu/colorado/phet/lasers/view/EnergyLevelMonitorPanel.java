@@ -13,6 +13,7 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.math.ModelViewTx1D;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -22,6 +23,8 @@ import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.atom.HighEnergyState;
 import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
+import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -30,8 +33,11 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
-public class EnergyLevelMonitorPanel extends MonitorPanel {
+public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedBeam.WavelengthChangeListener {
 
     private int atomDiam = 14;
 
@@ -39,8 +45,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
     private double panelHeight = 500;
     private double sliderWidth = 100;
 
-    private double levelLineOriginX = 30;
-    private double levelLineLength = panelWidth - sliderWidth - 60;
+    private Point2D origin = new Point2D.Double( 50, panelHeight - 10 );
+    private double levelLineOriginX = origin.getX() + 30;
+    private double levelLineLength = panelWidth - levelLineOriginX - sliderWidth - 20;
 
     private EnergyLevelGraphic highLevelLine;
     private EnergyLevelGraphic middleLevelLine;
@@ -53,6 +60,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
     private int numLevels;
 
     private LaserModel model;
+    private double pumpingBeamEnergy;
+    private double stimulatingBeamEnergy;
+    private ModelViewTx1D energyYTx;
 
     /**
      *
@@ -86,10 +96,14 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                highLevelLine.update();
-                middleLevelLine.update();
-                middleLevelLifetimeSlider.update();
-                groundLevelLine.update();
+                Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + getBounds().getHeight() * 0.1,
+                                                             getBounds().getWidth(), getBounds().getHeight() * 0.8 );
+                energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
+                                               (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
+
+                highLevelLine.update( energyYTx );
+                middleLevelLine.update( energyYTx );
+                groundLevelLine.update( energyYTx );
             }
         } );
     }
@@ -166,6 +180,17 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
             }
         }
 
+        // Draw squiggles showing what energy photons the beams are putting out
+        double modelHeight = energyYTx.modelToView( stimulatingBeamEnergy );
+        System.out.println( "stimulatingBeamEnergy = " + stimulatingBeamEnergy );
+        System.out.println( "modelHeight = " + modelHeight );
+        Line2D stimBeamEnergy = new Line2D.Double( origin.getX() + 5, origin.getY(),
+                                                   origin.getX() + 5, modelHeight );
+        Color c = VisibleColor.wavelengthToColor( Photon.energyToWavelength( stimulatingBeamEnergy ) );
+        g2.setColor( c );
+        g2.setStroke( new BasicStroke( 2 ) );
+        g2.draw( stimBeamEnergy );
+
         gs.restoreGraphics();
     }
 
@@ -177,12 +202,16 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
         middleLevelLifetimeSlider.update();
         highLevelLifetimeSlider.update();
 
+        double lambda = model.getStimulatingBeam().getWavelength();
+        double energy = Photon.wavelengthToEnergy( lambda );
+        stimulatingBeamEnergy = Photon.wavelengthToEnergy( model.getStimulatingBeam().getWavelength() );
+
         this.invalidate();
         this.repaint();
     }
 
     private class EnergyLifetimeSlider extends JSlider {
-        private int maxLifetime = 5000;
+        private int maxLifetime = 100;
         private EnergyLevelGraphic graphic;
         private int sliderHeight = 50;
 
@@ -192,8 +221,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
             setMinimum( 0 );
             setMaximum( maxLifetime );
             setValue( maxLifetime / 2 );
-            setMajorTickSpacing( 5000 );
-            setMinorTickSpacing( 1000 );
+            setMajorTickSpacing( maxLifetime );
+            setMinorTickSpacing( maxLifetime / 10 );
             setPaintTicks( true );
             setPaintLabels( true );
             setPaintTrack( true );
@@ -216,6 +245,16 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
             this.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ),
                             (int)graphic.getPosition().getY() - sliderHeight / 2,
                             100, sliderHeight );
+        }
+    }
+
+    public void wavelengthChangeOccurred( CollimatedBeam.WavelengthChangeEvent event ) {
+        CollimatedBeam beam = (CollimatedBeam)event.getSource();
+        if( beam == model.getPumpingBeam() ) {
+            pumpingBeamEnergy = Photon.wavelengthToEnergy( beam.getWavelength() );
+        }
+        if( beam == model.getStimulatingBeam() ) {
+            stimulatingBeamEnergy = Photon.wavelengthToEnergy( beam.getWavelength() );
         }
     }
 }

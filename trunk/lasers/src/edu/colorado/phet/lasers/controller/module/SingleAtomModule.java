@@ -34,6 +34,7 @@ import java.io.IOException;
 public class SingleAtomModule extends BaseLaserModule {
     private Atom atom;
     private PhetImageGraphic pumpingLampGraphic;
+    private JPanel pumpingBeamControlPanel;
 
     public SingleAtomModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
@@ -99,19 +100,21 @@ public class SingleAtomModule extends BaseLaserModule {
             pumpingBeamTx.rotate( Math.PI / 2 );
             BufferedImage pumpingBeamLamp = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( beamImage, null );
             pumpingLampGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), pumpingBeamLamp, pumpingBeamTx );
+            pumpingLampGraphic.setVisible( false );
             addGraphic( pumpingLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
             // Add the beam control
-            JPanel pbmPanel = new JPanel();
+            pumpingBeamControlPanel = new JPanel();
             BeamControl pbm = new BeamControl( pumpingBeam );
             Dimension pbmDim = pbm.getPreferredSize();
-            pbmPanel.setBounds( (int)( pumpingBeamTx.getTranslateX() + pumpingLampGraphic.getWidth() ), 10,
-                                (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );
-            pbmPanel.add( pbm );
+            pumpingBeamControlPanel.setBounds( (int)( pumpingBeamTx.getTranslateX() + pumpingLampGraphic.getWidth() ), 10,
+                                               (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );
+            pumpingBeamControlPanel.add( pbm );
             //            pbmPanell.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             pbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-            pbmPanel.setOpaque( false );
-            getApparatusPanel().add( pbmPanel );
+            pumpingBeamControlPanel.setOpaque( false );
+            pumpingBeamControlPanel.setVisible( false );
+            getApparatusPanel().add( pumpingBeamControlPanel );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -139,5 +142,13 @@ public class SingleAtomModule extends BaseLaserModule {
         super.deactivate( app );
         getLaserModel().removeModelElement( atom );
         atom.removeFromSystem();
+    }
+
+    public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
+        super.setThreeEnergyLevels( threeEnergyLevels );
+        if( pumpingLampGraphic != null ) {
+            pumpingLampGraphic.setVisible( threeEnergyLevels );
+            pumpingBeamControlPanel.setVisible( threeEnergyLevels );
+        }
     }
 }
