@@ -125,6 +125,10 @@ public class SoundModel extends BaseModel {
         return primaryWavefront;
     }
 
+    public Wavefront getOctaveWavefront() {
+        return octaveWavefront;
+    }
+
     public void setPrimaryWavefront( Wavefront primaryWavefront ) {
         this.primaryWavefront = primaryWavefront;
     }
