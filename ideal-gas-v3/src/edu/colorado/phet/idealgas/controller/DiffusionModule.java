@@ -37,7 +37,7 @@ public class DiffusionModule extends IdealGasModule {
     private Wall lowerWall;
     private Wall upperWall;
     private int wallThickness = (int)GasMolecule.s_defaultRadius * 4;
-    private double minimumWallSeparation = GasMolecule.s_defaultRadius * 4;
+    private double minimumWallSeparation = GasMolecule.s_defaultRadius * 2;
 
     public DiffusionModule( final AbstractClock clock ) {
         super( clock, "Diffusion" );
