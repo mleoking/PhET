@@ -28,6 +28,7 @@ phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 
 DONE:
+(1/25) - use one image for bar magnet, set transparency using g2.setComposite
 (1/24) - use CCK graphic for lightbulb illumination
 (1/24) - use median values only when magnet or coil are being dragged
 (1/21) - separate PickupCoilGraphic into foreground & background layers
