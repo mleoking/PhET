@@ -159,7 +159,7 @@ public class SineWaveGraphic extends PhetShapeGraphic {
     /**
      * Updates the graphic to match the current paramter settings.
      * The sine wave is approximated using a set of line segments.
-     * The zero crossing (180 phase) of the center-most cycle is at the origin.
+     * The zero crossing (180 phase) of the center-most cycle is always at the origin.
      * <p>
      * NOTE! As a performance optimization, you must call this method explicitly
      * after changing parameter values.
@@ -194,10 +194,7 @@ public class SineWaveGraphic extends PhetShapeGraphic {
             positivePath.append( negativePath, false );
             setShape( positivePath );
 
-            /* 
-             * Make start & end angle positive value,
-             * effectively shifts the values right while maintaining phase.
-             */
+            // Make the start & end angle positive values, maintaining phase.
             _startAngle = ( ( 2 * Math.PI ) - ( angle % ( 2 * Math.PI) ) ) % ( 2 * Math.PI );
             _endAngle = _startAngle + ( 2 * ( angle - phaseAngle ) );
    
