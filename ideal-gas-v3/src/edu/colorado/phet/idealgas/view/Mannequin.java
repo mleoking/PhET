@@ -69,7 +69,9 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
             int dir = nextLocationX - location.x;
             location.setLocation( nextLocationX, box.getMaxY() - currPusherFrame.getWidth( null ) + offsetY );
             // Update the pusher
-            currPusherFrame = dir > 0 ? pusher.getNextFrame() : pusher.getPrevFrame();
+            if( wallMoving ) {
+                currPusherFrame = dir > 0 ? pusher.getNextFrame() : pusher.getPrevFrame();
+            }
             currFrame = currPusherFrame;
             setBoundsDirty();
             repaint();
