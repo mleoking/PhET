@@ -225,7 +225,7 @@ public class Chart extends PhetGraphic {
         this.range = range;
         transform.setModelBounds( range.getBounds() );
         fireTransformChanged();
-        repaint();
+        autorepaint();
     }
 
     public Range2D getDataRange() {
@@ -288,37 +288,39 @@ public class Chart extends PhetGraphic {
     }
 
     public void paint( Graphics2D graphics2D ) {
-        //paint the background
-        graphics2D.setPaint( background );
-        graphics2D.fill( viewBounds );
+        if( isVisible() ) {
+            //paint the background
+            graphics2D.setPaint( background );
+            graphics2D.fill( viewBounds );
 
-        //paint the gridlines
-        horizonalGridlines.paint( graphics2D );
-        verticalGridlines.paint( graphics2D );
+            //paint the gridlines
+            horizonalGridlines.paint( graphics2D );
+            verticalGridlines.paint( graphics2D );
 
-        horizontalTicks.paint( graphics2D );
-        verticalTicks.paint( graphics2D );
+            horizontalTicks.paint( graphics2D );
+            verticalTicks.paint( graphics2D );
 
-        //paint the axes
-        xAxis.paint( graphics2D );
-        yAxis.paint( graphics2D );
+            //paint the axes
+            xAxis.paint( graphics2D );
+            yAxis.paint( graphics2D );
 
-        //paint the ornaments.
+            //paint the ornaments.
 
-        //paint the datasets
-        Shape clip = graphics2D.getClip();
-        graphics2D.setClip( viewBounds );
-        for( int i = 0; i < dataSetGraphics.size(); i++ ) {
-            DataSetGraphic dataSetGraphic = (DataSetGraphic)dataSetGraphics.get( i );
-            dataSetGraphic.paint( graphics2D );
-        }
-        graphics2D.setClip( clip );
-        graphics2D.setStroke( outlineStroke );
-        graphics2D.setColor( outlineColor );
-        graphics2D.draw( viewBounds );
+            //paint the datasets
+            Shape clip = graphics2D.getClip();
+            graphics2D.setClip( viewBounds );
+            for( int i = 0; i < dataSetGraphics.size(); i++ ) {
+                DataSetGraphic dataSetGraphic = (DataSetGraphic)dataSetGraphics.get( i );
+                dataSetGraphic.paint( graphics2D );
+            }
+            graphics2D.setClip( clip );
+            graphics2D.setStroke( outlineStroke );
+            graphics2D.setColor( outlineColor );
+            graphics2D.draw( viewBounds );
 
-        if( title != null ) {
-            title.paint( graphics2D );
+            if( title != null ) {
+                title.paint( graphics2D );
+            }
         }
     }
 

@@ -2,7 +2,7 @@
 package edu.colorado.phet.chart.controllers;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.common.math.LinearTransform1d;
+import edu.colorado.phet.common.math.Function;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -53,8 +53,9 @@ public class VerticalChartSlider {
     public double getValue() {
         int value = slider.getValue();
         Rectangle r = chart.getViewBounds();
-        LinearTransform1d transform1d = new LinearTransform1d( 0, numTicks, r.y + r.height, r.y );
-        double output = transform1d.transform( value );
+        Function.LinearFunction transform1d = new Function.LinearFunction( 0, numTicks, r.y + r.height, r.y );
+//        LinearTransform1d transform1d = new LinearTransform1d( 0, numTicks, r.y + r.height, r.y );
+        double output = transform1d.evaluate( value );
         double modelValue = chart.getModelViewTransform().viewToModelY( (int)output );
         return modelValue;
     }
@@ -91,8 +92,8 @@ public class VerticalChartSlider {
     public void setValue( double y ) {
         double viewY = chart.getModelViewTransform().modelToViewY( y );
         Rectangle r = chart.getViewBounds();
-        LinearTransform1d transform1d = new LinearTransform1d( r.y + r.height, r.y, 0, numTicks );
-        int tick = (int)transform1d.transform( viewY );
+        Function.LinearFunction transform1d = new Function.LinearFunction( r.y + r.height, r.y, 0, numTicks );
+        int tick = (int)transform1d.evaluate( viewY );
         ChangeListener[] s = slider.getChangeListeners();
         for( int i = 0; i < s.length; i++ ) {
             ChangeListener changeListener = s[i];
