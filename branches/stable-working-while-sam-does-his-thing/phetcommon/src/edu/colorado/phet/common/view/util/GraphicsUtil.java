@@ -1,9 +1,4 @@
-/**
- * Class: GraphicsUtil
- * Package: edu.colorado.phet.lasers.viewX.imaging
- * Author: Another Guy
- * Date: Apr 8, 2003
- */
+/* Copyright University of Colorado, 2004 */
 package edu.colorado.phet.common.view.util;
 
 import javax.swing.*;
@@ -15,36 +10,74 @@ import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
+/**
+ * Class: GraphicsUtil
+ * Package: edu.colorado.phet.lasers.viewX.imaging
+ * Author: Another Guy
+ * Date: Apr 8, 2003
+ */
 public class GraphicsUtil {
+
+
+    /**
+     * Returns an AffineTransform that will rotate a BufferedImage in it's minimal bounding box. Note that if
+     * you don't use a method like this to rotate a BufferedImage, you are likely to have pixels
+     * truncated.
+     * @param bImage
+     * @param theta
+     * @return
+     */
+    public static AffineTransform getRotateTx( BufferedImage bImage, double theta ) {
+        // Determine the correct point of the image about which to rotate it. If we don't
+        // do this correctly, the image will get clipped when it is rotated into certain
+        // quadrants
+
+        // Normalize theta to be between 0 and PI*2
+        theta = ( ( theta % ( Math.PI * 2 ) ) + Math.PI * 2 ) % ( Math.PI * 2 );
+        double w = bImage.getWidth();
+        double h = bImage.getHeight();
+        double dx = 0;
+        double dy = 0;
+
+        // I
+        if( theta >= 0 && theta <= Math.PI / 2 ) {
+            dx = h * Math.sin( theta );
+            dy = 0;
+        }
+        // II
+        if( theta > Math.PI / 2 && theta <= Math.PI ) {
+            double beta = Math.PI - theta;
+            dy = h * Math.cos( beta );
+            dx = w * Math.cos( beta ) + h * Math.sin( beta );
+        }
+        // III
+        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
+            double beta = theta - Math.PI;
+            dy = h * Math.cos( beta ) + w * Math.sin( beta );
+            dx = w * Math.cos( beta );
+        }
+        // IV
+        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
+            double beta = Math.PI * 2 - theta;
+            dy = w * Math.sin( beta );
+            dx = 0;
+        }
+        AffineTransform rtx = AffineTransform.getTranslateInstance( dx, dy );
+        rtx.rotate( theta );
+        return rtx;
+    }
 
     /**
      * Creates and returns a buffered image that is a rotated version of a specified
-     * buffered image. The transform is done so that the image is not truncated.
+     * buffered image. The transform is done so that the image is not truncated and
+     * is of minimal size.
      *
      * @param bImage
      * @param theta  Angle the image is to be rotated, in radians.
      * @return the rotated image.
      */
     public static BufferedImage getRotatedImage( BufferedImage bImage, double theta ) {
-        // Determine the correct point of the image about which to rotate it. If we don't
-        // do this correctly, the image will get clipped when it is rotated into certain
-        // quadrants
-        Point2D pr = new Point2D.Double();
-        // Normalize theta to be between 0 and PI*2
-        theta = ( ( theta % ( Math.PI * 2 ) ) + Math.PI * 2 ) % ( Math.PI * 2 );
-        if( theta >= 0 && theta <= Math.PI / 2 ) {
-            pr.setLocation( 0, bImage.getHeight() );
-        }
-        if( theta > Math.PI / 2 && theta <= Math.PI ) {
-            pr.setLocation( bImage.getWidth(), bImage.getHeight() );
-        }
-        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
-            pr.setLocation( bImage.getWidth(), bImage.getHeight() );
-        }
-        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
-            pr.setLocation( bImage.getWidth(), bImage.getHeight() );
-        }
-        AffineTransform rtx = AffineTransform.getRotateInstance( theta, pr.getX(), pr.getY() );
+        AffineTransform rtx = getRotateTx( bImage, theta );
         BufferedImageOp op = new AffineTransformOp( rtx, AffineTransformOp.TYPE_BILINEAR );
         BufferedImage result = op.filter( bImage, null );
         return result;
