@@ -84,7 +84,9 @@ public class WaveViewControlPanel extends JPanel {
 
         // Set the initial conditions
         pumpCurtainViewRB.setSelected( true );
+        module.setPumpingPhotonView( BaseLaserModule.PHOTON_CURTAIN );
         lasingPhotonViewRB.setSelected( true );
+        module.setLasingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
     }
 
     private class LasingPhotonRBListener implements ActionListener {
@@ -92,12 +94,10 @@ public class WaveViewControlPanel extends JPanel {
             JRadioButton selection = GraphicsUtil.getSelection( lasingPhotonBG );
             if( selection == lasingPhotonViewRB ) {
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
-                //                module.setPhotonView();
             }
             if( selection == lasingWaveViewRB ) {
                 PhotonGraphic.removeAll( module.getApparatusPanel() );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_WAVE );
-                //                module.setWaveView();
             }
         }
     }
@@ -107,12 +107,10 @@ public class WaveViewControlPanel extends JPanel {
             JRadioButton selection = GraphicsUtil.getSelection( pumpPhotonBG );
             if( selection == pumpPhotonViewRB ) {
                 module.setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
-                //                module.setPhotonView();
             }
             if( selection == pumpCurtainViewRB ) {
                 PhotonGraphic.removeAll( module.getApparatusPanel() );
                 module.setPumpingPhotonView( BaseLaserModule.PHOTON_CURTAIN );
-                //                module.setWaveView();
             }
         }
     }
