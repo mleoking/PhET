@@ -20,13 +20,17 @@ public class Switch extends CircuitComponent {
 
     public Switch( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl ) {
         super( kl, start, dir, length, height );
+        setKirkhoffEnabled( false );
         super.setResistance( OPEN_RESISTANCE );
+        setKirkhoffEnabled( true );
     }
 
     public Switch( KirkhoffListener kl, Junction startJunction, Junction endjJunction, boolean closed, double length, double height ) {
         super( kl, startJunction, endjJunction, length, height );
+        setKirkhoffEnabled( false );
         this.closed = !closed;//to guarantee a change in setClosed.
         setClosed( closed );
+        setKirkhoffEnabled( true );
     }
 
     public boolean isClosed() {

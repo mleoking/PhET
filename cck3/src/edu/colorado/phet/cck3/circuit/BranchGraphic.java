@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.common.CCKCompositePhetGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -8,6 +9,8 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import java.awt.*;
 
@@ -26,6 +29,7 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
     private PhetShapeGraphic core;
     private Color highlightColor = Color.yellow;
     private PhetShapeGraphic highlight;
+    private PhetTextGraphic debugText;
 
     public BranchGraphic( Branch branch, ApparatusPanel apparatusPanel, double thickness, ModelViewTransform2D transform, Color color ) {
         super( apparatusPanel );
@@ -48,8 +52,12 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
             }
         };
         transform.addTransformListener( transformListener );
+        debugText = new PhetTextGraphic( apparatusPanel, new Font( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
+
         doupdate();
         setVisible( true );
+
+        addGraphic( debugText );
     }
 
     public void setVisible( boolean visible ) {
@@ -69,6 +77,13 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
             highlight.setVisible( branch.isSelected() );
             highlight.setShape( transform.createTransformedShape( highlightShape ) );
             core.setShape( transform.createTransformedShape( coreshape ) );
+            String text = "r=" + branch.getResistance();
+            if( CCK3Module.getModule().getParticleSet() != null ) {
+                text += ", n=" + CCK3Module.getModule().getParticleSet().getParticles( branch ).length;
+            }
+            debugText.setText( text );
+            Point bounds = RectangleUtils.getCenter( core.getShape().getBounds() );
+            debugText.setPosition( bounds.x, bounds.y );
             super.setBoundsDirty();
 //            System.out.println( "transform.createTransformedShape( coreshape) = " + transform.createTransformedShape( coreshape ).getBounds() );
         }

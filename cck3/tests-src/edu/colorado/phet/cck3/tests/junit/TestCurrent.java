@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.Resistor;
+import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -51,7 +52,9 @@ public class TestCurrent extends TestCase {
         battery.setVoltageDrop( v );
         module.getCircuit().addBranch( resistor );
         module.getCircuit().addBranch( battery );
-        module.solve();
+//        module.solve();
+        KirkhoffSolver ks = new KirkhoffSolver();
+        ks.apply( module.getCircuit() );
         double currentThroughResistor = resistor.getCurrent();
 
         //This doesn't account for battery internal resistance.

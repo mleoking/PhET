@@ -6,6 +6,7 @@ import edu.colorado.phet.common.view.CompositeGraphic;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Hashtable;
 
 /**
@@ -35,12 +36,24 @@ public class ParticleSetGraphic extends CompositeGraphic {
         return false;
     }
 
+    public String toString() {
+        String s = "";
+        s += table.toString();
+        s += "\n" + Arrays.asList( super.getGraphics() ).toString();
+        return s;
+    }
+
     public void removeGraphics( Electron[] electrons ) {
         for( int i = 0; i < electrons.length; i++ ) {
             Electron electron = electrons[i];
             ElectronGraphic eg = (ElectronGraphic)table.remove( electron );
-            super.removeGraphic( eg );
-            eg.delete();
+            if( eg == null ) {
+                System.out.println( "No graphic for electron: " + electron );
+            }
+            else {
+                super.removeGraphic( eg );
+                eg.delete();
+            }
         }
 //        System.out.println( "Removed electrons: table.size() = " + table.size() );
     }

@@ -58,7 +58,18 @@ public class WireMouseListener extends MouseInputAdapter {
         circuitGraphic.bumpAway( branch );
     }
 
-    public void mouseDragged( MouseEvent e ) {
+    public void mouseDragged( final MouseEvent e ) {
+//        ModelElement me = new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                domouseDragged( e );
+//                CCK3Module.getModule().getModel().removeModelElement( this );
+//            }
+//        };
+//        CCK3Module.getModule().getModel().addModelElement( me );
+        domouseDragged( e );
+    }
+
+    public void domouseDragged( MouseEvent e ) {
         Point2D modelCoords = circuitGraphic.getTransform().viewToModel( e.getPoint() );
         if( !isDragging ) {
             isDragging = true;

@@ -17,7 +17,9 @@ import java.awt.geom.Point2D;
 public class Resistor extends CircuitComponent {
     public Resistor( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl ) {
         super( kl, start, dir, length, height );
+        setKirkhoffEnabled( false );
         setResistance( 10 );
+        setKirkhoffEnabled( true );
     }
 
     public Resistor( KirkhoffListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {

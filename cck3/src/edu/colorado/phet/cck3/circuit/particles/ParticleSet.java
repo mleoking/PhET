@@ -6,6 +6,8 @@ import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.common.model.ModelElement;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 /**
  * User: Sam Reid
@@ -16,9 +18,60 @@ import java.util.ArrayList;
 public class ParticleSet implements ModelElement {
     private ArrayList particles = new ArrayList();
     private ConstantDensityPropagator propagator;
+    private double time = 0;
+    private Storage storage = new Storage();
+    private Circuit circuit;
+
+    class Storage {
+        double time;
+        Hashtable listtable = new Hashtable();
+        Hashtable arraytable = new Hashtable();
+
+        public Storage() {
+        }
+
+        public void reset() {
+            this.time = ParticleSet.this.time;
+        }
+
+        public double getTime() {
+            return time;
+        }
+
+        public Electron[] getParticles( Branch branch ) {
+            Electron[] e = (Electron[])arraytable.get( branch );
+            return e;
+        }
+
+        public void synchronize() {
+            this.time = ParticleSet.this.time;
+            listtable.clear();
+            arraytable.clear();
+            for( int i = 0; i < circuit.numBranches(); i++ ) {
+                listtable.put( circuit.branchAt( i ), new ArrayList() );
+            }
+            for( int i = 0; i < particles.size(); i++ ) {
+                Electron particle = (Electron)particles.get( i );
+                Branch branch = particle.getBranch();
+                ArrayList list = (ArrayList)listtable.get( branch );
+                list.add( particle );
+            }
+            Enumeration k = listtable.keys();
+            while( k.hasMoreElements() ) {
+                Branch branch = (Branch)k.nextElement();
+                ArrayList value = (ArrayList)listtable.get( branch );
+                arraytable.put( branch, value.toArray( new Electron[0] ) );
+            }
+        }
+
+        public void removeParticles( Branch branch ) {
+            arraytable.put( branch, new Electron[0] );
+        }
+    }
 
     public ParticleSet( Circuit circuit ) {
         propagator = new ConstantDensityPropagator( this, circuit );
+        this.circuit = circuit;
     }
 
     public void addParticle( Electron e ) {
@@ -30,6 +83,21 @@ public class ParticleSet implements ModelElement {
     }
 
     public Electron[] getParticles( Branch branch ) {
+        return getParticlesSlowly( branch );
+//        storage.synchronize();
+////        if( storage.time != time || storage.getParticles( branch ) == null ) {
+////            storage.synchronize();
+////        }
+//        Electron[] result = storage.getParticles( branch );
+//        if( result == null ) {
+////            new RuntimeException( "No partilces for branch: " + branch ).printStackTrace();
+//            result = new Electron[0];
+//        }
+//        return result;
+    }
+
+    private Electron[] getParticlesSlowly( Branch branch ) {
+//        new Exception("Debugging calls to getParticles.").printStackTrace( );
         ArrayList all = new ArrayList();
         for( int i = 0; i < particles.size(); i++ ) {
             Electron electron = (Electron)particles.get( i );
@@ -47,6 +115,7 @@ public class ParticleSet implements ModelElement {
             particles.remove( electron );
             electron.delete();
         }
+        storage.removeParticles( branch );
         return p;
     }
 
@@ -60,6 +129,7 @@ public class ParticleSet implements ModelElement {
 
     public void stepInTime( double dt ) {
         propagator.stepInTime( dt );
+        time += dt;
     }
 
     public double distanceToClosestElectron( Branch branch, double x ) {

@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class Branch extends SimpleObservableDebug {
 //    public static final double WIRE_RESISTANCE_MIN = 0.0001;
-    double resistance;//WIRE_RESISTANCE_MIN;
+    double resistance = CCK3Module.MIN_RESISTANCE;//WIRE_RESISTANCE_MIN;
     double current;
     double voltageDrop;
     private Junction startJunction;
@@ -33,6 +33,7 @@ public class Branch extends SimpleObservableDebug {
     private CompositeKirkhoffListener compositeKirkhoffListener = new CompositeKirkhoffListener();
     private ArrayList ivListeners = new ArrayList();
     private boolean isSelected = false;
+    private boolean kirkhoffEnabled = true;
 
     protected Branch( KirkhoffListener listener ) {
         label = toLabel( indexCounter++ );
@@ -138,7 +139,9 @@ public class Branch extends SimpleObservableDebug {
     }
 
     public void fireKirkhoffChange() {
-        compositeKirkhoffListener.circuitChanged();
+        if( kirkhoffEnabled ) {
+            compositeKirkhoffListener.circuitChanged();
+        }
     }
 
     public double getX1() {
@@ -257,4 +260,7 @@ public class Branch extends SimpleObservableDebug {
         removeAllObservers();
     }
 
+    public void setKirkhoffEnabled( boolean kirkhoffEnabled ) {
+        this.kirkhoffEnabled = kirkhoffEnabled;
+    }
 }

@@ -43,6 +43,10 @@ public class Electron extends SimpleObservableDebug {
         branch.addObserver( observer );
     }
 
+    public void addObserver( SimpleObserver so ) {
+        super.addObserver( so );
+    }
+
     public class Observer implements SimpleObserver {
         public void update() {
 

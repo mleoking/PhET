@@ -120,6 +120,7 @@ public class CCK3Module extends Module {
     private PhetFrame phetFrame;
     public static boolean SHOW_GRAB_BAG = false;
     private MagicalRepaintPanel magicPanel;
+    private static CCK3Module module;
 
     public MagicalRepaintPanel getMagicPanel() {
         return magicPanel;
@@ -464,10 +465,9 @@ public class CCK3Module extends Module {
         return circuitGraphic;
     }
 
-    public void solve() {
-        KirkhoffSolver ks = new KirkhoffSolver();
-        ks.apply( circuit );
-    }
+//    public void solve() {
+//
+//    }
 
     public ParticleSetGraphic getParticleSetGraphic() {
         return circuitGraphic.getParticleSetGraphic();
@@ -655,6 +655,7 @@ public class CCK3Module extends Module {
         }
 
         final CCK3Module cck = new CCK3Module( virtualLab );
+        CCK3Module.module = cck;
 
         RepaintDebugGraphic colorG = new RepaintDebugGraphic( cck.getApparatusPanel(), clock );
 
@@ -795,6 +796,10 @@ public class CCK3Module extends Module {
         if( magicPanel != null ) {
             magicPanel.synchronizeImmediately();
         }
+    }
+
+    public static CCK3Module getModule() {
+        return module;
     }
 
     public static class SimpleKeyEvent implements KeyListener {
