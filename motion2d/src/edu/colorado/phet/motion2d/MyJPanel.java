@@ -10,7 +10,8 @@ public class MyJPanel extends JPanel
     private JPanel northPanel, southPanel;
     private MotionPanel motionPanel1;
     private int xNow;
-    int yNow;
+    private int yNow;
+
     private int avgXMid, avgYMid;
     private int xVel, yVel;
     private int xAcc, yAcc;
@@ -23,7 +24,8 @@ public class MyJPanel extends JPanel
     private double accFactor;    //acceleration vector multiplication factor
     private int radius = 9; //Radius of ball
     JLabel btnLabel;
-    JButton vButton, aButton, bothButton, neitherButton, moreButton;
+    JRadioButton vButton, aButton, bothButton, neitherButton;
+    JButton moreButton;
 //    JButton hideMouseButton;
     private int buttonFlag;
     public static final int SHOW_VEL = 1;
@@ -35,6 +37,7 @@ public class MyJPanel extends JPanel
     private ArrowA arrow;
     private boolean antialias = true;
     private Timer timer;
+    private ButtonGroup buttonGroup;
 
     public MyJPanel( VelAccGui myGui ) {
         this.myGui = myGui;
@@ -68,10 +71,15 @@ public class MyJPanel extends JPanel
 
         btnLabel = new JLabel( "Velocity or Acceleration?" );
         btnLabel.setBackground( Color.yellow );
-        vButton = new JButton( "Show one" );
-        aButton = new JButton( "Show the other" );
-        bothButton = new JButton( "Show both" );
-        neitherButton = new JButton( "Show neither" );
+        vButton = new JRadioButton( "Show one", false );
+        aButton = new JRadioButton( "Show the other", false );
+        bothButton = new JRadioButton( "Show both", true );
+        neitherButton = new JRadioButton( "Show neither", false );
+        buttonGroup = new ButtonGroup();
+        setup( vButton );
+        setup( aButton );
+        setup( bothButton );
+        setup( neitherButton );
 //        hideMouseButton = new JButton( "Show mouse cursor" );
         moreButton = new JButton( "More controls" );
 
@@ -113,6 +121,21 @@ public class MyJPanel extends JPanel
         bothButton.doClick();
     }
 
+    private void setup( JRadioButton button ) {
+        buttonGroup.add( button );
+        button.setBackground( Color.orange );
+    }
+//    class MyRadioButton extends JRadioButton{
+//        public MyRadioButton( String text, boolean selected ) {
+//            super(text,selected);
+//        }
+//
+//        protected void paintComponent( Graphics g ) {
+//            Graphics2D g2=(Graphics2D)g;
+//            g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//            super.paintComponent( g );
+//        }
+//    }
     public void paintComponent( Graphics g ) {
         Graphics2D g2 = (Graphics2D)g;
         if( antialias ) {
@@ -198,38 +221,26 @@ public class MyJPanel extends JPanel
             myGui.setCursor( myGui.show );
             mouseVisible = true;
         }
-//        if( hideMouseButton.getText().equals( "Show mouse cursor" ) ) {
-//            hideMouseButton.setText( "Hide mouse cursor" );
-//        }
-//        else {
-//            hideMouseButton.setText( "Show mouse cursor" );
-//        }
     }
 
     public void mouseMoved( MouseEvent e ) {
-//        int x = e.getX();
-//        int y = e.getY();
-//        //if (y < 35 || y > 454)
-//        if( y < 45 || y > 404 ) {
-//            myGui.setCursor( myGui.show );
-//        }
-//        else if( !mouseVisible ) {
-//            myGui.setCursor( myGui.hide );
-//        }
-        //System.out.println("x = " + x + "  y = " + y);
-    }
-
-    public void setXNow( int xNow ) {
-        this.xNow = xNow;
-    }
-
-    public void setYNow( int yNow ) {
-        this.yNow = yNow;
+        Point pt = e.getPoint();
+        Point cur = new Point( xNow, yNow );
+        double dist = pt.distance( cur );
+        if( dist < myGui.ballImage.getWidth( this ) / 2.0 ) {
+            myGui.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        }
+        else {
+            myGui.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+        }
     }
 
     public void setXYNow( int xNow, int yNow ) {
-        this.xNow = xNow;
-        this.yNow = yNow;
+        if( xNow != this.xNow || this.yNow != yNow ) {
+            this.xNow = xNow;
+            this.yNow = yNow;
+            repaint();
+        }
     }
 
     public int getButtonFlag() {
@@ -299,9 +310,12 @@ public class MyJPanel extends JPanel
                 motionPanel1.nextPosition();
                 setXYNow( motionPanel1.getXNow(), motionPanel1.getYNow() );
             }
-            vaa.addPoint( xNow, yNow );
-            vaa.updateAvgXYs();
-            repaint();
+            boolean changed1 = vaa.addPoint( xNow, yNow );
+            boolean changed2 = vaa.updateAvgXYs();
+            if( changed1 || changed2 ) {
+                repaint();
+            }
+//            repaint();
         }
 
         public void run() {
