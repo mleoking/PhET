@@ -39,7 +39,9 @@ public class ApparatusPanel extends JPanel {
     // Instance fields and methods
     //
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-    CompositeInteractiveGraphic graphic = new CompositeInteractiveGraphic();
+    CompositeGraphic graphic = new CompositeGraphic();
+    CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic );
+
     ArrayList graphicsSetups = new ArrayList();
 
     public ApparatusPanel() {
@@ -47,9 +49,8 @@ public class ApparatusPanel extends JPanel {
         // don't get the default layout manager. This allows us
         // to lay out components with absolute coordinates
         super( null );
-        this.addMouseListener( graphic );
-        this.addMouseMotionListener( graphic );
-//        setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+        this.addMouseListener( mouseDelegator );
+        this.addMouseMotionListener( mouseDelegator );
         final Stroke borderStroke = new BasicStroke( 1 );
         addGraphic( new Graphic() {
             public void paint( Graphics2D g ) {
@@ -58,6 +59,10 @@ public class ApparatusPanel extends JPanel {
                 g.drawRect( 0, 0, getWidth() - 1, getHeight() - 1 );
             }
         }, Double.NEGATIVE_INFINITY );
+    }
+
+    public CompositeInteractiveGraphicMouseDelegator getMouseDelegator() {
+        return mouseDelegator;
     }
 
     public void addGraphicsSetup( GraphicsSetup setup ) {
@@ -101,7 +106,7 @@ public class ApparatusPanel extends JPanel {
         this.graphic.removeGraphic( graphic );
     }
 
-    public CompositeInteractiveGraphic getGraphic() {
+    public CompositeGraphic getGraphic() {
         return graphic;
     }
 

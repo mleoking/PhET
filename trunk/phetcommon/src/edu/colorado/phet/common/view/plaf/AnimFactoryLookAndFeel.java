@@ -50,14 +50,14 @@ public class AnimFactoryLookAndFeel extends MetalLookAndFeel {
             add( type + ".inactiveForeground", foreground );
             add( type + ".select", background );
         }
-//        String suiteName="anim";
+        //        String suiteName="anim";
         String foldername = "graymarble";
         String name = "gray_marble";
 
         UIDefaults.ProxyLazyValue val = new UIDefaults.ProxyLazyValue( "javax.swing.plaf.metal.MetalIconFactory",
                                                                        "getHorizontalSliderThumbIcon" );
-//        ImageIcon ii=new ImageIcon( getClass().getClassLoader().getResource( "images/components/webt/arrow_down_md_wht.gif"));
-//        String str= "images/animfactory/suites/"+suiteName+"/"+suiteName+"patern_on_long_md_wht.gif";
+        //        ImageIcon ii=new ImageIcon( getClass().getClassLoader().getResource( "images/components/webt/arrow_down_md_wht.gif"));
+        //        String str= "images/animfactory/suites/"+suiteName+"/"+suiteName+"patern_on_long_md_wht.gif";
         String str = "images/animfactory/suites/" + foldername + "/" + "graymarble_up_md_wht.gif";
         System.out.println( "str = " + str );
         ImageIcon sliderImage = ( new ImageIcon( getClass().getClassLoader().getResource( str ) ) );

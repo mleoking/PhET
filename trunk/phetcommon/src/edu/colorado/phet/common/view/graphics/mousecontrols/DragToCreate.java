@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 
 import javax.swing.event.MouseInputListener;
@@ -14,10 +14,10 @@ import java.awt.event.MouseEvent;
  */
 public class DragToCreate implements MouseInputListener {
     InteractiveGraphicCreator interactiveGraphicCreator;
-    private CompositeInteractiveGraphic target;
+    private CompositeGraphic target;
     private double layer;
 
-    public DragToCreate( InteractiveGraphicCreator interactiveGraphicCreator, CompositeInteractiveGraphic target, double layer ) {
+    public DragToCreate( InteractiveGraphicCreator interactiveGraphicCreator, CompositeGraphic target, double layer ) {
         this.interactiveGraphicCreator = interactiveGraphicCreator;
         this.target = target;
         this.layer = layer;
@@ -41,7 +41,7 @@ public class DragToCreate implements MouseInputListener {
     public void mouseDragged( MouseEvent e ) {
         InteractiveGraphic graphic = interactiveGraphicCreator.newInstance();
         target.addGraphic( graphic, layer );
-        target.startDragging( graphic, e );
+        //        target.startDragging( graphic, e );
     }
 
     public void mouseMoved( MouseEvent e ) {
