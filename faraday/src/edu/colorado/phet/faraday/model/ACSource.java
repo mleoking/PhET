@@ -84,19 +84,23 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
      */
     public void stepInTime( double dt ) {
         if ( isEnabled() ) {
-           double max = _amplitude * getMaxVoltage();
-           assert( max >= 0 );
-           double delta = _sign * _frequency * ( max / MIN_STEPS_PER_CYCLE );
-           double voltage = getVoltage() + delta;
-           if ( voltage > max ) {
-              _sign = -1;
-              voltage = getVoltage() - delta;
-           }
-           else if ( voltage < -max ) {
-              _sign = +1;
-              voltage = getVoltage() + delta;
-           }
-           setVoltage( voltage );
+            if ( _amplitude == 0 ) {
+                setVoltage( 0 );
+            }
+            else {
+                double max = Math.abs( _amplitude * getMaxVoltage() );
+                double delta = Math.abs( _frequency * ( max / MIN_STEPS_PER_CYCLE ) );
+                double voltage = getVoltage() + ( _sign * delta );
+                if ( voltage > max ) {
+                    _sign = -1;
+                    voltage = max - delta;
+                }
+                else if ( voltage < -max ) {
+                    _sign = +1;
+                    voltage = -max + delta;
+                }
+                setVoltage( voltage );
+            }
         }
     } 
 }
