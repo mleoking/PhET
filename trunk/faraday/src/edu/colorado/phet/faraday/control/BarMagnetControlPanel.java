@@ -57,7 +57,7 @@ public class BarMagnetControlPanel extends ControlPanel {
     private JLabel _strengthValue, _magnetWidthValue, _magnetHeightValue;
     private JLabel _xSpacingValue, _ySpacingValue, _needleWidthValue,
             _needleHeightValue;
-    private JCheckBox _probeCheckBox, _compassCheckBox;
+    private JCheckBox _meterCheckBox, _compassCheckBox;
     private JButton _resetButton;
 
     //----------------------------------------------------------------------------
@@ -281,10 +281,10 @@ public class BarMagnetControlPanel extends ControlPanel {
 
         JPanel probePanel = new JPanel();
         {
-            _probeCheckBox = new JCheckBox( SimStrings.get( "probeCheckBox.label" ) );
+            _meterCheckBox = new JCheckBox( SimStrings.get( "meterCheckBox.label" ) );
             
             probePanel.setLayout( new BoxLayout( probePanel, BoxLayout.X_AXIS ) );
-            probePanel.add( _probeCheckBox );
+            probePanel.add( _meterCheckBox );
         }
         
         JPanel compassPanel = new JPanel();
@@ -326,7 +326,7 @@ public class BarMagnetControlPanel extends ControlPanel {
         _ySpacingSlider.addChangeListener( listener );
         _needleWidthSlider.addChangeListener( listener );
         _needleHeightSlider.addChangeListener( listener );
-        _probeCheckBox.addActionListener( listener );
+        _meterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
     }
 
@@ -384,12 +384,12 @@ public class BarMagnetControlPanel extends ControlPanel {
     }
 
     /**
-     * Enables or disabled the B-Field Probe.
+     * Enables or disabled the Field Meter.
      * 
      * @param enabled true to enable, false to disable
      */
-    public void setProbeEnabled( boolean enabled ) {
-        _probeCheckBox.setSelected( enabled );
+    public void setMeterEnabled( boolean enabled ) {
+        _meterCheckBox.setSelected( enabled );
     }
     
     /**
@@ -432,9 +432,9 @@ public class BarMagnetControlPanel extends ControlPanel {
                 // Magnet transparency enable
                 _module.setMagnetTransparencyEnabled( _magnetTransparencyCheckBox.isSelected() );
             }
-            else if ( e.getSource() == _probeCheckBox ) {
+            else if ( e.getSource() == _meterCheckBox ) {
                 // Probe enable
-                _module.setProbeEnabled( _probeCheckBox.isSelected() );
+                _module.setMeterEnabled( _meterCheckBox.isSelected() );
             }
             else if ( e.getSource() == _compassCheckBox ) {
                 // Compass enable
