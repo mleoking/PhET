@@ -17,6 +17,7 @@ import edu.colorado.phet.common.math.ModelViewTx1D;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.lasers.coreadditions.VisibleColor;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -31,11 +32,13 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
 
 public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedBeam.WavelengthChangeListener {
 
@@ -63,11 +66,22 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private double pumpingBeamEnergy;
     private double stimulatingBeamEnergy;
     private ModelViewTx1D energyYTx;
+    private BufferedImage stimSquiggle;
+    private BufferedImage pumpSquiggle;
+    private AffineTransform stimSquiggleTx;
+    private AffineTransform pumpSquiggleTx;
 
     /**
      *
      */
     public EnergyLevelMonitorPanel( LaserModel model ) {
+
+        model.addObserver( this );
+        this.model = model;
+        model.getPumpingBeam().addListener2( this );
+        model.getStimulatingBeam().addListener2( this );
+
+
         highLevelLine = new EnergyLevelGraphic( this, HighEnergyState.instance(),
                                                 Color.blue, levelLineOriginX, levelLineLength );
         middleLevelLine = new EnergyLevelGraphic( this, MiddleEnergyState.instance(),
@@ -89,11 +103,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         highLevelLifetimeSlider = new EnergyLifetimeSlider( HighEnergyState.instance(), this, highLevelLine, SimStrings.get( "EnergyLevelMonitorPanel.HighLevelSlider" ) );
         this.add( highLevelLifetimeSlider );
 
-        //        setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
-
-        model.addObserver( this );
-        this.model = model;
-
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + getBounds().getHeight() * 0.1,
@@ -101,7 +110,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                 energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
                                                (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
                 energyYTx.setModelToViewFunction( new ModelViewTx1D.PowerFunction( 0.98 ) );
-                System.out.println( origin.getY() + "   " + bounds.getBounds().getMaxY() );
 
                 highLevelLine.update( energyYTx );
                 middleLevelLine.update( energyYTx );
@@ -183,17 +191,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         }
 
         // Draw squiggles showing what energy photons the beams are putting out
-        //(int)Math.pow( energyYTx.modelToView( atomicState.getEnergyLevel() ), .98 );
-        double y0 = energyYTx.modelToView( GroundState.instance().getEnergyLevel() );
-        //        double y0 = Math.pow( energyYTx.modelToView( GroundState.instance().getEnergyLevel()), .98 );
-        double y1 = energyYTx.modelToView( stimulatingBeamEnergy );
-        //        double y1 = Math.pow( energyYTx.modelToView( stimulatingBeamEnergy ), .98 );
-        Line2D stimBeamEnergy = new Line2D.Double( origin.getX() + 5, y0,
-                                                   origin.getX() + 5, y1 );
-        Color c = VisibleColor.wavelengthToColor( Photon.energyToWavelength( stimulatingBeamEnergy ) );
-        g2.setColor( c );
-        g2.setStroke( new BasicStroke( 2 ) );
-        g2.draw( stimBeamEnergy );
+        if( stimSquiggle != null ) {
+            g2.drawRenderedImage( stimSquiggle, stimSquiggleTx );
+        }
+        if( pumpSquiggle != null ) {
+            g2.drawRenderedImage( pumpSquiggle, pumpSquiggleTx );
+        }
 
         gs.restoreGraphics();
     }
@@ -206,9 +209,25 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         middleLevelLifetimeSlider.update();
         highLevelLifetimeSlider.update();
 
-        double lambda = model.getStimulatingBeam().getWavelength();
-        double energy = Photon.wavelengthToEnergy( lambda );
         stimulatingBeamEnergy = Photon.wavelengthToEnergy( model.getStimulatingBeam().getWavelength() );
+
+        double y0 = energyYTx.modelToView( GroundState.instance().getEnergyLevel() );
+        double y1 = energyYTx.modelToView( stimulatingBeamEnergy );
+        double y2 = energyYTx.modelToView( pumpingBeamEnergy );
+
+        // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
+        int squiggleHeight = 10;
+        stimSquiggle = computeSquiggleImage( Photon.energyToWavelength( stimulatingBeamEnergy ), 0,
+                                             (int)( y0 - y1 ), squiggleHeight );
+        stimSquiggleTx = AffineTransform.getTranslateInstance( origin.getX(),
+                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
+        stimSquiggleTx.rotate( -Math.PI / 2 );
+        pumpSquiggle = computeSquiggleImage( Photon.energyToWavelength( pumpingBeamEnergy ), 0,
+                                             (int)( y0 - y2 ), squiggleHeight );
+        pumpSquiggleTx = AffineTransform.getTranslateInstance( origin.getX() + squiggleHeight * 3 / 2,
+                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
+        pumpSquiggleTx.rotate( -Math.PI / 2 );
+
 
         this.invalidate();
         this.repaint();
@@ -260,5 +279,43 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         if( beam == model.getStimulatingBeam() ) {
             stimulatingBeamEnergy = Photon.wavelengthToEnergy( beam.getWavelength() );
         }
+    }
+
+    /**
+     *
+     */
+    private BufferedImage computeSquiggleImage( double wavelength, double phaseAngle, int length, int height ) {
+
+        int arrowHeight = height;
+        // A buffered image for generating the image data
+        BufferedImage img = new BufferedImage( length + 2 * arrowHeight,
+                                               height,
+                                               BufferedImage.TYPE_INT_ARGB );
+        Graphics2D g2d = img.createGraphics();
+        int kPrev = height / 2;
+        int iPrev = 0;
+        Color c = VisibleColor.wavelengthToColor( wavelength );
+        double freqFactor = 10 * wavelength / 680;
+        for( int i = 0; i < length - arrowHeight * 2; i++ ) {
+            int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
+            for( int j = 0; j < height; j++ ) {
+                if( j == k ) {
+                    g2d.setColor( c );
+                    g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
+                    iPrev = i;
+                    kPrev = k;
+                }
+            }
+        }
+        Arrow head = new Arrow( new Point2D.Double( arrowHeight, height / 2 ),
+                                new Point2D.Double( 0, height / 2 ),
+                                arrowHeight, height, 2 );
+        Arrow tail = new Arrow( new Point2D.Double( length - arrowHeight, height / 2 ),
+                                new Point2D.Double( length, height / 2 ),
+                                arrowHeight, height * 1.2, 2 );
+        g2d.fill( head.getShape() );
+        g2d.fill( tail.getShape() );
+        g2d.dispose();
+        return img;
     }
 }

@@ -64,7 +64,7 @@ public class ModelViewTx1D {
     }
 
     public int modelToView( double model ) {
-        int view = viewMin + (int)( m * ( model - modelMin ) );
+        int view = (int)modelToViewFunction.transform( viewMin + (int)( m * ( model - modelMin ) ));
         return view;
     }
 }

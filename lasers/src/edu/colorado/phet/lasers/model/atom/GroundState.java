@@ -24,7 +24,7 @@ public class GroundState extends AtomicState {
 
     private GroundState() {
         setEnergyLevel( 0 );
-        setEmittedPhotonWavelength( Photon.GRAY );
+        setEmittedPhotonWavelength( AtomicState.maxWavelength );
         setMeanLifetime( Double.POSITIVE_INFINITY );
     }
 
