@@ -114,7 +114,7 @@ public class BatteryPanel extends FaradayPanel {
         _batteryAmplitudeSlider.addChangeListener( listener );
 
         // Update control panel to match the components that it's controlling.
-        _batteryAmplitudeSlider.setValue( (int) ( 100.0 * _batteryModel.getVoltage() / FaradayConfig.BATTERY_VOLTAGE_MAX ) );
+        _batteryAmplitudeSlider.setValue( (int) ( 100.0 * _batteryModel.getAmplitude() ) );
     }
 
     //----------------------------------------------------------------------------

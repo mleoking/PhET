@@ -51,6 +51,8 @@ public class FaradayConfig {
     public static final String ELECTRON_IMAGE = IMAGES_DIRECTORY + "electron.png";
     public static final String FIELD_METER_IMAGE = IMAGES_DIRECTORY + "fieldMeter.png";
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightbulb.png";
+    public static final String SLIDER_KNOB_IMAGE = IMAGES_DIRECTORY + "sliderKnob.png";
+    public static final String SLIDER_KNOB_RED_IMAGE = IMAGES_DIRECTORY + "sliderKnobHighlight.png";
     public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltmeter.png";
 
     // Dimensions
@@ -98,7 +100,7 @@ public class FaradayConfig {
     public static final double MIN_PICKUP_RADIUS = 0.5 * MAX_PICKUP_RADIUS;
 
     // Battery parameters 
-    public static final double BATTERY_VOLTAGE_MAX = MAX_PICKUP_EMF;  // volts
+    public static final double BATTERY_VOLTAGE_MAX = 10;  // volts
     public static final double BATTERY_AMPLITUDE_MAX = 1.0; // -1...1
     public static final double BATTERY_AMPLITUDE_MIN = -1.0; // -1...1
 

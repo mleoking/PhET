@@ -101,7 +101,7 @@ public class TransformerModule extends FaradayModule {
         // Battery
         Battery batteryModel = new Battery();
         batteryModel.setMaxVoltage( FaradayConfig.BATTERY_VOLTAGE_MAX  );
-        batteryModel.setAmplitude( 0.5 );
+        batteryModel.setAmplitude( 1.0 );
         
         // AC Source 
         ACSource acSourceModel = new ACSource();
