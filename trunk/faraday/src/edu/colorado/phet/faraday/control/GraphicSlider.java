@@ -316,14 +316,16 @@ public class GraphicSlider extends GraphicLayerSet {
     public void addTick( int tickValue ) {
         if ( _track != null && tickValue >= _minimum && tickValue <= _maximum ) {
             
-            double percent = ( tickValue - _minimum ) / (double) ( _maximum - _minimum );
-            int x = (int) ( _dragBounds.x + (int) ( percent * _dragBounds.width ) );
-            
-            Shape shape = new Line2D.Double( x, _track.getY(), x, _track.getY() + _tickSize.height );
+            Shape shape = new Line2D.Double( 0, 0, 0, _tickSize.height );
             PhetShapeGraphic tick = new PhetShapeGraphic( getComponent() );
             tick.setShape( shape );
             tick.setBorderColor( Color.BLACK );
             tick.setStroke( new BasicStroke( (float) _tickSize.width ) );
+            
+            double percent = ( tickValue - _minimum ) / (double) ( _maximum - _minimum );
+            int x = _dragBounds.x + (int) ( percent * _dragBounds.width );
+            int y = _dragBounds.y;
+            tick.setLocation( x, y );
             
             addGraphic( tick, TICK_LAYER );
         }
@@ -339,8 +341,8 @@ public class GraphicSlider extends GraphicLayerSet {
     private void update() {
         // Set the knob's location based on the value.
         double percent = ( _value - _minimum ) / (double) ( _maximum - _minimum );
-        int x = (int) ( _dragBounds.x + (int) ( percent * _dragBounds.width ) );
-        int y = (int) _dragBounds.y;
+        int x = _dragBounds.x + (int) ( percent * _dragBounds.width );
+        int y = _dragBounds.y;
         
         if ( _knob != null ) {
             _knob.setLocation( x, y );
