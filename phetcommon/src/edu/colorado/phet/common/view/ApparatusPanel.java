@@ -35,7 +35,7 @@ import java.util.Iterator;
  *
  * @author Ron LeMaster
  * @version $Revision$
- * @see edu.colorado.phet.common.view.graphics.Graphic
+ * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic
  */
 public class ApparatusPanel extends JPanel {
 
