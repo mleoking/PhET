@@ -1,17 +1,18 @@
 /**
- * Class: ImmutableVector2D
+ * Class: AbstractVector2D
  * Package: edu.colorado.phet.common.math
  * Author: Another Guy
  * Date: May 20, 2004
  */
 package edu.colorado.phet.common.math;
 
-public interface Vector2D extends ImmutableVector2D {
-    Vector2D add( ImmutableVector2D v );
+public interface Vector2D extends AbstractVector2D {
+
+    Vector2D add( AbstractVector2D v );
 
     Vector2D scale( double scale );
 
-    Vector2D subtract( ImmutableVector2D that );
+    Vector2D subtract( AbstractVector2D that );
 
     void setX( double x );
 
@@ -21,7 +22,7 @@ public interface Vector2D extends ImmutableVector2D {
 
     Vector2D normalize();
 
-    public static class Double extends ImmutableVector2D.Double implements Vector2D {
+    public static class Double extends AbstractVector2D.Double implements Vector2D {
         public Double() {
         }
 
@@ -29,7 +30,7 @@ public interface Vector2D extends ImmutableVector2D {
             super( x, y );
         }
 
-        public Vector2D add( ImmutableVector2D v ) {
+        public Vector2D add( AbstractVector2D v ) {
             setX( getX() + v.getX() );
             setY( getY() + v.getY() );
             return this;
@@ -59,7 +60,7 @@ public interface Vector2D extends ImmutableVector2D {
             setY( y );
         }
 
-        public Vector2D subtract( ImmutableVector2D that ) {
+        public Vector2D subtract( AbstractVector2D that ) {
             setX( getX() - that.getX() );
             setY( getY() - that.getY() );
             return this;
@@ -70,7 +71,7 @@ public interface Vector2D extends ImmutableVector2D {
         }
     }
 
-    public static class Float extends ImmutableVector2D.Float implements Vector2D {
+    public static class Float extends AbstractVector2D.Float implements Vector2D {
 
         public Float() {
         }
@@ -83,7 +84,7 @@ public interface Vector2D extends ImmutableVector2D {
             super( (float)x, (float)y );
         }
 
-        public Vector2D add( ImmutableVector2D v ) {
+        public Vector2D add( AbstractVector2D v ) {
             setX( getX() + v.getX() );
             setY( getY() + v.getY() );
             return this;
@@ -126,7 +127,7 @@ public interface Vector2D extends ImmutableVector2D {
             setY( y );
         }
 
-        public Vector2D subtract( ImmutableVector2D that ) {
+        public Vector2D subtract( AbstractVector2D that ) {
             setX( getX() - that.getX() );
             setY( getY() - that.getY() );
             return this;

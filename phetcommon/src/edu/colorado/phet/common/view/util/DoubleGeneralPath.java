@@ -3,7 +3,7 @@ package edu.colorado.phet.common.view.util;
 
 //import edu.colorado.phet.common.math.PhetVector;
 
-import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.AbstractVector2D;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
@@ -23,7 +23,7 @@ public class DoubleGeneralPath {
         path = new GeneralPath( shape );
     }
 
-    public DoubleGeneralPath( ImmutableVector2D pt ) {
+    public DoubleGeneralPath( AbstractVector2D pt ) {
         this( pt.getX(), pt.getY() );
     }
 
@@ -57,7 +57,7 @@ public class DoubleGeneralPath {
         return path;
     }
 
-    public void lineTo( ImmutableVector2D loc ) {
+    public void lineTo( AbstractVector2D loc ) {
         lineTo( loc.getX(), loc.getY() );
     }
 }

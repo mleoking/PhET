@@ -3,6 +3,7 @@ package edu.colorado.phet.common.view.graphics.shapes;
 
 //import edu.colorado.phet.common.math.PhetVector;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 
 import java.awt.geom.GeneralPath;
@@ -24,8 +25,8 @@ public class Arrow {
     private double headHeight;
     private double headWidth;
     private double tailWidth;
-    private ImmutableVector2D direction;
-    private ImmutableVector2D norm;
+    private AbstractVector2D direction;
+    private AbstractVector2D norm;
     boolean isHeadDynamic = false;
     private double fractionalHeadHeight;
     private boolean scaleTailToo;
@@ -65,8 +66,8 @@ public class Arrow {
 
     private void computeArrow() {
 
-        ImmutableVector2D.Double tailPt = new ImmutableVector2D.Double( tailLocation );
-        ImmutableVector2D.Double tipPt = new ImmutableVector2D.Double( tipLocation );
+        AbstractVector2D.Double tailPt = new ImmutableVector2D.Double( tailLocation );
+        AbstractVector2D.Double tipPt = new ImmutableVector2D.Double( tipLocation );
         direction = tipPt.getSubtractedInstance( tailPt ).getNormalizedInstance();
         double dist = tipLocation.distance( tailLocation );
         double tempHeadHeight = headHeight;
@@ -84,12 +85,12 @@ public class Arrow {
         }
         norm = direction.getNormalVector();
 
-        ImmutableVector2D.Double rightFlap = getPoint( -1 * tempHeadHeight, -tempHeadWidth / 2 );
-        ImmutableVector2D.Double leftFlap = getPoint( -1 * tempHeadHeight, tempHeadWidth / 2 );
-        ImmutableVector2D.Double rightPin = getPoint( -1 * tempHeadHeight, -tempTailWidth / 2 );
-        ImmutableVector2D.Double leftPin = getPoint( -1 * tempHeadHeight, tempTailWidth / 2 );
-        ImmutableVector2D.Double rightTail = getPoint( -1 * dist, -tempTailWidth / 2 );
-        ImmutableVector2D.Double leftTail = getPoint( -1 * dist, tempTailWidth / 2 );
+        AbstractVector2D.Double rightFlap = getPoint( -1 * tempHeadHeight, -tempHeadWidth / 2 );
+        AbstractVector2D.Double leftFlap = getPoint( -1 * tempHeadHeight, tempHeadWidth / 2 );
+        AbstractVector2D.Double rightPin = getPoint( -1 * tempHeadHeight, -tempTailWidth / 2 );
+        AbstractVector2D.Double leftPin = getPoint( -1 * tempHeadHeight, tempTailWidth / 2 );
+        AbstractVector2D.Double rightTail = getPoint( -1 * dist, -tempTailWidth / 2 );
+        AbstractVector2D.Double leftTail = getPoint( -1 * dist, tempTailWidth / 2 );
 
         this.arrowPath.reset();
         arrowPath.moveTo( (float)tipPt.getX(), (float)tipPt.getY() );
@@ -115,15 +116,15 @@ public class Arrow {
         lineTo( tailShape, rightPin );
     }
 
-    private void lineTo( GeneralPath path, ImmutableVector2D.Double loc ) {
+    private void lineTo( GeneralPath path, AbstractVector2D.Double loc ) {
         path.lineTo( (float)loc.getX(), (float)loc.getY() );
     }
 
     //parallel and normal are from the tip
-    private ImmutableVector2D.Double getPoint( double parallel, double normal ) {
-        ImmutableVector2D dv = direction.getScaledInstance( parallel ).
+    private AbstractVector2D.Double getPoint( double parallel, double normal ) {
+        AbstractVector2D dv = direction.getScaledInstance( parallel ).
                 getAddedInstance( norm.getScaledInstance( normal ) );
-        ImmutableVector2D.Double abs = new ImmutableVector2D.Double( dv.getX() + tipLocation.getX(), dv.getY() + tipLocation.getY() );
+        AbstractVector2D.Double abs = new ImmutableVector2D.Double( dv.getX() + tipLocation.getX(), dv.getY() + tipLocation.getY() );
         return abs;
     }
 
