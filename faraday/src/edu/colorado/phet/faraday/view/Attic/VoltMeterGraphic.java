@@ -80,29 +80,29 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
         
         // Screw that holds the needle in place.
         {
-            int diameter = 31;
+            int diameter = 11;
             PhetShapeGraphic screw = new PhetShapeGraphic( component );
             addGraphic( screw );
             screw.setShape( new Ellipse2D.Double( 0, 0, diameter, diameter ) );
             screw.setPaint( Color.BLUE );
-            int rx = diameter / 2 + 1;
+            int rx = ( diameter / 2 ) + 1;
             int ry = rx;
             screw.setRegistrationPoint( rx, ry );
-            screw.setLocation( 2, -70 );
+            screw.setLocation( 0, -23 );
         }
         
         // Needle
         {
             Point2D tail = new Point2D.Double( 0, 0 );
-            Point2D tip = new Point2D.Double( 0, -200 );
-            Dimension headSize = new Dimension( 40, 30 );
-            int tailWidth = 10;
+            Point2D tip = new Point2D.Double( 0, -70 );
+            Dimension headSize = new Dimension( 12, 15 );
+            int tailWidth = 3;
             Arrow arrow = new Arrow( tail, tip, headSize.height, headSize.width, tailWidth );
             _needle = new PhetShapeGraphic( component );
             addGraphic( _needle );
             _needle.setShape( arrow.getShape() );
             _needle.setPaint( Color.BLUE );
-            _needle.setLocation( 2, -70 );
+            _needle.setLocation( 0, -23 );
         }
         
         update();

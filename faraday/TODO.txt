@@ -29,6 +29,7 @@ phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 
 DONE:
+(1/21) - redo voltmeter graphic, add "volts" label
 (1/20) - when flipping polarity, jiggle the compass so that it starts moving sooner
 (1/20) - control to turn BFieldProbe on/off
 (1/20) - "see inside magnet" feature
