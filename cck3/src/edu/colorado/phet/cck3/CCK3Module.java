@@ -123,7 +123,7 @@ public class CCK3Module extends Module {
     private MagicalRepaintPanel magicPanel;
     private static CCK3Module module;
     public static final boolean GRAPHICAL_DEBUG = false;
-//    public static final boolean GRAPHICAL_DEBUG = true;
+    //    public static final boolean GRAPHICAL_DEBUG = true;
 
     public MagicalRepaintPanel getMagicPanel() {
         return magicPanel;
@@ -648,6 +648,7 @@ public class CCK3Module extends Module {
     }
 
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
+        //        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
         SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
 
         boolean debugMode = false;
