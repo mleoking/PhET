@@ -6,7 +6,8 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- first pass at Generator module
+- check the bounds & registration point of a FaradaySlider
+- setting AC amplitude to zero causes an exception (on Windows only?)
 - move "Alternating Current" label higher on AC graphic to prevent confusion
 - Lightbulb appears to beat with a false peak
 - animate AC wave
@@ -54,6 +55,7 @@ phetcommon:
 
 DONE:
 v0r17...
+(3/8) - first pass at Generator module
 (3/8) - no magnetic field (strength=0) should cause the compass to stay in its current location, not move to 0 degrees
 (3/8) - add ticks at min/max/zero on battery amplitude slider track (no labels)
 v0r16...
