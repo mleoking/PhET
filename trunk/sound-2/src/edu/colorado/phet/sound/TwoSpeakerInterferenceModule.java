@@ -24,7 +24,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
     private Listener speakerListener = new Listener();
     private Listener headListener = new Listener();
 
-    private WaveMediumGraphic primaryWg;
+    private WaveMediumGraphicB primaryWg;
     private InterferenceListenerGraphic head;
     private Point2D.Double audioSourceA;
     private Point2D.Double audioSourceB;
@@ -56,24 +56,26 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
 
         // Create the upper wave and speaker
         WaveMedium wm = getSoundModel().getWaveMedium();
-        WaveMediumGraphic wgA = new WaveMediumGraphic( wm, getApparatusPanel(), this );
+        WaveMediumGraphicB wgA = new WaveMediumGraphicB( wm, getApparatusPanel(), this );
         wm.addObserver( wgA );
         this.addGraphic( wgA, 5 );
         wgA.initLayout( audioSourceA,
                         SoundConfig.s_wavefrontHeight,
                         SoundConfig.s_wavefrontRadius );
+        // todo: next line is probably unnecessary now
         wgA.setOpacity( 0.5f );
         SpeakerGraphic speakerGraphicA = new SpeakerGraphic( getApparatusPanel(), wm );
         getApparatusPanel().addGraphic( speakerGraphicA, 8 );
         speakerGraphicA.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() );
 
         // Add the lower wave and speaker
-        WaveMediumGraphic wgB = new WaveMediumGraphic( wm, getApparatusPanel(), this );
+        WaveMediumGraphicB wgB = new WaveMediumGraphicB( wm, getApparatusPanel(), this );
         wm.addObserver( wgB );
         this.addGraphic( wgB, 5 );
         wgB.initLayout( audioSourceB,
                         SoundConfig.s_wavefrontHeight,
                         SoundConfig.s_wavefrontRadius );
+        // todo: next line is probably unnecessary now
         wgB.setOpacity( 0.5f );
         SpeakerGraphic speakerGraphicB = new SpeakerGraphic( getApparatusPanel(), wm );
         getApparatusPanel().addGraphic( speakerGraphicB, 8 );
@@ -124,5 +126,9 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         super.deactivate( app );
         saveInterferenceOverideEnabled = getPrimaryOscillator().getInterferenceOverideEnabled();
         getPrimaryOscillator().setInterferenceOverideEnabled( false );
+    }
+
+    public int rgbAt( int x, int y ) {
+        return super.rgbAt( x, y ) * 3 / 2;
     }
 }

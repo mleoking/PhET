@@ -23,6 +23,8 @@ public class SingleSourceListenModule extends SingleSourceModule {
     private Listener speakerListener = new Listener();
     private Listener headListener = new Listener();
 
+    private int headOffsetY = -30;
+
     public SingleSourceListenModule( ApplicationModel appModel ) {
         this( appModel, "<html>Listen to<br>Single Source</html>" );
     }
@@ -40,12 +42,12 @@ public class SingleSourceListenModule extends SingleSourceModule {
             PhetImageGraphic head = new PhetImageGraphic( getApparatusPanel(), headImg );
             head.setPosition( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
             ListenerGraphic listenerGraphic = new ListenerGraphic( this, headListener, head,
-                                                                   SoundConfig.s_headBaseX, SoundConfig.s_headBaseY,
-                                                                   SoundConfig.s_headBaseX - 150, SoundConfig.s_headBaseY,
-                                                                   SoundConfig.s_headBaseX + 150, SoundConfig.s_headBaseY );
+                                                                   SoundConfig.s_headBaseX, SoundConfig.s_headBaseY + headOffsetY,
+                                                                   SoundConfig.s_headBaseX - 150, SoundConfig.s_headBaseY + headOffsetY,
+                                                                   SoundConfig.s_headBaseX + 150, SoundConfig.s_headBaseY + headOffsetY );
             this.addGraphic( listenerGraphic, 9 );
             headListener.setLocation( new Point2D.Double( SoundConfig.s_headBaseX - SoundConfig.s_speakerBaseX,
-                                                          SoundConfig.s_headBaseY - SoundConfig.s_speakerBaseY ) );
+                                                          SoundConfig.s_headBaseY - SoundConfig.s_speakerBaseY + headOffsetY ) );
             speakerListener.setLocation( new Point2D.Double() );
             setAudioSource( SoundApparatusPanel.SPEAKER_SOURCE );
         }

@@ -18,7 +18,7 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
 
     //    private PhetImageGraphic speakerFrame;
     //    private PhetImageGraphic speakerCone;
-//    private WaveMediumGraphic waveMediumGraphic = null;
+//    private WaveMediumGraphicB waveMediumGraphic = null;
     private BufferedImage speakerFrameImg;
     private BufferedImage speakerConeImg;
     private int audioSource = SPEAKER_SOURCE;
@@ -33,7 +33,7 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
         super( model );
         this.model = model;
 //        final WaveMedium waveMedium = model.getWaveMedium();
-//        waveMediumGraphic = new WaveMediumGraphic( waveMedium, this );
+//        waveMediumGraphic = new WaveMediumGraphicB( waveMedium, this );
 //        this.addGraphic( waveMediumGraphic, 7 );
 //        Point2D.Double audioSource = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
 //                                                         SoundConfig.s_wavefrontBaseY );
@@ -42,7 +42,7 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
 //                                      SoundConfig.s_wavefrontRadius );
 
         // Set up the octave wavefront and graphic
-        //        WaveMediumGraphic wgB = new WaveMediumGraphic( waveMedium, this );
+        //        WaveMediumGraphicB wgB = new WaveMediumGraphicB( waveMedium, this );
         //        waveMediumGraphic.init( waveMedium );
         //        this.addGraphic( waveMediumGraphic, 7 );
 
@@ -99,7 +99,7 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
     /**
      * @return
      */
-//    protected WaveMediumGraphic getWavefrontGraphic() {
+//    protected WaveMediumGraphicB getWavefrontGraphic() {
 //        return waveMediumGraphic;
 //    }
 
