@@ -57,7 +57,7 @@ public class MovableWallsModule extends IdealGasModule {
     // Instance fields and methods
     //----------------------------------------------------------------
 
-    private Wall lowerWall;
+    private Wall verticalWall;
     private Wall leftFloor;
     private Wall rightFloor;
     private int wallThickness = (int)GasMolecule.s_defaultRadius * 4;
@@ -71,27 +71,24 @@ public class MovableWallsModule extends IdealGasModule {
         final Box2D box = super.getBox();
 
         // Create the lower vertical wall
-        lowerWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
+        verticalWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
                                                       box.getCorner1Y() + box.getHeight() / 3,
                                                       wallThickness, box.getHeight() * 2 / 3 ),
                               box.getBoundsInternal() );
-        lowerWall.setMinimumWidth( wallThickness );
-        lowerWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + wallThickness,
+        verticalWall.setMinimumWidth( wallThickness );
+        verticalWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + wallThickness,
                                                              box.getCorner1Y() + wallThickness,
                                                              box.getWidth() - 2 * wallThickness,
                                                              box.getHeight() - wallThickness ) );
-        WallGraphic lowerWallGraphic = new GraduatedWallGraphic( lowerWall, getApparatusPanel(),
+        WallGraphic lowerWallGraphic = new GraduatedWallGraphic( verticalWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
         lowerWallGraphic.setIsResizable( true );
-
-        getModel().addModelElement( lowerWall );
-        addGraphic( lowerWallGraphic, s_verticalWallLayer );
-        lowerWall.addChangeListener( new LowerWallChangeListener() );
+        verticalWall.addChangeListener( new LowerWallChangeListener() );
 
         // Create the left movable floor
         leftFloor = new Wall( new Rectangle2D.Double( box.getCorner1X(), box.getCorner2Y() - 60,
-                                                      lowerWall.getBounds().getMinX() - box.getCorner1X(), wallThickness ),
+                                                      verticalWall.getBounds().getMinX() - box.getCorner1X(), wallThickness ),
                               box.getBoundsInternal() );
         WallGraphic leftFloorGraphic = new WallGraphic( leftFloor, getApparatusPanel(),
                                                         Color.gray, Color.black,
@@ -100,14 +97,19 @@ public class MovableWallsModule extends IdealGasModule {
         addGraphic( leftFloorGraphic, s_verticalWallLayer - 1 );
 
         // Create the right movable floor
-        rightFloor = new Wall( new Rectangle2D.Double( lowerWall.getBounds().getMaxX(), box.getCorner2Y() - 40,
-                                                       box.getCorner2X() - lowerWall.getBounds().getMaxX(), wallThickness ),
+        rightFloor = new Wall( new Rectangle2D.Double( verticalWall.getBounds().getMaxX(), box.getCorner2Y() - 40,
+                                                       box.getCorner2X() - verticalWall.getBounds().getMaxX(), wallThickness ),
                                box.getBoundsInternal() );
         WallGraphic rightFloorGraphic = new WallGraphic( rightFloor, getApparatusPanel(),
                                                          Color.gray, Color.black,
                                                          WallGraphic.NORTH_SOUTH );
         getModel().addModelElement( rightFloor );
         addGraphic( rightFloorGraphic, s_verticalWallLayer - 1 );
+
+        // Note that we have to add the vertical wall last. This overcomes a subtle problem in the sequencing of
+        // collision detection that is virtually intractable otherewise. Trust me.
+        getModel().addModelElement( verticalWall );
+        addGraphic( lowerWallGraphic, s_verticalWallLayer );
 
         // Set the region for the walls
         setWallBounds();
@@ -159,7 +161,7 @@ public class MovableWallsModule extends IdealGasModule {
      */
     private void setWallBounds() {
         Rectangle2D boxBounds = getBox().getBoundsInternal();
-        Rectangle2D lowerWallBounds = lowerWall.getBounds();
+        Rectangle2D lowerWallBounds = verticalWall.getBounds();
         leftFloor.setBounds( new Rectangle2D.Double( boxBounds.getMinX(),
                                                      leftFloor.getBounds().getMinY(),
                                                      lowerWallBounds.getMinX() - boxBounds.getMinX(),
@@ -184,7 +186,7 @@ public class MovableWallsModule extends IdealGasModule {
      */
     private void addParticleCounters() {
         Rectangle2D boxBounds = getBox().getBoundsInternal();
-        Rectangle2D lowerWallBounds = lowerWall.getBounds();
+        Rectangle2D lowerWallBounds = verticalWall.getBounds();
 
         // Create the particle counters
         leftRegionParticleCounter = new ParticleCounter();
@@ -211,7 +213,7 @@ public class MovableWallsModule extends IdealGasModule {
      */
     private void setParticleCounterRegions() {
         Rectangle2D boxBounds = getBox().getBoundsInternal();
-        Rectangle2D lowerWallBounds = lowerWall.getBounds();
+        Rectangle2D lowerWallBounds = verticalWall.getBounds();
 
         leftRegionParticleCounter.setRegion( new Rectangle2D.Double( boxBounds.getMinX(),
                                                                      boxBounds.getMinY(),

@@ -166,12 +166,22 @@ public class CollisionGod {
      * @param bodies
      */
     private void doMiscCollisions( List bodies ) {
+        Box2D box = null;
+        ArrayList walls = new ArrayList();
         ArrayList nonGasBodies = new ArrayList();
         // Find all the bodies that aren't gas molecules
         for( int i = 0; i < bodies.size(); i++ ) {
             Object o = bodies.get( i );
             if( !( o instanceof GasMolecule ) ) {
-                nonGasBodies.add( o );
+                if( o instanceof Box2D ) {
+                    box = (Box2D)o;
+                }
+                else if( o instanceof Wall ) {
+                    walls.add( o );
+                }
+                else {
+                    nonGasBodies.add( o );
+                }
             }
         }
         // Find all collisions between non-gas molecules and other
@@ -185,6 +195,24 @@ public class CollisionGod {
                 }
             }
         }
+
+        // Finally, let the gas molecules collide with the box and walls
+        for( int j = 0; j < bodies.size(); j++ ) {
+            CollidableBody body = (CollidableBody)bodies.get( j );
+            boolean b = false;
+            // Collide gas with walls and box until there aren't any collisions
+            do {
+                b = false;
+                for( int i = 0; i < walls.size() && !b; i++ ) {
+                    Wall wall = (Wall)walls.get( i );
+                    b = detectAndDoCollision( body, wall );
+                }
+                if( body != box && !b ) {
+                    b = detectAndDoCollision( body, box );
+                }
+            } while( b );
+        }
+
     }
 
     private void doGasToGasCollisions() {

@@ -96,29 +96,48 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
             walls.put( wall, wallDesc );
         }
 
-        if( wallDesc.contactBounds.contains( sphere.getPosition() ) ) {
-            // P is the previous position of the sphere
-            // Q is the current position of the sphere
-            Point2D Q = sphere.getPosition();
-            double Qx = Q.getX();
-            double Qy = Q.getY();
-
-            Vector2D v = new Vector2D.Double( -sphere.getVelocity().getX(), -sphere.getVelocity().getY() ).normalize().scale( 1000 );
-            Point2D P = new Point2D.Double( Qx + v.getX(), Qy + v.getY() );
-            Line2D PQ = new Line2D.Double( Q, P );
-            if( PQ.intersectsLine( wallDesc.AB ) ) {
-                result = TOP;
-            }
-            if( PQ.intersectsLine( wallDesc.BC ) ) {
-                result = RIGHT_SIDE;
-            }
-            if( PQ.intersectsLine( wallDesc.CD ) ) {
-                result = BOTTOM;
-            }
-            if( PQ.intersectsLine( wallDesc.AD ) ) {
-                result = LEFT_SIDE;
-            }
+        // P is the previous position of the sphere
+        // Q is the current position of the sphere
+        Point2D Q = sphere.getPosition();
+        Point2D P = sphere.getPositionPrev();
+        Line2D PQ = new Line2D.Double( Q, P );
+        if( PQ.intersectsLine( wallDesc.AB ) && sphere.getVelocity().getY() > 0 ) {
+            result = TOP;
         }
+        if( PQ.intersectsLine( wallDesc.BC ) && sphere.getVelocity().getX() < 0 ) {
+                result = RIGHT_SIDE;
+        }
+        if( PQ.intersectsLine( wallDesc.CD ) && sphere.getVelocity().getY() < 0 ) {
+            result = BOTTOM;
+        }
+        if( PQ.intersectsLine( wallDesc.AD ) && sphere.getVelocity().getX() > 0 ) {
+            result = LEFT_SIDE;
+        }
+//        if( wallDesc.contactBounds.contains( sphere.getPosition() ) ) {
+//            // P is the previous position of the sphere
+//            // Q is the current position of the sphere
+//            Point2D Q = sphere.getPosition();
+//            double Qx = Q.getX();
+//            double Qy = Q.getY();
+//
+//            Vector2D v = new Vector2D.Double( -sphere.getVelocity().getX(), -sphere.getVelocity().getY() ).normalize().scale( 1000 );
+//            Point2D P = new Point2D.Double( Qx + v.getX(), Qy + v.getY() );
+//            Point2D R = sphere.getPositionPrev();
+//            Line2D PQ = new Line2D.Double( Q, P );
+//            Line2D RQ = new Line2D.Double( Q, R );
+//            if( PQ.intersectsLine( wallDesc.AB ) || RQ.intersectsLine( wallDesc.AB ) ) {
+//                result = TOP;
+//            }
+//            if( PQ.intersectsLine( wallDesc.BC ) || RQ.intersectsLine( wallDesc.BC ))  {
+//                result = RIGHT_SIDE;
+//            }
+//            if( PQ.intersectsLine( wallDesc.CD ) || RQ.intersectsLine( wallDesc.CD )) {
+//                result = BOTTOM;
+//            }
+//            if( PQ.intersectsLine( wallDesc.AD ) || RQ.intersectsLine( wallDesc.AD )) {
+//                result = LEFT_SIDE;
+//            }
+//        }
         return result;
     }
 
@@ -249,9 +268,9 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
 
         private void computeDescriptor( Wall wall ) {
             contactBounds = new Rectangle2D.Double( wall.getBounds().getMinX() - contactRadius,
-                                                                wall.getBounds().getMinY() - contactRadius,
-                                                                wall.getBounds().getWidth() + 2 * contactRadius,
-                                                                wall.getBounds().getHeight() + 2 * contactRadius );
+                                                    wall.getBounds().getMinY() - contactRadius,
+                                                    wall.getBounds().getWidth() + 2 * contactRadius,
+                                                    wall.getBounds().getHeight() + 2 * contactRadius );
             Point2D A = new Point2D.Double( contactBounds.getMinX(),
                                             contactBounds.getMinY() );
             Point2D B = new Point2D.Double( contactBounds.getMaxX(),
