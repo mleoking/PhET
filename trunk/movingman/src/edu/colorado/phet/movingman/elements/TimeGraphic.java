@@ -21,7 +21,6 @@ import java.util.Observable;
 public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
     String timeStr;
     Timer recordingTimer;
-//    private Timer playbackTimer;
     int x;
     int y;
     Font f = new Font( "Lucida Sans", 0, 36 );
@@ -31,42 +30,27 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
 
     public TimeGraphic( Timer recordingTimer, Timer playbackTimer, int x, int y ) {
         this.recordingTimer = recordingTimer;
-//        this.playbackTimer = playbackTimer;
         this.x = x;
         this.y = y;
-//        this.timerDisplayScale = timerDisplayScale;
         recordingTimer.addObserver( this );
         recordingTimer.updateObservers();
         playbackTimer.addObserver( this );
+        update( recordingTimer, null );
     }
 
     public void paint( Graphics2D g ) {
         this.frc = g.getFontRenderContext();
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g.setFont( f );
-//
-//        GlyphVector vector=f.createGlyphVector(g.getFontRenderContext(), timeStr);
-//        Shape outline=vector.getOutline(x,y);
-//        g.setStroke(new BasicStroke(2.0f));
-//        g.draw(outline);
-//        g.setColor(Color.blue);
-//        g.fill(outline);
 
         g.drawString( timeStr, x, y );
-//        GraphicsEnvironment ge=GraphicsEnvironment.getLocalGraphicsEnvironment();
-//        String[]all=ge.getAvailableFontFamilyNames();
-//        O.d(Arrays.asList(all));
     }
 
     public void update( Observable o, Object arg ) {
+//        System.out.println( "recordingTimer.getTime() = " + recordingTimer.getTime() );
         Timer tx = (Timer)o;
         double scalarTime = tx.getTime();
-//        String pre="Recording Time=";
-//        if (tx==playbackTimer)
-//        pre="Playback Time=";
-//        double scalarTime = recordingTimer.getTime();
         double seconds = scalarTime;// * timerDisplayScale; //TIMING
-        //Call this seconds.
         this.timeStr = decimalFormat.format( seconds ) + " seconds";
     }
 

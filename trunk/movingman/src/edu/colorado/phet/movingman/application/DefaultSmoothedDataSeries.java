@@ -41,14 +41,6 @@ public class DefaultSmoothedDataSeries {
             value = 0;
         }
         smoothed.addPoint( value );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            DataSeriesListener dataSeriesListener = (DataSeriesListener)listeners.get( i );
-            dataSeriesListener.dataPointChanged( value, this );
-        }
-    }
-
-    public void addDataSeriesListener( DataSeriesListener listener ) {
-        this.listeners.add( listener );
     }
 
     public DataSeries getSmoothedDataSeries() {

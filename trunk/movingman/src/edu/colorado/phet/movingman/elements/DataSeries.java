@@ -31,7 +31,6 @@ public class DataSeries extends ModelElement {
     }
 
     public void stepInTime( double dt ) {
-//        this.dt = dt;
     }
 
     public void reset() {
@@ -48,7 +47,6 @@ public class DataSeries extends ModelElement {
     }
 
     public boolean indexInBounds( int index ) {
-
         return index >= 0 && index < pts.size();
     }
 

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -30,7 +31,7 @@ public class PhetFrame extends JFrame {
         this.helpMenu = ( new HelpMenu( app.getApplicationDescriptor().getWindowTitle(),
                                         app.getApplicationDescriptor().getDescription(),
                                         app.getApplicationDescriptor().getVersion() ) );
-        JMenu controlMenu = new JMenu( "Control" );
+//        JMenu controlMenu = new JMenu( "Control" );
         JMenuItem showClockDialog = new JMenuItem( "Clock" );
         showClockDialog.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -43,8 +44,7 @@ public class PhetFrame extends JFrame {
         menuBar.add( helpMenu );
 
         setJMenuBar( menuBar );
-
-        app.getApplicationDescriptor().getFrameSetup().initialize( this );
+        setSize( Toolkit.getDefaultToolkit().getScreenSize() );
     }
 
     /**

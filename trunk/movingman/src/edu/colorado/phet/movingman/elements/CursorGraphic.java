@@ -7,7 +7,6 @@ import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.movingman.application.MovingManModule;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -54,6 +53,7 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
     public void setBounds( BoxToBoxInvertY transform ) {
         this.transform = transform;
         this.inversion = new BoxToBoxInvertY( transform.getOutputBounds(), transform.getInputBounds() );
+        updateYourself();
     }
 
     public void setVisible( boolean visible ) {
@@ -104,13 +104,11 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
     }
 
     public void mouseEntered( MouseEvent event ) {
-        Window w = SwingUtilities.getWindowAncestor( event.getComponent() );
-        w.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+        event.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
     }
 
     public void mouseExited( MouseEvent event ) {
-        Window w = SwingUtilities.getWindowAncestor( event.getComponent() );
-        w.setCursor( new Cursor( Cursor.DEFAULT_CURSOR ) );
+        event.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
     }
 
     public boolean isVisible() {
