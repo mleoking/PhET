@@ -121,7 +121,7 @@ public class SpotlightGraphic extends PhetImageGraphic implements SimpleObserver
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
             super.paint( g2 );
-            BoundsOutline.paint( g2, this ); // DEBUG
+            BoundsOutliner.paint( g2, this ); // DEBUG
         }
     }
 

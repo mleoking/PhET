@@ -14,7 +14,7 @@ package edu.colorado.phet.colorvision3;
 import java.awt.Color;
 import java.util.Locale;
 
-import edu.colorado.phet.colorvision3.view.BoundsOutline;
+import edu.colorado.phet.colorvision3.view.BoundsOutliner;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -51,7 +51,7 @@ public class ColorVisionApplication extends PhetApplication {
      */
     public static void main( String[] args ) {
 
-        BoundsOutline.setEnabled( BOUNDS_OUTLINE_ENABLED ); // DEBUG
+        BoundsOutliner.setEnabled( BOUNDS_OUTLINE_ENABLED ); // DEBUG
 
         // Initialize localization.
         {

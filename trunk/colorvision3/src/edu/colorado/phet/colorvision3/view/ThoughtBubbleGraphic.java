@@ -129,7 +129,7 @@ public class ThoughtBubbleGraphic extends PhetShapeGraphic {
     public void paint( Graphics2D g2 ) {
         if( super.isVisible() ) {
             super.paint( g2 );
-            BoundsOutline.paint( g2, this ); // DEBUG
+            BoundsOutliner.paint( g2, this ); // DEBUG
         }
     }
 
