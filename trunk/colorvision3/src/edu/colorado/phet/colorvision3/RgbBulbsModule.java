@@ -290,6 +290,8 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
    */
   public void colorChanged( VisibleColorChangeEvent event )
   {
+    //System.out.println( "colorChanged " + event ); // DEBUG
+    
     // Ignore the color information in the event, and consult the photon beams.
     // Each beam contributes one color component.
     int red = (int) ((_redPhotonBeamModel.getPerceivedIntensity() / 100) * 255 );
@@ -311,6 +313,8 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
    */
   public void stateChanged( ChangeEvent event )
   {
+    //System.out.println( "stateChanged " + event ); // DEBUG
+    
     // Disable the wiggle-me when a slider is moved.
     if ( _wiggleMe.isRunning() )
     {
