@@ -11,7 +11,6 @@
 package edu.colorado.phet.common.view.util;
 
 import java.awt.AlphaComposite;
-import java.awt.Frame;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
@@ -70,41 +69,5 @@ public class GraphicsUtil {
     public static Graphics2D setAntiAliasingOn( Graphics2D g2 ) {
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         return g2;
-    }
-
-    // This method maximizes a frame; the iconified bit is not affected.
-    public static void maximizeFrame( Frame frame ) {
-        int state = frame.getExtendedState();
-        // Set the maximized bits
-        state |= Frame.MAXIMIZED_BOTH;
-        // Maximize the frame
-        frame.setExtendedState( state );
-    }
-
-    // This method iconifies a frame; the maximized bits are not affected.
-    public static void iconifyFrame( Frame frame ) {
-        int state = frame.getExtendedState();
-        // Set the iconified bit
-        state |= Frame.ICONIFIED;
-        // Iconify the frame
-        frame.setExtendedState( state );
-    }
-
-    // This method deiconifies a frame; the maximized bits are not affected.
-    public static void deiconifyFrame( Frame frame ) {
-        int state = frame.getExtendedState();
-        // Clear the iconified bit
-        state &= ~Frame.ICONIFIED;
-        // Deiconify the frame
-        frame.setExtendedState( state );
-    }
-
-    // This method minimizes a frame; the iconified bit is not affected
-    public static void minimizeFrame( Frame frame ) {
-        int state = frame.getExtendedState();
-        // Clear the maximized bits
-        state &= ~Frame.MAXIMIZED_BOTH;
-        // Maximize the frame
-        frame.setExtendedState( state );
     }
 }
