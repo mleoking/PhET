@@ -22,8 +22,8 @@ public class Pump extends SimpleObservable implements GasSource {
 
 
     // Coordinates of the intake port on the box
-    protected static final float s_intakePortX = 430 + IdealGasConfig.X_BASE_OFFSET;
-    protected static final float s_intakePortY = 400 + IdealGasConfig.Y_BASE_OFFSET;
+    public static final float s_intakePortX = 430 + IdealGasConfig.X_BASE_OFFSET;
+    public static final float s_intakePortY = 400 + IdealGasConfig.Y_BASE_OFFSET;
     // Offset for dithering the initial position of particles pumped into the box
     private static float s_intakePortOffsetY = 1;
 

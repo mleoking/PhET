@@ -12,12 +12,23 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.SphereWallExpert;
 import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 /**
  * MovableWallsModule
@@ -26,10 +37,24 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class MovableWallsModule extends IdealGasModule {
+
+    //----------------------------------------------------------------
+    // Class fields and methods
+    //----------------------------------------------------------------
+
+    private static Font readoutFont = new Font( "Lucida sans", Font.BOLD, 12 );
+
+
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
+
     private Wall lowerWall;
     private Wall leftFloor;
     private Wall rightFloor;
     private int wallThickness = 12;
+    private ParticleCounter leftRegionParticleCounter;
+    private ParticleCounter rightRegionParticleCounter;
 
     public MovableWallsModule( AbstractClock clock ) {
         super( clock, "<html><center>Potential Energy<br>Surface</center></html>" );
@@ -71,13 +96,16 @@ public class MovableWallsModule extends IdealGasModule {
         getModel().addModelElement( rightFloor );
         addGraphic( rightFloorGraphic, 1000 );
 
-        // Set the bounds for the walls
+        // Set the region for the walls
         setWallBounds();
+
+        // Add counters for the number of particles on either side of the vertical wall
+        addParticleCounters();
     }
 
     /**
-     * Sets the bounds of the various walls and the bounds of their movement based on
-     * the bounds of the lower vertical wall
+     * Sets the region of the various walls and the region of their movement based on
+     * the region of the lower vertical wall
      */
     private void setWallBounds() {
         Rectangle2D boxBounds = getBox().getBoundsInternal();
@@ -94,10 +122,52 @@ public class MovableWallsModule extends IdealGasModule {
                                                              lowerWallBounds.getMinY(),
                                                              lowerWallBounds.getMinX() - boxBounds.getMinX(),
                                                              boxBounds.getMaxY() - lowerWallBounds.getMinY() ) );
+        // Right floor can't go higher than the intake port on the box
         rightFloor.setMovementBounds( new Rectangle2D.Double( lowerWallBounds.getMaxX(),
-                                                              lowerWallBounds.getMinY(),
+                                                              Math.max( lowerWallBounds.getMinY(), Pump.s_intakePortY + 10 ),
                                                               boxBounds.getMaxX() - lowerWallBounds.getMaxX(),
                                                               boxBounds.getMaxY() - lowerWallBounds.getMinY() ) );
+    }
+
+    /**
+     * Add elements that keep count of the number of particles on either side of the vertical wall
+     */
+    private void addParticleCounters() {
+        Rectangle2D boxBounds = getBox().getBoundsInternal();
+        Rectangle2D lowerWallBounds = lowerWall.getBounds();
+
+        // Create the particle counters
+        leftRegionParticleCounter = new ParticleCounter();
+        getModel().addModelElement( leftRegionParticleCounter );
+
+        rightRegionParticleCounter = new ParticleCounter();
+        getModel().addModelElement( rightRegionParticleCounter );
+
+        // Set the bounds of the regions the particle counters cound
+        setParticleCounterRegions();
+
+        // Put readouts on the apparatus panel
+        PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter );
+        leftCounterReadout.setLocation( (int)boxBounds.getMinX(), 25 );
+        addGraphic( leftCounterReadout, IdealGasConfig.readoutLayer );
+
+        PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter );
+        rightCounterReadout.setLocation( (int)boxBounds.getMaxX() - 20, 25 );
+        addGraphic( rightCounterReadout, IdealGasConfig.readoutLayer );
+    }
+
+    private void setParticleCounterRegions() {
+        Rectangle2D boxBounds = getBox().getBoundsInternal();
+        Rectangle2D lowerWallBounds = lowerWall.getBounds();
+
+        leftRegionParticleCounter.setRegion( new Rectangle2D.Double( boxBounds.getMinX(),
+                                                                     boxBounds.getMinY(),
+                                                                     lowerWallBounds.getMinX() + lowerWallBounds.getWidth() / 2 - boxBounds.getMinX(),
+                                                                     boxBounds.getHeight() ) );
+        rightRegionParticleCounter.setRegion( new Rectangle2D.Double( lowerWallBounds.getMinX() + lowerWallBounds.getWidth() / 2,
+                                                                      boxBounds.getMinY(),
+                                                                      boxBounds.getMaxX() - lowerWallBounds.getMaxX() + lowerWallBounds.getWidth() / 2,
+                                                                      boxBounds.getHeight() ) );
     }
 
     //-----------------------------------------------------------------
@@ -107,6 +177,77 @@ public class MovableWallsModule extends IdealGasModule {
     private class LowerWallChangeListener implements Wall.ChangeListener {
         public void wallChanged( Wall.ChangeEvent event ) {
             setWallBounds();
+            setParticleCounterRegions();
+        }
+    }
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    /**
+     * A model element that counts the number of particles in a region of the model.
+     */
+    private class ParticleCounter extends SimpleObservable implements ModelElement {
+        // The region within which to count particles
+        private Rectangle2D region;
+        private int cnt;
+
+        public ParticleCounter(){
+
+        }
+
+        public ParticleCounter( Rectangle2D bounds ) {
+            this.region = bounds;
+        }
+
+        public void stepInTime( double dt ) {
+            cnt = 0;
+            List bodies = getIdealGasModel().getBodies();
+            for( int i = 0; i < bodies.size(); i++ ) {
+                Object o = bodies.get( i );
+                if( o instanceof GasMolecule ) {
+                    GasMolecule molecule = (GasMolecule)o;
+                    if( region.contains( molecule.getPosition() ) ) {
+                        cnt++;
+                    }
+                }
+            }
+            notifyObservers();
+        }
+
+        public void setRegion( Rectangle2D region ) {
+            this.region = region;
+        }
+
+        public int getCnt() {
+            return cnt;
+        }
+    }
+
+    /**
+     * A text graphic for the counter readouts
+     */
+    private class ReadoutGraphic extends CompositePhetGraphic implements SimpleObserver {
+        private ParticleCounter counter;
+        private PhetTextGraphic readout;
+        private PhetShapeGraphic border;
+
+        public ReadoutGraphic( ParticleCounter counter ) {
+            super( getApparatusPanel() );
+            readout = new PhetTextGraphic( getApparatusPanel(), readoutFont, "", Color.black );
+            this.addGraphic( readout, 10 );
+            border = new PhetShapeGraphic( getApparatusPanel(), new Rectangle(40, 15 ), new BasicStroke( 1f ), Color.black );
+            this.addGraphic( border, 5 );
+            counter.addObserver( this );
+            this.counter = counter;
+            update();
+        }
+
+        public void update() {
+            readout.setText( Integer.toString( counter.getCnt() ) );
+            setBoundsDirty();
+            repaint();
         }
     }
 }

@@ -104,4 +104,7 @@ public class IdealGasConfig {
     public static final String SOUND_DIRECTORY = "http://sounds/";
     public static final String BONG_SOUND_FILE = SOUND_DIRECTORY + "bond.au";
     public static final String BOING_SOUND_FILE = SOUND_DIRECTORY + "boing.au";
+
+    // Graphic layer specs
+    public static final double readoutLayer = 100;
 }
