@@ -107,6 +107,10 @@ public class CollimatedBeam extends Particle {
         nextTimeToProducePhoton = getNextTimeToProducePhoton();
     }
 
+    public void setWavelength( int wavelength ) {
+        this.wavelength = wavelength;
+    }
+    
     public int getWavelength() {
         return wavelength;
     }
