@@ -6,14 +6,17 @@
  */
 package edu.colorado.phet.emf.view;
 
-import edu.colorado.phet.common.view.graphics.ObservingGraphic;
+//import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.waves.model.WaveMedium;
+import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Observable;
+import java.util.Observer;
 
-public class WaveMediumView implements ObservingGraphic {
+public class WaveMediumView implements Observer {
+//public class WaveMediumView implements ObservingGraphic {
 
     private Rectangle2D.Double viewArea;
     private double gridSpacing;

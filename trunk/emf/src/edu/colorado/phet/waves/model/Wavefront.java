@@ -8,12 +8,14 @@ package edu.colorado.phet.waves.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 
+import java.util.Observable;
+
 /**
  *
  * <p>
  * TODO: Make this 2D. It is currently pnly 1D
  */
-public class Wavefront extends ModelElement {
+public class Wavefront extends Observable implements ModelElement {
 
     private PeriodicFunction waveFunction;
     private WavefrontType wavefrontType;

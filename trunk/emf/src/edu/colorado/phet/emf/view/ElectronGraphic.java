@@ -12,8 +12,6 @@ import edu.colorado.phet.common.view.graphics.SimpleBufferedImageGraphic;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.emf.Config;
 import edu.colorado.phet.emf.model.Electron;
-import edu.colorado.phet.emf.model.ElectronSpring;
-import edu.colorado.phet.graphics.VerticalDragHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,8 +23,6 @@ public class ElectronGraphic extends SimpleBufferedImageGraphic
     private Point location = new Point();
     private ApparatusPanel apparatusPanel;
     private Electron electron;
-    private ElectronSpring spring;
-    private VerticalDragHandler dragHandler;
 
     public ElectronGraphic( ApparatusPanel apparatusPanel, BufferedImage image, Electron electron ) {
         super( image );

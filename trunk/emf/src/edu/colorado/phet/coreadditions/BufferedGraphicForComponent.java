@@ -1,7 +1,8 @@
 package edu.colorado.phet.coreadditions;
 
-import edu.colorado.phet.common.view.CompositeGraphic;
+//import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,7 +16,8 @@ import java.awt.image.BufferedImage;
  */
 public class BufferedGraphicForComponent implements Graphic {
     BufferedImage image;
-    CompositeGraphic compositeGraphic = new CompositeGraphic();
+    CompositeInteractiveGraphic compositeGraphic = new CompositeInteractiveGraphic();
+//    CompositeGraphic compositeGraphic = new CompositeGraphic();
     int x;
     int y;
     private int width;

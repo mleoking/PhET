@@ -9,6 +9,7 @@ package edu.colorado.phet.waves.model;
 import edu.colorado.phet.common.model.ModelElement;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * This class represents a medium through which an arbitrary number of
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  * <p>
  * TODO: Make this 2D. It is currently pnly 1D
  */
-public class WaveMedium extends ModelElement {
+public class WaveMedium extends Observable implements ModelElement {
 
     private ArrayList wavefronts = new ArrayList();
 

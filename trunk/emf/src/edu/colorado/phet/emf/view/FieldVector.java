@@ -7,8 +7,10 @@
 package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.coreadditions.LRUCache;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -23,12 +25,13 @@ public class FieldVector {
     // arrow parameters
     private static BasicStroke arrowStroke = new BasicStroke( 2 );
     // arrowhead parameters
-    private static int maxArrowHeadWidth = 10;
+    public final static int maxArrowHeadWidth = 10;
     private static BasicStroke arrowHeadStroke = new BasicStroke( 1 );
     private static Polygon arrowHead = new Polygon();
 
-    private final static int s_cacheSize = 200;
-    private final static int s_maxCachedArrowLength = 200;
+    private final static int s_cacheSize = 500;
+    private final static int s_maxCachedArrowLength = 1000;
+//    private final static int s_maxCachedArrowLength = 200;
     private static LRUCache cache = new LRUCache( s_cacheSize );
     private static int miss;
     private static int hit;
@@ -44,9 +47,6 @@ public class FieldVector {
         if( length > 0 ) {
             arrow = (BufferedImage)cache.get( spec );
             if( arrow == null ) {
-
-//                System.out.println( "miss: " + ++miss );
-
                 // Create a new arrow and put it in the cache
                 // Make sure theta is positive in the range 0 to 2pi
                 theta %= Math.PI * 2;
@@ -59,17 +59,7 @@ public class FieldVector {
                     cache.put( newSpec, arrow );
                 }
             }
-            else {
-//                System.out.println( "hit: " + ++hit );
-            }
         }
-
-        // Test of rotating arrows using transform
-//        if( arrow != null ) {
-//            AffineTransform tx = AffineTransform.getRotateInstance( theta, arrow.getWidth() / 2, arrow.getHeight() / 2 );
-//            AffineTransformOp op = new AffineTransformOp( tx, AffineTransformOp.TYPE_BILINEAR );
-//            arrow = op.filter( arrow, null );
-//        }
         return arrow;
     }
 
@@ -87,8 +77,8 @@ public class FieldVector {
 
             Graphics2D g2d = buffImg.createGraphics();
             g2d.setColor( color );
-            float alpha = 0.5f;
-            g2d.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
+//            float alpha = 0.5f;
+//            g2d.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
 
             // draw the line
             g2d.setStroke( arrowStroke );
@@ -127,8 +117,10 @@ public class FieldVector {
     // Inner classes
     //
 
-    public static double thetaGranularity = 0.2;
-    public static double lengthGranularity = 5;
+    public static double thetaGranularity = 0.05;
+//    public static double thetaGranularity = 0.2;
+    public static double lengthGranularity = 3;
+//    public static double lengthGranularity = 5;
 
     private static class VectorSpec {
         double length;

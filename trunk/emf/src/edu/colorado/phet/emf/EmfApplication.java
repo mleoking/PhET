@@ -15,9 +15,6 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
 import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
 import edu.colorado.phet.coreadditions.PhetLookAndFeel;
-//import edu.colorado.phet.coreadditions.clock.StaticClockModel;
-//import edu.colorado.phet.coreadditions.clock.SwingTimerClock;
-//import edu.colorado.phet.coreadditions.components.PhetFrame;
 
 import java.util.logging.Logger;
 
@@ -60,13 +57,15 @@ public class EmfApplication {
                 "Radio Waves", GraphicsUtil.formatMessage( "An exploration of how electro-magnetic waves\nare created, how they move through\nspace, and their effects" ),
                 "1",
                 1024, 768 );
-        PhetApplication application = new PhetApplication( appDescriptor, antennaModule,
-//                                                           new ThreadedClock( new DynamicClockModel( 1, 20 ), ThreadPriority.NORMAL ) );fie
-                                                           clock);
-//                                                           new SwingTimerClock( new StaticClockModel( 1, 20 ) ) );
-//                                                           new SwingTimerClock( new DynamicClockModel( 1, 20 ) ) );
+
+        appDescriptor.setModule( antennaModule );
+        appDescriptor.setInitialModule( antennaModule );
+        appDescriptor.setClock( clock );
+        PhetApplication application = new PhetApplication( appDescriptor );
+//        PhetApplication application = new PhetApplication( appDescriptor, antennaModule,
+//                                                           clock);
         PhetFrame frame = application.getApplicationView().getPhetFrame();
-        frame.setDefaultLookAndFeelDecorated( true );
+        PhetFrame.setDefaultLookAndFeelDecorated( true );
         frame.setIconImage( lookAndFeel.getSmallIconImage() );
 
         if( args.length > 0 ) {
