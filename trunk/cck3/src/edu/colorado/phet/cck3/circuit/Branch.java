@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
@@ -19,21 +20,22 @@ import java.util.ArrayList;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class Branch extends SimpleObservable {
-    double resistance = WIRE_RESISTANCE;
+//    public static final double WIRE_RESISTANCE_MIN = 0.0001;
+    double resistance;//WIRE_RESISTANCE_MIN;
     double current;
     double voltageDrop;
     private Junction startJunction;
     private Junction endJunction;
     private String label;
     private static int indexCounter = 0;
-    public static final double WIRE_RESISTANCE = 0.0001;
+
     private CompositeKirkhoffListener compositeKirkhoffListener = new CompositeKirkhoffListener();
     private ArrayList ivListeners = new ArrayList();
     private boolean isSelected = false;
 
     protected Branch( KirkhoffListener listener ) {
         label = toLabel( indexCounter++ );
-        setResistance( WIRE_RESISTANCE );
+        setResistance( CCK3Module.MIN_RESISTANCE );
         addKirkhoffListener( listener );
     }
 
@@ -88,8 +90,8 @@ public class Branch extends SimpleObservable {
         if( resistance < 0 ) {
             throw new RuntimeException( "Resistance was < 0, value=" + resistance );
         }
-        if( resistance < WIRE_RESISTANCE ) {
-            throw new RuntimeException( "Resistance was less than MIN, res=" + resistance + ", min=" + WIRE_RESISTANCE );
+        if( resistance < CCK3Module.MIN_RESISTANCE ) {
+            throw new RuntimeException( "Resistance was less than MIN, res=" + resistance + ", min=" + CCK3Module.MIN_RESISTANCE );
         }
         if( resistance != this.resistance ) {
             this.resistance = resistance;
@@ -243,5 +245,6 @@ public class Branch extends SimpleObservable {
     public void delete() {
         removeAllObservers();
     }
+
 
 }

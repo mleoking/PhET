@@ -13,7 +13,7 @@ import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.util.HashedImageLoader;
+import edu.colorado.phet.common.view.util.CachingImageLoader;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -51,7 +51,7 @@ public class CircuitGraphic extends CompositeGraphic {
     private boolean lifelike = true;
     private GraphicSource graphicSource;
     private boolean readoutGraphicsVisible = false;
-    private HashedImageLoader hashedImageLoader = new HashedImageLoader();
+    private CachingImageLoader hashedImageLoader = new CachingImageLoader();
 
     public CircuitGraphic( final CCK3Module module ) throws IOException {
         graphicSource = new Lifelike();

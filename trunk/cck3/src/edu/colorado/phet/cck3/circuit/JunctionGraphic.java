@@ -96,7 +96,11 @@ public class JunctionGraphic extends CompositePhetGraphic {
 
     private Stroke createStroke( double strokeWidth ) {
         float[] dash = new float[]{3, 6};
-        float strokeWidthView = (float)transform.getAffineTransform().transform( new Point2D.Double( strokeWidth, 0 ), null ).getX();
+//        float strokeWidthView = (float)transform.getAffineTransform().transform( new Point2D.Double( strokeWidth, 0 ), null ).getX();
+        float strokeWidthView = (float)transform.getAffineTransform().deltaTransform( new Point2D.Double( strokeWidth, 0 ), null ).getX();
+        if( strokeWidthView <= 0 ) {
+            throw new RuntimeException( "negative stroke width=" + strokeWidthView );
+        }
         Stroke s = new BasicStroke( strokeWidthView, BasicStroke.CAP_SQUARE, BasicStroke.CAP_BUTT, 3, dash, 0 );
         return s;
     }
@@ -121,6 +125,7 @@ public class JunctionGraphic extends CompositePhetGraphic {
             shapeGraphic.setBorderColor( Color.black );
             shapeGraphic.setStroke( createStroke( strokeWidthModelCoords ) );
         }
+        super.setBoundsDirty();
     }
 
     public Junction getJunction() {

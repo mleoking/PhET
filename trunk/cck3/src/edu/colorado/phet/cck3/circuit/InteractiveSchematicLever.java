@@ -5,8 +5,8 @@ import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.common.CursorControl;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.graphics.Boundary;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.ImageLoader;
 

@@ -2,7 +2,9 @@
 package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
+import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
 import edu.colorado.phet.cck3.circuit.particles.ConstantDensityLayout;
@@ -25,20 +27,22 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.components.AspectRatioPanel;
+import edu.colorado.phet.common.view.graphics.Boundary;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -70,6 +74,7 @@ public class CCK3Module extends Module {
     private double aspectRatio = 1.2;
     private double modelWidth = 10;
     private double modelHeight = modelWidth / aspectRatio;
+//    private static final Rectangle2D.Double INIT_MODEL_BOUNDS = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
     private Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
     public static double ELECTRON_DX = .56 * SCALE;
     private static final double switchscale = 1.45;
@@ -100,12 +105,17 @@ public class CCK3Module extends Module {
     private WiggleMe wiggleMe;
     private CCKHelp help;
     private CCK3ControlPanel cck3controlPanel;
-    public static Color backgroundColor = new Color( 200, 240, 200 );
+    public static final Color backgroundColor = new Color( 200, 240, 200 );
+    public static final Color apparatusPanelColor = new Color( 187, 216, 255 );
+    public static final Color toolboxColor = new Color( 241, 241, 241 );
+//    public static Color backgroundColor = new Color( 187, 216, 255 );
+//    public static Color toolboxColor=new Color( );
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
 //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0000" ); //For debugging.
     private ResistivityManager resistivityManager;
-    private static final double DEFAULT_RESISTANCE = 0.0001;
     private boolean internalResistanceOn = false;
+    public static final double MIN_RESISTANCE = 0.0001;
+    private boolean advanced = false;
 
     public CCK3Module() throws IOException {
         this( false );
@@ -114,7 +124,8 @@ public class CCK3Module extends Module {
     public CCK3Module( boolean virtualLabMode ) throws IOException {
         super( "cck-iii" );
         this.virtualLabMode = virtualLabMode;
-        Color backgroundColor = new Color( 166, 177, 204 );//not so bright
+//        Color backgroundColor = new Color( 166, 177, 204 );//not so bright
+
         setApparatusPanel( new ApparatusPanel() {
             public void repaint( long tm, int x, int y, int width, int height ) {
                 super.repaint( tm, x, y, width, height );
@@ -142,7 +153,7 @@ public class CCK3Module extends Module {
             }
         } );
         getApparatusPanel().setFocusable( true );
-        getApparatusPanel().setBackground( backgroundColor.brighter() );
+        getApparatusPanel().setBackground( apparatusPanelColor );
         DefaultInteractiveGraphic backgroundGraphic = new DefaultInteractiveGraphic( new Graphic() {
             public void paint( Graphics2D g ) {
             }
@@ -252,7 +263,7 @@ public class CCK3Module extends Module {
         Rectangle vb = getApparatusPanel().getBounds();
         Rectangle viewBounds = new Rectangle( vb.width, vb.height );
         transform = new ModelViewTransform2D( modelBounds, viewBounds );
-//        transform = new ModelViewTransform2D.OriginTopLeft( modelBounds, viewBounds );
+//        transform = new ModelViewTransform2D.OriginTopLeft( INIT_MODEL_BOUNDS, viewBounds );
         circuitGraphic = new CircuitGraphic( this );
         setupToolbox();
         particleSet = new ParticleSet( circuit );
@@ -261,7 +272,7 @@ public class CCK3Module extends Module {
         addModelElement( particleSet );
         addGraphic( circuitGraphic, 2 );
         addVirtualAmmeter();
-        Voltmeter voltmeter = new Voltmeter( 5, 5, .7 );
+        Voltmeter voltmeter = new Voltmeter( 5, 5, .7, this );
         try {
             voltmeterGraphic = new VoltmeterGraphic( voltmeter, getApparatusPanel(), this );
             interactiveVoltmeter = new InteractiveVoltmeter( voltmeterGraphic, this );
@@ -300,7 +311,7 @@ public class CCK3Module extends Module {
         pt.translate( -130, 5 );
 //        wiggleMe = new WiggleMe( getApparatusPanel(), pt,
 //                                 new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
-        wiggleMe = new WiggleMe( getApparatusPanel(), pt, new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
+        wiggleMe = new WiggleMe( getApparatusPanel(), pt, new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire" );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 Rectangle2D rect = toolbox.getBounds2D();
@@ -375,12 +386,12 @@ public class CCK3Module extends Module {
         if( toolbox != null ) {
             throw new RuntimeException( "Only one toolbox per app, please." );
         }
-        toolbox = new Toolbox( createToolboxBounds(), this, backgroundColor );
+        toolbox = new Toolbox( createToolboxBounds(), this, toolboxColor );
         getApparatusPanel().addGraphic( toolbox );
     }
 
     private void addVirtualAmmeter() {
-        virtualAmmeter = new VirtualAmmeter( circuitGraphic, getApparatusPanel() );
+        virtualAmmeter = new VirtualAmmeter( circuitGraphic, getApparatusPanel(), this );
         kirkhoffSolver.addSolutionListener( new KirkhoffSolutionListener() {
             public void finishedKirkhoff() {
                 virtualAmmeter.recompute();
@@ -448,10 +459,36 @@ public class CCK3Module extends Module {
         return particleSet;
     }
 
+    public Rectangle2D.Double getJunctionBounds() {
+        Junction[] j = circuit.getJunctions();
+        Rectangle2D.Double rect = null;
+        for( int i = 0; i < j.length; i++ ) {
+            Junction junction = j[i];
+            if( rect == null ) {
+                rect = new Rectangle2D.Double( junction.getX(), junction.getY(), 0, 0 );
+            }
+            else {
+                rect.add( new Point2D.Double( junction.getX(), junction.getY() ) );
+            }
+        }
+        return rect;
+    }
+
     public void setZoom( double scale ) {
         double newWidth = modelWidth * scale;
         double newHeight = modelHeight * scale;
-        Rectangle2D.Double r = new Rectangle2D.Double( 0, 0, newWidth, newHeight );
+
+        Rectangle2D jb = getJunctionBounds();
+        Point2D.Double center = null;
+        if( jb == null ) {
+            center = RectangleUtils.getCenter2D( modelBounds );
+        }
+        else {
+            center = RectangleUtils.getCenter2D( jb );
+        }
+        Rectangle2D.Double r = new Rectangle2D.Double( center.x - newWidth / 2, center.y - newHeight / 2, newWidth, newHeight );
+        //could prevent people from zooming in beyond the boundary of the circuit,
+        //but someone may want to zoom in on just the bulb or something.
         transform.setModelBounds( r );
         toolbox.setModelBounds( createToolboxBounds(), cck3controlPanel.isSeriesAmmeterSelected() );
         getApparatusPanel().repaint();
@@ -677,6 +714,54 @@ public class CCK3Module extends Module {
         if( debugMode ) {
             app.getApplicationView().getPhetFrame().setLocation( 0, 0 );
         }
+        final JFrame frame = app.getApplicationView().getPhetFrame();
+        final Runnable repainter = new Runnable() {
+            public void run() {
+                Component c = frame.getContentPane();
+                c.invalidate();
+                c.validate();
+                c.repaint();
+                if( c instanceof JComponent ) {
+                    JComponent jc = (JComponent)c;
+//                    jc.paintImmediately( 0,0,jc.getWidth(), jc.getHeight() );
+                }
+            }
+        };
+        frame.addWindowFocusListener( new WindowFocusListener() {
+            public void windowGainedFocus( WindowEvent e ) {
+                repainter.run();
+            }
+
+            public void windowLostFocus( WindowEvent e ) {
+//                repainter.run();
+            }
+        } );
+        frame.addWindowListener( new WindowAdapter() {
+            public void windowActivated( WindowEvent e ) {
+//                repainter.run();
+            }
+
+            public void windowStateChanged( WindowEvent e ) {
+                repainter.run();
+            }
+
+            public void windowGainedFocus( WindowEvent e ) {
+                repainter.run();
+            }
+        } );
+        frame.addComponentListener( new ComponentAdapter() {
+            public void componentShown( ComponentEvent e ) {
+                repainter.run();
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                repainter.run();
+            }
+
+            public void componentMoved( ComponentEvent e ) {
+                repainter.run();
+            }
+        } );
     }
 
     public static void testUpdate( Window window ) {
@@ -724,7 +809,6 @@ public class CCK3Module extends Module {
         private static double DEFAULT_RESISTIVITY = 0.0;
         private double resistivity = DEFAULT_RESISTIVITY;
         private boolean enabled = true;
-        private static double MIN_RESISTANCE = Branch.WIRE_RESISTANCE;
 
         public ResistivityManager( CCK3Module module ) {
             this.module = module;
@@ -779,13 +863,14 @@ public class CCK3Module extends Module {
     }
 
     public void setResistivityEnabled( boolean selected ) {
+//        System.out.println( "Set resistivity enabled= " + selected );
         if( selected == resistivityManager.isEnabled() ) {
             return;
         }
         else {
             resistivityManager.setEnabled( selected );
             if( !selected ) {
-                setWireResistance( DEFAULT_RESISTANCE );
+                setWireResistance( MIN_RESISTANCE );
             }
         }
     }
@@ -815,6 +900,44 @@ public class CCK3Module extends Module {
         for( int i = 0; i < rg.length; i++ ) {
             ReadoutGraphic readoutGraphic = rg[i];
             readoutGraphic.recompute();
+        }
+        Branch[] b = circuit.getBranches();
+        for( int i = 0; i < b.length; i++ ) {
+            Branch branch = b[i];
+            if( branch instanceof Battery ) {
+                Battery batt = (Battery)branch;
+                batt.setInternalResistanceOn( selected );
+//                Graphic g = circuitGraphic.getGraphic( batt );
+//                if( g != null ) {
+//                    CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)g;
+//                    if (!selected){
+//                        //hide any battery internal resistance editors.
+//
+//                    }
+//                }
+            }
+        }
+        if( !selected ) {
+            //hide all the internal resistance editors
+            ArrayList batteryMenus = CircuitComponentInteractiveGraphic.BatteryJMenu.instances;
+            for( int i = 0; i < batteryMenus.size(); i++ ) {
+                CircuitComponentInteractiveGraphic.BatteryJMenu batteryJMenu = (CircuitComponentInteractiveGraphic.BatteryJMenu)batteryMenus.get( i );
+                batteryJMenu.getResistanceEditor().setVisible( false );
+            }
+        }
+    }
+
+    public void setAdvancedEnabled( boolean advanced ) {
+        this.advanced = advanced;
+        if( advanced ) {
+            setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() );
+            setResistivityEnabled( true );
+//            resistivityManager.setResistivity( );
+        }
+        else {
+            setInternalResistanceOn( false );
+            setResistivityEnabled( false );
+//            resistivityManager.setResistivity( ResistivityManager.DEFAULT_RESISTIVITY );
         }
     }
 

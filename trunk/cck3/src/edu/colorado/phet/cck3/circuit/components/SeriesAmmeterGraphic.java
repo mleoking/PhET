@@ -104,6 +104,11 @@ public class SeriesAmmeterGraphic extends CompositePhetGraphic implements ICompo
         textGraphic.setFont( font );
     }
 
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        highlightRegion.setVisible( visible && component.isSelected() );
+    }
+
     private void changed() {
         double newHeight = transform.modelToViewDifferentialY( component.getHeight() );
         Point2D start = transform.modelToView( component.getStartJunction().getPosition() );
@@ -161,6 +166,7 @@ public class SeriesAmmeterGraphic extends CompositePhetGraphic implements ICompo
         textGraphic.setPosition( (int)textLoc.getX(), (int)textLoc.getY() );
         AffineTransform at = AffineTransform.getRotateInstance( angle, textLoc.getX(), textLoc.getY() );
         textTX.setTransform( at );
+        super.setBoundsDirty();
     }
 
     public ModelViewTransform2D getModelViewTransform2D() {

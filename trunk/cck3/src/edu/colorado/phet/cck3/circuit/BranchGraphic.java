@@ -67,6 +67,8 @@ public class BranchGraphic extends CompositePhetGraphic {
             highlight.setVisible( branch.isSelected() );
             highlight.setShape( transform.createTransformedShape( highlightShape ) );
             core.setShape( transform.createTransformedShape( coreshape ) );
+            super.setBoundsDirty();
+//            System.out.println( "transform.createTransformedShape( coreshape) = " + transform.createTransformedShape( coreshape ).getBounds() );
         }
     }
 

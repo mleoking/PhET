@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.common.math.AbstractVector2D;
@@ -36,14 +37,14 @@ public class Switch extends CircuitComponent {
         if( closed != this.closed ) {
             this.closed = closed;
             if( closed ) {
-                super.setResistance( .0001 ); //a resistance change fires a kirkhoff update.
+                super.setResistance( CCK3Module.MIN_RESISTANCE ); //a resistance change fires a kirkhoff update.
             }
             else {
 //                super.setResistance( Double.POSITIVE_INFINITY );
                 super.setResistance( OPEN_RESISTANCE );
             }
 //            fireKirkhoffChange();
-            System.out.println( "switch.getResistance() = " + getResistance() );
+//            System.out.println( "switch.getResistance() = " + getResistance() );
         }
     }
 }

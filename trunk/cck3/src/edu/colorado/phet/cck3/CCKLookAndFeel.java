@@ -18,20 +18,32 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
         "Button", "MenuItem", "Panel", "Dialog",
         "CheckBox", "RadioButton", "ComboBox",
         "Menu", "MenuItem", "MenuBar",
-        "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem"
+        "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem",
+        "TextField", "TextArea"
     };
 
-    static {
-//        Font font1280 = new Font( "Lucida Sans", Font.PLAIN, 26 );
-//        Font font1040 = new Font( "Lucida Sans", Font.BOLD, 14 );
+    public static Font getFont() {
+        return font;
+    }
 
-        Font font1280 = new Font( "Lucida Sans", Font.PLAIN, 18 );
-        Font font1040 = new Font( "Lucida Sans", Font.BOLD, 10 );
+    static {
+        Font font1280 = new Font( "Lucida Sans", Font.PLAIN, 16 );
+        Font font1040 = new Font( "Lucida Sans", Font.PLAIN, 9 );
+        Font font800 = new Font( "Lucida Sans", Font.PLAIN, 6 );
 
         Font uifont = font1040;
-
-        if( Toolkit.getDefaultToolkit().getScreenSize().width > 1024 ) {
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        System.out.println( "d = " + d );
+        if( d.width > 1024 ) {
             uifont = font1280;
+            System.out.println( "Chose font for width> 1280" );
+        }
+        else if( d.width <= 800 ) {
+            uifont = font800;
+            System.out.println( "Chose font for <=800" );
+        }
+        else {
+            System.out.println( "Chose font for width between 1024" );
         }
         font = uifont;
 
@@ -47,7 +59,7 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
         ColorUIResource background = new ColorUIResource( backgroundColor );
         ColorUIResource foreground = new ColorUIResource( foregroundColor );
         FontUIResource fontResource = new FontUIResource( font );
-        FontUIResource borderFont = new FontUIResource( new Font( "Lucida Sans", Font.ITALIC, 16 ) );
+        FontUIResource borderFont = new FontUIResource( new Font( "Lucida Sans", Font.ITALIC, font.getSize() ) );
 
         InsetsUIResource insets = new InsetsUIResource( 2, 2, 2, 2 );
         ArrayList def = new ArrayList();

@@ -13,6 +13,7 @@ import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -70,16 +71,17 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
     }
 
     static class ComponentMenu {
-        protected JPopupMenu menu = new JPopupMenu();
+        protected RepaintyMenu menu;
         private CCK3Module module;
         Branch branch;
 
         public ComponentMenu( Branch branch, CCK3Module module ) {
             this.branch = branch;
             this.module = module;
+            menu = new RepaintyMenu( module.getApparatusPanel() );
         }
 
-        public static void finish( final CCK3Module module, final Branch branch, JPopupMenu menu ) {
+        public static void finish( final CCK3Module module, final Branch branch, RepaintyMenu menu ) {
             final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( "Show Value" );
             menu.addPopupMenuListener( new PopupMenuListener() {
                 public void popupMenuCanceled( PopupMenuEvent e ) {
@@ -125,7 +127,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             finish( module, branch, getMenu() );
         }
 
-        public JPopupMenu getMenu() {
+        public RepaintyMenu getMenu() {
             return menu;
         }
     }
@@ -202,7 +204,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         public SwitchMenu( Switch res, CCK3Module module ) {
             super( res, module );
             this.res = res;
-            menu = new JPopupMenu();
+            menu = new RepaintyMenu( module.getApparatusPanel() );
             finish();
         }
 
@@ -214,18 +216,73 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         public SeriesAmmeterMenu( SeriesAmmeter res, CCK3Module module ) {
             super( res, module );
             this.res = res;
-            menu = new JPopupMenu();
+            menu = new RepaintyMenu( module.getApparatusPanel() );
             finish();
         }
 
     }
 
-    static class BatteryJMenu extends JPopupMenu {
-        Battery battery;
+    public static class RepaintyMenu extends JPopupMenu {
+        private Component target;
+
+        public RepaintyMenu( Component target ) {
+            this.target = target;
+            addPopupMenuListener( new PopupMenuListener() {
+                public void popupMenuCanceled( PopupMenuEvent e ) {
+                    waitValidRepaint();
+                }
+
+                public void popupMenuWillBecomeInvisible( PopupMenuEvent e ) {
+                    waitValidRepaint();
+                }
+
+                public void popupMenuWillBecomeVisible( PopupMenuEvent e ) {
+                    waitValidRepaint();
+                }
+            } );
+        }
+
+        public void waitValidRepaint() {
+            Thread thread = new Thread( new Runnable() {
+                public void run() {
+                    try {
+                        Thread.sleep( 250 );
+                    }
+                    catch( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                    Window window = SwingUtilities.getWindowAncestor( target );
+                    if( window instanceof JFrame ) {
+                        JFrame jeff = (JFrame)window;
+                        Container jp = jeff.getContentPane();
+                        jp.invalidate();
+                        jp.validate();
+                        jp.repaint();
+                    }
+                }
+            } );
+            thread.setPriority( Thread.MAX_PRIORITY );
+            thread.start();
+        }
+
+        public void validateRepaint() {
+            super.invalidate();
+            super.validate();
+            super.repaint();
+        }
+
+    }
+
+    public static class BatteryJMenu extends RepaintyMenu {
+        private Battery battery;
         private CCK3Module module;
         private JMenuItem editInternal;
 
+        public static final ArrayList instances = new ArrayList();
+        private ComponentEditor.BatteryResistanceEditor resistanceEditor;
+
         public BatteryJMenu( final Battery branch, CCK3Module module ) {
+            super( module.getApparatusPanel() );
             this.battery = branch;
             this.module = module;
             JMenuItem edit = new JMenuItem( "Change Voltage" );
@@ -239,10 +296,10 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
             editInternal = new JMenuItem( "Change Internal Resistance" );
             editInternal.setEnabled( false );
-            final ComponentEditor.BatteryResistanceEditor bre = new ComponentEditor.BatteryResistanceEditor( module, battery, module.getApparatusPanel(), module.getCircuit() );
+            resistanceEditor = new ComponentEditor.BatteryResistanceEditor( module, battery, module.getApparatusPanel(), module.getCircuit() );
             editInternal.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    bre.setVisible( true );
+                    resistanceEditor.setVisible( true );
                 }
             } );
             add( editInternal );
@@ -256,11 +313,16 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             add( reverse );
 
             ComponentMenu.finish( module, branch, this );
+            instances.add( this );
         }
 
         public void show( Component invoker, int x, int y ) {
             editInternal.setEnabled( module.isInternalResistanceOn() );
             super.show( invoker, x, y );
+        }
+
+        public ComponentEditor.BatteryResistanceEditor getResistanceEditor() {
+            return resistanceEditor;
         }
 
         private void reverse( Battery batt ) {

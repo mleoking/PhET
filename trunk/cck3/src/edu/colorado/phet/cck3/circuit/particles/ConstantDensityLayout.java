@@ -5,6 +5,9 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.CircuitListenerAdapter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * User: Sam Reid
  * Date: Jun 8, 2004
@@ -19,10 +22,23 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
     }
 
     public void branchesMoved( Branch[] branches ) {
+        ArrayList moved = new ArrayList( Arrays.asList( branches ) );
         int num = module.getParticleSet().numParticles();
 //        System.out.println( "num= " + num );
 //        relayout( branches );
-        relayout( module.getCircuit().getBranches() );
+        ArrayList branchesToRelayout = new ArrayList();
+        Branch[] all = module.getCircuit().getBranches();
+        for( int i = 0; i < all.length; i++ ) {
+            Branch branch = all[i];
+            if( branch.getCurrent() != 0 ) {
+                branchesToRelayout.add( branch );
+            }
+            else if( moved.contains( branch ) ) {
+                branchesToRelayout.add( branch );
+            }
+        }
+        Branch[] torelayout = (Branch[])branchesToRelayout.toArray( new Branch[0] );
+        relayout( torelayout );
         int numAfter = module.getParticleSet().numParticles();
 //        System.out.println( "numAfter = " + numAfter );
     }

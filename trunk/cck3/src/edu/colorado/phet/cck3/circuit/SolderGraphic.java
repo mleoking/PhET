@@ -26,24 +26,20 @@ public class SolderGraphic extends PhetShapeGraphic {
     private SimpleObserver simpleObserver;
     private CircuitListener circuitListener;
     private TransformListener transformListener;
-//    private JunctionGraphic junctionGraphic;
 
-    public SolderGraphic( Component parent, final Junction junction, ModelViewTransform2D transform, Circuit circuit, CircuitGraphic circuitGraphic
-//                          JunctionGraphic junctionGraphic
-                          ) {
+    public SolderGraphic( Component parent, final Junction junction, ModelViewTransform2D transform, Circuit circuit, CircuitGraphic circuitGraphic ) {
         super( parent, new Area(), CircuitGraphic.SILVER );
         this.junction = junction;
         this.transform = transform;
         this.circuit = circuit;
         this.circuitGraphic = circuitGraphic;
-//        this.junctionGraphic = junctionGraphic;
         simpleObserver = new SimpleObserver() {
             public void update() {
                 changed();
             }
         };
         junction.addObserver( simpleObserver );
-        CircuitListener circuitListener = new CircuitListener() {
+        circuitListener = new CircuitListener() {
 
             public void junctionRemoved( Junction junction ) {
             }
@@ -78,8 +74,7 @@ public class SolderGraphic extends PhetShapeGraphic {
             }
 
         };
-        this.circuitListener = circuitListener;
-        circuit.addCircuitListener( this.circuitListener );
+        circuit.addCircuitListener( circuitListener );
         transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 changed();
@@ -109,7 +104,7 @@ public class SolderGraphic extends PhetShapeGraphic {
         double radius = CCK3Module.JUNCTION_RADIUS * 1.34;
         Ellipse2D.Double ellipse = new Ellipse2D.Double();
         Point ctr = transform.modelToView( junction.getPosition() );
-        double viewRadius = transform.modelToViewX( radius );
+        double viewRadius = transform.modelToViewDifferentialX( radius );
         ellipse.setFrameFromCenter( ctr.x, ctr.y, ctr.x + viewRadius, ctr.y + viewRadius );
         super.setShape( ellipse );
     }

@@ -10,10 +10,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
+import java.awt.event.*;
 
 /**
  * User: Sam Reid
@@ -53,7 +50,6 @@ public abstract class ComponentEditor extends JDialog {
         done.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean r = module.getCircuitGraphic().isReadoutGraphicsVisible();
-
                 setVisible( false );
                 if( r ) {
                     setReadoutVisible( true );
@@ -102,6 +98,20 @@ public abstract class ComponentEditor extends JDialog {
         } );
         pack();
         GraphicsUtil.centerDialogInParent( this );
+        addWindowStateListener( new WindowStateListener() {
+            public void windowStateChanged( WindowEvent e ) {
+                validateRepaint();
+            }
+        } );
+        addWindowFocusListener( new WindowFocusListener() {
+            public void windowGainedFocus( WindowEvent e ) {
+                validateRepaint();
+            }
+
+            public void windowLostFocus( WindowEvent e ) {
+                validateRepaint();
+            }
+        } );
     }
 
     private void setReadoutVisible( boolean visible ) {
@@ -119,6 +129,13 @@ public abstract class ComponentEditor extends JDialog {
         super.setVisible( b );
         //ensure that the editor value is visible.
         setReadoutVisible( b );
+        validateRepaint();
+    }
+
+    public void validateRepaint() {
+        getContentPane().invalidate();
+        getContentPane().validate();
+        getContentPane().repaint();
     }
 
     protected abstract void doChange( double value );
@@ -144,6 +161,9 @@ public abstract class ComponentEditor extends JDialog {
         }
 
         protected void doChange( double value ) {
+            if( value < CCK3Module.MIN_RESISTANCE ) {
+                value = CCK3Module.MIN_RESISTANCE;
+            }
             super.element.setResistance( value );
         }
 
@@ -155,18 +175,28 @@ public abstract class ComponentEditor extends JDialog {
         }
 
         protected void doChange( double value ) {
+            if( value < CCK3Module.MIN_RESISTANCE ) {
+                value = CCK3Module.MIN_RESISTANCE;
+            }
             super.element.setResistance( value );
         }
 
     }
 
     public static class BatteryResistanceEditor extends ComponentEditor {
+        private Battery battery;
+
         public BatteryResistanceEditor( CCK3Module module, Battery element, Component parent, Circuit circuit ) {
-            super( module, "Battery", element, parent, "Internal Resistance", "Ohms", Battery.MIN_RESISTANCE, 9, element.getResistance(), circuit );
+            super( module, "Battery", element, parent, "Internal Resistance", "Ohms", CCK3Module.MIN_RESISTANCE, 9, element.getInteralResistance(), circuit );
+            this.battery = element;
         }
 
         protected void doChange( double value ) {
-            super.element.setResistance( value );
+            if( value < CCK3Module.MIN_RESISTANCE ) {
+                value = CCK3Module.MIN_RESISTANCE;
+            }
+//            super.element.setResistance( value );
+            battery.setInternalResistance( value );
         }
     }
 }

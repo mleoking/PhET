@@ -43,18 +43,23 @@ public class TestCurrent extends TestCase {
     }
 
     private void testSimpleCircuit( double r, double v ) {
-        double battResistance = Battery.MIN_RESISTANCE;
+        double battResistance = CCK3Module.MIN_RESISTANCE;
         Resistor resistor = new Resistor( module.getKirkhoffListener(), new Junction( 5, 5 ),
                                           new Junction( 5, 6 ), 1, 1 );
         resistor.setResistance( r - battResistance );
-        Battery battery = new Battery( module.getKirkhoffListener(), resistor.getStartJunction(), resistor.getEndJunction(), 1, 1, battResistance );
+        Battery battery = new Battery( module.getKirkhoffListener(), resistor.getStartJunction(), resistor.getEndJunction(), 1, 1, battResistance, false );
         battery.setVoltageDrop( v );
         module.getCircuit().addBranch( resistor );
         module.getCircuit().addBranch( battery );
         module.solve();
         double currentThroughResistor = resistor.getCurrent();
-        assertEquals( "Wrong current for r=" + r + ", v=" + v, -v / r, currentThroughResistor, .001 );
-        assertEquals( "Wrong voltage drop for r=" + r + ", v=" + v, v, -module.getCircuit().getVoltage( new VoltmeterGraphic.JunctionConnection( resistor.getStartJunction() ), new VoltmeterGraphic.JunctionConnection( resistor.getEndJunction() ) ), .001 );
+
+        //This doesn't account for battery internal resistance.
+        
+        assertEquals( "Wrong current for r=" + r + ", v=" + v, -v / r, currentThroughResistor, .1 );
+        assertEquals( "Wrong voltage drop for r=" + r + ", v=" + v, v, module.getCircuit().getVoltage( new VoltmeterGraphic.JunctionConnection( resistor.getStartJunction() ),
+                                                                                                       new VoltmeterGraphic.JunctionConnection( resistor.getEndJunction() ) ),
+                      .1 );
     }
 
     public void testOhmsLawMany() {
@@ -62,7 +67,7 @@ public class TestCurrent extends TestCase {
         double numVolt = 4;
         double minVolt = -100;
         double maxVolt = 100;
-        double minRes = .0001;
+        double minRes = CCK3Module.MIN_RESISTANCE * 2;
         double maxRes = 100;
 
         double dVolt = ( maxVolt - minVolt ) / numVolt;

@@ -8,6 +8,7 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 
@@ -24,7 +25,7 @@ import java.util.ArrayList;
  * Time: 8:34:54 PM
  * Copyright (c) May 25, 2004 by Sam Reid
  */
-public class BulbComponentGraphic implements IComponentGraphic {
+public class BulbComponentGraphic extends PhetGraphic implements IComponentGraphic {
     private Bulb component;
     private ModelViewTransform2D transform;
     private CCK3Module module;
@@ -43,6 +44,7 @@ public class BulbComponentGraphic implements IComponentGraphic {
     private double tilt;
 
     public BulbComponentGraphic( Component parent, Bulb component, ModelViewTransform2D transform, CCK3Module module ) {
+        super( parent );
         highlightGraphic = new PhetShapeGraphic( parent, new Area(), Color.yellow );
         this.parent = parent;
         this.component = component;
@@ -91,11 +93,15 @@ public class BulbComponentGraphic implements IComponentGraphic {
     private void changeIntensity() {
         double power = Math.abs( component.getCurrent() * component.getVoltageDrop() );
 //        System.out.println( "power = " + power );
-        double maxPower = 35;
+        double maxPower = 60;
+//        double maxPower = 20;
+//        double maxPower=100;
         if( power > maxPower ) {
             power = maxPower;
         }
-        double intensity = power / maxPower;
+//        double intensity = power / maxPower;
+        double intensity = Math.pow( power / maxPower, 0.354 );
+//        System.out.println( "intensity = " + intensity );
         Rectangle r1 = getBoundsWithBrighties();
         lbg.setIntensity( intensity );
         Rectangle r2 = getBoundsWithBrighties();
@@ -160,7 +166,7 @@ public class BulbComponentGraphic implements IComponentGraphic {
         return affineTransform.createTransformedShape( shape ).getBounds();
     }
 
-    private Rectangle getBounds() {
+    public Rectangle getBounds() {
         Rectangle2D expanded = RectangleUtils.expandRectangle2D( srcShape, 2, 2 );
         return affineTransform.createTransformedShape( expanded ).getBounds();
     }
@@ -192,6 +198,10 @@ public class BulbComponentGraphic implements IComponentGraphic {
 
     public boolean contains( int x, int y ) {
         return getBounds().contains( x, y );
+    }
+
+    protected Rectangle determineBounds() {
+        return getBoundsWithBrighties();
     }
 
     public Shape getCoverShape() {
