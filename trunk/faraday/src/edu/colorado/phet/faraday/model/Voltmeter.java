@@ -56,7 +56,7 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
      * If set to 0, the needle will not jiggle at all.
      * If set to 1, the needle will ocsillate forever.
      */
-    private static final double NEEDLE_LIVELINESS = 0.8;
+    private static final double NEEDLE_LIVELINESS = 0.6;
     
     //----------------------------------------------------------------------------
     // Instance data
