@@ -49,10 +49,7 @@ public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraph
             }
         };
         addMouseInputListener( mouse );
-
         JunctionPopupMenu menu = new JunctionPopupMenu( getJunction(), cg, module );
-//        JPopupMenu menu = new JPopupMenu();
-//        menu.add( new JunctionSplitter( getJunction(), cg, module ).toJMenuItem() );
         addPopupMenuBehavior( menu );
     }
 
@@ -62,5 +59,9 @@ public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraph
 
     public JunctionGraphic getJunctionGraphic() {
         return junctionGraphic;
+    }
+
+    public void delete() {
+        junctionGraphic.delete();
     }
 }

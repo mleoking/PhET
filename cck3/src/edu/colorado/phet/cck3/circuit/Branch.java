@@ -10,6 +10,9 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import net.n3.nanoxml.XMLElement;
+import net.n3.nanoxml.IXMLElement;
+
 /**
  * User: Sam Reid
  * Date: May 24, 2004
@@ -212,4 +215,16 @@ public class Branch extends SimpleObservable {
     public Point2D getCenter() {
         return new Vector2D.Double( getStartJunction().getPosition(), getEndJunction().getPosition() ).getScaledInstance( .5 ).getDestination( getStartJunction().getPosition() );
     }
+
+    public void addAttributes( XMLElement branchElement ) {
+    }
+
+    public static Branch parseXML( IXMLElement xml, Junction startJunction, Junction endJunction, KirkhoffListener kl ) {
+        return new Branch( kl,startJunction, endJunction );
+    }
+
+    public void delete() {
+        removeAllObservers();
+    }
+
 }

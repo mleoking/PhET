@@ -26,7 +26,7 @@ import java.io.IOException;
  * Time: 12:50:23 PM
  * Copyright (c) Jun 10, 2004 by Sam Reid
  */
-public class InteractiveLever extends DefaultInteractiveGraphic implements LeverInteraction{
+public class InteractiveLever extends DefaultInteractiveGraphic implements LeverInteraction {
     private ModelViewTransform2D transform;
     private ApparatusPanel apparatusPanel;
     private LeverGraphic leverGraphic;
@@ -50,6 +50,10 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
         return component;
     }
 
+    public void delete() {
+        leverGraphic.delete();
+    }
+
     public InteractiveLever( final ModelViewTransform2D transform, final ApparatusPanel apparatusPanel,
                              final LeverGraphic leverGraphic ) {
         super( leverGraphic );
@@ -57,7 +61,7 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
         this.switchGraphic = leverGraphic.getBaseGraphic();
         this.transform = transform;
         this.apparatusPanel = apparatusPanel;
-        this.component = switchGraphic.getComponent();
+        this.component = switchGraphic.getCircuitComponent();
         Boundary mybounds = new Boundary() {
             public boolean contains( int x, int y ) {
                 //only allowed to move the handle.  This will make it easier to move the base when the switch is closed.
@@ -72,7 +76,7 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
             public void mouseDragged( MouseEvent e ) {
                 Point2D pivot = leverGraphic.getPivotViewLocation();
                 double totalAngle = new Vector2D.Double( pivot, e.getPoint() ).getAngle();
-                double baseAngle = leverGraphic.getBaseGraphic().getComponent().getAngle();
+                double baseAngle = leverGraphic.getBaseGraphic().getCircuitComponent().getAngle();
                 double desiredAngle = -( totalAngle + baseAngle );
                 leverGraphic.setRelativeAngle( desiredAngle );
             }

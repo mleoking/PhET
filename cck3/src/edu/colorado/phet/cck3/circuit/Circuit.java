@@ -1,12 +1,17 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
-import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
+import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
+import net.n3.nanoxml.IXMLElement;
+import net.n3.nanoxml.XMLElement;
+import net.n3.nanoxml.XMLWriter;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,8 +41,13 @@ public class Circuit {
         return "Junctions=" + junctions + ", Branches=" + branches;
     }
 
-    public void addJunction( Junction startJunction ) {
-        junctions.add( startJunction );
+    public void addJunction( Junction junction ) {
+        if( !junctions.contains( junction ) ) {
+            junctions.add( junction );
+        }
+        else {
+            System.out.println( "Already contained junction." );
+        }
     }
 
     public Branch[] getAdjacentBranches( Junction junction ) {
@@ -102,6 +112,7 @@ public class Circuit {
 
     public void replaceJunction( Junction old, Junction newJunction ) {
         junctions.remove( old );
+        old.delete();
         for( int i = 0; i < branches.size(); i++ ) {
             Branch branch = (Branch)branches.get( i );
             if( branch.getStartJunction() == old ) {
@@ -190,6 +201,7 @@ public class Circuit {
 
     public void remove( Junction junction ) {
         junctions.remove( junction );
+        junction.delete();
         fireJunctionRemoved( junction );
     }
 
@@ -252,6 +264,7 @@ public class Circuit {
 
     public void remove( Branch branch ) {
         branches.remove( branch );
+        branch.delete();
         fireBranchRemoved( branch );
         fireKirkhoffChanged();
     }
@@ -317,8 +330,6 @@ public class Circuit {
             return 0;
         }
         else {
-//            ArrayList visited = new ArrayList();
-//            visited.add( branch1 );
             double v1 = getVoltage( branch1, branch1.getStartJunction(), branch2.getStartJunction(), 0 );
             double v2 = getVoltage( branch1, branch1.getEndJunction(), branch2.getStartJunction(), 0 );
             double v3 = getVoltage( branch1, branch1.getStartJunction(), branch2.getEndJunction(), 0 );
@@ -336,7 +347,6 @@ public class Circuit {
             if( !Double.isInfinite( v4 ) ) {
                 list.add( new Double( v4 ) );
             }
-//            System.out.println( "list = " + list );
             Collections.sort( list, new Comparator() {
                 public int compare( Object o1, Object o2 ) {
                     Double a = (Double)o1;
@@ -384,7 +394,6 @@ public class Circuit {
                     dv *= -1;
                 }
                 return getVoltage( visited, opposite, target, volts + dv );
-//                    getStrongConnections( visited, opposite );
             }
         }
         return Double.POSITIVE_INFINITY;
@@ -393,19 +402,134 @@ public class Circuit {
     public void removeCircuitListener( CircuitListener circuitListener ) {
         listeners.remove( circuitListener );
     }
-//
-//    private Branch[] getAdjacentBranches( Branch target ) {
-//        ArrayList all = new ArrayList();
-//        Branch[] a = getAdjacentBranches( target.getStartJunction() );
-//        Branch[] b = getAdjacentBranches( target.getEndJunction() );
-//        all.addAll( Arrays.asList( a ) );
-//        for( int i = 0; i < b.length; i++ ) {
-//            Branch component = b[i];
-//            if( !all.contains( component ) ) {
-//                all.add( component );
-//            }
-//        }
-//        return (Branch[])all.toArray( new Branch[0] );
-//    }
 
+    public static Circuit parseXML( IXMLElement xml, KirkhoffListener kl, CCK3Module module ) {
+        Circuit cir = new Circuit( kl );
+        for( int i = 0; i < xml.getChildrenCount(); i++ ) {
+            IXMLElement child = xml.getChildAtIndex( i );
+            int index = child.getAttribute( "index", -1 );
+            if( child.getName().equals( "junction" ) ) {
+                String xStr = child.getAttribute( "x", "0.0" );
+                String yStr = child.getAttribute( "y", "0.0" );
+                double x = Double.parseDouble( xStr );
+                double y = Double.parseDouble( yStr );
+                Junction j = new Junction( x, y );
+                cir.addJunction( j );
+            }
+            else if( child.getName().equals( "branch" ) ) {
+                int startIndex = child.getAttribute( "startJunction", -1 );
+                int endIndex = child.getAttribute( "endJunction", -1 );
+                Junction startJunction = cir.junctionAt( startIndex ); //this only works if everything stays in order.
+                Junction endJunction = cir.junctionAt( endIndex );
+                Branch branch = toBranch( module, kl, startJunction, endJunction, child );
+                cir.addBranch( branch );
+            }
+        }
+        return cir;
+    }
+
+    public static Branch toBranch( CCK3Module module, KirkhoffListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
+        String type = xml.getAttribute( "type", "null" );
+        if( type.equals( Branch.class.getName() ) ) {
+            Branch branch = new Branch( kl, startJunction, endJunction );
+            return branch;
+        }
+        double length = Double.parseDouble( xml.getAttribute( "length", "-1" ) );
+        double height = Double.parseDouble( xml.getAttribute( "height", "-1" ) );
+
+        if( type.equals( Resistor.class.getName() ) ) {
+            Resistor res = new Resistor( kl, startJunction, endJunction, length, height );
+            String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
+            double val = Double.parseDouble( resVal );
+            res.setResistance( val );
+            return res;
+        }
+        else if( type.equals( Battery.class.getName() ) ) {
+            Battery batt = new Battery( kl, startJunction, endJunction, length, height );
+            String voltVal = xml.getAttribute( "voltage", Double.NaN + "" );
+            double val = Double.parseDouble( voltVal );
+            batt.setVoltageDrop( val );
+            return batt;
+        }
+        else if( type.equals( Switch.class.getName() ) ) {
+            String closedVal = xml.getAttribute( "closed", "false" );
+            boolean closed = Boolean.getBoolean( closedVal );
+            Switch swit = new Switch( kl, startJunction, endJunction, closed, length, height );
+            return swit;
+        }
+        else if( type.equals( Bulb.class.getName() ) ) {
+            String widthStr = xml.getAttribute( "width", Double.NaN + "" );
+            double width = Double.parseDouble( widthStr );
+            boolean schematic = !module.getCircuitGraphic().isLifelike();
+            Bulb bulb = new Bulb( kl, startJunction, endJunction, width, length, height, schematic );
+            String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
+            double val = Double.parseDouble( resVal );
+            bulb.setResistance( val );
+//            bulb.setSchematic( module.getCircuitGraphic().isLifelike(), );
+//            bulb.setSchematic( !module.getCircuitGraphic().isLifelike() );
+//            String schStr=xml.getAttribute( "schematic","false");
+            return bulb;
+        }
+        else if( type.equals( SeriesAmmeter.class.getName() ) ) {
+            Branch amm = new SeriesAmmeter( kl, startJunction, endJunction, length, height );
+            return amm;
+        }
+        return null;
+    }
+
+    public XMLElement toXML() {
+        XMLElement xe = new XMLElement( "circuit" );
+        for( int i = 0; i < numJunctions(); i++ ) {
+            Junction j = junctionAt( i );
+            XMLElement junctionElement = new XMLElement( "junction" );
+            junctionElement.setAttribute( "index", i + "" );
+            junctionElement.setAttribute( "x", j.getPosition().getX() + "" );
+            junctionElement.setAttribute( "y", j.getPosition().getY() + "" );
+            xe.addChild( junctionElement );
+        }
+        for( int i = 0; i < numBranches(); i++ ) {
+            Branch branch = branchAt( i );
+            XMLElement branchElement = new XMLElement( "branch" );
+            Junction startJ = branch.getStartJunction();
+            Junction endJ = branch.getEndJunction();
+            int startIndex = indexOf( startJ );
+            int endIndex = indexOf( endJ );
+            branchElement.setAttribute( "index", "" + i );
+            branchElement.setAttribute( "type", branch.getClass().getName() );
+            branchElement.setAttribute( "startJunction", startIndex + "" );
+            branchElement.setAttribute( "endJunction", endIndex + "" );
+            if( branch instanceof CircuitComponent ) {
+                CircuitComponent cc = (CircuitComponent)branch;
+                branchElement.setAttribute( "length", cc.getLength() + "" );
+                branchElement.setAttribute( "height", cc.getHeight() + "" );
+            }
+            if( branch instanceof Battery ) {
+                branchElement.setAttribute( "voltage", branch.getVoltageDrop() + "" );
+            }
+            else if( branch instanceof Resistor ) {
+                branchElement.setAttribute( "resistance", branch.getResistance() + "" );
+            }
+            else if( branch instanceof Bulb ) {
+                branchElement.setAttribute( "resistance", branch.getResistance() + "" );
+                Bulb bulb = (Bulb)branch;
+                branchElement.setAttribute( "width", bulb.getWidth() + "" );
+                branchElement.setAttribute( "length", branch.getStartJunction().getDistance( branch.getEndJunction() ) + "" );
+                branchElement.setAttribute( "schematic", bulb.isSchematic() + "" );
+            }
+            else if( branch instanceof Switch ) {
+                Switch sw = (Switch)branch;
+                branchElement.setAttribute( "closed", sw.isClosed() + "" );
+            }
+            else if( branch instanceof SeriesAmmeter ) {
+            }
+            xe.addChild( branchElement );
+        }
+        try {
+            new XMLWriter( System.out ).write( xe );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        return xe;
+    }
 }

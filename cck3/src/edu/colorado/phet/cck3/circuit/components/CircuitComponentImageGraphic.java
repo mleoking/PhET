@@ -2,9 +2,9 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
+import edu.colorado.phet.cck3.common.primarygraphics.PrimaryImageGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -20,27 +20,31 @@ import java.awt.image.BufferedImage;
  * Time: 8:34:54 PM
  * Copyright (c) May 25, 2004 by Sam Reid
  */
-public class CircuitComponentImageGraphic extends FastPaintImageGraphic implements IComponentGraphic {
+public class CircuitComponentImageGraphic extends PrimaryImageGraphic implements IComponentGraphic {
     private CircuitComponent component;
     private ModelViewTransform2D transform;
     private Rectangle2D.Double src;
+    private SimpleObserver simpleObserver;
+    private TransformListener transformListener;
 
     public CircuitComponentImageGraphic( BufferedImage image, Component parent, CircuitComponent component, ModelViewTransform2D transform ) {
-        super( image, parent );
+        super( parent, image, new AffineTransform() );
 
         this.component = component;
         this.transform = transform;
-        component.addObserver( new SimpleObserver() {
+        simpleObserver = new SimpleObserver() {
             public void update() {
                 changed();
             }
-        } );
+        };
+        component.addObserver( simpleObserver );
         src = new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() );
-        transform.addTransformListener( new TransformListener() {
+        transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 changed();
             }
-        } );
+        };
+        transform.addTransformListener( transformListener );
         changed();
     }
 
@@ -61,7 +65,7 @@ public class CircuitComponentImageGraphic extends FastPaintImageGraphic implemen
         }
 
         double newHeight = transform.modelToViewDifferentialY( component.getHeight() );
-        AffineTransform at = createTransform( getBufferedImage().getWidth(), getBufferedImage().getHeight(),
+        AffineTransform at = createTransform( getImage().getWidth(), getImage().getHeight(),
                                               srcpt, dstpt, newHeight );
         return at;
     }
@@ -87,8 +91,13 @@ public class CircuitComponentImageGraphic extends FastPaintImageGraphic implemen
         return transform;
     }
 
-    public CircuitComponent getComponent() {
+    public CircuitComponent getCircuitComponent() {
         return component;
+    }
+
+    public void delete() {
+        transform.removeTransformListener( transformListener );
+        component.removeObserver( simpleObserver );
     }
 
 }

@@ -30,12 +30,9 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.plaf.ClientLookAndFeel;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import org.srr.localjnlp.ServiceSource;
 
-import javax.jnlp.BasicService;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -45,8 +42,6 @@ import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 
 /**
@@ -99,6 +94,8 @@ public class CCK3Module extends Module {
     private WiggleMe wigger;
     private CCKHelp help;
     private String debugText = "";
+    private CCK3ControlPanel cck3controlPanel;
+    public static Color backgroundColor = new Color( 200, 240, 200 );
 
     public CCK3Module() throws IOException {
         super( "cck-iii" );
@@ -131,7 +128,9 @@ public class CCK3Module extends Module {
 
         aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, 1.2 );
         imageSuite = new CCK2ImageSuite();
-        setControlPanel( new CCK3ControlPanel( this ) );
+        CCK3ControlPanel controlPanel = new CCK3ControlPanel( this );
+        this.cck3controlPanel = controlPanel;
+        setControlPanel( controlPanel );
     }
 
     private void relayout() {
@@ -287,7 +286,7 @@ public class CCK3Module extends Module {
                                                             modelBounds.getY() + modelBounds.getHeight() * toolBoxInsetYFrac,
                                                             modelBounds.getWidth() * toolBoxWidthFrac,
                                                             modelBounds.getHeight() * toolBoxHeightFrac );
-        toolbox = new Toolbox( toolboxBounds, this );
+        toolbox = new Toolbox( toolboxBounds, this, backgroundColor );
         getApparatusPanel().addGraphic( toolbox );
     }
 
@@ -391,8 +390,11 @@ public class CCK3Module extends Module {
         if( useColors ) {
             cck.addGraphic( colorG, -1 );
         }
+
         boolean debugMode = false;
-//        boolean debugMode=true;
+        if( Arrays.asList( args ).contains( "debug" ) ) {
+            debugMode = true;
+        }
 
 //        MultiLineShadowTextGraphic hi = new MultiLineShadowTextGraphic(
 //        HelpItem hi = new HelpItem( "This is my\n1st help item", 100, 100 );
@@ -405,13 +407,22 @@ public class CCK3Module extends Module {
         }
         ApplicationModel model = new ApplicationModel( "Circuit Construction Kit III", "cck-v3", "III-v8+", fs, cck, clock );
         PhetApplication app = new PhetApplication( model );
-//        UIManager.setLookAndFeel( new LectureLookAndFeel2( ) );
-        UIManager.setLookAndFeel( new ClientLookAndFeel() );
-        JFrame.setDefaultLookAndFeelDecorated( true );
-        JDialog.setDefaultLookAndFeelDecorated( true );
-        PlafUtil.updateFrames();
+
+        CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();
+        UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
+
+
+        JMenu laf = new JMenu( "View" );
+        laf.setMnemonic( 'v' );
+        JMenuItem[] jmi = PlafUtil.getLookAndFeelItems();
+        for( int i = 0; i < jmi.length; i++ ) {
+            JMenuItem jMenuItem = jmi[i];
+            laf.add( jMenuItem );
+        }
+        app.getApplicationView().getPhetFrame().addMenu( laf );
+
+        UIManager.setLookAndFeel( cckLookAndFeel );
         app.startApplication();
-        app.getApplicationView().getBasicPhetPanel().setMonitorPanel( new JLabel( new ImageIcon( app.getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) ) );
         app.getApplicationView().getPhetFrame().doLayout();
         app.getApplicationView().getPhetFrame().repaint();
         cck.getApparatusPanel().addKeyListener( new KeyListener() {
@@ -419,7 +430,6 @@ public class CCK3Module extends Module {
             }
 
             public void keyReleased( KeyEvent e ) {
-
                 if( e.getKeyCode() == KeyEvent.VK_UP ) {
                     if( !Arrays.asList( cck.getApparatusPanel().getGraphic().getGraphics() ).contains( colorG ) ) {
                         cck.addGraphic( colorG, -1 );
@@ -439,6 +449,8 @@ public class CCK3Module extends Module {
         if( debugMode ) {
             app.getApplicationView().getPhetFrame().setLocation( 0, 0 );
         }
+
+
     }
 
     public Circuit getCircuit() {
@@ -553,23 +565,28 @@ public class CCK3Module extends Module {
     }
 
     public void showMegaHelp() {
-        super.showMegaHelp();
-        ServiceSource ss = new ServiceSource();
-        BasicService bs = ss.getBasicService();
-//        URL url=getClass().getClassLoader().getResource( "cck.pdf");
-        URL url = null;
-        try {
-            url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/cck.pdf" );
-//            url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/cck-help.gif" );
-            System.out.println( "url = " + url );
-            bs.showDocument( url );
-        }
-        catch( MalformedURLException e ) {
-            e.printStackTrace();
-        }
+        cck3controlPanel.showHelpImage();
     }
 
     public Toolbox getToolbox() {
         return toolbox;
+    }
+
+    public void setCircuit( Circuit newCircuit ) {
+        clear();
+        for( int i = 0; i < newCircuit.numJunctions(); i++ ) {
+            circuit.addJunction( newCircuit.junctionAt( i ) );
+        }
+        for( int i = 0; i < newCircuit.numBranches(); i++ ) {
+            circuit.addBranch( newCircuit.branchAt( i ) );
+
+        }
+        for( int i = 0; i < circuit.numBranches(); i++ ) {
+            circuitGraphic.addGraphic( circuit.branchAt( i ) );
+        }
+//        circuitGraphic.fixJunctionGraphics();
+        layout.relayout( circuit.getBranches() );
+        kirkhoffSolver.apply( circuit );
+        getApparatusPanel().repaint();
     }
 }

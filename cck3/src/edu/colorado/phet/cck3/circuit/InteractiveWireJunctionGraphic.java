@@ -93,6 +93,10 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
         return junctionGraphic;
     }
 
+    public void delete() {
+        junctionGraphic.delete();
+    }
+
     public SimpleObservable getObservable() {
         return junctionGraphic.getJunction();
     }

@@ -20,22 +20,26 @@ public class FilamentGraphic implements Graphic {
     private BulbComponentGraphic bcg;
     private Color color = Color.black;
     private Stroke stroke = new BasicStroke( 2 );
+    private TransformListener transformListener;
+    private BulbComponentGraphic.IntensityChangeListener intensityListener;
 
     public FilamentGraphic( Filament fil, ModelViewTransform2D transform, BulbComponentGraphic bcg ) {
         this.fil = fil;
         this.transform = transform;
         this.bcg = bcg;
-        transform.addTransformListener( new TransformListener() {
+        transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 changed();
             }
-        } );
+        };
+        transform.addTransformListener( transformListener );
         changed();
-        bcg.addIntensityChangeListener( new BulbComponentGraphic.IntensityChangeListener() {
-            public void intensityChanged( BulbComponentGraphic bulbComponentGraphic, double intensity ) {
-                color = new Color( (float)( intensity ), (float)(intensity*.4), (float)(intensity*.5) );
-            }
-        } );
+        intensityListener = new BulbComponentGraphic.IntensityChangeListener() {
+                    public void intensityChanged( BulbComponentGraphic bulbComponentGraphic, double intensity ) {
+                        color = new Color( (float)( intensity ), (float)( intensity * .4 ), (float)( intensity * .5 ) );
+                    }
+                };
+        bcg.addIntensityChangeListener(intensityListener );
     }
 
     private void changed() {
@@ -59,5 +63,10 @@ public class FilamentGraphic implements Graphic {
         g.draw( shape );
 
         g.setClip( origClip );
+    }
+
+    public void delete() {
+        bcg.removeIntensityChangeListener(intensityListener);
+        transform.removeTransformListener( transformListener );
     }
 }

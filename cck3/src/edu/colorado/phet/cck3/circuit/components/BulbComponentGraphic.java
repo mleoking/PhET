@@ -6,10 +6,9 @@ import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.fastpaint.FastPaint;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.fastpaint.FastPaint;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -35,28 +34,35 @@ public class BulbComponentGraphic implements IComponentGraphic {
     LightBulbGraphic lbg;
     private Rectangle2D.Double srcShape;
     private ArrayList listeners = new ArrayList();
+    private SimpleObserver simpleObserver;
+    private TransformListener transformListener;
+    private KirkhoffSolutionListener kirkhoffSolutionListener;
 
     public BulbComponentGraphic( Component parent, Bulb component, ModelViewTransform2D transform, CCK3Module module ) {
         this.parent = parent;
         this.component = component;
         this.transform = transform;
         this.module = module;
-        component.addObserver( new SimpleObserver() {
+        simpleObserver = new SimpleObserver() {
             public void update() {
                 changed();
             }
-        } );
+        };
+        component.addObserver( simpleObserver );
 
-        transform.addTransformListener( new TransformListener() {
+        transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 changed();
             }
-        } );
-        module.getKirkhoffSolver().addSolutionListener( new KirkhoffSolutionListener() {
+        };
+        transform.addTransformListener( transformListener );
+        kirkhoffSolutionListener = new KirkhoffSolutionListener() {
             public void finishedKirkhoff() {
                 changeIntensity();
             }
-        } );
+        };
+        module.getKirkhoffSolver().addSolutionListener( kirkhoffSolutionListener );
+
         srcShape = new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT );
         lbg = new LightBulbGraphic( srcShape );
         lbg.setIntensity( 0 );
@@ -135,8 +141,14 @@ public class BulbComponentGraphic implements IComponentGraphic {
         return transform;
     }
 
-    public CircuitComponent getComponent() {
+    public CircuitComponent getCircuitComponent() {
         return component;
+    }
+
+    public void delete() {
+        transform.removeTransformListener( transformListener );
+        component.removeObserver( simpleObserver );
+        module.getKirkhoffSolver().removeSolutionListener(kirkhoffSolutionListener);
     }
 
     public void paint( Graphics2D g ) {
@@ -164,5 +176,9 @@ public class BulbComponentGraphic implements IComponentGraphic {
 
     public void addIntensityChangeListener( IntensityChangeListener icl ) {
         listeners.add( icl );
+    }
+
+    public void removeIntensityChangeListener( IntensityChangeListener intensityListener ) {
+        listeners.remove( intensityListener );
     }
 }

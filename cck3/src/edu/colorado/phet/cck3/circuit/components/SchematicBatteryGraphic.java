@@ -25,6 +25,8 @@ public class SchematicBatteryGraphic extends FastPaintShapeGraphic implements IC
     private ModelViewTransform2D transform;
     private double wireThickness;
     private Area mouseArea;
+    private SimpleObserver simpleObserver;
+    private TransformListener transformListener;
 
     public SchematicBatteryGraphic( Component parent, CircuitComponent component, ModelViewTransform2D transform, double wireThickness ) {
         super( new Area(), Color.black, parent );
@@ -32,16 +34,18 @@ public class SchematicBatteryGraphic extends FastPaintShapeGraphic implements IC
         this.component = component;
         this.transform = transform;
         this.wireThickness = wireThickness;
-        component.addObserver( new SimpleObserver() {
+        simpleObserver = new SimpleObserver() {
             public void update() {
                 changed();
             }
-        } );
-        transform.addTransformListener( new TransformListener() {
+        };
+        component.addObserver( simpleObserver );
+        transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 changed();
             }
-        } );
+        };
+        transform.addTransformListener( transformListener );
         changed();
     }
 
@@ -80,8 +84,13 @@ public class SchematicBatteryGraphic extends FastPaintShapeGraphic implements IC
         return transform;
     }
 
-    public CircuitComponent getComponent() {
+    public CircuitComponent getCircuitComponent() {
         return component;
+    }
+
+    public void delete() {
+        component.removeObserver( simpleObserver );
+        transform.removeTransformListener( transformListener );
     }
 
     public boolean contains( int x, int y ) {

@@ -10,4 +10,6 @@ import edu.colorado.phet.common.view.graphics.Graphic;
  */
 public interface HasJunctionGraphic extends Graphic {
     public JunctionGraphic getJunctionGraphic();
+
+    void delete();
 }

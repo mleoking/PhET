@@ -31,14 +31,14 @@ public class RectangleUtils {
     }
 
     public static Point getNorth( Rectangle bounds ) {
-        Point pt=bounds.getLocation();
-        pt.translate( bounds.width/2,0);
+        Point pt = bounds.getLocation();
+        pt.translate( bounds.width / 2, 0 );
         return pt;
     }
 
     public static Point getEastSide( Rectangle bounds ) {
-        Point pt=bounds.getLocation();
-        pt.translate( bounds.width, bounds.height/2 );
+        Point pt = bounds.getLocation();
+        pt.translate( bounds.width, bounds.height / 2 );
         return pt;
     }
 }

@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
+import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.common.math.AbstractVector2D;
 
@@ -15,6 +16,11 @@ import java.awt.geom.Point2D;
 public class Battery extends CircuitComponent {
     public Battery( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl ) {
         super( kl, start, dir, length, height );
+        setVoltageDrop( 9.0 );
+    }
+
+    public Battery( KirkhoffListener kl, Junction startJunction, Junction endjJunction,double length,double height ) {
+        super( kl, startJunction, endjJunction,length, height );
         setVoltageDrop( 9.0 );
     }
 

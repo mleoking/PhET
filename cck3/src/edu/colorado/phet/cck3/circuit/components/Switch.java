@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.circuit.KirkhoffListener;
+import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.common.math.AbstractVector2D;
 
 import java.awt.geom.Point2D;
@@ -19,6 +20,11 @@ public class Switch extends CircuitComponent {
     public Switch( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl ) {
         super( kl, start, dir, length, height );
         super.setResistance( OPEN_RESISTANCE );
+    }
+
+    public Switch( KirkhoffListener kl, Junction startJunction, Junction endjJunction, boolean closed,double length,double height ) {
+        super( kl, startJunction, endjJunction,length, height );
+        this.closed = closed;
     }
 
     public boolean isClosed() {

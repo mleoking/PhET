@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
  * Time: 9:12:00 AM
  * Copyright (c) May 26, 2004 by Sam Reid
  */
-public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphic {
+public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphic implements Deletable {
     private CircuitGraphic cg;
     private ModelViewTransform2D transform;
     private Point lastPoint;
@@ -34,7 +34,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         MouseInputListener mouseListener = new ComponentMouseListener( cg, circuitComponentGraphic );
         addMouseInputListener( mouseListener );
 
-        CircuitComponent cc = circuitComponentGraphic.getComponent();
+        CircuitComponent cc = circuitComponentGraphic.getCircuitComponent();
         if( cc instanceof Battery ) {
             final Battery batt = (Battery)cc;
             BatteryMenu batteryMenu = new BatteryMenu( batt, module );
@@ -55,17 +55,16 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             BulbMenu bulbMenu = new BulbMenu( bulb, module );
             addPopupMenuBehavior( bulbMenu.getMenu() );
         }
-//        else if( cc instanceof SchematicBulb ) {
-//            SchematicBulb bulb = (SchematicBulb)cc;
-//            BulbMenu bulbMenu = new BulbMenu( bulb, module );
-//            addPopupMenuBehavior( bulbMenu.getMenu() );
-//        }
         else if( cc instanceof SeriesAmmeter ) {
             SeriesAmmeter ammeter = (SeriesAmmeter)cc;
             SeriesAmmeterMenu sam = new SeriesAmmeterMenu( ammeter, module );
             addPopupMenuBehavior( sam.getMenu() );
         }
 
+    }
+
+    public void delete() {
+        circuitComponentGraphic.delete();
     }
 
     static class ComponentMenu {
@@ -199,7 +198,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
     }
 
     public Branch getBranch() {
-        return circuitComponentGraphic.getComponent();
+        return circuitComponentGraphic.getCircuitComponent();
     }
 
 }
