@@ -1,7 +1,11 @@
+/* Copyright 2005, University of Colorado */
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.geom.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.QuadCurve2D;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -9,6 +13,8 @@ import javax.swing.event.ChangeListener;
 
 /**
  * TestParametricCoil is a program that was used for developing the Faraday pickup coil.
+ * The coil is composed entirely of quadratic curves.  The control points for the curves
+ * were set via "trial and error". IF YOU MODIFY ANYTHING, PROCEED WITH CAUTION!
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -18,30 +24,43 @@ public class TestParametricCoil extends JComponent {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    private static final int CONTROL_POINT_SIZE = 4;
-    private static final Color CONTROL_POINT_COLOR = Color.YELLOW;
-    private static final Color END_POINT_COLOR = Color.BLUE;
+   
+    // Loop parameters
     private static final Color LOOP_LIGHTEST_COLOR = new Color( 153, 102, 51 );
     private static final Color LOOP_MIDDLE_COLOR = new Color( 92, 52, 12 );
     private static final Color LOOP_DARKEST_COLOR = new Color( 40, 23, 3 );
     private static final int WIRE_WIDTH = 14;
     private static final double LOOP_SPACING_FACTOR = 0.3; // ratio of loop spacing to loop radius
     
-    private static final boolean DRAW_POINTS = false;
+    // End-point and control-point parameters
+    private static final int CONTROL_POINT_SIZE = 4;
+    private static final Color CONTROL_POINT_COLOR = Color.YELLOW;
+    private static final Color CONTROL_LINE_COLOR = Color.WHITE;
+    private static final int CONTROL_LINE_WIDTH = 1;
+    private static final Color END_POINT_COLOR = Color.BLUE;
+    
+    // Debugging parameters
+    private static final boolean DRAW_POINTS = true;
+    private static final boolean DRAW_ORIGIN = true;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private int _numberOfLoops;
-    private int _radius;
-    private Point _location;
+    private int _numberOfLoops;  // number of loops in the coil
+    private int _radius; // radius (in pixels) used for all loops
+    private Point _location; // location of the coil's approximate center of mass
     
     //----------------------------------------------------------------------------
     // Test harness
     //----------------------------------------------------------------------------
     
+    /**
+     * Test harness. 
+     * Creates a user interface for testing the coil.
+     * 
+     * @param args command line arguments
+     */
     public static void main( String[] args )
     {
         // Test harness parameters
@@ -160,12 +179,14 @@ public class TestParametricCoil extends JComponent {
      * Sole constructor
      * 
      * @param numberOfLoops the number of loops in the coil
+     * @param radius the radius of each loop
+     * @param location the location of the coil's center of mass
      */
-    public TestParametricCoil( int numberOfLoops, int loopRadius, Point location ) {
+    public TestParametricCoil( int numberOfLoops, int radius, Point location ) {
         super();
         assert( numberOfLoops > 0 );
         _numberOfLoops = numberOfLoops;
-        _radius = loopRadius;
+        _radius = radius;
         _location = location;
     }
     
@@ -173,22 +194,42 @@ public class TestParametricCoil extends JComponent {
     // Accessors
     //----------------------------------------------------------------------------
 
+    /**
+     * Sets the number of loops.
+     * 
+     * @param numberOfLoops the number of loops
+     */
     public void setNumberOfLoops( int numberOfLoops ) {
         assert( numberOfLoops > 0 );
         _numberOfLoops = numberOfLoops;
         repaint();
     }
     
+    /**
+     * Gets the number of loops.
+     * 
+     * @return the number of loops
+     */
     public int getNumberOfLoops() {
         return _numberOfLoops;
     }
     
+    /**
+     * Set the radius used for all loops.
+     * 
+     * @param radius the radius, in pixels
+     */
     public void setRadius( int radius ) {
         assert( radius > 0 );
         _radius = radius;
         repaint();
     }
     
+    /**
+     * Gets the radius used for all loops.
+     * 
+     * @return the radius, in pixels
+     */
     public int getRadius() {
         return _radius;
     }
@@ -197,6 +238,11 @@ public class TestParametricCoil extends JComponent {
     // Rendering
     //----------------------------------------------------------------------------
     
+    /**
+     * Draws the coil.
+     * 
+     * @param g graphics context
+     */
     public void paintComponent( Graphics g ) {
        
         assert( g instanceof Graphics2D );
@@ -289,9 +335,12 @@ public class TestParametricCoil extends JComponent {
             }
         }
         
-//        // Draw the origin
-//        g2.setPaint( Color.CYAN );
-//        g2.fill( new Ellipse2D.Double( -2, -2, 4, 4 ) );
+        // Draw the origin
+        if ( DRAW_ORIGIN ) {
+            g2.setPaint( Color.CYAN );
+            int size = 8;
+            g2.fill( new Ellipse2D.Double( -size/2, -size/2, size, size ) );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -299,31 +348,14 @@ public class TestParametricCoil extends JComponent {
     //----------------------------------------------------------------------------
     
     /**
-     * Draws a cubic curve.
-     */
-    private static void drawCubicCurve( Graphics2D g2, Point2D end1, Point2D control1, Point2D control2, Point2D end2, boolean drawPoints ) {
-        
-        CubicCurve2D.Double curve = new CubicCurve2D.Double();
-        curve.setCurve( end1, control1, control2, end2 );
-        
-        // Draw the curve.
-        g2.draw( curve );
-
-        // Draw the control points.
-        if ( drawPoints ) {
-            Paint oldPaint = g2.getPaint();
-            g2.setPaint( END_POINT_COLOR );
-            g2.fill( getPointShape( end1 ) );
-            g2.fill( getPointShape( end2 ) );
-            g2.setPaint( CONTROL_POINT_COLOR );
-            g2.fill( getPointShape( control1 ) );
-            g2.fill( getPointShape( control2 ) );
-            g2.setPaint( oldPaint );
-        }
-    }
-    
-    /**
-     * Draws a quadratic curve, and renders the control points.
+     * Draws a quadratic curve.
+     * Optionally renders the end-points and control point.
+     * 
+     * @param g2 graphics context
+     * @param end1 end point #1
+     * @param control control point
+     * @param end2 end point #2
+     * @param drawPoints true to render points
      */
     private static void drawQuadCurve( Graphics2D g2, Point2D end1, Point2D control, Point2D end2, boolean drawPoints ) {
         
@@ -335,13 +367,24 @@ public class TestParametricCoil extends JComponent {
 
         // Draw the control points.
         if ( drawPoints ) {
+            // Save state
             Paint oldPaint = g2.getPaint();
+            Stroke oldStroke = g2.getStroke();
+            
+            g2.setPaint( Color.WHITE ); //
+            g2.setStroke( new BasicStroke( 1f ) );
+            g2.drawLine( (int)end1.getX(), (int)end1.getY(), (int)control.getX(), (int)control.getY() );
+            g2.drawLine( (int)end2.getX(), (int)end2.getY(), (int)control.getX(), (int)control.getY() );
+            
             g2.setPaint( END_POINT_COLOR );
             g2.fill( getPointShape( end1 ) );
             g2.fill( getPointShape( end2 ) );
             g2.setPaint( CONTROL_POINT_COLOR );
             g2.fill( getPointShape( control ) );
+
+            // Restore state
             g2.setPaint( oldPaint );
+            g2.setStroke( oldStroke );
         }
     }
 
@@ -352,7 +395,7 @@ public class TestParametricCoil extends JComponent {
      * @return a Shape
      */
     private static Shape getPointShape( Point2D p ) {
-        int side = CONTROL_POINT_SIZE;
-        return new Rectangle2D.Double( p.getX() - side / 2, p.getY() - side / 2, side, side );
+        int size = CONTROL_POINT_SIZE;
+        return new Ellipse2D.Double( p.getX() - size / 2, p.getY() - size / 2, size, size );
     }
 }
