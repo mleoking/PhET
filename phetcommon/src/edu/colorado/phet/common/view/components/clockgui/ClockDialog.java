@@ -28,21 +28,21 @@ import java.awt.event.ActionListener;
 public class ClockDialog extends JDialog {
 
     private AbstractClock clock;
-    private ClockControlPanel clockControlPanel;
+    private ClockParamSetterPanel clockParamSetterPanel;
 
     public ClockDialog( JFrame parentFrame, ThreadedClock clock ) {
         super( parentFrame, SimStrings.get( "Common.ClockDialog.Title" ), false );
         init( clock );
         this.pack();
-        clock.addClockStateListener( clockControlPanel );
+        clock.addClockStateListener( clockParamSetterPanel );
     }
 
     private void init( ThreadedClock clock ) {
         this.clock = clock;
         Container contentPane = this.getContentPane();
         contentPane.setLayout( new BorderLayout() );
-        clockControlPanel = new ClockControlPanel( clock );
-        contentPane.add( clockControlPanel, BorderLayout.CENTER );
+        clockParamSetterPanel = new ClockParamSetterPanel( clock );
+        contentPane.add( clockParamSetterPanel, BorderLayout.CENTER );
         contentPane.add( buildButtonPanel(), BorderLayout.SOUTH );
     }
 
@@ -68,14 +68,14 @@ public class ClockDialog extends JDialog {
     }
 
     private void updateClock() {
-        clock.setDt( clockControlPanel.getDt() );
-        clock.setDelay( clockControlPanel.getSleepInterval() );
+        clock.setDt( clockParamSetterPanel.getDt() );
+        clock.setDelay( clockParamSetterPanel.getSleepInterval() );
         this.hide();
     }
 
     public void setClock( AbstractClock c ) {
         this.clock = c;
-        clockControlPanel.setClock( c );
+        clockParamSetterPanel.setClock( c );
     }
 
 }

@@ -17,7 +17,7 @@ import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.components.clockgui.ClockControlPanel;
+import edu.colorado.phet.common.view.components.clockgui.ClockParamSetterPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -184,7 +184,7 @@ public class TestPhetApplication {
         PhetApplication app = new PhetApplication( applicationModel );
         app.startApplication();
 
-        ClockControlPanel ccp = new ClockControlPanel( clock );
+        ClockParamSetterPanel ccp = new ClockParamSetterPanel( clock );
         JFrame jeff = new JFrame( "CCP" );
         jeff.setContentPane( ccp );
         jeff.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

@@ -11,10 +11,7 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockStateEvent;
-import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -59,11 +56,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private Rectangle repaintArea;
 
     private ScaledComponentLayout scaledComponentLayout;
-    private ModelElement paintModelElement;
     private PanelResizeHandler panelResizeHandler;
     private MouseProcessor mouseProcessor;
-    private BaseModel model;
-    private boolean autopaint;
 
     /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
@@ -74,7 +68,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     public ApparatusPanel2( BaseModel model, AbstractClock clock ) {
         super( null );
-        init( model, clock );
+        init( clock );
     }
 
     /**
@@ -83,25 +77,16 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     public ApparatusPanel2( BaseModel model ) {
         super( null );
-        init( model, null );
+        init( null );
+        throw new RuntimeException( "Don't work no more!");
     }
 
-    protected void init( BaseModel model, AbstractClock clock ) {
-        this.model = model;
+    protected void init( AbstractClock clock ) {
         // The following lines use a mouse processor in the model loop
         mouseProcessor = new MouseProcessor( getGraphic(), clock );
-        model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
         this.addKeyListener( getGraphic().getKeyAdapter() );//TODO key events should go in processing thread as well.
-
-        // Add a model element that paints the panile
-        paintModelElement = new ModelElement() {
-            public void stepInTime( double dt ) {
-                paint();
-            }
-        };
-        model.addModelElement( paintModelElement );
 
         // Add a listener what will adjust things if the size of the panel changes
         panelResizeHandler = new PanelResizeHandler();
@@ -109,34 +94,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         transformManager = new TransformManager( this );
         paintStrategy = new DefaultPaintStrategy( this );
         scaledComponentLayout = new ScaledComponentLayout( this );
-    }
-
-    /**
-     * Returns true if this panel repaints after each stepInTime().
-     *
-     * @return
-     */
-    protected boolean isAutoPaint() {
-        return autopaint;
-    }
-
-    /**
-     * Sets whether this ApparatusPanel automatically repaints itself after each stepInTime().
-     *
-     * @param autopaint
-     */
-    protected void setAutoPaint( boolean autopaint ) {
-        this.autopaint = autopaint;
-        if( autopaint ) {
-            if( !model.containsModelElement( paintModelElement ) ) {
-                model.addModelElement( paintModelElement );
-            }
-        }
-        else {
-            while( model.containsModelElement( paintModelElement ) ) {
-                model.removeModelElement( paintModelElement );
-            }
-        }
     }
 
     public TransformManager getTransformManager() {
@@ -189,6 +146,13 @@ public class ApparatusPanel2 extends ApparatusPanel {
         // Todo: Determine if the following two lines help or not
 //        setOpaque( useOffscreenBuffer );
         setDoubleBuffered( !useOffscreenBuffer );
+    }
+
+    /**
+     * Handle mouse input, and eventually, keyboard input
+     */
+    public void handleUserInput() {
+        mouseProcessor.handleUserInput();
     }
 
     /**
@@ -425,18 +389,17 @@ public class ApparatusPanel2 extends ApparatusPanel {
     /**
      * Handles mouse events in the model loop
      */
-    private class MouseProcessor implements ModelElement, MouseListener, MouseMotionListener {
+    private class MouseProcessor implements /*ClockTickListener,*/ MouseListener, MouseMotionListener {
         private LinkedList mouseEventList;
         private LinkedList mouseMotionEventList;
         private AbstractClock clock;
         private GraphicLayerSet handler;
-        private boolean modelPaused;
 
         // The following Runnable is used to process mouse events when the model clock is paused
         private Runnable pausedEventListProcessor = new Runnable() {
             public void run() {
-                stepInTime( 0 );
-                ApparatusPanel2.this.paintDirtyRectanglesImmediately();
+                MouseProcessor.this.handleUserInput();
+                ApparatusPanel2.this.paint();
             }
         };
 
@@ -445,18 +408,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
             mouseEventList = new LinkedList();
             mouseMotionEventList = new LinkedList();
             this.handler = mouseDelegator;
-            
-            // Add a listener that keeps track of when the clock is paused and unpaused. this
-            // is needed so the mouse will still work if the clock is paused.
-            this.clock.addClockStateListener( new ClockStateListener() {
-                public void stateChanged( ClockStateEvent event ) {
-                    modelPaused = clock.isPaused();
-                }
-            } );
-            this.modelPaused = clock.isPaused();
         }
 
-        public void stepInTime( double dt ) {
+        public void handleUserInput() {
             processMouseEventList();
             processMouseMotionEventList();
         }
@@ -478,7 +432,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
             // If the clock is paused, then process mouse events
             // in the Swing thread
-            if( modelPaused ) {
+            if( clock.isPaused() ) {
                 SwingUtilities.invokeLater( pausedEventListProcessor );
             }
         }
@@ -490,7 +444,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
             }
             // If the clock is paused, then process mouse events
             // in the Swing thread
-            if( modelPaused ) {
+            if( clock.isPaused() ) {
                 SwingUtilities.invokeLater( pausedEventListProcessor );
             }
         }
@@ -689,7 +643,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 Component component = components[i];
                 Point origLocation = (Point)componentOrgLocationsMap.get( component );
                 if( origLocation != null ) {
-//                    double scale = transformManager.getScale();
                     Point newLocation = new Point( (int)( origLocation.getX() * scale ), (int)( origLocation.getY() * scale ) );
                     component.setLocation( newLocation );
                 }

@@ -11,8 +11,8 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.model.clock.ClockStateEvent;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -35,8 +35,9 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
     private JButton step;
     private AbstractClock clock;
 
-    public ClockControlPanel( final AbstractClock runner ) throws IOException {
-        this.clock = runner;
+    public ClockControlPanel( final AbstractClock clock ) throws IOException {
+        this.clock = clock;
+        clock.addClockStateListener( this );
         if( clock == null ) {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );
         }
@@ -88,32 +89,13 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         pause.setEnabled( true );
     }
 
-//    private void setPausedState( boolean state ) {
-//        clock.setPaused( state );
-//        play.setEnabled( state );
-//        pause.setEnabled( state );
-//        step.setEnabled( state );
-//    }
-
-    public void delayChanged( int waitTime ) {
-    }
-
-    public void dtChanged( double dt ) {
-    }
-
-    public void threadPriorityChanged( int priority ) {
-    }
-
-    public void pausedStateChanged( boolean b ) {
-        play.setEnabled( b );
-        pause.setEnabled( !b );
-        step.setEnabled( b );
-    }
-
     ////////////////////////////////////////////////////////////////////////////
     // Event handlers
     //
     public void stateChanged( ClockStateEvent event ) {
-        pausedStateChanged( event.getIsPaused() );
+        boolean isPaused = event.getIsPaused();
+        play.setEnabled( isPaused );
+        pause.setEnabled( !isPaused );
+        step.setEnabled( isPaused );
     }
 }
