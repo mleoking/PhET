@@ -9,12 +9,10 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
-import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -32,10 +30,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     private ArrayList u238Nuclei = new ArrayList();
     private ArrayList u239Nuclei = new ArrayList();
     private ArrayList neutrons = new ArrayList();
-    private ArrayList daughterNuclei = new ArrayList();
-    private ArrayList bodies = new ArrayList();
-    //    private ArrayList neutronGraphics = new ArrayList();
-    private AbstractClock clock;
     private long orgDelay;
     private double orgDt;
     private double neutronLaunchGamma;
@@ -46,7 +40,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
 
     public MultipleNucleusFissionModule( AbstractClock clock ) {
         super( "Chain Reaction", clock );
-        this.clock = clock;
 
         // set the scale of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setScale( 0.5 );
@@ -60,18 +53,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
                 }
             }
         } );
-
-        //        getModel().addModelElement( new ModelElement() {
-        //            private CollisionExpert expert = new SphereBoxExpert();
-        //            public void stepInTime( double dt ) {
-        //                if( containment != null ) {
-        //                    for( int i = 0; i < neutrons.size(); i++ ) {
-        //                        Neutron neutron = (Neutron)neutrons.get( i );
-        //                        boolean h = expert.detectAndDoCollision( containment, neutron );
-        //                    }
-        //                }
-        //            }
-        //        } );
 
         // Add a model element that watches for collisions between neutrons and
         // U235 nuclei
@@ -110,7 +91,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
                             neutrons.remove( neutron );
                             getModel().removeModelElement( u238 );
                             getModel().removeModelElement( neutron );
-                            getPhysicalPanel().removeGraphic( (Graphic)NucleusGraphic.getGraphicForNucleus( u238 ).get( 0 ) );
                         }
                     }
                 }
@@ -123,16 +103,9 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         // neutron at
         Uranium235 centralNucleus = new Uranium235( new Point2D.Double(), getModel() );
         //        centralNucleus.addFissionListener( this );
-        getPhysicalPanel().addNucleus( centralNucleus );
         getModel().addModelElement( centralNucleus );
         u235Nuclei.add( centralNucleus );
         addNucleus( centralNucleus );
-
-        // Clear out any leftover nuclei from previous runs
-        for( int i = 0; i < daughterNuclei.size(); i++ ) {
-            Nucleus nucleus = (Nucleus)daughterNuclei.get( i );
-            NucleusGraphic.removeGraphicForNucleus( nucleus );
-        }
 
         // If the containment is enabled, recreate it, so it will be fully
         // displayed
@@ -160,22 +133,15 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         for( int i = 0; i < u239Nuclei.size(); i++ ) {
             removeNucleus( (Nucleus)u239Nuclei.get( i ) );
         }
-        for( int i = 0; i < daughterNuclei.size(); i++ ) {
-            removeNucleus( (Nucleus)daughterNuclei.get( i ) );
-        }
         for( int i = 0; i < neutrons.size(); i++ ) {
             Neutron neutron = (Neutron)neutrons.get( i );
             getModel().removeModelElement( neutron );
-            neutron.leaveSystem();
-            bodies.remove( neutron );
         }
-        bodies.clear();
         nuclei.clear();
         neutrons.clear();
         u239Nuclei.clear();
         u235Nuclei.clear();
         u238Nuclei.clear();
-        daughterNuclei.clear();
     }
 
     private void computeNeutronLaunchParams() {
@@ -201,17 +167,17 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-        orgDelay = this.clock.getDelay();
-        orgDt = this.clock.getDt();
-        this.clock.setDelay( 10 );
-        this.clock.setDt( orgDt * 0.6 );
+        orgDelay = getClock().getDelay();
+        orgDt = getClock().getDt();
+        getClock().setDelay( 10 );
+        getClock().setDt( orgDt * 0.6 );
         this.start();
     }
 
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
-        this.clock.setDelay( (int)( orgDelay ) );
-        this.clock.setDt( orgDt );
+        getClock().setDelay( (int)( orgDelay ) );
+        getClock().setDt( orgDt );
         this.stop();
     }
 
@@ -257,13 +223,11 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         nucleus.addFissionListener( this );
         getPhysicalPanel().addNucleus( nucleus );
         getModel().addModelElement( nucleus );
-        bodies.add( nucleus );
     }
 
     public void removeU235Nucleus( Uranium235 nucleus ) {
         u235Nuclei.remove( nucleus );
         removeNucleus( nucleus );
-        bodies.remove( nucleus );
     }
 
     public void removeU238Nucleus( Uranium238 nucleus ) {
@@ -273,7 +237,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
 
     public void removeNucleus( Nucleus nucleus ) {
         nuclei.remove( nucleus );
-        nucleus.leaveSystem();
         getPhysicalPanel().removeNucleus( nucleus );
         getModel().removeModelElement( nucleus );
     }
@@ -282,17 +245,14 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         Neutron neutron = new Neutron( neutronLaunchPoint, neutronLaunchGamma + Math.PI );
         neutrons.add( neutron );
         super.addNeutron( neutron );
-        bodies.add( neutron );
     }
 
     public void fission( FissionProducts products ) {
         // Remove the neutron and old nucleus
         getModel().removeModelElement( products.getInstigatingNeutron() );
         this.neutrons.remove( products.getInstigatingNeutron() );
-        products.getInstigatingNeutron().leaveSystem();
         getModel().removeModelElement( products.getParent() );
         nuclei.remove( products.getParent() );
-        products.getParent().leaveSystem();
 
         // We know this must be a U235 nucleus
         u235Nuclei.remove( products.getParent() );
@@ -300,8 +260,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         // Add fission products
         super.addNucleus( products.getDaughter1() );
         super.addNucleus( products.getDaughter2() );
-        daughterNuclei.add( products.getDaughter1() );
-        daughterNuclei.add( products.getDaughter2() );
         Neutron[] neutronProducts = products.getNeutronProducts();
 
         for( int i = 0; i < neutronProducts.length; i++ ) {
@@ -309,7 +267,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
             getModel().addModelElement( neutronProducts[i] );
             getPhysicalPanel().addGraphic( npg );
             neutrons.add( neutronProducts[i] );
-            //            neutronGraphics.add( npg );
             neutronProducts[i].addListener( new NuclearModelElement.Listener() {
                 public void leavingSystem( NuclearModelElement nme ) {
                     getPhysicalPanel().removeGraphic( npg );
@@ -321,14 +278,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         Kaboom kaboom = new Kaboom( products.getParent().getPosition(),
                                     25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
-
-        // Manage the list of collidable bodies
-        bodies.remove( products.getParent() );
-        bodies.add( products.getDaughter1() );
-        bodies.add( products.getDaughter2() );
-        for( int i = 0; i < neutronProducts.length; i++ ) {
-            bodies.add( neutronProducts[i] );
-        }
 
         // If the conatinment vessel is being used, make it dissovle
         if( containment != null ) {
@@ -435,8 +384,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
             u235Nuclei.remove( nucleus );
             u238Nuclei.remove( nucleus );
             u239Nuclei.remove( nucleus );
-            bodies.remove( nucleus );
-            nucleus.leaveSystem();
         }
     }
 }

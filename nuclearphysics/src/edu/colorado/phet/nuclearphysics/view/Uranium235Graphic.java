@@ -33,23 +33,6 @@ public class Uranium235Graphic extends NucleusGraphic {
         this.displayLabel = displayLabel;
     }
 
-    //    protected Image computeImage() {
-    //        Image img = super.computeImage();
-    //        Graphics2D g = (Graphics2D)img.getGraphics();
-    //        g.setColor( color );
-    //        g.setFont( isotopeFont );
-    //        FontMetrics fm = g.getFontMetrics();
-    //        g.drawString( "235", -fm.stringWidth( "235" ), 0 );
-    //        int dy = fm.getHeight() * 3 / 4;
-    //        g.setFont( elementFont );
-    //        nucleusTx.setToTranslation( img.getWidth( null ) / 2, img.getHeight( null ) / 2 );
-    //        AffineTransform orgTx = g.getTransform();
-    //        g.transform( nucleusTx );
-    //        g.drawString( "U", 0, dy );
-    //        g.setTransform( orgTx );
-    //        return img;
-    //    }
-
     public void paint( Graphics2D g ) {
         nucleusTx.setToTranslation( nucleus.getPosition().getX(), nucleus.getPosition().getY() );
         super.paint( g );
@@ -66,28 +49,10 @@ public class Uranium235Graphic extends NucleusGraphic {
             FontMetrics fm = g.getFontMetrics();
             g.drawString( "235", -fm.stringWidth( "235" ), 0 );
 
-            //            TextLayout tla = new TextLayout( "235", isotopeFont, frc );
-            //            Shape shapeA = tla.getOutline( null );
-            //            g.setColor( Color.black );
-            //            g.setStroke( fontOutlineStroke );
-            //            AffineTransform outlineTxA = AffineTransform.getTranslateInstance( -fm.stringWidth( "235" ), 0 );
-            //            g.transform( outlineTxA );
-            //            g.draw( shapeA );
-            //            g.setTransform( orgTx );
-
-
             int dy = fm.getHeight() * 3 / 4;
             g.setColor( color );
             g.setFont( elementFont );
             g.drawString( "U", 0, dy );
-
-            //            TextLayout tl = new TextLayout( "U", elementFont, frc );
-            //            Shape shape = tl.getOutline( null );
-            //            g.setColor( Color.black );
-            //            g.setStroke( fontOutlineStroke );
-            //            AffineTransform outlineTx = AffineTransform.getTranslateInstance( 0, dy );
-            //            g.transform( outlineTx );
-            //            g.draw( shape );
         }
         g.setTransform( orgTx );
     }

@@ -24,7 +24,6 @@ public class PhysicalPanel extends TxApparatusPanel {
     //public class PhysicalPanel extends ApparatusPanel {
     public static Color backgroundColor = new Color( 255, 255, 230 );
 
-    //    private HashMap modelElementToGraphicMap = new HashMap();
     protected Point2D.Double origin = new Point2D.Double();
     protected AffineTransform originTx = new AffineTransform();
     protected AffineTransform scaleTx = new AffineTransform();
@@ -46,14 +45,14 @@ public class PhysicalPanel extends TxApparatusPanel {
 
     int nucleusCnt = 0;
 
-    public void addNucleus( Nucleus nucleus ) {
+    public void addNucleus( final Nucleus nucleus ) {
         NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
-        // Register the graphic to the model element
         final TxGraphic txg = new TxGraphic( ng, nucleonTx );
         nucleusCnt++;
         NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
                 PhysicalPanel.this.removeGraphic( txg );
+                nucleus.removeListener( this );
             }
         };
         nucleus.addListener( listener );
@@ -72,15 +71,9 @@ public class PhysicalPanel extends TxApparatusPanel {
         //        addGraphic( graphic, nucleonTx );
     }
 
-    //    public synchronized void addGraphic( Graphic graphic, double level ) {
-    //        TxGraphic txg = new TxGraphic( graphic, nucleonTx );
-    //        super.addGraphic( txg, level );
-    //    }
-
     protected synchronized void paintComponent( Graphics graphics ) {
         origin.setLocation( this.getWidth() / 2, this.getHeight() / 2 );
         originTx.setToTranslation( origin.getX(), origin.getY() );
-
         nucleonTx.setToIdentity();
         nucleonTx.concatenate( originTx );
         nucleonTx.concatenate( scaleTx );

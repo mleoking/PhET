@@ -38,8 +38,8 @@ public class TxApparatusPanel extends ApparatusPanel {
     public void removeGraphic( Graphic graphic ) {
         super.removeGraphic( graphic );
         if( !( graphic instanceof TxGraphic ) ) {
-            txGraphicMap.remove( graphic );
             super.removeGraphic( (Graphic)txGraphicMap.get( graphic ) );
+            txGraphicMap.remove( graphic );
         }
     }
 
