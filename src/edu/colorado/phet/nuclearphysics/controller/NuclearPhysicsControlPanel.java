@@ -41,11 +41,11 @@ public class NuclearPhysicsControlPanel extends JPanel {
 //                                              1, 1,
 //                                              GridBagConstraints.NONE,
 //                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new TestPanel(),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+//            GraphicsUtil.addGridBagComponent( this, new TestPanel(),
+//                                              0, rowIdx++,
+//                                              1, 1,
+//                                              GridBagConstraints.NONE,
+//                                              GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
             e.printStackTrace();
