@@ -31,7 +31,6 @@ public class LaserControlPanel extends PhetControlPanel {
     private boolean threeEnergyLevels;
     private PumpingBeamControl pumpingBeamControl;
     private HighEnergyHalfLifeControl highEnergyLifetimeControl;
-    private StimulatingBeamControl stimulatingBeamControl;
     private BaseLaserModule laserModule;
 
     public LaserControlPanel( BaseLaserModule module, AbstractClock clock ) {
@@ -152,9 +151,5 @@ public class LaserControlPanel extends PhetControlPanel {
             twoLevelsRB.setSelected( true );
             setThreeEnergyLevels( false );
         }
-    }
-
-    public void setMaxPhotonRate( double photonsPerSecond ) {
-        stimulatingBeamControl.setMaxPhotonRate( (int)photonsPerSecond );
     }
 }

@@ -10,11 +10,12 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
+import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.StimulatingBeamControl;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -26,6 +27,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -35,6 +37,7 @@ public class SingleAtomModule extends BaseLaserModule {
     public SingleAtomModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
 
+        // Create beams
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() + s_boxHeight / 2 - Photon.s_radius );
         CollimatedBeam stimulatingBeam = ( (LaserModel)getModel() ).getStimulatingBeam();
@@ -57,29 +60,48 @@ public class SingleAtomModule extends BaseLaserModule {
         BlueBeamGraphic beamGraphic = new BlueBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
         addGraphic( beamGraphic, 1 );
 
-        // Add the ray gun for firing photons
+        // Add the lamps for firing photons
         try {
             Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)stimulatingBeam.getPosition().getX() - 25,
                                                                   (int)( stimulatingBeam.getPosition().getY() - Photon.s_radius ),
                                                                   100, 100 );
             BufferedImage gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
+
+            // Stimulating beam lamp
             double scale = Math.min( allocatedBounds.getWidth() / gunBI.getWidth(),
                                      allocatedBounds.getHeight() / gunBI.getHeight() );
+            AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scale, scale ), AffineTransformOp.TYPE_BILINEAR );
+            BufferedImage stimulatingBeamLamp = atxOp1.filter( gunBI, null );
+
             AffineTransform atx = new AffineTransform();
             atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
-            atx.scale( scale, scale );
-            PhetImageGraphic gunGraphic = new PhetImageGraphic( getApparatusPanel(), gunBI, atx );
+            PhetImageGraphic gunGraphic = new PhetImageGraphic( getApparatusPanel(), stimulatingBeamLamp, atx );
             addGraphic( gunGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
             // Add the intensity control
             JPanel sbmPanel = new JPanel();
-            StimulatingBeamControl sbm = new StimulatingBeamControl( getLaserModel() );
+            BeamControl sbm = new BeamControl( stimulatingBeam );
             Dimension sbmDim = sbm.getPreferredSize();
             sbmPanel.setBounds( (int)allocatedBounds.getX(), (int)( allocatedBounds.getY() + allocatedBounds.getHeight() ),
                                 (int)sbmDim.getWidth() + 10, (int)sbmDim.getHeight() + 10 );
             sbmPanel.add( sbm );
             getApparatusPanel().add( sbmPanel );
 
+
+            // Pumping beam lamp
+            BufferedImage pumpingBeamLamp = GraphicsUtil.getRotatedImage( stimulatingBeamLamp, Math.PI / 2 );
+            AffineTransform txTx2 = AffineTransform.getTranslateInstance( getLaserOrigin().getX() + s_boxWidth / 2 - stimulatingBeamLamp.getHeight() / 2, -30 );
+            PhetImageGraphic pumpingLampGraphic = new PhetImageGraphic( getApparatusPanel(), pumpingBeamLamp, txTx2 );
+            addGraphic( pumpingLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
+
+            // Add the beam control
+            JPanel pbmPanel = new JPanel();
+            BeamControl pbm = new BeamControl( pumpingBeam );
+            Dimension pbmDim = pbm.getPreferredSize();
+            pbmPanel.setBounds( (int)( txTx2.getTranslateX() + pumpingLampGraphic.getWidth() ), 0,
+                                (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );
+            pbmPanel.add( pbm );
+            getApparatusPanel().add( pbmPanel );
         }
         catch( IOException e ) {
             e.printStackTrace();
