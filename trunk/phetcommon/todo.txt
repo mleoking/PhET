@@ -7,7 +7,6 @@ SpontaneouslyEmittingState.
 - spontaneousEmmisionHalfLife and SpontaneousEmissionTime methods are confusing
 - Line 34 in GroundState has a call that has terrible style
 - Change location constants in BaseLaserModule to key off location of laser instead of s_origin
-- Change internal rep of CollimatedBeam to get rid of x,y,width,height and just use the Rectangle2D
 
 - Debug library, with ClockControlPanel
 Should we keep or toss TxTranslatable, TxGraphic, TxBoundary, if we keep, can we conglomerate?
@@ -19,3 +18,4 @@ Refactor ModelViewTx2D and AffineTxUtil
 - Make energy levels mouse-able
     - Make AtomicState classes singletons
 - Make state lifetimes dependent on energy level
+- Change internal rep of CollimatedBeam to get rid of x,y,width,height and just use the Rectangle2D

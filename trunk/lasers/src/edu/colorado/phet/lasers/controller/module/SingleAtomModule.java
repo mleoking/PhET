@@ -13,51 +13,42 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.LaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.BlueBeamGraphic;
-import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class SingleAtomModule extends BaseLaserModule {
     private Atom atom;
-    private CollimatedBeam stimulatingBeam;
-    private CollimatedBeam pumpingBeam;
 
     public SingleAtomModule( AbstractClock clock ) {
         super( "One Atom", clock );
 
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() + s_boxHeight / 2 - Photon.s_radius );
-        stimulatingBeam = new CollimatedBeam( getLaserModel(),
-                                              Photon.RED,
-                                              beamOrigin,
-                                              Photon.s_radius / 2,
-                                              s_boxWidth + s_laserOffsetX * 2,
-                                              new Vector2D.Double( 1, 0 ) );
+        CollimatedBeam stimulatingBeam = ( (LaserModel)getModel() ).getStimulatingBeam();
+        stimulatingBeam.setBounds( new Rectangle2D.Double( beamOrigin.getX(), beamOrigin.getY(),
+                                                           s_boxWidth + s_laserOffsetX * 2, Photon.s_radius / 2 ) );
+        stimulatingBeam.setDirection( new Vector2D.Double( 1, 0 ) );
         stimulatingBeam.addListener( this );
         stimulatingBeam.setActive( true );
         stimulatingBeam.setPhotonsPerSecond( 1 );
-        getLaserModel().setStimulatingBeam( stimulatingBeam );
 
-        pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
-        pumpingBeam = new CollimatedBeam( getLaserModel(),
-                                          Photon.BLUE,
-                                          new Point2D.Double( s_origin.getX() + s_laserOffsetX + s_boxWidth / 2 - Photon.s_radius / 2,
-                                                              s_origin.getY() - s_laserOffsetX ),
-                                          s_boxHeight + s_laserOffsetX * 2,
-                                          s_boxWidth,
-                                          new Vector2D.Double( 0, 1 ) );
+        CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
+        Point2D pumpingBeamOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX + s_boxWidth / 2 - Photon.s_radius / 2,
+                                                        s_origin.getY() - s_laserOffsetX );
+        pumpingBeam.setBounds( new Rectangle2D.Double( pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
+                                                       s_boxWidth, s_boxHeight + s_laserOffsetX * 2 ) );
+        pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.addListener( this );
         pumpingBeam.setWidth( Photon.s_radius * 2 );
         pumpingBeam.setActive( true );
-        getLaserModel().setPumpingBeam( pumpingBeam );
         BlueBeamGraphic beamGraphic = new BlueBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
         addGraphic( beamGraphic, 1 );
 
@@ -72,10 +63,6 @@ public class SingleAtomModule extends BaseLaserModule {
         catch( IOException e ) {
             e.printStackTrace();
         }
-
-        LaserControlPanel controlPanel = new LaserControlPanel( this, clock );
-        controlPanel.setMaxPhotonRate( 5 );
-        setControlPanel( controlPanel );
 
         ApparatusConfiguration config = new ApparatusConfiguration();
         config.setStimulatedPhotonRate( 1 );
@@ -99,24 +86,5 @@ public class SingleAtomModule extends BaseLaserModule {
         super.deactivate( app );
         getLaserModel().removeModelElement( atom );
         atom.removeFromSystem();
-    }
-
-
-    public void photonCreated( CollimatedBeam beam, Photon photon ) {
-        //        if( beam == stimulatingBeam ) {
-        final PhotonGraphic photonGraphic = new PhotonGraphic( getApparatusPanel(), photon );
-        addGraphic( photonGraphic, LaserConfig.PHOTON_LAYER );
-
-        // Add a listener that will remove the graphic from the apparatus panel when the
-        // photon leaves the system
-        photon.addListener( new Photon.Listener() {
-            public void leavingSystem( Photon photon ) {
-                getApparatusPanel().removeGraphic( photonGraphic );
-            }
-        } );
-        //        }
-        //        else if( beam == pumpingBeam ) {
-        //
-        //        }
     }
 }

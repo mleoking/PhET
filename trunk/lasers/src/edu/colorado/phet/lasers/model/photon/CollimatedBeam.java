@@ -35,9 +35,6 @@ public class CollimatedBeam extends Particle {
 
     private double nextTimeToProducePhoton = 0;
     private int wavelength;
-    //    private Point2D origin;
-    private double height;
-    private double width;
     private Rectangle2D bounds;
     private Vector2D velocity;
     // The rate at which the beam produces photons
@@ -48,7 +45,6 @@ public class CollimatedBeam extends Particle {
     private boolean isActive;
     private LaserModel model;
     private SubscriptionService bulletinBoard = new SubscriptionService();
-    //    private LinkedList bulletinBoard = new LinkedList();
     private LinkedList photons = new LinkedList();
 
     public interface Listener {
@@ -60,8 +56,15 @@ public class CollimatedBeam extends Particle {
         this.wavelength = wavelength;
         this.bounds = new Rectangle2D.Double( origin.getX(), origin.getY(), width, height );
         this.setPosition( origin );
-        this.height = height;
-        this.width = width;
+        this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.s_speed );
+    }
+
+    public void setBounds( Rectangle2D rect ) {
+        this.bounds = rect;
+        this.setPosition( new Point2D.Double( rect.getX(), rect.getY() ) );
+    }
+
+    public void setDirection( Vector2D.Double direction ) {
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.s_speed );
     }
 
@@ -74,19 +77,19 @@ public class CollimatedBeam extends Particle {
     }
 
     public double getHeight() {
-        return height;
+        return bounds.getHeight();
     }
 
     public void setHeight( double height ) {
-        this.height = height;
+        this.bounds.setRect( bounds.getX(), bounds.getY(), bounds.getWidth(), height );
     }
 
     public double getWidth() {
-        return width;
+        return bounds.getHeight();
     }
 
     public void setWidth( double width ) {
-        this.width = width;
+        this.bounds.setRect( bounds.getX(), bounds.getY(), width, bounds.getHeight() );
     }
 
     public double getPhotonsPerSecond() {
@@ -148,8 +151,6 @@ public class CollimatedBeam extends Particle {
                 timeSinceLastPhotonProduced = 0;
                 this.addPhoton();
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
-
-                //                EventRegistry.instance.fireEvent( new PhotonEmittedEvent( this ) );
             }
         }
     }
@@ -164,13 +165,13 @@ public class CollimatedBeam extends Particle {
     }
 
     private double genPositionY() {
-        double yDelta = velocity.getX() != 0 ? Math.random() * height : 0;
+        double yDelta = velocity.getX() != 0 ? Math.random() * bounds.getHeight() : 0;
         return this.getPosition().getY() + yDelta;
     }
 
     private double genPositionX() {
         double xDelta = velocity.getY() != 0 ?
-                        Math.random() * width : 0;
+                        Math.random() * bounds.getWidth() : 0;
         return this.getPosition().getX() + xDelta;
     }
 

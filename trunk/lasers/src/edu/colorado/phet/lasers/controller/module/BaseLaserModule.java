@@ -13,9 +13,11 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.LaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
@@ -36,7 +38,7 @@ import java.awt.geom.Rectangle2D;
 /**
  *
  */
-public abstract class BaseLaserModule extends Module implements CollimatedBeam.Listener {
+public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
 
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
     static protected final double s_boxHeight = 150;
@@ -54,6 +56,9 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
     private Frame appFrame;
     // Used to save and restore state when the module is activated and deactivated
     private boolean energyDialogIsVisible;
+    private EnergyLevelMonitorPanel energyLevelsMonitorPanel;
+    private CollimatedBeam stimulatingBeam;
+    private CollimatedBeam pumpingBeam;
 
     public class PEL implements CollimatedBeam.PhotonEmittedEventListener {
         int cnt;
@@ -73,13 +78,36 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
 
         //        EventRegistry.instance.addListener( new PEL() );
 
+        // Create the model
         laserModel = new LaserModel();
         setModel( laserModel );
         laserModel.setBounds( new Rectangle2D.Double( 0, 0, 800, 600 ) );
 
+        // Create the apparatus panel
         ApparatusPanel apparatusPanel = new ApparatusPanel();
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
+
+        // Create the pumping and stimulating beams
+        stimulatingBeam = new CollimatedBeam( getLaserModel(),
+                                              Photon.RED,
+                                              s_origin,
+                                              s_boxHeight - Photon.s_radius,
+                                              s_boxWidth + s_laserOffsetX * 2,
+                                              new Vector2D.Double( 1, 0 ) );
+        stimulatingBeam.addListener( this );
+        stimulatingBeam.setActive( true );
+        getLaserModel().setStimulatingBeam( stimulatingBeam );
+
+        pumpingBeam = new CollimatedBeam( getLaserModel(),
+                                          Photon.BLUE,
+                                          new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
+                                          s_boxHeight + s_laserOffsetX * 2,
+                                          s_boxWidth,
+                                          new Vector2D.Double( 0, 1 ) );
+        pumpingBeam.addListener( this );
+        pumpingBeam.setActive( true );
+        getLaserModel().setPumpingBeam( pumpingBeam );
 
         // Add the laser cavity
         laserOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX,
@@ -108,10 +136,14 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         leftMirror.addReflectionStrategy( new RightReflecting() );
         leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
 
+        // Create the energy levels dialog
+        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( laserModel );
+        energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel, getLaserModel() );
+
         // Add the control panel
-        //        LaserControlPanel controlPanel = new LaserControlPanel( this, clock );
-        //        controlPanel.setMaxPhotonRate( 5 );
-        //        setControlPanel( controlPanel );
+        LaserControlPanel controlPanel = new LaserControlPanel( this, clock );
+        controlPanel.setMaxPhotonRate( 5 );
+        setControlPanel( controlPanel );
     }
 
     protected Point2D getLaserOrigin() {
@@ -189,14 +221,6 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         } );
     }
 
-    public void setEnergyMonitorPanel( MonitorPanel monitorPanel ) {
-        if( energyLevelsDialog != null ) {
-            energyLevelsDialog.setVisible( false );
-        }
-        energyLevelsDialog = new EnergyLevelsDialog( appFrame, monitorPanel, getLaserModel() );
-        //        energyLevelsDialog.setVisible( true );
-    }
-
     public void activate( PhetApplication app ) {
         super.activate( app );
         appFrame = app.getApplicationView().getPhetFrame();
@@ -230,25 +254,13 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
     }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
-        EnergyLevelMonitorPanel monitorPanel = new EnergyLevelMonitorPanel( laserModel );
         if( threeEnergyLevels ) {
-            monitorPanel.setNumLevels( 3 );
+            energyLevelsMonitorPanel.setNumLevels( 3 );
             laserModel.getPumpingBeam().setActive( true );
         }
         else {
-            monitorPanel.setNumLevels( 2 );
+            energyLevelsMonitorPanel.setNumLevels( 2 );
             laserModel.getPumpingBeam().setActive( false );
         }
-        setEnergyMonitorPanel( monitorPanel );
-
-
-        //        if( threeEnergyLevels ) {
-        //            setEnergyMonitorPanel( new ThreeEnergyLevelMonitorPanel( getLaserModel() ) );
-        //            laserModel.getPumpingBeam().setActive( true );
-        //        }
-        //        else {
-        //            setEnergyMonitorPanel( new TwoEnergyLevelMonitorPanel( getLaserModel() ) );
-        //            laserModel.getPumpingBeam().setActive( false );
-        //        }
     }
 }
