@@ -150,9 +150,6 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         // Control Panel
         BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this, 
                 magnetModel, compassModel, magnetGraphic, fieldMeterGraphic );
-        if ( FaradayConfig.ENABLE_DEVELOPER_CONTROLS ) {
-            controlPanel.addFullWidth( new DeveloperPanel( magnetModel, _gridGraphic, null, apparatusPanel ) );
-        }
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------

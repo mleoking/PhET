@@ -176,9 +176,6 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         MagnetAndCoilControlPanel controlPanel = new MagnetAndCoilControlPanel( this, 
             magnetModel, compassModel, pickupCoilModel, lightBulbModel, voltMeterModel,
             magnetGraphic, _gridGraphic );
-        if ( FaradayConfig.ENABLE_DEVELOPER_CONTROLS ) {
-            controlPanel.addFullWidth( new DeveloperPanel( magnetModel, _gridGraphic, pickupCoilGraphic.getCoilGraphic(), apparatusPanel ) );
-        }
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
