@@ -138,6 +138,9 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
      * @param g
      */
     public void paint( Graphics2D g ) {
+        pushRenderingHints( g );
+        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+
         g.setColor( wallColor );
         //        g.draw( xformedWall );
         //        g.fill( xformedWall );
@@ -160,8 +163,6 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
             g.fill( midPoint );
 
             double radius = 100;
-            pushRenderingHints( g );
-            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             Arc2D.Double upperArc = new Arc2D.Double( getMidPoint().getX() - radius - h,
                                                       getMidPoint().getY() - radius - h,
                                                       radius * 2, radius * 2,
@@ -173,17 +174,8 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
             g.setColor( Color.black );
             g.draw( upperArc );
             g.draw( lowerArc );
-            popRenderingHints( g );
         }
-
-        // For debugging
-        //            g.setColor(Color.RED);
-        //            g.fillArc((int) x, (int) y, 5, 5, 0, 360);
-        //            g.setColor(Color.RED);
-        //            g.fillArc((int) b.getX(), (int) b.getY(), 5, 5, 0, 360);
-        //            g.fillArc((int) pp.getX(), (int) pp.getY(), 5, 5, 0, 360);
-        //            g.fillArc((int) p.getX(), (int) p.getY(), 5, 5, 0, 360);
-        //            g.fillArc(300, 300, 5, 5, 0, 360);
+        popRenderingHints( g );
     }
 
     public void setDisplayHelpOrnaments( boolean enabled ) {
