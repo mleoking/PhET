@@ -8,8 +8,8 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.graphics.BufferedGraphic;
+import edu.colorado.phet.common.view.plaf.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.model.Forces1DModel;
 import edu.colorado.phet.forces1d.model.MMTimer;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
@@ -28,6 +28,8 @@ import java.io.IOException;
 public class Forces1DModule extends Module implements PlotConnection {
     private Forces1DModel forceModel;
     private Force1DPanel forcePanel;
+    private static final double MIN_TIME = 0.0;
+    private static final double MAX_TIME = 20.0;
 
     public Forces1DModule() throws IOException {
         super( "Forces1D" );
@@ -103,10 +105,10 @@ public class Forces1DModule extends Module implements PlotConnection {
     }
 
     public double getMinTime() {
-        return 0;
+        return MIN_TIME;
     }
 
     public double getMaxTime() {
-        return 0;
+        return MAX_TIME;
     }
 }

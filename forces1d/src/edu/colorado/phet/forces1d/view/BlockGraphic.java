@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -16,7 +15,7 @@ import java.awt.event.MouseEvent;
  * Time: 10:27:14 AM
  * Copyright (c) Nov 13, 2004 by Sam Reid
  */
-public class BlockGraphic extends CompositePhetGraphic implements InteractiveGraphic {
+public class BlockGraphic extends CompositePhetGraphic {
     private Block block;
     private ModelViewTransform2D transform2D;
 
