@@ -621,9 +621,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 bImgGraphics.fillRect( bImg.getMinX(), bImg.getMinY(), bImg.getWidth(), bImg.getHeight() );
 
                 setup( bImgGraphics );
-                bImgGraphics.transform( graphicTx );
-                bImgGraphics.setClip( g2.getClip() );//apply the clip to our graphics to skip painting unchanged regions to the buffer
+//                bImgGraphics.setClip( g2.getClip() );//apply the clip to the buffer (in case we're not painting everything.)
                 //TODO is clipping the bImgGraphics helping..?
+                bImgGraphics.transform( graphicTx );
                 apparatusPanel2.getGraphic().paint( bImgGraphics );
                 g2.drawImage( bImg, IDENTITY, apparatusPanel2 );
                 bImgGraphics.dispose();
