@@ -14,19 +14,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.EventObject;
 
 public class EnergyLevelsDialog extends JDialog {
-
-    public class CloseEvent extends EventObject {
-        public CloseEvent( Object source ) {
-            super( source );
-        }
-    }
-
-    public interface Listener {
-        public void closingOccured( EnergyLevelsDialog dlg );
-    }
 
     public EnergyLevelsDialog( Frame parent, JPanel energyLevelsPanel ) {
         super( parent, SimStrings.get( "EnergyLevelsDialog.Title" ) );
