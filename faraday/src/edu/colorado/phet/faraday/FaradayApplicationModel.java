@@ -30,7 +30,7 @@ import edu.colorado.phet.faraday.module.TransformerModule;
  */
 public class FaradayApplicationModel extends ApplicationModel {
 
-    private static final boolean TEST_ONE_MODULE = true;
+    private static final boolean TEST_ONE_MODULE = false;
     
     /**
      * Sole constructor.
