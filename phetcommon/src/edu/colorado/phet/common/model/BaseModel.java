@@ -31,6 +31,10 @@ public class BaseModel extends CompositeModelElement implements ClockTickListene
         this.clock = clock;
     }
 
+    public AbstractClock getClock() {
+        return clock;
+    }
+
     //Not allowed to mess with the way we call our abstract method.
     public final void stepInTime( double dt ) {
         commandList.doIt();
