@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 public class StarMapControlPanel extends JPanel {
     private JButton starshipCoordsBtn;
     private StarMapModule module;
+    private ControlPanel controlPanel;
 
     public StarMapControlPanel( final StarMapModule module ) {
         super( new GridBagLayout() );
@@ -31,7 +32,8 @@ public class StarMapControlPanel extends JPanel {
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new ControlPanel(),
+            controlPanel = new ControlPanel();
+            GraphicsUtil.addGridBagComponent( this, controlPanel,
                                               0, rowIdx,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
@@ -39,6 +41,10 @@ public class StarMapControlPanel extends JPanel {
         catch( AWTException e ) {
             e.printStackTrace();
         }
+    }
+
+    public void setStarshipCordinateGraphicEnabled( boolean isEnabled ) {
+        starshipCoordsBtn.setEnabled( isEnabled );
     }
 
     private class ControlPanel extends JPanel {
@@ -72,6 +78,9 @@ public class StarMapControlPanel extends JPanel {
             catch( AWTException e ) {
                 e.printStackTrace();
             }
+        }
+
+        public void setStarshipCordinateGraphicEnabled( boolean enabled ) {
         }
     }
 

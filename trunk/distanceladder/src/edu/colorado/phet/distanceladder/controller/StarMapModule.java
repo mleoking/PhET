@@ -19,6 +19,7 @@ public class StarMapModule extends Module {
     private double starshipCoordsLayer = Config.starLayer - 1;
     private StarshipCoordsGraphic starshipCoords;
     private StarMapGraphic starMapGraphic;
+    private StarMapControlPanel starMapControlPanel;
 
     public StarMapModule( UniverseModel model ) {
         super( "Star Map" );
@@ -32,7 +33,8 @@ public class StarMapModule extends Module {
         apparatusPanel.addGraphic( starMapGraphic );
         this.starshipCoords = new StarshipCoordsGraphic( model.getStarShip(), getApparatusPanel() );
 
-        setControlPanel( new StarMapControlPanel( this ) );
+        starMapControlPanel = new StarMapControlPanel( this );
+        setControlPanel( starMapControlPanel );
     }
 
     public void setStarshipCoordsEnabled( boolean coordsOn ) {
@@ -42,5 +44,10 @@ public class StarMapModule extends Module {
         else {
             starMapGraphic.remove( starshipCoords );
         }
+    }
+
+    public void setStarshipCordinateGraphicEnabled( boolean isEnabled ) {
+        setStarshipCoordsEnabled( isEnabled );
+        starMapControlPanel.setStarshipCordinateGraphicEnabled( isEnabled );
     }
 }

@@ -60,6 +60,9 @@ public class ExerciseView {
 
             // Don't let the user close the dialog with the icon in the upper right corner
             this.setDefaultCloseOperation( JDialog.EXIT_ON_CLOSE );
+            this.setUndecorated( true );
+            this.setResizable( false );
+            this.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
 
             // Add the question
             Container container = this.getContentPane();
@@ -67,6 +70,7 @@ public class ExerciseView {
             JEditorPane questionPane = new JEditorPane( "text/html", exerciseModel.getQuestion() );
             questionPane.setEditable( false );
             JScrollPane jScrollPane = new JScrollPane( questionPane );
+            jScrollPane.setAutoscrolls( true );
             jScrollPane.setPreferredSize( new Dimension( 300, 200 ) );
             container.add( jScrollPane, BorderLayout.NORTH );
 

@@ -49,6 +49,7 @@ public class StarGraphic implements Graphic {
 
     public void paint( Graphics2D g ) {
         AffineTransform orgTx = g.getTransform();
+        Object rh = g.getRenderingHint( RenderingHints.KEY_ANTIALIASING );
         GraphicsUtil.setAntiAliasingOn( g );
         g.transform( starTx );
 
@@ -58,6 +59,9 @@ public class StarGraphic implements Graphic {
 
         g.fill( circle );
         g.setTransform( orgTx );
+
+        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, rh );
+        GraphicsUtil.setAlpha( g, 1 );
     }
 
     public void update( Point2D.Double location, double radius, double apparentBrightnes ) {
