@@ -18,6 +18,7 @@ import java.awt.geom.Point2D;
 public class PotentialProfileGraphic implements Graphic {
 
     private Color color = Color.blue;
+    private Color backgroundColor = new Color( 200, 200, 255 );
     private Stroke stroke = new BasicStroke( 2f );
 
     private PotentialProfile profile;
@@ -45,7 +46,7 @@ public class PotentialProfileGraphic implements Graphic {
         profileTx.setToIdentity();
         profileTx.translate( origin.getX(), origin.getY() );
         g.draw( profileTx.createTransformedShape( profile.getPath() ) );
-        g.setColor( Color.yellow );
+        g.setColor( backgroundColor );
         AlphaSetter.set( g, .2 );
         g.fill( profileTx.createTransformedShape( profile.getBackgroundPath() ) );
         AlphaSetter.set( g, 1 );
