@@ -63,7 +63,6 @@ public class LeanerGraphic extends PhetImageGraphic {
     }
 
     private int getFrame() {
-
         double appliedForce = Math.abs( module.getForceModel().getAppliedForce() );
         int index = (int)( animation.getNumFrames() * appliedForce / max );
         if( index >= animation.getNumFrames() ) {
