@@ -1,15 +1,23 @@
-/**
- * Class: ModelViewTx1D
- * Package: edu.colorado.phet.coreadditions
- * Author: Another Guy
- * Date: Sep 12, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
+
 package edu.colorado.phet.common.math;
 
 /**
  * A class that performs linear tranforms between model and view values.
  * Useful for JSliders, JTextFields, and other view elements that work with
  * scalars in the model.
+ * 
+ * @author Ron LeMaster
+ * @version $Revision$
  */
 public class ModelViewTx1D {
 

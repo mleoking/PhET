@@ -1,4 +1,14 @@
-/* Copyright University of Colorado, 2003 */
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
+
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
@@ -16,6 +26,9 @@ import javax.swing.*;
  * a complete virtual experiment. This includes, but is not limited to, the
  * on-screen controls and view elements that go along with the
  * experiment. Each module has its own model.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class Module {
 
