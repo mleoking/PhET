@@ -57,7 +57,7 @@ public class PickupCoilGraphic implements SimpleObserver {
      * @param voltMeterModel the voltmeter model
      */
     public PickupCoilGraphic( 
-            Component component, 
+            final Component component, 
             BaseModel baseModel,
             PickupCoil pickupCoilModel, 
             LightBulb lightBulbModel,
@@ -92,9 +92,12 @@ public class PickupCoilGraphic implements SimpleObserver {
         _background.setCursorHand();
         TranslationListener listener = new TranslationListener() {
             public void translationOccurred( TranslationEvent e ) {
-                double x = _pickupCoilModel.getX() + e.getDx();
-                double y = _pickupCoilModel.getY() + e.getDy();
-                _pickupCoilModel.setLocation( x, y );
+                // Translate if the mouse cursor is inside the parent component.
+                if ( component.contains( e.getMouseEvent().getPoint() ) ) {
+                    double x = _pickupCoilModel.getX() + e.getDx();
+                    double y = _pickupCoilModel.getY() + e.getDy();
+                    _pickupCoilModel.setLocation( x, y );
+                } 
             }
         };
         _foreground.addTranslationListener( listener );

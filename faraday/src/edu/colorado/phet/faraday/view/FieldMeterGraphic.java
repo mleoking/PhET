@@ -146,10 +146,13 @@ public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObs
         super.setCursorHand();
         super.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent e ) {
-                int x = getX() + e.getDx();
-                int y = getY() + e.getDy();
-                setLocation( x, y );
-                update();
+                // Translate if the mouse cursor is inside the parent component.
+                if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
+                    int x = getX() + e.getDx();
+                    int y = getY() + e.getDy();
+                    setLocation( x, y );
+                    update();
+                }
             }
         } );
         
