@@ -95,5 +95,17 @@ public interface Function {
         public double getOutputRange() {
             return yMax - yMin;
         }
+
+        public void setInput( double xMin, double xMax ) {
+            this.xMin = xMin;
+            this.xMax = xMax;
+            update();
+        }
+
+        public void setOutput( double yMin, double yMax ) {
+            this.yMin = yMin;
+            this.yMax = yMax;
+            update();
+        }
     }
 }
