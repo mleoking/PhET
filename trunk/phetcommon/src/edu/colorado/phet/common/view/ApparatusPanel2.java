@@ -48,6 +48,8 @@ import java.util.*;
  */
 public class ApparatusPanel2 extends ApparatusPanel {
 
+    private static final boolean DEBUG_OUTPUT_ENABLED = false;
+    
     private BufferedImage bImg;
     private boolean useOffscreenBuffer = false;
     private ArrayList rectangles = new ArrayList();
@@ -162,7 +164,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
         // Set the canvas size
         determineCanvasSize();
 
-        System.out.println( "referenceBounds = " + referenceBounds );
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "ApparatusPanel2.setReferenceBounds: referenceBounds=" + referenceBounds );
+        }
     }
 
     private void saveSwingComponentCoordinates( double scale ) {
@@ -451,7 +455,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public void setScale( double scale ) {
         graphicTx = AffineTransform.getScaleInstance( scale, scale );
         this.scale = scale;
-        System.out.println( "Set graphics to scale: " + scale );
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "ApparatusPanel2.setScale: scale=" + scale );
+        }
         try {
             mouseTx = graphicTx.createInverse();
         }
