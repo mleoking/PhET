@@ -52,10 +52,10 @@ public class ApparatusPanel extends JPanel {
         super( null );
         this.addMouseListener( mouseDelegator );
         this.addMouseMotionListener( mouseDelegator );
-//        BevelBorder border = (BevelBorder)BorderFactory.createLoweredBevelBorder();
+        //        BevelBorder border = (BevelBorder)BorderFactory.createLoweredBevelBorder();
 
-//        Border border = BorderFactory.createLineBorder( Color.black );
-//        this.setBorder( border );
+        //        Border border = BorderFactory.createLineBorder( Color.black );
+        //        this.setBorder( border );
     }
 
     public CompositeInteractiveGraphicMouseDelegator getMouseDelegator() {
@@ -96,7 +96,7 @@ public class ApparatusPanel extends JPanel {
 
         g2.setColor( origColor );
         g2.setStroke( origStroke );
-//        g2.draw( this.getBounds() );
+        //        g2.draw( this.getBounds() );
     }
 
     public void addGraphic( Graphic graphic, double level ) {
@@ -107,7 +107,8 @@ public class ApparatusPanel extends JPanel {
      * Adds a graphic to the default layer 0.
      */
     public void addGraphic( Graphic graphic ) {
-        this.graphic.addGraphic( graphic, 0 );
+        this.addGraphic( graphic, 0 );
+        //        this.graphic.addGraphic( graphic, 0 );
     }
 
     public void removeGraphic( Graphic graphic ) {
