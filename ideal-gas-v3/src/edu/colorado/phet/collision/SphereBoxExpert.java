@@ -20,14 +20,17 @@ public class SphereBoxExpert implements CollisionExpert {
         this.model = model;
     }
 
-    public void detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
-        if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB )) {
+    public boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
+        boolean haveCollided = false;
+        if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB ) ) {
             SphericalBody sphere = bodyA instanceof SphericalBody ?
                                    (SphericalBody)bodyA : (SphericalBody)bodyB;
             Box2D box = bodyA instanceof Box2D ?
-                                   (Box2D)bodyA : (Box2D)bodyB;
+                        (Box2D)bodyA : (Box2D)bodyB;
             collision = new SphereBoxCollision( sphere, box, model );
             collision.collide();
+            haveCollided = true;
         }
+        return haveCollided;
     }
 }

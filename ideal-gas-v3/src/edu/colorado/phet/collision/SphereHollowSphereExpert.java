@@ -21,11 +21,14 @@ public class SphereHollowSphereExpert implements CollisionExpert {
         this.dt = dt;
     }
 
-    public void detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
+    public boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
+        boolean haveCollided = false;
         if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB ) ) {
             Collision collision = new SphereHollowSphereCollision( (HollowSphere)bodyA,
                                                                    (SphericalBody)bodyB );
             collision.collide();
+            haveCollided = true;
         }
+        return haveCollided;
     }
 }

@@ -19,12 +19,15 @@ public class SphereSphereExpert implements CollisionExpert {
         this.dt = dt;
     }
 
-    public void detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
-        if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB )) {
+    public boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
+        boolean haveCollided = false;
+        if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB ) ) {
             Collision collision = new SphereSphereCollision( (SphericalBody)bodyA,
                                                              (SphericalBody)bodyB,
                                                              model, dt );
             collision.collide();
+            haveCollided = true;
         }
+        return haveCollided;
     }
 }

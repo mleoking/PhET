@@ -150,7 +150,7 @@ public class CollisionGod {
             for( int j = 0; j < bodies.size(); j++ ) {
                 CollidableBody body2 = (CollidableBody)bodies.get( j );
                 if( body1 != body2 ) {
-                    detectAndDoCollision( body1, body2, dt );
+                    detectAndDoCollision( body1, body2 );
                 }
             }
         }
@@ -185,16 +185,17 @@ public class CollisionGod {
             for( int j = jStart; j < region2.size(); j++ ) {
                 CollidableBody body2 = (CollidableBody)region2.get( j );
                 if( body1 != body2 ) {
-                    detectAndDoCollision( body1, body2, dt );
+                    detectAndDoCollision( body1, body2 );
                 }
             }
         }
     }
 
-    private void detectAndDoCollision( CollidableBody body1, CollidableBody body2, double dt ) {
-        for( int i = 0; i < collisionExperts.size(); i++ ) {
+    private void detectAndDoCollision( CollidableBody body1, CollidableBody body2 ) {
+        boolean haveCollided = false;
+        for( int i = 0; i < collisionExperts.size() && !haveCollided; i++ ) {
             CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( i );
-            collisionExpert.detectAndDoCollision( body1, body2 );
+            haveCollided = collisionExpert.detectAndDoCollision( body1, body2 );
         }
 
     }

@@ -7,5 +7,5 @@
 package edu.colorado.phet.collision;
 
 public interface CollisionExpert {
-    abstract void detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB );
+    abstract boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB );
 }
