@@ -13,9 +13,11 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
 
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.model.LightBulb;
 
 
 /**
@@ -25,16 +27,17 @@ import edu.colorado.phet.faraday.FaradayConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class LightBulbGraphic extends CompositePhetGraphic {
+public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    private LightBulb _lightBulbModel;
     private PhetImageGraphic _lightEmission;
     
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructors & finalizers
     //----------------------------------------------------------------------------
     
     /**
@@ -42,8 +45,11 @@ public class LightBulbGraphic extends CompositePhetGraphic {
      * 
      * @param component the parent Component
      */
-    public LightBulbGraphic( Component component ) {
+    public LightBulbGraphic( Component component, LightBulb lightBulbModel ) {
         super( component );
+        
+        _lightBulbModel = lightBulbModel;
+        _lightBulbModel.addObserver( this );
         
         // Light emission
         {
@@ -62,30 +68,41 @@ public class LightBulbGraphic extends CompositePhetGraphic {
             int y = 25;
             lightBulb.setRegistrationPoint( x, y );
         }
+        
+        update();
+    }
+    
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void finalize() {
+        _lightBulbModel.removeObserver( this );
+        _lightBulbModel = null;
     }
     
     //----------------------------------------------------------------------------
-    // Accessors
+    // SimpleObserver implementation
     //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the intensity of the light.
-     * 
-     * @param scale 0 for off, 1.0 for full intensity.
-     * @throws IllegalArgumentExcecption if scale is out of range
+
+    /*
+     * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
-    public void setIntensity( double scale ) {
-        if ( scale < 0 || scale > 1 ) {
-            throw new IllegalArgumentException( "scale must be between 0 and 1: " + scale );
-        }
-        
-        if ( scale == 0 ) {
-            _lightEmission.setVisible( false );
-        }
-        else {
-            _lightEmission.setVisible( true );
-            _lightEmission.clearTransform();
-            _lightEmission.scale( scale );
+    public void update() {
+        if ( isVisible() ) {
+            
+            double intensity = _lightBulbModel.getIntensity();
+            assert ( intensity >= 0 && intensity <= 1 );
+            System.out.println( "LightBulbGraphic.update: intensity=" + intensity ); // DEBUG
+
+            if ( intensity == 0 ) {
+                _lightEmission.setVisible( false );
+            }
+            else {
+                _lightEmission.setVisible( true );
+                _lightEmission.clearTransform();
+                _lightEmission.scale( intensity );
+            }
         }
     }
 }

@@ -55,8 +55,10 @@ public abstract class AbstractResistor extends SimpleObservable {
         if ( resistance < 0 ) {
             throw new IllegalArgumentException( "resistance must be >= 0: " + resistance );
         }
-        _resistance = resistance;
-        notifyObservers();
+        if ( resistance != resistance ) {
+            _resistance = resistance;
+            notifyObservers();
+        }
     }
     
     /**
@@ -67,5 +69,4 @@ public abstract class AbstractResistor extends SimpleObservable {
     public double getResistance() {
         return _resistance;
     }
-
 }

@@ -25,10 +25,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
 import edu.colorado.phet.faraday.model.*;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
-import edu.colorado.phet.faraday.model.BarMagnet;
-import edu.colorado.phet.faraday.model.HollywoodMagnet;
-import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -77,6 +73,9 @@ public class BarMagnetModule extends Module {
     private static final int GRID_X_SPACING = 40;
     private static final int GRID_Y_SPACING = 40;
     private static final Dimension GRID_NEEDLE_SIZE = new Dimension( 25, 5 );
+    
+    private static final double LIGHT_BULB_RESISTANCE = 20; // ohms
+    private static final double VOLTMETER_RESISTANCE = 20; // ohms
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -129,8 +128,9 @@ public class BarMagnetModule extends Module {
         _magnetModel.setLocation( MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );
         _magnetModel.setSize( MAGNET_SIZE );
+        model.addModelElement( _magnetModel );
         
-        // Compass model
+        // Compass
         AbstractCompass compassModel = null;
         if ( FaradayConfig.HOLLYWOOD_COMPASS ) {
             System.out.println( "*** HOLLYWOOD_COMPASS is enabled ***" ); // DEBUG
@@ -142,7 +142,7 @@ public class BarMagnetModule extends Module {
         compassModel.setLocation( COMPASS_LOCATION );
         model.addModelElement( compassModel );
         
-        // Pickup AbstractCoil
+        // Pickup Coil
         _pickupCoilModel = new PickupCoil( _magnetModel );
         _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
         _pickupCoilModel.setRadius( LOOP_RADIUS );
@@ -150,6 +150,14 @@ public class BarMagnetModule extends Module {
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         model.addModelElement( _pickupCoilModel );
        
+        // Lightbulb
+        LightBulb lightBulbModel = new LightBulb( _pickupCoilModel, LIGHT_BULB_RESISTANCE );
+        model.addModelElement( lightBulbModel );
+        
+        // Volt Meter
+        VoltMeter voltMeterModel = new VoltMeter( _pickupCoilModel, VOLTMETER_RESISTANCE );
+        model.addModelElement( voltMeterModel );
+        
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -164,7 +172,7 @@ public class BarMagnetModule extends Module {
         apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
         
         // Pickup AbstractCoil
-        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel );
+        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel, lightBulbModel, voltMeterModel );
         apparatusPanel.addGraphic( _pickupCoilGraphic, COIL_BACK_LAYER ); // XXX
         
         // Grid
@@ -220,8 +228,8 @@ public class BarMagnetModule extends Module {
         _controlPanel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
         _controlPanel.setBulbEnabled( true );
         _controlPanel.setMeterEnabled( false );
-        _controlPanel.setCompassGridEnabled( false );
-        _gridGraphic.setVisible( false );
+        _controlPanel.setCompassGridEnabled( true );
+        _gridGraphic.setVisible( true );
     }
     
     /**

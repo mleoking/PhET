@@ -87,8 +87,10 @@ public class AbstractCoil extends SpacialObservable {
         if ( numberOfLoops <= 0 ) {
             throw new IllegalArgumentException( "numberOfLoops must be > 0: " + numberOfLoops );
         }
-        _numberOfLoops = numberOfLoops;
-        notifyObservers();
+        if ( numberOfLoops != _numberOfLoops ) {
+            _numberOfLoops = numberOfLoops;
+            notifyObservers();
+        }
     }
     
     /**
@@ -111,8 +113,10 @@ public class AbstractCoil extends SpacialObservable {
         if ( radius <= 0 ) {
             throw new IllegalArgumentException( "radius must be > 0: " + radius );
         }
-        _radius = radius;
-        notifyObservers();
+        if ( radius != _radius ) {
+            _radius = radius;
+            notifyObservers();
+        }
     }
     
     /**
@@ -138,10 +142,16 @@ public class AbstractCoil extends SpacialObservable {
      * Sets the spacing between loops in the coil.
      * 
      * @param spacing the spacing
+     * @throws IllegalArgumentException if spacing is <= 0
      */
     public void setSpacing( double spacing ) {
-        _spacing = spacing;
-        notifyObservers();
+        if ( spacing <= 0 ) {
+            throw new IllegalArgumentException( "spacing must be > 0: " + spacing );
+        }
+        if ( spacing != _spacing ) {
+            _spacing = spacing;
+            notifyObservers();
+        }
     }
     
     /**

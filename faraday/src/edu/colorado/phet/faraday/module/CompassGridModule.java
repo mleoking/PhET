@@ -126,6 +126,7 @@ public class CompassGridModule extends Module {
         _magnetModel.setLocation( MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );
         _magnetModel.setSize( MAGNET_SIZE );
+        model.addModelElement( _magnetModel );
         
         // Compass model
         AbstractCompass compassModel = null;

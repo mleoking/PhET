@@ -13,14 +13,15 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
 
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.model.LightBulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
+import edu.colorado.phet.faraday.model.VoltMeter;
 
 
 /**
@@ -51,19 +52,19 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
      * @param component the parent Component
      * @param coilModel the model element to be observed
      */
-    public PickupCoilGraphic( Component component, PickupCoil coilModel ) {
+    public PickupCoilGraphic( Component component, PickupCoil coilModel, LightBulb lightBulbModel, VoltMeter voltMeterModel ) {
         super( component );
         
         _coilModel = coilModel;
         _coilModel.addObserver( this );
         
         // Lightbulb
-        _bulb = new LightBulbGraphic( component );
+        _bulb = new LightBulbGraphic( component, lightBulbModel );
         _bulb.setLocation( 0, -170 );
         addGraphic( _bulb );
 
         // Voltmeter
-        _meter = new VoltMeterGraphic( component );
+        _meter = new VoltMeterGraphic( component, voltMeterModel );
         _meter.setLocation( 0, -95 );
         _meter.scale( 0.3 );
         addGraphic( _meter );
@@ -149,13 +150,13 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
             double emf = _coilModel.getEMF();
             // System.out.println( "emf = " + emf ); // DEBUG
             
-            // Set the light intensity.
-            double intensity = MathUtil.clamp( 0, Math.abs( emf/100000 ), 1 ); // XXX HACK
-            _bulb.setIntensity( intensity );
+//            // Set the light intensity.
+//            double intensity = MathUtil.clamp( 0, Math.abs( emf/100000 ), 1 ); // XXX HACK
+//            _bulb.setIntensity( intensity );
             
-            // Set the voltmeter reading.
-            double value = MathUtil.clamp( -1, (int)( emf/100000 ), 1 );  // XXX HACK
-            _meter.setValue( value );
+//            // Set the voltmeter reading.
+//            double value = MathUtil.clamp( -1, (int)( emf/100000 ), 1 );  // XXX HACK
+//            _meter.setValue( value );
             
             // Set the number of loops in the coil.
             {

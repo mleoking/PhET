@@ -76,8 +76,10 @@ public class SpacialObservable extends SimpleObservable {
      * @param y location Y coordinate
      */
     public void setLocation( double x, double y ) {
-       _location.setLocation( x, y );
-       notifyObservers();
+        if ( x != _location.getX() || y != _location.getY() ) {
+            _location.setLocation( x, y );
+            notifyObservers();
+        }
     }
     
     /**
@@ -114,8 +116,10 @@ public class SpacialObservable extends SimpleObservable {
      * @param direction the direction, in degrees
      */
     public void setDirection( double direction ) {
-        _direction = direction;
-        notifyObservers();
+        if ( direction != _direction ) {
+            _direction = direction;
+            notifyObservers();
+        }
     }
     
     /**

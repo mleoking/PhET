@@ -17,6 +17,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.model.ModelElement;
 
 
 /**

@@ -35,9 +35,6 @@ public class FaradayApplication extends PhetApplication {
     // The background color for the application's main Frame.
     private static final Color BACKGROUND = new Color( 148, 166, 158 );
 
-    // Whether to turn on rendering of PhetGraphic bounds
-    private static final boolean BOUNDS_OUTLINE_ENABLED = false; // DEBUG
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------

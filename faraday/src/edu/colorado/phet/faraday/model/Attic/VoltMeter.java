@@ -11,7 +11,8 @@
 
 package edu.colorado.phet.faraday.model;
 
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.model.ModelElement;
 
 
 /**
@@ -20,13 +21,14 @@ import edu.colorado.phet.common.util.SimpleObserver;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class VoltMeter extends AbstractResistor implements SimpleObserver {
-
+public class VoltMeter extends AbstractResistor implements ModelElement {
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Current _currentModel;
+    private ICurrentSource _currentModel;
+    private double _voltage;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -38,30 +40,46 @@ public class VoltMeter extends AbstractResistor implements SimpleObserver {
      * @param currentModel the model of the current running through the meter
      * @param resistance the resistance of the meter
      */
-    public VoltMeter( Current currentModel, double ohms ) {
+    public VoltMeter( ICurrentSource currentModel, double ohms ) {
         super( ohms );
         _currentModel = currentModel;
-        _currentModel.addObserver( this );
-    }
-    
-    /**
-     * Finalizes an instance of this type.
-     * Call this method prior to releasing all references to an object of this type.
-     */
-    public void finalize() {
-        _currentModel.removeObserver( this );
-        _currentModel = null;
+        _voltage = 0.0;
     }
 
     //----------------------------------------------------------------------------
-    // SimpleObserver implementation
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the voltage that the meter is reading.
+     * 
+     * @param voltage the voltage, in volts
+     */
+    private void setVoltage( double voltage ) {
+        if ( voltage != _voltage ) {
+            _voltage = voltage;
+            notifyObservers();
+        }
+    }
+    
+    /**
+     * Gets the voltage that the meter is reading.
+     * 
+     * @return the voltage, in volts
+     */
+    public double getVoltage() {
+        return _voltage;
+    }
+    
+    //----------------------------------------------------------------------------
+    // ModelElement implementation
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
      */
-    public void update() {
-        // TODO Auto-generated method stub
-        
+    public void stepInTime( double dt ) {
+        // XXX need to average voltage over time!
+        setVoltage( _currentModel.getCurrent() * getResistance() );
     }
 }
