@@ -38,7 +38,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     private int _sign; // -1 or +1
     private double _angle; // radians
     private double _deltaAngle; // radians
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -98,7 +98,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         if ( frequency != _frequency ) {
             _frequency = frequency;
             _angle = 0.0;
-            _deltaAngle = ( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE;
+            _deltaAngle =( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE;
             notifyObservers();
         }
     }
@@ -112,17 +112,8 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         return _frequency;
     }
     
-    /**
-     * Gets the angle.
-     * 
-     * @return the angle, in radians
-     */
-    public double getAngle() {
-        return _angle;
-    }
-    
     /** 
-     * Gets the change in angle per tick of the simulation clock.
+     * Gets the change in angle per click of the simulation clock.
      * 
      * @return the delta angle, in radians
      */
@@ -141,24 +132,24 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
      */
     public void stepInTime( double dt ) {
         if ( isEnabled() ) {
-
+            
             double previousAngle = _angle;
             
             // Compute the angle.
             _angle += _deltaAngle;
             
-            // Make sure we hit all peaks and zero crossings (at 90 degree intervals).
-            for ( int i = 1; i <= 4; i++ ) {
-                double criticalAngle = i * ( Math.PI / 2 );
-                if ( previousAngle < criticalAngle && _angle > criticalAngle ) {
-                    _angle = criticalAngle;
-                    break;
-                } 
-            }
+//            // Adjust the angle so that we hit all peaks and zero crossings (at 90 degree intervals).
+//            for ( int i = 1; i <= 4; i++ ) {
+//                double criticalAngle = i * ( Math.PI / 2 );
+//                if ( previousAngle < criticalAngle && _angle > criticalAngle ) {
+//                    _angle = criticalAngle;
+//                    break;
+//                }
+//            }
             
             // Limit the angle to 360 degrees.
-            if ( _angle > 2 * Math.PI ) {
-                _angle = _angle - ( 2 * Math.PI );
+            if ( _angle >= 2 * Math.PI ) {
+                _angle = _angle % ( 2 * Math.PI );
             }
             
             // Calculate the amplitude.

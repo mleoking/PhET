@@ -255,11 +255,6 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                 _waveGraphic.setAmplitude( maxAmplitude );
                 _waveGraphic.setFrequency( frequency );
                 _waveGraphic.update();
-                
-                System.out.println( "ACPowerSupplyGraphic.update:" +
-                        " startAngle=" + Math.toDegrees( _waveGraphic.getStartAngle() ) + 
-                        " endAngle=" + Math.toDegrees( _waveGraphic.getEndAngle() ) + 
-                        " deltaAngle=" + Math.toDegrees( _acPowerSupplyModel.getDeltaAngle() ) );//XXX
             }
             
             // Update the amplitude display on every clock tick.
@@ -299,39 +294,37 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         if ( reset ) {
             _cursorAngle = 0.0;
             _cursorGraphic.setVisible( false );
-            System.out.println( "ACPowerSupplyGraphic.updateCursor: cursor reset" ); //XXX
         }
         
         double startAngle = _waveGraphic.getStartAngle();
         double endAngle = _waveGraphic.getEndAngle();
         double deltaAngle = _acPowerSupplyModel.getDeltaAngle();
         
-        System.out.println( "ACPowerSupplyGraphic.updateCursor:" +
-                " cursorAngle=" + Math.toDegrees( _cursorAngle ) +
-                " deltaAngle=" + Math.toDegrees( deltaAngle ) );//XXX
-        
         if ( _cursorAngle < startAngle ) {
             // The cursor is to the left of the visible waveform.
             _cursorGraphic.setVisible( false );
         }
-        else if ( _cursorAngle > endAngle ) {
+        else if ( _cursorAngle >= endAngle ) {
             // The cursor is to the right of the visible waveform.
             _cursorGraphic.setVisible( false );
-            _cursorAngle = ( endAngle % ( 2 * Math.PI ) ) + ( _cursorAngle - endAngle );
-            if ( _cursorAngle > startAngle ) {
+            _cursorAngle = ( _cursorAngle % ( 2 * Math.PI ) );
+            if ( _cursorAngle > startAngle + Math.toRadians( 5 ) ) {
                 _cursorAngle -= ( 2 * Math.PI );
             }
-            System.out.println( "ACPowerSupplyGraphic.updateCursor:" + 
-                    " cursorAngle wraparound=" + Math.toDegrees( _cursorAngle ) );//XXX
         }
+        
+        System.out.println( "ACPowerSupplyGraphic: " +
+        		                " cursorAngle=" + Math.toDegrees( _cursorAngle ) +
+                            " amplitude=" + _acPowerSupplyModel.getAmplitude() );//DEBUG
         
         if ( _cursorAngle >= startAngle && _cursorAngle <= endAngle ) {
             // The cursor is on the visible waveform.
             _cursorGraphic.setVisible( true );
-            int x = ( WAVE_ORIGIN.x - ( WAVE_VIEWPORT_SIZE.width / 2 ) ) + 
-                (int) ( ( ( _cursorAngle - startAngle ) / ( endAngle - startAngle ) ) * WAVE_VIEWPORT_SIZE.width );
+            double xStart = ( WAVE_ORIGIN.x - ( WAVE_VIEWPORT_SIZE.width / 2 ) );
+            double percent = ( _cursorAngle - startAngle ) / ( endAngle - startAngle );
+            double x =  xStart + ( percent * WAVE_VIEWPORT_SIZE.width );
             int y = WAVE_ORIGIN.y;
-            _cursorGraphic.setLocation( x, y );
+            _cursorGraphic.setLocation( (int) x, y );
         }
         
         _cursorAngle += deltaAngle;
