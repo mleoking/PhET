@@ -130,9 +130,10 @@ public class CompassNeedleGraphic extends PhetGraphic {
      * 1 is fully opaque, values in between are partially transparent.
      * 
      * @param strength the strength
+     * @throws IllegalArgumentException if strength is out of range
      */
     public void setStrength( double strength ) {
-        if ( strength < 0 || strength > 1 ) {
+        if ( ! ( strength >= 0 && strength <= 1 ) ) {
             throw new IllegalArgumentException( "strength must be 0.0-1.0 : " + strength );
         }
         _strength = strength;
