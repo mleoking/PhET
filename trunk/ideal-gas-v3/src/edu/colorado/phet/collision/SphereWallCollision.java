@@ -41,15 +41,12 @@ public class SphereWallCollision implements Collision {
         Rectangle2D wallBounds = wall.getBounds();
 
         cnt++;
-        if( cnt == 31 ) {
-            System.out.println( "!!!" );
-        }
 
         // If the sphere is hitting a corner, rather than a flat side of the wall, we need to handle
         // the collision in a special way
-        if( ( sx < wallBounds.getMinX() || sx > wallBounds.getMaxX() )
-            && sy < wallBounds.getMinY() || sy > wallBounds.getMaxY() ) {
-//        if( true ) {
+//        if( ( sx < wallBounds.getMinX() || sx > wallBounds.getMaxX() )
+//            && ( sy < wallBounds.getMinY() || sy > wallBounds.getMaxY() )) {
+        if( false ) {
 
             System.out.println( "contactType = " + contactType );
             // Get the new velocity of the sphere

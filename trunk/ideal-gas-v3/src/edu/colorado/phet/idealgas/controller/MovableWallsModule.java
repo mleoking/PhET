@@ -125,10 +125,14 @@ public class MovableWallsModule extends IdealGasModule {
 //                                                             new Vector2D.Double( 0, 0 ),
 //                                                             new Vector2D.Double( ) );
 //                new PumpMoleculeCmd( getIdealGasModel(), newMolecule, MovableWallsModule.this ).doIt();
-                newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner2X() - 100,
-                                                                                 box.getCorner1Y() + 50),
+                newMolecule = new HeavySpecies( new Point2D.Double( rightFloor.getBounds().getMinX() + 100,
+                                                                    rightFloor.getBounds().getMinY() - 100),
                                                              new Vector2D.Double( -200, 200 ),
                                                              new Vector2D.Double( ) );
+//                newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner2X() - 100,
+//                                                                                 box.getCorner1Y() + 50),
+//                                                             new Vector2D.Double( -200, 200 ),
+//                                                             new Vector2D.Double( ) );
 //                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner1X() + 50,
 //                                                                                 box.getCorner1Y() + 70),
 //                                                             new Vector2D.Double( 100, 100 ),

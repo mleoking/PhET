@@ -88,10 +88,14 @@ public class DiffusionModule extends IdealGasModule {
         getControlPanel().add( testButton );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( 314,
-                                                                                 327 ),
-                                                             new Vector2D.Double( 00, -100 ),
-                                                             new Vector2D.Double() );
+//                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( 314,
+//                                                                                 327 ),
+//                                                             new Vector2D.Double( 00, -100 ),
+//                                                             new Vector2D.Double() );
+                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( 324 + 70,
+                                                                                 315 + 3 ),
+                                                             new Vector2D.Double( -100, 0 ),
+                                                             new Vector2D.Double( ) );
 //                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner1X() + 50,
 //                                                                                 box.getCorner1Y() + 70),
 //                                                             new Vector2D.Double( 100, 100 ),
