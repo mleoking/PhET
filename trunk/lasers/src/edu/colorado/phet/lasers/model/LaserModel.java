@@ -24,6 +24,7 @@ import edu.colorado.phet.lasers.model.atom.HighEnergyState;
 import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
+import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
@@ -49,6 +50,9 @@ public class LaserModel extends BaseModel implements Atom.Listener {
                                                                     minY,
                                                                     width,
                                                                     height );
+    private ArrayList photons = new ArrayList();
+    private ArrayList atoms = new ArrayList();
+    private ArrayList mirrors = new ArrayList();
 
     /**
      *
@@ -63,7 +67,8 @@ public class LaserModel extends BaseModel implements Atom.Listener {
         collisionMechanism.addCollisionExpert( new PhotonMirrorCollisonExpert() );
         this.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                collisionMechanism.doIt( bodies );
+                collisionMechanism.doIt( photons, atoms );
+                collisionMechanism.doIt( photons, mirrors );
             }
         } );
     }
@@ -72,6 +77,15 @@ public class LaserModel extends BaseModel implements Atom.Listener {
         super.addModelElement( modelElement );
         if( modelElement instanceof Collidable ) {
             bodies.add( modelElement );
+        }
+        if( modelElement instanceof Photon ) {
+            photons.add( modelElement );
+        }
+        if( modelElement instanceof Atom ) {
+            atoms.add( modelElement );
+        }
+        if( modelElement instanceof Mirror ) {
+            mirrors.add( modelElement );
         }
         if( modelElement instanceof ResonatingCavity ) {
             this.resonatingCavity = (ResonatingCavity)modelElement;
@@ -88,6 +102,13 @@ public class LaserModel extends BaseModel implements Atom.Listener {
         }
         if( modelElement instanceof Atom ) {
             ( (Atom)modelElement ).removeListener( this );
+            atoms.remove( modelElement );
+        }
+        if( modelElement instanceof Photon ) {
+            photons.remove( modelElement );
+        }
+        if( modelElement instanceof Mirror ) {
+            mirrors.remove( modelElement );
         }
     }
 
@@ -95,17 +116,22 @@ public class LaserModel extends BaseModel implements Atom.Listener {
         super.stepInTime( dt );
 
         // Check to see if any photons need to be taken out of the system
+        int photonCnt = 0;
+
         for( int i = 0; i < bodies.size(); i++ ) {
             Object obj = bodies.get( i );
             if( obj instanceof Photon ) {
+                photonCnt++;
                 Photon photon = (Photon)obj;
                 Point2D position = photon.getPosition();
                 if( !boundingRectangle.contains( position.getX(), position.getY() ) ) {
                     removeModelElement( photon );
                     photon.removeFromSystem();
+                    photonCnt--;
                 }
             }
         }
+        System.out.println( "photonCnt = " + photonCnt );
     }
 
     public ResonatingCavity getResonatingCavity() {
@@ -194,17 +220,22 @@ public class LaserModel extends BaseModel implements Atom.Listener {
             collisionExperts.remove( expert );
         }
 
-        void doIt( List collidables ) {
-            for( int i = 0; i < collidables.size() - 1; i++ ) {
-                Collidable collidable1 = (Collidable)collidables.get( i );
-                for( int j = i + 1; j < collidables.size(); j++ ) {
-                    Collidable collidable2 = (Collidable)collidables.get( j );
-                    for( int k = 0; k < collisionExperts.size(); k++ ) {
-                        CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( k );
-                        collisionExpert.detectAndDoCollision( collidable1, collidable2 );
+        void doIt( List collidablesA, List collidablesB ) {
+            for( int i = 0; i < collidablesA.size() - 1; i++ ) {
+                Collidable collidable1 = (Collidable)collidablesA.get( i );
+                if( !( collidable1 instanceof Photon )
+                    || ( resonatingCavity.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) ) ) {
+                    for( int j = 0; j < collidablesB.size(); j++ ) {
+                        Collidable collidable2 = (Collidable)collidablesB.get( j );
+                        if( !( collidable2 instanceof Photon )
+                            || ( resonatingCavity.getBounds().contains( ( (Photon)collidable2 ).getPosition() ) ) ) {
+                            for( int k = 0; k < collisionExperts.size(); k++ ) {
+                                CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( k );
+                                collisionExpert.detectAndDoCollision( collidable1, collidable2 );
+                            }
+                        }
                     }
                 }
-
             }
         }
     }

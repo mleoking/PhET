@@ -74,7 +74,6 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
 
     public AtomGraphic( Component component, Atom atom ) {
         super( component, s_groundStateImageName );
-        //        super( component, null );
         this.atom = atom;
         atom.addObserver( this );
         update();

@@ -21,12 +21,12 @@ public abstract class AtomicState {
     //
     // Determines how often a photon contacting an atom will result in a collision
     static private double PLANCK = 6.626E-34;
-    static protected double s_collisionLikelihood = 1;
     static public final double minWavelength = 350;
     static public final double maxWavelength = 800;
     static public final double minEnergy = wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = wavelengthToEnergy( minWavelength );
-    //    static protected double s_collisionLikelihood = 0.2;
+    static protected double s_collisionLikelihood = 1;
+    //        static protected double s_collisionLikelihood = 0.2;
 
     public static double energyToWavelength( double energy ) {
         return PLANCK / energy;

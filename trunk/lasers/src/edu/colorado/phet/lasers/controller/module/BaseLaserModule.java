@@ -42,7 +42,7 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
 
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
     static protected final double s_boxHeight = 150;
-    static protected final double s_boxWidth = 500;
+    static protected final double s_boxWidth = 300;
     static protected final double s_laserOffsetX = 100;
 
     private ResonatingCavity cavity;
@@ -167,16 +167,10 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
                 final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
 
-                System.out.println( "cnt out: " + cnt++ );
-
                 // Add a listener that will remove the graphic if the photon leaves the system
                 photon.addListener( new Photon.Listener() {
                     public void leavingSystem( Photon photon ) {
                         getApparatusPanel().removeGraphic( pg );
-                        System.out.println( "cnt in: " + cnt-- );
-                        if( cnt < 0 ) {
-                            System.out.println( "+++" );
-                        }
                     }
                 } );
             }

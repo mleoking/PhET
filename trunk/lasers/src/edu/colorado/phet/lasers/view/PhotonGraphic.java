@@ -16,13 +16,16 @@ import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.coreadditions.ColorFromWavelength;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.coreadditions.VisibleColor;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -157,11 +160,14 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
     private BufferedImage[] animation;
     private int currAnimationFrameNum;
     private Photon photon;
+    private Color color;
 
     public PhotonGraphic( Component component, Photon photon ) {
         // Need to subtract half the width and height of the image to locate it
         // properly
         super( component, s_particleImage );
+        this.photon = photon;
+        this.color = VisibleColor.wavelengthToColor( photon.getWavelength() );
         photon.addObserver( this );
 
         //        super( s_particleImage, particle.getPosition().getX(), particle.getPosition().getY() );
@@ -174,11 +180,14 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
             theta = Math.PI * 2 - theta;
         }
 
-        generateAnimation( photon );
-        setImage( animation[0] );
-        if( photon.getWavelength() == Photon.DEEP_RED ) {
-            setImage( s_midEnergyImage );
-        }
+        //        generateAnimation( photon );
+        //        setImage( animation[0] );
+        BufferedImageOp op = new ColorFromWavelength( 500 );
+        BufferedImage bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        op.filter( s_particleImage, bi );
+        setImage( bi );
+
+
         setPosition( photon );
 
     }
@@ -251,15 +260,18 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         setPosition( photon );
 
         // Get the next frame of the animaton
-        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;
-        setImage( animation[currAnimationFrameNum] );
+        //        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;
+        //        setImage( animation[currAnimationFrameNum] );
 
         // If the velocity has changed, we need to get a new
         // animation.
-        if( !photon.getVelocity().equals( this.velocity ) ) {
-            velocity = new Vector2D.Double( photon.getVelocity() );
-            this.generateAnimation( photon );
-        }
+        //        if( !photon.getVelocity().equals( this.velocity ) ) {
+        //            velocity = new Vector2D.Double( photon.getVelocity() );
+        //            this.generateAnimation( photon );
+        //        }
+
+        setBoundsDirty();
+        repaint();
     }
 
     /**
@@ -275,5 +287,20 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         double x = particle.getPosition().getX() /* - particle.getRadius() */;
         double y = particle.getPosition().getY() /* - particle.getRadius()*/;
         super.setPosition( (int)x, (int)y );
+    }
+
+    Rectangle r = new Rectangle();
+
+    public void paint( Graphics2D g ) {
+        //        saveGraphicsState( g );
+        //        r.setRect( photon.getPosition().getX(),photon.getPosition().getY(),2,2 );
+        //        Color c = VisibleColor.wavelengthToColor( photon.getWavelength() );
+        ////        Color c = VisibleColor.wavelengthToColor( Photon.RED );
+        //        g.setColor( c );
+        //        g.fill( r );
+        //
+        //        restoreGraphicsState();
+
+        super.paint( g );
     }
 }
