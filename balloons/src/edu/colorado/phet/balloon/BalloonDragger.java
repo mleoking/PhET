@@ -86,6 +86,8 @@ public class BalloonDragger implements MouseMotionListener, MouseListener, Paint
     //int i=0;
     //int n=10;
     public void mouseEntered( MouseEvent me ) {
+
+
     }
 
     public synchronized void mousePressed( MouseEvent me ) {
@@ -140,8 +142,15 @@ public class BalloonDragger implements MouseMotionListener, MouseListener, Paint
     }
 
     public void mouseMoved( MouseEvent me ) {
+        if( getHit( me.getPoint() ) != null ) {
+            me.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        }
+        else {
+            me.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+        }
     }
 
     public void mouseExited( MouseEvent me ) {
+
     }
 }
