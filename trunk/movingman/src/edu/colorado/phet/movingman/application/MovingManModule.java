@@ -37,14 +37,14 @@ public class MovingManModule extends Module {
     private int numResetPoints = 1;
     double maxTime = 20;
 
-    MotionState motionState = new MotionState();
+    private MotionState motionState = new MotionState();
     private double playbackSpeed;
     private Man man;
     private ManGraphic manGraphic;
     private RangeToRange manPositionTransform;
-    DefaultSmoothedDataSeries position;
-    DefaultSmoothedDataSeries velocity;
-    DefaultSmoothedDataSeries acceleration;
+    private DefaultSmoothedDataSeries position;
+    private DefaultSmoothedDataSeries velocity;
+    private DefaultSmoothedDataSeries acceleration;
     private Timer recordingTimer;
     private Timer playbackTimer;
     private MovingManLayout layout;
@@ -109,29 +109,13 @@ public class MovingManModule extends Module {
     public MovingManModule() {
         super( "The Moving Man" );
         ApparatusPanel mypanel = new ApparatusPanel();
-
         super.setApparatusPanel( mypanel );
         final BaseModel model = new BaseModel() {
             public void clockTicked( Clock c, double dt ) {
-//                super.clockTicked(c,dt);
-
                 executeQueue();
                 stepInTime( dt );
-//                c.setAlive(false);
-//                c.setRunning(false);
-//                System.out.println("c = " + c);
-
-//                if (paintTwice)
-//                    updateObservers();
             }
         };
-//        new javax.swing.Timer(20,new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                model.executeQueue();
-//                model.stepInTime(1);
-//            }
-//        }).start();
-
         super.setModel( model );
 
         final int numSmoothingPosition = numSmoothingPoints;
@@ -183,11 +167,6 @@ public class MovingManModule extends Module {
                     else if( manx <= -10 && manv < 0 ) {
                         motionMode.collidedWithWall();
                     }
-
-//                        if (manx >= 10) {
-//                        motionMode.collidedWithWall();
-//                    }
-//                System.out.println("manx = " + manx);
                 }
             }
         } );
@@ -202,7 +181,6 @@ public class MovingManModule extends Module {
         layout.setApparatusPanelWidth( 400 );
         layout.setNumPlots( 3 );
         layout.relayout();
-//        Stroke plotStroke = new BasicStroke(2.0f);
         Stroke plotStroke = new BasicStroke( 3.0f );
         Rectangle2D.Double positionInputBox = new Rectangle2D.Double( minTime, -maxPositionView, maxTime - minTime, maxPositionView * 2 );
 
@@ -280,9 +258,6 @@ public class MovingManModule extends Module {
         getApparatusPanel().addGraphic( backgroundGraphic, 0 );
     }
 
-    /**
-     * For carl and Kathy's lecture on Thursday.
-     */
     public void setRightDirPositive( boolean rightPos ) {
         RangeToRange newTransform;
         double appPanelWidth = getApparatusPanel().getWidth();
@@ -328,11 +303,9 @@ public class MovingManModule extends Module {
         }
         final JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( getApparatusPanel() );
         JPanel jp = (JPanel)parent.getContentPane();
-//        O.d("JP=" + jp.getClass());
         BasicPhetPanel bpp = (BasicPhetPanel)jp;
         bpp.setAppControlPanel( movingManControlPanel.getMediaPanel() );
         initMediaPanel = true;
-//        parent.validate();
     }
 
     public ManGraphic getManGraphic() {
@@ -391,7 +364,6 @@ public class MovingManModule extends Module {
     }
 
     public static void main( String[] args ) {
-
         LectureLookAndFeel2 LECTURE_LOOK_AND_FEEL;
         LECTURE_LOOK_AND_FEEL = new LectureLookAndFeel2();
         if( isLecture ) {
@@ -405,24 +377,10 @@ public class MovingManModule extends Module {
         MovingManModule m = new MovingManModule();
         FrameSetup setup = new MaximizeFrame();
         ApplicationDescriptor desc = new ApplicationDescriptor( "The Moving Man", "The Moving Man Application.",
-                                                                ".01-beta-x 9-3-2003", setup );
+                                                                ".01-beta-x 8-6-2004", setup );
         PhetApplication tpa = new PhetApplication( desc, m );
         tpa.startApplication( m );
         FRAME = tpa.getApplicationView().getPhetFrame();
-
-//        if (args.length > 0) {
-//            for (int i = 0; i < args.length; i++) {
-//                if (args[i].toLowerCase().equals("-gi")) {
-//                    String giUrl = args[i + 1];
-//                    GILoader giLoader = new GILoader();
-//                    GuidedInquiry gi = giLoader.loadGI(giUrl);
-//                    Script script = new Script(gi);
-//                    LaunchGuidedInquiryCmd lgiCmd = new
-//                            LaunchGuidedInquiryCmd(tpa, script);
-//                    lgiCmd.doIt();
-//                }
-//            }
-//        }
         m.setPauseMode();
     }
 
@@ -658,7 +616,6 @@ public class MovingManModule extends Module {
         }
 
         public void setMotion( MotionAndControls mac ) {
-//                StepMotion motion) {
             this.motion = mac.getStepMotion();
             this.mac = mac;
         }
@@ -666,7 +623,6 @@ public class MovingManModule extends Module {
         public void stepInTime( double dt ) {
             if( recordingTimer.getTime() >= maxTime ) {
                 timeFinished();
-//                setPauseMode();
                 return;
             }
             double x = motion.stepInTime( getMan(), dt );
@@ -689,13 +645,11 @@ public class MovingManModule extends Module {
             acceleration.updateSmoothedSeries();
             if( recordingTimer.getTime() >= maxTime ) {
                 timeFinished();
-//                setPauseMode();
                 return;
             }
         }
 
         private void timeFinished() {
-//            setPauseMode();
             movingManControlPanel.getAnotherPauseButton().doClick( 100 );
         }
 
@@ -729,7 +683,13 @@ public class MovingManModule extends Module {
                 setPauseMode();
                 return;
             }
-            recordingTimer.stepInTime( dt );
+
+            //TODO Should fix the overshoot problem.  Test Me first!
+//            double newTime = recordingTimer.getTime() + dt;
+//            if( newTime > maxTime ) {
+//                dt = maxTime - recordingTimer.getTime();
+//            }
+            recordingTimer.stepInTime( dt );//this could go over the max.
             position.addPoint( man.getX() );
             position.updateSmoothedSeries();
             position.updateDerivative( dt * TIMER_SCALE );

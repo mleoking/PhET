@@ -41,6 +41,8 @@ public class MovingManControlPanel extends JPanel {
     private MotionActivation mact;
     private JButton slowMotion;
     private JComboBox comboBox;
+    private ActionListener manualSetup;
+    private String recordMouseString;
 
     public JButton getAnotherPauseButton() {
         return anotherPauseButton;
@@ -98,7 +100,7 @@ public class MovingManControlPanel extends JPanel {
 
         ImageIcon recordIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Movie24.gif" ) );
         record = new JButton( "Manual Control", recordIcon );
-        final ActionListener manualSetup = new ActionListener() {
+        manualSetup = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setRecordMode();
                 record.setEnabled( false );
@@ -250,7 +252,8 @@ public class MovingManControlPanel extends JPanel {
         comboBox = new JComboBox();
         comboBox.addItem( init );
         comboBox.addItem( hyphens );
-        comboBox.addItem( recordMouseString );
+        this.recordMouseString = recordMouseString;
+        comboBox.addItem( this.recordMouseString );
         comboBox.addItem( hyphens );
         for( int i = 0; i < motions.length; i++ ) {
             comboBox.addItem( motions[i] );
@@ -328,6 +331,11 @@ public class MovingManControlPanel extends JPanel {
             data.addPoint( value );
         }
         return data;
+    }
+
+    public void setManualMode() {
+        manualSetup.actionPerformed( null );
+        comboBox.setSelectedItem( recordMouseString );
     }
 
     public static String toString( DataSeries data ) {

@@ -14,7 +14,6 @@ import edu.colorado.phet.movingman.common.ImageFlip3;
 import edu.colorado.phet.movingman.common.RescaleOp3;
 import edu.colorado.phet.movingman.common.tests.IdeaGraphic2;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
@@ -31,21 +30,20 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     private BufferedImage standingMan;
     private BufferedImage leftMan;
     private BufferedImage rightMan;
-    int x;
-    int y;
+    private int x;
+    private int y;
     private RangeToRange transform;//from man to graphics device.
     private MovingManModule module;
-    Man m;
+    private Man m;
     private DragHandler dragHandler;
-    BufferedImage currentImage;
+    private BufferedImage currentImage;
     private RangeToRange inversion;
-    CircularBuffer cb = new CircularBuffer( 10 );
-    IdeaGraphic2 ideaGraphic;
+    private CircularBuffer cb = new CircularBuffer( 10 );
+    private IdeaGraphic2 ideaGraphic;
     private boolean showIdea = true;
     private ArrowWithFixedSizeArrowhead arrow;
     private IdeaGraphic2 motionIdea;
     private ArrowWithFixedSizeArrowhead motionArrow;
-//    private Rectangle newRect;
 
     public ManGraphic( MovingManModule module, Man m, int y, RangeToRange transform ) {
         this.module = module;
@@ -56,12 +54,6 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
         standingMan = loader.loadBufferedImage( "images/stand-150.gif" );
         leftMan = loader.loadBufferedImage( "images/left-150.gif" );
         int height = 120;
-//        int height=600;
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-//        }
         standingMan = RescaleOp3.rescaleYMaintainAspectRatio( standingMan, height );
         leftMan = RescaleOp3.rescaleYMaintainAspectRatio( leftMan, height );
         rightMan = ImageFlip3.flipX( leftMan );
@@ -70,7 +62,6 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
         m.addObserver( this );
         m.updateObservers();
         inversion = transform.invert();
-//        module.getVelocityData().addDataSeriesListener(this);
     }
 
     double lastx = 0;
@@ -80,9 +71,6 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     }
 
     public void paint( Graphics2D g ) {
-
-//        Shape clip=g.getClip();
-//        g.setClip(newRect);
         g.drawImage( currentImage, x - currentImage.getWidth() / 2, y, null );
 
         if( showIdea ) {
@@ -93,9 +81,7 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
 
                 BufferedImage ideaImage = new ImageLoader().loadBufferedImage( "images/icons/TipOfTheDay24.gif" );
                 int ideaX = module.getApparatusPanel().getWidth() / 8;
-                ideaGraphic = new IdeaGraphic2( true, ideaX, y + 250, new String[]{"Drag the man",
-                                                                                   "and graph his position,",
-                                                                                   " velocity and acceleration."},
+                ideaGraphic = new IdeaGraphic2( true, ideaX, y + 250, new String[]{"Drag the man"},
                                                 g.getFontRenderContext(), ideaFont, Color.black, ideaImage, lightBlue );
                 int motionIdeaX = (int)( module.getApparatusPanel().getWidth() * .6 );
                 arrow = new ArrowWithFixedSizeArrowhead( Color.black, 10 );
@@ -114,7 +100,6 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
         }
         cb.addPoint( x - lastx );
         lastx = x;
-//        System.out.println("cb.toString() = " + cb.toString());
         double velocity = cb.average();
         if( velocity == 0 && currentImage != this.standingMan ) {
             currentImage = this.standingMan;
@@ -125,7 +110,6 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
         else if( velocity > 0 && currentImage != this.rightMan ) {
             currentImage = this.rightMan;
         }
-//        g.setClip(clip);
     }
 
     public void update( Observable o, Object arg ) {
@@ -134,7 +118,7 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     }
 
     public boolean canHandleMousePress( MouseEvent event ) {
-        if( module.isRecording() ) {
+        if( true ) {
             BufferedImage im = currentImage;
             Rectangle r = new Rectangle( x - im.getWidth() / 2, y, im.getWidth(), im.getHeight() );
             return r.contains( event.getPoint() );
@@ -154,20 +138,18 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     }
 
     public void mouseDragged( MouseEvent event ) {
+        if( !module.isRecording() ) {
+            module.getMovingManControlPanel().setManualMode();
+        }
         final Point newPt = dragHandler.getNewLocation( event.getPoint() );
-//        module.getModel().execute(new Command() {
-//            public void doIt() {
         Rectangle curRect = new Rectangle( x - currentImage.getWidth() / 2, y, currentImage.getWidth(), currentImage.getHeight() );
         int graphicsPt = newPt.x;
         double manPoint = inversion.evaluate( graphicsPt );
         m.setX( manPoint );
         Rectangle newRect = new Rectangle( x - currentImage.getWidth() / 2, y, currentImage.getWidth(), currentImage.getHeight() );
-//        this.newRect=newRect;
         Rectangle total = newRect.union( curRect );
 
         module.getApparatusPanel().paintImmediately( total );
-//            }
-//        });
         setShowIdea( false );
     }
 
@@ -181,13 +163,11 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     }
 
     public void mouseEntered( MouseEvent event ) {
-        Window w = SwingUtilities.getWindowAncestor( event.getComponent() );
-        w.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+        event.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
     }
 
     public void mouseExited( MouseEvent event ) {
-        Window w = SwingUtilities.getWindowAncestor( event.getComponent() );
-        w.setCursor( new Cursor( Cursor.DEFAULT_CURSOR ) );
+        event.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
     }
 
     public void setTransform( RangeToRange transform ) {
@@ -199,7 +179,6 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     public Shape getShape() {
         Rectangle newRect = new Rectangle( x - currentImage.getWidth() / 2, y, currentImage.getWidth(), currentImage.getHeight() );
         return newRect;
-//        return null;
     }
 
     public Area getClipArea() {
