@@ -16,7 +16,6 @@ import java.awt.Dimension;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
