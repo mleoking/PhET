@@ -240,13 +240,13 @@ public class Kaboom implements ModelElement {
         ap.addGraphic( flames, tileLayer - .5 );
 
         // Add the message to the user
-        message = new PhetMultiLineTextGraphic( ap, messageStrings, new Font( "Lucida sans", Font.BOLD, 32 ),
-                                                ap.getWidth() / 2 - 80, ap.getHeight() / 2 - 10,
-                                                Color.red );
+//        message = new PhetMultiLineTextGraphic( ap, messageStrings, new Font( "Lucida sans", Font.BOLD, 24 ),
+//                                                ap.getWidth() / 2 - 80, ap.getHeight() / 2 - 10,
+//                                                Color.red );
         labelMessage = new JLabel( SimStrings.get( "Kaboom.message" ) );
-        labelMessage.setFont( new Font( "Lucida sans", Font.BOLD, 32 ) );
+        labelMessage.setFont( new Font( "Lucida sans", Font.BOLD, 24 ) );
         labelMessage.setForeground( Color.red );
-        labelMessage.setLocation( 10, 10 );
+        labelMessage.setLocation( -20, 10 );
         ap.add( labelMessage );
         labelMessage.reshape( ap.getWidth() / 2 - 80, ap.getHeight() / 2 - 10,
                               labelMessage.getPreferredSize().width,
