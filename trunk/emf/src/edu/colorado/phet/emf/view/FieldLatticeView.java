@@ -145,7 +145,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             for( int i = 0; i < latticePts.length; i++ ) {
                 Vector2D f = latticePts[i].field.scale( fieldSense );
                 double l = f.getMagnitude();
-                if( l != 0 ) {
+                if( l > 3 ) {
                     double theta = f.getAngle();
                     Arrow arrow = new Arrow( new Point2D.Double( -l / 2, 0 ), new Point2D.Double( l / 2, 0 ),
                                              maxArrowHeadWidth,
@@ -185,8 +185,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
         if( fieldDisplayType == EmfPanel.FULL_FIELD ) {
             for( int i = 0; i < latticePts.length; i++ ) {
-                Vector2D f = sourceElectron.getDynamicFieldAt( latticePts[i].location );
-                latticePts[i].field.setComponents( f.getX(), f.getY() );
+                evaluateFieldPt( latticePts[i] );
             }
         }
 
@@ -216,11 +215,14 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         for( int i = 1; i < pts.size(); i++ ) {
             FieldPt fieldPt = (FieldPt)pts.get( i );
             int arrowDir = MathUtil.getSign( fieldPt.field.getY() ) * ( fieldSense == FORCE_ON_ELECTRON ? 1 : -1 );
-            arrows.add( new Arrow( fieldPt.location,
-                                   new Point2D.Double( fieldPt.getX(),
-                                                       fieldPt.getY() + fieldPt.field.getMagnitude() * arrowDir ),
-                                   hollowArrowHeadWidth * 0.7, hollowArrowHeadWidth,
-                                   hollowArrowWidth, 0.5, false ) );
+            double magnitude = fieldPt.field.getMagnitude();
+            if( magnitude > 0 ) {
+                arrows.add( new Arrow( fieldPt.location,
+                                       new Point2D.Double( fieldPt.getX(),
+                                                           fieldPt.getY() + magnitude * arrowDir ),
+                                       hollowArrowHeadWidth * 0.7, hollowArrowHeadWidth,
+                                       hollowArrowWidth, 0.5, false ) );
+            }
         }
     }
 
