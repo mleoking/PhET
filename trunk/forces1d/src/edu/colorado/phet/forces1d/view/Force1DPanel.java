@@ -44,8 +44,8 @@ public class Force1DPanel extends ApparatusPanel {
         this.module = module;
         this.model = module.getForceModel();
         addGraphicsSetup( new BasicGraphicsSetup() );
-        walkwayTransform = new Function.LinearFunction( -10, 10, 0, 400 );
-        walkwayGraphic = new WalkwayGraphic( this, module, 21, getWalkwayTransform() );
+        walkwayTransform = new Function.LinearFunction( -12, 12, 0, 400 );
+        walkwayGraphic = new WalkwayGraphic( this, module, 21, walkwayTransform );
         blockGraphic = new BlockGraphic( this, module.getForceModel().getBlock(), model, transform2D, walkwayTransform, module.imageElementAt( 0 ) );
         arrowSetGraphic = new ArrowSetGraphic( this, blockGraphic, model, transform2D );
         leanerGraphic = new LeanerGraphic( this, blockGraphic );
@@ -174,30 +174,26 @@ public class Force1DPanel extends ApparatusPanel {
 
     public void relayout() {
         if( getWidth() > 0 && getHeight() > 0 ) {
-//            bufferedPhetGraphic.setSize(getWidth(), getHeight());
-            int insetX = 50;
-            int xLeft = insetX;
             int panelWidth = getWidth();
-            walkwayTransform.setOutput( xLeft, panelWidth - insetX );
 
-            int fbdX = 0;
-            int fbdY = 0;
-            int walkwayHeight = walkwayGraphic.getHeight();
+            int fbdX = 15;
+            int walkwayHeight = 180;
             int fbdWidth = walkwayHeight;
             int fbdHeight = walkwayHeight;
 
-
-            int walkwayX = fbdWidth + fbdX;
+            int walkwayX = fbdWidth + fbdX + 7;
             int walkwayY = 0;
             int walkwayWidth = panelWidth - fbdWidth;
-//            int walkwayHeight=200;
+            walkwayTransform.setOutput( walkwayX, walkwayX + walkwayWidth );
+            walkwayGraphic.setBounds( walkwayX, walkwayY, walkwayWidth, walkwayHeight );
+
+            int fbdY = 15;
             freeBodyDiagram.setBounds( fbdX, fbdY, fbdWidth, fbdHeight );
 
-            walkwayGraphic.setBounds( walkwayX, walkwayY, walkwayWidth, walkwayHeight );
 
             int plotInsetX = 200;
             int plotWidth = panelWidth - plotInsetX - 25;
-            int plotY = walkwayGraphic.getHeight() + 20 + walkwayGraphic.getY();
+            int plotY = walkwayGraphic.getY() + walkwayGraphic.getHeight() + 20;
             int yInsetBottom = forcePlotDevice.getChart().getHorizontalTicks().getMajorTickTextBounds().height * 2;
             Rectangle newViewBounds = new Rectangle( plotInsetX, plotY + yInsetBottom, plotWidth, getHeight() - plotY - yInsetBottom * 2 );
 //            System.out.println( "newViewBounds = " + newViewBounds );

@@ -81,11 +81,11 @@ public class LeanerGraphic extends PhetImageGraphic {
         int y = 0;
         if( facingRight ) {
             x = target.getX() - frame.getWidth();
-            y = forcePanel.getWalkwayGraphic().getPlatformY() - getHeight();
+            y = forcePanel.getWalkwayGraphic().getFloorY() - getHeight();
         }
         else {
             x = target.getX() + target.getWidth();
-            y = forcePanel.getWalkwayGraphic().getPlatformY() - getHeight();
+            y = forcePanel.getWalkwayGraphic().getFloorY() - getHeight();
             frame = BufferedImageUtils.flipX( frame );
         }
 

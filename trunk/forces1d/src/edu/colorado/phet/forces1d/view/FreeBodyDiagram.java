@@ -51,45 +51,25 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
         addGraphic( background );
         axes = new AxesGraphic( component );
         addGraphic( axes );
-        int alpha = 128;
-        mg = new ForceArrow( component, this, Color.red, "mg", new Vector2D.Double( 0, 80 ) );
+
+        mg = new ForceArrow( component, this, Color.orange, "mg", new Vector2D.Double( 0, 80 ) );
         addForceArrow( mg );
 
-        normal = new ForceArrow( component, this, Color.green, "N", new Vector2D.Double( 0, 80 ) );
+        normal = new ForceArrow( component, this, Color.magenta, "N", new Vector2D.Double( 0, 80 ) );
         addForceArrow( normal );
 
-        appliedForce = new ForceArrow( component, this, Color.blue, "Fa", new Vector2D.Double() );
+        appliedForce = new ForceArrow( component, this, Color.red, "Fa", new Vector2D.Double() );
         addForceArrow( appliedForce );
 
-        frictionForce = new ForceArrow( component, this, Color.orange, "Ff", new Vector2D.Double() );
+        frictionForce = new ForceArrow( component, this, Color.green, "Ff", new Vector2D.Double() );
         addForceArrow( frictionForce );
 
-        netForce = new ForceArrow( component, this, Color.gray, "Fnet", new Vector2D.Double() );
+        netForce = new ForceArrow( component, this, Color.blue, "Fnet", new Vector2D.Double() );
         addForceArrow( netForce );
 
         netForce.setOrigin( 0, 30 );
-//        model.addListener( new Force1DModel.Listener() {
-//            public void appliedForceChanged() {
-//                updateXForces();
-//            }
-//
-//            public void gravityChanged() {
-//                updateMG();
-//                updateXForces();
-//            }
-//        } );
-//        model.getBlock().addListener( new Block.Listener() {
-//            public void positionChanged() {
-//                updateXForces();//friction could have reduced the net force to zero
-//            }
-//
-//            public void propertyChanged() {
-//                updateMG();
-//                updateXForces();
-//            }
-//        } );
+
         addMouseInputListener( new MouseInputAdapter() {
-            // implements java.awt.event.MouseMotionListener
             public void mouseDragged( MouseEvent e ) {
                 double x = e.getX();
 
@@ -134,6 +114,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
     public void updateAll() {
         updateXForces();
         updateMG();
+        axes.update();
     }
 
     public void setBounds( int x, int y, int width, int height ) {
@@ -202,24 +183,38 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
     }
 
     public class AxesGraphic extends CompositePhetGraphic {
+        private PhetShapeGraphic xAxis;
+        private PhetShapeGraphic yAxis;
+        private PhetTextGraphic xLabel;
+        private PhetTextGraphic yLabel;
 
         public AxesGraphic( Component component ) {
             super( component );
-            Line2D.Double xLine = new Line2D.Double( rect.x, rect.y + rect.height / 2, rect.x + rect.width, rect.y + rect.height / 2 );
-            Line2D.Double yLine = new Line2D.Double( rect.x + rect.width / 2, rect.y, rect.x + rect.width / 2, rect.y + rect.height );
+
             Stroke stroke = new BasicStroke( 2.0f );
             Color color = Color.black;
-            PhetShapeGraphic xAxis = new PhetShapeGraphic( component, xLine, stroke, color );
-            PhetShapeGraphic yAxis = new PhetShapeGraphic( component, yLine, stroke, color );
+            xAxis = new PhetShapeGraphic( component, null, stroke, color );
+            yAxis = new PhetShapeGraphic( component, null, stroke, color );
             addGraphic( xAxis );
             addGraphic( yAxis );
 
 
             Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
-            PhetTextGraphic xLabel = new PhetTextGraphic( component, font, "Fx", Color.black, 0, 0 );
-            PhetTextGraphic yLabel = new PhetTextGraphic( component, font, "Fy", Color.black, 0, 0 );
+            xLabel = new PhetTextGraphic( component, font, "Fx", Color.black, 0, 0 );
+            yLabel = new PhetTextGraphic( component, font, "Fy", Color.black, 0, 0 );
             addGraphic( xLabel );
             addGraphic( yLabel );
+
+            update();
+        }
+
+        public void update() {
+
+            Line2D.Double xLine = new Line2D.Double( rect.x, rect.y + rect.height / 2, rect.x + rect.width, rect.y + rect.height / 2 );
+            Line2D.Double yLine = new Line2D.Double( rect.x + rect.width / 2, rect.y, rect.x + rect.width / 2, rect.y + rect.height );
+
+            xAxis.setShape( xLine );
+            yAxis.setShape( yLine );
 
             xLabel.setLocation( (int)xLine.getX2() - xLabel.getWidth(), (int)xLine.getY2() );
             yLabel.setLocation( (int)yLine.getX1() + 3, (int)yLine.getY1() );
