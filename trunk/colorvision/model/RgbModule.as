@@ -61,12 +61,9 @@
 		blueRate = rate;
 	}
 	function getFilteredCtx() {
-//		var red = (redRate / this.getMaxRate()) * 255;
-//		var green = (greenRate / this.getMaxRate()) * 255;
-//		var blue = (blueRate / this.getMaxRate()) * 255;
-		var red = (redBeam.getRateAtEyeball() / this.getMaxRate()) * 255;
-		var green = (greenBeam.getRateAtEyeball() / this.getMaxRate()) * 255;
-		var blue = (blueBeam.getRateAtEyeball() / this.getMaxRate()) * 255;
+		var red = Math.round((redBeam.getRateAtEyeball() / this.getMaxRate()) * 255);
+		var green = Math.round((greenBeam.getRateAtEyeball() / this.getMaxRate()) * 255);
+		var blue = Math.round((blueBeam.getRateAtEyeball() / this.getMaxRate()) * 255);
 		var alpha = (Math.max(red, Math.max(green, blue))) * 100 / 255;
 		var ctx = {rb:red, gb:green, bb:blue, aa:alpha};
 		return ctx;
