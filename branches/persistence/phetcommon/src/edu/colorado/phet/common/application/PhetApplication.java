@@ -53,35 +53,43 @@ public class PhetApplication {
         s_instance = this;
     }
 
+    /**
+     * Starts the PhetApplication.
+     */
     public void startApplication() {
         if( applicationModel.getInitialModule() == null ) {
             throw new RuntimeException( "Initial module not specified." );
         }
 
-
-        // Attach a listener to the frame that will set the reference sizes for all
-        // Apparatus2 instances the first time focus is gained for the frame.
-        phetFrame.addWindowFocusListener( new WindowAdapter() {
-            int focusCnt;
-
-            public void windowGainedFocus( WindowEvent e ) {
-                focusCnt++;
-                if( focusCnt == 1 ) {
-                    for( int i = 0; i < applicationModel.getModules().length; i++ ) {
-                        Module module = (Module)applicationModel.getModules()[i];
-                        ApparatusPanel panel = module.getApparatusPanel();
-                        if( panel instanceof ApparatusPanel2 ) {
-                            ApparatusPanel2 apparatusPanel = (ApparatusPanel2)panel;
-                            apparatusPanel.setRefernceSize();
-                        }
-                    }
-                }
-            }
-        } );
-
         moduleManager.setActiveModule( applicationModel.getInitialModule() );
         applicationModel.start();
         phetFrame.setVisible( true );
+
+        // Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
+        // after the PhetFrame has been set to its startup size. We have to do this with a strange
+        // looking "inner listener". When the outer WindowAdapter gets called, the PhetFrame is
+        // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
+        phetFrame.addWindowFocusListener( new WindowAdapter() {
+            public void windowGainedFocus( WindowEvent e ) {
+                for( int i = 0; i < applicationModel.getModules().length; i++ ) {
+                    Module module = (Module)applicationModel.getModules()[i];
+                    ApparatusPanel panel = module.getApparatusPanel();
+                    if( panel instanceof ApparatusPanel2 ) {
+                        final ApparatusPanel2 apparatusPanel = (ApparatusPanel2)panel;
+
+                        // Add the listener to the apparatus panel that will tell it to set its
+                        // reference size
+                        apparatusPanel.addComponentListener( new ComponentAdapter() {
+                            public void componentResized( ComponentEvent e ) {
+                                apparatusPanel.setRefernceSize();
+                                apparatusPanel.removeComponentListener( this );
+                            }
+                        } );
+                    }
+                }
+                phetFrame.removeWindowFocusListener( this );
+            }
+        } );
     }
 
     public PhetFrame getPhetFrame() {
