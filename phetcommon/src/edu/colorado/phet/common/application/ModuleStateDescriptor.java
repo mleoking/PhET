@@ -22,7 +22,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ModuleStateDescriptor implements StateDescriptor {
+public class ModuleStateDescriptor {
     private BaseModel model;
     private String moduleClassName;
     private GraphicLayerSet graphic;
@@ -60,8 +60,8 @@ public class ModuleStateDescriptor implements StateDescriptor {
         this.graphic = graphic;
     }
 
-    public void setState( Persistent persistentObject ) {
-        Module module = (Module)persistentObject;
+    public void setModuleState( Module module ) {
+//        Module module = (Module)persistentObject;
 
         // Remove and clean up the current model
         AbstractClock clock = PhetApplication.instance().getApplicationModel().getClock();
