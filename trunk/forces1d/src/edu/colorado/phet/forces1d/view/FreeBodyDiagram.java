@@ -35,7 +35,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
     private FreeBodyDiagram.ForceArrow normal;
     private FreeBodyDiagram.ForceArrow appliedForce;
     double yScale = 1.0 / 30.0;
-    double xScale = 3.0 / 1.0;
+    double xScale = 0.1;
     private ForceArrow frictionForce;
     private ForceArrow netForce;
     private Force1DLookAndFeel laf;

@@ -62,8 +62,8 @@ public class BlockGraphic extends CompositePhetGraphic {
             public void mouseDragged( MouseEvent e ) {
                 Point ctr = getCenter();
                 double dx = e.getPoint().x - ctr.x;
-                dx /= ArrowSetGraphic.forceLengthScale;
-                model.setAppliedForce( dx );
+                double appliedForce = dx / ArrowSetGraphic.forceLengthScale;
+                model.setAppliedForce( appliedForce );
             }
         } );
         setCursorHand();

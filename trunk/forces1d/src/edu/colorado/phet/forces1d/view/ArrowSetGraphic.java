@@ -28,7 +28,8 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     private ForceArrowGraphic friction;
     private ForceArrowGraphic total;
 
-    public static final double forceLengthScale = 12;
+//    public static final double forceLengthScale = 12;
+    public static final double forceLengthScale = 0.5;
     private double arrowTailWidth = 30;
     private double arrowHeadHeight = 55;
     private Force1DLookAndFeel laf;
@@ -41,8 +42,6 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         this.transform2D = transform2D;
         this.laf = force1DPanel.getLookAndFeel();
 
-//        Color appliedForceColor = new Color( 255, 0, 0, 128 );
-//        Color frictionForceColor = new Color( 0, 255, 0, 128 );
         applied = new ForceArrowGraphic( force1DPanel, "Applied Force", laf.getAppliedForceColor(), 0, new ForceComponent() {
             public double getForce() {
                 return model.getAppliedForce();
@@ -53,7 +52,6 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
                 return model.getStoredFrictionForceValue();
             }
         } );
-//        Color totalForceColor = new Color( 0, 0, 155, 128 );
         total = new ForceArrowGraphic( force1DPanel, "Total Force", laf.getNetForceColor(), 60, new ForceComponent() {
             public double getForce() {
                 return model.getTotalForce();

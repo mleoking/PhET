@@ -63,6 +63,424 @@ public class PlotDevice extends CompositePhetGraphic {
         chartComponent.setDataSeriesVisible( index, visible );
     }
 
+    public PlotDevice( final ParameterSet parameters )
+            throws IOException {
+        super( parameters.panel );
+        this.plotDeviceView = parameters.plotDeviceView;
+        this.units = parameters.units;
+        this.title = parameters.title;
+        this.plotDeviceModel = parameters.plotDeviceModel;
+        this.timer = parameters.timer;
+        this.color = parameters.color;
+        this.stroke = parameters.stroke;
+        chartComponent = new ChartComponent( parameters.panel, parameters.inputBox, parameters.series, parameters.xShift );
+        ApparatusPanel panel = parameters.panel;
+        Rectangle2D.Double inputBox = parameters.inputBox;
+
+        horizontalCursor = new HorizontalCursor( panel, chartComponent.getChart(), new Color( 15, 0, 255, 50 ), new Color( 50, 0, 255, 150 ), 8 );
+        horizontalCursor.addListener( new HorizontalCursor.Listener() {
+            public void modelValueChanged( double modelX ) {
+                plotDeviceModel.cursorMovedToTime( modelX );
+            }
+        } );
+        panel.addGraphic( horizontalCursor, 1000 );
+
+        setInputRange( inputBox );
+        timer.addListener( new PhetTimer.Listener() {
+            public void timeChanged( PhetTimer timer ) {
+                update();
+            }
+        } );
+
+        showButton = new ChartButton( "Show " + title );
+        showButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setVisible( true );
+            }
+        } );
+        verticalChartSlider = new VerticalChartSlider( chartComponent.getChart() );
+
+        setCloseHandler( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setVisible( false );
+                plotDeviceView.relayout();
+            }
+        } );
+
+        textBox = new TextBox( plotDeviceModel, 5, parameters.labelStr, this );
+        textBox.setHorizontalAlignment( JTextField.RIGHT );
+
+        panel.add( textBox );
+
+        setTextValue( 0 );
+        plotDeviceModel.getRecordingTimer().addListener( new PhetTimer.Listener() {
+            public void timeChanged( PhetTimer timer ) {
+                updateTextBox( plotDeviceModel, parameters.series );
+            }
+        } );
+        plotDeviceModel.getPlaybackTimer().addListener( new PhetTimer.Listener() {
+            public void timeChanged( PhetTimer timer ) {
+                updateTextBox( plotDeviceModel, parameters.series );
+            }
+        } );
+
+        titleLable = new JLabel( title );
+        Font titleFont = MMFontManager.getFontSet().getTitleFont();
+        titleLable.setFont( titleFont );
+        titleLable.setBackground( plotDeviceView.getBackgroundColor() );
+        titleLable.setOpaque( true );
+        titleLable.setForeground( color );//TODO titleLabel
+
+        panel.add( titleLable );
+        floatingControl = new FloatingControl( plotDeviceModel, plotDeviceView.getApparatusPanel() );//, titleLable );
+        panel.add( floatingControl );
+        plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
+            public void rewind() {
+                horizontalCursor.setX( 0 );
+            }
+        } );
+        textGraphic = new PhetTextGraphic( panel, MMFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, 0, 0 );
+    }
+
+    private void setInputRange( Rectangle2D.Double inputBox ) {
+        Range2D range = new Range2D( inputBox );
+        getChart().setRange( range );
+//        chartComponent.refitCurve();
+        plotDeviceView.repaintBackground( getChart().getViewBounds() );
+    }
+
+    private void updateTextBox( final PlotDeviceModel module, final DataSeries series ) {
+        int index = 0;
+        if( module.isTakingData() ) {
+            index = series.size() - 1;
+        }
+        else {
+            double time = module.getPlaybackTimer().getTime() + chartComponent.getxShift();
+            index = (int)time;//(int)( time / MovingManModel.TIMER_SCALE );
+        }
+        if( series.indexInBounds( index ) ) {
+            double value = series.pointAt( index );
+            setTextValue( value );
+        }
+    }
+
+    public void setValue( double value ) {
+        verticalChartSlider.setValue( value );
+        setTextValue( value );
+    }
+
+    public Chart getChart() {
+        return chartComponent.getChart();
+    }
+
+    public void addDataSeries( DataSeries dataSeries, Color color, String title, Stroke stroke ) {
+        chartComponent.addSeries( dataSeries, color, title, stroke );
+    }
+
+    public void addSuperScript( String s ) {
+        Font superScriptFont = new Font( "Lucida Sans", Font.BOLD, 12 );
+        superScriptGraphic = new PhetTextGraphic( plotDeviceView.getApparatusPanel(), superScriptFont, s, color, 330, 230 );
+        plotDeviceView.getApparatusPanel().addGraphic( superScriptGraphic, 999 );
+    }
+
+    public static interface Listener {
+        void nominalValueChanged( double value );
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void setTextValue( double value ) {
+        String valueString = format.format( value );
+        if( valueString.equals( "-0.00" ) ) {
+            valueString = "0.00";
+        }
+        if( !textBox.getText().equals( valueString ) ) {
+            textBox.setText( valueString );
+        }
+//        chartComponent.setText(valueString+" "+units);//TODO this is broken for Series
+//        chartComponent.readoutValue.setText( valueString + " " + units );
+//        moveScript();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.nominalValueChanged( value );
+        }
+    }
+
+    public TextBox getTextBox() {
+        return textBox;
+    }
+
+    public void requestTypingFocus() {
+        textBox.requestFocusInWindow();
+    }
+
+    public void setLabelText( String labelText ) {
+        textBox.setLabelText( labelText );
+    }
+
+    private double[] getYLines( double magnitude, double dy ) {
+        ArrayList values = new ArrayList();
+        for( double i = dy; i < magnitude; i += dy ) {
+            values.add( new Double( i ) );
+        }
+        if( values.size() > 5 ) {
+            return getYLines( magnitude, dy * 2 );
+        }
+        if( values.size() <= 1 ) {
+            return getYLines( magnitude, dy / 2 );
+        }
+        double[] d = new double[values.size()];
+        for( int i = 0; i < d.length; i++ ) {
+            d[i] = ( (Double)values.get( i ) ).doubleValue();
+        }
+        return d;
+    }
+
+
+    public ChartButton getShowButton() {
+        return showButton;
+    }
+
+
+    public void setCloseHandler( ActionListener actionListener ) {
+        chartComponent.closeButton.addActionListener( actionListener );
+    }
+
+    public PlotDeviceModel getPlotDeviceModel() {
+        return plotDeviceModel;
+    }
+
+    public void reset() {
+        chartComponent.reset();
+        horizontalCursor.setMaxX( Double.POSITIVE_INFINITY );//so it can't be dragged past, hopefully.
+        setTextValue( 0 );
+        verticalChartSlider.setValue( 0 );
+    }
+
+    public void setViewBounds( int x, int y, int width, int height ) {
+        setViewBounds( new Rectangle( x, y, width, height ) );
+    }
+
+
+    public void setViewBounds( Rectangle rectangle ) {
+        chartComponent.setViewBounds( rectangle );
+        verticalChartSlider.setOffsetX( chartComponent.chart.getVerticalTicks().getMajorTickTextBounds().width + getChart().getTitle().getBounds().width );
+        verticalChartSlider.update();
+        int floaterX = 5;
+        titleLable.reshape( floaterX, getChart().getViewBounds().y, titleLable.getPreferredSize().width, titleLable.getPreferredSize().height );
+        textBox.reshape( floaterX,
+                         titleLable.getY() + titleLable.getHeight() + 5,
+                         textBox.getPreferredSize().width,
+                         textBox.getPreferredSize().height );
+        int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
+        int floatX = floaterX + dw / 2;
+        floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
+
+//        chartComponent.refitCurve();
+        chartComponent.setViewBounds( rectangle );
+    }
+
+
+    public void paint( Graphics2D g ) {
+        if( isVisible() ) {
+            GraphicsState state = new GraphicsState( g );
+            getChart().paint( g );
+            Point pt = getChart().getModelViewTransform().modelToView( 15, 0 );
+            pt.y -= 3;
+            textGraphic.setLocation( pt.x, pt.y - textGraphic.getHeight() );
+            textGraphic.paint( g );
+            Rectangle bounds = textGraphic.getBounds();
+            Point2D tail = RectangleUtils.getRightCenter( bounds );
+            tail = new Point2D.Double( tail.getX() + 5, tail.getY() );
+//            Point2D tip = new Point2D.Double( tail.getX() + 30, tail.getY() );
+
+
+//            Arrow arrow = new Arrow( tail, tip, 9, 9, 5 );
+//            PhetShapeGraphic psg = new PhetShapeGraphic( plotDeviceView.getApparatusPanel(), arrow.getShapeGraphic(), Color.red, new BasicStroke( 1 ), Color.black );
+//            psg.paint( g );
+//            g.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
+//            g.drawString( "Time", (float)tail.getX(), (float)( tail.getY() - g.getFont().getStringBounds( "Time", g.getFontRenderContext() ).getHeight() ) );
+//            g.setClip( getChart().getViewBounds() );
+//            g.setColor( color );
+//            g.setStroke( stroke );
+//            g.draw( chartComponent.seriesAt( 0 ).path );
+
+            state.restoreGraphics();
+        }
+    }
+
+
+    public ModelViewTransform2D getModelViewTransform() {
+        return getChart().getModelViewTransform();
+    }
+
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        setSliderVisible( visible );
+        if( visible ) {
+            horizontalCursor.setVisible( true );
+        }
+        else {
+            horizontalCursor.setVisible( false );
+        }
+        chartComponent.setVisible( visible );
+
+        plotDeviceView.getApparatusPanel().setLayout( null );
+        plotDeviceView.getApparatusPanel().add( showButton );
+        showButton.reshape( 100, 100, showButton.getPreferredSize().width, showButton.getPreferredSize().height );
+        plotDeviceView.relayout();
+        showButton.setVisible( !visible );
+        textBox.setVisible( visible );
+
+
+        floatingControl.setVisible( visible );
+        titleLable.setVisible( visible );
+        if( superScriptGraphic != null ) {
+            superScriptGraphic.setVisible( visible );
+        }
+    }
+
+    public void update() {
+        chartComponent.update( (float)timer.getTime() );
+    }
+
+    public void setMagnitude( double magnitude ) {
+        chartComponent.setMagnitude( magnitude );
+    }
+
+    public void setSliderVisible( boolean b ) {
+        verticalChartSlider.setVisible( b );
+    }
+
+    public void addSliderListener( VerticalChartSlider.Listener listener ) {
+        verticalChartSlider.addListener( listener );
+    }
+
+    public VerticalChartSlider getVerticalChartSlider() {
+        return verticalChartSlider;
+    }
+
+    public void updateSlider() {
+        JSlider js = verticalChartSlider.getSlider();
+        DataSet dataSet = chartComponent.getDefaultDataSet();
+        if( !js.getValueIsAdjusting() && dataSet.size() > 0 ) {
+            double lastY = dataSet.getLastPoint().getY();
+            verticalChartSlider.setValue( lastY );
+        }
+    }
+
+    public void cursorMovedToTime( double time, int index ) {
+        horizontalCursor.setX( time );
+        DataSeries dataSeries = chartComponent.seriesAt( 0 ).dataSeries;
+        verticalChartSlider.setValue( dataSeries.pointAt( index ) );
+        setTextValue( dataSeries.pointAt( index ) );
+    }
+
+    public void setCursorVisible( boolean visible ) {
+        if( isVisible() ) {
+            horizontalCursor.setVisible( visible );
+        }
+    }
+
+    public FloatingControl getFloatingControl() {
+        return floatingControl;
+    }
+
+    public static class FloatingControl extends VerticalLayoutPanel {
+        static BufferedImage play;
+        static BufferedImage pause;
+        private JButton pauseButton;
+        private JButton recordButton;
+        private JButton resetButton;
+
+        static {
+            try {
+                play = ImageLoader.loadBufferedImage( "images/icons/java/media/Play16.gif" );
+                pause = ImageLoader.loadBufferedImage( "images/icons/java/media/Pause16.gif" );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+
+        static class ControlButton extends JButton {
+            static Font font = MMFontManager.getFontSet().getControlButtonFont();
+
+            public ControlButton( String text ) {
+                super( text );
+                setFont( font );
+            }
+        }
+
+        public FloatingControl( final PlotDeviceModel plotDeviceModel, final ApparatusPanel apparatusPanel ) {
+            pauseButton = new ControlButton( "Pause" );
+            pauseButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    plotDeviceModel.setPaused( true );
+                }
+            } );
+            recordButton = new ControlButton( "Go" );
+            recordButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    plotDeviceModel.setRecordMode();
+                    plotDeviceModel.setPaused( false );
+                }
+            } );
+
+            resetButton = new ControlButton( "Clear" );
+            resetButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    boolean paused = plotDeviceModel.isPaused();
+                    plotDeviceModel.setPaused( true );
+                    int option = JOptionPane.showConfirmDialog( apparatusPanel, "Are you sure you want to clear the graphs?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION );
+                    if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
+                        plotDeviceModel.reset();
+                    }
+                    else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
+                        plotDeviceModel.setPaused( paused );
+                    }
+                }
+            } );
+            plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
+                public void recordingStarted() {
+                    setButtons( false, true, true );
+                }
+
+                public void recordingPaused() {
+                    setButtons( true, false, true );
+                }
+
+                public void recordingFinished() {
+                    setButtons( false, false, true );
+                }
+
+                public void reset() {
+                    setButtons( true, false, false );
+                }
+
+                public void rewind() {
+                    setButtons( true, false, true );
+                }
+            } );
+            add( recordButton );
+            add( pauseButton );
+            add( resetButton );
+            pauseButton.setEnabled( false );
+        }
+
+        private void setButtons( boolean record, boolean pause, boolean reset ) {
+            recordButton.setEnabled( record );
+            pauseButton.setEnabled( pause );
+            resetButton.setEnabled( reset );
+        }
+
+        public void setVisible( boolean aFlag ) {
+            super.setVisible( aFlag );
+        }
+    }
+
     public class ChartComponent {
         private CloseButton closeButton;
         private ArrayList series = new ArrayList();
@@ -191,7 +609,12 @@ public class PlotDevice extends CompositePhetGraphic {
             chart.getVerticalGridlines().setMinorGridlinesVisible( false );
             chart.getXAxis().setMajorGridlines( new double[]{2, 4, 6, 8, 10, 12, 14, 16, 18, 20} ); //to ignore the 0.0
             chart.getXAxis().setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{6, 6}, 0 ) );
-
+            chart.getYAxis().setMinorTicksVisible( false );
+            double spacing = inputBox.getHeight() / 21;
+            chart.getYAxis().setMajorTickSpacing( spacing );
+//            chart.getHorizontalTicks().setMajorTickSpacing( spacing );
+            chart.getVerticalTicks().setMajorTickSpacing( spacing );
+            chart.getHorizonalGridlines().setMajorTickSpacing( spacing );
             chart.setVerticalTitle( title, color, verticalTitleFont );
             chart.getVerticalTicks().setMajorOffset( new JSlider().getWidth() - 5, 0 );
 
@@ -399,170 +822,15 @@ public class PlotDevice extends CompositePhetGraphic {
         }
     }
 
-    public PlotDevice( final ParameterSet parameters )
-            throws IOException {
-        super( parameters.panel );
-        this.plotDeviceView = parameters.plotDeviceView;
-        this.units = parameters.units;
-        this.title = parameters.title;
-        this.plotDeviceModel = parameters.plotDeviceModel;
-        this.timer = parameters.timer;
-        this.color = parameters.color;
-        this.stroke = parameters.stroke;
-        chartComponent = new ChartComponent( parameters.panel, parameters.inputBox, parameters.series, parameters.xShift );
-        ApparatusPanel panel = parameters.panel;
-        Rectangle2D.Double inputBox = parameters.inputBox;
-
-        horizontalCursor = new HorizontalCursor( panel, chartComponent.getChart(), new Color( 15, 0, 255, 50 ), new Color( 50, 0, 255, 150 ), 8 );
-        horizontalCursor.addListener( new HorizontalCursor.Listener() {
-            public void modelValueChanged( double modelX ) {
-                plotDeviceModel.cursorMovedToTime( modelX );
-            }
-        } );
-        panel.addGraphic( horizontalCursor, 1000 );
-
-        setInputRange( inputBox );
-        timer.addListener( new PhetTimer.Listener() {
-            public void timeChanged( PhetTimer timer ) {
-                update();
-            }
-        } );
-
-        showButton = new ChartButton( "Show " + title );
-        showButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setVisible( true );
-            }
-        } );
-        verticalChartSlider = new VerticalChartSlider( chartComponent.getChart() );
-
-        setCloseHandler( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setVisible( false );
-                plotDeviceView.relayout();
-            }
-        } );
-
-        textBox = new TextBox( plotDeviceModel, 5, parameters.labelStr );
-        textBox.setHorizontalAlignment( JTextField.RIGHT );
-
-        panel.add( textBox );
-
-        setTextValue( 0 );
-        plotDeviceModel.getRecordingTimer().addListener( new PhetTimer.Listener() {
-            public void timeChanged( PhetTimer timer ) {
-                updateTextBox( plotDeviceModel, parameters.series );
-            }
-        } );
-        plotDeviceModel.getPlaybackTimer().addListener( new PhetTimer.Listener() {
-            public void timeChanged( PhetTimer timer ) {
-                updateTextBox( plotDeviceModel, parameters.series );
-            }
-        } );
-
-        titleLable = new JLabel( title );
-        Font titleFont = MMFontManager.getFontSet().getTitleFont();
-        titleLable.setFont( titleFont );
-        titleLable.setBackground( plotDeviceView.getBackgroundColor() );
-        titleLable.setOpaque( true );
-        titleLable.setForeground( color );//TODO titleLabel
-
-        panel.add( titleLable );
-        floatingControl = new FloatingControl( plotDeviceModel, plotDeviceView.getApparatusPanel() );//, titleLable );
-        panel.add( floatingControl );
-        plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
-            public void rewind() {
-                horizontalCursor.setX( 0 );
-            }
-        } );
-        textGraphic = new PhetTextGraphic( panel, MMFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, 0, 0 );
-    }
-
-    private void setInputRange( Rectangle2D.Double inputBox ) {
-        Range2D range = new Range2D( inputBox );
-        getChart().setRange( range );
-//        chartComponent.refitCurve();
-        plotDeviceView.repaintBackground( getChart().getViewBounds() );
-    }
-
-    private void updateTextBox( final PlotDeviceModel module, final DataSeries series ) {
-        int index = 0;
-        if( module.isTakingData() ) {
-            index = series.size() - 1;
-        }
-        else {
-            double time = module.getPlaybackTimer().getTime() + chartComponent.getxShift();
-            index = (int)time;//(int)( time / MovingManModel.TIMER_SCALE );
-        }
-        if( series.indexInBounds( index ) ) {
-            double value = series.pointAt( index );
-            setTextValue( value );
-        }
-    }
-
-    public void valueChanged( double value ) {
-        verticalChartSlider.setValue( value );
-        setTextValue( value );
-    }
-
-    public Chart getChart() {
-        return chartComponent.getChart();
-    }
-
-    public void addDataSeries( DataSeries dataSeries, Color color, String title, Stroke stroke ) {
-        chartComponent.addSeries( dataSeries, color, title, stroke );
-    }
-
-    public void addSuperScript( String s ) {
-        Font superScriptFont = new Font( "Lucida Sans", Font.BOLD, 12 );
-        superScriptGraphic = new PhetTextGraphic( plotDeviceView.getApparatusPanel(), superScriptFont, s, color, 330, 230 );
-        plotDeviceView.getApparatusPanel().addGraphic( superScriptGraphic, 999 );
-    }
-
-    public static interface Listener {
-        void nominalValueChanged( double value );
-    }
-
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    public void setTextValue( double value ) {
-        String valueString = format.format( value );
-        if( valueString.equals( "-0.00" ) ) {
-            valueString = "0.00";
-        }
-        if( !textBox.getText().equals( valueString ) ) {
-            textBox.setText( valueString );
-        }
-//        chartComponent.setText(valueString+" "+units);//TODO this is broken for Series
-//        chartComponent.readoutValue.setText( valueString + " " + units );
-//        moveScript();
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.nominalValueChanged( value );
-        }
-    }
-
-    public TextBox getTextBox() {
-        return textBox;
-    }
-
-    public void requestTypingFocus() {
-        textBox.requestFocusInWindow();
-    }
-
-    public void setLabelText( String labelText ) {
-        textBox.setLabelText( labelText );
-    }
-
     public static class TextBox extends JPanel {
         boolean changedByUser;
         JTextField textField;
         JLabel label;
         static Font font = MMFontManager.getFontSet().getTextBoxFont();
+        private PlotDevice plotDevice;
 
-        public TextBox( PlotDeviceModel module, int text, String labelText ) {
+        public TextBox( PlotDeviceModel module, int text, String labelText, PlotDevice plotDevice ) {
+            this.plotDevice = plotDevice;
             textField = new JTextField( text );
             label = new JLabel( labelText );
             setLayout( new FlowLayout( FlowLayout.CENTER ) );
@@ -576,9 +844,14 @@ public class PlotDevice extends CompositePhetGraphic {
             textField.addKeyListener( new KeyListener() {
                 public void keyTyped( KeyEvent e ) {
                     changedByUser = true;
+                    //TODO a bug detecting VK_ENTER on my machine.
+//                    if( e.getKeyCode() == KeyEvent.VK_RE ) {
+                    parseAndSetValue();
+//                    }
                 }
 
                 public void keyPressed( KeyEvent e ) {
+                    System.out.println( "pressed" );
                 }
 
                 public void keyReleased( KeyEvent e ) {
@@ -624,6 +897,13 @@ public class PlotDevice extends CompositePhetGraphic {
             } );
         }
 
+        private void parseAndSetValue() {
+            String text = getText();
+            double value = Double.parseDouble( text );
+
+            plotDevice.setValue( value );//needs error handling.
+        }
+
         public void clearChangedByUser() {
             changedByUser = false;
         }
@@ -660,22 +940,24 @@ public class PlotDevice extends CompositePhetGraphic {
         }
     }
 
-    private double[] getYLines( double magnitude, double dy ) {
-        ArrayList values = new ArrayList();
-        for( double i = dy; i < magnitude; i += dy ) {
-            values.add( new Double( i ) );
+    private static class CloseButton extends JButton {
+        private static Icon icon;
+
+        public CloseButton() throws IOException {
+            super( loadIcon() );
         }
-        if( values.size() > 5 ) {
-            return getYLines( magnitude, dy * 2 );
+
+        public static Icon loadIcon() throws IOException {
+            if( icon == null ) {
+                BufferedImage image = ImageLoader.loadBufferedImage( "images/x-25.gif" );
+                icon = new ImageIcon( image );
+            }
+            return icon;
         }
-        if( values.size() <= 1 ) {
-            return getYLines( magnitude, dy / 2 );
+
+        public void setPosition( int x, int y ) {
+            reshape( x, y, getPreferredSize().width, getPreferredSize().height );
         }
-        double[] d = new double[values.size()];
-        for( int i = 0; i < d.length; i++ ) {
-            d[i] = ( (Double)values.get( i ) ).doubleValue();
-        }
-        return d;
     }
 
     static class RepeatClicker extends MouseAdapter {
@@ -720,10 +1002,6 @@ public class PlotDevice extends CompositePhetGraphic {
         }
     }
 
-    public ChartButton getShowButton() {
-        return showButton;
-    }
-
     public static class ChartButton extends JButton {
         private static Font font = MMFontManager.getFontSet().getChartButtonFont();//new Font( "Lucida Sans", Font.BOLD, 14 );
 
@@ -734,261 +1012,4 @@ public class PlotDevice extends CompositePhetGraphic {
             setHorizontalTextPosition( AbstractButton.LEFT );
         }
     }
-
-    public void setCloseHandler( ActionListener actionListener ) {
-        chartComponent.closeButton.addActionListener( actionListener );
-    }
-
-    public PlotDeviceModel getPlotDeviceModel() {
-        return plotDeviceModel;
-    }
-
-    public void reset() {
-        chartComponent.reset();
-        horizontalCursor.setMaxX( Double.POSITIVE_INFINITY );//so it can't be dragged past, hopefully.
-        setTextValue( 0 );
-        verticalChartSlider.setValue( 0 );
-    }
-
-    public void setViewBounds( int x, int y, int width, int height ) {
-        setViewBounds( new Rectangle( x, y, width, height ) );
-    }
-
-
-    public void setViewBounds( Rectangle rectangle ) {
-        chartComponent.setViewBounds( rectangle );
-        verticalChartSlider.setOffsetX( chartComponent.chart.getVerticalTicks().getMajorTickTextBounds().width + getChart().getTitle().getBounds().width );
-        verticalChartSlider.update();
-        int floaterX = 5;
-        titleLable.reshape( floaterX, getChart().getViewBounds().y, titleLable.getPreferredSize().width, titleLable.getPreferredSize().height );
-        textBox.reshape( floaterX,
-                         titleLable.getY() + titleLable.getHeight() + 5,
-                         textBox.getPreferredSize().width,
-                         textBox.getPreferredSize().height );
-        int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
-        int floatX = floaterX + dw / 2;
-        floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
-
-//        chartComponent.refitCurve();
-        chartComponent.setViewBounds( rectangle );
-    }
-
-    private static class CloseButton extends JButton {
-        private static Icon icon;
-
-        public CloseButton() throws IOException {
-            super( loadIcon() );
-        }
-
-        public static Icon loadIcon() throws IOException {
-            if( icon == null ) {
-                BufferedImage image = ImageLoader.loadBufferedImage( "images/x-25.gif" );
-                icon = new ImageIcon( image );
-            }
-            return icon;
-        }
-
-        public void setPosition( int x, int y ) {
-            reshape( x, y, getPreferredSize().width, getPreferredSize().height );
-        }
-    }
-
-    public void paint( Graphics2D g ) {
-        if( isVisible() ) {
-            GraphicsState state = new GraphicsState( g );
-            getChart().paint( g );
-            Point pt = getChart().getModelViewTransform().modelToView( 15, 0 );
-            pt.y -= 3;
-            textGraphic.setLocation( pt.x, pt.y - textGraphic.getHeight() );
-            textGraphic.paint( g );
-            Rectangle bounds = textGraphic.getBounds();
-            Point2D tail = RectangleUtils.getRightCenter( bounds );
-            tail = new Point2D.Double( tail.getX() + 5, tail.getY() );
-//            Point2D tip = new Point2D.Double( tail.getX() + 30, tail.getY() );
-
-
-//            Arrow arrow = new Arrow( tail, tip, 9, 9, 5 );
-//            PhetShapeGraphic psg = new PhetShapeGraphic( plotDeviceView.getApparatusPanel(), arrow.getShapeGraphic(), Color.red, new BasicStroke( 1 ), Color.black );
-//            psg.paint( g );
-//            g.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
-//            g.drawString( "Time", (float)tail.getX(), (float)( tail.getY() - g.getFont().getStringBounds( "Time", g.getFontRenderContext() ).getHeight() ) );
-//            g.setClip( getChart().getViewBounds() );
-//            g.setColor( color );
-//            g.setStroke( stroke );
-//            g.draw( chartComponent.seriesAt( 0 ).path );
-
-            state.restoreGraphics();
-        }
-    }
-
-
-    public ModelViewTransform2D getModelViewTransform() {
-        return getChart().getModelViewTransform();
-    }
-
-    public void setVisible( boolean visible ) {
-        super.setVisible( visible );
-        setSliderVisible( visible );
-        if( visible ) {
-            horizontalCursor.setVisible( true );
-        }
-        else {
-            horizontalCursor.setVisible( false );
-        }
-        chartComponent.setVisible( visible );
-
-        plotDeviceView.getApparatusPanel().setLayout( null );
-        plotDeviceView.getApparatusPanel().add( showButton );
-        showButton.reshape( 100, 100, showButton.getPreferredSize().width, showButton.getPreferredSize().height );
-        plotDeviceView.relayout();
-        showButton.setVisible( !visible );
-        textBox.setVisible( visible );
-
-
-        floatingControl.setVisible( visible );
-        titleLable.setVisible( visible );
-        if( superScriptGraphic != null ) {
-            superScriptGraphic.setVisible( visible );
-        }
-    }
-
-    public void update() {
-        chartComponent.update( (float)timer.getTime() );
-    }
-
-    public void setMagnitude( double magnitude ) {
-        chartComponent.setMagnitude( magnitude );
-    }
-
-    public void setSliderVisible( boolean b ) {
-        verticalChartSlider.setVisible( b );
-    }
-
-    public void addSliderListener( VerticalChartSlider.Listener listener ) {
-        verticalChartSlider.addListener( listener );
-    }
-
-    public VerticalChartSlider getVerticalChartSlider() {
-        return verticalChartSlider;
-    }
-
-    public void updateSlider() {
-        JSlider js = verticalChartSlider.getSlider();
-        DataSet dataSet = chartComponent.getDefaultDataSet();
-        if( !js.getValueIsAdjusting() && dataSet.size() > 0 ) {
-            double lastY = dataSet.getLastPoint().getY();
-            verticalChartSlider.setValue( lastY );
-        }
-    }
-
-    public void cursorMovedToTime( double time, int index ) {
-        horizontalCursor.setX( time );
-        DataSeries dataSeries = chartComponent.seriesAt( 0 ).dataSeries;
-        verticalChartSlider.setValue( dataSeries.pointAt( index ) );
-        setTextValue( dataSeries.pointAt( index ) );
-    }
-
-    public void setCursorVisible( boolean visible ) {
-        if( isVisible() ) {
-            horizontalCursor.setVisible( visible );
-        }
-    }
-
-    public static class FloatingControl extends VerticalLayoutPanel {
-        static BufferedImage play;
-        static BufferedImage pause;
-        private JButton pauseButton;
-        private JButton recordButton;
-        private JButton resetButton;
-
-        static {
-            try {
-                play = ImageLoader.loadBufferedImage( "images/icons/java/media/Play16.gif" );
-                pause = ImageLoader.loadBufferedImage( "images/icons/java/media/Pause16.gif" );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-
-        static class ControlButton extends JButton {
-            static Font font = MMFontManager.getFontSet().getControlButtonFont();
-
-            public ControlButton( String text ) {
-                super( text );
-                setFont( font );
-            }
-        }
-
-        public FloatingControl( final PlotDeviceModel plotDeviceModel, final ApparatusPanel apparatusPanel ) {
-            pauseButton = new ControlButton( "Pause" );
-            pauseButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    plotDeviceModel.setPaused( true );
-                }
-            } );
-            recordButton = new ControlButton( "Record" );
-            recordButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    plotDeviceModel.setRecordMode();
-                    plotDeviceModel.setPaused( false );
-                }
-            } );
-
-            resetButton = new ControlButton( "Reset" );
-            resetButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    boolean paused = plotDeviceModel.isPaused();
-                    plotDeviceModel.setPaused( true );
-                    int option = JOptionPane.showConfirmDialog( apparatusPanel, "Are you sure you want to clear the graphs?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION );
-                    if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
-                        plotDeviceModel.reset();
-                    }
-                    else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
-                        plotDeviceModel.setPaused( paused );
-                    }
-                }
-            } );
-            plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
-                public void recordingStarted() {
-                    setButtons( false, true, true );
-                }
-
-                public void recordingPaused() {
-                    setButtons( true, false, true );
-                }
-
-                public void recordingFinished() {
-                    setButtons( false, false, true );
-                }
-
-                public void reset() {
-                    setButtons( true, false, false );
-                }
-
-                public void rewind() {
-                    setButtons( true, false, true );
-                }
-            } );
-            add( recordButton );
-            add( pauseButton );
-            add( resetButton );
-            pauseButton.setEnabled( false );
-        }
-
-        private void setButtons( boolean record, boolean pause, boolean reset ) {
-            recordButton.setEnabled( record );
-            pauseButton.setEnabled( pause );
-            resetButton.setEnabled( reset );
-        }
-
-        public void setVisible( boolean aFlag ) {
-            super.setVisible( aFlag );
-        }
-    }
-
-    public FloatingControl getFloatingControl() {
-        return floatingControl;
-    }
-
 }
