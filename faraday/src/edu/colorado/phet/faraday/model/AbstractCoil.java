@@ -129,16 +129,6 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
     public double getLoopArea() {
         return ( Math.PI * _radius * _radius );
     }
-
-    /**
-     * Gets the total surface area of all loops in the coil.
-     * This is a convenience function.
-     * 
-     * @return the area
-     */
-    public double getArea() {
-        return _numberOfLoops * getLoopArea();
-    }
     
     /**
      * Sets the width of the wire used for the coil.

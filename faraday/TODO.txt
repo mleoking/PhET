@@ -3,6 +3,7 @@
 ===============================================================================
 
 ISSUES:
+- Performance changes based on the number of loops in the electromagnet or pickup coil.
 - Performance cannot be the same with the grid "on".
 - If the water wheel hits "critical angles" then its rotation appears jerky at certain speeds.
 - Is the lightbulb & voltmeter's "false peak" a correct behavior?
@@ -15,9 +16,8 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - use PhetGraphic.skipRectangleComputations to bypass calls to AffineTransform.createTransformedShape
-- turn off coil edges in Faraday computation to see if light intensity becomes sinusoidal
+- optimize PickupCoil.updateEmf so that it doesn't do anything if it doesn't have to
 - switch to a dynamic clock with median filtering of dt
-- look for methods in Graphics that are faster than Graphics2D.fill for rendering needles
 - switch to offscreen buffer
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - add a dialog that warns about performance implications of turning on grid
@@ -68,6 +68,10 @@ PHETCOMMON:
 
 DONE:
 v0r21
+(3/31) - fix delta flux calculation, should be based on the surface area of 1 loop, not total coil area
+(3/31) - turn off coil edges in Faraday computation to see if light intensity becomes sinusoidal (no change)
+(3/31) - center the voltmeter needle screw at the pivot point
+(3/31) - make voltmeter needle a bit less lively
 (3/31) - remove performance problem in ApparatusPanel2, minimize calls to AffineTransform.createTransformedShape
 (3/29) - make all ModelElements compliant with fixed or variable clock (use dt in stepInTime)
 v0r20...
@@ -341,6 +345,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(3/29) - draw needles using Graphics.fillPolygon (no performance improvement)
 (3/29) - transparent bar magnet layer so that field meter looks like it's inside it (no one except Ron asked for this feature)
 (3/29) - redo Turbine model, it should not extend BarMagnet (fine as is for this simulation)
 (3/24) - cache grid needles at N-degree angles to eliminate rotation transform (rotation is not the problem, fill is the problem)
