@@ -62,23 +62,6 @@ public class BarMagnetModule extends Module {
     // Magnet parameters
     private static final double MAGNET_STRENGTH = 200;
 
-    
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    // Model
-    private AbstractMagnet _magnetModel;
-    private AbstractCompass _compassModel;
-    
-    // View
-    private BarMagnetGraphic _magnetGraphic;
-    private CompassGridGraphic _gridGraphic;
-    private FieldMeterGraphic _fieldMeterGraphic;
-    
-    // Control
-    private BarMagnetControlPanel _controlPanel;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -105,17 +88,17 @@ public class BarMagnetModule extends Module {
         this.setModel( model );
         
         // Bar Magnet
-        _magnetModel = new BarMagnet();
-        _magnetModel.setStrength( MAGNET_STRENGTH );
-        _magnetModel.setLocation( MAGNET_LOCATION );
-        _magnetModel.setDirection( 0 );
-        _magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
-        model.addModelElement( _magnetModel );
+        AbstractMagnet magnetModel = new BarMagnet();
+        magnetModel.setStrength( MAGNET_STRENGTH );
+        magnetModel.setLocation( MAGNET_LOCATION );
+        magnetModel.setDirection( 0 );
+        magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
+        model.addModelElement( magnetModel );
         
         // Compass model
-        _compassModel = new Compass( _magnetModel );
-        _compassModel.setLocation( COMPASS_LOCATION );
-        model.addModelElement( _compassModel );
+        AbstractCompass compassModel = new Compass( magnetModel );
+        compassModel.setLocation( COMPASS_LOCATION );
+        model.addModelElement( compassModel );
         
         //----------------------------------------------------------------------------
         // View
@@ -127,25 +110,25 @@ public class BarMagnetModule extends Module {
         this.setApparatusPanel( apparatusPanel );
 
         // Bar Magnet
-        _magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
-        apparatusPanel.addGraphic( _magnetGraphic, MAGNET_LAYER );
+        BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, magnetModel );
+        apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
         
         // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, 
+        CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, magnetModel, 
                 FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        _gridGraphic.setLocation( GRID_LOCATION );
-        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
-        apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
+        gridGraphic.setLocation( GRID_LOCATION );
+        gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        apparatusPanel.addGraphic( gridGraphic, GRID_LAYER );
         
         // CompassGraphic
-        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
         // Field Meter
-        _fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _magnetModel );
-        _fieldMeterGraphic.setLocation( 100, 100 );
-        apparatusPanel.addGraphic( _fieldMeterGraphic, METER_LAYER );
+        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, magnetModel );
+        fieldMeterGraphic.setLocation( 100, 100 );
+        apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
         
         // Debugger
         DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
@@ -159,116 +142,12 @@ public class BarMagnetModule extends Module {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        _controlPanel = new BarMagnetControlPanel( this );
-        this.setControlPanel( _controlPanel );
+        BarMagnetControlPanel controlPanel = 
+            new BarMagnetControlPanel( this, magnetModel, compassModel, magnetGraphic, gridGraphic, fieldMeterGraphic );
+        this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
-        
-        //----------------------------------------------------------------------------
-        // Initalize
-        //----------------------------------------------------------------------------
-        
-        reset();
-    }
-   
-    //----------------------------------------------------------------------------
-    // Controller methods
-    //----------------------------------------------------------------------------
-
-    /**
-     * Resets everything to the initial values.
-     */
-    public void reset() {
-        // Set state.
-        _magnetModel.setStrength( MAGNET_STRENGTH );
-        _magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
-        _compassModel.setEnabled( true );
-        
-        // Synchronize control panel.
-        _controlPanel.setMagnetStrength( _magnetModel.getStrength() );
-        _controlPanel.setMagnetSize( _magnetModel.getSize() );
-        _controlPanel.setMagnetTransparencyEnabled( false );
-        _controlPanel.setMeterEnabled( true );
-        _controlPanel.setCompassEnabled( _compassModel.isEnabled() );
-        
-        // Debug controls
-        _controlPanel.setGridSpacing( FaradayConfig.GRID_SPACING );
-        _controlPanel.setGridNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
-    }
-    
-    /**
-     * Flips the magnet's polarity.
-     */
-    public void flipMagnetPolarity() {
-        double direction = _magnetModel.getDirection();
-        direction = ( direction + 180 ) % 360;
-        _magnetModel.setDirection( direction );
-        _compassModel.startMovingNow();
-    }
-    
-    /**
-     * Sets the magnet's strength.
-     * 
-     * @param strength the strength
-     */
-    public void setMagnetStrength( double strength ) {
-        _magnetModel.setStrength( strength );
-    }
-    
-    /**
-     * Set the transparency of the magnet graphic.
-     * 
-     * @param enabled true for transparent, false for opaque
-     */
-    public void setMagnetTransparencyEnabled( boolean enabled ) {
-        _magnetGraphic.setTransparencyEnabled( enabled );
-    }
-    
-    /**
-     * Enables and disables the Field Meter.
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    public void setMeterEnabled( boolean enabled ) {
-        _fieldMeterGraphic.setVisible( enabled );
-    }
-    
-    /**
-     * Enables and disables the compass.
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    public void setCompassEnabled( boolean enabled ) {
-        _compassModel.setEnabled( enabled );
-    }
-    
-    /**
-     * Sets the magnet's size.
-     * 
-     * @param width the width
-     * @param height the height
-     */
-    public void setMagnetSize( Dimension size ) {
-        _magnetModel.setSize( size );
-    }
-    
-    /**
-     * Sets the spacing betweeen compasses in the grid.
-     * 
-     * @param spacing the amount of space between needles in the X and Y directions
-     */
-    public void setGridSpacing( int spacing ) {
-        _gridGraphic.setSpacing( spacing, spacing );
-    }
-    
-    /**
-     * Sets the size of the compass needles in the grid.
-     * 
-     * @param size the size
-     */
-    public void setGridNeedleSize( Dimension size ) {
-        _gridGraphic.setNeedleSize( size );
-    }
+    }  
 }
