@@ -50,6 +50,8 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
         setAngle( theta );
 
         setLocation( x );
+
+        // Needed to initialize the shape
         setShape( xformedWall );
     }
 
@@ -130,8 +132,8 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
      */
     public void paint( Graphics2D g ) {
         g.setColor( wallColor );
-        //            g.draw( xformedWall );
-        //            g.fill( xformedWall );
+//        g.draw( xformedWall );
+//        g.fill( xformedWall );
 
         // TODO: Make this a Paintable
         g.setColor( new Color( 128, 128, 128 ) );
