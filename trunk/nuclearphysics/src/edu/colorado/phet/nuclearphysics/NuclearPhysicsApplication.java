@@ -61,7 +61,8 @@ public class NuclearPhysicsApplication extends PhetApplication {
         //        app.startApplication( multipleNucleusFissionModule );
         //        app.startApplication( singleNucleusFissionModule );
         appDesc.setFrameSetup( new FrameSetup.CenteredWithSize( 1024, 768 ) );
-        //        appDesc.setFrameSetup( new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 768 ) ) );
+        //                appDesc.setFrameSetup( new FrameSetup.Full() );
+        //                appDesc.setFrameSetup( new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 768 ) ) );
 
         NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc );
         try {
