@@ -108,26 +108,32 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver {
 
                 // If the photon is in use, render it.
                 if( photon.isInUse() ) {
+
+                    // Set the color.
+                    // WORKAROUND: We get a huge performance improvement by passing
+                    // a java.awt.Color to Graphics2D.paint, instead of a VisibleColor.
+                    Color color = null;
+                    if( photon.getIntensity() == 0 ) {
+                        // Photons with zero intensity are invisible.
+                        color = VisibleColor.INVISIBLE.toColor();
+                        //color = VisibleColor.WHITE.toColor(); // DEBUG
+                    }
+                    else if( photon.getColor().getWavelength() == VisibleColor.WHITE_WAVELENGTH ) {
+                        // White photons are rendered using a random color.
+                        double wavelength = genWavelength();
+                        color = VisibleColor.wavelengthToColor( wavelength );
+                    }
+                    else {
+                        color = photon.getColor().toColor();
+                    }
+                    g2.setPaint( color );
+                    
+                    // Draw the photon as a line.
+                    // The head of the photon is at (x,y), assumes left-to-right motion!
                     x = (int) photon.getX();
                     y = (int) photon.getY();
                     w = (int) photon.getWidth();
                     h = (int) photon.getHeight();
-
-                    VisibleColor color = photon.getColor();
-                    if( photon.getIntensity() == 0 ) {
-                        // Photons with zero intensity are invisible.
-                        color = VisibleColor.INVISIBLE;
-                        //color = VisibleColor.WHITE; // DEBUG
-                    }
-                    else if( color.getWavelength() == VisibleColor.WHITE_WAVELENGTH ) {
-                        // White photons are rendered using a random color.
-                        double wavelength = genWavelength();
-                        color = new VisibleColor( wavelength );
-                    }
-
-                    // WORKAROUND: Huge performance improvement by converting VisibleColor to Color.
-                    g2.setPaint( color.toColor() );
-                    // Head of photon is at (x,y), assumes left-to-right motion!
                     g2.drawLine( x, y, x - w, y - h );
                 }
             }
