@@ -129,7 +129,9 @@ public class RoughDraftKirkhoffSystemGenerator {
         return (Equation[]) all.toArray(new Equation[0]);
     }
 
-    /**Computes the current and voltage in each component, and sets the values.*/
+    /**
+     * Computes the current and voltage in each component, and sets the values.
+     */
     private Equation[] getJunctionEquations(CircuitGraph c, MatrixTable mt) {
         ArrayList rows = new ArrayList();
         for (int i = 0; i < c.numVertices(); i++) {

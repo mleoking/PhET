@@ -3,7 +3,6 @@ package edu.colorado.phet.cck.elements.branch.components;
 
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchObserver;
-import edu.colorado.phet.cck.elements.branch.ImagePortion;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.elements.xml.BatteryData;
@@ -60,9 +59,8 @@ public class Battery extends Branch {
                 if (recursing)
                     return;
                 recursing = true;
-                if (!enableRotation)
-                {
-                    recursing=false;
+                if (!enableRotation) {
+                    recursing = false;
                     return;
                 }
                 if (junction == getStartJunction()) {
@@ -133,6 +131,6 @@ public class Battery extends Branch {
 //    }
 
     public void setRotateEnabled(boolean enab) {
-        this.enableRotation=enab;
+        this.enableRotation = enab;
     }
 }

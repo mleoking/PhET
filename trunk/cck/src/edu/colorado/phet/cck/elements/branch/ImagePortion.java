@@ -110,7 +110,7 @@ public class ImagePortion implements InteractiveGraphic {
     }
 
     public boolean contains(int x, int y) {
-        return imageShape.contains(x,y);
+        return imageShape.contains(x, y);
     }
 
 }

@@ -20,9 +20,9 @@ import edu.colorado.phet.cck.elements.particles.ParticleSet;
 import edu.colorado.phet.cck.elements.particles.ParticleSetGraphic;
 import edu.colorado.phet.cck.util.MyConsoleHandler;
 import edu.colorado.phet.common.VersionUtils;
-import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
@@ -35,8 +35,8 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.view.util.AspectRatioLayout;
+import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -142,7 +142,7 @@ public class CCK2Module extends Module {
         return flameImage;
     }
 
-    public CCK2Module(final boolean usePointAmmeter,AbstractClock clock) throws IOException {
+    public CCK2Module(final boolean usePointAmmeter, AbstractClock clock) throws IOException {
         super("Circuit Construction Kit-ii");
         this.usePointAmmeter = usePointAmmeter;
 
@@ -160,7 +160,7 @@ public class CCK2Module extends Module {
             }
         }, Integer.MIN_VALUE);
         circuitSolver = new CircuitSolver();
-        Color backgroundColor=new Color(166,177,204);//not so bright
+        Color backgroundColor = new Color(166, 177, 204);//not so bright
 //        Color backgroundColor=new Color(220, 220, 249);
         getApparatusPanel().setBackground(backgroundColor);
         Rectangle2D.Double modelRect = new Rectangle2D.Double(0, 0, 10, 10);
@@ -550,9 +550,9 @@ public class CCK2Module extends Module {
     }
 
     public static void main(String[] args) throws IOException {
-        SwingTimerClock stc = new SwingTimerClock(1,30,true);
+        SwingTimerClock stc = new SwingTimerClock(1, 30, true);
         boolean usePointAmmeter = false;
-        final CCK2Module module = new CCK2Module(usePointAmmeter,stc);
+        final CCK2Module module = new CCK2Module(usePointAmmeter, stc);
 //        FrameSetup fs = new FrameSetup() {
 //            public void initialize(JFrame frame) {
 //                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -633,7 +633,8 @@ public class CCK2Module extends Module {
         module.getApparatusPanel().repaint();
         enableAspectRatio(app, module);
     }
-       private static void enableAspectRatio(PhetApplication app,Module module) {
+
+    private static void enableAspectRatio(PhetApplication app, Module module) {
         ApparatusPanelContainer apc = app.getApplicationView().getApparatusPanelContainer();
         if (apc instanceof SingleApparatusPanelContainer) {
             SingleApparatusPanelContainer sapc = (SingleApparatusPanelContainer) apc;

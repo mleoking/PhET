@@ -8,7 +8,6 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -113,7 +112,7 @@ public class SwitchGraphic extends ImageBranchGraphic {
         }
 
         public boolean contains(int x, int y) {
-            return handleShape.contains(x,y);
+            return handleShape.contains(x, y);
         }
 
     }

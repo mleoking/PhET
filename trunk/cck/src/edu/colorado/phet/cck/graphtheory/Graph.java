@@ -47,7 +47,9 @@ public class Graph {
         return getEdges(vertices.indexOf(vertex));
     }
 
-    /**Gets all edges connecting to the ith vertex.*/
+    /**
+     * Gets all edges connecting to the ith vertex.
+     */
     public DirectedDataEdge[] getEdges(int i) {
         ArrayList all = new ArrayList();
         Object v = vertexAt(i);
@@ -110,7 +112,9 @@ public class Graph {
         return (Loop[]) all.toArray(new Loop[0]);
     }
 
-    /**Get all loops passing through vertexindex.*/
+    /**
+     * Get all loops passing through vertexindex.
+     */
     public Loop[] getLoops(int vertexIndex) {
         DirectedPathElement[] pe = getDirectedPathElements(vertexIndex);
         ArrayList all = new ArrayList();
@@ -123,7 +127,9 @@ public class Graph {
         return (Loop[]) all.toArray(new Loop[0]);
     }
 
-    /**Gets all loops that start with the specified path.*/
+    /**
+     * Gets all loops that start with the specified path.
+     */
     private Loop[] getLoops(DirectedPath path) {
         if (path.isLoop()) {
             return new Loop[]{new Loop(path)};

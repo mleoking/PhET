@@ -6,10 +6,10 @@ import edu.colorado.phet.cck.common.SimpleObserver;
 import edu.colorado.phet.cck.elements.branch.ConnectibleImageGraphic;
 import edu.colorado.phet.cck.elements.branch.components.Bulb;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
+import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.math.PhetVector;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -119,7 +119,8 @@ public class BulbGraphic extends ConnectibleImageGraphic {
         super.setImage(image);
     }
 
-    int MAX_BRIGHTIE_LINES=30;
+    int MAX_BRIGHTIE_LINES = 30;
+
     private void paintBrightieLines(Graphics2D g2, double intensity) {
         AffineTransform save = g2.getTransform();
         BufferedImage image = originalImage;

@@ -5,7 +5,6 @@ import edu.colorado.phet.cck.CCK2Module;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

@@ -10,11 +10,11 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.elements.junction.JunctionGraphic;
 import edu.colorado.phet.cck.elements.particles.ParticleSetGraphic;
+import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.common.math.PhetVector;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -22,7 +22,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -296,7 +295,9 @@ public class ConnectibleImageGraphic extends CompositeInteractiveGraphic impleme
         return imageRect;
     }
 
-    /**Returns the AffineTransform that will take the specified image, and place it centered at (x,y) at the specified angle.*/
+    /**
+     * Returns the AffineTransform that will take the specified image, and place it centered at (x,y) at the specified angle.
+     */
     public AffineTransform getImageTransform(BufferedImage bi, double angle, double x, double y) {
         AffineTransform at = new AffineTransform();
         at.translate(x - bi.getWidth() / 2.0, y - bi.getHeight() / 2.0);

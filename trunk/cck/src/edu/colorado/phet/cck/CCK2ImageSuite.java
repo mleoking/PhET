@@ -2,12 +2,8 @@
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.cck.elements.ImageSuite;
-import edu.colorado.phet.cck.util.CommonImageLoader;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.util.graphics.HashedImageLoader;
-import edu.colorado.phet.common.CommonImageLoader2;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -34,7 +30,7 @@ public class CCK2ImageSuite {
     private BufferedImage resistorImage;
     private BufferedImage particleImage;
     private BufferedImage ammeterImage;
-    HashedImageLoader imageLoader=new HashedImageLoader();
+    HashedImageLoader imageLoader = new HashedImageLoader();
 
     public BufferedImage getParticleImage() throws IOException {
         return imageLoader.loadImage("images/spheres/particle-blue-sml.gif");
@@ -55,7 +51,7 @@ public class CCK2ImageSuite {
         BufferedImage schr = imageLoader.loadBufferedImage(schematicResistorImage);
         BufferedImage schswit = imageLoader.loadBufferedImage(switchImage);
 //        BufferedImage schbatt = ImageIO.read(getClass().getClassLoader().getResource(schematicBatteryImage));
-        BufferedImage schbatt=imageLoader.loadImage(schematicBatteryImage);
+        BufferedImage schbatt = imageLoader.loadImage(schematicBatteryImage);
         schematicImageSuite = new ImageSuite(schr, schbatt, schswit);
     }
 
@@ -76,7 +72,7 @@ public class CCK2ImageSuite {
     }
 
     public BufferedImage getBulbImage() throws IOException {
-            return imageLoader.loadImage("images/schematic/bulb-knob.gif");//Loads smooth alpha, not bitchannel.
+        return imageLoader.loadImage("images/schematic/bulb-knob.gif");//Loads smooth alpha, not bitchannel.
     }
 
     public BufferedImage getImageHandle() throws IOException {

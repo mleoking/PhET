@@ -1,8 +1,7 @@
 package edu.colorado.phet.cck.elements.xml;
 
-import edu.colorado.phet.cck.elements.xml.BranchData;
-import edu.colorado.phet.cck.elements.branch.components.AmmeterBranch;
 import edu.colorado.phet.cck.elements.branch.Branch;
+import edu.colorado.phet.cck.elements.branch.components.AmmeterBranch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 
 /**
