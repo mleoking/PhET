@@ -11,8 +11,8 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.ModuleObserver;
+import edu.colorado.phet.common.application.PhetApplication;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -49,7 +49,13 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
     public void activeModuleChanged( Module m ) {
         if( current != m ) {
             int index = application.indexOf( m );
-            setSelectedIndex( index );
+            int numTabs = getTabCount();
+            if( index < numTabs ) {
+                setSelectedIndex( index );
+            }
+            else {
+                throw new RuntimeException( "Requested illegal tab: tab count=" + numTabs + ", requestedIndex=" + index );
+            }
         }
     }
 
