@@ -128,8 +128,10 @@ public class BaseLaserModule extends Module {
     private void createEnergyLevelsDialog( AbstractClock clock, PhetFrame frame ) {
         energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( this, clock );
         energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel );
-        energyLevelsDialog.setBounds( new Rectangle( (int)( frame.getBounds().getX() + frame.getBounds().getWidth() * 1 / 2 ),
-                                                     10,
+        energyLevelsDialog.setBounds( new Rectangle( (int)( frame.getBounds().getX() + frame.getBounds().getWidth() - 500 ),
+//        energyLevelsDialog.setBounds( new Rectangle( (int)( frame.getBounds().getX() + frame.getBounds().getWidth() * 1 / 2 ),
+                                                     (int)( frame.getBounds().getY() - 90 ),
+//                                                     10,
                                                      (int)energyLevelsDialog.getBounds().getWidth(),
                                                      (int)energyLevelsDialog.getBounds().getHeight() ) );
     }
@@ -513,7 +515,6 @@ public class BaseLaserModule extends Module {
             AtomicState currState = event.getCurrState();
             if( prevState instanceof GroundState ) {
                 numGroundStateAtoms--;
-                System.out.println( "numGroundStateAtoms = " + numGroundStateAtoms );
             }
             if( prevState instanceof MiddleEnergyState ) {
                 numMiddleStateAtoms--;
@@ -523,7 +524,6 @@ public class BaseLaserModule extends Module {
             }
             if( currState instanceof GroundState ) {
                 numGroundStateAtoms++;
-                System.out.println( "numGroundStateAtoms = " + numGroundStateAtoms );
             }
             if( currState instanceof MiddleEnergyState ) {
                 numMiddleStateAtoms++;
