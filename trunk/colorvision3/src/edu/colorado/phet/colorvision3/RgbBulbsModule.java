@@ -15,6 +15,8 @@ import edu.colorado.phet.colorvision3.control.IntensitySlider;
 import edu.colorado.phet.colorvision3.control.RgbBulbsControlPanel;
 import edu.colorado.phet.colorvision3.event.VisibleColorChangeEvent;
 import edu.colorado.phet.colorvision3.event.VisibleColorChangeListener;
+import edu.colorado.phet.colorvision3.help.SliderWiggleMeGraphic;
+import edu.colorado.phet.colorvision3.help.WiggleMeGraphic;
 import edu.colorado.phet.colorvision3.model.Person;
 import edu.colorado.phet.colorvision3.model.PhotonBeam;
 import edu.colorado.phet.colorvision3.model.Spotlight;
@@ -51,6 +53,7 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
   private static final double GREEN_SPOTLIGHT_LAYER = 6;
   private static final double BLUE_SPOTLIGHT_LAYER = 7;
   private static final double PERSON_FOREGROUND_LAYER = 8;
+  private static final double WIGGLE_ME_LAYER = 9;
   private static final double HELP_LAYER = Double.MAX_VALUE;
 
   // Colors 
@@ -72,6 +75,7 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
 	private static final Point RED_SLIDER_LOCATION   = new Point( SLIDER_X, 85 );
 	private static final Point GREEN_SLIDER_LOCATION = new Point( SLIDER_X, 260 );
 	private static final Point BLUE_SLIDER_LOCATION  = new Point( SLIDER_X, 435 );
+	private static final Point WIGGLE_ME_LOCATION    = new Point( 90, 195 );
 	
 	// Angles
 	private static final double RED_SPOTLIGHT_ANGLE   = 27.0;
@@ -86,7 +90,7 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
 
 	// Limits
 	private static final int MAX_PHOTONS = 15;
-	
+
 	//----------------------------------------------------------------------------
 	// Instance data
   //----------------------------------------------------------------------------
@@ -98,6 +102,9 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
 	
 	// Views
 	private IntensitySlider _redSlider, _greenSlider, _blueSlider;
+	
+	// Help
+	private WiggleMeGraphic _wiggleMe;
 	
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -261,6 +268,12 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
 		// Help
     //----------------------------------------------------------------------------
 
+    // Wiggle Me for sliders
+    _wiggleMe = new SliderWiggleMeGraphic( apparatusPanel, model );
+    _wiggleMe.setLocation( WIGGLE_ME_LOCATION );
+    _wiggleMe.start();
+    apparatusPanel.addGraphic( _wiggleMe, WIGGLE_ME_LAYER );
+    
 		// This module has no Help.
 		super.setHelpEnabled( false );
 
@@ -298,6 +311,13 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
    */
   public void stateChanged( ChangeEvent event )
   {
+    // Disable the wiggle-me when a slider is moved.
+    if ( _wiggleMe.isRunning() )
+    {
+      _wiggleMe.stop();
+      _wiggleMe.setVisible( false );
+    }
+    
     if ( event.getSource() == _redSlider )
     {
       _redSpotlightModel.setIntensity( _redSlider.getValue() );
