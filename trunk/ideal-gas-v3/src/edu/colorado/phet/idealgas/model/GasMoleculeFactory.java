@@ -94,8 +94,8 @@ public class GasMoleculeFactory {
         newMolecule.setVelocity( xV, yV );
         newMolecule.setVelocity( xV, yV );
 
-        newMolecule.setModel( model );
-        model.addModelElement( newMolecule );
+//        newMolecule.setModel( model );
+//        model.addModelElement( newMolecule );
 
         return newMolecule;
     }

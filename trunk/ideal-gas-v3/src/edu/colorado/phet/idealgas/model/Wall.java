@@ -21,6 +21,7 @@ public class Wall extends CollidableBody {
 
     private Point2D end1;
     private Point2D end2;
+    private Point2D cm = new Point2D.Double();
 
     // The line of action unit vector that another body would have if it contacted the wall
     private Vector2D loaUnit;
@@ -43,11 +44,11 @@ public class Wall extends CollidableBody {
     }
 
     public Point2D getCM() {
-        throw new RuntimeException( "undefined" );
+        return cm;
     }
 
     public double getMomentOfInertia() {
-        throw new RuntimeException( "undefined" );
+        return Double.MAX_VALUE;
     }
 
     private void init() {
@@ -57,28 +58,27 @@ public class Wall extends CollidableBody {
     }
 
     protected void setLocation( Point2D end1, Point2D end2 ) {
-        //    protected void setLocation( Point2D.Float end1, Point2D.Float end2 ) {
         this.end1 = end1;
         this.end2 = end2;
+        cm.setLocation( ( end1.getX() + end2.getX() ) / 2,
+                        ( end1.getY() + end2.getY() ) / 2 );
         setPosition( end1 );
         setLoaUnit();
-        //        setChanged();
         notifyObservers();
     }
 
     public void setLocation( double x1, double x2, double y1, double y2 ) {
         end1.setLocation( x1, y1 );
         end2.setLocation( x2, y2 );
+        cm.setLocation( ( end1.getX() + end2.getX() ) / 2,
+                        ( end1.getY() + end2.getY() ) / 2 );
         setPosition( end1 );
-        //        setChanged();
         notifyObservers();
     }
 
     private void setLoaUnit() {
         loaUnit = new Vector2D.Double( end2.getY() - end1.getY(),
                                        end2.getX() - end1.getX() ).normalize();
-        //        loaUnit = new Vector2D( (float)( end2.getY() - end1.getY() ),
-        //                                (float)( end2.getX() - end1.getX() ) ).normalize();
     }
 
     public Vector2D getLoaUnit( Particle particle ) {

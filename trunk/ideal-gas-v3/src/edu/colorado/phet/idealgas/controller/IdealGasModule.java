@@ -42,6 +42,7 @@ public class IdealGasModule extends Module {
         double yDiag = 497 + IdealGasConfig.Y_BASE_OFFSET;
         box = new PressureSensingBox( new Point2D.Double( xOrigin, yOrigin ),
                                       new Point2D.Double( xDiag, yDiag ), idealGasModel, clock );
+        idealGasModel.addBox( box );
 
         setApparatusPanel( new BaseIdealGasApparatusPanel( this, box ) );
 
