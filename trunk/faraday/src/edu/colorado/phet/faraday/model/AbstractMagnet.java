@@ -57,7 +57,7 @@ public abstract class AbstractMagnet extends SpacialObservable {
      * Flips the magnet's polarity by rotating it 180 degrees.
      */
     public void flipPolarity() {
-        setDirection( getDirection() + Math.PI );
+        setDirection( ( getDirection() + Math.PI ) % ( 2 * Math.PI ) );
     }
     
     /**
