@@ -44,8 +44,8 @@ public class FaradayApplication extends PhetApplication {
      * @param appModel the application model
      * @throws IOException
      */
-    public FaradayApplication( FaradayApplicationModel appModel ) throws IOException {
-        super( appModel );
+    public FaradayApplication( FaradayApplicationModel appModel, String[] args ) throws IOException {
+        super( appModel, args );
         assert( appModel != null );
         initMenubar();
     }
@@ -129,7 +129,7 @@ public class FaradayApplication extends PhetApplication {
         FaradayApplicationModel appModel = new FaradayApplicationModel( title, description, version, frameSetup );
 
         // Create the application.
-        PhetApplication app = new FaradayApplication( appModel );
+        PhetApplication app = new FaradayApplication( appModel, args );
         
         // Start the application.
         app.startApplication();
