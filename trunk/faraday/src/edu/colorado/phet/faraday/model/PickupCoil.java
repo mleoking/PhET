@@ -139,22 +139,20 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             _emfHistory[i] = 0.0;
         }
     }
-    
+ 
     //----------------------------------------------------------------------------
-    // ModelElement implementation
+    // Faraday's Law implementation
     //----------------------------------------------------------------------------
-    
+ 
     /**
-     * Handles ticks of the simulation clock.
-     * Calculates the induced emf using Faraday's Law.
-     * Performs median smoothing of data if isSmoothingEnabled.
-     * 
-     * @param dt time delta
+     * Updates the emf, using Faraday's Law.
+     * <p>
+     * This is provides as a separate method for situations 
+     * where the emf needs to be recomputed immediately (independent of the 
+     * simulation clock).  For example, when flipping the magnet polarity,
+     * the emf needs to be recomputed immediately so that we can temporarily
+     * disable smoothing of emf values.
      */
-    public void stepInTime( double dt ) {
-        updateEmf();
-    }
-    
     public void updateEmf() {
 
         // TODO handle arbitrary coil orientation
@@ -189,5 +187,20 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
 //            _maxEmf = emf;
 //            System.out.println( "PickupCoil.stepInTime: MAX emf=" + _maxEmf ); // DEBUG
 //        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // ModelElement implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Handles ticks of the simulation clock.
+     * Calculates the induced emf using Faraday's Law.
+     * Performs median smoothing of data if isSmoothingEnabled.
+     * 
+     * @param dt time delta
+     */
+    public void stepInTime( double dt ) {
+        updateEmf();
     }
 }
