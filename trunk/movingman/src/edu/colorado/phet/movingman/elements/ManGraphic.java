@@ -16,7 +16,6 @@ import edu.colorado.phet.movingman.common.tests.IdeaGraphic2;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 
@@ -174,15 +173,6 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
         this.transform = transform;
         this.inversion = transform.invert();
         update( null, null );
-    }
-
-    public Shape getShape() {
-        Rectangle newRect = new Rectangle( x - currentImage.getWidth() / 2, y, currentImage.getWidth(), currentImage.getHeight() );
-        return newRect;
-    }
-
-    public Area getClipArea() {
-        return new Area( getShape() );
     }
 
 }
