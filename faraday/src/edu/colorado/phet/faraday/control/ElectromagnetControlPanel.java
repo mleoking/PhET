@@ -26,6 +26,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.model.ACSource;
 import edu.colorado.phet.faraday.model.Battery;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.module.ElectromagnetModule;
@@ -50,6 +51,7 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
 
     // Model & view components to be controlled.
     private Battery _batteryModel;
+    private ACSource _acSourceModel;
     private Compass _compassModel;
     private CompassGridGraphic _gridGraphic;
     private FieldMeterGraphic _fieldMeterGraphic;
@@ -85,6 +87,7 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
     public ElectromagnetControlPanel( 
             ElectromagnetModule module,
             Battery batteryModel,
+            ACSource acSourceModel,
             Compass compassModel,  
             CompassGridGraphic gridGraphic, 
             FieldMeterGraphic fieldMeterGraphic ) {
@@ -92,12 +95,14 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         super( module );
         
         assert ( batteryModel != null );
+        assert ( acSourceModel != null );
         assert ( compassModel != null );
         assert ( gridGraphic != null );
         assert ( fieldMeterGraphic != null );
 
         // Things we'll be controlling.
         _batteryModel = batteryModel;
+        _acSourceModel = acSourceModel;
         _compassModel = compassModel;
         _gridGraphic = gridGraphic;
         _fieldMeterGraphic = fieldMeterGraphic;
@@ -351,13 +356,15 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _batteryRadioButton ) {
                 // Battery (DC) source
-                // XXX update model
+                _batteryModel.setEnabled( true );
+                _acSourceModel.setEnabled( false );
                 _batteryPanel.setVisible( true );
                 _acPanel.setVisible( false );
             }
             else if ( e.getSource() == _acRadioButton ) {
                 // AC source
-                // XXX update model
+                _batteryModel.setEnabled( false );
+                _acSourceModel.setEnabled( true );
                 _batteryPanel.setVisible( false );
                 _acPanel.setVisible( true );
             }

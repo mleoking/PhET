@@ -26,6 +26,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.faraday.model.ACSource;
 import edu.colorado.phet.faraday.model.Battery;
 import edu.colorado.phet.faraday.model.Electromagnet;
 import edu.colorado.phet.faraday.model.SourceCoil;
@@ -49,6 +50,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     private Electromagnet _electromagnetModel;
     private CoilGraphic _coilGraphic;
     private BatteryGraphic _batteryGraphic;
+    private ACSourceGraphic _acSourceGraphic;
     private CompositePhetGraphic _foreground, _background;
     private CollisionDetector _collisionDetector;
     
@@ -61,13 +63,12 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
             BaseModel baseModel,
             Electromagnet electromagnetModel,
             SourceCoil sourceCoilModel,
-            Battery batteryModel ) {
+            Battery batteryModel,
+            ACSource acSourceModel ) {
         
         assert ( component != null );
         assert ( baseModel != null );
         assert ( electromagnetModel != null );
-        assert ( sourceCoilModel != null );
-        assert ( batteryModel != null );
         
         _collisionDetector = new CollisionDetector( this );
         
@@ -79,11 +80,13 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         // Graphics components
         _coilGraphic = new CoilGraphic( component, baseModel, sourceCoilModel );
         _batteryGraphic = new BatteryGraphic( component, batteryModel );
+        _acSourceGraphic = new ACSourceGraphic( component, acSourceModel );
         
         // Foreground composition
         _foreground = new CompositePhetGraphic( component );
         _foreground.addGraphic( _coilGraphic.getForeground() );
         _foreground.addGraphic( _batteryGraphic );
+        _foreground.addGraphic( _acSourceGraphic );
         
         // Background composition
         _background = new CompositePhetGraphic( component );
@@ -110,6 +113,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         _electromagnetModel = null;
         _coilGraphic.finalize();
         _batteryGraphic.finalize();
+        _acSourceGraphic.finalize();
     }
     
 
@@ -188,8 +192,9 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
             Rectangle bounds = new Rectangle( _coilGraphic.getForeground().getBounds() );
             bounds.union( _coilGraphic.getBackground().getBounds() );
             int x = 0;
-            int y = -( bounds.height / 2 ) - 25;
+            int y = -( bounds.height / 2 ) - 10;
             _batteryGraphic.setLocation( x, y );
+            _acSourceGraphic.setLocation( x, y );
             
             // Direction (do this *after* positioning voltage sources!)
             _foreground.rotate( _electromagnetModel.getDirection() );

@@ -44,6 +44,7 @@ public class FaradayConfig {
     
     // Images
     private static final String IMAGES_DIRECTORY = "images/";
+    public static final String AC_SOURCE_IMAGE = IMAGES_DIRECTORY + "acSource.png";
     public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
     public static final String BATTERY_IMAGE = IMAGES_DIRECTORY + "battery.png";
     public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
@@ -99,6 +100,7 @@ public class FaradayConfig {
     public static final double BATTERY_VOLTAGE_MAX = 100.0;
 
     // AC parameters
+    public static final double AC_VOLTAGE_MAX = 100.0;
     public static final double AC_AMPLITUDE_MAX = 100.0;
     public static final double AC_FREQUENCY_MAX = 100.0;
     public static final double AC_FREQUENCY_MIN = 50.0;
