@@ -12,7 +12,10 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
-import edu.colorado.phet.sound.view.*;
+import edu.colorado.phet.sound.view.AudioControlPanel;
+import edu.colorado.phet.sound.view.ListenerGraphic;
+import edu.colorado.phet.sound.view.SoundApparatusPanel;
+import edu.colorado.phet.sound.view.SoundControlPanel;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -77,7 +80,19 @@ public class SingleSourceListenModule extends SingleSourceModule {
 
 
         // TEST
-        getApparatusPanel().addGraphic( new DialGauge( getApparatusPanel(), 400, 200, 50, 0, 1 ), 100 );
+        //        final ScalarObservable so = new ScalarObservable() {
+        //            private int cnt;
+        //            public double getValue() {
+        //                cnt = ( ++cnt ) % 100;
+        //                return cnt;
+        //            }
+        //        };
+        //        getModel().addModelElement( new ModelElement() {
+        //            public void stepInTime( double dt ) {
+        //                so.notifyObservers();
+        //            }
+        //        } );
+        //        getApparatusPanel().addGraphic( new DialGauge( so, getApparatusPanel(), 400, 200, 100, 0, 100, "ATM" ), 100 );
 
 
     }

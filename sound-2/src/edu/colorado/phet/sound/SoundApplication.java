@@ -29,13 +29,13 @@ public class SoundApplication extends PhetApplication {
 
             // Set up the modules
             Module singleSourceModule = new SingleSourceListenModule( this );
-//            Module measureModule = new SingleSourceMeasureModule( this );
-//            Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
-//            Module wallInterferenceModule = new WallInterferenceModule( this );
-//            Module evacuatedBoxModule = new SingleSourceWithBoxModule( this );
-            this.setModules( new Module[]{singleSourceModule /*, measureModule,
+            Module measureModule = new SingleSourceMeasureModule( this );
+            Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
+            Module wallInterferenceModule = new WallInterferenceModule( this );
+            Module evacuatedBoxModule = new SingleSourceWithBoxModule( this );
+            this.setModules( new Module[]{singleSourceModule, measureModule,
                                           twoSourceIntereferenceModule, wallInterferenceModule,
-                                          evacuatedBoxModule*/} );
+                                          evacuatedBoxModule} );
             //                        this.setModules( new Module[]{ evacuatedBoxModule  } );
             //            this.setInitialModule( measureModule );
             //            this.setInitialModule( twoSourceIntereferenceModule );
