@@ -55,7 +55,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
 
         // Add the options for mirror on/off
-        JPanel panel2 = createPanel2( module );
+        JPanel panel2 = createMirrorControlPanel( module );
 
         // Add the control for showing/hiding phtoton coming off high energy state
         gbc.gridx = 0;
@@ -80,8 +80,10 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
                 module.reset();
             }
         } );
-        optionsPanel.add( resetBtn, gbc );
-//        super.addControl( resetBtn );
+        JPanel resetBtnPanel = new JPanel();
+        resetBtnPanel.add( resetBtn );
+//        optionsPanel.add( resetBtnPanel, gbc );
+        super.addControl( resetBtnPanel );
 
         this.doLayout();
         this.setPreferredSize( new Dimension( 340, (int)this.getSize().getHeight() ) );
@@ -89,7 +91,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
 //        setThreeEnergyLevels( module.getThreeEnergyLevels() );
     }
 
-    private JPanel createPanel2( final BaseLaserModule module ) {
+    private JPanel createMirrorControlPanel( final BaseLaserModule module ) {
         GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER, GridBagConstraints.VERTICAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );

@@ -22,7 +22,8 @@ public class LaserConfig {
     public static final String localizedStringsPath = "localization/LasersStrings";
 
     // Physical things
-    public static Point2D.Double ORIGIN = new Point2D.Double( 150, 200 );
+    public static Point2D.Double ORIGIN = new Point2D.Double( 120, 200 );
+//    public static Point2D.Double ORIGIN = new Point2D.Double( 150, 200 );
 
     // Photon rates for beams
     public static final int MINIMUM_SEED_PHOTON_RATE = 0;
@@ -70,5 +71,6 @@ public class LaserConfig {
     // Threshold number of horizontal photons that is considered "lasing"
     public static int LASING_THRESHOLD = 80;
     // Number of photons in the system that will cause the thing to blow up
+//    public static int KABOOM_THRESHOLD = 30;
     public static int KABOOM_THRESHOLD = 500;
 }

@@ -22,6 +22,7 @@ public class ResonatingGraphic extends PhetGraphic implements ResonatingCavity.C
     private Ellipse2D end1 = new Ellipse2D.Double();
     private Ellipse2D end2 = new Ellipse2D.Double();
     private ResonatingCavity cavity;
+    private Stroke stroke = new BasicStroke( 1.5f );
 
     public ResonatingGraphic( Component component, ResonatingCavity cavity ) {
         super( component );
@@ -39,6 +40,7 @@ public class ResonatingGraphic extends PhetGraphic implements ResonatingCavity.C
 
         GraphicsUtil.setAntiAliasingOn( g );
         g.setColor( Color.black );
+        g.setStroke( stroke );
         g.draw( rep );
         g.setColor( Color.white );
         g.fill( end1 );

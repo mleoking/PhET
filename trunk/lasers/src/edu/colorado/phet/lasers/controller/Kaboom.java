@@ -20,7 +20,10 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.*;
+import edu.colorado.phet.common.view.util.Animation;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
@@ -28,7 +31,6 @@ import edu.colorado.phet.lasers.view.KaboomGraphic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -69,116 +71,12 @@ public class Kaboom implements ModelElement {
         if( numPhotons > LaserConfig.KABOOM_THRESHOLD && !kaboomed ) {
             LaserModel laserModel = (LaserModel)model;
             model.reset();
-            kaboom3();
+            kaboom();
             kaboomed = true;
         }
     }
 
-    private void kaboom2() {
-        double blackBacgroundLayer = Double.MAX_VALUE - 2;
-        double mewssageLayer = Double.MAX_VALUE - 1;
-        final ApparatusPanel2 ap = (ApparatusPanel2)module.getApparatusPanel();
-        backgroundGraphic = new PhetShapeGraphic( ap,
-                                                  new Rectangle( ap.getSize() ), Color.white );
-        ap.addGraphic( backgroundGraphic,
-                       blackBacgroundLayer );
-        SwingTimerClock clock = new SwingTimerClock( 1, 40, AbstractClock.FRAMES_PER_SECOND );
-        clock.start();
-
-        // Make a bunch of images from the current state of the apparatus panel
-        BufferedImage snapshot = BufferedImageUtils.toBufferedImage( ap.getSnapshot() );
-
-        // Warp the image
-        final AffineTransform atx = new AffineTransform();
-        atx.setToShear( .2, .3 );
-        final PhetImageGraphic imgGraphic = new PhetImageGraphic( ap, snapshot ) {
-            public void paint( Graphics2D g ) {
-                GraphicsState gs = new GraphicsState( g );
-                g.transform( atx );
-                super.paint( g );
-                gs.restoreGraphics();
-            }
-        };
-        ap.addGraphic( imgGraphic, this.tileLayer );
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( AbstractClock c, double dt ) {
-                atx.shear( .01, .01 );
-                MakeDuotoneImageOp op = new MakeDuotoneImageOp( Color.red );
-                op.filter( imgGraphic.getImage(), imgGraphic.getImage() );
-                imgGraphic.repaint();
-            }
-        } );
-
-        // Add the message to the user
-        message = new PhetMultiLineTextGraphic( ap, messageStrings, new Font( "Lucida sans", Font.BOLD, 32 ),
-                                                ap.getWidth() / 2 - 80, ap.getHeight() / 2 - 10,
-                                                Color.red );
-        ap.addGraphic( message,
-                       mewssageLayer );
-
-        // Hide the Swing controls on the panel
-        module.setSwingComponentsVisible( false );
-    }
-
     private void kaboom() {
-        Random random = new Random();
-        final ApparatusPanel2 ap = (ApparatusPanel2)module.getApparatusPanel();
-        backgroundGraphic = new PhetShapeGraphic( ap,
-                                                  new Rectangle( ap.getSize() ), Color.black );
-        ap.addGraphic( backgroundGraphic,
-                       blackBacgroundLayer );
-        SwingTimerClock clock = new SwingTimerClock( 1, 40, AbstractClock.FRAMES_PER_SECOND );
-
-        // Make a bunch of images from the current state of the apparatus panel
-        BufferedImage snapshot = BufferedImageUtils.toBufferedImage( ap.getSnapshot() );
-
-        // The whole apparatus panel as one spinning image
-        Dimension apSize = ap.getSize();
-        int numCols = 6;
-        int tileWidth = apSize.width / numCols;
-        int tileHeight = tileWidth;
-        for( int x = 0; x < apSize.width - 1; x += tileWidth ) {
-            for( int y = 0; y < apSize.height - 1; y += tileHeight ) {
-                x = Math.min( x, apSize.width - tileWidth - 1 );
-                y = Math.min( y, apSize.height - tileHeight - 1 );
-                BufferedImage tile = snapshot.getSubimage( x, y, tileWidth, tileHeight );
-
-                double spin = random.nextDouble() * 10 * ( random.nextBoolean() ? 1 : -1 );
-                double zoom = 0;
-                double flipFactorX = random.nextDouble();
-                while( flipFactorX > 0.2 ) {
-                    flipFactorX = random.nextDouble();
-                }
-                double flipFactorY = random.nextDouble();
-                while( flipFactorY > 0.2 ) {
-                    flipFactorY = random.nextDouble();
-                }
-                while( zoom < .9 || zoom > .99 ) {
-                    zoom = random.nextDouble();
-                }
-                double txX = ( ( x + tile.getWidth() / 2 ) - ap.getWidth() / 2 ) * 0.01;
-                double txY = ( ( y + tile.getHeight() / 2 ) - ap.getHeight() / 2 ) * 0.01;
-                graphic = new KaboomGraphic( ap, tile, clock, new Point( x + tile.getWidth() / 2,
-                                                                         y + tile.getHeight() / 2 ),
-                                             zoom, spin, 0, 0, flipFactorX, flipFactorY, txX, txY );
-                ap.addGraphic( graphic, tileLayer );
-                graphic.setPosition( x, y );
-                kaboomGraphics.add( graphic );
-            }
-        }
-
-        // Add the message to the user
-        message = new PhetMultiLineTextGraphic( ap, messageStrings, new Font( "Lucida sans", Font.BOLD, 32 ),
-                                                ap.getWidth() / 2 - 80, ap.getHeight() / 2 - 10,
-                                                Color.red );
-        ap.addGraphic( message,
-                       mewssageLayer );
-
-        // Hide the Swing controls on the panel
-        module.setSwingComponentsVisible( false );
-    }
-
-    private void kaboom3() {
         Random random = new Random();
         final ApparatusPanel2 ap = (ApparatusPanel2)module.getApparatusPanel();
 
@@ -240,15 +138,12 @@ public class Kaboom implements ModelElement {
         ap.addGraphic( flames, tileLayer - .5 );
 
         // Add the message to the user
-//        message = new PhetMultiLineTextGraphic( ap, messageStrings, new Font( "Lucida sans", Font.BOLD, 24 ),
-//                                                ap.getWidth() / 2 - 80, ap.getHeight() / 2 - 10,
-//                                                Color.red );
         labelMessage = new JLabel( SimStrings.get( "Kaboom.message" ) );
         labelMessage.setFont( new Font( "Lucida sans", Font.BOLD, 24 ) );
         labelMessage.setForeground( Color.red );
         labelMessage.setLocation( -20, 10 );
         ap.add( labelMessage );
-        labelMessage.reshape( ap.getWidth() / 2 - 80, ap.getHeight() / 2 - 10,
+        labelMessage.reshape( ap.getWidth() / 2 - 200, ap.getHeight() / 2 - 70,
                               labelMessage.getPreferredSize().width,
                               labelMessage.getPreferredSize().height );
         ap.revalidate();

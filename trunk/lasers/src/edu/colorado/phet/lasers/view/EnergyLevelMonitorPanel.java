@@ -59,7 +59,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     // The diameter of an atom as displayed on the screen, in pixels
     private int atomDiam = 10;
 
-    private double panelHeight = 170;
+    private double panelHeight = 230;
+//    private double panelHeight = 170;
 //    private double panelHeight = 190;
     private double panelWidth = 320;
 //    private double panelWidth = 400;
@@ -137,19 +138,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                                                             LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME );
         this.add( highLevelLifetimeSlider );
 
-        this.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY(),
-                                                             getBounds().getWidth(), getBounds().getHeight() - 30 );
-//                                                             getBounds().getWidth(), getBounds().getHeight() * 0.85 );
-                energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
-                                               (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
-                highLevelLine.update( energyYTx );
-                middleLevelLine.update( energyYTx );
-                groundLevelLine.update( energyYTx );
-                updateSquiggles();
-            }
-        } );
+        this.addComponentListener( new PanelResizer() );
     }
 
     /**
@@ -274,9 +263,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         return img;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------
     // Rendering
-    //
+    //----------------------------------------------------------------
 
     /**
      * @param graphics
@@ -343,9 +332,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         return atomImg;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------
     // LeftSystemEvent handlers
-    //
+    //----------------------------------------------------------------
+
     public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
         CollimatedBeam beam = (CollimatedBeam)event.getSource();
         if( beam == model.getPumpingBeam() ) {
@@ -358,6 +348,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         }
         updateSquiggles();
     }
+
+    //----------------------------------------------------------------
+    // ClockStateListener implementation
+    //----------------------------------------------------------------
 
     /**
      * If the clock pauses, force the update and repaint of energy level populations. We need to do this because
@@ -394,9 +388,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------
     // Inner classes
-    //
+    //----------------------------------------------------------------
 
     public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listener {
         // Needs to be accessible to the EnergyLevelGraphic class
@@ -461,6 +455,23 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             this.setEnabled( false );
             this.setValue( (int)event.getMeanLifetime() );
             this.setEnabled( true );
+        }
+    }
+
+    /**
+     * Set the bounds within the panel that the energy level lines can be positioned
+     */
+    private class PanelResizer extends ComponentAdapter {
+        public void componentResized( ComponentEvent e ) {
+            // The bounds in which the energy levels will be displayed
+            Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
+                                                         getBounds().getWidth(), getBounds().getHeight() - 30 );
+            energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
+                                           (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
+            highLevelLine.update( energyYTx );
+            middleLevelLine.update( energyYTx );
+            groundLevelLine.update( energyYTx );
+            updateSquiggles();
         }
     }
 }
