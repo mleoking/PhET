@@ -44,8 +44,11 @@ public class PotentialProfilePanel extends ApparatusPanel {
         axisLabelFont = new Font( family, style, size );
     }
 
+    private static AffineTransform atx = new AffineTransform();
+
     public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
-        AffineTransform atx = new AffineTransform();
+//        AffineTransform atx = new AffineTransform();
+        atx.setToIdentity();
         atx.translate( x, y );
         atx.scale( scale, scale );
         atx.translate( -x, -y );
@@ -53,7 +56,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     public static AffineTransform rotateInPlace( double theta, double x, double y ) {
-        AffineTransform atx = new AffineTransform();
+//        AffineTransform atx = new AffineTransform();
+        atx.setToIdentity();
         atx.translate( x, y );
         atx.rotate( theta );
         atx.translate( -x, -y );
@@ -119,7 +123,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
             double y = ( nucleus instanceof AlphaParticle ? potentialProfile.getWellPotential() + AlphaParticle.RADIUS : 0 );
             // Draw one version referenced off the origin
             nucleusGraphic.paint( g2, (int)( origin.getX() + xStat ), (int)( origin.getY() + yStat ) );
-            // Draw a "ghost" version up at the well
+            // Draw a "ghost" version up at the well for alpha particles
             if( nucleusGraphic.getNucleus() instanceof AlphaParticle ) {
                 float alpha = ghostAlpha;
                 AlphaSetter.set( g2, ghostAlpha );
