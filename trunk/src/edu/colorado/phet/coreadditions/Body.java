@@ -117,6 +117,8 @@ public abstract class Body extends SimpleObservable implements ModelElement {
         // New acceleration
 
         // New velocity
+        setVelocity( (float)vxPrime, (float)vyPrime );
+
 
         this.updateObservers();
     }
