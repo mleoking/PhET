@@ -4,6 +4,7 @@ package edu.colorado.phet.colorvision3.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 
@@ -151,6 +152,23 @@ public class SolidBeamGraphic extends PhetShapeGraphic implements SimpleObserver
     }
   } // update
   
+	//----------------------------------------------------------------------------
+	// Rendering
+  //----------------------------------------------------------------------------
+
+  /**
+   * Draws the beam.
+   * 
+   * @param g2 graphics context
+   */
+  public void paint( Graphics2D g2 )
+  {
+    if ( super.isVisible() && _beamModel.isEnabled() )
+    {
+      super.paint( g2 );
+      BoundsOutline.paint( g2, this ); // DEBUG
+    }
+  }
 }
 
 

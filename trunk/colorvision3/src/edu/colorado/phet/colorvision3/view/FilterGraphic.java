@@ -143,6 +143,8 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
         g2.fill( _lens );
       }
       super.restoreGraphicsState();
+      
+      BoundsOutline.paint( g2, this ); // DEBUG
     }
   }
 
