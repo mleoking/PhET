@@ -113,8 +113,10 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
      * @param visible true for visible, false for invisible
      */
     public void setVisible( boolean visible ) {
-        super.setVisible( visible );
-        update();
+        if ( visible != super.isVisible() ) {
+            super.setVisible( visible );
+            update();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -125,19 +127,10 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
      * Updates the view to match the model.
      */
     public void update() {
+        super.setVisible( _compassModel.isEnabled() );
         if( isVisible() ) {
-            
-//            // DEBUG
-//            System.out.println( "CompassGraphic.update: " +
-//                    " location=" + _compassModel.getLocation() +
-//                    " direction=" + _compassModel.getDirection() +
-//                    " B=" + _compassModel.getFieldStrength().getMagnitude() + 
-//                    " [" + _compassModel.getFieldStrength().getX() + "," + _compassModel.getFieldStrength().getY() + "]" +
-//                    " @ " + Math.toDegrees( _compassModel.getFieldStrength().getAngle() )  );
-
             // Rotation of the needle
             _needle.setDirection( _compassModel.getDirection() );
-            
             // Location
             setLocation( (int) _compassModel.getX(), (int) _compassModel.getY() );
         }

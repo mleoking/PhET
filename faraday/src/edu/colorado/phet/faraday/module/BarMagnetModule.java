@@ -191,10 +191,17 @@ public class BarMagnetModule extends Module {
      * Resets everything to the initial values.
      */
     public void reset() {
-        _controlPanel.setMagnetStrength( MAGNET_STRENGTH );
+        // Set state.
+        _magnetModel.setStrength( MAGNET_STRENGTH );
+        _magnetModel.setSize( MAGNET_SIZE );
+        _compassModel.setEnabled( true );
+        
+        // Synchronize control panel.
+        _controlPanel.setMagnetStrength( _magnetModel.getStrength() );
+        _controlPanel.setMagnetSize( _magnetModel.getSize() );
         _controlPanel.setMagnetTransparencyEnabled( false );
         _controlPanel.setProbeEnabled( true );
-        _controlPanel.setMagnetSize( MAGNET_SIZE );
+        _controlPanel.setCompassEnabled( _compassModel.isEnabled() );
         _controlPanel.setGridSpacing( GRID_X_SPACING, GRID_Y_SPACING );
         _controlPanel.setGridNeedleSize( GRID_NEEDLE_SIZE );
     }
@@ -234,6 +241,15 @@ public class BarMagnetModule extends Module {
      */
     public void setProbeEnabled( boolean enabled ) {
         _probeGraphic.setVisible( enabled );
+    }
+    
+    /**
+     * Enables and disables the compass.
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    public void setCompassEnabled( boolean enabled ) {
+        _compassModel.setEnabled( enabled );
     }
     
     /**

@@ -30,6 +30,7 @@ public abstract class AbstractCompass extends SpacialObservable implements Model
     
     private AbstractMagnet _magnetModel;
     private AbstractVector2D _fieldStrength;
+    private boolean _enabled;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -47,6 +48,7 @@ public abstract class AbstractCompass extends SpacialObservable implements Model
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
         
+        _enabled = true;
         _fieldStrength = _magnetModel.getStrength( getLocation() );
         setDirection( Math.toDegrees( _fieldStrength.getAngle() ) );
     }
@@ -71,6 +73,29 @@ public abstract class AbstractCompass extends SpacialObservable implements Model
      */
     public AbstractVector2D getFieldStrength() {
         return _magnetModel.getStrength( getLocation() );
+    }
+    
+    /**
+     * Enables and disabled the compass.
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    public void setEnabled( boolean enabled ) {
+        if ( enabled != _enabled ) {
+            _enabled = enabled;
+            startMovingNow();
+            updateSelf();
+            notifyObservers();
+        }
+    }
+    
+    /**
+     * Returns the current state of the compass.
+     * 
+     * @return true if enabled, false if disabled.
+     */
+    public boolean isEnabled() {
+        return _enabled;
     }
     
     /**
