@@ -1,8 +1,12 @@
-/**
- * Class: HelpPanel
- * Package: edu.colorado.phet.common.view.help
- * Author: Another Guy
- * Date: May 25, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.help;
 
@@ -15,6 +19,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * HelpPanel
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class HelpPanel extends JPanel {
     private boolean miniHelpShowing = false;
     private String showHelpStr = SimStrings.get( "Common.HelpPanel.ShowHelp" );

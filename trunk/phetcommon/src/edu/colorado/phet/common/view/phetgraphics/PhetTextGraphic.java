@@ -1,14 +1,23 @@
-/** University of Colorado, PhET*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
 import java.awt.geom.NoninvertibleTransformException;
 
 /**
- * User: University of Colorado, PhET
- * Date: Jun 25, 2004
- * Time: 5:59:29 PM
- * Copyright (c) Jun 25, 2004 by University of Colorado, PhET
+ * PhetTextGraphic
+ *
+ * @author ?
+ * @version $Revision$
  */
 public class PhetTextGraphic extends PhetGraphic {
     private Font font;

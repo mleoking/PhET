@@ -1,8 +1,12 @@
-/**
- * Class: GraphicsUtil
- * Package: edu.colorado.phet.lasers.viewX.imaging
- * Author: Another Guy
- * Date: Apr 8, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.util;
 
@@ -15,6 +19,12 @@ import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
+/**
+ * GraphicsUtil
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class GraphicsUtil {
 
     /**

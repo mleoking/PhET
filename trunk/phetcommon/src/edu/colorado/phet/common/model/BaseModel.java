@@ -1,6 +1,12 @@
-/**
- * Author: Another Guy
- * Date: May 20, 2003
+/* Copyright 2003, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.model;
 
@@ -14,6 +20,9 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
  * Typically, each Module in an application will have its own instance of this
  * class, or a subclass. The application's single ApplicationModel instance will
  * be told which BaseModel is active when Modules are activated.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class BaseModel extends CompositeModelElement implements ClockTickListener {
 

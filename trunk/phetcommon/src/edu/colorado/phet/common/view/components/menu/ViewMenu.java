@@ -1,8 +1,12 @@
-/**
- * Class: ViewMenu
- * Package: edu.colorado.phet.common.view.components.menu
- * Author: Another Guy
- * Date: Sep 4, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.components.menu;
 
@@ -10,6 +14,12 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 
+/**
+ * ViewMenu
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class ViewMenu extends JMenu {
 
     public ViewMenu() {

@@ -1,3 +1,13 @@
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.plaf;
 
 import javax.swing.*;
@@ -5,6 +15,12 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 
+/**
+ * ClientLookAndFeel
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class ClientLookAndFeel extends MetalLookAndFeel {
     Color backgroundColor = new Color( 200, 240, 200 );
     Color buttonBackgroundColor = new Color( 220, 220, 240 );

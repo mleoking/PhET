@@ -1,8 +1,12 @@
-/**
- * Class: GraphicsState
- * Package: edu.colorado.phet.common.view.util
- * Author: Another Guy
- * Date: Sep 29, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.util;
 
@@ -11,6 +15,9 @@ import java.awt.geom.AffineTransform;
 
 /**
  * A utilitye class for saving and restoring the state of Graphics2D objects
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class GraphicsState {
     private Graphics2D g2;

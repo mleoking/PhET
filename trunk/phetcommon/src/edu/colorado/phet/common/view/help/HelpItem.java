@@ -1,8 +1,12 @@
-/**
- * Class: HelpItem
- * Package: edu.colorado.phet.common.view.help
- * Author: Another Guy
- * Date: May 24, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.help;
 
@@ -15,6 +19,12 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+/**
+ * HelpItem
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class HelpItem extends PhetGraphic {
     public final static int ABOVE = 1;
     public final static int BELOW = 2;

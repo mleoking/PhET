@@ -1,4 +1,13 @@
-/*Copyright, University of Colorado, PhET, 2003.*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.plaf;
 
 import javax.swing.*;
@@ -16,6 +25,9 @@ import java.util.ArrayList;
  * JMenuItem item = items[i];
  * viewMenu.add(item);
  * }
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class PlafUtil {
 

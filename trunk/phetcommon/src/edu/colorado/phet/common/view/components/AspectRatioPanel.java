@@ -1,8 +1,12 @@
-/**
- * Class: AspectRatioPanel
- * Package: edu.colorado.phet.common.view.components
- * Author: Another Guy
- * Date: May 12, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.components;
 
@@ -12,6 +16,9 @@ import java.awt.*;
 /**
  * This is a decorator panel.
  * Aspect ratio = width/height.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class AspectRatioPanel extends JPanel {
     private Component target;

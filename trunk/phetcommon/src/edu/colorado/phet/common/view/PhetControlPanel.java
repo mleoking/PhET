@@ -1,8 +1,12 @@
-/**
- * Class: PhetControlPanel
- * Package: edu.colorado.phet.common.view
- * Author: Another Guy
- * Date: Aug 5, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view;
 
@@ -18,6 +22,12 @@ import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 import java.net.URL;
 
+/**
+ * PhetControlPanel
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class PhetControlPanel extends JPanel {
     private Module module;
     private JPanel controlPane;

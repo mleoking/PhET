@@ -1,4 +1,13 @@
-/*Copyright, PhET, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
 import javax.swing.event.MouseInputListener;
@@ -6,10 +15,10 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
- * User: University of Colorado, PhET
- * Date: Nov 3, 2003
- * Time: 3:05:32 AM
- * Copyright (c) Nov 3, 2003 by University of Colorado, PhET
+ * CompositeMouseInputListener
+ *
+ * @author ?
+ * @version $Revision$
  */
 public class CompositeMouseInputListener implements MouseInputListener {
     private ArrayList list = new ArrayList();

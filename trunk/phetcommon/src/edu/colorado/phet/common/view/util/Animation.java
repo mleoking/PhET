@@ -1,10 +1,12 @@
-/**
- * Class: Animation
- * Package: edu.colorado.phet.common.view.graphics
- * User: Ron LeMaster
- * Date: Dec 2, 2002
- * Time: 5:55:14 PM
- * To change this template use Options | File Templates.
+/* Copyright 2002-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.util;
 
@@ -17,6 +19,9 @@ import java.io.IOException;
  * <p/>
  * The class provides methods for stepping back and forth at will through the
  * set of images.
+ * 
+ * @author Ron LeMaster
+ * @version $Revision$
  */
 public class Animation {
 

@@ -1,4 +1,13 @@
-/** University of Colorado, PhET*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.view.graphics.mousecontrols.CompositeMouseInputListener;
@@ -21,6 +30,9 @@ import java.util.Stack;
  * This graphic class auto-magically repaints itself in the appropriate bounds,
  * using component.paint(int x,int y,int width,int height).
  * This class manages the current and previous bounds for painting, and whether the region is dirty.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public abstract class PhetGraphic {
     private AffineTransform transform = new AffineTransform();

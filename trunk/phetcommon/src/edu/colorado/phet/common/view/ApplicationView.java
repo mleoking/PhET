@@ -1,4 +1,13 @@
-/* Copyright University of Colorado, 2003 */
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 
 package edu.colorado.phet.common.view;
 
@@ -10,6 +19,9 @@ import java.io.IOException;
 
 /**
  * This class contains all the elements of an application that appear on the screen.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class ApplicationView {
     private PhetFrame phetFrame;

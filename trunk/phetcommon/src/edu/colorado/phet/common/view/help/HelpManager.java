@@ -1,8 +1,12 @@
-/**
- * Class: HelpManager
- * Package: edu.colorado.phet.common.view.help
- * Author: Another Guy
- * Date: May 24, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.help;
 
@@ -11,6 +15,12 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 
 import java.awt.*;
 
+/**
+ * HelpManager
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class HelpManager extends GraphicLayerSet {
     private static double HELP_LAYER = Double.POSITIVE_INFINITY;
 

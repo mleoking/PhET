@@ -1,3 +1,13 @@
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.util;
 
 import java.awt.image.BufferedImage;
@@ -6,6 +16,9 @@ import java.util.Hashtable;
 
 /**
  * Decorates ImageLoader with buffering.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class CachingImageLoader extends ImageLoader {
     Hashtable buffer = new Hashtable();

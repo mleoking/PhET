@@ -1,4 +1,13 @@
-/** University of Colorado, PhET*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
@@ -6,6 +15,9 @@ import java.awt.*;
 /**
  * A list of PhetGraphics, painted in order.
  * The CompositePhetGraphic manages interactivity for all its children.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class CompositePhetGraphic extends GraphicLayerSet {
 

@@ -1,4 +1,13 @@
-/*Copyright, University of Colorado, PhET, 2003.*/
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.util;
 
 import java.io.BufferedReader;
@@ -9,10 +18,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * User: University of Colorado, PhET
- * Date: Sep 15, 2003
- * Time: 2:53:11 AM
- * Copyright (c) Sep 15, 2003 by University of Colorado, PhET
+ * VersionUtils
+ *
+ * @author ?
+ * @version $Revision$
  */
 public class VersionUtils {
     public static class VersionInfo {

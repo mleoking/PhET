@@ -1,9 +1,12 @@
-/**
- * Created by IntelliJ IDEA.
- * User: Another Guy
- * Date: Mar 5, 2003
- * Time: 4:16:28 PM
- * To change this template use Options | File Templates.
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.common.view.components.clockgui;
 
@@ -13,6 +16,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.NumberFormat;
 
+/**
+ * ClockTimeReadout
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class ClockTimeReadout extends JPanel {
 
     private JTextField clockTF = new JTextField();

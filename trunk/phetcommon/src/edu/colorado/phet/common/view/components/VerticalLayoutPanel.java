@@ -1,14 +1,23 @@
-/** University of Colorado, PhET*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.components;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * User: University of Colorado, PhET
- * Date: Aug 13, 2004
- * Time: 10:10:30 AM
- * Copyright (c) Aug 13, 2004 by University of Colorado, PhET
+ * VerticalLayoutPanel
+ *
+ * @author ?
+ * @version $Revision$
  */
 public class VerticalLayoutPanel extends JPanel {
     private GridBagConstraints gridBagConstraints;

@@ -1,13 +1,22 @@
-/** University of Colorado, PhET*/
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
 import java.awt.event.MouseEvent;
 
 /**
- * User: University of Colorado, PhET
- * Date: Nov 15, 2004
- * Time: 5:31:04 PM
- * Copyright (c) Nov 15, 2004 by University of Colorado, PhET
+ * TranslationEvent
+ *
+ * @author ?
+ * @version $Revision$
  */
 public class TranslationEvent {
     private MouseEvent event;

@@ -1,11 +1,21 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
 package edu.colorado.phet.common.model.clock;
 
 
 /**
- * User: University of Colorado, PhET
- * Date: Jun 11, 2003
- * Time: 10:45:32 AM
- * Copyright (c) Jun 11, 2003 by University of Colorado, PhET
+ * ClockStateListener
+ *
+ * @author ?
+ * @version $Revision$
  */
 public interface ClockStateListener {
     void delayChanged( int waitTime );
