@@ -15,7 +15,6 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
@@ -27,6 +26,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**
@@ -88,6 +88,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     private AbstractMagnet _magnetModel;
     private PhetTextGraphic _bText, _bxText, _byText, _angleText;
     private NumberFormat _formatter;
+    private Point _point; // reusable point
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -110,6 +111,8 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
         _formatter = new DecimalFormat( FIELD_FORMAT );
+        
+        _point = new Point();
         
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
@@ -197,7 +200,8 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         if ( isVisible() ) {
             
             // Get the values, adjust the coordinate system.
-            AbstractVector2D B = _magnetModel.getStrength( getLocation() );
+            _point.setLocation( getX(), getY() );
+            Vector2D B = _magnetModel.getStrength( _point );
             double b = B.getMagnitude();
             double bx = B.getX();
             double by = -B.getY(); // +Y is up

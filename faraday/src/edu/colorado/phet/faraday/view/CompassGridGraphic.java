@@ -15,7 +15,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -23,6 +22,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.util.IRescaler;
+import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**
@@ -79,6 +79,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // Rendering hints.
     private final RenderingHints _renderingHints;
     
+    // A reusable point
+    private Point _point;
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -106,6 +109,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         _strengthThreshold = DEFAULT_STRENGTH_THRESHOLD;
         
         _bounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
+        _point = new Point();
         
         _renderingHints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         
@@ -367,8 +371,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
                 CompassGridNeedle needle = (CompassGridNeedle)_needles.get(i);
 
                 // Get the magnetic field information at the needle's location.
-                Point2D p = needle.getLocation();
-                AbstractVector2D fieldStrength = _magnetModel.getStrength( p );
+                _point.setLocation( needle.getX(), needle.getY() );
+                Vector2D fieldStrength = _magnetModel.getStrength( _point );
                 double angle = fieldStrength.getAngle();
                 double magnitude = fieldStrength.getMagnitude();
                 

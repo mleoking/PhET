@@ -14,10 +14,8 @@ package edu.colorado.phet.faraday.model;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**
@@ -79,7 +77,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * 
      * @see edu.colorado.phet.faraday.model.IMagnet#getStrength(java.awt.geom.Point2D)
      */
-    public AbstractVector2D getStrength( Point2D p ) {
+    public Vector2D getStrength( Point2D p, Vector2D strengthDst ) {
         assert( p != null );
         assert( getWidth() > getHeight() );
  
@@ -98,7 +96,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
               
         // Choose the appropriate algorithm based on
         // whether the point is inside or outside the magnet.
-        AbstractVector2D B = null;
+        Vector2D B = null;
         if ( _bounds.contains( _normalizedPoint ) )  {
             B = getStrengthInside( _normalizedPoint );
         }
@@ -108,13 +106,13 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         }
         
         // Adjust the field vector to match the magnet's direction.
-        B = B.getRotatedInstance( getDirection() );
+        B.rotate( getDirection() );
 
         // Clamp magnitude to magnet strength.
         double magnetStrength = super.getStrength();
         double magnitude = B.getMagnitude();
         if ( magnitude > magnetStrength ) {
-            B = ImmutableVector2D.Double.parseAngleAndMagnitude( magnetStrength, B.getAngle() );
+            B.setMagnitude( magnetStrength );
             //System.out.println( "BarMagnet.getStrengthOutside - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
         }
         
@@ -134,9 +132,9 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * @param p the point
      * @return magnetic field strength vector
      */
-    private AbstractVector2D getStrengthInside( Point2D p ) {
+    private Vector2D getStrengthInside( Point2D p ) {
         assert( p != null );
-        return new ImmutableVector2D.Double( getStrength(), 0 );
+        return new Vector2D( getStrength(), 0 );
     }
     
     /**
@@ -156,7 +154,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * @param p the point
      * @return magnetic field strength vector
      */
-    private AbstractVector2D getStrengthOutside( Point2D p ) {
+    private Vector2D getStrengthOutside( Point2D p ) {
         assert( p != null );
         assert( getWidth() > getHeight() );
         
@@ -179,17 +177,17 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         double cN = +( C / Math.pow( rN, 3.0 ) ); // constant multiplier
         double xN = cN * ( p.getX() - ( L / 2 ) ); // X component
         double yN = cN * p.getY(); // Y component
-        AbstractVector2D BN = new ImmutableVector2D.Double( xN, yN ); // north dipole vector
+        Vector2D BN = new Vector2D( xN, yN ); // north dipole vector
         
         // South dipole field strength vector.
         double cS = -( C / Math.pow( rS, 3.0 ) ); // constant multiplier
         double xS = cS * ( p.getX() + ( L / 2 ) ); // X component
         double yS = cS * p.getY(); // Y component
-        AbstractVector2D BS = new ImmutableVector2D.Double( xS, yS ); // south dipole vector
+        Vector2D BS = new Vector2D( xS, yS ); // south dipole vector
         
         // Total field strength is the vector sum.
-        AbstractVector2D BT = BN.getAddedInstance( BS );
+        BN.add( BS );
         
-        return BT;
+        return BN;
     }
 }

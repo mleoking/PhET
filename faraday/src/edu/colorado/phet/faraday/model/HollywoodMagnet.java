@@ -13,7 +13,7 @@ package edu.colorado.phet.faraday.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**
@@ -62,7 +62,7 @@ public class HollywoodMagnet extends AbstractMagnet {
     /**
      * @see edu.colorado.phet.faraday.model.IMagnet#getStrength(java.awt.geom.Point2D)
      */
-    public AbstractVector2D getStrength( Point2D p ) {
+    public Vector2D getStrength( Point2D p, Vector2D strengthDst ) {
         assert( p != null );
         
         /* 
@@ -134,6 +134,8 @@ public class HollywoodMagnet extends AbstractMagnet {
         }
         
         // Vector
-        return AbstractVector2D.Double.parseAngleAndMagnitude( fieldMagnitude, fieldDirection );
+        Vector2D v = new Vector2D();
+        v.setMagnitudeAngle( fieldMagnitude, fieldDirection );
+        return v;
     }
 }

@@ -14,8 +14,8 @@ package edu.colorado.phet.faraday.model;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**
@@ -91,7 +91,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             getLocation( _point /* destination */ );
             
             // Find the B field vector at that point.
-            AbstractVector2D strength = _magnetModel.getStrength( _point );
+            Vector2D strength = _magnetModel.getStrength( _point );
             
             // Calculate the flux.
             double B = strength.getMagnitude();
@@ -111,7 +111,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             _transform.transform( new Point2D.Double( x, y ), _point /* destination */ );
             
             // Find the B field vector at that point.
-            AbstractVector2D strength = _magnetModel.getStrength( _point );
+            Vector2D strength = _magnetModel.getStrength( _point );
             
             // Calculate the flux.
             double B = strength.getMagnitude();
@@ -131,7 +131,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             _transform.transform( new Point2D.Double( x, y ), _point /* destination */ );
             
             // Find the B field vector at that point.
-            AbstractVector2D strength = _magnetModel.getStrength( _point );
+            Vector2D strength = _magnetModel.getStrength( _point  );
             
             // Calculate the flux.
             double B = strength.getMagnitude();
