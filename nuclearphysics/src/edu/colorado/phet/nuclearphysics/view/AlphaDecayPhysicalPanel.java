@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.RevertableGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 
 import java.awt.*;
@@ -42,6 +43,7 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
     //
     private NucleusGraphic decayGraphic;
     private HashMap particleToGraphicMap = new HashMap();
+    private double alphaParticleLevel = Config.alphaParticleLevel;
 
     public AlphaDecayPhysicalPanel() {
         this.setBackground( backgroundColor );
@@ -55,7 +57,7 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
         originTx.setToTranslation( origin.getX(), origin.getY() );
 
         // Draw everything that isn't special to this panel
-//        GraphicsUtil.setAlpha( g2, 0.5 );
+        //        GraphicsUtil.setAlpha( g2, 0.5 );
         g2.setColor( backgroundColor );
         super.paintComponent( g2 );
 
@@ -64,7 +66,7 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
 
     public synchronized void addAlphaParticle( AlphaParticle alphaParticle ) {
         NucleusGraphic graphic = new NucleusGraphic( alphaParticle );
-        this.addOriginCenteredGraphic( graphic );
+        this.addOriginCenteredGraphic( graphic, alphaParticleLevel );
         particleToGraphicMap.put( alphaParticle, graphic );
     }
 

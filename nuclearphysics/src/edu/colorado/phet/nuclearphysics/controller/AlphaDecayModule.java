@@ -11,6 +11,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
@@ -32,12 +33,14 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     private AlphaDecayControlPanel alphaDecayControlPanel;
     private Graphic ringGraphic;
     private Graphic leaderLines;
+    private double ringLevel = Config.backgroundGraphicLevel;
+    private double leaderLineLevel = 0;
 
     public AlphaDecayModule( AbstractClock clock ) {
         super( "Alpha Radiation", clock );
 
         // DEBUG ONLY!!!
-//        clock.setDt( clock.getDt() / 10 );
+        //        clock.setDt( clock.getDt() / 10 );
 
         getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
         physicalPanel = new AlphaDecayPhysicalPanel();
@@ -118,7 +121,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 }
             }
         };
-        this.getPhysicalPanel().addOriginCenteredGraphic( ringGraphic );
+        this.getPhysicalPanel().addOriginCenteredGraphic( ringGraphic, ringLevel );
 
         // Add leader lines from the ring up to the profile
         float miterLimit = 10f;
@@ -138,7 +141,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 }
             }
         };
-        this.getPhysicalPanel().addOriginCenteredGraphic( leaderLines );
+        this.getPhysicalPanel().addOriginCenteredGraphic( leaderLines, leaderLineLevel );
         this.getPotentialProfilePanel().addOriginCenteredGraphic( leaderLines );
     }
 
@@ -159,10 +162,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     }
 
     public void alphaDecay( AlphaDecayProducts decayProducts ) {
-
-        // Make the nucleus shake
-//        Thread shaker = new Thread( new NucleusShaker() );
-//        shaker.run();
 
         alphaDecayControlPanel.stopTimer();
 
@@ -195,32 +194,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         setRingAttributes( decayProducts.getDaughter() );
 
         // Make a bang!
-        Kaboom kaboom = new Kaboom( new Point2D.Double(),
-                                    25, 300, getPhysicalPanel() );
+        Kaboom kaboom = new Kaboom( new Point2D.Double(), 25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
     }
-
-    //
-    // Inner classes
-    //
-    private class NucleusShaker implements Runnable {
-
-        public void run() {
-            for( int i = 0; i < 20; i++ ) {
-                ArrayList graphicList = NucleusGraphic.getGraphicForNucleus( getNucleus() );
-                for( int j = 0; j < graphicList.size(); j++ ) {
-                    Graphic graphic = (Graphic)graphicList.get( j );
-                    getPhysicalPanel().removeGraphic( graphic );
-                }
-                getPhysicalPanel().addNucleus( getNucleus() );
-                getPhysicalPanel().repaint();
-                try {
-                    Thread.sleep( 200 );
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }
+

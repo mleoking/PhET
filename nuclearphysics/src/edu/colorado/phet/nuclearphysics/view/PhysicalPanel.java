@@ -10,6 +10,7 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 import java.awt.*;
@@ -25,6 +26,7 @@ public class PhysicalPanel extends ApparatusPanel {
     protected AffineTransform originTx = new AffineTransform();
     protected AffineTransform scaleTx = new AffineTransform();
     protected AffineTransform nucleonTx = new AffineTransform();
+    private double nucleusLevel = Config.nucleusLevel;
 
     public PhysicalPanel() {
         this.setBackground( backgroundColor );
@@ -43,7 +45,7 @@ public class PhysicalPanel extends ApparatusPanel {
         NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
         // Register the graphic to the model element
         modelElementToGraphicMap.put( nucleus, ng );
-        addGraphic( ng, nucleonTx );
+        addGraphic( ng, nucleusLevel, nucleonTx );
     }
 
     public void removeNucleus( Nucleus nucleus ) {
@@ -80,7 +82,7 @@ public class PhysicalPanel extends ApparatusPanel {
     //
     protected static Color backgroundColor = new Color( 255, 255, 230 );
 
-    public synchronized void addOriginCenteredGraphic( Graphic graphic ) {
-        this.addGraphic( graphic, originTx );
+    public synchronized void addOriginCenteredGraphic( Graphic graphic, double level ) {
+        this.addGraphic( graphic, level, originTx );
     }
 }
