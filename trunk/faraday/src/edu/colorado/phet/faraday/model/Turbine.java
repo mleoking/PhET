@@ -30,6 +30,9 @@ public class Turbine extends BarMagnet implements ModelElement {
     // Rotation delta when the turbine is running at full speed.
     private static final double DEFAULT_MAX_ROTATION_DELTA = Math.PI / 3;  // radians
     
+    // Determines whether all critical angles will be hit.
+    private static final boolean HIT_CRITICAL_ANGLES = false;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -126,15 +129,17 @@ public class Turbine extends BarMagnet implements ModelElement {
             double newDirection = getDirection() + ( _speed * _maxDelta );
 
             // Adjust the angle so that we hit all peaks and zero crossings.
-            for ( int i = 0; i < 5; i++ ) {
-                double criticalAngle = i * ( Math.PI / 2 ); // ...at 90 degree intervals
-                if ( _speed > 0 && newDirection > criticalAngle && previousDirection < criticalAngle ) {
-                    newDirection = criticalAngle;
-                    break;
-                }
-                else if ( _speed < 0 && newDirection < -criticalAngle && previousDirection > -criticalAngle ) {
-                    newDirection = -criticalAngle;
-                    break;
+            if ( HIT_CRITICAL_ANGLES ) {
+                for ( int i = 0; i < 5; i++ ) {
+                    double criticalAngle = i * ( Math.PI / 2 ); // ...at 90 degree intervals
+                    if ( _speed > 0 && newDirection > criticalAngle && previousDirection < criticalAngle ) {
+                        newDirection = criticalAngle;
+                        break;
+                    }
+                    else if ( _speed < 0 && newDirection < -criticalAngle && previousDirection > -criticalAngle ) {
+                        newDirection = -criticalAngle;
+                        break;
+                    }
                 }
             }
             
