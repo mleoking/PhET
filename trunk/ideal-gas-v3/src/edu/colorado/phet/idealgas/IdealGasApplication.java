@@ -12,11 +12,13 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.idealgas.controller.*;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class IdealGasApplication extends PhetApplication {
 
     private static ResourceBundle localizedStrings;
+
     static {
         localizedStrings = ResourceBundle.getBundle( "localization/IdealGasApplication" );
     }
@@ -48,11 +50,11 @@ public class IdealGasApplication extends PhetApplication {
                 hotAirBalloonModule
             };
             setModules( modules );
-//            setInitialModule( heliumBalloonModule );
-//            setInitialModule( rigidSphereModuleII );
-//            setInitialModule( rigidSphereModuleI );
-//            setInitialModule( measurementModule );
-//            setInitialModule( hotAirBalloonModule );
+            //            setInitialModule( heliumBalloonModule );
+            //            setInitialModule( rigidSphereModuleII );
+            //            setInitialModule( rigidSphereModuleI );
+            //            setInitialModule( measurementModule );
+            //            setInitialModule( hotAirBalloonModule );
             setInitialModule( idealGasModule );
         }
     }
@@ -63,6 +65,16 @@ public class IdealGasApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+
+        String test1 = System.getProperty( "java.vm.version" );
+        System.out.println( "test1 = " + test1 );
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        System.out.println( "applicationLocale = " + applicationLocale );
+
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+
         new IdealGasApplication();
     }
 }

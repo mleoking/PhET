@@ -16,7 +16,7 @@ public class SphereHollowSphereContactDetector extends ContactDetector {
         boolean result = false;
 
         if( bodyA.getClass() == bodyB.getClass() ) {
-            throw new RuntimeException( "bad arguments");
+            throw new RuntimeException( "bad arguments" );
         }
         HollowSphere hollowSphere = null;
         SphericalBody sphere = null;
@@ -26,7 +26,7 @@ public class SphereHollowSphereContactDetector extends ContactDetector {
                 sphere = (SphericalBody)bodyB;
             }
             else {
-                throw new RuntimeException( "bad arguments");
+                throw new RuntimeException( "bad arguments" );
             }
         }
         if( bodyB instanceof HollowSphere ) {
@@ -35,17 +35,18 @@ public class SphereHollowSphereContactDetector extends ContactDetector {
                 sphere = (SphericalBody)bodyA;
             }
             else {
-                throw new RuntimeException( "bad arguments");
+                throw new RuntimeException( "bad arguments" );
             }
         }
         if( hollowSphere == null || sphere == null ) {
-            throw new RuntimeException( "bad arguments");
+            throw new RuntimeException( "bad arguments" );
         }
 
         double distSq = sphere.getPosition().distanceSq( hollowSphere.getPosition() );
         double distPrevSq = sphere.getPositionPrev().distanceSq( hollowSphere.getPositionPrev() );
-        if( distSq > hollowSphere.getRadius() * hollowSphere.getRadius()
-            && distPrevSq < hollowSphere.getRadius() * hollowSphere.getRadius() ) {
+        double radSq = hollowSphere.getRadius() * hollowSphere.getRadius();
+        if(( distSq > radSq && distPrevSq < radSq )
+            || ( distSq < radSq && distPrevSq > radSq )) {
             result = true;
         }
         return result;
