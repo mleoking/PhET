@@ -7,13 +7,9 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.nuclearphysics.Config;
-import edu.colorado.phet.nuclearphysics.model.Neutron;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
+import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
@@ -24,11 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MultipleNucleusFissionModule extends NuclearPhysicsModule implements NeutronGun {
+public class MultipleNucleusFissionModule extends NuclearPhysicsModule
+        implements NeutronGun, FissionListener {
     private static Random random = new Random();
     private static float neutronSpeed = 1f;
 
-    private InternalNeutronGun neutronGun;
+//    private InternalNeutronGun neutronGun;
     private Neutron neutronToAdd;
     private ArrayList nuclei;
     private AbstractClock clock;
@@ -43,10 +40,11 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         // Add a bunch of nuclei, including one in the middle that we can fire a
         // neutron at
         nuclei = new ArrayList();
-        Uranium235 centralnucleus = new Uranium235( new Point2D.Double() );
-        getPhysicalPanel().addNucleus( centralnucleus );
-        getModel().addModelElement( centralnucleus );
-        nuclei.add( centralnucleus );
+        Uranium235 centralNucleus = new Uranium235( new Point2D.Double() );
+        centralNucleus.addFissionListener( this );
+        getPhysicalPanel().addNucleus( centralNucleus );
+        getModel().addModelElement( centralNucleus );
+        nuclei.add( centralNucleus );
 
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -65,6 +63,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
 
     protected void addNeucleus( Nucleus nucleus ) {
         nuclei.add( nucleus );
+        nucleus.addFissionListener( this );
         getPhysicalPanel().addNucleus( nucleus );
         getModel().addModelElement( nucleus );
     }
@@ -86,18 +85,11 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     }
 
     public void fireNeutron() {
-
         double bounds = 600;
         double gamma = random.nextDouble() * Math.PI * 2;
         double x = bounds * Math.cos( gamma );
         double y = bounds * Math.sin( gamma );
-        double theta = gamma
-                       + Math.PI
-                       + ( random.nextDouble() * Math.PI / 4 ) * ( random.nextBoolean() ? 1 : -1 );
-
-        Neutron neutron = new Neutron( new Point2D.Double( x, y ) );
-        neutron.setVelocity( ( new Vector2D( -(float)Math.cos( gamma ),
-                                             -(float)Math.sin( gamma ) ) ).normalize().multiply( (float)Config.neutronSpeed ) );
+        Neutron neutron = new Neutron( new Point2D.Double( x, y ), gamma + Math.PI );
         super.addNeutron( neutron );
     }
 
@@ -119,7 +111,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
 //                        if( line.ptLineDistSq( nucleus.getLocation() ) < nucleus.getRadius() * nucleus.getRadius() ) {
                         if( neutron.getLocation().distanceSq( nucleus.getLocation() )
                             < nucleus.getRadius() * nucleus.getRadius() ) {
-                            fission( (Nucleus)me2, (Neutron)me );
+                            nucleus.fission( neutron );
                         }
                     }
                 }
@@ -127,50 +119,34 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         }
     }
 
-    private void fission( Nucleus nucleus, Neutron neutron ) {
+    public void fission( FissionProducts products ) {
 
         // Remove the neutron and old nucleus
-        getModel().removeModelElement( neutron );
-        getModel().removeModelElement( nucleus );
-        nuclei.remove( nucleus );
-        List graphics = (List)NucleusGraphic.getGraphicForNucleus( nucleus );
+        getModel().removeModelElement( products.getInstigatingNeutron() );
+        getModel().removeModelElement( products.getParent() );
+        nuclei.remove( products.getParent() );
+        List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
         for( int i = 0; i < graphics.size(); i++ ) {
             NucleusGraphic ng = (NucleusGraphic)graphics.get( i );
             this.getPhysicalPanel().removeGraphic( ng );
         }
-        NeutronGraphic ng = (NeutronGraphic)NeutronGraphic.getGraphicForNeutron( neutron );
+        NeutronGraphic ng = (NeutronGraphic)NeutronGraphic.getGraphicForNeutron( products.getInstigatingNeutron() );
         this.getPhysicalPanel().removeGraphic( ng );
 
-        // create fission products
-        double theta = random.nextDouble() * Math.PI;
-        double vx = Config.fissionDisplacementVelocity * Math.cos( theta );
-        double vy = Config.fissionDisplacementVelocity * Math.sin( theta );
-        Nucleus n1 = new Nucleus( new Point2D.Double( nucleus.getLocation().getX(), nucleus.getLocation().getY() ),
-                                  nucleus.getNumProtons() / 2, nucleus.getNumNeutrons() / 2 );
-        n1.setVelocity( (float)( -vx ), (float)( -vy ) );
-        Nucleus n2 = new Nucleus( new Point2D.Double( nucleus.getLocation().getX(), nucleus.getLocation().getY() ),
-                                  nucleus.getNumProtons() / 2, nucleus.getNumNeutrons() / 2 );
-        n2.setVelocity( (float)( vx ), (float)( vy ) );
-        super.addNeucleus( n1 );
-        super.addNeucleus( n2 );
-
-        for( int i = 0; i < 3; i++ ) {
-            Neutron np = new Neutron( nucleus.getLocation() );
-            double neutronTheta = random.nextDouble() * Math.PI * 2;
-            vx = Config.neutronSpeed * Math.cos( neutronTheta );
-            vy = Config.neutronSpeed * Math.sin( neutronTheta );
-            np.setVelocity( (float)( Config.neutronSpeed * Math.cos( neutronTheta ) ),
-                            (float)( Config.neutronSpeed * Math.sin( neutronTheta ) ) );
-            NeutronGraphic npg = new NeutronGraphic( np );
-            getModel().addModelElement( np );
+        // Add fission products
+        super.addNeucleus( products.getDaughter1() );
+        super.addNeucleus( products.getDaughter2() );
+        Neutron[] neutronProducts = products.getNeutronProducts();
+        for( int i = 0; i < neutronProducts.length; i++ ) {
+            NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
+            getModel().addModelElement( neutronProducts[i] );
             getPhysicalPanel().addGraphic( npg );
         }
 
         // Add some pizzazz
-        Kaboom kaboom = new Kaboom( nucleus.getLocation(),
+        Kaboom kaboom = new Kaboom( products.getParent().getLocation(),
                                     25, 300, getApparatusPanel() );
         getPhysicalPanel().addGraphic( kaboom );
-
     }
 
     public void removeNucleus( Nucleus nucleus ) {
@@ -185,40 +161,38 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     //
     // Inner classes
     //
-    private class InternalNeutronGun implements Runnable {
-        private long waitTime = 1000;
-        private boolean kill = false;
-
-        public void run() {
-            while( kill == false ) {
-                try {
-                    Thread.sleep( waitTime );
-                    this.fireNeutron();
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        public synchronized void kill() {
-            this.kill = true;
-        }
-
-        public void fireNeutron() {
-            double bounds = 600;
-            double gamma = random.nextDouble() * Math.PI * 2;
-            double x = bounds * Math.cos( gamma );
-            double y = bounds * Math.sin( gamma );
-            double theta = gamma
-                           + Math.PI
-                           + ( random.nextDouble() * Math.PI / 4 ) * ( random.nextBoolean() ? 1 : -1 );
-
-            Neutron neutron = new Neutron( new Point2D.Double( x, y ) );
-            neutron.setVelocity( ( new Vector2D( (float)Math.cos( theta ),
-                                                 (float)Math.sin( theta ) ) ).normalize().multiply( (float)Config.neutronSpeed ) );
-            MultipleNucleusFissionModule.this.neutronToAdd = neutron;
-        }
-
-    }
+//    private class InternalNeutronGun implements Runnable {
+//        private long waitTime = 1000;
+//        private boolean kill = false;
+//
+//        public void run() {
+//            while( kill == false ) {
+//                try {
+//                    Thread.sleep( waitTime );
+//                    this.fireNeutron();
+//                }
+//                catch( InterruptedException e ) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//        public synchronized void kill() {
+//            this.kill = true;
+//        }
+//
+//        public void fireNeutron() {
+//            double bounds = 600;
+//            double gamma = random.nextDouble() * Math.PI * 2;
+//            double x = bounds * Math.cos( gamma );
+//            double y = bounds * Math.sin( gamma );
+//            double theta = gamma
+//                           + Math.PI
+//                           + ( random.nextDouble() * Math.PI / 4 ) * ( random.nextBoolean() ? 1 : -1 );
+//
+//            Neutron neutron = new Neutron( new Point2D.Double( x, y ), theta );
+//            MultipleNucleusFissionModule.this.neutronToAdd = neutron;
+//        }
+//
+//    }
 }
