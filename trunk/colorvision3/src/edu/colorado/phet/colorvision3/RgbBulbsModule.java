@@ -15,8 +15,8 @@ import edu.colorado.phet.colorvision3.control.IntensitySlider;
 import edu.colorado.phet.colorvision3.control.RgbBulbsControlPanel;
 import edu.colorado.phet.colorvision3.event.VisibleColorChangeEvent;
 import edu.colorado.phet.colorvision3.event.VisibleColorChangeListener;
-import edu.colorado.phet.colorvision3.help.SliderWiggleMeGraphic;
-import edu.colorado.phet.colorvision3.help.WiggleMeGraphic;
+import edu.colorado.phet.colorvision3.help.IntensitySliderWiggleMe;
+import edu.colorado.phet.colorvision3.help.WiggleMe;
 import edu.colorado.phet.colorvision3.model.Person;
 import edu.colorado.phet.colorvision3.model.PhotonBeam;
 import edu.colorado.phet.colorvision3.model.Spotlight;
@@ -104,7 +104,7 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
 	private IntensitySlider _redSlider, _greenSlider, _blueSlider;
 	
 	// Help
-	private WiggleMeGraphic _wiggleMe;
+	private WiggleMe _wiggleMe;
 	
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -269,7 +269,7 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
     //----------------------------------------------------------------------------
 
     // Wiggle Me for sliders
-    _wiggleMe = new SliderWiggleMeGraphic( apparatusPanel, model );
+    _wiggleMe = new IntensitySliderWiggleMe( apparatusPanel, model );
     _wiggleMe.setLocation( WIGGLE_ME_LOCATION );
     _wiggleMe.start();
     apparatusPanel.addGraphic( _wiggleMe, WIGGLE_ME_LAYER );
