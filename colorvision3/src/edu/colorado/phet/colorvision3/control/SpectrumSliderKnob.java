@@ -5,29 +5,36 @@ package edu.colorado.phet.colorvision3.control;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * SpectrumSliderKnob is the knob on a SpectrumSlider.
- * Note that the knob's origin is at the upper-left corner of its 
- * bounding box, not at the knob's tip.
+ * The origin is at the knob's tip.
+ * The default orientation is with the tip of the arrow pointing straight up.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$ $Name$
  */
 public class SpectrumSliderKnob extends PhetShapeGraphic
-{
+{  
 	//----------------------------------------------------------------------------
 	// Instance data
   //----------------------------------------------------------------------------
 
-  // Location, upper-left corner of the bounding box.
+  // Location of the knob's tip.
   private Point _location;
-  
+  // Size of the knob
+  private Dimension _size;
+  // Rotation angle
+  private double _angle;
+
 	//----------------------------------------------------------------------------
 	// Constructors
   //----------------------------------------------------------------------------
@@ -37,11 +44,17 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
    * Creates a white knob with a black border, located at (0,0).
    * 
    * @param component the parent Component
+   * @param size dimensions in pixels
+   * @param angle rotation angle, in radians
    */
-  public SpectrumSliderKnob( Component component )
+  public SpectrumSliderKnob( Component component, Dimension size, double angle )
   {    
     super( component, null, null );
 
+    _location = new Point( 0, 0 );
+    _size =  new Dimension( size );
+    _angle = angle;
+    
     //  Request antialiasing.
     RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
     super.setRenderingHints( hints );
@@ -49,17 +62,8 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
     super.setPaint( Color.WHITE );
     super.setStroke( new BasicStroke( 1f ) );
     super.setBorderColor( Color.BLACK );
-    
-    GeneralPath path = new GeneralPath();
-    path.moveTo(  10,  0 );
-    path.lineTo(   0, 10 );
-    path.lineTo(   0, 30 );
-    path.lineTo(  20, 30 );
-    path.lineTo(  20, 10 );
-    path.closePath();
-    super.setShape( path );
-    
-    setLocation( 0, 0 );
+
+    updateShape();
   }
   
 	//----------------------------------------------------------------------------
@@ -72,12 +76,9 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
    * @param location the location
    */
   public void setLocation( Point location )
-  { 
-    if ( _location != null )
-    {
-      super.translate( -_location.x, -_location.y );
-    }
-    _location = location;
+  {
+    super.translate( -_location.x, -_location.y );
+    _location = new Point( location );
     super.translate( location.x, location.y );
   }
   
@@ -93,11 +94,86 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
   }
   
   /**
-   * Gets the knob's location.
+   * Gets the knob's location.\
+   * 
+   * @return the location
    */
   public Point getLocation()
   {
-    return _location;
+    return new Point( _location );
+  }
+  
+  /**
+   * Sets the knob's size.
+   * 
+   * @param size the size
+   */
+  public void setSize( Dimension size )
+  {
+    _size = new Dimension( size );
+    updateShape();
+  }
+  
+  /**
+   * Gets the knob's size.
+   * 
+   * @return the size
+   */
+  public Dimension getSize()
+  {
+    return new Dimension( _size );
+  }
+ 
+  /**
+   * Sets the angle of rotation.
+   * Rotation is performed about the tip of the knob.
+   * At zero degrees, the tip is pointing straight up.
+   * 
+   * @param angle the angle, in radians
+   */
+  public void setAngle( double angle )
+  {
+    _angle = angle;
+    updateShape();
+  }
+  
+  /**
+   * Gets the angle of rotation.
+   * 
+   * @return the angle, in degrees
+   */
+  public double getAngle()
+  {
+    return _angle;
+  }
+  
+	//----------------------------------------------------------------------------
+	// Shape initialization
+  //----------------------------------------------------------------------------
+
+  /*
+   * Updates the knob's shape, based on its size and angle.
+   */
+  private void updateShape()
+  {
+    GeneralPath path = new GeneralPath();
+    
+    // counterclockwise, starting at the tip
+    path.moveTo( 0, 0 );
+    path.lineTo( -0.5f * _size.width, 0.3f * _size.height );
+    path.lineTo( -0.5f * _size.width, 1f * _size.height );
+    path.lineTo( 0.5f * _size.width, 1f * _size.height );
+    path.lineTo( 0.5f * _size.width, 0.3f * _size.height );
+    path.closePath();
+    Shape shape = path;
+    
+    // Rotate and translate.
+    AffineTransform transform = new AffineTransform();
+    transform.translate( _location.x, _location.y );
+    transform.rotate( _angle );
+    shape = transform.createTransformedShape( shape );
+    
+    super.setShape( shape );
   }
 
 }

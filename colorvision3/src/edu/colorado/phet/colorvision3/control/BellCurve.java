@@ -6,12 +6,15 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * BellCurve draws a bell curve shape.
+ * The origin of the curve is at the peak in the center of the curve.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @revision $Id$ $Name$
@@ -26,8 +29,9 @@ public class BellCurve extends PhetShapeGraphic
    * @param y the Y coordinate of the curve's location
    * @param w the width of the curve, in pixels
    * @param h the height of the curve, in pixels
+   * @param angle angle to rotate, in radians
    */
-  public BellCurve( Component component, int x, int y, int w, int h )
+  public BellCurve( Component component, int x, int y, int w, int h, double angle )
   {
     super( component, null, null );
     
@@ -41,14 +45,22 @@ public class BellCurve extends PhetShapeGraphic
     
     // Create the path that describes the curve.
     GeneralPath path = new GeneralPath();
-    path.moveTo(  -.50f * w + x, 1f * h + y ); // lower left
-    path.curveTo( -.25f * w + x, 1f * h + y,
-                  -.25f * w + x, 0f * h + y, 
-                     0f * w + x, 0f * h + y  ); // left curve
-    path.curveTo(  .25f * w + x, 0f * h + y, 
-                   .25f * w + x, 1f * h + y,
-                   .50f * w + x, 1f * h + y ); // right curve
-    super.setShape( path );
+    path.moveTo(  -.50f * w, 1f * h ); // lower left
+    path.curveTo( -.25f * w, 1f * h,
+                  -.25f * w, 0f * h, 
+                     0f * w, 0f * h  ); // left curve
+    path.curveTo(  .25f * w, 0f * h, 
+                   .25f * w, 1f * h,
+                   .50f * w, 1f * h ); // right curve
+    Shape shape = path;
+    
+    // Rotate and translate.
+    AffineTransform transform = new AffineTransform();
+    transform.translate( x, y );
+    transform.rotate( angle );
+    shape = transform.createTransformedShape( shape );
+    
+    super.setShape( shape );
   }
   
 }
