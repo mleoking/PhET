@@ -1,5 +1,5 @@
 --
-Faraday simulation requirements, as of 12/14/2004 status meeting
+Faraday simulation requirements, as of 12/21/2004 status meeting
 
 
 Bar Magnet module:
@@ -7,7 +7,8 @@ Bar Magnet module:
 - bar magnet can be moved around
 - treat bar magnet as a dipole
 - flip bar magnet polarity
-- show/hide field lines due to bar magnet
+- show magnetic field using a grid of compasses (not movable)
+- show/hide compass grid
 - do NOT show field lines due to induced EMF
 - adjust strength of bar magnet, visually represent as change in bar size
 - pickup coil with adjustable number of loops (1 or 2)
@@ -23,7 +24,7 @@ Bar Magnet module:
 
 
 Transformer module:
-- pickup coil, voltmeter, lightbulb and compass as in "Bar Magnet" module
+- grid, pickup coil, voltmeter, lightbulb, compass as in "Bar Magnet" module
 - electromagnet as the magnet field source
 - electromagent is NOT movable
 - electromagnet has a variable number of loops (1-4)
