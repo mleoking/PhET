@@ -124,7 +124,7 @@ public class PhetShapeGraphic extends PhetGraphic {
     }
 
     public boolean contains( int x, int y ) {
-        return isVisible() && getShape().contains( x, y );
+        return isVisible() && getShape() != null && getShape().contains( x, y );
     }
 
     public void setBorderColor( Color color ) {
