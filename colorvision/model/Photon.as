@@ -1,21 +1,29 @@
 ﻿class Photon {
+	private var isVisible:Boolean;
 	private var xLoc:Number;
 	private var yLoc:Number;
 	private var ds:Number = 10;
 	private var s:Number = 15;
 	private var rgb:Number;
+	private var wavelength:Number;	
 	private var theta:Number;
 	private static var instances:Array = new Array();
-	static function deleteInstance(p) {
+	private static var init:Boolean = false;
+	static function stepInstances() {
 		for (var i = 0; i < Photon.instances.length; i++) {
-			trace("photon: " + p.xLoc + "  " + instances[i].xLoc + "  " + (p == Photon.instances[i]) + "  " + (p == instances[i]));
-			
-			// NOTE!!! The first (commented) line never tests true!!!
+			instances[i].stepInTime();
+		}
+	}
+	static function deleteInstance(p) {
+		var pTest:Photon;
+		for (var i = 0; i < Photon.instances.length; i++) {
+			// NOTE!!! If Photon.instances[i] doesn't work!!!
+			var p2 = instances[i];
 //			if (Photon.instances[i] == p) {
 			if (instances[i] == p) {
-                        trace("photon: found");
-//				Photon.instances.splice(i, 1);
-				instances.splice(i, 1);
+				var l = instances.length;
+				Photon.instances.splice(i, 1);
+				var l2 = instances.length;
 			}
 		}
 	}
@@ -32,23 +40,29 @@
 		}
 		return result;
 	}
-	function Photon(x, y, theta, rgb) {
+	function Photon(x, y, theta, wavelength) {
 		this.xLoc = x;
 		this.yLoc = y;
 		this.theta = theta;
-		this.rgb = rgb;
+		this.wavelength = wavelength;
+		this.rgb = ColorUtil.getColor(wavelength);
+		this.isVisible = true;
 		Photon.instances.push(this);
-		var p = this;
-		trace("photon!!! " + (p == this ));
 	}
-	function getX():Number{
+	function getX():Number {
 		return xLoc;
+	}
+	function getWavelength():Number{
+		return this.wavelength;
 	}
 	function setRgb(rgb) {
 		this.rgb = rgb;
 	}
-	function getRgb():Number{
+	function getRgb():Number {
 		return rgb;
+	}
+	function setIsVisible(isVisible:Boolean):Void {
+		this.isVisible = isVisible;
 	}
 	function stepInTime() {
 		this.xLoc += ds * Math.cos(this.theta);
@@ -56,8 +70,10 @@
 	}
 	function paint(g) {
 		this.stepInTime();
-		g.lineStyle(1, this.rgb, 100);
-		g.moveTo(this.xLoc, this.yLoc);
-		g.lineTo(this.xLoc - s * Math.cos(this.theta), this.yLoc - s * Math.sin(this.theta));
+		if (this.isVisible) {
+			g.lineStyle(1, this.rgb, 100);
+			g.moveTo(this.xLoc, this.yLoc);
+			g.lineTo(this.xLoc - s * Math.cos(this.theta), this.yLoc - s * Math.sin(this.theta));
+		}
 	}
 }
