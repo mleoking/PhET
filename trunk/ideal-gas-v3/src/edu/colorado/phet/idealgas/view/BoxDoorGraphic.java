@@ -86,7 +86,7 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
 
     public void translateDoor( double dx, double dy ) {
 
-        minX = (int)( box.getMinX() - imageGraphic.getBounds().getWidth() + ( box.getMaxX() - openingMaxX ));
+        minX = (int)( box.getMinX() - imageGraphic.getBounds().getWidth() + ( box.getMaxX() - openingMaxX ) );
         // Update the position of the image on the screen
         x = (int)Math.min( maxX, Math.max( minX, x + dx ) );
         y = (int)Math.min( maxY, Math.max( minY, y + dy ) );
@@ -101,7 +101,7 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
 
     public void update() {
         if( minY != (int)box.getMinY() || minX != (int)box.getMinX() ) {
-            translateDoor(0,0);
+            translateDoor( 0, 0 );
             minX = (int)box.getMinX();
             minY = (int)box.getMinY();
             maxY = (int)box.getMinY();
@@ -114,8 +114,8 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
     public void paint( Graphics2D g ) {
         super.paint( g );
         if( doorHighlighted ) {
-            GraphicsState gs= new GraphicsState( g );
-            g.setStroke( new BasicStroke( 1 ));
+            GraphicsState gs = new GraphicsState( g );
+            g.setStroke( new BasicStroke( 1 ) );
             g.setColor( Color.red );
             g.draw( this.imageGraphic.getBounds() );
             gs.restoreGraphics();
@@ -124,11 +124,11 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
 
     public void mouseDragged( MouseEvent e ) {
         super.mouseDragged( e );
-//        try {
-//            Thread.sleep( 20 );
-//        }
-//        catch( InterruptedException e1 ) {
-//            e1.printStackTrace();
-//        }
+        //        try {
+        //            Thread.sleep( 20 );
+        //        }
+        //        catch( InterruptedException e1 ) {
+        //            e1.printStackTrace();
+        //        }
     }
 }

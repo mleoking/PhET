@@ -55,15 +55,15 @@ public class PumpHandleGraphic extends DefaultInteractiveGraphic {
 
     public void paint( Graphics2D g ) {
         super.paint( g );
-//        if( handleHighlighted ) {
-//            GraphicsState gs = new GraphicsState( g );
-//            highlightRect.setRect( image.getBounds().getMinX(), image.getBounds().getMinY(),
-//                                   image.getBounds().getWidth(), 9 );
-//            g.setColor( Color.red );
-//            g.setStroke( new BasicStroke( 1 ) );
-//            g.draw( highlightRect );
-//            gs.restoreGraphics();
-//        }
+        //        if( handleHighlighted ) {
+        //            GraphicsState gs = new GraphicsState( g );
+        //            highlightRect.setRect( image.getBounds().getMinX(), image.getBounds().getMinY(),
+        //                                   image.getBounds().getWidth(), 9 );
+        //            g.setColor( Color.red );
+        //            g.setStroke( new BasicStroke( 1 ) );
+        //            g.draw( highlightRect );
+        //            gs.restoreGraphics();
+        //        }
     }
 
     public void mouseEntered( MouseEvent e ) {
@@ -79,12 +79,12 @@ public class PumpHandleGraphic extends DefaultInteractiveGraphic {
     public void mouseDragged( MouseEvent e ) {
         super.mouseDragged( e );
 
-//        try {
-//            Thread.sleep( 20 );
-//        }
-//        catch( InterruptedException e1 ) {
-//            e1.printStackTrace();
-//        }
+        //        try {
+        //            Thread.sleep( 20 );
+        //        }
+        //        catch( InterruptedException e1 ) {
+        //            e1.printStackTrace();
+        //        }
 
         // Determine if we should pump now. We do it if the mouse is moving down
         int yNew = e.getY();
