@@ -123,9 +123,12 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         super.setCursorHand();
         super.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent e ) {
-                double x = _compassModel.getX() + e.getDx();
-                double y = _compassModel.getY() + e.getDy();
-                _compassModel.setLocation( x, y );
+                // Translate if the mouse cursor is inside the parent component.
+                if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
+                    double x = _compassModel.getX() + e.getDx();
+                    double y = _compassModel.getY() + e.getDy();
+                    _compassModel.setLocation( x, y );
+                }  
             }
         } );
         

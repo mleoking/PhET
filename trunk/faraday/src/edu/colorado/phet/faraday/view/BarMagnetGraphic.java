@@ -11,15 +11,11 @@
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.AlphaComposite;
-import java.awt.Component;
-import java.awt.Composite;
-import java.awt.Graphics2D;
+import java.awt.*;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
@@ -75,9 +71,12 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
         super.setCursorHand();
         super.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent e ) {
-                double x = _magnetModel.getX() + e.getDx();
-                double y = _magnetModel.getY() + e.getDy();
-                _magnetModel.setLocation( x, y );
+                // Translate if the mouse cursor is inside the parent component.
+                if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
+                    double x = _magnetModel.getX() + e.getDx();
+                    double y = _magnetModel.getY() + e.getDy();
+                    _magnetModel.setLocation( x, y );
+                }
             }
         } );
         
