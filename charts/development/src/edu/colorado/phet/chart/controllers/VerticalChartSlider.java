@@ -54,7 +54,7 @@ public class VerticalChartSlider {
         int value = slider.getValue();
         Rectangle r = chart.getViewBounds();
         LinearTransform1d transform1d = new LinearTransform1d( 0, numTicks, r.y + r.height, r.y );
-        double output = transform1d.operate( value );
+        double output = transform1d.transform( value );
         double modelValue = chart.getTransform().viewToModelY( (int)output );
         return modelValue;
     }
@@ -92,7 +92,7 @@ public class VerticalChartSlider {
         double viewY = chart.getTransform().modelToViewY( y );
         Rectangle r = chart.getViewBounds();
         LinearTransform1d transform1d = new LinearTransform1d( r.y + r.height, r.y, 0, numTicks );
-        int tick = (int)transform1d.operate( viewY );
+        int tick = (int)transform1d.transform( viewY );
         ChangeListener[] s = slider.getChangeListeners();
         for( int i = 0; i < s.length; i++ ) {
             ChangeListener changeListener = s[i];
