@@ -43,7 +43,7 @@ public class HorizontalCursor extends PhetGraphic {
         setCursorHand();
         addMouseInputListener( new MouseInputAdapter() {
             public void mouseDragged( MouseEvent e ) {
-                double newX = chart.getTransform().viewToModelX( e.getX() );
+                double newX = chart.getModelViewTransform().viewToModelX( e.getX() );
                 newX = Math.max( newX, chart.getRange().getMinX() );
                 newX = Math.min( newX, chart.getRange().getMaxX() );
                 newX = Math.max( newX, minX );
@@ -108,7 +108,7 @@ public class HorizontalCursor extends PhetGraphic {
 
     public void update() {
         Rectangle origShape = stroke.createStrokedShape( shape ).getBounds();
-        int xCenter = chart.getTransform().modelToViewX( modelX );
+        int xCenter = chart.getModelViewTransform().modelToViewX( modelX );
         int x = xCenter - width / 2;
         int y = chart.getViewBounds().y;
         int height = chart.getViewBounds().height;

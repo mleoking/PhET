@@ -209,7 +209,7 @@ public class Chart extends PhetGraphic {
         }
     }
 
-    public ModelViewTransform2D getTransform() {
+    public ModelViewTransform2D getModelViewTransform() {
         return transform;
     }
 
