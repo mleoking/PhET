@@ -102,7 +102,7 @@ public class CollimatedBeam extends Particle {
         eventRegistry.fireEvent( new RateChangeEvent() );
     }
 
-    public void setWavelength( int wavelength ) {
+    public void setWavelength( double wavelength ) {
         this.wavelength = wavelength;
         WavelengthChangeEvent event = new WavelengthChangeEvent();
         eventRegistry.fireEvent( event );

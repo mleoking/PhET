@@ -85,7 +85,8 @@ public class WaveViewControlPanel extends JPanel {
 
         // Set the initial conditions
         pumpCurtainViewRB.setSelected( true );
-        module.setPumpingPhotonView( BaseLaserModule.PHOTON_CURTAIN );
+        module.setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
+//        module.setPumpingPhotonView( BaseLaserModule.PHOTON_CURTAIN );
         lasingPhotonViewRB.setSelected( true );
         module.setLasingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
     }

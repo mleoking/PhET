@@ -14,7 +14,6 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 
 import java.awt.geom.Point2D;
@@ -47,12 +46,5 @@ public class TestApparatusModule extends SingleAtomModule {
         double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
         cavity.setPosition( cavityPos.getX(), yNew );
         //        cavity.setHeight( newHeight );
-
-        ApparatusConfiguration config = new ApparatusConfiguration();
-        config.setSeedPhotonRate( 0.0f );
-        config.setMiddleEnergySpontaneousEmissionTime( 10.00f );
-        config.setPumpingPhotonRate( 0.0f );
-        config.setReflectivity( 0.0f );
-        config.configureSystem( getLaserModel() );
     }
 }

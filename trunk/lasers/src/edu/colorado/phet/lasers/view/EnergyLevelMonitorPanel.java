@@ -50,7 +50,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                                                                      ClockStateListener {
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
-//    private long averagingPeriod = 1;
     private long averagingPeriod = 100;
     private long lastPaintTime;
     private int numUpdatesToAverage;
@@ -61,7 +60,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private int atomDiam = 14;
 
     private double panelWidth = 400;
-    private double panelHeight = 500;
+    private double panelHeight = 200;
     private double sliderWidth = 100;
     private int squiggleHeight = 10;
 
@@ -101,6 +100,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         model.getPumpingBeam().addListener( this );
         model.getSeedBeam().addListener( this );
 
+        // Create a horizontal line for each energy level, then add them to the panel
         highLevelLine = new EnergyLevelGraphic( this, HighEnergyState.instance(),
                                                 Color.blue, levelLineOriginX, levelLineLength );
         middleLevelLine = new EnergyLevelGraphic( this, MiddleEnergyState.instance(),
@@ -134,11 +134,15 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                 highLevelLine.update( energyYTx );
                 middleLevelLine.update( energyYTx );
                 groundLevelLine.update( energyYTx );
-                update();
+                updateSquiggles();
             }
         } );
     }
 
+    /**
+     * Sets the number of energy levels shown on the panel.
+     * @param numLevels Valid values are 2 and 3.
+     */
     public void setNumLevels( int numLevels ) {
         this.numLevels = numLevels;
         switch( numLevels ) {
@@ -161,6 +165,100 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         repaint();
         SwingUtilities.getWindowAncestor( this ).pack();
     }
+
+    /**
+     * Handles updates from the model
+     */
+    public void update() {
+        numGroundLevelAccum += model.getNumGroundStateAtoms();
+        numMiddleLevelAccum += model.getNumMiddleStateAtoms();
+        numHighLevelAccum += model.getNumHighStateAtoms();
+
+        // todo: these two line might be able to go somewhere they aren't called as often
+        middleLevelLifetimeSlider.update();
+        highLevelLifetimeSlider.update();
+
+        numUpdatesToAverage++;
+        long currTime = System.currentTimeMillis();
+        if( currTime - lastPaintTime >= averagingPeriod ) {
+            numGroundLevel = numGroundLevelAccum / numUpdatesToAverage;
+            numMiddleLevel = numMiddleLevelAccum / numUpdatesToAverage;
+            numHighLevel = numHighLevelAccum / numUpdatesToAverage;
+            numGroundLevelAccum = 0;
+            numMiddleLevelAccum = 0;
+            numHighLevelAccum = 0;
+            numUpdatesToAverage = 0;
+            lastPaintTime = currTime;
+            this.invalidate();
+            this.repaint();
+        }
+    }
+
+    /**
+     * Recomputes the squiggle images for both beams
+     */
+    private void updateSquiggles() {
+        double y0 = energyYTx.modelToView( GroundState.instance().getEnergyLevel() );
+        double y1 = energyYTx.modelToView( seedBeamEnergy );
+        double y2 = energyYTx.modelToView( pumpBeamEnergy );
+
+        // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
+        stimSquiggle = computeSquiggleImage( seedBeamWavelength, 0, (int)( y0 - y1 ), squiggleHeight );
+        stimSquiggleTx = AffineTransform.getTranslateInstance( middleLevelLine.getPosition().getX(),
+                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
+        stimSquiggleTx.rotate( -Math.PI / 2 );
+
+        pumpSquiggle = computeSquiggleImage( pumpBeamWavelength, 0, (int)( y0 - y2 ), squiggleHeight );
+        pumpSquiggleTx = AffineTransform.getTranslateInstance( highLevelLine.getPosition().getX(),
+                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
+        pumpSquiggleTx.rotate( -Math.PI / 2 );
+
+        // Force a repaint
+        this.invalidate();
+        this.repaint();
+    }
+
+    /**
+     * Creates a buffered image for a squiggle
+     */
+    private BufferedImage computeSquiggleImage( double wavelength, double phaseAngle, int length, int height ) {
+
+        int arrowHeight = height;
+        // A buffered image for generating the image data
+        BufferedImage img = new BufferedImage( length + 2 * arrowHeight,
+                                               height,
+                                               BufferedImage.TYPE_INT_ARGB );
+        Graphics2D g2d = img.createGraphics();
+        int kPrev = height / 2;
+        int iPrev = 0;
+        Color c = VisibleColor.wavelengthToColor( wavelength );
+        double freqFactor = 10 * wavelength / 680;
+        for( int i = 0; i < length - arrowHeight * 2; i++ ) {
+            int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
+            for( int j = 0; j < height; j++ ) {
+                if( j == k ) {
+                    g2d.setColor( c );
+                    g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
+                    iPrev = i;
+                    kPrev = k;
+                }
+            }
+        }
+        Arrow head = new Arrow( new Point2D.Double( arrowHeight, height / 2 ),
+                                new Point2D.Double( 0, height / 2 ),
+                                arrowHeight, height * 1.2, 2 );
+        Arrow tail = new Arrow( new Point2D.Double( length - arrowHeight, height / 2 ),
+                                new Point2D.Double( length, height / 2 ),
+                                arrowHeight, height * 1.2, 2 );
+        g2d.fill( head.getShape() );
+        g2d.fill( tail.getShape() );
+        g2d.dispose();
+        return img;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Rendering
+    //
 
     /**
      * @param graphics
@@ -219,68 +317,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         gs.restoreGraphics();
     }
 
-    public void update() {
-        numGroundLevelAccum += model.getNumGroundStateAtoms();
-        numMiddleLevelAccum += model.getNumMiddleStateAtoms();
-        numHighLevelAccum += model.getNumHighStateAtoms();
-
-        // todo: these two line might be able to go somewhere they aren't called as often
-        middleLevelLifetimeSlider.update();
-        highLevelLifetimeSlider.update();
-
-        numUpdatesToAverage++;
-        long currTime = System.currentTimeMillis();
-        if( currTime - lastPaintTime >= averagingPeriod ) {
-            numGroundLevel = numGroundLevelAccum / numUpdatesToAverage;
-            numMiddleLevel = numMiddleLevelAccum / numUpdatesToAverage;
-            numHighLevel = numHighLevelAccum / numUpdatesToAverage;
-            numGroundLevelAccum = 0;
-            numMiddleLevelAccum = 0;
-            numHighLevelAccum = 0;
-            numUpdatesToAverage = 0;
-            lastPaintTime = currTime;
-            this.invalidate();
-            this.repaint();
-        }
-    }
-
-    /**
-     *
-     */
-    private BufferedImage computeSquiggleImage( double wavelength, double phaseAngle, int length, int height ) {
-
-        int arrowHeight = height;
-        // A buffered image for generating the image data
-        BufferedImage img = new BufferedImage( length + 2 * arrowHeight,
-                                               height,
-                                               BufferedImage.TYPE_INT_ARGB );
-        Graphics2D g2d = img.createGraphics();
-        int kPrev = height / 2;
-        int iPrev = 0;
-        Color c = VisibleColor.wavelengthToColor( wavelength );
-        double freqFactor = 10 * wavelength / 680;
-        for( int i = 0; i < length - arrowHeight * 2; i++ ) {
-            int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
-            for( int j = 0; j < height; j++ ) {
-                if( j == k ) {
-                    g2d.setColor( c );
-                    g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
-                    iPrev = i;
-                    kPrev = k;
-                }
-            }
-        }
-        Arrow head = new Arrow( new Point2D.Double( arrowHeight, height / 2 ),
-                                new Point2D.Double( 0, height / 2 ),
-                                arrowHeight, height * 1.2, 2 );
-        Arrow tail = new Arrow( new Point2D.Double( length - arrowHeight, height / 2 ),
-                                new Point2D.Double( length, height / 2 ),
-                                arrowHeight, height * 1.2, 2 );
-        g2d.fill( head.getShape() );
-        g2d.fill( tail.getShape() );
-        g2d.dispose();
-        return img;
-    }
 
     ////////////////////////////////////////////////////////////////////////////////
     // Event handlers
@@ -295,22 +331,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             seedBeamWavelength = beam.getWavelength();
             seedBeamEnergy = Photon.wavelengthToEnergy( seedBeamWavelength );
         }
-
-        double y0 = energyYTx.modelToView( GroundState.instance().getEnergyLevel() );
-        double y1 = energyYTx.modelToView( seedBeamEnergy );
-        double y2 = energyYTx.modelToView( pumpBeamEnergy );
-
-        // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
-        stimSquiggle = computeSquiggleImage( seedBeamWavelength, 0, (int)( y0 - y1 ), squiggleHeight );
-        stimSquiggleTx = AffineTransform.getTranslateInstance( middleLevelLine.getPosition().getX(),
-                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
-        stimSquiggleTx.rotate( -Math.PI / 2 );
-
-        pumpSquiggle = computeSquiggleImage( pumpBeamWavelength, 0, (int)( y0 - y2 ), squiggleHeight );
-        pumpSquiggleTx = AffineTransform.getTranslateInstance( highLevelLine.getPosition().getX(),
-                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
-        pumpSquiggleTx.rotate( -Math.PI / 2 );
-
+        updateSquiggles();
     }
 
     /**
@@ -374,7 +395,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             this.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ),
                             (int)graphic.getPosition().getY() - sliderHeight / 2,
                             sliderWidth, sliderHeight );
-//                            100, sliderHeight );
         }
 
         public void meanLifetimeChanged( AtomicState.MeanLifetimeChangeEvent event ) {

@@ -139,12 +139,15 @@ public class ApparatusPanel2 extends ApparatusPanel {
                     }
                     System.out.println( "strategy = " + strategy );
                 }
+
+
             }
         } );
 
+
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                if( orgBounds == null ) {
+                if( orgBounds == null || orgBounds.getWidth() <= 0 || orgBounds.getHeight() <= 0 ) {
                     orgBounds = ApparatusPanel2.this.getBounds();
                     Component[] components = ApparatusPanel2.this.getComponents();
                     for( int i = 0; i < components.length; i++ ) {
@@ -156,38 +159,35 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 }
 
                 // Setup the affine transforms for graphics and mouse events
-                double sx = ApparatusPanel2.this.getBounds().getWidth() / orgBounds.getWidth();
-                double sy = ApparatusPanel2.this.getBounds().getHeight() / orgBounds.getHeight();
-                // Using a single scale factor keeps the aspect ratio constant
-                double s = Math.min( sx, sy );
-                graphicTx = AffineTransform.getScaleInstance( s, s );
-                try {
-                    mouseTx = graphicTx.createInverse();
-                }
-                catch( NoninvertibleTransformException e1 ) {
-                    e1.printStackTrace();
-                }
-                createOffscreenBuffer();
-//                bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
-//                bImgGraphics = (Graphics2D)bImg.getGraphics();
+                if( orgBounds != null && orgBounds.getWidth() > 0 && orgBounds.getHeight() > 0 ) {
+                    double sx = ApparatusPanel2.this.getBounds().getWidth() / orgBounds.getWidth();
+                    double sy = ApparatusPanel2.this.getBounds().getHeight() / orgBounds.getHeight();
+                    // Using a single scale factor keeps the aspect ratio constant
+                    double s = Math.min( sx, sy );
+                    graphicTx = AffineTransform.getScaleInstance( s, s );
+                    try {
+                        mouseTx = graphicTx.createInverse();
+                    }
+                    catch( NoninvertibleTransformException e1 ) {
+                        e1.printStackTrace();
+                    }
 
-                // Adjust the locations of Swing components
-                Component[] components = ApparatusPanel2.this.getComponents();
-                for( int i = 0; i < components.length; i++ ) {
-                    Component component = components[i];
-                    Point p = (Point)componentOrgLocationsMap.get( component );
-                    if( p != null ) {
-                        Point pNew = new Point( (int)( p.getX() * s ), (int)( p.getY() * s ) );
-                        component.setLocation( pNew );
+                    // Create the offscreen buffer
+                    bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+
+                    // Adjust the locations of Swing components
+                    Component[] components = ApparatusPanel2.this.getComponents();
+                    for( int i = 0; i < components.length; i++ ) {
+                        Component component = components[i];
+                        Point p = (Point)componentOrgLocationsMap.get( component );
+                        if( p != null ) {
+                            Point pNew = new Point( (int)( p.getX() * s ), (int)( p.getY() * s ) );
+                            component.setLocation( pNew );
+                        }
                     }
                 }
             }
         } );
-    }
-
-    private void createOffscreenBuffer() {
-        bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
-        bImgGraphics = (Graphics2D)bImg.getGraphics();
     }
 
     public boolean isUseOffscreenBuffer() {
