@@ -132,8 +132,8 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
         endPt1.x = -getWidth() / 2;
 //        endPt1.x = -getWidth() / 2;
         endPt1.y = 0;
-        endPt2.x = -getWidth() / 30;
-//        endPt2.x = -getWidth() / 20;
+//        endPt2.x = -getWidth() / 30;
+        endPt2.x = -getWidth() / 20;
         endPt2.y = -getMaxPotential();
 
 //        ctrlPt1.x = endPt1.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 3 );
