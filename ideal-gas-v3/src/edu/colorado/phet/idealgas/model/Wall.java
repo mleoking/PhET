@@ -41,6 +41,16 @@ public class Wall extends CollidableBody {
         this.setPosition( new Point2D.Double( end1.getX(), end1.getY() ) );
     }
 
+    /**
+     * Since the box is infinitely massive, it can't move, and so
+     * we say its kinetic energy is 0
+     *
+     * @return
+     */
+    public double getKineticEnergy() {
+        return 0;
+    }
+
     public Point2D getCM() {
         return cm;
     }

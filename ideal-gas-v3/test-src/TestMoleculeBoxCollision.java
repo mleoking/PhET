@@ -44,7 +44,7 @@ public class TestMoleculeBoxCollision extends PhetApplication {
                                               new Vector2D.Double( 0, 0 ),
                                               new Vector2D.Double(),
                                               5 );
-            m.setVelocity( new Vector2D.Double( 0, 10 ) );
+            m.setVelocity( new Vector2D.Double( 0, 200 ) );
             PumpMoleculeCmd cmd = new PumpMoleculeCmd( (IdealGasModel)getModel(),
                                                        m,
                                                        this );

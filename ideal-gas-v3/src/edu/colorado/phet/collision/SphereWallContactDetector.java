@@ -8,7 +8,9 @@ package edu.colorado.phet.collision;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.idealgas.model.HorizontalWall;
 import edu.colorado.phet.idealgas.model.SphericalBody;
+import edu.colorado.phet.idealgas.model.VerticalWall;
 import edu.colorado.phet.idealgas.model.Wall;
 
 //import edu.colorado.phet.idealgas.physics.body.Wall;
@@ -55,16 +57,30 @@ public class SphereWallContactDetector extends ContactDetector {
         // the wall lies
         double x = wall.getPosition().getX();
         double y = wall.getPosition().getY();
-        //        float x = wall.getPosition().getX();
-        //        float y = wall.getPosition().getY();
         tempVector.setComponents( Double.isNaN( x ) ? 0 : x, Double.isNaN( y ) ? 0 : y );
-        //        tempVector.setX( Float.isNaN( x ) ? 0 : x );
-        //        tempVector.setY( Float.isNaN( y ) ? 0 : y  );
         tempVector.setComponents( tempVector.getX() - sphere.getPosition().getX(),
                                   tempVector.getY() - sphere.getPosition().getY() );
-        //        tempVector = tempVector.subtract( sphere.getPosition() );
         float dist = (float)Math.abs( tempVector.dot( wall.getLoaUnit( sphere ) ) );
         boolean result = dist <= sphere.getRadius();
+
+        // If the sphere managed to go all the way through the wall in a single step,
+        // we need to count that as contact, too.
+        if( wall instanceof VerticalWall ) {
+            double d = ( wall.getPosition().getX() - sphere.getPosition().getX() )
+                       * ( wall.getPosition().getX() - sphere.getPositionPrev().getX() );
+            //            if( d < 0 ) {
+            //                System.out.println( "VVVV" );
+            //            }
+            result |= ( d < 0 );
+        }
+        if( wall instanceof HorizontalWall ) {
+            double d = ( wall.getPosition().getY() - sphere.getPosition().getY() )
+                       * ( wall.getPosition().getY() - sphere.getPositionPrev().getY() );
+            //            if( d < 0 ) {
+            //                System.out.println( "HHHH" );
+            //            }
+            result |= ( d < 0 );
+        }
 
         // If the previous result is true, determine if a line through the sphere's
         // CM perpendicular to the line on which the wall lies passes through the

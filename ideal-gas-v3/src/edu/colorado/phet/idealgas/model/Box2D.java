@@ -55,6 +55,16 @@ public class Box2D extends CollidableBody {
         setMass( Double.POSITIVE_INFINITY );
     }
 
+    /**
+     * Since the box is infinitely massive, it can't move, and so
+     * we say its kinetic energy is 0
+     *
+     * @return
+     */
+    public double getKineticEnergy() {
+        return 0;
+    }
+
     public Point2D getCM() {
         return center;
     }
