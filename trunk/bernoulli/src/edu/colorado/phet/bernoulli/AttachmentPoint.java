@@ -1,8 +1,7 @@
 /**
  * Class: AttachmentPoint
  * Package: edu.colorado.phet.bernoulli
- * Author: Another Guy
- * Date: Sep 26, 2003
+ * Test Comment
  */
 package edu.colorado.phet.bernoulli;
 
@@ -18,7 +17,6 @@ public class AttachmentPoint extends SimpleObservable {
         updateObservers();
     }
 
-    
 
     public double getX() {
         return x;
