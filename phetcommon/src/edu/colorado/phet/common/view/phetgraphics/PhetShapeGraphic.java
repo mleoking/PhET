@@ -108,7 +108,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         else if( this.shape != null && shape == null ) {
             differentShape = true;
         }
-        else if( shape != null && !shape.equals( this.shape ) ) {
+        else if( this.shape != null && shape != null && !shape.equals( this.shape ) ) {
             differentShape = true;
         }
         if( differentShape ) {
@@ -116,6 +116,8 @@ public class PhetShapeGraphic extends PhetGraphic {
             setBoundsDirty();
             repaint();
         }
+
+
     }
 
     public void translate( double dx, double dy ) {
@@ -138,8 +140,20 @@ public class PhetShapeGraphic extends PhetGraphic {
     }
 
     public void setPaint( Paint paint ) {
-        this.fill = paint;
-        repaint();
+        boolean changed = false;
+        if( this.fill == null && paint != null ) {
+            changed = true;
+        }
+        else if( this.fill != null && paint == null ) {
+            changed = true;
+        }
+        else if( !this.fill.equals( paint ) ) {
+            changed = true;
+        }
+        if( changed ) {
+            this.fill = paint;
+            repaint();
+        }
     }
 
     public void setLocation( int x, int y ) {
