@@ -21,6 +21,7 @@ public class Axis implements Graphic {
     private Color color;
     private int orientation;
     private double crossesOtherAxisAt = 0;
+    private boolean visible = true;
 
     public Axis( Chart chart, int orientation ) {
         this( chart, orientation, new BasicStroke( 2 ), Color.black, 2, 1 );
@@ -46,33 +47,60 @@ public class Axis implements Graphic {
     }
 
     public void setVisible( boolean visible ) {
-        majorTicks.setVisible( visible );
-        minorTicks.setVisible( visible );
+//        majorTicks.setVisible( visible );
+//        minorTicks.setVisible( visible );
+        this.visible = visible;
     }
 
     public void paint( Graphics2D g ) {
-        Stroke origStroke = g.getStroke();
-        Color origColor = g.getColor();
-        g.setStroke( stroke );
-        g.setColor( color );
-        if( orientation == AbstractGrid.HORIZONTAL ) {
-            Point2D.Double leftEndOfAxis = new Point2D.Double( chart.getRange().getMinX(), crossesOtherAxisAt );
-            Point left = chart.transform( leftEndOfAxis );
-            Point2D.Double rightEndOfAxis = new Point2D.Double( chart.getRange().getMaxX(), crossesOtherAxisAt );
-            Point right = chart.transform( rightEndOfAxis );
-            g.drawLine( left.x, left.y, right.x, right.y );
+        if( isInRange() && isVisible() ) {
+            Stroke origStroke = g.getStroke();
+            Color origColor = g.getColor();
+            g.setStroke( stroke );
+            g.setColor( color );
+            if( orientation == AbstractGrid.HORIZONTAL ) {
+                Point2D.Double leftEndOfAxis = new Point2D.Double( chart.getRange().getMinX(), crossesOtherAxisAt );
+                Point left = chart.transform( leftEndOfAxis );
+                Point2D.Double rightEndOfAxis = new Point2D.Double( chart.getRange().getMaxX(), crossesOtherAxisAt );
+                Point right = chart.transform( rightEndOfAxis );
+                g.drawLine( left.x, left.y, right.x, right.y );
+            }
+            else if( orientation == AbstractGrid.VERTICAL ) {
+                Point2D.Double bottomEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMinY() );
+                Point bottom = chart.transform( bottomEndOfAxis );
+                Point2D.Double topEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMaxY() );
+                Point top = chart.transform( topEndOfAxis );
+                g.drawLine( bottom.x, bottom.y, top.x, top.y );
+            }
+            g.setStroke( origStroke );
+            g.setColor( origColor );
+            minorTicks.paint( g );
+            majorTicks.paint( g );
         }
-        else if( orientation == AbstractGrid.VERTICAL ) {
-            Point2D.Double bottomEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMinY() );
-            Point bottom = chart.transform( bottomEndOfAxis );
-            Point2D.Double topEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMaxY() );
-            Point top = chart.transform( topEndOfAxis );
-            g.drawLine( bottom.x, bottom.y, top.x, top.y );
+    }
+
+    private boolean isInRange() {
+        if( orientation == Grid.HORIZONTAL ) {
+            return chart.getRange().containsY( crossesOtherAxisAt );
         }
-        g.setStroke( origStroke );
-        g.setColor( origColor );
-        minorTicks.paint( g );
-        majorTicks.paint( g );
+        else if( orientation == Grid.VERTICAL ) {
+            return chart.getRange().containsX( crossesOtherAxisAt );
+        }
+        else {
+            throw new RuntimeException( "Illegal orientation" );
+        }
+    }
+
+    private boolean isVisible() {
+        return visible;
+    }
+
+    public void setColor( Color color ) {
+        this.color = color;
+    }
+
+    public void setStroke( Stroke stroke ) {
+        this.stroke = stroke;
     }
 
     public void setMajorTickFont( Font font ) {
