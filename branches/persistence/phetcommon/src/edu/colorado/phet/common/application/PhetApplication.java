@@ -28,7 +28,6 @@ public class PhetApplication {
     private PhetFrame phetFrame;
     private ApplicationModel applicationModel;
     private ModuleManager moduleManager;
-//    private ModuleManager moduleManager = new ModuleManager();
 
     public PhetApplication( ApplicationModel descriptor ) {
 
@@ -118,95 +117,5 @@ public class PhetApplication {
 
         public void moduleRemoved( Module m );
     }
-
-    /**
-     * Maintains a list of all modules in an application, and provides a mechanism for switching
-     * which module is active.  (Only supports one active module.)
-     */
-//    public static class ModuleManager {
-////    private class ModuleManager {
-//        private ArrayList modules = new ArrayList();
-//        private Module activeModule;
-//        private ArrayList observers = new ArrayList();
-//        private PhetApplication phetApplication;
-//
-//        public ModuleManager(PhetApplication phetApplication) {
-//            this.phetApplication = phetApplication;
-//        }
-//
-//        public Module moduleAt( int i ) {
-//            return (Module)modules.get( i );
-//        }
-//
-//        public Module getActiveModule() {
-//            return activeModule;
-//        }
-//
-//        public int numModules() {
-//            return modules.size();
-//        }
-//
-//        public void addModule( Module module ) {
-//            addModule( module, false );
-//        }
-//
-//        public boolean moduleIsWellFormed( Module module ) {
-//            boolean result = true;
-//            result &= module.getModel() != null;
-//            result &= module.getApparatusPanel() != null;
-//            return result;
-//        }
-//
-//        public void addModule( Module module, boolean isActive ) {
-//
-//            // Check that the module is well-formed
-//            if( !moduleIsWellFormed( module ) ) {
-//                throw new RuntimeException( "Module is missing something." );
-//            }
-//
-//            modules.add( module );
-//            if( isActive ) {
-//                setActiveModule( module );
-//            }
-//            for( int i = 0; i < observers.size(); i++ ) {
-//                ModuleObserver moduleObserver = (ModuleObserver)observers.get( i );
-//                moduleObserver.moduleAdded( module );
-//            }
-//        }
-//
-//        public void setActiveModule( int i ) {
-//            setActiveModule( moduleAt( i ) );
-//        }
-//
-//        public void setActiveModule( Module module ) {
-//            if( activeModule != module ) {
-//                if( activeModule != null ) {
-//                    activeModule.deactivate( phetApplication );
-////                    activeModule.deactivate( PhetApplication.this );
-//                }
-//                activeModule = module;
-//                module.activate( phetApplication );
-////                module.activate( PhetApplication.this );
-//            }
-//            for( int i = 0; i < observers.size(); i++ ) {
-//                ModuleObserver moduleObserver = (ModuleObserver)observers.get( i );
-//                moduleObserver.activeModuleChanged( module );
-//            }
-//        }
-//
-//        public void addModuleObserver( ModuleObserver observer ) {
-//            observers.add( observer );
-//        }
-//
-//        public int indexOf( Module m ) {
-//            return modules.indexOf( m );
-//        }
-//
-//        public void addAllModules( Module[] modules ) {
-//            for( int i = 0; i < modules.length; i++ ) {
-//                addModule( modules[i] );
-//            }
-//        }
-//    }
 
 }
