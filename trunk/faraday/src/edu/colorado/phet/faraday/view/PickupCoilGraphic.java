@@ -63,8 +63,7 @@ public class PickupCoilGraphic
     private VoltmeterGraphic _voltmeterGraphic;
     private CompositePhetGraphic _foreground, _background;
     private CollisionDetector _collisionDetector;
-    private PhetTextGraphic _areaValue;
-    private PhetTextGraphic _fluxValue, _deltaFluxValue;
+    private PhetTextGraphic _fluxValue, _deltaFluxValue, _emfValue;
     private DecimalFormat _fluxFormatter;
     
     //----------------------------------------------------------------------------
@@ -130,16 +129,16 @@ public class PickupCoilGraphic
             _fluxFormatter = new DecimalFormat( "###0.00" );
             Font font = new Font( "SansSerif", Font.PLAIN, 15 );
             
-            _areaValue = new PhetTextGraphic( component, font, "WWW", Color.YELLOW, 70, -25 );
-            _areaValue.setVisible( _displayFluxEnabled );
-            _fluxValue = new PhetTextGraphic( component, font, "XXX", Color.YELLOW, 70, 0 );
+            _fluxValue = new PhetTextGraphic( component, font, "XXX", Color.YELLOW, 70, -25 );
             _fluxValue.setVisible( _displayFluxEnabled );
-            _deltaFluxValue = new PhetTextGraphic( component, font, "YYY", Color.YELLOW, 70, 25 );
+            _deltaFluxValue = new PhetTextGraphic( component, font, "YYY", Color.YELLOW, 70, 0 );
             _deltaFluxValue.setVisible( _displayFluxEnabled );
+            _emfValue = new PhetTextGraphic( component, font, "WWW", Color.YELLOW, 70, 25 );
+            _emfValue.setVisible( _displayFluxEnabled );
             
-            _foreground.addGraphic( _areaValue );
             _foreground.addGraphic( _fluxValue );
             _foreground.addGraphic( _deltaFluxValue );
+            _foreground.addGraphic( _emfValue );
         }
         
         update();
@@ -253,18 +252,18 @@ public class PickupCoilGraphic
 
             // Flux display
             {
-                _areaValue.setVisible( _displayFluxEnabled );
                 _fluxValue.setVisible( _displayFluxEnabled );
                 _deltaFluxValue.setVisible( _displayFluxEnabled );
+                _emfValue.setVisible( _displayFluxEnabled );
                 
                 if ( _displayFluxEnabled ) {
-                    double area = _pickupCoilModel.getArea();
                     double flux = _pickupCoilModel.getFlux();
                     double deltaFlux = _pickupCoilModel.getDeltaFlux();
+                    double emf = _pickupCoilModel.getEmf();
 
-                    _areaValue.setText( "Area = " + _fluxFormatter.format( area ) );
                     _fluxValue.setText( "Flux = " + _fluxFormatter.format( flux ) + " W" );
                     _deltaFluxValue.setText( "Delta Flux = " + _fluxFormatter.format( deltaFlux ) + " W" );
+                    _emfValue.setText( "EMF = " + _fluxFormatter.format( emf ) + " V" );
                 }
             }
             

@@ -88,6 +88,15 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         return _deltaFlux;
     }
     
+    /**
+     * Gets the emf.
+     * 
+     * @return the emf
+     */
+    public double getEmf() {
+        return _emf;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -110,6 +119,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      */
     private void updateEmf( double dt ) {
         
+        double A = getLoopArea();  // surface area of the one loop
+        
         // Flux at the center of the coil.
         double centerFlux = 0;
         {
@@ -121,7 +132,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             
             // Calculate the flux.
             double B = _fieldVector.getMagnitude();
-            double A = getArea();
             double theta = Math.abs( _fieldVector.getAngle() - getDirection() );
             centerFlux = B * A * Math.cos( theta );
         }
@@ -145,7 +155,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             
             // Calculate the flux.
             double B = _fieldVector.getMagnitude();
-            double A = getArea();
             double theta = Math.abs( _fieldVector.getAngle() - getDirection() );
             topFlux = B * A * Math.cos( theta );
         }
@@ -169,7 +178,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             
             // Calculate the flux.
             double B = _fieldVector.getMagnitude();
-            double A = getArea();
             double theta = Math.abs( _fieldVector.getAngle() - getDirection() );
             bottomFlux = B * A * Math.cos( theta ); 
         }
@@ -184,10 +192,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         //********************************************
         // Faraday's Law - Calculate the induced EMF.
         //********************************************
-        double emf = -getNumberOfLoops() * ( _deltaFlux / dt );
+        _emf = -getNumberOfLoops() * ( _deltaFlux / dt );
         
         // Kirchhoff's rule -- voltage across the ends of the coil equals the emf.
-        double voltage = emf;
+        double voltage = _emf;
         if ( Math.abs( voltage ) > getMaxVoltage() ) {
 //            System.out.println( "PickupCoil.updateEmf: voltage exceeded maximum voltage: " + voltage ); //DEBUG
             voltage = MathUtil.clamp( -getMaxVoltage(), voltage, getMaxVoltage() );
