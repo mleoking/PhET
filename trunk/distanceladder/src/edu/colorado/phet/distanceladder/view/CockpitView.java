@@ -30,8 +30,10 @@ import java.io.IOException;
  */
 public class CockpitView extends CompositeInteractiveGraphic implements ImageObserver {
 
-    Point2D.Double photometerButtonLocation = new Point2D.Double( 140, 555 );
-    Point2D.Double parallaxButtonLocation = new Point2D.Double( 425, 535 );
+    Point2D.Double photometerButtonLocation = new Point2D.Double( 240, 570 );
+    Point2D.Double parallaxButtonLocation = new Point2D.Double( 425, 570 );
+//    Point2D.Double photometerButtonLocation = new Point2D.Double( 140, 555 );
+//    Point2D.Double parallaxButtonLocation = new Point2D.Double( 425, 535 );
 
     private BufferedImage cockpitImage;
     private BufferedImage joystickBaseImage;

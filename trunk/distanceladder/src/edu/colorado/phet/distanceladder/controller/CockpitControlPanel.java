@@ -531,35 +531,16 @@ public class CockpitControlPanel extends JPanel {
             starship.addObserver( this );
             this.setPreferredSize( new Dimension( 200, 200 ) );
             StarMapGraphic starMapGraphic = new StarMapGraphic( this, model.getStarField() );
+            starMapGraphic.setStarGraphicRadius( 15 );
             StarshipCoordsGraphic starshipCoordsGraphic = new StarshipCoordsGraphic( starship, this );
             // Thicken the lines in the coordinate graphic
-            starshipCoordsGraphic.setRingStroke( new BasicStroke( 12f ) );
+            starshipCoordsGraphic.setRingStroke( new BasicStroke( 16f ) );
 
             this.addGraphic( starMapGraphic );
             starMapGraphic.addGraphic( starshipCoordsGraphic );
             orientationLine.setLine( 0, 0, this.getPreferredSize().getWidth(), 0 );
         }
 
-//        protected void paintComponent( Graphics graphics ) {
-//            atx.setToTranslation( this.getWidth() / 2, this.getHeight() / 2 );
-//
-//            Graphics2D g2 = (Graphics2D)graphics;
-//            AffineTransform orgTx = g2.getTransform();
-//            super.paintComponent( graphics );
-//
-//            // Draw a red line to reinforce the orientation line in the coordinate graphic,
-//            // which is too faint
-////            double scale = this.getWidth() / Config.universeWidth;
-////            lineTx.setToTranslation( this.getWidth() / 2 + starship.getPov().getX() * scale,
-////                                     this.getHeight() / 2 + starship.getPov().getY() * scale );
-////            lineTx.rotate( starship.getPov().getTheta() );
-////            g2.transform( lineTx );
-////            g2.setColor( Color.red );
-////            g2.setStroke( lineStroke );
-////            g2.draw( orientationLine );
-//
-//            g2.setTransform( orgTx );
-//        }
 
         public void update() {
             this.repaint();

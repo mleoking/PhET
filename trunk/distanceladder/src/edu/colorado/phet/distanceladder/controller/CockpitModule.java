@@ -33,7 +33,7 @@ public class CockpitModule extends Module {
     public CockpitModule( UniverseModel model ) {
         super( "Cockpit" );
         this.model = model;
-        ApparatusPanel apparatusPanel = new ApparatusPanel();
+        final ApparatusPanel apparatusPanel = new ApparatusPanel();
         setApparatusPanel( apparatusPanel );
         setModel( model );
 
@@ -46,6 +46,8 @@ public class CockpitModule extends Module {
                                                             apparatusPanel.getBounds().getMinY(),
                                                             apparatusPanel.getBounds().getWidth(),
                                                             apparatusPanel.getBounds().getHeight() );
+
+//        Rectangle2D.Double bounds = new Rectangle2D.Double( 0,0,1,1);
         starView = new StarView( model.getStarShip(), starField, Config.viewAngle, bounds );
         model.getStarShip().setStarView( starView );
         model.addObserver( starView );
@@ -60,7 +62,6 @@ public class CockpitModule extends Module {
         cockpitControlPanel = new CockpitControlPanel( this );
         setControlPanel( cockpitControlPanel );
     }
-
 
     public StarField getStarField() {
         return starField;

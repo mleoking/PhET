@@ -49,8 +49,12 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
                 int strWidth = fontMetrics.stringWidth( label );
                 g.drawString( label, (int)( button.getWidth() - strWidth ) / 2, 15 );
 
+                strWidth = fontMetrics.stringWidth( "Photometer" );
+                g.setColor( Color.black );
+                g.drawString( "Photometer", (int)( button.getWidth() - strWidth ) / 2, -(int)( button.getHeight() ) / 2 );
+
                 hitTx.setTransform( orgTx );
-                hitTx.translate( buttonTx.getTranslateX(), buttonTx.getTranslateY() );
+                hitTx.concatenate( buttonTx );
 
                 g.setTransform( orgTx );
             }
@@ -59,6 +63,7 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
 
         bounds = new Boundary() {
             public boolean contains( int x, int y ) {
+                update();
                 Point2D.Double testPt = new Point2D.Double( x, y );
                 try {
                     hitTx.inverseTransform( testPt, testPt );
@@ -70,6 +75,10 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
             }
         };
         setBoundary( bounds );
+    }
+
+    private void update() {
+        module.getApparatusPanel().repaint();
     }
 
     public void mouseClicked( MouseEvent e ) {
