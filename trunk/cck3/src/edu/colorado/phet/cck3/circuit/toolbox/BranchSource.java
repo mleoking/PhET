@@ -7,6 +7,7 @@ import edu.colorado.phet.cck3.circuit.CircuitGraphic;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.cck3.circuit.components.*;
+import edu.colorado.phet.cck3.common.PhetTooltipControl;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
@@ -35,7 +36,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     protected BranchSource( BoundedGraphic lifelike,
                             BoundedGraphic schematic,
                             final CircuitGraphic circuitGraphic, final ApparatusPanel panel,
-                            Branch branch, KirkhoffListener kl ) {
+                            Branch branch, KirkhoffListener kl, String name ) {
         super( lifelike );
         this.lifelike = lifelike;
         this.schematic = schematic;
@@ -55,6 +56,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
             }
         };
         addMouseInputListener( ad );
+        addMouseInputListener( new PhetTooltipControl( panel, name ) );
     }
 
     public void setLifelike( boolean lifelike ) {
@@ -76,7 +78,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private double finalLength;
 
         public WireSource( Branch branch, BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, KirkhoffListener kl, double finalLength ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Wire" );
             this.finalLength = finalLength;
         }
 
@@ -95,7 +97,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private ComponentDimension finalDim;
 
         public BatterySource( BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, ComponentDimension finalDim, KirkhoffListener kl ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Battery" );
             this.finalDim = finalDim;
         }
 
@@ -114,7 +116,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         public BulbSource( BoundedGraphic boundedGraphic, CircuitGraphic circuitGraphic,
                            ApparatusPanel panel, Bulb branch, BoundedGraphic schematic, ComponentDimension finalDim, KirkhoffListener kl,
                            double distBetweenJunctions ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Light Bulb" );
             this.finalDim = finalDim;
             this.distBetweenJunctions = distBetweenJunctions;
         }
@@ -143,7 +145,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
         public ResistorSource( BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic,
                                ApparatusPanel panel, Branch branch, KirkhoffListener kl, ComponentDimension cd ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Resistor" );
             this.cd = cd;
         }
 
@@ -159,7 +161,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private ComponentDimension cd;
 
         public SwitchSource( BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, KirkhoffListener kl, ComponentDimension cd ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Switch" );
             this.cd = cd;
         }
 
@@ -178,7 +180,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
         public AmmeterSource( BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, KirkhoffListener kl,
                               AbstractVector2D dir, double length, double height ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Ammeter" );
             this.dir = dir;
             this.length = length;
             this.height = height;

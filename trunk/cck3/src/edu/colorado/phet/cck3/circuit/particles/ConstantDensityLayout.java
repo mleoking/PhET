@@ -12,7 +12,6 @@ import edu.colorado.phet.cck3.circuit.CircuitListenerAdapter;
  * Copyright (c) Jun 8, 2004 by Sam Reid
  */
 public class ConstantDensityLayout extends CircuitListenerAdapter {
-//    double electronDX = .2;
     CCK3Module module;
 
     public ConstantDensityLayout( CCK3Module module ) {

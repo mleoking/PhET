@@ -12,8 +12,8 @@ import java.awt.event.MouseEvent;
  * Copyright (c) Oct 9, 2003 by Sam Reid
  */
 public class CursorControl implements MouseInputListener {
-    Cursor cursor;
-    Cursor exitCursor;
+    private Cursor cursor;
+    private Cursor exitCursor;
 
     public CursorControl() {
         this( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
@@ -29,7 +29,6 @@ public class CursorControl implements MouseInputListener {
     }
 
     public void mouseClicked( MouseEvent e ) {
-
     }
 
     public void mousePressed( MouseEvent e ) {
