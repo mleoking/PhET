@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.nuclearphysics.Config;
@@ -68,11 +69,23 @@ public class Uranium235 extends Nucleus {
 
     public void stepInTime( double dt ) {
 
+        AlphaParticle ap = null;
+
         // See if any of the alpha particles has escaped, and initiate alpha decay if it has
         for( int j = 0; j < alphaParticles.length; j++ ) {
             AlphaParticle alphaParticle = alphaParticles[j];
             if( alphaParticle.getLocation().distanceSq( this.getLocation() ) - alphaParticle.getRadius()
                 > getPotentialProfile().getAlphaDecayX() * getPotentialProfile().getAlphaDecayX() ) {
+
+                // set the alpha particle directly on the profile
+                ap = alphaParticle;
+                double d = alphaParticle.getLocation().distance( this.getLocation() );
+                double dx = alphaParticle.getLocation().getX() - this.getLocation().getX();
+                double dy = alphaParticle.getLocation().getY() - this.getLocation().getY();
+                dx *= this.getPotentialProfile().getAlphaDecayX() / d * MathUtil.getSign( dx );
+                dy *= this.getPotentialProfile().getAlphaDecayX() / d * MathUtil.getSign( dy );
+                alphaParticle.setPotential( getPotentialProfile().getHillY( getPotentialProfile().getAlphaDecayX() ) );
+                alphaParticle.setLocation( this.getLocation().getX() + dx, this.getLocation().getY() + dy );
 
 //                try {
 //                    Thread.sleep( 1000 );
