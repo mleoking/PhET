@@ -29,12 +29,7 @@ public class SimulationRateControlPanel extends JPanel {
     public SimulationRateControlPanel( AbstractClock clock, int minValue, int maxValue, int defaultValue ) {
 
         this.clock = clock;
-
-        JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
-        controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
-
-        JPanel timeReadoutPanel = new JPanel( new BorderLayout() );
-        simulationRateTF = new JTextField( 4 );
+        simulationRateTF = new JTextField( 3 );
         simulationRateTF.setEditable( false );
         simulationRateTF.setHorizontalAlignment( JTextField.RIGHT );
         Font clockFont = simulationRateTF.getFont();
@@ -58,13 +53,19 @@ public class SimulationRateControlPanel extends JPanel {
             }
         } );
 
-        timeReadoutPanel.add( simulationRateTF, BorderLayout.CENTER );
-        controlPanel.add( timeReadoutPanel );
-        controlPanel.add( simulationRateSlider );
+        this.setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0,0, 1,1,1,1,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.HORIZONTAL,
+                                                         new Insets( 0,5,0,5 ), 20, 0 );
+        this.add( simulationRateSlider, gbc );
+        gbc.gridx++;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.add( simulationRateTF, gbc );
 
-        Border border = new TitledBorder( "Simulation rate" );
-        controlPanel.setBorder( border );
-        this.add( controlPanel );
+        Border border = new TitledBorder( "Simulation Rate" );
+        this.setBorder( border );
     }
 
     private void updateSimulationRate( double time ) {

@@ -80,9 +80,9 @@ public class MultipleAtomThreeLevelModule extends BaseLaserModule {
 
         ApparatusConfiguration config = new ApparatusConfiguration();
         config.setStimulatedPhotonRate( 2.0f );
-        config.setMiddleEnergySpontaneousEmissionTime( 0.500f );
+        config.setMiddleEnergySpontaneousEmissionTime( 0.5775f );
         config.setPumpingPhotonRate( 100f );
-        config.setHighEnergySpontaneousEmissionTime( 0.05f );
+        config.setHighEnergySpontaneousEmissionTime( 0.1220f );
         config.setReflectivity( 0.7f );
         config.configureSystem( (LaserModel)getModel() );
     }

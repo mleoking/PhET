@@ -25,19 +25,8 @@ public class MiddleEnergyHalfLifeControl extends JPanel {
     private JSlider middleEnergySpontaneousEmissionTimeSlider;
     private JTextField middleEnergySpontaneousEmissionTimeTF;
 
-    public MiddleEnergyHalfLifeControl( LaserModel model ) {
-        this.setLayout( new GridLayout( 2, 1 ) );
-        addMiddleEnergyControls( model );
-    }
+    public MiddleEnergyHalfLifeControl( final LaserModel model ) {
 
-    /**
-     *
-     */
-    private void addMiddleEnergyControls( final LaserModel model ) {
-        JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
-        controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
-
-        JPanel timeReadoutPanel = new JPanel( new BorderLayout() );
         middleEnergySpontaneousEmissionTimeTF = new JTextField( 4 );
         middleEnergySpontaneousEmissionTimeTF.setEditable( false );
         middleEnergySpontaneousEmissionTimeTF.setHorizontalAlignment( JTextField.RIGHT );
@@ -45,7 +34,8 @@ public class MiddleEnergyHalfLifeControl extends JPanel {
         middleEnergySpontaneousEmissionTimeTF.setFont( new Font( clockFont.getName(),
                                                                  LaserConfig.CONTROL_FONT_STYLE,
                                                                  LaserConfig.CONTROL_FONT_SIZE ) );
-        middleEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
+        middleEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) );
+//        middleEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
         middleEnergySpontaneousEmissionTimeSlider = new JSlider( JSlider.VERTICAL,
                                                                  LaserConfig.MINIMUM_SPONTANEOUS_EMISSION_TIME,
                                                                  LaserConfig.MAXIMUM_SPONTANEOUS_EMISSION_TIME,
@@ -64,14 +54,19 @@ public class MiddleEnergyHalfLifeControl extends JPanel {
             }
         } );
 
-        timeReadoutPanel.add( middleEnergySpontaneousEmissionTimeTF, BorderLayout.CENTER );
-        controlPanel.add( timeReadoutPanel );
-        controlPanel.add( middleEnergySpontaneousEmissionTimeSlider );
+        this.setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0,0, 1,1,1,1,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.HORIZONTAL,
+                                                         new Insets( 0,5,0,5 ), 20, 0 );
+        this.add( middleEnergySpontaneousEmissionTimeSlider, gbc );
+        gbc.gridx++;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.add( middleEnergySpontaneousEmissionTimeTF, gbc );
 
         Border frequencyBorder = new TitledBorder( "Middle Energy Lifetime" );
-        controlPanel.setBorder( frequencyBorder );
-        this.add( controlPanel );
-
+        this.setBorder( frequencyBorder );
     }
 
 //    private void updateMiddleEnergySpontaneousEmissionTime( float time ) {
