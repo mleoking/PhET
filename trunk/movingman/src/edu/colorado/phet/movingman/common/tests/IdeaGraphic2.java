@@ -114,6 +114,7 @@ public class IdeaGraphic2 implements InteractiveGraphic {
 
     public void paint( Graphics2D g ) {
         if( visible ) {
+            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             g.setColor( Color.black );
             g.setStroke( new BasicStroke( 6 ) );
             g.draw( rect );

@@ -55,8 +55,6 @@ public class LinearAndPanel extends MotionAndControls {
         velocityPanel.setLayout( new BoxLayout( velocityPanel, BoxLayout.Y_AXIS ) );
         velocityPanel.add( velocitySpinner );
         TitledBorder tb = BorderFactory.createTitledBorder( "Velocity" );
-//        tb.setTitleColor(Color.black);
-//        tb.setTitleFont(new Font("dialog", 0, 22));
         velocityPanel.setBorder( tb );
 
         controlPanel.add( velocityPanel );
@@ -65,13 +63,6 @@ public class LinearAndPanel extends MotionAndControls {
         slider = transformslider.getSlider();
         slider.setMajorTickSpacing( 100 / 5 );
         slider.setPaintTicks( true );
-
-//        slider = new JSlider((int) minVelocity, (int) maxVelocity, 0);
-//        slider.setMinorTickSpacing(1);
-//        slider.setMajorTickSpacing(5);
-//        slider.setPaintTicks(true);
-//        slider.setPaintLabels(true);
-//        slider.setSnapToTicks(true);
 
 //Create the label table
         JLabel min = createLabel( "" + minVelocity );

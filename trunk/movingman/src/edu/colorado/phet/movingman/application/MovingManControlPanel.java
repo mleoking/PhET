@@ -126,6 +126,7 @@ public class MovingManControlPanel extends JPanel {
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
+                module.setPauseMode();
                 getInitialPositionSpinner().setValue( new Double( 0 ) );
             }
         } );
@@ -178,9 +179,8 @@ public class MovingManControlPanel extends JPanel {
             }
         } );
 
-
         ImageIcon slowIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/StepForward24.gif" ) );
-        slowMotion = new JButton( "Slow Motion Playback", slowIcon );
+        slowMotion = new JButton( "Slow Playback", slowIcon );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setPlaybackMode( .4 );
@@ -215,8 +215,7 @@ public class MovingManControlPanel extends JPanel {
             }
         } );
         TitledBorder tb = BorderFactory.createTitledBorder( "Initial Position" );
-//        tb.setTitleColor(Color.black);
-//        tb.setTitleFont(new Font("dialog", 0, 22));
+
         initialPositionSpinner.setBorder( tb );
         add( panel, BorderLayout.NORTH );
         anotherPauseButton = new JButton( "Pause", pauseIcon );

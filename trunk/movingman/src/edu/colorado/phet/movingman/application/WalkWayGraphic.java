@@ -50,6 +50,7 @@ public class WalkWayGraphic implements Graphic {
     }
 
     public void paint( Graphics2D graphics2D ) {
+        graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         RangeToRange transform = module.getManPositionTransform();
         double modelRange = transform.getInputWidth();
         double modelDX = modelRange / ( numTickMarks - 1 );

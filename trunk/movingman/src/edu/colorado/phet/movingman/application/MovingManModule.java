@@ -51,15 +51,15 @@ public class MovingManModule extends Module {
     PlotAndText accelerationPlot;
     PlotAndText positionPlot;
     PlotAndText velocityPlot;
-    Mode mode;
-    Mode recordMode;
-    Mode playbackMode;
-    Mode pauseMode;
-    MotionMode motionMode;
+    private Mode mode;
+    private Mode recordMode;
+    private Mode playbackMode;
+    private Mode pauseMode;
+    private MotionMode motionMode;
     private CursorGraphic cursorGraphic;
     private MovingManControlPanel movingManControlPanel;
     private TimeGraphic timerGraphic;
-    BufferedGraphicForComponent backgroundGraphic;
+    private BufferedGraphicForComponent backgroundGraphic;
     private int maxManPosition;
     private int minTime;
     private int numSmoothingPoints = 10;
@@ -219,7 +219,8 @@ public class MovingManModule extends Module {
         getApparatusPanel().addGraphic( accelString, 5 );
         accelerationPlot = new PlotAndText( accelGraphic, accelString, accelGrid );
 
-        cursorGraphic = new CursorGraphic( this, playbackTimer, Color.black, null, layout.getPlotY( 0 ), layout.getTotalPlotHeight() );
+        Color cursorColor = Color.black;
+        cursorGraphic = new CursorGraphic( this, playbackTimer, cursorColor, null, layout.getPlotY( 0 ), layout.getTotalPlotHeight() );
         getApparatusPanel().addGraphic( cursorGraphic, 6 );
 
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
@@ -239,8 +240,7 @@ public class MovingManModule extends Module {
         pauseMode = new PauseMode( this );
         playbackMode = new PlaybackMode( this );
         motionMode = new MotionMode( this );
-        this.mode = pauseMode;
-        mode.initialize();
+        setMode( pauseMode );
 
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
@@ -275,6 +275,7 @@ public class MovingManModule extends Module {
         manGraphic.setTransform( newTransform );
         setManTransform( newTransform );
         reset();
+        setPauseMode();
     }
 
     public void repaintBackground() {
@@ -335,8 +336,15 @@ public class MovingManModule extends Module {
     }
 
     private void setMode( Mode mode ) {
-        this.mode = mode;
-        this.mode.initialize();
+        boolean same = mode == this.mode;
+//        System.out.println( "mode = " + mode +", this.mode = " + this.mode+", same="+same );
+
+        if( !same ) {
+            this.mode = mode;
+            this.mode.initialize();
+            System.out.println( "SET mode = " + mode );
+//            new Exception().printStackTrace( );
+        }
     }
 
     private void relayoutApparatusPanel() {
@@ -432,7 +440,7 @@ public class MovingManModule extends Module {
         getVelocityString().update( null, null );
         getAccelString().update( null, null );
         backgroundGraphic.paintBufferedImage();
-        setPauseMode();
+
     }
 
     private void setReplayTimeIndex( int timeIndex ) {

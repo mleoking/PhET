@@ -30,7 +30,7 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
     private DragHandler dragHandler;
     private BoxToBoxInvertY inversion;
     boolean visible = false;
-    private Stroke stroke = new BasicStroke( 3.0f );
+    private Stroke stroke = new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL, 2, new float[]{6, 4}, 0 );
 
     public CursorGraphic( MovingManModule module, Timer timer, Color color, BoxToBoxInvertY transform, int y, int height ) {
         this.module = module;
