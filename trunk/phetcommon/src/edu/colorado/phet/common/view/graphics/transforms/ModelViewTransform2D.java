@@ -19,6 +19,8 @@ public class ModelViewTransform2D {
     private Rectangle2D.Double modelBounds;
     private Rectangle viewBounds;
     private CompositeTransformListener listeners = new CompositeTransformListener();
+    private boolean dirty = true;
+    private AffineTransform transform;
 
     /**
      * Constructs a transform from the specified model bounds to view bounds.
@@ -49,9 +51,7 @@ public class ModelViewTransform2D {
     }
 
     public Point modelToView( Point2D pt ) {
-        //    public Point modelToView( Point2D.Double pt ) {
         return modelToView( pt.getY(), pt.getY() );
-        //        return modelToView( pt.x, pt.y );
     }
 
     public Point modelToView( AbstractVector2D pt ) {
@@ -76,14 +76,17 @@ public class ModelViewTransform2D {
      * @return a new AffineTransform that corresponds to this transformation.
      */
     public AffineTransform toAffineTransform() {
-        double m00 = viewBounds.width / modelBounds.width;
-        double m01 = 0;
-        double m02 = viewBounds.x - m00 * modelBounds.x;
-        double m10 = 0;
-        double m11 = -viewBounds.height / modelBounds.height;
-        double m12 = viewBounds.y + viewBounds.height / modelBounds.height * ( modelBounds.y + modelBounds.height );
-        //        double m12 =viewBounds.y-m11*modelBounds.y;
-        return new AffineTransform( m00, m10, m01, m11, m02, m12 );
+        if( dirty ) {
+            double m00 = viewBounds.width / modelBounds.width;
+            double m01 = 0;
+            double m02 = viewBounds.x - m00 * modelBounds.x;
+            double m10 = 0;
+            double m11 = -viewBounds.height / modelBounds.height;
+            double m12 = viewBounds.y + viewBounds.height / modelBounds.height * ( modelBounds.y + modelBounds.height );
+            transform = new AffineTransform( m00, m10, m01, m11, m02, m12 );
+            dirty = false;
+        }
+        return transform;
     }
 
     public Point2D.Double viewToModel( int x, int y ) {
@@ -112,6 +115,7 @@ public class ModelViewTransform2D {
     public void setModelBounds( Rectangle2D.Double modelBounds ) {
         this.modelBounds = modelBounds;
         listeners.transformChanged( this );
+        dirty = true;
     }
 
     public void setViewBounds( Rectangle viewBounds ) {
@@ -123,6 +127,7 @@ public class ModelViewTransform2D {
         }
         this.viewBounds = viewBounds;
         listeners.transformChanged( this );
+        dirty = true;
     }
 
     public Rectangle getViewBounds() {
