@@ -43,7 +43,7 @@ public class ParallaxButton extends DefaultInteractiveGraphic {
                 g.draw( button );
                 FontMetrics fontMetrics = g.getFontMetrics();
                 int strWidth = fontMetrics.stringWidth( label );
-                g.setColor( Color.white );
+//                g.setColor( Color.white );
                 g.drawString( label, (int)( button.getWidth() - strWidth ) / 2, 15 );
 
                 hitTx.setTransform( orgTx );

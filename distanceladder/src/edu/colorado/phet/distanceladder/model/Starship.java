@@ -12,7 +12,7 @@ import edu.colorado.phet.coreadditions.Body;
 import java.awt.geom.Point2D;
 
 public class Starship extends Body {
-    private PointOfView pov;
+    private PointOfView pov = new PointOfView( 0, 0, 0 );
     private StarView starView;
 
     public Point2D.Double getCM() {

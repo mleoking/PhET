@@ -30,7 +30,6 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
         super( null, null );
         this.module = module;
         buttonTx.translate( location.getX(), location.getY() );
-//        buttonTx.translate( 140, 555 );
         button = new Ellipse2D.Double( 0, 0, 30, 20 );
         addCursorHandBehavior();
 
@@ -38,7 +37,7 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
             public void paint( Graphics2D g ) {
                 AffineTransform orgTx = g.getTransform();
                 g.transform( buttonTx );
-                g.setColor( Color.yellow );
+                g.setColor( Color.green );
                 g.fill( button );
                 g.setColor( Color.black );
                 g.draw( button );
@@ -74,7 +73,6 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
 
     public void mousePressed( MouseEvent e ) {
         isOn = !isOn;
-        System.out.println( "pb:" + isOn );
         module.setPhotometerReticle( isOn );
         label = isOn ? "Off" : "On";
     }
