@@ -21,10 +21,12 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.movingman.common.*;
+import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
+import edu.colorado.phet.movingman.common.CircularBuffer;
+import edu.colorado.phet.movingman.common.LinearTransform1d;
+import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.misc.JEPFrame;
 import edu.colorado.phet.movingman.plots.MMPlot;
-import smooth.util.SmoothUtilities;
 
 import javax.swing.*;
 import java.awt.*;
@@ -169,7 +171,7 @@ public class MovingManModule extends Module {
     }
 
     public MovingManModule( AbstractClock clock ) throws IOException {
-        super( SimStrings.get( "ModuleTitle.MovingManModule" ) );
+        super( SimStrings.get( "ModuleTitle.MovingManModule" ), clock );
         model = new MovingManModel( this, clock );
         mypanel = new DebugApparatusPanel();
 
@@ -839,6 +841,10 @@ public class MovingManModule extends Module {
     }
 
     public static void main( String[] args ) throws Exception {
+        edu.colorado.phet.common.view.PhetLookAndFeel plaf = new edu.colorado.phet.common.view.PhetLookAndFeel();
+        plaf.apply();
+        edu.colorado.phet.common.view.PhetLookAndFeel.setLookAndFeel();
+
         String applicationLocale = System.getProperty( "javaws.locale" );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
             Locale.setDefault( new Locale( applicationLocale ) );
@@ -850,8 +856,8 @@ public class MovingManModule extends Module {
         }
 
         SimStrings.setStrings( localizedStringsPath );
-        SmoothUtilities.setFractionalMetrics( false );
-        UIManager.setLookAndFeel( new PhetLookAndFeel() );
+//        SmoothUtilities.setFractionalMetrics( false );
+//        UIManager.setLookAndFeel( new PhetLookAndFeel() );
         AbstractClock clock = new SwingTimerClock( 1, 30, true );
         clock.setDelay( 30 );
 //        AbstractClock clock = new SwingTimerClock( 1, 30, false );

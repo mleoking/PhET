@@ -52,6 +52,15 @@
             <fileset dir="${src}"/>
             <!--            <fileset dir="src-hellophet-46"/>-->
         </copy>
+        <mkdir dir="${backup}/${distname}_src_${backup.time}/charts"/>
+        <copy todir="${backup}/${distname}_src_${backup.time}/charts">
+            <fileset dir="charts/development/src"/>
+        </copy>
+        <mkdir dir="${backup}/${distname}_src_${backup.time}/phetcommon"/>
+        <copy todir="${backup}/${distname}_src_${backup.time}/phetcommon">
+            <fileset dir="phetcommon/src"/>
+        </copy>
+
     </target>
 
     <target name="Backup Development" depends="init">

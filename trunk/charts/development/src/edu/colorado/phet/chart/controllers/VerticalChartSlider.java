@@ -34,9 +34,10 @@ public class VerticalChartSlider {
         slider.setLocation( x, y );
         setVisible( true );
         update();
-        Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
-        int insetGuess = vert.getIconHeight() / 2;
-        int dx = vert.getIconWidth();
+        Dimension dim = getIconDimension();
+//        Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
+        int insetGuess = dim.height / 2;
+        int dx = dim.width;
         slider.reshape( x - dx, y - insetGuess, slider.getPreferredSize().width, viewBounds.height + insetGuess * 2 );
         slider.setBackground( new Color( 255, 255, 255, 0 ) );
         slider.setOpaque( false );
@@ -70,11 +71,21 @@ public class VerticalChartSlider {
         Rectangle viewBounds = chart.getViewBounds();
         int x = viewBounds.x;
         int y = viewBounds.y;
-        Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
-        int insetYGuess = vert.getIconHeight() / 2;
+//        Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
+        Dimension dim = getIconDimension();
+        int insetYGuess = dim.height / 2;
         //TODO this crashed once with vert=null.
-        int dx = vert.getIconWidth();
+        int dx = dim.width;
         slider.reshape( x - dx - offsetX, y - insetYGuess, slider.getPreferredSize().width, viewBounds.height + insetYGuess * 2 );
+    }
+
+    private Dimension getIconDimension() {
+        int preferredWidth = slider.getPreferredSize().width;
+        Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
+        if( vert == null ) {
+            return new Dimension( preferredWidth, preferredWidth );
+        }
+        return new Dimension( vert.getIconWidth(), vert.getIconHeight() );
     }
 
     public void setVisible( boolean b ) {
