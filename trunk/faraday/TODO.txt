@@ -6,14 +6,14 @@ IN PROGRESS:
 
 
 HIGH:
-- use CCK graphic for lightbulb illumination
+- bounds of light rays are not always correct (doesn't fully draw or doesn't fully erase)
 - calibration of everything so that sensitivity can be adjusted
 - collision detection between compass and magnet
 - redo coil graphic (constant wire gauge, fix colors)
 - show electrons flowing (blue) when lightbulb is enabled, keep constant size
+- collision detection between magnet and coil
 
 MEDIUM:
-- collision detection between magnet and coil
 - add inertia to voltmeter needle?
 - Transformer module requirements
 - should B Field Meter show XY component magnitudes in window coordinate system (+Y down)?
@@ -28,6 +28,7 @@ phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 
 DONE:
+(1/24) - use CCK graphic for lightbulb illumination
 (1/24) - use median values only when magnet or coil are being dragged
 (1/21) - separate PickupCoilGraphic into foreground & background layers
 (1/21) - rescale alpha values in compass grid to account for magnet strength and field dropoff

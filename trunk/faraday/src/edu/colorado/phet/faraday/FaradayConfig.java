@@ -55,7 +55,6 @@ public class FaradayConfig {
     public static final String ELECTRONS2_FRONT_IMAGE = IMAGES_DIRECTORY + "electrons2_front.png";
     public static final String FIELD_PROBE_IMAGE = IMAGES_DIRECTORY + "fieldProbe.png";
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightBulb.png";
-    public static final String LIGHT_EMISSION_IMAGE = IMAGES_DIRECTORY + "lightEmission.png";
     public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltMeter.png";
 
     // Dimensions
