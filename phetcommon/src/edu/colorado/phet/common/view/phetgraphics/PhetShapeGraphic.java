@@ -11,7 +11,10 @@
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Rectangle2D;
 
 /**
  * PhetShapeGraphic
@@ -117,23 +120,70 @@ public class PhetShapeGraphic extends PhetGraphic {
     }
 
     public void setShape( Shape shape ) {
-        boolean differentShape = false;
-        if( this.shape == null && shape == null ) {
-            differentShape = false;
-        }
-        else if( this.shape == null && shape != null ) {
-            differentShape = true;
-        }
-        else if( this.shape != null && shape == null ) {
-            differentShape = true;
-        }
-        else if( !shape.equals( this.shape ) ) {
-            differentShape = true;
-        }
-        if( differentShape ) {
+        boolean sameShape = sameShape( this.shape, shape );
+        if( !sameShape ) {
             this.shape = shape;
             setBoundsDirty();
             autorepaint();
+        }
+    }
+
+    private boolean sameShape( Shape a, Shape b ) {
+        if( a == null && b == null ) {
+            return true;
+        }
+        else if( a == null && b != null ) {
+            return false;
+        }
+        else if( a != null && b != null ) {
+            return false;
+        }
+        else if( a.equals( b ) ) {
+            return true;
+        }
+        else {
+            //            //use specific comparators, not provided by java API.
+            if( new GeneralPathComparator().isMatch( a, b ) ) {
+                return true;
+            }
+            else if( new Rectangle2DComparator().isMatch( a, b ) ) {
+                return true;
+            }
+            //this could default to comparinng new Areas., again, that may be better than drawing to the screen
+            return false;
+        }
+    }
+
+    /**
+     * A separate class for ease of change when we move it.
+     */
+    private static class Rectangle2DComparator {
+        public boolean isMatch( Shape a, Shape b ) {
+            if( a.getClass().equals( Rectangle2D.Double.class ) && b.getClass().equals( Rectangle2D.Double.class ) ) {
+                Rectangle2D.Double r = (Rectangle2D.Double)a;
+                Rectangle2D.Double s = (Rectangle2D.Double)b;
+                boolean same = r.x == s.x && r.y == s.y && r.width == s.width && r.height == s.height;
+                return same;
+            }
+            return false;
+        }
+    }
+
+    /**
+     * A separate class for ease of change when we move it.  This class may not be working currently.
+     */
+    private static class GeneralPathComparator {
+        public boolean isMatch( Shape a, Shape b ) {
+            if( a.getClass().equals( GeneralPath.class ) && b.getClass().equals( GeneralPath.class ) ) {
+//                GeneralPath x = (GeneralPath)a;
+//                GeneralPath y = (GeneralPath)b;
+                Area m = new Area( a );
+                Area n = new Area( b );
+                if( m.equals( n ) ) {//slow, but better than drawing to the screen. //TODO is this working..?
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
