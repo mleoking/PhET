@@ -17,7 +17,6 @@ import java.awt.geom.Point2D;
  */
 public interface IComponentGraphic extends BoundedGraphic {
     ModelViewTransform2D getModelViewTransform2D();
-
     CircuitComponent getComponent();
 
     static class Impl {

@@ -8,15 +8,16 @@ import edu.colorado.phet.cck3.common.LineSegment;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.fastpaint.FastPaint;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -82,10 +83,10 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
         updateShape();
         Rectangle r2 = expand( getBounds() );
         if( r1 != null && r2 != null ) {
-            GraphicsUtil.fastRepaint( parent, r1, r2 );
+            FastPaint.fastRepaint( parent, r1, r2 );
         }
         else if( r2 != null ) {
-            GraphicsUtil.fastRepaint( parent, r2 );
+            FastPaint.fastRepaint( parent, r2 );
         }
     }
 
@@ -139,6 +140,7 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
         double spacingWidth = ( length - windowWidth * numWindows ) / ( numWindows + 1 );
         double x = 0;
         north = north.getInstanceOfMagnitude( windowHeight / 2 ).getScaledInstance( -1 );
+        ArrayList windows = new ArrayList();
         for( int i = 0; i < numWindows; i++ ) {
             x += spacingWidth;
             Point2D a = dir.getInstanceOfMagnitude( x ).getDestination( start );
@@ -147,7 +149,14 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
             Point2D b = dir.getInstanceOfMagnitude( x ).getDestination( start );
             b = north.getDestination( b );
             Shape seg = LineSegment.getSegment( a, b, windowHeight );
+            windows.add( seg );
             area.subtract( new Area( seg ) );
+        }
+        g.setStroke( new BasicStroke( 1 ) );
+        g.setColor( Color.black );
+        for( int i = 0; i < windows.size(); i++ ) {
+            Shape windowShape = (Shape)windows.get( i );
+            g.draw( windowShape );
         }
 
         Point a = r.getLocation();
@@ -158,7 +167,9 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
         g.fill( area );
 
         g.setColor( Color.black );
+
         Point2D textLoc = north.getScaledInstance( -2.5 ).getDestination( start );
+        textLoc = dir.getInstanceOfMagnitude( 2 ).getDestination( textLoc );
 
         g.rotate( angle, textLoc.getX(), textLoc.getY() );
         g.setFont( font );

@@ -440,7 +440,7 @@ public class KirkhoffSolver {
 
         public String describe( Equation[] equations, String name ) {
             String str = "";
-            str += ( "Equation Set for " + name + "\n" );
+            str += ( name + "\n" );
             for( int i = 0; i < equations.length; i++ ) {
                 Equation equation = equations[i];
 //                System.out.println( "equation = " + equation );

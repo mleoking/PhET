@@ -209,4 +209,7 @@ public class Branch extends SimpleObservable {
         return new ImmutableVector2D.Double( getStartJunction().getPosition(), getEndJunction().getPosition() ).getAngle();
     }
 
+    public Point2D getCenter() {
+        return new Vector2D.Double( getStartJunction().getPosition(), getEndJunction().getPosition() ).getScaledInstance( .5 ).getDestination( getStartJunction().getPosition() );
+    }
 }

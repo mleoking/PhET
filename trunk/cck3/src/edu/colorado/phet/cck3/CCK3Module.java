@@ -13,10 +13,13 @@ import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.circuit.tools.VirtualAmmeter;
 import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
+import edu.colorado.phet.cck3.common.WiggleMe;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
@@ -26,6 +29,9 @@ import edu.colorado.phet.common.view.components.AspectRatioPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.plaf.ClientLookAndFeel;
+import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import org.srr.localjnlp.ServiceSource;
 
@@ -34,11 +40,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -54,26 +63,23 @@ public class CCK3Module extends Module {
     private AspectRatioPanel aspectRatioPanel;
 
     CCK2ImageSuite imageSuite;
-//    private ReadoutGraphic resistorReadout;
-//    private ReadoutGraphic battReadout;
     private ParticleSet particleSet;
-//    private ParticleSetGraphic particleSetGraphic;
     private ConstantDensityLayout layout;
     private KirkhoffSolver kirkhoffSolver;
     private KirkhoffListener kirkhoffListener;
 
-    private static final double SCALE = .6;
-
-    //    private static final double SCALE = .3;
-    private double aspectRatio = 1.5;
+    private static final double SCALE = .5;
+    private double aspectRatio = 1.2;
     double modelWidth = 10;
     double modelHeight = modelWidth / aspectRatio;
     private Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
-    public static double ELECTRON_DX = .43 * SCALE;
+//    public static double ELECTRON_DX = .43 * SCALE;
+    public static double ELECTRON_DX = .56 * SCALE;
     public static final ComponentDimension RESISTOR_DIMENSION = new ComponentDimension( 1.3 * SCALE, .6 * SCALE );
     public static final ComponentDimension SWITCH_DIMENSION = new ComponentDimension( 1.5 * SCALE, .8 * SCALE );
     public static final ComponentDimension LEVER_DIMENSION = new ComponentDimension( 1 * SCALE, .5 * SCALE );
-    public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.5 * SCALE, .65 * SCALE );
+//    public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.5 * SCALE, .65 * SCALE );
+    public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.9 * SCALE, .7 * SCALE );
     public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 1.5 * SCALE, .65 * SCALE );
     static double bulbLength = 1;
     static double bulbHeight = 1.4;
@@ -81,7 +87,6 @@ public class CCK3Module extends Module {
     static double bulbScale = 1.6;
     public static final BulbDimension BULB_DIMENSION = new BulbDimension( bulbLength * SCALE * bulbScale, bulbHeight * SCALE * bulbScale, bulbDistJ * SCALE * bulbScale );
 
-//    private CompositeGraphic readoutLayer;
     public static final double WIRE_LENGTH = BATTERY_DIMENSION.getLength() * 1.2;
     public static final double JUNCTION_GRAPHIC_STROKE_WIDTH = .01;
     public static final double JUNCTION_RADIUS = .162;
@@ -91,12 +96,15 @@ public class CCK3Module extends Module {
     private InteractiveVoltmeter interactiveVoltmeter;
     private VoltmeterGraphic voltmeterGraphic;
     public static final double SCH_BULB_DIST = 1;
-
+    private WiggleMe wigger;
+    private CCKHelp help;
+    private String debugText = "";
 
     public CCK3Module() throws IOException {
         super( "cck-iii" );
         Color backgroundColor = new Color( 166, 177, 204 );//not so bright
         setApparatusPanel( new ApparatusPanel() );
+        getApparatusPanel().setFocusable( true );
         getApparatusPanel().setBackground( backgroundColor.brighter() );
         BasicGraphicsSetup setup = new BasicGraphicsSetup();
         setup.setBicubicInterpolation();
@@ -196,7 +204,6 @@ public class CCK3Module extends Module {
             e.printStackTrace();
         }
 
-
         kirkhoffSolver.addSolutionListener( new KirkhoffSolutionListener() {
             public void finishedKirkhoff() {
                 voltmeterGraphic.recomputeVoltage();
@@ -220,9 +227,54 @@ public class CCK3Module extends Module {
                 voltmeterGraphic.recomputeVoltage();
             }
         } );
-
-
+        kirkhoffSolver.addSolutionListener( new FireHandler( circuitGraphic ) );
+        Rectangle2D rect = toolbox.getBounds2D();
+        Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
+        pt.translate( -130, 5 );
+        wigger = new WiggleMe( getApparatusPanel(), pt,
+                               new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
+        transform.addTransformListener( new TransformListener() {
+            public void transformChanged( ModelViewTransform2D mvt ) {
+                Rectangle2D rect = toolbox.getBounds2D();
+                Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
+                pt.translate( -130, 5 );
+                wigger.setVisible( true );
+                wigger.setCenter( pt );
+            }
+        } );
+        getApparatusPanel().addGraphic( wigger, 100 );
+        getModel().addModelElement( wigger );
+        circuit.addCircuitListener( new CircuitListenerAdapter() {
+            public void branchesMoved( Branch[] branches ) {
+                if( branches.length > 0 ) {
+                    circuit.removeCircuitListener( this );
+                    getApparatusPanel().removeGraphic( wigger );
+                    getModel().removeModelElement( wigger );
+                    getApparatusPanel().repaint( wigger.getBounds() );
+                }
+            }
+        } );
+        help = new CCKHelp( this );
+        ModelElement me = new ModelElement() {
+            public void stepInTime( double dt ) {
+                int numJunctions = circuit.numJunctions();
+                int numBranches = circuit.numBranches();
+                String text = "numJunctions=" + numJunctions + ", branches=" + numBranches;
+                if( !debugText.equals( text ) ) {
+                    debugText = text;
+                    int ival = (int)( Math.random() * 10 );
+                    System.out.println( ival + ": " + text );
+                }
+            }
+        };
+        getModel().addModelElement( me );
         testInit();
+    }
+
+    public void setHelpEnabled( boolean h ) {
+        super.setHelpEnabled( h );
+        help.setEnabled( h );
+        getApparatusPanel().repaint();
     }
 
     private void setupToolbox() {
@@ -318,7 +370,7 @@ public class CCK3Module extends Module {
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
         SwingTimerClock clock = new SwingTimerClock( 1, 30, true );
 
-        Graphic colorG = new Graphic() {
+        final Graphic colorG = new Graphic() {
             public void paint( Graphics2D gr ) {
                 gr.setColor( new Color( r, g, b ) );
                 gr.fillRect( 0, 0, 1000, 1000 );
@@ -339,19 +391,54 @@ public class CCK3Module extends Module {
         if( useColors ) {
             cck.addGraphic( colorG, -1 );
         }
+        boolean debugMode = false;
+//        boolean debugMode=true;
 
-        ApplicationModel model = new ApplicationModel( "CCK3", "cck-v3", "III",
-//                                                       new FrameSetup.CenteredWithInsets( 50, 50 ), cck, clock );
-//                                                       new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100,100) ), cck, clock );
-                                                       new FrameSetup.CenteredWithInsets( 100, 100 ), cck, clock );
+//        MultiLineShadowTextGraphic hi = new MultiLineShadowTextGraphic(
+//        HelpItem hi = new HelpItem( "This is my\n1st help item", 100, 100 );
+//        hi.setForegroundColor( Color.red );
+//        hi.setShadowColor( Color.blue );
+//        cck.addHelpItem( hi );
+        FrameSetup fs = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) );
+        if( debugMode ) {
+            fs = new FrameSetup.CenteredWithInsets( 0, 200 );
+        }
+        ApplicationModel model = new ApplicationModel( "Circuit Construction Kit III", "cck-v3", "III-v8+", fs, cck, clock );
         PhetApplication app = new PhetApplication( model );
-
+//        UIManager.setLookAndFeel( new LectureLookAndFeel2( ) );
+        UIManager.setLookAndFeel( new ClientLookAndFeel() );
+        JFrame.setDefaultLookAndFeelDecorated( true );
+        JDialog.setDefaultLookAndFeelDecorated( true );
+        PlafUtil.updateFrames();
         app.startApplication();
-//        Color backgroundColor = new Color( 200, 240, 200 );
-//        PlayfulLookAndFeel laf = new PlayfulLookAndFeel( new Font( "Lucida Sans", 0, 28 ), Color.black, backgroundColor );
-//        UIManager.setLookAndFeel( laf );
-//        SwingUtilities.updateComponentTreeUI( app.getApplicationView().getPhetFrame() );
-//        clock.addClockTickListener( new MovieRecorder(app.getApplicationView().getPhetFrame(),"cck") );
+        app.getApplicationView().getBasicPhetPanel().setMonitorPanel( new JLabel( new ImageIcon( app.getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) ) );
+        app.getApplicationView().getPhetFrame().doLayout();
+        app.getApplicationView().getPhetFrame().repaint();
+        cck.getApparatusPanel().addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+            }
+
+            public void keyReleased( KeyEvent e ) {
+
+                if( e.getKeyCode() == KeyEvent.VK_UP ) {
+                    if( !Arrays.asList( cck.getApparatusPanel().getGraphic().getGraphics() ).contains( colorG ) ) {
+                        cck.addGraphic( colorG, -1 );
+                    }
+                }
+                else if( e.getKeyCode() == KeyEvent.VK_DOWN ) {
+                    cck.getApparatusPanel().removeGraphic( colorG );
+                }
+            }
+
+            public void keyTyped( KeyEvent e ) {
+            }
+
+        } );
+        cck.getApparatusPanel().requestFocus();
+        PlafUtil.updateFrames();
+        if( debugMode ) {
+            app.getApplicationView().getPhetFrame().setLocation( 0, 0 );
+        }
     }
 
     public Circuit getCircuit() {
@@ -454,7 +541,7 @@ public class CCK3Module extends Module {
     }
 
     public void setLifelike( boolean lifelike ) {
-        toolbox.setLifelike(lifelike);
+        toolbox.setLifelike( lifelike );
         circuitGraphic.setLifelike( lifelike );
         circuit.fireBranchesMoved( circuit.getBranches() );
         circuit.fireKirkhoffChanged();
@@ -463,7 +550,6 @@ public class CCK3Module extends Module {
 
         //TODO graphic elements should remove themselves as observers of model elemnts
         //so we don't bog down.
-
     }
 
     public void showMegaHelp() {
@@ -474,11 +560,16 @@ public class CCK3Module extends Module {
         URL url = null;
         try {
             url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/cck.pdf" );
+//            url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/cck-help.gif" );
             System.out.println( "url = " + url );
             bs.showDocument( url );
         }
         catch( MalformedURLException e ) {
             e.printStackTrace();
         }
+    }
+
+    public Toolbox getToolbox() {
+        return toolbox;
     }
 }

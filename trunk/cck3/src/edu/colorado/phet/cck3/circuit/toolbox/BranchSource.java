@@ -30,11 +30,10 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     private CircuitGraphic circuitGraphic;
     private Branch branch;
     private KirkhoffListener kirkhoffListener;
-    private boolean created = false;
     private BoundedGraphic lifelike;
 
     protected BranchSource( BoundedGraphic lifelike,
-//                            BoundedGraphic schematic,
+                            BoundedGraphic schematic,
                             final CircuitGraphic circuitGraphic, final ApparatusPanel panel,
                             Branch branch, KirkhoffListener kl ) {
         super( lifelike );
@@ -50,11 +49,9 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
                 circuitGraphic.getCircuit().addBranch( b );
                 //add the graphic.
                 circuitGraphic.addGraphic( b );
-                created = true;
                 //transfer control to the new component.
                 InteractiveGraphic g = circuitGraphic.getGraphic( b );
                 panel.getMouseDelegator().startDragging( e, g );
-//                panel.getGraphic().startDragging( g, e );
             }
         };
         addMouseInputListener( ad );
@@ -78,8 +75,8 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     public static class WireSource extends BranchSource {
         private double finalLength;
 
-        public WireSource( Branch branch, BoundedGraphic boundedGraphic, CircuitGraphic circuitGraphic, ApparatusPanel panel, KirkhoffListener kl, double finalLength ) {
-            super( boundedGraphic, circuitGraphic, panel, branch, kl );
+        public WireSource( Branch branch, BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, KirkhoffListener kl, double finalLength ) {
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
             this.finalLength = finalLength;
         }
 
@@ -97,8 +94,8 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     public static class BatterySource extends BranchSource {
         private ComponentDimension finalDim;
 
-        public BatterySource( BoundedGraphic boundedGraphic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, ComponentDimension finalDim, KirkhoffListener kl ) {
-            super( boundedGraphic, circuitGraphic, panel, branch, kl );
+        public BatterySource( BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, ComponentDimension finalDim, KirkhoffListener kl ) {
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
             this.finalDim = finalDim;
         }
 
@@ -115,9 +112,9 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private double distBetweenJunctions;
 
         public BulbSource( BoundedGraphic boundedGraphic, CircuitGraphic circuitGraphic,
-                           ApparatusPanel panel, Branch branch, ComponentDimension finalDim, KirkhoffListener kl,
+                           ApparatusPanel panel, Branch branch, BoundedGraphic schematic, ComponentDimension finalDim, KirkhoffListener kl,
                            double distBetweenJunctions ) {
-            super( boundedGraphic, circuitGraphic, panel, branch, kl );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
             this.finalDim = finalDim;
             this.distBetweenJunctions = distBetweenJunctions;
         }
@@ -130,7 +127,9 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
                 return bulb;
             }
             else {
-                return bulb.toSchematicBulb( CCK3Module.SCH_BULB_DIST );
+                bulb.setSchematic( true,super.circuitGraphic.getCircuit() );
+                return bulb;
+//                return bulb.toSchematicBulb( CCK3Module.SCH_BULB_DIST );
             }
         }
     }
@@ -138,9 +137,9 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     public static class ResistorSource extends BranchSource {
         private ComponentDimension cd;
 
-        public ResistorSource( BoundedGraphic boundedGraphic, CircuitGraphic circuitGraphic,
+        public ResistorSource( BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic,
                                ApparatusPanel panel, Branch branch, KirkhoffListener kl, ComponentDimension cd ) {
-            super( boundedGraphic, circuitGraphic, panel, branch, kl );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
             this.cd = cd;
         }
 
@@ -155,8 +154,8 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
     public static class SwitchSource extends BranchSource {
         private ComponentDimension cd;
 
-        public SwitchSource( BoundedGraphic boundedGraphic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, KirkhoffListener kl, ComponentDimension cd ) {
-            super( boundedGraphic, circuitGraphic, panel, branch, kl );
+        public SwitchSource( BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, KirkhoffListener kl, ComponentDimension cd ) {
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
             this.cd = cd;
         }
 
@@ -173,9 +172,9 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private double length;
         private double height;
 
-        public AmmeterSource( BoundedGraphic boundedGraphic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, KirkhoffListener kl,
+        public AmmeterSource( BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, KirkhoffListener kl,
                               AbstractVector2D dir, double length, double height ) {
-            super( boundedGraphic, circuitGraphic, panel, branch, kl );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
             this.dir = dir;
             this.length = length;
             this.height = height;

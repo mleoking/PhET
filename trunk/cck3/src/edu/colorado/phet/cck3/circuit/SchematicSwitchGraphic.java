@@ -83,7 +83,9 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
     public Point2D getPivot() {
         return pivot;
     }
-
+    public double getLeverLengthModelCoordinates(){
+        return transform.viewToModelDifferentialX( leverLength ); 
+    }
     //in view coordinates.
     public double getLeverLength() {
         return leverLength;

@@ -55,11 +55,11 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             BulbMenu bulbMenu = new BulbMenu( bulb, module );
             addPopupMenuBehavior( bulbMenu.getMenu() );
         }
-        else if( cc instanceof SchematicBulb ) {
-            SchematicBulb bulb = (SchematicBulb)cc;
-            BulbMenu bulbMenu = new BulbMenu( bulb, module );
-            addPopupMenuBehavior( bulbMenu.getMenu() );
-        }
+//        else if( cc instanceof SchematicBulb ) {
+//            SchematicBulb bulb = (SchematicBulb)cc;
+//            BulbMenu bulbMenu = new BulbMenu( bulb, module );
+//            addPopupMenuBehavior( bulbMenu.getMenu() );
+//        }
         else if( cc instanceof SeriesAmmeter ) {
             SeriesAmmeter ammeter = (SeriesAmmeter)cc;
             SeriesAmmeterMenu sam = new SeriesAmmeterMenu( ammeter, module );

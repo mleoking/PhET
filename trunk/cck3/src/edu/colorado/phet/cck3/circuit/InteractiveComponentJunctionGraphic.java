@@ -7,7 +7,6 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 
-import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseEvent;
@@ -40,6 +39,7 @@ public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraph
                 Point2D dst = vec.getDestination( opposite.getPosition() );
                 junctionGraphic.getJunction().setPosition( dst.getX(), dst.getY() );
                 branch.notifyObservers();
+                cg.getCircuit().fireJunctionsMoved();
             }
 
             public void mousePressed( MouseEvent e ) {
@@ -50,8 +50,9 @@ public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraph
         };
         addMouseInputListener( mouse );
 
-        JPopupMenu menu = new JPopupMenu();
-        menu.add( new JunctionSplitter( getJunction(), cg, module ).toJMenuItem() );
+        JunctionPopupMenu menu = new JunctionPopupMenu( getJunction(), cg, module );
+//        JPopupMenu menu = new JPopupMenu();
+//        menu.add( new JunctionSplitter( getJunction(), cg, module ).toJMenuItem() );
         addPopupMenuBehavior( menu );
     }
 

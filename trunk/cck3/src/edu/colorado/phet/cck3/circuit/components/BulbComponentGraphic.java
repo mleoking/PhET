@@ -9,6 +9,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.fastpaint.FastPaint;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -74,7 +75,7 @@ public class BulbComponentGraphic implements IComponentGraphic {
         lbg.setIntensity( intensity );
         Rectangle r2 = getBoundsWithBrighties();
         if( r1 != null && r2 != null ) {
-            GraphicsUtil.fastRepaint( parent, r1, r2 );
+            FastPaint.fastRepaint( parent, r1, r2 );
         }
         for( int i = 0; i < listeners.size(); i++ ) {
             IntensityChangeListener intensityChangeListener = (IntensityChangeListener)listeners.get( i );
@@ -108,9 +109,9 @@ public class BulbComponentGraphic implements IComponentGraphic {
     }
 
     private void changed() {
-        GraphicsUtil.fastRepaint( parent, getBoundsWithBrighties() );
+        FastPaint.fastRepaint( parent, getBoundsWithBrighties() );
         updateTransform();
-        GraphicsUtil.fastRepaint( parent, getBoundsWithBrighties() );
+        FastPaint.fastRepaint( parent, getBoundsWithBrighties() );
     }
 
     private Rectangle getBoundsWithBrighties() {
