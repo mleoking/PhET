@@ -3,17 +3,18 @@
 ===============================================================================
 
 IN PROGRESS:
-- when electrons jump between curves, they sometimes end up in the wrong position
+
 
 HIGH PRIORITY:
-- encapulate all rescaling of emf into one place
-- check performance of grid with calc disable & drawing enabled
-- cache grid needles at 1-degree angles to eliminate rotation transform
+- when electrons jump between curves, they sometimes end up in the wrong position
+- encapulate all rescaling of emf into one place (in model?...)
 - collision detection between compass and magnet
 - collision detection between magnet and coil
+- compass grid does not fill the apparatus panel
 
 MEDIUM PRIORITY:
-- compass grid does not fill the apparatus panel
+- check performance of grid with calc disable & drawing enabled
+- cache grid needles at 1-degree angles to eliminate rotation transform
 - optimize performance
 - check performance with a profiler
 - Transformer module requirements
