@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.common.RepaintDebugGraphic;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

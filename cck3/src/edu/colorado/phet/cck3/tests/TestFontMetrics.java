@@ -1,9 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.tests;
 
-import edu.colorado.phet.cck3.common.phetgraphics.MultiLineTextGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.cck3.common.RectangleUtils;
 import edu.colorado.phet.cck3.common.Sine;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
@@ -12,6 +9,9 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,7 +41,7 @@ public class TestFontMetrics {
         panel.addGraphic( sg );
         panel.addGraphic( tmw );
 
-        final MultiLineTextGraphic g = new MultiLineTextGraphic( panel, new String[]{"Hello!", "This is a test."}, font, 100, 300, Color.green, 1, 1, Color.blue );
+        final PhetMultiLineTextGraphic g = new PhetMultiLineTextGraphic( panel, new String[]{"Hello!", "This is a test."}, font, 100, 300, Color.green, 1, 1, Color.blue );
 
         ShapeGraphic sg2 = new ShapeGraphic( g.getBounds(), Color.white );
         panel.addGraphic( sg2 );

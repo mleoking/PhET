@@ -1,13 +1,13 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.cck3.common.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.MultiLineTextGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.help.HelpItem;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -20,11 +20,12 @@ import java.awt.geom.Area;
  */
 public class PositionedHelpItem extends CompositePhetGraphic {
     private Target target;
-    private MultiLineTextGraphic textGraphic;
+    private PhetMultiLineTextGraphic textGraphic;
     private PhetShapeGraphic arrowGraphic;
     private Arrow arrow;
     private Color arrowColor = Color.blue;
     private boolean noTarget = false;
+    private boolean enabled;
 
     public PositionedHelpItem( String text, Target target, Font font, Component component ) {
         super( component );
@@ -36,7 +37,7 @@ public class PositionedHelpItem extends CompositePhetGraphic {
         }
         int x = location.x;
         int y = location.y;
-        textGraphic = new MultiLineTextGraphic( component, lines, font, x, y, Color.blue, 1, 1, Color.yellow );
+        textGraphic = new PhetMultiLineTextGraphic( component, lines, font, x, y, Color.blue, 1, 1, Color.yellow );
         target.addObserver( new SimpleObserver() {
             public void update() {
                 changed();
@@ -67,16 +68,21 @@ public class PositionedHelpItem extends CompositePhetGraphic {
             super.setBoundsDirty();
             super.repaint();
         }
-
+        setVisible( enabled && !noTarget );
     }
 
     public Rectangle getTextBounds() {
         return textGraphic.getBounds();
     }
 
+    public void setEnabled( boolean enabled ) {
+        this.enabled = enabled;
+        changed();
+    }
+
     public abstract static class Target extends SimpleObservable {
         public abstract Point getTextLocation();
 
-        public abstract Arrow getArrow( MultiLineTextGraphic textGraphic );
+        public abstract Arrow getArrow( PhetMultiLineTextGraphic textGraphic );
     }
 }

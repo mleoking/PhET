@@ -2,13 +2,13 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.ImageGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -29,12 +29,12 @@ public class CircuitComponentImageGraphic extends CompositePhetGraphic implement
     private Rectangle2D.Double src;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
-    private ImageGraphic imageGraphic;
+    private PhetImageGraphic imageGraphic;
     private PhetShapeGraphic highlightGraphic;
 
     public CircuitComponentImageGraphic( BufferedImage image, Component parent, CircuitComponent component, ModelViewTransform2D transform ) {
         super( parent );
-        imageGraphic = new ImageGraphic( parent, image );
+        imageGraphic = new PhetImageGraphic( parent, image );
         highlightGraphic = new PhetShapeGraphic( parent, new Area(), Color.yellow );
         addGraphic( highlightGraphic );
         addGraphic( imageGraphic );

@@ -3,12 +3,12 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentImageGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.ImageGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -21,7 +21,7 @@ import java.awt.image.BufferedImage;
  * Time: 12:10:55 PM
  * Copyright (c) Jun 24, 2004 by Sam Reid
  */
-public class FlameGraphic extends ImageGraphic {
+public class FlameGraphic extends PhetImageGraphic {
     CircuitComponent component;
     BufferedImage flameImage;
     private ModelViewTransform2D transform;

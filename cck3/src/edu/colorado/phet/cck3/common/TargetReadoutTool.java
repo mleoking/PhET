@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.cck3.common.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.MultiLineTextGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -32,7 +32,7 @@ public class TargetReadoutTool extends CompositePhetGraphic {
     private PhetShapeGraphic portHole;
     private PhetShapeGraphic upCrossHairGraphic;
     private PhetShapeGraphic readoutShapeGraphic;
-    private MultiLineTextGraphic textGraphic;
+    private PhetMultiLineTextGraphic textGraphic;
     private String[] text = new String[0];
     private PhetShapeGraphic rightCrossHairGraphic;
 
@@ -50,7 +50,7 @@ public class TargetReadoutTool extends CompositePhetGraphic {
         addGraphic( upCrossHairGraphic );
         readoutShapeGraphic = new PhetShapeGraphic( component, new Area(), Color.white, crossHairStroke, Color.black );
         addGraphic( readoutShapeGraphic );
-        textGraphic = new MultiLineTextGraphic( component, new String[]{"HELLO"}, font, 0, 0, Color.black );
+        textGraphic = new PhetMultiLineTextGraphic( component, new String[]{"HELLO"}, font, 0, 0, Color.black );
         addGraphic( textGraphic );
         changed();
         setVisible( true );

@@ -5,14 +5,14 @@ import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.common.PositionedHelpItem;
-import edu.colorado.phet.cck3.common.RectangleUtils;
-import edu.colorado.phet.cck3.common.phetgraphics.MultiLineTextGraphic;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -63,9 +63,12 @@ public class CCKHelp {
     }
 
     public void setEnabled( boolean h ) {
-        myToolboxHelpItem.setVisible( h );
-        junctionHelpItem.setVisible( h );
-        componentHelpItem.setVisible( h );
+//        myToolboxHelpItem.setVisible( h );
+//        junctionHelpItem.setVisible( h );
+//        componentHelpItem.setVisible( h );
+        myToolboxHelpItem.setEnabled( h );
+        junctionHelpItem.setEnabled( h );
+        componentHelpItem.setEnabled( h );       
 //        if( h ) {
 //            getApparatusPanel().addGraphic( myToolboxHelpItem, Double.POSITIVE_INFINITY );
 //            getApparatusPanel().addGraphic( junctionHelpItem, Double.POSITIVE_INFINITY );
@@ -98,19 +101,17 @@ public class CCKHelp {
 
     class ToolboxTarget extends HelpTarget {
 
-        public Arrow getArrow( MultiLineTextGraphic textGraphic ) {
+        public Arrow getArrow( PhetMultiLineTextGraphic textGraphic ) {
             Shape shape = transform.createTransformedShape( toolbox.getBounds2D() );
             Point topLeft = shape.getBounds().getLocation();
             topLeft.translate( -3, -3 );
-            Point tail = textGraphic.getEast();
+            Point tail = textGraphic.getRightCenter();
             return new Arrow( tail, topLeft, 5, 5, 2 );
         }
 
         public Point getTextLocation() {
-//            Shape shape = transform.createTransformedShape( toolbox.getBounds2D() );
             Shape shape = toolbox.getShape();
             Point topLeft = new Point( shape.getBounds().getLocation() );
-//            System.out.println( "topLeft = " + topLeft );
             if( myToolboxHelpItem == null ) {
                 return null;
             }
@@ -123,17 +124,17 @@ public class CCKHelp {
 
     class ComponentTarget extends ChangeTarget {
 
-        public Arrow getArrow( MultiLineTextGraphic textGraphic ) {
+        public Arrow getArrow( PhetMultiLineTextGraphic textGraphic ) {
             InteractiveGraphic g = circuitGraphic.getGraphic( circuit.branchAt( 0 ) );
             if( g instanceof CircuitComponentInteractiveGraphic ) {
                 CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)g;
                 Point target = transform.modelToView( ccig.getCircuitComponentGraphic().getCircuitComponent().getCenter() );
-                return new Arrow( textGraphic.getLeftSide(), target, 5, 5, 2 );
+                return new Arrow( textGraphic.getLeftCenter(), target, 5, 5, 2 );
             }
             else if( g instanceof InteractiveBranchGraphic ) {
                 InteractiveBranchGraphic ibg = (InteractiveBranchGraphic)g;
                 Point target = transform.modelToView( ibg.getBranch().getCenter() );
-                return new Arrow( textGraphic.getLeftSide(), target, 5, 5, 2 );
+                return new Arrow( textGraphic.getLeftCenter(), target, 5, 5, 2 );
             }
             return null;
         }
@@ -187,13 +188,13 @@ public class CCKHelp {
 
     class JunctionTarget extends ChangeTarget {
 
-        public Arrow getArrow( MultiLineTextGraphic textGraphic ) {
+        public Arrow getArrow( PhetMultiLineTextGraphic textGraphic ) {
             HasJunctionGraphic g = circuitGraphic.getGraphic( circuit.junctionAt( 0 ) );
             JunctionGraphic jg = g.getJunctionGraphic();
             Shape shape = jg.getShape();
             Rectangle shapeBounds = shape.getBounds();
 
-            Point tail = textGraphic.getLeftSide();
+            Point tail = textGraphic.getLeftCenter();
             Point tip = RectangleUtils.getTopCenter( shapeBounds );
             Arrow arrow = new Arrow( tail, tip, 5, 5, 2 );
             return arrow;

@@ -104,7 +104,6 @@
 
     <target name="Generate Build Info">
         <buildnumber file="${build.number.txt}"/>
-        <!--        <copy file="build.number" tofile="${build.number.txt}"/> -->
         <tstamp>
             <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"></format>
         </tstamp>
@@ -122,9 +121,6 @@
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
             <manifest>
-                <!--                <attribute name="Built-By" value="${user.name}"/>-->
-                <!--                <attribute name="version" value="${version}"/>-->
-                <!--                <attribute name="build" value="${build.number}"/>-->
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
         </jar>

@@ -1,12 +1,13 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.cck3.common.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.ShadowTextGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -25,7 +26,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     private Font font = new Font( "Sans Serif", Font.BOLD, 16 );
     private AbstractVector2D oscillationVector;
     private Point2D startPt;
-    private ShadowTextGraphic textGraphic;
+    private PhetShadowTextGraphic textGraphic;
     private String text;
     private PhetShapeGraphic arrowGraphic;
 
@@ -38,7 +39,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
         oscillationVector = oscillationDir.getInstanceOfMagnitude( amplitude );
         current = new Point2D.Double( startPt.getX(), startPt.getY() );
         arrowGraphic = new PhetShapeGraphic( parent, new Area(), Color.black );
-        textGraphic = new ShadowTextGraphic( getComponent(), text, font, 0, 0, Color.blue, 1, 1, Color.black );
+        textGraphic = new PhetShadowTextGraphic( getComponent(), text, font, 0, 0, Color.blue, 1, 1, Color.black );
         stepInTime( 0 );
         addGraphic( arrowGraphic );
         addGraphic( textGraphic );

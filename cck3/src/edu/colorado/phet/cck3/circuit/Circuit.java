@@ -511,7 +511,8 @@ public class Circuit {
         }
         else if( type.equals( Switch.class.getName() ) ) {
             String closedVal = xml.getAttribute( "closed", "false" );
-            boolean closed = Boolean.getBoolean( closedVal );
+            boolean closed = closedVal != null && closedVal.equals( new Boolean( true ).toString() );
+//            boolean closed = Boolean.getBoolean( closedVal );
             Switch swit = new Switch( kl, startJunction, endJunction, closed, length, height );
             return swit;
         }

@@ -3,10 +3,6 @@ package edu.colorado.phet.cck3.circuit.tools;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
-import edu.colorado.phet.cck3.common.RectangleUtils;
-import edu.colorado.phet.cck3.common.phetgraphics.ImageGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.cck3.common.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -14,6 +10,10 @@ import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -85,7 +85,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
         return blackLeadGraphic;
     }
 
-    public class LeadGraphic extends ImageGraphic {
+    public class LeadGraphic extends PhetImageGraphic {
         private Voltmeter.Lead lead;
         private double angle;
         private Stroke stroke = new BasicStroke( 1.5f );
@@ -339,7 +339,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
     }
 
     class UnitGraphic extends CompositeGraphic {
-        ImageGraphic unitGraphic;
+        PhetImageGraphic unitGraphic;
         PhetTextGraphic textGraphic;
         Font font = new Font( "Dialog", 0, 20 );
         private Voltmeter.VoltmeterUnit vm;
@@ -352,7 +352,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
 
         public UnitGraphic( Voltmeter.VoltmeterUnit vm, BufferedImage image, Component parent, DecimalFormat voltFormatter ) {
             this.voltFormatter = voltFormatter;
-            unitGraphic = new ImageGraphic( parent, image );
+            unitGraphic = new PhetImageGraphic( parent, image );
             textGraphic = new PhetTextGraphic( parent, font, UNKNOWN_VOLTS, Color.black, 0, 0 );
             addGraphic( unitGraphic );
             addGraphic( textGraphic );
