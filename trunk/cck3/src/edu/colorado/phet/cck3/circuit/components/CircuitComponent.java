@@ -5,7 +5,6 @@ import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 
@@ -29,9 +28,17 @@ public abstract class CircuitComponent extends Branch {
         super.setStartJunction( startJunction );
         super.setEndJunction( endJunction );
     }
-    protected void setLength(double length){
-        this.length=length;
+
+    protected CircuitComponent( KirkhoffListener kl, Junction startJunction, Junction endjJunction,double length,double height ) {
+        super( kl, startJunction, endjJunction );
+        this.length = length;
+        this.height = height;
     }
+
+    protected void setLength( double length ) {
+        this.length = length;
+    }
+
     public double getLength() {
         return length;
     }

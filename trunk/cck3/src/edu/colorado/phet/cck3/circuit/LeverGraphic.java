@@ -33,6 +33,8 @@ public class LeverGraphic extends FastPaintImageGraphic {
     private Point2D modelPivot;
     private Point2D viewPivot;
     private Switch aSwitch;
+    private SimpleObserver simpleObserver;
+    private TransformListener transformListener;
 
     public LeverGraphic( CircuitComponentImageGraphic baseGraphic, BufferedImage image, Component parent, ModelViewTransform2D transform, double length, double height ) {
         super( image, parent );
@@ -40,17 +42,19 @@ public class LeverGraphic extends FastPaintImageGraphic {
         this.baseGraphic = baseGraphic;
         this.length = length;
         this.height = height;
-        this.aSwitch = (Switch)baseGraphic.getComponent();
-        baseGraphic.getComponent().addObserver( new SimpleObserver() {
+        this.aSwitch = (Switch)baseGraphic.getCircuitComponent();
+        simpleObserver = new SimpleObserver() {
             public void update() {
                 changed();
             }
-        } );
-        transform.addTransformListener( new TransformListener() {
+        };
+        baseGraphic.getCircuitComponent().addObserver( simpleObserver );
+        transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 changed();
             }
-        } );
+        };
+        transform.addTransformListener( transformListener );
 
         Switch swit = aSwitch;
         if( swit.isClosed() ) {
@@ -63,8 +67,8 @@ public class LeverGraphic extends FastPaintImageGraphic {
     }
 
     private void changed() {
-        Point2D baseSrc = baseGraphic.getComponent().getStartJunction().getPosition();
-        Point2D baseDst = baseGraphic.getComponent().getEndJunction().getPosition();
+        Point2D baseSrc = baseGraphic.getCircuitComponent().getStartJunction().getPosition();
+        Point2D baseDst = baseGraphic.getCircuitComponent().getEndJunction().getPosition();
 
         AbstractVector2D baseVector = new Vector2D.Double( baseSrc, baseDst );
         double angle = baseVector.getAngle();
@@ -120,5 +124,10 @@ public class LeverGraphic extends FastPaintImageGraphic {
                 }
             }
         }
+    }
+
+    public void delete() {
+        this.mvtransform.removeTransformListener( transformListener );
+        baseGraphic.getCircuitComponent().removeObserver( simpleObserver );
     }
 }

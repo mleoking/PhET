@@ -3,11 +3,10 @@ package edu.colorado.phet.cck3.circuit.tools;
 
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.common.TargetReadoutTool;
+import edu.colorado.phet.common.view.fastpaint.FastPaint;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.fastpaint.FastPaint;
 
 import java.awt.*;
 import java.text.DecimalFormat;

@@ -2,9 +2,9 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.common.LineSegment;
+import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.fastpaint.FastPaintShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -16,28 +16,31 @@ import java.awt.*;
  * Time: 1:39:53 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class BranchGraphic extends FastPaintShapeGraphic {
+public class BranchGraphic extends PrimaryShapeGraphic {
     private Branch branch;
     private double thickness;
     private ModelViewTransform2D transform;
+    private SimpleObserver simpleObserver;
+    private TransformListener transformListener;
 
     public BranchGraphic( Branch branch, ApparatusPanel apparatusPanel, double thickness, ModelViewTransform2D transform, Color color ) {
-        super( null, color, apparatusPanel );
+        super( apparatusPanel, null, color );
         this.branch = branch;
         this.thickness = thickness;
         this.transform = transform;
-
-        branch.addObserver( new SimpleObserver() {
+        simpleObserver = new SimpleObserver() {
             public void update() {
                 doupdate();
             }
-        } );
-        doupdate();
-        transform.addTransformListener( new TransformListener() {
+        };
+        branch.addObserver( simpleObserver );
+        transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 doupdate();
             }
-        } );
+        };
+        transform.addTransformListener( transformListener );
+        doupdate();
     }
 
     private void doupdate() {
@@ -52,6 +55,11 @@ public class BranchGraphic extends FastPaintShapeGraphic {
 
     public Branch getBranch() {
         return branch;
+    }
+
+    public void delete() {
+        branch.removeObserver( simpleObserver );
+        transform.removeTransformListener( transformListener );
     }
 
 }

@@ -29,6 +29,7 @@ public class Toolbox extends CompositeGraphic {
     private ModelViewTransform2D transform;
     FastPaintShapeGraphic boundaryGraphic;
     private CCK3Module module;
+    private Color backgroundColor;
     private BranchSource.WireSource wireSource;
     private BranchSource.BatterySource batterySource;
     private BranchSource.BulbSource bulbSource;
@@ -37,14 +38,15 @@ public class Toolbox extends CompositeGraphic {
     private BranchSource.AmmeterSource ammeterSource;
     private double schematicWireThickness = .1;
 
-    public Toolbox( Rectangle2D modelRect, CCK3Module module ) {
+    public Toolbox( Rectangle2D modelRect, CCK3Module module, Color backgroundColor ) {
         this.module = module;
+        this.backgroundColor = backgroundColor;
         this.modelRect = new Rectangle2D.Double( modelRect.getX(), modelRect.getY(), modelRect.getWidth(), modelRect.getHeight() );
         this.parent = module.getApparatusPanel();
         this.transform = module.getTransform();
 
         boundaryGraphic = new FastPaintShapeGraphic( transform.createTransformedShape( modelRect ),
-                                                     Color.green, Color.black, new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ), parent );
+                                                     backgroundColor, Color.black, new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ), parent );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 doUpdate();
@@ -94,7 +96,6 @@ public class Toolbox extends CompositeGraphic {
             Vector2D bulbDir = new Vector2D.Double( 0, 1 );
             Bulb bulb = new Bulb( new Point2D.Double( componentX + componentWidth / 2, y - CCK3Module.BULB_DIMENSION.getHeight() / 3 ),
                                   bulbDir, 1, bulbToolWidth, bulbToolHeight, module.getKirkhoffListener() );//TODO 1 is broken
-//            SchematicBulb schBulb = bulb.toSchematicBulb( bulbToolWidth );
             BulbComponentGraphic bulbGraphic = new BulbComponentGraphic( parent, bulb, transform, module );
             SchematicBulbGraphic schBulbGraphic = new SchematicBulbGraphic( parent, bulb, transform, schematicWireThickness );
             bulbSource = new BranchSource.BulbSource( bulbGraphic, module.getCircuitGraphic(), parent, bulb, schBulbGraphic, CCK3Module.BULB_DIMENSION, module.getKirkhoffListener(),
@@ -167,7 +168,10 @@ public class Toolbox extends CompositeGraphic {
         switchSource.setLifelike( lifelike );
         ammeterSource.setLifelike( lifelike );
     }
-    /**Returns the model rectangle*/
+
+    /**
+     * Returns the model rectangle
+     */
     public Rectangle2D getBounds2D() {
         return modelRect;
     }

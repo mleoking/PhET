@@ -20,14 +20,17 @@ public class Bulb extends CircuitComponent {
     private Filament filament;
     private SimpleObserver so;
     private double width;
-    private KirkhoffListener kl;
-    private double distBetweenJunctions;
-    boolean isSchematic = false;
+    private boolean isSchematic = false;
 
-    public Bulb( Point2D start, AbstractVector2D dir, double distBetweenJunctions, double width, double height, KirkhoffListener kl ) {
+    public Bulb( Point2D start, AbstractVector2D dir,
+                 double distBetweenJunctions,
+                 double width, double height, KirkhoffListener kl ) {
         super( kl, start, dir, distBetweenJunctions, height );
-        this.distBetweenJunctions = distBetweenJunctions;
         this.width = width;
+        init( kl );
+    }
+
+    private void init( KirkhoffListener kl ) {
         filament = new Filament( kl, getStartJunction(), getEndJunction(), 3, height * .25, width * .8, height * .061 );
         so = new SimpleObserver() {
             public void update() {
@@ -38,7 +41,22 @@ public class Bulb extends CircuitComponent {
         getStartJunction().addObserver( so );
         getEndJunction().addObserver( so );
         setResistance( 10 );
-        this.kl = kl;
+    }
+
+    public Bulb( KirkhoffListener kl, Junction startJunction, Junction endjJunction, double width, double length, double height ) {
+        super( kl, startJunction, endjJunction, length, height );
+        this.width = width;
+        this.height = height;
+        init( kl );
+    }
+
+    public Bulb( KirkhoffListener kl, Junction startJunction, Junction endJunction, double width, double length, double height, boolean schematic ) {
+        super( kl, startJunction, endJunction, length, height );
+        this.width = width;
+        this.height = height;
+
+        init( kl );
+        setSchematic( schematic, null );
     }
 
     public double getWidth() {
@@ -102,32 +120,49 @@ public class Bulb extends CircuitComponent {
         //move junctions, if necessary.
         Vector2D delta = null;
         if( schematic ) {
-            delta = expandToSchematic( this );
+            delta = expandToSchematic( this, circuit );
         }
         else {
-            delta = collaspeToLifelike( this );
+            delta = collaspeToLifelike( this, circuit );
         }
-//        Branch[] stronglyConnected = circuit.getStrongConnections( getEndJunction() );
-//        BranchSet bs = new BranchSet( circuit, stronglyConnected );
-//        bs.removeBranch( this );
-//        bs.translate( delta );
+
     }
 
-    private Vector2D collaspeToLifelike( Bulb bulb ) {
+    private Vector2D collaspeToLifelike( Bulb bulb, Circuit circuit ) {
         double distBetweenJ = CCK3Module.BULB_DIMENSION.getDistBetweenJunctions();
         AbstractVector2D vector = bulb.getDirectionVector().getInstanceOfMagnitude( distBetweenJ );
         Point2D dst = vector.getDestination( bulb.getStartJunction().getPosition() );
         Vector2D delta = new Vector2D.Double( bulb.getEndJunction().getPosition(), dst );
-        bulb.getEndJunction().setPosition( dst.getX(), dst.getY() );
+        if( circuit != null ) {
+            Branch[] sc = circuit.getStrongConnections( bulb, bulb.getEndJunction() );
+            BranchSet bs = new BranchSet( circuit, sc );
+            bs.addJunction( bulb.getEndJunction() );
+            bs.translate( delta );
+        }
+        else {
+            bulb.getEndJunction().setPosition( dst.getX(), dst.getY() );
+        }
         return delta;
     }
 
-    private Vector2D expandToSchematic( Bulb bulb ) {
+    private Vector2D expandToSchematic( Bulb bulb, Circuit circuit ) {
         Vector2D vec = new Vector2D.Double( bulb.getStartJunction().getPosition(), bulb.getEndJunction().getPosition() );
         Point2D dst = vec.getInstanceOfMagnitude( CCK3Module.SCH_BULB_DIST ).getDestination( bulb.getStartJunction().getPosition() );
         Vector2D delta = new Vector2D.Double( bulb.getEndJunction().getPosition(), dst );
-        bulb.getEndJunction().setPosition( dst.getX(), dst.getY() );
+        if( circuit != null ) {
+            Branch[] sc = circuit.getStrongConnections( bulb, bulb.getEndJunction() );
+            BranchSet bs = new BranchSet( circuit, sc );
+            bs.addJunction( bulb.getEndJunction() );
+            bs.translate( delta );
+        }
+        else {
+            bulb.getEndJunction().setPosition( dst.getX(), dst.getY() );
+        }
         return delta;
+    }
+
+    public boolean isSchematic() {
+        return isSchematic;
     }
 
 }

@@ -37,6 +37,9 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
     private Shape shape;
     private String text = "Ammeter";
     private String fixedMessage;
+    private SimpleObserver simpleObserver;
+    private TransformListener transformListener;
+    private KirkhoffSolutionListener kirkhoffSolutionListener;
 
     public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, CCK3Module module, String fixedMessage ) {
         this( parent, component, transform, module );
@@ -50,24 +53,28 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
         this.module = module;
 
         doupdate();
-        transform.addTransformListener( new TransformListener() {
-            public void transformChanged( ModelViewTransform2D mvt ) {
-                doupdate();
-            }
-        } );
-        component.addObserver( new SimpleObserver() {
+
+        simpleObserver = new SimpleObserver() {
             public void update() {
                 doupdate();
             }
-        } );
-        module.getKirkhoffSolver().addSolutionListener( new KirkhoffSolutionListener() {
+        };
+        component.addObserver( simpleObserver );
+        transformListener = new TransformListener() {
+            public void transformChanged( ModelViewTransform2D mvt ) {
+                doupdate();
+            }
+        };
+        transform.addTransformListener( transformListener );
+        kirkhoffSolutionListener = new KirkhoffSolutionListener() {
             public void finishedKirkhoff() {
                 DecimalFormat df = new DecimalFormat( "#0.0#" );
                 String form = df.format( Math.abs( component.getCurrent() ) );
                 text = "" + form + " Amps";
                 doupdate();
             }
-        } );
+        };
+        module.getKirkhoffSolver().addSolutionListener( kirkhoffSolutionListener );
     }
 
     private void updateShape() {
@@ -109,8 +116,14 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
         return transform;
     }
 
-    public CircuitComponent getComponent() {
+    public CircuitComponent getCircuitComponent() {
         return component;
+    }
+
+    public void delete() {
+        component.removeObserver( simpleObserver );
+        transform.removeTransformListener( transformListener );
+        module.getKirkhoffSolver().removeSolutionListener( kirkhoffSolutionListener );
     }
 
     public boolean contains( int x, int y ) {

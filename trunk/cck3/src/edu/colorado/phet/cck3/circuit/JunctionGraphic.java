@@ -21,24 +21,27 @@ public class JunctionGraphic extends FastPaintShapeGraphic {
     private ModelViewTransform2D transform;
     private double radius;
     private double strokeWidthModelCoords = CCK3Module.JUNCTION_GRAPHIC_STROKE_WIDTH;
+    private SimpleObserver simpleObserver;
+    private TransformListener transformListener;
 
     public JunctionGraphic( Component parent, Junction junction, ModelViewTransform2D transform, double radius ) {
         super( null, Color.black, new BasicStroke( 2 ), parent );
         this.junction = junction;
         this.transform = transform;
         this.radius = radius;
-
-        junction.addObserver( new SimpleObserver() {
+        simpleObserver = new SimpleObserver() {
             public void update() {
                 doupdate();
             }
-        } );
+        };
+        junction.addObserver( simpleObserver );
         doupdate();
-        transform.addTransformListener( new TransformListener() {
+        transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 doupdate();
             }
-        } );
+        };
+        transform.addTransformListener( transformListener );
     }
 
     private void doupdate() {
@@ -55,5 +58,10 @@ public class JunctionGraphic extends FastPaintShapeGraphic {
 
     public ModelViewTransform2D getTransform() {
         return transform;
+    }
+
+    public void delete() {
+        junction.removeObserver( simpleObserver );
+        transform.removeTransformListener( transformListener );
     }
 }

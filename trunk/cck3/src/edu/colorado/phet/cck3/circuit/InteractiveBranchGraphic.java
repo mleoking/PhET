@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
  * Time: 9:29:56 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class InteractiveBranchGraphic extends DefaultInteractiveGraphic {
+public class InteractiveBranchGraphic extends DefaultInteractiveGraphic implements Deletable{
     private boolean isDragging = false;
     private ImmutableVector2D.Double toStart;//a vector from the mouse to the start junction
     private ImmutableVector2D.Double toEnd;
@@ -44,6 +44,10 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic {
 
     public Branch getBranch() {
         return branchGraphic.getBranch();
+    }
+
+    public void delete() {
+        branchGraphic.delete();
     }
 
     class BranchPopupMenu extends JPopupMenu {

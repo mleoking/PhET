@@ -63,4 +63,8 @@ public class Junction extends SimpleObservable {
         return label;
     }
 
+    public void delete() {
+        removeAllObservers();
+    }
+
 }

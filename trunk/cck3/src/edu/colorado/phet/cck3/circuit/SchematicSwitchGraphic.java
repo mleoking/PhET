@@ -22,7 +22,7 @@ import java.awt.geom.Point2D;
  * Time: 10:53:37 AM
  * Copyright (c) Jun 18, 2004 by Sam Reid
  */
-public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements IComponentGraphic {
+public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements IComponentGraphic, TransformListener, SimpleObserver {
     private ApparatusPanel apparatusPanel;
     private Switch aSwitch;
     private ModelViewTransform2D transform;
@@ -37,16 +37,18 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
         this.aSwitch = aSwitch;
         this.transform = transform;
         this.wireThickness = wireThickness;
-        transform.addTransformListener( new TransformListener() {
-            public void transformChanged( ModelViewTransform2D mvt ) {
-                changed();
-            }
-        } );
-        aSwitch.addObserver( new SimpleObserver() {
-            public void update() {
-                changed();
-            }
-        } );
+        transform.addTransformListener( this );
+        aSwitch.addObserver( this );
+//        transform.addTransformListener( new TransformListener() {
+//            public void transformChanged( ModelViewTransform2D mvt ) {
+//                changed();
+//            }
+//        } );
+//        aSwitch.addObserver( new SimpleObserver() {
+//            public void update() {
+//                changed();
+//            }
+//        } );
         changed();
     }
 
@@ -60,7 +62,7 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
         AbstractVector2D vector = new ImmutableVector2D.Double( srcpt, dstpt );
         pivot = vector.getScaledInstance( fracToPivot ).getDestination( srcpt );
         Point2D connectionPt = vector.getScaledInstance( fracToEnd ).getDestination( srcpt );
-        this.leverLength=pivot.distance( connectionPt );
+        this.leverLength = pivot.distance( connectionPt );
         Area area = new Area();
         userSpace = LineSegment.getSegment( srcpt, dstpt, viewThickness );
         area.add( new Area( LineSegment.getSegment( srcpt, pivot, viewThickness ) ) );
@@ -72,8 +74,13 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
         return transform;
     }
 
-    public CircuitComponent getComponent() {
+    public CircuitComponent getCircuitComponent() {
         return aSwitch;
+    }
+
+    public void delete() {
+        aSwitch.removeObserver( this );
+        transform.removeTransformListener( this );
     }
 
     public boolean contains( int x, int y ) {
@@ -83,9 +90,11 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
     public Point2D getPivot() {
         return pivot;
     }
-    public double getLeverLengthModelCoordinates(){
-        return transform.viewToModelDifferentialX( leverLength ); 
+
+    public double getLeverLengthModelCoordinates() {
+        return transform.viewToModelDifferentialX( leverLength );
     }
+
     //in view coordinates.
     public double getLeverLength() {
         return leverLength;
@@ -93,5 +102,13 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
 
     public Switch getSwitch() {
         return aSwitch;
+    }
+
+    public void transformChanged( ModelViewTransform2D mvt ) {
+        changed();
+    }
+
+    public void update() {
+        changed();
     }
 }

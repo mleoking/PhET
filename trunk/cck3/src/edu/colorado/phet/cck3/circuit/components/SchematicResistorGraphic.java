@@ -30,6 +30,8 @@ public class SchematicResistorGraphic extends FastPaintShapeGraphic implements I
     private Point2D anoPoint;
     private Point2D catPoint;
     private Area mouseArea;
+    private SimpleObserver simpleObserver;
+    private TransformListener transformListener;
 
     public SchematicResistorGraphic( Component parent, CircuitComponent component, ModelViewTransform2D transform, double wireThickness ) {
         super( new Area(), Color.black, parent );
@@ -37,16 +39,18 @@ public class SchematicResistorGraphic extends FastPaintShapeGraphic implements I
         this.component = component;
         this.transform = transform;
         this.wireThickness = wireThickness;
-        component.addObserver( new SimpleObserver() {
+        simpleObserver = new SimpleObserver() {
             public void update() {
                 changed();
             }
-        } );
-        transform.addTransformListener( new TransformListener() {
+        };
+        component.addObserver( simpleObserver );
+        transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 changed();
             }
-        } );
+        };
+        transform.addTransformListener( transformListener );
         changed();
     }
 
@@ -103,8 +107,13 @@ public class SchematicResistorGraphic extends FastPaintShapeGraphic implements I
         return transform;
     }
 
-    public CircuitComponent getComponent() {
+    public CircuitComponent getCircuitComponent() {
         return component;
+    }
+
+    public void delete() {
+        component.removeObserver( simpleObserver );
+        transform.removeTransformListener( transformListener );
     }
 
     protected Point2D getAnoPoint() {

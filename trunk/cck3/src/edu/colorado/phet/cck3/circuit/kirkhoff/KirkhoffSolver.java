@@ -221,6 +221,10 @@ public class KirkhoffSolver {
         listeners.add( ksl );
     }
 
+    public void removeSolutionListener( KirkhoffSolutionListener kirkhoffSolutionListener ) {
+        listeners.remove( kirkhoffSolutionListener );
+    }
+
     public static class Equation {
         ArrayList coeffs = new ArrayList();
         double rhs = 0;

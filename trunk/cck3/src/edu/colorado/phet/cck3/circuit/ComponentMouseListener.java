@@ -37,7 +37,7 @@ public class ComponentMouseListener extends MouseInputAdapter {
 
     public void mouseReleased( MouseEvent e ) {
         isDragging = false;
-        Branch branch = branchGraphic.getComponent();
+        Branch branch = branchGraphic.getCircuitComponent();
         if( startTarget != null ) {
             circuitGraphic.collapseJunctions( startTarget, branch.getStartJunction() );
         }
@@ -50,8 +50,8 @@ public class ComponentMouseListener extends MouseInputAdapter {
         Point2D.Double modelCoords = circuitGraphic.getTransform().viewToModel( e.getPoint() );
         if( !isDragging ) {
             isDragging = true;
-            Point2D startJ = branchGraphic.getComponent().getStartJunction().getPosition();
-            Point2D endJ = branchGraphic.getComponent().getEndJunction().getPosition();
+            Point2D startJ = branchGraphic.getCircuitComponent().getStartJunction().getPosition();
+            Point2D endJ = branchGraphic.getCircuitComponent().getEndJunction().getPosition();
             toStart = new ImmutableVector2D.Double( modelCoords, startJ );
             toEnd = new ImmutableVector2D.Double( modelCoords, endJ );
 //                    System.out.println( "toStart = " + toStart );
@@ -61,7 +61,7 @@ public class ComponentMouseListener extends MouseInputAdapter {
             Point2D newStartPosition = toStart.getDestination( modelCoords );
             Point2D newEndPosition = toEnd.getDestination( modelCoords );
 
-            Branch b = branchGraphic.getComponent();
+            Branch b = branchGraphic.getCircuitComponent();
 
             Junction startMatch = circuitGraphic.getBestDragMatch( b.getStartJunction(), newStartPosition );
             Junction endMatch = circuitGraphic.getBestDragMatch( b.getEndJunction(), newEndPosition );

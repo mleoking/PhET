@@ -6,6 +6,7 @@ import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 /**
@@ -16,8 +17,8 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
  */
 public class TotalComponentGraphic extends CompositeGraphic {
     private CircuitComponentInteractiveGraphic interactiveBranchGraphic;
-    private InteractiveComponentJunctionGraphic interactiveJunctionGraphic1;
-    private InteractiveComponentJunctionGraphic interactiveJunctionGraphic2;
+    private Graphic interactiveJunctionGraphic1;
+    private Graphic interactiveJunctionGraphic2;
     private CircuitGraphic circuitGraphic;
 
     public TotalComponentGraphic( CircuitGraphic circuitGraphic, final CircuitComponent branch, ApparatusPanel apparatusPanel, final ModelViewTransform2D transform, IComponentGraphic bg, double junctionRadius, CCK3Module module ) {
@@ -28,8 +29,19 @@ public class TotalComponentGraphic extends CompositeGraphic {
 
         JunctionGraphic jg = new JunctionGraphic( apparatusPanel, branch.getStartJunction(), transform, junctionRadius );
         JunctionGraphic jg2 = new JunctionGraphic( apparatusPanel, branch.getEndJunction(), transform, junctionRadius );
-        interactiveJunctionGraphic1 = new InteractiveComponentJunctionGraphic( circuitGraphic, jg, branch, module );
-        interactiveJunctionGraphic2 = new InteractiveComponentJunctionGraphic( circuitGraphic, jg2, branch, module );
+        if( circuitGraphic.getCircuit().getAdjacentBranches( branch.getStartJunction() ).length == 1 ) {
+            interactiveJunctionGraphic1 = new InteractiveComponentJunctionGraphic( circuitGraphic, jg, branch, module );
+        }
+        else {
+            interactiveJunctionGraphic1 = new InteractiveWireJunctionGraphic( circuitGraphic, jg, transform, module );
+        }
+        if( circuitGraphic.getCircuit().getAdjacentBranches( branch.getEndJunction() ).length == 1 ) {
+            interactiveJunctionGraphic2 = new InteractiveComponentJunctionGraphic( circuitGraphic, jg2, branch, module );
+        }
+        else {
+            interactiveJunctionGraphic2 = new InteractiveWireJunctionGraphic( circuitGraphic, jg2, transform, module );
+        }
+
         addGraphic( interactiveBranchGraphic );
         addGraphic( interactiveJunctionGraphic1 );
         addGraphic( interactiveJunctionGraphic2 );
@@ -39,11 +51,11 @@ public class TotalComponentGraphic extends CompositeGraphic {
         return interactiveBranchGraphic;
     }
 
-    public InteractiveComponentJunctionGraphic getInteractiveJunctionGraphic1() {
+    public Graphic getInteractiveJunctionGraphic1() {
         return interactiveJunctionGraphic1;
     }
 
-    public InteractiveComponentJunctionGraphic getInteractiveJunctionGraphic2() {
+    public Graphic getInteractiveJunctionGraphic2() {
         return interactiveJunctionGraphic2;
     }
 }

@@ -2,11 +2,15 @@
 package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.circuit.Circuit;
+import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import net.n3.nanoxml.*;
 import org.srr.localjnlp.ServiceSource;
+import org.srr.localjnlp.local.InputStreamFileContents;
 
 import javax.jnlp.*;
 import javax.swing.*;
@@ -17,10 +21,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -36,8 +42,33 @@ public class CCK3ControlPanel extends JPanel {
         JPanel filePanel = new JPanel();
         filePanel.setLayout( new BoxLayout( filePanel, BoxLayout.Y_AXIS ) );
 
+        JLabel label = ( new JLabel( new ImageIcon( getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) ) );
+        label.setBorder( BorderFactory.createRaisedBevelBorder() );
+        label.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );
+        add( label );
+
         JButton save = new JButton( "Save" );
+        save.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    save();
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        } );
         JButton load = new JButton( "Load" );
+        load.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    load();
+                }
+                catch( Exception e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        } );
         filePanel.add( save );
         filePanel.add( load );
         filePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "File" ) );
@@ -95,16 +126,13 @@ public class CCK3ControlPanel extends JPanel {
         visualizationPanel.add( schematic );
 
         add( visualizationPanel );
-        final JCheckBox virtualAmmeter = new JCheckBox( "Virtual Ammeter", false );
-        virtualAmmeter.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setVirtualAmmeterVisible( virtualAmmeter.isSelected() );
-            }
-        } );
+
 //        add( virtualAmmeter );
         JPanel toolPanel = new JPanel();
         toolPanel.setLayout( new BoxLayout( toolPanel, BoxLayout.Y_AXIS ) );
 
+        ImageIcon voltIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/dvm-thumb.gif" ) );
+        ImageIcon ammIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/va-thumb.gif" ) );
         final JCheckBox voltmeter = new JCheckBox( "Voltmeter", false );
         voltmeter.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -112,12 +140,38 @@ public class CCK3ControlPanel extends JPanel {
                 module.getApparatusPanel().repaint();
             }
         } );
+//        voltmeter.add( new JLabel(voltIcon));
+//        JPanel vm = new JPanel();
+//        vm.setLayout( new GridBagLayout() );
+//        GridBagConstraints gbc=new GridBagConstraints( );
+//        gbc.gridwidth=2;
+//        gbc.gridheight=1;
+//        gbc.gridx=0;
+//        gbc.gridy=1;
+//        vm.add
+//        vm.add( voltmeter );
+//        vm.add( new JLabel( voltIcon ) );
 
-        toolPanel.add( voltmeter );
+        final JCheckBox virtualAmmeter = new JCheckBox( "Virtual Ammeter", false );
+        virtualAmmeter.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setVirtualAmmeterVisible( virtualAmmeter.isSelected() );
+            }
+        } );
+
+//        JPanel am = new JPanel();
+//        am.setLayout( new BoxLayout( am, BoxLayout.X_AXIS ) );
+//        am.add( virtualAmmeter );
+//        am.add( new JLabel( ammIcon ) );
+
+//        toolPanel.add( vm );
+//        toolPanel.add( new JLabel( ammIcon ) );
         toolPanel.add( virtualAmmeter );
+//        toolPanel.add( am );
+//        toolPanel.add( new JLabel( voltIcon ) );
+        toolPanel.add( voltmeter );
         toolPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Tools" ) );
         add( toolPanel );
-
 
         final JSpinner zoom = new JSpinner( new SpinnerNumberModel( 1, .1, 10, .1 ) );
         zoom.addChangeListener( new ChangeListener() {
@@ -127,26 +181,138 @@ public class CCK3ControlPanel extends JPanel {
                 zoom( v );
             }
         } );
-        add( zoom );
-        JButton jb = new JButton( "Show Megahelp Image" );
-        jb.addActionListener( new ActionListener() {
+        zoom.setSize( 50, zoom.getPreferredSize().height );
+        zoom.setPreferredSize( new Dimension( 50, zoom.getPreferredSize().height ) );
+//        add( zoom );
+
+        JPanel zoomPanel = new JPanel();
+        zoomPanel.setLayout( new BoxLayout( zoomPanel, BoxLayout.Y_AXIS ) );
+        zoomPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Size" ) );
+        ButtonGroup zoomGroup = new ButtonGroup();
+        JRadioButton small = new JRadioButton( "Small" );
+        small.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                showImage();
+                zoom( 2 );
             }
         } );
-        add( jb );
-        JButton browserGIF = new JButton( "Show MegaHelp GIF in browser" );
+        JRadioButton medium = new JRadioButton( "Medium" );
+        medium.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                zoom( 1 );
+            }
+        } );
+        JRadioButton large = new JRadioButton( "Large" );
+        large.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                zoom( .5 );
+            }
+        } );
+        medium.setSelected( true );
+        zoomGroup.add( large );
+        zoomGroup.add( medium );
+        zoomGroup.add( small );
+        zoomPanel.add( large );
+        zoomPanel.add( medium );
+        zoomPanel.add( small );
+        add( zoomPanel );
+        JButton jb = new JButton( "Local Help" );
+        jb.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                showHelpImage();
+            }
+        } );
+//        add( jb );
+        JButton browserGIF = new JButton( "GIF Help" );
         browserGIF.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showHelpGIF();
             }
         } );
-        add( browserGIF );
+//        add( browserGIF );
+        add( new JSeparator() );
         HelpPanel hp = new HelpPanel( module );
+//        hp.setBorder( BorderFactory.createRaisedBevelBorder() );
         add( hp );
+
+        JButton xml = new JButton( "Show XML" );
+        xml.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getCircuit().toXML();
+            }
+        } );
+//        add( xml );
+
+        JButton changeBunch = new JButton( "Change view 200x" );
+        changeBunch.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                int IMAX = 200;
+                for( int i = 0; i < IMAX; i++ ) {
+                    System.out.println( "i = " + i + "/" + IMAX );
+                    module.setLifelike( !module.getCircuitGraphic().isLifelike() );
+                }
+            }
+        } );
+//        add( changeBunch );
+        JButton manyComp = new JButton( "add 100 batteries" );
+        final Random rand = new Random( 0 );
+        manyComp.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                for( int i = 0; i < 100; i++ ) {
+                    double x1 = rand.nextDouble() * 10;
+                    double y1 = rand.nextDouble() * 10;
+                    Battery batt = new Battery( new Point2D.Double( x1, y1 ), new ImmutableVector2D.Double( 1, 0 ),
+                                                CCK3Module.BATTERY_DIMENSION.getLength(), CCK3Module.BATTERY_DIMENSION.getHeight(), module.getKirkhoffListener() );
+                    module.getCircuit().addBranch( batt );
+                    module.getCircuitGraphic().addGraphic( batt );
+                    System.out.println( "i = " + i );
+                }
+                module.relayout( module.getCircuit().getBranches() );
+            }
+        } );
+//        add( manyComp );
     }
 
-    void showHelpGIF() {
+    private void load() throws IOException, XMLException {
+        ServiceSource ss = new ServiceSource();
+        FileOpenService fos = ss.getFileOpenService( module.getApparatusPanel() );
+        FileContents open = fos.openFileDialog( "Open Which CCK File?", new String[]{"cck"} );
+        if( open == null ) {
+            return;
+        }
+        InputStreamReader isr = new InputStreamReader( open.getInputStream() );
+        BufferedReader br = new BufferedReader( isr );
+        String str = "";
+        while( br.ready() ) {
+            String read = br.readLine();
+            System.out.println( "read = " + read );
+            str += read;
+        }
+        IXMLParser parser = new StdXMLParser();
+        parser.setReader( new StdXMLReader( new StringReader( str ) ) );
+        parser.setBuilder( new StdXMLBuilder() );
+        parser.setValidator( new NonValidator() );
+
+        IXMLElement parsed = (IXMLElement)parser.parse();
+        Circuit circuit = Circuit.parseXML( parsed, module.getKirkhoffListener(), module );
+        module.setCircuit( circuit );
+    }
+
+    private void save() throws IOException {
+        ServiceSource ss = new ServiceSource();
+        FileSaveService fos = ss.getFileSaveService( module.getApparatusPanel() );
+
+        XMLElement xml = module.getCircuit().toXML();
+        StringWriter sw = new StringWriter();
+        XMLWriter writer = new XMLWriter( sw );
+        writer.write( xml );
+        String circuitxml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + sw.toString();
+        InputStream stream = new ByteArrayInputStream( circuitxml.getBytes() );
+        FileContents data = new InputStreamFileContents( "circuitxml", stream );
+        FileContents out = fos.saveAsFileDialog( "circuit.cck", new String[]{"cck"}, data );
+        System.out.println( "out = " + out );
+    }
+
+    public void showHelpGIF() {
         ServiceSource ss = new ServiceSource();
         BasicService bs = ss.getBasicService();
 //        URL url=getClass().getClassLoader().getResource( "cck.pdf");
@@ -221,22 +387,7 @@ public class CCK3ControlPanel extends JPanel {
 //        }
     }
 
-    private void showImage() {
-
-        /*
-        Tests for loading files.*/
-//        URL url = getClass().getClassLoader().getResource( "cck1.gif" );
-//        if( url == null ) {
-//            System.out.println( "Null url for cck1.gif" );
-//            download();
-//            System.out.println( "Finished call to download." );
-////            return;
-//            URL url2 = getClass().getClassLoader().getResource( "cck1.gif" );
-//            if( url2 == null ) {
-//                System.out.println( "URL is STILL NULL." );
-//                return;
-//            }
-//        }
+    public void showHelpImage() {
 
         final JFrame imageFrame = new JFrame();
         try {
@@ -251,7 +402,9 @@ public class CCK3ControlPanel extends JPanel {
                     imageFrame.dispose();
                 }
             } );
+            imageFrame.setResizable( false );
         }
+
         catch( IOException e ) {
             e.printStackTrace();
         }
@@ -293,3 +446,18 @@ public class CCK3ControlPanel extends JPanel {
         readoutFrame.setVisible( true );
     }
 }
+
+//        super.showMegaHelp();
+//        ServiceSource ss = new ServiceSource();
+//        BasicService bs = ss.getBasicService();
+////        URL url=getClass().getClassLoader().getResource( "cck.pdf");
+//        URL url = null;
+//        try {
+//            url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/cck.pdf" );
+////            url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/cck-help.gif" );
+//            System.out.println( "url = " + url );
+//            bs.showDocument( url );
+//        }
+//        catch( MalformedURLException e ) {
+//            e.printStackTrace();
+//        }
