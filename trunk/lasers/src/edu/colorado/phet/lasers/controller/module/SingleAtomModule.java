@@ -150,7 +150,7 @@ public class SingleAtomModule extends BaseLaserModule {
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2 );
         atom.setVelocity( 0, 0 );
-        addAtom( atom );
+        //        addAtom( atom );
     }
 
     public void deactivate( PhetApplication app ) {
