@@ -39,9 +39,9 @@ public class BarMagnetControlPanel extends ControlPanel {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final boolean ENABLE_DEBUG_CONTROLS = false;
+    private static final boolean ENABLE_DEBUG_CONTROLS = true;
     private static final String UNKNOWN_VALUE = "??????";
-    private static final Dimension SLIDER_SIZE = new Dimension( 100, 50 );
+    private static final Dimension SLIDER_SIZE = new Dimension( 100, 20 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -103,9 +103,7 @@ public class BarMagnetControlPanel extends ControlPanel {
                 _strengthSlider.setMinimum( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
                 _strengthSlider.setMaximum( (int) FaradayConfig.MAGNET_STRENGTH_MAX );
                 _strengthSlider.setValue( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
-                _strengthSlider.setPreferredSize( SLIDER_SIZE );
-                _strengthSlider.setMaximumSize( SLIDER_SIZE );
-                _strengthSlider.setMinimumSize( SLIDER_SIZE );
+                setSliderSize( _strengthSlider, SLIDER_SIZE );
 
                 // Value
                 _strengthValue = new JLabel( UNKNOWN_VALUE );
@@ -118,165 +116,13 @@ public class BarMagnetControlPanel extends ControlPanel {
             }
             
             // Magnet transparency on/off
-            _magnetTransparencyCheckBox = new JCheckBox( SimStrings.get( "magnetTransparencyCheckBox.label" ) );
-
-            // Magnet width
-            JPanel widthPanel = new JPanel();
-            {
-                // Label
-                JLabel label = new JLabel( SimStrings.get( "magnetWidth.label" ) );
-
-                // Slider
-                _magnetWidthSlider = new JSlider();
-                _magnetWidthSlider.setMinimum( FaradayConfig.BAR_MAGNET_SIZE_MIN.width );
-                _magnetWidthSlider.setMaximum( FaradayConfig.BAR_MAGNET_SIZE_MAX.width );
-                _magnetWidthSlider.setValue( FaradayConfig.BAR_MAGNET_SIZE_MIN.width );
-
-                // Value
-                _magnetWidthValue = new JLabel( UNKNOWN_VALUE );
-
-                // Layout
-                widthPanel.setLayout( new BoxLayout( widthPanel, BoxLayout.X_AXIS ) );
-                widthPanel.add( label );
-                widthPanel.add( _magnetWidthSlider );
-                widthPanel.add( _magnetWidthValue );
-            }
-
-            // Magnet height
-            JPanel heightPanel = new JPanel();
-            {
-                // Label
-                JLabel label = new JLabel( SimStrings.get( "magnetHeight.label" ) );
-
-                // Slider
-                _magnetHeightSlider = new JSlider();
-                _magnetHeightSlider.setMinimum( FaradayConfig.BAR_MAGNET_SIZE_MIN.height );
-                _magnetHeightSlider.setMaximum( FaradayConfig.BAR_MAGNET_SIZE_MAX.height );
-                _magnetHeightSlider.setValue( FaradayConfig.BAR_MAGNET_SIZE_MIN.height );
-
-                // Value
-                _magnetHeightValue = new JLabel( UNKNOWN_VALUE );
-
-                // Layout
-                heightPanel.setLayout( new BoxLayout( heightPanel, BoxLayout.X_AXIS ) );
-                heightPanel.add( label );
-                heightPanel.add( _magnetHeightSlider );
-                heightPanel.add( _magnetHeightValue );
-            }
+            _magnetTransparencyCheckBox = new JCheckBox( SimStrings.get( "magnetTransparencyCheckBox.label" ) );           
 
             // Layout
             barMagnetPanel.setLayout( new BoxLayout( barMagnetPanel, BoxLayout.Y_AXIS ) );
             barMagnetPanel.add( strengthPanel );
             barMagnetPanel.add( _flipPolarityButton );
             barMagnetPanel.add( _magnetTransparencyCheckBox );
-            if ( ENABLE_DEBUG_CONTROLS ) {
-                barMagnetPanel.add( widthPanel );
-                barMagnetPanel.add( heightPanel );
-            }
-        }
-
-        // Grid panel
-        JPanel gridPanel = new JPanel();
-        {
-            // Titled border with a larger font.
-            TitledBorder border = new TitledBorder( SimStrings.get( "gridPanel.title" ) );
-            border.setTitleFont( titleFont );
-            gridPanel.setBorder( border );
-
-            // X axis density
-            JPanel xPanel = new JPanel();
-            {
-                // Label
-                JLabel label = new JLabel( SimStrings.get( "xSpacing.label" ) );
-
-                // Slider
-                _xSpacingSlider = new JSlider();
-                _xSpacingSlider.setMinimum( FaradayConfig.GRID_X_SPACING_MIN );
-                _xSpacingSlider.setMaximum( FaradayConfig.GRID_X_SPACING_MAX );
-                _xSpacingSlider.setValue( FaradayConfig.GRID_X_SPACING_MIN );
-
-                // Value
-                _xSpacingValue = new JLabel( UNKNOWN_VALUE );
-
-                // Layout
-                xPanel.setLayout( new BoxLayout( xPanel, BoxLayout.X_AXIS ) );
-                xPanel.add( label );
-                xPanel.add( _xSpacingSlider );
-                xPanel.add( _xSpacingValue );
-            }
-
-            // Y axis density
-            JPanel yPanel = new JPanel();
-            {
-                // Label
-                JLabel label = new JLabel( SimStrings.get( "ySpacing.label" ) );
-
-                // Slider
-                _ySpacingSlider = new JSlider();
-                _ySpacingSlider.setMinimum( FaradayConfig.GRID_Y_SPACING_MIN );
-                _ySpacingSlider.setMaximum( FaradayConfig.GRID_Y_SPACING_MAX );
-                _ySpacingSlider.setValue( FaradayConfig.GRID_Y_SPACING_MIN );
-
-                // Value
-                _ySpacingValue = new JLabel( UNKNOWN_VALUE );
-
-                // Layout
-                yPanel.setLayout( new BoxLayout( yPanel, BoxLayout.X_AXIS ) );
-                yPanel.add( label );
-                yPanel.add( _ySpacingSlider );
-                yPanel.add( _ySpacingValue );
-            }
-
-            // Needle width
-            JPanel widthPanel = new JPanel();
-            {
-                // Label
-                JLabel label = new JLabel( SimStrings.get( "needleWidth.label" ) );
-
-                // Slider
-                _needleWidthSlider = new JSlider();
-                _needleWidthSlider.setMinimum( FaradayConfig.GRID_NEEDLE_SIZE_MIN.width );
-                _needleWidthSlider.setMaximum( FaradayConfig.GRID_NEEDLE_SIZE_MAX.width );
-                _needleWidthSlider.setValue( FaradayConfig.GRID_NEEDLE_SIZE_MIN.width );
-
-                // Value
-                _needleWidthValue = new JLabel( UNKNOWN_VALUE );
-
-                // Layout
-                widthPanel.setLayout( new BoxLayout( widthPanel, BoxLayout.X_AXIS ) );
-                widthPanel.add( label );
-                widthPanel.add( _needleWidthSlider );
-                widthPanel.add( _needleWidthValue );
-            }
-
-            // Needle height
-            JPanel heightPanel = new JPanel();
-            {
-                // Label
-                JLabel label = new JLabel( SimStrings.get( "needleHeight.label" ) );
-
-                // Slider
-                _needleHeightSlider = new JSlider();
-                _needleHeightSlider.setMinimum( FaradayConfig.GRID_NEEDLE_SIZE_MIN.height );
-                _needleHeightSlider.setMaximum( FaradayConfig.GRID_NEEDLE_SIZE_MAX.height );
-                _needleHeightSlider.setValue( FaradayConfig.GRID_NEEDLE_SIZE_MIN.height );
-
-                // Value
-                _needleHeightValue = new JLabel( UNKNOWN_VALUE );
-
-                // Layout
-                heightPanel.setLayout( new BoxLayout( heightPanel, BoxLayout.X_AXIS ) );
-                heightPanel.add( label );
-                heightPanel.add( _needleHeightSlider );
-                heightPanel.add( _needleHeightValue );
-            }
-
-            // Layout
-            gridPanel.setLayout( new BoxLayout( gridPanel, BoxLayout.Y_AXIS ) );
-            gridPanel.add( xPanel );
-            gridPanel.add( yPanel );
-            gridPanel.add( widthPanel );
-            gridPanel.add( heightPanel );
         }
 
         JPanel probePanel = new JPanel();
@@ -295,39 +141,191 @@ public class BarMagnetControlPanel extends ControlPanel {
             compassPanel.add( _compassCheckBox );
         }
         
-        // Reset panel
-        JPanel resetPanel = new JPanel();
-        {
+        // Debug panel
+        JPanel debugPanel = new JPanel();
+        if ( ENABLE_DEBUG_CONTROLS ) {
+            
+            //  Titled border
+            TitledBorder border = new TitledBorder( "Debug Controls" );
+            border.setTitleFont( titleFont );
+            debugPanel.setBorder( border );
+            
+            // Magnet width
+            JPanel magnetWidthPanel = new JPanel();
+            {
+                // Label
+                JLabel label = new JLabel( "Magnet width:" );
+
+                // Slider
+                _magnetWidthSlider = new JSlider();
+                _magnetWidthSlider.setMinimum( FaradayConfig.BAR_MAGNET_SIZE_MIN.width );
+                _magnetWidthSlider.setMaximum( FaradayConfig.BAR_MAGNET_SIZE_MAX.width );
+                _magnetWidthSlider.setValue( FaradayConfig.BAR_MAGNET_SIZE_MIN.width );
+                setSliderSize( _magnetWidthSlider, SLIDER_SIZE );
+
+                // Value
+                _magnetWidthValue = new JLabel( UNKNOWN_VALUE );
+
+                // Layout
+                magnetWidthPanel.setLayout( new BoxLayout( magnetWidthPanel, BoxLayout.X_AXIS ) );
+                magnetWidthPanel.add( label );
+                magnetWidthPanel.add( _magnetWidthSlider );
+                magnetWidthPanel.add( _magnetWidthValue );
+            }
+
+            // Magnet height
+            JPanel magnetHeightPanel = new JPanel();
+            {
+                // Label
+                JLabel label = new JLabel( "Magnet height:" );
+
+                // Slider
+                _magnetHeightSlider = new JSlider();
+                _magnetHeightSlider.setMinimum( FaradayConfig.BAR_MAGNET_SIZE_MIN.height );
+                _magnetHeightSlider.setMaximum( FaradayConfig.BAR_MAGNET_SIZE_MAX.height );
+                _magnetHeightSlider.setValue( FaradayConfig.BAR_MAGNET_SIZE_MIN.height );
+                setSliderSize( _magnetHeightSlider, SLIDER_SIZE );
+
+                // Value
+                _magnetHeightValue = new JLabel( UNKNOWN_VALUE );
+
+                // Layout
+                magnetHeightPanel.setLayout( new BoxLayout( magnetHeightPanel, BoxLayout.X_AXIS ) );
+                magnetHeightPanel.add( label );
+                magnetHeightPanel.add( _magnetHeightSlider );
+                magnetHeightPanel.add( _magnetHeightValue );
+            }
+            
+            // Grid X spacing
+            JPanel gridXSpacingPanel = new JPanel();
+            {
+                // Label
+                JLabel label = new JLabel( "Grid X spacing:" );
+
+                // Slider
+                _xSpacingSlider = new JSlider();
+                _xSpacingSlider.setMinimum( FaradayConfig.GRID_X_SPACING_MIN );
+                _xSpacingSlider.setMaximum( FaradayConfig.GRID_X_SPACING_MAX );
+                _xSpacingSlider.setValue( FaradayConfig.GRID_X_SPACING_MIN );
+                setSliderSize( _xSpacingSlider, SLIDER_SIZE );
+
+                // Value
+                _xSpacingValue = new JLabel( UNKNOWN_VALUE );
+
+                // Layout
+                gridXSpacingPanel.setLayout( new BoxLayout( gridXSpacingPanel, BoxLayout.X_AXIS ) );
+                gridXSpacingPanel.add( label );
+                gridXSpacingPanel.add( _xSpacingSlider );
+                gridXSpacingPanel.add( _xSpacingValue );
+            }
+
+            // Grid Y spacing
+            JPanel gridYSpacingPanel = new JPanel();
+            {
+                // Label
+                JLabel label = new JLabel( "Grid Y spacing:" );
+
+                // Slider
+                _ySpacingSlider = new JSlider();
+                _ySpacingSlider.setMinimum( FaradayConfig.GRID_Y_SPACING_MIN );
+                _ySpacingSlider.setMaximum( FaradayConfig.GRID_Y_SPACING_MAX );
+                _ySpacingSlider.setValue( FaradayConfig.GRID_Y_SPACING_MIN );
+                setSliderSize( _ySpacingSlider, SLIDER_SIZE );
+
+                // Value
+                _ySpacingValue = new JLabel( UNKNOWN_VALUE );
+
+                // Layout
+                gridYSpacingPanel.setLayout( new BoxLayout( gridYSpacingPanel, BoxLayout.X_AXIS ) );
+                gridYSpacingPanel.add( label );
+                gridYSpacingPanel.add( _ySpacingSlider );
+                gridYSpacingPanel.add( _ySpacingValue );
+            }
+
+            // Needle width
+            JPanel needleWidthPanel = new JPanel();
+            {
+                // Label
+                JLabel label = new JLabel( "Needle length:" );
+
+                // Slider
+                _needleWidthSlider = new JSlider();
+                _needleWidthSlider.setMinimum( FaradayConfig.GRID_NEEDLE_SIZE_MIN.width );
+                _needleWidthSlider.setMaximum( FaradayConfig.GRID_NEEDLE_SIZE_MAX.width );
+                _needleWidthSlider.setValue( FaradayConfig.GRID_NEEDLE_SIZE_MIN.width );
+                setSliderSize( _needleWidthSlider, SLIDER_SIZE );
+
+                // Value
+                _needleWidthValue = new JLabel( UNKNOWN_VALUE );
+
+                // Layout
+                needleWidthPanel.setLayout( new BoxLayout( needleWidthPanel, BoxLayout.X_AXIS ) );
+                needleWidthPanel.add( label );
+                needleWidthPanel.add( _needleWidthSlider );
+                needleWidthPanel.add( _needleWidthValue );
+            }
+
+            // Needle height
+            JPanel needleHeightPanel = new JPanel();
+            {
+                // Label
+                JLabel label = new JLabel( "Needle thickness:" );
+
+                // Slider
+                _needleHeightSlider = new JSlider();
+                _needleHeightSlider.setMinimum( FaradayConfig.GRID_NEEDLE_SIZE_MIN.height );
+                _needleHeightSlider.setMaximum( FaradayConfig.GRID_NEEDLE_SIZE_MAX.height );
+                _needleHeightSlider.setValue( FaradayConfig.GRID_NEEDLE_SIZE_MIN.height );
+                setSliderSize( _needleHeightSlider, SLIDER_SIZE );
+
+                // Value
+                _needleHeightValue = new JLabel( UNKNOWN_VALUE );
+
+                // Layout
+                needleHeightPanel.setLayout( new BoxLayout( needleHeightPanel, BoxLayout.X_AXIS ) );
+                needleHeightPanel.add( label );
+                needleHeightPanel.add( _needleHeightSlider );
+                needleHeightPanel.add( _needleHeightValue );
+            }
+            
             // Reset button
-            _resetButton = new JButton( SimStrings.get( "resetButton.label" ) );
-
-            resetPanel.setLayout( new BoxLayout( resetPanel, BoxLayout.X_AXIS ) );
-            resetPanel.add( _resetButton );
+            _resetButton = new JButton( "Reset" );
+            
+            //  Layout
+            debugPanel.setLayout( new BoxLayout( debugPanel, BoxLayout.Y_AXIS ) );
+            debugPanel.add( magnetWidthPanel );
+            debugPanel.add( magnetHeightPanel );
+            debugPanel.add( gridXSpacingPanel );
+            debugPanel.add( gridYSpacingPanel );
+            debugPanel.add( needleWidthPanel );
+            debugPanel.add( needleHeightPanel );
+            debugPanel.add( _resetButton );
         }
-
+        
         // Add panels to control panel.
         addFullWidth( barMagnetPanel );
         addFullWidth( probePanel );
         addFullWidth( compassPanel );
         if ( ENABLE_DEBUG_CONTROLS ) {
-            addFullWidth( gridPanel );
-            addFullWidth( resetPanel );
+            addFullWidth( debugPanel );
         }
 
         // Wire up event handling.
         EventListener listener = new EventListener();
-        _resetButton.addActionListener( listener );
         _flipPolarityButton.addActionListener( listener );
         _strengthSlider.addChangeListener( listener );
         _magnetTransparencyCheckBox.addActionListener( listener );
-        _magnetWidthSlider.addChangeListener( listener );
-        _magnetHeightSlider.addChangeListener( listener );
-        _xSpacingSlider.addChangeListener( listener );
-        _ySpacingSlider.addChangeListener( listener );
-        _needleWidthSlider.addChangeListener( listener );
-        _needleHeightSlider.addChangeListener( listener );
         _meterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
+        if ( ENABLE_DEBUG_CONTROLS ) {
+            _magnetWidthSlider.addChangeListener( listener );
+            _magnetHeightSlider.addChangeListener( listener );
+            _xSpacingSlider.addChangeListener( listener );
+            _ySpacingSlider.addChangeListener( listener );
+            _needleWidthSlider.addChangeListener( listener );
+            _needleHeightSlider.addChangeListener( listener );
+            _resetButton.addActionListener( listener );
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -358,8 +356,10 @@ public class BarMagnetControlPanel extends ControlPanel {
      * @param size the size
      */
     public void setMagnetSize( Dimension size ) {
-        _magnetWidthSlider.setValue( size.width );
-        _magnetHeightSlider.setValue( size.height );
+        if ( ENABLE_DEBUG_CONTROLS ) {
+            _magnetWidthSlider.setValue( size.width );
+            _magnetHeightSlider.setValue( size.height );
+        }
     }
 
     /**
@@ -369,8 +369,10 @@ public class BarMagnetControlPanel extends ControlPanel {
      * @param y space between compasses in Y direction
      */
     public void setGridSpacing( int x, int y ) {
-        _xSpacingSlider.setValue( x );
-        _ySpacingSlider.setValue( y );
+        if ( ENABLE_DEBUG_CONTROLS ) {
+            _xSpacingSlider.setValue( x );
+            _ySpacingSlider.setValue( y );
+        }
     }
 
     /**
@@ -379,8 +381,10 @@ public class BarMagnetControlPanel extends ControlPanel {
      * @param size the size
      */
     public void setGridNeedleSize( Dimension size ) {
-        _needleWidthSlider.setValue( size.width );
-        _needleHeightSlider.setValue( size.height );
+        if ( ENABLE_DEBUG_CONTROLS ) {
+            _needleWidthSlider.setValue( size.width );
+            _needleHeightSlider.setValue( size.height );
+        }
     }
 
     /**
@@ -399,6 +403,23 @@ public class BarMagnetControlPanel extends ControlPanel {
      */
     public void setCompassEnabled( boolean enabled ) {
         _compassCheckBox.setSelected( enabled );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Sets a slider to a fixed size.
+     * 
+     * @param slider the slider
+     * @param size the size
+     */
+    private static void setSliderSize( JSlider slider, Dimension size ) {
+        assert( slider != null );
+        slider.setPreferredSize( size );
+        slider.setMaximumSize( size );
+        slider.setMinimumSize( size );
     }
     
     //----------------------------------------------------------------------------
@@ -491,5 +512,7 @@ public class BarMagnetControlPanel extends ControlPanel {
             }
         }
     }
+    
+
 
 }
