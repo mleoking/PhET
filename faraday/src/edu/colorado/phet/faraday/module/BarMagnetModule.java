@@ -39,24 +39,21 @@ public class BarMagnetModule extends Module {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     // Rendering layers
     private static final double GRID_LAYER = 1;
-    private static final double COIL_BACK_LAYER = 2;
-    private static final double MAGNET_LAYER = 3;
-    private static final double COIL_FRONT_LAYER = 4;
-    private static final double COMPASS_LAYER = 5;
+    private static final double MAGNET_LAYER = 2;
+    private static final double COMPASS_LAYER = 3;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations of model components
+    private static final Point MAGNET_LOCATION = new Point( 350, 350 );
 
     // Locations of view components
-    private static final Point MAGNET_LOCATION = new Point( 200, 300 );
-    private static final Point PICKUP_COIL_LOCATION = new Point( 500, 300 );
     private static final Point GRID_LOCATION = new Point( 0, 0 );
-    private static final Point COMPASS_LOCATION = new Point( 100, 500 );
-
+    private static final Point COMPASS_LOCATION = new Point( 100, 400 );
+    
     // Colors
     private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
 
@@ -64,18 +61,21 @@ public class BarMagnetModule extends Module {
     public static final double MAGNET_STRENGTH_MAX = 999;
     private static final double MAGNET_STRENGTH = 350;
     
+    public static final Dimension MAGNET_SIZE_MIN = new Dimension( 10, 10 );
+    public static final Dimension MAGNET_SIZE_MAX = new Dimension( 500, 200 );
     private static final Dimension MAGNET_SIZE = new Dimension( 250, 50 );
     
-    public static final int LOOP_RADIUS_MIN = 75;
-    public static final int LOOP_RADIUS_MAX = 150;
-    private static final double LOOP_RADIUS = 100;
-    
+    public static final int GRID_X_SPACING_MIN = 20;
+    public static final int GRID_X_SPACING_MAX = 200;
     private static final int GRID_X_SPACING = 40;
-    private static final int GRID_Y_SPACING = 40;
-    private static final Dimension GRID_NEEDLE_SIZE = new Dimension( 25, 5 );
     
-    private static final double LIGHT_BULB_RESISTANCE = 20; // ohms
-    private static final double VOLTMETER_RESISTANCE = 20; // ohms
+    public static final int GRID_Y_SPACING_MIN = 20;
+    public static final int GRID_Y_SPACING_MAX = 200;
+    private static final int GRID_Y_SPACING = 40;
+    
+    public static final Dimension GRID_NEEDLE_SIZE_MIN = new Dimension( 1, 4 );
+    public static final Dimension GRID_NEEDLE_SIZE_MAX = new Dimension( 100, 50 );
+    private static final Dimension GRID_NEEDLE_SIZE = new Dimension( 25, 5 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -83,12 +83,8 @@ public class BarMagnetModule extends Module {
     
     // Model
     private AbstractMagnet _magnetModel;
-    private LightBulb _lightBulbModel;
-    private VoltMeter _voltMeterModel;
-    private PickupCoil _pickupCoilModel;
     
     // View
-    private PickupCoilGraphic _pickupCoilGraphic;
     private CompassGridGraphic _gridGraphic;
     
     // Control
@@ -104,10 +100,10 @@ public class BarMagnetModule extends Module {
      * @param appModel the application model
      */
     public BarMagnetModule( ApplicationModel appModel ) {
-
+        
         super( SimStrings.get( "BarMagnetModule.title" ) );
         assert( appModel != null );
-        
+
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -120,34 +116,31 @@ public class BarMagnetModule extends Module {
         this.setModel( model );
         
         // Bar Magnet
-        _magnetModel = new BarMagnet();
+        if ( FaradayConfig.HOLLYWOOD_MAGNET ) {
+            System.out.println( "*** HOLLYWOOD_MAGNET is enabled ***" ); // DEBUG
+            _magnetModel = new HollywoodMagnet();
+        }
+        else {
+            _magnetModel = new BarMagnet();
+        }
         _magnetModel.setStrength( MAGNET_STRENGTH );
         _magnetModel.setLocation( MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );
         _magnetModel.setSize( MAGNET_SIZE );
         model.addModelElement( _magnetModel );
         
-        // Compass
-        AbstractCompass compassModel = new Compass( _magnetModel ); 
+        // Compass model
+        AbstractCompass compassModel = null;
+        if ( FaradayConfig.HOLLYWOOD_COMPASS ) {
+            System.out.println( "*** HOLLYWOOD_COMPASS is enabled ***" ); // DEBUG
+            compassModel = new HollywoodCompass( _magnetModel );
+        }
+        else {
+            compassModel = new Compass( _magnetModel );
+        }
         compassModel.setLocation( COMPASS_LOCATION );
         model.addModelElement( compassModel );
         
-        // Lightbulb
-        _lightBulbModel = new LightBulb( LIGHT_BULB_RESISTANCE );
-        model.addModelElement( _lightBulbModel );
-        
-        // Volt Meter
-        _voltMeterModel = new VoltMeter( VOLTMETER_RESISTANCE );
-        model.addModelElement( _voltMeterModel );
-        
-        // Pickup Coil
-        _pickupCoilModel = new PickupCoil( _magnetModel );
-        _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
-        _pickupCoilModel.setRadius( LOOP_RADIUS );
-        _pickupCoilModel.setDirection( 0 );
-        _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
-        model.addModelElement( _pickupCoilModel );
-       
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -156,14 +149,10 @@ public class BarMagnetModule extends Module {
         ApparatusPanel apparatusPanel = new ApparatusPanel2( model, clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
-        
+
         // Bar Magnet
         BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
         apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
-        
-        // Pickup AbstractCoil
-        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel, _lightBulbModel, _voltMeterModel );
-        apparatusPanel.addGraphic( _pickupCoilGraphic, COIL_FRONT_LAYER ); // XXX
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
@@ -176,22 +165,24 @@ public class BarMagnetModule extends Module {
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
+        // Field Probe
+        FieldProbeGraphic probeGraphic = new FieldProbeGraphic( apparatusPanel, _magnetModel );
+        probeGraphic.setLocation( 100, 100 );
+        apparatusPanel.addGraphic( probeGraphic, DEBUG_LAYER );
+        
         // Debugger
         DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
-//        debugger.add( _pickupCoilGraphic );
+        debugger.setLocationColor( Color.GREEN );
+//        debugger.add( probeGraphic );
         apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
-
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
-        
+
         // Control Panel
         _controlPanel = new BarMagnetControlPanel( this );
         this.setControlPanel( _controlPanel );
-        
-        //----------------------------------------------------------------------------
-        // Listeners
-        //----------------------------------------------------------------------------
         
         //----------------------------------------------------------------------------
         // Help
@@ -203,31 +194,19 @@ public class BarMagnetModule extends Module {
         
         reset();
     }
-
+   
     //----------------------------------------------------------------------------
     // Controller methods
     //----------------------------------------------------------------------------
-    
+
     /**
-     * Resets everything to the initial state.
+     * Resets everything to the initial values.
      */
     public void reset() {
-        // Set state.
-        _magnetModel.setStrength( MAGNET_STRENGTH );
-        _pickupCoilModel.setRadius( (int)LOOP_RADIUS );
-        _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
-        _pickupCoilModel.setResistor( _lightBulbModel );
-        _lightBulbModel.setEnabled( true );
-        _voltMeterModel.setEnabled( false );
-        _gridGraphic.setVisible( true );
-        
-        // Synchronize control panel.
-        _controlPanel.setMagnetStrength( _magnetModel.getStrength() );
-        _controlPanel.setLoopRadius( _pickupCoilModel.getRadius() );
-        _controlPanel.setNumberOfLoops( _pickupCoilModel.getNumberOfLoops() );
-        _controlPanel.setBulbEnabled( _lightBulbModel.isEnabled() );
-        _controlPanel.setMeterEnabled( _voltMeterModel.isEnabled() );
-        _controlPanel.setCompassGridEnabled( _gridGraphic.isVisible() );
+        _controlPanel.setBarMagnetStrength( MAGNET_STRENGTH );
+        _controlPanel.setBarMagnetSize( MAGNET_SIZE );
+        _controlPanel.setGridSpacing( GRID_X_SPACING, GRID_Y_SPACING );
+        _controlPanel.setGridNeedleSize( GRID_NEEDLE_SIZE );
     }
     
     /**
@@ -242,58 +221,38 @@ public class BarMagnetModule extends Module {
     /**
      * Sets the magnet's strength.
      * 
-     * @param strength the strength value
+     * @param strength the strength
      */
     public void setMagnetStrength( double strength ) {
         _magnetModel.setStrength( strength );
     }
     
     /**
-     * Enables/disables the compass grid.
+     * Sets the magnet's size.
      * 
-     * @param enable true to enable, false to disable
+     * @param width the width
+     * @param height the height
      */
-    public void setCompassGridEnabled( boolean enable ) {
-        _gridGraphic.resetSpacing();
-        _gridGraphic.setVisible( enable );
+    public void setMagnetSize( Dimension size ) {
+        _magnetModel.setSize( size );
     }
     
     /**
-     * Sets the number of loops in the pickup coil.
+     * Sets the spacing betweeen compasses in the grid.
      * 
-     * @param numberOfLoops the number of loops
+     * @param x space between compasses in the X direction
+     * @param y space between compasses in the Y direction
      */
-    public void setNumberOfPickupLoops( int numberOfLoops ) {
-        _pickupCoilModel.setNumberOfLoops( numberOfLoops ); 
+    public void setGridSpacing( int x, int y ) {
+        _gridGraphic.setSpacing( x, y );
     }
     
     /**
-     * Sets the radius used for all loops in the pickup coil.
+     * Sets the size of the compass needles in the grid.
      * 
-     * @param radius the radius
+     * @param size the size
      */
-    public void setPickupLoopRadius( double radius ) {
-        _pickupCoilModel.setRadius( radius );
-    }
-    
-    /**
-     * Enables the light bulb.
-     */
-    public void setBulbEnabled( boolean enabled ) {
-        _lightBulbModel.setEnabled( enabled );
-        _voltMeterModel.setEnabled( !enabled );
-        if ( enabled ) {
-            _pickupCoilModel.setResistor( _lightBulbModel );
-        }
-        else {
-            _pickupCoilModel.setResistor( _voltMeterModel );
-        }
-    }
-    
-    /**
-     * Enables the volt meter.
-     */
-    public void setMeterEnabled( boolean enabled ) {
-        setBulbEnabled( !enabled );
+    public void setGridNeedleSize( Dimension size ) {
+        _gridGraphic.setNeedleSize( size );
     }
 }
