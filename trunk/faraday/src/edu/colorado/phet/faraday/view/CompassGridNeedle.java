@@ -48,6 +48,7 @@ class CompassGridNeedle {
     private Color _northColor, _southColor;
     private boolean _alphaEnabled;
     private Rectangle _bounds;
+    private AffineTransform _transform;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -62,6 +63,7 @@ class CompassGridNeedle {
         _direction = 0.0;
         _alphaEnabled = false;
         _bounds = new Rectangle();
+        _transform = new AffineTransform();
     }
 
     //----------------------------------------------------------------------------
@@ -192,9 +194,10 @@ class CompassGridNeedle {
      * Updates the Shapes used to draw the needle.
      */
     private void updateShapes() {
-        AffineTransform transform = new AffineTransform();
-        transform.translate( _location.getX(), _location.getY() );
-        transform.rotate( _direction );
+        
+        _transform.setToIdentity();
+        _transform.translate( _location.getX(), _location.getY() );
+        _transform.rotate( _direction );
 
         // North tip of needle
         GeneralPath northPath = new GeneralPath();
@@ -202,7 +205,7 @@ class CompassGridNeedle {
         northPath.lineTo( ( _size.width / 2 ), 0 );
         northPath.lineTo( 0, ( _size.height / 2 ) );
         northPath.closePath();
-        _northShape = transform.createTransformedShape( northPath );
+        _northShape = _transform.createTransformedShape( northPath );
 
         // South tip of needle
         GeneralPath southPath = new GeneralPath();
@@ -210,7 +213,7 @@ class CompassGridNeedle {
         southPath.lineTo( 0, ( _size.height / 2 ) );
         southPath.lineTo( -( _size.width / 2 ), 0 );
         southPath.closePath();
-        _southShape = transform.createTransformedShape( southPath );
+        _southShape = _transform.createTransformedShape( southPath );
         
         // Recompute the bounds
         _bounds = _northShape.getBounds();
