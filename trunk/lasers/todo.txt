@@ -1,3 +1,5 @@
+- EnergyLevelMonitorPanel is an observer of the model. This causes lots of repaints. Instead, it should just be
+a AtomicState.PopulationChangeListener, or the EnergyLevelGraphics should be, and the squiggles listen to the beams
 - unify use of ModelViewTx1D in EnergyLevelGraphic and EnergyLevelMonitorPanel. The latter should set the transform
 and send it to the former.
 
