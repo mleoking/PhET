@@ -63,8 +63,8 @@ public class TestComponents {
         JCheckBox jcb = new JCheckBox( "Power" );
         contentPane.add( jcb );
 
-//        UIManager.installLookAndFeel( "Test Look And Feel", new PlayfulLookAndFeel().getClass().getName() );
-//        UIManager.setLookAndFeel( PlayfulLookAndFeel.class.getName());
+        //        UIManager.installLookAndFeel( "Test Look And Feel", new PlayfulLookAndFeel().getClass().getName() );
+        //        UIManager.setLookAndFeel( PlayfulLookAndFeel.class.getName());
         SwingUtilities.updateComponentTreeUI( frame );
 
         SpinnerNumberModel snm = new SpinnerNumberModel( 0, 0, 10, 1 );
@@ -74,18 +74,18 @@ public class TestComponents {
                 System.out.println( "Spinner value changed to " + spinner.getValue() );
             }
         } );
-//        spinner.setSize( 200,200);
+        //        spinner.setSize( 200,200);
 
         JPanel spinnerPanel = new JPanel();
         spinnerPanel.add( spinner );
         contentPane.add( spinnerPanel );
 
         frame.setSize( 600, 600 );
-        GraphicsUtil.centerFrameOnScreen( frame );
-//        PlafUtil.applyPlayful();
+        GraphicsUtil.centerWindowOnScreen( frame );
+        //        PlafUtil.applyPlayful();
 
 
-//        UIManager.setLookAndFeel( AnimFactoryLookAndFeel.class.getName() );
+        //        UIManager.setLookAndFeel( AnimFactoryLookAndFeel.class.getName() );
         PlafUtil.updateFrames();
 
 

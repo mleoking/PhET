@@ -23,10 +23,11 @@ import java.awt.event.MouseEvent;
  * This may be used as a decorator of your home-brewed Graphic and Boundary.
  */
 public class DefaultInteractiveGraphic implements InteractiveGraphic {
-    Graphic graphic;
-    CompositeMouseInputListener mouseControl;
-    Boundary boundary;
+    private Graphic graphic;
+    private CompositeMouseInputListener mouseControl;
+    private Boundary boundary;
     private HandCursorControl handControl;
+    private boolean visible = true;
 
     public DefaultInteractiveGraphic( BoundedGraphic boundedGraphic ) {
         this( boundedGraphic, boundedGraphic );
@@ -39,39 +40,55 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        graphic.paint( g );
+        if( visible ) {
+            graphic.paint( g );
+        }
     }
 
     public void mouseClicked( MouseEvent e ) {
-        mouseControl.mouseClicked( e );
+        if( visible ) {
+            mouseControl.mouseClicked( e );
+        }
     }
 
     public void mousePressed( MouseEvent e ) {
-        mouseControl.mousePressed( e );
+        if( visible ) {
+            mouseControl.mousePressed( e );
+        }
     }
 
     public void mouseReleased( MouseEvent e ) {
-        mouseControl.mouseReleased( e );
+        if( visible ) {
+            mouseControl.mouseReleased( e );
+        }
     }
 
     public void mouseEntered( MouseEvent e ) {
-        mouseControl.mouseEntered( e );
+        if( visible ) {
+            mouseControl.mouseEntered( e );
+        }
     }
 
     public void mouseExited( MouseEvent e ) {
-        mouseControl.mouseExited( e );
+        if( visible ) {
+            mouseControl.mouseExited( e );
+        }
     }
 
     public void mouseDragged( MouseEvent e ) {
-        mouseControl.mouseDragged( e );
+        if( visible ) {
+            mouseControl.mouseDragged( e );
+        }
     }
 
     public void mouseMoved( MouseEvent e ) {
-        mouseControl.mouseMoved( e );
+        if( visible ) {
+            mouseControl.mouseMoved( e );
+        }
     }
 
     public boolean contains( int x, int y ) {
-        return boundary.contains( x, y );
+        return visible && boundary.contains( x, y );
     }
 
     public void setGraphic( Graphic graphic ) {
@@ -124,5 +141,13 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
             }
         };
         addMouseInputListener( adapter );
+    }
+
+    public void setVisible( boolean visible ) {
+        this.visible = visible;
+    }
+
+    public boolean isVisible() {
+        return visible;
     }
 }

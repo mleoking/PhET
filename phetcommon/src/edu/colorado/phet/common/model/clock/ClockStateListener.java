@@ -1,6 +1,5 @@
 package edu.colorado.phet.common.model.clock;
 
-import edu.colorado.phet.common.model.ThreadPriority;
 
 /**
  * User: Sam Reid
@@ -13,5 +12,5 @@ public interface ClockStateListener {
 
     void dtChanged( double dt );
 
-    void threadPriorityChanged( ThreadPriority tp );
+    void threadPriorityChanged( int priority );
 }

@@ -179,11 +179,7 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
         public void mouseExited( MouseEvent e ) {
         }
 
-        int cnt = 0;
-
         public void mouseDragged( MouseEvent e ) {
-            //            System.out.println( "cnt: " + cnt++ + " activeUnit: " + activeUnit );
-
             if( activeUnit != null ) {
                 activeUnit.mouseDragged( e );
             }
@@ -211,10 +207,9 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
                     MouseInputListener unit = getHandler( e );
-
                     if( unit == null ) {
-                        //                        getHandler( e );
-                        //                        System.out.println( "NULL unit----------------------------------->" );
+                        // If the mouse isn't over anything contained in the
+                        // CompositeInteractiveGraphic...
                         if( activeUnit != null ) {
                             activeUnit.mouseExited( e );
                             activeUnit = null;

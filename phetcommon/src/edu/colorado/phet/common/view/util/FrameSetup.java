@@ -12,11 +12,11 @@ import java.awt.*;
 public interface FrameSetup {
     public void initialize( JFrame frame );
 
-    public static class Center implements FrameSetup {
+    public static class CenteredWithInsets implements FrameSetup {
         private int insetX;
         private int insetY;
 
-        public Center( int insetX, int insetY ) {
+        public CenteredWithInsets( int insetX, int insetY ) {
             this.insetX = insetX;
             this.insetY = insetY;
         }
@@ -35,11 +35,11 @@ public interface FrameSetup {
         }
     }
 
-    public static class Absolute implements FrameSetup {
+    public static class CenteredWithSize implements FrameSetup {
         private int width;
         private int height;
 
-        public Absolute( int width, int height ) {
+        public CenteredWithSize( int width, int height ) {
             this.width = width;
             this.height = height;
         }
@@ -81,7 +81,8 @@ public interface FrameSetup {
             if( pre != null ) {
                 pre.initialize( frame );
             }
-            frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
+            GraphicsUtil.maximizeFrame( frame );
+            //            frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
         }
     }
 }

@@ -12,33 +12,37 @@ import java.awt.image.BufferedImage;
  * Time: 11:58:25 PM
  * Copyright (c) Oct 8, 2003 by Sam Reid
  */
-public class TargetedImageGraphic implements BoundedGraphic {
-    BufferedImage image;
+public class TargetedImageGraphic extends BufferedImageGraphic {
     private Rectangle2D modelBounds;
 
     public TargetedImageGraphic( BufferedImage image, Rectangle2D modelBounds ) {
-        this.image = image;
+        super( image );
         this.modelBounds = modelBounds;
     }
 
     public void paint( Graphics2D g ) {
-        g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        //        g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+        //        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+
+        BufferedImage image = getBufferedImage();
+
         AffineTransform at = AffineTransform.getTranslateInstance( modelBounds.getX(), modelBounds.getY() );
         double sx = modelBounds.getWidth() / image.getWidth();
         double sy = modelBounds.getHeight() / image.getHeight();
         at.scale( sx, -sy );
         at.translate( 0, -image.getHeight() );
 
-        g.drawRenderedImage( image, at );
+        super.setTransform( at );
+        //        g.drawRenderedImage( image, at );
+        super.paint( g );
     }
 
     public void setRect( Rectangle2D.Double rect ) {
         this.modelBounds = rect;
     }
 
-    public boolean contains( int x, int y ) {
-        return modelBounds.contains( x, y );
-    }
+    //    public boolean contains( int x, int y ) {
+    //        return modelBounds.contains( x, y );
+    //    }
 
 }

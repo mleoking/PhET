@@ -8,46 +8,37 @@ import edu.colorado.phet.common.application.PhetApplication;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 
 /**
  * An on-screen container for the modules in an application. It displays the
  * modules' apparatus panels in tabbed panes. It is only used for applications
  * that have more than one module.
  */
-//public class TabbedApparatusPanelContainer extends JTabbedPane implements ApparatusPanelContainer {
-public class TabbedApparatusPanelContainer extends JPanel implements ModuleObserver {
+public class TabbedApparatusPanelContainer extends JTabbedPane implements ModuleObserver {
     Module current;
-    JTabbedPane tabbedPane = new JTabbedPane();
     private PhetApplication application;
 
     public TabbedApparatusPanelContainer( final PhetApplication application ) {
         this.application = application;
-        this.setLayout( new BorderLayout() );
-        tabbedPane.addChangeListener( new ChangeListener() {
+        addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int selectedIdx = tabbedPane.getSelectedIndex();
+                int selectedIdx = getSelectedIndex();
                 current = application.moduleAt( selectedIdx );
                 application.setActiveModule( selectedIdx );
             }
         } );
         application.addModuleObserver( this );
-        add( tabbedPane );
     }
 
     public void moduleAdded( Module module ) {
-        tabbedPane.addTab( module.getName(), module.getApparatusPanel() );
+        addTab( module.getName(), module.getApparatusPanel() );
     }
 
     public void activeModuleChanged( Module m ) {
         if( current != m ) {
             int index = application.indexOf( m );
-            tabbedPane.setSelectedIndex( index );
+            setSelectedIndex( index );
         }
-    }
-
-    public JComponent getComponent() {
-        return tabbedPane;
     }
 
 }
