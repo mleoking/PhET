@@ -35,7 +35,7 @@ public class WaveBeamGraphic extends PhetGraphic implements CollimatedBeam.RateC
     public WaveBeamGraphic( Component component, CollimatedBeam beam, ResonatingCavity cavity ) {
         super( component );
         this.cavity = cavity;
-        beam.addListener( this );
+        beam.addRateChangeListner( this );
         update( beam );
     }
 

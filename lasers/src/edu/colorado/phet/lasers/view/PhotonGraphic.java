@@ -179,7 +179,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         synchronized( s_instances ) {
             for( int i = 0; i < s_instances.size(); i++ ) {
                 PhotonGraphic photonGraphic = (PhotonGraphic)s_instances.get( i );
-                photonGraphic.photon.removeListener( photonGraphic );
+                photonGraphic.photon.removeLeftSystemListener( photonGraphic );
                 photonGraphic.photon.removeObserver( photonGraphic );
                 apparatusPanel.removeGraphic( photonGraphic );
             }
@@ -257,7 +257,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         this.photon = photon;
         this.color = VisibleColor.wavelengthToColor( photon.getWavelength() );
         photon.addObserver( this );
-        photon.addListener( this );
+        photon.addVelocityChangedListener( this );
 
         // This code is for the squiggle view of photons
         //        super( s_particleImage, particle.getPosition().getX(), particle.getPosition().getY() );
@@ -441,11 +441,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     //
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
         PhotonGraphic.removeInstance( this );
-        photon.removeListener( this );
+        photon.removeLeftSystemListener( this );
     }
-
-
-//    protected void setBoundsDirty() {
-////         NOP
-//    }
 }

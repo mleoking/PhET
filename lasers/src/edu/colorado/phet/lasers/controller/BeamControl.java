@@ -42,7 +42,8 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
 
     public BeamControl( final CollimatedBeam beam, int minRate, int maxRate ) {
         this.beam = beam;
-        beam.addListener( this );
+        beam.addWavelengthChangeListener( this );
+        beam.addRateChangeListner( this );
 
         //        photonRateTF = new JTextField( 3 );
         //        photonRateTF.setEditable( false );
@@ -115,7 +116,7 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
 
     public void setWavelengthLimitingBeam( CollimatedBeam wavelengthLimitingBeam ) {
         this.wavelengthLimitingBeam = wavelengthLimitingBeam;
-        wavelengthLimitingBeam.addListener( new LimitingWavelengthChangeListener() );
+        wavelengthLimitingBeam.addWavelengthChangeListener( new LimitingWavelengthChangeListener() );
     }
 
     public class LimitingWavelengthChangeListener implements CollimatedBeam.WavelengthChangeListener {

@@ -83,7 +83,7 @@ public class BeamControl2 extends CompositeGraphic {
                 beam.setPhotonsPerSecond( photonRateSlider.getValue() );
             }
         } );
-        beam.addListener( new WavelengthChangeListener( photonRateSlider ) );
+        beam.addWavelengthChangeListener( new WavelengthChangeListener( photonRateSlider ) );
     }
 
     public class WavelengthChangeListener implements CollimatedBeam.WavelengthChangeListener {
