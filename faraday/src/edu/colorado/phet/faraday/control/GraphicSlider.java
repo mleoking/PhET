@@ -11,11 +11,10 @@
 
 package edu.colorado.phet.faraday.control;
 
-import java.awt.Component;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 
@@ -27,6 +26,7 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * GraphicSlider is a PhetGraphic UI component that is similar to a JSlider.
@@ -45,9 +45,10 @@ public class GraphicSlider extends GraphicLayerSet {
     //----------------------------------------------------------------------------
     
     private static final double BACKGROUND_LAYER = 0;
-    private static final double TRACK_LAYER = 1;
-    private static final double KNOB_LAYER = 2;
-    private static final double KNOB_HIGHLIGHT_LAYER = 3;
+    private static final double TICK_LAYER = 1;
+    private static final double TRACK_LAYER = 2;
+    private static final double KNOB_LAYER = 3;
+    private static final double KNOB_HIGHLIGHT_LAYER = 4;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -61,6 +62,8 @@ public class GraphicSlider extends GraphicLayerSet {
     private int _minimum, _maximum;
     // The current value.
     private int _value;
+    // Size of tick marks.
+    private Dimension _tickSize;
     // Event listeners.
     private EventListenerList _listenerList;
 
@@ -75,7 +78,7 @@ public class GraphicSlider extends GraphicLayerSet {
      * @param component the parent Component
      */
     public GraphicSlider( Component component ) {
-        super( null );
+        super( component );
         
         // Initialize instance data.
         _knob = _knobHighlight = _track = _background = null;
@@ -84,6 +87,7 @@ public class GraphicSlider extends GraphicLayerSet {
         _minimum = 0;
         _maximum = 100;
         _value = ( _maximum - _minimum ) / 2;
+        _tickSize = new Dimension( 1, 10 );
         _listenerList = new EventListenerList();
         
         // Enable anti-aliasing.
@@ -280,7 +284,52 @@ public class GraphicSlider extends GraphicLayerSet {
     public int getMaximum() {
         return _maximum;
     }
-
+    
+    /**
+     * Sets the size used for subsequent tick marks added using setTick.
+     * Previous tick marks are not modified.
+     * 
+     * @param tickSize the tick size
+     */
+    public void setTickSize( Dimension tickSize ) {
+        if ( tickSize != null ) {
+            _tickSize.setSize( tickSize );
+        }
+    }
+    
+    /**
+     * Gets the tick size.
+     * 
+     * @return the tick size.
+     */
+    public Dimension getTickSize() {
+        return new Dimension( _tickSize );
+    }
+    
+    /**
+     * Adds a tick mark at the specified value.
+     * This call is ignored if the slider has no track, or if the value is outside 
+     * the min/max range.
+     * 
+     * @param tickValue the tick value
+     */
+    public void addTick( int tickValue ) {
+        if ( _track != null && tickValue >= _minimum && tickValue <= _maximum ) {
+            
+            double percent = ( tickValue - _minimum ) / (double) ( _maximum - _minimum );
+            int x = (int) ( _dragBounds.x + (int) ( percent * _dragBounds.width ) );
+            System.out.println( "GraphicSlider.setTick: x=" + x );//XXX
+            
+            Shape shape = new Line2D.Double( x, 0, x, _tickSize.height );
+            PhetShapeGraphic tick = new PhetShapeGraphic( getComponent() );
+            tick.setShape( shape );
+            tick.setBorderColor( Color.BLACK );
+            tick.setStroke( new BasicStroke( (float) _tickSize.width ) );
+            
+            addGraphic( tick, TICK_LAYER );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // UI update
     //----------------------------------------------------------------------------
@@ -407,5 +456,4 @@ public class GraphicSlider extends GraphicLayerSet {
             }
         }
     }
-
 }
