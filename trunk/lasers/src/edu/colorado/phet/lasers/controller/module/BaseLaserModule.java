@@ -116,24 +116,7 @@ public class BaseLaserModule extends Module {
         addGraphic( cavityGraphic, LaserConfig.CAVITY_LAYER );
 
         // Add the mirrors
-        // The right mirror is a partial mirror
-        Point2D p1 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(), // + 20,
-                                         cavity.getPosition().getY() );
-        Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(), // + 20,
-                                         cavity.getPosition().getY() + cavity.getHeight() );
-        rightMirror = new PartialMirror( p1, p2 );
-        rightMirror.addReflectionStrategy( new LeftReflecting() );
-        //        rightMirror.setReflectivity( 0 );
-        rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
-        // The left mirror is 100% reflecting
-        Point2D p3 = new Point2D.Double( cavity.getPosition().getX(), // - 20,
-                                         cavity.getPosition().getY() );
-        Point2D p4 = new Point2D.Double( cavity.getPosition().getX(), // - 20,
-                                         cavity.getPosition().getY() + cavity.getHeight() );
-        leftMirror = new PartialMirror( p3, p4 );
-        leftMirror.setReflectivity( 1.0 );
-        leftMirror.addReflectionStrategy( new RightReflecting() );
-        leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
+        //        createMirrors();
 
         // Create the energy levels dialog
         energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( laserModel );
@@ -202,18 +185,6 @@ public class BaseLaserModule extends Module {
         }
     }
 
-    public class AtomRemovalListener implements Atom.RemovalListener {
-        private AtomGraphic atomGraphic;
-
-        public AtomRemovalListener( AtomGraphic atomGraphic ) {
-            this.atomGraphic = atomGraphic;
-        }
-
-        public void removalOccurred( Atom.RemovalEvent event ) {
-            getApparatusPanel().removeGraphic( atomGraphic );
-        }
-    }
-
     /////////////////////////////////////////////////////////////////////////////////////
     // Setters and getters
     //
@@ -233,6 +204,15 @@ public class BaseLaserModule extends Module {
     public LaserModel getLaserModel() {
         return (LaserModel)getModel();
     }
+
+    public PartialMirror getRightMirror() {
+        return rightMirror;
+    }
+
+    protected EnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
+        return energyLevelsMonitorPanel;
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Other methods
@@ -262,20 +242,10 @@ public class BaseLaserModule extends Module {
         photon.addListener( new PhotonLeftSystemListener( photonGraphic ) );
     }
 
-    public class PhotonLeftSystemListener implements Photon.LeftSystemEventListener {
-        private PhotonGraphic graphic;
-
-        public PhotonLeftSystemListener( PhotonGraphic graphic ) {
-            this.graphic = graphic;
-        }
-
-        public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
-            getApparatusPanel().removeGraphic( graphic );
-            getApparatusPanel().repaint( graphic.getBounds() );
-        }
-    }
-
     public void setMirrorsEnabled( boolean mirrorsEnabled ) {
+
+        createMirrors();
+
         // Regardless of the value of mirrorsEnabled, we should remove the
         // model elements and graphics for the mirrors. If mirrorsEnabled is
         // true, we want to try remove them first, so they don't get added
@@ -309,11 +279,52 @@ public class BaseLaserModule extends Module {
         getApparatusPanel().repaint();
     }
 
-    public PartialMirror getRightMirror() {
-        return rightMirror;
+    protected void createMirrors() {
+        // The right mirror is a partial mirror
+        Point2D p1 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(), // + 20,
+                                         cavity.getPosition().getY() );
+        Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(), // + 20,
+                                         cavity.getPosition().getY() + cavity.getHeight() );
+        rightMirror = new PartialMirror( p1, p2 );
+        rightMirror.addReflectionStrategy( new LeftReflecting() );
+        //        rightMirror.setReflectivity( 0 );
+        rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
+        // The left mirror is 100% reflecting
+        Point2D p3 = new Point2D.Double( cavity.getPosition().getX(), // - 20,
+                                         cavity.getPosition().getY() );
+        Point2D p4 = new Point2D.Double( cavity.getPosition().getX(), // - 20,
+                                         cavity.getPosition().getY() + cavity.getHeight() );
+        leftMirror = new PartialMirror( p3, p4 );
+        leftMirror.setReflectivity( 1.0 );
+        leftMirror.addReflectionStrategy( new RightReflecting() );
+        leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
     }
 
-    protected EnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
-        return energyLevelsMonitorPanel;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Inner classes
+    //
+    public class AtomRemovalListener implements Atom.RemovalListener {
+        private AtomGraphic atomGraphic;
+
+        public AtomRemovalListener( AtomGraphic atomGraphic ) {
+            this.atomGraphic = atomGraphic;
+        }
+
+        public void removalOccurred( Atom.RemovalEvent event ) {
+            getApparatusPanel().removeGraphic( atomGraphic );
+        }
+    }
+
+    public class PhotonLeftSystemListener implements Photon.LeftSystemEventListener {
+        private PhotonGraphic graphic;
+
+        public PhotonLeftSystemListener( PhotonGraphic graphic ) {
+            this.graphic = graphic;
+        }
+
+        public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
+            getApparatusPanel().removeGraphic( graphic );
+            getApparatusPanel().repaint( graphic.getBounds() );
+        }
     }
 }

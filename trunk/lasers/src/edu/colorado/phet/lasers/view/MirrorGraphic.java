@@ -101,6 +101,7 @@ public class MirrorGraphic extends PhetGraphic implements PartialMirror.Reflecti
                                       BufferedImage.TYPE_INT_ARGB );
         Graphics2D g = (Graphics2D)mirrorBI.getGraphics();
         GraphicsUtil.setAntiAliasingOn( g );
+        g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         g.setColor( mirrorColor );
         g.fill( face1 );
         g.setColor( Color.black );

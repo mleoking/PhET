@@ -14,7 +14,7 @@ package edu.colorado.phet.lasers.model.photon;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.lasers.EventRegistry;
+import edu.colorado.phet.common.util.EventRegistry;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

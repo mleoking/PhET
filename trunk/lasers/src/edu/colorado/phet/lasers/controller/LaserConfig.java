@@ -49,14 +49,13 @@ public class LaserConfig {
 
     public static final int DEFAULT_PUMPING_PHOTON_RATE = 0;
     public static final int MINIMUM_PUMPING_PHOTON_RATE = 0;
-    public static final int MAXIMUM_PUMPING_PHOTON_RATE = 100;
+    public static final int MAXIMUM_PUMPING_PHOTON_RATE = 200;
+    //    public static final int MAXIMUM_PUMPING_PHOTON_RATE = 100;
 
     // Spontaneous emission times, in milliseconds
-    public static final int MINIMUM_SPONTANEOUS_EMISSION_TIME = 1;
-    public static final int MAXIMUM_SPONTANEOUS_EMISSION_TIME = 2000;
-    //    public static final int MAXIMUM_SPONTANEOUS_EMISSION_TIME = 1000;
+    public static final int MAXIMUM_STATE_LIFETIME = 200;
     public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = 50;
-    //    public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = ( MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_SPONTANEOUS_EMISSION_TIME ) / 2;
+    //    public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = ( MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_STATE_LIFETIME ) / 2;
 
     // Graphics things
     public static final int CONTROL_FONT_SIZE = 12;
@@ -74,7 +73,7 @@ public class LaserConfig {
     // Graphics layers
     public static final double CAVITY_LAYER = 12;
     public static final double ATOM_LAYER = 11;
-    public static final double PHOTON_LAYER = 10;
+    public static final double PHOTON_LAYER = 11.5;
 
     public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
     public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;

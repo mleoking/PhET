@@ -96,9 +96,7 @@ public class WaveBeamGraphic extends PhetGraphic implements SimpleObserver,
     ///////////////////////////////////////////////////////////////////////////////////
     // Interface implementations
     //
-
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
-        System.out.println( "photon left system" );
         Photon photon = event.getPhoton();
         if( lasingPhotons.contains( photon ) ) {
             lasingPhotons.remove( photon );

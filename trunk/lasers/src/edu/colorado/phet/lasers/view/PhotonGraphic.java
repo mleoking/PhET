@@ -14,6 +14,7 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -30,6 +31,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, Photon.VelocityChangedListener {
@@ -40,8 +42,10 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     static protected int s_imgHeight = (int)Photon.s_radius;
     static protected int s_imgLength = 20;
 
+    // List on s_instances
+    static private ArrayList s_instances = new ArrayList();
     // Cache of photon images of different colors
-    static private HashMap colorToImage = new HashMap();
+    static private HashMap s_colorToImage = new HashMap();
 
     static String s_imageName = LaserConfig.PHOTON_IMAGE_FILE;
     static String s_highEnergyImageName = LaserConfig.HIGH_ENERGY_PHOTON_IMAGE_FILE;
@@ -163,6 +167,21 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
         return img;
     }
 
+    /**
+     * Removes all instances of PhotonGraphic from a specified ApparatusPanel
+     *
+     * @param apparatusPanel
+     */
+    static public void removeAll( ApparatusPanel apparatusPanel ) {
+        for( int i = 0; i < s_instances.size(); i++ ) {
+            PhotonGraphic photonGraphic = (PhotonGraphic)s_instances.get( i );
+            photonGraphic.photon.removeListener( photonGraphic );
+            photonGraphic.photon.removeObserver( photonGraphic );
+            apparatusPanel.removeGraphic( photonGraphic );
+        }
+        s_instances.clear();
+    }
+
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Instance
@@ -179,6 +198,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
         // Need to subtract half the width and height of the image to locate it
         // properly
         super( component, s_particleImage );
+        s_instances.add( this );
         this.photon = photon;
         this.color = VisibleColor.wavelengthToColor( photon.getWavelength() );
         photon.addObserver( this );
@@ -211,12 +231,12 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
 
         // Set the color of the image
         Double wavelength = new Double( photon.getWavelength() );
-        BufferedImage bi = (BufferedImage)colorToImage.get( wavelength );
+        BufferedImage bi = (BufferedImage)s_colorToImage.get( wavelength );
         if( bi == null ) {
             BufferedImageOp op = new ColorFromWavelength( photon.getWavelength() );
             bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
             op.filter( s_particleImage, bi );
-            colorToImage.put( wavelength, bi );
+            s_colorToImage.put( wavelength, bi );
         }
 
         // Rotate the image

@@ -2,6 +2,7 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,6 +54,7 @@ public class WaveViewControlPanel extends JPanel {
                 module.setPhotonView();
             }
             if( selection == waveViewRB ) {
+                PhotonGraphic.removeAll( module.getApparatusPanel() );
                 module.setWaveView();
             }
         }
