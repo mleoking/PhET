@@ -74,18 +74,18 @@ public class MovableWallsModule extends IdealGasModule {
 
         // Create the lower vertical wall
         verticalWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
-                                                      box.getCorner1Y() + box.getHeight() / 3,
-                                                      wallThickness, box.getHeight() * 2 / 3 ),
-                              box.getBoundsInternal() );
+                                                         box.getCorner1Y() + box.getHeight() / 3,
+                                                         wallThickness, box.getHeight() * 2 / 3 ),
+                                 box.getBoundsInternal() );
         verticalWall.setMinimumWidth( wallThickness );
         verticalWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + wallThickness,
-                                                             box.getCorner1Y(),
-                                                             box.getWidth() - 2 * wallThickness,
-                                                             box.getHeight() ) );
+                                                                box.getCorner1Y(),
+                                                                box.getWidth() - 2 * wallThickness,
+                                                                box.getHeight() ) );
         verticalWall.setFixupStrategy( new VerticalWallFixupStrategy() );
         WallGraphic lowerWallGraphic = new GraduatedWallGraphic( verticalWall, getApparatusPanel(),
-                                                        Color.gray, Color.black,
-                                                        WallGraphic.EAST_WEST );
+                                                                 Color.gray, Color.black,
+                                                                 WallGraphic.EAST_WEST );
         lowerWallGraphic.setIsResizable( true );
         verticalWall.addChangeListener( new LowerWallChangeListener() );
 
@@ -94,6 +94,8 @@ public class MovableWallsModule extends IdealGasModule {
                                                       verticalWall.getBounds().getMinX() - box.getCorner1X(), wallThickness ),
                               box.getBoundsInternal() );
         leftFloor.setFixupStrategy( new FloorFixupStrategy() );
+        // Add a listener that will make the left floor stay attached to the left wall of the box
+        getBox().addChangeListener( new BoxChangeListener() );
         WallGraphic leftFloorGraphic = new WallGraphic( leftFloor, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.NORTH_SOUTH );
@@ -133,9 +135,9 @@ public class MovableWallsModule extends IdealGasModule {
 //                                                             new Vector2D.Double( ) );
 //                new PumpMoleculeCmd( getIdealGasModel(), newMolecule, MovableWallsModule.this ).doIt();
                 newMolecule = new HeavySpecies( new Point2D.Double( rightFloor.getBounds().getMinX() + 95,
-                                                                    rightFloor.getBounds().getMinY() - 105),
-                                                             new Vector2D.Double( -200, 200 ),
-                                                             new Vector2D.Double( ) );
+                                                                    rightFloor.getBounds().getMinY() - 105 ),
+                                                new Vector2D.Double( -200, 200 ),
+                                                new Vector2D.Double() );
 //                newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner2X() - 100,
 //                                                                                 box.getCorner1Y() + 50),
 //                                                             new Vector2D.Double( -200, 200 ),
@@ -183,7 +185,7 @@ public class MovableWallsModule extends IdealGasModule {
         rightFloor.setMovementBounds( new Rectangle2D.Double( lowerWallBounds.getMaxX(),
                                                               Math.max( lowerWallBounds.getMinY(), Pump.s_intakePortY + 10 ),
                                                               boxBounds.getMaxX() - lowerWallBounds.getMaxX(),
-                                                              boxBounds.getMaxY() - ( Pump.s_intakePortY + 10 ) ));
+                                                              boxBounds.getMaxY() - ( Pump.s_intakePortY + 10 ) ) );
     }
 
     /**
@@ -253,7 +255,7 @@ public class MovableWallsModule extends IdealGasModule {
         private Rectangle2D region;
         private int cnt;
 
-        public ParticleCounter(){
+        public ParticleCounter() {
 
         }
 
@@ -297,7 +299,7 @@ public class MovableWallsModule extends IdealGasModule {
             super( getApparatusPanel() );
             readout = new PhetTextGraphic( getApparatusPanel(), readoutFont, "", Color.black );
             this.addGraphic( readout, 10 );
-            border = new PhetShapeGraphic( getApparatusPanel(), new Rectangle(40, 15 ), new BasicStroke( 1f ), Color.black );
+            border = new PhetShapeGraphic( getApparatusPanel(), new Rectangle( 40, 15 ), new BasicStroke( 1f ), Color.black );
             this.addGraphic( border, 5 );
             counter.addObserver( this );
             this.counter = counter;
@@ -314,4 +316,21 @@ public class MovableWallsModule extends IdealGasModule {
             repaint();
         }
     }
+
+
+    //-----------------------------------------------------------------
+    // Event handlers
+    //-----------------------------------------------------------------
+
+    private class BoxChangeListener implements Box2D.ChangeListener {
+        public void boundsChanged( Box2D.ChangeEvent event ) {
+            Rectangle2D oldBounds = leftFloor.getBounds();
+            Box2D box = event.getBox2D();
+            leftFloor.setMovementBounds( getBox().getBoundsInternal() );
+            leftFloor.setBounds( new Rectangle2D.Double( box.getBoundsInternal().getMinX(), oldBounds.getMinY(),
+                                                         oldBounds.getMaxX() - box.getBoundsInternal().getMinX(),
+                                                         oldBounds.getHeight() ) );
+        }
+    }
+
 }
