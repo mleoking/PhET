@@ -32,21 +32,10 @@ public class MeasurementDialog extends JDialog {
                                       GridBagConstraints.NONE,
                                       insets, 0, 0 );
         panel.add( new PressureSliceControl(), gbc );
-
-//        gbc = new GridBagConstraints( 1, 0, 1, 1, 1, 1,
-//                                      GridBagConstraints.WEST,
-//                                      GridBagConstraints.NONE,
-//                                      insets, 0, 0 );
         gbc.gridy = 2;
         panel.add( new RulerControl(), gbc );
-
-//        gbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
-//                                      GridBagConstraints.CENTER,
-//                                      GridBagConstraints.NONE,
-//                                      insets, 0, 0 );
         gbc.gridy = 3;
         panel.add( new HistogramControlPanel(), gbc );
-
         gbc.gridy = 4;
         panel.add( new CmLinesControl(), gbc );
 
@@ -58,7 +47,6 @@ public class MeasurementDialog extends JDialog {
     class PressureSliceControl extends JPanel {
         PressureSliceControl() {
             final JCheckBox pressureSliceCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Measure_pressure_in_layer" ) );
-//            pressureSliceCB.setPreferredSize( new Dimension( 140, 30 ) );
             this.add( pressureSliceCB );
             pressureSliceCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -71,7 +59,6 @@ public class MeasurementDialog extends JDialog {
     class RulerControl extends JPanel {
         RulerControl() {
             final JCheckBox rulerCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Display_ruler" ) );
-//            rulerCB.setPreferredSize( new Dimension( 140, 15 ) );
             this.add( rulerCB );
             rulerCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -96,7 +83,6 @@ public class MeasurementDialog extends JDialog {
     class CmLinesControl extends JPanel {
         public CmLinesControl() {
             final JCheckBox cmLinesOnCB = new JCheckBox( SimStrings.get( "IdealGasControlPanel.Show_CM_lines" ) );
-//            cmLinesOnCB.setPreferredSize( new Dimension( 110, 15 ) );
             this.add( cmLinesOnCB );
             cmLinesOnCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {

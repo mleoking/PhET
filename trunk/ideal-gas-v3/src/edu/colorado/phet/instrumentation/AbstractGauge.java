@@ -4,29 +4,29 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 
 public abstract class AbstractGauge implements Graphic /*, Observer*/ {
 
-    private float min;
-    private float max;
-    private float value;
-    private float numMaj;
-    private float numMin;
+    private double min;
+    private double max;
+    private double value;
+    private double numMaj;
+    private double numMin;
 
-    public void setMin( float min ) {
+    public void setMin( double min ) {
         this.min = min;
     }
 
-    public void setMax( float max ) {
+    public void setMax( double max ) {
         this.max = max;
     }
 
-    public void setValue( float value ) {
+    public void setValue( double value ) {
         this.value = value;
     }
 
-    public void setNumMaj( float numMaj ) {
+    public void setNumMaj( double numMaj ) {
         this.numMaj = numMaj;
     }
 
-    public void setNumMin( float numMin ) {
+    public void setNumMin( double numMin ) {
         this.numMin = numMin;
     }
 }
