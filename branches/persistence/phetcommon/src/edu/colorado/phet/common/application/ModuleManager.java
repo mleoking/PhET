@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.MultiMap;
 import edu.colorado.phet.common.util.persistence.*;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -26,6 +27,8 @@ import java.util.zip.GZIPInputStream;
 import java.beans.*;
 import java.io.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.*;
 
 /**
@@ -96,17 +99,27 @@ public class ModuleManager {
 
     public void setActiveModule( Module module ) {
         if( activeModule != module ) {
-            if( activeModule != null ) {
-                activeModule.deactivate( phetApplication );
-//                    activeModule.deactivate( PhetApplication.this );
-            }
-            activeModule = module;
-            module.activate( phetApplication );
-//                module.activate( PhetApplication.this );
+            forceSetActiveModule( module );
         }
+    }
+
+    private void forceSetActiveModule( Module module ) {
+        deactivate();
+        activate( module );
         for( int i = 0; i < observers.size(); i++ ) {
             PhetApplication.ModuleObserver moduleObserver = (PhetApplication.ModuleObserver)observers.get( i );
             moduleObserver.activeModuleChanged( module );
+        }
+    }
+
+    private void activate( Module module ) {
+        activeModule = module;
+        module.activate( phetApplication );
+    }
+
+    private void deactivate() {
+        if( activeModule != null ) {
+            activeModule.deactivate( phetApplication );
         }
     }
 
@@ -144,7 +157,6 @@ public class ModuleManager {
     public void saveState( String fileName ) {
 
         JFileChooser fileChooser = new JFileChooser();
-//        fileChooser.addChoosableFileFilter( new PstFilter() );
         fileChooser.showSaveDialog( phetApplication.getPhetFrame() );
         File file = fileChooser.getSelectedFile();
 
@@ -163,7 +175,6 @@ public class ModuleManager {
                 }
 
                 OutputStream outputStream = new BufferedOutputStream( new FileOutputStream( file ) );
-//            OutputStream outputStream = new BufferedOutputStream( new FileOutputStream( fileName ) );
                 if( USE_GZIP_STREAMS ) {
                     outputStream = new GZIPOutputStream( outputStream );
                 }
@@ -179,7 +190,7 @@ public class ModuleManager {
                 encoder.setPersistenceDelegate( Point2D.Float.class, new Point2DPersistenceDelegate() );
                 encoder.setPersistenceDelegate( Rectangle2D.Double.class, new Rectangle2DPersistenceDelegate() );
                 encoder.setPersistenceDelegate( Rectangle2D.Float.class, new Rectangle2DPersistenceDelegate() );
-
+//                encoder.setPersistenceDelegate( FontMetrics.class, new FontMetricsPersistenceDelegate() );
             }
             catch( Exception ex ) {
                 ex.printStackTrace();
@@ -200,7 +211,6 @@ public class ModuleManager {
     public void restoreState( String fileName ) {
 
         JFileChooser fileChooser = new JFileChooser();
-//        fileChooser.addChoosableFileFilter( new PstFilter() );
         fileChooser.showOpenDialog( phetApplication.getPhetFrame() );
         File file = fileChooser.getSelectedFile();
 
@@ -209,7 +219,6 @@ public class ModuleManager {
             XMLDecoder decoder = null;
             try {
                 InputStream inputStream = new BufferedInputStream( new FileInputStream( file ) );
-//                InputStream inputStream = new BufferedInputStream( new FileInputStream( fileName ) );
                 if( USE_GZIP_STREAMS ) {
                     inputStream = new GZIPInputStream( inputStream );
                 }
@@ -236,8 +245,8 @@ public class ModuleManager {
             for( int i = 0; i < modules.size(); i++ ) {
                 Module module = (Module)modules.get( i );
                 if( module.getClass().getName().equals( sd.getModuleClassName() ) ) {
-                    setActiveModule( module );
                     sd.setState( module );
+                    forceSetActiveModule( module );
                 }
             }
         }
