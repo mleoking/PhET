@@ -15,14 +15,15 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.LineGrid;
+import edu.colorado.phet.common.util.DebugMenu;
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import javax.swing.*;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.awt.event.*;
+import java.awt.*;
 import java.io.IOException;
-import java.util.Locale;
 
 /**
  * The top-level class for all PhET applications.
@@ -32,11 +33,21 @@ import java.util.Locale;
  * @version $Revision$
  */
 public class PhetApplication {
+
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+    private static final String DEBUG_MENU_ARG = "-d";
+
     private PhetFrame phetFrame;
     private ApplicationModel applicationModel;
     private ModuleManager moduleManager;
 
     public PhetApplication( ApplicationModel descriptor ) {
+        this( descriptor, null );
+    }
+
+    public PhetApplication( ApplicationModel descriptor, String args[] ) {
 
         moduleManager = new ModuleManager( this );
 
@@ -55,6 +66,18 @@ public class PhetApplication {
         }
         moduleManager.addAllModules( descriptor.getModules() );
         s_instance = this;
+
+
+        parseArgs( args );
+    }
+
+    private void parseArgs( String[] args ) {
+        for( int i = 0; args != null && i < args.length; i++ ) {
+            String arg = args[i];
+            if( arg.equals( DEBUG_MENU_ARG ) ) {
+                phetFrame.addMenu( new DebugMenu( this ));
+            }
+        }
     }
 
     /**
@@ -69,10 +92,10 @@ public class PhetApplication {
         applicationModel.start();
         phetFrame.setVisible( true );
 
-        // Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
-        // after the PhetFrame has been set to its startup size. We have to do this with a strange
-        // looking "inner listener". When the outer WindowAdapter gets called, the PhetFrame is
-        // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
+// Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
+// after the PhetFrame has been set to its startup size. We have to do this with a strange
+// looking "inner listener". When the outer WindowAdapter gets called, the PhetFrame is
+// at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
         phetFrame.addWindowFocusListener( new WindowAdapter() {
             public void windowGainedFocus( WindowEvent e ) {
                 for( int i = 0; i < applicationModel.getModules().length; i++ ) {
@@ -81,8 +104,8 @@ public class PhetApplication {
                     if( panel instanceof ApparatusPanel2 ) {
                         final ApparatusPanel2 apparatusPanel = (ApparatusPanel2)panel;
 
-                        // Add the listener to the apparatus panel that will tell it to set its
-                        // reference size
+// Add the listener to the apparatus panel that will tell it to set its
+// reference size
                         apparatusPanel.addComponentListener( new ComponentAdapter() {
                             public void componentResized( ComponentEvent e ) {
                                 apparatusPanel.setReferenceSize();
@@ -108,9 +131,9 @@ public class PhetApplication {
         return this.applicationModel;
     }
 
-    //
-    // Static fields and methods
-    //
+//
+// Static fields and methods
+//
     private static PhetApplication s_instance = null;
 
     public static PhetApplication instance() {

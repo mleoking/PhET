@@ -391,12 +391,12 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * An example: The client is a "grid" that needs to cover all visible space in
      * the apparatus panel.  The apparatus panel's size is currently 500x250, and its
      * scaling is 0.5.  If the grid uses 500x250, it will only 25% of the
-     * apparatus panel after scaling.  Using getVirtualCanvasSize adjusts for
+     * apparatus panel after scaling.  Using getCanvasSize adjusts for
      * scaling and returns 1000x500 (ie, 500/0.5 x 250/0.5).
      *
      * @return the size
      */
-    public Dimension getVirtualCanvasSize() {
+    public Dimension getCanvasSize() {
         Dimension size = new Dimension();
         size.setSize( getWidth() / scale, getHeight() / scale );
         return size;

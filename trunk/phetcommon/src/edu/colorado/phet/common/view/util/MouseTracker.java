@@ -39,10 +39,15 @@ public class MouseTracker extends CompositePhetGraphic implements MouseMotionLis
                                        "", Color.black );
         this.addGraphic( readout );
         this.addGraphic( new CrosshairGraphic( component ));
+        setCanvasSize( component.getCanvasSize() );
     }
 
     protected Rectangle determineBounds() {
         return new Rectangle( canvasSize );
+    }
+
+    public void setCanvasSize( Dimension size ) {
+        canvasSize = size;
     }
 
     private class CrosshairGraphic extends PhetGraphic {
@@ -71,7 +76,7 @@ public class MouseTracker extends CompositePhetGraphic implements MouseMotionLis
     // ApparatusPanel2.ChangeListener implementation
     //-----------------------------------------------------------------
     public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
-        canvasSize.setSize( event.getCanvasSize() );
+        setCanvasSize( event.getCanvasSize() );
     }
 
     //-----------------------------------------------------------------
