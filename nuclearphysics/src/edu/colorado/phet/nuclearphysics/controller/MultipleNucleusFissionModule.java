@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.collision.CollisionExpert;
-import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -31,6 +29,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     private ArrayList u238Nuclei = new ArrayList();
     private ArrayList u239Nuclei = new ArrayList();
     private ArrayList neutrons = new ArrayList();
+    private ArrayList daughterNuclei = new ArrayList();
+    private ArrayList bodies = new ArrayList();
     //    private ArrayList neutronGraphics = new ArrayList();
     private AbstractClock clock;
     private long orgDelay;
@@ -38,8 +38,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     private double neutronLaunchGamma;
     private Point2D.Double neutronLaunchPoint;
     private Line2D.Double neutronPath;
-    private ArrayList daughterNuclei = new ArrayList();
-    private ArrayList bodies = new ArrayList();
     private Containment containment;
     private ContainmentGraphic containmentGraphic;
 
@@ -60,18 +58,17 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
             }
         } );
 
-        getModel().addModelElement( new ModelElement() {
-            private CollisionExpert expert = new SphereBoxExpert();
-
-            public void stepInTime( double dt ) {
-                if( containment != null ) {
-                    for( int i = 0; i < neutrons.size(); i++ ) {
-                        Neutron neutron = (Neutron)neutrons.get( i );
-                        boolean h = expert.detectAndDoCollision( containment, neutron );
-                    }
-                }
-            }
-        } );
+        //        getModel().addModelElement( new ModelElement() {
+        //            private CollisionExpert expert = new SphereBoxExpert();
+        //            public void stepInTime( double dt ) {
+        //                if( containment != null ) {
+        //                    for( int i = 0; i < neutrons.size(); i++ ) {
+        //                        Neutron neutron = (Neutron)neutrons.get( i );
+        //                        boolean h = expert.detectAndDoCollision( containment, neutron );
+        //                    }
+        //                }
+        //            }
+        //        } );
 
         // Add a model element that watches for collisions between neutrons and
         // U235 nuclei
@@ -133,7 +130,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
             Nucleus nucleus = (Nucleus)daughterNuclei.get( i );
             NucleusGraphic.removeGraphicForNucleus( nucleus );
         }
-
         computeNeutronLaunchParams();
     }
 
@@ -166,7 +162,10 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         //        for( int i = 0; i < neutronGraphics.size(); i++ ) {
         //            getPhysicalPanel().removeGraphic( (Graphic)neutronGraphics.get( i ) );
         //        }
+        bodies.clear();
         nuclei.clear();
+        neutrons.clear();
+        u239Nuclei.clear();
         u235Nuclei.clear();
         u238Nuclei.clear();
         daughterNuclei.clear();
@@ -174,7 +173,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     }
 
     private void computeNeutronLaunchParams() {
-        // Compute how we'll fire the neutronz
+        // Compute how we'll fire the neutron
         double bounds = 600 / getPhysicalPanel().getScale();
         neutronLaunchGamma = random.nextDouble() * Math.PI * 2;
         double x = bounds * Math.cos( neutronLaunchGamma );
@@ -277,20 +276,14 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     public void fission( FissionProducts products ) {
         // Remove the neutron and old nucleus
         getModel().removeModelElement( products.getInstigatingNeutron() );
+        this.neutrons.remove( products.getInstigatingNeutron() );
+        products.getInstigatingNeutron().leaveSystem();
         getModel().removeModelElement( products.getParent() );
         nuclei.remove( products.getParent() );
-
         products.getParent().leaveSystem();
 
         // We know this must be a U235 nucleus
         u235Nuclei.remove( products.getParent() );
-        //        List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
-        //        for( int i = 0; i < graphics.size(); i++ ) {
-        //            NucleusGraphic ng = (NucleusGraphic)graphics.get( i );
-        //            this.getPhysicalPanel().removeGraphic( ng );
-        //        }
-        //        NeutronGraphic ng = (NeutronGraphic)NeutronGraphic.getGraphicForNeutron( products.getInstigatingNeutron() );
-        //        this.getPhysicalPanel().removeGraphic( ng );
 
         // Add fission products
         super.addNucleus( products.getDaughter1() );

@@ -44,13 +44,17 @@ public class PhysicalPanel extends TxApparatusPanel {
         scaleTx.setToScale( scale, scale );
     }
 
+    int nucleusCnt = 0;
+
     public void addNucleus( Nucleus nucleus ) {
         NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
         // Register the graphic to the model element
         final TxGraphic txg = new TxGraphic( ng, nucleonTx );
+        nucleusCnt++;
         NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
                 PhysicalPanel.this.removeGraphic( txg );
+                System.out.println( "nucleusCnt = " + nucleusCnt-- );
             }
         };
         nucleus.addListener( listener );

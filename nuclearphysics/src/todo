@@ -1,3 +1,4 @@
+- Containment vessel should fade out after fission starts
 - use NuclearBody interface and leaveSystem() instead of lists of graphics mapped to model elements.
 - counters on multiple nucleus panel aren't right
 - listeners and leaveSystem() implementations are spread around in odd places

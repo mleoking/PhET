@@ -10,6 +10,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.Containment;
 
 import java.awt.*;
@@ -17,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 public class ContainmentGraphic extends DefaultInteractiveGraphic {
     private Containment containment;
@@ -73,16 +75,16 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
             dx /= atx.getScaleX();
             dy /= atx.getScaleY();
             if( leftSideDragged ) {
-                rect.setRect( rect.getMinX() + dx, rect.getMinY(), rect.getWidth() - dx, rect.getHeight() );
+                rect.setRect( rect.getMinX() + dx, rect.getMinY(), rect.getWidth() - 2 * dx, rect.getHeight() );
             }
             if( rightSideDragged ) {
-                rect.setRect( rect.getMinX(), rect.getMinY(), rect.getWidth() + dx, rect.getHeight() );
+                rect.setRect( rect.getMinX() - dx, rect.getMinY(), rect.getWidth() + 2 * dx, rect.getHeight() );
             }
             if( topSideDragged ) {
-                rect.setRect( rect.getMinX(), rect.getMinY() + dy, rect.getWidth(), rect.getHeight() - dy );
+                rect.setRect( rect.getMinX(), rect.getMinY() + dy, rect.getWidth(), rect.getHeight() - 2 * dy );
             }
             if( bottomSideDragged ) {
-                rect.setRect( rect.getMinX(), rect.getMinY(), rect.getWidth(), rect.getHeight() + dy );
+                rect.setRect( rect.getMinX(), rect.getMinY() - dy, rect.getWidth(), rect.getHeight() + 2 * dy );
             }
             rep.update();
         }
@@ -90,8 +92,8 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
 
     private class Rep extends PhetShapeGraphic implements SimpleObserver {
         //        private Area mouseableArea;
-        Rectangle2D outer = new Rectangle2D.Double();
-        Rectangle2D inner = new Rectangle2D.Double();
+        RoundRectangle2D outer = new RoundRectangle2D.Double();
+        RoundRectangle2D inner = new RoundRectangle2D.Double();
         private Stroke stroke = new BasicStroke( strokeWidth );
         private Color color = Color.black;
 
@@ -103,12 +105,14 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
 
         public void update() {
             Rectangle2D r = containment.getBounds();
-            outer.setRect( r.getMinX() - strokeWidth,
-                           r.getMinY() - strokeWidth,
-                           r.getWidth() + strokeWidth * 2, r.getHeight() + strokeWidth * 2 );
-            inner.setRect( r.getMinX(),
-                           r.getMinY(),
-                           r.getWidth(), r.getHeight() );
+            outer.setRoundRect( r.getMinX() - strokeWidth,
+                                r.getMinY() - strokeWidth,
+                                r.getWidth() + strokeWidth * 2, r.getHeight() + strokeWidth * 2,
+                                strokeWidth * 2, strokeWidth * 2 );
+            inner.setRoundRect( r.getMinX(),
+                                r.getMinY(),
+                                r.getWidth(), r.getHeight(),
+                                strokeWidth, strokeWidth );
             mouseableArea = new Area( outer );
             mouseableArea.subtract( new Area( inner ) );
             this.setShape( atx.createTransformedShape( mouseableArea ) );
@@ -118,6 +122,7 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
 
         public void paint( Graphics2D g ) {
             saveGraphicsState( g );
+            GraphicsUtil.setAntiAliasingOn( g );
             g.transform( atx );
             g.setColor( color );
             g.setStroke( stroke );
