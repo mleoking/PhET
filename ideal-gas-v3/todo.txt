@@ -1,9 +1,10 @@
+- average speed doesn't report properly
 - make a Measure Tools dialog, and a button to display it, rather than having a separate panel
 - make more versatile & robust collision detection system that works heirarchically with object types
 - when hot air balloon is putting in heat, the whole system heats up, but only when gravity is on
-- each time you pump the handle the temperature goes up
 - Combine Rigid Sphere modules
-- Add gravity controls to measurement panel
+    - Pull GasMoleculeFactory out of Pump, so it can be used on the control panels
+- rename and consolidate collision expert/detector classes
 - Sam, clockStateListeners
 - Fix up collisions with sphere. Can we get rid of constraints?
 - Make the stove a model element and move IdealGasModel.addHeatFromStove() to Stove.stepInTime()

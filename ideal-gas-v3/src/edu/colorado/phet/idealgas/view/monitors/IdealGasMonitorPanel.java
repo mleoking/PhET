@@ -37,19 +37,17 @@ public class IdealGasMonitorPanel extends JPanel {
      */
     public IdealGasMonitorPanel( IdealGasModel model ) {
 
-        globalGasMonitorPanel = new GasMonitorPanel( new Class[]{HeavySpecies.class, LightSpecies.class},
-                                                     model );
+        globalGasMonitorPanel = new GasMonitorPanel( model );
         this.add( globalGasMonitorPanel );
 
         //        balloonPressureMonitorPanel = new BalloonPressureMonitor();
         //        this.add( balloonPressureMonitorPanel );
 
         JPanel speciesPanel = new JPanel( new GridLayout( 2, 1 ) );
-        heavySpeciesPanel = new GasSpeciesMonitorPanel( HeavySpecies.class, localizedStrings.getString( "Heavy_species" ));
+        heavySpeciesPanel = new GasSpeciesMonitorPanel( HeavySpecies.class, localizedStrings.getString( "Heavy_species" ), model);
         speciesPanel.add( heavySpeciesPanel );
-        lightSpeciesPanel = new GasSpeciesMonitorPanel( LightSpecies.class, localizedStrings.getString( "Light_species" ));
+        lightSpeciesPanel = new GasSpeciesMonitorPanel( LightSpecies.class, localizedStrings.getString( "Light_species" ), model);
         speciesPanel.add( lightSpeciesPanel );
-
         this.add( speciesPanel );
 
         Border border = BorderFactory.createEtchedBorder();

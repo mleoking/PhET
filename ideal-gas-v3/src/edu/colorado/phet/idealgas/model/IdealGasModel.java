@@ -49,6 +49,10 @@ public class IdealGasModel extends BaseModel {
     private boolean currentlyInStepInTimeMethod;
 
     private List collisionExperts = new ArrayList();
+    private int heavySpeciesCnt;
+    private int lightSpeciesCnt;
+    private double averageHeavySpeciesSpeed;
+    private double averageLightSpeciesSpeed;
 
     public IdealGasModel( double dt ) {
         // Add a collision collisionGod
@@ -58,16 +62,16 @@ public class IdealGasModel extends BaseModel {
                                                                  600 ),
                                          10, 10 );
 
-//        collisionExperts.add( new SphereSphereExpert( this, dt ) );
-//        collisionExperts.add( new SphereBoxExpert( this ) );
-//        collisionExperts.add( new SphereHotAirBalloonExpert( this, dt ) );
-//        collisionExperts.add( new SphereHollowSphereExpert( this, dt ) );
+        //        collisionExperts.add( new SphereSphereExpert( this, dt ) );
+        //        collisionExperts.add( new SphereBoxExpert( this ) );
+        //        collisionExperts.add( new SphereHotAirBalloonExpert( this, dt ) );
+        //        collisionExperts.add( new SphereHollowSphereExpert( this, dt ) );
 
-//        collisionExperts.add( new SphereHollowSphereExpert( this, dt ) );
-//        collisionExperts.add( new SphereSphereExpert( this, dt ) );
-//        collisionExperts.add( new SphereBoxExpert( this ) );
+        //        collisionExperts.add( new SphereHollowSphereExpert( this, dt ) );
+        //        collisionExperts.add( new SphereSphereExpert( this, dt ) );
+        //        collisionExperts.add( new SphereBoxExpert( this ) );
 
-//        new SphereHotAirBalloonContactDetector();
+        //        new SphereHotAirBalloonContactDetector();
     }
 
     public void addCollisionExpert( CollisionExpert expert ) {
@@ -164,7 +168,13 @@ public class IdealGasModel extends BaseModel {
             super.addModelElement( modelElement );
             if( modelElement instanceof Body ) {
                 Body body = (Body)modelElement;
-                //            this.box.addContainedBody( body );
+
+                if( body instanceof HeavySpecies ) {
+                    heavySpeciesCnt++;
+                }
+                if( body instanceof LightSpecies ) {
+                    lightSpeciesCnt++;
+                }
 
                 // Since model elements are added outside the doYourThing() loop, their energy
                 // is accounted for already, and doesn't need to be added here
@@ -261,7 +271,7 @@ public class IdealGasModel extends BaseModel {
         super.stepInTime( dt );
 
         collisionGod.doYourThing( dt, collisionExperts );
-//        collisionGod.doYourThing( dt );
+        //        collisionGod.doYourThing( dt );
 
         // Managing energy, step 2: Get the total kinetic energy in the system,
         // and adjust it if neccessary
@@ -316,24 +326,31 @@ public class IdealGasModel extends BaseModel {
         }
         removeList.clear();
 
-        HeavySpecies.computeAveSpeed();
-        HeavySpecies.computeTemperature();
-        LightSpecies.computeAveSpeed();
-        LightSpecies.computeTemperature();
-
         int numGasMolecules = 0;
         int totalEnergy = 0;
+        double totalLightSpeed = 0;
+        double totalHeavySpeed = 0;
         for( int i = 0; i < numModelElements(); i++ ) {
             Object body = modelElementAt( i );
             if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
                 totalEnergy += this.getBodyEnergy( gasMolecule );
+                if( body instanceof HeavySpecies ) {
+                    totalHeavySpeed += gasMolecule.getSpeed();
+                }
+                if( body instanceof LightSpecies ) {
+                    totalLightSpeed += gasMolecule.getSpeed();
+                }
                 numGasMolecules++;
             }
         }
         averageMoleculeEnergy = numGasMolecules != 0 ?
                                 totalEnergy / numGasMolecules
                                 : 0;
+        averageHeavySpeciesSpeed = getHeavySpeciesCnt() > 0 ? totalHeavySpeed / getHeavySpeciesCnt() : 0;
+//        System.out.println( "averageHeavySpeciesSpeed = " + averageHeavySpeciesSpeed );
+
+        averageLightSpeciesSpeed = getLightSpeciesCnt() > 0 ? totalLightSpeed / getLightSpeciesCnt() : 0;
         currentlyInStepInTimeMethod = false;
 
 
@@ -410,7 +427,7 @@ public class IdealGasModel extends BaseModel {
             double gravity = this.getGravity().getAmt();
             if( gravity != 0 ) {
                 double origin = this.getBox().getMaxY();
-                if( body.getMass() != Float.POSITIVE_INFINITY ) {
+                if( body.getMass() != Double.POSITIVE_INFINITY ) {
                     pe = ( origin - body.getPosition().getY() ) * gravity * body.getMass();
                 }
             }
@@ -463,6 +480,23 @@ public class IdealGasModel extends BaseModel {
 
     public List getBodies() {
         return bodies;
+    }
+
+    public int getHeavySpeciesCnt() {
+        return heavySpeciesCnt;
+    }
+
+    public int getLightSpeciesCnt() {
+        return lightSpeciesCnt;
+    }
+
+    public double getHeavySpeciesAveSpeed() {
+//        System.out.println( "averageHeavySpeciesSpeed - A = " + averageHeavySpeciesSpeed );
+        return averageHeavySpeciesSpeed;
+    }
+
+    public double getLightSpeciesAveSpeed() {
+        return averageLightSpeciesSpeed;
     }
 }
 

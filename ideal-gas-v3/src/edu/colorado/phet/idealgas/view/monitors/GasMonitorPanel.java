@@ -9,7 +9,8 @@ package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.Gravity;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -18,10 +19,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.text.NumberFormat;
 import java.util.ResourceBundle;
-import java.util.Locale;
 
 /**
  * This panel displays the composite state of all gas species in the system
@@ -33,9 +32,6 @@ public class GasMonitorPanel extends JPanel {
         localizedStrings = ResourceBundle.getBundle( "localization/GasMonitorPanel" );
     }
 
-    private Method[] temperatureMethods;
-    private Method[] moleculeCountMethods;
-
     private JTextField pressureTF;
     private NumberFormat pressureFormat = NumberFormat.getInstance();
     private JTextField temperatureTF;
@@ -44,7 +40,6 @@ public class GasMonitorPanel extends JPanel {
     private Image thermometerImage;
     private int thermometerFillHeight = 5;
     private PressureGaugePanel pressureGauge;
-    //    private BarGauge pressureGauge;
     private JPanel thermometerPanel;
     private int scaleFactor = 1;
 
@@ -58,13 +53,11 @@ public class GasMonitorPanel extends JPanel {
     private JPanel leftPressurePanel;
     private IdealGasModel model;
 
-
     /**
      * Constructor
      */
-    public GasMonitorPanel( Class[] speciesClasses, IdealGasModel model ) {
+    public GasMonitorPanel( IdealGasModel model ) {
         this.model = model;
-        linkToSpeciesClasses( speciesClasses );
         init();
     }
 
@@ -115,34 +108,6 @@ public class GasMonitorPanel extends JPanel {
     }
 
     /**
-     *
-     */
-    private void linkToSpeciesClasses( Class[] speciesClasses ) {
-
-        this.temperatureMethods = new Method[speciesClasses.length];
-        this.moleculeCountMethods = new Method[speciesClasses.length];
-        for( int i = 0; i < speciesClasses.length; i++ ) {
-            Class speciesClass = speciesClasses[i];
-
-            // Sanity check on parameter
-            if( !GasMolecule.class.isAssignableFrom( speciesClass ) ) {
-                throw new RuntimeException( "Class other than a gas species class sent to constructor for GasSpeciesMonitorPanel" );
-            }
-            try {
-                temperatureMethods[i] = speciesClass.getMethod( "getTemperature", new Class[]{} );
-                moleculeCountMethods[i] = speciesClass.getMethod( "getNumMolecules", new Class[]{} );
-            }
-            catch( NoSuchMethodException e ) {
-                throw new RuntimeException( "Gas species class is missing a method" );
-            }
-            catch( SecurityException e ) {
-                throw new RuntimeException( "Gas species class is missing a method" );
-            }
-        }
-        return;
-    }
-
-    /**
      * Clears the values in the readouts
      */
     public void clear() {
@@ -159,25 +124,7 @@ public class GasMonitorPanel extends JPanel {
 
         // Get the temperature
         double temperature = this.getTemperature();
-
-        // Get the pressure
-        //        PressureSensingBox box = null;
-        //        if( observable instanceof PressureSensingBox ) {
-        //            box = (PressureSensingBox)observable;
-        //        }
-        //        else if( observable instanceof IdealGasModel ) {
-        //            box = (PressureSensingBox)( (IdealGasModel)observable ).getBox();
-        ////        else if( observable instanceof IdealGasSystem ) {
-        ////            box = (PressureSensingBox)( (IdealGasSystem)observable ).getBox();
-        //        }
-        //        else {
-        //            throw new RuntimeException( "Observable not of expected type " + "" +
-        //                                        "in method update() in class GasMonitorPanel" );
-        //        }
         double pressure = 0;
-        //        if( box != null ) {
-        //            pressure = box.getPressure();
-        //        }
 
         // Track the values we got
         long now = System.currentTimeMillis();
@@ -217,43 +164,9 @@ public class GasMonitorPanel extends JPanel {
      */
     public double getTemperature() {
         double temperature = 0;
-        double moleculeCount = 0;
-        //        Object[] emptyParamArray = new Object[]{};
-
-        //        double tH = HeavySpecies.getTemperature().doubleValue();
-        //        double tL = LightSpecies.getTemperature().doubleValue();
-        //        temperature = ( tH * HeavySpecies.getNumMolecules().intValue() +
-        //                              tL * LightSpecies.getNumMolecules().intValue()) /
-        //                             ( HeavySpecies.getNumMolecules().intValue() +
-        //                               LightSpecies.getNumMolecules().intValue());
-
-        // Compute the temperature as the average temperature of all species, weighted by the
-        // number of molecules of each species
-        //        try {
-        //            for( int i = 0; i < temperatureMethods.length; i++ ) {
-        //                Method temperatureMethod = temperatureMethods[i];
-        //                Method moleculeCountMethod = moleculeCountMethods[i];
-        //                int speciesMolecules = ( (Integer)moleculeCountMethod.invoke( null, emptyParamArray ) ).intValue();
-        //                temperature += ( (Double)temperatureMethod.invoke( null, emptyParamArray ) ).doubleValue()
-        //                        * speciesMolecules;
-        //                moleculeCount += speciesMolecules;
-        //            }
-        //            temperature /= moleculeCount;
-        //        }
-        //        catch( IllegalAccessException e ) {
-        //        }
-        //        catch( IllegalArgumentException e ) {
-        //        }
-        //        catch( InvocationTargetException e ) {
-        //        }
-
-        //        temperature = ((IdealGasSystem)PhysicalSystem.instance()).getTotalKineticEnergy() /
         temperature = model.getTotalKineticEnergy() /
-                      ( HeavySpecies.getNumMolecules().intValue() +
-                        LightSpecies.getNumMolecules().intValue() );
-        //        System.out.println( "   totalKE: " + ((IdealGasSystem)PhysicalSystem.instance()).getTotalKineticEnergy() +
-        //                            "  numMolecules: " + ( HeavySpecies.getNumMolecules().intValue() +
-        //                                                 LightSpecies.getNumMolecules().intValue()));
+                      model.getHeavySpeciesCnt() +
+                      model.getLightSpeciesCnt();
 
         // Scale to appropriate units
         temperature *= IdealGasConfig.temperatureScaleFactor;
