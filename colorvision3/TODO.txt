@@ -21,13 +21,14 @@ Single Bulb module:
           should remain visible.
 (DONE) 9a. Intialize to show photon beam and yellow filter.
 
-Global issues;
+Global issues:
 10. Work with Kathy on Help, defer MegaHelp.
 (DONE) 11. Pause when the simulation is minimized.
 
 MEDIUM:
-o investigate fixed clock
-o Match intensity slider value to background gradient color
+(DONE) o investigate fixed clock
+(DONE) o Match intensity slider value to background gradient color
+o test IntensitySlider in Horizontal orientation
 o support orientation of SpectrumSlider
 o support scaling of SpectrumSlider
 o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
