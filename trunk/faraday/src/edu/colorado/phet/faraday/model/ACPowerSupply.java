@@ -38,6 +38,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     private int _sign; // -1 or +1
     private double _angle; // radians
     private double _deltaAngle; // radians
+    private double _stepAngle; // radians
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,6 +54,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         _sign = +1; // positive voltage
         _angle = 0.0; // radians
         _deltaAngle = ( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE; // radians
+        _stepAngle = 0.0; // radians
     }
     
     //----------------------------------------------------------------------------
@@ -98,7 +100,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         if ( frequency != _frequency ) {
             _frequency = frequency;
             _angle = 0.0;
-            _deltaAngle =( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE;
+            _deltaAngle = ( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE;
             notifyObservers();
         }
     }
@@ -112,13 +114,14 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         return _frequency;
     }
     
-    /** 
-     * Gets the change in angle per click of the simulation clock.
+    /**
+     * Change in angle the last time that stepInTime was called (ie, the 
+     * last time that the simulation clock ticked).
      * 
-     * @return the delta angle, in radians
+     * @return the angle, in radians
      */
-    public double getDeltaAngle() {
-        return _deltaAngle;
+    public double getStepAngle() {
+        return _stepAngle;
     }
     
     //----------------------------------------------------------------------------
@@ -138,15 +141,18 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
             // Compute the angle.
             _angle += _deltaAngle;
             
-//            // Adjust the angle so that we hit all peaks and zero crossings (at 90 degree intervals).
-//            for ( int i = 1; i <= 4; i++ ) {
-//                double criticalAngle = i * ( Math.PI / 2 );
-//                if ( previousAngle < criticalAngle && _angle > criticalAngle ) {
-//                    _angle = criticalAngle;
-//                    break;
-//                }
-//            }
+            // Adjust the angle so that we hit all peaks and zero crossings.
+            for ( int i = 1; i <= 4; i++ ) {
+                double criticalAngle = i * ( Math.PI / 2 );  // ...at 90 degree intervals
+                if ( previousAngle < criticalAngle && _angle > criticalAngle ) {
+                    _angle = criticalAngle;
+                    break;
+                }
+            }
             
+            // The actual change in angle on this tick of the simulation clock.
+            _stepAngle = _angle - previousAngle;
+
             // Limit the angle to 360 degrees.
             if ( _angle >= 2 * Math.PI ) {
                 _angle = _angle % ( 2 * Math.PI );

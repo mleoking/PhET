@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- cursor that moves across the AC sin wave
+
 
 HIGH PRIORITY:
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
@@ -58,6 +58,7 @@ PHETCOMMON:
 
 DONE:
 v0r19...
+(3/21) - cursor that moves across the AC sin wave
 (3/18) - make sure that AC hits all peaks and zero-crossing values.
 (3/18) - added a debug readout for the current AC amplitude value
 (3/17) - flatten all static graphics in voltmeter
