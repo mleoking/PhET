@@ -66,7 +66,7 @@ public class BarMagnetModule extends Module {
     
     private static final Dimension MAGNET_SIZE = new Dimension( 250, 50 );
     
-    public static final int LOOP_RADIUS_MIN = 50;
+    public static final int LOOP_RADIUS_MIN = 75;
     public static final int LOOP_RADIUS_MAX = 150;
     private static final double LOOP_RADIUS = 100;
     
@@ -176,7 +176,7 @@ public class BarMagnetModule extends Module {
         
         // Pickup AbstractCoil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel, _lightBulbModel, _voltMeterModel );
-        apparatusPanel.addGraphic( _pickupCoilGraphic, COIL_BACK_LAYER ); // XXX
+        apparatusPanel.addGraphic( _pickupCoilGraphic, COIL_FRONT_LAYER ); // XXX
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );

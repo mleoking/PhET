@@ -11,12 +11,19 @@
 
 package edu.colorado.phet.faraday.view;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.RenderingHints;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.VoltMeter;
 
@@ -24,25 +31,20 @@ import edu.colorado.phet.faraday.model.VoltMeter;
 /**
  * VoltMeterGraphic is the graphic representation of a voltmeter.
  * The meter's needle moves on a relative scale.
+ * Registration point is at bottom-center of the meter body.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObserver {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    private static final double MAX_VOLTAGE = 120; // XXX
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private VoltMeter _voltMeterModel;
-    private PhetImageGraphic _body;
-    private PhetImageGraphic _needle;
+    private double _value; // -1...+1
+    private PhetShapeGraphic _needle;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -62,29 +64,46 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
         _voltMeterModel = voltMeterModel;
         _voltMeterModel.addObserver( this );
         
-        // Create the graphics components.
-        _body = new PhetImageGraphic( component, FaradayConfig.METER_BODY_IMAGE );
-        _needle = new PhetImageGraphic( component, FaradayConfig.METER_NEEDLE_IMAGE );
-        super.addGraphic( _body );
-        super.addGraphic( _needle );
-
-        // Set the meter's registration point to bottom center.
+        _value = 0.0;
+        
+        // Enable antialiasing for all children.
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        
+        // Meter body
         {
-            int rx = _body.getImage().getWidth() / 2;
-            int ry = _body.getImage().getHeight();
-            _body.setRegistrationPoint( rx, ry );
+            PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.METER_BODY_IMAGE );
+            addGraphic( body );
+            int rx = body.getImage().getWidth() / 2;
+            int ry = body.getImage().getHeight();
+            body.setRegistrationPoint( rx, ry );
         }
         
-        // Set the needle's registration point.
+        // Screw that holds the needle in place.
         {
-            int w = _needle.getImage().getWidth();
-            int h = _needle.getImage().getHeight();
-            int x = w / 2;
-            int y = h - 5;
-            _needle.setRegistrationPoint( x, y );
+            int diameter = 31;
+            PhetShapeGraphic screw = new PhetShapeGraphic( component );
+            addGraphic( screw );
+            screw.setShape( new Ellipse2D.Double( 0, 0, diameter, diameter ) );
+            screw.setPaint( Color.BLUE );
+            int rx = diameter / 2 + 1;
+            int ry = rx;
+            screw.setRegistrationPoint( rx, ry );
+            screw.setLocation( 2, -70 );
         }
-
-        _needle.setLocation( 0, -65 );
+        
+        // Needle
+        {
+            Point2D tail = new Point2D.Double( 0, 0 );
+            Point2D tip = new Point2D.Double( 0, -200 );
+            Dimension headSize = new Dimension( 40, 30 );
+            int tailWidth = 10;
+            Arrow arrow = new Arrow( tail, tip, headSize.height, headSize.width, tailWidth );
+            _needle = new PhetShapeGraphic( component );
+            addGraphic( _needle );
+            _needle.setShape( arrow.getShape() );
+            _needle.setPaint( Color.BLUE );
+            _needle.setLocation( 2, -70 );
+        }
         
         update();
     }
@@ -110,14 +129,26 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
      * @throws IllegalArgumentException if value is out of range
      */
     public void setValue( double value ) {
-        if ( value < -1.0 || value > 1.0 ) {
+        if ( ! (value >= -1.0 && value <= 1.0 ) ) {
             throw new IllegalArgumentException( "meter value must be between -1.0 and +1.0: " + value );
         }
-        double angle = 90 * value;
-        _needle.clearTransform();
-        _needle.rotate( Math.toRadians( angle ) );
+        if ( value != _value ) {
+            _value = value;
+            double angle = 90 * value;
+            _needle.clearTransform();
+            _needle.rotate( Math.toRadians( angle ) );
+        }
     }
 
+    /**
+     * Gets the current meter reading.
+     * 
+     * @return a value between -1 and +1 inclusive
+     */
+    public double getValue() {
+        return _value;
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
@@ -129,9 +160,13 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
         setVisible( _voltMeterModel.isEnabled() );
         if ( isVisible() ) {
             double voltage = _voltMeterModel.getVoltage();
-            System.out.println( "VoltMeterGraphic.update: voltage=" + voltage ); // DEBUG
-            double scale = MathUtil.clamp( -1, voltage/MAX_VOLTAGE, 1 ); // XXX
-            setValue( scale );
+            double scale = MathUtil.clamp( -1, ( voltage / FaradayConfig.MAX_EMF ), 1 );
+            if ( scale == Double.NaN ) {
+                System.out.println( "WARNING: VoltMeterGraphic.update - scale=NaN" );
+            }
+            else {
+                setValue( scale );
+            }
         }
     }
 }

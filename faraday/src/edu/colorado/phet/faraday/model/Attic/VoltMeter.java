@@ -62,6 +62,7 @@ public class VoltMeter extends AbstractResistor {
      */
     private void setVoltage( double voltage ) {
         if ( voltage != _voltage ) {
+            //System.out.println( "VoltMeter.setVoltage: voltage=" + voltage ); // DEBUG
             _voltage = voltage;
             notifyObservers();
         }

@@ -53,6 +53,6 @@ public class FaradayApplicationModel extends ApplicationModel {
         this.setModules( new Module[] { compassGridModule, barMagnetModule, transformerModule } );
 
         // Initial module to be displayed.
-        this.setInitialModule( compassGridModule );
+        this.setInitialModule( barMagnetModule );
     }
 }

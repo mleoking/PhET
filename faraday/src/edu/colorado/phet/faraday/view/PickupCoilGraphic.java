@@ -34,13 +34,26 @@ import edu.colorado.phet.faraday.model.VoltMeter;
 public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObserver {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
+    private static final double COIL_BACK_LAYER = 0;
+    private static final double ELECTRONS_BACK_LAYER = 1;
+    private static final double COIL_FRONT_LAYER = 2;
+    private static final double ELECTRONS_FRONT_LAYER = 3;
+    private static final double LIGHTBULB_LAYER = 4;
+    private static final double VOLTMETER_LAYER = 5;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private PickupCoil _coilModel;
+    private LightBulb _lightBulbModel;
     private PhetImageGraphic _coilFront, _coilBack;
-    private LightBulbGraphic _bulb;
-    private VoltMeterGraphic _meter;
+    private PhetImageGraphic _electronsFront, _electronsBack;
+    private LightBulbGraphic _lightBulbGraphic;
+    private VoltMeterGraphic _voltMeterGraphic;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -61,20 +74,18 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
         
         _coilModel = coilModel;
         _coilModel.addObserver( this );
+        _lightBulbModel = lightBulbModel;
+        _lightBulbModel.addObserver( this );
         
         // Coil -- these are set in update method
         _coilFront = _coilBack = null;
         
         // Lightbulb
-        _bulb = new LightBulbGraphic( component, lightBulbModel );
-        _bulb.setLocation( 0, -170 );
-        addGraphic( _bulb );
+        _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel );
 
         // Voltmeter
-        _meter = new VoltMeterGraphic( component, voltMeterModel );
-        _meter.setLocation( 0, -95 );
-        _meter.scale( 0.3 );
-        addGraphic( _meter );
+        _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel );
+        _voltMeterGraphic.scale( 0.3 ); // XXX scale in PhotoShop
         
         // Interactivity
         super.setCursorHand();
@@ -97,6 +108,8 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
     public void finalize() {
         _coilModel.removeObserver( this );
         _coilModel = null;
+        _lightBulbModel.removeObserver( this );
+        _lightBulbModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -128,44 +141,40 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
 
             // Get the coil's EMF.
             double emf = _coilModel.getEMF();
-            // System.out.println( "emf = " + emf ); // DEBUG
-            
-//            // Set the light intensity.
-//            double intensity = MathUtil.clamp( 0, Math.abs( emf/100000 ), 1 ); // XXX HACK
-//            _bulb.setIntensity( intensity );
-            
-//            // Set the voltmeter reading.
-//            double value = MathUtil.clamp( -1, (int)( emf/100000 ), 1 );  // XXX HACK
-//            _meter.setValue( value );
-            
+     
             // Set the number of loops in the coil.
             {
-                if ( _coilFront != null ) {
-                    removeGraphic( _coilFront );
-                }
-                if ( _coilBack != null ) {
-                    removeGraphic( _coilBack );
-                }
+                clear(); // remove all graphics
+                addGraphic( _lightBulbGraphic, LIGHTBULB_LAYER );
+                addGraphic( _voltMeterGraphic, VOLTMETER_LAYER );
                 
                 Component component = getComponent();
                 int numberOfLoops = _coilModel.getNumberOfLoops();
                 if( numberOfLoops == 1 ) {
                     _coilBack = new PhetImageGraphic( component, FaradayConfig.COIL1_BACK_IMAGE );
                     _coilFront = new PhetImageGraphic( component, FaradayConfig.COIL1_FRONT_IMAGE );
+                    _electronsBack = new PhetImageGraphic( component, FaradayConfig.ELECTRONS1_BACK_IMAGE );
+                    _electronsFront = new PhetImageGraphic( component, FaradayConfig.ELECTRONS1_FRONT_IMAGE );
                 }
                 else {
                     _coilBack = new PhetImageGraphic( component, FaradayConfig.COIL2_BACK_IMAGE );
                     _coilFront = new PhetImageGraphic( component, FaradayConfig.COIL2_FRONT_IMAGE );
+                    _electronsBack = new PhetImageGraphic( component, FaradayConfig.ELECTRONS2_BACK_IMAGE );
+                    _electronsFront = new PhetImageGraphic( component, FaradayConfig.ELECTRONS2_FRONT_IMAGE );
                 }
-                addGraphic( _coilBack );
-                addGraphic( _coilFront );
+                addGraphic( _coilBack, COIL_BACK_LAYER );
+                addGraphic( _electronsBack, ELECTRONS_BACK_LAYER );
+                addGraphic( _coilFront, COIL_FRONT_LAYER );
+                addGraphic( _electronsFront, ELECTRONS_FRONT_LAYER );
 
                 // Registration point at center.
-                // Assumes both images are the same size.
+                // Assumes all coil-related images are the same size.
                 int rx = _coilFront.getImage().getWidth() / 2;
                 int ry = _coilFront.getImage().getHeight() / 2;
                 _coilFront.setRegistrationPoint( rx, ry );
                 _coilBack.setRegistrationPoint( rx, ry );
+                _electronsFront.setRegistrationPoint( rx, ry );
+                _electronsBack.setRegistrationPoint( rx, ry );
             }
             
             // Set the area of the loops.
@@ -175,7 +184,20 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
             _coilFront.scale( scale );
             _coilBack.clearTransform();
             _coilBack.scale( scale );
+            _electronsFront.clearTransform();
+            _electronsFront.scale( scale );
+            _electronsBack.clearTransform();
+            _electronsBack.scale( scale );
             
+            // Position the bulb and meter so that they are at the top of the coil.
+            int x = 0;
+            int y = (int) -( _coilFront.getBounds().getHeight()/2 );
+            _lightBulbGraphic.setLocation( x, y );
+            _voltMeterGraphic.setLocation( x, y );
+            
+            // Show electrons only if the lightbulb is enabled.
+            _electronsFront.setVisible( _lightBulbModel.isEnabled() );
+            _electronsBack.setVisible( _lightBulbModel.isEnabled() );
         }
     }
 }

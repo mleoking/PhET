@@ -13,6 +13,7 @@ package edu.colorado.phet.faraday.model;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.MedianFilter;
+import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**
@@ -27,7 +28,6 @@ public class LightBulb extends AbstractResistor {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private static final double MAX_VOLTAGE = 120.0; // XXX
     private static final int HISTORY_SIZE = 5;
     
     //----------------------------------------------------------------------------
@@ -70,6 +70,7 @@ public class LightBulb extends AbstractResistor {
             throw new IllegalArgumentException( "intensity must be >= 0 and <= 1: " + intensity );
         }
         if ( intensity != _intensity ) {
+            //System.out.println( "LightBulb.setIntensity: intensity=" + intensity ); // DEBUG
             _intensity = intensity;
             notifyObservers();
         }
@@ -119,17 +120,22 @@ public class LightBulb extends AbstractResistor {
      */
     public void stepInTime( double dt ) {
         double voltage = getCurrent() * getResistance();
-        double intensity = MathUtil.clamp( 0, Math.abs( voltage / MAX_VOLTAGE ), 1 );
-        if ( _smoothingEnabled ) {
-            // Take a median to remove spikes in data.
-            for ( int i = HISTORY_SIZE - 1; i > 0; i-- ) {
-                _intensityHistory[i] = _intensityHistory[i - 1];
-            }
-            _intensityHistory[0] = intensity;
-            setIntensity( MedianFilter.getMedian( _intensityHistory ) );
+        double intensity = MathUtil.clamp( 0, Math.abs( voltage / FaradayConfig.MAX_EMF ), 1 );
+        if ( intensity == Double.NaN ) {
+            System.out.println( "WARNING: LightBulb.stepInTime - intensity=NaN" );
         }
         else {
-            setIntensity( intensity );
+            if ( _smoothingEnabled ) {
+                // Take a median to remove spikes in data.
+                for ( int i = HISTORY_SIZE - 1; i > 0; i-- ) {
+                    _intensityHistory[i] = _intensityHistory[i - 1];
+                }
+                _intensityHistory[0] = intensity;
+                setIntensity( MedianFilter.getMedian( _intensityHistory ) );
+            }
+            else {
+                setIntensity( intensity );
+            }
         }
     }
 }

@@ -254,7 +254,12 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
                 //scale = ( 10 * magnitude * distance ) / Math.pow( magnetStrength, 2 ); // XXX ????
 
                 scale = MathUtil.clamp( 0, scale, 1 );
-                needle.setStrength( scale );
+                if ( scale == Double.NaN ) {
+                    System.out.println( "WARNING: CompassGrid.update - scale=NaN" );
+                }
+                else {
+                    needle.setStrength( scale );
+                }
                 
 //                /* HACK:
 //                 * This is a hack to make the needles fade out linearly.
