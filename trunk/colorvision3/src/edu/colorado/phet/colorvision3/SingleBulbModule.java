@@ -11,6 +11,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.colorvision3.control.SingleBulbControlPanel;
 import edu.colorado.phet.colorvision3.control.SpectrumSlider;
+import edu.colorado.phet.colorvision3.control.ToggleSwitch;
 import edu.colorado.phet.colorvision3.event.VisibleColorChangeEvent;
 import edu.colorado.phet.colorvision3.event.VisibleColorChangeListener;
 import edu.colorado.phet.colorvision3.model.Filter;
@@ -60,6 +61,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
   private static final double PHOTON_BEAM_LAYER = 10;
   private static final double SPOTLIGHT_LAYER = 11;
   private static final double PERSON_FOREGROUND_LAYER = 12;
+  private static final double FILTER_SWITCH_LAYER = 13;
   private static final double HELP_LAYER = Double.MAX_VALUE;
 
   // Colors
@@ -74,6 +76,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	private static final double FILTER_Y      = 250;
 	
 	// Locations of view components
+	private static final Point FILTER_SWITCH_LOCATION     = new Point( 330, 440 );
 	private static final Point FILTER_HOLDER_LOCATION     = new Point( 342, 395 );
 	private static final Point FILTER_SLIDER_LOCATION     = new Point( 100, 515 );
 	private static final Point FILTER_PIPE_LOCATION       = new Point( 249, 415 );
@@ -110,6 +113,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	private SingleBulbControlPanel _controlPanel;
 	private SpectrumSlider _filterSlider;
 	private SpectrumSlider _wavelengthSlider;
+	private ToggleSwitch _filterSwitch;
 	
 	// Graphics that require control
 	private FilterGraphic _filterGraphic;
@@ -248,6 +252,10 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     _wavelengthPipe.setLocation( WAVELENGTH_PIPE_LOCATION );
     apparatusPanel.addGraphic( _wavelengthPipe, WAVELENGTH_PIPE_LAYER );
 
+    _filterSwitch = new ToggleSwitch( apparatusPanel, ColorVisionConfig.SWITCH_ON_IMAGE, ColorVisionConfig.SWITCH_OFF_IMAGE  );
+    _filterSwitch.setLocation( FILTER_SWITCH_LOCATION );
+    apparatusPanel.addGraphic( _filterSwitch, FILTER_SWITCH_LAYER );
+    
 		//----------------------------------------------------------------------------
 		// Observers
     //----------------------------------------------------------------------------
@@ -276,6 +284,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     _controlPanel.addChangeListener( this );
     _filterSlider.addChangeListener( this );
     _wavelengthSlider.addChangeListener( this );
+    _filterSwitch.addChangeListener( this );
     
     _photonBeamModel.addColorChangeListener( this );
     _postFilterBeamModel.addColorChangeListener( this );
@@ -293,10 +302,10 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 
 		_controlPanel.setBulbType( SingleBulbControlPanel.WHITE_BULB );
 		_controlPanel.setBeamType( SingleBulbControlPanel.PHOTON_BEAM );
-		_controlPanel.setFilterEnabled( true );
 		double wavelength = ((VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH)/2) + VisibleColor.MIN_WAVELENGTH;
 		_filterSlider.setValue( (int)wavelength );
 		_wavelengthSlider.setValue( (int)wavelength );
+		_filterSwitch.setOn( true );
 		
 	} // constructor
 	
@@ -349,6 +358,10 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
       }
       _spotlightModel.setColor( bulbColor );
     }
+    else if ( event.getSource() == _filterSwitch )
+    {
+      _filterModel.setEnabled( _filterSwitch.isOn() );
+    }
     else if ( event.getSource() == _controlPanel )
     {
       // A control panel change was made.
@@ -356,7 +369,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
       // Get current control panel settings.
       int bulbType = _controlPanel.getBulbType();
       int beamType = _controlPanel.getBeamType();
-      boolean filterEnabled = _controlPanel.getFilterEnabled();
+      boolean filterEnabled = _filterSwitch.isOn();
       
       // Bulb Type
       if ( bulbType == SingleBulbControlPanel.WHITE_BULB )
@@ -387,9 +400,6 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
         _preFilterBeamModel.setEnabled( filterEnabled );
         _postFilterBeamModel.setEnabled( true );
       }
-      
-      // Filter enable
-      _filterModel.setEnabled( filterEnabled ); 
     }
     else
     {
