@@ -193,18 +193,17 @@ public class Voltmeter extends SimpleObservable implements ModelElement {
      * @return the angle, in radians
      */
     private double getDesiredNeedleAngle() {
-        //  Convert the voltage to a value in the range -1...+1.
-        double voltage = _voltageSourceModel.getVoltage() / _voltageSourceModel.getMaxVoltage();
-        voltage = MathUtil.clamp( -1, voltage, +1 );
+        //  Get the amplitude of the voltage source.
+        double amplitude = _voltageSourceModel.getAmplitude();
         
-        // Rescale the voltage to improve the visual effect.
+        // Rescale the amplitude to improve the visual effect.
         if ( _rescaler != null ) {
-            double sign = ( voltage < 0 ) ? -1 : +1;
-            voltage = sign * _rescaler.rescale( Math.abs( voltage ) );
+            double sign = ( amplitude < 0 ) ? -1 : +1;
+            amplitude = sign * _rescaler.rescale( Math.abs( amplitude ) );
         }
         
         // Determine the needle deflection angle.
-        return voltage * MAX_NEEDLE_ANGLE;
+        return amplitude * MAX_NEEDLE_ANGLE;
     }
 
     //----------------------------------------------------------------------------
