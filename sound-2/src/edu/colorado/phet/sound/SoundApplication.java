@@ -28,10 +28,10 @@ public class SoundApplication extends PhetApplication {
 //            this.setClock( new SwingTimerClock( 5, 50 ));
 
             // Set up the modules
-            SingleSourceListenModule singleSourceListenModule = new SingleSourceListenModule( this );
-            SingleSourceListenModule singleSourceListenModule2 = new SingleSourceListenModule( this );
-            this.setModules( new Module[]{ singleSourceListenModule, singleSourceListenModule2 } );
-            this.setInitialModule( singleSourceListenModule );
+            Module singleSourceModule = new SingleSourceListenModule( this );
+            Module measureModule = new SingleSourceMeasureModule( this );
+            this.setModules( new Module[]{ singleSourceModule, measureModule } );
+            this.setInitialModule( singleSourceModule );
         }
     }
 
