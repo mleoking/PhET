@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.sound.view;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.sound.SoundModule;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public class AudioControlPanel extends JPanel {
 
         // On/off check box
         JPanel audioOnOffPanel = new JPanel();
-        audioOnOffCB = new JCheckBox( "Audio enabled" );
+        audioOnOffCB = new JCheckBox( SimStrings.get( "AudioControlPanel.Enabled" ) );
         audioOnOffPanel.add( audioOnOffCB );
         audioOnOffCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -40,8 +41,8 @@ public class AudioControlPanel extends JPanel {
         // Radio buttons to specify where the audio is take from
         JPanel audioSourcePanel = new JPanel();
         audioSourcePanel.setLayout( new BoxLayout( audioSourcePanel, BoxLayout.Y_AXIS ) );
-        speakerRB = new JRadioButton( "Speaker" );
-        listenerRB = new JRadioButton( "Listener" );
+        speakerRB = new JRadioButton( SimStrings.get( "AudioControlPanel.Speaker" ) );
+        listenerRB = new JRadioButton( SimStrings.get( "AudioControlPanel.Listener" ) );
         ButtonGroup audioSourceBG = new ButtonGroup();
         audioSourceBG.add( speakerRB );
         audioSourceBG.add( listenerRB );
@@ -68,7 +69,7 @@ public class AudioControlPanel extends JPanel {
             }
         } );
 
-        this.setBorder( new TitledBorder( "Audio Control" ) );
+        this.setBorder( new TitledBorder( SimStrings.get( "AudioControlPanel.BorderTitle" ) ) );
 
         // Set Speaker as the default
         speakerRB.setSelected( true );

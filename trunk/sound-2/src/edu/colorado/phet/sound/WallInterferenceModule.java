@@ -10,6 +10,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.BufferedWaveMediumGraphic;
 import edu.colorado.phet.sound.view.ReflectingWallGraphic;
@@ -45,7 +46,7 @@ public class WallInterferenceModule extends SingleSourceModule {
     private Point2D.Double pp;
 
     public WallInterferenceModule( ApplicationModel appModel ) {
-        super( appModel, "<html>Interference<br>by Reflection</html>" );
+        super( appModel, SimStrings.get( "ModuleTitle.WallInterference" ) );
 
         soundModel = (SoundModel)getModel();
 
@@ -136,7 +137,7 @@ public class WallInterferenceModule extends SingleSourceModule {
 
             add( wallAngleSlider );
 
-            Border amplitudeBorder = new TitledBorder( "Wall Angle" );
+            Border amplitudeBorder = new TitledBorder( SimStrings.get( "WallInterferenceModule.Angle" ) );
             setBorder( amplitudeBorder );
         }
     }
@@ -163,7 +164,7 @@ public class WallInterferenceModule extends SingleSourceModule {
 
             add( wallTranslationSlider );
 
-            Border amplitudeBorder = new TitledBorder( "Wall Position" );
+            Border amplitudeBorder = new TitledBorder( SimStrings.get( "WallInterferenceModule.Position" ) );
             setBorder( amplitudeBorder );
         }
     }

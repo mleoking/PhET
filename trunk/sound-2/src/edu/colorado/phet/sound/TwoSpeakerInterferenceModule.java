@@ -11,6 +11,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
@@ -31,7 +32,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
     private boolean saveInterferenceOverideEnabled = false;
 
     protected TwoSpeakerInterferenceModule( ApplicationModel appModel ) {
-        super( appModel, "<html>Two Source<br>Interference</html>" );
+        super( appModel, SimStrings.get( "ModuleTitle.TwoSpeakerIntererence" ) );
         soundModel = (SoundModel)getModel();
         speakerListener = new Listener( (SoundModel)getModel(),
                                         new Point2D.Double() );
@@ -107,14 +108,14 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
             //            getApparatusPanel().addGraphic( listenerGraphic, 9 );
 
             // Add help items
-            HelpItem help1 = new HelpItem( "Listener can be moved\nin all directions",
+            HelpItem help1 = new HelpItem( SimStrings.get( "TwoSpeakerInterferenceModule.Help1" ),
                                            SoundConfig.s_headBaseX,
                                            SoundConfig.s_headBaseY - 20,
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help1.setForegroundColor( Color.white );
             addHelpItem( help1 );
 
-            HelpItem help2 = new HelpItem( "Upper speaker can be\nmoved up and down",
+            HelpItem help2 = new HelpItem( SimStrings.get( "TwoSpeakerInterferenceModule.Help2" ),
                                            SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() - 120,
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help2.setForegroundColor( Color.white );

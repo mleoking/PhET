@@ -9,6 +9,7 @@ package edu.colorado.phet.sound;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ScalarObservable;
 import edu.colorado.phet.sound.model.AttenuationFunction;
 import edu.colorado.phet.sound.model.SoundModel;
@@ -36,7 +37,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
     final int maxDensity = 200;
 
     protected SingleSourceWithBoxModule( ApplicationModel appModel ) {
-        super( appModel, "<html>Listen with<br>Varying Air Pressure</html>" );
+        super( appModel, SimStrings.get( "ModuleTitle.SingelSourceWithBox" ) );
         init();
     }
 
@@ -51,7 +52,9 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         double x = 150;
         double y = 80;
         double diam = 100;
-        pressureGauge = new DialGauge( airDensityObservable, getApparatusPanel(), x, y, diam, 0, 1, "Pressure", "ATM" );
+        pressureGauge = new DialGauge( airDensityObservable, getApparatusPanel(), x, y, diam, 0, 1,
+                                        SimStrings.get( "SingleSourceWithBoxModule.Pressure" ),
+                                        SimStrings.get( "SingleSourceWithBoxModule.ATM" ) );
         Rectangle2D.Double gaugeStem = new Rectangle2D.Double( x - 5, y + diam / 2, 10, 20 );
         pressureGauge.addGraphic( new ShapeGraphic( gaugeStem, Color.black ), 6 );
 
@@ -141,8 +144,8 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
 
     class BoxAirDensityControlPanel extends JPanel {
         VariableWaveMediumAttenuationFunction attenuationFunction;
-        String evacuateLabel = "<html>Remove Air<br>from Box</html>";
-        String addLabel = "<html>Add Air<br>to Box</html>";
+        String evacuateLabel = SimStrings.get( "SingleSourceWithBoxModule.RemoveAir" );
+        String addLabel = SimStrings.get( "SingleSourceWithBoxModule.AddAir" );
         boolean evacuateToggle = true;
         private JButton airButton;
         private JSlider densitySlider;
@@ -182,7 +185,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                                           GridBagConstraints.HORIZONTAL,
                                           insets, 0, 0 );
             //            this.add( densitySlider, gbc );
-            this.setBorder( new TitledBorder( "Air Density" ) );
+            this.setBorder( new TitledBorder( SimStrings.get( "SingleSourceWithBoxModule.BorderTitle" ) ) );
             this.setPreferredSize( new Dimension( 120, 120 ) );
         }
 

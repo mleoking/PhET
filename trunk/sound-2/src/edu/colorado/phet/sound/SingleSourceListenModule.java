@@ -10,6 +10,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.AudioControlPanel;
@@ -31,7 +32,7 @@ public class SingleSourceListenModule extends SingleSourceModule {
     private ListenerGraphic listenerGraphic;
 
     public SingleSourceListenModule( ApplicationModel appModel ) {
-        this( appModel, "<html>Listen to<br>Single Source</html>" );
+        this( appModel, SimStrings.get( "ModuleTitle.SingleSourceListen" ) );
     }
 
     protected SingleSourceListenModule( ApplicationModel appModel, String title ) {
@@ -63,7 +64,7 @@ public class SingleSourceListenModule extends SingleSourceModule {
             this.addGraphic( listenerGraphic, 9 );
 
             // Add help items
-            HelpItem help1 = new HelpItem( "Listener can be moved\nleft and right",
+            HelpItem help1 = new HelpItem( SimStrings.get( "SingleSourceListenModule.help1" ),
                                            SoundConfig.s_headBaseX,
                                            SoundConfig.s_headBaseY + headOffsetY - 20,
                                            HelpItem.RIGHT, HelpItem.ABOVE );

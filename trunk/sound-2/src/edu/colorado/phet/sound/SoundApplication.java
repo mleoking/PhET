@@ -11,17 +11,18 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.SimStrings;
+
+import java.util.Locale;
 
 public class SoundApplication extends PhetApplication {
 
     private static class SoundApplicationModel extends ApplicationModel {
 
-        private final static String windowTitle = "Sound";
-        private final static String description = "How sound waves work and are heard";
-        private final static String version = "1.1";
-
         public SoundApplicationModel() {
-            super( windowTitle, description, version );
+            super( SimStrings.get( "SoundApplication.title" ),
+                   SimStrings.get( "SoundApplication.description" ),
+                   SimStrings.get( "SoundApplication.version" ) );                   
 
             // Specify the clock
             //            this.setClock( new ThreadedClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime, true ));
@@ -52,6 +53,17 @@ public class SoundApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( SoundConfig.localizedStringsPath );
         PhetApplication app = new SoundApplication();
         app.startApplication();
     }
