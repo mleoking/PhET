@@ -14,15 +14,14 @@ import java.util.Observable;
 
 public class BarGauge extends AbstractGauge {
 
-    private Rectangle2D.Float bar;
-    private Rectangle2D.Float frame;
+    private Rectangle2D.Double bar;
+    private Rectangle2D.Double frame;
     private Color color;
-    private float level;
     private boolean isVertical;
-    private float offset;
-    private float scale;
+    private double offset;
+    private double scale;
     private Point2D location;
-    private float maxScreenLevel;
+    private double maxScreenLevel;
 
 
     /**
@@ -31,16 +30,16 @@ public class BarGauge extends AbstractGauge {
      * @param thickness
      * @param isVertical
      */
-    public BarGauge( Point2D.Float location, float maxScreenLevel, Color color,
-                     float thickness, boolean isVertical,
-                     float minLevel, float maxLevel ) {
+    public BarGauge( Point2D.Double location, double maxScreenLevel, Color color,
+                     double thickness, boolean isVertical,
+                     double minLevel, double maxLevel ) {
         this.location = location;
         this.maxScreenLevel = maxScreenLevel;
         this.color = color;
-        float barWidth = 0;
-        float barHeight = 0;
-        float frameWidth = 0;
-        float frameHeight = 0;
+        double barWidth = 0;
+        double barHeight = 0;
+        double frameWidth = 0;
+        double frameHeight = 0;
         scale = maxScreenLevel / ( maxLevel - minLevel );
         offset = minLevel * scale;
         this.isVertical = isVertical;
@@ -54,8 +53,8 @@ public class BarGauge extends AbstractGauge {
             frameWidth = maxScreenLevel;
             frameHeight = thickness;
         }
-        bar = new Rectangle2D.Float( (float)location.getX(), (float)location.getY(), barWidth, barHeight );
-        frame = new Rectangle2D.Float( (float)location.getX(), (float)location.getY(), frameWidth, frameHeight );
+        bar = new Rectangle2D.Double( location.getX(), location.getY(), barWidth, barHeight );
+        frame = new Rectangle2D.Double( location.getX(), location.getY(), frameWidth, frameHeight );
     }
 
     /**
@@ -71,23 +70,18 @@ public class BarGauge extends AbstractGauge {
         g.setColor( oldColor );
     }
 
-    /**
-     * @param o
-     * @param arg
-     */
-    public void update( Observable o, Object arg ) {
-    }
+    public void setLevel( double level ) {
 
-    public void setLevel( float level ) {
-        float screenLevel = Math.min( Math.max( offset + scale * level, 0 ), maxScreenLevel );
+        double screenLevel = Math.min( Math.max( offset + scale * level, 0 ), maxScreenLevel );
         if( isVertical ) {
             bar.setRect( location.getX(),
                          location.getY() + maxScreenLevel - screenLevel,
                          bar.getWidth(),
                          screenLevel );
+            System.out.println( "screenLevel = " + screenLevel + "   level = " + level );
         }
         else {
-            float newMaxX = (float)bar.getMaxX() - level / 1000;
+            double newMaxX = bar.getMaxX() - level / 1000;
             bar.setRect( bar.getMinX(), bar.getMaxY(), newMaxX, bar.getMaxY() );
         }
     }

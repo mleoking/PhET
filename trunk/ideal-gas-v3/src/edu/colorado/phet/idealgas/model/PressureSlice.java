@@ -72,6 +72,7 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
     public double getPressure() {
         //        System.out.println( "ts: " +  pressureRecorder.getTimeSpanOfEntries() );
         double pressure = pressureRecorder.getDataTotal();
+
         //        float pressure = pressureRecorder.getDataTotal() / pressureRecorder.getTimeSpanOfEntries();
         double sliceLength = box.getMaxX() - box.getMinX();
 
