@@ -24,10 +24,8 @@ import java.io.IOException;
 
 public class SingleSourceListenModule extends SingleSourceModule {
 
-
     private Listener speakerListener;
     private Listener headListener;
-
     private int headOffsetY = -30;
 
     public SingleSourceListenModule( ApplicationModel appModel ) {
@@ -42,11 +40,11 @@ public class SingleSourceListenModule extends SingleSourceModule {
     private void init() {
         // Add the listener
         speakerListener = new Listener( (SoundModel)getModel(),
-                                        new Point2D.Double());
+                                        new Point2D.Double() );
         speakerListener.setLocation( new Point2D.Double() );
         setListener( speakerListener );
         headListener = new Listener( (SoundModel)getModel(),
-                                     new Point2D.Double());
+                                     new Point2D.Double() );
         headListener.addObserver( getPrimaryOscillator() );
         headListener.addObserver( getOctaveOscillator() );
         BufferedImage headImg = null;
@@ -66,7 +64,7 @@ public class SingleSourceListenModule extends SingleSourceModule {
                                            SoundConfig.s_headBaseY + headOffsetY - 20,
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help1.setForegroundColor( Color.white );
-            getApparatusPanel().addGraphic( help1, SoundConfig.HELP_LAYER );
+            addHelpItem( help1 );
         }
         catch( IOException e ) {
             e.printStackTrace();

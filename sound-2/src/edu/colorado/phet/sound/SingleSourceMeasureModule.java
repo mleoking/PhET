@@ -40,13 +40,13 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
                                            200, 100 + ruler.getImage().getHeight(),
                                            HelpItem.RIGHT, HelpItem.BELOW );
             help1.setForegroundColor( Color.white );
-            getApparatusPanel().addGraphic( help1, SoundConfig.HELP_LAYER );
+            addHelpItem( help1 );
 
             HelpItem help2 = new HelpItem( "Blue lines can be moved left & right to\nhelp mark measurement points on waves",
                                            s_guidelineBaseX + 30, 70,
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help2.setForegroundColor( Color.white );
-            getApparatusPanel().addGraphic( help2, SoundConfig.HELP_LAYER );
+            addHelpItem( help2 );
         }
         catch( IOException e ) {
             e.printStackTrace();

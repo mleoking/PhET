@@ -8,12 +8,11 @@ package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.ReflectingWallGraphic;
-import edu.colorado.phet.sound.view.SingleSourceApparatusPanel;
+import edu.colorado.phet.sound.view.SoundControlPanel;
 import edu.colorado.phet.sound.view.WaveMediumGraphic;
 
 import javax.swing.*;
@@ -26,7 +25,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
-public class WallInterferenceModule extends SoundModule {
+public class WallInterferenceModule extends SingleSourceModule {
 
     //
     // Static fields and methods
@@ -49,10 +48,6 @@ public class WallInterferenceModule extends SoundModule {
         super( appModel, "<html>Interference<br>by Reflection</html>" );
 
         soundModel = (SoundModel)getModel();
-
-        // Start with a SingleSourceApparatus Panel. This gives us a speaker and
-        // WaveMediumGraphicB
-        setApparatusPanel( new SingleSourceApparatusPanel( soundModel ) );
 
         // Set up the wall
         wallGraphic = new ReflectingWallGraphic( getApparatusPanel(), Color.blue,
@@ -78,8 +73,11 @@ public class WallInterferenceModule extends SoundModule {
         JPanel panel = new JPanel( new GridLayout( 2, 1 ) );
         panel.add( wallControlPanel );
         panel.add( new WallTranslateControlPanel() );
-        PhetControlPanel controlPanel = new PhetControlPanel( this, panel );
-        setControlPanel( controlPanel );
+        ( (SoundControlPanel)getControlPanel() ).addPanel( panel );
+
+        ( (SoundControlPanel)getControlPanel() ).setAmplitude( 1.0 );
+        getApparatusPanel().invalidate();
+        getApparatusPanel().repaint();
     }
 
     private class InteractiveWallGraphic extends DefaultInteractiveGraphic {

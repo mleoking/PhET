@@ -27,7 +27,7 @@ public class SoundModule extends Module implements RgbReporter {
     static {
         primaryOscillator.run();
         octaveOscillator.setHarmonicFactor( 2 );
-        octaveOscillator.run();
+        //        octaveOscillator.run();
     }
 
     private boolean audioEnabled = false;
@@ -50,8 +50,6 @@ public class SoundModule extends Module implements RgbReporter {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-        //        primaryOscillator.setWavefront( this.primaryWavefront );
-        //        octaveOscillator.setWavefront( this.octaveWavefront );
         setAudioEnabled( audioEnabled );
         if( currentListener != null ) {
             setListener( currentListener );
