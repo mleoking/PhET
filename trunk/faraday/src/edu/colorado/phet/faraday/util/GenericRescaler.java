@@ -120,7 +120,7 @@ public class GenericRescaler implements IRescaler {
      * <li>Bo is some threshold value
      * <li>if B > Bo, scale = 1
      * <li>if B <= Bo, scale = (B/Bo)**N
-     * <li>exponent N is between 0.3-0.8 and is a function of magnet strength
+     * <li>exponent N is a function of the reference value
      * </ul>
      * 
      * @param scale a value in the range 0-1 inclusive
