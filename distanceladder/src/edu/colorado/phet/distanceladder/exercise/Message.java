@@ -31,8 +31,9 @@ public class Message {
     public void display() {
         JEditorPane textPane = new JEditorPane( "text/html", getText() );
         textPane.setPreferredSize( new Dimension( 400, 300 ) );
+        JScrollPane jScrollPane = new JScrollPane( textPane );
         int response = JOptionPane.showConfirmDialog( null,
-                                                      new JScrollPane( textPane ),
+                                                      jScrollPane,
                                                       "Don't Panic!",
                                                       JOptionPane.OK_CANCEL_OPTION );
         if( response == JOptionPane.CANCEL_OPTION ) {
