@@ -15,6 +15,8 @@ import edu.colorado.phet.emf.Config;
 import edu.colorado.phet.emf.model.Electron;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -43,10 +45,21 @@ public class ElectronGraphic extends FastPaintImageGraphic
     }
 
     public void update() {
+
 //        super.setLocation( (int)electron.getCurrentPosition().getX(), (int)electron.getCurrentPosition().getY() );
         location.x = (int)electron.getCurrentPosition().getX();
         location.y = (int)electron.getCurrentPosition().getY();
+
+        // Moving to new graphics 7/8/04
+        // handle transform change
+        AffineTransform atx = this.getTransform();
+        Point2D.Double p2d = new Point2D.Double();
+        atx.transform( electron.getCurrentPosition(), p2d );
+        location.setLocation( p2d );
+//        location.setLocation( electron.getCurrentPosition() );
+
         apparatusPanel.repaint();
+//        apparatusPanel.repaint( location.x - 20, location.y - 20, 40, 40 );
     }
 
     public void paint( Graphics2D g2 ) {

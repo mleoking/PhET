@@ -12,8 +12,10 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.emf.command.SetMovementCmd;
 import edu.colorado.phet.emf.model.Antenna;
@@ -28,7 +30,13 @@ import edu.colorado.phet.util.StripChart;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 public class EmfModule extends Module {
 
@@ -47,7 +55,6 @@ public class EmfModule extends Module {
     private MovementType movementStrategy;
     private Graphic wiggleMeGraphic;
     private boolean beenWiggled;
-
 
     public EmfModule( AbstractClock clock ) {
         super( "EMF" );
@@ -70,13 +77,15 @@ public class EmfModule extends Module {
                                        fieldHeight );
         super.setApparatusPanel( apparatusPanel );
 
+
         // Set up the electron graphic
-        Graphic electronGraphic = new TransmitterElectronGraphic( apparatusPanel, electron, this );
+        TransmitterElectronGraphic electronGraphic = new TransmitterElectronGraphic( apparatusPanel, electron, this );
         this.getApparatusPanel().addGraphic( electronGraphic, 5 );
 
+
         // Set up the receiving electron and antenna
-        Antenna receivingAntenna = new Antenna( new Point2D.Double( origin.x + 678, electron.getStartPosition().getY() - 50 ),
-                                                new Point2D.Double( origin.x + 678, electron.getStartPosition().getY() + 75 ) );
+        Antenna receivingAntenna = new Antenna( new Point2D.Double( origin.x + 679, electron.getStartPosition().getY() - 50 ),
+                                                new Point2D.Double( origin.x + 679, electron.getStartPosition().getY() + 75 ) );
         receivingElectronLoc = new Point2D.Double( origin.x + 680, electron.getStartPosition().getY() );
         receivingElectron = new EmfSensingElectron( (EmfModel)this.getModel(), receivingElectronLoc, electron,
                                                     receivingAntenna );
@@ -266,5 +275,39 @@ public class EmfModule extends Module {
     public void removeWiggleMeGraphic() {
         apparatusPanel.removeGraphic( wiggleMeGraphic );
         beenWiggled = true;
+    }
+
+    public void showMegaHelp() {
+
+        final JDialog imageFrame = new JDialog(
+                PhetApplication.instance().getApplicationView().getPhetFrame(),
+                false );
+        try {
+            final BufferedImage image = ImageLoader.loadBufferedImage( "images/emf.gif" );
+            final JPanel panel = new JPanel( ) {
+                public void paint( Graphics g ) {
+                    g.setColor( Color.white );
+                    g.fillRect( 0, 0, image.getWidth(), image.getHeight( ));
+                    g.drawImage( image, 0, 0, null );
+                }
+            };
+            panel.setPreferredSize( new Dimension( image.getWidth(), image.getHeight( )) );
+
+            JScrollPane scrollPane = new JScrollPane( panel );
+            AdjustmentListener adjustmentListener = new AdjustmentListener() {
+                public void adjustmentValueChanged( AdjustmentEvent e ) {
+                    panel.repaint();
+                }
+            };
+            scrollPane.getHorizontalScrollBar().addAdjustmentListener( adjustmentListener );
+            scrollPane.getVerticalScrollBar().addAdjustmentListener( adjustmentListener );
+            scrollPane.setPreferredSize( new Dimension( image.getWidth(), 500 ) );
+            imageFrame.setContentPane( scrollPane);
+            imageFrame.pack();
+            imageFrame.setVisible( true );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 }

@@ -45,19 +45,24 @@ public class HelpPanel extends JPanel {
         } );
 //        setLayout( new GridBagLayout() );
 //        setLayout( new SpringLayout() );
-        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+
+//        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         init();
         setOneButtonMode();
     }
 
     private void init() {
-        Insets insets = new Insets( 0, 0, 0, 0 );
-        GridBagConstraints gbc = new GridBagConstraints();
-//        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 2, 0, 0,
-//                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
-        add( miniHelpBtn );//, gbc );
+        this.setLayout( new GridBagLayout());
+        Insets insets = new Insets( 2, 2, 2, 2 );
+//        GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
+                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
+        add( miniHelpBtn, gbc );
+//        add( miniHelpBtn );//, gbc );
 //        gbc.gridy = 2;      /
-        add( megaHelpBtn );//, gbc );
+        gbc.gridy++;
+        add( megaHelpBtn, gbc );
+//        add( megaHelpBtn );//, gbc );
     }
 
     private void setOneButtonMode() {

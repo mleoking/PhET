@@ -15,6 +15,8 @@ import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.model.EmfModel;
 
 import java.awt.*;
+import java.awt.event.ComponentListener;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 

@@ -8,6 +8,7 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.coreadditions.MessageFormatter;
 import edu.colorado.phet.emf.EmfModule;
 import edu.colorado.phet.emf.Config;
@@ -20,39 +21,51 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.URL;
 
 public class EmfControlPanel extends JPanel {
-//public class EmfControlPanel extends ControlPane implements Observer {
 
     private EmfModel model;
     private EmfModule module;
+    private JPanel controlPane;
 
     public EmfControlPanel( EmfModel model, EmfModule module ) {
         this.model = model;
         this.module = module;
-//        model.addObserver( this );
+        this.setLayout( new BorderLayout() );
+        controlPane = new JPanel();
+        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
+        ImageIcon imageIcon = new ImageIcon( resource );
+        JLabel titleLabel = ( new JLabel( imageIcon ) );
+        this.add( titleLabel, BorderLayout.NORTH );
+        this.add( controlPane, BorderLayout.CENTER );
+        this.add( new HelpPanel( module ), BorderLayout.SOUTH );
         createControls();
     }
 
     private void createControls() {
-        this.setPreferredSize( new Dimension( 180, 400 ) );
-        this.setLayout( new GridBagLayout() );
+        JPanel container = controlPane;
+        container.setPreferredSize( new Dimension( 180, 400 ) );
+        container.setLayout( new GridBagLayout() );
+//        this.setPreferredSize( new Dimension( 180, 400 ) );
+//        this.setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
-            GraphicsUtil.addGridBagComponent( this, new Legend(),
+            GraphicsUtil.addGridBagComponent( container, new Legend(),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new MovementControlPane(),
+            GraphicsUtil.addGridBagComponent( container, new MovementControlPane(),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new OptionControlPane(),
+            GraphicsUtil.addGridBagComponent( container, new OptionControlPane(),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
@@ -65,9 +78,6 @@ public class EmfControlPanel extends JPanel {
         //        this.add( new MovementControlPane() );
         //        this.add( new OptionControlPane() );
     }
-
-//    public void update( Observable o, Object arg ) {
-//    }
 
     //
     // Inner classes
@@ -89,7 +99,6 @@ public class EmfControlPanel extends JPanel {
         private JRadioButton staticFieldRB = new JRadioButton( "Static field" );
         private JRadioButton dynamicFieldRB = new JRadioButton( "Radiated field " );
         private ButtonGroup fieldDisplayRBGroup;
-        ;
 
         OptionControlPane() {
 
@@ -283,7 +292,7 @@ public class EmfControlPanel extends JPanel {
             rbGroup.add( manualRB );
             EtchedBorder etchedBorder = (EtchedBorder)BorderFactory.createEtchedBorder();
             this.setBorder( etchedBorder );
-            this.setBorder( BorderFactory.createTitledBorder( "Tranmitter Movement" ) );
+            this.setBorder( BorderFactory.createTitledBorder( "Transmitter Movement" ) );
 
             sineRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
