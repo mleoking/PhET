@@ -80,21 +80,8 @@ public class PhetShapeGraphic extends PhetGraphic {
         autorepaint();
     }
 
-    public double getFillAlpha() {
-        return fillAlpha;
-    }
-
-    public void setFillAlpha( double fillAlpha ) {
-        this.fillAlpha = fillAlpha;
-    }
-
-    public double getBorderAlpha() {
-        return borderAlpha;
-    }
-
-    public void setBorderAlpha( double borderAlpha ) {
-        this.borderAlpha = borderAlpha;
-    }
+    private Composite orgComposite = null;
+    private Paint workingPaint;
 
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
@@ -106,45 +93,74 @@ public class PhetShapeGraphic extends PhetGraphic {
             if( shape != null ) {
                 g2.transform( getNetTransform() );
                 if( fill != null ) {
+                    workingPaint = fill;
                     // Set the alpha if necessary
                     setAlpha( g2, fill );
-//                    if( fillAlpha != 1 ) {
-//                        GraphicsUtil.setAlpha( g2, fillAlpha );
-//                    }
-                    g2.setPaint( fill );
+                    g2.setPaint( workingPaint );
+//                    g2.setPaint( fill );
                     g2.fill( shape );
+                    restoreAlpha( g2 );
                 }
                 if( stroke != null ) {
-                    // Set the alpha if necessary
-//                    if( fillAlpha != 1 || borderAlpha != 1 ) {
-//                        GraphicsUtil.setAlpha( g2, borderAlpha );
-//                    }
-                    g2.setPaint( border );
+                    workingPaint = fill;
+                    setAlpha( g2, border );
+                    g2.setPaint( workingPaint );
+//                    g2.setPaint( border );
                     Stroke origStroke = g2.getStroke();
                     g2.setStroke( stroke );
-                    setAlpha( g2, border );
                     g2.draw( shape );
                     g2.setStroke( origStroke );
+                    restoreAlpha( g2 );
                 }
             }
             super.restoreGraphicsState();
         }
     }
 
+    /**
+     * This method is linked intimately with setAlpha() to manage the restoration
+     * of the graphics context withing the execution of paint()
+     * @param g2
+     */
+    private void restoreAlpha( Graphics2D g2 ) {
+        if( orgComposite != null ) {
+            g2.setComposite( orgComposite );
+            orgComposite = null;
+        }
+    }
+
+    /**
+     * Depending on specifics of the situation in which paint() has been called,
+     * this method sets up the Graphics2D so that alpha is handled as the client
+     * code expects, irrespective of the OS and whether the PhetShapeGraphic is being
+     * drawn directly to the screen or to an opaque offscreen buffer. It is intimately
+     * linked with restoreAlpha().
+     * @param g2
+     * @param paint
+     */
     private void setAlpha( Graphics2D g2, Paint paint ) {
         Component component = getComponent();
+        // If we are drawing to an opaque offscreen buffer of an ApparatusPanel2, and
+        // the Paint being used has alpha < 255, we set apply an AlphaComposite to the
+        // Graphics2D that represents alpha in the Paint, compounded with whatever
+        // AlphaComposite might have been already set on the Graphics2D.
         if( component instanceof ApparatusPanel2 ) {
             ApparatusPanel2 apparatusPanel2 = (ApparatusPanel2)component;
             if( apparatusPanel2.isUseOffscreenBuffer() ) {
                 if( paint instanceof Color ) {
                     Color color = (Color)paint;
-                    double fillAlpha = (double)color.getAlpha() / 255;
-                    Composite composite = g2.getComposite();
-                    if( composite instanceof AlphaComposite ) {
-                        AlphaComposite alphaComposite = (AlphaComposite)composite;
-                        fillAlpha *= alphaComposite.getAlpha();
+                    if( color.getAlpha() < 255 ) {
+                        workingPaint = new Color(color.getRed(), color.getGreen(), color.getBlue() );
+                        double fillAlpha = (double)color.getAlpha() / 255;
+                        Composite composite = g2.getComposite();
+                        if( composite instanceof AlphaComposite ) {
+                            AlphaComposite alphaComposite = (AlphaComposite)composite;
+                            fillAlpha *= alphaComposite.getAlpha();
+                        }
+                        // Save whatever Composite is already set on the Graphics2D
+                        orgComposite = g2.getComposite();
+                        GraphicsUtil.setAlpha( g2, fillAlpha );
                     }
-                    GraphicsUtil.setAlpha( g2, fillAlpha );
                 }
             }
         }
