@@ -10,7 +10,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.idealgas.controller.MeasurementModule;
+import edu.colorado.phet.idealgas.controller.*;
 
 import java.util.ResourceBundle;
 
@@ -34,19 +34,19 @@ public class IdealGasApplication extends PhetApplication {
                                            IdealGasConfig.s_waitTime ) );
 
             // Create the modules
-//            Module idealGasModule = new IdealGasModule( getClock() );
+            Module idealGasModule = new IdealGasModule( getClock() );
             Module measurementModule = new MeasurementModule( getClock() );
-//            Module rigidSphereModuleI = new RigidSphereModuleI( getClock() );
-//            Module rigidSphereModuleII = new RigidHollowSphereModuleII( getClock() );
-//            Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
-//            Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
+            Module rigidSphereModuleI = new RigidSphereModuleI( getClock() );
+            Module rigidSphereModuleII = new RigidHollowSphereModuleII( getClock() );
+            Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
+            Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
             Module[] modules = new Module[]{
-//                idealGasModule,
+                idealGasModule,
                 measurementModule,
-//                rigidSphereModuleI,
-//                rigidSphereModuleII,
-//                heliumBalloonModule,
-//                hotAirBalloonModule
+                rigidSphereModuleI,
+                rigidSphereModuleII,
+                heliumBalloonModule,
+                hotAirBalloonModule
             };
             setModules( modules );
 //            //            setInitialModule( heliumBalloonModule );

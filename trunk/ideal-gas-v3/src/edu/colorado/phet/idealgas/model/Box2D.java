@@ -31,6 +31,7 @@ public class Box2D extends CollidableBody {
 
     private IdealGasModel model;
     private double oldMinX;
+    private double minimumWidth = 100;
 
     public Box2D( IdealGasModel model ) {
         super();
@@ -71,7 +72,7 @@ public class Box2D extends CollidableBody {
         this.corner2 = corner2;
         maxX = Math.max( corner1.getX(), corner2.getX() );
         maxY = Math.max( corner1.getY(), corner2.getY() );
-        minX = Math.max( Math.min( Math.min( corner1.getX(), corner2.getX() ), maxX - 20 ), 40 );
+        minX = Math.max( Math.min( Math.min( corner1.getX(), corner2.getX() ), maxX - minimumWidth ), 40 );
         minY = Math.min( corner1.getY(), corner2.getY() );
         center = new Point2D.Double( ( this.maxX + this.minX ) / 2,
                                      ( this.maxY + this.minY ) / 2 );
@@ -86,6 +87,13 @@ public class Box2D extends CollidableBody {
         this.notifyObservers();
     }
 
+    public void setMinimumWidth( double minimumWidth ) {
+        this.minimumWidth = minimumWidth;
+    }
+
+    public double getMinimumWidth() {
+        return minimumWidth;
+    }
 
     public void setOpening( Point2D[] opening ) {
         this.opening[0] = opening[0];

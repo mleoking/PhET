@@ -1,10 +1,9 @@
-- set minimum width of box for each module, so hollow spheres don't get crunched.
+- Mannequin needs to be lower on the screen.
+- Box leaves screen turds when you move the wall.
 
 - When molecules are pumped in with no interactions, they have different energies
 
 - Sam, clockStateListeners
-
-- tighten up stove control panel, so there is more room on the control panel
 
 - gravity only seems to act on a particle when gravity changes
 

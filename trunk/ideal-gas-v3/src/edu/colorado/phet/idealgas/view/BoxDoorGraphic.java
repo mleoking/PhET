@@ -65,6 +65,8 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
         }
 
         public void translate( double dx, double dy ) {
+
+            minX = (int)( box.getMinX() - imageGraphic.getBounds().getWidth() + ( box.getMaxX() - openingMaxX ));
             // Update the position of the image on the screen
             x = (int)Math.min( maxX, Math.max( minX, x + dx ) );
             y = (int)Math.min( maxY, Math.max( minY, y + dy ) );
