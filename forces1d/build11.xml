@@ -79,8 +79,8 @@
     <target name="Compile" depends="init, Build Dependencies, Clean"
         description="compile the source ">
         <mkdir dir="${ant.classes}"/>
-        <!--        <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;${ant.lib}/smoothmetal.jar" destdir="${ant.classes}"/>-->
-        <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;lib/smoothmetal.jar" destdir="${ant.classes}"/>
+        <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;${ant.lib}/smoothmetal.jar" destdir="${ant.classes}"/>
+        <!--        <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;lib/smoothmetal.jar" destdir="${ant.classes}"/>-->
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
@@ -136,7 +136,7 @@
         <mkdir dir="${destdir}/lib"/>
         <copy todir="${destdir}/lib">
             <fileset dir="${ant.lib}"/>
-            <fileset dir="lib"/>
+            <!--            <fileset dir="lib"/>-->
         </copy>
         <exec dir="${destdir}" executable="${explorer}">
             <arg line="${destdir}"/>
