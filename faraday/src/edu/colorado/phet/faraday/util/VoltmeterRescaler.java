@@ -16,41 +16,25 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
 
 
 /** 
- * MagneticFieldRescaler makes values more visually useful by adjusting
- * them to be a bit more linear with respect to some magnetic field.
- * Since a magnetic field drops off at the rate of the distance cubed,
- * the visual effect is not very useful.  Using the magnet strength as a 
- * reference, we can rescale the field strength.
- * <p>
- * Some places where this is used include:
- * <ul>
- * <li>display of field strength by compass grid needles
- * <li>lightbulb's rays
- * <li>voltmeter reading
- * <li>electron speed in the pickup coil
- * </ul>
+ * VoltmeterRescaler is used to rescale the voltage in the voltmeter.
+ * The reference is the magnetic field of a magnet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class MagneticFieldRescaler extends GenericRescaler  implements SimpleObserver {
+public class VoltmeterRescaler extends GenericRescaler implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    /*
-     * WARNING! These constants control rescaling throughout the simulation.
-     */
+    private static final double THRESHOLD = 0.8;
+    private static final double MIN_EXPONENT = 0.3;
+    private static final double MAX_EXPONENT = 0.8;
     
-    // Values below this value are rescaled.
-    private static final double DEFAULT_THRESHOLD = 0.8;
-   
-    // Approach this rescaling exponent as magnet strength approaches 0.
-    private static final double DEFAULT_MIN_EXPONENT = 0.3;
-    
-    // Approach this rescaling exponent as magnet strength approach its maximum.
-    private static final double DEFAULT_MAX_EXPONENT = 0.8;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private AbstractMagnet _magnetModel;
     
@@ -63,7 +47,7 @@ public class MagneticFieldRescaler extends GenericRescaler  implements SimpleObs
      * 
      * @param magnetModel the magnet whose magnetic field serves as the reference
      */
-    public MagneticFieldRescaler( AbstractMagnet magnetModel ) {
+    public VoltmeterRescaler( AbstractMagnet magnetModel ) {
         super();
         assert( magnetModel != null );
         _magnetModel = magnetModel;
@@ -71,8 +55,8 @@ public class MagneticFieldRescaler extends GenericRescaler  implements SimpleObs
         
         setMaxReference( magnetModel.getMaxStrength() );
         setReference( magnetModel.getStrength() );
-        setExponents( DEFAULT_MIN_EXPONENT, DEFAULT_MAX_EXPONENT );
-        setThreshold( DEFAULT_THRESHOLD );
+        setExponents( MIN_EXPONENT, MAX_EXPONENT );
+        setThreshold( THRESHOLD );
     }
     
     public void finalize() {

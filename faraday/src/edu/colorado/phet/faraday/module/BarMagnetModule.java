@@ -24,7 +24,7 @@ import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.util.IRescaler;
-import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
+import edu.colorado.phet.faraday.util.CompassGridRescaler;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
@@ -90,7 +90,7 @@ public class BarMagnetModule extends FaradayModule {
         barMagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
 
         // Rescaler
-        IRescaler rescaler = new MagneticFieldRescaler( barMagnetModel );
+        IRescaler rescaler = new CompassGridRescaler( barMagnetModel );
         
         // Compass model
         Compass compassModel = new Compass( barMagnetModel );
