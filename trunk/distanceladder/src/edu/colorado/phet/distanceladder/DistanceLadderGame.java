@@ -14,6 +14,7 @@ import edu.colorado.phet.distanceladder.exercise.Message;
 import edu.colorado.phet.distanceladder.levels.Level1;
 import edu.colorado.phet.distanceladder.levels.Level1A;
 import edu.colorado.phet.distanceladder.levels.Level2;
+import edu.colorado.phet.distanceladder.levels.Level2A;
 import edu.colorado.phet.distanceladder.model.*;
 
 import javax.swing.*;
@@ -66,12 +67,13 @@ public class DistanceLadderGame {
 //        displayMessage( new HtmlMessage( "messages/intro-1.html" ) );
 
 //        displayMessage( new HtmlMessage( "messages/level1-intro.html" ) );
-        doLevel( new Level1( app.getApplicationView().getPhetFrame(), model ) );
-        doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
+//        doLevel( new Level1( app.getApplicationView().getPhetFrame(), model ) );
+//        doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
 
-        displayMessage( new HtmlMessage( "messages/level2-intro.html" ) );
-        doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
+//        displayMessage( new HtmlMessage( "messages/level2-intro.html" ) );
+//        doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
         displayMessage( new HtmlMessage( "messages/level2A-intro.html" ) );
+        doLevel( new Level2A( app.getApplicationView().getPhetFrame(), model ) );
 
         cockpitModule.activate( null );
     }
