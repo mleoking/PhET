@@ -48,7 +48,7 @@ public class IdealGasModel extends BaseModel {
     private ArrayList bodies = new ArrayList();
 
     // todo: this attribute should proabably belong to the Pump
-    private Class currentGasSpecies = HeavySpecies.class;
+//    private Class currentGasSpecies = HeavySpecies.class;
 
     public IdealGasModel( double dt ) {
         // Add a collision collisionGod
@@ -90,14 +90,14 @@ public class IdealGasModel extends BaseModel {
         return constantVolume;
     }
 
-    public void setCurrentGasSpecies( Class currentGasSpecies ) {
-        this.currentGasSpecies = currentGasSpecies;
-    }
-
-    public Class getCurrentGasSpecies() {
-        return currentGasSpecies;
-    }
-
+//    public void setCurrentGasSpecies( Class currentGasSpecies ) {
+//        this.currentGasSpecies = currentGasSpecies;
+//    }
+//
+//    public Class getCurrentGasSpecies() {
+//        return currentGasSpecies;
+//    }
+//
     public void setConstantVolume( boolean constantVolume ) {
         this.constantVolume = constantVolume;
     }
