@@ -1,21 +1,14 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.movingman.application;
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.movingman.application.motionsuites.AccelerateSuite;
-import edu.colorado.phet.movingman.application.motionsuites.MotionSuite;
-import edu.colorado.phet.movingman.application.motionsuites.OscillateSuite;
-import edu.colorado.phet.movingman.application.motionsuites.WalkSuite;
-import edu.colorado.phet.movingman.common.PhetLookAndFeel;
+import edu.colorado.phet.movingman.application.motionsuites.*;
+import edu.colorado.phet.movingman.common.VerticalLayoutPanel;
 import edu.colorado.phet.movingman.common.plaf.PlafUtil;
 import edu.colorado.phet.movingman.elements.DataSeries;
-import edu.colorado.phet.movingman.elements.Man;
-import edu.colorado.phet.movingman.elements.stepmotions.StepMotion;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,14 +24,27 @@ import java.util.StringTokenizer;
 public class MovingManControlPanel extends JPanel {
     private MovingManModule module;
     private JPanel controllerContainer;
-//    private JPanel mediaPanel;
     private MediaPanel mediaPanel;
-    MotionSuite selectedMotion;
-    private MotionActivation mact;
-
     private ActionListener manualSetup;
-    private String recordMouseString;
-    private ArrayList motionButtons;
+    private MotionPanel motionPanel;
+
+
+    public void setRunningState() {
+        mediaPanel.pause.setEnabled( false );
+
+    }
+
+    public void setPauseState() {
+        mediaPanel.pause.doClick( 50 );
+
+    }
+
+    public void setMotionState() {
+        mediaPanel.play.setEnabled( false );
+        mediaPanel.record.setEnabled( false );
+        mediaPanel.pause.setEnabled( true );
+        mediaPanel.slowMotion.setEnabled( false );
+    }
 
     public class MediaPanel extends JPanel {
 
@@ -92,8 +98,6 @@ public class MovingManControlPanel extends JPanel {
             reset.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.reset();
-                    module.setPauseMode();
-                    getInitialPositionSpinner().setValue( new Double( 0 ) );
                 }
             } );
 
@@ -128,38 +132,75 @@ public class MovingManControlPanel extends JPanel {
 
     }
 
-    public JButton getAnotherPauseButton() {
-        return anotherPauseButton;
+    class MotionPanel extends VerticalLayoutPanel {
+        private String recordMouseString;
+        private ArrayList motionButtons;
+
+        public MotionPanel() {
+            final MotionSuite[] motions = new MotionSuite[]{
+                new StandSuite( module ),
+                new WalkSuite( module ),
+                new AccelerateSuite( module ),
+                new OscillateSuite( module )
+            };
+
+            setBorder( PhetLookAndFeel.createSmoothBorder( "Motions" ) );
+            recordMouseString = "Manual Control";
+            JRadioButton jrb = new JRadioButton( recordMouseString );
+            jrb.setSelected( true );
+            motionButtons = new ArrayList();
+            motionButtons.add( jrb );
+            ButtonGroup bg = new ButtonGroup();
+
+            ActionListener changeListener = new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    int index = getSelectedButton();
+                    module.getManGraphic().setShowIdea( false );
+                    if( index == 0 ) {
+                        setManualMode();
+                    }
+                    else {
+                        MotionSuite mac = motions[index - 1];
+                        module.setMotionSuite( mac );
+                        mac.showDialog();
+                    }
+                }
+            };
+
+            for( int i = 0; i < motions.length; i++ ) {
+                motionButtons.add( new JRadioButton( motions[i].toString() ) );
+            }
+
+            for( int i = 0; i < motionButtons.size(); i++ ) {
+                JRadioButton jRadioButton = (JRadioButton)motionButtons.get( i );
+
+                add( jRadioButton );
+                bg.add( jRadioButton );
+                jRadioButton.addActionListener( changeListener );
+            }
+
+        }
+
+        private int getSelectedButton() {
+            for( int i = 0; i < motionButtons.size(); i++ ) {
+                JRadioButton jRadioButton = (JRadioButton)motionButtons.get( i );
+                if( jRadioButton.isSelected() ) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        private void setSelectedItem( int index ) {
+            JRadioButton button = (JRadioButton)motionButtons.get( index );
+            button.setSelected( true );
+        }
     }
-
-    private JButton anotherPauseButton;
-
-    public JSpinner getInitialPositionSpinner() {
-        return initialPositionSpinner;
-    }
-
-    private JSpinner initialPositionSpinner;
-
-    public JButton getStartMotionButton() {
-        return startMotion;
-    }
-
-    private JButton startMotion;
 
     public MovingManControlPanel( final MovingManModule module ) {
 
         this.module = module;
         final Dimension preferred = new Dimension( 200, 400 );
-        StepMotion stay = new StepMotion() {
-            public double stepInTime( Man man, double dt ) {
-                return man.getX();
-            }
-        };
-
-        mact = new MotionActivation( module );
-        JPanel standStillPanel = new JPanel();
-        standStillPanel.add( new JLabel( "<html>No controls.<br>Click 'Run Motion' <br>to start standing still.</html>" ) );
-
         setSize( preferred );
         setPreferredSize( preferred );
         setLayout( new BorderLayout() );
@@ -196,54 +237,12 @@ public class MovingManControlPanel extends JPanel {
         boxes.setBorder( PhetLookAndFeel.createSmoothBorder( "Show Plots" ) );
         add( boxes, BorderLayout.SOUTH );
 
-        ImageIcon playIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Play24.gif" ) );
-        startMotion = new JButton( "Go!", playIcon );
-        startMotion.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setMotionMode( selectedMotion );//.getStepMotion());
-                mediaPanel.play.setEnabled( false );
-                mediaPanel.record.setEnabled( false );
-                mediaPanel.pause.setEnabled( true );
-                mediaPanel.slowMotion.setEnabled( false );
-                startMotion.setEnabled( false );
-                anotherPauseButton.setEnabled( true );
-            }
-        } );
-
-
-        startMotion.setEnabled( false );
         mediaPanel = new MediaPanel();
 
         JPanel panel = new JPanel();
         panel.setLayout( new BorderLayout() );
 
-        initialPositionSpinner = new JSpinner( new SpinnerNumberModel( 0.0, -10, 10, 1 ) );
-        initialPositionSpinner.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                Number loc = (Number)initialPositionSpinner.getValue();
-                double init = loc.doubleValue();
-                module.setInitialPosition( init );
-                module.setPauseMode();
-                anotherPauseButton.setEnabled( false );
-                mediaPanel.pause.setEnabled( false );
-                startMotion.setEnabled( true );
-            }
-        } );
-        Border tb = PhetLookAndFeel.createSmoothBorder( "Initial Position" );
-
-        initialPositionSpinner.setBorder( tb );
         add( panel, BorderLayout.NORTH );
-        ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
-        anotherPauseButton = new JButton( "Pause", pauseIcon );
-        anotherPauseButton.setEnabled( false );
-        anotherPauseButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                mediaPanel.pause.doClick( 50 );
-                startMotion.setEnabled( true );
-                anotherPauseButton.setEnabled( false );
-            }
-        } );
-
         JButton changeControl = new JButton( "Change number of smoothing points." );
         changeControl.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -252,65 +251,11 @@ public class MovingManControlPanel extends JPanel {
             }
         } );
 
-        MotionSuite still = new MotionSuite( stay, standStillPanel ) {
-            public void initialize( Man man ) {
-            }
 
-            public void collidedWithWall() {
-            }
-        };
-        still.setName( "Stand Very Still" );
-//        final String init = ( "Choose Motion" );
+        motionPanel = new MotionPanel();
 
-        final MotionSuite[] motions = new MotionSuite[]{still, new WalkSuite( module ),
-                                                        new AccelerateSuite( module ),
-                                                        new OscillateSuite( module )
-        };
-
-        JPanel motionPanel = new JPanel();
-        motionPanel.setBorder( PhetLookAndFeel.createSmoothBorder( "Motions" ) );
-
-        motionPanel.setLayout( new BoxLayout( motionPanel, BoxLayout.Y_AXIS ) );
-
-        this.recordMouseString = "Manual Control";
-        JRadioButton jrb = new JRadioButton( recordMouseString );
-        jrb.setSelected( true );
-        motionButtons = new ArrayList();
-        motionButtons.add( jrb );
-        ButtonGroup bg = new ButtonGroup();
-
-        ActionListener changeListener = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                int index = getSelectedButton();
-                module.getManGraphic().setShowIdea( false );
-                if( index == 0 ) {
-                    setManualMode();
-                }
-                else {
-                    MotionSuite mac = motions[index - 1];
-                    selectedMotion = mac;
-                    mact.setupInDialog( mac, MovingManControlPanel.this );
-                }
-            }
-        };
-
-        for( int i = 0; i < motions.length; i++ ) {
-            motionButtons.add( new JRadioButton( motions[i].toString() ) );
-        }
-
-        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );
-        JLabel phetIconLabel = new JLabel( imageIcon );
-//        motionPanel.add( new JLabel( imageIcon ) );
-        for( int i = 0; i < motionButtons.size(); i++ ) {
-            JRadioButton jRadioButton = (JRadioButton)motionButtons.get( i );
-
-            motionPanel.add( jRadioButton );
-            bg.add( jRadioButton );
-            jRadioButton.addActionListener( changeListener );
-        }
-
-        JPanel northPanel = new JPanel();
-        northPanel.setLayout( new BoxLayout( northPanel, BoxLayout.Y_AXIS ) );
+        JPanel northPanel = new VerticalLayoutPanel();
+//        northPanel.setLayout( new BoxLayout( northPanel, BoxLayout.Y_AXIS ) );
 
         final JMenu viewMenu = new JMenu( "View" );
         JMenuItem[] items = PlafUtil.getLookAndFeelItems();
@@ -334,6 +279,8 @@ public class MovingManControlPanel extends JPanel {
                 MovingManModule.FRAME.setExtendedState( JFrame.MAXIMIZED_BOTH );
             }
         } ).start();
+        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );
+        JLabel phetIconLabel = new JLabel( imageIcon );
         northPanel.add( phetIconLabel );
         northPanel.add( motionPanel );
         final JCheckBox invertAxes = new JCheckBox( "Invert X-Axis", false );
@@ -346,15 +293,6 @@ public class MovingManControlPanel extends JPanel {
         panel.add( northPanel, BorderLayout.NORTH );
     }
 
-    private int getSelectedButton() {
-        for( int i = 0; i < motionButtons.size(); i++ ) {
-            JRadioButton jRadioButton = (JRadioButton)motionButtons.get( i );
-            if( jRadioButton.isSelected() ) {
-                return i;
-            }
-        }
-        return -1;
-    }
 
     public static DataSeries parseString( String str ) {
         DataSeries data = new DataSeries();
@@ -369,14 +307,9 @@ public class MovingManControlPanel extends JPanel {
 
     public void setManualMode() {
         manualSetup.actionPerformed( null );
-        setSelectedItem( 0 );
-        mact.clearDialogs();
+        motionPanel.setSelectedItem( 0 );
     }
 
-    private void setSelectedItem( int index ) {
-        JRadioButton button = (JRadioButton)motionButtons.get( index );
-        button.setSelected( true );
-    }
 
     public static String toString( DataSeries data ) {
         StringBuffer string = new StringBuffer();
@@ -412,6 +345,6 @@ public class MovingManControlPanel extends JPanel {
     }
 
     public void resetComboBox() {
-        setSelectedItem( 0 );
+        motionPanel.setSelectedItem( 0 );
     }
 }

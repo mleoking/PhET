@@ -101,8 +101,8 @@
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="src-hellophet-46" destdir="${classes}"/>
-        <javac srcdir="${src}" destdir="${classes}"/>
+        <javac classpath="lib/smoothmetal.jar" srcdir="src-hellophet-46" destdir="${classes}"/>
+        <javac classpath="lib/smoothmetal.jar" srcdir="${src}" destdir="${classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>

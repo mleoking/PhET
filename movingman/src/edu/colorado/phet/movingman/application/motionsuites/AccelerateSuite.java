@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman.application.motionsuites;
 
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.graphics.TransformSlider;
 import edu.colorado.phet.movingman.application.MovingManModule;
-import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.AccelMotion;
 import edu.colorado.phet.movingman.elements.stepmotions.MotionState;
@@ -31,7 +31,7 @@ public class AccelerateSuite extends MotionSuite {
     private GridBagConstraints gridBagConstraints;
 
     public AccelerateSuite( final MovingManModule module ) {
-        super( "Accelerate" );
+        super( module, "Accelerate" );
         motion = new AccelMotion( module.getMotionState() );
         this.module = module;
 //        controlPanel = new JPanel();
@@ -48,8 +48,6 @@ public class AccelerateSuite extends MotionSuite {
             }
         } );
         add( initialVelocitySpinner );
-
-//        controlPanel.add( initialVelocitySpinner );
 
         double minAccel = -2;
         double maxAccel = 2;
@@ -77,7 +75,6 @@ public class AccelerateSuite extends MotionSuite {
         transformslider.addLabel( 0, createLabel( "0.0" ) );
         slider.setPaintLabels( true );
         add( slider );
-//        controlPanel.add( slider );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double modelValue = transformslider.getModelValue();
@@ -86,7 +83,6 @@ public class AccelerateSuite extends MotionSuite {
             }
         } );
         add( new JLabel( "in meters per second squared." ) );
-//        controlPanel.add( new JLabel( "in meters per second squared." ) );
     }
 
     private void add( JComponent initialVelocitySpinner ) {
@@ -109,7 +105,7 @@ public class AccelerateSuite extends MotionSuite {
     }
 
     public void initialize( Man man ) {
-        setInitialVelocity();
+//        setInitialVelocity();
 
         module.getPositionPlot().getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
 

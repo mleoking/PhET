@@ -34,7 +34,7 @@ public class RescaleOp3 {
 
     public static BufferedImage rescaleFractional( BufferedImage in, double dx, double dy ) {
         //could test for MAC, or try/catch, or just pretend everybody is a mac.
-        return rescaleFractionalMacs( in, dx, dy );
+        return rescaleFractionalMacFriendly( in, dx, dy );
 //        AffineTransform at = AffineTransform.getScaleInstance( dx, dy );
 //        AffineTransformOp ato = new AffineTransformOp( at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
 //        BufferedImage out = ato.createCompatibleDestImage( in, in.getColorModel() );
@@ -42,7 +42,7 @@ public class RescaleOp3 {
 //        return out;
     }
 
-    public static BufferedImage rescaleFractionalMacs( BufferedImage in, double dx, double dy ) {
+    public static BufferedImage rescaleFractionalMacFriendly( BufferedImage in, double dx, double dy ) {
         int width = (int)( in.getWidth() * dx );
         int height = (int)( in.getHeight() * dy );
         BufferedImage newImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );

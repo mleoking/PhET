@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.common;
+package edu.colorado.phet.common.view;
 
 import smooth.metal.SmoothLookAndFeel;
 
