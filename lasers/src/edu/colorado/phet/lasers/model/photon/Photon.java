@@ -33,7 +33,6 @@ import java.awt.geom.Point2D;
 public class Photon extends Particle implements Collidable {
 
     static public double s_speed = 1;
-//    static public double s_speed = 500;
     static public double s_radius = 10;
     static public int RED = 680;
     static public int DEEP_RED = 640;
@@ -133,7 +132,6 @@ public class Photon extends Particle implements Collidable {
      * heap so hard.
      */
     private Photon() {
-//        super( s_radius );
         collidableAdapter = new CollidableAdapter( this );
         setVelocity( s_speed, 0 );
 //        setMass( 1 );
@@ -211,12 +209,16 @@ public class Photon extends Particle implements Collidable {
         this.childPhoton = childPhoton;
     }
 
-
     public Vector2D getVelocityPrev() {
         return collidableAdapter.getVelocityPrev();
     }
 
     public Point2D getPositionPrev() {
         return collidableAdapter.getPositionPrev();
+    }
+
+    public void stepInTime( double dt ) {
+        collidableAdapter.stepInTime( dt );
+        super.stepInTime( dt );
     }
 }

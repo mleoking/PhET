@@ -1,18 +1,41 @@
+/**
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
+ */
 package edu.colorado.phet.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * This abstract class represents physical particles. It is abstract so that only
- * subclasses can be instantiated, forcing them to declare if they do or do not
- * have physical extent.
+ * This adapter class is provided so that various subclasses of Particle can
+ * be Collidable with a minimum amount of effort.
+ * 
+ * Example:
+ *  class MyModelElement extends Particle implements Collidable {
+ *      private CollidableAdapter collidableAdapter;
+ *
+ *      public MyModelElement() {
+ *          collidableAdapter = new CollidableAdapter( this );
+ *      }
+ *
+ *      public void stepInTime( double dt ) {
+ *          collidableAdapter.stepInTime( dt );
+ *      }
+ *
+ *      public Point2D getPositionPrev() {
+ *          return collidableAdapter.getPositionPrev();
+ *      }
+ *
+ *      public Vector2D getVelocityPrev() {
+ *          return collidableAdapter.getVelocityPrev();
+ *      }
  */
 public class CollidableAdapter implements Collidable, ModelElement {
 
