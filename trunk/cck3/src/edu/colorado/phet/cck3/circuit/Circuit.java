@@ -4,6 +4,7 @@ package edu.colorado.phet.cck3.circuit;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
+import edu.colorado.phet.cck3.grabbag.GrabBagResistor;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
@@ -159,6 +160,9 @@ public class Circuit {
     }
 
     public void addBranch( Branch component ) {
+        if( component == null ) {
+            throw new RuntimeException( "Null component." );
+        }
         addJunction( component.getStartJunction() );
         addJunction( component.getEndJunction() );
         branches.add( component );
@@ -464,6 +468,13 @@ public class Circuit {
         else if( type.equals( SeriesAmmeter.class.getName() ) ) {
             Branch amm = new SeriesAmmeter( kl, startJunction, endJunction, length, height );
             return amm;
+        }
+        else if( type.equals( GrabBagResistor.class.getName() ) ) {
+            Resistor res = new Resistor( kl, startJunction, endJunction, length, height );
+            String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
+            double val = Double.parseDouble( resVal );
+            res.setResistance( val );
+            return res;
         }
         return null;
     }

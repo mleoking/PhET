@@ -124,7 +124,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                 }
             } );
             if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) ) {
-                if( !module.isVirtualLabMode() ) {
+                if( module.getParameters().allowShowReadouts() ) {
                     menu.add( showValue );
                 }
 

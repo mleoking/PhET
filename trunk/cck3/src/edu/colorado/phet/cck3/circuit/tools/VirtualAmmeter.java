@@ -77,8 +77,8 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
 
     private void resetText() {
         String[] text = new String[]{
-                SimStrings.get( "VirtualAmmeter.HelpString1" ),
-                SimStrings.get( "VirtualAmmeter.HelpString1" )
+            SimStrings.get( "VirtualAmmeter.HelpString1" ),
+            SimStrings.get( "VirtualAmmeter.HelpString2" )
         };
         trt.setText( text );
     }
