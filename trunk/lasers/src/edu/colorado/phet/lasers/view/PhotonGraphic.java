@@ -40,6 +40,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     static protected int s_imgHeight = (int)Photon.s_radius;
     static protected int s_imgLength = 20;
 
+    // Cache of photon images of different colors
+    static private HashMap colorToImage = new HashMap();
+
     static String s_imageName = LaserConfig.PHOTON_IMAGE_FILE;
     static String s_highEnergyImageName = LaserConfig.HIGH_ENERGY_PHOTON_IMAGE_FILE;
     static String s_midEnergyImageName = LaserConfig.MID_HIGH_ENERGY_PHOTON_IMAGE_FILE;
@@ -207,9 +210,14 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
         //        setImage( animation[0] );
 
         // Set the color of the image
-        BufferedImageOp op = new ColorFromWavelength( photon.getWavelength() );
-        BufferedImage bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
-        op.filter( s_particleImage, bi );
+        Double wavelength = new Double( photon.getWavelength() );
+        BufferedImage bi = (BufferedImage)colorToImage.get( wavelength );
+        if( bi == null ) {
+            BufferedImageOp op = new ColorFromWavelength( photon.getWavelength() );
+            bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
+            op.filter( s_particleImage, bi );
+            colorToImage.put( wavelength, bi );
+        }
 
         // Rotate the image
         BufferedImage bi2 = GraphicsUtil.getRotatedImage( bi, theta );
