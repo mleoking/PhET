@@ -21,7 +21,7 @@ MEDIUM PRIORITY:
 - beautify Control Panels
 - Transformer module requirements
 - check for unnecessary notification, events and updates
-- merge HollywoodCompass into Compass, collapse AbstractCompass and Compass
+
 
 LOW PRIORITY:
 - agree on control labels
@@ -36,6 +36,8 @@ phetcommon:
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
 
 DONE:
+v0r11...
+(2/3) - merge HollywoodCompass into Compass, collapse AbstractCompass and Compass
 v0r10...
 (2/2) - redo lightbulb graphic, looks ratty on black background
 (2/2) - fix CoilGraphic so that it's foreground & background look right when magnet passes thru coil near edges

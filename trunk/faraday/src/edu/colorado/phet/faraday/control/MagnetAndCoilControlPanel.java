@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.faraday.control;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -41,7 +40,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
 
     // Model & view components to be controlled.
     private AbstractMagnet _magnetModel;
-    private AbstractCompass _compassModel;
+    private Compass _compassModel;
     private PickupCoil _pickupCoilModel;
     private LightBulb _lightBulbModel;
     private VoltMeter _voltMeterModel;
@@ -80,7 +79,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
     public MagnetAndCoilControlPanel( 
         MagnetAndCoilModule module,
         AbstractMagnet magnetModel,
-        AbstractCompass compassModel,
+        Compass compassModel,
         PickupCoil pickupCoilModel,
         LightBulb lightBulbModel,
         VoltMeter voltMeterModel,

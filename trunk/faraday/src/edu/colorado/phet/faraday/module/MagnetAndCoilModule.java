@@ -107,6 +107,7 @@ public class MagnetAndCoilModule extends Module {
         // Compass
         Compass compassModel = new Compass( magnetModel ); 
         compassModel.setLocation( COMPASS_LOCATION );
+        compassModel.setRotationalKinematicsEnabled( true );
         model.addModelElement( compassModel );
         
         // Pickup Coil

@@ -24,7 +24,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
 import edu.colorado.phet.faraday.control.DeveloperPanel;
-import edu.colorado.phet.faraday.model.AbstractCompass;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
@@ -96,8 +95,9 @@ public class BarMagnetModule extends Module {
         model.addModelElement( magnetModel );
         
         // Compass model
-        AbstractCompass compassModel = new Compass( magnetModel );
+        Compass compassModel = new Compass( magnetModel );
         compassModel.setLocation( COMPASS_LOCATION );
+        compassModel.setRotationalKinematicsEnabled( true );
         model.addModelElement( compassModel );
         
         //----------------------------------------------------------------------------
