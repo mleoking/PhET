@@ -67,6 +67,15 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     //----------------------------------------------------------------------------
     
     /**
+     * Gets the magnet model.
+     * 
+     * @return the magnet model.
+     */
+    public AbstractMagnet getMagnet() {
+        return _magnet;
+    }
+    
+    /**
      * Sets the induced emf.
      * 
      * @param emf the emf, in volts
