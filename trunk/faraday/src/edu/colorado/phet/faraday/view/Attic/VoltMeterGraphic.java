@@ -13,9 +13,12 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
 
+import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.model.VoltMeter;
 
 
 /**
@@ -25,17 +28,24 @@ import edu.colorado.phet.faraday.FaradayConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class VoltMeterGraphic extends CompositePhetGraphic {
+public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObserver {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
+    private static final double MAX_VOLTAGE = 120; // XXX
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    private VoltMeter _voltMeterModel;
     private PhetImageGraphic _body;
     private PhetImageGraphic _needle;
 
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructors & finalizers
     //----------------------------------------------------------------------------
     
     /**
@@ -44,9 +54,12 @@ public class VoltMeterGraphic extends CompositePhetGraphic {
      * 
      * @param component the parent Component
      */
-    public VoltMeterGraphic( Component component ) {
+    public VoltMeterGraphic( Component component, VoltMeter voltMeterModel ) {
         super( component );
 
+        _voltMeterModel = voltMeterModel;
+        _voltMeterModel.addObserver( this );
+        
         // Create the graphics components.
         _body = new PhetImageGraphic( component, FaradayConfig.METER_BODY_IMAGE );
         _needle = new PhetImageGraphic( component, FaradayConfig.METER_NEEDLE_IMAGE );
@@ -70,8 +83,19 @@ public class VoltMeterGraphic extends CompositePhetGraphic {
         }
 
         _needle.setLocation( 0, -65 );
+        
+        update();
     }
 
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void finalize() {
+        _voltMeterModel.removeObserver( this );
+        _voltMeterModel = null;
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -90,5 +114,21 @@ public class VoltMeterGraphic extends CompositePhetGraphic {
         double angle = 90 * value;
         _needle.clearTransform();
         _needle.rotate( Math.toRadians( angle ) );
+    }
+
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+
+    /*
+     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     */
+    public void update() {
+        if ( isVisible() ) {
+            double voltage = _voltMeterModel.getVoltage();
+            System.out.println( "VoltMeterGraphic.update: voltage=" + voltage ); // DEBUG
+            double scale = MathUtil.clamp( -1, voltage/MAX_VOLTAGE, 1 ); // XXX
+            setValue( scale );
+        }
     }
 }

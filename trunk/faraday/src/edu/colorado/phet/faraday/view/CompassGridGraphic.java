@@ -88,6 +88,8 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
                 resetSpacing();
             }
         });
+        
+        update();
     }
     
     /**

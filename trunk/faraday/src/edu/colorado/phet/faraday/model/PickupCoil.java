@@ -23,16 +23,16 @@ import edu.colorado.phet.common.model.ModelElement;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PickupCoil extends AbstractCoil implements ModelElement {
+public class PickupCoil extends AbstractCoil implements ModelElement, ICurrentSource {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private AbstractMagnet _magnetModel;
+    private double _current; // in amps
     private double _EMF;
-    private double _previousEMF;
-    private double _previousFlux;
+    private double _flux;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -44,9 +44,9 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     public PickupCoil( AbstractMagnet magnetModel ) {
         super();
         _magnetModel = magnetModel;
+        _current = 0.0;
         _EMF = 0.0;
-        _previousEMF = 0.0;
-        _previousFlux = 0.0;
+        _flux = 0.0;
     }
     
     //----------------------------------------------------------------------------
@@ -55,6 +55,21 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     
     public double getEMF() {
         return _EMF;
+    }
+    
+    public double getFlux() {
+        return _flux;
+    }
+    
+    //----------------------------------------------------------------------------
+    // ICurrent implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * @see edu.colorado.phet.faraday.model.ICurrentSource#getCurrent()
+     */
+    public double getCurrent() {
+        return _current;
     }
     
     //----------------------------------------------------------------------------
@@ -91,15 +106,17 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         // Calculate change in flux.
         double A = getArea();
         double flux = B * A * Math.cos( theta );
-        double deltaFlux = flux - _previousFlux;
-        _previousFlux = flux;
+        double deltaFlux = flux - _flux;
+        _flux = flux;
         
         // Calculate induced EMF.
-        _EMF = -( getNumberOfLoops() * deltaFlux );
-        if ( _EMF != _previousEMF ) {
+        double EMF = -( getNumberOfLoops() * deltaFlux );
+        if ( EMF != _EMF ) {
             notifyObservers();
         }
-        _previousEMF = _EMF;
+        _EMF = EMF;
+        
+        // Calculate induced current.
+        // XXX
     }
-    
 }

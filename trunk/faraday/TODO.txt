@@ -1,10 +1,10 @@
 "To Do" list for "faraday" simulation
 
 IN PROGRESS:
+- model element for lightbulb
 - determine how to make compass grid use field vector magnitude
 
 HIGH:
-- model element for lightbulb
 - model element for voltmeter
 - add inertia to voltmeter needle
 - averaging of values so that lightbulb & voltmeter behave smoothly

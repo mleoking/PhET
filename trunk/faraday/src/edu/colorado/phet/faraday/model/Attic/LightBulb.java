@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday.model;
 
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
 
 
@@ -21,7 +22,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class LightBulb extends AbstractResistor implements SimpleObserver {
+public class LightBulb extends AbstractResistor implements ModelElement {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -33,7 +34,7 @@ public class LightBulb extends AbstractResistor implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Current _currentModel;
+    private ICurrentSource _currentModel;
     private double _intensity; // 0-1
     
     //----------------------------------------------------------------------------
@@ -46,47 +47,53 @@ public class LightBulb extends AbstractResistor implements SimpleObserver {
      * @param currentModel the model of the current running through the bulb
      * @param resistance the resistance of the bulb
      */
-    public LightBulb( Current currentModel, double resistance ) {
+    public LightBulb( ICurrentSource currentModel, double resistance ) {
         super( resistance );
         _currentModel = currentModel;
-        _currentModel.addObserver( this );
-    }
-    
-    /**
-     * Finalizes an instance of this type.
-     * Call this method prior to releasing all references to an object of this type.
-     */
-    public void finalize() {
-        _currentModel.removeObserver( this );
-        _currentModel = null;
+        _intensity = 0.0;
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
 
+    /**
+     * Sets the intensity of the light.
+     * Fully off is 0.0, fully on is 1.0.
+     * 
+     * @param intensity (0.0 - 1.0)
+     * @throws IllegalArgumentException if intensity is out of range
+     */
     private void setIntensity( double intensity ) {
-        _intensity = intensity;
-        notifyObservers();
+        if ( intensity < 0 || intensity > 1 ) {
+            throw new IllegalArgumentException( "intensity must be >= 0 and <= 1: " + intensity );
+        }
+        if ( intensity != intensity ) {
+            _intensity = intensity;
+            notifyObservers();
+        }
     }
     
+    /**
+     * Gets the intensity of the light.
+     * Fully off is 0.0, fully on is 1.0.
+     * 
+     * @return the intensity (0.0 - 1.0)
+     */
     public double getIntensity() {
         return _intensity;
     }
-   
-    public double getCurrent() {
-        return _currentModel.getAmps();
-    }
-    
+
     //----------------------------------------------------------------------------
-    // SimpleObserver implementation
+    // ModelElement implementation
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
      */
-    public void update() {
-        double voltage = getCurrent() * getResistance();
+    public void stepInTime( double dt ) {
+        // XXX average intensity over time!
+        double voltage = _currentModel.getCurrent() * getResistance();
         double intensity = MathUtil.clamp( 0, (voltage / MAX_VOLTAGE), 1 );
         setIntensity( intensity );
     }

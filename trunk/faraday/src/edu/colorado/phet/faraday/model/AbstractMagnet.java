@@ -15,6 +15,7 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.model.ModelElement;
 
 
 /**
@@ -23,7 +24,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractMagnet extends SpacialObservable {
+public abstract class AbstractMagnet extends SpacialObservable implements ModelElement {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -59,8 +60,10 @@ public abstract class AbstractMagnet extends SpacialObservable {
         if ( strength <= 0 ) {
             throw new IllegalArgumentException( "strength must be >= 0 : " + strength );
         }
-        _strength = strength;
-        notifyObservers();
+        if ( strength != _strength ) {
+            _strength = strength;
+            notifyObservers();
+        }
     }
     
     /**
@@ -101,8 +104,10 @@ public abstract class AbstractMagnet extends SpacialObservable {
         if ( width <= 0 || height <= 0 ) {
             throw new IllegalArgumentException( "dimensions must be > 0" );
         }
-        _size.setSize( width, height );
-        notifyObservers();
+        if ( width != _size.getWidth() || height != _size.getHeight() ) {
+            _size.setSize( width, height );
+            notifyObservers();
+        }
     }
     
     /** 
@@ -130,5 +135,17 @@ public abstract class AbstractMagnet extends SpacialObservable {
      */
     public double getHeight() {
         return _size.getHeight();
+    }
+    
+
+    //----------------------------------------------------------------------------
+    // ModelElement implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
+     */
+    public void stepInTime( double dt ) {
+        // Do nothing.     
     }
 }
