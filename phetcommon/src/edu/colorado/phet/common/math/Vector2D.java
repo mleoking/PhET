@@ -98,7 +98,7 @@ public interface Vector2D extends AbstractVector2D {
             double alpha = getAngle();
             double gamma = alpha + theta;
             double xPrime = r * Math.cos( gamma );
-            double yPrime  = r * Math.sin( gamma );
+            double yPrime = r * Math.sin( gamma );
             this.setComponents( xPrime, yPrime );
             return this;
         }
