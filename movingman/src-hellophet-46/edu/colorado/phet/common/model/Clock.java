@@ -1,8 +1,13 @@
 package edu.colorado.phet.common.model;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Clock extends CompositeClockTickListener implements Runnable {
+public class Clock extends CompositeClockTickListener
+//        implements Runnable
+ {
     CompositeClockTickListener listeners;
     boolean isRunning = false;
     boolean isAlive = false;
@@ -15,17 +20,27 @@ public class Clock extends CompositeClockTickListener implements Runnable {
     private ThreadPriority priority;
     double timeLimit = Double.POSITIVE_INFINITY;
     double runningTime;
-    private Thread t;
+//    private Thread t;
     ArrayList clockStateListeners = new ArrayList();
+    private Timer timer;
 
-    public Clock( ClockTickListener parent, double dt, int waitTime, ThreadPriority priority ) {
+    public Clock( final ClockTickListener parent, final double dt, int waitTime, ThreadPriority priority ) {
         this.parent = parent;
 //        this.system = system;
         this.dt = dt;
         this.waitTime = waitTime;
         this.priority = priority;
-        this.t = new Thread( this );
-        t.setPriority( priority.intValue() );
+//        this.t = new Thread( this );
+//        t.setPriority( priority.intValue() );
+        timer = new Timer( waitTime, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                parent.clockTicked( Clock.this, dt );
+                if( isRunning ) {
+                    tickOnce();
+                }
+            }
+        } );
+        isRunning = true;
     }
 
     public void addClockStateListener( ClockStateListener csl ) {
@@ -69,12 +84,13 @@ public class Clock extends CompositeClockTickListener implements Runnable {
     }
 
     public void setThreadPriority( ThreadPriority tp ) {
-        t.setPriority( tp.intValue() );
-        this.priority = tp;
-        for( int i = 0; i < clockStateListeners.size(); i++ ) {
-            ClockStateListener clockStateListener = (ClockStateListener)clockStateListeners.get( i );
-            clockStateListener.threadPriorityChanged( tp );
-        }
+        throw new RuntimeException( "Not written." );
+//        t.setPriority( tp.intValue() );
+//        this.priority = tp;
+//        for( int i = 0; i < clockStateListeners.size(); i++ ) {
+//            ClockStateListener clockStateListener = (ClockStateListener)clockStateListeners.get( i );
+//            clockStateListener.threadPriorityChanged( tp );
+//        }
     }
 
     public boolean isActiveAndRunning() {
@@ -90,7 +106,8 @@ public class Clock extends CompositeClockTickListener implements Runnable {
             throw new RuntimeException( "Already started." );
         }
         else {
-            t.start();
+//            t.start();
+            timer.start();
             started = true;
         }
     }

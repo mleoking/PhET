@@ -14,7 +14,6 @@ import edu.colorado.phet.movingman.common.ImageFlip3;
 import edu.colorado.phet.movingman.common.RescaleOp3;
 import edu.colorado.phet.movingman.common.tests.IdeaGraphic2;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -55,17 +54,17 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
         standingMan = ImageLoader.loadBufferedImage( "images/stand-ii.gif" );
         leftMan = ImageLoader.loadBufferedImage( "images/left-ii.gif" );
         int height = 120;
-        JFrame frame = new JFrame();
-        frame.setContentPane( module.getApparatusPanel() );
-        module.getApparatusPanel().setVisible( true );
-        frame.setVisible( true );
+//        JFrame frame = new JFrame();
+//        frame.setContentPane( module.getApparatusPanel() );
+//        module.getApparatusPanel().setVisible( true );
+//        frame.setVisible( true );
         standingMan = RescaleOp3.rescaleYMaintainAspectRatio( module.getApparatusPanel(), standingMan, height );
         leftMan = RescaleOp3.rescaleYMaintainAspectRatio( module.getApparatusPanel(), leftMan, height );
         rightMan = ImageFlip3.flipX( leftMan );
 
         currentImage = standingMan;
         m.addObserver( this );
-        m.updateObservers();
+//        m.updateObservers();
         inversion = transform.invert();
         update();
     }
@@ -146,7 +145,8 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
 
     private void paintImmediately( Rectangle r1, Rectangle r2 ) {
         Rectangle union = r1.union( r2 );
-        module.getApparatusPanel().paintImmediately( union );
+//        module.getApparatusPanel().paintImmediately( union );
+        module.getApparatusPanel().paintSoon( union );
     }
 
     public boolean canHandleMousePress( MouseEvent event ) {

@@ -87,7 +87,8 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
 
     private void paintImmediately( Rectangle s1, Rectangle s2 ) {
         Rectangle union = s1.union( s2 );
-        module.getApparatusPanel().paintImmediately( union );
+//        module.getApparatusPanel().paintImmediately( union );
+        module.getApparatusPanel().paintSoon( union );
     }
 
     private Rectangle getShape() {

@@ -77,7 +77,7 @@ public class MovingManModule extends Module {
     private int numAccSmoothPoints;
     private static boolean addJEP = true;
 
-    class RepaintDebugPanel extends ApparatusPanel {
+    public class RepaintDebugPanel extends ApparatusPanel {
         public RepaintDebugPanel() {
             super.setDoubleBuffered( false );
         }
@@ -103,22 +103,33 @@ public class MovingManModule extends Module {
         }
 
         public void paintImmediately( int x, int y, int w, int h ) {
+            System.out.println( "PaintImm: = x=" + x + ", y=" + y + ", w=" + w + ", h=" + h );
             super.paintImmediately( x, y, w, h );
         }
 
         public void paintImmediately( final Rectangle r ) {
+            paintImmediately( r.x, r.y, r.width, r.height );
+//            super.paintImmediately( r );
 //            repaint( r.x,r.y,r.width, r.height);
 //            if( mode instanceof PlaybackMode ) {
 //                RepaintDebugPanel.super.paintImmediately( r );
 //            }
 //            else {
-            SwingUtilities.invokeLater( new Runnable() {
-                public void run() {
-                    RepaintDebugPanel.super.paintImmediately( r );
-                }
-            } );
+
+
+//            SwingUtilities.invokeLater( new Runnable() {
+//                public void run() {
+//                    RepaintDebugPanel.super.paintImmediately( r );
+//                }
+//            } );
         }
+
+
 //        }
+        public void paintSoon( Rectangle union ) {
+//            repaint( union );
+            paintImmediately( union );
+        }
     }
 
     public MovingManModule() throws IOException {

@@ -158,7 +158,8 @@ public class BoxedPlot implements ObservingGraphic {
     }
 
     private void paintImmediately( Rectangle rect ) {
-        module.getApparatusPanel().paintImmediately( rect );
+//        module.getApparatusPanel().paintImmediately( rect );
+        module.getApparatusPanel().paintSoon( rect );
     }
 
     public Rectangle2D.Double getInputBounds() {
