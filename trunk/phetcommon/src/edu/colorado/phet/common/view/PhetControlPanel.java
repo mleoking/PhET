@@ -42,28 +42,30 @@ public class PhetControlPanel extends JPanel {
         titleLabel = ( new JLabel( imageIcon ) );
         helpPanel = new HelpPanel( module );
 
-        this.add( titleLabel );
+        //        this.setLayout( new BorderLayout( ));
+        //        this.setLayout( new GridLayout( 1,1 ));
+        //        this.add( titleLabel );
         this.add( controlPane );
-        this.add( helpPanel );
+        //        this.add( helpPanel );
 
-        adjustLayout();
+        //        adjustLayout();
         controlPane.addContainerListener( new ContainerAdapter() {
             public void componentAdded( ContainerEvent e ) {
-                adjustLayout();
+                //                adjustLayout();
             }
 
             public void componentRemoved( ContainerEvent e ) {
-                adjustLayout();
+                //                adjustLayout();
             }
         } );
 
         controlPane.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                adjustLayout();
+                //                adjustLayout();
             }
 
             public void componentShown( ComponentEvent e ) {
-                adjustLayout();
+                //                adjustLayout();
             }
         } );
     }
@@ -77,37 +79,43 @@ public class PhetControlPanel extends JPanel {
         this.setLayout( layout );
         URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
         imageIcon = new ImageIcon( resource );
+
+        this.setLayout( new BorderLayout() );
         titleLabel = ( new JLabel( imageIcon ) );
         helpPanel = new HelpPanel( module );
 
-        this.add( titleLabel );
-        this.add( helpPanel );
+        this.add( titleLabel, BorderLayout.NORTH );
+        this.add( helpPanel, BorderLayout.SOUTH );
     }
 
 
     public void setControlPane( JPanel controlPane ) {
         this.controlPane = controlPane;
-        this.add( controlPane );
-        adjustLayout();
-        controlPane.addContainerListener( new ContainerAdapter() {
-            public void componentAdded( ContainerEvent e ) {
-                adjustLayout();
-            }
-
-            public void componentRemoved( ContainerEvent e ) {
-                adjustLayout();
-            }
-        } );
-
-        controlPane.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                adjustLayout();
-            }
-
-            public void componentShown( ComponentEvent e ) {
-                adjustLayout();
-            }
-        } );
+        //        this.add( controlPane );
+        JPanel p = new JPanel();
+        p.add( controlPane );
+        this.add( p, BorderLayout.CENTER );
+        //        this.add( controlPane, BorderLayout.CENTER  );
+        //        adjustLayout();
+        //        controlPane.addContainerListener( new ContainerAdapter() {
+        //            public void componentAdded( ContainerEvent e ) {
+        //                adjustLayout();
+        //            }
+        //
+        //            public void componentRemoved( ContainerEvent e ) {
+        //                adjustLayout();
+        //            }
+        //        } );
+        //
+        //        controlPane.addComponentListener( new ComponentAdapter() {
+        //            public void componentResized( ComponentEvent e ) {
+        //                adjustLayout();
+        //            }
+        //
+        //            public void componentShown( ComponentEvent e ) {
+        //                adjustLayout();
+        //            }
+        //        } );
     }
 
     protected void adjustLayout() {
