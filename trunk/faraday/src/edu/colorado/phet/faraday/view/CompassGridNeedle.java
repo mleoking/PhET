@@ -47,7 +47,6 @@ class CompassGridNeedle {
     private Shape _northShape, _southShape;
     private Color _northColor, _southColor;
     private boolean _alphaEnabled;
-    private Rectangle _bounds;
     private AffineTransform _transform;
 
     //----------------------------------------------------------------------------
@@ -62,7 +61,6 @@ class CompassGridNeedle {
         _size = new Dimension( 40, 20 );
         _direction = 0.0;
         _alphaEnabled = false;
-        _bounds = new Rectangle();
         _transform = new AffineTransform();
     }
 
@@ -155,15 +153,6 @@ class CompassGridNeedle {
     public double getDirections() {
         return _direction;
     }
-
-    /**
-     * Gets the bounds.
-     * 
-     * @return the bounds
-     */
-    public Rectangle getBounds() {
-       return _bounds;
-    }
     
     /**
      * Controls how strength is represented.
@@ -214,10 +203,6 @@ class CompassGridNeedle {
         southPath.lineTo( -( _size.width / 2 ), 0 );
         southPath.closePath();
         _southShape = _transform.createTransformedShape( southPath );
-        
-        // Recompute the bounds
-        _bounds = _northShape.getBounds();
-        _bounds.union( _southShape.getBounds() );
     }
 
     /**
