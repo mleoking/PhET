@@ -39,14 +39,6 @@ public class MultipleAtomThreeLevelModule extends BaseLaserModule {
     public MultipleAtomThreeLevelModule( AbstractClock clock ) {
         super( "Multiple Atoms / Three Levels" );
 
-        double newHeight = 100;
-        ResonatingCavity cavity = this.getCavity();
-        double cavityHeight =  cavity.getHeight();
-        Point2D cavityPos = cavity.getPosition();
-        double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
-        cavity.setPosition( cavityPos.getX(), yNew );
-        cavity.setHeight( newHeight );
-
         Atom atom = null;
         atoms = new ArrayList();
         for( int i = 0; i < 20; i++ ) {
@@ -57,8 +49,9 @@ public class MultipleAtomThreeLevelModule extends BaseLaserModule {
             do {
                 placed = true;
                 atom.setPosition( ( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
-                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-                atom.setVelocity( (Math.random() - 0.5 ) * s_maxSpeed,
+                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( s_boxHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
+//                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
+                atom.setVelocity( ( Math.random() - 0.5 ) * s_maxSpeed,
                                   ( Math.random() - 0.5 ) * s_maxSpeed );
                 for( int j = 0; j < atoms.size(); j++ ) {
                     Atom atom2 = (Atom)atoms.get( j );

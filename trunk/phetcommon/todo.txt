@@ -1,5 +1,4 @@
-- take call to ResonatingCavoty.setHeight() in each of the modules.
-- Figure out why collimated beam has to be explicitly displace upward
+- Change location constants in BaseLaserModule to key off location of laser instead of s_origin
 - Change internal rep of CollimatedBeam to get rid of x,y,width,height and just use the Rectangle2D
 
 

@@ -28,16 +28,16 @@ public class SingleAtomBaseModule extends BaseLaserModule {
         atom.setVelocity( 0, 0 );
         addAtom( atom );
 
-        stimulatingBeam = ((LaserModel)getModel()).getStimulatingBeam();
-        stimulatingBeam.setHeight( s_boxHeight );
+//        stimulatingBeam = ((LaserModel)getModel()).getStimulatingBeam();
+//        stimulatingBeam.setHeight( s_boxHeight );
 //        stimulatingBeam.setHeight( 10 );
-        stimulatingBeam.setOrigin( new Point2D.Double( s_origin.getX(), s_origin.getY()  + s_boxHeight / 2));
-        stimulatingBeam.setPosition( new Point2D.Double( s_origin.getX(), s_origin.getY() + s_boxHeight / 2 ));
+//        stimulatingBeam.setOrigin( new Point2D.Double( s_origin.getX(), s_origin.getY()  + s_boxHeight / 2));
+//        stimulatingBeam.setPosition( new Point2D.Double( s_origin.getX(), s_origin.getY() ));
 
-        pumpingBeam = ((LaserModel)getModel()).getPumpingBeam();
-        pumpingBeam.setWidth( 10 );
-        pumpingBeam.setPosition( pumpingBeam.getPosition().getX() + s_boxWidth / 2,
-                                 pumpingBeam.getPosition().getY() );
+//        pumpingBeam = ((LaserModel)getModel()).getPumpingBeam();
+//        pumpingBeam.setWidth( 10 );
+//        pumpingBeam.setPosition( pumpingBeam.getPosition().getX() + s_boxWidth / 2,
+//                                 pumpingBeam.getPosition().getY() );
 //        pumpingBeam.getPosition().setX( pumpingBeam.getPosition().getX() + s_boxWidth / 2 );
     }
 }

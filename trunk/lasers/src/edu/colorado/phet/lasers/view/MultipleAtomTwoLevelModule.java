@@ -36,8 +36,8 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
     public MultipleAtomTwoLevelModule( AbstractClock clock) {
         super( "Multiple Atoms / Two Levels" );
 
-        double newHeight = 100;
-        setCavityHeight( newHeight );
+//        double newHeight = 100;
+//        setCavityHeight( newHeight );
 
         Atom atom = null;
         atoms = new ArrayList();
@@ -49,7 +49,8 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
             do {
                 placed = true;
                 atom.setPosition( ( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
-                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
+                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( s_boxHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
+//                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
                 atom.setVelocity( ( Math.random() - 0.5 ) * s_maxSpeed,
                                   ( Math.random() - 0.5 ) * s_maxSpeed );
                 for( int j = 0; j < atoms.size(); j++ ) {
