@@ -12,10 +12,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
-import edu.colorado.phet.sound.view.AudioControlPanel;
-import edu.colorado.phet.sound.view.ListenerGraphic;
-import edu.colorado.phet.sound.view.SoundApparatusPanel;
-import edu.colorado.phet.sound.view.SoundControlPanel;
+import edu.colorado.phet.sound.view.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -75,6 +72,14 @@ public class SingleSourceListenModule extends SingleSourceModule {
         SoundControlPanel controlPanel = (SoundControlPanel)getControlPanel();
         audioControlPanel = new AudioControlPanel( this );
         controlPanel.addPanel( audioControlPanel );
+
+
+
+
+        // TEST
+        getApparatusPanel().addGraphic( new DialGauge( getApparatusPanel(), 400, 200, 50, 0, 1 ), 100 );
+
+
     }
 
     protected AudioControlPanel getAudioControlPanel() {
