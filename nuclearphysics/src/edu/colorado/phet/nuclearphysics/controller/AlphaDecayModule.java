@@ -64,6 +64,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         nucleus.addDecayListener( this );
 
+        // Add the nucleus' jumping alpha particles to the model and the panels
         for( int i = 0; i < nucleus.getAlphaParticles().length; i++ ) {
             addAlphaParticle( nucleus.getAlphaParticles()[i], getNucleus() );
         }
@@ -100,6 +101,11 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     }
 
     protected void addAlphaParticle( AlphaParticle alphaParticle, Nucleus nucleus ) {
+        // The following line is inserted to try to solve a bug Wendy found, that show's up
+        // only on her computer. If she hits the "Reset" button before alpha decay has happened,
+        // the new alpha particles appear first at (0,0) on the profile panel, rather than at
+        // the bottom of the potential well.
+        alphaParticle.stepInTime( 0 );
         this.getModel().addModelElement( alphaParticle );
         physicalPanel.addAlphaParticle( alphaParticle );
         getPotentialProfilePanel().addAlphaParticle( alphaParticle, nucleus );
