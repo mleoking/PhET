@@ -21,11 +21,11 @@ public class SimStrings {
             stringsPaths = new Vector();
         }
         if ( stringsPaths.contains( stringsPath ) ) {
-            System.out.println( "ignoring duplicate strings path: " + stringsPath );
+            //System.out.println( "ignoring duplicate strings path: " + stringsPath );
             return;
         }
         try {
-            System.out.println( "loading strings path: " + stringsPath );
+            //System.out.println( "loading strings path: " + stringsPath );
             ResourceBundle rb = ResourceBundle.getBundle( stringsPath );
             if( rb != null ) {
                 localizedStrings.add( rb );
