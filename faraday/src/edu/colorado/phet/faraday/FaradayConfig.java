@@ -45,6 +45,7 @@ public class FaradayConfig {
     public static final String LOOP_IMAGE = IMAGES_DIRECTORY + "loop.png";
     public static final String METER_BODY_IMAGE = IMAGES_DIRECTORY + "voltMeterBody.png";
     public static final String METER_NEEDLE_IMAGE = IMAGES_DIRECTORY + "voltMeterNeedle.png";
+    public static final String MINI_COMPASS_IMAGE = IMAGES_DIRECTORY + "miniCompass.png";
 
     // Dimensions
     public static final int APP_FRAME_WIDTH = 1024;
