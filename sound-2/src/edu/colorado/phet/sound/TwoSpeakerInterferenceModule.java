@@ -110,6 +110,12 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help1.setForegroundColor( Color.white );
             getApparatusPanel().addGraphic( help1, SoundConfig.HELP_LAYER );
+
+            HelpItem help2 = new HelpItem( "Upper speaker can be\nmoved up and down",
+                                           SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() - 120,
+                                           HelpItem.RIGHT, HelpItem.ABOVE );
+            help2.setForegroundColor( Color.white );
+            getApparatusPanel().addGraphic( help2, SoundConfig.HELP_LAYER );
         }
         catch( IOException e ) {
             e.printStackTrace();
