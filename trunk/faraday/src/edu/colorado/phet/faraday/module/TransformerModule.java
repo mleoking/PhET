@@ -21,7 +21,6 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
 import edu.colorado.phet.faraday.control.TransformerControlPanel;
 
 
@@ -55,6 +54,9 @@ public class TransformerModule extends Module {
     
     // View
     
+    // Control
+    private TransformerControlPanel _controlPanel;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -84,8 +86,8 @@ public class TransformerModule extends Module {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        TransformerControlPanel controlPanel = new TransformerControlPanel( this );
-        this.setControlPanel( controlPanel );
+        _controlPanel = new TransformerControlPanel( this );
+        this.setControlPanel( _controlPanel );
 
         // Apparatus Panel
         ApparatusPanel apparatusPanel = new ApparatusPanel2( model, clock );
@@ -108,10 +110,17 @@ public class TransformerModule extends Module {
         // Initalize
         //----------------------------------------------------------------------------
         
+        reset();
     }
 
     //----------------------------------------------------------------------------
     // Controller methods
     //----------------------------------------------------------------------------
     
+    /**
+     * Resets everything to the initial values.
+     */
+    public void reset() {
+        // System.out.println( "reset" ); // DEBUG
+    }
 }

@@ -28,29 +28,44 @@ import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.module.BarMagnetModule;
 
 /**
- * BarMagnetControlPanel
+ * BarMagnetControlPanel is the control panel for the "Bar Magnet" module.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class BarMagnetControlPanel extends ControlPanel {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
     public static final int STRENGTH_MAX = 1000;
     public static final int STRENGTH_MIN = 100;
     public static final int AREA_MAX_PERCENTAGE = 100;
     public static final int AREA_MIN_PERCENTAGE = 50;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+
     private BarMagnetModule _module;
     private JButton _flipPolarityButton;
     private JSlider _strengthSlider;
-    private JCheckBox _fieldCheckBox;
+    private JCheckBox _gridCheckBox;
     private JSpinner _loopsSpinner;
     private JSlider _areaSlider;
     private JRadioButton _meterRadioButton;
     private JRadioButton _bulbRadioButton;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+
     /**
      * Sole constructor.
+     * <p>
+     * The structure of the code (the way that code blocks are nested)
+     * reflects the structure of the panel.
      * 
      * @param module the module that this control panel is associated with.
      */
@@ -65,10 +80,13 @@ public class BarMagnetControlPanel extends ControlPanel {
             Font defaultFont = panel.getFont();
             Font titleFont = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
             
-            // WORKAROUND: Filler to set consistent panel width
+            
             JPanel fillerPanel = new JPanel();
-            fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
-            fillerPanel.add( Box.createHorizontalStrut( FaradayConfig.CONTROL_PANEL_MIN_WIDTH ) );
+            {
+                fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
+                // WORKAROUND: Filler to set consistent panel width
+                fillerPanel.add( Box.createHorizontalStrut( FaradayConfig.CONTROL_PANEL_MIN_WIDTH ) );
+            }
             
             // Bar Magnet panel
             JPanel barMagnetPanel = new JPanel();
@@ -111,13 +129,13 @@ public class BarMagnetControlPanel extends ControlPanel {
                 }
                 
                 // B-Field on/off
-                _fieldCheckBox = new JCheckBox( SimStrings.get( "fieldCheckBox.label" ) );
+                _gridCheckBox = new JCheckBox( SimStrings.get( "gridCheckBox.label" ) );
                 
                 // Layout
                 barMagnetPanel.setLayout( new BoxLayout( barMagnetPanel, BoxLayout.Y_AXIS ) );
                 barMagnetPanel.add( sliderPanel );
                 barMagnetPanel.add( _flipPolarityButton );
-                barMagnetPanel.add( _fieldCheckBox );
+                barMagnetPanel.add( _gridCheckBox );
             }
             
             // Pickup Coil panel
@@ -218,7 +236,7 @@ public class BarMagnetControlPanel extends ControlPanel {
             EventListener listener = new EventListener();
             _flipPolarityButton.addActionListener( listener );
             _strengthSlider.addChangeListener( listener );
-            _fieldCheckBox.addActionListener( listener );
+            _gridCheckBox.addActionListener( listener );
             _loopsSpinner.addChangeListener( listener );
             _areaSlider.addChangeListener( listener );
             _bulbRadioButton.addActionListener( listener );
@@ -227,60 +245,124 @@ public class BarMagnetControlPanel extends ControlPanel {
         super.setControlPane( panel );
     }
     
-    public void setFieldLinesEnabled( boolean enabled ) {
-        _fieldCheckBox.setSelected( enabled );
+    //----------------------------------------------------------------------------
+    // Controller methods
+    //----------------------------------------------------------------------------
+
+    /**
+     * Enables/disables the compass grid.
+     * 
+     * @param enable true to enable, false to disable
+     */
+    public void setCompassGridEnabled( boolean enabled ) {
+        _gridCheckBox.setSelected( enabled );
     }
     
-    public void setBarMagnetStrength( double value ) {
-        _strengthSlider.setValue( (int)value );
+    /**
+     * Sets the magnet strength.
+     * 
+     * @param strength the strength
+     */
+    public void setMagnetStrength( double strength ) {
+        _strengthSlider.setValue( (int)strength );
     }
     
-    public void setNumberOfLoops( int value ) {
-        _loopsSpinner.setValue( new Integer(value) );
+    /**
+     * Sets the number of loops in the pickup coil.
+     * 
+     * @param numberOfLoops the number of loops
+     */
+    public void setNumberOfLoops( int numberOfLoops ) {
+        _loopsSpinner.setValue( new Integer(numberOfLoops) );
     }
     
-    public void setLoopAreaScale( int value ) {
-        _areaSlider.setValue( value );
+    /**
+     * XXX
+     * @param scale
+     */
+    public void setLoopAreaScale( int scale ) {
+        _areaSlider.setValue( scale );
     }
     
-    public void setBulbEnabled( boolean value ) {
-        _bulbRadioButton.setSelected( value );
+    /**
+     * Enables/disabled the lightbulb.
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    public void setBulbEnabled( boolean enabled ) {
+        _bulbRadioButton.setSelected( enabled );
     }
     
-    public void setMeterEnabled( boolean value ) {
-        _meterRadioButton.setSelected( value );
+    /**
+     * Enables/disables the voltmeter.
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    public void setMeterEnabled( boolean enabled ) {
+        _meterRadioButton.setSelected( enabled );
     }
     
+    //----------------------------------------------------------------------------
+    // Event Handling
+    //----------------------------------------------------------------------------
+
+    /**
+     * EventListener is a nested class that is private to this control panel.
+     * It handles dispatching of all events generated by the controls.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
     private class EventListener implements ActionListener, ChangeListener {
         
+        /** Sole constructor */
         public EventListener() {}
         
+        /**
+         * ActionEvent handler.
+         * 
+         * @param e the event
+         * @throws IllegalArgumentException if the event is unexpected
+         */
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _flipPolarityButton ) {
-                _module.flipBarMagnetPolarity();
+                // Magnet polarity
+                _module.flipMagnetPolarity();
             }
-            else if ( e.getSource() == _fieldCheckBox ) {
-                _module.setFieldLinesEnabled( _fieldCheckBox.isSelected() );
+            else if ( e.getSource() == _gridCheckBox ) {
+                // Grid enable
+                _module.setCompassGridEnabled( _gridCheckBox.isSelected() );
             }
             else if ( e.getSource() == _bulbRadioButton ) {
-                _module.enableBulb(); 
+                // Lightbulb enable
+                _module.setBulbEnabled( _bulbRadioButton.isSelected() ); 
             }
             else if ( e.getSource() == _meterRadioButton ) {
-                _module.enableMeter();
+                // Voltmeter enable
+                _module.setMeterEnabled( _meterRadioButton.isSelected() );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
             }
         }
         
+        /**
+         * ChangeEvent handler.
+         * 
+         * @param e the event
+         * @throws IllegalArgumentException if the event is unexpected
+         */
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _strengthSlider ) {
-                _module.setBarMagnetStrength( _strengthSlider.getValue() );
+                // Magnet strength
+                _module.setMagnetStrength( _strengthSlider.getValue() );
             }
             else if ( e.getSource() == _areaSlider ) {
+                // Loop area
                 _module.scalePickupLoopArea( _areaSlider.getValue()/100.0 );
             }
             else if ( e.getSource() == _loopsSpinner ) {
+                // Number of loops
                 int value = ((Integer)_loopsSpinner.getValue()).intValue();
                 _module.setNumberOfPickupLoops( value );
             }

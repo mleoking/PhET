@@ -50,7 +50,7 @@ public class PickupWidget extends CompositePhetGraphic implements SimpleObserver
         super.addGraphic( meter );
         super.addGraphic( coil );
 
-        enableBulb();
+        setBulbEnabled( true );
         
         // Set relative position of component graphics.
         _meter.setLocation( 0, -170 );
@@ -74,14 +74,14 @@ public class PickupWidget extends CompositePhetGraphic implements SimpleObserver
         super.translate( x, y );
     }
     
-    public void enableBulb() {
-        _bulb.setVisible( true );
-        _meter.setVisible( false );
+    public void setBulbEnabled( boolean enabled ) {
+        _bulb.setVisible( enabled );
+        _meter.setVisible( ! enabled );
     }
     
-    public void enableMeter() {
-        _bulb.setVisible( false );
-        _meter.setVisible( true );
+    public void setMeterEnabled( boolean enabled ) {
+        _bulb.setVisible( ! enabled );
+        _meter.setVisible( enabled );
     }
 
 }

@@ -11,18 +11,13 @@
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.coreadditions.RadialGradientPaint;
 import edu.colorado.phet.faraday.model.PickupCoil;
 
 
