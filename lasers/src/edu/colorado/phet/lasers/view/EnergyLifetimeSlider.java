@@ -22,6 +22,9 @@ import java.awt.*;
 
 /**
  * EnergyLifetimeSlider
+ * <p/>
+ * A JSlider that is bound to a specific AtomicState. It controls the mean lifetime of the
+ * state and displays in a location related to the energy level of that state.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -36,8 +39,14 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
     private int sliderWidth;
     private Container container;
 
-    public EnergyLifetimeSlider( final AtomicState atomicState, EnergyLevelGraphic graphic, int maxLifetime, Container container ) {
-        super();
+    /**
+     * @param atomicState
+     * @param graphic
+     * @param maxLifetime
+     * @param container
+     */
+    public EnergyLifetimeSlider( final AtomicState atomicState, EnergyLevelGraphic graphic,
+                                 int maxLifetime, Container container ) {
         this.container = container;
         atomicState.addListener( this );
         setMinimum( 0 );
@@ -76,8 +85,14 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
                         sliderWidth, sliderHeight );
     }
 
+
+    //----------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------
+
     public void energyLevelChanged( AtomicState.Event event ) {
-        // noop
+        update();
+        repaint();
     }
 
     public void meanLifetimechanged( AtomicState.Event event ) {
