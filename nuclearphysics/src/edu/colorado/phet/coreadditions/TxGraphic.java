@@ -12,6 +12,10 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+/**
+ * A decorator class for Graphic that applies associates an Affine Transform
+ * with the graphic.
+ */
 public class TxGraphic implements Graphic {
     private Graphic graphic;
     private AffineTransform atx;
@@ -30,6 +34,14 @@ public class TxGraphic implements Graphic {
 
     public Graphic getWrappedGraphic() {
         return graphic;
+    }
+
+    public AffineTransform getTransform() {
+        return atx;
+    }
+
+    public void setAtx( AffineTransform atx ) {
+        this.atx = atx;
     }
 }
 

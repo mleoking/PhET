@@ -119,10 +119,23 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         percentDecayTF.setHorizontalAlignment( JTextField.RIGHT );
         percentDecayTF.setText( "0" );
 
+        final JCheckBox containmentCB = new JCheckBox( "Enable Containment Vessel" );
+        containmentCB.setForeground( Color.white );
+        containmentCB.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.enableContainment( containmentCB.isSelected() );
+            }
+        } );
+
         // Layout the panel
         setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
+            GraphicsUtil.addGridBagComponent( this, containmentCB,
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
             GraphicsUtil.addGridBagComponent( this, new JLabel( "<html><br>Number of<br><sup><font size=-1>235</font></sup>U nulcei</html>" ),
                                               0, rowIdx++,
                                               1, 1,

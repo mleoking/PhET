@@ -35,10 +35,9 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
         addTranslationBehavior( new Translator() );
     }
 
-    //    public void mousePressed( MouseEvent e ) {
     public void mouseDragged( MouseEvent e ) {
         super.mouseDragged( e );
-        //        super.mousePressed( e );
+        // Determine which side of the box is selected
         Point p = e.getPoint();
         if( rep.contains( p.x, p.y ) ) {
             leftSideDragged = false;
