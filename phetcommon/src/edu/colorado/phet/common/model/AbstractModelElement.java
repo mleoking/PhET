@@ -44,6 +44,10 @@ abstract public class AbstractModelElement extends SimpleObservable implements M
         eventRegistry = new EventRegistry();
     }
 
+    public int getNumListeners() {
+        return eventRegistry.getNumListeners();
+    }
+
     public void fireEvent( EventObject event ) {
         eventRegistry.fireEvent( event );
     }
