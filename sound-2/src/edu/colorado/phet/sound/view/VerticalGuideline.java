@@ -17,7 +17,7 @@ import java.awt.geom.Rectangle2D;
 public class VerticalGuideline extends DefaultInteractiveGraphic {
     private int xLocation;
 
-    public VerticalGuideline( Component component, Color color, int position ) {
+    public VerticalGuideline( final Component component, Color color, int position ) {
         super( null );
         final VerticalLine verticalLine = new VerticalLine( component, color, position );
         setBoundedGraphic( verticalLine );
@@ -27,6 +27,7 @@ public class VerticalGuideline extends DefaultInteractiveGraphic {
             public void translate( double dx, double dy ) {
                 xLocation += dx;
                 verticalLine.setLocation( xLocation );
+//                component.repaint();
             }
         } );
     }

@@ -56,7 +56,7 @@ public class ClockPanelLarge extends JPanel implements ClockTickListener {
         gbc = new GridBagConstraints( 0, rowIdx, 2, 1, 1, 1,
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                       insets, padX, padY );
-        this.add( new JLabel( "Running Time" ), gbc );
+        this.add( new JLabel( "Simulation Time" ), gbc );
         rowIdx++;
         gbc = new GridBagConstraints( 0, rowIdx, 1, 1, 1, 1,
                                       GridBagConstraints.EAST, GridBagConstraints.NONE,
@@ -65,7 +65,7 @@ public class ClockPanelLarge extends JPanel implements ClockTickListener {
         gbc = new GridBagConstraints( 1, rowIdx, 1, 1, 1, 1,
                                       GridBagConstraints.WEST, GridBagConstraints.NONE,
                                       insets, padX, padY );
-        this.add( new JLabel( "msec" ), gbc );
+        this.add( new JLabel( "sec" ), gbc );
         rowIdx++;
         gbc = new GridBagConstraints( 0, rowIdx, 2, 1, 1, 1,
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,

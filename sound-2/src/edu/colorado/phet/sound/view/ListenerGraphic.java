@@ -44,10 +44,12 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         this.module = module;
         this.model = (SoundModel)module.getModel();
         this.image = image;
-
-        this.addTranslationBehavior( new ListenerTranslationBehavior( minX, minY, maxX, maxY ) );
-        this.addCursorHandBehavior();
         this.listener = listener;
+
+        ListenerTranslationBehavior target = new ListenerTranslationBehavior( minX, minY, maxX, maxY );
+        this.addTranslationBehavior( target );
+        target.translate( 0, 0 );
+        this.addCursorHandBehavior();
     }
 
     protected Point2D.Double getLocation() {

@@ -11,7 +11,7 @@ import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.view.SingleSourceApparatusPanel;
 import edu.colorado.phet.sound.view.SoundControlPanel;
-import edu.colorado.phet.sound.view.WaveMediumGraphic;
+import edu.colorado.phet.sound.view.WaveMediumGraphicB;
 
 import java.awt.geom.Point2D;
 
@@ -23,7 +23,7 @@ public abstract class SingleSourceModule extends SoundModule {
         this.setApparatusPanel( apparatusPanel );
 
         final WaveMedium waveMedium = ((SoundModel)getModel()).getWaveMedium();
-        WaveMediumGraphic waveMediumGraphic = new WaveMediumGraphic( waveMedium, getApparatusPanel(), this );
+        WaveMediumGraphicB waveMediumGraphic = new WaveMediumGraphicB( waveMedium, getApparatusPanel(), this );
         this.addGraphic( waveMediumGraphic, 7 );
         Point2D.Double audioSource = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
                                                          SoundConfig.s_wavefrontBaseY );

@@ -50,6 +50,4 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
 
         setControlPanel( new MeasureControlPanel( this, appModel.getClock() ) );
     }
-
-
 }
