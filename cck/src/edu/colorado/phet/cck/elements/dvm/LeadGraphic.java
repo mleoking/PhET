@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.dvm;
 
 import edu.colorado.phet.cck.common.DifferentialDragHandler;
@@ -69,7 +69,7 @@ public class LeadGraphic extends SimpleObservable implements InteractiveGraphic 
         this.wirePoint = wireInputPoint;
         selectionShape = trf.createTransformedShape( rect );
         tipShape = trf.createTransformedShape( originalTipShape );
-        updateObservers();
+        notifyObservers();
     }
 
     public boolean canHandleMousePress( MouseEvent event ) {

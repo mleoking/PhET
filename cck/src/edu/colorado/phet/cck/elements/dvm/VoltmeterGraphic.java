@@ -1,9 +1,9 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.dvm;
 
 import edu.colorado.phet.cck.elements.circuit.CircuitGraphic;
+import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.elements.circuit.LeadWireConnection;
-import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;

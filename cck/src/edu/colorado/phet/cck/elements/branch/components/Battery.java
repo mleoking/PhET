@@ -1,10 +1,10 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.branch.components;
 
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchObserver;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.cck.elements.junction.Junction;
+import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.elements.xml.BatteryData;
 import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.common.math.PhetVector;
@@ -42,16 +42,10 @@ public class Battery extends Branch {
 
     public Battery( Circuit parent, double x1, double y1, double x2, double y2, double voltageDrop, final double DX ) {
         super( parent, x1, y1, x2, y2 );
-//        bareComponent = isBareComponent;
         dirVector = new PhetVector( x2 - x1, y2 - y1 );
         this.magnitude = dirVector.getMagnitude();
         this.DX = DX;
-//        this.voltageDrop = voltageDrop;
         setVoltageDrop( voltageDrop );
-
-//        PhetVector startLoc = getEndJunction().getVector().getAddedInstance(-DX, 0);
-//        getStartJunction().setLocation(startLoc.getX(), startLoc.getY());
-
         addObserver( new BranchObserver() {
             public void junctionMoved( Branch branch2, Junction junction ) {
                 if( DX == 0 ) {
@@ -85,10 +79,6 @@ public class Battery extends Branch {
                     PhetVector endLoc = getStartJunction().getVector().getAddedInstance( dir );
                     getEndJunction().setLocation( endLoc.getX(), endLoc.getY() );
 
-
-
-//                    PhetVector startLoc = getEndJunction().getVector().getAddedInstance(-DX, 0);
-//                    getStartJunction().setLocation(startLoc.getX(), startLoc.getY());
                 }
                 recursing = false;//What a crazy hack.
             }
@@ -124,14 +114,6 @@ public class Battery extends Branch {
         PhetVector endLoc = getStartJunction().getVector().getAddedInstance( dir );
         getEndJunction().setLocation( endLoc.getX(), endLoc.getY() );
     }
-
-//    public void setLocation(Branch location) {
-//        //disable rotation
-//        enableRotation = false;
-//        getStartJunction().setLocation(location.getX1(), location.getY1());
-//        getEndJunction().setLocation(location.getX2(), location.getY2());
-//        enableRotation = true;
-//    }
 
     public void setRotateEnabled( boolean enab ) {
         this.enableRotation = enab;

@@ -1,10 +1,10 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.particles;
 
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchObserver;
+import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.elements.circuit.JunctionGroup;
-import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.util.SimpleObservable;
 
@@ -27,7 +27,7 @@ public class BranchParticle extends SimpleObservable {
         this.branch = branch;
         branch.addObserver( new BranchObserver() {
             public void junctionMoved( Branch branch2, Junction j ) {
-                updateObservers();
+                notifyObservers();
             }
 
             public void currentOrVoltageChanged( Branch branch2 ) {
@@ -38,13 +38,16 @@ public class BranchParticle extends SimpleObservable {
     public void setBranch( Branch branch, double x, JunctionGroup jg ) {
         this.branch = branch;
         setDistanceFromJunction( x, jg );
-        updateObservers();
+        notifyObservers();
     }
 
     public void setPosition( double x ) {
+        if( x == this.x ) {
+            return;
+        }
         if( branch.containsScalarLocation( x ) ) {
             this.x = x;
-            updateObservers();
+            notifyObservers();
         }
         else {
             new RuntimeException( "No such location in wire." ).printStackTrace();

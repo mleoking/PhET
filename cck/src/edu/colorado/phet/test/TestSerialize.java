@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.test;
 
 import edu.colorado.phet.cck.elements.branch.components.Battery;
@@ -20,7 +20,7 @@ import java.io.FileWriter;
  * Copyright (c) Nov 22, 2003 by Sam Reid
  */
 public class TestSerialize {
-    public static void main(String[] args) throws Exception, MarshalException, ValidationException, MappingException {
+    public static void main( String[] args ) throws Exception, MarshalException, ValidationException, MappingException {
         // Create a File to marshal to
 //        FileWriter writer = new FileWriter("test.xml");
 
@@ -74,16 +74,16 @@ public class TestSerialize {
 //        c.addBranch(w2);
 //        Bulb bulb = new Bulb(c, 234, 234.9999, 0, 1, new PhetVector(.5, 0), 1);
 //        c.addBranch(bulb);
-        Battery batt = new Battery(c, 0, 0, 130, 0, 20, 1);
-        c.addBranch(batt);
+        Battery batt = new Battery( c, 0, 0, 130, 0, 20, 1 );
+        c.addBranch( batt );
 //        Resistor r=new Resistor(c, 0,0,0,0,1000);
 //        c.addBranch(r);
-        CircuitData cd = new CircuitData(c);
-        Marshaller.marshal(cd, new FileWriter("mycircuit-data.xml"));
+        CircuitData cd = new CircuitData( c );
+        Marshaller.marshal( cd, new FileWriter( "mycircuit-data.xml" ) );
 
-        CircuitData loaded = (CircuitData) Unmarshaller.unmarshal(CircuitData.class, new FileReader("mycircuit-data.xml"));
+        CircuitData loaded = (CircuitData)Unmarshaller.unmarshal( CircuitData.class, new FileReader( "mycircuit-data.xml" ) );
         Circuit lc = loaded.toCircuit();
-        System.out.println("c = " + c);
-        System.out.println("lc = " + lc);
+        System.out.println( "c = " + c );
+        System.out.println( "lc = " + lc );
     }
 }

@@ -1,11 +1,11 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.kirkhoff;
 
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.components.HasResistance;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
+import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.elements.circuit.JunctionGroup;
-import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.graphtheory.DirectedDataEdge;
 import edu.colorado.phet.cck.graphtheory.DirectedPathElement;
 import edu.colorado.phet.cck.graphtheory.Graph;

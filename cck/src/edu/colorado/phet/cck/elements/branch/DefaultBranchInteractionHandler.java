@@ -2,17 +2,18 @@ package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.CCK2Module;
 import edu.colorado.phet.cck.common.DifferentialDragHandler;
-import edu.colorado.phet.cck.elements.InteractionHandler;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.cck.elements.junction.Junction;
+import edu.colorado.phet.cck.elements.circuit.Junction;
+import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
-public class DefaultBranchInteractionHandler implements InteractionHandler {
+public class DefaultBranchInteractionHandler implements Boundary, MouseInputListener {
     public static final double STICKY_DISTANCE = .3;
     protected Branch branch;
     protected Branch copy;
@@ -63,6 +64,9 @@ public class DefaultBranchInteractionHandler implements InteractionHandler {
         module.repaint();
     }
 
+    public void mouseMoved( MouseEvent e ) {
+    }
+
     public void mouseReleased( MouseEvent event ) {
         if( SwingUtilities.isRightMouseButton( event ) ) {
             menu.show( event.getComponent(), event.getX(), event.getY() );
@@ -85,23 +89,15 @@ public class DefaultBranchInteractionHandler implements InteractionHandler {
         return jmb;
     }
 
+    public void mouseClicked( MouseEvent e ) {
+    }
+
     public void mouseEntered( MouseEvent event ) {
         event.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-
-//            getJMenuBar(event).add(mymenu);
-//            getJMenuBar(event).doLayout();
-//            event.getComponent().get
-//            showMenuMenu.show(event.getComponent(), event.getX(),event.getY());
-//            showMenuMenu.setVisible(true);
     }
 
     public void mouseExited( MouseEvent event ) {
         event.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-//            getJMenuBar(event).remove(mymenu);
-    }
-
-    public boolean canHandleMousePress( MouseEvent event ) {
-        return false;
     }
 
     public void mousePressed( MouseEvent event ) {
@@ -109,7 +105,10 @@ public class DefaultBranchInteractionHandler implements InteractionHandler {
         copy = new BareBranch( circuit, branch );
         module.deselectAll();
         branch.setSelected( true );
-//            show//TODO show menu.
+    }
+
+    public boolean contains( int x, int y ) {
+        return false;
     }
 
 }

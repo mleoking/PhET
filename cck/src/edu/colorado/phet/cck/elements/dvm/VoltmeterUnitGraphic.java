@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.dvm;
 
 import edu.colorado.phet.cck.common.DifferentialDragHandler;
@@ -22,7 +22,8 @@ import java.text.DecimalFormat;
  * Time: 2:05:39 AM
  * Copyright (c) Oct 26, 2003 by Sam Reid
  */
-public class VoltmeterUnitGraphic extends SimpleObservable implements InteractiveGraphic {
+public class VoltmeterUnitGraphic extends SimpleObservable
+        implements InteractiveGraphic {
 
     private BufferedImage dvmImage;
     private ModelViewTransform2D transform;
@@ -57,7 +58,7 @@ public class VoltmeterUnitGraphic extends SimpleObservable implements Interactiv
         this.x = loc.x;
         this.y = loc.y;
         trf.setToTranslation( loc.x, loc.y );
-        updateObservers();
+        notifyObservers();
     }
 
     public boolean canHandleMousePress( MouseEvent event ) {

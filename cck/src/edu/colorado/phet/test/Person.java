@@ -29,7 +29,7 @@ public class Person implements java.io.Serializable {
     /**
      * Creates a Person with the given name
      */
-    public Person(String name) {
+    public Person( String name ) {
         this.name = name;
     }
 
@@ -49,17 +49,19 @@ public class Person implements java.io.Serializable {
 
     /**
      * Sets the date of birth of the person
+     *
      * @param dob the dob of the person
      */
-    public void setDateOfBirth(Date dob) {
+    public void setDateOfBirth( Date dob ) {
         this.dob = dob;
     }
 
     /**
      * Sets the name of the person
+     *
      * @param name the name of the person
      */
-    public void setName(String name) {
+    public void setName( String name ) {
         this.name = name;
     }
 }

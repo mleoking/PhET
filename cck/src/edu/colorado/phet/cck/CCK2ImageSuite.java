@@ -1,8 +1,8 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck;
 
-import edu.colorado.phet.cck.common.CommonImageLoader2;
 import edu.colorado.phet.cck.elements.ImageSuite;
+import edu.colorado.phet.cck.util.BulbImageLoader;
 import edu.colorado.phet.common.view.util.graphics.HashedImageLoader;
 
 import java.awt.image.BufferedImage;
@@ -76,7 +76,9 @@ public class CCK2ImageSuite {
     public BufferedImage getBulbImage() throws IOException {
 //        return imageLoader.loadImage("images/schematic/bulb-knob.gif");//Loads smooth alpha, not bitchannel.
         if( bulb == null ) {
-            bulb = new CommonImageLoader2().loadBufferedImage( "images/schematic/bulb-knob.gif" );
+//            bulb=new ImageLoader().loadImage("images/schematic/bulb-knob.gif"  );
+            bulb = new BulbImageLoader().loadImage( "images/schematic/bulb-knob.gif" );
+//            bulb = new CommonImageLoader2().loadBufferedImage( "images/schematic/bulb-knob.gif" );
         }
         return bulb;
     }

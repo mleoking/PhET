@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.common;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -66,7 +66,6 @@ public class SegmentGraphic implements Graphic, TransformListener {
     private void update() {
         start = transform.modelToView( x, y );
         end = transform.modelToView( x2, y2 );
-//        this.selected=
     }
 
     public void paint( Graphics2D g ) {
@@ -80,9 +79,6 @@ public class SegmentGraphic implements Graphic, TransformListener {
             g.setColor( color );
             g.setStroke( stroke );
             g.drawLine( start.x, start.y, end.x, end.y );
-//            g.setColor(Color.blue);
-//            g.fillRect(start.x, start.y, 20, 20);
-//            g.fillRect(end.x, end.y, 20, 20);
         }
     }
 

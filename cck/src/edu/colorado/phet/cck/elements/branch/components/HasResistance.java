@@ -11,5 +11,4 @@ public interface HasResistance {
 
     void setResistance( double resistance );
 
-//    void setVoltage(double volts);
 }
