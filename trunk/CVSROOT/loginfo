@@ -25,14 +25,10 @@
 # or
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 
-
-^phetcommon\(/\|$\) mail -s "CVS commit" ronlemaster
-^phetcommon\(/\|$\) mail -s "CVS commit" cmalley
-^phetcommon\(/\|$\) mail -s "CVS commit" samreid
-^phetcommon\(/\|$\) mail -s "CVS commit" joetreat
+^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid joetreat
 
 # Notifications for Chris Malley
-^colorvision3\(/\|$\) mail -s "CVS commit" cmalley
+^colorvision3\(/\|$\) mail -s "CVS commit: colorvision3" cmalley
 
 # Notifications for Ron LeMaster
 ^charts\(/\|$\) mail -s "CVS commit" ronlemaster
