@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationHandler;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+//import edu.colorado.phet.common.util.persistence.PersistentAffineTransform;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -50,7 +51,6 @@ public abstract class PhetGraphic {
     private AffineTransform transform = new AffineTransform();
     private Rectangle lastBounds = new Rectangle();
     private Rectangle bounds = new Rectangle();
-    private Rectangle before;                       // utility variable used in syncBounds
     private Component component;
     private boolean visible = true;
     private boolean boundsDirty = true;
@@ -81,6 +81,13 @@ public abstract class PhetGraphic {
         this.component = component;
     }
 
+    /**
+     * Provided for Java Beans conformance
+     */
+    protected PhetGraphic() {
+        //noop
+    }
+    
     //----------------------------------------------------------------------------
     // Accessor methods
     //----------------------------------------------------------------------------
@@ -104,13 +111,50 @@ public abstract class PhetGraphic {
     }
 
     /**
-     * Sets the parent of this Graphic.
+     * Sets the parent of this Graphic. Public for Java Beans conformance
      *
      * @param parent the Parent that contains this graphic.
      */
-    protected void setParent( GraphicLayerSet parent ) {
+    public void setParent( GraphicLayerSet parent ) {
         this.parent = parent;
     }
+
+    /**
+     * Provided for Java Beans conformance
+     * @return
+     */
+    public GraphicLayerSet getParent() {
+        return parent;
+    }
+
+    public boolean isAutorepaint() {
+        return autorepaint;
+    }
+
+    public void setAutorepaint( boolean autorepaint ) {
+        this.autorepaint = autorepaint;
+    }
+
+    public ArrayList getListeners() {
+        return listeners;
+    }
+
+    public void setListeners( ArrayList listeners ) {
+        this.listeners = listeners;
+    }
+
+    public void setBounds( Rectangle bounds ) {
+        this.bounds = bounds;
+    }
+
+    public Rectangle getLastBounds() {
+        return lastBounds;
+    }
+
+    public void setLastBounds( Rectangle lastBounds ) {
+        this.lastBounds = lastBounds;
+    }
+
 
     //----------------------------------------------------------------------------
     // Graphics Context methods
@@ -287,7 +331,7 @@ public abstract class PhetGraphic {
      */
     public void setTransform( AffineTransform transform ) {
         if( !transform.equals( this.transform ) ) {
-            this.transform = transform;
+            this.transform = new AffineTransform( transform );
             setBoundsDirty();
             autorepaint();
         }
@@ -354,12 +398,17 @@ public abstract class PhetGraphic {
         // Use preConcatenate, so that transforms are shown in the order that they will occur.
         
         // Translate to registration point
+
+        // todo: why are there minus signs on the parameters here?
         net.preConcatenate( AffineTransform.getTranslateInstance( -registrationPoint.x, -registrationPoint.y ) );
         // Apply local transform
         net.preConcatenate( transform );
         // Translate to location
+        // todo: moved this to doing the translation as a completely separate step. See GraphicLayerSet.paint(), contains(), and determine bounds()
         net.preConcatenate( AffineTransform.getTranslateInstance( location.x, location.y ) );
-        // Apply parent's net transform
+
+        // todo: Not needed, because GraphicLayerSets apply their transforms to the graphics before we get here
+        // Apply parent's net transform - rjl
         if( parent != null ) {
             AffineTransform parentTransform = parent.getNetTransform();
             net.preConcatenate( parentTransform );
@@ -662,7 +711,7 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Mouse Input interactivity methods
     //----------------------------------------------------------------------------
-    
+
     /**
      * Adds a mouse input listener.
      *
@@ -686,8 +735,12 @@ public abstract class PhetGraphic {
      *
      * @return the delegate
      */
-    protected CompositeMouseInputListener getMouseInputListener() {
+    public CompositeMouseInputListener getMouseInputListener() {
         return mouseInputListener;
+    }
+
+    public void setMouseInputListener( CompositeMouseInputListener mouseInputListener ) {
+        this.mouseInputListener = mouseInputListener;
     }
 
     /**
@@ -804,7 +857,15 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Cursor interactivity methods
     //----------------------------------------------------------------------------
-    
+
+    public CursorControl getCursorControl() {
+        return cursorControl;
+    }
+
+    public void setCursorControl( CursorControl cursorControl ) {
+        this.cursorControl = cursorControl;
+    }
+
     /**
      * Sets the mouse cursor to look like the specified cursor.
      *
