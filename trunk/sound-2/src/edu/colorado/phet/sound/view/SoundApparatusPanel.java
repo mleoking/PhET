@@ -6,13 +6,13 @@
  */
 package edu.colorado.phet.sound.view;
 
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
-import edu.colorado.phet.sound.SoundConfig;
-import edu.colorado.phet.common.view.ApparatusPanel;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class SoundApparatusPanel extends ApparatusPanel {
     private int audioSource = SPEAKER_SOURCE;
@@ -33,12 +33,13 @@ public class SoundApparatusPanel extends ApparatusPanel {
 
     public SoundApparatusPanel( SoundModel model ) {
         this.model = model;
-        this.setPreferredSize( new Dimension( 600, SoundConfig.s_speakerBaseY * 3 ));
+        this.setPreferredSize( new Dimension( 600, SoundConfig.s_speakerBaseY * 3 ) );
     }
 
     /**
      * Gets the amplitude at the speaker or the listener, depending on what is
      * specified by the control panel
+     *
      * @param waveFront
      * @return
      */
@@ -54,7 +55,6 @@ public class SoundApparatusPanel extends ApparatusPanel {
     }
 
     /**
-     *
      * @return
      */
     protected int getAudioSource() {
@@ -69,23 +69,23 @@ public class SoundApparatusPanel extends ApparatusPanel {
      * Sets the point in the wave medium for which audio is to be generated. The point is specified relative
      * to the origin of the wavefront.
      */
-//    public void determineAudioReferencPt() {
-//        switch( model.getAudioSource() ) {
-//            case SPEAKER_SOURCE:
-//                this.audioReferencePt = new Point2D.Double( 0, 0 );
-//                break;
-//            case LISTENER_SOURCE:
-////                    this.audioReferencePt = listenerGraphic.getLocationInRange();
-//                break;
-//            default:
-//                throw new RuntimeException( "Bad parameter value" );
-//        }
-//        model.setAudioReferencePoint( this.audioReferencePt );
-//    }
+    //    public void determineAudioReferencPt() {
+    //        switch( model.getAudioSource() ) {
+    //            case SPEAKER_SOURCE:
+    //                this.audioReferencePt = new Point2D.Double( 0, 0 );
+    //                break;
+    //            case LISTENER_SOURCE:
+    ////                    this.audioReferencePt = listenerGraphic.getLocationInRange();
+    //                break;
+    //            default:
+    //                throw new RuntimeException( "Bad parameter value" );
+    //        }
+    //        model.setAudioReferencePoint( this.audioReferencePt );
+    //    }
 
-//    public void setPrimaryOscillatorFrequency( double frequency ) {
-//        if( model.getAudioSource() == LISTENER_SOURCE ) {
-//            model.setOscillatorFrequency( frequency );
-//        }
-//    }
+    //    public void setPrimaryOscillatorFrequency( double frequency ) {
+    //        if( model.getAudioSource() == LISTENER_SOURCE ) {
+    //            model.setOscillatorFrequency( frequency );
+    //        }
+    //    }
 }

@@ -7,16 +7,9 @@
 package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.sound.model.SineWaveFunction;
 import edu.colorado.phet.sound.model.SoundModel;
-import edu.colorado.phet.sound.model.Wavefront;
-import edu.colorado.phet.sound.model.WavefrontOscillator;
 import edu.colorado.phet.sound.view.SingleSourceApparatusPanel;
 import edu.colorado.phet.sound.view.SoundControlPanel;
-
-import java.awt.*;
 
 public abstract class SingleSourceModule extends SoundModule {
 

@@ -6,14 +6,11 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.sound.model.Wavefront;
 import edu.colorado.phet.common.util.SimpleObserver;
-
-import java.util.Observer;
-import java.util.Observable;
-import java.awt.geom.Point2D;
-
+import edu.colorado.phet.sound.model.Wavefront;
 import javasound.SrrOscillatorPlayer;
+
+import java.awt.geom.Point2D;
 
 public class WavefrontOscillator extends /*MyOscillatorPlayer*/ SrrOscillatorPlayer implements SimpleObserver {
 
@@ -67,7 +64,7 @@ public class WavefrontOscillator extends /*MyOscillatorPlayer*/ SrrOscillatorPla
     public void setReferencePoint( float x, float y ) {
         refPt.setLocation( x, y );
         this.update();
-//        this.update( this.wavefront, null );
+        //        this.update( this.wavefront, null );
         wavefront.setListenerLocation( (int)refPt.getX() );
     }
 
@@ -82,11 +79,11 @@ public class WavefrontOscillator extends /*MyOscillatorPlayer*/ SrrOscillatorPla
      *
      */
     public void update() {
-//    public void update( Observable o, Object arg ) {
+        //    public void update( Observable o, Object arg ) {
 
-//        Wavefront wavefront = (Wavefront)o;
-//        float distFromSource = refPt.distance( wavefront.getPosition().getX(),
-//                                                wavefront.getPosition().getY() );
+        //        Wavefront wavefront = (Wavefront)o;
+        //        float distFromSource = refPt.distance( wavefront.getPosition().getX(),
+        //                                                wavefront.getPosition().getY() );
         double distFromSource = refPt.distance( 0, 0 );
 
         double frequency = wavefront.getFrequencyAtTime( (int)distFromSource );
@@ -95,8 +92,8 @@ public class WavefrontOscillator extends /*MyOscillatorPlayer*/ SrrOscillatorPla
         if( amplitude < -1 ) {
             System.out.println( "###" );
         }
-//        float frequency = wavefront.getFrequencyAtTime( (int)refPt.getX() );
-//        float amplitude = wavefront.getMaxAmplitudeAtTime( (int)refPt.getX() );
+        //        float frequency = wavefront.getFrequencyAtTime( (int)refPt.getX() );
+        //        float amplitude = wavefront.getMaxAmplitudeAtTime( (int)refPt.getX() );
 
         // Remember, we never set the frequency to 0, because otherwise it chokes. We
         // need to make this assignment so that the following if() will test false when
@@ -113,7 +110,7 @@ public class WavefrontOscillator extends /*MyOscillatorPlayer*/ SrrOscillatorPla
     /**
      *
      */
-//    public void update() {
-//        update( this.wavefront, null );
-//    }
+    //    public void update() {
+    //        update( this.wavefront, null );
+    //    }
 }

@@ -10,7 +10,6 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
-import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 public class MeterStickGraphic extends DefaultInteractiveGraphic {
@@ -21,12 +20,12 @@ public class MeterStickGraphic extends DefaultInteractiveGraphic {
         this.addTranslationBehavior( new ImageTranslator( meterStickImg, location ) );
     }
 
-//    int cnt = 0;
-//    public void mouseDragged( MouseEvent e ) {
-//        if( cnt++ % 3 == 0 ) {
-//            super.mouseDragged( e );
-//        }
-//    }
+    //    int cnt = 0;
+    //    public void mouseDragged( MouseEvent e ) {
+    //        if( cnt++ % 3 == 0 ) {
+    //            super.mouseDragged( e );
+    //        }
+    //    }
 
     private class ImageTranslator implements Translatable {
         private PhetImageGraphic img;

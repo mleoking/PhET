@@ -1,12 +1,13 @@
 package jass.engine;
 
 /**
- Thrown when encountering unsupported file format.
- @author Kees van den Doel (kvdoel@cs.ubc.ca)
+ * Thrown when encountering unsupported file format.
+ *
+ * @author Kees van den Doel (kvdoel@cs.ubc.ca)
  */
 public class UnsupportedAudioFileFormatException extends Exception {
-    public UnsupportedAudioFileFormatException(String s) {
-        super(s);
+    public UnsupportedAudioFileFormatException( String s ) {
+        super( s );
     }
 
     public UnsupportedAudioFileFormatException() {

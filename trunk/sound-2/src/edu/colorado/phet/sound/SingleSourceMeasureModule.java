@@ -14,7 +14,6 @@ import edu.colorado.phet.sound.view.MeasureControlPanel;
 import edu.colorado.phet.sound.view.MeterStickGraphic;
 import edu.colorado.phet.sound.view.VerticalGuideline;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -56,5 +55,5 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         setControlPanel( new MeasureControlPanel( this, appModel.getClock() ) );
     }
 
-    
+
 }

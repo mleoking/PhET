@@ -3,12 +3,15 @@ package jass.generators;
 import jass.engine.Out;
 
 /**
- Generate impulses with time intervals.
- @author Kees van den Doel (kvdoel@cs.ubc.ca)
+ * Generate impulses with time intervals.
+ *
+ * @author Kees van den Doel (kvdoel@cs.ubc.ca)
  */
 public class Impulse extends Out {
 
-    /** time interval */
+    /**
+     * time interval
+     */
     protected float t_pulse = 1.0f;
 
     // dt in samples
@@ -24,12 +27,14 @@ public class Impulse extends Out {
 
     protected float volume = 1;
 
-    /** Construct
-     @param srate sampling rate in Hertz.
-     @param bufferSize bufferSize of this Out
+    /**
+     * Construct
+     *
+     * @param srate      sampling rate in Hertz.
+     * @param bufferSize bufferSize of this Out
      */
-    public Impulse(float srate, int bufferSize) {
-        super(bufferSize);
+    public Impulse( float srate, int bufferSize ) {
+        super( bufferSize );
         this.srate = srate;
         reset();
     }
@@ -39,31 +44,37 @@ public class Impulse extends Out {
         lastImpulseTime = 0;
     }
 
-    /** Set magnitude.
-     @param val Volume.
+    /**
+     * Set magnitude.
+     *
+     * @param val Volume.
      */
-    public void setVolume(float val) {
+    public void setVolume( float val ) {
         volume = val;
     }
 
-    /** Set impulse period
-     @param dt period
+    /**
+     * Set impulse period
+     *
+     * @param dt period
      */
-    public void setPeriod(float dt) {
+    public void setPeriod( float dt ) {
         t_pulse = dt;
-        dt_samples = (int) (t_pulse * srate);
+        dt_samples = (int)( t_pulse * srate );
     }
 
-    /** Compute the next buffer.
+    /**
+     * Compute the next buffer.
      */
     public void computeBuffer() {
         int bufsz = getBufferSize();
-        for (int k = 0; k < bufsz; k++) {
+        for( int k = 0; k < bufsz; k++ ) {
             sampleTime++;
-            if (sampleTime - lastImpulseTime > dt_samples) {
+            if( sampleTime - lastImpulseTime > dt_samples ) {
                 lastImpulseTime = sampleTime;
                 buf[k] = volume;
-            } else {
+            }
+            else {
                 buf[k] = 0;
             }
         }

@@ -135,12 +135,12 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
 
                 // We must yield so the PhysicalSystem thread can get the update.
                 //                Thread.yield();
-//                try {
-//                    Thread.sleep( 20 );
-//                }
-//                catch( InterruptedException e ) {
-//                    e.printStackTrace();
-//                }
+                //                try {
+                //                    Thread.sleep( 20 );
+                //                }
+                //                catch( InterruptedException e ) {
+                //                    e.printStackTrace();
+                //                }
             }
         }
     }

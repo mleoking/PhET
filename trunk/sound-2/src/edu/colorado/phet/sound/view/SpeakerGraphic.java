@@ -6,19 +6,19 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.WaveMedium;
 
-import java.io.IOException;
-import java.awt.image.BufferedImage;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-public class SpeakerGraphic extends CompositePhetGraphic{
+public class SpeakerGraphic extends CompositePhetGraphic {
 
     public static int s_speakerConeOffsetX = 34;
 
@@ -26,7 +26,7 @@ public class SpeakerGraphic extends CompositePhetGraphic{
     private PhetImageGraphic speakerCone;
     private BufferedImage speakerFrameImg;
     private BufferedImage speakerConeImg;
-    private Point2D.Double location = new Point2D.Double( );
+    private Point2D.Double location = new Point2D.Double();
 
     public SpeakerGraphic( ApparatusPanel apparatusPanel, final WaveMedium waveMedium ) {
 
@@ -48,6 +48,7 @@ public class SpeakerGraphic extends CompositePhetGraphic{
         this.addGraphic( speakerCone );
         waveMedium.addObserver( new SimpleObserver() {
             private int s_maxSpeakerConeExcursion = 6;
+
             public void update() {
                 int coneOffset = (int)( waveMedium.getAmplitudeAt( 0 ) / SoundConfig.s_maxAmplitude * s_maxSpeakerConeExcursion );
                 speakerCone.setPosition( (int)location.getX() + s_speakerConeOffsetX + coneOffset,

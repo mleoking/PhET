@@ -8,10 +8,9 @@ package edu.colorado.phet.sound.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
-import edu.colorado.phet.sound.SingleSourceWithBoxModule;
 
-import java.util.ArrayList;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 public class WaveMedium extends SimpleObservable implements ModelElement {
 
@@ -83,6 +82,7 @@ public class WaveMedium extends SimpleObservable implements ModelElement {
     /**
      * Returns signal attentuation per unit distance. A value of 1 indicates
      * no attenuation.
+     *
      * @param point
      * @return
      */

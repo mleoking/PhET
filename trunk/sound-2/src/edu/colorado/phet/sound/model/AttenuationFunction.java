@@ -7,5 +7,5 @@
 package edu.colorado.phet.sound.model;
 
 public interface AttenuationFunction {
-    double getAttenuation( double x, double y ); 
+    double getAttenuation( double x, double y );
 }

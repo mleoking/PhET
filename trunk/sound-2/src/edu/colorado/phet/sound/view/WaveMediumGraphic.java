@@ -20,11 +20,13 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
 
     // An array of gray scale values
     private static Color[] s_lineColor = new Color[256];
+
     static {
         for( int i = 0; i < s_lineColor.length; i++ ) {
             s_lineColor[i] = new Color( i, i, i );
         }
     }
+
     // Note that larger values for the stroke slow down performance considerably
     private static Stroke s_defaultStroke = new BasicStroke( 1.0F );
 
@@ -96,7 +98,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         g2.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED );
         g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
         g2.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
-//        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        //        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
         g2.setRenderingHint( RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE );
         g2.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED );

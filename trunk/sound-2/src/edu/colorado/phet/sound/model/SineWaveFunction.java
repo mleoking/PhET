@@ -15,7 +15,6 @@ public class SineWaveFunction implements WaveFunction {
     }
 
     /**
-     *
      * @param time
      * @return
      */

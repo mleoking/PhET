@@ -24,15 +24,8 @@
  */
 package javasound;
 
+import javax.sound.sampled.*;
 import java.io.IOException;
-import java.util.Observer;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
 
 
 /*	+DocBookXML
@@ -97,8 +90,8 @@ import javax.sound.sampled.SourceDataLine;
 
 public class MyOscillatorPlayer extends Thread {
 
-//    private static final int BUFFER_SIZE = 128000;
-//    private static final int BUFFER_SIZE = 16000;
+    //    private static final int BUFFER_SIZE = 128000;
+    //    private static final int BUFFER_SIZE = 16000;
     private static final int BUFFER_SIZE = 32000;
     private static boolean DEBUG = false;
     private Oscillator oscillator;
@@ -114,7 +107,7 @@ public class MyOscillatorPlayer extends Thread {
     public MyOscillatorPlayer() {
 
         fSampleRate = 44100.0F;
-//        fSampleRate = 22050.0F;
+        //        fSampleRate = 22050.0F;
         fSignalFrequency = 1.0F; // Oscillator class doesn't like a frequency of 0;
         fAmplitude = 0.0F;
     }
@@ -134,7 +127,7 @@ public class MyOscillatorPlayer extends Thread {
 
         // TODO: make the priority setable from the outside
         this.setPriority( Thread.NORM_PRIORITY );
-//        this.setPriority( Thread.MAX_PRIORITY );
+        //        this.setPriority( Thread.MAX_PRIORITY );
 
         try {
             setup( (float)fSignalFrequency, (float)fAmplitude, (float)fSampleRate );
@@ -169,12 +162,14 @@ public class MyOscillatorPlayer extends Thread {
 
                 try {
                     Thread.sleep( /* 50 */ 100 );
-                } catch( InterruptedException e ) {
+                }
+                catch( InterruptedException e ) {
                     e.printStackTrace();  //To change body of catch statement use Options | File Templates.
                 }
             }
 
-        } catch( IOException e ) {
+        }
+        catch( IOException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
     }
@@ -195,7 +190,8 @@ public class MyOscillatorPlayer extends Thread {
         fSignalFrequency = (float)frequency;
         try {
             this.setup( (float)fSignalFrequency, (float)fAmplitude, (float)fSampleRate );
-        } catch( IOException e ) {
+        }
+        catch( IOException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
     }
@@ -211,13 +207,15 @@ public class MyOscillatorPlayer extends Thread {
         fAmplitude = (float)amplitude;
         try {
             this.setup( (float)fSignalFrequency, (float)fAmplitude, (float)fSampleRate );
-        } catch( IOException e ) {
+        }
+        catch( IOException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
     }
 
     /**
      * Creates an oscillator and sets it up for frequency and amplitude.
+     *
      * @param frequency
      * @param amplitude
      * @param samplerate
@@ -233,48 +231,49 @@ public class MyOscillatorPlayer extends Thread {
             try {
                 audioFormat = new AudioFormat( AudioFormat.Encoding.PCM_SIGNED,
                                                fSampleRate, 16, 2, 4, fSampleRate, false );
-            } catch( Exception e ) {
+            }
+            catch( Exception e ) {
                 e.printStackTrace();
             }
         }
 
         if( true ) {
-//        if( oscillator == null ) {
-            oscillator = new Oscillator(
-                    nWaveformType,
-                    fSignalFrequency,
-                    fAmplitude,
-                    audioFormat,
-                    AudioSystem.NOT_SPECIFIED );
-        } else {
-            oscillator.setParams(
-                    nWaveformType,
-                    fSignalFrequency,
-                    fAmplitude,
-                    audioFormat,
-                    AudioSystem.NOT_SPECIFIED );
+            //        if( oscillator == null ) {
+            oscillator = new Oscillator( nWaveformType,
+                                         fSignalFrequency,
+                                         fAmplitude,
+                                         audioFormat,
+                                         AudioSystem.NOT_SPECIFIED );
+        }
+        else {
+            oscillator.setParams( nWaveformType,
+                                  fSignalFrequency,
+                                  fAmplitude,
+                                  audioFormat,
+                                  AudioSystem.NOT_SPECIFIED );
         }
 
         synchronized( lineMonitor ) {
-        if( line != null ) {
-            line.stop();
-        }
+            if( line != null ) {
+                line.stop();
+            }
 
-        line = null;
-        DataLine.Info info = new DataLine.Info(
-                SourceDataLine.class,
-                audioFormat );
+            line = null;
+            DataLine.Info info = new DataLine.Info( SourceDataLine.class,
+                                                    audioFormat );
 
-        try {
-            line = (SourceDataLine)AudioSystem.getLine( info );
-            line.open( audioFormat );
-        } catch( LineUnavailableException e ) {
-            e.printStackTrace();
-        } catch( Exception e ) {
-            e.printStackTrace();
+            try {
+                line = (SourceDataLine)AudioSystem.getLine( info );
+                line.open( audioFormat );
+            }
+            catch( LineUnavailableException e ) {
+                e.printStackTrace();
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
+            line.start();
         }
-        line.start();
-    }
     }
 
 }

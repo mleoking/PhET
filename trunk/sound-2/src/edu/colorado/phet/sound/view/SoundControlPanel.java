@@ -10,8 +10,6 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.sound.SoundConfig;
-import edu.colorado.phet.sound.SingleSourceModule;
-import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.sound.model.SoundModel;
 
 import javax.swing.*;
@@ -29,7 +27,7 @@ public class SoundControlPanel extends PhetControlPanel {
     public SoundControlPanel( Module module ) {
         super( module );
         soundControlPanel = new ControlPanel( module );
-        super.setControlPane( soundControlPanel);
+        super.setControlPane( soundControlPanel );
     }
 
     public void addPanel( JPanel panel ) {
@@ -156,9 +154,9 @@ public class SoundControlPanel extends PhetControlPanel {
                                            sliderMin,
                                            sliderMax,
                                            sliderDefault );
-//                                           0,
-//                                           SoundConfig.s_maxAmplitude,
-//                                           SoundConfig.s_defaultAmplitude );
+            //                                           0,
+            //                                           SoundConfig.s_maxAmplitude,
+            //                                           SoundConfig.s_defaultAmplitude );
             amplitudeSlider.setPreferredSize( new Dimension( 25, 100 ) );
             amplitudeSlider.setPaintTicks( true );
             amplitudeSlider.setMajorTickSpacing( 5 );
@@ -171,18 +169,18 @@ public class SoundControlPanel extends PhetControlPanel {
             amplitudeSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     setModelAmplitude( amplitudeSlider.getValue() );
-//                    model.setModelAmplitude( amplitudeSlider.getValue() );
+                    //                    model.setModelAmplitude( amplitudeSlider.getValue() );
                 }
             } );
             setModelAmplitude( amplitudeSlider.getValue() );
-//            model.setModelAmplitude( amplitudeSlider.getValue() );
+            //            model.setModelAmplitude( amplitudeSlider.getValue() );
             this.add( amplitudeSlider );
             Border amplitudeBorder = new TitledBorder( "Amplitude" );
             this.setBorder( amplitudeBorder );
         }
 
         private void setModelAmplitude( int sliderValue ) {
-            double amplitude = ((double)sliderValue) * ( SoundConfig.s_maxAmplitude ) / (sliderMax - sliderMin );
+            double amplitude = ( (double)sliderValue ) * ( SoundConfig.s_maxAmplitude ) / ( sliderMax - sliderMin );
             model.setAmplitude( amplitude );
         }
     }
@@ -199,13 +197,13 @@ public class SoundControlPanel extends PhetControlPanel {
             this.setPreferredSize( new Dimension( 125, 80 ) );
 
             final JSlider octaveAmplitudeSlider = new JSlider( JSlider.HORIZONTAL,
-                                           sliderMin,
-                                           sliderMax,
-                                           sliderDefault );
-//            final JSlider octaveAmplitudeSlider = new JSlider( JSlider.HORIZONTAL,
-//                                                               0,
-//                                                               SoundConfig.s_maxAmplitude,
-//                                                               SoundConfig.s_defaultAmplitude );
+                                                               sliderMin,
+                                                               sliderMax,
+                                                               sliderDefault );
+            //            final JSlider octaveAmplitudeSlider = new JSlider( JSlider.HORIZONTAL,
+            //                                                               0,
+            //                                                               SoundConfig.s_maxAmplitude,
+            //                                                               SoundConfig.s_defaultAmplitude );
             octaveAmplitudeSlider.setPreferredSize( new Dimension( 25, 60 ) );
             octaveAmplitudeSlider.setPaintTicks( true );
             octaveAmplitudeSlider.setMajorTickSpacing( 5 );
@@ -234,7 +232,7 @@ public class SoundControlPanel extends PhetControlPanel {
         }
 
         private void setModelAmplitude( int sliderValue ) {
-            double amplitude = ((double)sliderValue) * ( SoundConfig.s_maxAmplitude ) / (sliderMax - sliderMin );
+            double amplitude = ( (double)sliderValue ) * ( SoundConfig.s_maxAmplitude ) / ( sliderMax - sliderMin );
             model.setOctaveAmplitude( amplitude );
         }
     }

@@ -12,13 +12,12 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 public class VerticalGuideline extends DefaultInteractiveGraphic {
     private int xLocation;
 
-    public VerticalGuideline( Component component, Color color, int position  ) {
+    public VerticalGuideline( Component component, Color color, int position ) {
         super( null );
         final VerticalLine verticalLine = new VerticalLine( component, color, position );
         setBoundedGraphic( verticalLine );
@@ -35,11 +34,11 @@ public class VerticalGuideline extends DefaultInteractiveGraphic {
     private static class VerticalLine extends PhetShapeGraphic {
 
         private Rectangle2D.Double line = new Rectangle2D.Double();
-//        private Line2D.Double line = new Line2D.Double();
+        //        private Line2D.Double line = new Line2D.Double();
         private Color color;
 
         public VerticalLine( Component component, Color color, int position ) {
-            super( component, null , color );
+            super( component, null, color );
             setShape( line );
             setLocation( position );
             this.color = color;
@@ -54,9 +53,9 @@ public class VerticalGuideline extends DefaultInteractiveGraphic {
 
         public void setLocation( int xLocation ) {
             line.setRect( xLocation, 0, 1, 800 );
-//            line.setLine( xLocation, 0, 1, 800 );
-//            line.setLine( xLocation, 0, xLocation, 800 );
-//            line.setLine( xLocation, 0, xLocation, getComponent().getBounds().getMaxY() );
+            //            line.setLine( xLocation, 0, 1, 800 );
+            //            line.setLine( xLocation, 0, xLocation, 800 );
+            //            line.setLine( xLocation, 0, xLocation, getComponent().getBounds().getMaxY() );
             super.repaint();
         }
     }
