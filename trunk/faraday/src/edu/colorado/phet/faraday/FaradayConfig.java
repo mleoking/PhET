@@ -51,8 +51,11 @@ public class FaradayConfig {
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightBulb.png";
     public static final String LIGHT_EMISSION_IMAGE = IMAGES_DIRECTORY + "lightEmission.png";
     public static final String METER_BODY_IMAGE = IMAGES_DIRECTORY + "voltMeterBody.png";
-    public static final String METER_NEEDLE_IMAGE = IMAGES_DIRECTORY + "voltMeterNeedle.png";
     public static final String FIELD_PROBE_IMAGE = IMAGES_DIRECTORY + "fieldProbe.png";
+    public static final String ELECTRONS1_FRONT_IMAGE = IMAGES_DIRECTORY + "electrons1_front.png";
+    public static final String ELECTRONS1_BACK_IMAGE = IMAGES_DIRECTORY + "electrons1_back.png";
+    public static final String ELECTRONS2_FRONT_IMAGE = IMAGES_DIRECTORY + "electrons2_front.png";
+    public static final String ELECTRONS2_BACK_IMAGE = IMAGES_DIRECTORY + "electrons2_back.png";
 
     // Dimensions
     public static final int APP_FRAME_WIDTH = 1024;
@@ -71,6 +74,7 @@ public class FaradayConfig {
     public static final int MAX_PICKUP_LOOPS = 2;
     public static final int MIN_SOURCE_LOOPS = 1;
     public static final int MAX_SOURCE_LOOPS = 4;
+    public static final double MAX_EMF = 3.0E7;
 
     // Enables "Hollywood" versions of various model elements.
     public static final boolean HOLLYWOOD_MAGNET = false;

@@ -33,6 +33,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     private AbstractResistor _resistor;
     private double _EMF;  // in volts
     private double _flux; // in webers
+    private double _maxEMF; // DEBUG
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -111,7 +112,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         // Calculate the induced EMF.
         double EMF = -( getNumberOfLoops() * deltaFlux );
         if ( EMF != _EMF ) {
-            
+            //System.out.println( "PickupCoil.stepInTime: EMF=" + EMF );  // DEBUG
             _EMF = EMF;
             
             /* 
@@ -128,8 +129,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             }
             
             notifyObservers();
-            
-            System.out.println( "PickupCoil.stepInTime: EMF=" + EMF );  // DEBUG
         }
+        
+//        // DEBUG: use this to determine the maximum EMF in the simulation.
+//        if ( Math.abs(EMF) > Math.abs(_maxEMF) ) {
+//            _maxEMF = EMF;
+//            System.out.println( "PickupCoil.stepInTime: MAX EMF=" + _maxEMF ); // DEBUG
+//        }
     }
 }

@@ -23,12 +23,20 @@ import edu.colorado.phet.faraday.model.LightBulb;
 /**
  * LightBulbGraphic is the graphical representation of a lightbulb.
  * The bulb's relative intensity can be set.
+ * Registration point is at bottom center.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObserver {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
+    private static final double EMISSION_LAYER = 0;
+    private static final double BULB_LAYER = 1;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -53,23 +61,24 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
         
         _lightBulbModel = lightBulbModel;
         _lightBulbModel.addObserver( this );
+       
+        // Light bulb
+        {
+            PhetImageGraphic lightBulb = new PhetImageGraphic( component, FaradayConfig.LIGHTBULB_IMAGE );
+            super.addGraphic( lightBulb, BULB_LAYER );
+            int rx = lightBulb.getImage().getWidth() / 2;
+            int ry = lightBulb.getImage().getHeight();
+            lightBulb.setRegistrationPoint( rx, ry );
+        }
         
         // Light emission
         {
             _lightEmission = new PhetImageGraphic( component, FaradayConfig.LIGHT_EMISSION_IMAGE );
-            super.addGraphic( _lightEmission );
-            int x = _lightEmission.getImage().getWidth() / 2;
-            int y = _lightEmission.getImage().getHeight() / 2;
-            _lightEmission.setRegistrationPoint( x, y );
-        }
-        
-        // Light bulb
-        {
-            PhetImageGraphic lightBulb = new PhetImageGraphic( component, FaradayConfig.LIGHTBULB_IMAGE );
-            super.addGraphic( lightBulb );
-            int x = lightBulb.getImage().getWidth() / 2;
-            int y = 25;
-            lightBulb.setRegistrationPoint( x, y );
+            super.addGraphic( _lightEmission, EMISSION_LAYER );
+            int rx = _lightEmission.getImage().getWidth() / 2;
+            int ry = _lightEmission.getImage().getHeight() / 2;
+            _lightEmission.setRegistrationPoint( rx, ry );
+            _lightEmission.setLocation( 0, -50 );
         }
         
         update();
@@ -94,10 +103,7 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
     public void update() {
         setVisible( _lightBulbModel.isEnabled() );
         if ( isVisible() ) {
-            
             double intensity = _lightBulbModel.getIntensity();
-            System.out.println( "LightBulbGraphic.update: intensity=" + intensity ); // DEBUG
-
             if ( intensity == 0 ) {
                 _lightEmission.setVisible( false );
             }

@@ -14,6 +14,7 @@ package edu.colorado.phet.faraday.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.RenderingHints;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -66,6 +67,9 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
         
         _formatter = new DecimalFormat( "###0.00" );
         
+        // Enable antialiasing for all children.
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
         // Probe body with registration point at top center.
         PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.FIELD_PROBE_IMAGE );
         int rx = body.getImage().getWidth() / 2;
@@ -74,7 +78,7 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
         addGraphic( body );
         
         // Common text attributes.
-        Font font = new Font( "SansSerif", Font.BOLD, 12 );
+        Font font = new Font( "SansSerif", Font.PLAIN, 12 );
         Color color = Color.WHITE;
         int xText = -20;
         int yText = 42;
