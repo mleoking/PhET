@@ -13,10 +13,6 @@ public class TruncatedSeries {
         pointerIndex = 0;
     }
 
-    public int length() {
-        return size;
-    }
-
     public void add( Object obj ) {
         if( v.size() < size ) {
             v.add( obj );
@@ -51,11 +47,4 @@ public class TruncatedSeries {
         return get().toString();
     }
 
-    public static void main( String[] args ) {
-        TruncatedSeries ts = new TruncatedSeries( 5 );
-        for( int i = 0; i < 10; i++ ) {
-            ts.add( new Integer( i ) );
-            System.out.println( "i=" + i + ", ts=" + ts );
-        }
-    }
 }

@@ -38,10 +38,6 @@ public class Particle {
         return "Position=" + x + ", Velocity=" + v + ", Acceleration=" + a + ", Mass=" + mass + ", Charge=" + charge;
     }
 
-    public void setMass( double mass ) {
-        this.mass = mass;
-    }
-
     public double getMass() {
         return mass;
     }
@@ -50,20 +46,12 @@ public class Particle {
         this.a = a;
     }
 
-    public void setAcceleration( double x, double y ) {
-        this.a = new DoublePoint( x, y );
-    }
-
     public DoublePoint getAcceleration() {
         return a;
     }
 
     public DoublePoint getVelocity() {
         return v;
-    }
-
-    public double getSpeed() {
-        return v.getLength();
     }
 
     public void setVelocity( DoublePoint v ) {

@@ -1,7 +1,6 @@
 package edu.colorado.phet.common.gui;
 
 import edu.colorado.phet.common.phys2d.Particle;
-import edu.colorado.phet.common.phys2d.System2D;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,18 +13,6 @@ public class ParticlePanel extends JPanel {
     Vector postPainters = new Vector();
 
     public ParticlePanel() {
-    }
-
-    public boolean containsPostParticlePainter( Painter p ) {
-        return postPainters.contains( p );
-    }
-
-    public void addPostParticlePainter( Painter p ) {
-        postPainters.add( p );
-    }
-
-    public void removePostParticlePainter( Painter p ) {
-        postPainters.remove( p );
     }
 
     public void add( Painter p ) {
@@ -54,27 +41,8 @@ public class ParticlePanel extends JPanel {
         return (Particle)particles.get( i );
     }
 
-    public void setPainter( ParticlePainter pp, Particle p ) {
-        setPainter( pp, particles.indexOf( p ) );
-    }
-
-    public void setPainter( ParticlePainter pp, int i ) {
-        painters.setElementAt( pp, i );
-    }
-
     public ParticlePainter painterAt( int i ) {
         return (ParticlePainter)painters.get( i );
-    }
-
-    public void reset() {
-        particles = new Vector();
-        painters = new Vector();
-    }
-
-    public void addAll( System2D system, ParticlePainter pp ) {
-        for( int i = 0; i < system.numParticles(); i++ ) {
-            add( system.particleAt( i ), pp );
-        }
     }
 
     public void add( Particle p, ParticlePainter pp ) {

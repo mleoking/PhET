@@ -13,10 +13,6 @@ public class PanelAdapter implements ParticleContainer {
         this.pp = pp;
     }
 
-    public void setPainter( ParticlePainter pp ) {
-        this.pp = pp;
-    }
-
     public void add( Particle p ) {
         pan.add( p, pp );
     }
@@ -25,11 +21,4 @@ public class PanelAdapter implements ParticleContainer {
         pan.remove( p );
     }
 
-    public int numParticles() {
-        return pan.numParticles();
-    }
-
-    public Particle particleAt( int i ) {
-        return pan.particleAt( i );
-    }
 }

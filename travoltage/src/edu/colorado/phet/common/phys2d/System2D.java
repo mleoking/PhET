@@ -31,21 +31,8 @@ public class System2D {
         laws.add( lx );
     }
 
-    public void addLaw( Propagator prop ) {
-        Law x = new PropagatorLaw( prop );
-        addLaw( x );
-    }
-
     public int numLaws() {
         return laws.size();
-    }
-
-    public void removeAllLaws() {
-        laws = new Vector();
-    }
-
-    public void remove( Law a ) {
-        laws.remove( a );
     }
 
     public Law lawAt( int i ) {
@@ -56,14 +43,6 @@ public class System2D {
         return particles.size();
     }
 
-    public boolean containsParticle( Particle p ) {
-        return particles.contains( p );
-    }
-
-    public Particle removeParticle( int i ) {
-        return (Particle)particles.remove( i );
-    }
-
     public Particle particleAt( int i ) {
         return (Particle)particles.get( i );
     }
@@ -72,5 +51,9 @@ public class System2D {
         for( int i = 0; i < numLaws(); i++ ) {
             lawAt( i ).iterate( time, this );
         }
+    }
+
+    public void removeLaw( Law law ) {
+        laws.remove( law );
     }
 }

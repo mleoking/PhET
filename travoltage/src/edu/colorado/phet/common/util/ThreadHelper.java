@@ -10,13 +10,4 @@ public class ThreadHelper {
         }
     }
 
-    public static void nap( int restTime ) {
-        System.out.println( "Wait... " + restTime + "." );
-        try {
-            Thread.sleep( restTime );
-        }
-        catch( InterruptedException e ) {
-            System.out.println( "Napping disturbed" );
-        }
-    }
 }

@@ -52,43 +52,6 @@ public class Spark {
         }
     }
 
-    public SparkRunner newSparkRunner( Component c, int time, int napTime ) {
-        return new SparkRunner( c, time, napTime );
-    }
-
-    public class SparkRunner implements Painter, Runnable {
-        SparkPath path;
-        Component paintMe;
-        int time;
-        int nap; //20 looks ok.
-
-        public SparkRunner( Component paintMe, int time, int nap ) {
-            this.nap = nap;
-            this.time = time;
-            this.paintMe = paintMe;
-        }
-
-        public void run() {
-            int t = 0;
-            int NAP = 20;
-            while( true ) {
-                edu.colorado.phet.common.util.ThreadHelper.quietNap( NAP );
-                t += NAP;
-                this.path = toSparkPath( 100 );
-                paintMe.repaint();
-                if( t > time ) {
-                    break;
-                }
-            }
-        }
-
-        public void paint( Graphics2D g ) {
-            if( path != null ) {
-                path.paint( g );
-            }
-        }
-    }
-
     public SparkPath toSparkPath( int maxPts ) {
         return new SparkPath( newPath( maxPts ) );
     }

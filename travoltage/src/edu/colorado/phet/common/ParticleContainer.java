@@ -8,7 +8,4 @@ public interface ParticleContainer //an adapter.
 
     public void remove( Particle e );
 
-    public int numParticles();
-
-    public Particle particleAt( int i );
 }

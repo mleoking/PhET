@@ -30,14 +30,6 @@ public class TravoltaPropagator implements Propagator, ParticleContainer//extend
         cp.add( new PositionUpdate() );
     }
 
-    public int numParticles() {
-        return coulomb.numParticles();
-    }
-
-    public Particle particleAt( int i ) {
-        return coulomb.particleAt( i );
-    }
-
     public void add( Particle p ) {
         coulomb.add( p );
     }
