@@ -182,11 +182,10 @@ public class PickupCoilPanel extends FaradayPanel {
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         int row = 0;
+        layout.addFilledComponent( indicatorPanel, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( loopsPanel, row++, 0 );
         layout.addFilledComponent( radiusPanel, row++, 0, GridBagConstraints.HORIZONTAL );
-        layout.addFilledComponent( indicatorPanel, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _electronsCheckBox, row++, 0 );
-
 
         // Wire up event handling
         EventListener listener = new EventListener();

@@ -10,7 +10,7 @@ HIGH PRIORITY:
 - requirements for Generator module
 - calibrate lightbulb
 - calibrate voltmeter
-- calibrate electron animation (move further/faster)
+- calibrate electron speed in pickup coil
 
 MEDIUM PRIORITY:
 - redo Turbine model, it should not extend BarMagnet (it has a BarMagnetPanel)
@@ -56,6 +56,7 @@ PHETCOMMON:
 
 DONE:
 v0r18...
+(3/16) - use same threshold/min/max in all rescalers (as a starting point)
 (3/16) - remove rescaler from source coil, shouldn't be rescaled
 (3/16) - separate rescaler classes for lightbulb, voltmeter, electrons and compass grid.
 (3/15) - draw the AC sine wave so that it fills the "scope" viewport
