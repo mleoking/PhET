@@ -63,7 +63,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
 
         // Create the upper wave and speaker
         WaveMedium wm = getSoundModel().getWaveMedium();
-        getSoundModel().getPrimaryWavefront().setOrigin( audioSourceA );
+        //        getSoundModel().getPrimaryWavefront().setOrigin( audioSourceA );
         WaveMediumGraphicC wgA = new WaveMediumGraphicC( wm, getApparatusPanel() );
         wm.addObserver( wgA );
         this.addGraphic( wgA, 5 );
@@ -77,16 +77,16 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         getApparatusPanel().addGraphic( iSpeakerGraphicA, 8 );
 
         // Add the lower wave and speaker
-        //        WaveMediumGraphic wgB = new WaveMediumGraphic( wm, getApparatusPanel() );
-        //        wm.addObserver( wgB );
-        //        this.addGraphic( wgB, 5 );
-        //        wgB.initLayout( audioSourceB,
-        //                        SoundConfig.s_wavefrontHeight,
-        //                        SoundConfig.s_wavefrontRadius );
-        //        wgB.setOpacity( 0.5f );
-        //        SpeakerGraphic speakerGraphicB = new SpeakerGraphic( getApparatusPanel(), wm );
-        //        getApparatusPanel().addGraphic( speakerGraphicB, 8 );
-        //        speakerGraphicB.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceB.getY() );
+        WaveMediumGraphic wgB = new WaveMediumGraphic( wm, getApparatusPanel() );
+        wm.addObserver( wgB );
+        this.addGraphic( wgB, 5 );
+        wgB.initLayout( audioSourceB,
+                        SoundConfig.s_wavefrontHeight,
+                        SoundConfig.s_wavefrontRadius );
+        wgB.setOpacity( 0.5f );
+        SpeakerGraphic speakerGraphicB = new SpeakerGraphic( getApparatusPanel(), wm );
+        getApparatusPanel().addGraphic( speakerGraphicB, 8 );
+        speakerGraphicB.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceB.getY() );
 
         // Set up the listener
         BufferedImage headImg = null;

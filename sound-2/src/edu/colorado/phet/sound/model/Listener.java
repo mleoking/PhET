@@ -37,7 +37,6 @@ public class Listener extends SimpleObservable implements ModelElement {
         notifyObservers();
     }
 
-    int cnt = 0;
     public void stepInTime( double dt ) {
         int distFromSource = (int)this.location.distance( origin );
         double currentFrequency = model.getPrimaryWavefront().getFrequencyAtTime( distFromSource );
@@ -47,7 +46,6 @@ public class Listener extends SimpleObservable implements ModelElement {
 
         boolean flag = false;
         if (currentOctaveAmplitude != octaveAmplitudeHeard) {
-            System.out.println( "cnt = " + cnt++ );
             flag = true;
         }
         if( currentFrequency != frequencyHeard
