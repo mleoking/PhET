@@ -180,6 +180,13 @@ public class ApparatusPanel extends JPanel {
         state.restoreGraphics();
     }
 
+    /**
+     * Causes the panel to be repainted in the normal Swing invocation loop
+     */
+    public void paint() {
+        repaint();
+    }
+
     public void addGraphic( PhetGraphic graphic, double level ) {
         this.graphic.addGraphic( graphic, level );
 //        graphic.repaint();//Automatically repaint the added graphic.//This is/should be done in GraphicLayerSet
@@ -211,5 +218,9 @@ public class ApparatusPanel extends JPanel {
 
     public void setDisplayBorder( boolean displayBorder ) {
         this.displayBorder = displayBorder;
+    }
+
+    public void handleUserInput() {
+        //noop
     }
 }

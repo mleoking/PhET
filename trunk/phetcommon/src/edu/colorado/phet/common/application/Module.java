@@ -13,6 +13,9 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
@@ -31,20 +34,34 @@ import javax.swing.*;
  * @author ?
  * @version $Revision$
  */
-public class Module {
+public class Module implements ClockTickListener {
 
     BaseModel model;
     ApparatusPanel apparatusPanel;
     JPanel controlPanel;
     JPanel monitorPanel;
     String name;
+    private AbstractClock clock;
     HelpManager helpManager;
 
-
-    protected Module( String name ) {
+    /**
+     *
+     * @param name
+     * @param clock
+     */
+    protected Module( String name, AbstractClock clock ) {
         this.name = name;
+        this.clock = clock;
         SimStrings.setStrings( "localization/CommonStrings" );
         helpManager = new HelpManager();
+    }
+
+    /**
+     * @deprecated
+     * @param name
+     */
+    protected Module( String name ) {
+        this( name, null );
     }
 
     protected void init( ApparatusPanel apparatusPanel, JPanel controlPanel, JPanel monitorPanel, BaseModel baseModel ) {
@@ -57,6 +74,11 @@ public class Module {
     /////////////////////////////////////////////////////////////////
     // Setters and getters
     //
+
+    public AbstractClock getClock() {
+        return clock;
+    }
+
     public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
         this.apparatusPanel = apparatusPanel;
         if( helpManager != null ) {
@@ -125,7 +147,7 @@ public class Module {
         }
         app.getPhetFrame().getBasicPhetPanel().setControlPanel( this.getControlPanel() );
         app.getPhetFrame().getBasicPhetPanel().setMonitorPanel( this.getMonitorPanel() );
-        app.addClockTickListener( model );
+        app.addClockTickListener( this );
     }
 
     /**
@@ -135,7 +157,7 @@ public class Module {
      * @param app
      */
     public void deactivate( PhetApplication app ) {
-        app.removeClockTickListener( model );
+        app.removeClockTickListener( this );
     }
 
     public boolean moduleIsWellFormed() {
@@ -173,7 +195,7 @@ public class Module {
     }
 
     /**
-     * Adds a an onscreen help item to the module
+     * Adds an onscreen help item to the module
      *
      * @param helpItem
      */
@@ -213,6 +235,30 @@ public class Module {
      */
     public boolean hasMegaHelp() {
         return false;
+    }
+
+    //----------------------------------------------------------------
+    // Rendering
+    //----------------------------------------------------------------
+
+    /**
+     * Any module that wants to do some graphics updating that isn't handled through
+     * model element/observer mechanisms can overide this method
+     * @param event
+     */
+    public void updateGraphics( ClockTickEvent event ) {
+        // noop
+    }
+
+    //----------------------------------------------------------------
+    // Main loop
+    //----------------------------------------------------------------
+
+    public void clockTicked( ClockTickEvent event ) {
+        getApparatusPanel().handleUserInput();
+        model.clockTicked( event );
+        updateGraphics( event );
+        getApparatusPanel().paint();
     }
 
     ////////////////////////////////////////////////////////////////

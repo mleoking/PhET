@@ -120,7 +120,7 @@ public abstract class AbstractClock {
                 doPause();
             }
             else {
-                throw new RuntimeException( "Only running clocks can be paused." );
+//                throw new RuntimeException( "Only running clocks can be paused." );
             }
         }
         else {
@@ -129,7 +129,7 @@ public abstract class AbstractClock {
                 doUnpause();
             }
             else {
-                throw new RuntimeException( "Only paused clocks can be unpaused." );
+//                throw new RuntimeException( "Only paused clocks can be unpaused." );
             }
         }
         clockStateListenerProxy.stateChanged( new ClockStateEvent( this ) );
