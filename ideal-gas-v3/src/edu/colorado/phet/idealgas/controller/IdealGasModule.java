@@ -129,7 +129,10 @@ public class IdealGasModule extends Module {
         idealGasModel.addBox( box );
         setApparatusPanel( new BaseIdealGasApparatusPanel( this, box ) );
 
-        PressureDialGauge pressureGauge = new PressureDialGauge( box, getApparatusPanel() );
+        PressureSlice gaugeSlice = new PressureSlice( box, idealGasModel, clock );
+        gaugeSlice.setY( box.getMinY() + 50 );
+        idealGasModel.addModelElement( gaugeSlice );
+        PressureDialGauge pressureGauge = new PressureDialGauge( box, getApparatusPanel(), gaugeSlice );
         addGraphic( pressureGauge, 20 );
 
         // Create the pump

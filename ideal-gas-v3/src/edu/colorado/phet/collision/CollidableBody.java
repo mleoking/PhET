@@ -48,7 +48,7 @@ public abstract class CollidableBody extends Body {
         }
         velocityPrev.setComponents( getVelocity().getX(), getVelocity().getY() );
         if( positionPrev == null ) {
-            positionPrev = new Point2D.Double();
+            positionPrev = new Point2D.Double( getPosition().getX(), getPosition().getY() );
         }
         positionPrev.setLocation( getPosition() );
 
