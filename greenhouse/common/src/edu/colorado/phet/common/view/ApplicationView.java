@@ -8,6 +8,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
 import edu.colorado.phet.common.view.components.media.Resettable;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.components.ApplicationModelControlPanel;
 import edu.colorado.phet.coreadditions.components.BasicPhetPanel;
 import edu.colorado.phet.coreadditions.components.PhetFrame;

@@ -3,6 +3,8 @@ package edu.colorado.phet.common.view.plaf;
 
 //import edu.colorado.phet.common.view.PhetFrame;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 /**
  You could use it like this:
 
- final JMenu viewMenu = new JMenu("View");
+ final JMenu viewMenu = new JMenu( "View" ) );
  JMenuItem[] items=PlafUtil.getLookAndFeelItems();
  for (int i = 0; i < items.length; i++) {
  JMenuItem item = items[i];
@@ -21,9 +23,9 @@ import java.util.ArrayList;
  */
 public class PlafUtil {
     static {
-        UIManager.installLookAndFeel("Canary", new ClientLookAndFeel().getClass().getName());
-        UIManager.installLookAndFeel("Lecture I", new LectureLookAndFeel().getClass().getName());
-        UIManager.installLookAndFeel("Lecture II", new LectureLookAndFeel2().getClass().getName());
+        UIManager.installLookAndFeel( SimStrings.get( "PlafUtil.CanaryLabel" ), new ClientLookAndFeel().getClass().getName());
+        UIManager.installLookAndFeel( SimStrings.get( "PlafUtil.LectureILabel" ), new LectureLookAndFeel().getClass().getName());
+        UIManager.installLookAndFeel( SimStrings.get( "PlafUtil.LectureIILabel" ), new LectureLookAndFeel2().getClass().getName());
     }
 
     public static JMenuItem[] getLookAndFeelItems() {
