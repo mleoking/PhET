@@ -66,8 +66,6 @@ public class BaseLaserModule extends Module {
     private MirrorGraphic rightMirrorGraphic;
     private MirrorGraphic leftMirrorGraphic;
     private Frame appFrame;
-    // Used to save and restore state when the module is activated and deactivated
-    private boolean energyDialogIsVisible;
     private EnergyLevelMonitorPanel energyLevelsMonitorPanel;
     private CollimatedBeam seedBeam;
     private CollimatedBeam pumpingBeam;
@@ -102,6 +100,49 @@ public class BaseLaserModule extends Module {
         apparatusPanel.setBackground( Color.white );
 
         // Create the pumping and stimulating beams
+        createBeams();
+
+        // Add the laser cavity
+        createCavity();
+
+        // Create the energy levels dialog
+        createEnergyLevelsDialog( clock, frame );
+
+        // Add the control panel
+//        LaserControlPanel controlPanel = new LaserControlPanel( this );
+//        setControlPanel( controlPanel );
+    }
+
+    /**
+     * Sets up the energy levels dialog
+     * @param clock
+     * @param frame
+     */
+    private void createEnergyLevelsDialog( AbstractClock clock, PhetFrame frame ) {
+        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( laserModel, clock );
+        energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel );
+        energyLevelsDialog.setBounds( new Rectangle( (int)( frame.getBounds().getX() + frame.getBounds().getWidth() * 1 / 2 ),
+                                                     10,
+                                                     (int)energyLevelsDialog.getBounds().getWidth(),
+                                                     (int)energyLevelsDialog.getBounds().getHeight() ) );
+    }
+
+    /**
+     * Sets up the laser cavity
+     */
+    private void createCavity() {
+        laserOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX,
+                                          s_origin.getY() );
+        cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
+        getModel().addModelElement( cavity );
+        ResonatingGraphic cavityGraphic = new ResonatingGraphic( getApparatusPanel(), cavity );
+        addGraphic( cavityGraphic, LaserConfig.CAVITY_LAYER );
+    }
+
+    /**
+     * Sets up the pumping and seed beams
+     */
+    private void createBeams() {
         seedBeam = new CollimatedBeam( Photon.RED,
                                        s_origin,
                                        s_boxHeight - Photon.RADIUS,
@@ -121,26 +162,6 @@ public class BaseLaserModule extends Module {
         pumpingBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         pumpingBeam.setEnabled( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
-
-        // Add the laser cavity
-        laserOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX,
-                                          s_origin.getY() );
-        cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
-        getModel().addModelElement( cavity );
-        ResonatingGraphic cavityGraphic = new ResonatingGraphic( getApparatusPanel(), cavity );
-        addGraphic( cavityGraphic, LaserConfig.CAVITY_LAYER );
-
-        // Create the energy levels dialog
-        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( laserModel, clock );
-        energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel );
-        energyLevelsDialog.setBounds( new Rectangle( (int)( frame.getBounds().getX() + frame.getBounds().getWidth() * 1 / 2 ),
-                                                     10,
-                                                     (int)energyLevelsDialog.getBounds().getWidth(),
-                                                     (int)energyLevelsDialog.getBounds().getHeight() ) );
-
-        // Add the control panel
-        LaserControlPanel controlPanel = new LaserControlPanel( this );
-        setControlPanel( controlPanel );
     }
 
     /**
@@ -220,7 +241,6 @@ public class BaseLaserModule extends Module {
 
     public void setEnergyLevelsVisible( boolean isVisible ) {
         energyLevelsDialog.setVisible( isVisible );
-        energyDialogIsVisible = isVisible;
     }
 
     public LaserModel getLaserModel() {
@@ -269,6 +289,10 @@ public class BaseLaserModule extends Module {
         }
     }
 
+    /**
+     * Enables or disables mirrors. Also does the initial creation of the mirrors
+     * @param mirrorsEnabled
+     */
     public void setMirrorsEnabled( boolean mirrorsEnabled ) {
 
         // Regardless of the value of mirrorsEnabled, we should remove the
