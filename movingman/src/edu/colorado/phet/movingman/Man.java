@@ -19,6 +19,7 @@ public class Man {
     private double min;
     private double max;
     private ArrayList listeners = new ArrayList();
+    private double lastX = 0.0;
 
     public Man( double x, double min, double max ) {
         this.x0 = x;
@@ -91,7 +92,12 @@ public class Man {
         setAcceleration( 0.0 );
     }
 
+    public double getDx() {
+        return x - lastX;
+    }
+
     public void stepInTime( double dt ) {
+        double xOrig = x;
         double newVelocity = velocity + acceleration * dt;
         double newX = x + velocity * dt;
 
@@ -109,6 +115,7 @@ public class Man {
             newX = Math.min( newX, max );
             newX = Math.max( newX, min );
             setVelocity( newVelocity );
+            lastX = xOrig;
             setX( newX );
         }
     }

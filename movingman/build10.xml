@@ -235,4 +235,10 @@
     <!--    </target>-->
 
 
+    <target name="Publish All">
+        <antcall target="Publish Executables"/>
+        <ant antfile="C:/PhET/projects-ii/phetcommon/build10.xml" dir="C:/PhET/projects-ii/phetcommon/" inheritall="false" inheritrefs="true" target="Publish Executables"></ant>
+        <ant antfile="C:/PhET/projects-ii/charts/development/build.xml" dir="C:/PhET/projects-ii/charts/development/" inheritall="false" inheritrefs="true" target="Publish Executables"></ant>
+    </target>
+
 </project>
