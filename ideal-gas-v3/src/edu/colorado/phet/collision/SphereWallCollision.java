@@ -39,13 +39,16 @@ public class SphereWallCollision implements Collision {
 
         // If the sphere is hitting a corner, rather than a flat side of the wall, we need to handle
         // the collision in a special way
-        if( ( sx < wallBounds.getMinX() || sx > wallBounds.getMaxX() )
-            && sy < wallBounds.getMinY() || sy > wallBounds.getMaxY() ) {
-//        if( true ) {
+//        if( ( sx < wallBounds.getMinX() || sx > wallBounds.getMaxX() )
+//            && sy < wallBounds.getMinY() || sy > wallBounds.getMaxY() ) {
+        if( true ) {
+
+            System.out.println( "contactType = " + contactType );
             // Get the new velocity of the sphere
             Point2D closestPointOnWall = getClosestPointOnWall( sphere.getPosition(), wall );
             Vector2D loa = new Vector2D.Double( sphere.getPosition().getX() - closestPointOnWall.getX(),
                                                 sphere.getPosition().getY() - closestPointOnWall.getY() );
+
             if( loa.getMagnitude() == 0 ) {
                 Vector2D v2 = new Vector2D.Double( sphere.getVelocity() ).normalize().scale( 0.1 );
                 Point2D p2 = new Point2D.Double( sphere.getPosition().getX() + v2.getX(),
@@ -54,15 +57,34 @@ public class SphereWallCollision implements Collision {
                 loa = new Vector2D.Double( p2.getX() - closestPointOnWall.getX(),
                                            p2.getY() - closestPointOnWall.getY() );
             }
-            Vector2D tangent = new Vector2D.Double( loa.getY(), -loa.getX() );
-            double theta = sphere.getVelocity().getAngle() + Math.PI;
-//            double alpha = tangent.getAngle() - theta;
-            double alpha = tangent.getAngle() - sphere.getVelocity().getAngle();
-            sphere.getVelocity().rotate( alpha * 2 );
 
-            // Ge the sphere's new position
-            double l = sphere.getPosition().distance( closestPointOnWall );
-            Vector2D displacement = loa.normalize().scale( l * 2 );
+            // Make sure loa is directed toward the inside of the wall. This makes the rest of the computations simpler
+            if( !wall.getBounds().contains( closestPointOnWall.getX() + loa.getX(), closestPointOnWall.getY() + loa.getY() ) ) {
+                loa.scale( -1 );
+            }
+
+//            Vector2D tangent = new Vector2D.Double( loa.getY(), -loa.getX() );
+//            double alpha = tangent.getAngle() - sphere.getVelocity().getAngle();
+            double dTheta= loa.getAngle() - sphere.getVelocity().getAngle();
+//            if( alpha > Math.PI / 2 ) {
+//                alpha = Math.PI - alpha;
+//            }
+//            if( alpha < -Math.PI / 2 ) {
+//                alpha = -Math.PI + alpha;
+//            }
+//            double alpha = sphereG
+
+            sphere.getVelocity().rotate( dTheta * 2 ).scale( -1 );
+
+            double angle2 = new Vector2D.Double( sphere.getPosition().getX() - closestPointOnWall.getX(),
+                                                 sphere.getPosition().getY() - closestPointOnWall.getY() ).getAngle();
+
+            // Determine if the spehre's CM has penetrated the wall
+            double d = sphere.getPosition().distance( closestPointOnWall );
+            d = ( wall.getBounds().contains( sphere.getPosition() ) ) ? d : -d;
+
+            // Get the sphere's new position
+            Vector2D displacement = loa.normalize().scale( ( sphere.getRadius() + d ) * 2 );
             Point2D newPosition = new Point2D.Double( sphere.getPosition().getX() + displacement.getX(),
                                                       sphere.getPosition().getY() + displacement.getY() );
             sphere.setPosition( newPosition );
@@ -127,6 +149,27 @@ public class SphereWallCollision implements Collision {
         double x = 0;
         double y = 0;
 
+        switch( contactType ) {
+            case SphereWallExpert.RIGHT_SIDE:
+                x = wall.getBounds().getMaxX();
+                y = p.getY();
+                break;
+            case SphereWallExpert.LEFT_SIDE:
+                x = wall.getBounds().getMinX();
+                y = p.getY();
+                break;
+            case SphereWallExpert.TOP:
+                x = p.getX();
+                y = wall.getBounds().getMinY();
+                break;
+            case SphereWallExpert.BOTTOM:
+                x = p.getX();
+                y = wall.getBounds().getMaxY();
+                break;
+            default:
+                throw new IllegalArgumentException( "Invalid contact type" );
+        }
+
         double minDx = Math.min( Math.abs( p.getX() - wall.getBounds().getMinX() ), Math.abs( p.getX() - wall.getBounds().getMaxX() ) );
         double minDy = Math.min( Math.abs( p.getY() - wall.getBounds().getMinY() ), Math.abs( p.getY() - wall.getBounds().getMaxY() ) );
         if( minDx < minDy ) {
@@ -147,23 +190,6 @@ public class SphereWallCollision implements Collision {
                 y = wall.getBounds().getMaxY();
             }
         }
-//        y = Math.min( Math.max( p.getY(), wall.getBounds().getMinY() ), wall.getBounds().getMaxY() );
-//        x = Math.min( Math.max( p.getX(), wall.getBounds().getMinX() ), wall.getBounds().getMaxX() );
-
-//        if( Math.abs( p.getY() - wall.getBounds().getMinY())
-//            < Math.abs( p.getY() - wall.getBounds().getMaxY() )) {
-//            y = wall.getBounds().getMinY();
-//        }
-//        else {
-//            y = wall.getBounds().getMaxY();
-//        }
-//        if( Math.abs( p.getX() - wall.getBounds().getMinX())
-//            < Math.abs( p.getX() - wall.getBounds().getMaxX() )) {
-//            x = wall.getBounds().getMinX();
-//        }
-//        else {
-//            x = wall.getBounds().getMaxX();
-//        }
         return new Point2D.Double( x, y );
     }
 

@@ -189,19 +189,19 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         double Dx = D.getX();
         double Dy = D.getY();
 
-        System.out.println( "=====" );
-        System.out.println( "cnt++ = " + cnt++ );
-        System.out.println( "Py = " + Py );
-        System.out.println( "Qy = " + Qy );
-        System.out.println( "Ay = " + Ay );
-        System.out.println( "Dy = " + Dy );
-        System.out.println( "Px = " + Px );
-        System.out.println( "Qx = " + Qx );
-        System.out.println( "Ax = " + Ax );
-
-        if( cnt >= 592 && cnt % 3 == 1 ) {
-            System.out.println( "stop!" );
-        }
+//        System.out.println( "=====" );
+//        System.out.println( "cnt++ = " + cnt++ );
+//        System.out.println( "Py = " + Py );
+//        System.out.println( "Qy = " + Qy );
+//        System.out.println( "Ay = " + Ay );
+//        System.out.println( "Dy = " + Dy );
+//        System.out.println( "Px = " + Px );
+//        System.out.println( "Qx = " + Qx );
+//        System.out.println( "Ax = " + Ax );
+//
+//        if( cnt >= 592 && cnt % 3 == 1 ) {
+//            System.out.println( "stop!" );
+//        }
 
         if( Py + r * v.getY() <= Dy && Qy + r * v.getY() >= Ay
         || Py - r * v.getY() >= Ay && Qy - r * v.getY() <= Dy ) {

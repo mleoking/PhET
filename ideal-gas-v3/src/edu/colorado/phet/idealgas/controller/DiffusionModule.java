@@ -79,8 +79,8 @@ public class DiffusionModule extends IdealGasModule {
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
         upperWallGraphic.setIsResizable( true );
-//        getModel().addModelElement( upperWall );
-//        addGraphic( upperWallGraphic, 1000 );
+        getModel().addModelElement( upperWall );
+        addGraphic( upperWallGraphic, 1000 );
         upperWall.addChangeListener( new LowerWallChangeListener() );
 
 
