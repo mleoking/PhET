@@ -8,7 +8,6 @@ package edu.colorado.phet.coreadditions;
 
 import java.util.HashMap;
 import java.util.TreeMap;
-import java.util.HashSet;
 
 /**
  * A cache of objects following an LRU discipline. The objects are cached based on

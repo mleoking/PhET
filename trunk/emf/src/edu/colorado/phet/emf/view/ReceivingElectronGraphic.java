@@ -8,12 +8,11 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.Config;
+import edu.colorado.phet.emf.model.Electron;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class ReceivingElectronGraphic extends ElectronGraphic {

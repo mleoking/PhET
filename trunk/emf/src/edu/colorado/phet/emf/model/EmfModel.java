@@ -7,7 +7,6 @@
 package edu.colorado.phet.emf.model;
 
 import edu.colorado.phet.common.model.BaseModel;
-//import edu.colorado.phet.common.model.IClock;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.emf.model.movement.MovementType;

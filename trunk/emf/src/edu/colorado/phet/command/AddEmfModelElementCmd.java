@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.command;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.Command;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.emf.model.EmfModel;
 
 public class AddEmfModelElementCmd implements Command {

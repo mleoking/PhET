@@ -12,10 +12,11 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.coreadditions.PhetControlPanel;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.emf.command.SetMovementCmd;
 import edu.colorado.phet.emf.model.Antenna;
@@ -30,14 +31,15 @@ import edu.colorado.phet.util.StripChart;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
-import java.net.MalformedURLException;
 
 public class EmfModule extends Module {
 
@@ -67,12 +69,12 @@ public class EmfModule extends Module {
         final Point origin = new Point( 125, 300 );
 
         // Initialize the ModelViewTransform2D
-//        mvTx = new ModelViewTransform2D( new Rectangle2D.Double( -origin.getX(), -origin.getY(), fieldWidth, fieldHeight ),
-//                                         new Rectangle( 0, 0, fieldWidth, fieldHeight ) );
+        //        mvTx = new ModelViewTransform2D( new Rectangle2D.Double( -origin.getX(), -origin.getY(), fieldWidth, fieldHeight ),
+        //                                         new Rectangle( 0, 0, fieldWidth, fieldHeight ) );
         mvTx = new ModelViewTransform2D( new Point2D.Double( -origin.getX(), -origin.getY() ),
-                                         new Point2D.Double( fieldWidth - origin.getX(), fieldHeight -origin.getY()),
+                                         new Point2D.Double( fieldWidth - origin.getX(), fieldHeight - origin.getY() ),
                                          new Point( 0, 0 ),
-                                         new Point( fieldWidth, fieldHeight ));
+                                         new Point( fieldWidth, fieldHeight ) );
 
 
         Antenna transmittingAntenna = new Antenna( new Point2D.Double( origin.getX(), origin.getY() - 100 ),
@@ -87,20 +89,21 @@ public class EmfModule extends Module {
         apparatusPanel = new EmfPanel( electron, origin, fieldWidth, fieldHeight );
         mvTx.addTransformListener( apparatusPanel );
         apparatusPanel.addComponentListener( new ComponentAdapter() {
-                                           boolean init = false;
-                                           public void componentResized( ComponentEvent e ) {
-                                               // The model bounds are the same as the view bounds when the
-                                               // apparatus panel is first displayed
-                                               if( !init ) {
-                                                   init = true;
-                                                   double aspectRatio = ((double)fieldHeight) / ((double)fieldWidth );
-                                                   mvTx.setModelBounds( new Rectangle2D.Double( 0, 0,
-                                                                                                apparatusPanel.getWidth(),
-                                                                                                apparatusPanel.getHeight() ));
-                                               }
-                                               mvTx.setViewBounds( apparatusPanel.getBounds() );
-                                           }
-                                       } );
+            boolean init = false;
+
+            public void componentResized( ComponentEvent e ) {
+                // The model bounds are the same as the view bounds when the
+                // apparatus panel is first displayed
+                if( !init ) {
+                    init = true;
+                    double aspectRatio = ( (double)fieldHeight ) / ( (double)fieldWidth );
+                    mvTx.setModelBounds( new Rectangle2D.Double( 0, 0,
+                                                                 apparatusPanel.getWidth(),
+                                                                 apparatusPanel.getHeight() ) );
+                }
+                mvTx.setViewBounds( apparatusPanel.getBounds() );
+            }
+        } );
         super.setApparatusPanel( apparatusPanel );
 
         // Set up the electron graphic
@@ -141,8 +144,9 @@ public class EmfModule extends Module {
                                            1 );
 
         // Set the control panel
-        setControlPanel( new EmfControlPanel( (EmfModel)this.getModel(),
-                                              this ) );
+        EmfControlPanel emfControlsPanel = new EmfControlPanel( (EmfModel)this.getModel(), this );
+        PhetControlPanel controlPanel = new PhetControlPanel( this, emfControlsPanel );
+        setControlPanel( controlPanel );
 
         // Draw the animated "Wiggle me"
         createWiggleMeGraphic( origin, mvTx );
@@ -308,20 +312,18 @@ public class EmfModule extends Module {
     }
 
     public void showMegaHelp() {
-
-        final JDialog imageFrame = new JDialog(
-                PhetApplication.instance().getApplicationView().getPhetFrame(),
-                false );
+        final JDialog imageFrame = new JDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
+                                                false );
         try {
             final BufferedImage image = ImageLoader.loadBufferedImage( "images/emf.gif" );
-            final JPanel panel = new JPanel( ) {
+            final JPanel panel = new JPanel() {
                 public void paint( Graphics g ) {
                     g.setColor( Color.white );
-                    g.fillRect( 0, 0, image.getWidth(), image.getHeight( ));
+                    g.fillRect( 0, 0, image.getWidth(), image.getHeight() );
                     g.drawImage( image, 0, 0, null );
                 }
             };
-            panel.setPreferredSize( new Dimension( image.getWidth(), image.getHeight( )) );
+            panel.setPreferredSize( new Dimension( image.getWidth(), image.getHeight() ) );
 
             JScrollPane scrollPane = new JScrollPane( panel );
             AdjustmentListener adjustmentListener = new AdjustmentListener() {
@@ -332,7 +334,7 @@ public class EmfModule extends Module {
             scrollPane.getHorizontalScrollBar().addAdjustmentListener( adjustmentListener );
             scrollPane.getVerticalScrollBar().addAdjustmentListener( adjustmentListener );
             scrollPane.setPreferredSize( new Dimension( image.getWidth(), 500 ) );
-            imageFrame.setContentPane( scrollPane);
+            imageFrame.setContentPane( scrollPane );
             imageFrame.pack();
             imageFrame.setVisible( true );
         }
@@ -343,23 +345,22 @@ public class EmfModule extends Module {
 
 
     public static void main( String[] args ) {
-        ModelViewTransform2D tx = new ModelViewTransform2D( new Rectangle2D.Double( -100, 50, 100, -100),
+        ModelViewTransform2D tx = new ModelViewTransform2D( new Rectangle2D.Double( -100, 50, 100, -100 ),
                                                             new Rectangle( 0, 0, 100, 100 ) );
-        Point p = new Point( );
+        Point p = new Point();
         tx.getAffineTransform().transform( new Point( 0, 0 ), p );
         System.out.println( "p = " + p );
 
-        ModelViewTransform2D tx2 = create( new Point2D.Double( -125, 300), new Point2D.Double( 875, -400),
+        ModelViewTransform2D tx2 = create( new Point2D.Double( -125, 300 ), new Point2D.Double( 875, -400 ),
                                            new Point( 0, 0 ), new Point( 1000, 700 ) );
         tx2.getAffineTransform().transform( new Point2D.Double( 0, 400 ), p );
         System.out.println( "p = " + p );
-
     }
-    
+
     static ModelViewTransform2D create( Point2D.Double mp1, Point2D.Double mp2,
                                         Point vp1, Point vp2 ) {
-        Rectangle2D.Double mr = new Rectangle2D.Double( mp1.getX(), mp1.getY(), mp2.getX() - mp1.getX(), mp2.getY() - mp1.getY());
-        Rectangle vr = new Rectangle( (int)vp1.getX(), (int)vp1.getY(), (int)( vp2.getX() - vp1.getX() ), (int)( vp2.getY() - vp1.getY() ));
+        Rectangle2D.Double mr = new Rectangle2D.Double( mp1.getX(), mp1.getY(), mp2.getX() - mp1.getX(), mp2.getY() - mp1.getY() );
+        Rectangle vr = new Rectangle( (int)vp1.getX(), (int)vp1.getY(), (int)( vp2.getX() - vp1.getX() ), (int)( vp2.getY() - vp1.getY() ) );
         return new ModelViewTransform2D( mr, vr );
     }
 }

@@ -8,17 +8,15 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
-//import edu.colorado.phet.common.view.graphics.SimpleBufferedImageGraphic;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.emf.Config;
 import edu.colorado.phet.emf.model.Electron;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 

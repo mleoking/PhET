@@ -8,10 +8,9 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.coreadditions.MessageFormatter;
-import edu.colorado.phet.emf.EmfModule;
 import edu.colorado.phet.emf.Config;
+import edu.colorado.phet.emf.EmfModule;
 import edu.colorado.phet.emf.command.*;
 import edu.colorado.phet.emf.model.EmfModel;
 
@@ -21,38 +20,36 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.IOException;
-import java.net.URL;
 
 public class EmfControlPanel extends JPanel {
 
     private EmfModel model;
     private EmfModule module;
-    private JPanel controlPane;
 
     public EmfControlPanel( EmfModel model, EmfModule module ) {
         this.model = model;
         this.module = module;
-        this.setLayout( new BorderLayout() );
-        controlPane = new JPanel();
-        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
-        ImageIcon imageIcon = new ImageIcon( resource );
-        JLabel titleLabel = ( new JLabel( imageIcon ) );
-        this.add( titleLabel, BorderLayout.NORTH );
-        this.add( controlPane, BorderLayout.CENTER );
-        this.add( new HelpPanel( module ), BorderLayout.SOUTH );
         createControls();
+        this.setPreferredSize( new Dimension( 180, 520 ) );
+
+        this.addContainerListener( new ContainerAdapter() {
+            public void componentRemoved( ContainerEvent e ) {
+                EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize( ) );
+            }
+        } );
+                this.addComponentListener( new ComponentAdapter() {
+                    public void componentResized( ComponentEvent e ) {
+                        EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize( ) );
+                    }
+                } );
     }
 
+
     private void createControls() {
-        JPanel container = controlPane;
-        container.setPreferredSize( new Dimension( 180, 400 ) );
+        JPanel container = this;
         container.setLayout( new GridBagLayout() );
-//        this.setPreferredSize( new Dimension( 180, 400 ) );
-//        this.setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
             GraphicsUtil.addGridBagComponent( container, new Legend(),
@@ -74,9 +71,6 @@ public class EmfControlPanel extends JPanel {
         catch( AWTException e ) {
             e.printStackTrace();
         }
-        //        this.add( new Legend() );
-        //        this.add( new MovementControlPane() );
-        //        this.add( new OptionControlPane() );
     }
 
     //
@@ -88,7 +82,6 @@ public class EmfControlPanel extends JPanel {
      * of various options
      */
     private class OptionControlPane extends JPanel {
-//    private class OptionControlPane extends ControlPane {
 
         //        JCheckBox autoscaleCB = new JCheckBox( MessageFormatter.format( ( "Autoscale vectors" ) ) );
         private JRadioButton fullFieldRB = new JRadioButton( "Full field" );
@@ -172,6 +165,8 @@ public class EmfControlPanel extends JPanel {
             stripChartCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setStripChartEnabled( stripChartCB.isSelected() );
+                    EmfControlPanel.this.remove( 0 );
+                    EmfControlPanel.this.validate();
                 }
             } );
 
@@ -189,7 +184,6 @@ public class EmfControlPanel extends JPanel {
                 }
             } );
             module.setUseBufferedImage( false );
-
 
             try {
                 int componentIdx = 0;
@@ -410,7 +404,6 @@ public class EmfControlPanel extends JPanel {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            //            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( Config.smallElectronImg ) );
             int rowIdx = 0;
             try {
                 GraphicsUtil.addGridBagComponent( this, new JLabel( "Electron", electronImg, SwingConstants.LEFT ),
@@ -424,4 +417,5 @@ public class EmfControlPanel extends JPanel {
             }
         }
     }
+
 }

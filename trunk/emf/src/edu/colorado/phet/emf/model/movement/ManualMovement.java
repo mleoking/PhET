@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.emf.model.movement;
 
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MedianFilter;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.emf.model.Electron;
 
 import java.awt.geom.Point2D;

@@ -8,7 +8,6 @@ package edu.colorado.phet.emf.view;
 
 //import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.waves.model.WaveMedium;
-import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

@@ -6,14 +6,13 @@
  */
 package edu.colorado.phet.emf;
 
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.ApplicationModel;
-//import edu.colorado.phet.common.view.ApplicationModel;
-import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
 import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
 import edu.colorado.phet.coreadditions.PhetLookAndFeel;
