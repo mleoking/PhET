@@ -12,7 +12,6 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.help.HelpPanel;
-import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,63 +78,71 @@ public class PhetControlPanel extends JPanel {
     }
 
     /**
-     * Vestigial code used to center the controls in the panel using a SpringLayout. I'm hanging om to this so
-     * I'll have an example of SpringLayout use
+     * This method does nothing anymore. It was used to adjust things when this class used a SpringLayout.
+     * It is kept only for backward compatibility.
+     * Commented, vestigial code used to center the controls in the panel using a SpringLayout. I'm hanging om to this so
+     * I'll have an example of SpringLayout use.
+     *
+     * @deprecated
      */
-    private void adjustLayout() {
-        Dimension controlPaneSize = controlPane.getPreferredSize();
-        int controlPaneWidth = (int)Math.round( controlPaneSize.getWidth() );
-        int controlPaneHeight = (int)Math.round( controlPaneSize.getHeight() );
-        int width = (int)Math.max( imageIcon.getIconWidth() + padX * 2,
-                                   controlPaneWidth /*+ padX * 2 */ );
-        int height = (int)( padY * 4 + imageIcon.getIconHeight()
-                            + helpPanel.getPreferredSize().getHeight()
-                            + controlPaneHeight );
+    public void adjustLayout() {
 
-        this.setMinimumSize( new Dimension( width, height ) );
-        this.setPreferredSize( new Dimension( width, height ) );
+        // Does nothing
+        return;
 
-        // Create springs to the center of the panel
-        Spring containerSouthEdge = layout.getConstraint( SpringLayout.SOUTH, this );
-        Spring containerEastEdge = layout.getConstraint( SpringLayout.EAST, this );
-        Spring yCenterS = FractionSpring.half( containerSouthEdge );
-        Spring xCenterS = FractionSpring.half( containerEastEdge );
-
-        // Place the logo icon
-        Spring middleOfIconS = Spring.constant( imageIcon.getIconWidth() / 2 );
-        Spring leftOfIconS = Spring.sum( xCenterS, Spring.minus( middleOfIconS ) );
-        layout.putConstraint( SpringLayout.NORTH, titleLabel, padY,
-                              SpringLayout.NORTH, this );
-        layout.putConstraint( SpringLayout.WEST, titleLabel, leftOfIconS,
-                              SpringLayout.WEST, this );
-
-        // Place the panel with the controls
-        Spring controlsHalfHeightS = Spring.constant( controlPaneHeight / 2 );
-        Spring bottomOfIconS = Spring.constant( imageIcon.getIconHeight() + padY * 2 );
-        Spring controlsTopS = Spring.constant( padY * 2 );
-        // Enable the following line if you want the controls to float in the middle of
-        // the control panel
-        //        Spring controlsTopS = Spring.sum( yCenterS, Spring.minus( controlsHalfHeightS ) );
-        Spring controlsTopSS = Spring.max( bottomOfIconS, controlsTopS );
-        layout.putConstraint( SpringLayout.NORTH, controlPane, controlsTopSS,
-                              SpringLayout.NORTH, this );
-        layout.putConstraint( SpringLayout.WEST, controlPane,
-                              (int)( ( this.getPreferredSize().getWidth() - controlPaneWidth ) / 2 ),
-                              SpringLayout.WEST, this );
-
-        // Place the help panel
-        Spring middleOfHelpPanelS = Spring.constant( (int)helpPanel.getPreferredSize().getWidth() / 2 );
-        Spring leftOfHelpPanelS = Spring.sum( xCenterS, Spring.minus( middleOfHelpPanelS ) );
-        layout.putConstraint( SpringLayout.WEST, helpPanel, leftOfHelpPanelS,
-                              SpringLayout.WEST, this );
-        Spring bottomOfControlsS = Spring.sum( controlsTopSS, Spring.constant( controlPaneHeight ) );
-        Spring minOffsetY = Spring.sum( containerSouthEdge, Spring.minus( Spring.constant( (int)helpPanel.getPreferredSize().getHeight() ) ) );
-        Spring s = Spring.max( Spring.sum( bottomOfControlsS, Spring.constant( padY ) ),
-                               minOffsetY );
-        layout.putConstraint( SpringLayout.NORTH, helpPanel, s,
-                              SpringLayout.NORTH, this );
-        this.invalidate();
-        this.repaint();
+//        Dimension controlPaneSize = controlPane.getPreferredSize();
+//        int controlPaneWidth = (int)Math.round( controlPaneSize.getWidth() );
+//        int controlPaneHeight = (int)Math.round( controlPaneSize.getHeight() );
+//        int width = (int)Math.max( imageIcon.getIconWidth() + padX * 2,
+//                                   controlPaneWidth /*+ padX * 2 */ );
+//        int height = (int)( padY * 4 + imageIcon.getIconHeight()
+//                            + helpPanel.getPreferredSize().getHeight()
+//                            + controlPaneHeight );
+//
+//        this.setMinimumSize( new Dimension( width, height ) );
+//        this.setPreferredSize( new Dimension( width, height ) );
+//
+//        // Create springs to the center of the panel
+//        Spring containerSouthEdge = layout.getConstraint( SpringLayout.SOUTH, this );
+//        Spring containerEastEdge = layout.getConstraint( SpringLayout.EAST, this );
+//        Spring yCenterS = FractionSpring.half( containerSouthEdge );
+//        Spring xCenterS = FractionSpring.half( containerEastEdge );
+//
+//        // Place the logo icon
+//        Spring middleOfIconS = Spring.constant( imageIcon.getIconWidth() / 2 );
+//        Spring leftOfIconS = Spring.sum( xCenterS, Spring.minus( middleOfIconS ) );
+//        layout.putConstraint( SpringLayout.NORTH, titleLabel, padY,
+//                              SpringLayout.NORTH, this );
+//        layout.putConstraint( SpringLayout.WEST, titleLabel, leftOfIconS,
+//                              SpringLayout.WEST, this );
+//
+//        // Place the panel with the controls
+//        Spring controlsHalfHeightS = Spring.constant( controlPaneHeight / 2 );
+//        Spring bottomOfIconS = Spring.constant( imageIcon.getIconHeight() + padY * 2 );
+//        Spring controlsTopS = Spring.constant( padY * 2 );
+//        // Enable the following line if you want the controls to float in the middle of
+//        // the control panel
+//        //        Spring controlsTopS = Spring.sum( yCenterS, Spring.minus( controlsHalfHeightS ) );
+//        Spring controlsTopSS = Spring.max( bottomOfIconS, controlsTopS );
+//        layout.putConstraint( SpringLayout.NORTH, controlPane, controlsTopSS,
+//                              SpringLayout.NORTH, this );
+//        layout.putConstraint( SpringLayout.WEST, controlPane,
+//                              (int)( ( this.getPreferredSize().getWidth() - controlPaneWidth ) / 2 ),
+//                              SpringLayout.WEST, this );
+//
+//        // Place the help panel
+//        Spring middleOfHelpPanelS = Spring.constant( (int)helpPanel.getPreferredSize().getWidth() / 2 );
+//        Spring leftOfHelpPanelS = Spring.sum( xCenterS, Spring.minus( middleOfHelpPanelS ) );
+//        layout.putConstraint( SpringLayout.WEST, helpPanel, leftOfHelpPanelS,
+//                              SpringLayout.WEST, this );
+//        Spring bottomOfControlsS = Spring.sum( controlsTopSS, Spring.constant( controlPaneHeight ) );
+//        Spring minOffsetY = Spring.sum( containerSouthEdge, Spring.minus( Spring.constant( (int)helpPanel.getPreferredSize().getHeight() ) ) );
+//        Spring s = Spring.max( Spring.sum( bottomOfControlsS, Spring.constant( padY ) ),
+//                               minOffsetY );
+//        layout.putConstraint( SpringLayout.NORTH, helpPanel, s,
+//                              SpringLayout.NORTH, this );
+//        this.invalidate();
+//        this.repaint();
     }
 
     /**
