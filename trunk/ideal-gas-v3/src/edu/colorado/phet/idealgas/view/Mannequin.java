@@ -8,7 +8,7 @@ package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.Animation;
+import edu.colorado.phet.common.view.util.FrameSequence;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
@@ -19,8 +19,8 @@ import java.io.IOException;
 public class Mannequin extends PhetGraphic implements SimpleObserver {
     private static float s_leaningManStateChangeScaleFactor = 1.75F;
 
-    private Animation pusher;
-    private Animation leaner;
+    private FrameSequence pusher;
+    private FrameSequence leaner;
     private Image currPusherFrame;
     private Image currLeanerFrame;
     private IdealGasModel model;
@@ -36,8 +36,8 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
         this.box = box;
         this.boxGraphic = boxGraphic;
         try {
-            pusher = new Animation( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
-            leaner = new Animation( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
+            pusher = new FrameSequence( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
+            leaner = new FrameSequence( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
         }
         catch( IOException e ) {
             e.printStackTrace();

@@ -6,8 +6,9 @@
 package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
@@ -20,7 +21,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Box2DGraphic extends DefaultInteractiveGraphic {
+public class Box2DGraphic extends PhetGraphic {
 
     public static double s_thickness = 4;
     private static Stroke s_defaultStroke = new BasicStroke( (float)s_thickness );
@@ -29,18 +30,21 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
     private boolean graphicSelected;
     private int wallSpeedLimit = 3;
     private boolean leftWallHighlighted;
+    private InternalBoxGraphic internalBoxGraphic;
 
     public Box2DGraphic( Component component, final Box2D box ) {
-        super( null );
+        super( component );
+//        super( null );
 
         this.box = box;
-        InternalBoxGraphic internalBoxGraphic = new InternalBoxGraphic( component );
-        setBoundedGraphic( internalBoxGraphic );
+        internalBoxGraphic = new InternalBoxGraphic( component );
+//        setBoundedGraphic( internalBoxGraphic );
 
-        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
-        this.addTranslationBehavior( new Translatable() {
-            public void translate( double dx, double dy ) {
+        this.setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
+        this.addTranslationListener( new TranslationListener() {
+            public void translationOccurred( TranslationEvent translationEvent ) {
                 // Speed limit on wall
+                double dx = translationEvent.getDx();
                 dx = Math.max( -wallSpeedLimit, Math.min( dx, wallSpeedLimit ) );
                 double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - box.getMinimumWidth() );
                 box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
@@ -48,38 +52,36 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
         } );
     }
 
-    public void mousePressed( MouseEvent e ) {
-        graphicSelected = true;
-        super.mousePressed( e );
-    }
-
-    public void mouseReleased( MouseEvent e ) {
-        this.graphicSelected = false;
-        super.mouseReleased( e );
-    }
-
     public boolean isGraphicSelected() {
         return graphicSelected;
     }
 
-    public void mouseEntered( MouseEvent e ) {
-        super.mouseEntered( e );
+    public void fireMousePressed( MouseEvent e ) {
+        graphicSelected = true;
+        super.fireMousePressed( e );
+    }
+
+    public void fireMouseReleased( MouseEvent e ) {
+        this.graphicSelected = false;
+        super.fireMouseReleased( e );
+    }
+
+    public void fireMouseEntered( MouseEvent e ) {
+        super.fireMouseEntered( e );
         leftWallHighlighted = true;
     }
 
-    public void mouseExited( MouseEvent e ) {
-        super.mouseExited( e );
+    public void fireMouseExited( MouseEvent e ) {
+        super.fireMouseExited( e );
         leftWallHighlighted = false;
     }
 
-    public void mouseDragged( MouseEvent e ) {
-        super.mouseDragged( e );
-        //        try {
-        //            Thread.sleep( 10 );
-        //        }
-        //        catch( InterruptedException e1 ) {
-        //            e1.printStackTrace();
-        //        }
+    protected Rectangle determineBounds() {
+        return internalBoxGraphic.getBounds();
+    }
+
+    public void paint( Graphics2D g2 ) {
+        internalBoxGraphic.paint( g2 );
     }
 
     private class InternalBoxGraphic extends PhetShapeGraphic implements SimpleObserver {

@@ -1,3 +1,11 @@
+Port to NWO
+-------------
+determineBounds needs to be implemented for many classes
+
+PressureSliceGraphic doesn't need an inner class anymore
+
+
+===========================================================
 done - averaging control on pressure slice tool
 
 - make pressure slice tool transparent

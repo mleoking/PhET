@@ -8,7 +8,7 @@
 package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.coreadditions.ScalarObservable;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.PressureSlice;
@@ -19,7 +19,9 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-public class PressureDialGauge implements Graphic {
+public class PressureDialGauge extends PhetShapeGraphic {
+//public class PressureDialGauge extends PhetGraphic {
+//public class PressureDialGauge implements Graphic {
     private PressureSensingBox box;
     private PressureSlice pressureSlice;
     private double radius = 50;
@@ -31,6 +33,7 @@ public class PressureDialGauge implements Graphic {
     private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
 
     public PressureDialGauge( PressureSensingBox box, Component component, PressureSlice pressureSlice ) {
+        super( component );
         this.box = box;
         this.pressureSlice = pressureSlice;
 
@@ -50,6 +53,10 @@ public class PressureDialGauge implements Graphic {
         pressureGauge.paint( g );
     }
 
+    protected Rectangle determineBounds() {
+//        throw new RuntimeException( "tbi");
+        return pressureGauge.determineBounds();
+    }
     //---------------------------------------------------------------------------------
     // Inner classes
     //---------------------------------------------------------------------------------

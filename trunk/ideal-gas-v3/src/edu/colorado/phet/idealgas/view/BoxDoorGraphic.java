@@ -7,8 +7,9 @@
 package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -21,7 +22,8 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleObserver {
+public class BoxDoorGraphic extends PhetGraphic implements SimpleObserver {
+//public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleObserver {
     private int x;
     private int y;
     private int minX;
@@ -37,7 +39,7 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
     public BoxDoorGraphic( Component component,
                            int x, int y, int minX, int minY, int maxX, int maxY,
                            Box2D box ) {
-        super( null );
+        super( component );
         BufferedImage doorImg = null;
         try {
             doorImg = ImageLoader.loadBufferedImage( IdealGasConfig.DOOR_IMAGE_FILE );
@@ -46,7 +48,7 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
             e.printStackTrace();
         }
         imageGraphic = new PhetImageGraphic( component, doorImg );
-        super.setBoundedGraphic( imageGraphic );
+//        super.setBoundedGraphic( imageGraphic );
         this.x = x;
         this.y = y;
         this.minX = minX;
@@ -57,29 +59,28 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
         this.openingMaxX = x + imageGraphic.getBounds().getWidth();
         box.addObserver( this );
 
-        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
-        this.addTranslationBehavior( new DoorTranslator() );
+        setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
+        addTranslationListener( new DoorTranslator() );
     }
 
-    public void mouseEntered( MouseEvent e ) {
-        super.mouseEntered( e );
+    public void fireMouseEntered( MouseEvent e ) {
+        super.fireMouseEntered( e );
         doorHighlighted = true;
     }
 
-    public void mouseExited( MouseEvent e ) {
-        super.mouseExited( e );
+    public void fireMouseExited( MouseEvent e ) {
+        super.fireMouseExited( e );
         doorHighlighted = false;
     }
 
-    private class DoorTranslator implements Translatable {
+    private class DoorTranslator implements TranslationListener {
+        public void translationOccurred( TranslationEvent event ) {
+            translateDoor( event.getDx(), event.getDy() );
+            box.setOpening( opening );
+        }
 
         public DoorTranslator() {
             translate( 0, 0 );
-        }
-
-        public void translate( double dx, double dy ) {
-            translateDoor( dx, dy );
-            box.setOpening( opening );
         }
     }
 
@@ -90,7 +91,7 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
         // Update the position of the image on the screen
         x = (int)Math.min( maxX, Math.max( minX, x + dx ) );
         y = (int)Math.min( maxY, Math.max( minY, y + dy ) );
-        imageGraphic.setPosition( x, y - (int)imageGraphic.getBounds().getHeight() );
+        imageGraphic.setLocation( x, y - (int)imageGraphic.getBounds().getHeight() );
 
         // Update the box's openinng
         opening[0] = new Point2D.Double( x + imageGraphic.getBounds().getWidth(),
@@ -105,14 +106,15 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
             minX = (int)box.getMinX();
             minY = (int)box.getMinY();
             maxY = (int)box.getMinY();
-            imageGraphic.setPosition( (int)imageGraphic.getBounds().getMinX(),
+            imageGraphic.setLocation( (int)imageGraphic.getBounds().getMinX(),
                                       minY - (int)imageGraphic.getBounds().getHeight() );
             imageGraphic.repaint();
         }
     }
 
     public void paint( Graphics2D g ) {
-        super.paint( g );
+//        super.paint( g );
+        imageGraphic.paint( g );
         if( doorHighlighted ) {
             GraphicsState gs = new GraphicsState( g );
             g.setStroke( new BasicStroke( 1 ) );
@@ -122,13 +124,7 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
         }
     }
 
-    public void mouseDragged( MouseEvent e ) {
-        super.mouseDragged( e );
-        //        try {
-        //            Thread.sleep( 20 );
-        //        }
-        //        catch( InterruptedException e1 ) {
-        //            e1.printStackTrace();
-        //        }
+    protected Rectangle determineBounds() {
+        return imageGraphic.getBounds();
     }
 }

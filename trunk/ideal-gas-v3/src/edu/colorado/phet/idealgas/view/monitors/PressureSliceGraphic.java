@@ -7,8 +7,8 @@ package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.PressureSlice;
@@ -23,7 +23,8 @@ import java.text.NumberFormat;
 import java.util.EventListener;
 import java.util.EventObject;
 
-public class PressureSliceGraphic extends DefaultInteractiveGraphic {
+public class PressureSliceGraphic extends PhetGraphic {
+//public class PressureSliceGraphic extends DefaultInteractiveGraphic {
 
     private float s_overlayTransparency = 0.3f;
 
@@ -43,6 +44,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
     private double temperature;
     private double pressure;
     private Font font = new Font( "Lucida Sans", Font.BOLD, 12 );
+    private PhetGraphic internalGraphic;
 
     /**
      * @param component
@@ -53,13 +55,13 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
         super( null );
         this.pressureSlice = pressureSlice;
 
-        final PhetGraphic internalGraphic = new InternalGraphic( component );
-        this.setBoundedGraphic( internalGraphic );
-        this.addCursorHandBehavior();
-        this.addTranslationBehavior( new Translatable() {
-            public void translate( double dx, double dy ) {
+        internalGraphic = new InternalGraphic( component );
+//        this.setBoundedGraphic( internalGraphic );
+        this.setCursorHand();
+        this.addTranslationListener( new TranslationListener() {
+            public void translationOccurred( TranslationEvent event ) {
                 double newY = Math.min( box.getMaxY(),
-                                        Math.max( y + dy, box.getMinY() ) );
+                                        Math.max( y + event.getDy(), box.getMinY() ) );
                 y = newY;
                 pressureSlice.setY( y );
                 listenerProxy.moved( new Event( PressureSliceGraphic.this ) );
@@ -68,6 +70,15 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
         this.box = box;
         y = box.getMinY() + ( box.getMaxY() - box.getMinY() ) / 2;
         pressureSlice.setY( y );
+    }
+
+
+    protected Rectangle determineBounds() {
+        throw new RuntimeException( "tbi" );
+    }
+
+    public void paint( Graphics2D g2 ) {
+        internalGraphic.paint( g2 );
     }
 
     private class InternalGraphic extends PhetShapeGraphic implements SimpleObserver {

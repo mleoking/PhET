@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.instrumentation;
 
-import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.ScalarObservable;
@@ -26,7 +26,7 @@ import java.text.NumberFormat;
 // todo: add min and max limits to needle
 // todo: add ScalarObservable interface and ScalarObserver interface
 
-public class DialGauge extends CompositeGraphic implements ScalarObserver {
+public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
 
     private ScalarObservable dataSource;
     private String title;
@@ -212,4 +212,6 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
             restoreGraphicsState();
         }
     }
+
+    
 }

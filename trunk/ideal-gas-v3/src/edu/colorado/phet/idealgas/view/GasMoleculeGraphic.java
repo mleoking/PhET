@@ -7,12 +7,10 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -31,7 +29,9 @@ public abstract class GasMoleculeGraphic extends PhetImageGraphic implements Gas
     }
 
     public void update() {
-        super.setPositionCentered( (int)molecule.getCM().getX(), (int)molecule.getCM().getY() );
+        super.setLocation( (int)(molecule.getCM().getX() - molecule.getRadius() ),
+                           (int)( molecule.getCM().getY() - molecule.getRadius() ));
+//        super.setPositionCentered( (int)molecule.getCM().getX(), (int)molecule.getCM().getY() );
     }
 
     public void removedFromSystem() {
