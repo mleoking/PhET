@@ -12,7 +12,6 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.forces1d.common.HTMLGraphic;
 import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
@@ -532,7 +531,7 @@ public class PlotDevice extends CompositePhetGraphic {
                 panel.addGraphic( readout, 10000 );
                 readoutValue = new PhetTextGraphic( panel, readoutFont, "0.0 ", color, 100, 100 );
                 if( units.startsWith( "<html>" ) ) {
-                    readoutUnits = new HTMLGraphic( panel, units, readoutFont, color );
+                    readoutUnits = new HTMLGraphic( panel, readoutFont, units, color );
                 }
                 else {
                     readoutUnits = new PhetTextGraphic( panel, readoutFont, units, color, 0, 0 );
