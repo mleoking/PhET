@@ -8,6 +8,7 @@ package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.model.Listener;
@@ -16,11 +17,14 @@ import edu.colorado.phet.sound.view.ListenerGraphic;
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
 import edu.colorado.phet.sound.view.SoundControlPanel;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class SingleSourceListenModule extends SingleSourceModule {
+
+
     private Listener speakerListener = new Listener();
     private Listener headListener = new Listener();
 
@@ -60,13 +64,22 @@ public class SingleSourceListenModule extends SingleSourceModule {
                                                           SoundConfig.s_headBaseY - SoundConfig.s_speakerBaseY + headOffsetY ) );
             speakerListener.setLocation( new Point2D.Double() );
             setAudioSource( SoundApparatusPanel.SPEAKER_SOURCE );
+
+            // Add help items
+            HelpItem help1 = new HelpItem( "Listener can be moved\nleft and right",
+                                           SoundConfig.s_headBaseX + 100,
+                                           SoundConfig.s_headBaseY + headOffsetY - 20 );
+            help1.setForegroundColor( Color.white );
+            getApparatusPanel().addGraphic( help1, SoundConfig.HELP_LAYER );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
 
+        // Set up the control panel
         SoundControlPanel controlPanel = (SoundControlPanel)getControlPanel();
         controlPanel.addPanel( new AudioControlPanel( this ) );
+
     }
 
     public void setAudioSource( int source ) {

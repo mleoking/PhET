@@ -7,6 +7,7 @@
 package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.view.MeasureControlPanel;
@@ -30,8 +31,22 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
             BufferedImage bi = ImageLoader.loadBufferedImage( SoundConfig.METER_STICK_IMAGE_FILE );
             PhetImageGraphic ruler = new PhetImageGraphic( getApparatusPanel(), bi );
             ruler.setPosition( SoundConfig.s_meterStickBaseX, SoundConfig.s_meterStickBaseY );
-            MeterStickGraphic meterStickGraphic = new MeterStickGraphic( getApparatusPanel(), ruler, new Point2D.Double( 200, 100 ) );
+            MeterStickGraphic meterStickGraphic = new MeterStickGraphic( getApparatusPanel(), ruler,
+                                                                         new Point2D.Double( 200, 100 ) );
             this.addGraphic( meterStickGraphic, 9 );
+
+            // Add help items
+            HelpItem help1 = new HelpItem( "Use meter stick to measure waves",
+                                           200, 100 + ruler.getImage().getHeight(),
+                                           HelpItem.RIGHT, HelpItem.BELOW );
+            help1.setForegroundColor( Color.white );
+            getApparatusPanel().addGraphic( help1, SoundConfig.HELP_LAYER );
+
+            HelpItem help2 = new HelpItem( "Blue lines can be moved left & right to\nhelp mark measurement points on waves",
+                                           s_guidelineBaseX + 30, 70,
+                                           HelpItem.RIGHT, HelpItem.ABOVE );
+            help2.setForegroundColor( Color.white );
+            getApparatusPanel().addGraphic( help2, SoundConfig.HELP_LAYER );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -41,10 +56,6 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         this.addGraphic( guideline1, 10 );
         VerticalGuideline guideline2 = new VerticalGuideline( getApparatusPanel(), Color.blue, s_guidelineBaseX + 20 );
         this.addGraphic( guideline2, 10 );
-
-        //        RepaintDebugGraphic debugger = new RepaintDebugGraphic( getApparatusPanel(), appModel.getClock() );
-        //        debugger.setActive( true );
-        //        this.addGraphic( debugger, 8 );
 
         setControlPanel( new MeasureControlPanel( this, appModel.getClock() ) );
     }
