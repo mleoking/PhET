@@ -76,8 +76,6 @@ public class BatteryGraphic extends PhetImageGraphic implements SimpleObserver {
                scale( -1, 1 );  // horizontal reflection to indicate voltage polarity
             }
             
-            scale( 0.25 ); // XXX
-            
             repaint();
         }
     }
