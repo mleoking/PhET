@@ -1,7 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.common.examples;
 
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphicMouseDelegator;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
@@ -21,7 +22,7 @@ public class TestCompositeInteractiveGraphic {
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "test" );
 
-        final CompositeInteractiveGraphic compositeGraphic = new CompositeInteractiveGraphic();
+        final CompositeGraphic compositeGraphic = new CompositeGraphic();
         final JPanel p = new JPanel() {
             protected void paintComponent( Graphics g ) {
                 super.paintComponent( g );
@@ -43,8 +44,9 @@ public class TestCompositeInteractiveGraphic {
 
         } );
         compositeGraphic.addGraphic( dig );
-        p.addMouseListener( compositeGraphic );
-        p.addMouseMotionListener( compositeGraphic );
+        CompositeInteractiveGraphicMouseDelegator delegator = new CompositeInteractiveGraphicMouseDelegator( compositeGraphic );
+        p.addMouseListener( delegator );
+        p.addMouseMotionListener( delegator );
 
         frame.setContentPane( p );
         frame.setSize( 600, 600 );

@@ -7,9 +7,9 @@
 package edu.colorado.phet.common.view.help;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.CompositeGraphic;
 
-public class HelpManager extends CompositeInteractiveGraphic {
+public class HelpManager extends CompositeGraphic {
     public void removeHelpItem( HelpItem helpItem ) {
         super.removeGraphic( helpItem );
     }

@@ -1,7 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
 import javax.swing.event.MouseInputListener;
@@ -14,10 +14,10 @@ import java.awt.event.MouseEvent;
  * Copyright (c) Oct 9, 2003 by Sam Reid
  */
 public class BringToFront implements MouseInputListener {
-    CompositeInteractiveGraphic graphicTree;
+    CompositeGraphic graphicTree;
     Graphic target;
 
-    public BringToFront( CompositeInteractiveGraphic graphicTree, Graphic target ) {
+    public BringToFront( CompositeGraphic graphicTree, Graphic target ) {
         this.graphicTree = graphicTree;
         this.target = target;
     }
