@@ -17,6 +17,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * SliderWiggleMeGraphic is a help graphic that tells the user to move a slider.
@@ -52,7 +53,7 @@ public class SliderWiggleMeGraphic extends WiggleMeGraphic
     super( component, model );
     
     Shape arrowShape = null;
-    String string = "Move a slider!";
+    String string = SimStrings.get( "wiggleMe.text" );
     
     // Create shapes, calculate bounds.
     Rectangle arrowBounds = null;
