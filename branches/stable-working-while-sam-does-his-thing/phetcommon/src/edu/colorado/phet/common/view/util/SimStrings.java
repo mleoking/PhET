@@ -27,8 +27,8 @@ public class SimStrings {
         Vector priorPaths = stringsPaths;
         stringsPaths = null;
         localizedStrings = null;
-        if ( priorPaths != null ) {
-            for ( Iterator i = priorPaths.iterator(); i.hasNext(); ) {
+        if( priorPaths != null ) {
+            for( Iterator i = priorPaths.iterator(); i.hasNext(); ) {
                 String path = (String) i.next();
                 setStrings( path );
             }
@@ -40,11 +40,11 @@ public class SimStrings {
             localizedStrings = new Vector();
             stringsPaths = new Vector();
         }
-        if ( stringsPaths.contains( stringsPath ) ) {
+        if( stringsPaths.contains( stringsPath ) ) {
             return;
         }
         try {
-            if ( localizedLocale == null ) {
+            if( localizedLocale == null ) {
                 localizedLocale = Locale.getDefault();
             }
             ResourceBundle rb = ResourceBundle.getBundle( stringsPath, localizedLocale );
