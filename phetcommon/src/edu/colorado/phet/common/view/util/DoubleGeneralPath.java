@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
 
 /**
  * This adapter class for GeneralPath allows provides an interface in double coordinates.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
@@ -69,6 +69,10 @@ public class DoubleGeneralPath {
     public void lineToRelative( double dx, double dy ) {
         Point2D cur = path.getCurrentPoint();
         lineTo( cur.getX() + dx, cur.getY() + dy );
+    }
+
+    public Point2D getCurrentPoint() {
+        return path.getCurrentPoint();
     }
 
     public void lineToRelative( AbstractVector2D vec ) {
