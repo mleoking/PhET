@@ -11,7 +11,7 @@
  */
 package edu.colorado.phet.lasers.model.mirror;
 
-import edu.colorado.phet.common.util.EventRegistry;
+import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -27,13 +27,15 @@ public class PartialMirror extends Mirror {
     // 0 an 1
     // Default partial reflection strategy
     private Partial partialStrategy;
-    private EventRegistry eventRegistry = new EventRegistry();
 
 
     ///////////////////////////////////////////////////////////////////////
     // Events and listeners
     //
-    public interface ReflectivityChangeListener extends EventListener {
+    private EventChannel eventChannel = new EventChannel( Listener.class );
+    private Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+
+    public interface Listener extends EventListener {
         void reflectivityChanged( ReflectivityChangedEvent event );
     }
 
@@ -48,7 +50,11 @@ public class PartialMirror extends Mirror {
     }
 
     public void addListener( EventListener listener ) {
-        eventRegistry.addListener( listener );
+        eventChannel.addListener( listener );
+    }
+
+    public void removeListener( EventListener listener ) {
+        eventChannel.removeListener( listener );
     }
 
 
@@ -67,7 +73,7 @@ public class PartialMirror extends Mirror {
 
     public void setReflectivity( double reflectivity ) {
         partialStrategy.setReflectivity( reflectivity );
-        eventRegistry.fireEvent( new ReflectivityChangedEvent( this ) );
+        listenerProxy.reflectivityChanged( new ReflectivityChangedEvent( this ) );
     }
 
     public void addReflectionStrategy( ReflectionStrategy reflectionStrategy ) {

@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
@@ -17,7 +16,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
-public class ResonatingGraphic extends PhetGraphic implements SimpleObserver, ResonatingCavity.ChangeListener {
+public class ResonatingGraphic extends PhetGraphic implements ResonatingCavity.ChangeListener {
 
     private Rectangle2D rep = new Rectangle2D.Double();
     private Ellipse2D end1 = new Ellipse2D.Double();
@@ -27,14 +26,8 @@ public class ResonatingGraphic extends PhetGraphic implements SimpleObserver, Re
     public ResonatingGraphic( Component component, ResonatingCavity cavity ) {
         super( component );
         this.cavity = cavity;
-        cavity.addObserver( this );
-        cavity.addCavityChangeListener( this );
+        cavity.addListener( this );
         update();
-        //        rep = new Rectangle2D.Double( cavity.getOrigin().getX(),
-        //                                      cavity.getOrigin().getY(),
-        //                                      cavity.getWidth(),
-        //                                      cavity.getHeight() );
-        //        this.setFill( new Color( 255, 240, 240 ) );
     }
 
     protected Rectangle determineBounds() {
@@ -43,6 +36,7 @@ public class ResonatingGraphic extends PhetGraphic implements SimpleObserver, Re
 
     public void paint( Graphics2D g ) {
         GraphicsState gs = new GraphicsState( g );
+
         GraphicsUtil.setAntiAliasingOn( g );
         g.setColor( Color.black );
         g.draw( rep );

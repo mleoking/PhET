@@ -27,7 +27,7 @@ import java.util.HashSet;
  */
 public class StandingWaveGraphic extends PhetGraphic implements Photon.LeftSystemEventListener,
                                                                 PhotonEmittedListener,
-                                                                StandingWave.ChangeListener {
+                                                                StandingWave.Listener {
     private Point2D internalWaveOrigin;
     private Point2D externalWaveOrigin;
     private StandingWave internalStandingWave;
@@ -117,7 +117,6 @@ public class StandingWaveGraphic extends PhetGraphic implements Photon.LeftSyste
             int n = getNumLasingPhotons();
             internalStandingWave.setAmplitude( getInternalAmplitude() );
             externalStandingWave.setAmplitude( getExternalAmplitude() );
-            System.out.println( "n lasing photons = " + n );
         }
     }
 
@@ -131,7 +130,6 @@ public class StandingWaveGraphic extends PhetGraphic implements Photon.LeftSyste
             int n = getNumLasingPhotons();
             internalStandingWave.setAmplitude( getInternalAmplitude() );
             externalStandingWave.setAmplitude( getExternalAmplitude() );
-            System.out.println( "n lasing photons = " + n );
         }
     }
 }

@@ -171,9 +171,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
      * Handles updates from the model
      */
     public void update() {
-        numGroundLevelAccum += model.getNumGroundStateAtoms();
-        numMiddleLevelAccum += model.getNumMiddleStateAtoms();
-        numHighLevelAccum += model.getNumHighStateAtoms();
+        numGroundLevelAccum += GroundState.instance().getNumAtomsInState();
+//        numGroundLevelAccum += model.getNumGroundStateAtoms();
+        numMiddleLevelAccum += MiddleEnergyState.instance().getNumAtomsInState();
+//        numMiddleLevelAccum += model.getNumMiddleStateAtoms();
+        numHighLevelAccum += HighEnergyState.instance().getNumAtomsInState();
+//        numHighLevelAccum += model.getNumHighStateAtoms();
 
         // todo: these two line might be able to go somewhere they aren't called as often
         middleLevelLifetimeSlider.update();
@@ -234,7 +237,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         int kPrev = height / 2;
         int iPrev = 0;
         Color c = VisibleColor.wavelengthToColor( wavelength );
-        double freqFactor = 10 * wavelength / 680;
+        double freqFactor = 15 * wavelength / 680;
         for( int i = 0; i < length - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
             for( int j = 0; j < height; j++ ) {

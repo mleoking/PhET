@@ -204,13 +204,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
             s_instances.remove( graphic );
         }
         synchronized( s_inactiveInstances ) {
-            //            s_inactiveInstances.add( graphic );
-            //            System.out.println( "add: " + cnt );
         }
     }
 
-
-    static int cnt = 0;
 
     static public PhotonGraphic getInstance( Component component, Photon photon ) {
         PhotonGraphic photonGraphic = null;
@@ -220,11 +216,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
                 photonGraphic = (PhotonGraphic)s_inactiveInstances.get( idx );
                 s_inactiveInstances.remove( idx );
                 photonGraphic.init( component, photon );
-                //                System.out.println( "remove = " + cnt );
             }
             else {
                 photonGraphic = new PhotonGraphic( component, photon );
-                //                System.out.println( "new = " + ++cnt );
             }
         }
         return photonGraphic;
@@ -243,12 +237,14 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     private Photon photon;
     private Color color;
 
+    /**
+     * Private constructor.
+     *
+     * @param component
+     * @param photon
+     */
     private PhotonGraphic( Component component, Photon photon ) {
-        //    public PhotonGraphic( Component component, Photon photon ) {
-        // Need to subtract half the width and height of the image to locate it
-        // properly
         super( component, s_particleImage );
-        s_instances.add( this );
         init( component, photon );
     }
 
