@@ -80,7 +80,7 @@ public class CCK3Module extends Module {
     private double aspectRatio = 1.2;
     private double modelWidth = 10;
     private double modelHeight = modelWidth / aspectRatio;
-//    private static final Rectangle2D.Double INIT_MODEL_BOUNDS = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
+    //    private static final Rectangle2D.Double INIT_MODEL_BOUNDS = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
     private Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, modelWidth, modelHeight );
     public static double ELECTRON_DX = .56 * SCALE;
     private static final double switchscale = 1.45;
@@ -110,10 +110,10 @@ public class CCK3Module extends Module {
     public static final Color backgroundColor = new Color( 200, 240, 200 );
     public static final Color apparatusPanelColor = new Color( 187, 216, 255 );
     public static final Color toolboxColor = new Color( 241, 241, 241 );
-//    public static Color backgroundColor = new Color( 187, 216, 255 );
-//    public static Color toolboxColor=new Color( );
+    //    public static Color backgroundColor = new Color( 187, 216, 255 );
+    //    public static Color toolboxColor=new Color( );
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
-//    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0000" ); //For debugging.
+    //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0000" ); //For debugging.
     private ResistivityManager resistivityManager;
     private boolean internalResistanceOn = false;
     public static final double MIN_RESISTANCE = 0.0001;
@@ -138,23 +138,23 @@ public class CCK3Module extends Module {
     public CCK3Module( boolean virtualLabMode ) throws IOException {
         super( "cck-iii" );
         this.virtualLabMode = virtualLabMode;
-//        Color backgroundColor = new Color( 166, 177, 204 );//not so bright
+        //        Color backgroundColor = new Color( 166, 177, 204 );//not so bright
 
         magicPanel = new MagicalRepaintPanel();
         setApparatusPanel( magicPanel );
-//
-//        setApparatusPanel( new ApparatusPanel() );
-//        setApparatusPanel( new ApparatusPanel() {
-//            protected void paintComponent( Graphics graphics ) {
-////                long time = System.currentTimeMillis();
-//                super.paintComponent( graphics );
-////                long now = System.currentTimeMillis();
-////                long dx = now - time;
-////                if( dx != 0 ) {
-////                    System.out.println( "Paint Time= " + dx );
-////                }
-//            }
-//        } );
+        //
+        //        setApparatusPanel( new ApparatusPanel() );
+        //        setApparatusPanel( new ApparatusPanel() {
+        //            protected void paintComponent( Graphics graphics ) {
+        ////                long time = System.currentTimeMillis();
+        //                super.paintComponent( graphics );
+        ////                long now = System.currentTimeMillis();
+        ////                long dx = now - time;
+        ////                if( dx != 0 ) {
+        ////                    System.out.println( "Paint Time= " + dx );
+        ////                }
+        //            }
+        //        } );
         getApparatusPanel().addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 getApparatusPanel().requestFocus();
@@ -183,16 +183,16 @@ public class CCK3Module extends Module {
         setModel( new BaseModel() {
             //Not allowed to mess with the way we call our abstract method.
             public void stepInTime( double dt ) {
-//                long time = System.currentTimeMillis();
+                //                long time = System.currentTimeMillis();
                 super.stepInTime( dt );
-//                long now = System.currentTimeMillis();
-//                long dx = now - time;
-//                if( dx != 0 ) {
-//                    System.out.println( "Base Model = " + dx );
-//                }
+                //                long now = System.currentTimeMillis();
+                //                long dx = now - time;
+                //                if( dx != 0 ) {
+                //                    System.out.println( "Base Model = " + dx );
+                //                }
             }
         } );
-//        kirkhoffSolver = new KirkhoffSolver();
+        //        kirkhoffSolver = new KirkhoffSolver();
         kirkhoffSolver = new ModifiedNodalAnalysis();
         kirkhoffListener = new KirkhoffListener() {
             public void circuitChanged() {
@@ -219,8 +219,8 @@ public class CCK3Module extends Module {
         controlPanel = new CCK3ControlPanel( this );
         this.cck3controlPanel = controlPanel;
         setControlPanel( controlPanel );
-//        doinit();
-//        inited = true;
+        //        doinit();
+        //        inited = true;
     }
 
     private void relayout() {
@@ -246,7 +246,7 @@ public class CCK3Module extends Module {
             };
 
             SwingUtilities.invokeLater( r );
-//            r.run();
+            //            r.run();
         }
 
         if( transform != null && !transform.getViewBounds().equals( getViewBounds() ) ) {
@@ -279,11 +279,11 @@ public class CCK3Module extends Module {
     }
 
     private void doinit() throws IOException {
-//        Rectangle viewBounds = new Rectangle( 0, 0, 100, 100 );
+        //        Rectangle viewBounds = new Rectangle( 0, 0, 100, 100 );
         Rectangle vb = getApparatusPanel().getBounds();
         Rectangle viewBounds = new Rectangle( vb.width, vb.height );
         transform = new ModelViewTransform2D( modelBounds, viewBounds );
-//        transform = new ModelViewTransform2D.OriginTopLeft( INIT_MODEL_BOUNDS, viewBounds );
+        //        transform = new ModelViewTransform2D.OriginTopLeft( INIT_MODEL_BOUNDS, viewBounds );
         circuitGraphic = new CircuitGraphic( this );
         setupToolbox();
         particleSet = new ParticleSet( circuit );
@@ -329,8 +329,8 @@ public class CCK3Module extends Module {
         Rectangle2D rect = toolbox.getBounds2D();
         Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
         pt.translate( -130, 5 );
-//        wiggleMe = new WiggleMe( getApparatusPanel(), pt,
-//                                 new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
+        //        wiggleMe = new WiggleMe( getApparatusPanel(), pt,
+        //                                 new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
         wiggleMe = new WiggleMe( getApparatusPanel(), pt, new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire" );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
@@ -467,9 +467,9 @@ public class CCK3Module extends Module {
         return circuitGraphic;
     }
 
-//    public void solve() {
-//
-//    }
+    //    public void solve() {
+    //
+    //    }
 
     public ParticleSetGraphic getParticleSetGraphic() {
         return circuitGraphic.getParticleSetGraphic();
@@ -524,6 +524,7 @@ public class CCK3Module extends Module {
     }
 
     public void removeBranch( Branch branch ) {
+        circuit.setFireKirkhoffChanges( false );
         removeParticlesAndGraphics( branch );
         circuitGraphic.removeGraphic( branch );
         circuit.remove( branch );
@@ -536,7 +537,10 @@ public class CCK3Module extends Module {
         //if the junction remains, and it has exactly one connection, which is of type CircuitComponent.
         convertJunctionGraphic( branch.getStartJunction() );
         convertJunctionGraphic( branch.getEndJunction() );
+        circuit.setFireKirkhoffChanges( true );
+        circuit.fireKirkhoffChanged();
         getApparatusPanel().repaint();
+
     }
 
     private void convertJunctionGraphic( Junction junction ) {
@@ -741,7 +745,7 @@ public class CCK3Module extends Module {
             }
         } );
         cck.getApparatusPanel().requestFocus();
-//        PlafUtil.updateFrames();
+        //        PlafUtil.updateFrames();
         if( debugMode ) {
             app.getApplicationView().getPhetFrame().setLocation( 0, 0 );
         }
@@ -927,7 +931,7 @@ public class CCK3Module extends Module {
                     if( b.getClass().equals( Branch.class ) ) {//make sure it's not a component.
                         double resistance = getResistance( b );
                         b.setResistance( resistance );
-//                        System.out.println( "resistance = " + resistance );
+                        //                        System.out.println( "resistance = " + resistance );
                     }
                 }
             }
@@ -964,7 +968,7 @@ public class CCK3Module extends Module {
     }
 
     public void setResistivityEnabled( boolean selected ) {
-//        System.out.println( "Set resistivity enabled= " + selected );
+        //        System.out.println( "Set resistivity enabled= " + selected );
         if( selected == resistivityManager.isEnabled() ) {
             return;
         }
@@ -1008,14 +1012,14 @@ public class CCK3Module extends Module {
             if( branch instanceof Battery ) {
                 Battery batt = (Battery)branch;
                 batt.setInternalResistanceOn( selected );
-//                Graphic g = circuitGraphic.getGraphic( batt );
-//                if( g != null ) {
-//                    CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)g;
-//                    if (!selected){
-//                        //hide any battery internal resistance editors.
-//
-//                    }
-//                }
+                //                Graphic g = circuitGraphic.getGraphic( batt );
+                //                if( g != null ) {
+                //                    CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)g;
+                //                    if (!selected){
+                //                        //hide any battery internal resistance editors.
+                //
+                //                    }
+                //                }
             }
         }
         if( !selected ) {
@@ -1029,16 +1033,16 @@ public class CCK3Module extends Module {
     }
 
     public void setAdvancedEnabled( boolean advanced ) {
-//        this.advanced = advanced;
+        //        this.advanced = advanced;
         if( advanced ) {
             setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() );
             setResistivityEnabled( true );
-//            resistivityManager.setResistivity( );
+            //            resistivityManager.setResistivity( );
         }
         else {
             setInternalResistanceOn( false );
             setResistivityEnabled( false );
-//            resistivityManager.setResistivity( ResistivityManager.DEFAULT_RESISTIVITY );
+            //            resistivityManager.setResistivity( ResistivityManager.DEFAULT_RESISTIVITY );
         }
     }
 
@@ -1051,18 +1055,18 @@ public class CCK3Module extends Module {
         System.out.println( "circuit.getCircuitListeners() = " + Arrays.asList( circuit.getCircuitListeners() ) );
         int jg = JunctionGraphic.getInstanceCount();
         System.out.println( "jg = " + jg );
-//        SimpleObservableDebug[] sod = SimpleObservableDebug.instances();
-//        for( int i = 0; i < sod.length; i++ ) {
-//            SimpleObservableDebug observable = sod[i];
-//            System.out.println( "observable[" + i + "] < x" + observable.numObservers() + ">  = " + observable );
-//        }
+        //        SimpleObservableDebug[] sod = SimpleObservableDebug.instances();
+        //        for( int i = 0; i < sod.length; i++ ) {
+        //            SimpleObservableDebug observable = sod[i];
+        //            System.out.println( "observable[" + i + "] < x" + observable.numObservers() + ">  = " + observable );
+        //        }
 
-//        for( int i = 0; i < sod.length; i++ ) {
-//            SimpleObservableDebug observable = sod[i];
-//            System.out.println( "observable[" + i + "] < x" + observable.numObservers() + ">  = " + observable );
-//            SimpleObserver[] so = observable.getObservers();
-//            System.out.println( "Arrays.asList( so ) = " + Arrays.asList( so ) );
-//        }
+        //        for( int i = 0; i < sod.length; i++ ) {
+        //            SimpleObservableDebug observable = sod[i];
+        //            System.out.println( "observable[" + i + "] < x" + observable.numObservers() + ">  = " + observable );
+        //            SimpleObserver[] so = observable.getObservers();
+        //            System.out.println( "Arrays.asList( so ) = " + Arrays.asList( so ) );
+        //        }
     }
 
     static class MagicalRepaintPanel extends ApparatusPanel {

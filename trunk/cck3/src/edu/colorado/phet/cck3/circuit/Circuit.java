@@ -27,6 +27,7 @@ public class Circuit {
     private ArrayList junctions = new ArrayList();
     private ArrayList listeners = new ArrayList();
     private KirkhoffListener kirkhoffListener;
+    private boolean fireKirkhoffChanges = true;
 
     public Circuit( KirkhoffListener kirkhoffListener ) {
         this.kirkhoffListener = kirkhoffListener;
@@ -34,7 +35,7 @@ public class Circuit {
 
     public void addCircuitListener( CircuitListener listener ) {
         listeners.add( listener );
-//        System.out.println( "Added " + listeners.size() + "th Circuit listener = " + listener );
+        //        System.out.println( "Added " + listeners.size() + "th Circuit listener = " + listener );
     }
 
     public int numCircuitListeners() {
@@ -43,7 +44,7 @@ public class Circuit {
 
     public void removeCircuitListener( CircuitListener listener ) {
         listeners.remove( listener );
-//        System.out.println( "Removed  " + listeners.size() + "th Circuit listener = " + listener );
+        //        System.out.println( "Removed  " + listeners.size() + "th Circuit listener = " + listener );
     }
 
     public String toString() {
@@ -56,7 +57,7 @@ public class Circuit {
             fireJunctionAdded( junction );
         }
         else {
-//            System.out.println( "Already contained junction." );
+            //            System.out.println( "Already contained junction." );
         }
     }
 
@@ -264,6 +265,29 @@ public class Circuit {
         }
     }
 
+    public Branch[] getConnectedSubgraph( Junction junction ) {
+        ArrayList visited = new ArrayList();
+        getConnectedSubgraph( visited, junction );
+        Branch[] b = (Branch[])visited.toArray( new Branch[0] );
+        return b;
+    }
+
+    private void getConnectedSubgraph( ArrayList visited, Junction junction ) {
+        Branch[] adj = getAdjacentBranches( junction );
+        for( int i = 0; i < adj.length; i++ ) {
+            Branch branch = adj[i];
+            Junction opposite = branch.opposite( junction );
+            if( !visited.contains( branch ) ) {
+                visited.add( branch );
+                getConnectedSubgraph( visited, opposite );
+                //                if( branch instanceof CircuitComponent ) {
+                //                    visited.add( branch );
+                //                    getStrongConnections( visited, opposite );
+                //                }//Wires end the connectivity.
+            }
+        }
+    }
+
     public void fireJunctionsMoved() {
         for( int i = 0; i < listeners.size(); i++ ) {
             CircuitListener circuitListener = (CircuitListener)listeners.get( i );
@@ -294,6 +318,10 @@ public class Circuit {
         fireKirkhoffChanged();
     }
 
+    public void setFireKirkhoffChanges( boolean fireKirkhoffChanges ) {
+        this.fireKirkhoffChanges = fireKirkhoffChanges;
+    }
+
     private void fireBranchRemoved( Branch branch ) {
         for( int i = 0; i < listeners.size(); i++ ) {
             CircuitListener circuitListener = (CircuitListener)listeners.get( i );
@@ -302,7 +330,9 @@ public class Circuit {
     }
 
     public void fireKirkhoffChanged() {
-        kirkhoffListener.circuitChanged();
+        if( fireKirkhoffChanges ) {
+            kirkhoffListener.circuitChanged();
+        }
     }
 
     public Branch[] getBranches() {
@@ -380,7 +410,7 @@ public class Circuit {
             else if( !Double.isInfinite( junctionAnswer2 ) ) {
                 result = junctionAnswer2 + voltInit;
             }
-//            return result;
+            //            return result;
             return -result;
         }
     }
@@ -394,7 +424,7 @@ public class Circuit {
             Branch branch = out[i];
             Junction opposite = branch.opposite( at );
             if( !visited.contains( branch ) ) {  //don't cross the same bridge twice.
-//                visited.add( branch );
+                //                visited.add( branch );
                 double dv = branch.getVoltageDrop();
                 if( branch instanceof Battery ) {
                     Battery batt = (Battery)branch;
@@ -419,7 +449,7 @@ public class Circuit {
         Circuit cir = new Circuit( kl );
         for( int i = 0; i < xml.getChildrenCount(); i++ ) {
             IXMLElement child = xml.getChildAtIndex( i );
-//            int index = child.getAttribute( "index", -1 );
+            //            int index = child.getAttribute( "index", -1 );
             if( child.getName().equals( "junction" ) ) {
                 String xStr = child.getAttribute( "x", "0.0" );
                 String yStr = child.getAttribute( "y", "0.0" );
@@ -461,8 +491,8 @@ public class Circuit {
             double resistance = Double.parseDouble( resVal );
 
             double internalResistance = Double.parseDouble( xml.getAttribute( "internalResistance", Double.NaN + "" ) );
-//            String internalResistanceOnStr = xml.getAttribute( "connectAtRight", "false" );
-//            boolean internalResistanceOn = internalResistanceOnStr != null && internalResistanceOnStr.equals( new Boolean( true ).toString() );
+            //            String internalResistanceOnStr = xml.getAttribute( "connectAtRight", "false" );
+            //            boolean internalResistanceOn = internalResistanceOnStr != null && internalResistanceOnStr.equals( new Boolean( true ).toString() );
             Battery batt = new Battery( kl, startJunction, endJunction, length, height, CCK3Module.MIN_RESISTANCE, module.isInternalResistanceOn() );
             batt.setInternalResistance( internalResistance );
             String voltVal = xml.getAttribute( "voltage", Double.NaN + "" );
@@ -473,7 +503,7 @@ public class Circuit {
         else if( type.equals( Switch.class.getName() ) ) {
             String closedVal = xml.getAttribute( "closed", "false" );
             boolean closed = closedVal != null && closedVal.equals( new Boolean( true ).toString() );
-//            boolean closed = Boolean.getBoolean( closedVal );
+            //            boolean closed = Boolean.getBoolean( closedVal );
             Switch swit = new Switch( kl, startJunction, endJunction, closed, length, height );
             return swit;
         }

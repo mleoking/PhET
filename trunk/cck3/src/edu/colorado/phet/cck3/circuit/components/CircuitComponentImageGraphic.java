@@ -33,6 +33,7 @@ public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implem
     private TransformListener transformListener;
     private PhetImageGraphic imageGraphic;
     private PhetShapeGraphic highlightGraphic;
+    private boolean debug = false;
     private PhetTextGraphic debugText;
 
     public CircuitComponentImageGraphic( BufferedImage image, Component parent, CircuitComponent component, ModelViewTransform2D transform ) {
@@ -56,8 +57,10 @@ public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implem
                 changed();
             }
         };
-        debugText = new PhetTextGraphic( getComponent(), new Font( "dialog", 0, 12 ), "", Color.black, 0, 0 );
-        addGraphic( debugText );
+        if( debug ) {
+            debugText = new PhetTextGraphic( getComponent(), new Font( "dialog", 0, 12 ), "", Color.black, 0, 0 );
+            addGraphic( debugText );
+        }
         transform.addTransformListener( transformListener );
         changed();
         setVisible( true );
@@ -82,9 +85,11 @@ public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implem
             Battery batt = (Battery)component;
             text += " ir= " + batt.getInteralResistance();
         }
-        debugText.setText( text );
-        Point ctr = RectangleUtils.getCenter( highlightGraphic.getBounds() );
-        debugText.setPosition( ctr.x, ctr.y );
+        if( debugText != null ) {
+            debugText.setText( text );
+            Point ctr = RectangleUtils.getCenter( highlightGraphic.getBounds() );
+            debugText.setPosition( ctr.x, ctr.y );
+        }
 
         super.setBoundsDirty();
     }
@@ -111,12 +116,12 @@ public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implem
         double dist = src.distance( dst );
         double newLength = dist;
         double angle = new ImmutableVector2D.Double( src, dst ).getAngle();
-//        System.out.println( "angle = " + angle );
+        //        System.out.println( "angle = " + angle );
         AffineTransform trf = new AffineTransform();
         trf.rotate( angle, src.getX(), src.getY() );
         trf.translate( 0, -newHeight / 2 );
         trf.translate( src.getX(), src.getY() );
-//        System.out.println( "newLength = " + newLength + ", newHeight=" + newHeight );
+        //        System.out.println( "newLength = " + newLength + ", newHeight=" + newHeight );
         if( newLength == 0 || newHeight == 0 ) {
             throw new RuntimeException( "Length or height is zero." );
         }
