@@ -181,7 +181,7 @@ public class TestPhetApplication {
         applicationModel.setInitialModule( module );
         applicationModel.setUseClockControlPanel( true );
 
-        PhetApplication app = new PhetApplication( applicationModel );
+        PhetApplication app = new PhetApplication( applicationModel, args );
         app.startApplication();
 
         ClockParamSetterPanel ccp = new ClockParamSetterPanel( clock );
