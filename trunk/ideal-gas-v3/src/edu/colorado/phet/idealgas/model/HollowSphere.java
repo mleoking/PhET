@@ -16,7 +16,7 @@ import java.util.*;
 public class HollowSphere extends SphericalBody {
 
     private ArrayList containedBodies = new ArrayList();
-    private ArrayList listeners  = new ArrayList();
+    private ArrayList listeners = new ArrayList();
 
     public HollowSphere( Point2D center,
                          Vector2D velocity,
@@ -35,6 +35,10 @@ public class HollowSphere extends SphericalBody {
         notifyObservers();
     }
 
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        System.out.println( "getVelocity() = " + getVelocity() );
+    }
 
     public List getContainedBodies() {
         return containedBodies;
@@ -125,11 +129,11 @@ public class HollowSphere extends SphericalBody {
         return getSpeciesCnt( LightSpecies.class );
     }
 
-    private int getSpeciesCnt( Class species) {
+    private int getSpeciesCnt( Class species ) {
         int cnt = 0;
         for( int i = 0; i < containedBodies.size(); i++ ) {
             Body body = (Body)containedBodies.get( i );
-            if( species.isInstance( body )) {
+            if( species.isInstance( body ) ) {
                 cnt++;
             }
         }
@@ -143,6 +147,7 @@ public class HollowSphere extends SphericalBody {
     // TODO: is this interface actually used?
     public interface HollowSphereListener extends EventListener {
         void moleculeAdded( HollowSphere.MoleculeEvent event );
+
         void moleculeRemoved( HollowSphere.MoleculeEvent event );
     }
 

@@ -14,6 +14,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ToggleButton;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import javax.swing.*;
@@ -35,11 +36,11 @@ import java.util.Hashtable;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class IdealGasControlPanel extends JPanel {
+public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListener {
 
     private NumberFormat gravityFormat = NumberFormat.getInstance();
     private JTextField gravityTF;
-    private JCheckBox gravityOnCB;
+//    private JCheckBox gravityOnCB;
     private JSlider gravitySlider;
     private JPanel gravityControlPanel;
     private IdealGasModule module;
@@ -56,6 +57,7 @@ public class IdealGasControlPanel extends JPanel {
         super();
         this.module = module;
         this.idealGasModel = (IdealGasModel)module.getModel();
+        idealGasModel.getGravity().addListener( this );
         init();
     }
 
@@ -198,22 +200,26 @@ public class IdealGasControlPanel extends JPanel {
 
         gravityControlPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1,
-                                                         GridBagConstraints.WEST,
+                                                         GridBagConstraints.CENTER,
+//                                                         GridBagConstraints.WEST,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         // Add control for gravity, set default to OFF
-        gravityOnCB = new JCheckBox( SimStrings.get( "Common.On" ) );
-        gravityControlPanel.add( gravityOnCB, gbc );
-        gravityOnCB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                updateGravity( gravityOnCB.isSelected(), gravitySlider.getValue() );
-            }
-        } );
-        gravityOnCB.setSelected( false );
+//        gravityOnCB = new JCheckBox( SimStrings.get( "Common.On" ) );
+//        gravityControlPanel.add( gravityOnCB, gbc );
+//        gravityOnCB.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent event ) {
+//                updateGravity( gravityOnCB.isSelected(), gravitySlider.getValue() );
+//            }
+//        } );
+//        gravityOnCB.setSelected( false );
 
-        gravitySlider = new JSlider( JSlider.VERTICAL, 0, IdealGasConfig.s_maxGravity, 0 );
-        gravitySlider.setPreferredSize( new Dimension( 60, 50 ) );
-        gravitySlider.setPaintTicks( true );
+        gravitySlider = new JSlider( JSlider.HORIZONTAL, 0, IdealGasConfig.s_maxGravity, 0 );
+//        gravitySlider = new JSlider( JSlider.VERTICAL, 0, IdealGasConfig.s_maxGravity, 0 );
+        gravitySlider.setPreferredSize( new Dimension( 150, 50 ) );
+//        gravitySlider.setPreferredSize( new Dimension( 60, 50 ) );
+        gravitySlider.setPaintTicks( false );
+//        gravitySlider.setPaintTicks( true );
         gravitySlider.setMajorTickSpacing( 10 );
         gravitySlider.setMinorTickSpacing( 5 );
         Hashtable labelTable = new Hashtable();
@@ -224,7 +230,8 @@ public class IdealGasControlPanel extends JPanel {
         gravityControlPanel.add( gravitySlider, gbc );
         gravitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                updateGravity( gravityOnCB.isSelected(), gravitySlider.getValue() );
+                module.setGravity( gravitySlider.getValue() );
+//                updateGravity( gravityOnCB.isSelected(), gravitySlider.getValue() );
             }
         } );
 
@@ -252,9 +259,9 @@ public class IdealGasControlPanel extends JPanel {
         }
     }
 
-    public void setGravityEnabled( boolean enabled ) {
-        this.gravityOnCB.setSelected( enabled );
-    }
+//    public void setGravityEnabled( boolean enabled ) {
+//        this.gravityOnCB.setSelected( enabled );
+//    }
 
     public void setGravity( double amt ) {
         this.gravitySlider.setValue( (int)amt );
@@ -299,6 +306,13 @@ public class IdealGasControlPanel extends JPanel {
         public void offAction() {
             module.setMeasurementDlgVisible( false );
         }
+    }
+
+    //-----------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------
+    public void gravityChanged( Gravity.ChangeEvent event ) {
+        gravitySlider.setValue( (int)event.getGravity().getAmt() );
     }
 }
 
