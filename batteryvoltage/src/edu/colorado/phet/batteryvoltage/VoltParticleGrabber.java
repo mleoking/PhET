@@ -1,10 +1,10 @@
 package edu.colorado.phet.batteryvoltage;
 
 import edu.colorado.phet.batteryvoltage.man.Director;
-import electron.gui.mouse2.ParticleGrabber;
-import electron.gui.mouse2.ParticleSelector;
-import phys2d.PropagatingParticle;
-import phys2d.Propagator;
+import edu.colorado.phet.electron.gui.mouse2.ParticleGrabber;
+import edu.colorado.phet.electron.gui.mouse2.ParticleSelector;
+import edu.colorado.phet.phys2d.PropagatingParticle;
+import edu.colorado.phet.phys2d.Propagator;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

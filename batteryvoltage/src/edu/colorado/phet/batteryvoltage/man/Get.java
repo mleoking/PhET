@@ -1,11 +1,11 @@
 package edu.colorado.phet.batteryvoltage.man;
 
 import edu.colorado.phet.batteryvoltage.ParticleLocation;
-import electron.man.Motion;
-import electron.man.motions.Location;
-import electron.man.motions.TranslateToLocation;
-import phys2d.DoublePoint;
-import phys2d.PropagatingParticle;
+import edu.colorado.phet.electron.man.Motion;
+import edu.colorado.phet.electron.man.motions.Location;
+import edu.colorado.phet.electron.man.motions.TranslateToLocation;
+import edu.colorado.phet.phys2d.DoublePoint;
+import edu.colorado.phet.phys2d.PropagatingParticle;
 
 public class Get extends DefaultAction implements Location {
     TranslateToLocation ttl;

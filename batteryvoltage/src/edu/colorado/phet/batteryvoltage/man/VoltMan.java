@@ -1,10 +1,10 @@
 package edu.colorado.phet.batteryvoltage.man;
 
 import edu.colorado.phet.batteryvoltage.Action;
-import electron.man.Man;
-import electron.man.Motion;
-import electron.man.laws.MotionChooser;
-import phys2d.PropagatingParticle;
+import edu.colorado.phet.electron.man.Man;
+import edu.colorado.phet.electron.man.Motion;
+import edu.colorado.phet.electron.man.laws.MotionChooser;
+import edu.colorado.phet.phys2d.PropagatingParticle;
 
 import java.util.Vector;
 

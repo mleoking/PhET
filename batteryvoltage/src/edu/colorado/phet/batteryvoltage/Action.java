@@ -1,6 +1,6 @@
 package edu.colorado.phet.batteryvoltage;
 
-import electron.man.Motion;
+import edu.colorado.phet.electron.man.Motion;
 
 public interface Action {
     public Action act();

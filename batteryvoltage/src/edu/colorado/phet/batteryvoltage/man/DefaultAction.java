@@ -1,7 +1,7 @@
 package edu.colorado.phet.batteryvoltage.man;
 
 import edu.colorado.phet.batteryvoltage.Action;
-import electron.man.Motion;
+import edu.colorado.phet.electron.man.Motion;
 
 import java.util.Vector;
 

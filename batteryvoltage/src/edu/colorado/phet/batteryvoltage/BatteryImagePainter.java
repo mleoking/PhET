@@ -1,6 +1,6 @@
 package edu.colorado.phet.batteryvoltage;
 
-import electron.paint.BufferedImagePainter;
+import edu.colorado.phet.electron.paint.BufferedImagePainter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -5,28 +5,28 @@ import edu.colorado.phet.batteryvoltage.man.VoltMan;
 import edu.colorado.phet.batteryvoltage.man.VoltManFactory;
 import edu.colorado.phet.batteryvoltage.man.voltListeners.CompositeVoltageListener;
 import edu.colorado.phet.batteryvoltage.man.voltListeners.VoltageListener;
-import electron.components.Gauge;
-import electron.gui.mouse2.ParticleSelector;
-import electron.laws.CoulombsLaw;
-import electron.laws.ForceLawPropagator;
-import electron.man.Man;
-import electron.man.ManMaker;
-import electron.man.ManPainter;
-import electron.man.laws.ManLaw;
-import electron.man.laws.MotionChooser;
-import electron.man.laws.ThoughtfulMover;
-import electron.paint.ImageUtils;
-import electron.paint.LayeredPanel;
-import electron.paint.animate.AnimateLaw;
-import electron.paint.animate.Movie;
-import electron.paint.animate.ParticlePoint;
-import electron.paint.animate.RotatingTwinkle2;
-import electron.paint.particle.ImagePainter;
-import electron.paint.particle.ParticlePainterAdapter;
-import electron.utils.ImageLoader;
-import phys2d.*;
-import phys2d.laws.Repaint;
-import phys2d.propagators.*;
+import edu.colorado.phet.electron.components.Gauge;
+import edu.colorado.phet.electron.gui.mouse2.ParticleSelector;
+import edu.colorado.phet.electron.laws.CoulombsLaw;
+import edu.colorado.phet.electron.laws.ForceLawPropagator;
+import edu.colorado.phet.electron.man.Man;
+import edu.colorado.phet.electron.man.ManMaker;
+import edu.colorado.phet.electron.man.ManPainter;
+import edu.colorado.phet.electron.man.laws.ManLaw;
+import edu.colorado.phet.electron.man.laws.MotionChooser;
+import edu.colorado.phet.electron.man.laws.ThoughtfulMover;
+import edu.colorado.phet.electron.paint.ImageUtils;
+import edu.colorado.phet.electron.paint.LayeredPanel;
+import edu.colorado.phet.electron.paint.animate.AnimateLaw;
+import edu.colorado.phet.electron.paint.animate.Movie;
+import edu.colorado.phet.electron.paint.animate.ParticlePoint;
+import edu.colorado.phet.electron.paint.animate.RotatingTwinkle2;
+import edu.colorado.phet.electron.paint.particle.ImagePainter;
+import edu.colorado.phet.electron.paint.particle.ParticlePainterAdapter;
+import edu.colorado.phet.electron.utils.ImageLoader;
+import edu.colorado.phet.phys2d.*;
+import edu.colorado.phet.phys2d.laws.Repaint;
+import edu.colorado.phet.phys2d.propagators.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -245,7 +245,13 @@ public class Battery {
         }
 
         public void run() {
-            util.ThreadHelper.quietNap( waitTime );
+//            util.ThreadHelper.quietNap( waitTime );
+            try {
+                Thread.sleep( waitTime );
+            }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+            }
             sys.addLaw( al );
             p.addPainter( al, layer );
         }

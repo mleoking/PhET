@@ -1,10 +1,10 @@
 package edu.colorado.phet.batteryvoltage;
 
-import electron.components.Gauge;
-import phys2d.Particle;
-import phys2d.PropagatingParticle;
-import phys2d.Propagator;
-import phys2d.System2D;
+import edu.colorado.phet.electron.components.Gauge;
+import edu.colorado.phet.phys2d.Particle;
+import edu.colorado.phet.phys2d.PropagatingParticle;
+import edu.colorado.phet.phys2d.Propagator;
+import edu.colorado.phet.phys2d.System2D;
 
 public class GaugeUpdate implements ParticleMoveListener {
     Gauge g;

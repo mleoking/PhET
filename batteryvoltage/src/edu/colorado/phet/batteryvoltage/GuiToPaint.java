@@ -1,6 +1,6 @@
 package edu.colorado.phet.batteryvoltage;
 
-import electron.paint.Painter;
+import edu.colorado.phet.electron.paint.Painter;
 
 import java.awt.*;
 
@@ -12,9 +12,9 @@ import java.awt.*;
  * To change this template use Options | File Templates.
  */
 public class GuiToPaint implements Painter {
-    electron.gui.Painter painter;
+    edu.colorado.phet.electron.gui.Painter painter;
 
-    public GuiToPaint( electron.gui.Painter painter ) {
+    public GuiToPaint( edu.colorado.phet.electron.gui.Painter painter ) {
         this.painter = painter;
     }
 
