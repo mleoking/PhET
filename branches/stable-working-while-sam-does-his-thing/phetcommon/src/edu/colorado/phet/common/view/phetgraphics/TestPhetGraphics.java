@@ -73,7 +73,7 @@ public class TestPhetGraphics {
                 imageGraphic.setPosition( imageLocation.x, imageLocation.y, scale );
             }
         } );
-        SwingTimerClock clock = new SwingTimerClock( 1, 30 );
+        SwingTimerClock clock = new SwingTimerClock( (double)1, 30 );
 
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( AbstractClock c, double dt ) {
@@ -139,11 +139,11 @@ public class TestPhetGraphics {
         jf.setContentPane( panel );
         jf.setSize( 400, 400 );
         jf.setVisible( true );
-        Thread.sleep(1000);
+        Thread.sleep( 1000 );
 
-        PhetShapeGraphic shapeG2=new PhetShapeGraphic( panel, new Ellipse2D.Double(200,200,50,80),Color.green);
+        PhetShapeGraphic shapeG2 = new PhetShapeGraphic( panel, new Ellipse2D.Double( 200, 200, 50, 80 ), Color.green );
         shapeG2.setVisible( true );
-        Thread.sleep(500);
-        panel.addGraphic( shapeG2);
+        Thread.sleep( 500 );
+        panel.addGraphic( shapeG2 );
     }
 }

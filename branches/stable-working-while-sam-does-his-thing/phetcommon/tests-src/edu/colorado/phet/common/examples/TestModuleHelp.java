@@ -32,7 +32,7 @@ public class TestModuleHelp {
 
     public static void main( String[] args ) {
         MyModule mm = new MyModule( "Test Module" );
-        ApplicationModel model = new ApplicationModel( "test", "test", "test", new FrameSetup.CenteredWithSize( 400, 400 ), mm, new SwingTimerClock( 1, 30, true ) );
+        ApplicationModel model = new ApplicationModel( "test", "test", "test", new FrameSetup.CenteredWithSize( 400, 400 ), mm, new SwingTimerClock( (double)1, 30, true ) );
         PhetApplication pa = new PhetApplication( model );
         pa.startApplication();
     }

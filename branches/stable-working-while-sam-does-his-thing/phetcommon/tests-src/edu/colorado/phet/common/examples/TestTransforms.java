@@ -9,10 +9,10 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.graphics.Boundary;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.view.graphics.Boundary;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
@@ -125,7 +125,7 @@ public class TestTransforms extends Module {
     }
 
     public static void main( String[] args ) {
-        AbstractClock ac = new SwingTimerClock( 1, 30, true );
+        AbstractClock ac = new SwingTimerClock( (double)1, 30, true );
         Module m = new TestTransforms( ac );
         ApplicationModel ad = new ApplicationModel( "Test Transforms", "A Test", "1.0", new FrameSetup.MaxExtent(), m, ac );
 

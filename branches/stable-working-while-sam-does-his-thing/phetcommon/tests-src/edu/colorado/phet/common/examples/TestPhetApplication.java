@@ -134,7 +134,7 @@ public class TestPhetApplication {
 
     public static void main( String[] args ) {
 
-        SwingTimerClock clock = new SwingTimerClock( 1, 30, true );
+        SwingTimerClock clock = new SwingTimerClock( (double)1, 30, true );
         Module module = new MyModule( "Testing", clock, Color.blue );
         Module module2 = new MyModule( "1ntht", clock, Color.red );
         Module module3 = new MyModule2( "Button", clock, Color.red );

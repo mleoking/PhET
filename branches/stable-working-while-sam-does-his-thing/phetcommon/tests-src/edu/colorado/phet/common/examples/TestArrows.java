@@ -43,7 +43,7 @@ public class TestArrows {
         final double r = 200;
         final Arrow arrow = new Arrow( new Point( 200, 300 ), new Point( x0, y0 ), 100, 100, 35, .5, false );
         final ShapeGraphic sg = new ShapeGraphic( arrow.getShape(), Color.blue );
-        SwingTimerClock clock = new SwingTimerClock( 1, 30, true );
+        SwingTimerClock clock = new SwingTimerClock( (double)1, 30, true );
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( AbstractClock c, double dt ) {
                 theta += Math.PI / 128;
