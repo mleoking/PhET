@@ -21,6 +21,12 @@ public class PhetImageGraphic extends PhetGraphic {
         this( component, image, new AffineTransform() );
     }
 
+    public PhetImageGraphic( Component component, BufferedImage image, int x, int y ) {
+        super( component );
+        this.image = image;
+        this.transform = AffineTransform.getTranslateInstance( x, y );
+    }
+
     public PhetImageGraphic( Component component, BufferedImage image, AffineTransform transform ) {
         super( component );
         this.image = image;
