@@ -1044,7 +1044,7 @@ public abstract class PhetGraphic {
 
     ////////////////////////////////////////////////////
     ////////
-    /////////       Key TimeListener code
+    /////////       Key Listener code
 
     public void addKeyListener( KeyListener keyListener ) {
         this.keyListener.addKeyListener( keyListener );
