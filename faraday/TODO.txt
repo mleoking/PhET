@@ -16,8 +16,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - add sliders for changing lightbulb, voltmeter and electron scale
-- add scaling of pixel-space
-- integrate CompassGridRescaler into CompassGridGraphic
 - use PhetGraphic.skipRectangleComputations to bypass calls to AffineTransform.createTransformedShape
 - optimize PickupCoil.updateEmf so that it doesn't do anything if it doesn't have to
 - switch to a dynamic clock with median filtering of dt
@@ -71,6 +69,7 @@ PHETCOMMON:
 
 DONE:
 v0r21
+(4/4) - integrate CompassGridRescaler into CompassGridGraphic
 (4/4) - delete all rescalers except CompassGridRescaler
 (4/4) - modify Faraday algorithm so that there is an emf induced when the #loops in pickup coil changes
 (3/31) - fix delta flux calculation, should be based on the surface area of 1 loop, not total coil area
@@ -350,6 +349,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(4/4) - - add scaling of pixel-space (not necessary, but would be done in DipoleMagnet.getStrengthInside)
 (3/29) - draw needles using Graphics.fillPolygon (no performance improvement)
 (3/29) - transparent bar magnet layer so that field meter looks like it's inside it (no one except Ron asked for this feature)
 (3/29) - redo Turbine model, it should not extend BarMagnet (fine as is for this simulation)
