@@ -160,12 +160,12 @@ public class GraphicLayerSet extends PhetGraphic {
      */
     public void startDragging( MouseEvent event, PhetGraphic activeUnit ) {
         if( this.activeUnit != null ) {
-            this.activeUnit.mouseExited( event );
+            this.activeUnit.fireMouseExited( event );
         }
         this.activeUnit = activeUnit;
-        activeUnit.mouseEntered( event );
-        activeUnit.mousePressed( event );
-        activeUnit.mouseDragged( event );
+        activeUnit.fireMouseEntered( event );
+        activeUnit.fireMousePressed( event );
+        activeUnit.fireMouseDragged( event );
     }
 
     /**
@@ -181,7 +181,7 @@ public class GraphicLayerSet extends PhetGraphic {
             // If the mouse isn't over anything contained in the
             // CompositeGraphic...
             if( activeUnit != null ) {
-                activeUnit.mouseExited( e );
+                activeUnit.fireMouseExited( e );
                 activeUnit = null;
             }
         }
@@ -192,13 +192,13 @@ public class GraphicLayerSet extends PhetGraphic {
             else if( activeUnit == null ) {
                 //Fire a mouse entered, set the active unit.
                 activeUnit = unit;
-                activeUnit.mouseEntered( e );
+                activeUnit.fireMouseEntered( e );
             }
             else if( activeUnit != unit ) {
                 //Switch active units.
-                activeUnit.mouseExited( e );
+                activeUnit.fireMouseExited( e );
                 activeUnit = unit;
-                activeUnit.mouseEntered( e );
+                activeUnit.fireMouseEntered( e );
             }
         }
         //        System.out.println( "activeUnit = " + activeUnit );
@@ -238,20 +238,20 @@ public class GraphicLayerSet extends PhetGraphic {
             //Make sure we're over the active guy.
             handleEntranceAndExit( e );
             if( activeUnit != null ) {
-                activeUnit.mouseClicked( e );
+                activeUnit.fireMouseClicked( e );
             }
         }
 
         public void mousePressed( MouseEvent e ) {
             handleEntranceAndExit( e );
             if( activeUnit != null ) {
-                activeUnit.mousePressed( e );
+                activeUnit.fireMousePressed( e );
             }
         }
 
         public void mouseReleased( MouseEvent e ) {
             if( activeUnit != null ) {
-                activeUnit.mouseReleased( e );
+                activeUnit.fireMouseReleased( e );
             }
         }
 
@@ -277,7 +277,7 @@ public class GraphicLayerSet extends PhetGraphic {
 
         public void mouseDragged( MouseEvent e ) {
             if( activeUnit != null ) {
-                activeUnit.mouseDragged( e );
+                activeUnit.fireMouseDragged( e );
             }
         }
 
@@ -285,7 +285,7 @@ public class GraphicLayerSet extends PhetGraphic {
             //iterate down over the mouse handlers.
             handleEntranceAndExit( e );
             if( activeUnit != null ) {
-                activeUnit.mouseMoved( e );
+                activeUnit.fireMouseMoved( e );
             }
         }
 

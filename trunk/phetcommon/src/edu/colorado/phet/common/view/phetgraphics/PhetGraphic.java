@@ -1,7 +1,6 @@
 /** University of Colorado, PhET*/
 package edu.colorado.phet.common.view.phetgraphics;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.CompositeMouseInputListener;
 import edu.colorado.phet.common.view.graphics.mousecontrols.CursorControl;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationHandler;
@@ -21,7 +20,7 @@ import java.util.Stack;
  * using component.paint(int x,int y,int width,int height).
  * This class manages the current and previous bounds for painting, and whether the region is dirty.
  */
-public abstract class PhetGraphic implements MouseInputListener, Graphic {
+public abstract class PhetGraphic {
     private Point location = new Point();
     private Rectangle lastBounds = null;
     private Rectangle bounds = null;
@@ -236,43 +235,43 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
      * Interactivity methods.
      */
 
-    public void mouseClicked( MouseEvent e ) {
+    public void fireMouseClicked( MouseEvent e ) {
         if( isVisible() ) {
             mouseInputListener.mouseClicked( e );
         }
     }
 
-    public void mousePressed( MouseEvent e ) {
+    public void fireMousePressed( MouseEvent e ) {
         if( isVisible() ) {
             mouseInputListener.mousePressed( e );
         }
     }
 
-    public void mouseReleased( MouseEvent e ) {
+    public void fireMouseReleased( MouseEvent e ) {
         if( isVisible() ) {
             mouseInputListener.mouseReleased( e );
         }
     }
 
-    public void mouseEntered( MouseEvent e ) {
+    public void fireMouseEntered( MouseEvent e ) {
         if( isVisible() ) {
             mouseInputListener.mouseEntered( e );
         }
     }
 
-    public void mouseExited( MouseEvent e ) {
+    public void fireMouseExited( MouseEvent e ) {
         if( isVisible() ) {
             mouseInputListener.mouseExited( e );
         }
     }
 
-    public void mouseDragged( MouseEvent e ) {
+    public void fireMouseDragged( MouseEvent e ) {
         if( isVisible() ) {
             mouseInputListener.mouseDragged( e );
         }
     }
 
-    public void mouseMoved( MouseEvent e ) {
+    public void fireMouseMoved( MouseEvent e ) {
         if( isVisible() ) {
             mouseInputListener.mouseMoved( e );
         }
@@ -344,4 +343,6 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
     protected void setIgnoreMouse( boolean ignoreMouse ) {
         this.ignoreMouse = ignoreMouse;
     }
+
+    public abstract void paint( Graphics2D g );
 }
