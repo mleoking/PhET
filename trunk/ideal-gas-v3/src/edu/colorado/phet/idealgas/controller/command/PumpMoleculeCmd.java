@@ -25,6 +25,7 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
     private Module module;
     protected Class speciesClass;
     private double initialEnergy;
+    private IdealGasModel idealGasModel;
 
 
     //    public PumpMoleculeCmd( IdealGasModel model, double initialEnergy ) {
@@ -49,6 +50,7 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
                             GasMolecule molecule,
                             Module module ) {
         super( model, molecule );
+        this.idealGasModel = model;
         this.molecule = molecule;
         this.module = module;
         this.initialEnergy = DEFAULT_ENERGY;
@@ -65,6 +67,7 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
         else if( molecule instanceof LightSpecies ) {
             graphic = new LightSpeciesGraphic( module.getApparatusPanel(), molecule );
         }
+        idealGasModel.getBox().addContainedBody( molecule );
         module.getApparatusPanel().addGraphic( graphic, 10 );
     }
 

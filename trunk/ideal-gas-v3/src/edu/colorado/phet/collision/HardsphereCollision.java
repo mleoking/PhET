@@ -39,8 +39,8 @@ public abstract class HardsphereCollision implements Collision {
         }
 
         // Step the bodies back to the time of the actual collision
-        //        bodyA.stepInTimeNoNotify( t1 - timeStep );
-        //        bodyB.stepInTimeNoNotify( t1 - timeStep );
+//                bodyA.stepInTimeNoNotify( t1 - timeStep );
+//                bodyB.stepInTimeNoNotify( t1 - timeStep );
 
 
         // Get the kinetic energy of the two bodies. We will have to tweak their velocities after the collision
