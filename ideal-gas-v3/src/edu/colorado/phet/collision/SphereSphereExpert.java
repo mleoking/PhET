@@ -23,8 +23,10 @@ public class SphereSphereExpert implements CollisionExpert {
         boolean haveCollided = false;
         if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB ) ) {
             Collision collision = new SphereSphereCollision( (SphericalBody)bodyA,
-                                                             (SphericalBody)bodyB,
-                                                             model, dt );
+                                                             (SphericalBody)bodyB );
+//            Collision collision = new SphereSphereCollision( (SphericalBody)bodyA,
+//                                                             (SphericalBody)bodyB,
+//                                                             model, dt );
             collision.collide();
             haveCollided = true;
         }

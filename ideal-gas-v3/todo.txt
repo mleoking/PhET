@@ -1,3 +1,4 @@
+- enable leaning animation
 - Combine Rigid Sphere modules
 - Sort CollisionExperts in to the list by their type specificity
 - Hot air balloon doesn't let molecules go in and out.
