@@ -18,14 +18,16 @@ import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.ThreeLevelControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.view.*;
 
 import java.awt.geom.Point2D;
 
-public class OneAtomThreeLevelsModule extends SingleAtomBaseModule {
+public class OneAtomThreeLevelsModule extends BaseLaserModule {
 
-    private MonitorPanel monitorPanel;
+    private ThreeEnergyLevelMonitorPanel monitorPanel;
+    private Atom atom;
 
     public OneAtomThreeLevelsModule( AbstractClock clock ) {
         super( "One Atom / Three Energy Levels" );
@@ -33,5 +35,20 @@ public class OneAtomThreeLevelsModule extends SingleAtomBaseModule {
         monitorPanel = new ThreeEnergyLevelMonitorPanel( (LaserModel)getModel() );
         setMonitorPanel( monitorPanel  );
         setControlPanel( new ThreeLevelControlPanel( this, clock ) );
+    }
+
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        atom = new Atom();
+        atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
+                          getLaserOrigin().getY() + s_boxHeight / 2  );
+        atom.setVelocity( 0, 0 );
+        addAtom( atom );
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        getLaserModel().removeModelElement( atom );
+        atom.removeFromSystem();
     }
 }

@@ -14,10 +14,10 @@ package edu.colorado.phet.lasers.model;
 import edu.colorado.phet.collision.*;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.collision.AtomWallCollision;
-import edu.colorado.phet.lasers.model.collision.PhotonAtomCollision;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollision;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -77,7 +77,8 @@ public class LaserModel extends BaseModel {
 
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
-        if( modelElement instanceof Body ) {
+        if( modelElement instanceof Collidable ) {
+//        if( modelElement instanceof Body ) {
             bodies.add( modelElement );
         }
         if( modelElement instanceof ResonatingCavity ) {
@@ -87,7 +88,8 @@ public class LaserModel extends BaseModel {
 
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
-        if( modelElement instanceof Body ) {
+        if( modelElement instanceof Collidable ) {
+//        if( modelElement instanceof Body ) {
             bodies.remove( modelElement );
         }
     }
@@ -240,7 +242,7 @@ public class LaserModel extends BaseModel {
         void doIt( List collidables ) {
             for( int i = 0; i < collidables.size() - 1; i++ ) {
                 Collidable collidable1 = (Collidable)collidables.get( i );
-                for( int j = i + 0; j < collidables.size(); j++ ) {
+                for( int j = i + 1; j < collidables.size(); j++ ) {
                     Collidable collidable2 = (Collidable)collidables.get( j );
                     for( int k = 0; k < collisionExperts.size(); k++ ) {
                         CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( k );
