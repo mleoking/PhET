@@ -6,42 +6,44 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.lasers.physics.ResonatingCavity;
-import edu.colorado.phet.common.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.model.Particle;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.Observable;
 
-public class ResonatingCavityGraphic extends ShapeGraphic {
+public class ResonatingCavityGraphic extends PhetGraphic implements SimpleObserver {
 
-    private Rectangle2D.Float rep;
+    private Rectangle2D.Double rep;
+    private ResonatingCavity cavity;
 
-    public void init( Particle body ) {
-        super.init( body );
-        ResonatingCavity chamber = (ResonatingCavity)body;
-        rep = new Rectangle2D.Float( (float)chamber.getOrigin().getX(),
-                                     (float)chamber.getOrigin().getY(),
-                                     chamber.getWidth(),
-                                     chamber.getHeight() );
-        setRep( rep );
-//        this.setFill( new Color( 255, 240, 240 ) );
+    public ResonatingCavityGraphic( Component component, ResonatingCavity cavity ) {
+        super( component );
+        this.cavity = cavity;
+        cavity.addObserver( this );
+        rep = new Rectangle2D.Double( cavity.getOrigin().getX(),
+                                      cavity.getOrigin().getY(),
+                                      cavity.getWidth(),
+                                      cavity.getHeight() );
+        //        this.setFill( new Color( 255, 240, 240 ) );
     }
 
-    public void update( Observable o, Object arg ) {
-        super.update( o, arg );
-        if( o instanceof ResonatingCavity ) {
-            ResonatingCavity cavity = (ResonatingCavity)o;
-
-            rep = new Rectangle2D.Float( (float)cavity.getOrigin().getX(),
-                                         (float)cavity.getOrigin().getY(),
-                                         cavity.getWidth(),
-                                         cavity.getHeight() );
-            setRep( rep );
-        }
+    protected Rectangle determineBounds() {
+        return rep.getBounds();
     }
 
-    protected void setPosition( Particle body ) {
+    public void paint( Graphics2D g ) {
+        GraphicsState gs = new GraphicsState( g );
+        g.draw( rep );
+        gs.restoreGraphics();
+    }
+
+    public void update() {
+        rep.setRect( cavity.getOrigin().getX(),
+                     cavity.getOrigin().getY(),
+                     cavity.getWidth(),
+                     cavity.getHeight() );
     }
 }

@@ -8,6 +8,7 @@ package edu.colorado.phet.lasers.controller;
 
 
 import edu.colorado.phet.common.view.PhetControlPanel;
+import edu.colorado.phet.common.application.Module;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,9 +20,10 @@ public class LaserControlPanel extends PhetControlPanel {
      *
      * @param application
      */
-    public LaserControlPanel( ) {
+    public LaserControlPanel( Module module, JPanel controls ) {
+        super( module, controls );
 //    public LaserControlPanel( PhetApplication application ) {
-        init();
+//        init();
     }
 
     /**

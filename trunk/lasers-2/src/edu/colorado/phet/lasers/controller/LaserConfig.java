@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.controller.Config;
+//import edu.colorado.phet.controller.Config;
 
 import java.awt.geom.Point2D;
 import java.awt.*;
 
-public class LaserConfig extends Config {
+public class LaserConfig /*extends Config*/ {
 
     private static final LaserConfig instance = new LaserConfig();
 

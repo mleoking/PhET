@@ -7,6 +7,8 @@
  */
 package edu.colorado.phet.lasers.controller;
 
+import edu.colorado.phet.common.model.clock.AbstractClock;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -18,8 +20,12 @@ public class SimulationRateControlPanel extends JPanel {
 
     private JSlider simulationRateSlider;
     private JTextField simulationRateTF;
+    private AbstractClock clock;
 
-    public SimulationRateControlPanel( int minValue, int maxValue, int defaultValue ) {
+    public SimulationRateControlPanel( AbstractClock clock, int minValue, int maxValue, int defaultValue ) {
+
+        this.clock = clock;
+
         JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
         controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
 
@@ -57,7 +63,9 @@ public class SimulationRateControlPanel extends JPanel {
         this.add( controlPanel );
     }
 
-    private void updateSimulationRate( float time ) {
-        new SetClockDtCmd( time ).doIt();
+    private void updateSimulationRate( double time ) {
+//    private void updateSimulationRate( float time ) {
+        clock.setDt( time );
+//        new SetClockDtCmd( time ).doIt();
     }
 }

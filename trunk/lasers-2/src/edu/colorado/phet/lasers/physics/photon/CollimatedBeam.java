@@ -9,10 +9,12 @@ package edu.colorado.phet.lasers.physics.photon;
 
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.lasers.physics.LaserSystem;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.LinkedList;
 
 /**
  * A CollimatedBeam is a collection of photons that all have identical
@@ -33,7 +35,12 @@ public class CollimatedBeam extends Particle {
     private float photonsPerSecond = 30;
     // Is the collimated beam currently generating photons?
     private boolean isActive;
+    private LaserSystem model;
+    private LinkedList listeners = new LinkedList();
 
+    public interface Listener {
+        void photonCreated( CollimatedBeam beam, Photon photon );
+    }
 
     /**
      *
@@ -42,12 +49,21 @@ public class CollimatedBeam extends Particle {
      * @param height
      * @param width
      */
-    public CollimatedBeam( int wavelength, Point2D.Float origin, float height, float width, Vector2D direction ) {
+    public CollimatedBeam( LaserSystem model, int wavelength, Point2D.Float origin, float height, float width, Vector2D direction ) {
+        this.model = model;
         this.wavelength = wavelength;
         this.origin = origin;
         this.height = height;
         this.width = width;
-        this.velocity = new Vector2D( direction ).normalize().multiply( Photon.s_speed );
+        this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.s_speed );
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
     }
 
     public Point2D.Float getOrigin() {
@@ -127,10 +143,15 @@ public class CollimatedBeam extends Particle {
     public void addPhoton() {
         Photon newPhoton = Photon.create( this );
         newPhoton.setPosition( genPositionX(), genPositionY() + newPhoton.getRadius() );
-        newPhoton.setVelocity( new Vector2D( velocity ) );
+        newPhoton.setVelocity( new Vector2D.Double( velocity ) );
         newPhoton.setWavelength( this.wavelength );
-        new AddParticleCmd( newPhoton ).doIt();
+        model.addModelElement( newPhoton );
+//        new AddParticleCmd( newPhoton ).doIt();
         photons.add( newPhoton );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.photonCreated( this, newPhoton );
+        }
     }
 
     /**
@@ -184,7 +205,7 @@ public class CollimatedBeam extends Particle {
      *
      * @return
      */
-    private float genPositionY() {
+    private double genPositionY() {
         float yDelta = velocity.getX() != 0 ? (float)Math.random() * height : 0;
         return this.getPosition().getY() + yDelta;
     }
@@ -193,7 +214,7 @@ public class CollimatedBeam extends Particle {
      *
      * @return
      */
-    private float genPositionX() {
+    private double genPositionX() {
         float xDelta = velocity.getY() != 0 ? (float)Math.random() * width : 0;
         return this.getPosition().getX() + xDelta;
     }
