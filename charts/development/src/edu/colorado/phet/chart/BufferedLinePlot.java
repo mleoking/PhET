@@ -74,6 +74,9 @@ public class BufferedLinePlot implements DataSet.Observer {
     private void drawToBuffer( Line2D line ) {
         if( isVisible() ) {
             Graphics2D g2 = bufferedPhetGraphic.getBuffer().createGraphics();
+            g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
+            g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            g2.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY );
             g2.setStroke( stroke );
             g2.setPaint( paint );
             Shape origClip = g2.getClip();
@@ -97,6 +100,9 @@ public class BufferedLinePlot implements DataSet.Observer {
         if( generalPath != null ) {
             Stroke oldStroke = graphics2D.getStroke();
             Paint oldPaint = graphics2D.getPaint();
+            graphics2D.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
+            graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            graphics2D.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY );
             graphics2D.setStroke( stroke );
             graphics2D.setPaint( paint );
             graphics2D.setClip( chart.getViewBounds() );
