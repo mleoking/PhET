@@ -230,7 +230,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
         Rectangle r = new Rectangle( x, y, width, height );
         if( graphicTx != null ) {
-            r = graphicTx.createTransformedShape( r ).getBounds();
+            r = graphicTx.createTransformedShape( r ).getBounds();//TODO I thought PhetGraphics should return their exact screen bounds on a call to phetGraphic.getBounds(), which are the x,y,width,height in this method.
+            //TODO maybe if we just change the transform on the GraphicLayerSet in this object, this would be automatic, and cleaner.
         }
         rectangles.add( r );
     }
