@@ -183,49 +183,52 @@ public class IntensitySlider extends JPanel implements ChangeListener
    */
   public void paintComponent( Graphics g )
   {
-    Graphics2D g2 = (Graphics2D)g;
-    
-    // Save any graphics state that we'll be touching.
-    Paint oldPaint = g2.getPaint();
-    Stroke oldStroke = g2.getStroke();
-    
-    // Use local variables to improve code readability.
-    Component component = _containerPanel;
-    int x = component.getX();
-    int y = component.getY();
-    int w = component.getWidth();
-    int h = component.getHeight();
-    
-    // Create the background shape.
-    Shape shape = new Rectangle2D.Double( x, y, w, h );
-    
-    // Create the gradient fill.
-    Point2D p1, p2;
-    if ( _slider.getOrientation() == JSlider.VERTICAL )
+    if ( super.isVisible() )
     {
-      p1 = new Point2D.Double( x + (w/2), y );
-      p2 = new Point2D.Double( x + (w/2), y + h );
+      Graphics2D g2 = (Graphics2D)g;
+      
+      // Save any graphics state that we'll be touching.
+      Paint oldPaint = g2.getPaint();
+      Stroke oldStroke = g2.getStroke();
+      
+      // Use local variables to improve code readability.
+      Component component = _containerPanel;
+      int x = component.getX();
+      int y = component.getY();
+      int w = component.getWidth();
+      int h = component.getHeight();
+      
+      // Create the background shape.
+      Shape shape = new Rectangle2D.Double( x, y, w, h );
+      
+      // Create the gradient fill.
+      Point2D p1, p2;
+      if ( _slider.getOrientation() == JSlider.VERTICAL )
+      {
+        p1 = new Point2D.Double( x + (w/2), y );
+        p2 = new Point2D.Double( x + (w/2), y + h );
+      }
+      else
+      {
+        p1 = new Point2D.Double( x + w, y + (h/2) );
+        p2 = new Point2D.Double( x, y + (h/2) );
+      }
+      GradientPaint gradient = new GradientPaint( p1, _color, p2, Color.black );
+      
+      // Render the background.
+      g2.setPaint( gradient );
+      g2.fill( shape );
+      g2.setStroke( new BasicStroke( 1f ) );
+      g2.setPaint( Color.white );
+      g2.draw( shape );
+      
+      // Restore the graphics state.
+      g2.setPaint( oldPaint );
+      g2.setStroke( oldStroke );
+      
+      // Render the component.
+      super.paintComponent( g );
     }
-    else
-    {
-      p1 = new Point2D.Double( x + w, y + (h/2) );
-      p2 = new Point2D.Double( x, y + (h/2) );
-    }
-    GradientPaint gradient = new GradientPaint( p1, _color, p2, Color.black );
-    
-    // Render the background.
-    g2.setPaint( gradient );
-    g2.fill( shape );
-    g2.setStroke( new BasicStroke( 1f ) );
-    g2.setPaint( Color.white );
-    g2.draw( shape );
-    
-    // Restore the graphics state.
-    g2.setPaint( oldPaint );
-    g2.setStroke( oldStroke );
-    
-    // Render the component.
-    super.paintComponent( g );
   } // paint
 
 }
