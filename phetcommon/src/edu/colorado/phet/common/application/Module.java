@@ -13,8 +13,6 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.persistence.Persistent;
-import edu.colorado.phet.common.util.persistence.StateDescriptor;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
@@ -61,7 +59,12 @@ public class Module {
     //
     public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
         this.apparatusPanel = apparatusPanel;
-        helpManager = new HelpManager( apparatusPanel );//TODO fix this.
+        if( helpManager != null ) {
+            helpManager.setComponent( apparatusPanel );
+        }
+        else {
+            helpManager = new HelpManager( apparatusPanel );//TODO fix this.
+        }
     }
 
     public ApparatusPanel getApparatusPanel() {
@@ -191,6 +194,10 @@ public class Module {
         if( controlPanel != null && controlPanel instanceof ControlPanel && helpManager.getNumHelpItems() == 0 ) {
             ( (ControlPanel)controlPanel ).setHelpPanelEnabled( false );
         }
+    }
+
+    public HelpManager getHelpManager() {
+        return helpManager;
     }
 
     /**
