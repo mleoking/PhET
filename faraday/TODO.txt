@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- use mutable vectors in DipoleMagnet
+- reuse Strings in FieldMeterGraphic formatter
 - if water wheel hits critical angles, then its rotation appears jerky at some speeds
 - make electrons move at same speed whether grid is on or off
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
@@ -56,6 +56,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/26) - reuse mutable vectors wherever possible (eg, DipoleMagnet.getStrength)
 (3/25) - optimized memory allocation in all classes (optimization)
 (3/25) - add SpacialObserver.getLocation(Point2D) to minimize point allocation (optimization)
 (3/25) - reduce number of points created in ElectronGraphic and QuadBezierSpline (optimization)

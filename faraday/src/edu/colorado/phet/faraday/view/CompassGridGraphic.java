@@ -82,6 +82,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // A reusable point
     private Point _point;
     
+    // A reusable vector
+    private Vector2D _fieldVector;
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -110,6 +113,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         
         _bounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         _point = new Point();
+        _fieldVector = new Vector2D();
         
         _renderingHints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         
@@ -372,9 +376,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
 
                 // Get the magnetic field information at the needle's location.
                 _point.setLocation( needle.getX(), needle.getY() );
-                Vector2D fieldStrength = _magnetModel.getStrength( _point );
-                double angle = fieldStrength.getAngle();
-                double magnitude = fieldStrength.getMagnitude();
+                _magnetModel.getStrength( _point, _fieldVector /* destination */ );
+                double angle = _fieldVector.getAngle();
+                double magnitude = _fieldVector.getMagnitude();
                 
                 // Set the needle's direction.
                 needle.setDirection( angle );

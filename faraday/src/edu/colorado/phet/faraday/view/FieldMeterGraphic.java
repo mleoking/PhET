@@ -89,6 +89,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     private PhetTextGraphic _bText, _bxText, _byText, _angleText;
     private NumberFormat _formatter;
     private Point _point; // reusable point
+    private Vector2D _fieldVector; // reusable vector
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -113,6 +114,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         _formatter = new DecimalFormat( FIELD_FORMAT );
         
         _point = new Point();
+        _fieldVector = new Vector2D();
         
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
@@ -201,11 +203,11 @@ public class FieldMeterGraphic extends CompositePhetGraphic
             
             // Get the values, adjust the coordinate system.
             _point.setLocation( getX(), getY() );
-            Vector2D B = _magnetModel.getStrength( _point );
-            double b = B.getMagnitude();
-            double bx = B.getX();
-            double by = -B.getY(); // +Y is up
-            double angle = -( B.getAngle() );  // +angle is counterclockwise
+            _magnetModel.getStrength( _point, _fieldVector /* destination */ );
+            double b = _fieldVector.getMagnitude();
+            double bx = _fieldVector.getX();
+            double by = -( _fieldVector.getY() ); // +Y is up
+            double angle = -( _fieldVector.getAngle() );  // +angle is counterclockwise
     
             // Format the values.
             String bString = _formatter.format( new Double( b ) );

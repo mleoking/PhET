@@ -35,6 +35,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     private double _emf; // in volts
     private AffineTransform _transform; // a reusable transform
     private Point2D _point; // a reusable point
+    private Vector2D _fieldVector; // a reusable vector
     
     // Debugging stuff...
     private double _maxEmf;
@@ -56,6 +57,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         _emf = 0.0;
         _transform = new AffineTransform();
         _point = new Point2D.Double();
+        _fieldVector = new Vector2D();
     }
     
     //----------------------------------------------------------------------------
@@ -91,12 +93,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             getLocation( _point /* destination */ );
             
             // Find the B field vector at that point.
-            Vector2D strength = _magnetModel.getStrength( _point );
+            _magnetModel.getStrength( _point, _fieldVector /* destination */ );
             
             // Calculate the flux.
-            double B = strength.getMagnitude();
+            double B = _fieldVector.getMagnitude();
             double A = getArea();
-            double theta = Math.abs( strength.getAngle() - getDirection() );
+            double theta = Math.abs( _fieldVector.getAngle() - getDirection() );
             centerFlux = B * A * Math.cos( theta );
         }
         
@@ -111,12 +113,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             _transform.transform( new Point2D.Double( x, y ), _point /* destination */ );
             
             // Find the B field vector at that point.
-            Vector2D strength = _magnetModel.getStrength( _point );
+            _magnetModel.getStrength( _point, _fieldVector /* destination */ );
             
             // Calculate the flux.
-            double B = strength.getMagnitude();
+            double B = _fieldVector.getMagnitude();
             double A = getArea();
-            double theta = Math.abs( strength.getAngle() - getDirection() );
+            double theta = Math.abs( _fieldVector.getAngle() - getDirection() );
             topFlux = B * A * Math.cos( theta );
         }
         
@@ -131,12 +133,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             _transform.transform( new Point2D.Double( x, y ), _point /* destination */ );
             
             // Find the B field vector at that point.
-            Vector2D strength = _magnetModel.getStrength( _point  );
+            _magnetModel.getStrength( _point, _fieldVector /* destination */ );
             
             // Calculate the flux.
-            double B = strength.getMagnitude();
+            double B = _fieldVector.getMagnitude();
             double A = getArea();
-            double theta = Math.abs( strength.getAngle() - getDirection() );
+            double theta = Math.abs( _fieldVector.getAngle() - getDirection() );
             bottomFlux = B * A * Math.cos( theta ); 
         }
         
