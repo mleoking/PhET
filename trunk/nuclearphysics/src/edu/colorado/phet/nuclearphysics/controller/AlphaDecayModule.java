@@ -16,13 +16,11 @@ import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
-import edu.colorado.phet.nuclearphysics.view.Uranium235Graphic;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener {
 
@@ -61,7 +59,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         setUraniumNucleus( nucleus );
 
         // Very ugly, but it works for now
-        ( (Uranium235Graphic)( (ArrayList)NucleusGraphic.getGraphicForNucleus( nucleus ) ).get( 0 ) ).setDisplayLabel( false );
+        //        ( (Uranium235Graphic)( (ArrayList)NucleusGraphic.getGraphicForNucleus( nucleus ) ).get( 0 ) ).setDisplayLabel( false );
 
         nucleus.addDecayListener( this );
 
@@ -86,7 +84,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getPhysicalPanel().removeGraphic( ringGraphic );
         getPhysicalPanel().removeGraphic( leaderLines );
 
-        NucleusGraphic.removeAllGraphics();
+        //        NucleusGraphic.removeAllGraphics();
 
         alphaDecayControlPanel.stopTimer();
     }
@@ -174,12 +172,13 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         //Remove old nucleus
         getModel().removeModelElement( decayProducts.getParent() );
-        java.util.List graphics = (java.util.List)NucleusGraphic.getGraphicForNucleus( decayProducts.getParent() );
-        for( int i = 0; i < graphics.size(); i++ ) {
-            NucleusGraphic ng = (NucleusGraphic)graphics.get( i );
-            getPotentialProfilePanel().removeGraphic( ng );
-            this.getPhysicalPanel().removeGraphic( ng );
-        }
+
+        //        java.util.List graphics = (java.util.List)NucleusGraphic.getGraphicForNucleus( decayProducts.getParent() );
+        //        for( int i = 0; i < graphics.size(); i++ ) {
+        //            NucleusGraphic ng = (NucleusGraphic)graphics.get( i );
+        //            getPotentialProfilePanel().removeGraphic( ng );
+        //            this.getPhysicalPanel().removeGraphic( ng );
+        //        }
         getPotentialProfilePanel().removePotentialProfile( decayProducts.getParent().getPotentialProfile() );
 
         // Bind the alpha particles to the daughter nucleus

@@ -30,7 +30,7 @@ public class NuclearPhysicsModule extends Module {
         super.setApparatusPanel( apparatusPanel );
 
         // Start the model
-        this.setModel( new FissionModel( clock ) );
+        this.setModel( new NuclearPhysicsModel() );
         this.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 // todo: get rid of this, and make the graphics self-painting
@@ -39,8 +39,6 @@ public class NuclearPhysicsModule extends Module {
         } );
 
         physicalPanel = new PhysicalPanel();
-        //        apparatusPanel = new ApparatusPanel();
-        //        super.setApparatusPanel( apparatusPanel );
         apparatusPanel.setLayout( new GridLayout( 1, 1 ) );
         setPhysicalPanel( physicalPanel );
         apparatusPanel.add( physicalPanel );
@@ -68,7 +66,7 @@ public class NuclearPhysicsModule extends Module {
         physicalPanel.addNucleus( nucleus );
     }
 
-    protected void addNeutron( NuclearParticle particle ) {
+    protected void addNeutron( final NuclearParticle particle ) {
         this.getModel().addModelElement( particle );
         final NeutronGraphic ng = new NeutronGraphic( particle );
         physicalPanel.addGraphic( ng );
@@ -76,11 +74,12 @@ public class NuclearPhysicsModule extends Module {
         particle.addListener( new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
                 physicalPanel.removeGraphic( ng );
+                particle.removeListener( this );
             }
         } );
     }
 
-    protected void addNeutron( NuclearParticle particle, Nucleus nucleus ) {
+    protected void addNeutron( final NuclearParticle particle, Nucleus nucleus ) {
         this.getModel().addModelElement( particle );
         final NeutronGraphic ng = new NeutronGraphic( particle );
         physicalPanel.addGraphic( ng );
@@ -88,6 +87,7 @@ public class NuclearPhysicsModule extends Module {
         particle.addListener( new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
                 physicalPanel.removeGraphic( ng );
+                particle.removeListener( this );
             }
         } );
     }

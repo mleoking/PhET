@@ -17,39 +17,14 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
 
     //
     // Static fields and methods
     //
-    private static HashMap graphicToModelMap = new HashMap();
     private static NeutronGraphic neutronGraphic = new NeutronGraphic();
     private static ProtonGraphic protonGraphic = new ProtonGraphic();
-
-    private static void register( NucleusGraphic nucleusGraphic, Nucleus nucleus ) {
-        ArrayList al = (ArrayList)graphicToModelMap.get( nucleus );
-        if( al == null ) {
-            al = new ArrayList();
-            graphicToModelMap.put( nucleus, al );
-        }
-        al.add( nucleusGraphic );
-    }
-
-    public static ArrayList getGraphicForNucleus( Nucleus nucleus ) {
-        Object obj = graphicToModelMap.get( nucleus );
-        return (ArrayList)obj;
-    }
-
-    public static void removeGraphicForNucleus( Nucleus nucleus ) {
-        graphicToModelMap.remove( nucleus );
-    }
-
-    public static void removeAllGraphics() {
-        graphicToModelMap.clear();
-    }
 
     //
     // Instance fields and methods
@@ -61,7 +36,6 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
 
     public NucleusGraphic( Nucleus nucleus ) {
         nucleus.addObserver( this );
-        register( this, nucleus );
         this.nucleus = nucleus;
         this.position.x = nucleus.getPosition().getX();
         this.position.y = nucleus.getPosition().getY();

@@ -1,3 +1,6 @@
+- Make NucleusGraphic a PhetImageGraphic for performance?
+- Alpha particles don't rattle around on the physical panel
+- Single fission doesn't work
 - Spinner for placing nuclei doesn't increment even after some nuclei are placed.
 - percent fisioned text field isn't right while nuclei are being added
 - kabooms need to be on a layer above the containment vessel

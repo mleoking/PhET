@@ -287,12 +287,13 @@ public class PotentialProfilePanel extends ApparatusPanel {
         this.addGraphic( txg );
     }
 
-    public void addNucleusGraphic( Nucleus nucleus ) {
+    public void addNucleusGraphic( final Nucleus nucleus ) {
         final NucleusGraphic ng = new NucleusGraphic( nucleus );
         profileNucleusMap.put( nucleus, ng );
         nucleus.addListener( new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
                 PotentialProfilePanel.this.removeGraphic( ng );
+                nucleus.removeListener( this );
             }
         } );
     }
