@@ -12,7 +12,7 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.text.MessageFormat;
 
 import javax.swing.event.ChangeEvent;
@@ -42,7 +42,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     //----------------------------------------------------------------------------
     
     private static final double BOX_LAYER = 1;
-    private static final double WAVE_BACKGROUND_LAYER = 2;
+    private static final double AXES_LAYER = 2;
     private static final double WAVE_LAYER = 3;
     private static final double WAVE_OVERLAY_LAYER = 4;
     private static final double LABEL_LAYER = 5;
@@ -53,8 +53,10 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     private static final Color TITLE_COLOR = Color.WHITE;
     private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
     private static final Color VALUE_COLOR = Color.GREEN;
+    private static final Color AXES_COLOR = new Color( 255, 255, 255, 100 );
     
-    private static final Dimension WAVE_VIEWPORT_SIZE = new Dimension( 155, 120 );
+    private static final Dimension WAVE_VIEWPORT_SIZE = new Dimension( 157, 124 );
+    private static final Point WAVE_ORIGIN = new Point( 132, 102 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -158,18 +160,43 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             _frequencyFormat = SimStrings.get( "ACPowerSupplyGraphic.frequency.format" );
         }
         
+        // Axes
+        {
+            int xLength = WAVE_VIEWPORT_SIZE.width;
+            int yLength = WAVE_VIEWPORT_SIZE.height;
+            float[] dashPattern = { 5, 5 };
+            Stroke stroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, dashPattern, 0 );
+            
+            // X axis
+            {
+                Line2D shape = new Line2D.Double( -xLength / 2, 0, xLength / 2, 0 );
+                PhetShapeGraphic xAxis = new PhetShapeGraphic( component );
+                xAxis.setShape( shape );
+                xAxis.setBorderColor( AXES_COLOR );
+                xAxis.setStroke( stroke );
+                xAxis.setLocation( WAVE_ORIGIN );
+                addGraphic( xAxis, AXES_LAYER );
+            }
+
+            // Y axis
+            {
+                Line2D shape = new Line2D.Double( 0, -yLength / 2, 0, yLength / 2 );
+                PhetShapeGraphic yAxis = new PhetShapeGraphic( component );
+                yAxis.setShape( shape );
+                yAxis.setBorderColor( AXES_COLOR );
+                yAxis.setStroke( stroke );
+                yAxis.setLocation( WAVE_ORIGIN );
+                addGraphic( yAxis, AXES_LAYER );
+            }
+        }
+        
         // Sine Wave
         {
             _waveGraphic = new SineWaveGraphic( component, WAVE_VIEWPORT_SIZE );
-            _waveGraphic.setLocation( 55, 163 );
+            // Configure cycles so that minimum frequency shows 1 cycle.
+            _waveGraphic.setMaxCycles( FaradayConfig.AC_FREQUENCY_MAX / FaradayConfig.AC_FREQUENCY_MIN );
+            _waveGraphic.setLocation( WAVE_ORIGIN );
             addGraphic( _waveGraphic, WAVE_LAYER );
-            /*
-             * Configure the cycles so the the minimum frequency displays a 1 cycle,
-             * and the maximum displays proportionally more cycles.
-             */
-            final double maxCycles = FaradayConfig.AC_FREQUENCY_MAX / FaradayConfig.AC_FREQUENCY_MIN;
-            _waveGraphic.setMaxCycles( maxCycles );
-            _waveGraphic.setMinCycles( maxCycles / 100.0 );
         }
         
         // Registration point is the bottom center.
