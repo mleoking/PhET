@@ -19,10 +19,7 @@ import java.util.EventListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public interface VisibleColorChangeListener extends EventListener
-{
-  public void colorChanged( VisibleColorChangeEvent event );
+public interface VisibleColorChangeListener extends EventListener {
+
+    public void colorChanged( VisibleColorChangeEvent event );
 }
-
-
-/* end of file */
