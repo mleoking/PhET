@@ -18,7 +18,7 @@ import java.util.List;
 
 public class HotAirBalloon extends HollowSphere {
 
-    public static float s_heatSource = 0;
+    public static double s_heatSource = 0;
 
     private Rectangle2D.Double opening;
     private double theta;
@@ -50,7 +50,7 @@ public class HotAirBalloon extends HollowSphere {
         setOpening();
     }
 
-    public void stepInTime( float dt ) {
+    public void stepInTime( double dt ) {
 
         super.stepInTime( dt );
 
