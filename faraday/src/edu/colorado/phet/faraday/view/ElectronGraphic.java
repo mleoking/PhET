@@ -34,14 +34,6 @@ import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
  * @version $Revision$
  */
 public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // Composite with alpha, used when electron is on the background layer.
-    private static final Composite COMPOSITE = 
-        AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.5f );
     
     //----------------------------------------------------------------------------
     // Instance data
