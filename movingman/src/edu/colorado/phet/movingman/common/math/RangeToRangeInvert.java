@@ -1,4 +1,5 @@
-package edu.colorado.phet.common.math.transforms.functions;
+package edu.colorado.phet.movingman.common.math;
+
 
 /**
  * Created by IntelliJ IDEA.

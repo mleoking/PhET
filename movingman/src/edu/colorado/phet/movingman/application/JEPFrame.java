@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.movingman.application;
 
-import edu.colorado.phet.movingman.common.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import org.nfunk.jep.JEP;
 
 import javax.swing.*;

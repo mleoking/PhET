@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.application.motionsuites;
 
-import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.movingman.application.MovingManModule;
+import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.OscMotion;
 

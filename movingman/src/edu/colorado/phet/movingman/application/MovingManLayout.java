@@ -1,7 +1,9 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.application;
 
-import edu.colorado.phet.common.math.transforms.functions.RangeToRange;
+//import edu.colorado.phet.common.math.transforms.functions.RangeToRange;
+
+import edu.colorado.phet.movingman.common.math.RangeToRange;
 import edu.colorado.phet.movingman.elements.BoxedPlot;
 import edu.colorado.phet.movingman.elements.CursorGraphic;
 

@@ -1,6 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.application;
 
+
 import edu.colorado.phet.common.model.ModelElement;
 
 /**
@@ -9,7 +10,7 @@ import edu.colorado.phet.common.model.ModelElement;
  * Time: 1:12:18 PM
  * Copyright (c) Jul 1, 2003 by Sam Reid
  */
-public abstract class Mode extends ModelElement {
+public abstract class Mode implements ModelElement {
     private String name;
     private MovingManModule module;
     private boolean takingData;

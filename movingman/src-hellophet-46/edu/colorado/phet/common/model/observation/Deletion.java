@@ -1,8 +1,6 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.common.model.observation;
 
-import edu.colorado.phet.common.model.ModelElement;
-
 
 /**
  * User: Sam Reid

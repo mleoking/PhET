@@ -1,7 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.elements;
 
-import edu.colorado.phet.common.model.AutomatedObservable;
+import edu.colorado.phet.movingman.common.AutomatedObservable;
 
 /**
  * User: Sam Reid

@@ -1,5 +1,5 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.common.math.transforms;
+package edu.colorado.phet.movingman.common.transforms;
 
 /**
  * User: Sam Reid

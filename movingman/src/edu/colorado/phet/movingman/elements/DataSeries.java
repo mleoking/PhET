@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman.elements;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.movingman.common.AutomatedObservable;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  * Time: 12:38:31 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class DataSeries extends ModelElement {
+public class DataSeries extends AutomatedObservable implements ModelElement {
     ArrayList pts = new ArrayList();
 
     public DataSeries() {

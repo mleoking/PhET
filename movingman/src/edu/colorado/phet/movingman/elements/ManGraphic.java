@@ -1,18 +1,17 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.elements;
 
-import edu.colorado.phet.common.math.CircularBuffer;
-import edu.colorado.phet.common.math.transforms.functions.RangeToRange;
-import edu.colorado.phet.common.model.command.Command;
-import edu.colorado.phet.common.view.graphics.DragHandler;
+import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
-import edu.colorado.phet.common.view.graphics.arrows.ArrowWithFixedSizeArrowhead;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.movingman.application.MovingManModule;
-import edu.colorado.phet.movingman.common.ImageFlip3;
-import edu.colorado.phet.movingman.common.RescaleOp3;
-import edu.colorado.phet.movingman.common.tests.IdeaGraphic2;
+import edu.colorado.phet.movingman.common.CircularBuffer;
+import edu.colorado.phet.movingman.common.DragHandler;
+import edu.colorado.phet.movingman.common.IdeaGraphic2;
+import edu.colorado.phet.movingman.common.arrows.ArrowWithFixedSizeArrowhead;
+import edu.colorado.phet.movingman.common.math.RangeToRange;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -54,17 +53,12 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
         standingMan = ImageLoader.loadBufferedImage( "images/stand-ii.gif" );
         leftMan = ImageLoader.loadBufferedImage( "images/left-ii.gif" );
         int height = 120;
-//        JFrame frame = new JFrame();
-//        frame.setContentPane( module.getApparatusPanel() );
-//        module.getApparatusPanel().setVisible( true );
-//        frame.setVisible( true );
-        standingMan = RescaleOp3.rescaleYMaintainAspectRatio( module.getApparatusPanel(), standingMan, height );
-        leftMan = RescaleOp3.rescaleYMaintainAspectRatio( module.getApparatusPanel(), leftMan, height );
-        rightMan = ImageFlip3.flipX( leftMan );
+        standingMan = BufferedImageUtils.rescaleYMaintainAspectRatio( module.getApparatusPanel(), standingMan, height );
+        leftMan = BufferedImageUtils.rescaleYMaintainAspectRatio( module.getApparatusPanel(), leftMan, height );
+        rightMan = BufferedImageUtils.flipX( leftMan );
 
         currentImage = standingMan;
         m.addObserver( this );
-//        m.updateObservers();
         inversion = transform.invert();
         update();
     }
@@ -145,19 +139,10 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
 
     private void repaint( Rectangle r1, Rectangle r2 ) {
         Rectangle union = r1.union( r2 );
-//        module.getApparatusPanel().repaint( union );
-        module.getApparatusPanel().paintSoon( union );
+        module.getApparatusPanel().repaint( union );
     }
 
-    public boolean canHandleMousePress( MouseEvent event ) {
-        if( true ) {
-            BufferedImage im = currentImage;
-            Rectangle r = new Rectangle( x - im.getWidth() / 2, y, im.getWidth(), im.getHeight() );
-            return r.contains( event.getPoint() );
-        }
-        else {
-            return false;
-        }
+    public void mouseClicked( MouseEvent e ) {
     }
 
     public void mousePressed( MouseEvent event ) {
@@ -174,11 +159,13 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
             module.getMovingManControlPanel().startRecordingManual();
         }
         final Point newPt = dragHandler.getNewLocation( event.getPoint() );
-//        Rectangle curRect = getRectangle();
         int graphicsPt = newPt.x;
         double manPoint = inversion.evaluate( graphicsPt );
         m.setX( manPoint );
         setShowIdea( false );
+    }
+
+    public void mouseMoved( MouseEvent e ) {
     }
 
     public Rectangle getRectangle() {
@@ -208,4 +195,8 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
         update( null, null );
     }
 
+    public boolean contains( int x, int y ) {
+        Rectangle r = new Rectangle( this.x - currentImage.getWidth() / 2, this.y, currentImage.getWidth(), currentImage.getHeight() );
+        return r.contains( x, y );
+    }
 }

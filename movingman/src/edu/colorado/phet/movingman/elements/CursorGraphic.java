@@ -1,12 +1,12 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.elements;
 
-import edu.colorado.phet.common.math.transforms.BoxToBoxInvertY;
-import edu.colorado.phet.common.view.GraphicsState;
-import edu.colorado.phet.common.view.graphics.DragHandler;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.movingman.application.MovingManModule;
+import edu.colorado.phet.movingman.common.DragHandler;
+import edu.colorado.phet.movingman.common.GraphicsState;
+import edu.colorado.phet.movingman.common.transforms.BoxToBoxInvertY;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -93,7 +93,7 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
     private void repaint( Rectangle s1, Rectangle s2 ) {
         Rectangle union = s1.union( s2 );
 //        module.getApparatusPanel().repaint( union );
-        module.getApparatusPanel().paintSoon( union );
+        module.getApparatusPanel().repaint( union );
     }
 
     private Rectangle getShape() {
@@ -108,6 +108,9 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
         return r.contains( event.getPoint() );
     }
 
+    public void mouseClicked( MouseEvent e ) {
+    }
+
     public void mousePressed( MouseEvent event ) {
         Point start = new Point( x, y );
         this.dragHandler = new DragHandler( event.getPoint(), start );
@@ -119,6 +122,9 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
         Point2D.Double input = new Point2D.Double( xCoord, 0 );
         double requestedTime = inversion.transform( input ).x;
         module.cursorMovedToTime( requestedTime );
+    }
+
+    public void mouseMoved( MouseEvent e ) {
     }
 
     public void mouseReleased( MouseEvent event ) {
@@ -139,5 +145,13 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
 
     public void updateYourself() {
         update( timer, null );
+    }
+
+    public boolean contains( int x, int y ) {
+        if( !visible || transform == null ) {
+            return false;
+        }
+        Rectangle r = new Rectangle( this.x, this.y, width, height );
+        return r.contains( x, y );
     }
 }

@@ -1,7 +1,6 @@
-package edu.colorado.phet.common.math.transforms;
+package edu.colorado.phet.movingman.common.transforms;
 
-import edu.colorado.phet.common.math.transforms.functions.RangeToRange;
-import edu.colorado.phet.common.math.transforms.functions.RangeToRangeInvert;
+import edu.colorado.phet.movingman.common.math.RangeToRange;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -9,22 +8,23 @@ import java.awt.geom.Rectangle2D;
 /**
  * Transforms from a to b rectangles by translation and scale.
  */
-public class BoxToBoxInvertY implements InvertibleTransform, IBoxToBox {
+public class BoxToBox implements InvertibleTransform, IBoxToBox {
     RangeToRange xtrf;
-    RangeToRangeInvert ytrf;
+    RangeToRange ytrf;
     Rectangle2D in;
     Rectangle2D out;
 
     //A is the input rectangle, B is the output rectangle.
-    public BoxToBoxInvertY( Rectangle2D in, Rectangle2D out ) {
+    public BoxToBox( Rectangle2D in, Rectangle2D out ) {
         this.in = in;
         this.out = out;
         setState();
+
     }
 
     private void setState() {
         xtrf = new RangeToRange( in.getX(), in.getX() + in.getWidth(), out.getX(), out.getX() + out.getWidth() );
-        ytrf = new RangeToRangeInvert( in.getY(), in.getY() + in.getHeight(), out.getY(), out.getY() + out.getHeight() );
+        ytrf = new RangeToRange( in.getY(), in.getY() + in.getHeight(), out.getY(), out.getY() + out.getHeight() );
     }
 
     public Rectangle2D getInputBounds() {

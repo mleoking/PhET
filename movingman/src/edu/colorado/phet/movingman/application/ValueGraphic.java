@@ -1,8 +1,8 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.application;
 
-import edu.colorado.phet.common.view.GraphicsState;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
+import edu.colorado.phet.movingman.common.GraphicsState;
 import edu.colorado.phet.movingman.elements.BoxedPlot;
 import edu.colorado.phet.movingman.elements.DataSeries;
 import edu.colorado.phet.movingman.elements.Timer;
@@ -122,7 +122,7 @@ public class ValueGraphic implements ObservingGraphic {
         else {
             union = r1.union( shape );
         }
-        module.getApparatusPanel().paintSoon( union );
+        module.getApparatusPanel().repaint( union );
     }
 
     public void setPosition( int x, int y ) {

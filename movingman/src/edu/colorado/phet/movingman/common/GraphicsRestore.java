@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.view;
+package edu.colorado.phet.movingman.common;
 
 import java.awt.*;
 

@@ -1,12 +1,12 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.elements;
 
-import edu.colorado.phet.common.math.transforms.BoxToBoxInvertY;
-import edu.colorado.phet.common.view.GraphicsState;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
-import edu.colorado.phet.common.view.graphics.TransformJSlider;
 import edu.colorado.phet.movingman.application.MovingManModule;
+import edu.colorado.phet.movingman.common.GraphicsState;
+import edu.colorado.phet.movingman.common.TransformJSlider;
+import edu.colorado.phet.movingman.common.transforms.BoxToBoxInvertY;
 
 import javax.swing.*;
 import java.awt.*;
@@ -191,7 +191,7 @@ public class BoxedPlot implements ObservingGraphic {
     }
 
     private void repaint( Rectangle rect ) {
-        module.getApparatusPanel().paintSoon( rect );
+        module.getApparatusPanel().repaint( rect );
     }
 
     public Rectangle2D getInputBounds() {
