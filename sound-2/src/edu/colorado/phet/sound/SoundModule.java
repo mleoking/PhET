@@ -8,14 +8,20 @@ package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.sound.model.SoundModel;
-import edu.colorado.phet.sound.model.Wavefront;
-import edu.colorado.phet.sound.model.SineWaveFunction;
-import edu.colorado.phet.sound.model.WavefrontOscillator;
+import edu.colorado.phet.sound.model.*;
 import edu.colorado.phet.sound.view.SingleSourceApparatusPanel;
+
+import java.awt.geom.Point2D;
 
 public class SoundModule extends Module {
     protected boolean audioEnabled = false;
+    private Wavefront primaryWavefront;
+    private Wavefront octaveWavefront;
+    private WavefrontOscillator primaryOscillator;
+    private WavefrontOscillator octaveOscillator;
+//    private Listener speakerListener = new Listener();
+//    private Listener headListener = new Listener();
+    private Listener currentListener;
 
     public SoundModule( String name ) {
         super( name );
@@ -53,29 +59,27 @@ public class SoundModule extends Module {
     protected void initModel() {
 
         // Set up the primary wavefront
-        Wavefront primaryWavefront = new Wavefront( getSoundModel() );
+        primaryWavefront = new Wavefront( getSoundModel() );
         primaryWavefront.setWaveFunction( new SineWaveFunction( primaryWavefront ) );
-//        primaryWavefront.setConePosition( 0, 0 );
         // todo: these lines should be collapsed into one call
         getSoundModel().addWaveFront( primaryWavefront );
         getSoundModel().setPrimaryWavefront( primaryWavefront );
         primaryWavefront.setEnabled( true );
-        getSoundModel().setPrimaryOscillator( new WavefrontOscillator( primaryWavefront ) );
+        primaryOscillator = new WavefrontOscillator( primaryWavefront, getModel() );
+        getSoundModel().setPrimaryOscillator( primaryOscillator );
 
-        Wavefront octaveWavefront = new Wavefront( getSoundModel() );
+        // Set up the octave wavefront
+        octaveWavefront = new Wavefront( getSoundModel() );
         octaveWavefront.setWaveFunction( new SineWaveFunction( octaveWavefront ) );
         octaveWavefront.setMaxAmplitude( 0 );
-        //        octaveWavefront.setConePosition( 0, 0 );
         octaveWavefront.setEnabled( false );
-
         // todo: these lines should be collapsed into one call
         getSoundModel().addWaveFront( octaveWavefront );
         getSoundModel().setOctaveWavefront( octaveWavefront );
-
-        getSoundModel().setOctaveOscillator( new WavefrontOscillator( octaveWavefront ) );
+        octaveOscillator = new WavefrontOscillator( octaveWavefront, getModel() );
+        getSoundModel().setOctaveOscillator( octaveOscillator );
 
         setAudioEnabled( audioEnabled );
-        setAudioSource( SingleSourceApparatusPanel.SPEAKER_SOURCE );
         getSoundModel().setFrequency( SoundConfig.s_defaultFrequency );
     }
 
@@ -86,4 +90,19 @@ public class SoundModule extends Module {
     public void setAudioSource( int source ) {
         getSoundModel().setAudioSource( source );
     }
+
+    public WavefrontOscillator getPrimaryOscillator() {
+        return primaryOscillator;
+    }
+
+    public WavefrontOscillator getOctaveOscillator() {
+        return octaveOscillator;
+    }
+
+    public void setListener( Listener listener ) {
+        currentListener = listener;
+        getPrimaryOscillator().observe( listener );
+        getOctaveOscillator().observe( listener );
+    }
+
 }

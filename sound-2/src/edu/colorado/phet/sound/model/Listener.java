@@ -22,5 +22,6 @@ public class Listener extends SimpleObservable{
 
     public void setLocation( Point2D.Double location ) {
         this.location = location;
+        notifyObservers();
     }
 }
