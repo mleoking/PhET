@@ -1,16 +1,11 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.common.tests.phetjcomponents;
+package edu.colorado.phet.common.view.phetcomponents;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.MouseInputAdapter;
-import javax.swing.plaf.SpinnerUI;
-import javax.swing.plaf.basic.BasicSpinnerUI;
-import javax.swing.text.Caret;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.*;
@@ -30,31 +25,39 @@ import java.util.Arrays;
  */
 
 public class PhetJComponent extends PhetGraphic {
-    private JComponent component;
+
     private static final JWindow offscreen;
+
+    private JComponent component;
     private BufferedImage image;
-    private boolean autorepaintCaret = true;
+    private MouseInputAdapter mouseListener;
+    private KeyListener keyHandler;
 
     static {
         offscreen = new JWindow();       //this seems to work.  I thought you might have needed a visible component, though (maybe for some JVM implementations?)
         offscreen.getContentPane().setLayout( null ); //so we can use reshape for absolute layout.
-//        offscreen.setVisible( false );
     }
 
-    public PhetJComponent( ApparatusPanel ap, JComponent jb ) {
+    public static PhetJComponent newInstance( ApparatusPanel apparatusPanel, JComponent jComponent ) {
+        //some special cases.
+        if( jComponent instanceof JTextComponent ) {
+            return new PhetJTextComponent( apparatusPanel, (JTextComponent)jComponent );
+        }
+        else if( jComponent instanceof JToggleButton ) {
+            return new PhetJToggleButton( apparatusPanel, (JToggleButton)jComponent );
+        }
+        else {
+            return new PhetJComponent( apparatusPanel, jComponent );
+        }
+    }
+
+    protected PhetJComponent( ApparatusPanel ap, final JComponent component ) {
         super( ap );
-        this.component = jb;
+        this.component = component;
         offscreen.getContentPane().add( component );
         redraw();
-        if( jb instanceof JToggleButton ) {//good candidate for factory method on PhetJComponent.
-            JToggleButton jtb = (JToggleButton)jb;
-            jtb.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    redraw();
-                }
-            } );
-        }
-        jb.addPropertyChangeListener( new PropertyChangeListener() {
+
+        component.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 System.out.println( "evt = " + evt );
                 SwingUtilities.invokeLater( new Runnable() {
@@ -67,7 +70,7 @@ public class PhetJComponent extends PhetGraphic {
 
         //TODO see about InputMethodListener
 
-        jb.addFocusListener( new FocusAdapter() {
+        component.addFocusListener( new FocusAdapter() {
             public void focusGained( FocusEvent e ) {
                 redraw();
             }
@@ -78,26 +81,22 @@ public class PhetJComponent extends PhetGraphic {
         } );
 
         System.out.println( "component.getMouseListeners() = " + Arrays.asList( component.getMouseListeners() ) );
-        addMouseInputListener( new MouseInputAdapter() {
+        mouseListener = new MouseInputAdapter() {
             // implements java.awt.event.MouseListener
             public void mouseClicked( MouseEvent e ) {
-                applyEvent( e, new MouseMethod() {
+                applyEvent( e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseClicked( newEvent );
                     }
 
-                    public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
-                    }
                 } );
 
             }
 
             // implements java.awt.event.MouseMotionListener
             public void mouseDragged( MouseEvent e ) {
-                applyEvent( e, new MouseMethod() {
-                    public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
-                    }
+                applyEvent( e, new MouseMotionListenerMethod() {
 
                     public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
                         mouseMotionListener.mouseDragged( newEvent );
@@ -107,37 +106,29 @@ public class PhetJComponent extends PhetGraphic {
 
             // implements java.awt.event.MouseListener
             public void mouseEntered( MouseEvent e ) {
-                applyEvent( e, new MouseMethod() {
+                applyEvent( e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseEntered( newEvent );
                     }
 
-                    public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
-                    }
                 } );
             }
 
             // implements java.awt.event.MouseListener
             public void mouseExited( MouseEvent e ) {
-                applyEvent( e, new MouseMethod() {
+                applyEvent( e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseExited( newEvent );
                     }
 
-                    public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
-                    }
                 } );
             }
 
             // implements java.awt.event.MouseMotionListener
             public void mouseMoved( MouseEvent e ) {
-                applyEvent( e, new MouseMethod() {
-
-                    public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
-
-                    }
+                applyEvent( e, new MouseMotionListenerMethod() {
 
                     public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
                         mouseMotionListener.mouseMoved( newEvent );
@@ -147,83 +138,54 @@ public class PhetJComponent extends PhetGraphic {
 
             // implements java.awt.event.MouseListener
             public void mousePressed( MouseEvent e ) {
-                applyEvent( e, new MouseMethod() {
+                applyEvent( e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mousePressed( newEvent );
                     }
 
-                    public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
-                    }
                 } );
+
             }
 
             // implements java.awt.event.MouseListener
             public void mouseReleased( MouseEvent e ) {
-                applyEvent( e, new MouseMethod() {
+                applyEvent( e, new MouseListenerMethod() {
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseReleased( newEvent );
                     }
 
-                    public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
-                    }
                 } );
 
             }
-        } );
+        };
+        addMouseInputListener( mouseListener );
 
-        addKeyListener( new KeyListener() {
+        keyHandler = new KeyListener() {
             public void keyPressed( KeyEvent e ) {
-                KeyStroke stroke = KeyStroke.getKeyStrokeForEvent( e );
-                ActionListener al = component.getActionForKeyStroke( stroke );
-                ActionEvent ae = new ActionEvent( component, e.getID(), e.getKeyChar() + "", e.getWhen(), e.getModifiers() );
-
-                if( al != null ) {
-                    al.actionPerformed( ae );
-                    redraw();
-                }
+                handleKeypress( e );
             }
 
             public void keyReleased( KeyEvent e ) {
-                KeyStroke stroke = KeyStroke.getKeyStrokeForEvent( e );
-                ActionListener al = component.getActionForKeyStroke( stroke );
-                if( e == null ) {
-                    throw new RuntimeException( "Null keyEvent." );
-                }
-                ActionEvent ae = new ActionEvent( component, e.getID(), e.getKeyChar() + "", e.getWhen(), e.getModifiers() );
-                if( al != null ) {
-                    al.actionPerformed( ae );
-                    redraw();
-                }
+                handleKeypress( e );
             }
 
             public void keyTyped( KeyEvent e ) {
-                KeyStroke stroke = KeyStroke.getKeyStrokeForEvent( e );
-                ActionListener al = component.getActionForKeyStroke( stroke );
-                if( e == null ) {
-                    throw new RuntimeException( "Null keyEvent." );
-                }
-                ActionEvent ae = new ActionEvent( component, e.getID(), e.getKeyChar() + "", e.getWhen(), e.getModifiers() );
+                handleKeypress( e );
+            }
+        };
+        addKeyListener( keyHandler );
 
-                if( al != null ) {
-                    al.actionPerformed( ae );
-                    redraw();
-                }
-            }
-        } );
-        if( component instanceof JTextComponent ) {
-            JTextComponent jtc = (JTextComponent)component;
-            Caret caret = jtc.getCaret();
-            int blinkRate = caret.getBlinkRate();
-            ActionListener actionListener = new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    redraw();//todo just redraw the caret region.
-                }
-            };
-            Timer timer = new Timer( blinkRate, actionListener );
-            if( autorepaintCaret ) {
-                timer.start();
-            }
+    }
+
+    private void handleKeypress( KeyEvent e ) {
+        KeyStroke stroke = KeyStroke.getKeyStrokeForEvent( e );
+        ActionListener al = component.getActionForKeyStroke( stroke );
+        ActionEvent ae = new ActionEvent( component, e.getID(), e.getKeyChar() + "", e.getWhen(), e.getModifiers() );
+
+        if( al != null ) {
+            al.actionPerformed( ae );
+            redraw();
         }
     }
 
@@ -233,20 +195,33 @@ public class PhetJComponent extends PhetGraphic {
         //need an intelligent conversion of mouse point.
         Point pt = toLocalFrame( e.getPoint() );
 
-//        System.out.println( "pt = " + pt );
-
         MouseEvent newEvent = new MouseEvent( component, e.getID(), System.currentTimeMillis(), e.getModifiers(), pt.x, pt.y, e.getClickCount(), e.isPopupTrigger(), e.getButton() );
         //pass to all listeners, some will be no-ops.//could be rewritten for understandability.
-        for( int i = 0; i < ml.length; i++ ) {
-            MouseListener mouseListener = ml[i];
-            mouseMethod.invoke( mouseListener, newEvent );
+        boolean changed = false;
+        if( mouseMethod instanceof PhetJComponent.MouseListenerMethod ) {
+            MouseListenerMethod mle = (MouseListenerMethod)mouseMethod;
+            for( int i = 0; i < ml.length; i++ ) {
+                MouseListener mouseListener = ml[i];
+                mle.invoke( mouseListener, newEvent );
+                changed = true;
+            }
         }
-        MouseMotionListener[] mml = component.getMouseMotionListeners();
-        for( int i = 0; i < mml.length; i++ ) {
-            MouseMotionListener mouseMotionListener = mml[i];
-            mouseMethod.invoke( mouseMotionListener, newEvent );
+        else if( mouseMethod instanceof MouseMotionListenerMethod ) {
+            MouseMotionListenerMethod mmlm = (MouseMotionListenerMethod)mouseMethod;
+
+            MouseMotionListener[] mml = component.getMouseMotionListeners();
+            for( int i = 0; i < mml.length; i++ ) {
+                MouseMotionListener mouseMotionListener = mml[i];
+                mmlm.invoke( mouseMotionListener, newEvent );
+                changed = true;
+            }
         }
-        redraw();
+        else {
+            throw new RuntimeException( "Illegal mouse handler class: " + mouseMethod );
+        }
+        if( changed ) {
+            redraw();
+        }
     }
 
     private Point toLocalFrame( Point point ) {
@@ -261,13 +236,10 @@ public class PhetJComponent extends PhetGraphic {
         }
     }
 
-    static interface MouseMethod {
-        public void invoke( MouseListener mouseListener, MouseEvent newEvent );
-
-        public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent );
+    private static interface MouseMethod {
     }
 
-    private void redraw() {
+    protected void redraw() {
         component.reshape( 0, 0, component.getPreferredSize().width, component.getPreferredSize().height );
         if( image == null ) {
             image = new BufferedImage( component.getPreferredSize().width, component.getPreferredSize().height, BufferedImage.TYPE_INT_RGB );
@@ -289,38 +261,12 @@ public class PhetJComponent extends PhetGraphic {
         g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
         g2.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
         component.paint( g2 );
-
-        if( component instanceof JSpinner ) {
-            JSpinner js = (JSpinner)component;
-            SpinnerUI su = js.getUI();
-            BasicSpinnerUI bsu = (BasicSpinnerUI)su;
-
-//            js.getEditor().setPreferredSize( new Dimension( 10, 10 ) );
-//            js.getEditor().paint( g2 );
-//            js.getParent().paintComponents( g2 );
-//            JComponent jc=js.
-//            js.get
-        }
-
-        /**How to handle text..?*/
-        if( component instanceof JTextComponent ) {
-            JTextComponent jtc = (JTextComponent)component;
-            Caret caret = jtc.getCaret();
-            caret.setVisible( true );
-            caret.setSelectionVisible( true );
-            int blinkie = caret.getBlinkRate();
-            long time = System.currentTimeMillis();
-            long remainder = time % ( blinkie * 2 );
-            if( remainder <= 500 ) {
-                caret.paint( g2 );
-            }
-//            if( System.currentTimeMillis() % blinkie ) {
-//                caret.paint( g2 );
-//            }
-        }
-
         setBoundsDirty();
         autorepaint();
+    }
+
+    protected Graphics2D createGraphics() {
+        return image.createGraphics();
     }
 
     /**
@@ -328,7 +274,6 @@ public class PhetJComponent extends PhetGraphic {
      */
     protected void forceRepaint() {
         syncBounds();
-//        component.paintImmediately( getBounds() );
         Rectangle bounds = getBounds();
         getComponent().repaint( bounds.x, bounds.y, bounds.width, bounds.height );
     }
@@ -350,6 +295,18 @@ public class PhetJComponent extends PhetGraphic {
             }
             super.restoreGraphicsState();
         }
+    }
+
+    private interface MouseListenerMethod extends MouseMethod {
+
+        public void invoke( MouseListener mouseListener, MouseEvent newEvent );
+
+    }
+
+    private interface MouseMotionListenerMethod extends MouseMethod {
+
+        public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent );
+
     }
 
 }
