@@ -1,3 +1,7 @@
+- fix distortion when turning
+
+- resize star graphics as ship gets closer and farther from star
+
 - Handle situation where cockpit is at same location as a star. The isVisible test needs to handle this.
 
 - Make fixed star distance much larger, and debug the problems with this.

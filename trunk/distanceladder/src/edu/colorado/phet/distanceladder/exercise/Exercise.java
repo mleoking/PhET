@@ -8,23 +8,23 @@
 package edu.colorado.phet.distanceladder.exercise;
 
 import edu.colorado.phet.coreadditions.fsm.FsmState;
-import edu.colorado.phet.coreadditions.fsm.FsmTransition;
-import edu.colorado.phet.coreadditions.fsm.FsmEvent;
+
+import javax.swing.*;
 
 public class Exercise extends FsmState {
     private ExerciseModel model;
     private ExerciseView view;
 
-    public Exercise( ExerciseModel model ) {
+    public Exercise( ExerciseModel model, JFrame owner ) {
         this.model = model;
-        view = new ExerciseView( model );
+        view = new ExerciseView( model, owner );
 //
 //        for( int i = 0; i < model.getChoices().length; i++ ){
 //            FsmTransition transition = new FsmTransition( new Choice( model.getChoices()[i]) );
 //        }
     }
 
-    public void doIt() {
-        view.doIt();
+    public boolean doIt() {
+        return view.doIt();
     }
 }

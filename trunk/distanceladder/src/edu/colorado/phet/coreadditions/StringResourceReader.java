@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.coreadditions;
 
-import java.io.InputStream;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class StringResourceReader {
 
@@ -37,5 +37,4 @@ public class StringResourceReader {
         }
         return resourceBuffer.toString();
     }
-
 }
