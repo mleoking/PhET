@@ -60,7 +60,7 @@ public class SimpleBufferedImageGraphic implements BoundedGraphic {
         return transform;
     }
 
-    public void setPosition( int centerX, int centerY ) {
+    public void setLocation( int centerX, int centerY ) {
         setPosition( new Point( centerX, centerY ) );
     }
 

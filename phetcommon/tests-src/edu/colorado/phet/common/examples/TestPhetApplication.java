@@ -150,7 +150,7 @@ public class TestPhetApplication {
         applicationModel.setInitialModule( modulePhotons );
         applicationModel.setUseClockControlPanel( false );
 
-        PhetApplication app = new PhetApplication( applicationModel, null );
+        PhetApplication app = new PhetApplication( applicationModel );
         app.startApplication();
     }
 

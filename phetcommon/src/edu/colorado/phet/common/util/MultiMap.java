@@ -158,13 +158,15 @@ public class MultiMap extends TreeMap {
      */
     private class ReverseIterator extends MultiMapIterator {
         private ArrayList currentList;
-        private int currentListIdx;
+        private int currentListIdx = 0;
 
         public ReverseIterator() {
-            Object currentLastKey = MultiMap.this.lastKey();
-            if( currentLastKey != null ) {
-                currentList = (ArrayList)MultiMap.this.get( currentLastKey );
-                currentListIdx = currentList.size();
+            if( !MultiMap.this.isEmpty() ) {
+                Object currentLastKey = MultiMap.this.lastKey();
+                if( currentLastKey != null ) {
+                    currentList = (ArrayList)MultiMap.this.get( currentLastKey );
+                    currentListIdx = currentList.size();
+                }
             }
         }
 

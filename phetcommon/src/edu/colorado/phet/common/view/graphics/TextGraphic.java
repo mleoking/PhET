@@ -8,6 +8,7 @@ package edu.colorado.phet.common.view.graphics;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class TextGraphic implements BoundedGraphic {
@@ -45,5 +46,47 @@ public class TextGraphic implements BoundedGraphic {
             Rectangle2D bounds = font.getStringBounds( text, fontRenderContext );
             return bounds.contains( x, y );
         }
+    }
+
+    public void setText( String text ) {
+        this.text = text;
+    }
+
+    public void setFont( Font font ) {
+        this.font = font;
+    }
+
+    public void setLocation( float x, float y ) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public Font getFont() {
+        return font;
+    }
+
+    public Point2D.Float getLocation() {
+        return new Point2D.Float( x, y );
+    }
+
+    public Paint getPaint() {
+        return paint;
+    }
+
+    public void setPaint( Paint paint ) {
+        this.paint = paint;
+    }
+
+    public Rectangle2D getBounds() {
+        Rectangle2D result = null;
+        if( fontRenderContext != null ) {
+            result = font.getStringBounds( text, fontRenderContext );
+            result.setRect( result.getX() + x, result.getY() + y, result.getWidth(), result.getHeight() );
+        }
+        return result;
     }
 }

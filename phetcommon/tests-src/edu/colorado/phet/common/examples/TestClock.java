@@ -30,7 +30,7 @@ import java.util.Observer;
 public class TestClock extends PhetApplication {
 
     public TestClock( ApplicationModel descriptor, Module m, AbstractClock clock ) {
-        super( descriptor, null );
+        super( descriptor );
     }
 
     static class MyModule extends Module {
