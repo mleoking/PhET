@@ -2,6 +2,7 @@
 package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -36,5 +37,9 @@ public class SimpleControlPanel extends ControlPanel {
 
     public void updateGraphics() {
         fbdSuite.updateGraphics();
+    }
+
+    public void reset() {
+        fbdSuite.reset();
     }
 }

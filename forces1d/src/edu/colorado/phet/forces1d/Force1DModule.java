@@ -15,6 +15,7 @@ import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
+import edu.colorado.phet.forces1d.view.Force1DLookAndFeel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
 
 import javax.swing.*;
@@ -38,6 +39,7 @@ public class Force1DModule extends Module {
     private static boolean readyToRender = false;
     private DefaultPlaybackPanel playbackPanel;
     private PhetFrame phetFrame;
+    private Force1DLookAndFeel force1DLookAndFeel = new Force1DLookAndFeel();
 
     public Force1DModule( AbstractClock clock ) throws IOException {
         this( clock, "Advanced Controls" );
@@ -68,7 +70,9 @@ public class Force1DModule extends Module {
 
         ModelElement updateGraphics = new ModelElement() {
             public void stepInTime( double dt ) {
+//                System.out.println( "Updating graphics." );
                 updateGraphics();
+
 //                forcePanel.paint();
             }
         };
@@ -99,6 +103,7 @@ public class Force1DModule extends Module {
     public void reset() {
         forceModel.reset();
         forcePanel.reset();
+        forceControlPanel.reset();
     }
 
     public void cursorMovedToTime( double modelX, int index ) {
@@ -217,5 +222,9 @@ public class Force1DModule extends Module {
 
     public PhetFrame getPhetFrame() {
         return phetFrame;
+    }
+
+    public Force1DLookAndFeel getForce1DLookAndFeel() {
+        return force1DLookAndFeel;
     }
 }

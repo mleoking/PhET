@@ -20,14 +20,19 @@ import java.awt.geom.Point2D;
  * To change this template use File | Settings | File Templates.
  */
 public class WiggleMe extends CompositePhetGraphic {
-    private Font font = new Font( "Lucida Sans", Font.BOLD, 22 );
+    private Font font;
     private long t0 = System.currentTimeMillis();
     private double frequency = 0.0025;//in Hertz.
     private double amplitude = 30;//In pixels.
     private Target target;
-    private PhetGraphic textGraphic;
+    private PhetShadowTextGraphic textGraphic;
     private PhetShapeGraphic phetShapeGraphic;
     private Timer timer;
+
+    public void setFont( Font font ) {
+        this.font = font;
+        textGraphic.setFont( font );
+    }
 
     public static interface Target {
 
@@ -59,15 +64,17 @@ public class WiggleMe extends CompositePhetGraphic {
     }
 
     public WiggleMe( final Component component, String text, Target t ) {
+        this( component, text, t, new Font( "Lucida Sans", Font.BOLD, 20 ), 2, 2 );
+    }
+
+    public WiggleMe( final Component component, String text, Target t, Font font, int dx, int dy ) {
         super( component );
         this.target = t;
-        textGraphic = new PhetShadowTextGraphic( component, text, font, 0, 0, Color.black, 2, 2, Color.red );
+        textGraphic = new PhetShadowTextGraphic( component, text, font, 0, 0, Color.black, dx, dy, Color.red );
         addGraphic( textGraphic );
         timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 tick();
-//                JComponent jc=(JComponent)component;
-//                jc.paintImmediately( getBounds() );
             }
         } );
         textGraphic.setLocation( 0, 0 );
@@ -95,7 +102,7 @@ public class WiggleMe extends CompositePhetGraphic {
         Point targetLoc = target.getLocation();
         int y0 = targetLoc.y + target.getHeight() / 2 - getHeight();
         int y = (int)( Math.sin( frequency * time ) * amplitude + y0 );
-        int x = targetLoc.x - getWidth() - 50;
+        int x = targetLoc.x - getWidth();
         setLocation( x, y );
     }
 }
