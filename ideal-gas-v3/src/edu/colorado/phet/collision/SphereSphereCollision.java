@@ -8,7 +8,6 @@
 package edu.colorado.phet.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.SphericalBody;
 
@@ -33,7 +32,7 @@ public class SphereSphereCollision extends HardsphereCollision {
         //NOP
     }
 
-    protected Vector2D getLoa( Particle particleA, Particle particleB ) {
+    protected Vector2D getLoa( CollidableBody particleA, CollidableBody particleB ) {
         Point2D posA = particleA.getPosition();
         Point2D posB = particleB.getPosition();
         loa.setX( posA.getX() - posB.getX() );
@@ -50,7 +49,7 @@ public class SphereSphereCollision extends HardsphereCollision {
      * @param particleB
      * @return
      */
-    public Collision createIfApplicable( Particle particleA, Particle particleB,
+    public Collision createIfApplicable( CollidableBody particleA, CollidableBody particleB,
                                          IdealGasModel model, double dt ) {
         instance.model = model;
         instance.dt = dt;

@@ -7,7 +7,6 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -93,7 +92,7 @@ public class SphereBoxCollision implements Collision {
         }
     }
 
-    public Collision createIfApplicable( Particle particleA, Particle particleB,
+    public Collision createIfApplicable( CollidableBody particleA, CollidableBody particleB,
                                          IdealGasModel model, double dt ) {
         Collision result = null;
         if( particleA instanceof SphericalBody && particleB instanceof Box2D ) {

@@ -9,6 +9,7 @@ package edu.colorado.phet.collision;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CollisionFactory {
 
@@ -27,5 +28,19 @@ public class CollisionFactory {
             result = collisionPrototype.createIfApplicable( particleA, particleB, model, dt );
         }
         return result;
+    }
+
+    static ArrayList resultList = new ArrayList();
+
+    public static List createCollisions( CollidableBody body1, CollidableBody body2, IdealGasModel model, double dt ) {
+        resultList.clear();
+        for( int i = 0; i < collisionPrototypes.size(); i++ ) {
+            Collision collisionPrototype = (Collision)collisionPrototypes.get( i );
+            Collision collision = collisionPrototype.createIfApplicable( body1, body2, model, dt );
+            if( collision != null ) {
+                resultList.add( collision );
+            }
+        }
+        return resultList;
     }
 }

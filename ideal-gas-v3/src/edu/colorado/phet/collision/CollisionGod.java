@@ -192,9 +192,13 @@ public class CollisionGod implements ModelElement {
 
     private void detectAndDoCollision( CollidableBody body1, CollidableBody body2, double dt ) {
         if( body1 != body2 && ContactDetector.areContacting( body1, body2 ) ) {
-            Collision collision = CollisionFactory.create( body1, body2, model, dt );
-            if( collision != null ) {
-                collision.collide();
+            List collisions = CollisionFactory.createCollisions( body1, body2, model, dt );
+            for( int i = 0; i < collisions.size(); i++ ) {
+                ( (Collision)collisions.get( i ) ).collide();
+//            Collision collision = CollisionFactory.create( body1, body2, model, dt );
+//            if( collision != null ) {
+//                collision.collide();
+//            }
             }
         }
     }

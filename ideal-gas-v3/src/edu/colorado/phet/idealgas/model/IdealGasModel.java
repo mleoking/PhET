@@ -59,12 +59,14 @@ public class IdealGasModel extends BaseModel {
         //        new SphereHotAirBalloonContactDetector();
         new SphereBoxCollisionExpert();
 //        new SphereBoxContactDetector();
+        new SphereHollowSphereContactDetector();
         new SphereSphereContactDetector();
 //        new SphereWallContactDetector();
 
         //        BalloonSphereCollision.register();
         SphereBoxCollision.register();
         SphereSphereCollision.register();
+        SphereHollowSphereCollision.register();
 //        SphereWallCollision.register();
     }
 
@@ -100,23 +102,6 @@ public class IdealGasModel extends BaseModel {
         this.targetPressure = box.getPressure();
         this.constantPressure = constantPressure;
     }
-
-    /**
-     *
-     */
-    //    public void setGravity( Gravity gravity ) {
-    //        // We remove first, then add. This handles situations where
-    //        // gravity is already in the system, and when it is not
-    //        if( gravity != null ) {
-    //            this.removeExternalForce( gravity );
-    //            this.addExternalForce( gravity );
-    //        }
-    //        else {
-    //            this.removeExternalForce( this.gravity );
-    //        }
-    //        this.gravity = gravity;
-    //        notifyObservers();
-    //    }
 
     /**
      *
