@@ -86,6 +86,16 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
     public abstract AbstractVector2D getStrength( final Point2D p );
     
     /**
+     * Convenience method for getting the strength at a point.
+     * 
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
+    public AbstractVector2D getStrength( double x, double y ) {
+        return getStrength( new Point2D.Double( x, y ) );
+    }
+    
+    /**
      * Sets the physical size of the magnet.
      * 
      * @param size the size
