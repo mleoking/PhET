@@ -212,12 +212,8 @@ public class TravoltageApplet extends JApplet {
 
     public static void main( String[] args ) {
         TravoltageApplet applet = new TravoltageApplet();
-
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
-            applet.applicationLocale = args[0].substring( argsKey.length(), args[0].length() );
-            SimStrings.setLocale( new Locale( applet.applicationLocale ) );
-        }
+        
+        SimStrings.init( args, localizedStringsPath );
 
         applet.init();
         Dimension size = new Dimension( applet.getJohnWidth(), applet.getJohnHeight() );

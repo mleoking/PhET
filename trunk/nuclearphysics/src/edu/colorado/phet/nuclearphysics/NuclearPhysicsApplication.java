@@ -36,19 +36,8 @@ public class NuclearPhysicsApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        SimStrings.init( args, localizedStringsPath );
 
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
-        }
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ));
-        }
-
-        SimStrings.setStrings( localizedStringsPath );
-        
         try {
             UIManager.setLookAndFeel( new NuclearAppLookAndFeel() );
         }
