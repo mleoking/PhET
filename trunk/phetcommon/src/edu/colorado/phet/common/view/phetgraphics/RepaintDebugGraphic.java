@@ -22,12 +22,17 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
     private AbstractClock clock;
     private boolean active = false;
 
-    public RepaintDebugGraphic( ApparatusPanel panel, AbstractClock clock ) {
+    public RepaintDebugGraphic( ApparatusPanel panel, AbstractClock clock, int transparency ) {
         super( panel );
         this.panel = panel;
         this.clock = clock;
         setActive( true );
         setIgnoreMouse( true );
+        setTransparency( transparency );
+    }
+
+    public RepaintDebugGraphic( ApparatusPanel panel, AbstractClock clock ) {
+        this( panel, clock, 128 );
     }
 
     public void setTransparency( int alpha ) {
@@ -35,8 +40,10 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
     }
 
     public void paint( Graphics2D gr ) {
-        gr.setColor( new Color( r, g, b, alpha ) );
-        gr.fillRect( 0, 0, panel.getWidth(), panel.getHeight() );
+        if( isVisible() ) {
+            gr.setColor( new Color( r, g, b, alpha ) );
+            gr.fillRect( 0, 0, panel.getWidth(), panel.getHeight() );
+        }
     }
 
     public void clockTicked( AbstractClock c, double dt ) {
@@ -46,18 +53,18 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
     }
 
     public void setActive( boolean active ) {
+
         if( this.active == active ) {
             return;
         }
         this.active = active;
         if( active ) {
             clock.addClockTickListener( this );
-//            panel.addGraphic( this, Double.NEGATIVE_INFINITY );
         }
         else {
             clock.removeClockTickListener( this );
-//            panel.removeGraphic( this );
         }
+
     }
 
     protected Rectangle determineBounds() {
