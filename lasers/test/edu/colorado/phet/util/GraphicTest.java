@@ -51,7 +51,7 @@ public class GraphicTest {
 
         for( double a = 0; a <= 360; a += 45 ) {
             TestGraphic pg5 = new TestGraphic( ap, LaserConfig.PHOTON_IMAGE_FILE, Math.toRadians( a ), "D" );
-            pg5.setPosition( (int)( a * 2 ), (int)( a * 2 ) );
+            pg5.setLocation( (int)( a * 2 ), (int)( a * 2 ) );
             ap.addGraphic( pg5 );
         }
 
@@ -165,7 +165,7 @@ public class GraphicTest {
             Rectangle r = this.getBounds();
             g.setColor( Color.green );
             g.draw( r );
-            Point p = this.getPosition();
+            Point p = this.getLocation();
             //            AffineTransform tx = AffineTransform.getTranslateInstance( rtx.getTranslateX(), rtx.getTranslateY() );
             //            rtx.transform( p, p );
             //            System.out.println( "p = " + p );
@@ -174,7 +174,7 @@ public class GraphicTest {
             g.setColor( Color.blue );
             //            Ellipse2D a = new Ellipse2D.Double( this.getPosition().getX() + rtx.getTranslateX() - 1,
             //                                                this.getPosition().getY() + rtx.getTranslateY() - 1, 5, 5 );
-            System.out.println( "name = " + name + "   position = " + getPosition() );
+            System.out.println( "name = " + name + "   position = " + getLocation() );
             //            Ellipse2D a = new Ellipse2D.Double( p.getX() - 1, p.getY() - 1, 5, 5 );
             Ellipse2D a = new Ellipse2D.Double( modelLoc.getX() + p.getX() - 1, modelLoc.getY() + p.getY() - 1, 5, 5 );
             g.fill( a );

@@ -8,8 +8,8 @@ package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.PhetControlPanel;
-import edu.colorado.phet.common.view.components.PhetSlider;
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 import javax.swing.*;
@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
-public class LaserControlPanel extends PhetControlPanel {
+public class LaserControlPanel extends ControlPanel {
     private GridBagConstraints gbc;
     private JPanel laserControlPane;
 
@@ -33,7 +33,7 @@ public class LaserControlPanel extends PhetControlPanel {
                                       GridBagConstraints.HORIZONTAL,
                                       new Insets( 3, 0, 3, 0 ),
                                       0, 0 );
-        super.setControlPane( laserControlPane );
+        super.addFullWidth( laserControlPane );
 //        addDebugControls( module );
     }
 
@@ -52,7 +52,7 @@ public class LaserControlPanel extends PhetControlPanel {
         JButton btn = new JButton( "Debug controls" );
         btn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JDialog dlg = new JDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
+                JDialog dlg = new JDialog( PhetApplication.instance().getPhetFrame(),
                                            "Debug controls", false );
                 dlg.setContentPane( new DebugPanel( module ) );
                 dlg.pack();
@@ -75,7 +75,7 @@ public class LaserControlPanel extends PhetControlPanel {
             dlg.setUndecorated( true );
             dlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
 
-            final PhetSlider cheatSlider = new PhetSlider( "Cheat angle", "deg", 0, 20, LaserConfig.PHOTON_CHEAT_ANGLE );
+            final ModelSlider cheatSlider = new ModelSlider( "Cheat angle", "deg", 0, 20, LaserConfig.PHOTON_CHEAT_ANGLE );
             cheatSlider.setPaintTicks( false );
             cheatSlider.setPaintLabels( false );
             cheatSlider.addChangeListener( new ChangeListener() {
@@ -84,9 +84,8 @@ public class LaserControlPanel extends PhetControlPanel {
                 }
             } );
             panel.add( cheatSlider, gbc );
-//            addControl( cheatSlider );
 
-            final PhetSlider cavityHeightSlider = new PhetSlider( "Cavity height", "pixels", 100, 300, module.getCavity().getBounds().getHeight() );
+            final ModelSlider cavityHeightSlider = new ModelSlider( "Cavity height", "pixels", 100, 300, module.getCavity().getBounds().getHeight() );
             cavityHeightSlider.setPaintTicks( false );
             cavityHeightSlider.setPaintLabels( false );
             cavityHeightSlider.addChangeListener( new ChangeListener() {
@@ -99,9 +98,8 @@ public class LaserControlPanel extends PhetControlPanel {
                 }
             } );
             panel.add( cavityHeightSlider, gbc );
-//            addControl( cavityHeightSlider );
 
-            final PhetSlider cavityWidthSlider = new PhetSlider( "Cavity width", "pixels", 200, 450, module.getCavity().getBounds().getWidth() );
+            final ModelSlider cavityWidthSlider = new ModelSlider( "Cavity width", "pixels", 200, 450, module.getCavity().getBounds().getWidth() );
             cavityWidthSlider.setPaintTicks( false );
             cavityWidthSlider.setPaintLabels( false );
             cavityWidthSlider.addChangeListener( new ChangeListener() {
@@ -114,9 +112,8 @@ public class LaserControlPanel extends PhetControlPanel {
                 }
             } );
             panel.add( cavityWidthSlider, gbc );
-//            addControl( cavityWidthSlider );
 
-            final PhetSlider lasingThresholdSlider = new PhetSlider( "Lasing threshold", "", 0, 300, LaserConfig.LASING_THRESHOLD );
+            final ModelSlider lasingThresholdSlider = new ModelSlider( "Lasing threshold", "", 0, 300, LaserConfig.LASING_THRESHOLD );
             lasingThresholdSlider.setPaintLabels( false );
             lasingThresholdSlider.setPaintTicks( false );
             lasingThresholdSlider.addChangeListener( new ChangeListener() {
@@ -125,7 +122,6 @@ public class LaserControlPanel extends PhetControlPanel {
                 }
             } );
             panel.add( lasingThresholdSlider, gbc );
-//            addControl( lasingThresholdSlider );
 
             final JTextField numPhotonsTF = new JTextField( 15 );
             module.getModel().addModelElement( new ModelElement() {
@@ -134,12 +130,10 @@ public class LaserControlPanel extends PhetControlPanel {
                 }
             } );
             panel.add( new JLabel( "Number of Photons" ), gbc );
-//            addControl( new JLabel( "Number of Photons" ) );
             panel.add( numPhotonsTF, gbc );
-//            addControl( numPhotonsTF );
 
             DecimalFormat decFmt = new DecimalFormat( "#" );
-            final PhetSlider aveSlider = new PhetSlider( "Averaging period", "msec", 0, 10000, 0, decFmt, 50 );
+            final ModelSlider aveSlider = new ModelSlider( "Averaging period", "msec", 0, 10000, 0, decFmt );
             aveSlider.setPaintLabels( false );
             aveSlider.setNumMajorTicks( 10 );
             aveSlider.addChangeListener( new ChangeListener() {
@@ -149,18 +143,14 @@ public class LaserControlPanel extends PhetControlPanel {
             } );
             aveSlider.setValue( module.getEnerglyLevelsAveragingPeriod() );
             panel.add( aveSlider, gbc );
-//            addControl( aveSlider );
 
-            final PhetSlider kaboomThresholdSlider = new PhetSlider( "Meltdown threshold", "Photons", 0, 500, LaserConfig.KABOOM_THRESHOLD );
+            final ModelSlider kaboomThresholdSlider = new ModelSlider( "Meltdown threshold", "Photons", 0, 500, LaserConfig.KABOOM_THRESHOLD );
             kaboomThresholdSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     LaserConfig.KABOOM_THRESHOLD = (int)kaboomThresholdSlider.getValue();
                 }
             } );
             panel.add( kaboomThresholdSlider, gbc );
-
-//        dlg.pack();
-//        dlg.setVisible( true );
         }
     }
 }

@@ -23,6 +23,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
+/**
+ *
+ */
 public class LampGraphic extends PhetImageGraphic implements CollimatedBeam.WavelengthChangeListener {
     private CollimatedBeam beam;
     private double currWavelength;
@@ -33,7 +36,8 @@ public class LampGraphic extends PhetImageGraphic implements CollimatedBeam.Wave
 
 
     public LampGraphic( CollimatedBeam beam, Component component, BufferedImage image, AffineTransform transform ) {
-        super( component, image, transform );
+        super( component, image );
+        setTransform( transform );
         this.beam = beam;
         beam.addWavelengthChangeListener( this );
 
@@ -71,10 +75,6 @@ public class LampGraphic extends PhetImageGraphic implements CollimatedBeam.Wave
         if( isVisible() ) {
             GraphicsUtil.setAntiAliasingOn( g );
             g.transform( getTransform() );
-            //        if( currWavelength != beam.getWavelength() ) {
-            //            currWavelength = beam.getWavelength();
-            //            color = VisibleColor.wavelengthToColor( currWavelength );
-            //        }
             g.setColor( color );
             g.fill( lens );
             g.setStroke( bezelStroke );

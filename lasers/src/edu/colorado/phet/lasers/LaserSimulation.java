@@ -43,8 +43,8 @@ public class LaserSimulation extends PhetApplication {
             setClock( clock );
             setFrameCenteredSize( 1024, 700 );
 
-            Module singleAtomModule = new SingleAtomModule( getFrame(), clock );
-            Module multipleAtomModule = new MultipleAtomModule( getFrame(), clock );
+            Module singleAtomModule = new SingleAtomModule( clock );
+            Module multipleAtomModule = new MultipleAtomModule( clock );
 //            Module kaboomModule = new TestKaboomModule();
             Module[] modules = new Module[]{
                 singleAtomModule,
@@ -55,14 +55,11 @@ public class LaserSimulation extends PhetApplication {
 //            setInitialModule( multipleAtomModule );
             setInitialModule( singleAtomModule );
 //            setInitialModule( kaboomModule );
-
-            // Print out frame rate for debugging
-//            FrameRateReporter rep = new FrameRateReporter( clock );
         }
     }
 
-    public LaserSimulation() {
-        super( new LaserAppModel() );
+    public LaserSimulation( String[] args ) {
+        super( new LaserAppModel(), args );
     }
 
     public void displayHighToMidEmission( boolean selected ) {
@@ -88,7 +85,7 @@ public class LaserSimulation extends PhetApplication {
             e.printStackTrace();
         }
 
-        LaserSimulation simulation = new LaserSimulation();
+        LaserSimulation simulation = new LaserSimulation( args );
         simulation.startApplication();
     }
 

@@ -51,7 +51,6 @@ public class BaseLaserModule extends Module {
     static protected final double s_boxHeight = 120;
     static protected final double s_boxWidth = 300;
     static protected final double s_laserOffsetX = 50;
-//    static protected final double s_laserOffsetX = 100;
 
     static public final int PHOTON_DISCRETE = 0;
     static public final int PHOTON_WAVE = 1;
@@ -65,7 +64,7 @@ public class BaseLaserModule extends Module {
     private PartialMirror leftMirror;
     private MirrorGraphic rightMirrorGraphic;
     private MirrorGraphic leftMirrorGraphic;
-    private Frame appFrame;
+    private PhetFrame appFrame;
     private EnergyLevelMonitorPanel energyLevelsMonitorPanel;
     private CollimatedBeam seedBeam;
     private CollimatedBeam pumpingBeam;
@@ -88,11 +87,8 @@ public class BaseLaserModule extends Module {
     /**
      *
      */
-    public BaseLaserModule( String title, PhetFrame frame, AbstractClock clock ) {
-        super( title );
-
-        // Set the PhetFrame for the module
-        appFrame = frame;
+    public BaseLaserModule( String title, AbstractClock clock ) {
+        super( title, clock );
 
         // Create the model
         laserModel = new LaserModel();
@@ -100,7 +96,7 @@ public class BaseLaserModule extends Module {
         laserModel.setBounds( new Rectangle2D.Double( 0, 0, 800, 600 ) );
 
         // Create the apparatus panel
-        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getModel(), clock );
+        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         apparatusPanel.setUseOffscreenBuffer( true );
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
@@ -112,7 +108,8 @@ public class BaseLaserModule extends Module {
         createCavity();
 
         // Create the energy levels dialog
-        createEnergyLevelsDialog( clock, frame );
+        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( this, clock );
+        createEnergyLevelsDialog( clock, null );
 
         // Create the mirrors
         createMirrors();
@@ -128,8 +125,10 @@ public class BaseLaserModule extends Module {
     public void activate( PhetApplication app ) {
         super.activate( app );
         Photon.setStimulationBounds( cavity.getBounds() );
-        appFrame = app.getApplicationView().getPhetFrame();
-//        energyLevelsDialog.setVisible( true );
+        appFrame = app.getPhetFrame();
+        if( energyLevelsDialog == null ) {
+            createEnergyLevelsDialog( getClock(), appFrame );
+        }
         MiddleEnergyState.instance().setMeanLifetime( middleStateMeanLifetime );
         HighEnergyState.instance().setMeanLifetime( highStateMeanLifetime );
     }
@@ -139,7 +138,6 @@ public class BaseLaserModule extends Module {
      */
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
-//        energyLevelsDialog.setVisible( false );
         middleStateMeanLifetime = MiddleEnergyState.instance().getMeanLifeTime();
         highStateMeanLifetime = HighEnergyState.instance().getMeanLifeTime();
     }
@@ -155,14 +153,7 @@ public class BaseLaserModule extends Module {
      * @param frame
      */
     private void createEnergyLevelsDialog( AbstractClock clock, PhetFrame frame ) {
-        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( this, clock );
         energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel );
-        energyLevelsDialog.setBounds( new Rectangle( (int)( frame.getBounds().getX() + frame.getBounds().getWidth() - 500 ),
-//        energyLevelsDialog.setBounds( new Rectangle( (int)( frame.getBounds().getX() + frame.getBounds().getWidth() * 1 / 2 ),
-                                                     (int)( frame.getBounds().getY() - 90 ),
-//                                                     10,
-                                                     (int)energyLevelsDialog.getBounds().getWidth(),
-                                                     (int)energyLevelsDialog.getBounds().getHeight() ) );
     }
 
     /**
@@ -186,7 +177,8 @@ public class BaseLaserModule extends Module {
                                        s_boxHeight - Photon.RADIUS,
                                        s_boxWidth + s_laserOffsetX * 2,
                                        new Vector2D.Double( 1, 0 ),
-                                       LaserConfig.MAXIMUM_SEED_PHOTON_RATE );
+                                       LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
+                                       30);
         seedBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         seedBeam.setEnabled( true );
         getLaserModel().setStimulatingBeam( seedBeam );
@@ -196,7 +188,8 @@ public class BaseLaserModule extends Module {
                                           s_boxHeight + s_laserOffsetX * 2,
                                           s_boxWidth,
                                           new Vector2D.Double( 0, 1 ),
-                                          LaserConfig.MAXIMUM_SEED_PHOTON_RATE );
+                                          LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
+                                          40);
         pumpingBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         pumpingBeam.setEnabled( true );
         getLaserModel().setPumpingBeam( pumpingBeam );

@@ -13,11 +13,12 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.math.ModelViewTx1D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common.model.clock.ClockStateEvent;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.*;
+import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -60,20 +61,15 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
 
     // The diameter of an atom as displayed on the screen, in pixels
     private int atomDiam = 10;
-
+    // Dimensions of the panel
     private double panelHeight = 230;
-//    private double panelHeight = 170;
-//    private double panelHeight = 190;
     private double panelWidth = 320;
-//    private double panelWidth = 400;
-//    private double panelHeight = 200;
-    private double sliderWidth = 100;
+    // Amplitude of the squiggle waves
     private int squiggleHeight = atomDiam;
-
+    // Location and size of energy level lines
     private Point2D origin = new Point2D.Double( 25, panelHeight - 30 );
     private double levelLineOriginX = origin.getX();
     private double levelLineLength = panelWidth - levelLineOriginX - 50;
-//    private double levelLineLength = panelWidth - levelLineOriginX - sliderWidth - 20;
 
     private EnergyLevelGraphic highLevelLine;
     private EnergyLevelGraphic middleLevelLine;
@@ -88,7 +84,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private LaserModel model;
     private double pumpBeamEnergy;
     private double seedBeamEnergy;
-    private ModelViewTx1D energyYTx;
+    private ModelViewTransform1D energyYTx;
     private BufferedImage stimSquiggle;
     private BufferedImage pumpSquiggle;
     private AffineTransform stimSquiggleTx;
@@ -129,9 +125,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         this.addGraphic( groundLevelLine );
 
         // Add lifetime sliders and a title for them
-//        JLabel legend = new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.EnergyLevelLifetimeLabel" ) );
-//        legend.setBounds( (int)( levelLineOriginX + levelLineLength ), 15, 150, 30 );
-//        this.add( legend );
         middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(),
                                                               middleLevelLine,
                                                               LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME );
@@ -141,6 +134,23 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         this.add( highLevelLifetimeSlider );
 
         this.addComponentListener( new PanelResizer() );
+
+        adjustPanel();
+    }
+
+    /**
+     * Adjusts the layout of the panel
+     */
+    private void adjustPanel() {
+        // The beamArea in which the energy levels will be displayed
+        Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
+                                                     getBounds().getWidth(), getBounds().getHeight() - 30 );
+        energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy, AtomicState.minEnergy,
+                                       (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
+        highLevelLine.update( energyYTx );
+        middleLevelLine.update( energyYTx );
+        groundLevelLine.update( energyYTx );
+        updateSquiggles();
     }
 
     /**
@@ -166,7 +176,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         revalidate();
         repaint();
-//        SwingUtilities.getWindowAncestor( this ).pack();
     }
 
     /**
@@ -263,6 +272,15 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         g2d.fill( tail.getShape() );
         g2d.dispose();
         return img;
+    }
+
+
+    public void setAveragingPeriod( long value ) {
+        averagingPeriod = value;
+    }
+
+    public long getAveragingPeriod() {
+        return averagingPeriod;
     }
 
     //----------------------------------------------------------------
@@ -362,15 +380,16 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     // ClockStateListener implementation
     //----------------------------------------------------------------
 
+
     /**
      * If the clock pauses, force the update and repaint of energy level populations. We need to do this because
      * when the clock is running, the populations shown are averages over time, and if the clock is paused, we
      * want the populations shown to agree with the actual number of atoms in each state.
      *
-     * @param b
+     * @param event
      */
-    public void pausedStateChanged( boolean b ) {
-        if( b ) {
+    public void stateChanged( ClockStateEvent event ) {
+        if( event.getIsPaused() ) {
             numGroundLevel = model.getNumGroundStateAtoms();
             numMiddleLevel = model.getNumMiddleStateAtoms();
             numHighLevel = model.getNumHighStateAtoms();
@@ -386,14 +405,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     }
 
     public void threadPriorityChanged( int priority ) {
-    }
-
-    public void setAveragingPeriod( long value ) {
-        averagingPeriod = value;
-    }
-
-    public long getAveragingPeriod() {
-        return averagingPeriod;
     }
 
 
@@ -445,7 +456,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
          */
         public void update() {
             this.setBounds( (int)( panelWidth - maxSliderWidth ),
-//            this.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ),
                             (int)graphic.getPosition().getY(),
                             sliderWidth, sliderHeight );
         }
@@ -468,19 +478,11 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     }
 
     /**
-     * Set the bounds within the panel that the energy level lines can be positioned
+     * Set the beamArea within the panel that the energy level lines can be positioned
      */
     private class PanelResizer extends ComponentAdapter {
         public void componentResized( ComponentEvent e ) {
-            // The bounds in which the energy levels will be displayed
-            Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
-                                                         getBounds().getWidth(), getBounds().getHeight() - 30 );
-            energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
-                                           (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
-            highLevelLine.update( energyYTx );
-            middleLevelLine.update( energyYTx );
-            groundLevelLine.update( energyYTx );
-            updateSquiggles();
+            adjustPanel();
         }
     }
 }

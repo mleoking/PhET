@@ -51,15 +51,14 @@ public class MultipleAtomModule extends BaseLaserModule {
     /**
      *
      */
-    public MultipleAtomModule( PhetFrame frame, AbstractClock clock ) {
-        super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), frame, clock );
+    public MultipleAtomModule( AbstractClock clock ) {
+        super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), clock );
 
         setThreeEnergyLevels( true );
 
         // Set the control panel
         laserControlPanel = new UniversalLaserControlPanel( this, clock );
         setControlPanel( laserControlPanel );
-//        setControlPanel(new MultipleAtomControlPanel(this));
 
         // Set the size of the cavity
         ResonatingCavity cavity = getCavity();
@@ -101,7 +100,8 @@ public class MultipleAtomModule extends BaseLaserModule {
             e.printStackTrace();
         }
 
-        // Pumping beam lamps
+        // Pumping beam lamps. Note that the images start out horizontal, and then are rotated. This accounts for
+        // some funny looking code
         int numLamps = 8;
         double yOffset = 10;
         // The lamps should span the cavity
@@ -138,9 +138,8 @@ public class MultipleAtomModule extends BaseLaserModule {
         // Add some atoms
         Atom atom = null;
         atoms = new ArrayList();
+//        int numAtoms = 0;
         int numAtoms = 30;
-//        int numAtoms = 8;
-//        int numAtoms = 20;
         for( int i = 0; i < numAtoms; i++ ) {
             int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
             atom = new Atom( getModel(), numEnergyLevels );
@@ -157,10 +156,6 @@ public class MultipleAtomModule extends BaseLaserModule {
                 for( int j = 0; j < atoms.size(); j++ ) {
                     Atom atom2 = (Atom)atoms.get( j );
                     double d = atom.getPosition().distance( atom2.getPosition() );
-//                    if (d <= (atom.getRadius() + atom2.getRadius()) * 1.5) {
-//                        placed = false;
-//                        break;
-//                    }
                 }
                 if( tries > 1000 ) {
                     System.out.println( "Unable to place all atoms" );

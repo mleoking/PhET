@@ -23,11 +23,11 @@ public class LaserConfig {
 
     // Physical things
     public static Point2D.Double ORIGIN = new Point2D.Double( 120, 200 );
-//    public static Point2D.Double ORIGIN = new Point2D.Double( 150, 200 );
 
     // Photon rates for beams
     public static final int MINIMUM_SEED_PHOTON_RATE = 0;
-    public static final int MAXIMUM_SEED_PHOTON_RATE = 10;
+    public static final int MAXIMUM_SEED_PHOTON_RATE = 30;
+//    public static final int MAXIMUM_SEED_PHOTON_RATE = 10;
 
     public static final int MINIMUM_PUMPING_PHOTON_RATE = 0;
     public static final int MAXIMUM_PUMPING_PHOTON_RATE = 400;
@@ -43,14 +43,12 @@ public class LaserConfig {
     public static final int CONTROL_FONT_SIZE = 12;
     public static final int CONTROL_FONT_STYLE = Font.BOLD;
     public static final String IMAGE_DIRECTORY = "images/";
-    public static final String ATOM_IMAGE_FILE = IMAGE_DIRECTORY + "particle-gray-med.png";
+    public static final String ATOM_IMAGE_FILE = IMAGE_DIRECTORY + "particle-gray-med.gif";
     public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "photon-comet.png";
-    //        public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-med.gif";
     public static final String MID_HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-deep-red-xsml.gif";
     public static final String HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
     public static final String LOW_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";
     public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "flashlight.png";
-    //    public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "ray-gun-1A.png";
 
     // Graphics layers
     public static final double CAVITY_LAYER = 11;
@@ -71,6 +69,5 @@ public class LaserConfig {
     // Threshold number of horizontal photons that is considered "lasing"
     public static int LASING_THRESHOLD = 80;
     // Number of photons in the system that will cause the thing to blow up
-//    public static int KABOOM_THRESHOLD = 30;
-    public static int KABOOM_THRESHOLD = 400;
+    public static int KABOOM_THRESHOLD = 300;
 }

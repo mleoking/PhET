@@ -46,16 +46,15 @@ public class SingleAtomModule extends BaseLaserModule {
     private BeamControl2 pumpBeamControl;
     private BeamControl2 seedBeamControl;
 
-    public SingleAtomModule( PhetFrame frame, AbstractClock clock ) {
-        super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), frame, clock );
+    public SingleAtomModule( AbstractClock clock ) {
+        super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
 
         // Set up the control panel, and start off with two energy levels
         laserControlPanel = new UniversalLaserControlPanel( this, clock );
-//        laserControlPanel = new SingleAtomControlPanel(this);
         setControlPanel( laserControlPanel );
 
         // Create beams
-        Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
+        Point2D beamOrigin = new Point2D.Double( s_origin.getX() - 55,
                                                  s_origin.getY() + s_boxHeight / 2 );
         final CollimatedBeam seedBeam = ( (LaserModel)getModel() ).getSeedBeam();
         Rectangle2D.Double stimulatingBeamBounds = new Rectangle2D.Double( beamOrigin.getX(), beamOrigin.getY(),
@@ -80,7 +79,7 @@ public class SingleAtomModule extends BaseLaserModule {
         pumpingBeam.setEnabled( false );
 
         // Add the graphics for beams
-        Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)stimulatingBeamBounds.getX() - 100,
+        Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)stimulatingBeamBounds.getX() - 45,
                                                               (int)( stimulatingBeamBounds.getY() + seedBeam.getHeight() / 2 - 25 ),
                                                               100, 50 );
         BufferedImage gunBI = null;
