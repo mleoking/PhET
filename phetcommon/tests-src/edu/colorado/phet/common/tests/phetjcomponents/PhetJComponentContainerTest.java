@@ -10,8 +10,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -56,12 +55,47 @@ public class PhetJComponentContainerTest {
         /**That's all.*/
 
         JPanel jPanel = new JPanel();
+//        jPanel.setLocation( 200,200);
         jPanel.setLayout( new FlowLayout() );
 //        jPanel.setLayout( new BoxLayout( jPanel, BoxLayout.Y_AXIS ) );
         jPanel.setBorder( BorderFactory.createTitledBorder( "hello" ) );
         jPanel.add( new JTextField( 8 ) );
-        jPanel.add( new JButton( "mybutton" ) );
-//        jPanel.add( new JLabel( "label2" ) );
+        JButton comp = new JButton( "mybutton" );
+        comp.addComponentListener( new ComponentAdapter() {
+            public void componentHidden( ComponentEvent e ) {
+                System.out.println( "e = " + e );
+            }
+
+            public void componentMoved( ComponentEvent e ) {
+                System.out.println( "e = " + e );
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                System.out.println( "e = " + e );
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                System.out.println( "e = " + e );
+            }
+        } );
+        jPanel.add( comp );
+
+        JPanel container2 = new JPanel() {
+//            protected void paintChildren( Graphics g ) {
+////                super.paintChildren( g );
+//            }
+        };
+        container2.setLayout( new BorderLayout() );
+        JLabel center = new JLabel( "Center" );
+        container2.add( center, BorderLayout.CENTER );
+        jPanel.add( container2 );
+
+        JButton northButton = new JButton( "Northbutton" );
+        container2.add( northButton, BorderLayout.NORTH );
+        JButton southButton = new JButton( "Souhthbutton" );
+        container2.add( southButton, BorderLayout.SOUTH );
+        container2.setBorder( BorderFactory.createTitledBorder( "BorderLayout" ) );
+
         PhetGraphic panelComponent = PhetJComponent.newInstance( ap, jPanel );
         ap.addGraphic( panelComponent );
 
@@ -70,6 +104,17 @@ public class PhetJComponentContainerTest {
         PhetGraphic pj = PhetJComponent.newInstance( ap, spinner );
         ap.addGraphic( pj );
         pj.setLocation( 100, 100 );
+
+        JTextField topField = new JTextField( "TopField" );
+        PhetGraphic topFieldGraphic = PhetJComponent.newInstance( ap, topField );
+        topFieldGraphic.setLocation( 100, 300 );
+        ap.addGraphic( topFieldGraphic );
+
+        ap.addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                ap.requestFocus();
+            }
+        } );
     }
 
     public static void main( String[] args ) {
@@ -80,5 +125,6 @@ public class PhetJComponentContainerTest {
     private void start() {
         swingTimerClock.start();
         frame.setVisible( true );
+        ap.requestFocus();
     }
 }
