@@ -6,17 +6,19 @@ IN PROGRESS:
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 
 HIGH PRIORITY:
-- requirements for Generator module (see Carl's Powerpoint slides)
+- trace/scan the AC wave with a cursor that represents "now"
+- requirements for Generator module
 - calibrate lightbulb
 - calibrate voltmeter
 - calibrate electron animation (move further/faster)
-- redo Turbine model, it should not extend BarMagnet (it has a BarMagnetPanel)
-- trace/scan the AC wave with a cursor that represents "now"
 
 MEDIUM PRIORITY:
+- redo Turbine model, it should not extend BarMagnet (it has a BarMagnetPanel)
+- lightbulb flashes the first time that you visit each module
+- sliders sometimes remain hilited after you roll off them
 - electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
 - collision detection in Generator & Transformer modules
-- relocate rescaling from Voltmeter model to Voltmeter view, so that all rescaling is done in the view
+- relocate voltage rescaling from Voltmeter model to Voltmeter view, so that all rescaling is done in the view
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 - Wiggle Me's on magnets & coil
 
@@ -32,7 +34,7 @@ LOW PRIORITY:
 CLEANUP:
 - remove unused images from JAR file
 - remove unused i18n strings
-- delete DeveloperControlsPanel when we don't need it anymore
+- delete DeveloperPanel when no longer needed
 - delete BatteryPanel and ACPanel when no longer needed
 - remove DebuggerGraphic from modules
 - move test-src programs to examples project
