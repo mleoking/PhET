@@ -8,6 +8,7 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 
 import javax.swing.event.EventListenerList;
 import java.util.EventListener;
@@ -27,7 +28,14 @@ public abstract class AtomicState {
     // Instance
     //
     private double energyLevel;
-    EventListenerList listeners = new EventListenerList();
+    private int wavelength;
+    private int numAtomsInState;
+    private EventListenerList listeners = new EventListenerList();
+    private double meanLifetime = LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME / 1000;
+
+
+    abstract public void collideWithPhoton( Atom atom, Photon photon );
+
 
     public interface EnergyLevelChangeListener extends EventListener {
         void energyLevelChangeOccurred( EnergyLevelChangeEvent event );
@@ -61,6 +69,18 @@ public abstract class AtomicState {
         }
     }
 
+    void incrNumInState() {
+        numAtomsInState++;
+    }
+
+    void decrementNumInState() {
+        numAtomsInState--;
+    }
+
+    int getNumAtomsInState() {
+        return numAtomsInState;
+    }
+
     public double getEnergyLevel() {
         return energyLevel;
     }
@@ -71,20 +91,30 @@ public abstract class AtomicState {
      *
      * @return
      */
-    public double getLifeTime() {
+    public double getMeanLifeTime() {
+        return meanLifetime;
         // Note: the hard-coded figure here is just a holding value
-        return energyLevel == 0 ? Double.POSITIVE_INFINITY : 10000 / energyLevel;
+//        return energyLevel == 0 ? Double.POSITIVE_INFINITY : 10000 / energyLevel;
+    }
+
+    public void setMeanLifetime( double lifetime ) {
+        this.meanLifetime = lifetime;
     }
 
     public void setEnergyLevel( double energyLevel ) {
         this.energyLevel = energyLevel;
         fireEnergyLevelChangeEvent( new EnergyLevelChangeEvent( this ) );
-        //        EventRegistry.instance.fireEvent( new EnergyLevelChangeEvent( this ) );
     }
 
-    abstract public void collideWithPhoton( Atom atom, Photon photon );
+    public int getWavelength() {
+        return wavelength;
+    }
 
-    abstract void incrNumInState();
+    protected void setEmittedPhotonWavelength( int wavelength ) {
+        this.wavelength = wavelength;
+    }
 
-    abstract void decrementNumInState();
+    protected double getEmittedPhotonWavelength() {
+        return wavelength;
+    }
 }

@@ -21,25 +21,9 @@ public class HighEnergyState extends SpontaneouslyEmittingState {
         return instance;
     }
 
-    static private int s_numInstances = 0;
-    static public int s_wavelength = Photon.DEEP_RED;
-    static private double s_spontaneousEmmisionHalfLife = LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME / 1000;
-
-    public static void setSpontaneousEmmisionHalfLife( double spontaneousEmmisionHalfLife ) {
-        s_spontaneousEmmisionHalfLife = spontaneousEmmisionHalfLife;
-    }
-
-    static public int getNumInstances() {
-        return s_numInstances;
-    }
-
-    
-    //
-    // Instance
-    //
-
     private HighEnergyState() {
         setEnergyLevel( 90 );
+        setEmittedPhotonWavelength( Photon.DEEP_RED );
     }
 
     // TODO: This should emit a stimulated photon if hit by
@@ -48,23 +32,11 @@ public class HighEnergyState extends SpontaneouslyEmittingState {
         // NOP
     }
 
-    protected double getSpontaneousEmmisionHalfLife() {
-        return s_spontaneousEmmisionHalfLife;
-    }
-
     protected AtomicState nextLowerEnergyState() {
         return MiddleEnergyState.instance();
     }
 
-    void incrNumInState() {
-        s_numInstances++;
-    }
-
-    void decrementNumInState() {
-        s_numInstances--;
-    }
-
-    protected double getEmittedPhotonWavelength() {
-        return s_wavelength;
-    }
+//    protected double getEmittedPhotonWavelength() {
+//        return s_wavelength;
+//    }
 }

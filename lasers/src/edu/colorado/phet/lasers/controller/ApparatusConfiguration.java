@@ -72,8 +72,8 @@ public class ApparatusConfiguration {
     }
 
     public void configureSystem( LaserModel model ) {
-        HighEnergyState.setSpontaneousEmmisionHalfLife( getHighEnergySpontaneousEmissionTime() );
-        MiddleEnergyState.setSpontaneousEmmisionHalfLife( getMiddleEnergySpontaneousEmissionTime() );
+        HighEnergyState.instance().setMeanLifetime( getHighEnergySpontaneousEmissionTime() );
+        MiddleEnergyState.instance().setMeanLifetime( getMiddleEnergySpontaneousEmissionTime() );
         model.getPumpingBeam().setPhotonsPerSecond( getPumpingPhotonRate() );
         model.getStimulatingBeam().setPhotonsPerSecond( getStimulatedPhotonRate() );
         model.getResonatingCavity().setReflectivity( getReflectivity() );

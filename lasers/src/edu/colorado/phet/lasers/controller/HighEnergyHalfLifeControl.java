@@ -50,12 +50,12 @@ public class HighEnergyHalfLifeControl extends JPanel {
         highEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 //                updateHighEnergySpontaneousEmissionTime( ((double)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
-                model.setHighEnergySpontaneousEmissionTime( highEnergySpontaneousEmissionTimeSlider.getValue() );
-                //                model.setHighEnergySpontaneousEmissionTime( highEnergySpontaneousEmissionTimeSlider.getValue() / 1000  );
+                model.setHighEnergyMeanLifetime( highEnergySpontaneousEmissionTimeSlider.getValue() );
+                //                model.setHighEnergyMeanLifetime( highEnergySpontaneousEmissionTimeSlider.getValue() / 1000  );
                 highEnergySpontaneousEmissionTimeTF.setText( Double.toString( highEnergySpontaneousEmissionTimeSlider.getValue() ) );
             }
         } );
-        model.setHighEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
+        model.setHighEnergyMeanLifetime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
 
         this.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,

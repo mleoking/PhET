@@ -25,23 +25,23 @@ public class Atom extends SphericalBody {
     private SpontaneouslyEmittingState.StateLifetimeManager stateLifetimeManager;
 
     static public void setHighEnergySpontaneousEmissionTime( double time ) {
-        HighEnergyState.setSpontaneousEmmisionHalfLife( time );
+        HighEnergyState.instance().setMeanLifetime( time );
     }
 
     static public void setMiddleEnergySpontaneousEmissionTime( double time ) {
-        MiddleEnergyState.setSpontaneousEmmisionHalfLife( time );
+        MiddleEnergyState.instance().setMeanLifetime( time );
     }
 
     static public int getNumGroundStateAtoms() {
-        return GroundState.getNumInstances();
+        return GroundState.instance().getNumAtomsInState();
     }
 
     static public int getNumMiddleStateAtoms() {
-        return MiddleEnergyState.getNumInstances();
+        return MiddleEnergyState.instance().getNumAtomsInState();
     }
 
     static public int getNumHighStateAtoms() {
-        return HighEnergyState.getNumInstances();
+        return HighEnergyState.instance().getNumAtomsInState();
     }
 
 
@@ -50,9 +50,7 @@ public class Atom extends SphericalBody {
 
     public interface Listener {
         void photonEmitted( Atom atom, Photon photon );
-
         void leftSystem( Atom atom );
-
         void stateChanged( Atom atom, AtomicState oldState, AtomicState newState );
     }
 
@@ -60,7 +58,6 @@ public class Atom extends SphericalBody {
         super( s_radius );
         setMass( s_mass );
         setState( GroundState.instance() );
-//        setState( new GroundState( this ) );
     }
 
     public void addListener( Listener listner ) {
@@ -109,7 +106,6 @@ public class Atom extends SphericalBody {
      *
      */
     void emitPhoton( final Photon emittedPhoton ) {
-        //        emittedPhoton.collideWithAtom( this );
         subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
             public void doNotify( Object obj ) {
                 ( (Listener)obj ).photonEmitted( Atom.this, emittedPhoton );

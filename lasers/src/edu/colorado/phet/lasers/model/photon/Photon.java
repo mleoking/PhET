@@ -67,7 +67,7 @@ public class Photon extends Particle implements Collidable {
     //    static public Photon create( Photon photon ) {
     //        Photon newPhoton = create();
     //        newPhoton.setVelocity( new Vector2D.Double( photon.getVelocity() ));
-    //        newPhoton.setWavelength( photon.getWavelength() );
+    //        newPhoton.setEmittedPhotonWavelength( photon.getWavelength() );
     //        newPhoton.numStimulatedPhotons = photon.numStimulatedPhotons;
     //        return newPhoton;
     //    }

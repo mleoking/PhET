@@ -19,8 +19,11 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.atom.HighEnergyState;
 import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -31,16 +34,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
 
     private double panelWidth = 400;
     private double panelHeight = 300;
+    private double sliderWidth = 100;
 
-    private double groundLevelLineOriginX = 30;
-    private double groundLevelLineLength = panelWidth - 60;
-
-    private double highLevelLineOriginX = 80;
-    private double highLevelLineLength = panelWidth / 2 - highLevelLineOriginX;
-
-    private double middleLevelLineOriginX = highLevelLineOriginX + highLevelLineLength;
-    private double middleLevelLineLength = panelWidth - ( highLevelLineOriginX + highLevelLineLength ) - 20;
-
+    private double levelLineOriginX = 30;
+    private double levelLineLength = panelWidth - sliderWidth - 60;
 
     private EnergyLevelGraphic highLevelLine;
     private EnergyLevelGraphic middleLevelLine;
@@ -49,6 +46,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
     private EnergyLifetimeSlider highLevelLifetimeSlider;
     private EnergyLifetimeSlider middleLevelLifetimeSlider;
 
+    // Number of energy levels to show
+    private int numLevels;
+
     private LaserModel model;
 
     /**
@@ -56,18 +56,25 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
      */
     public EnergyLevelMonitorPanel( LaserModel model ) {
         highLevelLine = new EnergyLevelGraphic( this, HighEnergyState.instance(),
-                                                Color.blue, highLevelLineOriginX, highLevelLineLength );
+                                                Color.blue, levelLineOriginX, levelLineLength );
         middleLevelLine = new EnergyLevelGraphic( this, MiddleEnergyState.instance(),
-                                                  Color.red, middleLevelLineOriginX, middleLevelLineLength );
+                                                  Color.red, levelLineOriginX, levelLineLength );
         groundLevelLine = new EnergyLevelGraphic( this, GroundState.instance(),
-                                                  Color.black, groundLevelLineOriginX, groundLevelLineLength );
+                                                  Color.black, levelLineOriginX, levelLineLength );
 
         this.addGraphic( highLevelLine );
         this.addGraphic( middleLevelLine );
         this.addGraphic( groundLevelLine );
 
-        middleLevelLifetimeSlider = new EnergyLifetimeSlider( this, middleLevelLine, "Middle level" );
+        // Add lifetime sliders and a title for them
+        JLabel legend = new JLabel( "<html>Energy Level<br>Lifetime (msec)</html>" );
+        legend.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ), 15, 100, 30 );
+        this.add( legend );
+        middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(), this, middleLevelLine, "Middle level" );
         this.add( middleLevelLifetimeSlider );
+        highLevelLifetimeSlider = new EnergyLifetimeSlider( HighEnergyState.instance(), this, highLevelLine, "High level" );
+        this.add( highLevelLifetimeSlider );
+
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
 
         model.addObserver( this );
@@ -84,31 +91,35 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
     }
 
     public void setNumLevels( int numLevels ) {
+        this.numLevels = numLevels;
         switch( numLevels ) {
             case 2:
                 panelHeight = 200;
                 highLevelLine.setVisible( false );
+                highLevelLifetimeSlider.setVisible( false );
                 break;
             case 3:
                 panelHeight = 300;
                 highLevelLine.setVisible( true );
+                highLevelLifetimeSlider.setVisible( true );
                 break;
             default:
                 throw new RuntimeException( "Number of levels out of range" );
         }
-        highLevelLine.setBasePosition( highLevelLineOriginX, panelHeight - 10 );
-        middleLevelLine.setBasePosition( middleLevelLineOriginX, panelHeight - 10 );
-        groundLevelLine.setBasePosition( groundLevelLineOriginX, panelHeight - 10 );
+        highLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
+        middleLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
+        groundLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
+
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         revalidate();
         repaint();
+        SwingUtilities.getWindowAncestor( this ).pack();
     }
-
 
     /**
      * @param graphics
      */
-    protected synchronized void paintComponent( Graphics graphics ) {
+    protected void paintComponent( Graphics graphics ) {
         super.paintComponent( graphics );
 
         Graphics2D g2 = (Graphics2D)graphics;
@@ -126,23 +137,27 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
         }
 
         // Draw middle level atoms
-        g2.setColor( Color.red );
-        for( int i = 0; i < numMiddleLevel; i++ ) {
-            g2.fillArc( (int)( middleLevelLine.getPosition().getX() + ( atomDiam * i ) ),
-                        (int)( middleLevelLine.getPosition().getY() - atomDiam ),
-                        atomDiam,
-                        atomDiam,
-                        0, 360 );
+        if( numLevels >= 2 ) {
+            g2.setColor( Color.red );
+            for( int i = 0; i < numMiddleLevel; i++ ) {
+                g2.fillArc( (int)( middleLevelLine.getPosition().getX() + ( atomDiam * i ) ),
+                            (int)( middleLevelLine.getPosition().getY() - atomDiam ),
+                            atomDiam,
+                            atomDiam,
+                            0, 360 );
+            }
         }
 
-        // Draw high level atoms
-        g2.setColor( Color.blue );
-        for( int i = 0; i < numHighLevel; i++ ) {
-            g2.fillArc( (int)( highLevelLine.getPosition().getX() + ( atomDiam * i ) ),
-                        (int)( highLevelLine.getPosition().getY() - atomDiam ),
-                        atomDiam,
-                        atomDiam,
-                        0, 360 );
+        // Draw high level atoms, if the level is enabled
+        if( numLevels >= 3 ) {
+            g2.setColor( Color.blue );
+            for( int i = 0; i < numHighLevel; i++ ) {
+                g2.fillArc( (int)( highLevelLine.getPosition().getX() + ( atomDiam * i ) ),
+                            (int)( highLevelLine.getPosition().getY() - atomDiam ),
+                            atomDiam,
+                            atomDiam,
+                            0, 360 );
+            }
         }
 
         gs.restoreGraphics();
@@ -152,24 +167,44 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
         numGroundLevel = model.getNumGroundStateAtoms();
         numMiddleLevel = model.getNumMiddleStateAtoms();
         numHighLevel = model.getNumHighStateAtoms();
+
+        middleLevelLifetimeSlider.update();
+        highLevelLifetimeSlider.update();
+
         this.invalidate();
         this.repaint();
     }
 
-    private static class EnergyLifetimeSlider extends JSlider {
-        private static int maxLifetime = 5000;
-        private Component component;
+    private class EnergyLifetimeSlider extends JSlider {
+        private int maxLifetime = 5000;
         private EnergyLevelGraphic graphic;
+        private int sliderHeight = 60;
 
-        public EnergyLifetimeSlider( Component component, EnergyLevelGraphic graphic, String label ) {
-            super( 0, maxLifetime, maxLifetime / 2 );
-            this.component = component;
+        public EnergyLifetimeSlider( final AtomicState atomicState, Component component,
+                                     EnergyLevelGraphic graphic, String label ) {
+            super();
+            setMinimum( 0 );
+            setMaximum( maxLifetime );
+            setValue( maxLifetime / 2 );
+            setMajorTickSpacing( 5000 );
+            setMinorTickSpacing( 1000 );
+            setPaintTicks( true );
+            setPaintLabels( true );
+            setPaintTrack( true );
             this.graphic = graphic;
+
+            this.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    atomicState.setMeanLifetime( EnergyLifetimeSlider.this.getValue() );
+                }
+            } );
             update();
         }
 
         public void update() {
-            this.setBounds( 300, (int)graphic.getPosition().getY(), 200, 200 );
+            this.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ),
+                            (int)graphic.getPosition().getY() - sliderHeight / 2,
+                            100, sliderHeight );
         }
     }
 }

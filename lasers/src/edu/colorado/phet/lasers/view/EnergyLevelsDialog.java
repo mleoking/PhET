@@ -34,7 +34,6 @@ public class EnergyLevelsDialog extends JDialog {
 
         addWindowListener( new WindowAdapter() {
             public void windowClosed( WindowEvent e ) {
-                //                EventRegistry.instance.fireEvent( new CloseEvent( this ) );
             }
         } );
 
@@ -47,17 +46,12 @@ public class EnergyLevelsDialog extends JDialog {
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        JPanel controlPanel = new JPanel( new GridBagLayout() );
-
-        //        if( energyLevelsPanel instanceof ThreeEnergyLevelMonitorPanel ) {
-        //            controlPanel.add( new HighEnergyHalfLifeControl( model ), gbc );
-        //            gbc.gridy++;
-        //        }
-        controlPanel.add( new MiddleEnergyHalfLifeControl( model ), gbc );
+//        JPanel controlPanel = new JPanel( new GridBagLayout() );
+//        controlPanel.add( new MiddleEnergyHalfLifeControl( model ), gbc );
 
         gbc.gridy = 0;
-        contentPane.add( controlPanel, gbc );
-        gbc.gridx++;
+//        contentPane.add( controlPanel, gbc );
+//        gbc.gridx++;
         //        if( energyLevelsPanel instanceof TwoEnergyLevelMonitorPanel ) {
         //            gbc.gridheight = 2;
         //        }

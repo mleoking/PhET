@@ -19,36 +19,16 @@ import java.awt.geom.Point2D;
 
 public class MiddleEnergyState extends SpontaneouslyEmittingState {
 
-    //
-    // Static fields and methods
-    //
     private static MiddleEnergyState instance = new MiddleEnergyState();
     public static MiddleEnergyState instance() {
         return instance;
     }
 
-    static private int s_numInstances = 0;
-    static public int s_wavelength = Photon.RED;
-    static private double s_spontaneousEmmisionHalfLife = LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME / 1000;
-
-    public static void setSpontaneousEmmisionHalfLife( double spontaneousEmmisionHalfLife ) {
-        s_spontaneousEmmisionHalfLife = spontaneousEmmisionHalfLife;
-    }
-
-    static public int getNumInstances() {
-        return s_numInstances;
-    }
-
-    //
-    // Instance
-    //
     private MiddleEnergyState() {
         setEnergyLevel( 40 );
+        setEmittedPhotonWavelength( Photon.RED );
     }
 
-    /**
-     * @param photon
-     */
     public void collideWithPhoton( Atom atom, Photon photon ) {
 
         // If the photon has the same energy as the difference
@@ -82,23 +62,11 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
         }
     }
 
-    protected double getSpontaneousEmmisionHalfLife() {
-        return s_spontaneousEmmisionHalfLife;
-    }
-
     protected AtomicState nextLowerEnergyState() {
         return GroundState.instance();
     }
 
-    void incrNumInState() {
-        s_numInstances++;
-    }
-
-    void decrementNumInState() {
-        s_numInstances--;
-    }
-
-    protected double getEmittedPhotonWavelength() {
-        return s_wavelength;
-    }
+//    protected double getEmittedPhotonWavelength() {
+//        return s_wavelength;
+//    }
 }
