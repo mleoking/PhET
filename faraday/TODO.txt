@@ -24,7 +24,7 @@ LOW PRIORITY:
 - remove unused images from JAR file
 - remove unused i18n strings
 - Help/MegaHelp
-- resize bar magnet image so that scaling isn't required
+- resize any images that are currently scaled (eg, bar magnet)
 
 phetcommon:
 - MathUtil.clamp behavior with Double.NaN
