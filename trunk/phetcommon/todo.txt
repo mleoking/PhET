@@ -1,3 +1,8 @@
+- take call to ResonatingCavoty.setHeight() in each of the modules.
+- Figure out why collimated beam has to be explicitly displace upward
+- Change internal rep of CollimatedBeam to get rid of x,y,width,height and just use the Rectangle2D
+
+
 - Debug library, with ClockControlPanel
 Should we keep or toss TxTranslatable, TxGraphic, TxBoundary, if we keep, can we conglomerate?
 

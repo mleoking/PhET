@@ -13,10 +13,12 @@ package edu.colorado.phet.lasers.model.photon;
 
 
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.LinkedList;
@@ -35,8 +37,9 @@ public class CollimatedBeam extends Particle {
     private Point2D origin;
     private double height;
     private double width;
+    private Rectangle2D bounds;
     private Vector2D velocity;
-    private ArrayList photons = new ArrayList();
+//    private ArrayList photons = new ArrayList();
     // The rate at which the beam produces photons
     private double timeSinceLastPhotonProduced = 0;
     // Used to deterimine when photons should be produced
@@ -45,18 +48,30 @@ public class CollimatedBeam extends Particle {
     private boolean isActive;
     private LaserModel model;
     private LinkedList listeners = new LinkedList();
+    private Photon.Listener photonListener;
+    private LinkedList photons = new LinkedList();
 
-    public interface Listener {
+    public interface Listener extends Photon.Listener {
         void photonCreated( CollimatedBeam beam, Photon photon );
     }
 
     public CollimatedBeam( LaserModel model, int wavelength, Point2D origin, double height, double width, Vector2D direction ) {
         this.model = model;
         this.wavelength = wavelength;
+        this.bounds = new Rectangle2D.Double( origin.getX(), origin.getY(), width, height );
         this.origin = origin;
         this.height = height;
         this.width = width;
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.s_speed );
+
+        photonListener = new Photon.Listener() {
+                    public void leavingSystem( Photon photon ) {
+                        for( int i = 0; i < listeners.size(); i++ ) {
+                            Listener listener = (Listener)listeners.get( i );
+                            listener.leavingSystem( photon );
+                        }
+                    }
+                };
     }
 
     public void addListener( Listener listener ) {
@@ -116,6 +131,7 @@ public class CollimatedBeam extends Particle {
         newPhoton.setVelocity( new Vector2D.Double( velocity ) );
         newPhoton.setWavelength( this.wavelength );
         model.addModelElement( newPhoton );
+        newPhoton.addListener( this.photonListener );
         photons.add( newPhoton );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
@@ -141,6 +157,15 @@ public class CollimatedBeam extends Particle {
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
             }
         }
+
+        // Remove ones that have gotten beyond the bounds
+        for( int i = 0; i < photons.size(); i++ ) {
+            Photon photon = (Photon)photons.get( i );
+            if( !this.bounds.contains( photon.getPosition() )) {
+                photon.removeFromSystem();
+                this.photons.remove( photon );
+            }
+        }
     }
 
     public boolean isActive() {
@@ -154,7 +179,7 @@ public class CollimatedBeam extends Particle {
 
     private double genPositionY() {
         double yDelta = velocity.getX() != 0 ? Math.random() * height : 0;
-        return this.getPosition().getY() + yDelta;
+        return this.getPosition().getY() + yDelta - height / 2;
     }
 
     private double genPositionX() {
