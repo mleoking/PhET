@@ -43,8 +43,37 @@ public class HelpItem extends PhetGraphic {
     private Color foregroundColor;
     boolean inited = false;
 
+    /**
+     * @param component
+     * @param text
+     * @param x
+     * @param y
+     */
     public HelpItem( Component component, String text, double x, double y ) {
         this( component, text, x, y, CENTER, CENTER );
+    }
+
+    /**
+     *
+     * @param component
+     * @param text
+     * @param location
+     */
+    public HelpItem( Component component, String text, Point2D location ) {
+        this( component, text, location.getX(), location.getX() );
+    }
+
+    /**
+     * 
+     * @param component
+     * @param text
+     * @param location
+     * @param horizontalAlignment
+     * @param verticalAlignment
+     */
+    public HelpItem( Component component, String text, Point2D location,
+                     int horizontalAlignment, int verticalAlignment ) {
+        this( component, text, location.getX(), location.getY(), horizontalAlignment, verticalAlignment );
     }
 
     /**
