@@ -13,7 +13,6 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -33,7 +32,7 @@ import java.util.EventObject;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public abstract class Wave extends PhetGraphic implements ModelElement, AtomicState.Listener {
+public abstract class WaveGraphic extends PhetGraphic implements ModelElement, AtomicState.Listener {
     protected Point2D origin;
     protected double lambda;
     protected double period;
@@ -62,7 +61,7 @@ public abstract class Wave extends PhetGraphic implements ModelElement, AtomicSt
     // the color gets darker faster
     private double rampUpExponent;
 
-    public Wave( Component component, AtomicState atomicState, ResonatingCavity cavity ) {
+    public WaveGraphic( Component component, AtomicState atomicState, ResonatingCavity cavity ) {
         super( component );
         this.atomicState = atomicState;
         this.cavity = cavity;
@@ -103,15 +102,16 @@ public abstract class Wave extends PhetGraphic implements ModelElement, AtomicSt
     public void paint( Graphics2D g2 ) {
         saveGraphicsState( g2 );
 
-        GraphicsUtil.setAlpha( g2, (double)( 255 - level ) / 255 );
-        g2.setColor( baseColor );
-        g2.fill( curtainBounds );
-//        g2.fill( wavePath.getBounds() );
-        GraphicsUtil.setAlpha( g2, 1 );
+//        GraphicsUtil.setAlpha( g2, (double)( 255 - level ) / 255 );
+//        g2.setColor( baseColor );
+//        g2.fill( curtainBounds );
+//        GraphicsUtil.setAlpha( g2, 1 );
 
-        g2.setStroke( stroke );
-        g2.setColor( color );
-        g2.draw( wavePath );
+        if( amplitude > 0 ) {
+            g2.setStroke( stroke );
+            g2.setColor( color );
+            g2.draw( wavePath );
+        }
         restoreGraphicsState();
     }
 
@@ -156,6 +156,7 @@ public abstract class Wave extends PhetGraphic implements ModelElement, AtomicSt
 
         curtainBounds.setRect( wavePath.getBounds().getMinX(), cavity.getBounds().getMinY(),
                                wavePath.getBounds().getWidth(), cavity.getBounds().getHeight() );
+        setBoundsDirty();
     }
 
     private double getMaxInternalAmplitude() {
@@ -163,7 +164,7 @@ public abstract class Wave extends PhetGraphic implements ModelElement, AtomicSt
     }
 
     public interface Listener extends EventListener {
-        public void waveChanged( StandingWave.ChangeEvent event );
+        public void waveChanged( StandingWaveGraphic.ChangeEvent event );
     }
 
     public class ChangeEvent extends EventObject {
@@ -171,8 +172,8 @@ public abstract class Wave extends PhetGraphic implements ModelElement, AtomicSt
             super( source );
         }
 
-        public StandingWave getStandingWave() {
-            return (StandingWave)getSource();
+        public StandingWaveGraphic getStandingWave() {
+            return (StandingWaveGraphic)getSource();
         }
     }
 }

@@ -16,18 +16,18 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
- * Class: StandingWave
+ * Class: TravelingWave
  * Package: edu.colorado.phet.lasers.view
  * Author: Another Guy
  * Date: Nov 22, 2004
  * <p/>
- * A sinusoidal standing wave.
+ * A sinusoidal traveling wave.
  */
-public class StandingWave extends Wave {
+public class TravelingWaveGraphic extends WaveGraphic {
 
-    public StandingWave( Component component, Point2D origin, double extent,
-                         double lambda, double period, double amplitude,
-                         AtomicState atomicState, LaserModel model ) {
+    public TravelingWaveGraphic( Component component, Point2D origin, double extent,
+                                 double lambda, double period, double amplitude,
+                                 AtomicState atomicState, LaserModel model ) {
         super( component, atomicState, model.getResonatingCavity() );
         this.origin = origin;
         this.lambda = lambda;
@@ -41,18 +41,30 @@ public class StandingWave extends Wave {
     }
 
     public void stepInTime( double dt ) {
+
         update();
+
         wavePath.reset();
         elapsedTime += dt;
-        double a = Math.sin( ( elapsedTime / period ) * Math.PI );
-        wavePath.moveTo( (float)origin.getX(), (float)origin.getY() );
-        for( int i = 0; i < numPts; i += 3 ) {
+        for( int i = 0; i < numPts; i++ ) {
             double x = dx * i;
-            double y = amplitude * ( a * Math.sin( ( x / lambda ) * Math.PI ) );
-            wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
+            double y = amplitude * Math.sin( ( ( x - elapsedTime ) / lambda ) * Math.PI );
+            if( i == 0 ) {
+                wavePath.moveTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
+            }
+            else {
+                wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
+            }
         }
         listenerProxy.waveChanged( new ChangeEvent( this ) );
     }
 
+//    public void paint( Graphics2D g2 ) {
+//        GraphicsState gs = new GraphicsState( g2 );
+////        g2.setColor( actualColor );
+////        g2.fill( wavePath.getBounds() );
+//        super.paint( g2 );
+//        gs.restoreGraphics();
+//    }
 
 }

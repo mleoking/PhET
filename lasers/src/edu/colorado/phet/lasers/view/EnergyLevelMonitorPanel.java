@@ -13,12 +13,13 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockStateListener;
-import edu.colorado.phet.common.model.clock.ClockStateEvent;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockStateEvent;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -30,9 +31,6 @@ import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -93,6 +91,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private double pumpBeamWavelength;
     private BufferedImage baseSphereImg;
     private BaseLaserModule module;
+    // The offset by which all the graphic elements must be placed, caused by the heading text
+    private int headingOffsetY = 20;
 
     /**
      *
@@ -120,6 +120,13 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                                                   levelLineLength - ( levelLineOriginX + squiggleHeight * 3 ),
                                                   false );
         this.setBackground( Color.white );
+        JLabel dummyLabel = new JLabel( "foo" );
+        Font font = dummyLabel.getFont();
+        PhetTextGraphic headingText = new PhetTextGraphic( this, font,
+                                                           SimStrings.get( "EnergyMonitorPanel.header" ),
+                                                           Color.black );
+        headingText.setLocation( 30, 5 );
+        this.addGraphic( headingText );
         this.addGraphic( highLevelLine );
         this.addGraphic( middleLevelLine );
         this.addGraphic( groundLevelLine );
@@ -127,10 +134,11 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         // Add lifetime sliders and a title for them
         middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(),
                                                               middleLevelLine,
-                                                              LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME );
+                                                              LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
+                                                              this );
         this.add( middleLevelLifetimeSlider );
         highLevelLifetimeSlider = new EnergyLifetimeSlider( HighEnergyState.instance(), highLevelLine,
-                                                            LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME );
+                                                            LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME, this );
         this.add( highLevelLifetimeSlider );
 
         this.addComponentListener( new PanelResizer() );
@@ -146,7 +154,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
                                                      getBounds().getWidth(), getBounds().getHeight() - 30 );
         energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy, AtomicState.minEnergy,
-                                       (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
+                                              (int)bounds.getBounds().getMinY() + headingOffsetY, (int)bounds.getBounds().getMaxY() );
         highLevelLine.update( energyYTx );
         middleLevelLine.update( energyYTx );
         groundLevelLine.update( energyYTx );
@@ -411,71 +419,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
-
-    public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listener {
-        // Needs to be accessible to the EnergyLevelGraphic class
-        public final static int sliderHeight = 40;
-
-        private EnergyLevelGraphic graphic;
-        private int maxSliderWidth = 100;
-        private int sliderWidthPadding = 20;
-        private int sliderWidth;
-
-        public EnergyLifetimeSlider( final AtomicState atomicState, EnergyLevelGraphic graphic, int maxLifetime ) {
-            super();
-            atomicState.addListener( this );
-            setMinimum( 0 );
-            setMaximum( maxLifetime );
-            sliderWidth = (int)( (double)( maxSliderWidth - sliderWidthPadding ) * ( (double)getMaximum() / LaserConfig.MAXIMUM_STATE_LIFETIME ) ) + sliderWidthPadding;
-            sliderWidth = Math.min( sliderWidth, maxSliderWidth );
-            setValue( maxLifetime / 2 );
-            setMajorTickSpacing( maxLifetime );
-            setMinorTickSpacing( maxLifetime / 10 );
-//            setPaintTicks( true );
-//            setPaintLabels( true );
-//            setPaintTrack( true );
-            this.graphic = graphic;
-            this.setLayout( new BorderLayout() );
-            this.add( new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.sliderLabel" ), JLabel.CENTER ), BorderLayout.NORTH );
-
-            this.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    atomicState.setMeanLifetime( EnergyLifetimeSlider.this.getValue() );
-                }
-            } );
-            this.setEnabled( false );
-            setValue( (int)atomicState.getMeanLifeTime() );
-            this.setEnabled( true );
-
-            this.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-            update();
-        }
-
-        /**
-         * Positions the slider on the screen
-         */
-        public void update() {
-            this.setBounds( (int)( panelWidth - maxSliderWidth ),
-                            (int)graphic.getPosition().getY(),
-                            sliderWidth, sliderHeight );
-        }
-
-        public void energyLevelChanged( AtomicState.Event event ) {
-            // noop
-        }
-
-        public void meanLifetimechanged( AtomicState.Event event ) {
-            this.setEnabled( false );
-            this.setValue( (int)event.getMeanLifetime() );
-            this.setEnabled( true );
-        }
-
-        public void meanLifetimeChanged( AtomicState.MeanLifetimeChangeEvent event ) {
-            this.setEnabled( false );
-            this.setValue( (int)event.getMeanLifetime() );
-            this.setEnabled( true );
-        }
-    }
 
     /**
      * Set the beamArea within the panel that the energy level lines can be positioned

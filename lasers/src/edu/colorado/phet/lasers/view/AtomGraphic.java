@@ -7,12 +7,12 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -20,10 +20,10 @@ import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.AffineTransformOp;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeListener, SimpleObserver {
@@ -55,7 +55,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         BufferedImage bi = atxOp.filter( image, null );
 
         imageGraphic = new PhetImageGraphic( component, bi );
-        addGraphic( imageGraphic, 2);
+        addGraphic( imageGraphic, 2 );
 
         energyGraphic = new PhetShapeGraphic( component, energyRep, energyRepColor );
         addGraphic( energyGraphic, 1 );
@@ -102,7 +102,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 
         // Set the location of the image graphic
         imageGraphic.setLocation( (int)( energyRepRad - imageGraphic.getHeight() / 2 ),
-                                  (int)(energyRepRad - imageGraphic.getHeight() / 2 ));
+                                  (int)( energyRepRad - imageGraphic.getHeight() / 2 ) );
 
         setBoundsDirty();
         repaint();
@@ -112,11 +112,14 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         update( atom.getCurrState() );
     }
 
-    public void paint( Graphics2D g ) {
-        super.paint( g );
+    public void paint( Graphics2D g2 ) {
+        saveGraphicsState( g2 );
+        GraphicsUtil.setAntiAliasingOn( g2 );
+        super.paint( g2 );
         // Debug: draws a dot at the center of the atom
 //                g.setColor( Color.RED );
 //                g.drawArc( (int)atom.getPosition().getX()-2, (int)atom.getPosition().getY()-2, 4, 4, 0, 360 );
+        restoreGraphicsState();
     }
 }
 

@@ -12,16 +12,17 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.view.EnergyLevelGraphic.EnergyLevelTranslator;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -99,7 +100,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
      * Inner class that handles translation of the graphic
      */
     private class EnergyLevelTranslator implements TranslationListener {
-        private int minPixelsBetweenLevels = EnergyLevelMonitorPanel.EnergyLifetimeSlider.sliderHeight;
+        private int minPixelsBetweenLevels = EnergyLifetimeSlider.sliderHeight;
 
         public void translationOccurred( TranslationEvent translationEvent ) {
             int dy = translationEvent.getDy();
