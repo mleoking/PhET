@@ -97,7 +97,6 @@ public class Animation {
         for( int i = 1; i <= numFrames; i++ ) {
             String fileName = Animation.genAnimationFileName( filePrefix, i );
             frames[i - 1] = animationLoader.loadImage( fileName );
-            //            frames[i - 1] = animationLoader.loadImage(fileName);
         }
         return frames;
     }
@@ -107,11 +106,7 @@ public class Animation {
      */
     private static String genAnimationFileName( String fileNamePrefix, int frameNum ) {
         String zeroStr = "";
-        int i = 0;
-        for( int temp = frameNum; temp != 0; i++ ) {
-            temp /= 10;
-        }
-        for( ; i < 4; i++ ) {
+        for( int i = 0; i < 4; i++ ) {
             zeroStr = zeroStr.concat( "0" );
         }
         String fileName = fileNamePrefix + "_" + zeroStr + Integer.toString( frameNum ) + ".gif";
@@ -119,6 +114,6 @@ public class Animation {
     }
 
     public Image getFrame( int frameNum ) {
-        return this.frames[ frameNum ];
+        return this.frames[frameNum];
     }
 }
