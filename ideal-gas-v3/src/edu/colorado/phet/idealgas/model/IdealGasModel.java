@@ -178,7 +178,7 @@ public class IdealGasModel extends BaseModel {
             lightSpeciesCnt--;
         }
 
-        // Handle the special case where the model element is gravit
+        // Handle the special case where the model element is gravity
         if( modelElement instanceof Gravity ) {
             removeExternalForce( modelElement );
             this.gravity = null;
@@ -475,12 +475,29 @@ public class IdealGasModel extends BaseModel {
     }
 
     public double getHeavySpeciesAveSpeed() {
-//        System.out.println( "averageHeavySpeciesSpeed - A = " + averageHeavySpeciesSpeed );
         return averageHeavySpeciesSpeed;
     }
 
     public double getLightSpeciesAveSpeed() {
         return averageLightSpeciesSpeed;
+    }
+
+    public void removeAllMolecules() {
+        ArrayList removalList = new ArrayList();
+        // Collect the elements to be removed from the system
+        for( int i = 0; i < bodies.size(); i++ ) {
+            ModelElement modelElement = (ModelElement)bodies.get( i );
+            if( modelElement instanceof GasMolecule ) {
+                removalList.add( modelElement );
+            }
+        }
+        // Remove them from the system
+        for( int i = 0; i < removalList.size(); i++ ) {
+            ModelElement modelElement = (ModelElement)removalList.get( i );
+            GasMolecule gm = (GasMolecule)modelElement;
+            this.removeModelElement( gm );
+            gm.removeYourselfFromSystem();
+        }
     }
 }
 
