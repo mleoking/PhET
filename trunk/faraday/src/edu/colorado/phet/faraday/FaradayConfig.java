@@ -38,7 +38,7 @@ public class FaradayConfig {
 
     // Clock constants
     public static final double TIME_STEP = 1;
-    public static final int FRAME_RATE = 10;  // frame per second
+    public static final int FRAME_RATE = 25;  // frame per second
     public static final int WAIT_TIME = ( 1000 / FRAME_RATE );  // milliseconds
 
     // Layers
