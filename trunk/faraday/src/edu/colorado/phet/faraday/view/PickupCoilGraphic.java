@@ -111,13 +111,7 @@ public class PickupCoilGraphic
         _background.addGraphic( _coilGraphic.getBackground() );
         
         // Interactivity
-        _foreground.setCursorHand();
-        _background.setCursorHand();
-        InteractivityListener listener = new InteractivityListener();
-        _foreground.addTranslationListener( listener );
-        _foreground.addMouseInputListener( listener );
-        _background.addTranslationListener( listener );
-        _background.addMouseInputListener( listener );
+        setDraggingEnabled( true );
         
         update();
     }
@@ -170,6 +164,28 @@ public class PickupCoilGraphic
      */
     public boolean contains( Point p ) {
         return _foreground.contains( p ) || _background.contains( p );
+    }
+    
+    /**
+     * Enables and disables dragging of the coil.
+     * 
+     * @param enabled true or false
+     */
+    public void setDraggingEnabled( boolean enabled ) {
+        if ( enabled ) {
+            // Interactivity
+            _foreground.setCursorHand();
+            _background.setCursorHand();
+            InteractivityListener listener = new InteractivityListener();
+            _foreground.addTranslationListener( listener );
+            _foreground.addMouseInputListener( listener );
+            _background.addTranslationListener( listener );
+            _background.addMouseInputListener( listener );
+        }
+        else {
+            _foreground.removeAllMouseInputListeners();
+            _background.removeAllMouseInputListeners();
+        }
     }
     
     //----------------------------------------------------------------------------
