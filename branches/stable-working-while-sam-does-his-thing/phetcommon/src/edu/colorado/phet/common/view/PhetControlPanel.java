@@ -37,7 +37,7 @@ public class PhetControlPanel extends JPanel {
     private int padY = 5;
     private ArrayList controls = new ArrayList();
     private HashMap panelEntries = new HashMap();
-    private Insets defaultInsets = new Insets( 10, 5, 0, 5 );
+    private Insets defaultInsets = new Insets( 0, 0, 0, 0 );
 
 
     /**
@@ -45,19 +45,29 @@ public class PhetControlPanel extends JPanel {
      */
     public PhetControlPanel( Module module ) {
         this.module = module;
-        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
-        imageIcon = new ImageIcon( resource );
 
         this.setLayout( new BorderLayout() );
-        titleLabel = ( new JLabel( imageIcon ) );
-        helpPanel = new HelpPanel( module );
 
-        this.add( titleLabel, BorderLayout.NORTH );
-        this.add( helpPanel, BorderLayout.SOUTH );
+        // Logo at top of panel
+        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
+        imageIcon = new ImageIcon( resource );
+        titleLabel = ( new JLabel( imageIcon ) );
+        JPanel p = new JPanel();
+        p.add( titleLabel );
+        this.add( p, BorderLayout.NORTH );
+//        this.add( titleLabel, BorderLayout.NORTH );
+
+        // Panel for help button
+        helpPanel = new HelpPanel( module );
+        JPanel hp = new JPanel();
+        hp.add( helpPanel );
+        this.add( hp, BorderLayout.SOUTH );
+//        this.add( helpPanel, BorderLayout.SOUTH );
         setHelpPanelEnabled( module.hasHelp() );
+
         JPanel centerPane = new JPanel();
         centerPane.add( controlPane );
-        this.add( centerPane, BorderLayout.CENTER );
+        this.add( new JScrollPane( centerPane ), BorderLayout.CENTER );
     }
 
     public PhetControlPanel( Module module, JPanel panel ) {
