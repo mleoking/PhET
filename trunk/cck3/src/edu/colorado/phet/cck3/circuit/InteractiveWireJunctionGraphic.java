@@ -34,11 +34,9 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
 
         MouseInputAdapter input = new MouseInputAdapter() {
             public void mouseEntered( MouseEvent e ) {
-//                System.out.println( "Mouse entered junction=" + jg.getJunction() );
             }
 
             public void mouseDragged( MouseEvent e ) {
-//                System.out.println( "Dragging junction="+junctionGraphic.getJunction() );
                 Point2D.Double pt = transform.viewToModel( e.getX(), e.getY() );
 
                 //find a potential match.

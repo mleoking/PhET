@@ -34,6 +34,8 @@ public class PhetSlider extends JPanel {
     private double value;
     private int numMajorTicks;
     private int numMinorTicks;
+    private JLabel titleLabel;
+    private JTextField unitsReadout;
 
     public PhetSlider( String title, String units, final double min, final double max, double initial ) {
         this( title, units, min, max, initial, new DecimalFormat( "0.0#" ) );
@@ -56,7 +58,7 @@ public class PhetSlider extends JPanel {
         this.textField = createTextField();
         createSlider();
 
-        JLabel titleLabel = new JLabel( title ) {
+        titleLabel = new JLabel( title ) {
             protected void paintComponent( Graphics g ) {
                 GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
                 super.paintComponent( g );
@@ -65,7 +67,7 @@ public class PhetSlider extends JPanel {
         Font titleFont = new Font( "Lucida Sans", Font.BOLD, 20 );
         titleLabel.setFont( titleFont );
 
-        JTextField unitsReadout = new JTextField( " " + this.units ) {
+        unitsReadout = new JTextField( " " + this.units ) {
             protected void paintComponent( Graphics g ) {
                 GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
                 super.paintComponent( g );
@@ -91,6 +93,14 @@ public class PhetSlider extends JPanel {
             throw new RuntimeException( e );
         }
         setValue( initialValue );
+    }
+
+    public void setEnabled( boolean enabled ) {
+        super.setEnabled( enabled );
+        slider.setEnabled( enabled );
+        textField.setEnabled( enabled );
+        unitsReadout.setEnabled( enabled );
+        titleLabel.setEnabled( enabled );
     }
 
     public void requestSliderFocus() {

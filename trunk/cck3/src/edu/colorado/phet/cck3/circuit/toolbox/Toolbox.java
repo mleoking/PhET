@@ -196,11 +196,12 @@ public class Toolbox extends CompositeGraphic {
         return boundaryGraphic.getShape();
     }
 
-    public void setModelBounds( Rectangle2D modelRect ) {
+    public void setModelBounds( Rectangle2D modelRect, boolean showAmmeter ) {
         this.modelRect = new Rectangle2D.Double( modelRect.getX(), modelRect.getY(), modelRect.getWidth(), modelRect.getHeight() );//modelRect;
         clear();
         rebuild();
         doUpdate();
+        setSeriesAmmeterVisible( showAmmeter );
     }
 
     public void setSeriesAmmeterVisible( boolean selected ) {

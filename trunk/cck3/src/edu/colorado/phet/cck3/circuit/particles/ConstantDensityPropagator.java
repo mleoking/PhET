@@ -6,7 +6,6 @@ import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
-import edu.colorado.phet.cck3.circuit.kirkhoff.Path;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 
@@ -193,12 +192,12 @@ public class ConstantDensityPropagator implements ModelElement {
             e.setLocation( chosen.getBranch(), Math.abs( chosen.getX() ) );
         }
     }
-
-    private boolean isInFireLoop( Branch branch ) {
-        KirkhoffSolver.MatrixTable mt = new KirkhoffSolver.MatrixTable( circuit );
-        Path[] paths = mt.getLoops();
-        return false;
-    }
+//
+//    private boolean isInFireLoop( Branch branch ) {
+//        KirkhoffSolver.MatrixTable mt = new KirkhoffSolver.MatrixTable( circuit );
+//        Path[] paths = mt.getLoops();
+//        return false;
+//    }
 
     private CircuitLocation chooseDestinationBranch( CircuitLocation[] loc ) {
         if( loc.length == 1 ) {

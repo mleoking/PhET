@@ -2,10 +2,9 @@
 package edu.colorado.phet.cck3.circuit.tools;
 
 import edu.colorado.phet.cck3.CCK3Module;
-import edu.colorado.phet.cck3.circuit.Branch;
-import edu.colorado.phet.cck3.circuit.CircuitGraphic;
-import edu.colorado.phet.cck3.circuit.InteractiveBranchGraphic;
+import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.common.RectangleUtils;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.CompositeGraphic;
@@ -139,7 +138,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
             graphics2D.fill( tipShape );
         }
 
-        public Branch detectBranch( CircuitGraphic circuitGraphic ) {
+        private Branch detectBranch( CircuitGraphic circuitGraphic ) {
             Graphic[] g = circuitGraphic.getBranchGraphics();
             Shape tipShape = getTipShape();
             overlap = null;
@@ -165,6 +164,47 @@ public class VoltmeterGraphic extends CompositeGraphic {
             }
         }
 
+        public Connection detectConnection( CircuitGraphic circuitGraphic ) {
+            Branch branch = detectBranch( circuitGraphic );
+            Junction junction = detectJunction( circuitGraphic );
+            Connection result = null;
+            if( junction != null ) {
+                result = new JunctionConnection( junction );
+            }
+            else if( branch != null ) {
+                //could choose the closest junction
+                //but we want a potentiometer.
+                result = new JunctionConnection( branch.getStartJunction() );
+                Rectangle tipRect = getTipShape().getBounds();
+                Point2D tipCenter = RectangleUtils.getCenter( tipRect );
+                Point2D tipCenterModel = circuitGraphic.getTransform().viewToModel( new Point( (int)tipCenter.getX(), (int)tipCenter.getY() ) );
+                Point2D.Double branchCenterModel = branch.getStartJunction().getPosition();
+//                Point2D branchCenterModel = circuitGraphic.getTransform().viewToModel( (int)branchCenterView.getX(), (int)branchCenterView.getY() );
+                Vector2D vec = new Vector2D.Double( branchCenterModel, tipCenterModel );
+                double dist = vec.getMagnitude();
+                result = new BranchConnection( branch, dist );
+            }
+            return result;
+        }
+
+        private Junction detectJunction( CircuitGraphic circuitGraphic ) {
+            Graphic[] j = circuitGraphic.getJunctionGraphics();
+            Shape tipShape = getTipShape();
+            Junction junction = null;
+            for( int i = 0; i < j.length; i++ ) {
+                Graphic graphic = j[i];
+                HasJunctionGraphic hj = (HasJunctionGraphic)graphic;
+                JunctionGraphic jg = hj.getJunctionGraphic();
+                Area area = new Area( jg.getShape() );
+                area.intersect( new Area( tipShape ) );
+                if( !area.isEmpty() ) {
+                    junction = jg.getJunction();
+                    break;
+                }
+            }
+            return junction;
+        }
+
         public void setAngle( double angle ) {
             this.angle = angle;
             changed();
@@ -183,8 +223,10 @@ public class VoltmeterGraphic extends CompositeGraphic {
         }
         else {
 //        if (new ArearedLeadGraphic.getTipShape())
-            Branch red = redLeadGraphic.detectBranch( module.getCircuitGraphic() );
-            Branch black = blackLeadGraphic.detectBranch( module.getCircuitGraphic() );
+            Connection red = redLeadGraphic.detectConnection( module.getCircuitGraphic() );
+//            Branch red = redLeadGraphic.detectBranch( module.getCircuitGraphic() );
+            Connection black = blackLeadGraphic.detectConnection( module.getCircuitGraphic() );
+//            Branch black = blackLeadGraphic.detectBranch( module.getCircuitGraphic() );
             if( red == null || black == null ) {
                 unitGraphic.setUnknownVoltage();
             }
@@ -199,6 +241,74 @@ public class VoltmeterGraphic extends CompositeGraphic {
                 }
             }
         }
+    }
+
+    public abstract static class Connection {
+        public abstract Branch[] getBranchesToIgnore();
+
+        public abstract Junction getJunction();
+
+        public abstract double getVoltageAddon();
+    }
+
+    public static class JunctionConnection extends Connection {
+        Junction junction;
+
+        public JunctionConnection( Junction junction ) {
+            this.junction = junction;
+        }
+
+        public boolean equals( Object o ) {
+            if( o instanceof JunctionConnection ) {
+                JunctionConnection jc = (JunctionConnection)o;
+                if( jc.junction == junction ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public Branch[] getBranchesToIgnore() {
+            return new Branch[0];
+        }
+
+        public Junction getJunction() {
+            return junction;
+        }
+
+        public double getVoltageAddon() {
+            return 0;
+        }
+    }
+
+    public static class BranchConnection extends Connection {
+        Branch branch;
+        double dist;
+
+        public BranchConnection( Branch branch, double dist ) {
+            this.branch = branch;
+            this.dist = dist;
+        }
+
+        public Branch[] getBranchesToIgnore() {
+            return new Branch[0];
+        }
+
+        public Junction getJunction() {
+            return branch.getStartJunction();
+        }
+
+        public double getVoltageAddon() {
+            double resistance = branch.getResistance();
+            double length = branch.getLength();
+            double resistivity = resistance / length; //infer a resistivity.
+            double incrementalResistance = dist * resistivity;
+            double current = branch.getCurrent();
+            double voltage = current * incrementalResistance;//the sign is probably wrong.
+//            System.out.println( "dist=" + dist + ", resistance = " + resistance + ", incrementalRes=" + incrementalResistance + ", current=" + current + ", DV=" + voltage );
+            return voltage;
+        }
+
     }
 
     public Voltmeter getVoltmeter() {

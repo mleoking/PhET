@@ -37,8 +37,8 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         CircuitComponent cc = circuitComponentGraphic.getCircuitComponent();
         if( cc instanceof Battery ) {
             final Battery batt = (Battery)cc;
-            BatteryMenu batteryMenu = new BatteryMenu( batt, module );
-            addPopupMenuBehavior( batteryMenu.getMenu() );
+            BatteryJMenu bj = new BatteryJMenu( batt, module );
+            addPopupMenuBehavior( bj );
         }
         else if( cc instanceof Resistor ) {
             Resistor res = (Resistor)cc;
@@ -77,7 +77,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             this.module = module;
         }
 
-        protected void finish() {
+        public static void finish( final CCK3Module module, final Branch branch, JPopupMenu menu ) {
             JMenuItem remove = new JMenuItem( "Remove" );
             remove.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -89,6 +89,10 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                 menu.addSeparator();
             }
             menu.add( remove );
+        }
+
+        protected void finish() {
+            finish( module, branch, getMenu() );
         }
 
         public JPopupMenu getMenu() {
@@ -157,28 +161,81 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
     }
 
+    static class BatteryJMenu extends JPopupMenu {
+        Battery battery;
+        private CCK3Module module;
+        private JMenuItem editInternal;
+
+        public BatteryJMenu( final Battery branch, CCK3Module module ) {
+            this.battery = branch;
+            this.module = module;
+            JMenuItem edit = new JMenuItem( "Change Voltage" );
+            final ComponentEditor.BatteryEditor be = new ComponentEditor.BatteryEditor( branch, module.getApparatusPanel(), module.getCircuit() );
+            edit.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    be.setVisible( true );
+                }
+            } );
+            add( edit );
+
+            editInternal = new JMenuItem( "Change Internal Resistance" );
+            editInternal.setEnabled( false );
+            final ComponentEditor.BatteryResistanceEditor bre = new ComponentEditor.BatteryResistanceEditor( battery, module.getApparatusPanel(), module.getCircuit() );
+            editInternal.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    bre.setVisible( true );
+                }
+            } );
+            add( editInternal );
+
+            JMenuItem reverse = new JMenuItem( "Reverse" );
+            reverse.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    reverse( branch );
+                }
+            } );
+            add( reverse );
+
+            ComponentMenu.finish( module, branch, this );
+        }
+
+        public void show( Component invoker, int x, int y ) {
+            editInternal.setEnabled( module.isInternalResistanceOn() );
+            super.show( invoker, x, y );
+        }
+
+        private void reverse( Battery batt ) {
+            Junction start = batt.getStartJunction();
+            Junction end = batt.getEndJunction();
+            batt.setStartJunction( end );
+            batt.setEndJunction( start );
+            batt.notifyObservers();
+            batt.fireKirkhoffChange();
+        }
+    }
+
     static class BatteryMenu extends ComponentMenu {
         Battery batt;
 
         public BatteryMenu( final Battery batt, CCK3Module module ) {
             super( batt, module );
             this.batt = batt;
-            final ComponentEditor.BatteryEditor be = new ComponentEditor.BatteryEditor( batt, module.getApparatusPanel(), module.getCircuit() );
-            JMenuItem edit = new JMenuItem( "Change Voltage" );
-            edit.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    be.setVisible( true );
-                }
-            } );
-            menu.add( edit );
+//            final ComponentEditor.BatteryEditor be = new ComponentEditor.BatteryEditor( batt, module.getApparatusPanel(), module.getCircuit() );
+//            JMenuItem edit = new JMenuItem( "Change Voltage" );
+//            edit.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    be.setVisible( true );
+//                }
+//            } );
+//            menu.add( edit );
 
-            JMenuItem reverse = new JMenuItem( "Reverse" );
-            reverse.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    reverse( batt );
-                }
-            } );
-            menu.add( reverse );
+//            JMenuItem reverse = new JMenuItem( "Reverse" );
+//            reverse.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    reverse( batt );
+//                }
+//            } );
+//            menu.add( reverse );
             finish();
         }
 
@@ -189,6 +246,10 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             batt.setEndJunction( start );
             batt.notifyObservers();
             batt.fireKirkhoffChange();
+        }
+
+        public JPopupMenu getMenu() {
+            return super.getMenu();
         }
     }
 
