@@ -120,13 +120,7 @@ public class BarMagnetModule extends Module {
         this.setModel( model );
         
         // Bar Magnet
-        if ( FaradayConfig.HOLLYWOOD_MAGNET ) {
-            System.out.println( "*** HOLLYWOOD_MAGNET is enabled ***" ); // DEBUG
-            _magnetModel = new HollywoodMagnet();
-        }
-        else {
-            _magnetModel = new BarMagnet();
-        }
+        _magnetModel = new BarMagnet();
         _magnetModel.setStrength( MAGNET_STRENGTH );
         _magnetModel.setLocation( MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );
@@ -134,14 +128,7 @@ public class BarMagnetModule extends Module {
         model.addModelElement( _magnetModel );
         
         // Compass
-        AbstractCompass compassModel = null;
-        if ( FaradayConfig.HOLLYWOOD_COMPASS ) {
-            System.out.println( "*** HOLLYWOOD_COMPASS is enabled ***" ); // DEBUG
-            compassModel = new HollywoodCompass( _magnetModel );
-        }
-        else {
-            compassModel = new Compass( _magnetModel ); 
-        }
+        AbstractCompass compassModel = new Compass( _magnetModel ); 
         compassModel.setLocation( COMPASS_LOCATION );
         model.addModelElement( compassModel );
         
@@ -247,7 +234,6 @@ public class BarMagnetModule extends Module {
      * Flips the magnet's polarity.
      */
     public void flipMagnetPolarity() {
-        //System.out.println( "flipMagnetPolarity" ); // DEBUG
         double direction = _magnetModel.getDirection();
         direction = ( direction + 180 ) % 360;
         _magnetModel.setDirection( direction );
@@ -259,7 +245,6 @@ public class BarMagnetModule extends Module {
      * @param strength the strength value
      */
     public void setMagnetStrength( double strength ) {
-        //System.out.println( "setMagnetStrength " + strength ); // DEBUG
         _magnetModel.setStrength( strength );
     }
     
@@ -269,7 +254,6 @@ public class BarMagnetModule extends Module {
      * @param enable true to enable, false to disable
      */
     public void setCompassGridEnabled( boolean enable ) {
-        System.out.println( "setCompassGridEnabled " + enable ); // DEBUG
         _gridGraphic.resetSpacing();
         _gridGraphic.setVisible( enable );
     }
@@ -280,7 +264,6 @@ public class BarMagnetModule extends Module {
      * @param numberOfLoops the number of loops
      */
     public void setNumberOfPickupLoops( int numberOfLoops ) {
-        //System.out.println( "setNumberOfPickupLoops " + numberOfLoops ); // DEBUG
         _pickupCoilModel.setNumberOfLoops( numberOfLoops ); 
     }
     
@@ -290,7 +273,6 @@ public class BarMagnetModule extends Module {
      * @param radius the radius
      */
     public void setPickupLoopRadius( double radius ) {
-        //System.out.println( "setPickupLoopRadius " + radius ); // DEBUG
         _pickupCoilModel.setRadius( radius );
     }
     
@@ -298,7 +280,6 @@ public class BarMagnetModule extends Module {
      * Enables the light bulb.
      */
     public void setBulbEnabled( boolean enabled ) {
-        //System.out.println( "setBulbEnabled " + enabled ); // DEBUG
         _lightBulbModel.setEnabled( enabled );
         _voltMeterModel.setEnabled( !enabled );
         if ( enabled ) {
@@ -313,7 +294,6 @@ public class BarMagnetModule extends Module {
      * Enables the volt meter.
      */
     public void setMeterEnabled( boolean enabled ) {
-        //System.out.println( "setMeterEnabled " + enabled ); // DEBUG
         setBulbEnabled( !enabled );
     }
 }
