@@ -168,7 +168,7 @@ public class ModuleManager {
             ex.printStackTrace();
         }
         Module module = getActiveModule();
-        StateDescriptor sd = module.getStateDescriptor();
+        ModuleStateDescriptor sd = module.getStateDescriptor();
         encoder.writeObject( sd );
         encoder.close();
     }
@@ -182,8 +182,8 @@ public class ModuleManager {
             e.printStackTrace();
         }
 
-        // Read in the StateDescriptor
-        StateDescriptor sd = (StateDescriptor)decoder.readObject();
+        // Read in the ModuleStateDescriptor
+        ModuleStateDescriptor sd = (ModuleStateDescriptor)decoder.readObject();
         decoder.setExceptionListener( new ExceptionListener() {
             public void exceptionThrown( Exception exception ) {
                 exception.printStackTrace();

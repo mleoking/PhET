@@ -218,23 +218,23 @@ public class Module {
     //
 
     /**
-     * Returns a StateDescriptor for this Module.
+     * Returns a ModuleStateDescriptor for this Module.
      * <p/>
      * This method should be extended by subclasses that have state attributes.
      *
      * @return
      */
-    public StateDescriptor getStateDescriptor() {
-        StateDescriptor sd = new StateDescriptor( this );
+    public ModuleStateDescriptor getStateDescriptor() {
+        ModuleStateDescriptor sd = new ModuleStateDescriptor( this );
         return sd;
     }
 
     /**
-     * Restores the state of this Module to that specificied in a StateDescriptor
+     * Restores the state of this Module to that specificied in a ModuleStateDescriptor
      *
      * @param sd
      */
-    public void restoreState( StateDescriptor sd ) {
+    public void restoreState( ModuleStateDescriptor sd ) {
 
         // Remove and clean up the current model
         AbstractClock clock = PhetApplication.instance().getApplicationModel().getClock();

@@ -18,21 +18,21 @@ import edu.colorado.phet.common.util.MultiMap;
 import java.util.HashMap;
 
 /**
- * StateDescriptor
+ * ModuleStateDescriptor
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class StateDescriptor {
+public class ModuleStateDescriptor {
     private BaseModel model;
     private String moduleClassName;
     private MultiMap graphicMap;
 //    private ApparatusPanel apparatusPanel;
 
-    public StateDescriptor() {
+    public ModuleStateDescriptor() {
     }
 
-    protected StateDescriptor( Module module ) {
+    protected ModuleStateDescriptor( Module module ) {
         setModel( module.getModel() );
         setModuleClassName( module.getClass().getName() );
         setGraphicMap( module.getApparatusPanel().getGraphic().getGraphicMap() );
