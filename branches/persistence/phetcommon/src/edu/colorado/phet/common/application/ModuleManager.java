@@ -12,7 +12,7 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.MultiMap;
-import edu.colorado.phet.common.util.persistence.StateDescriptor;
+import edu.colorado.phet.common.util.persistence.*;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -20,9 +20,12 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.GZIPOutputStream;
+import java.util.zip.GZIPInputStream;
 import java.beans.*;
 import java.io.*;
 import java.awt.*;
+import java.awt.geom.*;
 
 /**
  * ModuleManager
@@ -148,7 +151,20 @@ public class ModuleManager {
                     pd.setValue( "transient", Boolean.TRUE );
                 }
             }
-            encoder = new XMLEncoder( new BufferedOutputStream( new FileOutputStream( fileName ) ) );
+//            encoder = new XMLEncoder( new BufferedOutputStream( new FileOutputStream( fileName ) ) );
+            encoder = new XMLEncoder( new GZIPOutputStream( new BufferedOutputStream( new FileOutputStream( fileName ) ) ));
+
+            encoder.setPersistenceDelegate( AffineTransform.class, new AffineTransformPersistenceDelegate() );
+            encoder.setPersistenceDelegate( BasicStroke.class, new BasicStrokePersistenceDelegate() );
+            encoder.setPersistenceDelegate( Ellipse2D.Double.class, new Ellipse2DPersistenceDelegate() );
+            encoder.setPersistenceDelegate( Ellipse2D.Float.class, new Ellipse2DPersistenceDelegate() );
+            encoder.setPersistenceDelegate( GeneralPath.class, new GeneralPathPersistenceDelegate() );
+            encoder.setPersistenceDelegate( GradientPaint.class, new GradientPaintPersistenceDelegate() );
+            encoder.setPersistenceDelegate( Point2D.Double.class, new Point2DPersistenceDelegate() );
+            encoder.setPersistenceDelegate( Point2D.Float.class, new Point2DPersistenceDelegate() );
+            encoder.setPersistenceDelegate( Rectangle2D.Double.class, new Rectangle2DPersistenceDelegate() );
+            encoder.setPersistenceDelegate( Rectangle2D.Float.class, new Rectangle2DPersistenceDelegate() );
+
         }
         catch( Exception ex ) {
             ex.printStackTrace();
@@ -167,9 +183,13 @@ public class ModuleManager {
     public void restoreState( String fileName ) {
         XMLDecoder decoder = null;
         try {
-            decoder = new XMLDecoder( new BufferedInputStream( new FileInputStream( fileName ) ) );
+//            decoder = new XMLDecoder( new BufferedInputStream( new FileInputStream( fileName ) ) );
+            decoder = new XMLDecoder( new BufferedInputStream( new GZIPInputStream( new FileInputStream( fileName ) ) ));
         }
         catch( FileNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
             e.printStackTrace();
         }
 
