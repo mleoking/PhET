@@ -18,8 +18,7 @@ public abstract class AtomicState {
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Class
     //
-    // Determines how often a photon contacting an atom will result in a collision
-    //    static private double PLANCK = 6.626E-34;
+
     static public final double minWavelength = Photon.BLUE - 80;
     static public final double maxWavelength = Photon.GRAY;
     static public final double minEnergy = Photon.wavelengthToEnergy( maxWavelength );
@@ -49,14 +48,30 @@ public abstract class AtomicState {
 
     void incrNumInState() {
         numAtomsInState++;
+
+        int total = GroundState.instance().getNumAtomsInState() + MiddleEnergyState.instance().getNumAtomsInState() + HighEnergyState.instance().getNumAtomsInState();
+        if( total != 6 ) {
+            System.out.println( "$$$" );
+        }
     }
 
     void decrementNumInState() {
         numAtomsInState--;
+        if( numAtomsInState < 0 ) {
+            System.out.println( "!!!" );
+        }
+        int total = GroundState.instance().getNumAtomsInState() + MiddleEnergyState.instance().getNumAtomsInState() + HighEnergyState.instance().getNumAtomsInState();
+        if( total != 5 ) {
+            System.out.println( "%%%" );
+        }
     }
 
-    int getNumAtomsInState() {
+    public int getNumAtomsInState() {
         return numAtomsInState;
+    }
+
+    public void clearNumInState() {
+        numAtomsInState = 0;
     }
 
     public double getEnergyLevel() {

@@ -90,14 +90,11 @@ public class Atom extends SphericalBody {
         }
         newState.incrNumInState();
         this.state = newState;
-        //        if( newState instanceof SpontaneouslyEmittingState ) {
         boolean emitPhotonOnLeavingState = false;
         if( newState instanceof MiddleEnergyState ) {
             emitPhotonOnLeavingState = true;
         }
         this.stateLifetimeManager = new StateLifetimeManager( this, emitPhotonOnLeavingState, model );
-        //        }
-
         eventRegistry.fireEvent( new StateChangeEvent() );
     }
 
@@ -111,12 +108,11 @@ public class Atom extends SphericalBody {
      */
     void emitPhoton( final Photon emittedPhoton ) {
         eventRegistry.fireEvent( new PhotonEmittedEvent( this, emittedPhoton ) );
-        //        eventRegistry.fireEvent( new PhotonEmissionEvent( emittedPhoton ) );
     }
 
     public void removeFromSystem() {
-        eventRegistry.fireEvent( new RemovalEvent() );
         state.decrementNumInState();
+        eventRegistry.fireEvent( new RemovalEvent() );
     }
 
 

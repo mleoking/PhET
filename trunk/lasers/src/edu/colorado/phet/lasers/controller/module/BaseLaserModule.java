@@ -21,8 +21,7 @@ import edu.colorado.phet.lasers.controller.LaserControlPanel;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
+import edu.colorado.phet.lasers.model.atom.*;
 import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
@@ -148,6 +147,11 @@ public class BaseLaserModule extends Module {
         appFrame = app.getApplicationView().getPhetFrame();
         energyLevelsDialog.setVisible( true );
         //        energyLevelsDialog.setVisible( energyDialogIsVisible );
+
+        // Clear the numbers of atoms in each state.
+        GroundState.instance().clearNumInState();
+        MiddleEnergyState.instance().clearNumInState();
+        HighEnergyState.instance().clearNumInState();
     }
 
     public void deactivate( PhetApplication app ) {
@@ -242,6 +246,20 @@ public class BaseLaserModule extends Module {
     protected void removeAtom( Atom atom ) {
         getModel().removeModelElement( atom );
         atom.removeFromSystem();
+    }
+
+
+    public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
+        if( threeEnergyLevels ) {
+            getEnergyLevelsMonitorPanel().setNumLevels( 3 );
+            getLaserModel().getPumpingBeam().setEnabled( true );
+            MiddleEnergyState.instance().setNextHigherEnergyState( HighEnergyState.instance() );
+        }
+        else {
+            getEnergyLevelsMonitorPanel().setNumLevels( 2 );
+            getLaserModel().getPumpingBeam().setEnabled( false );
+            MiddleEnergyState.instance().setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
+        }
     }
 
     public void setMirrorsEnabled( boolean mirrorsEnabled ) {

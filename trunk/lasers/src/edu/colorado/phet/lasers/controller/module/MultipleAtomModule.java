@@ -24,6 +24,9 @@ import edu.colorado.phet.lasers.controller.MultipleAtomControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.GroundState;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
+import edu.colorado.phet.lasers.model.atom.HighEnergyState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.LampGraphic;
@@ -44,6 +47,8 @@ public class MultipleAtomModule extends BaseLaserModule {
 
     private double s_maxSpeed = .1;
     private ArrayList atoms;
+    private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
+    private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME;
 
     /**
      *
@@ -57,9 +62,9 @@ public class MultipleAtomModule extends BaseLaserModule {
         // Set up the model elements
         ResonatingCavity cavity = getCavity();
         Rectangle2D cavityBounds = cavity.getBounds();
-//        cavity.setBounds( cavityBounds.getMinX(), cavityBounds.getMinY(),
-//                          cavityBounds.getMinX() + cavityBounds.getWidth(),
-//                          cavityBounds.getMinY() + ( cavityBounds.getHeight() * 1.5 ) );
+        cavity.setBounds( cavityBounds.getMinX(), cavityBounds.getMinY(),
+                          cavityBounds.getMinX() + cavityBounds.getWidth() * .7,
+                          cavityBounds.getMinY() + ( cavityBounds.getHeight() * 1.5 ) );
         cavityBounds = cavity.getBounds();
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() );
@@ -136,6 +141,7 @@ public class MultipleAtomModule extends BaseLaserModule {
     public void activate( PhetApplication app ) {
         super.activate( app );
 
+        super.setThreeEnergyLevels( true );
         Rectangle2D cavityBounds = getCavity().getBounds();
 
         Atom atom = null;
@@ -164,13 +170,8 @@ public class MultipleAtomModule extends BaseLaserModule {
             addAtom( atom );
         }
 
-        ApparatusConfiguration config = new ApparatusConfiguration();
-        config.setSeedPhotonRate( 0f );
-        config.setMiddleEnergySpontaneousEmissionTime( 2000f );
-        config.setPumpingPhotonRate( 0 );
-        config.setHighEnergySpontaneousEmissionTime( 2000f );
-        config.setReflectivity( 0.7f );
-        config.configureSystem( (LaserModel)getModel() );
+        MiddleEnergyState.instance().setMeanLifetime( middleStateMeanLifetime );
+        HighEnergyState.instance().setMeanLifetime( highStateMeanLifetime );
     }
 
     /**
@@ -184,5 +185,8 @@ public class MultipleAtomModule extends BaseLaserModule {
             atom.removeFromSystem();
         }
         atoms.clear();
+
+        middleStateMeanLifetime = MiddleEnergyState.instance().getMeanLifeTime();
+        highStateMeanLifetime = HighEnergyState.instance().getMeanLifeTime();
     }
 }

@@ -152,17 +152,7 @@ public class SingleAtomModule extends BaseLaserModule {
     }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
-        if( threeEnergyLevels ) {
-            getEnergyLevelsMonitorPanel().setNumLevels( 3 );
-            getLaserModel().getPumpingBeam().setEnabled( true );
-            MiddleEnergyState.instance().setNextHigherEnergyState( HighEnergyState.instance() );
-        }
-        else {
-            getEnergyLevelsMonitorPanel().setNumLevels( 2 );
-            getLaserModel().getPumpingBeam().setEnabled( false );
-            MiddleEnergyState.instance().setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
-        }
-        //        super.setThreeEnergyLevels( threeEnergyLevels );
+        super.setThreeEnergyLevels( threeEnergyLevels );
         this.threeEnergyLevels = threeEnergyLevels;
         if( pumpingLampGraphic != null ) {
             pumpingLampGraphic.setVisible( threeEnergyLevels );

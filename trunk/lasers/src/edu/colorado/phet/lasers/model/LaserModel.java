@@ -100,6 +100,9 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         if( modelElement instanceof Collidable ) {
             bodies.remove( modelElement );
         }
+        if( modelElement instanceof Atom ) {
+            atoms.remove( modelElement );
+        }
         if( modelElement instanceof Photon ) {
             photons.remove( modelElement );
         }
