@@ -729,7 +729,7 @@ public class CoilGraphic implements SimpleObserver {
             
             Rectangle b = getBounds();
             // Rectangle at top of coil.
-            _collisionBounds[0].setBounds( b.x + 35, b.y + 38, b.width - 70, 18 );
+            _collisionBounds[0].setBounds( b.x + 5, b.y, b.width - 25, 56 );
             // Rectangle at bottom of coil.
             _collisionBounds[1].setBounds( b.x + 35, b.y + b.height - 19, b.width - 58, 18 );
             
