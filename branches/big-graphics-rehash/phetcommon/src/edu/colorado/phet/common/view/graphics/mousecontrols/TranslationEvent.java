@@ -1,13 +1,13 @@
-/** Sam Reid*/
+/** University of Colorado, PhET*/
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
 import java.awt.event.MouseEvent;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Nov 15, 2004
  * Time: 5:31:04 PM
- * Copyright (c) Nov 15, 2004 by Sam Reid
+ * Copyright (c) Nov 15, 2004 by University of Colorado, PhET
  */
 public class TranslationEvent {
     private MouseEvent event;
@@ -24,7 +24,7 @@ public class TranslationEvent {
         this.dy = dy;
     }
 
-    public MouseEvent getEvent() {
+    public MouseEvent getMouseEvent() {
         return event;
     }
 

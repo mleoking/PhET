@@ -12,7 +12,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import java.awt.*;
 
 public class HelpManager extends GraphicLayerSet {
-    double helpLayer = Double.POSITIVE_INFINITY;
+    private static double HELP_LAYER = Double.POSITIVE_INFINITY;
 
     public HelpManager( Component component ) {
         super( component );
@@ -28,7 +28,7 @@ public class HelpManager extends GraphicLayerSet {
 
     public void setHelpEnabled( ApparatusPanel apparatusPanel, boolean h ) {
         if( h ) {
-            apparatusPanel.addGraphic( this, helpLayer );
+            apparatusPanel.addGraphic( this, HELP_LAYER );
         }
         else {
             apparatusPanel.removeGraphic( this );

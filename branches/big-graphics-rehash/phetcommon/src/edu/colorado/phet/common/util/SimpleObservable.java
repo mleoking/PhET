@@ -1,13 +1,13 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, PhET, 2003.*/
 package edu.colorado.phet.common.util;
 
 import java.util.ArrayList;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Aug 21, 2003
  * Time: 2:48:52 AM
- * Copyright (c) Aug 21, 2003 by Sam Reid
+ * Copyright (c) Aug 21, 2003 by University of Colorado, PhET
  */
 public class SimpleObservable {
     private ArrayList observers = new ArrayList();

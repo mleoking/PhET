@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, PhET, 2003.*/
 package edu.colorado.phet.common.util;
 
 import java.io.BufferedReader;
@@ -9,10 +9,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Sep 15, 2003
  * Time: 2:53:11 AM
- * Copyright (c) Sep 15, 2003 by Sam Reid
+ * Copyright (c) Sep 15, 2003 by University of Colorado, PhET
  */
 public class VersionUtils {
     public static class VersionInfo {

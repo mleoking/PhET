@@ -1,4 +1,4 @@
-/** Sam Reid*/
+/** University of Colorado, PhET*/
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -8,10 +8,10 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import java.awt.*;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Jul 1, 2004
  * Time: 3:33:37 AM
- * Copyright (c) Jul 1, 2004 by Sam Reid
+ * Copyright (c) Jul 1, 2004 by University of Colorado, PhET
  */
 public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListener {
     private int r = 255;
@@ -55,6 +55,6 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
     }
 
     protected Rectangle determineBounds() {
-        return panel.getBounds();//TODO fix this for the correct rectangle.
+        return new Rectangle( 0, 0, panel.getWidth(), panel.getHeight() );
     }
 }

@@ -1,14 +1,14 @@
-/** Sam Reid*/
+/** University of Colorado, PhET*/
 package edu.colorado.phet.common.view.components;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Aug 13, 2004
  * Time: 10:10:30 AM
- * Copyright (c) Aug 13, 2004 by Sam Reid
+ * Copyright (c) Aug 13, 2004 by University of Colorado, PhET
  */
 public class VerticalLayoutPanel extends JPanel {
     private GridBagConstraints gridBagConstraints;

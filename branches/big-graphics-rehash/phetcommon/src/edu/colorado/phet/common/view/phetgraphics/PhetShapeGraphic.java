@@ -1,14 +1,14 @@
-/** Sam Reid*/
+/** University of Colorado, PhET*/
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Jun 25, 2004
  * Time: 5:59:48 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ * Copyright (c) Jun 25, 2004 by University of Colorado, PhET
  */
 public class PhetShapeGraphic extends PhetGraphic {
     private Shape shape;
@@ -115,12 +115,7 @@ public class PhetShapeGraphic extends PhetGraphic {
     }
 
     public void translate( double dx, double dy ) {
-
         Shape newShape = AffineTransform.getTranslateInstance( dx, dy ).createTransformedShape( shape );
-//        System.out.println( "dx = " + dx );
-//        System.out.println( "newShape.getBounds() = " + newShape.getBounds() );
-//        System.out.println( "newShape = " + newShape );
-//        System.out.println( "shape= " + shape);
         setShape( newShape );
     }
 

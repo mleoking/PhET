@@ -1,13 +1,13 @@
-/** Sam Reid*/
+/** University of Colorado, PhET*/
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Jun 25, 2004
  * Time: 5:59:29 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ * Copyright (c) Jun 25, 2004 by University of Colorado, PhET
  */
 public class PhetTextGraphic extends PhetGraphic implements PhetMultiLineTextGraphic.IPhetTextGraphic {
     private Font font;

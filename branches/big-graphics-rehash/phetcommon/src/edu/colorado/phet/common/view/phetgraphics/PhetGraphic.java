@@ -1,4 +1,4 @@
-/** Sam Reid*/
+/** University of Colorado, PhET*/
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -20,7 +20,6 @@ import java.util.Stack;
  * This graphic class auto-magically repaints itself in the appropriate bounds,
  * using component.paint(int x,int y,int width,int height).
  * This class manages the current and previous bounds for painting, and whether the region is dirty.
- * Testing.
  */
 public abstract class PhetGraphic implements MouseInputListener, Graphic {
     private Point location = new Point();
@@ -33,6 +32,7 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
     private RenderingHints renderingHints;
     private Stack graphicsStates = new Stack();
     private CompositePhetGraphic parent;
+//    private boolean autoRepaint = true;
 
     /*A bit of state to facilitate interactivity.*/
     protected CompositeMouseInputListener mouseInputListener = new CompositeMouseInputListener();//delegates to
@@ -40,10 +40,20 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
     private MouseInputAdapter popupHandler;
     private ArrayList listeners = new ArrayList();
 
+    /**
+     * Construct a PhetGraphic on the specified component.
+     *
+     * @param component The component in which the PhetGraphic will be drawn.
+     */
     protected PhetGraphic( Component component ) {
         this.component = component;
     }
 
+    /**
+     * Set the parent of this Graphic.
+     *
+     * @param parent the Parent that contains this graphic.
+     */
     protected void setParent( CompositePhetGraphic parent ) {
         this.parent = parent;
     }
@@ -99,10 +109,20 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
         return component;
     }
 
+    /**
+     * Determines whether this graphic (independent of its parents) would be visible.
+     *
+     * @return the visible flag on this graphic.
+     */
     protected boolean getVisibilityFlag() {
         return visible;
     }
 
+    /**
+     * Determines whether this graphic and all its parents are visible.
+     *
+     * @return
+     */
     public boolean isVisible() {
         // If we have a parent, check to see if it is visible
         if( parent != null ) {
@@ -121,11 +141,11 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
     }
 
     /**
-     * Override this for proper behavior.
+     * Determine whether this phetGraphic contains the appropriate point.
      *
      * @param x
      * @param y
-     * @return
+     * @return true if the point is contained by this graphic.
      */
     public boolean contains( int x, int y ) {
         if( isVisible() ) {
@@ -152,6 +172,9 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
         }
     }
 
+    /**
+     * Repaints the visible rectangle on this graphic's Component.
+     */
     public void repaint() {
         if( isVisible() ) {
             forceRepaint();
@@ -164,7 +187,6 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
             component.repaint( lastBounds.x, lastBounds.y, lastBounds.width, lastBounds.height );
         }
         if( bounds != null ) {
-//            System.out.println( "bounds = " + bounds );
             component.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
         }
         if( bounds != null ) {
@@ -172,6 +194,11 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
         }
     }
 
+    /**
+     * Computes the Rectangle in which this graphic resides.  This is only called if the shape is dirty.
+     *
+     * @return the Rectangle that contains this graphic.
+     */
     protected abstract Rectangle determineBounds();
 
     public void setLocation( Point p ) {
@@ -248,6 +275,11 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
         }
     }
 
+    /**
+     * Causes the mouse cursor to look like the specified cursor.
+     *
+     * @param cursor
+     */
     public void setCursor( Cursor cursor ) {
         if( cursor == null && cursorControl != null ) {
             removeCursor();
@@ -258,10 +290,16 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
         }
     }
 
+    /**
+     * Sets the mouse to look like a hand over this graphic.
+     */
     public void setCursorHand() {
         setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
     }
 
+    /**
+     * Removes any custom cursor set on this graphic.
+     */
     private void removeCursor() {
         removeMouseInputListener( cursorControl );
     }

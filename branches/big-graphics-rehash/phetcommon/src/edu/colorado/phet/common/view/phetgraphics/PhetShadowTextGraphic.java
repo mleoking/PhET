@@ -1,4 +1,4 @@
-/** Sam Reid*/
+/** University of Colorado, PhET*/
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.view.util.RectangleUtils;
@@ -7,10 +7,10 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Jun 24, 2004
  * Time: 11:44:02 PM
- * Copyright (c) Jun 24, 2004 by Sam Reid
+ * Copyright (c) Jun 24, 2004 by University of Colorado, PhET
  */
 public class PhetShadowTextGraphic extends PhetGraphic implements PhetMultiLineTextGraphic.IPhetTextGraphic {
     private PhetTextGraphic foreground;

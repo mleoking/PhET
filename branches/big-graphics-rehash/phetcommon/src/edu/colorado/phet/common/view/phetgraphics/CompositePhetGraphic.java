@@ -1,4 +1,4 @@
-/** Sam Reid*/
+/** University of Colorado, PhET*/
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
@@ -13,6 +13,12 @@ public class CompositePhetGraphic extends GraphicLayerSet {
         super( component );
     }
 
+    /**
+     * The CompositePhetGraphic manages interactivity for all its children.
+     *
+     * @param p The specified point.
+     * @return The PhetGraphic responsible for handling the event.
+     */
     protected PhetGraphic getHandler( Point p ) {
         if( contains( p.x, p.y ) ) {
             return this;
@@ -22,6 +28,12 @@ public class CompositePhetGraphic extends GraphicLayerSet {
         }
     }
 
+    /**
+     * Set the location of this Composite Graphic
+     *
+     * @param x
+     * @param y
+     */
     public void setLocation( int x, int y ) {
         Point location = super.getLocation();
         int dx = x - location.x;

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, PhET, 2003.*/
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
 import javax.swing.event.MouseInputListener;
@@ -6,10 +6,10 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Oct 9, 2003
  * Time: 12:53:40 AM
- * Copyright (c) Oct 9, 2003 by Sam Reid
+ * Copyright (c) Oct 9, 2003 by University of Colorado, PhET
  */
 public class CursorControl implements MouseInputListener {
     private Cursor cursor;
