@@ -32,9 +32,9 @@ public class PressureSensingBox extends Box2D {
         super( corner1, corner2, model );
         pressureRecorder = new ScalarDataRecorder( clock );
         pressureSlice = new PressureSlice( this, model, clock );
-        model.addPrepCmd( new AddModelElementCmd( model, pressureSlice ) );
+//        model.addPrepCmd( new AddModelElementCmd( model, pressureSlice ) );
         //        PhysicalSystem.instance().addPrepCmd( new AddModelElementCmd( pressureSlice ) );
-        pressureSlice.setY( ( corner1.getY() + corner2.getY() ) / 2 );
+//        pressureSlice.setY( ( corner1.getY() + corner2.getY() ) / 2 );
     }
 
     //    public void setPhysicalSystem( PhysicalSystem physicalSystem ) {
