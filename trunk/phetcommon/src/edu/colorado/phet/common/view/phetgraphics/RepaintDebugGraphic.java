@@ -11,11 +11,13 @@
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 /**
  * RepaintDebugGraphic
@@ -50,9 +52,14 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
     }
 
     public void paint( Graphics2D gr ) {
+
         if( isVisible() ) {
+            GraphicsState state = new GraphicsState( gr );
             gr.setColor( new Color( r, g, b, alpha ) );
+
+            gr.setTransform( new AffineTransform() );
             gr.fillRect( 0, 0, panel.getWidth(), panel.getHeight() );
+            state.restoreGraphics();
         }
     }
 
