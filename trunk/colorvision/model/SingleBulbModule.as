@@ -5,7 +5,6 @@
 
 	public function setBulbMonochromatic(bulbIsMonochromatic:Boolean):Void {
 		this.bulbIsMonochromatic = bulbIsMonochromatic;
-
 		if( !bulbIsMonochromatic ){
 			_root.spectrumSlider._visible = false;
 			var ctx = {rb:255, gb:255, bb:255};
@@ -25,6 +24,11 @@
 			}
 		}
 	}
+        public function deactivate():Void {
+                super.deactivate();
+		_root.photonGenerator.stop();
+		_root.photonGenerator.unloadMovie();
+        }                
 	public function getFilteredCtx() {
 		var ctx;
 		if (_root.bulb1.getWavelength() == 0) {			
