@@ -1,7 +1,6 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.phetgraphics;
+package edu.colorado.phet.common.view.phetgraphics;
 
-import edu.colorado.phet.cck3.common.RepaintDebugGraphic;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
@@ -33,6 +32,7 @@ public class TestPhetGraphics {
         Font font = new Font( "Lucida Sans", Font.PLAIN, 28 );
         final PhetTextGraphic textGraphic = new PhetTextGraphic( panel, font, "HelloiIGg", Color.black, 100, 100 );
         final PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( panel, textGraphic.getBounds().getBounds(), Color.blue );
+        shapeGraphic.setVisible( true );
 
         DefaultInteractiveGraphic textInteraction = new DefaultInteractiveGraphic( textGraphic );
         textInteraction.addCursorHandBehavior();
@@ -52,21 +52,23 @@ public class TestPhetGraphics {
             }
         } );
 
-        final ImageGraphic imageGraphic = new ImageGraphic( panel, ImageLoader.loadBufferedImage( "images/Phet-logo-48x48.gif" ) );
+        final PhetImageGraphic imageGraphic = new PhetImageGraphic( panel, ImageLoader.loadBufferedImage( "images/Phet-logo-48x48.gif" ) );
+        imageGraphic.setVisible( true );
         DefaultInteractiveGraphic imageInteraction = new DefaultInteractiveGraphic( imageGraphic );
         imageInteraction.addCursorHandBehavior();
         final Point imageLocation = new Point();
         imageInteraction.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
                 imageLocation.translate( (int)dx, (int)dy );
-                imageGraphic.setState( imageLocation.x, imageLocation.y, scale );
+                imageGraphic.setPosition( imageLocation.x, imageLocation.y, scale );
             }
         } );
         SwingTimerClock clock = new SwingTimerClock( 1, 30 );
+
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( AbstractClock c, double dt ) {
-                scale = c.getRunningTime() / 100;
-                imageGraphic.setState( imageLocation.x, imageLocation.y, scale );
+                scale = Math.abs( 1 * Math.sin( c.getRunningTime() / 10 ) ) + .2;
+                imageGraphic.setPosition( imageLocation.x, imageLocation.y, scale );
             }
         } );
         clock.start();
@@ -75,12 +77,14 @@ public class TestPhetGraphics {
         panel.addGraphic( textInteraction );
         panel.addGraphic( shapeInteraction, -1 );
 
-        final MultiLineTextGraphic multiLineText =
-                new MultiLineTextGraphic( panel, new String[]{"Hello",
+        final PhetMultiLineTextGraphic multiLineText =
+                new PhetMultiLineTextGraphic( panel, new String[]{"Hello",
                                                                   "This is a test", "so there :)"},
                                               font, 300, 180, Color.green, 2, 2, Color.red );
+        multiLineText.setVisible( true );
         final PhetTransformGraphic transformText = new PhetTransformGraphic( multiLineText,
                                                                              AffineTransform.getRotateInstance( -Math.PI / 2 ) );
+        transformText.setVisible( true );
         Point loc = transformText.getBounds().getLocation();
         Point dest = new Point( 150, 150 );
         Vector2D vec = new Vector2D.Double( loc, dest );
@@ -105,15 +109,16 @@ public class TestPhetGraphics {
         RepaintDebugGraphic colorG = new RepaintDebugGraphic( panel, clock );
         colorG.setActive( true );
 
-        //        ShadowTextGraphic shadowText =
-        //                new ShadowTextGraphic( "Shadow Text", font, 100, 300, Color.red, 2, 2, Color.blue, panel );
-        //        panel.addGraphic( shadowText );
-        //
-        //        CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
-        //        cpg.addGraphic( new PhetShapeGraphic( panel, new Rectangle( 100, 300 ), Color.blue ) );
-        //        cpg.addGraphic( new PhetShapeGraphic( panel, new Rectangle( 300, 100 ), Color.red ) );
-        //        panel.addGraphic( cpg, -1 );
-        imageGraphic.setVisible( false );
+        PhetShadowTextGraphic shadowText =
+                new PhetShadowTextGraphic( panel, "Shadow Text", new Font( "Lucida Sans", Font.BOLD, 32 ), 50, 150, Color.red, 2, 2, Color.black );
+        shadowText.setVisible( true );
+        panel.addGraphic( shadowText );
+
+        CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
+        cpg.addGraphic( new PhetShapeGraphic( panel, new Rectangle( 100, 300 ), Color.blue ) );
+        cpg.addGraphic( new PhetShapeGraphic( panel, new Rectangle( 300, 100 ), Color.red ) );
+        panel.addGraphic( cpg, -1 );
+//        imageGraphic.setVisible( false );
 
         JFrame jf = new JFrame();
         jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

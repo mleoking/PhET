@@ -1,15 +1,14 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.phetgraphics;
+package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.view.graphics.BoundedGraphic;
 
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Jun 25, 2004
- * Time: 5:59:20 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ * This graphic class auto-magically repaints itself in the appropriate bounds,
+ * using component.paint(int x,int y,int width,int height).
+ * This class manages the current and previous bounds for painting, and whether the region is dirty.
  */
 public abstract class PhetGraphic implements BoundedGraphic {
     private Rectangle lastBounds = null;
@@ -47,8 +46,10 @@ public abstract class PhetGraphic implements BoundedGraphic {
     }
 
     public void setVisible( boolean visible ) {
-        this.visible = visible;
-        forceRepaint();//if we just turned invisible, we need to paint over ourselves, and vice versa.
+        if( visible != this.visible ) {
+            this.visible = visible;
+            forceRepaint();//if we just turned invisible, we need to paint over ourselves, and vice versa.
+        }
     }
 
     public boolean contains( int x, int y ) {

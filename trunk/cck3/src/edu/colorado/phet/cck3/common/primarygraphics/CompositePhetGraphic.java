@@ -1,14 +1,11 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.phetgraphics;
+package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * User: Sam Reid
- * Date: Jun 29, 2004
- * Time: 10:54:12 PM
- * Copyright (c) Jun 29, 2004 by Sam Reid
+ * A list of PhetGraphics, painted in order.
  */
 public class CompositePhetGraphic extends PhetGraphic {
     private ArrayList list = new ArrayList();
@@ -50,11 +47,7 @@ public class CompositePhetGraphic extends PhetGraphic {
             for( int i = 1; i < list.size(); i++ ) {
                 PhetGraphic graphic = (PhetGraphic)list.get( i );
                 Rectangle bounds = graphic.getBounds();
-                if( bounds == null ) {
-//                    int x=3;
-//                    graphic.getBounds();
-                }
-                else {
+                if( bounds != null ) {
                     rect = rect.union( bounds );
                 }
             }

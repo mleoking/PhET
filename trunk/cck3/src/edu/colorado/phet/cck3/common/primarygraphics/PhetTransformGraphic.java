@@ -1,14 +1,12 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.phetgraphics;
+package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 /**
- * User: Sam Reid
- * Date: Jun 25, 2004
- * Time: 8:40:09 PM
- * Copyright (c) Jun 25, 2004 by Sam Reid
+ * Applies a transform to the delegate PhetGraphic before painting
+ * and bounds-handling.
  */
 public class PhetTransformGraphic extends PhetGraphic {
     private PhetGraphic graphic;
