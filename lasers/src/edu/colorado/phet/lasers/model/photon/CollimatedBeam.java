@@ -122,6 +122,9 @@ public class CollimatedBeam extends Particle {
         if( isEnabled() ) {
             timeSinceLastPhotonProduced += dt;
             if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
+
+//                System.out.println( "rate: " + (1 / timeSinceLastPhotonProduced ) );
+
                 timeSinceLastPhotonProduced = 0;
                 final Photon newPhoton = Photon.create( this.getWavelength(),
                                                         new Point2D.Double( genPositionX(), genPositionY() ),

@@ -98,14 +98,15 @@ public class BaseLaserModule extends Module {
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
 
-        // Create the pumping and stimulating beams
+        // Create the pumping and stimulating beams, and their graphics
         createBeams();
 
-        // Add the laser cavity
+        // Add the laser cavity and its graphic
         createCavity();
 
         // Create the energy levels dialog
         createEnergyLevelsDialog( clock, frame );
+
 
         // Add the control panel
 //        LaserControlPanel controlPanel = new LaserControlPanel( this );

@@ -16,8 +16,8 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.view.util.ColorFromWavelength;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -285,7 +285,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         Double wavelength = new Double( photon.getWavelength() );
         BufferedImage bi = (BufferedImage)s_colorToImage.get( wavelength );
         if( bi == null ) {
-            BufferedImageOp op = new ColorFromWavelength( photon.getWavelength() );
+            BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( photon.getWavelength() ) );
             bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
             op.filter( s_particleImage, bi );
             s_colorToImage.put( wavelength, bi );

@@ -144,7 +144,7 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         Atom atom = null;
         atoms = new ArrayList();
-        int numAtoms = 20;
+        int numAtoms = 30;
 //        int numAtoms = 8;
 //        int numAtoms = 20;
         for( int i = 0; i < numAtoms; i++ ) {
