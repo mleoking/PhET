@@ -9,6 +9,14 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * GraphicLayerSet is a collection of PhetGraphics (referred to as "children").
+ * Children are painted in the order that they are added.
+ * Mouse events received by a GraphicLayer are forwarded to all children.
+ *
+ * @author ?
+ * @version $Revision$
+ */
 public class GraphicLayerSet extends PhetGraphic {
 
     private MultiMap graphicMap = new MultiMap();
