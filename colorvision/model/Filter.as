@@ -87,13 +87,13 @@
 
 	function onEnterFrame(){
 		var photons:Array = Photon.getInstances();
-		trace("filter: " + photons.length);
-/*		for(var i=0; i<photons.length; i++){
-                trace("filter: " + photons[i].getX() + " : " + this.xLoc);
+//		trace("filter: " + photons.length);
+		for(var i=0; i<photons.length; i++){
+//                trace("filter: " + photons[i].getX() + " : " + this.xLoc);
 			if(photons[i].getX() > this.xLoc){
-				trace("filter !!");
+//				trace("filter !!");
 				photons[i].setRgb(0);
 			}
-		}		*/
+		}		
 	}
 }
