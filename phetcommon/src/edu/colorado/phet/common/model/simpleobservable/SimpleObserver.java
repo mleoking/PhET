@@ -1,5 +1,5 @@
 /*Copyright, Sam Reid, 2003.*/
-package edu.colorado.phet.common.util;
+package edu.colorado.phet.common.model.simpleobservable;
 
 /**
  * User: Sam Reid

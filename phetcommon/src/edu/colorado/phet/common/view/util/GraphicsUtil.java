@@ -36,6 +36,7 @@ public class GraphicsUtil {
      * @param x
      * @param y
      * @return the scaled transform.
+     * @deprecated
      */
     public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
         AffineTransform atx = new AffineTransform();
@@ -67,6 +68,7 @@ public class GraphicsUtil {
      * @param x
      * @param y
      * @return the rotated AffineTransform.
+     * @deprecated
      */
     public static AffineTransform rotateInPlace( double theta, double x, double y ) {
         AffineTransform atx = new AffineTransform();
@@ -81,6 +83,7 @@ public class GraphicsUtil {
      * @param x
      * @param y
      * @return the rotated transform.
+     * @deprecated
      */
     public static AffineTransform rotateInPlaceTx( AffineTransform atx,
                                                    double theta, double x, double y ) {
@@ -94,6 +97,7 @@ public class GraphicsUtil {
     /**
      * This method turns Java strings into HTML that is Java-printable. The primary
      * use of this is to put line breaks in messages with '\n' characters.
+     * @todo rename
      */
     public static String formatMessage( String msg ) {
         StringBuffer outString = new StringBuffer( "<html>" );
@@ -120,8 +124,14 @@ public class GraphicsUtil {
 
     // This method sets the initial focus in a window to a specified
     // component
-    public static void setInitialFocus( Window w, Component c ) {
+    public static void setInitialFocus( Window w, final Component c ) {
         w.addWindowListener( new FocusSetter( c ) );
+//        w.addWindowListener( new WindowAdapter() {
+//            public void windowOpened( WindowEvent e ) {
+//                c.requestFocus();
+//                e.getWindow().removeWindowListener( this );
+//            }
+//        } );
     }
 
     private static class FocusSetter extends WindowAdapter {
@@ -185,6 +195,7 @@ public class GraphicsUtil {
      * @param menuBar
      * @param index
      * @return The same JMenuBar, for cascading.
+     * @todo See if the same thing can be done with Container.add( component, index )
      */
     public static JMenuBar addMenuAt( JMenu newMenu, JMenuBar menuBar, int index ) {
 
