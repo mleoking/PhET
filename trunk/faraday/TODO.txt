@@ -16,20 +16,18 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - add sliders for changing lightbulb, voltmeter and electron scale
-- use PhetGraphic.skipRectangleComputations to bypass calls to AffineTransform.createTransformedShape
 - optimize PickupCoil.updateEmf so that it doesn't do anything if it doesn't have to
 - switch to a dynamic clock with median filtering of dt
 - switch to offscreen buffer
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - add a dialog that warns about performance implications of turning on grid
-- add a way to change the scale of the voltmeter and lightbulb, for situations where coil and magnet are in fixed positions
 - if water wheel hits critical angles, then its rotation appears jerky at some speeds
 - make electrons move at same speed whether grid is on or off
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 - calibrate lightbulb
 - calibrate voltmeter
 - calibrate electron speed in pickup coil
-- disable lightbulb/voltmeter/electron rescaling so that their response is proportional to magnet strength
+
 
 MEDIUM PRIORITY:
 - lightbulb flashes the first time that you visit each module
@@ -72,6 +70,7 @@ v0r21
 (4/4) - integrate CompassGridRescaler into CompassGridGraphic
 (4/4) - delete all rescalers except CompassGridRescaler
 (4/4) - modify Faraday algorithm so that there is an emf induced when the #loops in pickup coil changes
+(4/1) - add a way to change the scale of the voltmeter and lightbulb, for situations where coil and magnet are in fixed positions
 (3/31) - fix delta flux calculation, should be based on the surface area of 1 loop, not total coil area
 (3/31) - turn off coil edges in Faraday computation to see if light intensity becomes sinusoidal (no change)
 (3/31) - center the voltmeter needle screw at the pivot point
