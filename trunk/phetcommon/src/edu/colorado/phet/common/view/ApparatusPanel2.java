@@ -577,7 +577,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         void componentResized();
     }
 
-    static class OffscreenBufferStrategy implements PaintStrategy {
+    private class OffscreenBufferStrategy implements PaintStrategy {
         private BufferedImage bImg;
         private ApparatusPanel2 apparatusPanel2;
 
@@ -605,7 +605,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
 
         public void componentResized() {
-            bImg = new BufferedImage( apparatusPanel2.getWidth(), apparatusPanel2.getHeight(), BufferedImage.TYPE_INT_ARGB );
+            Rectangle bounds = transformManager.getReferenceBounds();
+            bImg = new BufferedImage( (int)bounds.getWidth(), (int)bounds.getHeight(), BufferedImage.TYPE_INT_ARGB );
         }
     }
 
