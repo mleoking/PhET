@@ -143,7 +143,7 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
             clearTransform();
 
             // Rotation
-            rotate( Math.toRadians( _magnetModel.getDirection() ) );
+            rotate( _magnetModel.getDirection() );
             
             // Scale
             double scaleX = _magnetModel.getWidth() / getImage().getWidth();

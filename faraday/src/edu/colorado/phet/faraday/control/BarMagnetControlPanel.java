@@ -192,9 +192,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _flipPolarityButton ) {
                 // Magnet polarity
-                double direction = _magnetModel.getDirection();
-                direction = ( direction + 180 ) % 360;
-                _magnetModel.setDirection( direction );
+                _magnetModel.setDirection( _magnetModel.getDirection() + Math.PI );
                 _compassModel.startMovingNow();
             }
             else if ( e.getSource() == _magnetTransparencyCheckBox ) {

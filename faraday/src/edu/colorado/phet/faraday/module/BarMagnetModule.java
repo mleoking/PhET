@@ -90,7 +90,7 @@ public class BarMagnetModule extends Module {
         AbstractMagnet magnetModel = new BarMagnet();
         magnetModel.setStrength( MAGNET_STRENGTH );
         magnetModel.setLocation( MAGNET_LOCATION );
-        magnetModel.setDirection( 0 );
+        magnetModel.setDirection( 0 /* radians */ );
         magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
         model.addModelElement( magnetModel );
         

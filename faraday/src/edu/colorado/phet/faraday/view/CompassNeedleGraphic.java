@@ -37,7 +37,7 @@ public class CompassNeedleGraphic extends PhetGraphic {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private double _direction;
+    private double _direction; // in radians
     private Dimension _size;
     private Shape _northTip, _southTip;
     private Color _northColor, _southColor;
@@ -75,12 +75,12 @@ public class CompassNeedleGraphic extends PhetGraphic {
      * Sets the direction that the north pole of the needle points.  
      * Zero degrees points down the positive X axis.
      * 
-     * @param direction the direction, in degrees
+     * @param direction the direction, in radians
      */
     public void setDirection( double direction ) {
         _direction = direction;
         clearTransform();
-        rotate( Math.toRadians( direction ) );
+        rotate( direction );
         repaint();
     }
     

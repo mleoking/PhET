@@ -61,17 +61,17 @@ public class HollywoodMagnet extends AbstractMagnet {
         /* 
          * Magnitude (in Gauss) drops off linearly as distance increases.
          */
-        double magnitude = 0.0;
+        double fieldMagnitude = 0.0;
         {
             double strength = super.getStrength();
             double distance = p.distance( super.getLocation() );
 
             double range = strength * DISTANCE_PER_GAUSS;
             if ( distance > range ) {
-                magnitude = 0;
+                fieldMagnitude = 0;
             }
             else {
-                magnitude = strength - ( distance / DISTANCE_PER_GAUSS );
+                fieldMagnitude = strength - ( distance / DISTANCE_PER_GAUSS );
             }
         }
         
@@ -80,52 +80,52 @@ public class HollywoodMagnet extends AbstractMagnet {
          * or in one of the four surrounding quadrants.  This should work for 
          * arbitrary orientations of the magnet.
          */
-        double angle = Math.toRadians( 0.0 );
-        if ( magnitude > 0 )
+        double fieldDirection = Math.toRadians( 0.0 );
+        if ( fieldMagnitude > 0 )
         {
-            double fieldDirection = 0.0;
+            double fieldAngle = 0.0;
 
             // Magnet paramters
             double x = super.getX();
             double y = super.getY();
             double w = super.getWidth();
             double h = super.getHeight();
-            double direction = super.getDirection();
+            double angle = Math.toDegrees( super.getDirection() );
 
             if( p.getX() <= x - w / 2 ) {
                 // Point is to left of magnet.
                 double opposite = y - p.getY();
                 double adjacent = ( x - w / 2 ) - p.getX();
-                double theta = Math.toDegrees( Math.atan( opposite / adjacent ) );
-                fieldDirection = direction + theta;
+                double theta = Math.atan( opposite / adjacent );
+                fieldAngle = angle + Math.toDegrees( theta );
             }
             else if( p.getX() >= x + w / 2 ) {
                 // Point is to right of magnet.
                 double opposite = p.getY() - y;
                 double adjacent = p.getX() - ( x + w / 2 );
-                double theta = Math.toDegrees( Math.atan( opposite / adjacent ) );
-                fieldDirection = direction + theta;
+                double theta = Math.atan( opposite / adjacent );
+                fieldAngle = angle + Math.toDegrees( theta );
             }
             else if( p.getY() <= y - h / 2 ) {
                 // Point is above the magnet.
                 double multiplier = ( x + w / 2 - p.getX() ) / w;
-                fieldDirection = direction - 90 - ( multiplier * 180 );
+                fieldAngle = angle - 90 - ( multiplier * 180 );
             }
             else if( p.getY() >= y + h / 2 ) {
                 // Point is below the magnet.
                 double multiplier = ( x + w / 2 - p.getX() ) / w;
-                fieldDirection = direction + 90 + ( multiplier * 180 );
+                fieldAngle = angle + 90 + ( multiplier * 180 );
             }
             else {
                 // Point is inside the magnet.
-                fieldDirection = direction + 180;
+                fieldAngle = angle + 180;
             }
 
-            fieldDirection = fieldDirection % 360;
-            angle = Math.toRadians( fieldDirection );
+            fieldAngle = fieldAngle % 360;
+            fieldDirection = Math.toRadians( fieldAngle );
         }
         
         // Vector
-        return AbstractVector2D.Double.parseAngleAndMagnitude( magnitude, angle );
+        return AbstractVector2D.Double.parseAngleAndMagnitude( fieldMagnitude, fieldDirection );
     }
 }

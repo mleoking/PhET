@@ -247,7 +247,7 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
                 double magnitude = fieldStrength.getMagnitude();
                 
                 // Set the needle's direction.
-                needle.setDirection( Math.toDegrees( angle ) );
+                needle.setDirection( angle );
                 
                 // Set the needle's strength.
                 {

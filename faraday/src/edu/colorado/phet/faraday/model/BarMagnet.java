@@ -72,7 +72,7 @@ public class BarMagnet extends AbstractMagnet {
         // with the north pole pointing down the X-axis.
         // The point we received is based on the magnet's actual location and origin.
         // So transform the point accordingly, adjusting for location and rotation of the magnet.
-        double radians = Math.toRadians( -(getDirection()) );
+        double radians = -1 * getDirection();
         AffineTransform transform = new AffineTransform();       
         transform.translate( -getX(), -getY() );
         transform.rotate( radians, getX(), getY() );
@@ -93,7 +93,7 @@ public class BarMagnet extends AbstractMagnet {
         }
         
         // Adjust the field vector to match the magnet's direction.
-        B = B.getRotatedInstance( Math.toRadians( getDirection() ) );
+        B = B.getRotatedInstance( getDirection() );
 
         // Clamp magnitude to magnet strength.
         double magnetStrength = super.getStrength();
