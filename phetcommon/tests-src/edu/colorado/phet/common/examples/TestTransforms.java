@@ -3,11 +3,12 @@ package edu.colorado.phet.common.examples;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -36,7 +37,7 @@ public class TestTransforms extends Module {
         Color fill = Color.blue;
         Color outline = Color.black;
         setApparatusPanel( new ApparatusPanel() );
-        setModel( new BaseModel( clock ) );
+        setModel( new BaseModel( ) );
         Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, 10, 10 );
         Rectangle viewBounds = new Rectangle( 40, 40, 400, 400 );
         ModelViewTransform2D transform = new ModelViewTransform2D( modelBounds, viewBounds );
@@ -124,11 +125,11 @@ public class TestTransforms extends Module {
     }
 
     public static void main( String[] args ) {
-        ApplicationDescriptor ad = new ApplicationDescriptor( "Test Transforms", "A Test", "1.0", 600, 600 );
+        ApplicationModel ad = new ApplicationModel( "Test Transforms", "A Test", "1.0");
         AbstractClock ac = new SwingTimerClock( 1, 30, true );
         Module m = new TestTransforms( ac );
-        PhetApplication pa = new PhetApplication( ad, m, ac );
-        pa.startApplication( m );
+        PhetApplication pa = new PhetApplication( ad );
+        pa.startApplication( );
     }
 
     class ControlPanel extends JPanel {

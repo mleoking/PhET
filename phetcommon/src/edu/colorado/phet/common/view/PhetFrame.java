@@ -9,6 +9,7 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
+import edu.colorado.phet.common.application.ApplicationModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +24,7 @@ public class PhetFrame extends JFrame {
     //    PhetApplication app;
     private GraphicsSetup graphicsSetup = new BasicGraphicsSetup();
 
-    public PhetFrame( ApplicationDescriptor appDescriptor ) {
+    public PhetFrame( ApplicationModel appDescriptor ) {
         //    public PhetFrame( PhetApplication app ) {
         super( appDescriptor.getWindowTitle() );
         //        super( app.getApplicationDescriptor().getWindowTitle() );

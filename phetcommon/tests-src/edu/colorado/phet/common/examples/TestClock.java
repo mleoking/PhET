@@ -14,7 +14,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.ThreadedClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.framesetup.AbsoluteFrameSetup;
@@ -29,15 +29,15 @@ import java.util.Observer;
  */
 public class TestClock extends PhetApplication {
 
-    public TestClock( ApplicationDescriptor descriptor, Module m, AbstractClock clock ) {
-        super( descriptor, m, clock );
+    public TestClock( ApplicationModel descriptor, Module m, AbstractClock clock ) {
+        super(descriptor );
     }
 
     static class MyModule extends Module {
         protected MyModule( String name, AbstractClock clock ) {
             super( "Test" );
             setApparatusPanel( new ApparatusPanel() );
-            setModel( new BaseModel( clock ) );
+            setModel( new BaseModel( ) );
             Particle p = new Particle( 100, 200 );
             super.add( p, new ParticleGraphic( p ), 10 );
         }
@@ -84,7 +84,7 @@ public class TestClock extends PhetApplication {
     public static void main( String[] args ) {
         AbstractClock clock = new ThreadedClock( 10, 20, false );
         final MyModule m = new MyModule( "asdf", clock );
-        ApplicationDescriptor ad = new ApplicationDescriptor( "appname", "mydescritpion",
+        ApplicationModel ad = new ApplicationModel( "appname", "mydescritpion",
                                                               "myversion", new AbsoluteFrameSetup( 400, 400 ) );
         TestClock tc = new TestClock( ad, m, clock );
         clock.addClockTickListener( new ClockTickListener() {
@@ -92,7 +92,7 @@ public class TestClock extends PhetApplication {
                 m.getApparatusPanel().repaint();
             }
         } );
-        tc.startApplication( m );
+        tc.startApplication( );
         JFrame frame = tc.getApplicationView().getPhetFrame();
 
         JMenu menu = new JMenu( "Options" );

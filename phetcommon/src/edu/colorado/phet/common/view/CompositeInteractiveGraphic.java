@@ -176,7 +176,7 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
         int cnt = 0;
 
         public void mouseDragged( MouseEvent e ) {
-//            System.out.println( "cnt: " + cnt++ + " activeUnit: " + activeUnit );
+            //            System.out.println( "cnt: " + cnt++ + " activeUnit: " + activeUnit );
 
             if( activeUnit != null ) {
                 activeUnit.mouseDragged( e );
@@ -208,7 +208,7 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
 
                     if( unit == null ) {
                         //                        getHandler( e );
-//                        System.out.println( "NULL unit----------------------------------->" );
+                        //                        System.out.println( "NULL unit----------------------------------->" );
                         if( activeUnit != null ) {
                             activeUnit.mouseExited( e );
                             activeUnit = null;

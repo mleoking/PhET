@@ -7,14 +7,14 @@
 package edu.colorado.phet.common.view.components.menu;
 
 import edu.colorado.phet.common.util.VersionUtils;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
+import edu.colorado.phet.common.application.ApplicationModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HelpMenu extends JMenu {
-    public HelpMenu( final ApplicationDescriptor appDescriptor ) {
+    public HelpMenu( final ApplicationModel appDescriptor ) {
         //    public HelpMenu( final PhetApplication app ) {
         super( "Help" );
         this.setMnemonic( 'h' );

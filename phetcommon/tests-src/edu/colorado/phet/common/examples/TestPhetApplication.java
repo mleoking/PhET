@@ -9,14 +9,19 @@ package edu.colorado.phet.common.examples;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
+import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class TestPhetApplication {
     static class MyModule extends Module {
@@ -24,7 +29,7 @@ public class TestPhetApplication {
         public MyModule( String name, AbstractClock clock, Color color ) {
             super( name );
             setApparatusPanel( new ApparatusPanel() );
-            setModel( new BaseModel( clock ) );
+            setModel( new BaseModel() );
             JTextArea ctrl = new JTextArea( 20, 20 );
             JPanel controls = new JPanel();
             controls.add( ctrl );
@@ -42,7 +47,7 @@ public class TestPhetApplication {
         public MyModule2( String name, AbstractClock clock, Color color ) {
             super( name );
             setApparatusPanel( new ApparatusPanel() );
-            setModel( new BaseModel( clock ) );
+            setModel( new BaseModel() );
             JButton ctrl = new JButton( "Click Me" );
             JPanel controls = new JPanel();
             controls.add( ctrl );
@@ -51,11 +56,80 @@ public class TestPhetApplication {
             JPanel monitorPanel = new JPanel();
             monitorPanel.add( new JCheckBox( "yes/no" ) );
             setMonitorPanel( monitorPanel );
+
+
         }
 
         public void activate( PhetApplication app ) {
             super.activate( app );
         }
+    }
+
+    static class Photon extends SimpleObservable implements ModelElement {
+        double x;
+        double y;
+
+        Random rand = new Random();
+
+        public Photon( double x, double y ) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public void stepInTime( double dt ) {
+            //            x += ( rand.nextDouble() - .5 ) * 5;
+            //            y += ( rand.nextDouble() - .5 ) * 5;
+            x = ++x % 600;
+            //            if( x > 100 ) {
+            //                x = 100;
+            //            }
+            if( y > 100 ) {
+                y = 100;
+            }
+            if( x < 0 ) {
+                x = 0;
+            }
+            if( y < 0 ) {
+                y = 0;
+            }
+            notifyObservers();
+
+        }
+    }
+
+    static class PhotonGraphic implements Graphic {
+        private Photon ph;
+
+        public PhotonGraphic( Photon ph ) {
+            this.ph = ph;
+        }
+
+        public void paint( Graphics2D g ) {
+            g.setColor( Color.blue );
+            g.fillRect( (int)ph.x, (int)ph.y, 2, 2 );
+        }
+
+    }
+
+    static class MyModule3 extends Module {
+        public MyModule3() {
+            super( "Test Module" );
+            setApparatusPanel( new ApparatusPanel() );
+            setModel( new BaseModel() );
+
+            Photon ph = new Photon( 100, 100 );
+            addModelElement( ph );
+
+            Graphic g = new PhotonGraphic( ph );
+            addGraphic( g, 0 );
+
+            ph.addObserver( new SimpleObserver() {
+                public void update() {
+                    getApparatusPanel().repaint();
+                }
+            } );
+        }
+
     }
 
     public static void main( String[] args ) {
@@ -65,14 +139,18 @@ public class TestPhetApplication {
         Module module2 = new MyModule( "1ntht", clock, Color.red );
         Module module3 = new MyModule2( "Button", clock, Color.red );
 
-        Module[] m = new Module[]{module, module2, module3};
+        MyModule3 modulePhotons = new MyModule3();
 
-        ApplicationDescriptor applicationDescriptor = new ApplicationDescriptor( "Test app", "My Test", ".10" );
-        applicationDescriptor.setClock( clock );
-        applicationDescriptor.setModules( m );
-        applicationDescriptor.setInitialModule( module2 );
 
-        PhetApplication app = new PhetApplication( applicationDescriptor );
+        Module[] m = new Module[]{module, module2, module3, modulePhotons};
+
+        ApplicationModel applicationModel = new ApplicationModel( "Test app", "My Test", ".10" );
+        applicationModel.setClock( clock );
+        applicationModel.setModules( m );
+        applicationModel.setInitialModule( modulePhotons );
+        applicationModel.setUseClockControlPanel( false );
+
+        PhetApplication app = new PhetApplication( applicationModel );
         app.startApplication();
     }
 
