@@ -17,13 +17,14 @@ import edu.colorado.phet.common.view.BasicPhetPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.help.HelpPanel;
+import edu.colorado.phet.common.view.plaf.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
+import edu.colorado.phet.movingman.common.CircularBuffer;
 import edu.colorado.phet.movingman.common.WiggleMe;
-import edu.colorado.phet.movingman.common.plaf.PhetLookAndFeel;
 import edu.colorado.phet.movingman.misc.JEPFrame;
 import edu.colorado.phet.movingman.plots.MMPlot;
 import smooth.util.SmoothUtilities;
@@ -128,6 +129,8 @@ public class MovingManModule extends Module {
         }
 
         protected void paintChildren( Graphics g ) {
+            setOpaque( true );
+            setDoubleBuffered( true );
             if( inited ) {
                 super.paintChildren( g );
             }
@@ -253,7 +256,7 @@ public class MovingManModule extends Module {
             }
         } );
 
-        closeHelpItem = new HelpItem( "Close this plot", 250, 450 );
+        closeHelpItem = new HelpItem( getApparatusPanel(), "Close this plot", 250, 450 );
         closeHelpItem.setForegroundColor( Color.red );
         closeHelpItem.setShadowColor( Color.black );
         addHelpItem( closeHelpItem );
@@ -262,9 +265,58 @@ public class MovingManModule extends Module {
         fireReset();
         plotSet.getVelocityPlot().addListener( new MMPlot.Listener() {
             public void nominalValueChanged( double value ) {
-                manGraphic.setVelocity( value );
+                if( manGraphic.isDragging() || getPositionPlot().isDragging() ) {
+                }
+                else {
+                    manGraphic.setVelocity( value );
+                }
             }
         } );
+        getMan().addListener( new Man.Listener() {
+//            SmoothDataSeries dataSeries = new SmoothDataSeries( 5 );
+            CircularBuffer buffer = new CircularBuffer( 5 );
+//            double lastValue = 0;
+
+            public void positionChanged( double x ) {
+//                if (dataSeries==null){
+//                    dataSeries=new SmoothDataSeries( 5);
+//                    datas
+//                }
+                buffer.addPoint( x );
+//                buffer.addPoint( x );
+//                if( manGraphic.isDragging() || getPositionPlot().isDragging() ) {
+//                    DataSeries dataSeries=new DataSeries();
+//                    dataSeries.setd
+//                    double vel=new
+//                    double vel = x - lastValue;
+//                    manGraphic.setVelocity( vel );
+//                    lastValue = x;
+//                }
+//                else {
+//
+//                }
+            }
+
+            public void velocityChanged( double velocity ) {
+                manGraphic.setVelocity( velocity );
+            }
+
+            public void accelerationChanged( double acceleration ) {
+            }
+        } );
+//        plotSet.getPositionPlot().addListener( new MMPlot.Listener() {
+//            double lastValue=0;
+//            public void nominalValueChanged( double value ) {
+//                if( manGraphic.isDragging() || getPositionPlot().isDragging() ) {
+//                    double vel=value-lastValue;
+//                    manGraphic.setVelocity( vel );
+//                    System.out.println( "vel = " + vel );
+//                    lastValue=value;
+//                }
+//                else {
+//                }
+//            }
+//        } );
     }
 
     public void showMegaHelp() {
@@ -753,7 +805,7 @@ public class MovingManModule extends Module {
         if( addJEP ) {
             addJEP( m );
         }
-        RepaintDebugGraphic rdp = new RepaintDebugGraphic( m, m.getApparatusPanel(), clock );
+//        RepaintDebugGraphic rdp = new RepaintDebugGraphic( m, m.getApparatusPanel(), clock );
 //        m.backgroundGraphic.addGraphic( rdp, -100 );
 //        m.backgroundGraphic.addGraphic( rdp, 100 );
 

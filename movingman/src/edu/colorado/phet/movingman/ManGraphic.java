@@ -3,10 +3,9 @@ package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.math.LinearTransform1d;
 import edu.colorado.phet.common.model.Command;
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.movingman.common.CircularBuffer;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -20,24 +19,23 @@ import java.util.ArrayList;
  * Time: 12:25:37 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class ManGraphic implements InteractiveGraphic {
+public class ManGraphic extends PhetGraphic {
     private BufferedImage standingMan;
     private BufferedImage leftMan;
     private BufferedImage rightMan;
     private int x;
     private int y;
     private LinearTransform1d transform;//from man to graphics device.
+    private LinearTransform1d inversion;
     private MovingManModule module;
     private Man m;
     private DragHandler dragHandler;
     private BufferedImage currentImage;
-    private LinearTransform1d inversion;
-//    private CircularBuffer buffer = new CircularBuffer( 4 );
-    private CircularBuffer buffer = new CircularBuffer( 6 );
-    private double lastx = 0;
+
     private ArrayList listeners = new ArrayList();
 
     public ManGraphic( MovingManModule module, Man m, int y, LinearTransform1d transform ) throws IOException {
+        super( module.getApparatusPanel() );
         this.module = module;
         this.m = m;
         this.y = y;
@@ -112,6 +110,7 @@ public class ManGraphic implements InteractiveGraphic {
     }
 
     public void setVelocity( double velocity ) {
+//        System.out.println( "velocity = " + velocity );
         Rectangle rect = getRectangle();
         BufferedImage origImage = currentImage;
         if( velocity == 0 && currentImage != this.standingMan ) {
@@ -126,6 +125,10 @@ public class ManGraphic implements InteractiveGraphic {
         if( currentImage != origImage ) {
             doRepaint( rect );
         }
+    }
+
+    public boolean isDragging() {
+        return dragHandler != null;
     }
 
     interface Listener {
@@ -201,5 +204,9 @@ public class ManGraphic implements InteractiveGraphic {
 
     public boolean contains( int x, int y ) {
         return getRectangle().contains( x, y );
+    }
+
+    protected Rectangle determineBounds() {
+        return getRectangle();
     }
 }

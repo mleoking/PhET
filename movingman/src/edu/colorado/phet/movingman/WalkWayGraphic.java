@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.math.LinearTransform1d;
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
  * Time: 5:34:02 PM
  * To change this template use Options | File Templates.
  */
-public class WalkWayGraphic implements Graphic {
+public class WalkWayGraphic extends PhetGraphic {
     private int numTickMarks = 21;
     private double treex;
     private double housex;
@@ -34,6 +34,7 @@ public class WalkWayGraphic implements Graphic {
     }
 
     public WalkWayGraphic( MovingManModule module, int numTickMarks, double treex, double housex ) throws IOException {
+        super( module.getApparatusPanel() );
         this.module = module;
         this.numTickMarks = numTickMarks;
         this.treex = treex;
@@ -90,5 +91,9 @@ public class WalkWayGraphic implements Graphic {
         graphics2D.drawImage( tree, treex, treey, null );
         graphics2D.drawImage( house, housex, housey, null );
         graphicsState.restoreGraphics();
+    }
+
+    protected Rectangle determineBounds() {
+        return getComponent().getBounds();//TODO wrong bounds.
     }
 }
