@@ -46,7 +46,8 @@ public class DebugMenuTest {
 
             BaseModel model = new BaseModel();
             setModel( model );
-            ApparatusPanel ap = new ApparatusPanel2( model );
+            ApparatusPanel2 ap = new ApparatusPanel2( model );
+//            ap.setUseOffscreenBuffer( true );
             ap.setBackground( Color.white );
             setApparatusPanel( ap );
         }

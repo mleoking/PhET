@@ -62,15 +62,10 @@ public class LineGrid extends PhetGraphic implements ApparatusPanel2.ChangeListe
 
     protected Rectangle determineBounds() {
         setCanvasSize( appPanel.getCanvasSize() );
-        System.out.println( "LineGrid.determineBounds: " + canvasSize );
-
         return new Rectangle( canvasSize);
     }
 
     public void paint( Graphics2D g2 ) {
-
-        System.out.println( "LineGrid.paint: " + canvasSize );
-
         GraphicsState gs = new GraphicsState( g2 );
 
         g2.setPaint( color );
