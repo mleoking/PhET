@@ -13,7 +13,6 @@ package edu.colorado.phet.common.model.clock;
 import edu.colorado.phet.common.util.EventRegistry;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 
 /**
  * AbstractClock
@@ -22,7 +21,7 @@ import java.util.EventListener;
  * @version $Revision$
  */
 public abstract class AbstractClock {
-    private CompositeClockTickListener timeListeners = new CompositeClockTickListener();
+//    private CompositeClockTickListener timeListeners = new CompositeClockTickListener();
     private double runningTime;
     private ArrayList clockStateListeners = new ArrayList();
     private TickConverter tickConverter;
@@ -46,9 +45,9 @@ public abstract class AbstractClock {
         this.dt = dt;
     }
 
-    public CompositeClockTickListener getTimeListeners() {
-        return timeListeners;
-    }
+//    public CompositeClockTickListener getTimeListeners() {
+//        return timeListeners;
+//    }
 
     public boolean isDead() {
         return executionState == DEAD;
@@ -135,7 +134,7 @@ public abstract class AbstractClock {
 
     protected void clockTicked( double dt ) {
         runningTime += dt;
-        eventRegistry.fireEvent( new ClockTickEvent( this, dt ));
+        eventRegistry.fireEvent( new ClockTickEvent( this, dt ) );
     }
 
     public String toString() {
@@ -175,20 +174,22 @@ public abstract class AbstractClock {
     }
 
     public void removeClockTickListener( ClockTickListener listener ) {
-        timeListeners.removeClockTickListener( listener );
+//        timeListeners.removeClockTickListener( listener );
+        eventRegistry.removeListener( listener );
     }
 
     public void addClockTickListener( ClockTickListener tickListener ) {
-        timeListeners.addClockTickListener( tickListener );
+//        timeListeners.addClockTickListener( tickListener );
+        eventRegistry.addListener( tickListener );
     }
 
-    public void addListener( EventListener listener ) {
-        eventRegistry.addListener( listener );
-    }
-
-    public void removeListener( EventListener listener ) {
-        eventRegistry.removeListener( listener );
-    }
+//    public void addListener( EventListener listener ) {
+//        eventRegistry.addListener( listener );
+//    }
+//
+//    public void removeListener( EventListener listener ) {
+//        eventRegistry.removeListener( listener );
+//    }
 
     ///////////////////////////////////////////////////////////////////////
     // Inner classes
