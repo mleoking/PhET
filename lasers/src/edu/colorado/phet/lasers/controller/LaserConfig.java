@@ -11,28 +11,28 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class LaserConfig {
 
     private static final LaserConfig instance = new LaserConfig();
 
-//    public static LaserConfig instance() {
-//        return instance;
-//    }
-//
-//    public String getTitle() {
-//        return "Lasers";
-//    }
-//
-//    public float getTimeStep() {
-//        return 0.01f;
-//    }
-//
-//    public int getWaitTime() {
-//        return 20;
-//    }
+    //    public static LaserConfig instance() {
+    //        return instance;
+    //    }
+    //
+    //    public String getTitle() {
+    //        return "Lasers";
+    //    }
+    //
+    //    public float getTimeStep() {
+    //        return 0.01f;
+    //    }
+    //
+    //    public int getWaitTime() {
+    //        return 20;
+    //    }
 
     // Physical things
     public static Point2D.Double ORIGIN = new Point2D.Double( 50, 150 );
@@ -48,13 +48,13 @@ public class LaserConfig {
     // Spontaneous emission times, in milliseconds
     public static final int MINIMUM_SPONTANEOUS_EMISSION_TIME = 1;
     public static final int MAXIMUM_SPONTANEOUS_EMISSION_TIME = 2000;
-//    public static final int MAXIMUM_SPONTANEOUS_EMISSION_TIME = 1000;
+    //    public static final int MAXIMUM_SPONTANEOUS_EMISSION_TIME = 1000;
     public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = (
-            MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_SPONTANEOUS_EMISSION_TIME ) / 2;
+                                                                    MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_SPONTANEOUS_EMISSION_TIME ) / 2;
 
     // Graphics things
-    public static final int    CONTROL_FONT_SIZE = 12;
-    public static final int    CONTROL_FONT_STYLE = Font.BOLD;
+    public static final int CONTROL_FONT_SIZE = 12;
+    public static final int CONTROL_FONT_STYLE = Font.BOLD;
     public static final String IMAGE_DIRECTORY = "images/";
     public static final String ATOM_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-med.gif";
     public static final String GROUND_STATE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-gray-med.gif";
@@ -68,6 +68,6 @@ public class LaserConfig {
     // Graphics layers
     public static final double CAVITY_LAYER = 10;
     public static final double ATOM_LAYER = 9;
-    public static final double PHOTON_LAYER = 9;
+    public static final double PHOTON_LAYER = 11;
 
 }

@@ -14,8 +14,6 @@ import edu.colorado.phet.lasers.LaserSimulation;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.view.ThreeEnergyLevelMonitorPanel;
-import edu.colorado.phet.lasers.view.TwoEnergyLevelMonitorPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -50,12 +48,13 @@ public class LaserControlPanel extends PhetControlPanel {
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         this.threeEnergyLevels = threeEnergyLevels;
         pumpingBeamControl.setVisible( threeEnergyLevels );
-        if( threeEnergyLevels ) {
-            laserModule.setEnergyMonitorPanel( new ThreeEnergyLevelMonitorPanel( (LaserModel)laserModule.getModel() ) );
-        }
-        else {
-            laserModule.setEnergyMonitorPanel( new TwoEnergyLevelMonitorPanel( (LaserModel)laserModule.getModel() ) );
-        }
+        laserModule.setThreeEnergyLevels( threeEnergyLevels );
+        //        if( threeEnergyLevels ) {
+        //            laserModule.setEnergyMonitorPanel( new ThreeEnergyLevelMonitorPanel( (LaserModel)laserModule.getModel() ) );
+        //        }
+        //        else {
+        //            laserModule.setEnergyMonitorPanel( new TwoEnergyLevelMonitorPanel( (LaserModel)laserModule.getModel() ) );
+        //        }
     }
 
     private class ControlPanel extends JPanel {

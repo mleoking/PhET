@@ -39,7 +39,6 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
         }
         this.collimatedBeam = collimatedBeam;
 
-        JPanel photonRateReadoutPanel = new JPanel( new BorderLayout() );
         photonRateTF = new JTextField( 3 );
         photonRateTF.setEditable( false );
         photonRateTF.setHorizontalAlignment( JTextField.RIGHT );
@@ -49,8 +48,6 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
                                         LaserConfig.CONTROL_FONT_SIZE ) );
 
         photonRateTF.setText( Double.toString( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE ) );
-        //        photonRateTF.setText( Double.toString( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE ) + " photon/sec" );
-
         photonRateSlider = new JSlider( JSlider.VERTICAL,
                                         LaserConfig.MINIMUM_STIMULATING_PHOTON_RATE,
                                         LaserConfig.MAXIMUM_STIMULATING_PHOTON_RATE,
@@ -58,7 +55,7 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
 
         photonRateSlider.setPreferredSize( new Dimension( 20, 50 ) );
         photonRateSlider.setPaintTicks( true );
-        photonRateSlider.setMajorTickSpacing( 10 );
+        photonRateSlider.setMajorTickSpacing( 2 );
         photonRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 //                updatePhotonRate( photonRateSlider.getValue() );

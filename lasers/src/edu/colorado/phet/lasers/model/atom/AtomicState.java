@@ -36,6 +36,7 @@ public abstract class AtomicState {
     //
     // Static fields and methods
     //
-    static protected double s_collisionLikelihood = 0.2;
+    static protected double s_collisionLikelihood = 1;
+    //    static protected double s_collisionLikelihood = 0.2;
 
 }
