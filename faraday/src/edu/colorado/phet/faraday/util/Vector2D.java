@@ -72,62 +72,9 @@ public class Vector2D {
         _magnitude = v.getMagnitude();
         _angle = v.getAngle();
     }
-    
-    //----------------------------------------------------------------------------
-    // XY accessors
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the X and Y components of the vector.
-     * 
-     * @param x the magnitude of the X component
-     * @param y the magnitude of the Y component
-     */
-    public void setXY( double x, double y ) {
-        _x = x;
-        _y = y;
-        _magnitude = Math.sqrt( ( _x * _x ) + ( _y * _y ) );
-        _angle = Math.atan2( _y, _x );
-    }
-    
-    /**
-     * Sets the X component of the vector.
-     * 
-     * @param x the magnitude of the X component
-     */
-    public void setX( double x ) {
-        setXY( x, _y );
-    }
-  
-    /**
-     * Gets the X component of the vector.
-     * 
-     * @return the magnitude of the X component
-     */
-    public double getX() {
-        return _x;
-    }
-    
-    /**
-     * Sets the Y component of the vector.
-     * 
-     * @param y the magnitude of the Y component
-     */
-    public void setY( double y ) {
-        setXY( _x, y );
-    }
-
-    /**
-     * Gets the Y component of the vector.
-     * 
-     * @return the magnitude of the Y component
-     */
-    public double getY() {
-        return _y;
-    }
 
     //----------------------------------------------------------------------------
-    // Magnitude and Angle accessors
+    // Accessors for magnitude and angle
     //----------------------------------------------------------------------------
     
     /**
@@ -179,6 +126,59 @@ public class Vector2D {
      */
     public double getAngle() {
         return _angle;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors for X and Y components
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the X and Y components of the vector.
+     * 
+     * @param x the magnitude of the X component
+     * @param y the magnitude of the Y component
+     */
+    public void setXY( double x, double y ) {
+        _x = x;
+        _y = y;
+        _magnitude = Math.sqrt( ( _x * _x ) + ( _y * _y ) );
+        _angle = Math.atan2( _y, _x );
+    }
+    
+    /**
+     * Sets the X component of the vector.
+     * 
+     * @param x the magnitude of the X component
+     */
+    public void setX( double x ) {
+        setXY( x, _y );
+    }
+  
+    /**
+     * Gets the X component of the vector.
+     * 
+     * @return the magnitude of the X component
+     */
+    public double getX() {
+        return _x;
+    }
+    
+    /**
+     * Sets the Y component of the vector.
+     * 
+     * @param y the magnitude of the Y component
+     */
+    public void setY( double y ) {
+        setXY( _x, y );
+    }
+
+    /**
+     * Gets the Y component of the vector.
+     * 
+     * @return the magnitude of the Y component
+     */
+    public double getY() {
+        return _y;
     }
     
     //----------------------------------------------------------------------------
