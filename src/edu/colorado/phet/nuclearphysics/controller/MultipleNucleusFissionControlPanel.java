@@ -60,6 +60,9 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 setNumNuclei( ( (Integer)numNucleiSpinner.getValue() ).intValue() );
             }
         } );
+        numNucleiSpinner.setPreferredSize( new Dimension( 80, 50 ) );
+        Font spinnerFont = new Font( "SansSerif", Font.BOLD, 40 );
+        numNucleiSpinner.setFont( spinnerFont );
 
         // Layout the panel
         setLayout( new GridBagLayout() );

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
@@ -26,7 +27,6 @@ import java.util.Random;
 public class MultipleNucleusFissionModule extends NuclearPhysicsModule implements NeutronGun {
     private static Random random = new Random();
     private static float neutronSpeed = 1f;
-    private static double fissionDisplacementVelocity = 2;
 
     private InternalNeutronGun neutronGun;
     private Neutron neutronToAdd;
@@ -101,7 +101,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     public void fireNeutron() {
 
         double theta = random.nextDouble() * Math.PI * 2;
-        double r = 200;
+        double r = Config.neutronSpeed;
         double x = r * Math.cos( theta );
         double y = r * Math.sin( theta );
 
@@ -147,8 +147,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
                                                                        nucleus.getPotentialProfile().getMaxPotential() / 2,
                                                                        nucleus.getPotentialProfile().getWellPotential() );
         double theta = random.nextDouble() * Math.PI;
-        double vx = fissionDisplacementVelocity * Math.cos( theta );
-        double vy = fissionDisplacementVelocity * Math.sin( theta );
+        double vx = Config.fissionDisplacementVelocity * Math.cos( theta );
+        double vy = Config.fissionDisplacementVelocity * Math.sin( theta );
         Nucleus n1 = new Nucleus( new Point2D.Double( nucleus.getLocation().getX(), nucleus.getLocation().getX() ),
                                   nucleus.getNumProtons() / 2, nucleus.getNumNeutrons() / 2, fissionProductProfile );
         n1.setVelocity( (float)( -vx ), (float)( -vy ) );
@@ -207,7 +207,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         }
 
         public void fireNeutron() {
-
             double bounds = 600;
             double gamma = random.nextDouble() * Math.PI * 2;
             double x = bounds * Math.cos( gamma );
@@ -218,7 +217,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
 
             Neutron neutron = new Neutron( new Point2D.Double( x, y ) );
             neutron.setVelocity( ( new Vector2D( (float)Math.cos( theta ),
-                                                 (float)Math.sin( theta ) ) ).normalize().multiply( neutronSpeed ) );
+                                                 (float)Math.sin( theta ) ) ).normalize().multiply( (float)Config.neutronSpeed ) );
             MultipleNucleusFissionModule.this.neutronToAdd = neutron;
         }
 

@@ -98,9 +98,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         getPhysicalPanel().addNucleus( decayProducts.getN2() );
         getModel().addModelElement( decayProducts.getN2() );
-//        Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
-//                                    25, 300, getPotentialProfilePanel() );
-//        getPhysicalPanel().addOriginCenteredGraphic( kaboom );
     }
 
     public void run() {

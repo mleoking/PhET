@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
@@ -17,7 +18,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
-public class PotentialProfileGraphic implements Graphic {
+public class PotentialProfileGraphic implements Graphic, SimpleObserver {
 
     //
     // Statics
@@ -44,6 +45,7 @@ public class PotentialProfileGraphic implements Graphic {
     public PotentialProfileGraphic( Nucleus nucleus ) {
         this.nucleus = nucleus;
         this.profile = nucleus.getPotentialProfile();
+        this.profile.addObserver( this );
         image = buildImage();
     }
 
@@ -90,4 +92,7 @@ public class PotentialProfileGraphic implements Graphic {
         return bi;
     }
 
+    public void update() {
+        image = buildImage();
+    }
 }

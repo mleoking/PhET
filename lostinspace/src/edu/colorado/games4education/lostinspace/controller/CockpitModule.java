@@ -99,4 +99,9 @@ public class CockpitModule extends Module {
             getApparatusPanel().repaint();
         }
     }
+
+    public void changePov( double dx, double dy ) {
+        starView.movePov( dx, dy );
+        this.update();
+    }
 }

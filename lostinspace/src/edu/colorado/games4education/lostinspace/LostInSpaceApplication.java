@@ -24,7 +24,7 @@ public class LostInSpaceApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        String desc = GraphicsUtil.formatMessage( "A game for learning how to/nmeasure interstellar distances." );
+        String desc = GraphicsUtil.formatMessage( "A game for learning how to\nmeasure interstellar distances." );
         ApplicationDescriptor appDesc = new ApplicationDescriptor( "Lost In Space",
                                                                    desc,
                                                                    "0.1" );

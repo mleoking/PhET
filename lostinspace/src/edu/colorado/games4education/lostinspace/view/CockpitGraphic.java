@@ -115,6 +115,7 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
         public void mouseDragged( MouseEvent e ) {
             double dx = e.getPoint().getX() - dragStart.getX();
             double dy = e.getPoint().getY() - dragStart.getY();
+            module.changePov( 1 * (dx > 0 ? 1 : -1 ), 1 * (dy > 0 ? 1 : -1 ) );
         }
     }
 }
