@@ -54,10 +54,11 @@ public class ValueGraphic implements ObservingGraphic {
             g.setColor( color );
             g.drawString( htmlGraphic.getText(), htmlGraphic.getX(), htmlGraphic.getY() );
         }
-        Shape s1 = getShape();
-        g.setStroke( new BasicStroke() );
-        g.setColor( Color.blue );
-        g.draw( s1 );
+
+//        Shape s1 = getShape();
+//        g.setStroke( new BasicStroke() );
+//        g.setColor( Color.blue );
+//        g.draw( s1 );
     }
 
     public void update( Observable o, Object arg ) {
