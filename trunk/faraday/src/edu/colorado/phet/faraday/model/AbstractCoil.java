@@ -67,9 +67,10 @@ public class AbstractCoil extends SpacialObservable {
      */
     public AbstractCoil( int numberOfLoops, double radius, Point2D location, double direction, double spacing ) {
         super( location, direction );
-        _numberOfLoops = numberOfLoops;
-        _radius = radius;
-        _spacing = spacing;
+        assert( location != null );
+        setNumberOfLoops( numberOfLoops );
+        setRadius( radius );
+        setSpacing( spacing );
     }
     
     //----------------------------------------------------------------------------
@@ -81,10 +82,10 @@ public class AbstractCoil extends SpacialObservable {
      * This method destroys any existing loops and creates a new set.
      * 
      * @param numberOfLoops the number of loops
-     * @throws IllegalArgumentException if numberOfLoops is <= 0
+     * @throws IllegalArgumentException if numberOfLoops is not > 0
      */
     public void setNumberOfLoops( int numberOfLoops ) {
-        if ( numberOfLoops <= 0 ) {
+        if ( ! (numberOfLoops > 0 ) ) {
             throw new IllegalArgumentException( "numberOfLoops must be > 0: " + numberOfLoops );
         }
         if ( numberOfLoops != _numberOfLoops ) {
@@ -107,10 +108,10 @@ public class AbstractCoil extends SpacialObservable {
      * This radius is shared by all loops in the coil.
      * 
      * @param radius the radius
-     * @throws IllegalArgumentException if radius is <= 0
+     * @throws IllegalArgumentException if radius is not > 0
      */
     public void setRadius( double radius ) {
-        if ( radius <= 0 ) {
+        if ( ! (radius > 0) ) {
             throw new IllegalArgumentException( "radius must be > 0: " + radius );
         }
         if ( radius != _radius ) {
@@ -142,10 +143,10 @@ public class AbstractCoil extends SpacialObservable {
      * Sets the spacing between loops in the coil.
      * 
      * @param spacing the spacing
-     * @throws IllegalArgumentException if spacing is <= 0
+     * @throws IllegalArgumentException if spacing is not > 0
      */
     public void setSpacing( double spacing ) {
-        if ( spacing <= 0 ) {
+        if ( ! (spacing > 0) ) {
             throw new IllegalArgumentException( "spacing must be > 0: " + spacing );
         }
         if ( spacing != _spacing ) {

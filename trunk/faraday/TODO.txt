@@ -1,16 +1,15 @@
 "To Do" list for "faraday" simulation
 
 IN PROGRESS:
+- use median values only when magnet or coil are being dragged
 - determine how to make compass grid use field vector magnitude
 
 HIGH:
-- determine the role of "current" in the model
 - add inertia to voltmeter needle
-- averaging of values so that lightbulb & voltmeter behave smoothly
+- calibration of everything so that sensitivity can be adjusted
 - how to separate PhetCoilGraphic into foreground & background layers
 - redo coil graphic, more of a tilt, thicker wire, copper/brown color
 - draw pickup coil correctly when loop area is changed
-- calibration of everything so that sensitivity can be adjusted
 - show electrons flowing (blue) when lightbulb is enabled
 
 MEDIUM:
@@ -25,6 +24,8 @@ LOW:
 - correct lighting on flipped bar magnet
 
 DONE:
+(1/18) - averaging of values so that lightbulb & voltmeter behave smoothly
+(1/18) - determine the role of "current" in the model
 (1/14) - fix PickupCoil.stepInTime to properly set EMF and induced current
 (1/14) - model elements for lightbulb and voltmeter
 (1/13) - add inertia to compass needle

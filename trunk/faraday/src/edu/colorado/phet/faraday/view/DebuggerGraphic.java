@@ -36,6 +36,7 @@ public class DebuggerGraphic extends PhetGraphic {
     
     public DebuggerGraphic( Component component ) {
         super( component );
+        assert( component != null );
         _boundsEnabled = true;
         _boundsColor = Color.BLUE;
         _boundsStroke = new BasicStroke( 1f );
@@ -51,14 +52,19 @@ public class DebuggerGraphic extends PhetGraphic {
     }
     
     public void add( PhetGraphic graphic, Color boundsColor, Color locationColor ) {
+        assert( graphic != null );
+        assert( boundsColor != null );
+        assert( locationColor != null );
         _specifications.put( graphic, new Specification( boundsColor, locationColor ) );
     }
     
     public void remove( PhetGraphic graphic ) {
+        assert( graphic != null );
         _specifications.remove( graphic);
     }
     
     public void setBoundsColor( Color boundsColor ) {
+        assert( boundsColor != null );
         _boundsColor = boundsColor;
     }
     
@@ -75,6 +81,7 @@ public class DebuggerGraphic extends PhetGraphic {
     }
     
     public void setLocationColor( Color locationColor ) {
+        assert( locationColor != null );
         _locationColor = locationColor;
     }
     
@@ -91,6 +98,7 @@ public class DebuggerGraphic extends PhetGraphic {
     }
     
     public void setLocationSize( Dimension size ) {
+        assert( size != null );
         setLocationSize( size.width, size.height );
     }
     
@@ -132,6 +140,7 @@ public class DebuggerGraphic extends PhetGraphic {
     }
 
     public void paint( Graphics2D g2 ) {
+        assert( g2 != null );
         if ( isVisible() && ( isBoundsEnabled() || isLocationEnabled() )) {
             saveGraphicsState( g2 );
             Enumeration e = _specifications.keys();

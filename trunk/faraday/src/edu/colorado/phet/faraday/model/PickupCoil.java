@@ -23,13 +23,14 @@ import edu.colorado.phet.common.model.ModelElement;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PickupCoil extends AbstractCoil implements ModelElement, IVoltageSource {
+public class PickupCoil extends AbstractCoil implements ModelElement {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractMagnet _magnetModel;
+    private AbstractMagnet _magnet;
+    private AbstractResistor _resistor;
     private double _EMF;  // in volts
     private double _flux; // in webers
     
@@ -40,11 +41,13 @@ public class PickupCoil extends AbstractCoil implements ModelElement, IVoltageSo
     /**
      * Sole constructor.
      * 
-     * @param magnetModel the magnet that is affecting the coil
+     * @param magnet the magnet that is affecting the coil
      */
-    public PickupCoil( AbstractMagnet magnetModel ) {
+    public PickupCoil( AbstractMagnet magnet ) {
         super();
-        _magnetModel = magnetModel;
+        assert( magnet != null );
+        _magnet = magnet;
+        _resistor = null;
         _EMF = 0.0;
         _flux = 0.0;
     }
@@ -62,20 +65,22 @@ public class PickupCoil extends AbstractCoil implements ModelElement, IVoltageSo
         return _EMF;
     }
     
-    //----------------------------------------------------------------------------
-    // ICurrent implementation
-    //----------------------------------------------------------------------------
+    /**
+     * Sets the resistor that is placed across the coil.
+     * 
+     * @param resistor the resistor, possibly null
+     */
+    public void setResistor( AbstractResistor resistor ) {
+        _resistor = resistor;
+    }
     
     /**
-     * According to Kirchhoff’s loop rule the magnitude of the induced EMF
-     * equals the potential difference across the ends of the coil
-     * (and therefore, across a lightbulb or voltmeter hooked to the ends
-     * of the coil).
+     * Gets the resistor that is across the coil.
      * 
-     * @see edu.colorado.phet.faraday.model.IVoltageSource#getCurrent()
+     * @return the resistor, possibly null
      */
-    public double getVoltage() {
-        return Math.abs( _EMF );
+    public AbstractResistor getResistor() {
+        return _resistor;
     }
     
     //----------------------------------------------------------------------------
@@ -93,7 +98,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, IVoltageSo
         // TODO handle arbitrary coil orientation
         
         // Magnetic field strength at the coil's location.
-        AbstractVector2D strength = _magnetModel.getStrength( getLocation() );
+        AbstractVector2D strength = _magnet.getStrength( getLocation() );
         double B = strength.getMagnitude();
         double theta = strength.getAngle();
         
@@ -106,9 +111,25 @@ public class PickupCoil extends AbstractCoil implements ModelElement, IVoltageSo
         // Calculate the induced EMF.
         double EMF = -( getNumberOfLoops() * deltaFlux );
         if ( EMF != _EMF ) {
+            
+            _EMF = EMF;
+            
+            /* 
+             * Set the current in the resistor.
+             * According to Kirchhoff’s loop rule the magnitude of the induced EMF
+             * equals the potential difference across the ends of the coil
+             * (and therefore, across a lightbulb or voltmeter hooked to the ends
+             * of the coil).
+             */
+            if ( _resistor != null ) {
+                double voltage = EMF;  // Kirchhoff's loop rule
+                double current = voltage / _resistor.getResistance();  // Ohm's law: I = V/R
+                _resistor.setCurrent( current );
+            }
+            
             notifyObservers();
+            
             System.out.println( "PickupCoil.stepInTime: EMF=" + EMF );  // DEBUG
         }
-        _EMF = EMF;
     }
 }

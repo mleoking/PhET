@@ -48,6 +48,9 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
     public LightBulbGraphic( Component component, LightBulb lightBulbModel ) {
         super( component );
         
+        assert( component != null );
+        assert( lightBulbModel !=  null );
+        
         _lightBulbModel = lightBulbModel;
         _lightBulbModel.addObserver( this );
         
@@ -89,11 +92,11 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
+        setVisible( _lightBulbModel.isEnabled() );
         if ( isVisible() ) {
             
             double intensity = _lightBulbModel.getIntensity();
             System.out.println( "LightBulbGraphic.update: intensity=" + intensity ); // DEBUG
-            assert ( intensity >= 0 && intensity <= 1 );
 
             if ( intensity == 0 ) {
                 _lightEmission.setVisible( false );

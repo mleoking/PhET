@@ -49,6 +49,7 @@ public class CompassNeedleGraphic extends PhetGraphic {
     public CompassNeedleGraphic( Component component ) {
         
         super( component );
+        assert( component != null );
         
         _northColor = Color.RED;
         _southColor = Color.BLUE;
@@ -95,6 +96,7 @@ public class CompassNeedleGraphic extends PhetGraphic {
      * @param size the size
      */
     public void setSize( Dimension size ) {
+        assert( size != null );
         _size = new Dimension( size );
         updateShape();
         repaint();
@@ -197,6 +199,7 @@ public class CompassNeedleGraphic extends PhetGraphic {
      * @param g2 the graphics context
      */
     public void paint( Graphics2D g2 ) {
+        assert( g2 != null );
         if ( isVisible() ) {
             super.saveGraphicsState( g2 );
             {

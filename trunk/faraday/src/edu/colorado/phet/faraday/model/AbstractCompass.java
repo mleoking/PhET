@@ -43,6 +43,7 @@ public abstract class AbstractCompass extends SpacialObservable implements Model
     public AbstractCompass( AbstractMagnet magnetModel ) {
         super();
         
+        assert( magnetModel != null );
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
         

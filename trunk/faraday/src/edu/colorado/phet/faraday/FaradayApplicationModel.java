@@ -40,6 +40,7 @@ public class FaradayApplicationModel extends ApplicationModel {
     public FaradayApplicationModel( String title, String description, String version, FrameSetup frameSetup ) {
 
         super( title, description, version, frameSetup );
+        assert( frameSetup != null );
 
         // Clock
         boolean fixedDelay = true;

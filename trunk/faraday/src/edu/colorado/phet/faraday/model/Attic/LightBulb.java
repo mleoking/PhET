@@ -12,8 +12,7 @@
 package edu.colorado.phet.faraday.model;
 
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.math.MedianFilter;
 
 
 /**
@@ -22,20 +21,22 @@ import edu.colorado.phet.common.util.SimpleObserver;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class LightBulb extends AbstractResistor implements ModelElement {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
+public class LightBulb extends AbstractResistor {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+
     private static final double MAX_VOLTAGE = 120.0; // XXX
+    private static final int HISTORY_SIZE = 5;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private IVoltageSource _voltageSourceModel;
     private double _intensity; // 0-1
+    private double[] _intensityHistory;
+    private boolean _smoothingEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -44,13 +45,13 @@ public class LightBulb extends AbstractResistor implements ModelElement {
     /**
      * Sole constructor.
      * 
-     * @param voltageSourceModel the model of the voltage across the bulb
      * @param resistance the resistance of the bulb
      */
-    public LightBulb( IVoltageSource voltageSourceModel, double resistance ) {
+    public LightBulb( double resistance ) {
         super( resistance );
-        _voltageSourceModel = voltageSourceModel;
         _intensity = 0.0;
+        _intensityHistory = new double[ HISTORY_SIZE ];
+        _smoothingEnabled = false;
     }
     
     //----------------------------------------------------------------------------
@@ -65,7 +66,7 @@ public class LightBulb extends AbstractResistor implements ModelElement {
      * @throws IllegalArgumentException if intensity is out of range
      */
     private void setIntensity( double intensity ) {
-        if ( intensity < 0 || intensity > 1 ) {
+        if ( ! (intensity >= 0 && intensity <= 1 ) ) {
             throw new IllegalArgumentException( "intensity must be >= 0 and <= 1: " + intensity );
         }
         if ( intensity != _intensity ) {
@@ -84,6 +85,31 @@ public class LightBulb extends AbstractResistor implements ModelElement {
         return _intensity;
     }
 
+    /**
+     * Smooths out the behavior of the light intensity by removing spikes in the data.
+     * Changing the value of this property has the side-effect of clearing the 
+     * data history.
+     * 
+     * @param smoothingEnabled true to enable, false to disable
+     */
+    public void setSmoothingEnabled( boolean smoothingEnabled ) {
+        if ( smoothingEnabled != _smoothingEnabled ) {
+            _smoothingEnabled = smoothingEnabled;
+            for ( int i = 0; i < HISTORY_SIZE; i++ ) {
+                _intensityHistory[i] = 0.0;
+            }
+        }
+    }
+    
+    /**
+     * Gets the smoothing state. See setSmoothingEnabled.
+     * 
+     * @return true if enabled, false if disabled
+     */
+    public boolean isSmoothingEnabled() {
+        return _smoothingEnabled;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -92,11 +118,18 @@ public class LightBulb extends AbstractResistor implements ModelElement {
      * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
      */
     public void stepInTime( double dt ) {
-        // XXX average intensity over time!
-        double voltage = _voltageSourceModel.getVoltage();
-        double intensity = MathUtil.clamp( 0, (voltage / MAX_VOLTAGE), 1 );
-        setIntensity( intensity );
+        double voltage = getCurrent() * getResistance();
+        double intensity = MathUtil.clamp( 0, Math.abs( voltage / MAX_VOLTAGE ), 1 );
+        if ( _smoothingEnabled ) {
+            // Take a median to remove spikes in data.
+            for ( int i = HISTORY_SIZE - 1; i > 0; i-- ) {
+                _intensityHistory[i] = _intensityHistory[i - 1];
+            }
+            _intensityHistory[0] = intensity;
+            setIntensity( MedianFilter.getMedian( _intensityHistory ) );
+        }
+        else {
+            setIntensity( intensity );
+        }
     }
-    
-    
 }

@@ -54,6 +54,8 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
      */
     public CompassGraphic( Component component, AbstractCompass compassModel ) {
         super( component );
+        assert( component != null );
+        assert( compassModel != null );
         
         _compassModel = compassModel;
         _compassModel.addObserver( this );

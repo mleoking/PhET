@@ -56,6 +56,7 @@ public class HollywoodMagnet extends AbstractMagnet {
      * @see edu.colorado.phet.faraday.model.IMagnet#getStrength(java.awt.geom.Point2D)
      */
     public AbstractVector2D getStrength( Point2D p ) {
+        assert( p != null );
         
         /* 
          * Magnitude (in Gauss) drops off linearly as distance increases.

@@ -47,6 +47,8 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
      */
     public BarMagnetGraphic( Component component, AbstractMagnet magnetModel ) {
         super( component, FaradayConfig.BAR_MAGNET_IMAGE );
+        assert( component != null );
+        assert( magnetModel != null );
         
         // Registration point is the center of the image.
         setRegistrationPoint( getImage().getWidth() / 2, getImage().getHeight() / 2 );

@@ -47,6 +47,7 @@ public class FaradayApplication extends PhetApplication {
      */
     public FaradayApplication( FaradayApplicationModel appModel ) throws IOException {
         super( appModel );
+        assert( appModel != null );
     }
 
     //----------------------------------------------------------------------------
@@ -59,7 +60,7 @@ public class FaradayApplication extends PhetApplication {
      * @param args command line arguments
      */
     public static void main( String[] args ) {
-
+        
         // Initialize localization.
         {
             // Get the default locale from property javaws.locale.

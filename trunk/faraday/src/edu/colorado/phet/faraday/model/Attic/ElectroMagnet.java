@@ -40,6 +40,7 @@ public class ElectroMagnet extends AbstractMagnet {
      * @see edu.colorado.phet.faraday.model.IMagnet#getStrength(java.awt.geom.Point2D)
      */
     public AbstractVector2D getStrength( Point2D p ) {
+        assert( p != null );
         // TODO Auto-generated method stub
         return null;
     }
