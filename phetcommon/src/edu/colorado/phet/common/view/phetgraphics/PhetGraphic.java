@@ -31,11 +31,11 @@ public abstract class PhetGraphic implements BoundedGraphic {
         return bounds;
     }
 
-    protected void pushGraphicsState( Graphics2D graphics2D ) {
+    protected void saveGraphicsState( Graphics2D graphics2D ) {
         graphicsState = new GraphicsState( graphics2D );
     }
 
-    protected void popGraphicsState() {
+    protected void restoreGraphicsState() {
         graphicsState.restoreGraphics();
     }
 
