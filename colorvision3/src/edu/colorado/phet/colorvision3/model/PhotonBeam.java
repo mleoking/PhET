@@ -312,7 +312,16 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
       _perceivedIntensity = newPerceivedIntensity;
       if ( _enabled )
       {
-        ColorChangeEvent event = new ColorChangeEvent( this, _perceivedColor, _perceivedIntensity );
+        // Calculate the new color.
+        // Take the photon's color and scale its alpha component.
+        int r = _perceivedColor.getRed();
+        int g = _perceivedColor.getGreen();
+        int b = _perceivedColor.getBlue();
+        int a = (int) (_perceivedColor.getAlpha() * _perceivedIntensity / 100);
+        VisibleColor color = new VisibleColor( r, g, b, a );
+        
+        // Notify listeneners about the new color.
+        ColorChangeEvent event = new ColorChangeEvent( this, color );
         fireColorChangeEvent( event );
       }
     }

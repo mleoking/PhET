@@ -187,7 +187,7 @@ public class SolidBeam extends SimpleObservable implements SimpleObserver
       // Notify listeners
       if ( _enabled && ! beamColor.equals(_perceivedColor) )
       {
-        ColorChangeEvent event = new ColorChangeEvent( this, beamColor, 100.0 );
+        ColorChangeEvent event = new ColorChangeEvent( this, beamColor );
         fireColorChangeEvent( event );
       }
       

@@ -18,10 +18,8 @@ public class ColorChangeEvent extends EventObject
 	// Instance data
   //----------------------------------------------------------------------------
 
-  // The base color.
+  // The color.
   protected VisibleColor _color;
-  // The intensity of the base color's alpha component.
-  protected double _intensity;
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -34,11 +32,10 @@ public class ColorChangeEvent extends EventObject
    * @param color the color
    * @param intensity the intensity
    */
-  public ColorChangeEvent( Object source, VisibleColor color, double intensity )
+  public ColorChangeEvent( Object source, VisibleColor color )
   {
     super( source );
     _color = color;
-    _intensity = intensity;
   }
   
 	//----------------------------------------------------------------------------
@@ -55,16 +52,6 @@ public class ColorChangeEvent extends EventObject
     return _color;
   }
   
-  /**
-   * Gets the intensity.
-   * 
-   * @return the intensity
-   */
-  public double getIntensity()
-  {
-    return _intensity;
-  }
-
 	//----------------------------------------------------------------------------
 	// Conversions
   //----------------------------------------------------------------------------
@@ -82,11 +69,9 @@ public class ColorChangeEvent extends EventObject
     int b = _color.getBlue();
     int a = _color.getAlpha();
     double w = _color.getWavelength();
-    double i = _intensity;
     
     return "color=[" + r + "," + g + "," + b + "," + a + "]" +
-           " wavelength=" + w + 
-           " intensity=" + i + 
+           " wavelength=" + w +
            " source=[" + super.getSource() + "]";
   }
   
