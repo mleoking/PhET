@@ -129,6 +129,25 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
         return _slider.getValue();
     }
 
+    /**
+     * Sets the color.
+     * 
+     * @param color the color
+     */
+    public void setColor( Color color ) {
+        _color = color;
+        super.repaint();
+    }
+    
+    /**
+     * Gets the color.
+     * 
+     * @return the color
+     */
+    public Color getColor() {
+        return _color;
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
