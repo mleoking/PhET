@@ -31,16 +31,6 @@ public class OneAtomTwoLevelsModule extends SingleAtomBaseModule {
         monitorPanel = new TwoEnergyLevelMonitorPanel( (LaserModel)getModel() );
         setMonitorPanel( monitorPanel );
         setControlPanel( new TwoLevelControlPanel( this, clock ) );
-    }
-
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-
-//        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( monitorPanel );
-//        PhetApplication.instance().getPhetMainPanel().setControlPanel( controlPanel );
-//        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( new TwoEnergyLevelMonitorPanel() );
-//        PhetApplication.instance().getPhetMainPanel().setControlPanel( new TwoLevelControlPanel() );
-
 
         double newHeight = 100;
         ResonatingCavity cavity = this.getCavity();
@@ -56,5 +46,30 @@ public class OneAtomTwoLevelsModule extends SingleAtomBaseModule {
         config.setPumpingPhotonRate( 0.0f );
         config.setReflectivity( 0.7f );
         config.configureSystem( getLaserModel() );
+    }
+
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+
+//        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( monitorPanel );
+//        PhetApplication.instance().getPhetMainPanel().setControlPanel( controlPanel );
+//        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( new TwoEnergyLevelMonitorPanel() );
+//        PhetApplication.instance().getPhetMainPanel().setControlPanel( new TwoLevelControlPanel() );
+
+
+//        double newHeight = 100;
+//        ResonatingCavity cavity = this.getCavity();
+//        double cavityHeight =  cavity.getHeight();
+//        Point2D cavityPos = cavity.getPosition();
+//        double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
+//        cavity.setPosition( cavityPos.getX(), yNew );
+//        cavity.setHeight( newHeight );
+//
+//        ApparatusConfiguration config = new ApparatusConfiguration();
+//        config.setStimulatedPhotonRate( 8.0f );
+//        config.setMiddleEnergySpontaneousEmissionTime( 0.500f );
+//        config.setPumpingPhotonRate( 0.0f );
+//        config.setReflectivity( 0.7f );
+//        config.configureSystem( getLaserModel() );
     }
 }

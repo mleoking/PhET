@@ -56,24 +56,6 @@ public abstract class BaseLaserModule extends Module {
         ApparatusPanel apparatusPanel = new ApparatusPanel();
         setApparatusPanel( apparatusPanel );
 
-//        laserControlPanel = new LaserControlPanel( );
-//        laserControlPanel = new LaserControlPanel( PhetApplication.instance() );
-//        setControlPanel( laserControlPanel );
-    }
-
-    /**
-     *
-     */
-    public void activate( PhetApplication app ) {
-
-        super.activate( app );
-
-//        LaserModel laserSystem = (LaserModel)PhetApplication.instance().getPhysicalSystem();
-//        laserSystem.removeAtoms();
-        laserModel.removeAtoms();
-
-        // Set up the control panel
-//        PhetApplication.instance().getPhetMainPanel().setControlPanel( laserControlPanel );
 
         incomingBeam = new CollimatedBeam( getLaserModel(),
                                            Photon.RED,
@@ -98,8 +80,8 @@ public abstract class BaseLaserModule extends Module {
 
 
         // Add the laser
-        laserOrigin = new Point2D.Float( (float)( s_origin.getX() + s_laserOffsetX ),
-                                         (float)( s_origin.getY() ) );
+        laserOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX ,
+                                         s_origin.getY() );
         cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
         getModel().addModelElement( cavity );
         ResonatingCavityGraphic cavityGraphic = new ResonatingCavityGraphic( getApparatusPanel(), cavity );
@@ -117,6 +99,68 @@ public abstract class BaseLaserModule extends Module {
         getLaserModel().setPumpingBeam( pumpingBeam );
 //        new SetPumpingBeamCmd( pumpingBeam ).doIt();
 
+        
+//        laserControlPanel = new LaserControlPanel( );
+//        laserControlPanel = new LaserControlPanel( PhetApplication.instance() );
+//        setControlPanel( laserControlPanel );
+    }
+
+    /**
+     *
+     */
+    public void activate( PhetApplication app ) {
+
+        super.activate( app );
+
+//        LaserModel laserSystem = (LaserModel)PhetApplication.instance().getPhysicalSystem();
+//        laserSystem.removeAtoms();
+//        laserModel.removeAtoms();
+
+        // Set up the control panel
+//        PhetApplication.instance().getPhetMainPanel().setControlPanel( laserControlPanel );
+
+//        incomingBeam = new CollimatedBeam( getLaserModel(),
+//                                           Photon.RED,
+//                                           s_origin,
+//                                           s_boxHeight,
+//                                           s_boxWidth,
+//                                           new Vector2D.Double( 1, 0 ) );
+//        incomingBeam.setPosition( s_origin );
+//        incomingBeam.setHeight( s_boxHeight - Photon.s_radius );
+//        incomingBeam.setPhotonsPerSecond( 0 );
+//
+//        pumpingBeam = new CollimatedBeam( getLaserModel(),
+//                                          Photon.BLUE,
+//                                          s_origin,
+//                                          s_boxHeight,
+//                                          s_boxWidth,
+//                                          new Vector2D.Double( 0, 1 ) );
+//        // TODO: Get rid of hard-coded 100
+//        pumpingBeam.setPosition( (float)s_origin.getX() + 100,
+//                                 (float)s_origin.getY() - s_boxHeight / 2 );
+//        pumpingBeam.setPhotonsPerSecond( 0 );
+//
+//
+//        // Add the laser
+//        laserOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX ,
+//                                         s_origin.getY() );
+//        cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
+//        getModel().addModelElement( cavity );
+//        ResonatingCavityGraphic cavityGraphic = new ResonatingCavityGraphic( getApparatusPanel(), cavity );
+//        addGraphic( cavityGraphic, LaserConfig.CAVITY_LAYER );
+////        cavityGraphic.init( cavity );
+////        new AddResonatingCavityCmd( cavity ).doIt();
+//
+//        // Add the low energy beam
+//        incomingBeam.setActive( true );
+//        getLaserModel().setStimulatingBeam( incomingBeam );
+////        new SetStimulatingBeamCmd( incomingBeam ).doIt();
+//
+//        // Add the pump beam
+//        pumpingBeam.setActive( true );
+//        getLaserModel().setPumpingBeam( pumpingBeam );
+////        new SetPumpingBeamCmd( pumpingBeam ).doIt();
+//
     }
 
     /**

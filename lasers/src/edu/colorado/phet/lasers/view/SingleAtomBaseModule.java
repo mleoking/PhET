@@ -10,6 +10,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 
 import java.awt.geom.Point2D;
 
@@ -22,10 +23,12 @@ public class SingleAtomBaseModule extends BaseLaserModule {
         super( title );
 
         atom = new Atom();
-        atom.setPosition( (float) ( getLaserOrigin().getX() + s_boxWidth / 2 ),
-                          (float) ( getLaserOrigin().getY() + s_boxHeight / 2  ) );
+        atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
+                          getLaserOrigin().getY() + s_boxHeight / 2  );
         atom.setVelocity( 0, 0 );
         addAtom( atom );
+        AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
+        addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
 //        new AddAtomCmd( atom ).doIt();
 
         stimulatingBeam = ((LaserModel)getModel()).getStimulatingBeam();

@@ -66,5 +66,6 @@ public class LaserConfig {
 
     // Graphics layers
     public static final double CAVITY_LAYER = 10;
+    public static final double ATOM_LAYER = 9;
 
 }
