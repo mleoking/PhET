@@ -51,8 +51,10 @@ public class ModelViewTransform2D {
      */
     public ModelViewTransform2D( Point2D mp1, Point2D mp2,
                                  Point vp1, Point vp2 ) {
-        Rectangle2D.Double mr = new Rectangle2D.Double( mp1.getX(), mp1.getY(), mp2.getX() - mp1.getX(), mp2.getY() - mp1.getY() );
-        Rectangle vr = new Rectangle( vp1.x, vp1.y, vp2.x - vp1.x, vp2.y - vp1.y );
+        Rectangle2D.Double mr = new Rectangle2D.Double( mp1.getX(), mp1.getY(), 0, 0 );
+        mr.add( mp2 );
+        Rectangle vr = new Rectangle( vp1.x, vp1.y, 0, 0 );
+        vr.add( vp2 );
         setModelBounds( mr );
         setViewBounds( vr );
     }
