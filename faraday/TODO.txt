@@ -1,25 +1,30 @@
 "To Do" list for "faraday" simulation
 
 HIGH:
+- equation for the magnetic field of a dipole
+- averaging of values so that lightbulb & voltmeter behave smoothly
+- redo coil graphic, more of a tilt, thicker wire, copper/brown color
+- draw pickup coil correctly when loop area is changed
 - how to separate PhetCoilGraphic into foreground & background layers
+- add inertia to compass needle
+- add inertia to voltmeter needle
 (DONE) - change "loop area" control to be value-based, not scale-based
 - nail down semantics of magnet "strength"
 - calibration of everything so that sensitivity can be adjusted
-- equation for the magnetic field of a dipole
 (NO) B-field lines
 (DONE) - compass
-- good graphic for loop
-- show electrons flowing
+- show electrons flowing (blue)
 (DONE) - wires connecting loop to meter/bulb
 (DONE) - alpha channel in lightbulb emission
-- how to populate resized apparatus panel with grid?
+(DONE) - how to populate resized apparatus panel with grid?
 
 MEDIUM:
-- collision avoidance
-- correct lighting on flipped bar magnet
+- lightbulb emission graphic (same as CCK?)
+- collision avoidance (which objects?)
 - ControlPanel base class that handles layout
-- Transformer module
+- Transformer module requirements
 
 LOW:
 - Wiggle Me's
 - Help/MegaHelp
+- correct lighting on flipped bar magnet

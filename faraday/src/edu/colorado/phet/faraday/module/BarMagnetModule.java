@@ -24,6 +24,8 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
+import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.HollywoodMagnet;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.view.*;
@@ -40,7 +42,7 @@ public class BarMagnetModule extends Module {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-
+    
     // Rendering layers
     private static final double GRID_LAYER = 1;
     private static final double COIL_BACK_LAYER = 2;
@@ -80,7 +82,7 @@ public class BarMagnetModule extends Module {
     //----------------------------------------------------------------------------
     
     // Model
-    private HollywoodMagnet _magnetModel;
+    private AbstractMagnet _magnetModel;
     private PickupCoil _pickupCoilModel;
     
     // View
@@ -115,7 +117,13 @@ public class BarMagnetModule extends Module {
         this.setModel( model );
         
         // Bar Magnet
-        _magnetModel = new HollywoodMagnet();
+        if ( FaradayConfig.HOLLYWOOD_ENABLED) {
+            System.out.println( "*** HOLLYWOOD is enabled ***" ); // DEBUG
+            _magnetModel = new HollywoodMagnet();
+        }
+        else {
+            _magnetModel = new BarMagnet();
+        }
         _magnetModel.setStrength( MAGNET_STRENGTH );
         _magnetModel.setLocation( MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );

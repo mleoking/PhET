@@ -71,6 +71,9 @@ public class FaradayConfig {
     public static final int MIN_SOURCE_LOOPS = 1;
     public static final int MAX_SOURCE_LOOPS = 4;
 
+    // Enables "Hollywood" version of some calculations.
+    public static final boolean HOLLYWOOD_ENABLED = false;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
