@@ -33,6 +33,12 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     private double ringLevel = Config.backgroundGraphicLevel;
     private double leaderLineLevel = 0;
 
+    float miterLimit = 10f;
+    float[] dashPattern = {10f};
+    float dashPhase = 5f;
+    final Stroke leaderLineStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
+                                                     BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
+
     public AlphaDecayModule( AbstractClock clock ) {
         super( "Alpha Radiation", clock );
 
@@ -126,11 +132,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         this.getPhysicalPanel().addOriginCenteredGraphic( ringGraphic, ringLevel );
 
         // Add leader lines from the ring up to the profile
-        float miterLimit = 10f;
-        float[] dashPattern = {10f};
-        float dashPhase = 5f;
-        final Stroke leaderLineStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
-                                                         BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
         leaderLines = new Graphic() {
             public void paint( Graphics2D g ) {
                 if( leaderLine1 != null && leaderLine2 != null ) {
