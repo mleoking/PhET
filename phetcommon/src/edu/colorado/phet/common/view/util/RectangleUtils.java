@@ -60,4 +60,8 @@ public class RectangleUtils {
     public static Point2D.Double getCenter2D( Rectangle2D rect ) {
         return new Point2D.Double( rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2 );
     }
+
+    public static Rectangle2D expand( Rectangle2D r, double dw, double dh ) {
+        return new Rectangle2D.Double( r.getX() - dw, r.getY() - dh, r.getWidth() + dw * 2, r.getHeight() + dh * 2 );
+    }
 }

@@ -127,6 +127,10 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
         mouseControl.addMouseInputListener( mouseInputAdapter );
     }
 
+    public void removeMouseInputListener( MouseInputListener mouseInputListener ) {
+        mouseControl.removeMouseInputListener( mouseInputListener );
+    }
+
     public void addTranslationBehavior( Translatable target ) {
         mouseControl.addMouseInputListener( new TranslationControl( target ) );
     }

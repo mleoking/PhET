@@ -260,4 +260,12 @@ public class ModelViewTransform2D {
         fixBackTransform();
         return backTransform;
     }
+
+    public int numTransformListeners() {
+        return this.listeners.numTransformListeners();
+    }
+
+    public TransformListener[] getTransformListeners() {
+        return this.listeners.getTransformListeners();
+    }
 }
