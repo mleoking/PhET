@@ -27,18 +27,18 @@ public class PhetImageGraphic extends PhetGraphic {
     private Shape shape;
 
     public PhetImageGraphic( Component component, String imageResourceName ) {
-      this( component, (BufferedImage)null );
-      
-      BufferedImage bufferedImage;
-      try {
-        bufferedImage = ImageLoader.loadBufferedImage( imageResourceName );
-      }
-      catch( IOException e ) {
-        throw new RuntimeException( "Image resource not found: " + imageResourceName );
-      }
-      setImage( bufferedImage );
+        this( component, (BufferedImage)null );
+
+        BufferedImage bufferedImage;
+        try {
+            bufferedImage = ImageLoader.loadBufferedImage( imageResourceName );
+        }
+        catch( IOException e ) {
+            throw new RuntimeException( "Image resource not found: " + imageResourceName );
+        }
+        setImage( bufferedImage );
     }
-    
+
     public PhetImageGraphic( Component component, BufferedImage image ) {
         this( component, image, new AffineTransform() );
     }

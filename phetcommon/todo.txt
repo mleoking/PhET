@@ -1,3 +1,6 @@
+- Make energy levels mouse-able
+    - Make AtomicState classes singletons
+
 - Enable photons emitted on high-to-mid state transitions
 - add CollimatedBeamGraphic, or CollimatedBeamView class
 - Change interpolation method that creates middle and high energy atom graphics.
@@ -10,3 +13,6 @@
 Should we keep or toss TxTranslatable, TxGraphic, TxBoundary, if we keep, can we conglomerate?
 
 Refactor ModelViewTx2D and AffineTxUtil
+
+-------------------------------------------------
+Increased magnification of middle and high energy states
