@@ -82,5 +82,8 @@ lasers lasers &phetcommon &mechanics &collision
 # Color Vision
 color-vision colorvision3 &phetcommon
 
-#Signal Circuit
+# Signal Circuit
 signal-circuit signalcircuit
+
+# Greenhouse effect
+greenhouse-effect greenhouse
