@@ -47,15 +47,15 @@ public class DiffusionModule extends IdealGasModule {
 
         // Create the lower vertical wall
         lowerWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
-                                                      box.getCorner1Y() + box.getHeight()* 2 / 3,
+                                                      box.getCorner1Y() + box.getHeight() * 2 / 3,
                                                       wallThickness, box.getHeight() * 1 / 3 ),
 //                                                      wallThickness, box.getHeight() * 2 / 3 ),
                               box.getBoundsInternal() );
         lowerWall.setMinimumWidth( wallThickness );
         lowerWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + GasMolecule.s_defaultRadius * 8,
-                                     box.getCorner1Y() + GasMolecule.s_defaultRadius * 8,
-                                     box.getWidth() - GasMolecule.s_defaultRadius * 16,
-                                     box.getHeight() ));
+                                                             box.getCorner1Y() + GasMolecule.s_defaultRadius * 8,
+                                                             box.getWidth() - GasMolecule.s_defaultRadius * 16,
+                                                             box.getHeight() ) );
         WallGraphic lowerWallGraphic = new WallGraphic( lowerWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
@@ -72,9 +72,9 @@ public class DiffusionModule extends IdealGasModule {
                               box.getBoundsInternal() );
         upperWall.setMinimumWidth( wallThickness );
         upperWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + GasMolecule.s_defaultRadius * 8,
-                                     box.getCorner1Y(),
-                                     box.getWidth() - GasMolecule.s_defaultRadius * 16,
-                                     box.getHeight() - GasMolecule.s_defaultRadius * 8 ));
+                                                             box.getCorner1Y(),
+                                                             box.getWidth() - GasMolecule.s_defaultRadius * 16,
+                                                             box.getHeight() - GasMolecule.s_defaultRadius * 8 ) );
         WallGraphic upperWallGraphic = new WallGraphic( upperWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
@@ -84,15 +84,18 @@ public class DiffusionModule extends IdealGasModule {
         upperWall.addChangeListener( new LowerWallChangeListener() );
 
 
-
         JButton testButton = new JButton( "Test" );
-        getControlPanel().add( testButton);
+        getControlPanel().add( testButton );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner1X() + 50,
-                                                                                 box.getCorner1Y() + 70),
-                                                             new Vector2D.Double( 100, 100 ),
-                                                             new Vector2D.Double( ) );
+                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( 314,
+                                                                                 327 ),
+                                                             new Vector2D.Double( 00, -100 ),
+                                                             new Vector2D.Double() );
+//                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner1X() + 50,
+//                                                                                 box.getCorner1Y() + 70),
+//                                                             new Vector2D.Double( 100, 100 ),
+//                                                             new Vector2D.Double( ) );
                 new PumpMoleculeCmd( getIdealGasModel(), newMolecule, DiffusionModule.this ).doIt();
 
             }
@@ -125,7 +128,7 @@ public class DiffusionModule extends IdealGasModule {
         }
 
         // Don't let the upper wall get too close to the lower one
-        if( wallChanged == upperWall) {
+        if( wallChanged == upperWall ) {
             double maxY = lowerWall.getBounds().getMinY() - minimumWallSeparation;
             if( upperWall.getBounds().getMaxY() > maxY ) {
                 Rectangle2D oldBounds = upperWall.getBounds();

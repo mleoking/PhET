@@ -148,6 +148,9 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
                 && sphereY - sphereRadius <= bounds.getMaxY() && sphereY - sphereRadius > bounds.getMinY()
                 && sphere.getVelocity().getY() < 0
                 && sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX() ) {
+                if( SphereWallCollision.cnt == 30 ) {
+                    System.out.println( "SphereWallExpert.getContactType" );
+                }
                 result = BOTTOM;
             }
 
@@ -163,9 +166,16 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
 
 
     int cnt = 0;
+
     private int check2( SphericalBody sphere, Wall wall ) {
         int result = NO_CONTACT;
 
+        // P is the previous position of the sphere
+        // Q is the current position of the sphere
+        // A is the upper left corner of the wall
+        // B is the upper right corner of the wall
+        // C is the lower right corner of the wall
+        // D is the lower left corner of the wall
         Point2D P = sphere.getPositionPrev();
         double Px = P.getX();
         double Py = P.getY();
@@ -204,28 +214,35 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
 //        }
 
         if( Py + r * v.getY() <= Dy && Qy + r * v.getY() >= Ay
-        || Py - r * v.getY() >= Ay && Qy - r * v.getY() <= Dy ) {
-            if( Px + r * v.getX() < Ax
-                && Qx + r * v.getX() >= Ax ) {
+            || Py - r * v.getY() >= Ay && Qy - r * v.getY() <= Dy ) {
+            if( Px + r < Ax
+                && Qx + r >= Ax ) {
+//            if( Px + r * v.getX() < Ax
+//                && Qx + r * v.getX() >= Ax ) {
                 result = LEFT_SIDE;
             }
 
-
-            if( Px - r * v.getX() > Bx
-                && Qx - r * v.getX() <= Bx ) {
+            if( Px - r > Bx
+                && Qx - r <= Bx ) {
+//            if( Px + r * v.getX() > Bx
+//                && Qx + r * v.getX() <= Bx ) {
                 result = RIGHT_SIDE;
             }
         }
 
         if( Px + r * v.getX() <= Bx && Qx + r * v.getX() >= Ax
-        || Px - r * v.getX() >= Ax && Qx - r * v.getX() <= Bx ) {
-            if( Py + r * v.getY() < Ay
-                && Qy + r * v.getY() >= Ay ) {
+            || Px - r * v.getX() >= Ax && Qx - r * v.getX() <= Bx ) {
+            if( Py + r < Ay
+                && Qy + r >= Ay ) {
+//            if( Py + r * v.getY() < Ay
+//                && Qy + r * v.getY() >= Ay ) {
                 result = TOP;
             }
 
-            if( Py - r * v.getY() > Ay
-                && Qy - r * v.getY() <= Ay ) {
+            if( Py - r > Dy
+                && Qy - r <= Dy ) {
+//            if( Py + r * v.getY() > Dy
+//                && Qy + r * v.getY() <= Dy ) {
                 result = BOTTOM;
             }
         }

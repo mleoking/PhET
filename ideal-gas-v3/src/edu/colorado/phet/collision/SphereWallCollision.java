@@ -31,21 +31,30 @@ public class SphereWallCollision implements Collision {
         this.contactType = contactType;
     }
 
+
+    public static int cnt = 0;
+
     public void collide() {
         double sx = sphere.getPosition().getX();
         double sy = sphere.getPosition().getY();
         double r = sphere.getRadius();
         Rectangle2D wallBounds = wall.getBounds();
 
+        cnt++;
+        if( cnt == 31 ) {
+            System.out.println( "!!!" );
+        }
+
         // If the sphere is hitting a corner, rather than a flat side of the wall, we need to handle
         // the collision in a special way
-//        if( ( sx < wallBounds.getMinX() || sx > wallBounds.getMaxX() )
-//            && sy < wallBounds.getMinY() || sy > wallBounds.getMaxY() ) {
-        if( true ) {
+        if( ( sx < wallBounds.getMinX() || sx > wallBounds.getMaxX() )
+            && sy < wallBounds.getMinY() || sy > wallBounds.getMaxY() ) {
+//        if( true ) {
 
             System.out.println( "contactType = " + contactType );
             // Get the new velocity of the sphere
             Point2D closestPointOnWall = getClosestPointOnWall( sphere.getPosition(), wall );
+
             Vector2D loa = new Vector2D.Double( sphere.getPosition().getX() - closestPointOnWall.getX(),
                                                 sphere.getPosition().getY() - closestPointOnWall.getY() );
 
@@ -65,7 +74,7 @@ public class SphereWallCollision implements Collision {
 
 //            Vector2D tangent = new Vector2D.Double( loa.getY(), -loa.getX() );
 //            double alpha = tangent.getAngle() - sphere.getVelocity().getAngle();
-            double dTheta= loa.getAngle() - sphere.getVelocity().getAngle();
+            double dTheta = loa.getAngle() - sphere.getVelocity().getAngle();
 //            if( alpha > Math.PI / 2 ) {
 //                alpha = Math.PI - alpha;
 //            }
@@ -170,26 +179,26 @@ public class SphereWallCollision implements Collision {
                 throw new IllegalArgumentException( "Invalid contact type" );
         }
 
-        double minDx = Math.min( Math.abs( p.getX() - wall.getBounds().getMinX() ), Math.abs( p.getX() - wall.getBounds().getMaxX() ) );
-        double minDy = Math.min( Math.abs( p.getY() - wall.getBounds().getMinY() ), Math.abs( p.getY() - wall.getBounds().getMaxY() ) );
-        if( minDx < minDy ) {
-            y = p.getY();
-            if( Math.abs( p.getX() - wall.getBounds().getMinX() ) < Math.abs( p.getX() - wall.getBounds().getMaxX() ) ) {
-                x = wall.getBounds().getMinX();
-            }
-            else {
-                x = wall.getBounds().getMaxX();
-            }
-        }
-        else {
-            x = p.getX();
-            if( Math.abs( p.getY() - wall.getBounds().getMinY() ) < Math.abs( p.getY() - wall.getBounds().getMaxY() ) ) {
-                y = wall.getBounds().getMinY();
-            }
-            else {
-                y = wall.getBounds().getMaxY();
-            }
-        }
+//        double minDx = Math.min( Math.abs( p.getX() - wall.getBounds().getMinX() ), Math.abs( p.getX() - wall.getBounds().getMaxX() ) );
+//        double minDy = Math.min( Math.abs( p.getY() - wall.getBounds().getMinY() ), Math.abs( p.getY() - wall.getBounds().getMaxY() ) );
+//        if( minDx < minDy ) {
+//            y = p.getY();
+//            if( Math.abs( p.getX() - wall.getBounds().getMinX() ) < Math.abs( p.getX() - wall.getBounds().getMaxX() ) ) {
+//                x = wall.getBounds().getMinX();
+//            }
+//            else {
+//                x = wall.getBounds().getMaxX();
+//            }
+//        }
+//        else {
+//            x = p.getX();
+//            if( Math.abs( p.getY() - wall.getBounds().getMinY() ) < Math.abs( p.getY() - wall.getBounds().getMaxY() ) ) {
+//                y = wall.getBounds().getMinY();
+//            }
+//            else {
+//                y = wall.getBounds().getMaxY();
+//            }
+//        }
         return new Point2D.Double( x, y );
     }
 
