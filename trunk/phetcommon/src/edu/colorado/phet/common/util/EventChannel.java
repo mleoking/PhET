@@ -23,10 +23,8 @@ import java.util.EventObject;
  */
 public interface EventChannel {
     void addListener( EventListener listener );
-
     void removeListener( EventListener listener );
-
+    void removeAllListeners();
     void fireEvent( EventObject event );
-
     int getNumListeners();
 }

@@ -126,6 +126,19 @@ public class EventRegistry implements EventChannel {
         }
     }
 
+    /**
+     * Removes all listeners from the registry
+     */
+    public void removeAllListeners() {
+        eventTypeToListenerTypeMap = new IdentityHashMap();
+        listenerTypeToListenersMap = new IdentityHashMap();
+        eventTypeToInvocationMethodMap = new IdentityHashMap();
+    }
+
+    /**
+     * Returns the number of registered listeners
+     * @return
+     */
     public int getNumListeners() {
         int num = 0;
         Collection list = this.listenerTypeToListenersMap.values();
