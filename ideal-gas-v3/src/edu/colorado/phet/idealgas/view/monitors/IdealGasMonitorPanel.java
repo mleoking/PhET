@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
+import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -15,17 +16,11 @@ import edu.colorado.phet.idealgas.model.LightSpecies;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.util.ResourceBundle;
 
 /**
  *
  */
 public class IdealGasMonitorPanel extends JPanel {
-
-    private static ResourceBundle localizedStrings;
-    static {
-        localizedStrings = ResourceBundle.getBundle( "localization/IdealGasMonitorPanel" );
-    }
 
     private GasMonitorPanel globalGasMonitorPanel;
     private GasSpeciesMonitorPanel heavySpeciesPanel;
@@ -44,9 +39,9 @@ public class IdealGasMonitorPanel extends JPanel {
         //        this.add( balloonPressureMonitorPanel );
 
         JPanel speciesPanel = new JPanel( new GridLayout( 2, 1 ) );
-        heavySpeciesPanel = new GasSpeciesMonitorPanel( HeavySpecies.class, localizedStrings.getString( "Heavy_species" ), model);
+        heavySpeciesPanel = new GasSpeciesMonitorPanel( HeavySpecies.class, IdealGasStrings.get( "IdealGasMonitorPanel.Heavy_species" ), model);
         speciesPanel.add( heavySpeciesPanel );
-        lightSpeciesPanel = new GasSpeciesMonitorPanel( LightSpecies.class, localizedStrings.getString( "Light_species" ), model);
+        lightSpeciesPanel = new GasSpeciesMonitorPanel( LightSpecies.class, IdealGasStrings.get( "IdealGasMonitorPanel.Light_species" ), model);
         speciesPanel.add( lightSpeciesPanel );
         this.add( speciesPanel );
 

@@ -12,6 +12,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -24,15 +25,8 @@ import edu.colorado.phet.idealgas.view.monitors.CmLines;
 import edu.colorado.phet.idealgas.view.monitors.IdealGasMonitorPanel;
 
 import java.awt.geom.Point2D;
-import java.util.ResourceBundle;
 
 public class IdealGasModule extends Module {
-
-    private static ResourceBundle localizedStrings;
-
-    static {
-        localizedStrings = ResourceBundle.getBundle( "localization/IdealGasModule" );
-    }
 
     private IdealGasModel idealGasModel;
     private PressureSensingBox box;
@@ -43,7 +37,7 @@ public class IdealGasModule extends Module {
 
 
     public IdealGasModule( AbstractClock clock ) {
-        this( clock, localizedStrings.getString( "Ideal_Gas" ) );
+        this( clock, IdealGasStrings.get( "ModuleTitle.IdealGas" ) );
     }
 
     protected IdealGasModel getIdealGasModel() {

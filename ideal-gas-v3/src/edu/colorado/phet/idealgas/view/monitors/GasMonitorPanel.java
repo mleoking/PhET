@@ -9,6 +9,7 @@ package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
@@ -20,17 +21,11 @@ import java.awt.event.ActionEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.util.ResourceBundle;
 
 /**
  * This panel displays the composite state of all gas species in the system
  */
 public class GasMonitorPanel extends JPanel {
-
-    private static ResourceBundle localizedStrings;
-    static {
-        localizedStrings = ResourceBundle.getBundle( "localization/GasMonitorPanel" );
-    }
 
     private JTextField pressureTF;
     private NumberFormat pressureFormat = NumberFormat.getInstance();
@@ -67,7 +62,7 @@ public class GasMonitorPanel extends JPanel {
     private void init() {
 
         this.setPreferredSize( new Dimension( 400, 120 ) );
-        Border border = new TitledBorder( localizedStrings.getString( "Title" ) );
+        Border border = new TitledBorder( IdealGasStrings.get( "GasMonitorPanel.Title" ) );
         this.setBorder( border );
         this.setLayout( new GridLayout( 1, 2 ) );
 
@@ -78,7 +73,7 @@ public class GasMonitorPanel extends JPanel {
 
         JPanel leftTemperaturePanel = new JPanel();
         leftTemperaturePanel.setPreferredSize( new Dimension( 20, 50 ) );
-        leftTemperaturePanel.add( new JLabel( localizedStrings.getString( "Temperature" ) + ": " ) );
+        leftTemperaturePanel.add( new JLabel( IdealGasStrings.get( "Common.Temperature" ) + ": " ) );
         temperatureTF = new JTextField( 6 );
         temperatureTF.setEditable( false );
         leftTemperaturePanel.add( temperatureTF );
@@ -94,7 +89,7 @@ public class GasMonitorPanel extends JPanel {
         JPanel pressurePanel = new JPanel( new GridLayout( 1, 2 ) );
         pressureFormat.setMaximumFractionDigits( 2 );
         leftPressurePanel = new JPanel();
-        leftPressurePanel.add( new JLabel( localizedStrings.getString( "Pressure" ) + ": " ));
+        leftPressurePanel.add( new JLabel( IdealGasStrings.get( "Common.Pressure" ) + ": " ));
         pressureTF = new JTextField( 6 );
         pressureTF.setEditable( false );
         leftPressurePanel.add( pressureTF );
@@ -224,12 +219,12 @@ public class GasMonitorPanel extends JPanel {
 
             // Add radio buttons for scale
             JPanel scaleFactorPanel = new JPanel( new GridLayout( 2, 1 ) );
-            Action scaleFactor1 = new AbstractAction( localizedStrings.getString( "1X" )) {
+            Action scaleFactor1 = new AbstractAction( IdealGasStrings.get( "Common.1X" )) {
                 public void actionPerformed( ActionEvent evt ) {
                     scaleFactor = 1;
                 }
             };
-            Action scaleFactor10 = new AbstractAction( localizedStrings.getString( "10X" )) {
+            Action scaleFactor10 = new AbstractAction( IdealGasStrings.get( "Common.10X" )) {
                 public void actionPerformed( ActionEvent evt ) {
                     scaleFactor = 10;
                 }
