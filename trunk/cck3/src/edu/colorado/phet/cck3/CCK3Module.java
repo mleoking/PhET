@@ -1165,11 +1165,15 @@ public class CCK3Module extends Module {
         private boolean useAdvancedControlPanel = true;
         private boolean useNonContactAmmeter = true;
         private boolean hideAllElectrons = false;
+        private boolean grabBagMode = false;
 
         public SetupParameters( CCK3Module module, String[] args ) {
             this.args = args;
             if( containsArg( "-virtuallab" ) ) {
                 virtualLab = true;
+            }
+            if( containsArg( "-grabbag" ) ) {
+                grabBagMode = true;
             }
             if( containsArg( "-noElectrons" ) ) {
                 module.setElectronsVisible( false );
@@ -1179,6 +1183,16 @@ public class CCK3Module extends Module {
                 allowShowReadouts = false;
                 allowSchematicMode = false;
                 useNonContactAmmeter = false;
+            }
+            if( grabBagMode ) {
+                grabBag = true;
+                hugeBatteries = true;
+                allowPlainResistors = false;
+                allowShowReadouts = true;
+                allowSchematicMode = false;
+                useAdvancedControlPanel = false;
+                useNonContactAmmeter = true;
+                hideAllElectrons = false;
             }
         }
 
