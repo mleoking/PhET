@@ -89,7 +89,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             this.color = color;
             this.dy = dy;
             this.forceComponent = forceComponent;
-            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, Color.black, 1, 1, Color.yellow );
+            textGraphic = new PhetShadowTextGraphic( component, font, name, Color.black, 1, 1, Color.yellow );
             shapeGraphic = new PhetShapeGraphic( component, null, color, new BasicStroke( 1 ), Color.black );
             addGraphic( shapeGraphic );
             addGraphic( textGraphic );
