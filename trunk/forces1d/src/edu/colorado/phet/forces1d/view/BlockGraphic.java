@@ -30,6 +30,7 @@ public class BlockGraphic extends CompositePhetGraphic {
     private Force1DPanel panel;
     private Force1dObject force1dObject;
     private Point lastCenter;
+    private MouseInputAdapter mouseListener;
 
     public BlockGraphic( Force1DPanel panel, final Block block, final Force1DModel model,
                          ModelViewTransform2D transform2D, final Function.LinearFunction transform1d, Force1dObject force1dObject ) {
@@ -46,15 +47,20 @@ public class BlockGraphic extends CompositePhetGraphic {
 
         update();
 
-        addMouseInputListener( new MouseInputAdapter() {
+        this.mouseListener = new MouseInputAdapter() {
             public void mouseDragged( MouseEvent e ) {
                 Point ctr = getCenter();
                 double dx = e.getPoint().x - ctr.x;
                 double appliedForce = dx / ArrowSetGraphic.forceLengthScale;
                 model.setAppliedForce( appliedForce );
             }
-        } );
+        };
+        addMouseInputListener( this.mouseListener );
         setCursorHand();
+    }
+
+    public MouseInputAdapter getMouseListener() {
+        return mouseListener;
     }
 
     public void setImage( Force1dObject force1dObject ) {

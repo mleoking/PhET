@@ -198,7 +198,7 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     protected abstract void stepRecord( double dt );
 
-    protected abstract void stepPlayback( double dt, double time, int playbackIndex );
+    protected abstract void stepPlayback( double time, int playbackIndex );
 
     private class PlaybackMode extends Mode {
         int playbackIndex = 0;
@@ -218,7 +218,7 @@ public abstract class PlotDeviceModel implements ModelElement {
 
             conversionFactor = timer.getTime() / playbackIndex;
 
-            stepPlayback( dt, timer.getTime(), playbackIndex++ );
+            stepPlayback( timer.getTime(), playbackIndex++ );
             //assume linear
 
         }
@@ -259,10 +259,12 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     public void rewind() {
         playbackMode.rewind();
+        stepPlayback( 0, 0 );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.rewind();
         }
+
     }
 
 }

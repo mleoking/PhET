@@ -75,18 +75,28 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
         netForce.setOrigin( 0, 30 );
 
         addMouseInputListener( new MouseInputAdapter() {
-            public void mouseDragged( MouseEvent e ) {
-                double x = e.getX();
+            // implements java.awt.event.MouseListener
+            public void mousePressed( MouseEvent e ) {
+                setForce( e.getPoint() );
+            }
 
-                //set the applied force
-                double dx = x - getCenter().getX();
-                double appliedForceRequest = dx / xScale;
-                model.setAppliedForce( appliedForceRequest );
+            public void mouseDragged( MouseEvent e ) {
+                setForce( e.getPoint() );
+
             }
         } );
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 12 ), "Free Body Diagram", Color.blue, 20, 0 );
         addGraphic( titleGraphic );
         setCursorHand();
+    }
+
+    private void setForce( Point pt ) {
+        double x = pt.getX();
+
+        //set the applied force
+        double dx = x - getCenter().getX();
+        double appliedForceRequest = dx / xScale;
+        model.setAppliedForce( appliedForceRequest );
     }
 
     private void updateXForces() {

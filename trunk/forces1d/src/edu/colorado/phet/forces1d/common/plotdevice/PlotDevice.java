@@ -311,21 +311,23 @@ public class PlotDevice extends CompositePhetGraphic {
 
 
     public void setViewBounds( Rectangle rectangle ) {
-        chartComponent.setViewBounds( rectangle );
-        verticalChartSlider.setOffsetX( chartComponent.chart.getVerticalTicks().getMajorTickTextBounds().width + getChart().getTitle().getBounds().width );
-        verticalChartSlider.update();
-        int floaterX = 5;
-        titleLable.reshape( floaterX, getChart().getViewBounds().y, titleLable.getPreferredSize().width, titleLable.getPreferredSize().height );
-        textBox.reshape( floaterX,
-                         titleLable.getY() + titleLable.getHeight() + 5,
-                         textBox.getPreferredSize().width,
-                         textBox.getPreferredSize().height );
-        int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
-        int floatX = floaterX + dw / 2;
-        floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
-        chartComponent.setViewBounds( rectangle );
-        Point ctr = RectangleUtils.getCenter( chartComponent.determineBounds() );
-        timeLabel.setLocation( ctr );
+        if( rectangle.width > 0 && rectangle.height > 0 ) {
+            chartComponent.setViewBounds( rectangle );
+            verticalChartSlider.setOffsetX( chartComponent.chart.getVerticalTicks().getMajorTickTextBounds().width + getChart().getTitle().getBounds().width );
+            verticalChartSlider.update();
+            int floaterX = 5;
+            titleLable.reshape( floaterX, getChart().getViewBounds().y, titleLable.getPreferredSize().width, titleLable.getPreferredSize().height );
+            textBox.reshape( floaterX,
+                             titleLable.getY() + titleLable.getHeight() + 5,
+                             textBox.getPreferredSize().width,
+                             textBox.getPreferredSize().height );
+            int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
+            int floatX = floaterX + dw / 2;
+            floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
+            chartComponent.setViewBounds( rectangle );
+            Point ctr = RectangleUtils.getCenter( chartComponent.determineBounds() );
+            timeLabel.setLocation( ctr );
+        }
     }
 
     public ModelViewTransform2D getModelViewTransform() {

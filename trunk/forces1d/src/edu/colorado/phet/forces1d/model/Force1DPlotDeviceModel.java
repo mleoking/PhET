@@ -39,9 +39,9 @@ public class Force1DPlotDeviceModel extends PlotDeviceModel {
         model.stepRecord( dt );
     }
 
-    protected void stepPlayback( double dt, double time, int index ) {
+    protected void stepPlayback( double time, int index ) {
 //        System.out.println( "playback, dt=" + dt );
-        model.stepPlayback( dt, time, index );
+        model.stepPlayback( time, index );
     }
 
     public void cursorMovedToTime( double modelX, int index ) {
