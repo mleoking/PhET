@@ -127,10 +127,10 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
 
             private void stepDaughterNucleus( Nucleus parent, Nucleus daughter ) {
                 double d = daughter.getLocation().distance( parent.getLocation() );
+                Vector2D a = null;
                 PotentialProfile profile = parent.getPotentialProfile();
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
                 force = Double.isNaN( force ) ? 0 : force;
-                Vector2D a = null;
                 if( daughter.getVelocity().getX() == 0 && daughter.getVelocity().getY() == 0 ) {
                     double dx = daughter.getLocation().getX() - parent.getLocation().getX();
                     double dy = daughter.getLocation().getY() - parent.getLocation().getY();
@@ -140,16 +140,29 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
                     a = new Vector2D( daughter.getVelocity() ).normalize().multiply( (float)force );
                 }
                 daughter.setAcceleration( a );
-                double potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
+
+                // Set the nucleus' potential energy. If the nucles isn't outside the peaks of the
+                // profile, it's potential keeps it at the top of the profile. Otherwise, it slides
+                // down the profile
+                double potential = 0;
+                // I don't know why the -5 is needed here, but it is. I don't have time to figure out why
+                if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 5 ) ) {
+                    potential = profile.getMaxPotential();
+                }
+                else {
+                    potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
+                }
                 daughter.setPotential( potential );
             }
         } );
 
-        super.addNucleus( products.getDaughter1(), null );
-        super.addNucleus( products.getDaughter2(), null );
-        getPotentialProfilePanel().addNucleusGraphic( products.getDaughter1() );
-        getPotentialProfilePanel().addNucleusGraphic( products.getDaughter2() );
-
+        Nucleus dn1 = products.getDaughter1();
+        Nucleus dn2 = products.getDaughter2();
+        dn2.setLocation( 0, 0 );
+        super.addNucleus( dn1, null );
+        super.addNucleus( dn2, null );
+        getPotentialProfilePanel().addNucleusGraphic( dn1 );
+        getPotentialProfilePanel().addNucleusGraphic( dn2 );
 
         // Add some pizzazz
         Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
