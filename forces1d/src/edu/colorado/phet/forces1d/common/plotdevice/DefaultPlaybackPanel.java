@@ -20,16 +20,25 @@ public class DefaultPlaybackPanel extends JPanel {
     private JButton pause;
     private JButton rewind;
 
-    public DefaultPlaybackPanel( final PlotDeviceModel plotDeviceModel ) throws IOException {
+    public DefaultPlaybackPanel( final PlotDeviceModel plotDeviceModel ) {
         ImageLoader cil = new ImageLoader();
 
         String root = "images/icons/java/media/";
-        BufferedImage playU = cil.loadImage( root + "Play24.gif" );
-        BufferedImage pauseU = cil.loadImage( root + "Pause24.gif" );
-        BufferedImage rewU = cil.loadImage( root + "Rewind24.gif" );
-        ImageIcon playIcon = new ImageIcon( playU );
-        ImageIcon pauseIcon = new ImageIcon( pauseU );
-        ImageIcon rewIcon = new ImageIcon( rewU );
+        ImageIcon playIcon = null;
+        ImageIcon pauseIcon = null;
+        ImageIcon rewIcon = null;
+        try {
+            BufferedImage playU = cil.loadImage( root + "Play24.gif" );
+            BufferedImage pauseU = cil.loadImage( root + "Pause24.gif" );
+            BufferedImage rewU = cil.loadImage( root + "Rewind24.gif" );
+            playIcon = new ImageIcon( playU );
+            pauseIcon = new ImageIcon( pauseU );
+            rewIcon = new ImageIcon( rewU );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
 
         playback = new JButton( "Playback", playIcon );
         playback.addActionListener( new ActionListener() {

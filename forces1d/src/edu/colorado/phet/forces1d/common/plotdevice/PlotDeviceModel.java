@@ -16,21 +16,28 @@ public abstract class PlotDeviceModel implements ModelElement {
     private double minTime = 0;
     private double maxTime;
     private double timeScale;
-    private boolean paused = true;
+    private boolean paused;
 
     private RecordMode recordMode = new RecordMode();
     private PlaybackMode playbackMode = new PlaybackMode();
     private Mode currentMode = recordMode;
     private ArrayList listeners = new ArrayList();
 
+    private static int instanceCount = 0;
+
+    private int myCount;
+
     protected PlotDeviceModel( double maxTime, double timeScale ) {
         this.maxTime = maxTime;
         this.timeScale = timeScale;
+        this.myCount = instanceCount++;
+        paused = true;
     }
 
-    public void setPaused( boolean paused ) {
-        if( this.paused != paused ) {
-            this.paused = paused;
+    public void setPaused( boolean p ) {
+        if( this.paused != p ) {
+            this.paused = p;
+//            System.out.println( "Plot device model["+myCount+"]: paused=" + this.paused );
             if( paused ) {
                 currentMode.firePaused();
             }
@@ -49,7 +56,12 @@ public abstract class PlotDeviceModel implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        if( currentMode != null && !isPaused() ) {
+        boolean currentModeNull = currentMode == null;
+//        System.out.println( "SIT[" + myCount + "]: paused=" + paused );
+        if( currentModeNull || paused ) {
+
+        }
+        else {
             currentMode.stepInTime( dt * timeScale );
         }
     }

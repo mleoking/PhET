@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d;
 
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
@@ -13,6 +13,7 @@ import edu.colorado.phet.forces1d.view.Force1dObject;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -26,11 +27,19 @@ public class Force1dControlPanel extends ControlPanel {
     private Force1DModule module;
     private Force1DModel model;
     public static final double MAX_KINETIC_FRICTION = 2.0;
+    private FreeBodyDiagramPanel freeBodyDiagramPanel;
 
     public Force1dControlPanel( final Force1DModule module ) {
         super( module );
         this.module = module;
         model = module.getForceModel();
+
+        freeBodyDiagramPanel = new FreeBodyDiagramPanel( module );
+        final ApparatusPanel2 panel = freeBodyDiagramPanel.getApparatusPanel();
+        final Component fbd = freeBodyDiagramPanel.getCheckBox();
+
+        add( fbd );
+        add( panel );
         final JComboBox jcb = new JComboBox( module.getImageElements() );
         jcb.setBorder( PhetLookAndFeel.createSmoothBorder( "Objects" ) );
         jcb.addItemListener( new ItemListener() {
@@ -60,11 +69,6 @@ public class Force1dControlPanel extends ControlPanel {
             }
         } );
 
-//        ModelSlider appliedForce = createControl( 0, -100, 100, .5, "Applied Force", "N", new SpinnerHandler() {
-//            public void changed( double value ) {
-//                model.setAppliedForce( value );
-//            }
-//        } );
         final ModelSlider staticFriction = createControl( 0.10, 0, MAX_KINETIC_FRICTION, .01, "Static Friction", "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setStaticFriction( value );
@@ -90,15 +94,10 @@ public class Force1dControlPanel extends ControlPanel {
         VerticalLayoutPanel controls = new VerticalLayoutPanel();
         controls.add( gravity );
         controls.add( mass );
-//        controls.add( appliedForce );
         controls.add( staticFriction );
         controls.add( kineticFriction );
 
-        controls.setBorder( Force1DUtil.createTitledBorder( "Controls" ) );
-        //TODO for vertical layout panel.
-//        setAnchor( GridBagConstraints.CENTER );
-//        setFill( GridBagConstraints.NONE );
-
+//        controls.setBorder( Force1DUtil.createTitledBorder( "Controls" ) );
 
         final JCheckBox barriers = new JCheckBox( "Barriers" );
         barriers.addChangeListener( new ChangeListener() {
@@ -121,17 +120,9 @@ public class Force1dControlPanel extends ControlPanel {
                 //make sure static>=kinetic.
                 double s = model.getBlock().getStaticFriction();
                 double k = model.getBlock().getKineticFriction();
-//                if( s < k ) {
-//                    staticFriction.setValue( k );
-//<<<<<<< Force1dControlPanel.java
-//
-//                //TODO fix dragmin
-////                staticFriction.setDragMin( k );
-//=======
-//
-////                staticFriction.setDragMin( k );
-//>>>>>>> 1.4
-//                }
+                if( s < k ) {
+                    staticFriction.setValue( k );
+                }
             }
         } );
         model.getBlock().addListener( new Block.Listener() {
@@ -149,7 +140,9 @@ public class Force1dControlPanel extends ControlPanel {
         setup( module.imageElementAt( 0 ) );
 
         super.setHelpPanelEnabled( true );
+        removeTitle();
     }
+
 
     private void setup( Force1dObject force1dObject ) {
         module.getForcePanel().getBlockGraphic().setImage( force1dObject );
@@ -167,9 +160,7 @@ public class Force1dControlPanel extends ControlPanel {
             }
         } );
         handler.changed( value );
-//        modelSlider.setExtremumLabels( new JLabel( "Low" ), new JLabel( "High" ) );
         modelSlider.setNumMajorTicks( 5 );
-//        modelSlider.setNumMinorTicksPerMajorTick( 2 );
         modelSlider.setNumMinorTicks( 0 );
         if( modelSlider.getUnitsReadout() != null ) {
             modelSlider.getUnitsReadout().setBackground( PhetLookAndFeel.backgroundColor );
@@ -177,27 +168,9 @@ public class Force1dControlPanel extends ControlPanel {
         return modelSlider;
     }
 
-    private JPanel createSpinner2( double value, double min, double max, double spacing, String name, String units, final SpinnerHandler handler ) {
-        SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, spacing );
-        final JSpinner sp = new JSpinner( model );
-        JPanel panel = new HorizontalLayoutPanel();
-        String unitStr = "";
-        if( !units.trim().equals( "" ) ) {
-            unitStr = "(" + units + ")";
-        }
-        sp.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                double value = ( (Double)sp.getValue() ).doubleValue();
-                handler.changed( value );
-            }
-        } );
-        handler.changed( value );
-        JLabel label = new JLabel( name + " " + unitStr );
-        panel.add( label );
-        panel.add( sp );
-        return panel;
+    public void updateGraphics() {
+        freeBodyDiagramPanel.updateGraphics();
     }
-
 }
 
 interface SpinnerHandler {

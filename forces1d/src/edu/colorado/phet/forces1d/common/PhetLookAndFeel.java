@@ -46,8 +46,8 @@ public class PhetLookAndFeel extends SmoothLookAndFeel {
     static {
         String fontName = "Lucida Sans";
 //        String fontName="Tahoma";
-        Font font1280 = new Font( fontName, Font.PLAIN, 18 );
-        Font font1040 = new Font( fontName, Font.PLAIN, 14 );
+        Font font1280 = new Font( fontName, Font.PLAIN, 16 );
+        Font font1040 = new Font( fontName, Font.PLAIN, 12 );
         Font font800 = new Font( fontName, Font.PLAIN, 8 );
 
         Font uifont = font1040;

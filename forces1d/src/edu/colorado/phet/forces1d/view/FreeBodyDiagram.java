@@ -7,7 +7,6 @@ import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.Force1DUtil;
@@ -85,8 +84,8 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
 
             }
         } );
-        PhetTextGraphic titleGraphic = new PhetTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 12 ), "Free Body Diagram", Color.blue, 20, 0 );
-        addGraphic( titleGraphic );
+//        PhetTextGraphic titleGraphic = new PhetTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 12 ), "Free Body Diagram", Color.blue, 20, 0 );
+//        addGraphic( titleGraphic );
         setCursorHand();
     }
 

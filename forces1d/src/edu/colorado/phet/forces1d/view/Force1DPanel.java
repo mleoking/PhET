@@ -14,6 +14,7 @@ import edu.colorado.phet.forces1d.common.LayoutUtil;
 import edu.colorado.phet.forces1d.common.TitleLayout;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.phetcomponents.PhetButton;
+import edu.colorado.phet.forces1d.common.plotdevice.FloatingControl;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
@@ -53,7 +54,9 @@ public class Force1DPanel extends ApparatusPanel2 {
     private PlotDevice velPlotDevice;
     private PlotDevice posPlotDevice;
     private WiggleMe wiggleMe;
-
+    private Color top = new Color( 230, 255, 230 );
+    private Color bottom = new Color( 180, 200, 180 );
+    private FloatingControl floatingControl;
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
         super( module.getModel(), module.getClock() );
@@ -66,12 +69,10 @@ public class Force1DPanel extends ApparatusPanel2 {
         walkwayTransform = new Function.LinearFunction( -12, 12, 0, 400 );
         walkwayGraphic = new WalkwayGraphic( this, module, 21, walkwayTransform );
         blockGraphic = new BlockGraphic( this, module.getForceModel().getBlock(), model, transform2D, walkwayTransform, module.imageElementAt( 0 ) );
-//        walkwayGraphic.addMouseInputListener( blockGraphic.getMouseListener() );
         arrowSetGraphic = new ArrowSetGraphic( this, blockGraphic, model, transform2D );
         leanerGraphic = new LeanerGraphic( this, blockGraphic );
         backgroundGraphic.addGraphic( walkwayGraphic );
         backgroundGraphic.repaintBuffer();
-//        repaintBuffer();
         addGraphic( backgroundGraphic );
         addGraphic( blockGraphic );
         addGraphic( leanerGraphic, 1000 );
@@ -79,25 +80,9 @@ public class Force1DPanel extends ApparatusPanel2 {
 
         addGraphic( arrowSetGraphic );
 
-        addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                relayout();
-            }
-
-            public void componentShown( ComponentEvent e ) {
-                relayout();
-            }
-
-            public void componentHidden( ComponentEvent e ) {
-                relayout();
-            }
-        } );
-
-//        int strokeWidth=2;
         int strokeWidth = 3;
         forcePlotDeviceView = new Force1DPlotDeviceView( module, this );
 
-//        double appliedForceRange=10;
         double appliedForceRange = 1000;
         Force1DLookAndFeel laf = getLookAndFeel();
         PlotDevice.ParameterSet forceParams = new PlotDevice.ParameterSet( this, "Forces", model.getPlotDeviceModel(),
@@ -108,7 +93,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         forceParams.setZoomRates( 300, 100, 5000 );
 
         forcePlotDevice = new PlotDevice( forceParams, backgroundGraphic );
-
+        forcePlotDevice.setAdorned( true );
         forcePlotDevice.setLabelText( "<html>Applied<br>Force</html>" );
         forcePlotDevice.addDataSeries( model.getNetForceSeries(), laf.getNetForceColor(), "Total Force", new BasicStroke( strokeWidth ) );
         forcePlotDevice.addDataSeries( model.getFrictionForceSeries(), laf.getFrictionForceColor(), "Friction Force", new BasicStroke( strokeWidth ) );
@@ -171,9 +156,11 @@ public class Force1DPanel extends ApparatusPanel2 {
         JPanel checkBoxPanel = new VerticalLayoutPanel();
         checkBoxPanel.add( showNetForce );
         checkBoxPanel.add( showFrictionForce );
-        forcePlotDevice.getFloatingControl().add( checkBoxPanel );
+        floatingControl = new FloatingControl( forcePlotDevice.getPlotDeviceModel(), this );
+        floatingControl.add( checkBoxPanel );
+        add( floatingControl );
+//        forcePlotDevice.getFloatingControl().add( checkBoxPanel );
 
-        relayout();
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 requestFocus();
@@ -203,12 +190,11 @@ public class Force1DPanel extends ApparatusPanel2 {
         repaintDebugGraphic.setActive( false );
 
         freeBodyDiagram = new FreeBodyDiagram( this, module );
-        addGraphic( freeBodyDiagram, 50 );
+//        addGraphic( freeBodyDiagram, 50 );
 
         offscreenPointerGraphic = new OffscreenPointerGraphic( this, blockGraphic, walkwayGraphic );
         addGraphic( offscreenPointerGraphic, 1000 );
         offscreenPointerGraphic.setLocation( 400, 50 );
-//        addGraphic( phetButton);
 
         PhetButton phetButton = new PhetButton( this, "Reset" );
         phetButton.addActionListener( new ActionListener() {
@@ -222,7 +208,6 @@ public class Force1DPanel extends ApparatusPanel2 {
 
         MouseInputAdapter listener = new MouseInputAdapter() {
             public void mousePressed( MouseEvent e ) {
-
                 forcePlotDevice.getPlotDeviceModel().setRecordMode();
                 forcePlotDevice.getPlotDeviceModel().setPaused( false );
             }
@@ -244,36 +229,20 @@ public class Force1DPanel extends ApparatusPanel2 {
         debugGraphic = new PhetShapeGraphic( this, null, Color.red );
         addGraphic( debugGraphic );
 
-//        final PhetImageGraphic wallLeft = new PhetImageGraphic( this, "images/barrier.jpg" );
-//        final PhetImageGraphic wallRight = new PhetImageGraphic( this, "images/barrier.jpg" );
-//        model.addBoundaryConditionListener( new Force1DModel.BoundaryConditionListener() {
-//            public void boundaryConditionOpen() {
-//                removeGraphic( wallLeft );
-//                removeGraphic( wallRight );
-////                wallLeft.setVisible( false );
-////                wallRight.setVisible( false );
-//            }
-//
-//            public void boundaryConditionWalls() {
-//                addGraphic( wallLeft );
-//                addGraphic( wallRight );
-////                wallLeft.setVisible( true );
-////                wallRight.setVisible( true );
-//            }
-//        } );
-////        addGraphic( wallLeft );
-////        addGraphic( wallRight );
-//        wallLeft.setRegistrationPoint( RectangleUt);
         accelPlotDevice.setVisible( false );
         velPlotDevice.setVisible( false );
         posPlotDevice.setVisible( false );
-//        setUseOffscreenBuffer( true );
 
         model.getPlotDeviceModel().addListener( new PlotDeviceModel.ListenerAdapter() {
             public void rewind() {
                 updateGraphics();
             }
 
+        } );
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                setReferenceSize();
+            }
         } );
     }
 
@@ -292,9 +261,7 @@ public class Force1DPanel extends ApparatusPanel2 {
     }
 //
     public void repaint( int x, int y, int width, int height ) {
-
         super.repaint( x, y, width, height );
-//        printStack(50);
     }
 
     private void printStack( int max ) {
@@ -312,65 +279,69 @@ public class Force1DPanel extends ApparatusPanel2 {
         this.didLayout = false;
     }
 
-    public void relayout() {
+    public void firstLayout() {
         if( !didLayout ) {
-            forceLayout();
+            forceLayout( getWidth(), getHeight() );
         }
     }
 
-    public void forceLayout() {
-        if( getWidth() > 0 && getHeight() > 0 ) {
-            int panelWidth = getWidth();
-            backgroundGraphic.setSize( getWidth(), getHeight() );
-            final Color top = new Color( 230, 255, 230 );
-            final Color bottom = new Color( 180, 200, 180 );
+    public void setReferenceSize() {
+        super.setReferenceSize();
+        forceLayout( getWidth(), getHeight() );
+    }
 
+    public void forceLayout( int width, int height ) {
+        if( getWidth() > 0 && getHeight() > 0 ) {
+            backgroundGraphic.setSize( width, height );
             GradientPaint background = new GradientPaint( 0, 0, top, 0, getHeight(), bottom );
             backgroundGraphic.setBackground( background );
-            int fbdX = 15;
-            int walkwayHeight = panelWidth / 6;
-            int fbdWidth = walkwayHeight;
-            int fbdHeight = walkwayHeight;
+//            int fbdX = 15;
+            int walkwayHeight = width / 6;
+//            int fbdWidth = 0;
+//            int fbdHeight = 0;
 
-            int fbdWalkwayInset = 7;
-            int walkwayX = fbdWidth + fbdX + fbdWalkwayInset;
+//            int fbdWalkwayInset = 7;
+//            int fbdWalkwayInset = 0;
+            int walkwayInset = 5;
+            int walkwayX = walkwayInset;
             int walkwayY = 0;
-            int walkwayWidth = panelWidth - fbdWidth - fbdX - fbdWalkwayInset * 2;
+            int walkwayWidth = width - walkwayInset * 2;
             walkwayTransform.setOutput( walkwayX, walkwayX + walkwayWidth );
             walkwayGraphic.setBounds( walkwayX, walkwayY, walkwayWidth, walkwayHeight );
 
-            int fbdY = 15;
-            freeBodyDiagram.setBounds( fbdX, fbdY, fbdWidth, fbdHeight );
+//            int fbdY = 15;
+//            freeBodyDiagram.setBounds( fbdX, fbdY, fbdWidth, fbdHeight );
 
-            layoutPlots();
+            layoutPlots( width, height );
 
+            Dimension floDim = floatingControl.getPreferredSize();
+            int floX = 5;
+            int floY = getHeight() / 2 - floDim.height / 2;
 
+            if( forcePlotDevice.isVisible() ) {
+                Rectangle r = forcePlotDevice.getTextBox().getBounds();
+                floY = r.y + r.height + 10;
+
+            }
+            floatingControl.reshape( floX, floY, floDim.width, floDim.height );
             updateGraphics();
             repaint();
             didLayout = true;
-//            resetRenderingSize();
         }
     }
 
-    public void layoutPlots() {
-//        Rectangle boundsToUse = new Rectangle( 0, 0, getWidth(), getHeight() );
-        Rectangle boundsToUse = getRenderedBounds();
-        if( boundsToUse == null ) {
-            boundsToUse = new Rectangle( 0, 0, getWidth(), getHeight() );
-        }
-        int panelWidth = boundsToUse.width;
+    public void layoutPlots( int width, int height ) {
+        int panelWidth = width;
         int plotInsetX = 200;
         int plotWidth = panelWidth - plotInsetX - 25;
         int plotY = walkwayGraphic.getY() + walkwayGraphic.getHeight() + 20;
         int yInsetBottom = forcePlotDevice.getChart().getHorizontalTicks().getMajorTickTextBounds().height * 2;
 
-        Rectangle chartArea = new Rectangle( plotInsetX, plotY + yInsetBottom, plotWidth, boundsToUse.height - plotY - yInsetBottom * 2 );
+        Rectangle chartArea = new Rectangle( plotInsetX, plotY + yInsetBottom, plotWidth, height - plotY - yInsetBottom * 2 );
         if( chartArea.width > 0 && chartArea.height > 0 ) {
 
             int separatorWidth = yInsetBottom / 2 + 10;
-//            separatorWidth=Math.max(5,separatorWidth );
             LayoutUtil layoutUtil = new LayoutUtil( chartArea.getY(), chartArea.getHeight() + chartArea.getY(), separatorWidth );
-//            LayoutUtil layoutUtil = new LayoutUtil( chartArea.getY(), chartArea.getHeight() + chartArea.getY(), 10);
             PlotDevice[] devices = new PlotDevice[]{forcePlotDevice, accelPlotDevice, velPlotDevice, posPlotDevice};
 
             LayoutUtil.LayoutElement[] elements = new LayoutUtil.LayoutElement[devices.length];
@@ -419,11 +390,11 @@ public class Force1DPanel extends ApparatusPanel2 {
         arrowSetGraphic.updateGraphics();
         blockGraphic.update();
         freeBodyDiagram.updateAll();
+        paint();
     }
 
     public void reset() {
         repaintBuffer();
-//        backgroundGraphic.repaintBuffer();
         forcePlotDevice.reset();
         repaint( 0, 0, getWidth(), getHeight() );
     }
@@ -436,13 +407,13 @@ public class Force1DPanel extends ApparatusPanel2 {
         return blockGraphic;
     }
 
-
     public void cursorMovedToTime( double time, int index ) {
         model.setPlaybackIndex( index );
         forcePlotDevice.cursorMovedToTime( time, index );
         accelPlotDevice.cursorMovedToTime( time, index );
         velPlotDevice.cursorMovedToTime( time, index );
         posPlotDevice.cursorMovedToTime( time, index );
+        updateGraphics();
     }
 
     public void setHelpEnabled( boolean h ) {
@@ -455,5 +426,24 @@ public class Force1DPanel extends ApparatusPanel2 {
             wiggleMe.setVisible( false );
             removeGraphic( wiggleMe );
         }
+    }
+
+    public void layoutPlots() {
+        layoutPlots( getWidth(), getHeight() );
+    }
+
+    public void setChartBackground( Color color ) {
+        System.out.println( "color = " + color.getRed() + ", " + color.getBlue() + ", " + color.getGreen() );
+        forcePlotDevice.setChartBackground( color );
+        accelPlotDevice.setChartBackground( color );
+        velPlotDevice.setChartBackground( color );
+        posPlotDevice.setChartBackground( color );
+        repaintBuffer();
+        paintImmediately( 0, 0, getWidth(), getHeight() );
+        setReferenceSize();
+    }
+
+    public FreeBodyDiagram getFreeBodyDiagram() {
+        return freeBodyDiagram;
     }
 }
