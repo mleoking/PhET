@@ -141,7 +141,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
 
                 double dopplerFrequency = nonDopplerFrequency - ( aveVx / numSamples ) * s_dopplerShiftScaleFactor;
                 if( module.getCurrentListener() == listener ) {
-                    module.setOscillatorFrequency( dopplerFrequency );
+                    module.setOscillatorDopplerFrequency( dopplerFrequency );
                 }
 
                 // We must yield so the rest of the system can get something done. In particular,
@@ -164,7 +164,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     public void mouseReleased( MouseEvent e ) {
         super.mouseReleased( e );
         if( module.getCurrentListener() == this.getListener() ) {
-            module.setOscillatorFrequency( nonDopplerFrequency );
+            module.setOscillatorDopplerFrequency( nonDopplerFrequency );
         }
     }
 

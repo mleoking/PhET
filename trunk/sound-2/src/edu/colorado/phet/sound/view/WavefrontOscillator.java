@@ -19,7 +19,11 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
 
     private boolean isEnabled = false;
     private double amplitude;
+    // The model element that we are providing a view of
     private Listener listener;
+    // Whatever multiplication factor is applied frequency the listener in the model reports
+    // to us
+    private double harmonicFactor = 1;
 
     // The point in the wavefront that the oscillator is
     // to generate sound for
@@ -35,6 +39,10 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
 
     public void clockTicked( AbstractClock c, double dt ) {
         update();
+    }
+
+    public void setHarmonicFactor( double harmonicFactor ) {
+        this.harmonicFactor = harmonicFactor;
     }
 
     public void setAmplitude( double amplitude ) {
@@ -75,7 +83,7 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
         if( listener != null ) {
             refPt = listener.getLocation();
         }
-        double frequency = listener.getFrequencyHeard();
+        double frequency = listener.getFrequencyHeard() * harmonicFactor;
         double amplitude = listener.getAmplitudeHeard();
         if( amplitude < -1 ) {
             throw new RuntimeException( "amplitude < -1" );

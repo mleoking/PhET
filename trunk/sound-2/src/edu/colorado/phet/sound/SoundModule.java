@@ -26,6 +26,7 @@ public class SoundModule extends Module implements RgbReporter {
 
     static {
         primaryOscillator.run();
+        octaveOscillator.setHarmonicFactor( 2 );
         octaveOscillator.run();
     }
 
@@ -113,7 +114,7 @@ public class SoundModule extends Module implements RgbReporter {
         return currentListener;
     }
 
-    public void setOscillatorFrequency( double dopplerFrequency ) {
+    public void setOscillatorDopplerFrequency( double dopplerFrequency ) {
         getPrimaryOscillator().setFrequency( (float)dopplerFrequency );
         getOctaveOscillator().setFrequency( (float)dopplerFrequency * 2 );
     }
