@@ -25,15 +25,14 @@ public class BaseModel extends CompositeModelElement implements ClockTickListene
         super.stepInTime( dt );
     }
 
-    protected CommandQueue getCommandList() {
-        return commandList;
-    }
+//    protected CommandQueue getCommandList() {
+//        return commandList;
+//    }
 
     /**
      * Executes a command on the model. If the model's clock is running, the command
      * is placed on its command queue so that it will be executed the next time
-     * the model thread ticks. If the model's clock is not running, the command
-     * is executed immediately.
+     * the model thread ticks.
      */
     public synchronized void execute( Command cmd ) {
         commandList.addCommand( cmd );

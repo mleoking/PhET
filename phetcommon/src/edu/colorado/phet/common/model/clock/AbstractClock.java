@@ -9,9 +9,9 @@ package edu.colorado.phet.common.model.clock;
 import java.util.ArrayList;
 
 public abstract class AbstractClock {
-    CompositeClockTickListener timeListeners = new CompositeClockTickListener();
-    double runningTime;
-    ArrayList clockStateListeners = new ArrayList();
+    private CompositeClockTickListener timeListeners = new CompositeClockTickListener();
+    private double runningTime;
+    private ArrayList clockStateListeners = new ArrayList();
     private TickConverter tickConverter;
     private int delay;
     private static final int NOT_STARTED = 1;

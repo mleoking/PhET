@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * To change this template use Options | File Templates.
  */
 public class CompositeModelElement extends SimpleObservable implements ModelElement {
-    ArrayList modelElements = new ArrayList();
+    private ArrayList modelElements = new ArrayList();
 
     public void addModelElement( ModelElement aps ) {
         modelElements.add( aps );

@@ -9,7 +9,7 @@ package edu.colorado.phet.common.util;
 import java.util.*;
 
 public class MultiMap extends TreeMap {
-    long lastModified = 0;
+    private long lastModified = 0;
 
     public void add( Object key, Object value ) {
         put( key, value );
