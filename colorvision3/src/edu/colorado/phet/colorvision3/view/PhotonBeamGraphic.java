@@ -114,7 +114,13 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver {
                     h = (int) photon.getHeight();
 
                     VisibleColor color = photon.getColor();
-                    if( color.getWavelength() == VisibleColor.WHITE_WAVELENGTH ) {
+                    if( photon.getIntensity() == 0 ) {
+                        // Photons with zero intensity are invisible.
+                        color = VisibleColor.INVISIBLE;
+                        //color = VisibleColor.WHITE; // DEBUG
+                    }
+                    else if( color.getWavelength() == VisibleColor.WHITE_WAVELENGTH ) {
+                        // White photons are rendered using a random color.
                         double wavelength = genWavelength();
                         color = new VisibleColor( wavelength );
                     }
