@@ -23,9 +23,9 @@ public class MultiMap implements Map {
     private TreeMap map = new TreeMap();
 
     /**
-     * @deprecated
      * @param key
      * @param value
+     * @deprecated
      */
     public Object add( Object key, Object value ) {
         return put( key, value );
@@ -35,6 +35,7 @@ public class MultiMap implements Map {
      * Adds an object to the map at the key specified. Note that the name for this method cannot
      * be "put", or it will override that method in the Map interface, which must be preserved for
      * XMLEncoder and XMLDecoder to work properly.
+     *
      * @param key
      * @param value
      * @return The list at the key, prior to the addition of the specified value
@@ -46,7 +47,6 @@ public class MultiMap implements Map {
         if( returnValue == null ) {
             list = new ArrayList();
             map.put( key, list );
-//            super.put( key, list );
             returnValue = list;
         }
         list.add( value );
@@ -105,6 +105,7 @@ public class MultiMap implements Map {
     /**
      * Returns the number of values in the MultiMap. Note that this is not
      * neccessarilly the same as the number of entries.
+     *
      * @return
      */
     public int size() {
@@ -122,13 +123,14 @@ public class MultiMap implements Map {
         return map.isEmpty();
     }
 
-    public boolean containsKey(Object key) {
+    public boolean containsKey( Object key ) {
         return map.containsKey( key );
     }
 
     /**
      * Returns all the values in the map. The list returned will have an entry for
      * every value in the map, rather than one for every key.
+     *
      * @return
      */
     public Collection values() {
@@ -150,7 +152,7 @@ public class MultiMap implements Map {
         return map.keySet();
     }
 
-    public Object get(Object key) {
+    public Object get( Object key ) {
         return map.get( key );
     }
 
@@ -160,7 +162,7 @@ public class MultiMap implements Map {
         return map;
     }
 
-    public void setMap(TreeMap map) {
+    public void setMap( TreeMap map ) {
         this.map = map;
     }
 
