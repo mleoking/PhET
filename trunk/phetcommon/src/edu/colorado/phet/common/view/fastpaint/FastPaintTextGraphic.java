@@ -20,6 +20,12 @@ public class FastPaintTextGraphic extends TextGraphic implements FastPaint.Graph
         repaint();
     }
 
+    public FastPaintTextGraphic( String text, Font font, float x, float y, Paint paint, Component parent ) {
+        super( text, font, x, y, paint );
+        fastPaint = new FastPaint( parent, this );
+        repaint();
+    }
+
     private void repaint() {
         fastPaint.repaint();
     }
