@@ -5,8 +5,10 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- compute emf by averaging emf at center and edge (edges?) of coil
 - fast movement of magnet is not shown by lightbulb or voltmeter
-- add Verlet behavior to voltmeter needle & lightbulb
+- add Verlet behavior to voltmeter needle 
+- make lightbulb ramp up/down instead of immediate on/off
 - show important "spikes" in induced emf (consider totally disabling smoothing)
 - collision detection between compass and magnet
 - collision detection between magnet and coil
