@@ -113,6 +113,7 @@ public class MagnetAndCoilModule extends Module {
         pickupCoilModel.setRadius( LOOP_RADIUS );
         pickupCoilModel.setDirection( 0 /* radians */ );
         pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
+        pickupCoilModel.setSmoothingEnabled( false );
         model.addModelElement( pickupCoilModel );
        
         // Lightbulb
