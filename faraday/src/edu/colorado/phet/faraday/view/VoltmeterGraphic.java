@@ -131,7 +131,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
         setVisible( _voltmeterModel.isEnabled() );
         if ( isVisible() ) {     
             double angle = _voltmeterModel.getNeedleAngle();
-            System.out.println( "VoltmeterGraphic.update - angle=" + Math.toDegrees(angle) );  // DEBUG
+//            System.out.println( "VoltmeterGraphic.update - angle=" + Math.toDegrees(angle) );  // DEBUG
             _needle.clearTransform();
             _needle.rotate( angle );
             repaint();
