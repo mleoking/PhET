@@ -18,7 +18,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 /**
  * This class is essentially a data structure that contains specifications for the top-level
  * elements of a PhetApplication.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
@@ -28,7 +28,7 @@ public class ApplicationModel {
     private String description;
     private String version;
     private FrameSetup frameSetup;
-    private Module[] modules;
+    private Module[] modules = new Module[0];
     private Module initialModule;
     private AbstractClock clock;
     boolean useClockControlPanel = true;

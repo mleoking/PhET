@@ -17,13 +17,14 @@ import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 /**
  * PhetFrame
+ * <p/>
+ * The frame used by PhET simulations.
  *
  * @author ?
  * @version $Revision$
@@ -36,10 +37,19 @@ public class PhetFrame extends JFrame {
     private ClockControlPanel clockControlPanel;
     private ContentPanel basicPhetPanel;
 
+    /**
+     * @param application
+     * @throws IOException
+     */
     public PhetFrame( PhetApplication application ) throws IOException {
         super( application.getApplicationModel().getWindowTitle() );
         this.application = application;
         final ApplicationModel model = application.getApplicationModel();
+
+        // Add a listener that will handle the following events:
+        //  the frame is closed
+        //  the simulation clock is iconified
+        //  the window is de-iconified
         this.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
@@ -62,6 +72,8 @@ public class PhetFrame extends JFrame {
                 }
             }
         } );
+
+        // Add the menu bar
         JMenuBar menuBar = new JMenuBar();
         try {
             this.helpMenu = new HelpMenu( application );
@@ -75,12 +87,13 @@ public class PhetFrame extends JFrame {
         setJMenuBar( menuBar );
         model.getFrameSetup().initialize( this );
 
-        JComponent apparatusPanelContainer = createApparatusPanelContainer( application );
-
+        // If the simulation is to have buttons for controlling the simulation clock, create it now
         if( model.getUseClockControlPanel() ) {
             clockControlPanel = new ClockControlPanel( model.getClock() );
         }
-        basicPhetPanel = new ContentPanel( apparatusPanelContainer, null, null, clockControlPanel );
+
+        // Create the content pane for the frame
+        basicPhetPanel = new ContentPanel( application, clockControlPanel );
         setContentPane( basicPhetPanel );
     }
 
@@ -90,24 +103,6 @@ public class PhetFrame extends JFrame {
 
     public ClockControlPanel getClockControlPanel() {
         return clockControlPanel;
-    }
-
-    private JComponent createApparatusPanelContainer( PhetApplication application ) {
-        ApplicationModel model = application.getApplicationModel();
-        if( model.numModules() == 1 ) {
-            JPanel apparatusPanelContainer = new JPanel();
-            apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
-            if( model.moduleAt( 0 ).getApparatusPanel() == null ) {
-                throw new RuntimeException( "Null Apparatus Panel in Module: " + model.moduleAt( 0 ).getName() );
-            }
-            apparatusPanelContainer.add( model.moduleAt( 0 ).getApparatusPanel() );
-            return apparatusPanelContainer;
-        }
-        else {
-            JComponent apparatusPanelContainer = new TabbedApparatusPanelContainer( application );
-            return apparatusPanelContainer;
-        }
-
     }
 
     public ContentPanel getBasicPhetPanel() {

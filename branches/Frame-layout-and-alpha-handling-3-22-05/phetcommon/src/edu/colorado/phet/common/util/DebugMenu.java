@@ -132,21 +132,22 @@ public class DebugMenu extends JMenu {
             super( "Show frame rate" );
             this.setMnemonic( 'f' );
             frameRateDlg = new JDialog( app.getPhetFrame(), "Frame Rate", false );
-            JTextArea textArea = new JTextArea( 10, 5 );
+            final JTextArea textArea = new JTextArea( 10, 5 );
             frameRateDlg.getContentPane().add( new JScrollPane( textArea,
                                                                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                                                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+                                                                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) );
             frameRateDlg.setUndecorated( true );
             frameRateDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
             frameRateDlg.pack();
 
             this.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                        frameRateDlg.setVisible( isSelected() );
+                    frameRateDlg.setVisible( isSelected() );
+                    startRecording( app.getApplicationModel().getClock(), textArea );
                 }
             } );
 
-            startRecording( app.getApplicationModel().getClock(), textArea );
+//            startRecording( app.getApplicationModel().getClock(), textArea );
         }
 
         void startRecording( AbstractClock clock, final JTextArea textArea ) {
@@ -171,7 +172,7 @@ public class DebugMenu extends JMenu {
 
     private class OffscreenBufferMenuItem extends JCheckBoxMenuItem {
         public OffscreenBufferMenuItem() {
-            super("Use offscreen buffer");
+            super( "Use offscreen buffer" );
             this.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     PhetApplication app = PhetApplication.instance();
