@@ -63,12 +63,15 @@ public class DistanceLadderGame {
 
         starField.reset();
 
-        displayMessage( new HtmlMessage( "messages/intro-1.html" ) );
-        displayMessage( new HtmlMessage( "messages/level1-intro.html" ) );
+//        displayMessage( new HtmlMessage( "messages/intro-1.html" ) );
 
+//        displayMessage( new HtmlMessage( "messages/level1-intro.html" ) );
         doLevel( new Level1( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
+
+        displayMessage( new HtmlMessage( "messages/level2-intro.html" ) );
         doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
+        displayMessage( new HtmlMessage( "messages/level2A-intro.html" ) );
 
         cockpitModule.activate( null );
     }
