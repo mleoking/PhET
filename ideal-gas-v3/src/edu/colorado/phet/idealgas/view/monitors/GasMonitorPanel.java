@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
@@ -62,7 +62,7 @@ public class GasMonitorPanel extends JPanel {
     private void init() {
 
         this.setPreferredSize( new Dimension( 400, 120 ) );
-        Border border = new TitledBorder( IdealGasStrings.get( "GasMonitorPanel.Title" ) );
+        Border border = new TitledBorder( SimStrings.get( "GasMonitorPanel.Title" ) );
         this.setBorder( border );
         this.setLayout( new GridLayout( 1, 2 ) );
 
@@ -73,7 +73,7 @@ public class GasMonitorPanel extends JPanel {
 
         JPanel leftTemperaturePanel = new JPanel();
         leftTemperaturePanel.setPreferredSize( new Dimension( 20, 50 ) );
-        leftTemperaturePanel.add( new JLabel( IdealGasStrings.get( "Common.Temperature" ) + ": " ) );
+        leftTemperaturePanel.add( new JLabel( SimStrings.get( "Common.Temperature" ) + ": " ) );
         temperatureTF = new JTextField( 6 );
         temperatureTF.setEditable( false );
         leftTemperaturePanel.add( temperatureTF );
@@ -89,7 +89,7 @@ public class GasMonitorPanel extends JPanel {
         JPanel pressurePanel = new JPanel( new GridLayout( 1, 2 ) );
         pressureFormat.setMaximumFractionDigits( 2 );
         leftPressurePanel = new JPanel();
-        leftPressurePanel.add( new JLabel( IdealGasStrings.get( "Common.Pressure" ) + ": " ));
+        leftPressurePanel.add( new JLabel( SimStrings.get( "Common.Pressure" ) + ": " ) );
         pressureTF = new JTextField( 6 );
         pressureTF.setEditable( false );
         leftPressurePanel.add( pressureTF );
@@ -219,12 +219,12 @@ public class GasMonitorPanel extends JPanel {
 
             // Add radio buttons for scale
             JPanel scaleFactorPanel = new JPanel( new GridLayout( 2, 1 ) );
-            Action scaleFactor1 = new AbstractAction( IdealGasStrings.get( "Common.1X" )) {
+            Action scaleFactor1 = new AbstractAction( SimStrings.get( "Common.1X" ) ) {
                 public void actionPerformed( ActionEvent evt ) {
                     scaleFactor = 1;
                 }
             };
-            Action scaleFactor10 = new AbstractAction( IdealGasStrings.get( "Common.10X" )) {
+            Action scaleFactor10 = new AbstractAction( SimStrings.get( "Common.10X" ) ) {
                 public void actionPerformed( ActionEvent evt ) {
                     scaleFactor = 10;
                 }

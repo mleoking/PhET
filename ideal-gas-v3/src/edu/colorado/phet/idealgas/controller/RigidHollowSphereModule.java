@@ -10,7 +10,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.idealgas.IdealGasStrings;
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
@@ -30,7 +30,7 @@ public class RigidHollowSphereModule extends IdealGasModule {
     private Class gasSpecies = HeavySpecies.class;
 
     public RigidHollowSphereModule( AbstractClock clock ) {
-        super( clock, IdealGasStrings.get( "ModuleTitle.RigidHollowSphere"));
+        super( clock, SimStrings.get( "ModuleTitle.RigidHollowSphere" ) );
         double xOrigin = 200;
         double yOrigin = 250;
         double xDiag = 434;
@@ -123,13 +123,13 @@ public class RigidHollowSphereModule extends IdealGasModule {
         //        hsaControlPanel.setGasSpeciesClass( LightSpecies.class );
 
         JPanel controlPanel = new JPanel( new GridBagLayout() );
-        controlPanel.setBorder( new TitledBorder( IdealGasStrings.get( "RigidHollowSphereControlPanel.controlsTitle" ) ) );
+        controlPanel.setBorder( new TitledBorder( SimStrings.get( "RigidHollowSphereControlPanel.controlsTitle" ) ) );
 
         //        JPanel speciesButtonPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         //        speciesButtonPanel.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 100 ) );
-        //        final JRadioButton heavySpeciesRB = new JRadioButton( IdealGasStrings.get( "Common.Heavy_Species" ) );
+        //        final JRadioButton heavySpeciesRB = new JRadioButton( SimStrings.get( "Common.Heavy_Species" ) );
         //        heavySpeciesRB.setForeground( Color.blue );
-        //        final JRadioButton lightSpeciesRB = new JRadioButton( IdealGasStrings.get( "Common.Light_Species" ) );
+        //        final JRadioButton lightSpeciesRB = new JRadioButton( SimStrings.get( "Common.Light_Species" ) );
         //        lightSpeciesRB.setForeground( Color.red );
         //        final ButtonGroup speciesGroup = new ButtonGroup();
         //        speciesGroup.add( heavySpeciesRB );
@@ -208,15 +208,15 @@ public class RigidHollowSphereModule extends IdealGasModule {
     private class SpeciesSelectionPanel extends JPanel {
         SpeciesSelectionPanel() {
             setLayout( new GridBagLayout() );
-            final JRadioButton heavySpeciesRB = new JRadioButton( IdealGasStrings.get( "Common.Heavy_Species" ) );
+            final JRadioButton heavySpeciesRB = new JRadioButton( SimStrings.get( "Common.Heavy_Species" ) );
             heavySpeciesRB.setForeground( Color.blue );
-            final JRadioButton lightSpeciesRB = new JRadioButton( IdealGasStrings.get( "Common.Light_Species" ) );
+            final JRadioButton lightSpeciesRB = new JRadioButton( SimStrings.get( "Common.Light_Species" ) );
             lightSpeciesRB.setForeground( Color.red );
             final ButtonGroup speciesGroup = new ButtonGroup();
             speciesGroup.add( heavySpeciesRB );
             speciesGroup.add( lightSpeciesRB );
 
-            Insets insets = new Insets( 4,4,0,0 );
+            Insets insets = new Insets( 4, 4, 0, 0 );
             GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                              GridBagConstraints.WEST, GridBagConstraints.NONE,
                                                              insets, 0, 0 );

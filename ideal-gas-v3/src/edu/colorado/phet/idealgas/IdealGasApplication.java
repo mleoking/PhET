@@ -10,14 +10,15 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.idealgas.controller.*;
 
 public class IdealGasApplication extends PhetApplication {
 
     static class IdealGasApplicationModel extends ApplicationModel {
         public IdealGasApplicationModel() {
-            super( IdealGasStrings.get( "IdealGasApplication.title" ),
-                   IdealGasStrings.get( "IdealGasApplication.description" ),
+            super( SimStrings.get( "IdealGasApplication.title" ),
+                   SimStrings.get( "IdealGasApplication.description" ),
                    IdealGasConfig.VERSION,
                    IdealGasConfig.FRAME_SETUP );                   
 

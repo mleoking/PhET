@@ -7,8 +7,8 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.IdealGasStrings;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.LightSpecies;
@@ -25,7 +25,9 @@ public abstract class MoleculeFactoryPanel extends JPanel {
     private IdealGasModule module;
 
     protected abstract Class getCurrentGasSpecies();
+
     protected abstract Point2D getNewMoleculeLocation();
+
     protected abstract Vector2D getNewMoleculeVelocity();
 
     MoleculeFactoryPanel( IdealGasModule module ) {
@@ -34,7 +36,7 @@ public abstract class MoleculeFactoryPanel extends JPanel {
         this.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 40 ) );
         this.setLayout( new GridLayout( 2, 1 ) );
 
-        this.add( new JLabel( IdealGasStrings.get( "MeasurementControlPanel.Number_of_particles" ) ));
+        this.add( new JLabel( SimStrings.get( "MeasurementControlPanel.Number_of_particles" ) ) );
         // Set up the spinner for controlling the number of particles in
         // the hollow sphere
         Integer value = new Integer( 0 );
