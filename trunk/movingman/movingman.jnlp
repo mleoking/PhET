@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp
     spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/projects/movingman/v5"
+    codebase="http://www.colorado.edu/physics/phet/projects/movingman/v6"
     href="movingman.jnlp">
     <information>
         <title>The Moving Man</title>

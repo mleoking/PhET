@@ -12,7 +12,6 @@ import edu.colorado.phet.common.view.*;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.movingman.application.motionandcontrols.MotionAndControls;
-import edu.colorado.phet.movingman.common.plaf.LectureLookAndFeel2;
 import edu.colorado.phet.movingman.elements.*;
 import edu.colorado.phet.movingman.elements.Timer;
 import edu.colorado.phet.movingman.elements.stepmotions.MotionState;
@@ -20,8 +19,7 @@ import edu.colorado.phet.movingman.elements.stepmotions.StepMotion;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
@@ -65,7 +63,7 @@ public class MovingManModule extends Module {
     private int numSmoothingPoints = 10;
     private WalkWayGraphic walkwayGraphic;
     public static PhetFrame FRAME;
-    private static boolean isLecture = false;
+//    private static boolean isLecture = false;
 
     public Color getPurple() {
         return purple;
@@ -372,16 +370,16 @@ public class MovingManModule extends Module {
     }
 
     public static void main( String[] args ) {
-        LectureLookAndFeel2 LECTURE_LOOK_AND_FEEL;
-        LECTURE_LOOK_AND_FEEL = new LectureLookAndFeel2();
-        if( isLecture ) {
-            try {
-                UIManager.setLookAndFeel( LECTURE_LOOK_AND_FEEL );
-            }
-            catch( UnsupportedLookAndFeelException e ) {
-                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-            }
-        }
+//        LectureLookAndFeel2 LECTURE_LOOK_AND_FEEL;
+//        LECTURE_LOOK_AND_FEEL = new LectureLookAndFeel2();
+//        if( isLecture ) {
+//            try {
+//                UIManager.setLookAndFeel( LECTURE_LOOK_AND_FEEL );
+//            }
+//            catch( UnsupportedLookAndFeelException e ) {
+//                e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+//            }
+//        }
         MovingManModule m = new MovingManModule();
         FrameSetup setup = new MaximizeFrame();
         ApplicationDescriptor desc = new ApplicationDescriptor( "The Moving Man", "The Moving Man Application.",
@@ -405,6 +403,58 @@ public class MovingManModule extends Module {
         m.cursorGraphic.setVisible( false );
         m.getApparatusPanel().repaint();
         m.cursorGraphic.setVisible( false );
+
+        final Runnable dofix = new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep( 300 );
+                    fixComponent( FRAME.getContentPane() );
+                    fixComponent( FRAME );
+                }
+                catch( InterruptedException e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+        FRAME.addWindowFocusListener( new WindowFocusListener() {
+            public void windowGainedFocus( WindowEvent e ) {
+                new Thread( dofix ).start();
+            }
+
+            public void windowLostFocus( WindowEvent e ) {
+            }
+        } );
+        FRAME.addWindowListener( new WindowListener() {
+            public void windowActivated( WindowEvent e ) {
+                new Thread( dofix ).start();
+            }
+
+            public void windowClosed( WindowEvent e ) {
+            }
+
+            public void windowClosing( WindowEvent e ) {
+            }
+
+            public void windowDeactivated( WindowEvent e ) {
+            }
+
+            public void windowDeiconified( WindowEvent e ) {
+            }
+
+            public void windowIconified( WindowEvent e ) {
+            }
+
+            public void windowOpened( WindowEvent e ) {
+                new Thread( dofix ).start();
+            }
+        } );
+        new Thread( dofix ).start();
+    }
+
+    public static void fixComponent( Container jc ) {
+        jc.invalidate();
+        jc.validate();
+        jc.repaint();
     }
 
     public Man getMan() {
