@@ -29,6 +29,9 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     
     // The minimum number of steps used to approximate one sine wave cycle.
     private static final double MIN_STEPS_PER_CYCLE = 10;
+    
+    // Determines whether all critical angles will be hit.
+    private static final boolean HIT_CRITICAL_ANGLES = true;
         
     //----------------------------------------------------------------------------
     // Instance data
@@ -151,11 +154,13 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
                 _angle += _deltaAngle;
 
                 // Adjust the angle so that we hit all peaks and zero crossings.
-                for ( int i = 1; i <= 4; i++ ) {
-                    double criticalAngle = i * ( Math.PI / 2 ); // ...at 90 degree intervals
-                    if ( previousAngle < criticalAngle && _angle > criticalAngle ) {
-                        _angle = criticalAngle;
-                        break;
+                if ( HIT_CRITICAL_ANGLES ) {
+                    for ( int i = 1; i <= 4; i++ ) {
+                        double criticalAngle = i * ( Math.PI / 2 ); // ...at 90 degree intervals
+                        if ( previousAngle < criticalAngle && _angle > criticalAngle ) {
+                            _angle = criticalAngle;
+                            break;
+                        }
                     }
                 }
 

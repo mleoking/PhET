@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - water wheel hitches as it rotates, because it's adjusting to hit critial angles
 - make electrons move at same speed whether grid is on or off
-- verify that AC hits zero crossings, check with lightbulb
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 - calibrate lightbulb
 - calibrate voltmeter
@@ -40,9 +39,9 @@ CLEANUP:
 - move test-src programs to examples project
 
 POSSIBLE OPTIMIZATIONS:
-- only recompute grid if magnet location or strength changes
 - use a profiler (eg JProfile) to identify bottlenecks
 - draw grid needles as images instead of shapes
+- draw the needles into a buffered image, then blit it to the screen
 - cache grid needles at N-degree angles to eliminate rotation transform
 - eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf
 
@@ -57,6 +56,9 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/23) - added a code switch for turning off critical angles in ACPowerSupply and Turbine models
+(3/23) - verify that AC hits zero crossings, check with lightbulb (it does)
+(3/23) - optimize ACPowerSupply so that it's not doing any work when amplitude is set to zero
 (3/23) - move voltmeter tick marks in one pixel so that they look good on Windows
 (3/23) - reuse the same AffineTransform each time a compass grid needle needs updating (optimization)
 (3/23) - make compass grid use apparatus panel's canvas size to compute its bounds
