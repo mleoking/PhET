@@ -7,7 +7,6 @@ import java.awt.*;
 public class ArrowA {
 
     protected double L;  	//length of arrow
-//    protected double thta;//angle of of arrow
     protected int x0, y0;			//origin of arrow
     protected int xFinal, yFinal;	//head of arrow
     protected double w;		//width of arrow
@@ -27,9 +26,6 @@ public class ArrowA {
     //set arrow position arrow to head:(xFinal, yFinal), tail:(x0, y0)
 
     //formula for width of arrow line
-//    public double computeWidth() {
-//        return (this.L / 8.0);
-//    }
     public double computeWidth() {
         return ( Math.min( 6.0, this.L / 10.0 ) );
     }
@@ -80,7 +76,6 @@ public class ArrowA {
 
 
     public void paint( Graphics g ) {
-        //g.setColor(Color.red);
         g.fillPolygon( xInt, yInt, xInt.length );
     }//end of paint method
 
