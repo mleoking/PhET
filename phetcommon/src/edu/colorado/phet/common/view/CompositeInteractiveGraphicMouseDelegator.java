@@ -13,6 +13,10 @@ import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * This class manages the mouse interaction for an entire graphic tree, whose root is
+ * the CompositeGraphic specified in the constructor.
+ */
 public class CompositeInteractiveGraphicMouseDelegator implements MouseInputListener {
     CompositeGraphic compositeInteractiveGraphic;
     MouseInputListener activeUnit;
