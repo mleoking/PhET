@@ -21,10 +21,14 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
     private boolean isEnabled = false;
     private double amplitudeInternal;
     private Wavefront wavefront;
+    private Listener listener;
 
     // The point in the wavefront that the oscillator is
     // to generate sound for
     private Point2D.Double refPt = new Point2D.Double();
+
+    // This is a special overide flag so that the two source interference panel works.
+    private boolean interferenceOverideEnabled = false;
 
     /**
      *
@@ -115,12 +119,10 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
             setFrequency( (float)frequency );
         }
         //        amplitudeInternal = amplitude;
-        if( isEnabled && amplitude != getAmplitude() ) {
+        if( isEnabled && amplitude != getAmplitude() && !interferenceOverideEnabled ) {
             setAmplitude( (float)amplitude );
         }
     }
-
-    Listener listener;
 
     public void observe( Listener listener ) {
         if( this.listener != null ) {
@@ -129,5 +131,18 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
         this.listener = listener;
         listener.addObserver( this );
         update();
+    }
+
+    public boolean isInterferenceOverideEnabled() {
+        return interferenceOverideEnabled;
+    }
+
+    public void setInterferenceOverideEnabled( boolean interferenceOverideEnabled ) {
+        this.interferenceOverideEnabled = interferenceOverideEnabled;
+        update();
+    }
+
+    public boolean getInterferenceOverideEnabled() {
+        return this.interferenceOverideEnabled;
     }
 }

@@ -21,12 +21,11 @@ import java.awt.*;
 public abstract class SingleSourceModule extends SoundModule {
 
     protected SingleSourceModule( ApplicationModel appModel, String name ) {
-        super( name );
+        super( appModel, name );
 
-        this.setModel( new SoundModel( appModel.getClock() ) );
+//        this.setModel( new SoundModel( appModel.getClock() ) );
         SingleSourceApparatusPanel apparatusPanel = new SingleSourceApparatusPanel( (SoundModel)getModel() );
         this.setApparatusPanel( apparatusPanel );
-        initModel();
         initControlPanel();
     }
 

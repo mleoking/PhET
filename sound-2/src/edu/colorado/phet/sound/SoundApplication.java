@@ -32,8 +32,8 @@ public class SoundApplication extends PhetApplication {
             Module measureModule = new SingleSourceMeasureModule( this );
             Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
             this.setModules( new Module[]{ singleSourceModule, measureModule, twoSourceIntereferenceModule } );
-//            this.setModules( new Module[]{ singleSourceModule /*, measureModule, twoSourceIntereferenceModule*/ } );
-            this.setInitialModule( singleSourceModule );
+//            this.setModules( new Module[]{  /*singleSourceModule, measureModule,*/ twoSourceIntereferenceModule } );
+            this.setInitialModule( twoSourceIntereferenceModule );
         }
     }
 
