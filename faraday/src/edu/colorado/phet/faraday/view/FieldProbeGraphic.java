@@ -11,10 +11,7 @@
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -25,6 +22,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 
@@ -38,7 +36,38 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
  * @version $Revision$
  */
 public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObserver {
-
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Center of the crosshairs (MUST MATCH IMAGE FILE!)
+    private static final Point CROSSHAIRS_LOCATION = new Point( 71, 27 );
+    
+    // Bottom center of the title (MUST MATCH IMAGE FILE!)
+    private static final Point TITLE_LOCATION = new Point( 0, 84 );
+    
+    // Bottom right of the top-most field (MUST MATCH IMAGE FILE!)
+    private static final Point FIELD_LOCATION = new Point( 35, 108 );
+    
+    // Horizontal spacing between fields (MUST MATCH IMAGE FILE!)
+    private static final int FIELD_SPACING = 24;
+    
+    // Title color
+    private static final Color TITLE_COLOR = Color.WHITE;
+    
+    // Field color
+    private static final Color FIELD_COLOR = Color.WHITE;
+    
+    // Title font
+    private static final Font TITLE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
+    
+    // Field font
+    private static final Font FIELD_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
+    
+    // Field format
+    private static final String FIELD_FORMAT = "###0.00";
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -65,40 +94,50 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
         
-        _formatter = new DecimalFormat( "###0.00" );
+        _formatter = new DecimalFormat( FIELD_FORMAT );
         
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
-        // Probe body with registration point at crosshairs.
+        // Probe body, registration point at center of crosshairs.
         PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.FIELD_PROBE_IMAGE );
-        int rx = body.getImage().getWidth() / 2;
-        int ry = 21;
-        body.setRegistrationPoint( rx, ry );
+        body.setRegistrationPoint( CROSSHAIRS_LOCATION.x, CROSSHAIRS_LOCATION.y );
         addGraphic( body );
         
-        // Common text attributes.
-        Font font = new Font( "SansSerif", Font.PLAIN, 12 );
-        Color color = Color.WHITE;
-        int xText = -20;
-        int yText = 56;
-        int ySpacing = 18;
+        // Title text, registration point at bottom center.
+        String titleString = SimStrings.get( "FieldMeter.title" );
+        PhetTextGraphic titleText = new PhetTextGraphic( component, TITLE_FONT, titleString, TITLE_COLOR, 0, 0 );
+        int width = titleText.getBounds().width;
+        int height = titleText.getBounds().height;
+        titleText.setRegistrationPoint( width /2, height ); // bottom center
+        titleText.setLocation( TITLE_LOCATION.x, TITLE_LOCATION.y );
+        addGraphic( titleText );
         
-        // B text
-        _bText = new PhetTextGraphic( component, font, "1234567890-E1", color, xText, yText );
-        addGraphic( _bText );
-        
-        // Bx text
-        _bxText = new PhetTextGraphic( component, font, "1234567890-E1", color, xText, yText + ySpacing );
-        addGraphic( _bxText );
-        
-        // By text
-        _byText = new PhetTextGraphic( component, font, "1234567890-E1", color, xText, yText + (2*ySpacing) );
-        addGraphic( _byText );
-        
-        // Angle text
-        _angleText = new PhetTextGraphic( component, font, "1234567890-E1", color, xText, yText + (3*ySpacing) );
-        addGraphic( _angleText );
+        // Fields, registration point is set in update method.
+        {
+            int x = FIELD_LOCATION.x;
+            int y = FIELD_LOCATION.y;
+            
+            // B text
+            _bText = new PhetTextGraphic( component, FIELD_FONT, "", FIELD_COLOR, x, y );
+            y = y + FIELD_SPACING;
+            addGraphic( _bText );
+
+            // Bx text
+            _bxText = new PhetTextGraphic( component, FIELD_FONT, "", FIELD_COLOR, x, y );
+            y = y + FIELD_SPACING;
+            addGraphic( _bxText );
+
+            // By text
+            _byText = new PhetTextGraphic( component, FIELD_FONT, "", FIELD_COLOR, x, y );
+            y = y + FIELD_SPACING;
+            addGraphic( _byText );
+
+            // Angle text
+            _angleText = new PhetTextGraphic( component, FIELD_FONT, "", FIELD_COLOR, x, y );
+            y = y + FIELD_SPACING;
+            addGraphic( _angleText );
+        }
         
         // Setup interactivity.
         super.setCursorHand();
@@ -136,16 +175,23 @@ public class FieldProbeGraphic extends CompositePhetGraphic implements SimpleObs
         if ( isVisible() ) {
             AbstractVector2D B = _magnetModel.getStrength( getLocation() );
             
+            // Format field values
             String b = _formatter.format( new Double( B.getMagnitude() ) );
             String bx = _formatter.format( new Double( B.getX() ) );
             String by = _formatter.format( new Double( B.getY() ) );
             String angle = _formatter.format( new Double( Math.toDegrees( B.getAngle() ) ) );
             
+            // Set field values
             _bText.setText( b );
             _bxText.setText( bx );
             _byText.setText( by );
             _angleText.setText( angle );
+            
+            // Right justify (registration point at bottom right)
+            _bText.setRegistrationPoint( _bText.getBounds().width, _bText.getBounds().height );
+            _bxText.setRegistrationPoint( _bxText.getBounds().width, _bxText.getBounds().height );
+            _byText.setRegistrationPoint( _byText.getBounds().width, _byText.getBounds().height );
+            _angleText.setRegistrationPoint( _angleText.getBounds().width, _angleText.getBounds().height );
         }
     }
-
 }
