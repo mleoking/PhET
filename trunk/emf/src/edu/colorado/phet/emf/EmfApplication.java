@@ -9,6 +9,7 @@ package edu.colorado.phet.emf;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
 import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
 import edu.colorado.phet.coreadditions.PhetLookAndFeel;
@@ -52,9 +53,9 @@ public class EmfApplication {
 //        Script script = null;
 
         Module antennaModule = new EmfModule();
-//        Module antennaModule = new AntennaModule();
         ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
-                "Electro-magnetic Fields", "yada-yada", ".01",
+                "Radio Waves", GraphicsUtil.formatMessage( "An exploration of how electro-magnetic waves\nare created, how they move through\nspace, and their effects" ),
+                "1",
                 1024, 768 );
         PhetApplication application = new PhetApplication( appDescriptor, antennaModule,
 //                                                           new ThreadedClock( new DynamicClockModel( 1, 20 ), ThreadPriority.NORMAL ) );fie
