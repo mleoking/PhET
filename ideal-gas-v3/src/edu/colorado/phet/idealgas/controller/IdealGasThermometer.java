@@ -21,6 +21,7 @@ class IdealGasThermometer extends Thermometer implements SimpleObserver {
         super( component, location, maxScreenLevel, thickness, isVertical, minLevel, maxLevel );
         this.idealGasModel = idealGasModel;
         idealGasModel.addObserver( this );
+        update();        
     }
 
     public void update() {

@@ -39,6 +39,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
     private NumberFormat heightFormatter = new DecimalFormat( "#.##" );
     private double temperature;
     private double pressure;
+    private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
 
     public PressureSliceGraphic( Component component, final PressureSlice pressureSlice, final Box2D box ) {
         super( null );
@@ -90,7 +91,9 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
         }
 
         public void paint( Graphics2D g2 ) {
+            saveGraphicsState( g2 );
 
+            g2.setFont( font );
             FontMetrics fontMetrics = g2.getFontMetrics();
             int readoutWidth = 80;
             int borderThickness = 8;
@@ -154,6 +157,8 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
             // Reset the alpha vaule, just in case the next client of the Graphics2D
             // assumes it is 1.
             g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
+
+            restoreGraphicsState();
         }
     }
 

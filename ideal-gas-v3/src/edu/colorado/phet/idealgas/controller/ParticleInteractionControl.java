@@ -10,11 +10,11 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ParticleInteractionControl extends JPanel {
-        ParticleInteractionControl() {
+        public ParticleInteractionControl() {
             final JCheckBox noSphereSphereCollisionCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.No_particle_interactions" ) );
             this.add( noSphereSphereCollisionCB );
             noSphereSphereCollisionCB.addActionListener( new ActionListener() {
