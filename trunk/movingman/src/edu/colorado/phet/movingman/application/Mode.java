@@ -10,9 +10,8 @@ import edu.colorado.phet.common.model.ModelElement;
  * Copyright (c) Jul 1, 2003 by Sam Reid
  */
 public abstract class Mode extends ModelElement {
-    String name;
+    private String name;
     private MovingManModule module;
-
 
     public Mode( MovingManModule module, String name ) {
         this.module = module;

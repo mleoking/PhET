@@ -1,14 +1,14 @@
-package edu.colorado.phet.movingman.application.motionandcontrols;
+package edu.colorado.phet.movingman.application.motionsuites;
 
 import edu.colorado.phet.movingman.application.MovingManModule;
 import edu.colorado.phet.movingman.common.PhetLookAndFeel;
+import edu.colorado.phet.movingman.common.VerticalLayoutPanel;
 import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.OscMotion;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,31 +17,12 @@ import java.awt.*;
  * Time: 10:06:07 PM
  * To change this template use Options | File Templates.
  */
-public class OscillateAndPanel extends MotionAndControls {
-    OscMotion oscillate;
+public class OscillateSuite extends MotionSuite {
+    private OscMotion oscillate;
     private JPanel controlPanel;
     private MovingManModule module;
-//    private Object module;
-    public static class VerticalLayoutPanel extends JPanel {
-        private GridBagConstraints gridBagConstraints;
 
-        public VerticalLayoutPanel() {
-            setLayout( new GridBagLayout() );
-            gridBagConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        }
-
-        public GridBagConstraints getGridBagConstraints() {
-            return gridBagConstraints;
-        }
-
-        public Component add( Component comp ) {
-            super.add( comp, gridBagConstraints );
-            gridBagConstraints.gridy++;
-            return null;
-        }
-    }
-
-    public OscillateAndPanel( MovingManModule module ) {
+    public OscillateSuite( MovingManModule module ) {
         super( "Oscillate" );
         this.module = module;
         oscillate = new OscMotion( module.getMotionState(), .01 );
@@ -74,7 +55,6 @@ public class OscillateAndPanel extends MotionAndControls {
     }
 
     public void initialize( Man man ) {
-        super.initialize( man );
 
         module.getPositionPlot().getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
 

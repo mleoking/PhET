@@ -1,5 +1,6 @@
-package edu.colorado.phet.movingman.application.motionandcontrols;
+package edu.colorado.phet.movingman.application.motionsuites;
 
+import edu.colorado.phet.movingman.common.VerticalLayoutPanel;
 import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.StepMotion;
 
@@ -12,20 +13,22 @@ import javax.swing.*;
  * Time: 10:02:09 PM
  * To change this template use Options | File Templates.
  */
-public abstract class MotionAndControls {
-    StepMotion motion;
-    JPanel controlPanel;
-    String name;
+public abstract class MotionSuite {
+    private StepMotion motion;
+    private JPanel controlPanel;
+    private String name;
 
-    public MotionAndControls( String name ) {
+    public MotionSuite( String name ) {
         this.name = name;
+        controlPanel = new VerticalLayoutPanel();
+        setControlPanel( controlPanel );
     }
 
     public String toString() {
         return name;
     }
 
-    public MotionAndControls( StepMotion motion, JPanel controlPanel ) {
+    public MotionSuite( StepMotion motion, JPanel controlPanel ) {
         this.motion = motion;
         this.controlPanel = controlPanel;
     }
@@ -59,8 +62,7 @@ public abstract class MotionAndControls {
         return labbie;
     }
 
-    public void initialize( Man man ) {
-    }
+    public abstract void initialize( Man man );
 
     public abstract void collidedWithWall();
 }

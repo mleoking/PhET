@@ -1,8 +1,9 @@
 package edu.colorado.phet.movingman.application;
 
 
-import edu.colorado.phet.movingman.application.motionandcontrols.MotionAndControls;
-import edu.colorado.phet.movingman.application.motionandcontrols.OscillateAndPanel;
+import edu.colorado.phet.movingman.application.motionsuites.MotionSuite;
+import edu.colorado.phet.movingman.application.motionsuites.OscillateSuite;
+import edu.colorado.phet.movingman.common.VerticalLayoutPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,16 +20,15 @@ import java.util.ArrayList;
  * To change this template use Options | File Templates.
  */
 public class MotionActivation {
-    MovingManModule module;
-    JDialog dialog;
-    static ArrayList dialogs = new ArrayList();
-    private GridBagConstraints gridBagConstraints;
+    private MovingManModule module;
+    private JDialog dialog;
+    private static ArrayList dialogs = new ArrayList();
 
     public MotionActivation( MovingManModule module ) {
         this.module = module;
     }
 
-    public void setupInDialog( MotionAndControls mac, final MovingManControlPanel controls ) {
+    public void setupInDialog( MotionSuite mac, final MovingManControlPanel controls ) {
         if( dialog != null ) {
             dialog.setVisible( false );
             dialog.dispose();
@@ -72,9 +72,8 @@ public class MotionActivation {
         } );
         controls.getInitialPositionSpinner().setValue( new Double( module.getMan().getX() ) );
 
-        OscillateAndPanel.VerticalLayoutPanel panel = new OscillateAndPanel.VerticalLayoutPanel();
-        gridBagConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        if( !( mac instanceof OscillateAndPanel ) ) {
+        VerticalLayoutPanel panel = new VerticalLayoutPanel();
+        if( !( mac instanceof OscillateSuite ) ) {
             panel.add( controls.getInitialPositionSpinner() );
         }
         panel.add( mac.getControlPanel() );
@@ -83,15 +82,6 @@ public class MotionActivation {
         buttonPanel.setLayout( new BoxLayout( buttonPanel, BoxLayout.X_AXIS ) );
         buttonPanel.add( controls.getStartMotionButton() );
         buttonPanel.add( controls.getAnotherPauseButton() );
-
-//        JButton minimizeButton=new JButton("Minimize");
-//        buttonPanel.add(minimizeButton);
-//        minimizeButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                MotionActivation.this.dialog.setVisible(false);
-//            }
-//        });
-//        buttonPanel.add(minimizeButton);
 
         panel.add( buttonPanel );
         dialog.setContentPane( panel );

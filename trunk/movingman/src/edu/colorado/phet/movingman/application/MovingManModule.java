@@ -11,7 +11,7 @@ import edu.colorado.phet.common.model.command.Command;
 import edu.colorado.phet.common.view.*;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
-import edu.colorado.phet.movingman.application.motionandcontrols.MotionAndControls;
+import edu.colorado.phet.movingman.application.motionsuites.MotionSuite;
 import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 import edu.colorado.phet.movingman.elements.*;
 import edu.colorado.phet.movingman.elements.Timer;
@@ -34,7 +34,7 @@ import java.util.Observer;
 public class MovingManModule extends Module {
     public static final double TIMER_SCALE = 1.0 / 50;
     private int numResetPoints = 1;
-    double maxTime = 20;
+    private double maxTime = 20;
 
     private MotionState motionState = new MotionState();
     private double playbackSpeed;
@@ -64,7 +64,6 @@ public class MovingManModule extends Module {
     private int numSmoothingPoints = 10;
     private WalkWayGraphic walkwayGraphic;
     public static PhetFrame FRAME;
-//    private static boolean isLecture = false;
 
     public Color getPurple() {
         return purple;
@@ -537,7 +536,7 @@ public class MovingManModule extends Module {
         cursorGraphic.updateYourself();
     }
 
-    public void setMotionMode( MotionAndControls mac ) {//StepMotion motion) {
+    public void setMotionMode( MotionSuite mac ) {//StepMotion motion) {
         motionMode.setMotion( mac );
         setMode( motionMode );
     }
@@ -665,7 +664,7 @@ public class MovingManModule extends Module {
     public class MotionMode extends Mode {
         private StepMotion motion;
         private int numSmoothingPointsMotion = 3;
-        private MotionAndControls mac;
+        private MotionSuite mac;
 
         public MotionMode( MovingManModule module ) {
             super( module, "Motion" );
@@ -690,7 +689,7 @@ public class MovingManModule extends Module {
             setReplayTime( timeIndex );
         }
 
-        public void setMotion( MotionAndControls mac ) {
+        public void setMotion( MotionSuite mac ) {
             this.motion = mac.getStepMotion();
             this.mac = mac;
         }
