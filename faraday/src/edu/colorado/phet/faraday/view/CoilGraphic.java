@@ -390,7 +390,7 @@ public class CoilGraphic implements SimpleObserver {
         // Start at the left-most loop, keeping the coil centered.
         final int xStart = -( loopSpacing * (numberOfLoops - 1) / 2 );
         
-        // Create the loops from left to right.
+        // Create the wire ends & loops from left to right.
         // Curves are created in the order that they are pieced together.
         for ( int i = 0; i < numberOfLoops; i++ ) {
             
@@ -541,62 +541,32 @@ public class CoilGraphic implements SimpleObserver {
                 _foreground.addGraphic( shapeGraphic );
             }   
         }
-        
-        /* 
-         * Add electrons to the coil.
-         * The wire ends have a different number of electrons.
-         */
+
+        // Add electrons to the coil.
         {
-            int numberOfElectrons = 0;
             final double speed = calculateElectronSpeed();
             
-            // Left wire end
-            numberOfElectrons = ELECTRONS_IN_LEFT_END;
-            for ( int i = 0; i < numberOfElectrons; i++ ) {
-                
-                double positionAlongCurve = i / (double) numberOfElectrons;
+            final int leftEndIndex = 0;
+            final int rightEndIndex = _curveDescriptors.size() - 1;
 
-                // Model
-                Electron electron = new Electron();
-                electron.setCurveDescriptors( _curveDescriptors );
-                electron.setPositionAlongCurve( positionAlongCurve, 0 );
-                electron.setSpeed( speed );
-                electron.setEnabled( _electronAnimationEnabled );
-                _electrons.add( electron );
-                _baseModel.addModelElement( electron );
+            // For each curve...
+            for ( int curveIndex = 0; curveIndex < _curveDescriptors.size(); curveIndex++ ) {
+                /*
+                 * The wire ends are a different size, 
+                 * and therefore contain a different number of electrons.
+                 */
+                int numberOfElectrons;
+                if ( curveIndex == leftEndIndex ) {
+                    numberOfElectrons = ELECTRONS_IN_LEFT_END;
+                }
+                else if ( curveIndex == rightEndIndex ) {
+                    numberOfElectrons = ELECTRONS_IN_RIGHT_END;
+                }
+                else {
+                    numberOfElectrons = (int) ( radius / ELECTRON_SPACING );
+                }
 
-                // View
-                CurveDescriptor cd = electron.getCurveDescriptor();
-                CompositePhetGraphic parent = cd.getParent();
-                ElectronGraphic electronGraphic = new ElectronGraphic( _component, parent, electron );
-                cd.getParent().addGraphic( electronGraphic );  
-            }
-            
-            // Right wire end
-            numberOfElectrons = ELECTRONS_IN_RIGHT_END;
-            for ( int i = 0; i < numberOfElectrons; i++ ) {
-                
-                double positionAlongCurve = i / (double) numberOfElectrons;
-
-                // Model
-                Electron electron = new Electron();
-                electron.setCurveDescriptors( _curveDescriptors );
-                electron.setPositionAlongCurve( positionAlongCurve, _curveDescriptors.size() - 1 );
-                electron.setSpeed( speed );
-                electron.setEnabled( _electronAnimationEnabled );
-                _electrons.add( electron );
-                _baseModel.addModelElement( electron );
-
-                // View
-                CurveDescriptor cd = electron.getCurveDescriptor();
-                CompositePhetGraphic parent = cd.getParent();
-                ElectronGraphic electronGraphic = new ElectronGraphic( _component, parent, electron );
-                cd.getParent().addGraphic( electronGraphic );  
-            }
-            
-            // Curves that make up the coil (without the wire ends).
-            numberOfElectrons = (int) ( radius / ELECTRON_SPACING );
-            for ( int curveIndex = 1; curveIndex < _curveDescriptors.size() - 1; curveIndex++ ) {
+                // Add the electrons to the curve.
                 for ( int i = 0; i < numberOfElectrons; i++ ) {
 
                     double positionAlongCurve = i / (double) numberOfElectrons;
