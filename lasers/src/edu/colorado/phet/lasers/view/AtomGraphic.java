@@ -19,7 +19,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class AtomGraphic extends PhetImageGraphic implements Atom.StateChangeListener, SimpleObserver {
+public class AtomGraphic extends PhetImageGraphic implements Atom.Listener, SimpleObserver {
 
     static String s_imageName = LaserConfig.ATOM_IMAGE_FILE;
 
@@ -38,8 +38,12 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.StateChangeLis
         update( atom.getState() );
     }
 
-    public void stateChangeOccurred( Atom.StateChangeEvent event ) {
+    public void stateChanged( Atom.Event event ) {
         update( event.getState() );
+    }
+
+    public void leftSystem( Atom.Event event ) {
+
     }
 
     protected Rectangle determineBounds() {

@@ -374,7 +374,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     ////////////////////////////////////////////////////////////////////////////////
     // Inner classes
     //
-    public class EnergyLifetimeSlider extends JSlider implements AtomicState.MeanLifetimeChangeListener {
+    public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listener {
+//    public class EnergyLifetimeSlider extends JSlider implements AtomicState.MeanLifetimeChangeListener {
         private EnergyLevelGraphic graphic;
         private int sliderHeight = 50;
         private int maxSliderWidth = 100;
@@ -413,6 +414,16 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             this.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ),
                             (int)graphic.getPosition().getY() - sliderHeight / 2,
                             sliderWidth, sliderHeight );
+        }
+
+        public void energyLevelChanged( AtomicState.Event event ) {
+
+        }
+
+        public void meanLifetimechanged( AtomicState.Event event ) {
+            this.setEnabled( false );
+            this.setValue( (int)event.getMeanLifetime() );
+            this.setEnabled( true );
         }
 
         public void meanLifetimeChanged( AtomicState.MeanLifetimeChangeEvent event ) {

@@ -404,17 +404,34 @@ public class BaseLaserModule extends Module {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes
     //
-    public class AtomRemovalListener implements Atom.RemovalListener {
+    public class AtomRemovalListener implements Atom.Listener {
         private AtomGraphic atomGraphic;
 
         public AtomRemovalListener( AtomGraphic atomGraphic ) {
             this.atomGraphic = atomGraphic;
         }
 
-        public void removalOccurred( Atom.RemovalEvent event ) {
+        public void stateChanged( Atom.Event event ) {
+        }
+
+        public void leftSystem( Atom.Event event ) {
             getApparatusPanel().removeGraphic( atomGraphic );
         }
+
+        public void photonEmitted( Atom.Event event ) {
+        }
     }
+//    public class AtomRemovalListener implements Atom.RemovalListener {
+//        private AtomGraphic atomGraphic;
+//
+//        public AtomRemovalListener( AtomGraphic atomGraphic ) {
+//            this.atomGraphic = atomGraphic;
+//        }
+//
+//        public void removalOccurred( Atom.RemovalEvent event ) {
+//            getApparatusPanel().removeGraphic( atomGraphic );
+//        }
+//    }
 
     public class PhotonLeftSystemListener implements Photon.LeftSystemEventListener {
         private PhotonGraphic graphic;

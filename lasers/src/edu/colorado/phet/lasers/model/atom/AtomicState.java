@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.common.util.EventRegistry;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.util.EventListener;
@@ -35,17 +35,7 @@ public abstract class AtomicState {
     private double wavelength;
     private double emittedWavelength;
     private int numAtomsInState;
-    private EventRegistry eventRegistry = new EventRegistry();
     private double meanLifetime = Double.POSITIVE_INFINITY;
-
-
-    public void addListener( EventListener listener ) {
-        eventRegistry.addListener( listener );
-    }
-
-    public void removeListener( EventListener listener ) {
-        eventRegistry.removeListener( listener );
-    }
 
     void incrNumInState() {
         numAtomsInState++;
@@ -79,13 +69,15 @@ public abstract class AtomicState {
 
     public void setMeanLifetime( double lifetime ) {
         this.meanLifetime = lifetime;
-        eventRegistry.fireEvent( new MeanLifetimeChangeEvent() );
+//        eventRegistry.fireEvent( new MeanLifetimeChangeEvent() );
+        listenerProxy.meanLifetimechanged( new Event( this ) );
     }
 
     public void setEnergyLevel( double energyLevel ) {
         this.energyLevel = energyLevel;
         this.wavelength = Photon.energyToWavelength( energyLevel );
-        eventRegistry.fireEvent( new EnergyLevelChangeEvent( this ) );
+//        eventRegistry.fireEvent( new EnergyLevelChangeEvent( this ) );
+        listenerProxy.energyLevelChanged( new Event( this ) );
     }
 
     public double getWavelength() {
@@ -183,18 +175,38 @@ public abstract class AtomicState {
     //-------------------------------------------------------------------
     // Events and event handling
     //-------------------------------------------------------------------
+    private EventChannel listenerChannel = new EventChannel( Listener.class );
+    private Listener listenerProxy = (Listener)listenerChannel.getListenerProxy();
 
-    public interface EnergyLevelChangeListener extends EventListener {
-        void energyLevelChangeOccurred( EnergyLevelChangeEvent event );
-    }
-
-    public class EnergyLevelChangeEvent extends EventObject {
-        public EnergyLevelChangeEvent( Object source ) {
+    public class Event extends EventObject {
+        public Event( Object source ) {
             super( source );
         }
 
         public double getEnergy() {
             return ( (AtomicState)getSource() ).getEnergyLevel();
         }
+
+        public AtomicState getAtomicState() {
+            return (AtomicState)getSource();
+        }
+
+        public double getMeanLifetime() {
+            return getAtomicState().getMeanLifeTime();
+        }
+    }
+
+    public interface Listener extends EventListener {
+        void energyLevelChanged( Event event );
+
+        void meanLifetimechanged( Event event );
+    }
+
+    public void addListener( Listener listener ) {
+        listenerChannel.addListener( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listenerChannel.removeListener( listener );
     }
 }
