@@ -23,6 +23,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.BlueBeamGraphic;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -85,6 +86,9 @@ public class SingleAtomModule extends BaseLaserModule {
             sbmPanel.setBounds( (int)allocatedBounds.getX(), (int)( allocatedBounds.getY() + allocatedBounds.getHeight() ),
                                 (int)sbmDim.getWidth() + 10, (int)sbmDim.getHeight() + 10 );
             sbmPanel.add( sbm );
+            sbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+//            sbmPanel.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+            sbmPanel.setOpaque( false );
             getApparatusPanel().add( sbmPanel );
 
 
@@ -98,9 +102,12 @@ public class SingleAtomModule extends BaseLaserModule {
             JPanel pbmPanel = new JPanel();
             BeamControl pbm = new BeamControl( pumpingBeam );
             Dimension pbmDim = pbm.getPreferredSize();
-            pbmPanel.setBounds( (int)( txTx2.getTranslateX() + pumpingLampGraphic.getWidth() ), 0,
+            pbmPanel.setBounds( (int)( txTx2.getTranslateX() + pumpingLampGraphic.getWidth() ), 10,
                                 (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );
             pbmPanel.add( pbm );
+//            pbmPanell.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+            pbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+            pbmPanel.setOpaque( false );
             getApparatusPanel().add( pbmPanel );
         }
         catch( IOException e ) {

@@ -47,8 +47,9 @@ public class LaserControlPanel extends PhetControlPanel {
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         this.threeEnergyLevels = threeEnergyLevels;
-        pumpingBeamControl.setVisible( threeEnergyLevels );
+//        pumpingBeamControl.setVisible( threeEnergyLevels );
         laserModule.setThreeEnergyLevels( threeEnergyLevels );
+
         //        if( threeEnergyLevels ) {
         //            laserModule.setEnergyMonitorPanel( new ThreeEnergyLevelMonitorPanel( (LaserModel)laserModule.getModel() ) );
         //        }
