@@ -30,12 +30,16 @@ public class FrameSequence {
     private BufferedImage[] frames;
     private int currFrameNum = 0;
 
+    public FrameSequence( BufferedImage[] frames ) {
+        this.frames = frames;
+    }
+
     /**
      * @param filePrefix The prefix for the names of all files to be animated
      * @param numFrames  The number of files to be animated
      */
     public FrameSequence( String filePrefix, int numFrames ) throws IOException {
-        frames = loadAnimation( filePrefix, numFrames );
+        this( loadAnimation( filePrefix, numFrames ) );
     }
 
     /**
@@ -74,8 +78,7 @@ public class FrameSequence {
      * @return the new current frame number for the animation
      */
     private int stepCurrFrameNum( int dir ) {
-        currFrameNum = ( currFrameNum + frames.length + dir )
-                       % frames.length;
+        currFrameNum = ( currFrameNum + frames.length + dir ) % frames.length;
         return currFrameNum;
     }
 
