@@ -11,5 +11,3 @@
 # For example:
 #ALL mail %s -s "CVS notification"
 
-
-ALL mail %s -s "CVS notification"
