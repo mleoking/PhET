@@ -5,15 +5,21 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- better graphic for AC source
+- put controls directly on AC & DC graphics
+- show frequency & amplitude graph on the ACSourceGraphic
+- adjust electron animation so that electrons move farther
+- get rid of minimum ray length on lightbulb
+- redo battery graphic to include a "clip" to hold battery and connect to coil
+- label battery amplitude in volts, -10 to +10
+- AC frequency should be sinusoidal
+- add a Generator module (see Carl's Powerpoint slides)
 - bug: electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
-- better graphic for AC source
-- put controls directly on AC & DC graphics
-- show frequency & amplitude graph on the ACSourceGraphic
-- Transformer module requirements
+- calibration throughout
 - Field Meter shows -0.00 and -180.00 values, should be 0.00 and 180.00
 
 LOW PRIORITY:
@@ -45,7 +51,9 @@ phetcommon:
 - make PhetTextGraphic handle <br>, deprecate PhetMultiLineTextGraphic
 
 DONE:
-v0r14...
+v0r16...
+(2/28) - disble rotational kinematics for compass in Electromagnet & Transformer modules
+v0r15...
 (2/28) - first pass at Transformer module
 (2/28) - factor common controls out of control panels so they can be reused across modules
 (2/28) - grid doesn't gradually dim as amplitude approaches zero, turns abruptly off at zero
@@ -73,6 +81,7 @@ v0r14...
 (2/21) - bug fix: update Field Meter when it is made visible
 (2/21) - made Rescaler less specific to magnet strength, can use any reference value
 (2/21) - move more of the rescaling interface into AbstractMagnet model
+v0r14...
 (2/18) - after a collision, don't start dragging again until cursor is over the object
 (2/18) - remove data smoothing code from PickupCoil, nothing but problems
 (2/18) - "spike" emf changes are not being displayed
