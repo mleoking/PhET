@@ -51,15 +51,19 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         this.active = active;
         if( active ) {
             clock.addClockTickListener( this );
-            panel.addGraphic( this, Double.NEGATIVE_INFINITY );
+//            panel.addGraphic( this, Double.NEGATIVE_INFINITY );
         }
         else {
             clock.removeClockTickListener( this );
-            panel.removeGraphic( this );
+//            panel.removeGraphic( this );
         }
     }
 
     protected Rectangle determineBounds() {
         return new Rectangle( 0, 0, panel.getWidth(), panel.getHeight() );
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }
