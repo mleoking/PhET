@@ -3,3 +3,5 @@
 - listeners and leaveSystem() implementations are spread around in odd places
 - Kaboom is the performancd boottleneck
 - graphics don't scale
+- titled size of frame needs to be set
+- is more than one kaboom being made per fission? 

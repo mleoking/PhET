@@ -27,5 +27,9 @@ public class TxGraphic implements Graphic {
         graphic.paint( g );
         gs.restoreGraphics();
     }
+
+    public Graphic getWrappedGraphic() {
+        return graphic;
+    }
 }
 

@@ -8,6 +8,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
@@ -22,6 +23,14 @@ public class Kaboom implements Graphic, Runnable {
     private static String kaboomStr = "Kaboom!!!";
     private static AffineTransform kaboomStrTx;
 
+    private static Color[] colors = new Color[256];
+
+    static {
+        for( int i = 0; i < colors.length; i++ ) {
+            colors[i] = new Color( 255, 255, i );
+        }
+    }
+
     private Point2D location;
     private double radius;
     private Ellipse2D.Double shape = new Ellipse2D.Double();
@@ -29,6 +38,7 @@ public class Kaboom implements Graphic, Runnable {
     private ApparatusPanel apparatusPanel;
     private double radiusIncr;
     private double kaboomAlpha = 0.4;
+    private Color color;
 
 
     public Kaboom( Point2D location,
@@ -44,17 +54,19 @@ public class Kaboom implements Graphic, Runnable {
         double theta = Math.random() * Math.PI - ( Math.PI / 2 );
         kaboomStrTx = AffineTransform.getRotateInstance( theta );
 
-        Thread thread = new Thread( this );
-        thread.start();
+        //        Thread thread = new Thread( this );
+        //        thread.start();
     }
 
     public void paint( Graphics2D g ) {
-        AffineTransform orgTx = g.getTransform();
+        GraphicsState gs = new GraphicsState( g );
+        update();
         shape.setFrameFromCenter( location.getX(), location.getY(),
                                   location.getX() + radius,
                                   location.getY() + radius );
-        g.setColor( Color.yellow );
-        GraphicsUtil.setAlpha( g, kaboomAlpha );
+        g.setColor( color );
+        //        g.setColor( Color.yellow );
+        //        GraphicsUtil.setAlpha( g, kaboomAlpha );
         g.fill( shape );
         GraphicsUtil.setAlpha( g, 1 );
 
@@ -63,10 +75,24 @@ public class Kaboom implements Graphic, Runnable {
         //        g.transform( kaboomStrTx );
         //        g.drawString( kaboomStr, 200, 200 );
         //
-        g.setTransform( orgTx );
+
+        gs.restoreGraphics();
     }
 
-    static int num = 0;
+    private void update() {
+        if( kaboomAlpha > 0 ) {
+            kaboomAlpha = Math.max( kaboomAlpha - 0.03, 0 );
+            color = colors[255 - (int)( kaboomAlpha * 255 )];
+            radius += radiusIncr;
+        }
+        else {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    apparatusPanel.removeGraphic( Kaboom.this );
+                }
+            } );
+        }
+    }
 
     public void run() {
         while( kaboomAlpha > 0 ) {
