@@ -736,6 +736,15 @@ public abstract class PhetGraphic {
     }
 
     /**
+     * Gets the number of mouse input listeners.
+     * 
+     * @return the number of mouse input listeners
+     */
+    public int numMouseInputListeners() {
+        return mouseInputListener.numMouseInputListeners();
+    }
+    
+    /**
      * Gets the delegate that manages mouse input listeners.
      *
      * @return the delegate
@@ -754,7 +763,7 @@ public abstract class PhetGraphic {
      *
      * @param ignoreMouse true or false
      */
-    protected void setIgnoreMouse( boolean ignoreMouse ) {
+    public void setIgnoreMouse( boolean ignoreMouse ) {
         this.ignoreMouse = ignoreMouse;
     }
 
@@ -763,10 +772,10 @@ public abstract class PhetGraphic {
      *
      * @return true or false
      */
-    protected boolean getIgnoreMouse() {
+    public boolean getIgnoreMouse() {
         return ignoreMouse;
     }
-
+    
     /**
      * Passes a "mouse clicked" event to the mouse input delegate,
      * who in turn sends it to all registered mouse input listeners.

@@ -38,7 +38,6 @@ public class GraphicLayerSet extends PhetGraphic {
     private KeyListener keyAdapter = new KeyAdapter();
     private static int mouseEventID = 0;//For creating mouse events.
 
-
     /**
      * Provided for JavaBeans conformance
      */
@@ -324,32 +323,51 @@ public class GraphicLayerSet extends PhetGraphic {
 
     /**
      * Determine the PhetGraphic suited for handling a click at the specified point.
+     * If no such graphic is identified, then this GraphicLayerSet is returned.
      *
      * @param p the mouse point.
      * @return the handler.
      */
     protected PhetGraphic getHandler( Point p ) {
+
         PhetGraphic[] graphics = getGraphics();
         PhetGraphic result = null;
+        
+        // For each graphic, working from foreground to background layer...
         for( int i = graphics.length - 1; result == null && i >= 0; i-- ) {
             PhetGraphic g = graphics[i];
 
-            // Null check is needed because the XMLEncoder/Decoder serialization puts nulls
-            // in the map, for some reason
-            if( g != null && g.isVisible() && !g.getIgnoreMouse() ) {
-                if( g instanceof GraphicLayerSet ) {
-                    GraphicLayerSet gx = (GraphicLayerSet)g;
-                    result = gx.getHandler( p );
-                }
-                else if( g.contains( p.x, p.y ) ) {
-                    result = g;
+            // XMLEncoder/Decoder serialization puts nulls in the map, for some reason.
+            if( g != null ) {
+                if( g.isVisible() && !g.getIgnoreMouse() ) {
+                    if( g instanceof GraphicLayerSet ) {
+                        // Ask the GraphicLayerSet for the graphic.
+                        result = ( (GraphicLayerSet) g ).getHandler( p );
+                    }
+                    else if( g.contains( p.x, p.y ) ) {
+                        if( g.numMouseInputListeners() != 0 ) {
+                            // We've picked a graphic and it has a mouse listener.
+                            result = g;
+                        }
+                        else {
+                            // We've picked a graphic but it has no mouse listener.
+                            // Bail out now so we don't pick a graphic behind this one.
+                            break;
+                        }
+                    }
                 }
             }
         }
+        
+        // We didn't pick a graphic.  If this GraphicLayerSet has a mouse listener, 
+        // and it contains the point, then it becomes the default handler.
+        if( result == null && isVisible() && numMouseInputListeners() != 0 && this.contains( p ) ) {
+            result = this;
+        }
+        
         return result;
     }
-
-
+    
     public KeyListener getKeyAdapter() {
         return keyAdapter;
     }

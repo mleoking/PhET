@@ -30,6 +30,10 @@ public class CompositeMouseInputListener implements MouseInputListener {
     public void removeMouseInputListener( MouseInputListener mil ) {
         listeners.remove( mil );
     }
+    
+    public int numMouseInputListeners() {
+        return listeners.size();
+    }
 
     public void mouseClicked( MouseEvent e ) {
         for( int i = 0; i < listeners.size(); i++ ) {
