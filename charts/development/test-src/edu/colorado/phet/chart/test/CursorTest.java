@@ -4,7 +4,10 @@ package edu.colorado.phet.chart.test;
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.chart.controllers.HorizontalCursor2;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 
 import javax.swing.*;
 import java.awt.*;

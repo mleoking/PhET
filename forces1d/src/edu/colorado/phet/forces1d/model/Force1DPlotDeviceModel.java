@@ -41,6 +41,8 @@ public class Force1DPlotDeviceModel extends PlotDeviceModel {
         model.resetRecordPointer( index );
     }
 
+
+
 //    private void clearFutureData() {
 //        double recordTime = super.getPlaybackTimer().getTime();
 //        super.getRecordingTimer().setTime( recordTime );
@@ -65,4 +67,7 @@ public class Force1DPlotDeviceModel extends PlotDeviceModel {
     }
 
 
+    public void clearData() {
+        module.clearData();
+    }
 }

@@ -74,9 +74,9 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
         frictionForce = new ForceArrow( component, this, laf.getFrictionForceColor(), "<html>F<sub>f</html>", new Vector2D.Double() );
         addForceArrow( frictionForce );
 
-        netForce = new ForceArrow( component, this, laf.getNetForceColor(), "<html>F<sub>net</html>", new Vector2D.Double() );
+        netForce = new ForceArrow( component, this, laf.getNetForceColor(), "<html>F<sub>tot</html>", new Vector2D.Double() );
         addForceArrow( netForce );
-        netForce.setOrigin( 0, 30 );
+        netForce.setOrigin( 0, -30 );
 
         wallForce = new ForceArrow( component, this, laf.getWallForceColor(), "<html>F<sub>wall</html>", new Vector2D.Double() );
         addForceArrow( wallForce );

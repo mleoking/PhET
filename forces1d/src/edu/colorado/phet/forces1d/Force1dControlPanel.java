@@ -14,8 +14,6 @@ import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 /**
  * User: Sam Reid
@@ -42,14 +40,9 @@ public class Force1dControlPanel extends ControlPanel {
         freeBodyDiagramSuite = new FreeBodyDiagramSuite( module );
 
         freeBodyDiagramSuite.addTo( this );
-        comboBox = new JComboBox( module.getImageElements() );
-        comboBox.setBorder( PhetLookAndFeel.createSmoothBorder( "Objects" ) );
-        comboBox.addItemListener( new ItemListener() {
-            public void itemStateChanged( ItemEvent e ) {
-                Object sel = comboBox.getSelectedItem();
-                setup( (Force1dObject)sel );
-            }
-        } );
+//        comboBox = new JComboBox( module.getImageElements() );
+        comboBox = new ObjectComboBox( module.getImageElements(), this );
+
         add( comboBox );
 
         mass = createControl( 5, 0.1, 1000, 1.0, "Mass", "kg", new SpinnerHandler() {
@@ -174,12 +167,8 @@ public class Force1dControlPanel extends ControlPanel {
         barriers.setEnabled( enabled );
     }
 
-
-    private void setup( Force1dObject force1dObject ) {
-        module.getForcePanel().getBlockGraphic().setImage( force1dObject );
-        model.getBlock().setMass( force1dObject.getMass() );
-        model.getBlock().setStaticFriction( force1dObject.getStaticFriction() );
-        model.getBlock().setKineticFriction( force1dObject.getKineticFriction() );
+    public void setup( Force1dObject force1dObject ) {
+        module.setObject( force1dObject );
     }
 
     private ModelSlider createControl( double value, double min, double max, double spacing, String name, String units, final SpinnerHandler handler ) {

@@ -140,19 +140,21 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     }
 
     private void checkTextOverlap() {
-        Rectangle f = friction.textGraphic.getBounds();
-        Rectangle a = applied.textGraphic.getBounds();
-        if( f.intersects( a ) ) {
-            Rectangle intersection = f.intersection( a );
-            int dx = intersection.width;
-            int d = dx / 2 + 5;
-            if( f.x < a.x ) {
-                friction.textGraphic.setLocation( f.x - d, friction.textGraphic.getY() );
-                applied.textGraphic.setLocation( a.x + d, applied.textGraphic.getY() );
-            }
-            else {
-                friction.textGraphic.setLocation( f.x + d, friction.textGraphic.getY() );
-                applied.textGraphic.setLocation( a.x - d, applied.textGraphic.getY() );
+        if( friction.textGraphic.isVisible() && applied.textGraphic.isVisible() ) {
+            Rectangle f = friction.textGraphic.getBounds();
+            Rectangle a = applied.textGraphic.getBounds();
+            if( f.intersects( a ) ) {
+                Rectangle intersection = f.intersection( a );
+                int dx = intersection.width;
+                int d = dx / 2 + 5;
+                if( f.x < a.x ) {
+                    friction.textGraphic.setLocation( f.x - d, friction.textGraphic.getY() );
+                    applied.textGraphic.setLocation( a.x + d, applied.textGraphic.getY() );
+                }
+                else {
+                    friction.textGraphic.setLocation( f.x + d, friction.textGraphic.getY() );
+                    applied.textGraphic.setLocation( a.x - d, applied.textGraphic.getY() );
+                }
             }
         }
     }

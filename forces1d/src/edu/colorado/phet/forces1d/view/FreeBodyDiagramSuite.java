@@ -4,15 +4,13 @@ package edu.colorado.phet.forces1d.view;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.ApparatusPanel3;
+import edu.colorado.phet.forces1d.common.JButton3D;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 /**
  * User: Sam Reid
@@ -23,7 +21,7 @@ import java.awt.event.WindowEvent;
 public class FreeBodyDiagramSuite {
     private FreeBodyDiagramPanel diagramPanel;
     private JCheckBox checkBox;
-    private JButton windowButton;
+    private JButton3D windowButton;
     private Force1DModule module;
     private JDialog dialog;
     private JPanel dialogContentPane;
@@ -42,12 +40,23 @@ public class FreeBodyDiagramSuite {
             }
         } );
 
-        windowButton = new JButton( "FBD Window" );
+        windowButton = new JButton3D( "Windowize FBD" );
         windowButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setWindowed();
+                MouseEvent me = new MouseEvent( dialogContentPane, 0, 0, 0, 0, 0, 0, false );
+                windowButton.getButton3D().fireMouseExited( me );
             }
         } );
+//        windowButton.setBorder( BorderFactory.createRaisedBevelBorder() );
+
+//                windowButton = new JButton( "FBD Window" );
+//        windowButton.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                setWindowed();
+//            }
+//        } );
+//        windowButton.setBorder( BorderFactory.createRaisedBevelBorder() );
     }
 
     private void setWindowed() {

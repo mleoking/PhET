@@ -15,9 +15,9 @@ public class Force1DLookAndFeel {
     private Color frictionForceColor = Color.red;
     private Color weightColor = Color.magenta;
     private Color normalColor = Color.orange;
-    private Color accelColor = Color.blue;
-    private Color velColor = Color.red;
-    private Color positionColor = netForceColor;
+    private Color accelColor = Color.black;
+    private Color velColor = Color.black;
+    private Color positionColor = Color.black;
     private Color wallColor = Color.cyan;
 
     public Color getAppliedForceColor() {

@@ -174,12 +174,14 @@ public class Force1DModel implements ModelElement {
     }
 
     public void reset() {
-        appliedForce = 0;
-        frictionForce = 0;
+
+//        plotDeviceModel.doReset();//this reinits the model with initial parameters of the graph.
+        frictionForce = 0;//so we must clear them afterwards.
         netForce = 0;
         block.setPosition( 0.0 );
         block.setVelocity( 0.0 );
-        plotDeviceModel.doReset();
+        setAppliedForce( 0.0 );//to inform listeners.
+
         netForceDataSeries.reset();
         appliedForceDataSeries.reset();
         frictionForceDataSeries.reset();
@@ -191,6 +193,10 @@ public class Force1DModel implements ModelElement {
         staticSeries.reset();
         massSeries.reset();
         updateBlockAcceleration();
+        fireGravityChanged();
+
+        plotDeviceModel.doReset();//reset the model again to inform the plotDeviceListeners.
+        plotDeviceModel.clearData();//kind of a hack.
     }
 
     public DataSeries getNetForceSeries() {
@@ -220,17 +226,6 @@ public class Force1DModel implements ModelElement {
         clear( kineticSeries, index );
         clear( staticSeries, index );
         clear( massSeries, index );
-//        netForceDataSeries.addPoint( netForce );
-//        frictionForceDataSeries.addPoint( frictionForce );
-//        appliedForceDataSeries.addPoint( getAppliedForce() );
-//
-//        accelerationDataSeries.addPoint( block.getAcceleration() );
-//        velocityDataSeries.addPoint( block.getVelocity() );
-//        positionDataSeries.addPoint( block.getPosition() );
-//        gravitySeries.addPoint( getGravity() );
-//        kineticSeries.addPoint( block.getKineticFriction() );
-//        staticSeries.addPoint( block.getStaticFriction() );
-//        massSeries.addPoint( block.getMass() );
         module.relayoutPlots();
     }
 
@@ -286,6 +281,7 @@ public class Force1DModel implements ModelElement {
         netForce = appliedForce + frictionForce + wallForce;
         double acc = netForce / block.getMass();
         block.setAcceleration( acc );
+//        System.out.println( "frictionForce = " + frictionForce );
     }
 
     public double getFrictionForce() {
