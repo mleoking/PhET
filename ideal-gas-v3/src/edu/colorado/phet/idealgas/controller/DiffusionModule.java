@@ -11,6 +11,7 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.SphereWallExpert;
+import edu.colorado.phet.collision.VerticalWallFixupStrategy;
 import edu.colorado.phet.collision.Wall;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -49,8 +50,8 @@ public class DiffusionModule extends IdealGasModule {
         lowerWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
                                                       box.getCorner1Y() + box.getHeight() * 2 / 3,
                                                       wallThickness, box.getHeight() * 1 / 3 ),
-//                                                      wallThickness, box.getHeight() * 2 / 3 ),
                               box.getBoundsInternal() );
+        lowerWall.setFixupStrategy( new VerticalWallFixupStrategy() );
         lowerWall.setMinimumWidth( wallThickness );
         lowerWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + GasMolecule.s_defaultRadius * 8,
                                                              box.getCorner1Y() + GasMolecule.s_defaultRadius * 8,
@@ -70,6 +71,7 @@ public class DiffusionModule extends IdealGasModule {
                                                       wallThickness,
                                                       box.getHeight() - lowerWall.getBounds().getHeight() - minimumWallSeparation ),
                               box.getBoundsInternal() );
+        upperWall.setFixupStrategy( new VerticalWallFixupStrategy() );
         upperWall.setMinimumWidth( wallThickness );
         upperWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + GasMolecule.s_defaultRadius * 8,
                                                              box.getCorner1Y(),

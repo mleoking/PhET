@@ -10,7 +10,9 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import edu.colorado.phet.collision.FloorFixupStrategy;
 import edu.colorado.phet.collision.SphereWallExpert;
+import edu.colorado.phet.collision.VerticalWallFixupStrategy;
 import edu.colorado.phet.collision.Wall;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
@@ -80,6 +82,7 @@ public class MovableWallsModule extends IdealGasModule {
                                                              box.getCorner1Y() + wallThickness,
                                                              box.getWidth() - 2 * wallThickness,
                                                              box.getHeight() - wallThickness ) );
+        verticalWall.setFixupStrategy( new VerticalWallFixupStrategy() );
         WallGraphic lowerWallGraphic = new GraduatedWallGraphic( verticalWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
@@ -90,6 +93,7 @@ public class MovableWallsModule extends IdealGasModule {
         leftFloor = new Wall( new Rectangle2D.Double( box.getCorner1X(), box.getCorner2Y() - 60,
                                                       verticalWall.getBounds().getMinX() - box.getCorner1X(), wallThickness ),
                               box.getBoundsInternal() );
+        leftFloor.setFixupStrategy( new FloorFixupStrategy() );
         WallGraphic leftFloorGraphic = new WallGraphic( leftFloor, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.NORTH_SOUTH );
@@ -100,6 +104,7 @@ public class MovableWallsModule extends IdealGasModule {
         rightFloor = new Wall( new Rectangle2D.Double( verticalWall.getBounds().getMaxX(), box.getCorner2Y() - 40,
                                                        box.getCorner2X() - verticalWall.getBounds().getMaxX(), wallThickness ),
                                box.getBoundsInternal() );
+        rightFloor.setFixupStrategy( new FloorFixupStrategy() );
         WallGraphic rightFloorGraphic = new WallGraphic( rightFloor, getApparatusPanel(),
                                                          Color.gray, Color.black,
                                                          WallGraphic.NORTH_SOUTH );
@@ -127,8 +132,8 @@ public class MovableWallsModule extends IdealGasModule {
 //                                                             new Vector2D.Double( 0, 0 ),
 //                                                             new Vector2D.Double( ) );
 //                new PumpMoleculeCmd( getIdealGasModel(), newMolecule, MovableWallsModule.this ).doIt();
-                newMolecule = new HeavySpecies( new Point2D.Double( rightFloor.getBounds().getMinX() + 100,
-                                                                    rightFloor.getBounds().getMinY() - 100),
+                newMolecule = new HeavySpecies( new Point2D.Double( rightFloor.getBounds().getMinX() + 95,
+                                                                    rightFloor.getBounds().getMinY() - 105),
                                                              new Vector2D.Double( -200, 200 ),
                                                              new Vector2D.Double( ) );
 //                newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner2X() - 100,

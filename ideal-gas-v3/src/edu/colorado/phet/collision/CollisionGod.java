@@ -213,6 +213,25 @@ public class CollisionGod {
             } while( b );
         }
 
+        // As a final check, look to see if any molecules are inside any of the walls
+        for( int j = 0; j < bodies.size(); j++ ) {
+            CollidableBody body = (CollidableBody)bodies.get( j );
+            if( body instanceof GasMolecule ) {
+                GasMolecule molecule = (GasMolecule)body;
+                boolean fixupDone = false;
+                do {
+                    fixupDone = false;
+                    for( int i = 0; i < walls.size(); i++ ) {
+                        Wall wall = (Wall)walls.get( i );
+                        if( wall.getBounds().contains( molecule.getPosition() ) ) {
+                            wall.fixup( molecule );
+                            fixupDone = true;
+                        }
+                    }
+                } while( fixupDone );
+            }
+        }
+
     }
 
     private void doGasToGasCollisions() {
