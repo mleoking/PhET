@@ -19,7 +19,6 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
 
     private boolean isEnabled = false;
     private double amplitude;
-    private Wavefront wavefront;
     private Listener listener;
 
     // The point in the wavefront that the oscillator is
@@ -29,21 +28,15 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
     // This is a special overide flag so that the two source interference panel works.
     private boolean interferenceOverideEnabled = false;
 
+
     public void run() {
         super.run();
-    }
-
-    public void setWavefront( Wavefront wavefront ) {
-        this.wavefront = wavefront;
     }
 
     public void clockTicked( AbstractClock c, double dt ) {
         update();
     }
 
-    /**
-     *
-     */
     public void setAmplitude( double amplitude ) {
         if( amplitude < 0 ) {
             throw new RuntimeException( "amplitude < 0" );
@@ -53,9 +46,6 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
         this.amplitude = amplitude;
     }
 
-    /**
-     *
-     */
     public void setEnabled( boolean enabled ) {
         isEnabled = enabled;
 
@@ -71,39 +61,27 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
         update();
     }
 
-    /**
-     *
-     */
     public void setReferencePoint( float x, float y ) {
         refPt.setLocation( x, y );
         this.update();
-        wavefront.setListenerLocation( (int)refPt.getX() );
     }
 
-    /**
-     *
-     */
     public void setReferencePoint( Point2D.Double location ) {
         setReferencePoint( (float)location.getX(), (float)location.getY() );
     }
 
-    /**
-     *
-     */
     public void update() {
 
         if( listener != null ) {
             refPt = listener.getLocation();
         }
-        double distFromSource = refPt.distance( 0, 0 );
-        double frequency = wavefront.getFrequencyAtTime( (int)distFromSource );
-        double amplitude = wavefront.getMaxAmplitudeAtTime( (int)distFromSource );
-
+        double frequency = listener.getFrequencyHeard();
+        double amplitude = listener.getAmplitudeHeard();
         if( amplitude < -1 ) {
             throw new RuntimeException( "amplitude < -1" );
         }
 
-        // Remember, we never set the frequency to 0, because otherwise it chokes. We
+        // We never set the frequency to 0, because otherwise the oscillator chokes. We
         // need to make this assignment so that the following if() will test false when
         // frequency == 0.
         // Note that that frequencyDisplayFactor must be used here, because the model uses
@@ -114,13 +92,12 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
         if( frequency != getFrequency() ) {
             setFrequency( (float)frequency );
         }
-        //        amplitude = amplitude;
         if( isEnabled && amplitude != getAmplitude() && !interferenceOverideEnabled ) {
             setAmplitude( (float)amplitude );
         }
     }
 
-    public void observe( Listener listener ) {
+    public void setListener( Listener listener ) {
         if( this.listener != null ) {
             this.listener.removeObserver( this );
         }

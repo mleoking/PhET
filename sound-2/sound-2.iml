@@ -19,7 +19,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="PhetCommon" />
+    <orderEntry type="module" module-name="Phet Common 2" />
     <orderEntryProperties />
   </component>
 </module>

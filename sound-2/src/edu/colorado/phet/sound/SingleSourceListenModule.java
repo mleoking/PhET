@@ -7,11 +7,11 @@
 package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.model.Listener;
+import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.AudioControlPanel;
 import edu.colorado.phet.sound.view.ListenerGraphic;
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
@@ -25,19 +25,10 @@ import java.io.IOException;
 public class SingleSourceListenModule extends SingleSourceModule {
 
 
-    private Listener speakerListener = new Listener();
-    private Listener headListener = new Listener();
+    private Listener speakerListener;
+    private Listener headListener;
 
     private int headOffsetY = -30;
-
-
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-    }
-
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-    }
 
     public SingleSourceListenModule( ApplicationModel appModel ) {
         this( appModel, "<html>Listen to<br>Single Source</html>" );
@@ -50,6 +41,13 @@ public class SingleSourceListenModule extends SingleSourceModule {
 
     private void init() {
         // Add the listener
+        speakerListener = new Listener( (SoundModel)getModel(),
+                                        new Point2D.Double());
+        setListener( speakerListener );
+        headListener = new Listener( (SoundModel)getModel(),
+                                     new Point2D.Double());
+        headListener.addObserver( getPrimaryOscillator() );
+        headListener.addObserver( getOctaveOscillator() );
         BufferedImage headImg = null;
         try {
             headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILE );

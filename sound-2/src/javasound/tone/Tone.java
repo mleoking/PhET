@@ -26,7 +26,7 @@ public class Tone {
     }
 
     public Tone( float freq, float vol, boolean muted ) {
-        bufferSize = 1024 * 4;
+        bufferSize = 1024;
         bufferSizeJavaSound = 8 * bufferSize;
         //        bufferSize = 1024;
         //        bufferSizeJavaSound = 8 * 1024;
