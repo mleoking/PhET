@@ -58,6 +58,7 @@ public class PlotDevice extends CompositePhetGraphic {
     private boolean controllable;
     private Point buttonLoc = new Point();
 
+
     public PlotDevice( final ParameterSet parameters, BufferedPhetGraphic bufferedPhetGraphic )
             throws IOException {
         super( parameters.panel );
@@ -196,6 +197,10 @@ public class PlotDevice extends CompositePhetGraphic {
             }
         } );
         horizontalCursor.setVisible( false );
+    }
+
+    public ChartComponent getChartComponent() {
+        return chartComponent;
     }
 
     public void setAdorned( boolean adorned ) {
@@ -468,6 +473,10 @@ public class PlotDevice extends CompositePhetGraphic {
         private float lastTime;
         private double xShift;
         private Series defaultSeries;
+
+        public MagButton getMagPlus() {
+            return magPlus;
+        }
 
         public DataSet getDefaultDataSet() {
             return seriesAt( 0 ).dataSet;

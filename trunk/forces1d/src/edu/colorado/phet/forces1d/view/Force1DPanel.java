@@ -5,6 +5,8 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.ContentPanel;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
@@ -284,10 +286,21 @@ public class Force1DPanel extends ApparatusPanel2 {
         HelpItem2 dragHelpItem = new HelpItem2( this, "<html>Apply a force to the object</html>" );
         dragHelpItem.pointDownAt( blockGraphic, 15 );
 
+        HelpItem2 zoomHelpButton = new HelpItem2( this, "<html>Zoom in<br>and out.</html>" );
+        zoomHelpButton.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getChartComponent().getMagPlus(), this ), 30 );
+
+        HelpItem2 typeInButton = new HelpItem2( this, "<html>You can type in force values<br>While it's paused.</html>" );
+        typeInButton.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getTextBox() ), 20 );
+
         module.getHelpManager().addGraphic( sliderHelp );
         module.getHelpManager().addGraphic( goButtonHelp );
         module.getHelpManager().addGraphic( dragHelpItem );
+        module.getHelpManager().addGraphic( zoomHelpButton );
+        module.getHelpManager().addGraphic( typeInButton );
+
+
     }
+
 
     private void setShowForceSeries( int series, boolean selected ) {
         forcePlotDevice.setDataSeriesVisible( series, selected );
@@ -327,6 +340,7 @@ public class Force1DPanel extends ApparatusPanel2 {
     public void setReferenceSize() {
         super.setReferenceSize();
         forceLayout( getWidth(), getHeight() );
+        leanerGraphic.screenSizeChanged();
     }
 
     public void forceLayout( int width, int height ) {
@@ -490,4 +504,16 @@ public class Force1DPanel extends ApparatusPanel2 {
 //        new Exception().printStackTrace( );
     }
 
+    public void setPhetFrame( PhetFrame phetFrame ) {
+        ContentPanel contentPanel = phetFrame.getBasicPhetPanel();
+//        contentPanel.addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                setReferenceSize();//will this happen before the ApparatusPanel resizes?
+//            }
+//
+//            public void componentShown( ComponentEvent e ) {
+//                setReferenceSize();
+//            }
+//        } );
+    }
 }

@@ -232,11 +232,13 @@ public abstract class RelativeLocationSetter {
                     boundsObserver.boundsChanged();
                 }
             } );
-            panel.addComponentListener( new ComponentAdapter() {
-                public void componentResized( ComponentEvent e ) {
-                    boundsObserver.boundsChanged();
-                }
-            } );
+            if( panel != null ) {
+                panel.addComponentListener( new ComponentAdapter() {
+                    public void componentResized( ComponentEvent e ) {
+                        boundsObserver.boundsChanged();
+                    }
+                } );
+            }
         }
     }
 }

@@ -7,12 +7,12 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -30,21 +30,30 @@ public class FreeBodyDiagramPanel {
     private ApparatusPanel2 fbdPanel;
     private WiggleMe fbdWiggleMe;
     private PlotDevice forcePlotDevice;
+    private Force1DModule module;
+//    private JPanel fakePanel;
 
     public FreeBodyDiagramPanel( final Force1DModule module ) {
+        this.module = module;
         fbdPanel = new ApparatusPanel2( module.getModel(), module.getClock() ) {
             protected void init( BaseModel model, AbstractClock clock ) {
                 super.init( model, clock );
                 setAutoPaint( false );
             }
         };
+        fbdPanel.setLayout( new BoxLayout( fbdPanel, BoxLayout.Y_AXIS ) );
 //        fbdPanel.setau
         fbdPanel.addGraphicsSetup( new BasicGraphicsSetup() );
         int fbdWidth = 180;
+        if( Toolkit.getDefaultToolkit().getScreenSize().width < 1280 ) {
+//            fbdWidth = 155;
+            fbdWidth = 157;
+        }
         fbdPanel.setPreferredSize( new Dimension( fbdWidth, fbdWidth ) );
         freeBodyDiagram = new FreeBodyDiagram( fbdPanel, module );
-        freeBodyDiagram.setComponent( fbdPanel );
+        freeBodyDiagram.setComponent( fbdPanel );//todo is this necessary?
         fbdPanel.addGraphic( freeBodyDiagram );
+//        fbdPanel.setBackground( Color.green );
 
         int fbdInset = 3;
         freeBodyDiagram.setBounds( fbdInset, fbdInset, fbdWidth - 2 * fbdInset, fbdWidth - 2 * fbdInset );
@@ -84,7 +93,9 @@ public class FreeBodyDiagramPanel {
             }
         };
         freeBodyDiagram.addMouseInputListener( listener );
-        RepaintDebugGraphic.enable( fbdPanel, module.getClock() );
+//        RepaintDebugGraphic.enable( fbdPanel, module.getClock() );//TODO optimize.
+
+
     }
 
     public FreeBodyDiagram getFreeBodyDiagram() {
@@ -93,6 +104,7 @@ public class FreeBodyDiagramPanel {
 
     public ApparatusPanel2 getFBDPanel() {
         return fbdPanel;
+//        return fakePanel;
     }
 
     public void updateGraphics() {

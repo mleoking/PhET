@@ -102,8 +102,7 @@ public class Force1dControlPanel extends ControlPanel {
 //        controls.setBorder( Force1DUtil.createTitledBorder( "Controls" ) );
 
         barriers = new BarrierCheckBox( module );
-        add( barriers );
-        add( controls );
+
         model.getBlock().addListener( new Block.Listener() {
             public void positionChanged() {
             }
@@ -158,7 +157,16 @@ public class Force1dControlPanel extends ControlPanel {
                 module.restoreDefaults();
             }
         } );
-        add( restore );
+
+
+        JPanel smallPanel = new JPanel();
+        smallPanel.add( barriers );
+        smallPanel.add( restore );
+
+        add( smallPanel );
+
+//        add( barriers );
+        add( controls );
 
         Hashtable labelTable = new Hashtable();
 
@@ -235,6 +243,7 @@ public class Force1dControlPanel extends ControlPanel {
         if( modelSlider.getUnitsReadout() != null ) {
             modelSlider.getUnitsReadout().setBackground( PhetLookAndFeel.backgroundColor );
         }
+        modelSlider.setTitleFont( PhetLookAndFeel.getFont() );
         return modelSlider;
     }
 
