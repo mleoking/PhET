@@ -118,6 +118,9 @@ public class CoilGraphic implements SimpleObserver {
     // Rescales the electron animation speed.
     private IRescaler _rescaler;
     
+    // Collision bounds
+    private Rectangle _topBounds, _bottomBounds;
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -158,6 +161,9 @@ public class CoilGraphic implements SimpleObserver {
         _loopRadius = -1; // force update
         _wireWidth = -1; // force update
         _voltage = -1;  // force update
+        
+        _topBounds = new Rectangle();
+        _bottomBounds = new Rectangle();
         
         update();
     }
@@ -669,11 +675,11 @@ public class CoilGraphic implements SimpleObserver {
         if ( isVisible() ) {
             Rectangle b = getBounds();
             
-            // These values were weaked via trial & error.
-            Rectangle topBounds = new Rectangle( b.x + 45, b.y + 38, b.width - 100, 18 );
-            Rectangle bottomBounds = new Rectangle( b.x + 45, b.y + b.height - 19, b.width - 68, 18 );
+            // These values were tweaked via trial & error.
+            _topBounds.setBounds( b.x + 45, b.y + 38, b.width - 100, 18 );
+            _bottomBounds.setBounds( b.x + 45, b.y + b.height - 19, b.width - 68, 18 );
             
-            Rectangle[] bounds = { topBounds, bottomBounds };
+            Rectangle[] bounds = { _topBounds, _bottomBounds };
             return bounds;
         }
         else {
