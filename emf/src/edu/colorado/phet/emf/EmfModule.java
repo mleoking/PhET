@@ -155,7 +155,7 @@ public class EmfModule extends Module {
                                            "or click on \"Oscillate\" on the \n" +
                                            "control panel",
                                            origin.getX() + 15, origin.getY() + 10,
-                                           HelpItem.CENTER, HelpItem.CENTER );
+                                           HelpItem.RIGHT, HelpItem.BELOW );
         helpItem1.setForegroundColor( Color.black);
         helpItem1.setShadowColor( Color.gray);
         addHelpItem( helpItem1 );
