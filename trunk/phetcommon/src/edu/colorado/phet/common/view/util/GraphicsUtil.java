@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.common.view.util;
 
+import edu.colorado.phet.common.view.fastpaint.FastPaint;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -17,29 +19,15 @@ import java.util.Enumeration;
 
 public class GraphicsUtil {
 
+    /**
+     * These  stubs are just so Rons code will still compile.  (For distance ladder.)
+     */
     public static void fastRepaint( final Component parent, final Rectangle bounds ) {
-        boolean dolater = false;
-        //        boolean dolater=true;
-        if( dolater ) {
-            SwingUtilities.invokeLater( new Runnable() {
-                public void run() {
-                    if( bounds != null ) {
-                        JComponent jc = (JComponent)parent;
-                        jc.paintImmediately( bounds );
-                    }
-                }
-            } );
-        }
-        else {
-            if( bounds != null ) {
-                parent.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
-            }
-        }
+        FastPaint.fastRepaint( parent, bounds );
     }
 
     public static void fastRepaint( Component parent, Rectangle orig, Rectangle newRect ) {
-        fastRepaint( parent, orig );
-        fastRepaint( parent, newRect );
+        FastPaint.fastRepaint( parent, orig, newRect );
     }
 
     /**
