@@ -19,6 +19,10 @@ public class Force1DModel implements ModelElement {
     private static final double EARTH_GRAVITY = 9.8;
     private double gravity = EARTH_GRAVITY;
     private double appliedForce;
+    public double frictionForce;
+    private double netForce;
+    private double wallForce = 0.0;
+
     private Block block;
     private SmoothDataSeries appliedForceDataSeries;
     private SmoothDataSeries netForceDataSeries;
@@ -27,9 +31,7 @@ public class Force1DModel implements ModelElement {
     private SmoothDataSeries velocityDataSeries;
     private SmoothDataSeries positionDataSeries;
     private ArrayList listeners = new ArrayList();
-    public double frictionForce;
     private Force1DPlotDeviceModel plotDeviceModel;
-    private double netForce;
     private BoundaryCondition open = new Open();
     private BoundaryCondition walls = new Walls();
     private BoundaryCondition boundaryCondition = open;
@@ -55,8 +57,14 @@ public class Force1DModel implements ModelElement {
         massSeries = new SmoothDataSeries( numSmoothingPoints );
     }
 
+    public double getNetForce() {
+        return netForce;
+    }
+
     public interface BoundaryCondition {
         public void apply();
+
+        double getWallForce( double appliedForce, double frictionForce );
     }
 
     public void addBoundaryConditionListener( BoundaryConditionListener boundaryConditionListener ) {
@@ -72,6 +80,11 @@ public class Force1DModel implements ModelElement {
     public class Open implements BoundaryCondition {
 
         public void apply() {
+            setWallForce( 0.0 );
+        }
+
+        public double getWallForce( double appliedForce, double frictionForce ) {
+            return 0.0;
         }
     }
 
@@ -89,6 +102,27 @@ public class Force1DModel implements ModelElement {
                 block.setVelocity( 0.0 );
             }
         }
+
+        public double getWallForce( double appliedForce, double frictionForce ) {
+            boolean right = block.getPosition() >= 10.0 && appliedForce > 0;
+            boolean left = block.getPosition() <= -10.0 && appliedForce < 0;
+            if( right || left ) {
+                return -( appliedForce + frictionForce );
+            }
+            else {
+                return 0.0;
+            }
+        }
+    }
+
+    private void setWallForce( double wallForce ) {
+        if( this.wallForce != wallForce ) {
+            this.wallForce = wallForce;
+        }
+    }
+
+    public double getWallForce() {
+        return wallForce;
     }
 
     public void setBoundsOpen() {
@@ -151,16 +185,13 @@ public class Force1DModel implements ModelElement {
     }
 
     public void stepRecord( double dt ) {
-        updateBlock();
+        updateBlockAcceleration();
         block.stepInTime( dt );
         boundaryCondition.apply();
-//        if( plotDeviceModel.isTakingData() ) {//TODO what was this for?
+
         netForceDataSeries.addPoint( netForce );
         frictionForceDataSeries.addPoint( frictionForce );
-//        }
-
-        double appliedForce = getAppliedForce();
-        appliedForceDataSeries.addPoint( appliedForce );
+        appliedForceDataSeries.addPoint( getAppliedForce() );
 
         accelerationDataSeries.addPoint( block.getAcceleration() );
         velocityDataSeries.addPoint( block.getVelocity() );
@@ -175,7 +206,6 @@ public class Force1DModel implements ModelElement {
         plotDeviceModel.cursorMovedToTime( time, playbackIndex );
     }
 
-
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
@@ -183,10 +213,10 @@ public class Force1DModel implements ModelElement {
     public double getStoredFrictionForceValue() {
         return frictionForce;
     }
-
-    public double getTotalForce() {
-        return getStoredFrictionForceValue() + getAppliedForce();
-    }
+    //TODO this was previously used by ArrowSetGraphic.ForceArrow
+//    public double getTotalForce() {
+//        return getStoredFrictionForceValue() + getAppliedForce();
+//    }
 
     public PlotDeviceModel getPlotDeviceModel() {
         return plotDeviceModel;
@@ -209,16 +239,12 @@ public class Force1DModel implements ModelElement {
         kineticSeries.reset();
         staticSeries.reset();
         massSeries.reset();
-        updateBlock();
+        updateBlockAcceleration();
     }
 
     public DataSeries getNetForceSeries() {
         return netForceDataSeries.getSmoothedDataSeries();
     }
-
-//    public void addAppliedForcePoint( double value, double dt ) {
-//
-//    }
 
     public DataSeries getFrictionForceSeries() {
         return frictionForceDataSeries.getSmoothedDataSeries();
@@ -236,6 +262,8 @@ public class Force1DModel implements ModelElement {
         void appliedForceChanged();
 
         void gravityChanged();
+
+//        void wallForceChanged();
     }
 
     public double getGravity() {
@@ -244,7 +272,7 @@ public class Force1DModel implements ModelElement {
 
     public void setGravity( double gravity ) {
         this.gravity = gravity;
-        updateBlock();
+        updateBlockAcceleration();
         fireGravityChanged();
     }
 
@@ -262,7 +290,7 @@ public class Force1DModel implements ModelElement {
     public void setAppliedForce( double appliedForce ) {
         if( appliedForce != this.appliedForce ) {
             this.appliedForce = appliedForce;
-            updateBlock();
+            updateBlockAcceleration();
             appliedForceChanged();
         }
     }
@@ -274,11 +302,15 @@ public class Force1DModel implements ModelElement {
         }
     }
 
-    void updateBlock() {
+    void updateBlockAcceleration() {
         frictionForce = getFrictionForce();
-        netForce = appliedForce + frictionForce;
+        wallForce = boundaryCondition.getWallForce( appliedForce, frictionForce );
+        netForce = appliedForce + frictionForce + wallForce;
         double acc = netForce / block.getMass();
         block.setAcceleration( acc );
+//        if( wallForce == -netForce && netForce != 0.0 ) {
+//            System.out.println( "acc = " + acc );
+//        }
     }
 
     public double getFrictionForce() {

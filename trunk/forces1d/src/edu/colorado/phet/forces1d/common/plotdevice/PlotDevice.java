@@ -147,7 +147,7 @@ public class PlotDevice extends CompositePhetGraphic {
 
         panel.add( titleLable );
 //        floatingControl = new FloatingControl( plotDeviceModel, plotDeviceView.getApparatusPanel() );//, titleLable );
-//        panel.add( floatingControl );
+//        panel.addTo( floatingControl );
         plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
             public void rewind() {
                 horizontalCursor.setX( 0 );

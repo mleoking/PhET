@@ -29,7 +29,7 @@ public class Block {
 
     public void setKineticFriction( double kineticFriction ) {
         this.kineticFriction = kineticFriction;
-        model.updateBlock();
+        model.updateBlockAcceleration();
         firePropertyChanged();
     }
 
@@ -39,7 +39,7 @@ public class Block {
 
     public void setStaticFriction( double staticFriction ) {
         this.staticFriction = staticFriction;
-        model.updateBlock();
+        model.updateBlockAcceleration();
         firePropertyChanged();
     }
 
@@ -49,7 +49,7 @@ public class Block {
 
     public void setMass( double mass ) {
         this.mass = mass;
-        model.updateBlock();
+        model.updateBlockAcceleration();
         firePropertyChanged();
     }
 

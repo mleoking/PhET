@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
@@ -13,7 +12,6 @@ import edu.colorado.phet.forces1d.view.Force1dObject;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -27,19 +25,16 @@ public class Force1dControlPanel extends ControlPanel {
     private Force1DModule module;
     private Force1DModel model;
     public static final double MAX_KINETIC_FRICTION = 2.0;
-    private FreeBodyDiagramPanel freeBodyDiagramPanel;
+//    private FreeBodyDiagramPanel freeBodyDiagramPanel;
+    FreeBodyDiagramSuite freeBodyDiagramSuite;
 
     public Force1dControlPanel( final Force1DModule module ) {
         super( module );
         this.module = module;
         model = module.getForceModel();
+        freeBodyDiagramSuite = new FreeBodyDiagramSuite( module );
 
-        freeBodyDiagramPanel = new FreeBodyDiagramPanel( module );
-        final ApparatusPanel2 panel = freeBodyDiagramPanel.getApparatusPanel();
-        final Component fbd = freeBodyDiagramPanel.getCheckBox();
-
-        add( fbd );
-        add( panel );
+        freeBodyDiagramSuite.addTo( this );
         final JComboBox jcb = new JComboBox( module.getImageElements() );
         jcb.setBorder( PhetLookAndFeel.createSmoothBorder( "Objects" ) );
         jcb.addItemListener( new ItemListener() {
@@ -66,6 +61,9 @@ public class Force1dControlPanel extends ControlPanel {
 
             public void gravityChanged() {
                 gravity.setValue( model.getGravity() );
+            }
+
+            public void wallForceChanged() {
             }
         } );
 
@@ -99,17 +97,7 @@ public class Force1dControlPanel extends ControlPanel {
 
 //        controls.setBorder( Force1DUtil.createTitledBorder( "Controls" ) );
 
-        final JCheckBox barriers = new JCheckBox( "Barriers" );
-        barriers.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                if( !barriers.isSelected() ) {
-                    module.getForceModel().setBoundsOpen();
-                }
-                else {
-                    module.getForceModel().setBoundsWalled();
-                }
-            }
-        } );
+        BarrierCheckBox barriers = new BarrierCheckBox( module );
         add( barriers );
         add( controls );
         model.getBlock().addListener( new Block.Listener() {
@@ -140,7 +128,7 @@ public class Force1dControlPanel extends ControlPanel {
         setup( module.imageElementAt( 0 ) );
 
         super.setHelpPanelEnabled( true );
-        removeTitle();
+        super.removeTitle();
     }
 
 
@@ -169,7 +157,7 @@ public class Force1dControlPanel extends ControlPanel {
     }
 
     public void updateGraphics() {
-        freeBodyDiagramPanel.updateGraphics();
+        freeBodyDiagramSuite.updateGraphics();
     }
 }
 

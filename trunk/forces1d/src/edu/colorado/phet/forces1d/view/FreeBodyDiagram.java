@@ -14,6 +14,7 @@ import edu.colorado.phet.forces1d.common.HTMLGraphic;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
 import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
@@ -33,14 +34,19 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
     private Rectangle rect;
     private Force1DModel model;
 
-    private FreeBodyDiagram.ForceArrow mg;
-    private FreeBodyDiagram.ForceArrow normal;
-    private FreeBodyDiagram.ForceArrow appliedForce;
-    private double yScale = 1.0 / 30.0;
-    private double xScale = 0.1;
+    private ForceArrow mg;
+    private ForceArrow normal;
+    private ForceArrow appliedForce;
+    private ForceArrow wallForce;
     private ForceArrow frictionForce;
     private ForceArrow netForce;
+
+    private double yScale = 1.0 / 30.0;
+    private double xScale = 0.1;
+
     private Force1DLookAndFeel laf;
+    private boolean userClicked = false;
+
 
     public FreeBodyDiagram( Force1DPanel component, Force1DModule module ) {
         super( component );
@@ -61,7 +67,6 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
         normal = new ForceArrow( component, this, laf.getNormalColor(), "N", new Vector2D.Double( 0, 80 ) );
         addForceArrow( normal );
 
-//        appliedForce = new ForceArrow( component, this, laf.getAppliedForceColor(), "Fa", new Vector2D.Double() );
         appliedForce = new ForceArrow( component, this, laf.getAppliedForceColor(), "<html>F<sub>a</html>", new Vector2D.Double() );
         addForceArrow( appliedForce );
 
@@ -70,22 +75,30 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
 
         netForce = new ForceArrow( component, this, laf.getNetForceColor(), "<html>F<sub>net</html>", new Vector2D.Double() );
         addForceArrow( netForce );
-
         netForce.setOrigin( 0, 30 );
 
-        addMouseInputListener( new MouseInputAdapter() {
+        wallForce = new ForceArrow( component, this, laf.getWallForceColor(), "<html>F<sub>wall</html>", new Vector2D.Double() );
+        addForceArrow( wallForce );
+        wallForce.setOrigin( 0, -30 );
+
+        MouseInputAdapter mia = new MouseInputAdapter() {
             // implements java.awt.event.MouseListener
             public void mousePressed( MouseEvent e ) {
                 setForce( e.getPoint() );
+                userClicked = true;
             }
 
             public void mouseDragged( MouseEvent e ) {
                 setForce( e.getPoint() );
-
             }
-        } );
-//        PhetTextGraphic titleGraphic = new PhetTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 12 ), "Free Body Diagram", Color.blue, 20, 0 );
-//        addGraphic( titleGraphic );
+
+            // implements java.awt.event.MouseListener
+            public void mouseReleased( MouseEvent e ) {
+                model.setAppliedForce( 0.0 );
+            }
+        };
+        MouseInputListener listener = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
+        addMouseInputListener( listener );
         setCursorHand();
     }
 
@@ -106,8 +119,11 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
         Vector2D.Double ff = new Vector2D.Double( model.getFrictionForce() * xScale, 0 );
         frictionForce.setVector( ff );
 
-        AbstractVector2D net = af.getAddedInstance( ff );
+        AbstractVector2D net = new Vector2D.Double( model.getNetForce() * xScale, 0 );
         netForce.setVector( net );
+
+        Vector2D.Double wf = new Vector2D.Double( model.getWallForce() * xScale, 0 );
+        wallForce.setVector( wf );
     }
 
     private void updateMG() {
@@ -226,10 +242,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
 
 
             Font font = new Font( "Lucida Sans", Font.PLAIN, 16 );
-//            xLabel = new PhetTextGraphic( component, font, "Fx", Color.black, 0, 0 );
-//            xLabel = new HTMLGraphic( component, "<html>html<br>line2</html>", font, Color.black );
             xLabel = new HTMLGraphic( component, "<html>F<sub>x</html>", font, Color.black );
-//            yLabel = new PhetTextGraphic( component, font, "Fy", Color.black, 0, 0 );
             yLabel = new HTMLGraphic( component, "<html>F<sub>y</html>", font, Color.black );
             addGraphic( xLabel );
             addGraphic( yLabel );
@@ -248,5 +261,13 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             xLabel.setLocation( (int)xLine.getX2() - xLabel.getWidth(), (int)xLine.getY2() );
             yLabel.setLocation( (int)yLine.getX1() + 3, (int)yLine.getY1() );
         }
+    }
+
+    public boolean isUserClicked() {
+        return userClicked;
+    }
+
+    public void resetUserClicked() {
+        this.userClicked = false;
     }
 }

@@ -22,16 +22,45 @@ import java.awt.geom.Point2D;
 public class WiggleMe extends CompositePhetGraphic {
     private Font font = new Font( "Lucida Sans", Font.BOLD, 22 );
     private long t0 = System.currentTimeMillis();
-    private double frequency = 0.0025;
-    private double amplitude = 30;
-    private PhetGraphic target;
+    private double frequency = 0.0025;//in Hertz.
+    private double amplitude = 30;//In pixels.
+    private Target target;
     private PhetGraphic textGraphic;
     private PhetShapeGraphic phetShapeGraphic;
     private Timer timer;
 
-    public WiggleMe( Component component, String text, PhetGraphic target ) {
+    public static interface Target {
+
+        Point getLocation();
+
+        int getHeight();
+    }
+
+    public static class PhetGraphicTarget implements Target {
+        private PhetGraphic target;
+
+
+        public PhetGraphicTarget( PhetGraphic t ) {
+            this.target = t;
+        }
+
+        public Point getLocation() {
+            Point targetLoc = target.getLocation();
+            return targetLoc;
+        }
+
+        public int getHeight() {
+            return target.getHeight();
+        }
+    }
+
+    public WiggleMe( Component component, String text, PhetGraphic phetGraphic ) {
+        this( component, text, new PhetGraphicTarget( phetGraphic ) );
+    }
+
+    public WiggleMe( Component component, String text, Target t ) {
         super( component );
-        this.target = target;
+        this.target = t;
         textGraphic = new PhetShadowTextGraphic( component, text, font, 0, 0, Color.black, 2, 2, Color.red );
         addGraphic( textGraphic );
         timer = new Timer( 30, new ActionListener() {
@@ -61,8 +90,6 @@ public class WiggleMe extends CompositePhetGraphic {
 
     private void tick() {
         double time = System.currentTimeMillis() - t0;
-//        Point target=target.getLocation();
-//        Point targetLoc=target.getBounds().getLocation();
         Point targetLoc = target.getLocation();
         int y0 = targetLoc.y + target.getHeight() / 2 - getHeight();
         int y = (int)( Math.sin( frequency * time ) * amplitude + y0 );

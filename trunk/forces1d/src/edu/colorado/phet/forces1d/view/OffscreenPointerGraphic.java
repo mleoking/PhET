@@ -3,7 +3,10 @@ package edu.colorado.phet.forces1d.view;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.forces1d.model.Block;
 
 import java.awt.*;
@@ -21,7 +24,7 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
     private static final Font font = new Font( "Lucida Sans", Font.BOLD, 28 );
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.0" );
     private PhetTextGraphic textGraphic;
-    private PhetShapeGraphic arrowGraphic;
+//    private PhetShapeGraphic arrowGraphic;
     private BlockGraphic blockGraphic;
     private WalkwayGraphic container;
     private int y = 50;
@@ -33,9 +36,9 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
 
         textGraphic = new PhetTextGraphic( component, font, "", Color.blue, 0, 0 );
         Stroke stroke = new BasicStroke( 1.0f );
-        arrowGraphic = new PhetShapeGraphic( component, null, Color.yellow, stroke, Color.black );
+//        arrowGraphic = new PhetShapeGraphic( component, null, Color.yellow, stroke, Color.black );
         addGraphic( textGraphic );
-        addGraphic( arrowGraphic );
+//        addGraphic( arrowGraphic );
 
         blockGraphic.addPhetGraphicListener( new PhetGraphicListener() {
             public void phetGraphicChanged( PhetGraphic phetGraphic ) {
@@ -61,7 +64,7 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
                     Arrow arrow = new Arrow( source, arrowVector.getDestination( source ), 20, 20, 10, 0.2, true );
                     Shape shape = arrow.getShape();
 
-                    arrowGraphic.setShape( shape );
+//                    arrowGraphic.setShape( shape );
                     setBoundsDirty();
                     Rectangle bounds = getBounds();
                     if( pos ) {
@@ -91,7 +94,7 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
         return textGraphic;
     }
 
-    public PhetShapeGraphic getArrowGraphic() {
-        return arrowGraphic;
-    }
+//    public PhetShapeGraphic getArrowGraphic() {
+//        return arrowGraphic;
+//    }
 }
