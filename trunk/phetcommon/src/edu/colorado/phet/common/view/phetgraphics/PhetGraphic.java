@@ -261,9 +261,11 @@ public abstract class PhetGraphic {
      * @param transform the transform
      */
     public void setTransform( AffineTransform transform ) {
-        this.transform = transform;
-        setBoundsDirty();
-        autorepaint();
+        if( !transform.equals( this.transform ) ) {
+            this.transform = transform;
+            setBoundsDirty();
+            autorepaint();
+        }
     }
 
     /**
