@@ -6,12 +6,12 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- center of slider knob doesn't line up with ticks
 - check the bounds & registration point of a FaradaySlider
 - setting AC amplitude to zero causes an exception (on Windows only?)
 - move "Alternating Current" label higher on AC graphic to prevent confusion
 - Lightbulb appears to beat with a false peak
 - animate AC wave
-- show frequency & amplitude graph on the ACSourceGraphic
 - adjust electron animation so that electrons move farther
 - behavior of AC/DC amplitude around "zero" should be smoother
 - bug: electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
@@ -21,7 +21,7 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - requirements for Generator module (see Carl's Powerpoint slides)
 - calibration throughout
-- electrons in coil loops don't line up with each other after awhile
+- electrons in coil loops don't line up with each other after awhile (make radius larger/smaller?)
 
 LOW PRIORITY:
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
@@ -59,6 +59,7 @@ v0r17...
 (3/8) - no magnetic field (strength=0) should cause the compass to stay in its current location, not move to 0 degrees
 (3/8) - add ticks at min/max/zero on battery amplitude slider track (no labels)
 v0r16...
+(3/7) - show frequency & amplitude graph on the ACSourceGraphic
 (3/7) - make AC vary sinusoidally
 (3/7) - put controls directly on AC graphic
 (3/4) - label battery amplitude in volts, -10 to +10
