@@ -10,10 +10,10 @@ import edu.colorado.phet.common.model.ModelElement;
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
 public class Man extends ModelElement {
-    double x;
-    double x0;
-    boolean grabbed = false;
-    double velocity;
+    private double x;
+    private double x0;
+    private boolean grabbed = false;
+    private double velocity;
 
     public Man( double x ) {
         this.x0 = x;

@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -84,7 +85,7 @@ public class MovingManControlPanel extends JPanel {
         private JButton rewind;
         private JButton slowMotion;
 
-        public MediaPanel() {
+        public MediaPanel() throws IOException {
             ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
             pause = new JButton( "Pause", pauseIcon );
             pause.addActionListener( new ActionListener() {
@@ -170,7 +171,7 @@ public class MovingManControlPanel extends JPanel {
         private ArrayList motionButtons;
         private MotionSuite[] motions;
 
-        public MotionPanel() {
+        public MotionPanel() throws IOException {
 
             motions = new MotionSuite[]{
                 new StandSuite( module ),
@@ -232,7 +233,7 @@ public class MovingManControlPanel extends JPanel {
         }
     }
 
-    public MovingManControlPanel( final MovingManModule module ) {
+    public MovingManControlPanel( final MovingManModule module ) throws IOException {
         this.module = module;
         final Dimension preferred = new Dimension( 200, 400 );
         setSize( preferred );
@@ -299,16 +300,16 @@ public class MovingManControlPanel extends JPanel {
         new Thread( new Runnable() {
             public void run() {
                 try {
-                    while( MovingManModule.FRAME == null || !MovingManModule.FRAME.isVisible() ) {
+                    while( module.getFrame() == null || !module.getFrame().isVisible() ) {
                         Thread.sleep( 1000 );
                     }
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
-                MovingManModule.FRAME.getJMenuBar().add( viewMenu );
-                MovingManModule.FRAME.setExtendedState( JFrame.MAXIMIZED_HORIZ );
-                MovingManModule.FRAME.setExtendedState( JFrame.MAXIMIZED_BOTH );
+                module.getFrame().getJMenuBar().add( viewMenu );
+                module.getFrame().setExtendedState( JFrame.MAXIMIZED_HORIZ );
+                module.getFrame().setExtendedState( JFrame.MAXIMIZED_BOTH );
             }
         } ).start();
         ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );

@@ -29,7 +29,7 @@ public class PhetLookAndFeel extends SmoothLookAndFeel {
 
     static {
         Font font1280 = new Font( "Lucida Sans", Font.PLAIN, 18 );
-        Font font1040 = new Font( "Lucida Sans", Font.PLAIN, 12 );
+        Font font1040 = new Font( "Lucida Sans", Font.PLAIN, 14 );
         Font font800 = new Font( "Lucida Sans", Font.PLAIN, 8 );
 
         Font uifont = font1040;
@@ -70,13 +70,18 @@ public class PhetLookAndFeel extends SmoothLookAndFeel {
             def.add( fontResource );
             def.add( type + ".foreground" );
             def.add( foreground );
-            def.add( type + ".background" );
-            def.add( background );
+            if( !type.equals( "TextField" ) ) {
+                def.add( type + ".background" );
+                def.add( background );
+            }
             def.add( type + ".margin" );
             def.add( insets );
         }
         def.add( "TitledBorder.font" );
         def.add( borderFont );
+
+        def.add( "TextField.background" );
+        def.add( new ColorUIResource( Color.white ) );
         Object[] defaults = def.toArray();
         table.putDefaults( defaults );
     }

@@ -11,10 +11,10 @@ import edu.colorado.phet.movingman.elements.GridLineGraphic;
  * To change this template use Options | File Templates.
  */
 public class PlotAndText {
-    BoxedPlot plot;
-    ValueGraphic text;
-    GridLineGraphic grid;
-    boolean visible = true;
+    private BoxedPlot plot;
+    private ValueGraphic text;
+    private GridLineGraphic grid;
+    private boolean visible = true;
 
     public boolean isVisible() {
         return visible;

@@ -11,6 +11,7 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,7 +31,7 @@ public class AccelerateSuite extends MotionSuite {
     private GridBagConstraints gridBagConstraints;
     private ChangeListener velocityListener;
 
-    public AccelerateSuite( final MovingManModule module ) {
+    public AccelerateSuite( final MovingManModule module ) throws IOException {
         super( module, "Accelerate" );
         motion = new AccelMotion( module );
         this.module = module;
@@ -117,7 +118,6 @@ public class AccelerateSuite extends MotionSuite {
 
     private void setInitialVelocity() {
         Double value = (Double)initialVelocitySpinner.getValue();
-//        MotionState ms = motion.getMotionState();
         module.getMan().setVelocity( value.doubleValue() / 10 * .2 );
         module.setInitialPosition( module.getMan().getX() );
     }
