@@ -1,39 +1,49 @@
-- Rotation of photon graphic cuts off parts of the graphic
-- AtomGraphic should just be a listener, not a SimpleObserver
-- Photons jump to right when stimulated emissoin happens
-- Put off..max labels on intensity slider
-- color control under the lamp, intensity on top
+PhetGraphic - Chris
+    setLocation( Point)
+    setLocation( int x, int y );
+    getLocation()
+    getBounds()
+    setSize()
+    getWidth()
+    getHeight()
+    getX()
+    getY()
+    deprecate setPosition()
+    deprecate push/popRenderingHints()
 
+CompositeGraphic
+    rename
 
-- AtomicState lifetime manager should be part of the base AtomicState now. There is no need of a separate
-SpontaneouslyEmittingState.
-- Memory leak in multiple atom panel
-- Enable photons emitted on high-to-mid state transitions
-- add CollimatedBeamGraphic, or CollimatedBeamView class
-- Change interpolation method that creates middle and high energy atom graphics.
-- spontaneousEmmisionHalfLife and SpontaneousEmissionTime methods are confusing
-- Line 34 in GroundState has a call that has terrible style
-- Change location constants in BaseLaserModule to key off location of laser instead of s_origin
+CompositePhetGraphic  - Ron & Sam
+x    setLocation() should affect everything
+x    same of similar methods
+    redraw minimum number of pixels
 
-- Debug library, with ClockControlPanel
-Should we keep or toss TxTranslatable, TxGraphic, TxBoundary, if we keep, can we conglomerate?
+x    children know absolute locations
+x    children are added at absolute coordinates
 
-Refactor ModelViewTx2D and AffineTxUtil
+x    PhetGraphic has reference to CompositePhetGraphic in which it is contained, if it is.
+x        Manages visibility
+x        May be used to manage relative/absolute location.
 
-=========================================================
-- photon energy must match the energy state energy to push an atom to a particular energy state
-- Put wavelength control on the flashlight
-- Energy states are represented by colored rings around atoms of a color associated with the energy level, and a
-thickness proportional to the energy above the ground state.
-- Make colors of energy levels map to real values
-- Made cavity smaller
-----------------------------------------------------------
-11/9
-- Prevent energy levels from being dragged past each other
-- Put uncertainty back into state lifetimes
-- Increase magnification of middle and high energy states
-- Make energy levels mouse-able
-    - Make AtomicState classes singletons
-- Make state lifetimes dependent on energy level
-- Change internal rep of CollimatedBeam to get rid of x,y,width,height and just use the Rectangle2D
+Events/Listeners - entire cast
+    Use AWT2 event model going forward
+    retrofit as needed
 
+DefaultInteractiveGraphic
+    make it a PhetGraphic
+
+CompositePhetGraphic
+    needs to implement InteractiveGraphic
+
+PhetShapeGraphic - Chris
+    change names to setStrokeColor() setFillColor()
+
+PhetImageGraphic - Ron
+    setLocation() sets a position independent of the transform.
+    determineBounds() should return null if image hasn't been set.
+
+Misc - Ron
+    check paint() of PhetGraphic subclasses
+    rewrite GraphicsState to check what things need to be restored in restoreState();
+        also, handle paintMode & XORMode

@@ -21,7 +21,11 @@ import java.awt.geom.Rectangle2D;
 
 public class TestCompositeGraphic {
     public static final void main( String[] args ) {
-        ApparatusPanel ap = new ApparatusPanel();
+        ApparatusPanel ap = new ApparatusPanel() {
+            public void repaint( int x, int y, int width, int height ) {
+                paintImmediately( x, y, width, height );
+            }
+        };
         final CompositePhetGraphic compositePhetGraphic = new CompositePhetGraphic( ap );
         final PhetShapeGraphic circleGraphic = new PhetShapeGraphic( ap, new Ellipse2D.Double( 50, 50, 75, 300 ), Color.blue );
         PhetShapeGraphic squareGraphic = new PhetShapeGraphic( ap, new Rectangle2D.Double( 400, 400, 50, 50 ), Color.red );

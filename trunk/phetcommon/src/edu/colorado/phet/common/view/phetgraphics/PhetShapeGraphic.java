@@ -57,7 +57,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         if( isVisible() ) {
             super.saveGraphicsState( g );
             RenderingHints hints = super.getRenderingHints();
-            if ( hints != null ) {
+            if( hints != null ) {
                 g.setRenderingHints( hints );
             }
             if( shape != null ) {
@@ -136,5 +136,12 @@ public class PhetShapeGraphic extends PhetGraphic {
     public void setPaint( Paint paint ) {
         this.fill = paint;
         repaint();
+    }
+
+    public void setLocation( int x, int y ) {
+        int oldX = getLocation().x;
+        int oldY = getLocation().y;
+        super.setLocation( x, y );
+        translate( x - oldX, y - oldY );
     }
 }
