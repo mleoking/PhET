@@ -49,7 +49,7 @@ public class ElectronPathDescriptor {
     private int _layer;
     
     // How to scale the speed for this curve (any positive value).
-    private double _speedScale;
+    private double _pathScale;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -61,17 +61,17 @@ public class ElectronPathDescriptor {
      * @param curve the curve
      * @param parent the parent graphic
      * @param layer FOREGROUND or BACKGROUND
-     * @param speedScale see getSpeedScale
+     * @param pathScale see getPathScale
      */
-    public ElectronPathDescriptor( QuadBezierSpline curve, CompositePhetGraphic parent, int layer, double speedScale ) {
+    public ElectronPathDescriptor( QuadBezierSpline curve, CompositePhetGraphic parent, int layer, double pathScale ) {
         assert ( curve != null );
         assert ( parent != null );
         assert ( layer == FOREGROUND || layer == BACKGROUND );
-        assert ( speedScale > 0 );
+        assert ( pathScale > 0 );
         _curve = curve;
         _parent = parent;
         _layer = layer;
-        _speedScale = speedScale;
+        _pathScale = pathScale;
     }
     
     
@@ -118,7 +118,7 @@ public class ElectronPathDescriptor {
     }
     
     /**
-     * Gets the speed scale.
+     * Gets the scaling for this part of the path.
      * This value is used to adjust the speed of electrons along the curve.
      * It's useful in cases where a set of ElectronPathDescriptors contains curves 
      * of different lengths, and the speed needs to be scaled in order to
@@ -126,7 +126,7 @@ public class ElectronPathDescriptor {
      * 
      * @return the speed scale
      */
-    public double getSpeedScale() {
-        return _speedScale;
+    public double getPathScale() {
+        return _pathScale;
     }
 }

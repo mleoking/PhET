@@ -14,13 +14,19 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Point;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
+import edu.colorado.phet.faraday.control.panel.ScalePanel;
+import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
@@ -175,6 +181,14 @@ public class ElectromagnetModule extends FaradayModule {
                     sourceCoilModel, batteryModel, acPowerSupplyModel, compassModel,
                     electromagnetGraphic, gridGraphic, fieldMeterGraphic );
             controlPanel.addFullWidth( electromagnetPanel );
+            
+            if ( FaradayConfig.DEBUG_SCALE ) {
+                controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
+                
+                ScalePanel scalePanel = new ScalePanel( null, null, null, electromagnetGraphic );
+                controlPanel.addFullWidth( scalePanel );
+            }
+            
             this.setControlPanel( controlPanel );
         }
         

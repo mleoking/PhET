@@ -119,6 +119,9 @@ public class CoilGraphic implements SimpleObserver {
     // Collision bounds
     private Rectangle[] _collisionBounds;
     
+    // Scale used for electron speed.
+    private double _electronSpeedScale;
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -160,6 +163,8 @@ public class CoilGraphic implements SimpleObserver {
         _wireWidth = -1; // force update
         _loopSpacing = -1; // force update
         _voltage = -1;  // force update
+        
+        _electronSpeedScale = 1.0;
         
         update();
     }
@@ -304,6 +309,33 @@ public class CoilGraphic implements SimpleObserver {
      */
     public Rectangle getBounds() {
         return _foreground.getBounds().union( _background.getBounds() );
+    }
+    
+    /**
+     * Sets the scale used for electron speed.
+     * 
+     * @param electronSpeedScale
+     */
+    public void setElectronSpeedScale( double electronSpeedScale ) {
+        assert( electronSpeedScale > 0 );
+        if ( electronSpeedScale != _electronSpeedScale ) {
+            _electronSpeedScale = electronSpeedScale;
+            // Update all electrons.
+            final int numberOfElectrons = _electrons.size();
+            for ( int i = 0; i < numberOfElectrons; i++ ) {
+                Electron electron = (Electron) _electrons.get( i );
+                electron.setSpeedScale( _electronSpeedScale );
+            }
+        }
+    }
+    
+    /**
+     * Gets the scale used for electron speed.
+     * 
+     * @return the scale
+     */
+    public double getElectronSpeedScale() {
+        return _electronSpeedScale;
     }
     
     //----------------------------------------------------------------------------
@@ -592,6 +624,7 @@ public class CoilGraphic implements SimpleObserver {
                     electron.setPositionAlongPath( pathIndex, pathPosition );
                     electron.setSpeed( speed );
                     electron.setEnabled( _electronAnimationEnabled );
+                    electron.setSpeedScale( _electronSpeedScale );
                     _electrons.add( electron );
                     _baseModel.addModelElement( electron );
 

@@ -54,6 +54,9 @@ public class Electron extends SpacialObservable implements ModelElement {
     
     // A reusable point.
     private Point2D _point;
+    
+    // Scale for adjusting speed.
+    private double _speedScale;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,6 +73,7 @@ public class Electron extends SpacialObservable implements ModelElement {
         _pathPosition = 1.0; // curve's start point
         _speed = 0.0;  // not moving
         _point = new Point2D.Double();
+        _speedScale = 1.0;
     }
 
     //----------------------------------------------------------------------------
@@ -176,6 +180,14 @@ public class Electron extends SpacialObservable implements ModelElement {
         return _speed;
     }
     
+    public void setSpeedScale( double scale ) {
+        _speedScale = scale;
+    }
+    
+    public double getSpeedScale() {
+        return _speedScale;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -198,8 +210,8 @@ public class Electron extends SpacialObservable implements ModelElement {
         if ( _enabled && _speed != 0 && _path != null ) {
             
             // Move the electron along the path.
-            double speedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
-            double delta = dt * MAX_PATH_POSITION_DELTA * _speed * speedScale;
+            double pathScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getPathScale();
+            double delta = dt * MAX_PATH_POSITION_DELTA * _speed * _speedScale * pathScale;
             _pathPosition -= delta;
             
             // Do we need to switch curves?
@@ -226,7 +238,7 @@ public class Electron extends SpacialObservable implements ModelElement {
      */
     private void switchCurves() {
        
-        double oldSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
+        double oldSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getPathScale();
         
         if ( _pathPosition <= 0 ) {
             
@@ -237,7 +249,7 @@ public class Electron extends SpacialObservable implements ModelElement {
             }
             
             // Set the position on the curve.
-            double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
+            double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getPathScale();
             double overshoot = Math.abs( _pathPosition * newSpeedScale / oldSpeedScale );
             _pathPosition = 1.0 - overshoot;
             
@@ -255,7 +267,7 @@ public class Electron extends SpacialObservable implements ModelElement {
             }
             
             // Set the position on the curve.
-            double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
+            double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getPathScale();
             double overshoot = Math.abs( ( 1 - _pathPosition ) * newSpeedScale / oldSpeedScale );
             _pathPosition = 0.0 + overshoot;
             
