@@ -46,19 +46,20 @@ public class GasMolecule extends IdealGasParticle {
         this.model = model;
     }
 
+
     public void setVelocity( Vector2D velocity ) {
         super.setVelocity( velocity );
     }
 
-    public void setVelocity( float vX, float vY ) {
+    public void setVelocity( double vX, double vY ) {
         super.setVelocity( vX, vY );
     }
 
-    public void setVelocityX( float vX ) {
+    public void setVelocityX( double vX ) {
         super.setVelocity( vX, getVelocity().getY() );
     }
 
-    public void setVelocityY( float vY ) {
+    public void setVelocityY( double vY ) {
         super.setVelocity( getVelocity().getX(), vY );
     }
 

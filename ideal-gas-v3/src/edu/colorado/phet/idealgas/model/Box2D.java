@@ -45,12 +45,14 @@ public class Box2D extends CollidableBody {
     public Box2D( IdealGasModel model ) {
         super();
         this.model = model;
+        setMass( Double.POSITIVE_INFINITY );
     }
 
     public Box2D( Point2D corner1, Point2D corner2, IdealGasModel model ) {
         super();
         this.model = model;
         this.setState( corner1, corner2 );
+        setMass( Double.POSITIVE_INFINITY );
     }
 
     public Point2D getCM() {

@@ -33,7 +33,7 @@ public abstract class CollidableBody extends Body {
     }
 
     public void setVelocity( Vector2D velocity ) {
-        setVelocity( getVelocity().getX(), getVelocity().getY() );
+        setVelocity( velocity.getX(), velocity.getY() );
     }
 
     public void setVelocity( double vx, double vy ) {

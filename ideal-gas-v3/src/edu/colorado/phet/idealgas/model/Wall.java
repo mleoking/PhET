@@ -39,8 +39,6 @@ public class Wall extends CollidableBody {
         // set the position twice, so the previous position will also be set
         this.setPosition( new Point2D.Double( end1.getX(), end1.getY() ) );
         this.setPosition( new Point2D.Double( end1.getX(), end1.getY() ) );
-        //        this.setPosition( new Vector2D( (float)end1.getX(), (float)end1.getY() ));
-        //        this.setPosition( new Vector2D( (float)end1.getX(), (float)end1.getY() ));
     }
 
     public Point2D getCM() {
@@ -52,6 +50,9 @@ public class Wall extends CollidableBody {
     }
 
     private void init() {
+        // Make it infinitely massive so it won't move in a collision
+        setMass( Double.POSITIVE_INFINITY );
+
         // Set the velocity twice so the previous velocity gets set
         this.setVelocity( 0, 0 );
         this.setVelocity( 0, 0 );
@@ -101,16 +102,11 @@ public class Wall extends CollidableBody {
         return false;
     }
 
-
     // Returns the distance from the body's center that it makes contact
     // with other bodies. This is, of course, an over-simplified approach,
     // and only works with walls and spheres.
     public double getContactOffset( Body body ) {
         return 0;
     }
-
-    //    public boolean isInContactWithBody( Collidable body ) {
-    //        return false;
-    //    }
 }
 
