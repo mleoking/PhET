@@ -10,8 +10,8 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
 import edu.colorado.phet.idealgas.controller.GasSource;
+import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
 
 import java.awt.geom.Point2D;
 
@@ -19,6 +19,8 @@ public class Pump extends SimpleObservable implements GasSource {
 
 
     // Coordinates of the intake port on the box
+//    protected static final float s_intakePortX = 265 + IdealGasConfig.X_BASE_OFFSET;
+//    protected static final float s_intakePortY = 480 + IdealGasConfig.Y_BASE_OFFSET;
     protected static final float s_intakePortX = 430 + IdealGasConfig.X_BASE_OFFSET;
     protected static final float s_intakePortY = 400 + IdealGasConfig.Y_BASE_OFFSET;
     // Offset for dithering the initial position of particles pumped into the box
@@ -59,7 +61,7 @@ public class Pump extends SimpleObservable implements GasSource {
         // Add a new gas molecule to the system
         double moleculeEnergy = Math.max( IdealGasModel.DEFAULT_ENERGY, model.getAverageMoleculeEnergy() );
         GasMolecule newMolecule = createMolecule( this.currentGasSpecies,
-                                                   moleculeEnergy );
+                                                  moleculeEnergy );
         new PumpMoleculeCmd( model, newMolecule, module ).doIt();
 
         // Constrain the molecule to be inside the box
@@ -96,7 +98,7 @@ public class Pump extends SimpleObservable implements GasSource {
         if( species == LightSpecies.class ) {
             newMolecule = new LightSpecies( new Point2D.Double( s_intakePortX, s_intakePortY + s_intakePortOffsetY * 5 ),
                                             new Vector2D.Double( 0, 0 ),
-                                            new Vector2D.Double( 0, 0 ));
+                                            new Vector2D.Double( 0, 0 ) );
         }
         else if( species == HeavySpecies.class ) {
             newMolecule = new HeavySpecies( new Point2D.Double( s_intakePortX, s_intakePortY + s_intakePortOffsetY * 5 ),
@@ -116,6 +118,8 @@ public class Pump extends SimpleObservable implements GasSource {
         }
         float v = vSq > 0 ? (float)Math.sqrt( vSq ) : 10;
         float theta = (float)Math.random() * PI_OVER_2 - PI_OVER_4;
+
+//        theta += Math.PI / 2;
 
         // xV must be negative so that molecules move away from the intake port
         // Set the velocity twice, so the previous velocity is set to be
