@@ -10,12 +10,18 @@
  */
 package edu.colorado.phet.common.view;
 
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
@@ -29,9 +35,9 @@ import java.util.ArrayList;
  * Test Comment.
  * <p/>
  *
- * @see edu.colorado.phet.common.view.graphics.Graphic
  * @author Ron LeMaster
  * @version $Revision$
+ * @see edu.colorado.phet.common.view.graphics.Graphic
  */
 public class ApparatusPanel extends JPanel {
 
@@ -51,8 +57,9 @@ public class ApparatusPanel extends JPanel {
 
     private ArrayList graphicsSetups = new ArrayList();
 
-    protected ApparatusPanel( Object dummy ) {
+    protected ApparatusPanel( Object obj ) {
         super( null );
+        this.graphic = new GraphicLayerSet( this );
     }
     //aoeu
 
@@ -70,6 +77,35 @@ public class ApparatusPanel extends JPanel {
         graphicsSetups.add( setup );
     }
 
+    public void addRepaintDebugGraphic( AbstractClock clock ) {
+
+        final RepaintDebugGraphic rdg = new RepaintDebugGraphic( this, clock );
+        addGraphic( rdg );
+
+        rdg.setActive( false );
+        rdg.setVisible( false );
+        addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                requestFocus();
+            }
+        } );
+        addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_P ) {
+                    rdg.setActive( !rdg.isActive() );
+                    rdg.setVisible( rdg.isActive() );
+                }
+            }
+
+            public void keyReleased( KeyEvent e ) {
+            }
+
+            public void keyTyped( KeyEvent e ) {
+            }
+        } );
+        requestFocus();
+    }
+
     /**
      * Clears objects in the graphical context that are experiment-specific
      */
@@ -79,6 +115,10 @@ public class ApparatusPanel extends JPanel {
 
     protected void superPaint( Graphics g ) {
         super.paintComponent( g );
+    }
+
+    protected ArrayList getGraphicsSetups() {
+        return graphicsSetups;
     }
 
     /**
