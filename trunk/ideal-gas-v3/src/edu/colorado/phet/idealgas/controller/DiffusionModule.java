@@ -74,8 +74,6 @@ public class DiffusionModule extends IdealGasModule {
     private void setWallBounds() {
         Rectangle2D boxBounds = getBox().getBoundsInternal();
         Rectangle2D lowerWallBounds = lowerWall.getBounds();
-
-//        upper
     }
 
     //-----------------------------------------------------------------

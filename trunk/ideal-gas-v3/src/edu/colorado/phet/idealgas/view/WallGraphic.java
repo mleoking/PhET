@@ -32,14 +32,12 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     public static final int ALL = 0, EAST_WEST = 1, NORTH_SOUTH = 2;
     public static final Object NORTH = new Object();
     private Wall wall;
-//    private List resizableDirections = new ArrayList();
     private boolean isResizable = false;
     private boolean isResizingEast = false;
     private boolean isResizingWest = false;
     private boolean isResizingNorth = false;
     private boolean isResizingSouth = false;
-
-    private double hotSpotRadius = 2;
+    private double hotSpotRadius = 4;
 
     /**
      * @param wall
@@ -124,9 +122,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         }
 
         public void translationOccurred( TranslationEvent translationEvent ) {
-            // If the control key is down, it means to resize
-            if( !( isResizingEast || isResizingWest ) ) {
-//            if( !translationEvent.getMouseEvent().isControlDown() ) {
+            if( !( isResizingNorth || isResizingSouth || isResizingEast || isResizingWest ) ) {
                 translatable.translate( translationEvent.getDx(), 0 );
             }
         }
@@ -140,9 +136,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         }
 
         public void translationOccurred( TranslationEvent translationEvent ) {
-            // If the control key is down, it means to resize
-            if( !( isResizingNorth || isResizingSouth ) ) {
-//            if( !translationEvent.getMouseEvent().isControlDown() ) {
+            if( !( isResizingNorth || isResizingSouth || isResizingEast || isResizingWest ) ) {
                 translatable.translate( 0, translationEvent.getDy() );
             }
         }
@@ -193,51 +187,46 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         }
 
         public void mousePressed( MouseEvent e ) {
-            if( isResizable /*&& e.isControlDown()*/ ) {
-
+            if( isResizable ) {
                 double minX = wall.getBounds().getMinX();
                 double maxX = wall.getBounds().getMaxX();
                 double minY = wall.getBounds().getMinY();
                 double maxY = wall.getBounds().getMaxY();
                 Point mouseLoc = e.getPoint();
 
-                savedCursor = getComponent().getCursor();
-
                 if( Math.abs( mouseLoc.y - minY ) <= hotSpotRadius ) {
                     isResizingNorth = true;
-                    getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
                 }
                 else if( Math.abs( mouseLoc.y - maxY ) <= hotSpotRadius ) {
                     isResizingSouth = true;
-                    getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.S_RESIZE_CURSOR ) );
                 }
                 else if( Math.abs( mouseLoc.x - minX ) <= hotSpotRadius ) {
                     isResizingWest = true;
-                    getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.W_RESIZE_CURSOR ) );
                 }
                 else if( Math.abs( mouseLoc.x - maxX ) <= hotSpotRadius ) {
                     isResizingEast = true;
-                    getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
                 }
             }
         }
 
+        /**
+         * Clear all resizing flags when the mouse is released, and reset the cursor
+         *
+         * @param e
+         */
         public void mouseReleased( MouseEvent e ) {
-            // Add a listener that will cancel the resize mode when the mouse is released
-            getComponent().addMouseListener( new MouseAdapter() {
-                public void mouseReleased( MouseEvent e ) {
-                    isResizingEast = false;
-                    isResizingWest = false;
-                    isResizingNorth = false;
-                    isResizingSouth = false;
-
-                    getComponent().setCursor( savedCursor );
-                }
-            } );
+            isResizingEast = false;
+            isResizingWest = false;
+            isResizingNorth = false;
+            isResizingSouth = false;
         }
     }
 
+    /**
+     * Sets the cursor to the proper one depending on where the mouse is
+     */
     private class CursorManager implements MouseMotionListener {
+        private Cursor currentCursor = Cursor.getDefaultCursor();
 
         public void mouseDragged( MouseEvent e ) {
             // noop
@@ -253,24 +242,25 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
                     double maxY = wall.getBounds().getMaxY();
 
                     if( Math.abs( mouseLoc.y - minY ) <= hotSpotRadius ) {
-                        getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
+                        currentCursor = Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR );
                     }
                     else if( Math.abs( mouseLoc.y - maxY ) <= hotSpotRadius ) {
-                        getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.S_RESIZE_CURSOR ) );
+                        currentCursor = Cursor.getPredefinedCursor( Cursor.S_RESIZE_CURSOR );
                     }
                     else if( Math.abs( mouseLoc.x - minX ) <= hotSpotRadius ) {
-                        getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.W_RESIZE_CURSOR ) );
+                        currentCursor = Cursor.getPredefinedCursor( Cursor.W_RESIZE_CURSOR );
                     }
                     else if( Math.abs( mouseLoc.x - maxX ) <= hotSpotRadius ) {
-                        getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
+                        currentCursor = Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR );
                     }
                     else {
-                        getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+                        currentCursor = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
                     }
                 }
                 else {
-                    getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+                    currentCursor = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
                 }
+                getComponent().setCursor( currentCursor );
             }
         }
     }
