@@ -104,7 +104,7 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
         pressureTF.setEditable( false );
         leftPressurePanel.add( pressureTF );
         pressurePanel.add( leftPressurePanel );
-        pressureGauge = new PressureGaugePanel();
+        pressureGauge = new PressureGaugePanel( 1 * s_pressureReadoutFactor );
         pressurePanel.add( pressureGauge );
         this.add( pressurePanel );
 
@@ -214,13 +214,11 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
         }
 
         if( model.getBox() != null ) {
-            //        if( box != null ) {
             // Scale factor is the same one used by the graphical pressure slice
             pressure = model.getBox().getPressure() / 100;
-            //            pressure = box.getPressure() / 100;
             then = now;
             pressureTF.setText( pressureFormat.format( pressure * s_pressureReadoutFactor ) );
-            pressureGauge.setLevel( (float)pressure );
+            pressureGauge.setLevel( pressure * s_pressureReadoutFactor );
         }
     }
 

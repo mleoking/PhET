@@ -16,6 +16,10 @@ import edu.colorado.phet.idealgas.model.Wall;
 
 public class SphereBoxCollision implements Collision {
 
+    static public void register() {
+        CollisionFactory.addPrototype( new SphereBoxCollision() );
+    }
+
     private SphericalBody sphere;
     private Box2D box;
     private IdealGasModel model;
@@ -37,14 +41,9 @@ public class SphereBoxCollision implements Collision {
         Wall collidingWall = box.collideWithParticle( sphere, dt );
         if( IdealGasConfig.heatOnlyFromFloor && box.isFloor( collidingWall ) ) {
             double preKE = sphere.getKineticEnergy();
-            //            double preKE = sphere.getKineticEnergyDouble();
-            //            IdealGasSystem idealGasSystem = (IdealGasSystem)IdealGasSystem.instance();
             sphere.setVelocity( sphere.getVelocity().scale( 1 + model.getHeatSource() / 10000 ) );
-            //            sphere.setVelocity( sphere.getVelocity().multiply( 1 + idealGasSystem.getHeatSource() / 10000 ) );
             double incrKE = sphere.getKineticEnergy() - preKE;
-            //            double incrKE = sphere.getKineticEnergyDouble() - preKE;
             model.addKineticEnergyToSystem( incrKE );
-            //            idealGasSystem.addKineticEnergyToSystem( incrKE );
         }
 
     }
@@ -62,12 +61,5 @@ public class SphereBoxCollision implements Collision {
 
         }
         return result;
-    }
-
-    //
-    // Static fields and methods
-    //
-    static public void register() {
-        CollisionFactory.addPrototype( new SphereBoxCollision() );
     }
 }

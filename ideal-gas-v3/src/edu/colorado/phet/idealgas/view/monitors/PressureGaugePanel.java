@@ -17,12 +17,15 @@ import java.awt.geom.Point2D;
 
 public class PressureGaugePanel extends JPanel {
 
+
     private BarGauge pressureGauge;
     private OrderOfMagnitudeSpinner pressureSpinner;
     private int scaleFactor = 1;
 
-    PressureGaugePanel() {
-        pressureGauge = new BarGauge( new Point2D.Float( 10, 0 ), 80, new Color( 0, 175, 0 ), 10, true, 0, 1000 );
+    PressureGaugePanel( double maxPressure ) {
+        pressureGauge = new BarGauge( new Point2D.Double( 10, 0 ), 80,
+                                      new Color( 0, 175, 0 ), 10, true,
+                                      0, maxPressure );
         pressureSpinner = new OrderOfMagnitudeSpinner( 0.001f, 1000 );
 
         // Add radio buttons for scale
@@ -54,7 +57,7 @@ public class PressureGaugePanel extends JPanel {
         pressureGauge.paint( (Graphics2D)g );
     }
 
-    public void setLevel( float level ) {
+    public void setLevel( double level ) {
         pressureGauge.setLevel( level / scaleFactor );
     }
 }
