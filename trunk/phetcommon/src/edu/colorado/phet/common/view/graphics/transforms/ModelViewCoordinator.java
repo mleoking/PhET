@@ -22,48 +22,49 @@ public class ModelViewCoordinator {
     private AffineTransform viewToModelTx = new AffineTransform();
     private ModelViewTransform2D mvtx;
 
-    public ModelViewCoordinator(Rectangle2D.Double modelBounds, JPanel panel) {
+    public ModelViewCoordinator( Rectangle2D.Double modelBounds, JPanel panel ) {
         this.modelBounds = modelBounds;
         this.panel = panel;
 
         // Create the transform with a dummy view rectangle. It will get updated
         // to the proper rectangle as soon as the panel appears on the screen
-        panel.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
+        panel.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
                 updateTx();
             }
 
-            public void componentShown(ComponentEvent e) {
+            public void componentShown( ComponentEvent e ) {
                 updateTx();
             }
-        });
+        } );
     }
 
     private Rectangle getRelativeBounds() {
         Rectangle localBounds = panel.getBounds();
-        Rectangle bounds = new Rectangle(0, 0, localBounds.width, localBounds.height);
+        Rectangle bounds = new Rectangle( 0, 0, localBounds.width, localBounds.height );
         return bounds;
     }
 
     private void updateTx() {
         // Use panel and model bounds to set the transforms
-        if (mvtx == null) {
-            if (panel.getBounds() != null) {
-                mvtx = new ModelViewTransform2D(ModelViewCoordinator.this.modelBounds,
-                        new Rectangle(0, 0, 1, 1));
+        if( mvtx == null ) {
+            if( panel.getBounds() != null ) {
+                mvtx = new ModelViewTransform2D( ModelViewCoordinator.this.modelBounds,
+                                                 new Rectangle( 0, 0, 1, 1 ) );
                 //add any pending transform listeners.
-                for (int i = 0; i < transformListeners.size(); i++) {
-                    TransformListener transformListener = (TransformListener) transformListeners.get(i);
-                    mvtx.addTransformListener(transformListener);
+                for( int i = 0; i < transformListeners.size(); i++ ) {
+                    TransformListener transformListener = (TransformListener)transformListeners.get( i );
+                    mvtx.addTransformListener( transformListener );
                 }
             }
         }
-        if (mvtx != null) {
-            mvtx.setViewBounds(getRelativeBounds());
-            modelToViewTx.setTransform(mvtx.toAffineTransform());
+        if( mvtx != null ) {
+            mvtx.setViewBounds( getRelativeBounds() );
+            modelToViewTx.setTransform( mvtx.toAffineTransform() );
             try {
-                viewToModelTx.setTransform(modelToViewTx.createInverse());
-            } catch (NoninvertibleTransformException e) {
+                viewToModelTx.setTransform( modelToViewTx.createInverse() );
+            }
+            catch( NoninvertibleTransformException e ) {
                 e.printStackTrace();
             }
         }
@@ -79,11 +80,12 @@ public class ModelViewCoordinator {
 
     ArrayList transformListeners = new ArrayList();
 
-    public void addTransformListener(TransformListener tl) {
-        if (mvtx != null) {
-            this.mvtx.addTransformListener(tl);
-        } else {
-            transformListeners.add(tl);
+    public void addTransformListener( TransformListener tl ) {
+        if( mvtx != null ) {
+            this.mvtx.addTransformListener( tl );
+        }
+        else {
+            transformListeners.add( tl );
         }
     }
 }

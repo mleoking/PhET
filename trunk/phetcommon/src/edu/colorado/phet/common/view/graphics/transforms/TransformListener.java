@@ -11,5 +11,5 @@ package edu.colorado.phet.common.view.graphics.transforms;
  * Listens for changes in the model or view viewport.
  */
 public interface TransformListener {
-    public void transformChanged(ModelViewTransform2D mvt);
+    public void transformChanged( ModelViewTransform2D mvt );
 }

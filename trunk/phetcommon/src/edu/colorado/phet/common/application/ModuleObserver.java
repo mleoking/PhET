@@ -8,7 +8,7 @@ package edu.colorado.phet.common.application;
 
 
 public interface ModuleObserver {
-    public void moduleAdded(Module m);
+    public void moduleAdded( Module m );
 
-    public void activeModuleChanged(Module m);
+    public void activeModuleChanged( Module m );
 }

@@ -9,7 +9,7 @@ public class Average {
         reset();
     }
 
-    public void update(double newValue) {
+    public void update( double newValue ) {
         sum += newValue;
         num++;
         average = sum / num;

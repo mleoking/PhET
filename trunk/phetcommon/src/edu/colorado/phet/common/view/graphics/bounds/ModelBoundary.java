@@ -7,5 +7,5 @@
 package edu.colorado.phet.common.view.graphics.bounds;
 
 public interface ModelBoundary {
-    boolean contains(double x, double y);
+    boolean contains( double x, double y );
 }

@@ -26,30 +26,30 @@ public class HelpItem extends JLabel {
 
     private Color color;
 
-    public HelpItem(String text, int x, int y) {
-        this(text, new Point2D.Float(x, y), Color.BLACK);
+    public HelpItem( String text, int x, int y ) {
+        this( text, new Point2D.Float( x, y ), Color.BLACK );
     }
 
-    public HelpItem(String text, int x, int y, Color color) {
-        this(text, new Point2D.Float(x, y), color);
+    public HelpItem( String text, int x, int y, Color color ) {
+        this( text, new Point2D.Float( x, y ), color );
     }
 
-    public HelpItem(String text, Point2D.Float location) {
-        this(text, location, Color.BLACK);
+    public HelpItem( String text, Point2D.Float location ) {
+        this( text, location, Color.BLACK );
     }
 
-    public HelpItem(String text, Point2D.Float location, Color color) {
-        this.setIcon(new ImageIcon(s_helpItemIcon));
+    public HelpItem( String text, Point2D.Float location, Color color ) {
+        this.setIcon( new ImageIcon( s_helpItemIcon ) );
 
         String displayString = text;
-        if (text.indexOf("\n") != -1) {
-            displayString = xformText(text);
+        if( text.indexOf( "\n" ) != -1 ) {
+            displayString = xformText( text );
         }
-        setToolTipText(displayString);
-        setLocation(new Point((int) location.getX(), (int) location.getY()));
-        setColor(color);
-        this.setBounds((int) location.getX(), (int) location.getY(),
-                s_helpItemIcon.getWidth(this), s_helpItemIcon.getHeight(this));
+        setToolTipText( displayString );
+        setLocation( new Point( (int)location.getX(), (int)location.getY() ) );
+        setColor( color );
+        this.setBounds( (int)location.getX(), (int)location.getY(),
+                        s_helpItemIcon.getWidth( this ), s_helpItemIcon.getHeight( this ) );
     }
 
 //    public void setLocation( int x, int y ) {
@@ -60,20 +60,20 @@ public class HelpItem extends JLabel {
      * @param inString
      * @return
      */
-    private String xformText(String inString) {
-        StringBuffer outString = new StringBuffer("<html>");
+    private String xformText( String inString ) {
+        StringBuffer outString = new StringBuffer( "<html>" );
         int lastIdx = 0;
-        for (int nextIdx = inString.indexOf("\n", lastIdx);
+        for( int nextIdx = inString.indexOf( "\n", lastIdx );
              nextIdx != -1;
-             nextIdx = inString.indexOf("\n", lastIdx)) {
-            outString.append(inString.substring(lastIdx, nextIdx));
-            if (nextIdx < inString.length()) {
-                outString.append("<br>");
+             nextIdx = inString.indexOf( "\n", lastIdx ) ) {
+            outString.append( inString.substring( lastIdx, nextIdx ) );
+            if( nextIdx < inString.length() ) {
+                outString.append( "<br>" );
             }
             lastIdx = nextIdx + 1;
         }
-        outString.append(inString.substring(lastIdx, inString.length()));
-        outString.append("</html>");
+        outString.append( inString.substring( lastIdx, inString.length() ) );
+        outString.append( "</html>" );
         return outString.toString();
     }
 
@@ -81,7 +81,7 @@ public class HelpItem extends JLabel {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor( Color color ) {
         this.color = color;
     }
 
@@ -97,11 +97,12 @@ public class HelpItem extends JLabel {
     static {
         s_loader = new ImageLoader();
         try {
-            s_helpItemIcon = s_loader.loadImage(HELP_ITEM_ICON_IMAGE_FILE);
-        } catch (IOException e) {
+            s_helpItemIcon = s_loader.loadImage( HELP_ITEM_ICON_IMAGE_FILE );
+        }
+        catch( IOException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
-        ToolTipManager.sharedInstance().setInitialDelay(0);
-        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+        ToolTipManager.sharedInstance().setInitialDelay( 0 );
+        ToolTipManager.sharedInstance().setDismissDelay( Integer.MAX_VALUE );
     }
 }

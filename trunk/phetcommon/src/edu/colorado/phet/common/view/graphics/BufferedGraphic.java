@@ -25,7 +25,7 @@ public class BufferedGraphic implements Graphic {
     private Color backgroundColor;
     private GraphicsSetup setup;
 
-    public BufferedGraphic(BufferedImage buffer, Graphic graphic, Color backgroundColor, GraphicsSetup setup) {
+    public BufferedGraphic( BufferedImage buffer, Graphic graphic, Color backgroundColor, GraphicsSetup setup ) {
         this.buffer = buffer;
         this.graphic = graphic;
         this.backgroundColor = backgroundColor;
@@ -34,33 +34,33 @@ public class BufferedGraphic implements Graphic {
     }
 
     public void repaintBuffer() {
-        setup.setup(bufferGraphics);
-        bufferGraphics.setColor(backgroundColor);
-        bufferGraphics.fillRect(0, 0, buffer.getWidth(), buffer.getHeight());
-        graphic.paint(bufferGraphics);
+        setup.setup( bufferGraphics );
+        bufferGraphics.setColor( backgroundColor );
+        bufferGraphics.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
+        graphic.paint( bufferGraphics );
     }
 
-    public void paint(Graphics2D g) {
-        g.drawRenderedImage(buffer, transform);
+    public void paint( Graphics2D g ) {
+        g.drawRenderedImage( buffer, transform );
     }
 
-    public static void main(String[] args) {
+    public static void main( String[] args ) {
         ApparatusPanel ap = new ApparatusPanel();
-        Ellipse2D.Double ellipse = new Ellipse2D.Double(10, 10, 40, 40);
-        ShapeGraphic sg = new ShapeGraphic(ellipse, Color.blue);
-        BufferedImage buffer = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
+        Ellipse2D.Double ellipse = new Ellipse2D.Double( 10, 10, 40, 40 );
+        ShapeGraphic sg = new ShapeGraphic( ellipse, Color.blue );
+        BufferedImage buffer = new BufferedImage( 50, 50, BufferedImage.TYPE_INT_RGB );
         GraphicsSetup setup = new BasicGraphicsSetup();
-        BufferedGraphic bufferedGraphic = new BufferedGraphic(buffer, sg, Color.white, setup);
+        BufferedGraphic bufferedGraphic = new BufferedGraphic( buffer, sg, Color.white, setup );
         bufferedGraphic.repaintBuffer();
-        ap.addGraphic(bufferedGraphic);
+        ap.addGraphic( bufferedGraphic );
         JFrame jf = new JFrame();
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jf.setContentPane(ap);
-        jf.setSize(400, 400);
-        jf.setVisible(true);
+        jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        jf.setContentPane( ap );
+        jf.setSize( 400, 400 );
+        jf.setVisible( true );
     }
 
-    public void setTransform(AffineTransform transform) {
+    public void setTransform( AffineTransform transform ) {
         this.transform = transform;
     }
 }

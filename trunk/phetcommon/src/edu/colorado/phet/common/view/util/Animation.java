@@ -28,8 +28,8 @@ public class Animation {
      * @param filePrefix The prefix for the names of all files to be animated
      * @param numFrames  The number of files to be animated
      */
-    public Animation(String filePrefix, int numFrames) throws IOException {
-        frames = loadAnimation(filePrefix, numFrames);
+    public Animation( String filePrefix, int numFrames ) throws IOException {
+        frames = loadAnimation( filePrefix, numFrames );
     }
 
     /**
@@ -47,7 +47,7 @@ public class Animation {
      * @return The next frame in the animation
      */
     public Image getNextFrame() {
-        stepCurrFrameNum(+1);
+        stepCurrFrameNum( +1 );
         return getCurrFrame();
     }
 
@@ -57,7 +57,7 @@ public class Animation {
      * @return The previous frame of the animation
      */
     public Image getPrevFrame() {
-        stepCurrFrameNum(-1);
+        stepCurrFrameNum( -1 );
         return getCurrFrame();
     }
 
@@ -67,9 +67,9 @@ public class Animation {
      * @param dir +1 steps forward, -1 steps back
      * @return the new current frame number for the animation
      */
-    private int stepCurrFrameNum(int dir) {
-        currFrameNum = (currFrameNum + frames.length + dir)
-                % frames.length;
+    private int stepCurrFrameNum( int dir ) {
+        currFrameNum = ( currFrameNum + frames.length + dir )
+                       % frames.length;
         return currFrameNum;
     }
 
@@ -94,12 +94,12 @@ public class Animation {
     /**
      *
      */
-    private static Image[] loadAnimation(String filePrefix, int numFrames) throws IOException {
+    private static Image[] loadAnimation( String filePrefix, int numFrames ) throws IOException {
         Image[] frames = new Image[numFrames];
         ImageLoader animationLoader = new ImageLoader();
-        for (int i = 1; i <= numFrames; i++) {
-            String fileName = Animation.genAnimationFileName(filePrefix, i);
-            frames[i - 1] = animationLoader.loadImage(fileName);
+        for( int i = 1; i <= numFrames; i++ ) {
+            String fileName = Animation.genAnimationFileName( filePrefix, i );
+            frames[i - 1] = animationLoader.loadImage( fileName );
 //            frames[i - 1] = animationLoader.loadImage(fileName);
         }
         return frames;
@@ -108,16 +108,16 @@ public class Animation {
     /**
      * Generates a complete TIFF file name for a frame in a Poser-generated animation
      */
-    private static String genAnimationFileName(String fileNamePrefix, int frameNum) {
+    private static String genAnimationFileName( String fileNamePrefix, int frameNum ) {
         String zeroStr = "";
         int i = 0;
-        for (int temp = frameNum; temp != 0; i++) {
+        for( int temp = frameNum; temp != 0; i++ ) {
             temp /= 10;
         }
-        for (; i < 4; i++) {
-            zeroStr = zeroStr.concat("0");
+        for( ; i < 4; i++ ) {
+            zeroStr = zeroStr.concat( "0" );
         }
-        String fileName = fileNamePrefix + "_" + zeroStr + Integer.toString(frameNum) + ".gif";
+        String fileName = fileNamePrefix + "_" + zeroStr + Integer.toString( frameNum ) + ".gif";
         return fileName;
     }
 }

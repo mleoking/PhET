@@ -12,27 +12,27 @@ import java.awt.event.MouseEvent;
  * Copyright (c) Oct 9, 2003 by Sam Reid
  */
 public class HandCursorControl implements MouseInputListener {
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked( MouseEvent e ) {
     }
 
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed( MouseEvent e ) {
     }
 
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased( MouseEvent e ) {
     }
 
-    public void mouseEntered(MouseEvent e) {
-        e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    public void mouseEntered( MouseEvent e ) {
+        e.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
     }
 
-    public void mouseExited(MouseEvent e) {
-        e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    public void mouseExited( MouseEvent e ) {
+        e.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
     }
 
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDragged( MouseEvent e ) {
     }
 
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved( MouseEvent e ) {
     }
 
 }

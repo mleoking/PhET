@@ -18,9 +18,9 @@ public class SwingTimerClock extends AbstractClock {
     /**
      * This uses a TimeScalingClockModel.
      */
-    public SwingTimerClock(double dt, int delay, boolean isFixed) {
-        super(dt, delay, isFixed);
-        timer = new Timer(delay, new Ticker());
+    public SwingTimerClock( double dt, int delay, boolean isFixed ) {
+        super( dt, delay, isFixed );
+        timer = new Timer( delay, new Ticker() );
     }
 
     public void doStart() {
@@ -28,9 +28,9 @@ public class SwingTimerClock extends AbstractClock {
         timer.start();
     }
 
-    public void setDelay(int delay) {
-        super.setDelay(delay);
-        timer.setDelay(delay);
+    public void setDelay( int delay ) {
+        super.setDelay( delay );
+        timer.setDelay( delay );
     }
 
     protected void doStop() {
@@ -48,13 +48,13 @@ public class SwingTimerClock extends AbstractClock {
 
     private class Ticker implements ActionListener {
 
-        public void actionPerformed(ActionEvent e) {
-            if (isRunning()) {
+        public void actionPerformed( ActionEvent e ) {
+            if( isRunning() ) {
                 long tickTime = System.currentTimeMillis();
                 long actualWaitTime = tickTime - lastTickTime;
                 lastTickTime = tickTime;
-                if (isRunning()) {
-                    clockTicked(getSimulationTime(actualWaitTime));
+                if( isRunning() ) {
+                    clockTicked( getSimulationTime( actualWaitTime ) );
                 }
             }
         }

@@ -34,16 +34,16 @@ public class ImageLoader {
     /**
      * Convenience method, uses the static instance to load a buffered image.
      */
-    public static BufferedImage loadBufferedImage(String str) throws IOException {
-        return instance.loadImage(str);
+    public static BufferedImage loadBufferedImage( String str ) throws IOException {
+        return instance.loadImage( str );
     }
 
     public ImageLoader() {
 //        setImageIOLoader();
         setPhetLoader();
         conversionStrategy = new ConversionStrategy() {
-            public BufferedImage toBufferedImage(Image image) {
-                return GraphicsUtil.toBufferedImage(image);
+            public BufferedImage toBufferedImage( Image image ) {
+                return GraphicsUtil.toBufferedImage( image );
             }
         };
     }
@@ -55,11 +55,11 @@ public class ImageLoader {
      * @param name
      * @return the loaded image.
      */
-    public BufferedImage loadImage(String name) throws IOException {
+    public BufferedImage loadImage( String name ) throws IOException {
         ClassLoader cl = this.getClass().getClassLoader();
-        URL imageUrl = cl.getResource(name);
-        Image image = loadStrategy.loadImage(imageUrl);
-        BufferedImage buffy = conversionStrategy.toBufferedImage(image);
+        URL imageUrl = cl.getResource( name );
+        Image image = loadStrategy.loadImage( imageUrl );
+        BufferedImage buffy = conversionStrategy.toBufferedImage( image );
         return buffy;
     }
 
@@ -78,14 +78,14 @@ public class ImageLoader {
     /**
      * So you can add your own strategy.
      */
-    public void setLoadStrategy(LoadStrategy loadStrategy) {
+    public void setLoadStrategy( LoadStrategy loadStrategy ) {
         this.loadStrategy = loadStrategy;
     }
 
     /**
      * So you can add your own strategy.
      */
-    public void setConversionStrategy(ConversionStrategy conversionStrategy) {
+    public void setConversionStrategy( ConversionStrategy conversionStrategy ) {
         this.conversionStrategy = conversionStrategy;
     }
 
@@ -95,60 +95,63 @@ public class ImageLoader {
     }
 
     static interface LoadStrategy {
-        Image loadImage(URL location) throws IOException;
+        Image loadImage( URL location ) throws IOException;
     }
 
     static interface ConversionStrategy {
-        BufferedImage toBufferedImage(Image image);
+        BufferedImage toBufferedImage( Image image );
     }
 
     static class ImageIOLoader implements LoadStrategy {
-        public Image loadImage(URL location) throws IOException {
-            return ImageIO.read(location);
+        public Image loadImage( URL location ) throws IOException {
+            return ImageIO.read( location );
         }
     }
 
     static class IconLoader implements LoadStrategy {
-        public Image loadImage(URL location) throws IOException {
-            ImageIcon ic = new ImageIcon(location);
+        public Image loadImage( URL location ) throws IOException {
+            ImageIcon ic = new ImageIcon( location );
             return ic.getImage();
         }
 
     }
 
     static class ToolkitLoader implements LoadStrategy {
-        public Image loadImage(URL location) throws IOException {
-            return Toolkit.getDefaultToolkit().getImage(location);
+        public Image loadImage( URL location ) throws IOException {
+            return Toolkit.getDefaultToolkit().getImage( location );
         }
     }
 
     static class PhetResourceLoader implements LoadStrategy {
         private static class ResourceLoader extends Container {
-            public Image fetchImage(URL imageLocation) throws IOException {
+            public Image fetchImage( URL imageLocation ) throws IOException {
                 Image image = null;
                 try {
-                    if (imageLocation == null) {
-                        System.out.println("Image resource not found: " + imageLocation);
-                        throw new IOException("Image resource not found: " + imageLocation);
-                    } else {
+                    if( imageLocation == null ) {
+                        System.out.println( "Image resource not found: " + imageLocation );
+                        throw new IOException( "Image resource not found: " + imageLocation );
+                    }
+                    else {
                         Toolkit toolkit = Toolkit.getDefaultToolkit();
-                        image = toolkit.createImage(imageLocation);
-                        MediaTracker tracker = new MediaTracker(this);
-                        tracker.addImage(image, 0);
+                        image = toolkit.createImage( imageLocation );
+                        MediaTracker tracker = new MediaTracker( this );
+                        tracker.addImage( image, 0 );
                         tracker.waitForAll();
                     }
-                } catch (InterruptedException e) {
+                }
+                catch( InterruptedException e ) {
                 }
                 return image;
             }
         }
 
-        public Image loadImage(URL location) throws IOException {
+        public Image loadImage( URL location ) throws IOException {
             Image im = null;
             try {
                 ResourceLoader r = new ResourceLoader();
-                im = r.fetchImage(location);
-            } catch (Throwable e) {
+                im = r.fetchImage( location );
+            }
+            catch( Throwable e ) {
                 e.printStackTrace();
             }
             return im;

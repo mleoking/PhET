@@ -23,18 +23,18 @@ public class BaseModel extends CompositeModelElement implements ClockTickListene
     private CommandQueue commandList = new CommandQueue();
     private AbstractClock clock;
 
-    public BaseModel(AbstractClock clock) {
+    public BaseModel( AbstractClock clock ) {
         this.clock = clock;
     }
 
-    public void setClock(AbstractClock clock) {
+    public void setClock( AbstractClock clock ) {
         this.clock = clock;
     }
 
     //Not allowed to mess with the way we call our abstract method.
-    public final void stepInTime(double dt) {
+    public final void stepInTime( double dt ) {
         commandList.doIt();
-        super.stepInTime(dt);
+        super.stepInTime( dt );
     }
 
     /**
@@ -45,15 +45,16 @@ public class BaseModel extends CompositeModelElement implements ClockTickListene
      *
      * @param cmd
      */
-    public synchronized void execute(Command cmd) {
-        if (!clock.isRunning()) {
+    public synchronized void execute( Command cmd ) {
+        if( !clock.isRunning() ) {
             cmd.doIt();
-        } else {
-            commandList.addCommand(cmd);
+        }
+        else {
+            commandList.addCommand( cmd );
         }
     }
 
-    public void clockTicked(AbstractClock c, double dt) {
-        stepInTime(dt);
+    public void clockTicked( AbstractClock c, double dt ) {
+        stepInTime( dt );
     }
 }
