@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.common;
 
-import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
@@ -14,9 +14,9 @@ import java.awt.image.BufferedImage;
  * Time: 10:11:52 PM
  * To change this template use Options | File Templates.
  */
-public class BufferedGraphicForComponent implements Graphic {
+public class BufferedGraphicForComponent extends PhetGraphic {
     private BufferedImage image;
-    private CompositeGraphic compositeGraphic = new CompositeGraphic();
+    private CompositePhetGraphic compositeGraphic;
     private int x;
     private int y;
     private int width;
@@ -28,6 +28,8 @@ public class BufferedGraphicForComponent implements Graphic {
     private AlphaComposite alphaComposite;
 
     public BufferedGraphicForComponent( int x, int y, int width, int height, Color backgroundColor, Component target ) {
+        super( target );
+        compositeGraphic = new CompositePhetGraphic( getComponent() );
         this.backgroundColor = backgroundColor;
         this.target = target;
         tempimage = target.createImage( target.getWidth(), target.getHeight() );
@@ -63,12 +65,16 @@ public class BufferedGraphicForComponent implements Graphic {
         this.height = height;
     }
 
-    public void addGraphic( Graphic graphic, int level ) {
+    public void addGraphic( PhetGraphic graphic, int level ) {
         compositeGraphic.addGraphic( graphic, level );
     }
 
     public BufferedImage getImage() {
         return image;
+    }
+
+    protected Rectangle determineBounds() {
+        return getComponent().getBounds();//TODO wrong bounds
     }
 
     public int getX() {

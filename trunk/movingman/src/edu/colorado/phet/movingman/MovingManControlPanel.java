@@ -2,7 +2,7 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.movingman.common.plaf.PlafUtil;
+import edu.colorado.phet.common.view.plaf.PlafUtil;
 
 import javax.swing.*;
 import java.awt.*;

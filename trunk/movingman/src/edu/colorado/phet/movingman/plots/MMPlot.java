@@ -7,9 +7,9 @@ import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.controllers.HorizontalCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
  * Time: 12:54:39 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class MMPlot implements Graphic {
+public class MMPlot extends PhetGraphic {
     private String title;
     private MovingManModule module;
     private DataSeries dataSeries;
@@ -90,6 +90,10 @@ public class MMPlot implements Graphic {
 
     public JButton getCloseButton() {
         return closeButton;
+    }
+
+    public boolean isDragging() {
+        return this.getVerticalChartSlider().getSlider().isEnabled();
     }
 
     public static interface Listener {
@@ -201,6 +205,7 @@ public class MMPlot implements Graphic {
 
     public MMPlot( String title, final MovingManModule module, final DataSeries series, MMTimer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, BufferedGraphicForComponent buffer, double xShift, String units, String labelStr )
             throws IOException {
+        super( module.getApparatusPanel() );
         this.units = units;
         this.title = title;
         this.module = module;
@@ -211,7 +216,7 @@ public class MMPlot implements Graphic {
         this.buffer = buffer;
         this.xShift = xShift;
         chart = new Chart( module.getApparatusPanel(), new Range2D( inputBox ), new Rectangle( 0, 0, 100, 100 ) );
-        horizontalCursor = new HorizontalCursor( chart, new Color( 15, 0, 255, 50 ), new Color( 50, 0, 255, 150 ), 8 );
+        horizontalCursor = new HorizontalCursor( getComponent(), chart, new Color( 15, 0, 255, 50 ), new Color( 50, 0, 255, 150 ), 8 );
         module.getApparatusPanel().addGraphic( horizontalCursor, 1000 );
 
         chart.setBackground( createBackground() );
@@ -679,6 +684,10 @@ public class MMPlot implements Graphic {
         if( superScriptGraphic != null ) {
             superScriptGraphic.setVisible( visible );
         }
+    }
+
+    protected Rectangle determineBounds() {
+        return chart.getVisibleBounds();
     }
 
     public void setShift( double xShift ) {

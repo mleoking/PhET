@@ -1,7 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
  * Time: 12:46:15 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class TimeGraphic implements Graphic {
+public class TimeGraphic extends PhetGraphic {
     private String timeStr;
     private MovingManModule module;
 //    private MMTimer recordingMMTimer;
@@ -26,6 +26,7 @@ public class TimeGraphic implements Graphic {
     private FontRenderContext frc;
 
     public TimeGraphic( MovingManModule module, final MMTimer recordingMMTimer, final MMTimer playbackMMTimer, int x, int y ) {
+        super( module.getApparatusPanel() );
         this.module = module;
 //        this.recordingMMTimer = recordingMMTimer;
         this.x = x;
@@ -89,4 +90,7 @@ public class TimeGraphic implements Graphic {
         }
     }
 
+    protected Rectangle determineBounds() {
+        return getShape();
+    }
 }
