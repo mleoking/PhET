@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.sound.model;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.sound.SoundConfig;
@@ -29,20 +27,6 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
     // This is a special overide flag so that the two source interference panel works.
     private boolean interferenceOverideEnabled = false;
 
-    /**
-     *
-     */
-    public WavefrontOscillator( Wavefront wavefront, BaseModel model ) {
-        this.wavefront = wavefront;
-        wavefront.addObserver( this );
-        model.addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                WavefrontOscillator.this.update();
-            }
-        } );
-        this.start();
-    }
-
     public void clockTicked( AbstractClock c, double dt ) {
         update();
     }
@@ -63,7 +47,6 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
      *
      */
     public void setEnabled( boolean enabled ) {
-        super.setEnabled( enabled );
         isEnabled = enabled;
         if( isEnabled ) {
             super.setAmplitude( (float)amplitudeInternal );
@@ -117,7 +100,6 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
         if( frequency != getFrequency() ) {
             setFrequency( (float)frequency );
         }
-        //        amplitudeInternal = amplitude;
         if( isEnabled && amplitude != getAmplitude() && !interferenceOverideEnabled ) {
             setAmplitude( (float)amplitude );
         }
