@@ -62,6 +62,7 @@ PHETCOMMON:
 
 DONE:
 v0r21
+(4/4) - set scale for lightbulb, voltmeter and electrons after meeting with Kathy
 (4/4) - add mapping between distance and pixels in DipoleMagnet, currently 1:1
 (4/4) - add debugging panel for changing lightbulb, voltmeter and electron scale
 (4/4) - encapsulate JSlider + JLabel into ControlPanelSlider UI component
