@@ -37,7 +37,7 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
         private double lifeTime;
         private double deathTime;
         private SpontaneouslyEmittingState state;
-        private boolean lifetimeFixed = true;
+        private boolean lifetimeFixed = false;
 
         public StateLifetimeManager( Atom atom ) {
             this.atom = atom;
@@ -58,12 +58,10 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
             if( lifetimeFixed ) {
                 // This line gives a fixed death time
                 deathTime = state.getLifeTime();
-                //                deathTime = state.getSpontaneousEmmisionHalfLife();
             }
             else {
                 // Assign a deathtime based on an exponential distribution
                 deathTime = -Math.log( temp ) * state.getLifeTime();
-                //                deathTime = -Math.log( temp ) * state.getSpontaneousEmmisionHalfLife();
             }
             lifeTime = 0;
         }
@@ -106,11 +104,6 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
             s_model.removeModelElement( this );
         }
     }
-
-    //
-    // Abstract methods
-    //
-    //    abstract protected double getSpontaneousEmmisionHalfLife();
 
     abstract protected AtomicState nextLowerEnergyState();
 
