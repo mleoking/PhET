@@ -44,11 +44,11 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     //----------------------------------------------------------------------------
     
     private static final double WATER_WHEEL_LAYER = 1;
-    private static final double BAR_MAGNET_LAYER = 2;
-    private static final double PIVOT_LAYER = 3;
-    private static final double WATER_LAYER = 4;
-    private static final double FAUCET_LAYER = 5;
-    private static final double SLIDER_LAYER = 6;
+    private static final double WATER_LAYER = 2;
+    private static final double FAUCET_LAYER = 3;
+    private static final double SLIDER_LAYER = 4;
+    private static final double BAR_MAGNET_LAYER = 5;
+    private static final double PIVOT_LAYER = 6;
     private static final double RPM_LAYER = 7;
     
     private static final Color RPM_COLOR = Color.GREEN;
