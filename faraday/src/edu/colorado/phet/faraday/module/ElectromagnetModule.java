@@ -56,7 +56,6 @@ public class ElectromagnetModule extends FaradayModule {
     private static final Point ELECTROMAGNET_LOCATION = new Point( 400, 400 );
     private static final Point COMPASS_LOCATION = new Point( 150, 200 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
-    private static final Point SOURCE_COIL_LOCATION = new Point( 500, 400 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -102,7 +101,6 @@ public class ElectromagnetModule extends FaradayModule {
         
         // Source Coil
         SourceCoil sourceCoilModel = new SourceCoil();
-        sourceCoilModel.setLocation( SOURCE_COIL_LOCATION );
         sourceCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
         sourceCoilModel.setRadius( LOOP_RADIUS );
         sourceCoilModel.setDirection( 0 /* radians */ );
