@@ -49,10 +49,12 @@ public class FaradayConfig {
     public static final String BATTERY_IMAGE = IMAGES_DIRECTORY + "battery.png";
     public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
     public static final String ELECTRON_IMAGE = IMAGES_DIRECTORY + "electron.png";
+    public static final String FAUCET_IMAGE = IMAGES_DIRECTORY + "faucet.png";
     public static final String FIELD_METER_IMAGE = IMAGES_DIRECTORY + "fieldMeter.png";
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightbulb.png";
     public static final String SLIDER_KNOB_IMAGE = IMAGES_DIRECTORY + "sliderKnob.png";
     public static final String SLIDER_KNOB_RED_IMAGE = IMAGES_DIRECTORY + "sliderKnobHighlight.png";
+    public static final String TURBINE_PIVOT_IMAGE = IMAGES_DIRECTORY + "turbinePivot.png";
     public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltmeter.png";
 
     // Dimensions
