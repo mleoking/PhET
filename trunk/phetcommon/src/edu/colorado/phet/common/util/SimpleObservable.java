@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Copyright (c) Aug 21, 2003 by Sam Reid
  */
 public class SimpleObservable {
-    ArrayList observers = new ArrayList();
+    private ArrayList observers = new ArrayList();
 
     public void addObserver( SimpleObserver so ) {
         observers.add( so );

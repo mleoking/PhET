@@ -9,7 +9,7 @@ package edu.colorado.phet.common.model;
 import java.util.Vector;
 
 public class CommandQueue implements Command {
-    Vector al = new Vector();
+    private Vector al = new Vector();
 
     public int size() {
         return al.size();

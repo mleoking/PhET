@@ -13,14 +13,12 @@ import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class PhetFrame extends JFrame {
     HelpMenu helpMenu;
     private JMenu defaultFileMenu;
-    private GraphicsSetup graphicsSetup = new BasicGraphicsSetup();
 
     public PhetFrame( ApplicationModel appDescriptor ) {
         super( appDescriptor.getWindowTitle() );
@@ -37,7 +35,6 @@ public class PhetFrame extends JFrame {
         setJMenuBar( menuBar );
         appDescriptor.getFrameSetup().initialize( this );
     }
-
 
     /**
      * Adds a JMenu before the Help Menu.
@@ -62,20 +59,6 @@ public class PhetFrame extends JFrame {
             getJMenuBar().remove( testMenu );
         }
         getJMenuBar().add( defaultFileMenu, 0 );
-    }
-
-    public void paint( Graphics g ) {
-        if( graphicsSetup != null ) {
-            graphicsSetup.setup( (Graphics2D)g );
-        }
-        super.paint( g );
-    }
-
-    public void paintComponents( Graphics g ) {
-        if( graphicsSetup != null ) {  //TODO this doesn't work.  I can still see the bad antialias in the jmenubar.
-            graphicsSetup.setup( (Graphics2D)g );
-        }
-        super.paintComponents( g );
     }
 
     public void setFileMenu( PhetFileMenu defaultFileMenu ) {

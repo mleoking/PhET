@@ -11,7 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * The top-level class for all PhET applications. It contains an ApplicationView and ApplicationModel.
+ * The top-level class for all PhET applications.
+ * It contains an ApplicationView and ApplicationModel.
  */
 public class PhetApplication {
     private ApplicationView view;

@@ -14,7 +14,7 @@ import java.awt.*;
  * Aspect ratio = width/height.
  */
 public class AspectRatioPanel extends JPanel {
-    Component target;
+    private Component target;
     private AspectRatioLayout layout;
 
     public AspectRatioPanel( Component target, int insetX, int insetY, double aspectRatio ) {

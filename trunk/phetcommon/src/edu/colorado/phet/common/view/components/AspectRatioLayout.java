@@ -12,10 +12,10 @@ import java.awt.*;
  * container.add(apparatusPanel);
  */
 public class AspectRatioLayout implements LayoutManager {
-    Component target;
+    private Component target;
     private int insetX;
     private int insetY;
-    double aspectRatio;
+    private double aspectRatio;
 
     public AspectRatioLayout( Component target, int insetX, int insetY ) {
         this( target, insetX, insetY, 1 );

@@ -27,14 +27,12 @@ public class CompositeInteractiveGraphicMouseDelegator implements MouseInputList
 
     public void startDragging( MouseEvent event, MouseInputListener activeUnit ) {
         if( this.activeUnit != null ) {
-//            System.out.println( "Stopped dragging: activeUnit = " + activeUnit );
             this.activeUnit.mouseExited( event );
         }
         this.activeUnit = activeUnit;
         activeUnit.mouseEntered( event );
         activeUnit.mousePressed( event );
         activeUnit.mouseDragged( event );
-//        System.out.println( "Started dragging: activeUnit = " + activeUnit );
     }
 
     public void handleEntranceAndExit( MouseEvent e ) {

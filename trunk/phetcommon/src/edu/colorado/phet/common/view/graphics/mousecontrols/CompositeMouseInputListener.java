@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Copyright (c) Nov 3, 2003 by Sam Reid
  */
 public class CompositeMouseInputListener implements MouseInputListener {
-    ArrayList list = new ArrayList();
+    private ArrayList list = new ArrayList();
 
     public void addMouseInputListener( MouseInputListener mil ) {
         list.add( mil );

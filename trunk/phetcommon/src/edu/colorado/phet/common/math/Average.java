@@ -1,9 +1,9 @@
 package edu.colorado.phet.common.math;
 
 public class Average {
-    double average;
-    double sum;
-    int num;
+    private double average;
+    private double sum;
+    private int num;
 
     public Average() {
         reset();

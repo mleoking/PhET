@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
  * Copyright (c) Jan 27, 2004 by Sam Reid
  */
 public class DragToCreate implements MouseInputListener {
-    InteractiveGraphicCreator interactiveGraphicCreator;
+    private InteractiveGraphicCreator interactiveGraphicCreator;
     private CompositeGraphic target;
     private double layer;
 
@@ -41,7 +41,6 @@ public class DragToCreate implements MouseInputListener {
     public void mouseDragged( MouseEvent e ) {
         InteractiveGraphic graphic = interactiveGraphicCreator.newInstance();
         target.addGraphic( graphic, layer );
-        //        target.startDragging( graphic, e );
     }
 
     public void mouseMoved( MouseEvent e ) {
