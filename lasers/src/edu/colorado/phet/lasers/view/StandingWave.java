@@ -10,11 +10,17 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * Class: StandingWave
@@ -24,7 +30,8 @@ import java.awt.geom.Point2D;
  * <p/>
  * A sinusoidal standing wave.
  */
-public class StandingWave extends PhetGraphic implements ModelElement {
+public class StandingWave extends PhetGraphic implements ModelElement,
+                                                         AtomicState.EnergyLevelChangeListener {
 
     private Point2D origin;
     private double lambda;
@@ -36,19 +43,26 @@ public class StandingWave extends PhetGraphic implements ModelElement {
     private GeneralPath wavePath = new GeneralPath();;
     private int numPts;
     private double elapsedTime = 0;
+    private EventRegistry eventRegistry = new EventRegistry();
 
 
     public StandingWave( Component component, Point2D origin, double extent,
                          double lambda, double period, double amplitude,
-                         Color color, BaseModel model ) {
+                         AtomicState atomicState, BaseModel model ) {
         super( component );
         this.origin = origin;
         this.lambda = lambda;
         this.period = period;
         this.amplitude = amplitude;
-        this.color = color;
+        this.color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
         numPts = (int)( extent / dx ) + 1;
         model.addModelElement( this );
+
+        atomicState.addListener( this );
+    }
+
+    public void addListener( ChangeListener listener ) {
+        eventRegistry.addListener( listener );
     }
 
     public Point2D getOrigin() {
@@ -87,6 +101,10 @@ public class StandingWave extends PhetGraphic implements ModelElement {
         saveGraphicsState( g2 );
         g2.setColor( color );
         g2.draw( wavePath );
+
+        //        g2.setColor( Color.green );
+        //        g2.draw( determineBounds() );
+
         restoreGraphicsState();
     }
 
@@ -99,6 +117,29 @@ public class StandingWave extends PhetGraphic implements ModelElement {
             double x = dx * i;
             double y = amplitude * ( a * Math.sin( ( x / lambda ) * Math.PI ) );
             wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
+        }
+        eventRegistry.fireEvent( new ChangeEvent( this ) );
+    }
+
+    public void energyLevelChangeOccurred( AtomicState.EnergyLevelChangeEvent event ) {
+        double lambda = Photon.energyToWavelength( event.getEnergy() );
+        color = VisibleColor.wavelengthToColor( lambda );
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+    // Inner classes
+    public interface ChangeListener extends EventListener {
+        public void waveChanged( StandingWave.ChangeEvent event );
+    }
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public StandingWave getStandingWave() {
+            return (StandingWave)getSource();
         }
     }
 }
