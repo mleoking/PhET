@@ -343,7 +343,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         BufferedImage atomImg = new BufferedImage( baseSphereImg.getWidth(), baseSphereImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
         op.filter( baseSphereImg, atomImg );
         return atomImg;
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////

@@ -69,8 +69,6 @@ public class SingleAtomModule extends BaseLaserModule {
                                                         s_origin.getY() - 140 );
         pumpingBeam.setBounds( new Rectangle2D.Double( pumpingBeamOrigin.getX() - Atom.getS_radius(), pumpingBeamOrigin.getY(),
                                                        2 * Atom.getS_radius(), s_boxHeight + s_laserOffsetX * 2 ) );
-//        pumpingBeam.setBounds(new Rectangle2D.Double(pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
-//                1, s_boxHeight + s_laserOffsetX * 2));
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
 
         // Start with the pumping beam turned down all the way
@@ -79,7 +77,6 @@ public class SingleAtomModule extends BaseLaserModule {
         // Enable only the stimulating beam to start with
         seedBeam.setEnabled( true );
         pumpingBeam.setEnabled( false );
-
 
         // Add the graphics for beams
         Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)stimulatingBeamBounds.getX() - 100,
@@ -128,6 +125,8 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Set the averaging time for the energy levels display
         setEnergyLevelsAveragingPeriod( 0 );
+
+        laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
     }
 
     public void activate( PhetApplication app ) {

@@ -47,6 +47,7 @@ public class MultipleAtomModule extends BaseLaserModule {
     private ArrayList atoms;
     private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
     private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME;
+    private UniversalAtomControlPanel laserControlPanel;
 
     /**
      *
@@ -57,7 +58,8 @@ public class MultipleAtomModule extends BaseLaserModule {
         setThreeEnergyLevels( true );
 
         // Set the control panel
-        setControlPanel( new UniversalAtomControlPanel( this ) );
+        laserControlPanel = new UniversalAtomControlPanel( this );
+        setControlPanel( laserControlPanel );
 //        setControlPanel(new MultipleAtomControlPanel(this));
 
         // Set the size of the cavity
@@ -127,6 +129,8 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         // Set the averaging time for the energy levels display
         setEnergyLevelsAveragingPeriod( 2000 );
+
+        laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
     }
 
     /**

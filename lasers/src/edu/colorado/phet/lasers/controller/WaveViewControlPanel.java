@@ -91,6 +91,18 @@ public class WaveViewControlPanel extends JPanel {
         module.setLasingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
     }
 
+    public void setUpperTransitionView( int viewType ) {
+        module.setPumpingPhotonView( viewType );
+        if( viewType == BaseLaserModule.PHOTON_DISCRETE ) {
+            PhotonGraphic.setAllVisible( true, module.getPumpingBeam().getWavelength() );
+        }
+        if( viewType == BaseLaserModule.PHOTON_CURTAIN ) {
+            PhotonGraphic.setAllVisible( false, module.getPumpingBeam().getWavelength() );
+        }
+        pumpPhotonViewRB.setSelected( viewType == BaseLaserModule.PHOTON_DISCRETE );
+        pumpCurtainViewRB.setSelected( viewType == BaseLaserModule.PHOTON_CURTAIN );
+    }
+
     private class LasingPhotonRBListener implements ActionListener {
         public void actionPerformed( ActionEvent e ) {
             JRadioButton selection = SwingUtils.getSelection( lasingPhotonBG );
