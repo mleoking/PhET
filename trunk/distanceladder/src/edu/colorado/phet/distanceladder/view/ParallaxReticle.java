@@ -1,9 +1,9 @@
 /**
- * Class: ParallaxReticle
+ * Class: PhotometerReticle
  * Class: edu.colorado.phet.distanceladder.view
  * User: Ron LeMaster
  * Date: Mar 16, 2004
- * Time: 8:17:53 AM
+ * Time: 9:25:22 PM
  */
 package edu.colorado.phet.distanceladder.view;
 
@@ -11,126 +11,141 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.awt.geom.*;
+import java.util.logging.Formatter;
+import java.text.DecimalFormat;
+import java.text.Format;
 
-public class ParallaxReticle implements Graphic {
-//public class ParallaxReticle extends DefaultInteractiveGraphic /*implements Translatable*/ {
-
-//    private Point2D.Double location = new Point2D.Double();
-//    private AffineTransform atx = new AffineTransform();
-//    private Reticle reticle;
-    private Container container;
+public class ParallaxReticle extends DefaultInteractiveGraphic implements Translatable {
+    private Point2D.Double location = new Point2D.Double();
+    private AffineTransform atx = new AffineTransform();
+    private AffineTransform hitTx = new AffineTransform();
     private Rectangle2D.Double bounds;
     private double viewAngle;
+    private Container container;
 
-    public ParallaxReticle( Container container, Rectangle2D.Double bounds, double viewAngle ) {
-//        super( null, null );
+    public ParallaxReticle( Container container, double viewAngle ) {
+        super( null, null );
         this.container = container;
-        this.bounds = bounds;
+        this.bounds = new Rectangle2D.Double( container.getBounds().getX(),
+                                              container.getBounds().getY(),
+                                              container.getBounds().getWidth(),
+                                              container.getBounds().getHeight() );
         this.viewAngle = viewAngle;
-//        reticle = new Reticle();
-//        super.setGraphic( reticle );
-//        super.setBoundary( reticle );
-//        this.addCursorHandBehavior();
-//        this.addTranslationBehavior( this );
+        Reticle reticle = new Reticle();
+        setGraphic( reticle );
+        setBoundary( reticle );
+        this.addCursorHandBehavior();
+        this.addTranslationBehavior( this );
+        this.setLocation( 0, 0 );
     }
 
-//    public void translate( double dx, double dy ) {
-//        setLocation( location.getX() + dx, location.getY() + dy );
-//    }
-//
-//    public void setLocation( Point2D.Double location ) {
-//        setLocation( location.getX(), location.getY() );
-//    }
-//
-//    public void setLocation( double x, double y ) {
-//        this.location.setLocation( x, y );
-//        container.repaint();
-//    }
+    public void translate( double dx, double dy ) {
+        setLocation( location.getX(), location.getY() + dy / hitTx.getScaleY() );
+    }
 
+    public void setLocation( Point2D.Double location ) {
+        setLocation( location.getX(), location.getY() );
+    }
 
-//    public void paint( Graphics2D g ) {
-////        atx.setToIdentity();
-////        atx.translate( location.getX(), location.getY() );
-//        AffineTransform orgTx = g.getTransform();
-////        g.transform( atx );
-////        super.paint( g );
-//        g.setTransform( orgTx );
-//    }
-//
-//
-//    //
-//    // Inner classes
-//    //
-//    private class Reticle implements Graphic /*, Boundary*/ {
-//
-        private Color color = Color.yellow;
-        private int length = 200;
-        private int height = 400;
+    public void setLocation( double x, double y ) {
+        this.location.setLocation( x, y );
+        container.repaint();
+    }
+
+    public void paint( Graphics2D g ) {
+        atx.setToIdentity();
+        atx.translate( location.getX(), location.getY() );
+        AffineTransform orgTx = g.getTransform();
+        hitTx.setTransform( orgTx );
+        hitTx.translate( location.getX(), location.getY() );
+        g.transform( atx );
+        super.paint( g );
+        g.setTransform( orgTx );
+    }
+
+    //
+    // Inner classes
+    //
+    private class Reticle implements Graphic, Boundary, ImageObserver {
+        private Color color = Color.orange;
         private Stroke stroke = new BasicStroke( 1f );
-        private Line2D.Double baseLine = new Line2D.Double( 0, 0, length, 0 );
-        private int numMajorTicks = 3;
-        private int numMinorTicks = 10;
-        private int majorTickIncr = length / ( numMajorTicks - 1 );
-        private int minorTickIncr = majorTickIncr / numMinorTicks;
+        private float width = 20;
+        private GeneralPath path;
+        private GeneralPath hitTestPath;
         private Point2D.Double testPoint = new Point2D.Double();
+        private float minorTickHeight = 10;
+        private float majorTickHeight = 20;
+        private int majorTickEvery = 10;
+        private BufferedImage reticleBI;
 
-        public Rectangle2D.Double getBounds() {
-            return bounds;
-        }
-
-        /**
-         * This method assumes that (0,0) is in the center of the view area
-         * @param g
-         */
-        public void paint( Graphics2D g ) {
-
+        Reticle() {
+            DecimalFormat numFormatter = new DecimalFormat( "##" );
+            reticleBI = new BufferedImage( (int)bounds.getWidth(), (int)bounds.getHeight(),
+                                           BufferedImage.TYPE_INT_ARGB );
+            Graphics2D g = (Graphics2D)reticleBI.getGraphics();
+            g.translate( bounds.getWidth() / 2, bounds.getHeight() / 2 );
             g.setColor( color );
             g.setStroke( stroke );
+            GraphicsUtil.setAntiAliasingOn( g );
 
-
-//            Rectangle bounds = container.getBounds();
-            // Draw the baseline
-            baseLine.setLine( -bounds.getWidth() / 2, 0, bounds.getWidth() / 2, 0 );
-            g.draw( baseLine );
-
-            // Draw the tick marks
-            height = (int)bounds.getHeight();
-
-            int yMajor = height / 3;
-            int yMinor = height / 4;
-
+            // Base line
+            path = new GeneralPath();
+            path.moveTo( (float)-bounds.getWidth() / 2, 0 );
+            path.lineTo( (float)bounds.getWidth() / 2, 0 );
             double d = ( bounds.getWidth() / 2 ) / Math.tan( viewAngle / 2 );
-            for( double phi = 0; phi <= viewAngle / 2; phi += 2 * Math.PI / 180 ) {
-//                double b = d * phi;
-                double b = d * Math.tan( phi );
-                g.drawLine( (int)b, -yMajor, (int)b, yMajor );
-                g.drawLine( (int)-b, -yMajor, (int)-b, yMajor );
+
+            int tickCnt = 0;
+            for( double beta = 0; beta <= viewAngle / 2; beta += viewAngle / 90 ) {
+                double e = d * Math.sin( beta );
+//                double e = d * Math.tan( beta );
+                float tickHeight = 0;
+                if( tickCnt++ % majorTickEvery == 0 ) {
+                    tickHeight = majorTickHeight;
+                    String s = numFormatter.format( Math.toDegrees( beta ));
+                    g.drawString( s, (float)e, -30 );
+                    if( beta != 0 ) {
+                        g.drawString( "-" + s, (float)-e, -30 );
+                    }
+                }
+                else {
+                    tickHeight = minorTickHeight;
+                }
+                path.moveTo( (float)e, tickHeight );
+                path.lineTo( (float)e, -tickHeight );
+                path.moveTo( -(float)e, tickHeight );
+                path.lineTo( -(float)e, -tickHeight );
             }
 
-//            for( int i = 0; i < numMajorTicks - 1; i++ ) {
-//                int xMajor = i * majorTickIncr;
-//                g.drawLine( xMajor, -yMajor, xMajor, yMajor );
-//
-//                for( int j = 1; j < numMinorTicks; j++ ) {
-//                    int xMinor = xMajor + j * minorTickIncr;
-//                    g.drawLine( xMinor, -yMinor, xMinor, yMinor );
-//                }
-//            }
-//            g.drawLine( length, -yMajor, length, yMajor );
-
+            // Create the path that will detect mouse hits
+            hitTestPath = new GeneralPath( new Rectangle2D.Double( (float)-bounds.getWidth() / 2, -minorTickHeight,
+                                                                   (float)bounds.getWidth(), minorTickHeight * 2 ) );
         }
 
-//        public boolean contains( int x, int y ) {
-//            try {
-//                atx.inverseTransform( new Point2D.Double( (double)x, (double)y ), testPoint );
-//            }
-//            catch( NoninvertibleTransformException e ) {
-//                e.printStackTrace();
-//            }
-//            return bounds.contains( testPoint );
-//        }
-//    }
+        public void paint( Graphics2D g ) {
+            g.setColor( color );
+            g.setStroke( stroke );
+            g.draw( path );
+            g.drawImage( reticleBI, -reticleBI.getWidth() / 2, -reticleBI.getHeight() / 2, this );
+        }
+
+        public boolean contains( int x, int y ) {
+            try {
+                hitTx.inverseTransform( new Point2D.Double( (double)x, (double)y ), testPoint );
+            }
+            catch( NoninvertibleTransformException e ) {
+                e.printStackTrace();
+            }
+            return hitTestPath.contains( testPoint );
+        }
+
+        public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
+            return false;
+        }
+    }
 }

@@ -63,28 +63,25 @@ public class
             starField.addStar( star );
         }
 
-////        star = new NormalStar( Color.magenta, 100, new Point2D.Double( Config.universeWidth * 1.2, 10 ), -50 );
-////        starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 100, 10 ), -25 );
+//        placeEquidistantStars( starField );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 100, 0 ), -45 );
         starField.addStar( star );
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 200, 10 ), -35 );
+        star = new NormalStar( Color.magenta, 1E6, new Point2D.Double( 200, 0 ), -35 );
         starField.addStar( star );
-        star = new NormalStar( Color.blue, 100, new Point2D.Double( 30, 10 ), -20 );
-        starField.addStar( star );
-        star = new NormalStar( Color.yellow, 100, new Point2D.Double( -100, -10 ), 50 );
-        starField.addStar( star );
-////        star = new NormalStar( Color.white, 100, new Point2D.Double( 0, 0 ), 50 );
-////        starField.addStar( star );
-//
 
-        star = new FixedStar( Color.red, 1E9, 0, 0 );
-        starField.addStar( star );
-        star = new FixedStar( Color.red, 100, Math.PI / 2, 0 );
-        starField.addStar( star );
-        star = new FixedStar( Color.red, 100, -Math.PI / 2, 0 );
-        starField.addStar( star );
-        star = new FixedStar( Color.red, 100, Math.PI, 0 );
-        starField.addStar( star );
+//        star = new NormalStar( Color.blue, 100, new Point2D.Double( 30, 10 ), -20 );
+//        starField.addStar( star );
+//        star = new NormalStar( Color.yellow, 100, new Point2D.Double( -100, -10 ), 50 );
+//        starField.addStar( star );
+
+//        star = new FixedStar( Color.red, 1E9, 0, 0 );
+//        starField.addStar( star );
+//        star = new FixedStar( Color.red, 100, Math.PI / 2, 0 );
+//        starField.addStar( star );
+//        star = new FixedStar( Color.red, 100, -Math.PI / 2, 0 );
+//        starField.addStar( star );
+//        star = new FixedStar( Color.red, 100, Math.PI, 0 );
+//        starField.addStar( star );
 
 //        star = new NormalStar( Color.yellow, 100, new Point2D.Double( 0, 0 ), 50 );
 //        starField.addStar( star );
@@ -105,6 +102,48 @@ public class
 //        cockpitModule.update();
 
     }
+
+
+    void placeEquidistantStars( StarField starField ) {
+        Star star = null;
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 0 )), 400 * Math.sin( Math.toRadians( 0 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 5 )), 400 * Math.sin( Math.toRadians( 5 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 10 )), 400 * Math.sin( Math.toRadians( 10 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 15 )), 400 * Math.sin( Math.toRadians( 15 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 20 )), 400 * Math.sin( Math.toRadians( 20 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 25 )), 400 * Math.sin( Math.toRadians( 25 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 30 )), 400 * Math.sin( Math.toRadians( 30 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 35 )), 400 * Math.sin( Math.toRadians( 35 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( 40 )), 400 * Math.sin( Math.toRadians( 40 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -5 )), 400 * Math.sin( Math.toRadians( -5 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -10 )), 400 * Math.sin( Math.toRadians( -10 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -15 )), 400 * Math.sin( Math.toRadians( -15 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -20 )), 400 * Math.sin( Math.toRadians( -20 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -25 )), 400 * Math.sin( Math.toRadians( -25 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -30 )), 400 * Math.sin( Math.toRadians( -30 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -35 )), 400 * Math.sin( Math.toRadians( -35 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 400 * Math.cos( Math.toRadians( -40 )), 400 * Math.sin( Math.toRadians( -40 )) ), -25 );
+        starField.addStar( star );
+        star = new NormalStar( Color.magenta, 1E6, new Point2D.Double( 200, 20 ), -35 );
+        starField.addStar( star );
+    }
+
 
     public static void main( String[] args ) {
         String desc = GraphicsUtil.formatMessage( "A game for learning how to\nmeasure interstellar distances." );

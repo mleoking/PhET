@@ -26,6 +26,7 @@ public class StarView extends SimpleObservable implements SimpleObserver {
     private Rectangle2D.Double bounds;
     private ArrayList visibleStars = new ArrayList();
     private double rRef = Config.universeWidth;
+    private double apparentDistance = 0;
 
     public StarView( Starship starship, StarField starField, double viewAngle, Rectangle2D.Double bounds ) {
         this.starship = starship;
@@ -33,6 +34,8 @@ public class StarView extends SimpleObservable implements SimpleObserver {
         this.starField = starField;
         this.viewAngle = viewAngle;
         this.bounds = bounds;
+
+        this.apparentDistance = ( bounds.getWidth() / 2 ) / Math.tan( viewAngle / 2 );
     }
 
     private void setPov( PointOfView pov ) {
@@ -124,27 +127,30 @@ public class StarView extends SimpleObservable implements SimpleObserver {
      * @param star
      * @return
      */
-    public Point2D.Double getLocation( Star star ) {
-        rRef = ( bounds.getWidth() / 2 ) / Math.tan( viewAngle / 2 );
+    public Point2D.Double getApparentLocation( Star star ) {
         Point2DPolar starPC = new Point2DPolar( star.getLocation(), pov );
-        double x = rRef * Math.tan( starPC.getTheta() - pov.getTheta() );
+        double x = apparentDistance * Math.sin( starPC.getTheta() );
         double y = star.getZ();
         Point2D.Double location = new Point2D.Double( x, y );
         return location;
-    }
-
-    public void update() {
-        setPov( starship.getPov() );
     }
 
     public List getStarsIn( Shape shape ) {
         ArrayList result = new ArrayList();
         for( int i = 0; i < visibleStars.size(); i++ ) {
             Star star = (Star)visibleStars.get( i );
-            if( shape.contains( getLocation( star ) )) {
+            if( shape.contains( getApparentLocation( star ) )) {
                 result.add( star );
             }
         }
         return result;
+    }
+
+    public void update() {
+        setPov( starship.getPov() );
+    }
+
+    public Rectangle2D.Double getBounds() {
+        return bounds;
     }
 }

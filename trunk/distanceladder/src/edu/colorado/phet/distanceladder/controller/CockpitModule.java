@@ -25,9 +25,8 @@ import java.util.Collection;
 public class CockpitModule extends Module {
 
     private UniverseModel model;
-    private OrientationReticle orientationReticle;
-    private PhotometerReticle photometerReticle;
     private ParallaxReticle parallaxReticle;
+    private PhotometerReticle photometerReticle;
     private StarField starField;
     private StarView starView;
     private StarViewGraphic starViewGraphic;
@@ -53,24 +52,25 @@ public class CockpitModule extends Module {
 
         photometerReticle = new PhotometerReticle( apparatusPanel );
         photometerReticle.setLocation( 0, 0 );
-//        photometerReticle.setLocation( 200, 200 );
 
         cockpit = new Cockpit( starField );
         cockpitGraphic = new CockpitView( cockpit, this );
 
         starField = model.getStarField();
-        starView = new StarView( model.getStarShip(), starField, Config.viewAngle, cockpitGraphic.getBounds() );
+        Rectangle2D.Double bounds = new Rectangle2D.Double( apparatusPanel.getBounds().getMinX(),
+                                                             apparatusPanel.getBounds().getMinY(),
+                                                             apparatusPanel.getBounds().getWidth(),
+                                                             apparatusPanel.getBounds().getHeight() );
+        starView = new StarView( model.getStarShip(), starField, Config.viewAngle, bounds );
+//        starView = new StarView( model.getStarShip(), starField, Config.viewAngle, cockpitGraphic.getBounds() );
         model.getStarShip().setStarView( starView );
-        starViewGraphic = new StarViewGraphic( apparatusPanel,
-                                               starView,
-                                               cockpitGraphic.getBounds() );
+        starViewGraphic = new StarViewGraphic( apparatusPanel, starView );
         starView.addObserver( starViewGraphic );
         apparatusPanel.addGraphic( cockpitGraphic, Config.cockpitLayer );
         apparatusPanel.addGraphic( starViewGraphic, Config.starLayer );
 
-        parallaxReticle = new ParallaxReticle( apparatusPanel, cockpitGraphic.getBounds(), Config.viewAngle );
-        orientationReticle = new OrientationReticle( apparatusPanel, Config.viewAngle );
-//        orientationReticle = new OrientationReticle( cockpitGraphic.getBounds(), Config.viewAngle );
+        parallaxReticle = new ParallaxReticle( apparatusPanel, Config.viewAngle );
+//        parallaxReticle = new ParallaxReticle( cockpitGraphic.getBounds(), Config.viewAngle );
 
         setControlPanel( new CockpitControlPanel( this ) );
     }
@@ -81,17 +81,6 @@ public class CockpitModule extends Module {
 
     public StarView getStarView() {
         return starView;
-    }
-
-    public void setOrientationReticleOn( boolean isOn ) {
-        if( isOn ) {
-            starViewGraphic.addGraphic( orientationReticle, Config.measurementInstrumentLayer );
-            getApparatusPanel().repaint();
-        }
-        else {
-            starViewGraphic.remove( orientationReticle );
-            getApparatusPanel().repaint();
-        }
     }
 
     public void setParallaxReticleOn( boolean isOn ) {
@@ -108,12 +97,10 @@ public class CockpitModule extends Module {
     public void setPhotometerReticle( boolean isOn ) {
         if( isOn ) {
             starViewGraphic.addGraphic( photometerReticle, Config.measurementInstrumentLayer );
-//            getApparatusPanel().addGraphic( photometerReticle, Config.measurementInstrumentLayer );
             getApparatusPanel().repaint();
         }
         else {
             starViewGraphic.remove( photometerReticle );
-//            getApparatusPanel().removeGraphic( photometerReticle );
             getApparatusPanel().repaint();
         }
     }
