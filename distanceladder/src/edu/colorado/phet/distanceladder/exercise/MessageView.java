@@ -17,9 +17,13 @@ public class MessageView {
     }
 
     public void doIt() {
-        JOptionPane.showMessageDialog( null,
+        JOptionPane.showConfirmDialog( null,
                                        message.getText(),
                                        "Don't Panic!",
-                                       JOptionPane.INFORMATION_MESSAGE );
+                                       JOptionPane.OK_CANCEL_OPTION );
+//        JOptionPane.showMessageDialog( null,
+//                                       message.getText(),
+//                                       "Don't Panic!",
+//                                       JOptionPane.INFORMATION_MESSAGE );
     }
 }

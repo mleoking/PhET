@@ -60,7 +60,7 @@ public class CockpitModuleTest {
             starField.addStar( star );
         }
 
-        placeEquidistantStars( starField );
+//        placeEquidistantStars( starField );
 //        placeFourStars( starField );
 
 //        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 100, 0 ), -45 );
