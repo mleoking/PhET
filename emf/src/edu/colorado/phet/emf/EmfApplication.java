@@ -9,13 +9,15 @@ package edu.colorado.phet.emf;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
 import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
 import edu.colorado.phet.coreadditions.PhetLookAndFeel;
-import edu.colorado.phet.coreadditions.clock.StaticClockModel;
-import edu.colorado.phet.coreadditions.clock.SwingTimerClock;
-import edu.colorado.phet.coreadditions.components.PhetFrame;
+//import edu.colorado.phet.coreadditions.clock.StaticClockModel;
+//import edu.colorado.phet.coreadditions.clock.SwingTimerClock;
+//import edu.colorado.phet.coreadditions.components.PhetFrame;
 
 import java.util.logging.Logger;
 
@@ -52,14 +54,16 @@ public class EmfApplication {
 //        GuidedInquiry gi = null;
 //        Script script = null;
 
-        Module antennaModule = new EmfModule();
+        SwingTimerClock clock = new SwingTimerClock( 1, 20, true  );
+        Module antennaModule = new EmfModule( clock );
         ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
                 "Radio Waves", GraphicsUtil.formatMessage( "An exploration of how electro-magnetic waves\nare created, how they move through\nspace, and their effects" ),
                 "1",
                 1024, 768 );
         PhetApplication application = new PhetApplication( appDescriptor, antennaModule,
 //                                                           new ThreadedClock( new DynamicClockModel( 1, 20 ), ThreadPriority.NORMAL ) );fie
-                                                           new SwingTimerClock( new StaticClockModel( 1, 20 ) ) );
+                                                           clock);
+//                                                           new SwingTimerClock( new StaticClockModel( 1, 20 ) ) );
 //                                                           new SwingTimerClock( new DynamicClockModel( 1, 20 ) ) );
         PhetFrame frame = application.getApplicationView().getPhetFrame();
         frame.setDefaultLookAndFeelDecorated( true );

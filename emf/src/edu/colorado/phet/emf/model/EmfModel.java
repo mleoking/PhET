@@ -7,8 +7,9 @@
 package edu.colorado.phet.emf.model;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.IClock;
+//import edu.colorado.phet.common.model.IClock;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.emf.model.movement.MovementType;
 
 import java.util.ArrayList;
@@ -19,13 +20,19 @@ public class EmfModel extends BaseModel {
     private boolean staticFieldEnabled;
     private boolean dynamicFieldEnabled;
 
-    public EmfModel() {
+    public EmfModel( AbstractClock clock ) {
+        super( clock );
     }
+//    public EmfModel() {
+//    }
 
-    public void clockTicked( IClock iClock, double v ) {
+
+    public void clockTicked( AbstractClock iClock, double v ) {
+//    public void clockTicked( IClock iClock, double v ) {
 
         // This makes the clock static
-        super.clockTicked( iClock, iClock.getRequestedDT() );
+        super.clockTicked( iClock, iClock.getDt() );
+//        super.clockTicked( iClock, iClock.getRequestedDT() );
     }
 
     public void addModelElement( ModelElement modelElement ) {

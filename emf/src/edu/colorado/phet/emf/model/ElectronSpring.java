@@ -11,7 +11,8 @@ import edu.colorado.phet.common.model.ModelElement;
 
 import java.awt.geom.Point2D;
 
-public class ElectronSpring extends ModelElement {
+public class ElectronSpring implements ModelElement {
+//public class ElectronSpring extends ModelElement {
     private Point2D origin;
     private Electron electron;
     private float k;
@@ -32,12 +33,12 @@ public class ElectronSpring extends ModelElement {
         Point2D electronLoc = electron.getCurrentPosition();
         float springLength = (float)origin.distance( electronLoc );
         float fMag = springLength * k;
-        float m = electron.getMass();
-        float aMag = fMag / m;
+        double m = electron.getMass();
+        double aMag = fMag / m;
         a.setX( (float)( origin.getX() - electronLoc.getX() ));
         a.setY( (float)( origin.getY() - electronLoc.getY() ));
         a.normalize();
-        a.multiply( aMag );
+        a.multiply( (float)aMag );
         newLoc.setLocation( electronLoc );
         Vector2D electronVelocity = electron.getVelocity();
         float vx0 = electronVelocity.getX();
@@ -66,6 +67,7 @@ public class ElectronSpring extends ModelElement {
 //        newLoc.y += vyAve * (float)dt;
 
         electron.setCurrentPosition( newLoc );
-        electron.updateObservers();
+//        electron.updateObservers();
+        electron.notifyObservers();
     }
 }

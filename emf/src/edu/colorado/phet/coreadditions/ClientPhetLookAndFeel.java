@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class ClientPhetLookAndFeel implements PhetLookAndFeel {
 
@@ -35,7 +36,12 @@ public class ClientPhetLookAndFeel implements PhetLookAndFeel {
 
     public ClientPhetLookAndFeel() {
 
-        smallIconImage = new ImageLoader().loadImage( smallIconPath );
+        try {
+            smallIconImage = new ImageLoader().loadImage( smallIconPath );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         smallIcon = new ImageIcon( smallIconImage );
 
         UIManager.put( "Panel.background", background );

@@ -10,44 +10,38 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.TargetedImageGraphic;
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions.graphics.AffineTransformFactory;
-import edu.colorado.phet.coreadditions.graphics.ImageGraphic;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.model.EmfModel;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class EmfPanel extends ApparatusPanel {
-    private FieldLatticeView fieldLatticeView;
-    private Dimension size = new Dimension();
-    private BufferedImage bi;
     public static int NO_FIELD = 1;
     public static int FULL_FIELD = 2;
     public static int CURVE = 3;
     public static int CURVE_WITH_VECTORS = 4;
 
+    private FieldLatticeView fieldLatticeView;
+    private Dimension size = new Dimension();
+    private BufferedImage bi;
+    private boolean useBufferedImage = false;
+
     public void setUseBufferedImage( boolean useBufferedImage ) {
         this.useBufferedImage = useBufferedImage;
     }
 
-    private boolean useBufferedImage = false;
-
     public EmfPanel( EmfModel model, Electron electron, Point origin, int fieldWidth, int fieldHeight ) {
 
         // Set up with an identity affine transform
-        super( new AffineTransformFactory() {
-            public AffineTransform getTx( Rectangle rectangle ) {
-                return AffineTransform.getScaleInstance( 1, 1 );
-            }
-        } );
+//        super( new AffineTransformFactory() {
+//            public AffineTransform getTx( Rectangle rectangle ) {
+//                return AffineTransform.getScaleInstance( 1, 1 );
+//            }
+//        } );
 
         EmfPanel.setInstance( this );
 
@@ -64,17 +58,25 @@ public class EmfPanel extends ApparatusPanel {
         addGraphic( fieldLatticeView, 4 );
 
         // Add the background
-        final BufferedImage im = GraphicsUtil.toBufferedImage( new ImageLoader().loadBufferedImage( "images/background.gif" ) );
-        fieldLatticeView.paintDots( im.getGraphics() );
+        final BufferedImage im;
+        try {
+            im = GraphicsUtil.toBufferedImage( ImageLoader.loadBufferedImage( "images/background.gif" ) );
+            fieldLatticeView.paintDots( im.getGraphics() );
+            addGraphic( new Graphic() {
+                public void paint( Graphics2D g ) {
+                    g.drawImage( im, 0, 0, EmfPanel.this );
+                }
+            }, 0 );
+            this.setPreferredSize( new Dimension( im.getWidth(), im.getHeight() ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
 
-        addGraphic( new Graphic() {
-            public void paint( Graphics2D g ) {
-                g.drawImage( im, 0, 0, EmfPanel.this );
-            }
-        }, 0 );
+
 
         // Observe the model
-        model.addObserver( this );
+//        model.addObserver( this );
     }
 
     public void setFieldCurvesVisible( boolean enabled ) {
