@@ -14,9 +14,10 @@ package edu.colorado.phet.faraday.view;
 import java.awt.Component;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.control.FSlider;
 import edu.colorado.phet.faraday.model.Battery;
 
 
@@ -26,7 +27,7 @@ import edu.colorado.phet.faraday.model.Battery;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BatteryGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -55,6 +56,15 @@ public class BatteryGraphic extends CompositePhetGraphic implements SimpleObserv
             int ry = _batteryGraphic.getImage().getHeight();
             _batteryGraphic.setRegistrationPoint( rx, ry );
         }
+        
+//        // Slider
+//        {
+//            PhetImageGraphic knob = new PhetImageGraphic( component, "images/sliderKnob.png" );
+//            PhetImageGraphic track = new PhetImageGraphic( component, "images/sliderTrack.png" );
+//            PhetImageGraphic background = new PhetImageGraphic( component, "images/sliderBackground.png" );
+//            FSlider slider = new FSlider( component, knob, track, background );
+//            addGraphic( slider );
+//        }
         
         update();
     }
