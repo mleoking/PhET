@@ -94,6 +94,7 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
             newWavelength = Math.min( Math.max( newWavelength, LaserConfig.MIN_WAVELENGTH + 1 ),
                                       LaserConfig.MAX_WAVELENGTH - 1 );
             atomicState.setEnergyLevel( Photon.wavelengthToEnergy( newWavelength ) );
+            atomicState.determineEmittedPhotonWavelength();
         }
     }
 

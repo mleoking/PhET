@@ -21,6 +21,7 @@ public abstract class AtomicState {
 
     static public final double minWavelength = Photon.BLUE - 80;
     static public final double maxWavelength = Photon.GRAY;
+//    static public final double minEnergy = 0;
     static public final double minEnergy = Photon.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = Photon.wavelengthToEnergy( minWavelength );
     static protected double s_collisionLikelihood = 1;
@@ -69,14 +70,12 @@ public abstract class AtomicState {
 
     public void setMeanLifetime( double lifetime ) {
         this.meanLifetime = lifetime;
-//        eventRegistry.fireEvent( new MeanLifetimeChangeEvent() );
         listenerProxy.meanLifetimechanged( new Event( this ) );
     }
 
     public void setEnergyLevel( double energyLevel ) {
         this.energyLevel = energyLevel;
         this.wavelength = Photon.energyToWavelength( energyLevel );
-//        eventRegistry.fireEvent( new EnergyLevelChangeEvent( this ) );
         listenerProxy.energyLevelChanged( new Event( this ) );
     }
 
@@ -86,6 +85,15 @@ public abstract class AtomicState {
 
     protected void setEmittedPhotonWavelength( double wavelength ) {
         this.emittedWavelength = wavelength;
+    }
+
+    public void determineEmittedPhotonWavelength() {
+        double energy1 = Photon.wavelengthToEnergy( this.getWavelength() );
+        double energy2 = Photon.wavelengthToEnergy( this.getNextLowerEnergyState().getWavelength() );
+
+        // todo: this isn't right. It doesn't work for upper to middle transitions
+        emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
+                                      AtomicState.maxWavelength );
     }
 
     protected double getEmittedPhotonWavelength() {
