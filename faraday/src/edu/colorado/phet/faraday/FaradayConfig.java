@@ -74,7 +74,7 @@ public class FaradayConfig {
 
     // Enables "Hollywood" versions of various model elements.
     public static final boolean HOLLYWOOD_MAGNET = false;
-    public static final boolean HOLLYWOOD_COMPASS = true;
+    public static final boolean HOLLYWOOD_COMPASS = false;
     
     //----------------------------------------------------------------------------
     // Constructors
