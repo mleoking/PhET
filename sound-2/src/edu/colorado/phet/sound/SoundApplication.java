@@ -28,12 +28,14 @@ public class SoundApplication extends PhetApplication {
             this.setClock( new SwingTimerClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ));
 
             // Set up the modules
-            Module singleSourceModule = new SingleSourceListenModule( this );
-            Module measureModule = new SingleSourceMeasureModule( this );
-            Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
-            this.setModules( new Module[]{ singleSourceModule, measureModule, twoSourceIntereferenceModule } );
-//            this.setModules( new Module[]{  /*singleSourceModule, measureModule,*/ twoSourceIntereferenceModule } );
-            this.setInitialModule( twoSourceIntereferenceModule );
+//            Module singleSourceModule = new SingleSourceListenModule( this );
+//            Module measureModule = new SingleSourceMeasureModule( this );
+//            Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
+            Module wallInterferenceModule = new WallInterferenceModule( this );
+//            this.setModules( new Module[]{ singleSourceModule, measureModule,
+//                                           twoSourceIntereferenceModule, wallInterferenceModule } );
+            this.setModules( new Module[]{  /*singleSourceModule, measureModule,*/ wallInterferenceModule } );
+            this.setInitialModule( wallInterferenceModule );
         }
     }
 

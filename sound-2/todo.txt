@@ -1,3 +1,5 @@
+SingleSourceModule should be refactored out
+
 Do the interference amplitude determination in the model, not the view (InterferenceListenerGraphic)
 
 the way ListenerGraphic computes it's model coordinates isn't quite right. See ListenerGraphic.translate()
