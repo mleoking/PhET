@@ -55,6 +55,7 @@ PHETCOMMON:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
+v0r19...
 v0r18...
 (3/16) - used icons in control panels for selecting current source and pickup indicator
 (3/16) - change order of controls in Electromagnet and Pickup panels
