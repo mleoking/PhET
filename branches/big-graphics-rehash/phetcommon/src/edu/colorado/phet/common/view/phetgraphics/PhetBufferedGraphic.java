@@ -17,6 +17,12 @@ public class PhetBufferedGraphic extends PhetImageGraphic {
     private int type;
     private GraphicsSetup graphicsSetup;
 
+    public PhetBufferedGraphic( Component component, Graphic graphic, Paint background ) {
+        this( component, component.getWidth(), component.getHeight(), graphic );
+        setSize( component.getWidth(), component.getHeight() );
+        this.background = background;
+    }
+
     public PhetBufferedGraphic( Component component, int width, int height, Graphic graphic ) {
         this( component, width, height, graphic, BufferedImage.TYPE_INT_RGB );
     }
