@@ -290,6 +290,8 @@ public abstract class PhetGraphic {
      * @param transform the transform to preconcatenate
      */
     public void transform( AffineTransform transform ) {
+        // Can send actual parameter to preConcatenateTransform(), because it does
+        // not alter its argument
         preConcatenateTransform( transform );
     }
 
