@@ -86,8 +86,8 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 	
 	// Bounds
 	private static final Rectangle PHOTON_BEAM_BOUNDS =
-	  new Rectangle( 0, 0, (int)(PERSON_X + 160), 10000 );
-	  //new Rectangle( (int)SPOTLIGHT_X, (int)(SPOTLIGHT_Y - 125), (int)(PERSON_X - SPOTLIGHT_X + 100), 250 );
+	  new Rectangle( (int)SPOTLIGHT_X, (int)(SPOTLIGHT_Y - 75), 
+	                 (int)(PERSON_X - SPOTLIGHT_X + 100), 150 );
 	
 	//----------------------------------------------------------------------------
 	// Instance data

@@ -79,11 +79,11 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
 	private static final double BLUE_SPOTLIGHT_ANGLE  = -(RED_SPOTLIGHT_ANGLE);
 
 	// Bounds
-	private static final Rectangle BEAM_BOUNDS =
-	  new Rectangle( 0, 0, (int)(PERSON_X + 160), 10000 );
-	  //new Rectangle( (int)SPOTLIGHT_X, 0, (int)(PERSON_X - SPOTLIGHT_X + 100), 1000 );
 	private static final Dimension INTENSITY_SLIDER_SIZE = new Dimension(20,100);
-	
+	private static final Rectangle BEAM_BOUNDS =
+	  new Rectangle( (int)SPOTLIGHT_X,  (int)RED_SPOTLIGHT_Y, 
+	                 (int)(PERSON_X - SPOTLIGHT_X + 100), (int)(BLUE_SPOTLIGHT_Y - RED_SPOTLIGHT_Y) );
+
 	//----------------------------------------------------------------------------
 	// Instance data
   //----------------------------------------------------------------------------
