@@ -17,6 +17,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -233,8 +234,32 @@ public class IdealGasModule extends Module {
         PhetControlPanel controlPanel = new PhetControlPanel( this, idealGasControlPanel);
         setControlPanel( controlPanel );
 
+        // Place a slider to control the stove
+        StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
+        stoveControlPanel.setBounds( 400, 450, 200, 150 );
+        getApparatusPanel().add( stoveControlPanel );
+
+        // Add help items
+        addHelp();
         //        Rendered renderer = new Rendered( getApparatusPanel() );
         //        idealGasModel.addModelElement( renderer );
+    }
+
+    private void addHelp(){
+        HelpItem helpItem1 = new HelpItem( "Wall can be moved\nleft and right",
+                                           box.getPosition().getX(), box.getPosition().getY(),
+                                           HelpItem.BELOW, HelpItem.LEFT );
+        helpItem1.setForegroundColor( IdealGasConfig.helpColor );
+        addHelpItem( helpItem1 );
+        HelpItem helpItem2 = new HelpItem( "Door can be slid\nleft and right",
+                                           box.getPosition().getX(), box.getPosition().getY(),
+                                           HelpItem.ABOVE, HelpItem.RIGHT );
+        helpItem2.setForegroundColor( IdealGasConfig.helpColor );
+        addHelpItem( helpItem2 );
+        HelpItem helpItem3 = new HelpItem( "Heat can be removed or added\nby adjusting stove",
+                                            box.getPosition().getX(), box.getMaxY() );
+        helpItem3.setForegroundColor( IdealGasConfig.helpColor );
+        addHelpItem( helpItem3 );
     }
 
     public void setCurrentSpecies( Class moleculeClass ) {
