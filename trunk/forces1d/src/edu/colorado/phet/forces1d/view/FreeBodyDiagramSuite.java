@@ -1,8 +1,9 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.forces1d;
+package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.forces1d.Force1DModule;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -61,8 +62,8 @@ public class FreeBodyDiagramSuite {
         Point togo = checkBox.getLocationOnScreen();
         togo.x -= w;
         dialog.setLocation( togo );
-        dialogContentPane.add( diagramPanel.getApparatusPanel() );
-        diagramPanel.getApparatusPanel().setLocation( insetX, insetY );
+        dialogContentPane.add( diagramPanel.getFBDPanel() );
+        diagramPanel.getFBDPanel().setLocation( insetX, insetY );
         dialog.setVisible( true );
     }
 
@@ -74,7 +75,7 @@ public class FreeBodyDiagramSuite {
         insetX = 15;
         insetY = 15;
 
-        ApparatusPanel2 windowAP = diagramPanel.getApparatusPanel();
+        ApparatusPanel2 windowAP = diagramPanel.getFBDPanel();
         Dimension preferredSize = new Dimension( windowAP.getWidth() + insetX * 2, windowAP.getHeight() + insetY * 2 );
         dialogContentPane.setSize( preferredSize );
         dialogContentPane.setPreferredSize( preferredSize );
@@ -85,8 +86,8 @@ public class FreeBodyDiagramSuite {
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 windowButton.setVisible( true );
-                diagramPanel.getApparatusPanel().setLocation( 0, 0 );
-                controlPanel.add( diagramPanel.getApparatusPanel() );
+                diagramPanel.getFBDPanel().setLocation( 0, 0 );
+                controlPanel.add( diagramPanel.getFBDPanel() );
                 dialog.setVisible( false );
             }
         } );
@@ -108,6 +109,10 @@ public class FreeBodyDiagramSuite {
         this.controlPanel = controlPanel;
         controlPanel.add( checkBox );
         controlPanel.add( windowButton );
-        controlPanel.add( diagramPanel.getApparatusPanel() );
+        controlPanel.add( diagramPanel.getFBDPanel() );
+    }
+
+    public void reset() {
+        diagramPanel.reset();
     }
 }

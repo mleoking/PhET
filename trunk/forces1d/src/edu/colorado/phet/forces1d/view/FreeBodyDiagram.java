@@ -13,6 +13,7 @@ import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.common.HTMLGraphic;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
@@ -48,12 +49,12 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
     private boolean userClicked = false;
 
 
-    public FreeBodyDiagram( Force1DPanel component, Force1DModule module ) {
+    public FreeBodyDiagram( JPanel component, Force1DModule module ) {
         super( component );
         this.model = module.getForceModel();
         this.module = module;
         rect = new Rectangle( 200, 150, 400, 400 );
-        laf = component.getLookAndFeel();
+        laf = module.getForce1DLookAndFeel();
 
         background = new PhetShapeGraphic( component, rect, Color.white, new BasicStroke( 1.0f ), Color.black );
         addGraphic( background );

@@ -34,4 +34,8 @@ public class SimpleForceModule extends Force1DModule {
         forceControlPanel.updateGraphics();
     }
 
+    public void reset() {
+        super.reset();
+        forceControlPanel.reset();
+    }
 }

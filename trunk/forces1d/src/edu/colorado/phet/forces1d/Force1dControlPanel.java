@@ -8,6 +8,7 @@ import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
+import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -25,8 +26,7 @@ public class Force1dControlPanel extends ControlPanel {
     private Force1DModule module;
     private Force1DModel model;
     public static final double MAX_KINETIC_FRICTION = 2.0;
-//    private FreeBodyDiagramPanel freeBodyDiagramPanel;
-    FreeBodyDiagramSuite freeBodyDiagramSuite;
+    private FreeBodyDiagramSuite freeBodyDiagramSuite;
 
     public Force1dControlPanel( final Force1DModule module ) {
         super( module );
@@ -158,6 +158,10 @@ public class Force1dControlPanel extends ControlPanel {
 
     public void updateGraphics() {
         freeBodyDiagramSuite.updateGraphics();
+    }
+
+    public void reset() {
+        freeBodyDiagramSuite.reset();
     }
 
     interface SpinnerHandler {

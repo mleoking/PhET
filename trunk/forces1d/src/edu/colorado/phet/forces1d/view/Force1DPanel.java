@@ -45,7 +45,6 @@ public class Force1DPanel extends ApparatusPanel2 {
     private Force1DModel model;
     private PlotDeviceView forcePlotDeviceView;
     private RepaintDebugGraphic repaintDebugGraphic;
-    private FreeBodyDiagram freeBodyDiagram;
     private Force1DLookAndFeel lookAndFeel = new Force1DLookAndFeel();
     private OffscreenPointerGraphic offscreenPointerGraphic;
     private BufferedPhetGraphic backgroundGraphic;
@@ -56,7 +55,7 @@ public class Force1DPanel extends ApparatusPanel2 {
     private Color top = new Color( 230, 255, 230 );
     private Color bottom = new Color( 180, 200, 180 );
     private FloatingControl floatingControl;
-    private WiggleMe fbdWiggleMe;
+
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
         super( module.getModel(), module.getClock() );
@@ -84,7 +83,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         forcePlotDeviceView = new Force1DPlotDeviceView( module, this );
 
         double appliedForceRange = 1000;
-        Force1DLookAndFeel laf = getLookAndFeel();
+        Force1DLookAndFeel laf = module.getForce1DLookAndFeel();
         PlotDevice.ParameterSet forceParams = new PlotDevice.ParameterSet( this, "Forces", model.getPlotDeviceModel(),
                                                                            forcePlotDeviceView, model.getAppliedForceDataSeries().getSmoothedDataSeries(),
                                                                            laf.getAppliedForceColor(), new BasicStroke( strokeWidth ),
@@ -192,7 +191,6 @@ public class Force1DPanel extends ApparatusPanel2 {
         repaintDebugGraphic.setTransparency( 128 );
         repaintDebugGraphic.setActive( false );
 
-        freeBodyDiagram = new FreeBodyDiagram( this, module );
 
         offscreenPointerGraphic = new OffscreenPointerGraphic( this, blockGraphic, walkwayGraphic );
         addGraphic( offscreenPointerGraphic, 1000 );
@@ -215,7 +213,7 @@ public class Force1DPanel extends ApparatusPanel2 {
             }
         };
         blockGraphic.addMouseInputListener( listener );
-        freeBodyDiagram.addMouseInputListener( listener );
+//        freeBodyDiagram.addMouseInputListener( listener );
 
         wiggleMe = new WiggleMe( this, "Apply a Force", blockGraphic );
         addGraphic( wiggleMe, 10000 );
@@ -223,8 +221,7 @@ public class Force1DPanel extends ApparatusPanel2 {
             public void appliedForceChanged() {
                 wiggleMe.setVisible( false );
                 removeGraphic( wiggleMe );
-                fbdWiggleMe.setVisible( false );
-                removeGraphic( fbdWiggleMe );
+
             }
 
             public void gravityChanged() {
@@ -234,16 +231,6 @@ public class Force1DPanel extends ApparatusPanel2 {
             }
         } );
 
-        fbdWiggleMe = new WiggleMe( this, "Click to set Force", new WiggleMe.Target() {
-            public Point getLocation() {
-                return new Point( getWidth(), 100 );
-            }
-
-            public int getHeight() {
-                return 0;
-            }
-        } );
-        fbdWiggleMe.setVisible( false );
 
         accelPlotDevice.setVisible( false );
         velPlotDevice.setVisible( false );
@@ -397,7 +384,6 @@ public class Force1DPanel extends ApparatusPanel2 {
     public void updateGraphics() {
         arrowSetGraphic.updateGraphics();
         blockGraphic.update();
-        freeBodyDiagram.updateAll();
         paint();
     }
 
@@ -405,12 +391,6 @@ public class Force1DPanel extends ApparatusPanel2 {
         repaintBuffer();
         forcePlotDevice.reset();
         repaint( 0, 0, getWidth(), getHeight() );
-        if( !freeBodyDiagram.isUserClicked() ) {//TODO maybe this should be smarter.
-            fbdWiggleMe.setVisible( true );
-            if( !containsGraphic( fbdWiggleMe ) ) {
-                addGraphic( fbdWiggleMe );
-            }
-        }
     }
 
     private boolean containsGraphic( PhetGraphic graphic ) {
@@ -468,7 +448,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         setReferenceSize();
     }
 
-    public FreeBodyDiagram getFreeBodyDiagram() {
-        return freeBodyDiagram;
+    public PlotDevice getPlotDevice() {
+        return forcePlotDevice;
     }
 }
