@@ -29,6 +29,8 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
     static Image s_groundStateImage;
     static Image s_highEnergyStateImage;
     static Image s_middleEnergyStateImage;
+    static double s_middleEnergyMag = 1.2;
+    static double s_highEnergyMag = 1.4;
 
     static BufferedImage groundImg;
     static BufferedImage highImg;
@@ -53,15 +55,15 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
         tempBI = GraphicsUtil.toBufferedImage( s_highEnergyStateImage );
         xform = AffineTransform.getScaleInstance( 1.2, 1.2 );
         xformOp = new AffineTransformOp( xform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
-        highImg = new BufferedImage( (int)( tempBI.getWidth() * 1.2 ),
-                                     (int)( tempBI.getHeight() * 1.2 ),
+        highImg = new BufferedImage( (int)( tempBI.getWidth() * s_highEnergyMag ),
+                                     (int)( tempBI.getHeight() * s_highEnergyMag ),
                                      BufferedImage.TYPE_INT_RGB );
         highImg = xformOp.filter( tempBI, null );
 
         xform = AffineTransform.getScaleInstance( 1.1, 1.1 );
         xformOp = new AffineTransformOp( xform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
-        middleImg = new BufferedImage( (int)( tempBI.getWidth() * 1.1 ),
-                                     (int)( tempBI.getHeight() * 1.1 ),
+        middleImg = new BufferedImage( (int)( tempBI.getWidth() * s_middleEnergyMag ),
+                                     (int)( tempBI.getHeight() * s_middleEnergyMag ),
                                      BufferedImage.TYPE_INT_RGB );
         tempBI = GraphicsUtil.toBufferedImage( s_middleEnergyStateImage );
         middleImg = xformOp.filter( tempBI, null );
@@ -71,7 +73,8 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
     private Atom atom;
 
     public AtomGraphic( Component component, Atom atom ) {
-        super( component, null );
+        super( component, s_groundStateImageName );
+//        super( component, null );
         this.atom = atom;
         atom.addObserver( this );
         update();

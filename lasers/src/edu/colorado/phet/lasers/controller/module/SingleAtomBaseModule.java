@@ -36,7 +36,6 @@ public class SingleAtomBaseModule extends BaseLaserModule {
                                               Photon.RED,
                                               beamOrigin,
                                               Photon.s_radius / 2,
-                                              //                                              Photon.s_radius * 2,
                                               s_boxWidth + s_laserOffsetX * 2,
                                               new Vector2D.Double( 1, 0 ) );
         stimulatingBeam.addListener( this );
@@ -59,6 +58,7 @@ public class SingleAtomBaseModule extends BaseLaserModule {
         BlueBeamGraphic beamGraphic = new BlueBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
         addGraphic( beamGraphic, 1 );
 
+        // Add the ray gun for firing photons
         try {
             BufferedImage gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
             PhetImageGraphic gunGraphic = new PhetImageGraphic( getApparatusPanel(), gunBI,
@@ -90,7 +90,7 @@ public class SingleAtomBaseModule extends BaseLaserModule {
 
 
     public void photonCreated( CollimatedBeam beam, Photon photon ) {
-        if( beam == stimulatingBeam ) {
+//        if( beam == stimulatingBeam ) {
             final PhotonGraphic photonGraphic = new PhotonGraphic( getApparatusPanel(), photon );
             addGraphic( photonGraphic, LaserConfig.PHOTON_LAYER );
 
@@ -101,9 +101,9 @@ public class SingleAtomBaseModule extends BaseLaserModule {
                     getApparatusPanel().removeGraphic( photonGraphic );
                 }
             } );
-        }
-        else if( beam == pumpingBeam ) {
-
-        }
+//        }
+//        else if( beam == pumpingBeam ) {
+//
+//        }
     }
 }

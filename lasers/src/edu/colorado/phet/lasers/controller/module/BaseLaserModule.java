@@ -14,6 +14,7 @@ package edu.colorado.phet.lasers.controller.module;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -30,6 +31,7 @@ import edu.colorado.phet.lasers.view.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -73,6 +75,7 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
 
         laserModel = new LaserModel();
         setModel( laserModel );
+        laserModel.setBounds( new Rectangle2D.Double( 0, 0, 800, 600 ) );
 
         ApparatusPanel apparatusPanel = new ApparatusPanel();
         setApparatusPanel( apparatusPanel );
@@ -127,16 +130,21 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         getModel().addModelElement( atom );
         final AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
         addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
+
+        // Add a listener to the atom that will create a photon graphic if the atom
+        // emits a photon
         atom.addListener( new Atom.Listener() {
             public void photonEmitted( Atom atom, Photon photon ) {
                 getModel().addModelElement( photon );
                 final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
-                //                photon.addListener( new Photon.Listener() {
-                //                    public void leavingSystem( Photon photon ) {
-                //                        getApparatusPanel().removeGraphic( pg );
-                //                    }
-                //                } );
+
+                // Add a listener that will remove the graphic if the photon leaves the system
+                photon.addListener( new Photon.Listener() {
+                    public void leavingSystem( Photon photon ) {
+                        getApparatusPanel().removeGraphic( pg );
+                    }
+                } );
             }
 
             public void leftSystem( Atom atom ) {
