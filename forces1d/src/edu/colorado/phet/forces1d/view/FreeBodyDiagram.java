@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.Force1DUtil;
+import edu.colorado.phet.forces1d.common.HTMLGraphic;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
 import javax.swing.event.MouseInputAdapter;
@@ -189,8 +190,9 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
     public class AxesGraphic extends CompositePhetGraphic {
         private PhetShapeGraphic xAxis;
         private PhetShapeGraphic yAxis;
-        private PhetTextGraphic xLabel;
-        private PhetTextGraphic yLabel;
+//        private PhetTextGraphic xLabel;
+        private PhetGraphic xLabel;
+        private PhetGraphic yLabel;
 
         public AxesGraphic( Component component ) {
             super( component );
@@ -203,9 +205,12 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             addGraphic( yAxis );
 
 
-            Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
-            xLabel = new PhetTextGraphic( component, font, "Fx", Color.black, 0, 0 );
-            yLabel = new PhetTextGraphic( component, font, "Fy", Color.black, 0, 0 );
+            Font font = new Font( "Lucida Sans", Font.PLAIN, 16 );
+//            xLabel = new PhetTextGraphic( component, font, "Fx", Color.black, 0, 0 );
+//            xLabel = new HTMLGraphic( component, "<html>html<br>line2</html>", font, Color.black );
+            xLabel = new HTMLGraphic( component, "<html>F<sub>x</html>", font, Color.black );
+//            yLabel = new PhetTextGraphic( component, font, "Fy", Color.black, 0, 0 );
+            yLabel = new HTMLGraphic( component, "<html>F<sub>y</html>", font, Color.black );
             addGraphic( xLabel );
             addGraphic( yLabel );
 

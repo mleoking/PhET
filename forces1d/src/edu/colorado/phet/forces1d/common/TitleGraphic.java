@@ -32,6 +32,7 @@ public class TitleGraphic extends CompositePhetGraphic {
             }
 
             public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+                setVisible( phetGraphic.isVisible() );
             }
         } );
         update();
@@ -39,7 +40,9 @@ public class TitleGraphic extends CompositePhetGraphic {
 
     private void update() {
         Rectangle targetBounds = target.getBounds();
-        setLocation( targetBounds.x, targetBounds.y - getHeight() );
+        if( targetBounds != null ) {
+            setLocation( targetBounds.x, targetBounds.y - getHeight() );
+        }
     }
 
     public void setTitle( String title ) {
