@@ -89,7 +89,7 @@ ignorepath      (those elements of the ant classpath that should not be
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="${src}" destdir="${classes}">
+        <javac srcdir="${src}" destdir="${classes}" classpath="${addl-classpath}">
         </javac>
     </target>
 
