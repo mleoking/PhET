@@ -36,14 +36,6 @@ import edu.colorado.phet.faraday.view.CompassGridGraphic;
 public class MagnetAndCoilControlPanel extends FaradayControlPanel {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    private static final String UNKNOWN_VALUE = "??????";
-    private static final Dimension SLIDER_SIZE = new Dimension( 100, 20 );
-    private static final Dimension SPINNER_SIZE = new Dimension( 50, 20 );
-
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
@@ -280,14 +272,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         _voltMeterRadioButton.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
         
-        // Call this after wiring up listeners.
-        update();
-    }
-
-    /**
-     * Update control panel to match the components that it's controlling.
-     */
-    public void update() {
+        // Update control panel to match the components that it's controlling.
         _strengthSlider.setValue( (int) _magnetModel.getStrength() );
         _magnetTransparencyCheckBox.setSelected( _magnetGraphic.isTransparencyEnabled() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );

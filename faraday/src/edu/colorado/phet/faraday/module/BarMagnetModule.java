@@ -23,6 +23,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
+import edu.colorado.phet.faraday.control.DeveloperPanel;
 import edu.colorado.phet.faraday.model.AbstractCompass;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.BarMagnet;
@@ -142,7 +143,10 @@ public class BarMagnetModule extends Module {
 
         // Control Panel
         BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this, 
-                magnetModel, compassModel, magnetGraphic, gridGraphic, fieldMeterGraphic, apparatusPanel );
+                magnetModel, compassModel, magnetGraphic, fieldMeterGraphic );
+        if ( FaradayConfig.ENABLE_DEVELOPER_CONTROLS ) {
+            controlPanel.addFullWidth( new DeveloperPanel( magnetModel, gridGraphic, apparatusPanel ) );
+        }
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
