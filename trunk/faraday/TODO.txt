@@ -6,13 +6,17 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- fix coil collision bounds to include the coil ends
 - EMF drops near the AC Power Supply, then pops back up over the AC Power Supply (put pickupcoil right next to electromagnet coil)
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - add a dialog that warns about performance implications of turning on grid
 - make electrons move at same speed whether grid is on or off
 
 MEDIUM PRIORITY:
+- BarMagnet Wiggle Me: "Move me or me", 2 arrows
+- Pickup Coil Wiggle Me: "Move me or me", 2 arrows
+- Electromagnet Wiggle Me: "Adjust the voltage", 1 arrow
+- Transformer Wiggle Me: "Make the lightbulb light", no arrows
+- Generator Wiggle Me: "Turn on the faucet", 1 arrow
 - relocate voltage rescaling from Voltmeter model to Voltmeter view, so that all rescaling is done in the view
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 - Wiggle Me's
@@ -49,6 +53,7 @@ PHETCOMMON:
 
 DONE:
 v0r21...
+(4/6) - add Vector2D.zero
 (4/6) - change coil collision bounds to include the coil ends
 (4/5) - add a resistor & probes to the Voltmeter indicator
 (4/4) - make compass needle do a simple rotation (instead of a flip) when rotational kinematics is disabled
