@@ -62,7 +62,7 @@ public class ClickToDeselect implements InteractiveGraphic {
     public void paint(Graphics2D g) {
     }
 
-    public boolean contains(int x,int y) {
+    public boolean contains(int x, int y) {
         return true;
     }
 

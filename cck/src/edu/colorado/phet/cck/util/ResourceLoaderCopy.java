@@ -5,7 +5,7 @@ import java.awt.*;
 import java.net.URL;
 
 /**
- *  Utility class for loading images
+ * Utility class for loading images
  */
 public class ResourceLoaderCopy extends Container {
 

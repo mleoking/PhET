@@ -4,7 +4,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
-/**Loads ARGB BufferedImages, without alpha patching.*/
+/**
+ * Loads ARGB BufferedImages, without alpha patching.
+ */
 public class DefaultImageLoader implements ImageLoader {
     ClassLoader loader;
     Component observer;

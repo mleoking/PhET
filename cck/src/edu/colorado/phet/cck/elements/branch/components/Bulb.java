@@ -1,6 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.cck.elements.branch.components;
 
+import edu.colorado.phet.cck.common.LinearMap;
 import edu.colorado.phet.cck.common.SimpleObserver;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchObserver;
@@ -9,7 +10,6 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.cck.elements.xml.BulbData;
-import edu.colorado.phet.common.LinearMap;
 import edu.colorado.phet.common.math.PhetVector;
 
 import java.util.ArrayList;

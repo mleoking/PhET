@@ -1,5 +1,5 @@
 /*Copyright, Sam Reid, 2003.*/
-package edu.colorado.phet.common;
+package edu.colorado.phet.cck.common;
 
 /**
  * User: Sam Reid
@@ -19,10 +19,11 @@ public class LinearMap {
         this.minOutput = minOutput;
         this.maxOutput = maxOutput;
     }
-    public double operate(double input){
+
+    public double operate(double input) {
         //could do bounds checking.
-        double slope=(maxOutput-minOutput)/(maxInput-minInput);
-        double output=(input-minInput)*slope+minOutput;
+        double slope = (maxOutput - minOutput) / (maxInput - minInput);
+        double output = (input - minInput) * slope + minOutput;
         return output;
     }
 
@@ -43,11 +44,11 @@ public class LinearMap {
     }
 
     public static void main(String[] args) {
-        LinearMap map=new LinearMap(-10,10,2,3);
+        LinearMap map = new LinearMap(-10, 10, 2, 3);
 
-        for (double d=map.getMinInput();d<=map.getMaxInput();d+=.01){
-            double out=map.operate(d);
-            System.out.println("in = " + d+", out="+out);
+        for (double d = map.getMinInput(); d <= map.getMaxInput(); d += .01) {
+            double out = map.operate(d);
+            System.out.println("in = " + d + ", out=" + out);
         }
     }
 }
