@@ -9,9 +9,9 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.coreadditions.ToggleButton;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.coreadditions.ToggleButton;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -77,7 +77,7 @@ public class IdealGasControlPanel extends JPanel {
         };
 //        JButton measurementDlgBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) );
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
-        measurementDlgBtn.setBackground( new Color( 220, 200, 100 ) );
+        measurementDlgBtn.setBackground( Color.yellow );
 //        measurementDlgBtn.addActionListener( new ActionListener() {
 //            public void actionPerformed( ActionEvent e ) {
 //                module.setMeasurementDlgVisible( true );

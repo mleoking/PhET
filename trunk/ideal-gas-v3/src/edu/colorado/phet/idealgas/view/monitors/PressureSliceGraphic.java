@@ -81,6 +81,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
 
         public void update() {
             pressure = pressureSlice.getPressure();
+            temperature = pressureSlice.getTemperature();
 
             // Clear the drawing area and rebuild it
             drawingArea.exclusiveOr( drawingArea );

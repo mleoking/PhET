@@ -19,7 +19,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class PressureDialGauge implements Graphic {
-    private DialGauge gauge;
     private PressureSensingBox box;
     private PressureSlice pressureSlice;
     private double radius = 50;
@@ -28,6 +27,7 @@ public class PressureDialGauge implements Graphic {
     private DialGauge pressureGauge;
     private Point2D.Double center;
     private Rectangle2D.Double stem;
+    private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
 
     public PressureDialGauge( PressureSensingBox box, Component component, PressureSlice pressureSlice ) {
         this.box = box;
@@ -36,7 +36,8 @@ public class PressureDialGauge implements Graphic {
         center = new Point2D.Double( box.getMaxX() + radius + stemLength, pressureSlice.getY() );
         pressureGauge = new DialGauge( new ObservablePressureBox(), component,
                                        center.getX(), center.getY(),
-                                       radius * 2, 0, 100, "Pressure", "Atm" );
+                                       radius * 2, 0, 100, "Pressure", "Atm",
+                                       font );
         stem = new Rectangle2D.Double( box.getMaxX(), center.getY() - stemThickness / 2,
                                        stemLength, stemThickness );
     }
