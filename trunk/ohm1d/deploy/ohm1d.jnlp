@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+  spec="1.0+"
+  codebase="http://www.colorado.edu/physics/phet/simulations"
+  href="ohm1d/ohm1d.jnlp">
+  <information>
+    <title>Battery Resistance</title> 
+    <vendor>University of Colorado, Department of Physics</vendor> 
+    <homepage href="http://www.colorado.edu/physics/phet"/> 
+    <description>Shows how Ohm's Law works.</description> 
+    <description kind="short">A demo of Ohm's law.</description>
+    <icon href="icons/PhET.gif"/> 
+    <icon kind="splash" href="icons/PhET.gif"/> 
+    <offline-allowed/>
+  </information>
+
+  <security>
+  </security>
+
+  <resources>
+    <j2se version="1.4+"/>
+    <jar href="ohm1d/ohm1d.jar"/>
+
+  </resources>
+
+  <application-desc main-class="phet.ohm1d.volt.Ohm1dModule"> 
+  <!-- uncomment to specify user language
+    <argument>user.language=test</argument>
+  -->
+  </application>
+</jnlp>
