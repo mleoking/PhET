@@ -10,6 +10,9 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * Test comment for CVS.
+ */
 public class DialogTest extends javax.swing.JPanel {
     JLabel label;
     ImageIcon icon = new ImageIcon( "images/middle.gif" );
