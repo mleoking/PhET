@@ -10,6 +10,7 @@ HIGH PRIORITY:
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
+- generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
 - Electromagnet module "first pass"
 - Transformer module requirements
 
