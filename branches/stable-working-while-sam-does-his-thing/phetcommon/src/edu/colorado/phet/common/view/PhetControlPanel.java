@@ -1,4 +1,4 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -16,111 +16,65 @@ import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
- * PhetControlPanel
+ * ControlPanel
  *
  * @author ?
  * @version $Revision$
  */
 public class PhetControlPanel extends JPanel {
-    protected Module module;
-    private JPanel controlPane;
+    private Module module;
+    private JPanel controlPane = new JPanel( new GridBagLayout() );
     private SpringLayout layout;
     private JLabel titleLabel;
     private HelpPanel helpPanel;
     private ImageIcon imageIcon;
     private int padX = 5;
     private int padY = 5;
+    private ArrayList controls = new ArrayList();
+    private HashMap panelEntries = new HashMap();
+    private Insets defaultInsets = new Insets( 10, 5, 0, 5 );
 
-    /**
-     * @param module
-     * @param controlPane A panel with application-specific controls
-     */
-    public PhetControlPanel( Module module, JPanel controlPane ) {
-        this.module = module;
-        this.controlPane = controlPane;
-        layout = new SpringLayout();
-        this.setLayout( layout );
-        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
-        imageIcon = new ImageIcon( resource );
-        titleLabel = ( new JLabel( imageIcon ) );
-        helpPanel = new HelpPanel( module );
-
-        this.add( titleLabel );
-        this.add( controlPane );
-        this.add( helpPanel );
-
-        adjustLayout();
-        controlPane.addContainerListener( new ContainerAdapter() {
-            public void componentAdded( ContainerEvent e ) {
-                adjustLayout();
-            }
-
-            public void componentRemoved( ContainerEvent e ) {
-                adjustLayout();
-            }
-        } );
-
-        controlPane.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                adjustLayout();
-            }
-
-            public void componentShown( ComponentEvent e ) {
-                adjustLayout();
-            }
-        } );
-    }
 
     /**
      * @param module
      */
     public PhetControlPanel( Module module ) {
         this.module = module;
-        layout = new SpringLayout();
-        this.setLayout( layout );
         URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
         imageIcon = new ImageIcon( resource );
+
+        this.setLayout( new BorderLayout() );
         titleLabel = ( new JLabel( imageIcon ) );
         helpPanel = new HelpPanel( module );
 
-        this.add( titleLabel );
-        this.add( helpPanel );
+        this.add( titleLabel, BorderLayout.NORTH );
+        this.add( helpPanel, BorderLayout.SOUTH );
+        setHelpPanelEnabled( module.hasHelp() );
+        JPanel centerPane = new JPanel();
+        centerPane.add( controlPane );
+        this.add( centerPane, BorderLayout.CENTER );
+    }
+
+    public PhetControlPanel( Module module, JPanel panel ) {
+        this( module );
+        this.add( panel );
     }
 
 
-    public void setControlPane( JPanel controlPane ) {
-        this.controlPane = controlPane;
-        this.add( controlPane );
-        adjustLayout();
-        controlPane.addContainerListener( new ContainerAdapter() {
-            public void componentAdded( ContainerEvent e ) {
-                adjustLayout();
-            }
-
-            public void componentRemoved( ContainerEvent e ) {
-                adjustLayout();
-            }
-        } );
-
-        controlPane.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                adjustLayout();
-            }
-
-            public void componentShown( ComponentEvent e ) {
-                adjustLayout();
-            }
-        } );
+    public void setHelpPanelEnabled( boolean isEnabled ) {
+        helpPanel.setVisible( isEnabled );
     }
 
-    protected void adjustLayout() {
+    /**
+     * Vestigial code used to center the controls in the panel using a SpringLayout. I'm hanging om to this so
+     * I'll have an example of SpringLayout use
+     */
+    private void adjustLayout() {
         Dimension controlPaneSize = controlPane.getPreferredSize();
         int controlPaneWidth = (int)Math.round( controlPaneSize.getWidth() );
         int controlPaneHeight = (int)Math.round( controlPaneSize.getHeight() );
@@ -174,5 +128,96 @@ public class PhetControlPanel extends JPanel {
                               SpringLayout.NORTH, this );
         this.invalidate();
         this.repaint();
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+    // Add/remove methods
+    //
+
+    /**
+     * Adds a component to the control panel using the default positioning. The control will be
+     * centered in the panel with default insets.
+     *
+     * @param comp
+     * @return
+     */
+    public Component add( Component comp ) {
+        return add( comp, defaultInsets );
+    }
+
+    /**
+     * Adds a component to the control panel. The component is expanded horizontally to be as wide as the
+     * widest component in the panel.
+     *
+     * @param comp
+     * @return
+     */
+    public Component addFullWidth( Component comp ) {
+        GridBagConstraints gbc = new GridBagConstraints( 0, controls.indexOf( comp ),
+                                                         1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
+        return add( comp, gbc );
+    }
+
+    /**
+     * Adds a componenet to tne control panel using specified GridBagConstraints. Note that the gridy attribute
+     * of the constraints will be set by the ControlPanel so that the control is placed below whatever controls
+     * are already in the panel.
+     *
+     * @param comp
+     * @param constraints
+     * @return
+     */
+    public Component add( Component comp, GridBagConstraints constraints ) {
+        controls.add( comp );
+        constraints.gridy = controls.indexOf( comp );
+        this.panelEntries.put( comp, constraints );
+        controlPane.add( comp, constraints );
+        revalidate();
+        repaint();
+        return comp;
+    }
+
+    /**
+     * Adds a component to the control panel with specified insets.
+     *
+     * @param comp
+     * @param insets
+     * @return
+     */
+    public Component add( Component comp, Insets insets ) {
+        GridBagConstraints gbc = new GridBagConstraints( 0, controls.indexOf( comp ),
+                                                         1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
+        return add( comp, gbc );
+    }
+
+    /**
+     * Removes a compoonent from the control panel. All controls that were below the component will be
+     * moved up in the panel.
+     *
+     * @param comp
+     */
+    public void remove( Component comp ) {
+        // remove the component from the pane
+        controlPane.remove( comp );
+
+        // Adjust the positions of the remaining controls
+        int idx = controls.indexOf( comp );
+        controls.remove( comp );
+        for( int i = 0; i < controls.size(); i++ ) {
+            Component compToMove = (Component)controls.get( i );
+            if( i >= idx ) {
+                GridBagConstraints constraints = (GridBagConstraints)panelEntries.get( compToMove );
+                constraints.gridy--;
+                controlPane.remove( compToMove );
+                controlPane.add( compToMove, constraints );
+            }
+        }
+
+        // Redraw the panel
+        revalidate();
+        repaint();
     }
 }

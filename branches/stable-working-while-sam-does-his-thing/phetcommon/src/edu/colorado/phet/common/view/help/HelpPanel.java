@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 /**
  * HelpPanel
  *
- * @author ?
+ * @author Ron LeMaster
  * @version $Revision$
  */
 public class HelpPanel extends JPanel {
@@ -33,8 +33,11 @@ public class HelpPanel extends JPanel {
     private JButton miniHelpBtn;
     private JButton megaHelpBtn;
     private int padY = 2;
+    private Module module;
 
     public HelpPanel( final Module module ) {
+        this.module = module;
+
         miniHelpBtn = new JButton( showHelpStr );
         megaHelpBtn = new JButton( megaHelpStr );
 
@@ -43,6 +46,8 @@ public class HelpPanel extends JPanel {
         miniHelpBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 miniHelpShowing = !miniHelpShowing;
+
+                // If there is no megahelp, don't show the megahelp button
                 if( miniHelpShowing ) {
                     setTwoButtonMode();
                 }
@@ -66,20 +71,20 @@ public class HelpPanel extends JPanel {
 
     private void layoutPanel() {
         setPreferredSize( new Dimension( (int)Math.max( miniHelpBtn.getPreferredSize().getWidth(),
-                                                   megaHelpBtn.getPreferredSize().getWidth()),
+                                                        megaHelpBtn.getPreferredSize().getWidth() ),
                                          (int)( miniHelpBtn.getPreferredSize().getHeight()
-                                                + megaHelpBtn.getPreferredSize().getHeight() + padY * 2)));
+                                                + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
         SpringLayout layout = new SpringLayout();
         this.setLayout( layout );
-        Spring halfWidthS =  FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ));
-        Spring halfHeightS =  FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ));
-        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() + padY )));
-        Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 )));
+        Spring halfWidthS = FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ) );
+        Spring halfHeightS = FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ) );
+        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() + padY ) ) );
+        Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
         layout.putConstraint( SpringLayout.NORTH, miniHelpBtn, topOfMiniBtnS, SpringLayout.NORTH, this );
         layout.putConstraint( SpringLayout.WEST, miniHelpBtn, leftOfMiniBtnS, SpringLayout.WEST, this );
 
-        Spring topOfMegaBtnS = Spring.sum( halfHeightS, Spring.constant( padY ));
-        Spring leftOfMegaBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)megaHelpBtn.getPreferredSize().getWidth() / 2 )));
+        Spring topOfMegaBtnS = Spring.sum( halfHeightS, Spring.constant( padY ) );
+        Spring leftOfMegaBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)megaHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
         layout.putConstraint( SpringLayout.NORTH, megaHelpBtn, topOfMegaBtnS, SpringLayout.NORTH, this );
         layout.putConstraint( SpringLayout.WEST, megaHelpBtn, leftOfMegaBtnS, SpringLayout.WEST, this );
 
@@ -111,7 +116,8 @@ public class HelpPanel extends JPanel {
     }
 
     private void setTwoButtonMode() {
-        megaHelpBtn.setVisible( true );
+        // Don't show the megahelp button if the module doesn't provide megahelp
+        megaHelpBtn.setVisible( module.hasMegaHelp() );
         miniHelpBtn.setText( hideHelpStr );
 
         // If you want the two buttons to pop up centered in the panel, comment out the next line

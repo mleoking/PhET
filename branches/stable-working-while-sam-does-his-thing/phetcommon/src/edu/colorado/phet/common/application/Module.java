@@ -14,9 +14,11 @@ package edu.colorado.phet.common.application;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.help.HelpManager;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -37,47 +39,13 @@ public class Module {
     JPanel controlPanel;
     JPanel monitorPanel;
     String name;
-    HelpManager helpManager = new HelpManager();
+    HelpManager helpManager;
+
 
     protected Module( String name ) {
         this.name = name;
         SimStrings.setStrings( "localization/CommonStrings" );
-    }
-
-    public ApparatusPanel getApparatusPanel() {
-        return apparatusPanel;
-    }
-
-    public void setHelpEnabled( boolean h ) {
-        helpManager.setHelpEnabled( apparatusPanel, h );
-    }
-
-    public void addHelpItem( HelpItem helpItem ) {
-        helpManager.addHelpItem( helpItem );
-    }
-
-    public void removeHelpItem( HelpItem helpItem ) {
-        helpManager.removeHelpItem( helpItem );
-    }
-
-    public JPanel getControlPanel() {
-        return controlPanel;
-    }
-
-    protected void setApparatusPanel( ApparatusPanel apparatusPanel ) {
-        this.apparatusPanel = apparatusPanel;
-    }
-
-    protected void setMonitorPanel( JPanel monitorPanel ) {
-        this.monitorPanel = monitorPanel;
-    }
-
-    protected void setModel( BaseModel model ) {
-        this.model = model;
-    }
-
-    protected void setControlPanel( JPanel controlPanel ) {
-        this.controlPanel = controlPanel;
+        helpManager = new HelpManager();
     }
 
     protected void init( ApparatusPanel panel, JPanel controlPanel, JPanel monitorPanel, BaseModel baseModel ) {
@@ -87,13 +55,40 @@ public class Module {
         setModel( model );
     }
 
-    public JPanel getMonitorPanel() {
-        return monitorPanel;
+    /////////////////////////////////////////////////////////////////
+    // Setters and getters
+    //
+    public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
+        this.apparatusPanel = apparatusPanel;
+        helpManager = new HelpManager( apparatusPanel );//TODO fix this.
     }
 
+    public ApparatusPanel getApparatusPanel() {
+        return apparatusPanel;
+    }
+
+    public void setMonitorPanel( JPanel monitorPanel ) {
+        this.monitorPanel = monitorPanel;
+    }
+
+    public void setModel( BaseModel model ) {
+        this.model = model;
+    }
 
     public BaseModel getModel() {
         return model;
+    }
+
+    public void setControlPanel( JPanel controlPanel ) {
+        this.controlPanel = controlPanel;
+    }
+
+    public JPanel getControlPanel() {
+        return controlPanel;
+    }
+
+    public JPanel getMonitorPanel() {
+        return monitorPanel;
     }
 
     public String getName() {
@@ -108,12 +103,12 @@ public class Module {
         getApparatusPanel().addGraphic( graphic, layer );
     }
 
-    protected void add( ModelElement modelElement, Graphic graphic, double layer ) {
+    protected void add( ModelElement modelElement, PhetGraphic graphic, double layer ) {
         this.addModelElement( modelElement );
         this.addGraphic( graphic, layer );
     }
 
-    protected void remove( ModelElement modelElement, Graphic graphic ) {
+    protected void remove( ModelElement modelElement, PhetGraphic graphic ) {
         getModel().removeModelElement( modelElement );
         getApparatusPanel().removeGraphic( graphic );
     }
@@ -154,7 +149,66 @@ public class Module {
         return "name=" + name + ", model=" + model + ", apparatusPanel=" + apparatusPanel + ", controlPanel=" + controlPanel + ", monitorPanel=" + monitorPanel;
     }
 
-    public void showMegaHelp() {
-        JOptionPane.showMessageDialog( null, "<html><center>Megahelp not available<br>for this simulation</center></html>" );
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    // Help related methods
+    //
+
+    /**
+     * Tells whether this module has on-screen help
+     *
+     * @return
+     */
+    public boolean hasHelp() {
+        return helpManager.getNumHelpItems() > 0;
     }
+
+    /**
+     * Switches the display of onscreen help off and on
+     *
+     * @param h
+     */
+    public void setHelpEnabled( boolean h ) {
+        helpManager.setHelpEnabled( apparatusPanel, h );
+    }
+
+    /**
+     * Adds a an onscreen help item to the module
+     *
+     * @param helpItem
+     */
+    public void addHelpItem( HelpItem helpItem ) {
+        helpManager.addHelpItem( helpItem );
+        if( controlPanel != null && controlPanel instanceof PhetControlPanel ) {
+            ( (PhetControlPanel)controlPanel ).setHelpPanelEnabled( true );
+        }
+    }
+
+    /**
+     * Removes an onscreen help item from the module
+     *
+     * @param helpItem
+     */
+    public void removeHelpItem( HelpItem helpItem ) {
+        helpManager.removeHelpItem( helpItem );
+        if( controlPanel != null && controlPanel instanceof PhetControlPanel && helpManager.getNumHelpItems() == 0 ) {
+            ( (PhetControlPanel)controlPanel ).setHelpPanelEnabled( false );
+        }
+    }
+
+    /**
+     * This must be overrideen by subclasses that have megahelp
+     */
+    public void showMegaHelp() {
+    }
+
+    /**
+     * This must be overriden by subclasses that have megahelp to return true
+     *
+     * @return
+     */
+    public boolean hasMegaHelp() {
+        return false;
+    }
+
 }
