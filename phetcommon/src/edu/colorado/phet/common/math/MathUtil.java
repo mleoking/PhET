@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 
 /**
  * A class of static general purpose math utilities
- * 
+ *
  * @author Ron LeMaster
  * @version $Revision$
  */
@@ -351,5 +351,41 @@ public class MathUtil {
             return max;
         }
         return value;
+    }
+
+
+    public static class Average {
+        private double sum;
+        private int num;
+
+        public Average() {
+            reset();
+        }
+
+        public void update( double newValue ) {
+            sum += newValue;
+            num++;
+        }
+
+        public double value() {
+            return sum / num;
+        }
+
+        /**
+         * Returns the number of values since last reset().
+         *
+         * @return the number of values since last reset().
+         */
+        public int numValues() {
+            return num;
+        }
+
+        /**
+         * Reset the Average.
+         */
+        public void reset() {
+            sum = 0;
+            num = 0;
+        }
     }
 }
