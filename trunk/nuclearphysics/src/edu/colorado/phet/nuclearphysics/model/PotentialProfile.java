@@ -54,8 +54,6 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
     private Nucleus nucleus;
     private AffineTransform profileTx = new AffineTransform();
 
-    public PotentialProfile() {
-    }
 
     public PotentialProfile( Nucleus nucleus ) {
         this.nucleus = nucleus;
@@ -226,7 +224,7 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
      * @param y
      * @return
      */
-    public double getHillX( double y ) {
+    private double getHillX( double y ) {
         double[] roots = cubicUtil.getXforY( y );
         double result = Double.NaN;
         for( int i = 0; i < roots.length; i++ ) {

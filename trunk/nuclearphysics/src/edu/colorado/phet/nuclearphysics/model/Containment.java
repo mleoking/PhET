@@ -22,7 +22,7 @@ public class Containment extends SimpleObservable {
     private ArrayList resizeListeners = new ArrayList();
 
     public interface ResizeListener {
-        void resized( Containment containment );
+        void containementResized( Containment containment );
     }
 
     public Containment( Point2D center, double radius ) {
@@ -41,7 +41,7 @@ public class Containment extends SimpleObservable {
     private void notifyResizeListeners() {
         for( int i = 0; i < resizeListeners.size(); i++ ) {
             ResizeListener resizeListener = (ResizeListener)resizeListeners.get( i );
-            resizeListener.resized( this );
+            resizeListener.containementResized( this );
         }
     }
 

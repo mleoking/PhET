@@ -20,15 +20,10 @@ import java.awt.image.ImageObserver;
 
 public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
 
-    //
-    // Static fields and methods
-    //
     private static NeutronGraphic neutronGraphic = new NeutronGraphic();
     private static ProtonGraphic protonGraphic = new ProtonGraphic();
 
-    //
-    // Instance fields and methods
-    //
+
     private Point2D.Double position = new Point2D.Double();
     Nucleus nucleus;
     private Image img;

@@ -35,7 +35,7 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
 
     protected void addNucleus( Nucleus nucleus ) {
         super.addNucleus( nucleus );
-        potentialProfilePanel.addNucleus( nucleus );
+        potentialProfilePanel.addPotentialProfile( nucleus );
     }
 
     protected void addNucleus( Nucleus nucleus, Color color ) {
