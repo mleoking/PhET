@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.examples;
 
 import edu.colorado.phet.common.view.plaf.PlafUtil;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -15,8 +16,8 @@ import java.awt.*;
  * Copyright (c) Apr 2, 2004 by Sam Reid
  */
 public class TestComponents {
-    public static void main( String[] args ) throws IllegalAccessException, UnsupportedLookAndFeelException, InstantiationException, ClassNotFoundException {
-        JFrame sliderFrame = new JFrame( "Test Slider UI" );
+    public static void main( String[] args ) {
+        JFrame frame = new JFrame( "Test Slider UI" );
         JMenuBar jmb = new JMenuBar() {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;
@@ -29,9 +30,12 @@ public class TestComponents {
         for( int i = 0; i < it.length; i++ ) {
             JMenuItem jMenuItem = it[i];
             plafs.add( jMenuItem );
+            jMenuItem.setSelected( false );
+
         }
+        it[it.length - 1].setSelected( true );
         jmb.add( plafs );
-        sliderFrame.setJMenuBar( jmb );
+        frame.setJMenuBar( jmb );
         JSlider slider = new JSlider( 0, 100 ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;
@@ -48,7 +52,7 @@ public class TestComponents {
         contentPane.setLayout( new BoxLayout( contentPane, BoxLayout.Y_AXIS ) );
         contentPane.add( slider );
 
-        sliderFrame.setContentPane( contentPane );
+        frame.setContentPane( contentPane );
         slider.setBorder( BorderFactory.createTitledBorder( "Slider Test" ) );
 
         JButton button = new JButton( "Fire Photon" );
@@ -59,7 +63,7 @@ public class TestComponents {
 
 //        UIManager.installLookAndFeel( "Test Look And Feel", new PlayfulLookAndFeel().getClass().getName() );
 //        UIManager.setLookAndFeel( PlayfulLookAndFeel.class.getName());
-        SwingUtilities.updateComponentTreeUI( sliderFrame );
+        SwingUtilities.updateComponentTreeUI( frame );
 
         SpinnerNumberModel snm = new SpinnerNumberModel( 0, 0, 10, 1 );
         final JSpinner spinner = new JSpinner( snm );
@@ -74,8 +78,10 @@ public class TestComponents {
         spinnerPanel.add( spinner );
         contentPane.add( spinnerPanel );
 
-        sliderFrame.setSize( 600, 600 );
-        sliderFrame.setVisible( true );
-        sliderFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setSize( 600, 600 );
+        GraphicsUtil.centerFrameOnScreen( frame );
+        PlafUtil.applyPlayful();
+        frame.setVisible( true );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 }
