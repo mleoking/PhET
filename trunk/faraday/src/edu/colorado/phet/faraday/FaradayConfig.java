@@ -80,7 +80,7 @@ public class FaradayConfig {
     public static final Dimension BAR_MAGNET_SIZE = new Dimension( BAR_MAGNET_WIDTH, (int) ( BAR_MAGNET_WIDTH / BAR_MAGNET_ASPECT_RATIO ) );
 
     // Compass Grid parameters
-    public static final int GRID_SPACING_MIN = 20;
+    public static final int GRID_SPACING_MIN = 35;
     public static final int GRID_SPACING_MAX = 100;
     public static final int GRID_SPACING = 40;
     public static final double GRID_NEEDLE_ASPECT_RATIO = 25.0/7.0;

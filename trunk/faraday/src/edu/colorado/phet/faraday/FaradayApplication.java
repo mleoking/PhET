@@ -23,10 +23,10 @@ import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.control.ColorDialog;
+import edu.colorado.phet.faraday.control.GridControlsDialog;
 
 /**
  * FaradayApplication is the main application for the PhET
@@ -67,6 +67,16 @@ public class FaradayApplication extends PhetApplication {
                 }
             } );
             optionsMenu.add( colorMenuItem );
+            
+            // Grid Controls dialog
+            JMenuItem gridMenuItem = new JMenuItem( SimStrings.get( "GridControls.menuItem" ) );
+            gridMenuItem.setMnemonic( 'G' );
+            gridMenuItem.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    handleGridControlsMenuItem();
+                }
+            } );
+            optionsMenu.add( gridMenuItem );
         }
     }
 
@@ -113,6 +123,16 @@ public class FaradayApplication extends PhetApplication {
         Component parent = getPhetFrame();
         Color color = getModuleManager().getActiveModule().getApparatusPanel().getBackground();
         ColorDialog.showDialog( title, parent, color, listener );
+    }
+    
+    /**
+     * Handles the "Grid Controls" menu item.
+     * Opens a dialog that contains controls for the "compass grid".
+     */
+    public void handleGridControlsMenuItem() {
+        String title = SimStrings.get( "GridControlsDialog.title" );
+        GridControlsDialog dialog = new GridControlsDialog( this, title );
+        dialog.show();
     }
     
     //----------------------------------------------------------------------------
