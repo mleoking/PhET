@@ -13,12 +13,14 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
 import java.text.AttributedString;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
+import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
 import edu.colorado.phet.colorvision3.view.BellCurve;
@@ -37,7 +39,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$ $Name$
  */
-public class SpectrumSlider extends DefaultInteractiveGraphic implements Translatable
+public class SpectrumSlider extends DefaultInteractiveGraphic
 {
 	//----------------------------------------------------------------------------
 	// Class data
@@ -109,16 +111,14 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     _dragBounds = new Rectangle( 0, 0, 0, 0); // set correctly by setLocation
     super.setBoundedGraphic( _knob );
     super.addCursorHandBehavior();
-    super.addTranslationBehavior( this );
+    super.addMouseInputListener( new SpectrumSliderMouseInputListener() );
 
     // Initial values.
     setMinimum( (int) VisibleColor.MIN_WAVELENGTH );
     setMaximum( (int) VisibleColor.MAX_WAVELENGTH );
+    setTransmissionWidth( 0 );
     setLocation( 0, 0 );
     setValue( 0 );
-    setTransmissionWidth( 0 );
-    
-    translate(0,0);
   }
   
 	//----------------------------------------------------------------------------
@@ -453,28 +453,6 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   }
   
 	//----------------------------------------------------------------------------
-	// Drag control
-  //----------------------------------------------------------------------------
-
-  /**
-   * Implements the Translatable interface, which handles drag operations.
-   * The slider is constrained to its drag bounds, and the slider color is
-   * changed as the slider is dragged.  Registered listeners are notified.
-   * 
-   * @param dx X delta
-   * @param dy Y delta
-   */
-  public void translate( double dx, double dy )
-  { 
-    // Constrain the drag boundaries of the slider.
-    int x = (int) Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, _knob.getPosition().x + dx ) );
-    int y = (int) Math.max( _dragBounds.y, Math.min( _dragBounds.y + _dragBounds.height, _knob.getPosition().y + dy ) );
-
-    int value = getValue( x, y );
-    setValue( value );
-  }
-  
-	//----------------------------------------------------------------------------
 	// Event handling
   //----------------------------------------------------------------------------
 
@@ -516,6 +494,46 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     }
   }
   
+  /**
+   * SpectrumSliderMouseInputListener is an inner class the handles 
+   * dragging of the slider knob.
+   * <p>
+   * Note that SpectrumSlider cannot implement MouseListener because
+   * its superclass already does.
+   *
+   * @author Chris Malley (cmalley@pixelzoom.com)
+   * @version $Id$
+   */
+  private class SpectrumSliderMouseInputListener extends MouseInputAdapter
+  {
+    /**
+     * Handles mouse drag events, related to moving the slider knob.
+     * The slider knob's motion is constrained so that it behaves like
+     * a JSlider.
+     * 
+     * @param event the mouse event
+     */
+    public void mouseDragged( MouseEvent event )
+    {
+      // Get the proposed knob coordinates.
+      int knobX = event.getX() - (_knob.getWidth()/2);
+      int knobY = event.getY();
+      
+      // Constrain the drag boundaries of the knob.
+      int x = (int) Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, knobX ) );
+      int y = (int) Math.max( _dragBounds.y, Math.min( _dragBounds.y + _dragBounds.height, knobY ) );
+
+      // Determine the value that corresponds to the constrained location.
+      int value = getValue( x, y );
+      
+      // If the value will be changed, set the new value.
+      if ( value != getValue() )
+      {
+        setValue( value );
+      }
+    }
+  }
+
 }
 
 
