@@ -6,8 +6,10 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -51,28 +53,28 @@ public class PhetJComponentContainerTest {
             }
         } );
 
-//        /**Wrap the JComponent in a PhetGraphic called PhetJComponent*/
-//        PhetJComponent buttonPhetJ = new PhetJComponent( ap, jb );
-//        ap.addGraphic( buttonPhetJ );
-//
-//        /**Now you can decorate or manipule the PhetGraphic as per usual.*/
-//        buttonPhetJ.setCursorHand();
-//        buttonPhetJ.scale( 1.5 );
-//        buttonPhetJ.setLocation( 100, 100 );
-
         /**That's all.*/
 
         JPanel jPanel = new JPanel();
+        jPanel.setLayout( new FlowLayout() );
+//        jPanel.setLayout( new BoxLayout( jPanel, BoxLayout.Y_AXIS ) );
         jPanel.setBorder( BorderFactory.createTitledBorder( "hello" ) );
-        jPanel.add( new JLabel( "text" ) );
-//        jPanel.add( new JLabel( "label2"));
-        PhetJComponent panelComponent = PhetJComponent.newInstance( ap, jPanel );
+        jPanel.add( new JTextField( 8 ) );
+        jPanel.add( new JButton( "mybutton" ) );
+//        jPanel.add( new JLabel( "label2" ) );
+        PhetGraphic panelComponent = PhetJComponent.newInstance( ap, jPanel );
         ap.addGraphic( panelComponent );
 
+        JSpinner spinner = new JSpinner( new SpinnerNumberModel( 5, 0, 10, 1 ) );
+        spinner.setBorder( BorderFactory.createTitledBorder( "Spinner" ) );
+        PhetGraphic pj = PhetJComponent.newInstance( ap, spinner );
+        ap.addGraphic( pj );
+        pj.setLocation( 100, 100 );
     }
 
     public static void main( String[] args ) {
 //        PhetJComponent.newInstance().start();
+        new PhetJComponentContainerTest().start();
     }
 
     private void start() {

@@ -6,6 +6,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -52,7 +53,7 @@ public class BasicPhetJComponentTest {
         } );
 
         /**Wrap the JComponent in a PhetGraphic called PhetJComponent*/
-        PhetJComponent buttonPhetJ = PhetJComponent.newInstance( ap, jb );
+        PhetGraphic buttonPhetJ = PhetJComponent.newInstance( ap, jb );
         ap.addGraphic( buttonPhetJ );
 
         /**Now you can decorate or manipule the PhetGraphic as per usual.*/
