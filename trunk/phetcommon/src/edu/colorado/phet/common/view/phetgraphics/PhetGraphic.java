@@ -42,9 +42,18 @@ import java.util.Stack;
 public abstract class PhetGraphic {
 
     //----------------------------------------------------------------------------
+    // Class
+    //----------------------------------------------------------------------------
+    private static boolean ignoreRectangles = false;
+
+    public void setIgnoreRectangles( boolean ignore ) {
+        ignoreRectangles = ignore;
+    }
+
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private Point location = new Point();
     private Point registrationPoint = new Point();
     private AffineTransform transform = new AffineTransform();
@@ -66,6 +75,10 @@ public abstract class PhetGraphic {
     private ArrayList listeners = new ArrayList();
     private boolean ignoreMouse = false;
     private boolean autorepaint = true;
+
+    // Utility objects to avoid dynamic memory allocation
+    private AffineTransform netUtilTx = new AffineTransform();
+    private AffineTransform xlateUtilTx = new AffineTransform();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -384,15 +397,15 @@ public abstract class PhetGraphic {
     }
 
     /**
-     * Gets the "net" transform.  The net transform is the result of applying
+     * Gets the "netUtilTx" transform.  The netUtilTx transform is the result of applying
      * the local transform relative to the registration point, then translating
-     * to the location, then applying the parent's net transform (if a parent exists).
+     * to the location, then applying the parent's netUtilTx transform (if a parent exists).
      * <p/>
      * This method should be used in methods involving painting and bounds calculations.
      *
-     * @return the net AffineTransform of this graphic
+     * @return the netUtilTx AffineTransform of this graphic
      */
-    public AffineTransform getNetTransform() {
+    protected AffineTransform getNetTransform() {
         AffineTransform net = new AffineTransform();
         
         // Use preConcatenate, so that transforms are shown in the order that they will occur.
@@ -400,21 +413,25 @@ public abstract class PhetGraphic {
         // Translate to registration point
 
         // todo: why are there minus signs on the parameters here?
-        net.preConcatenate( AffineTransform.getTranslateInstance( -registrationPoint.x, -registrationPoint.y ) );
+        xlateUtilTx.setToTranslation( -registrationPoint.x, -registrationPoint.y );
+        netUtilTx.preConcatenate( xlateUtilTx );
+
         // Apply local transform
-        net.preConcatenate( transform );
+        netUtilTx.preConcatenate( transform );
+
         // Translate to location
         // todo: moved this to doing the translation as a completely separate step. See GraphicLayerSet.paint(), contains(), and determine bounds()
-        net.preConcatenate( AffineTransform.getTranslateInstance( location.x, location.y ) );
+        xlateUtilTx.setToTranslation( location.x, location.y );
+        netUtilTx.preConcatenate( xlateUtilTx );
 
         // todo: Not needed, because GraphicLayerSets apply their transforms to the graphics before we get here
-        // Apply parent's net transform - rjl
+        // Apply parent's netUtilTx transform - rjl
         if( parent != null ) {
             AffineTransform parentTransform = parent.getNetTransform();
-            net.preConcatenate( parentTransform );
+            netUtilTx.preConcatenate( parentTransform );
         }
 
-        return net;
+        return netUtilTx;
     }
     
     //----------------------------------------------------------------------------
@@ -532,7 +549,9 @@ public abstract class PhetGraphic {
      * Flags the bounds for recomputation when applicable.
      */
     public void setBoundsDirty() {
-        boundsDirty = true;
+        if( !ignoreRectangles ) {
+            boundsDirty = true;
+        }
     }
 
     /**
@@ -556,11 +575,13 @@ public abstract class PhetGraphic {
      * If the bounds are dirty, they are recomputed.
      */
     protected void syncBounds() {
-        if( boundsDirty ) {
-            rebuildBounds();
-            boundsDirty = false;
-            if( !RectangleUtils.areEqual( lastBounds, bounds ) ) {
-                notifyChanged();
+        if( !ignoreRectangles ) {
+            if( boundsDirty ) {
+                rebuildBounds();
+                boundsDirty = false;
+                if( !RectangleUtils.areEqual( lastBounds, bounds ) ) {
+                    notifyChanged();
+                }
             }
         }
     }
@@ -585,7 +606,7 @@ public abstract class PhetGraphic {
      * Sets the location of this graphic.
      * <p/>
      * The location is a translation that is applied after the local transform,
-     * but before the parent's net transform.  This effectively moves the
+     * but before the parent's netUtilTx transform.  This effectively moves the
      * graphic's registration point to the specified location, relative
      * to the parent container.
      *
@@ -972,12 +993,14 @@ public abstract class PhetGraphic {
      * Forces a repaint of this graphic.
      */
     protected void forceRepaint() {
-        syncBounds();
-        if( lastBounds != null ) {
-            component.repaint( lastBounds.x, lastBounds.y, lastBounds.width, lastBounds.height );
-        }
-        if( bounds != null ) {
-            component.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
+        if( !ignoreRectangles ) {
+            syncBounds();
+            if( lastBounds != null ) {
+                component.repaint( lastBounds.x, lastBounds.y, lastBounds.width, lastBounds.height );
+            }
+            if( bounds != null ) {
+                component.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
+            }
         }
     }
 
@@ -994,6 +1017,8 @@ public abstract class PhetGraphic {
         else {
             Rectangle global = getBounds();
             AffineTransform parentTransform = parent.getNetTransform();
+
+            // TODO: Profile. This next block looks very expensive
             try {
                 AffineTransform inverse = parentTransform.createInverse();
                 Rectangle localBounds = inverse.createTransformedShape( global ).getBounds();
