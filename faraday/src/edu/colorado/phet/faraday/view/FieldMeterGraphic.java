@@ -166,6 +166,20 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     }
     
     //----------------------------------------------------------------------------
+    // overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * When the graphic is made visible, update it to match the model.
+     * 
+     * @param visible true or false
+     */
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        update();
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
