@@ -1,6 +1,6 @@
 /**
  * Class: Collision
- * Package: edu.colorado.phet.physics.collision
+ * Package: edu.colorado.phet.model.collision
  * Author: Another Guy
  * Date: Mar 24, 2003
  */

@@ -8,8 +8,8 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.lasers.physics.photon.CollimatedBeam;
-import edu.colorado.phet.lasers.physics.LaserModel;
+import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;

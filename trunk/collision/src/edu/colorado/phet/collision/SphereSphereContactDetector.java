@@ -1,6 +1,6 @@
 /**
  * Class: SphereSphereContactDetector
- * Package: edu.colorado.phet.lasers.physics.collision
+ * Package: edu.colorado.phet.lasers.model.collision
  * Author: Another Guy
  * Date: Mar 26, 2003
  */

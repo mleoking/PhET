@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.lasers.physics.LaserModel;
+import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.view.BaseLaserModule;
 
 import javax.swing.*;

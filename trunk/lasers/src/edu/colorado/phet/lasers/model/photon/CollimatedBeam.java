@@ -1,15 +1,15 @@
 /**
  * Class: CollimatedBeam
- * Package: edu.colorado.phet.lasers.physics.photon
+ * Package: edu.colorado.phet.lasers.model.photon
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
-package edu.colorado.phet.lasers.physics.photon;
+package edu.colorado.phet.lasers.model.photon;
 
 
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.lasers.physics.LaserModel;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-// edu.colorado.phet.idealgas.physics.body.HollowSphere
+// edu.colorado.phet.idealgas.model.body.HollowSphere
 /*
  * User: Administrator
  * Date: Jan 5, 2003

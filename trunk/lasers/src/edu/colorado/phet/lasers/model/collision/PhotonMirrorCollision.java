@@ -5,11 +5,11 @@
  * Date: Mar 28, 2003
  * Time: 11:01:44 AM
  */
-package edu.colorado.phet.lasers.physics.collision;
+package edu.colorado.phet.lasers.model.collision;
 
-import edu.colorado.phet.lasers.physics.mirror.PartialMirror;
-import edu.colorado.phet.lasers.physics.mirror.Mirror;
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.mirror.PartialMirror;
+import edu.colorado.phet.lasers.model.mirror.Mirror;
+import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.collision.Collision;
 import edu.colorado.phet.common.model.Particle;
 

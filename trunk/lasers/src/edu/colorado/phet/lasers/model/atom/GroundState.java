@@ -1,6 +1,6 @@
-package edu.colorado.phet.lasers.physics.atom;
+package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 public class GroundState extends AtomicState {
 

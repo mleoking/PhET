@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.lasers.physics.mirror.Mirror;
+import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.model.Particle;

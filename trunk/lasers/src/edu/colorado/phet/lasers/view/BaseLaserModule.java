@@ -12,12 +12,12 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.LaserControlPanel;
-import edu.colorado.phet.lasers.physics.LaserModel;
-import edu.colorado.phet.lasers.physics.ResonatingCavity;
-import edu.colorado.phet.lasers.physics.CavityMustContainAtom;
-import edu.colorado.phet.lasers.physics.atom.Atom;
-import edu.colorado.phet.lasers.physics.photon.CollimatedBeam;
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.model.CavityMustContainAtom;
+import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
 

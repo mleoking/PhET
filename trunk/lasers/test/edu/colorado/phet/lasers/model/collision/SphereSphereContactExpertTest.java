@@ -1,10 +1,10 @@
 /**
  * Class: WallSphereContactExpertTest
- * Package: edu.colorado.phet.lasers.physics.collision
+ * Package: edu.colorado.phet.lasers.model.collision
  * Author: Another Guy
  * Date: Mar 26, 2003
  */
-package edu.colorado.phet.lasers.physics.collision;
+package edu.colorado.phet.lasers.model.collision;
 
 import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.collision.SphereSphereContactDetector;

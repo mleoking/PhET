@@ -1,12 +1,12 @@
 /**
  * Class: Partial
- * Package: edu.colorado.phet.lasers.physics.mirror
+ * Package: edu.colorado.phet.lasers.model.mirror
  * Author: Another Guy
  * Date: Apr 2, 2003
  */
-package edu.colorado.phet.lasers.physics.mirror;
+package edu.colorado.phet.lasers.model.mirror;
 
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 public class Partial implements ReflectionStrategy {
 

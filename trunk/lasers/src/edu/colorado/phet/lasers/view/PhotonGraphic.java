@@ -7,7 +7,7 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;

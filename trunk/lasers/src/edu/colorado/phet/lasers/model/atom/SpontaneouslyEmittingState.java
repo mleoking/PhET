@@ -1,12 +1,12 @@
 /**
  * Class: SpontaneouslyEmittingState
- * Package: edu.colorado.phet.lasers.physics.atom
+ * Package: edu.colorado.phet.lasers.model.atom
  * Author: Another Guy
  * Date: Mar 24, 2003
  */
-package edu.colorado.phet.lasers.physics.atom;
+package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;

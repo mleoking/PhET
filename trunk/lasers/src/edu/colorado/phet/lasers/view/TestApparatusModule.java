@@ -9,7 +9,7 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.TwoLevelControlPanel;
-import edu.colorado.phet.lasers.physics.ResonatingCavity;
+import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 

@@ -8,7 +8,7 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.lasers.physics.LaserModel;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 import javax.swing.*;
 import java.awt.*;

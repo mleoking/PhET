@@ -1,12 +1,12 @@
 /**
  * Class: Photon
- * Package: edu.colorado.phet.lasers.physics
+ * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
-package edu.colorado.phet.lasers.physics.photon;
+package edu.colorado.phet.lasers.model.photon;
 
-import edu.colorado.phet.lasers.physics.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.math.Vector2D;

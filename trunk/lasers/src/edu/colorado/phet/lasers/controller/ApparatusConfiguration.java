@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.lasers.physics.LaserModel;
-import edu.colorado.phet.lasers.physics.atom.HighEnergyState;
-import edu.colorado.phet.lasers.physics.atom.MiddleEnergyState;
+import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.atom.HighEnergyState;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 
 public class ApparatusConfiguration {
 

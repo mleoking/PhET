@@ -5,9 +5,9 @@
  * Time: 12:10:01 PM
  * To change this template use Options | File Templates.
  */
-package edu.colorado.phet.lasers.physics.atom;
+package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.collision.SphericalBody;
 
 import java.util.LinkedList;
