@@ -16,13 +16,21 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
 
-public class MiddleEnergyState extends SpontaneouslyEmittingState {
+public class MiddleEnergyState extends AtomicState {
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Class
+    //
     private static MiddleEnergyState instance = new MiddleEnergyState();
 
     public static MiddleEnergyState instance() {
         return instance;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Instance
+    //
+    private AtomicState nextHigherState = HighEnergyState.instance();
 
     private MiddleEnergyState() {
         setEmittedPhotonWavelength( Photon.RED );
@@ -66,6 +74,10 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
     }
 
     public AtomicState getNextHigherEnergyState() {
-        return HighEnergyState.instance();
+        return nextHigherState;
+    }
+
+    public void setNextHigherEnergyState( AtomicState state ) {
+        nextHigherState = state;
     }
 }

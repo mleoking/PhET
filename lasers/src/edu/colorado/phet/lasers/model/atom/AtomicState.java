@@ -16,7 +16,7 @@ import java.util.EventObject;
 
 public abstract class AtomicState {
 
-    //
+    ///////////////////////////////////////////////////////////////////////////////////////////
     // Class
     //
     // Determines how often a photon contacting an atom will result in a collision
@@ -30,14 +30,6 @@ public abstract class AtomicState {
 
     //        static protected double s_collisionLikelihood = 0.2;
 
-    //    public static double energyToWavelength( double energy ) {
-    //        return PLANCK / energy;
-    //    }
-    //
-    //    public static double wavelengthToEnergy( double wavelength ) {
-    //        return PLANCK / wavelength;
-    //    }
-    //
     //
     // Inner classes
     //
@@ -45,7 +37,7 @@ public abstract class AtomicState {
     /**
      * A class that represents the highest energy and shortest wavelength we will allow
      */
-    protected static class MaxEnergyState extends AtomicState {
+    public static class MaxEnergyState extends AtomicState {
         private static MaxEnergyState instance = new MaxEnergyState();
 
         public static MaxEnergyState instance() {
@@ -71,7 +63,7 @@ public abstract class AtomicState {
     /**
      * A class that represents the highest energy and shortest wavelength we will allow
      */
-    protected static class MinEnergyState extends AtomicState {
+    public static class MinEnergyState extends AtomicState {
         private static MinEnergyState instance = new MinEnergyState();
 
         public static MinEnergyState instance() {
@@ -95,14 +87,14 @@ public abstract class AtomicState {
     }
 
 
-    //
+    ///////////////////////////////////////////////////////////////////////////////////////////
     // Instance
     //
     private double energyLevel;
     private double wavelength;
     private int numAtomsInState;
     private EventRegistry eventRegistry = new EventRegistry();
-    private double meanLifetime = LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME / 1000;
+    private double meanLifetime = Double.POSITIVE_INFINITY;
 
 
     abstract public void collideWithPhoton( Atom atom, Photon photon );
@@ -163,8 +155,6 @@ public abstract class AtomicState {
      */
     public double getMeanLifeTime() {
         return meanLifetime;
-        // Note: the hard-coded figure here is just a holding value
-        //        return energyLevel == 0 ? Double.POSITIVE_INFINITY : 10000 / energyLevel;
     }
 
     public void setMeanLifetime( double lifetime ) {
@@ -199,5 +189,4 @@ public abstract class AtomicState {
     abstract public AtomicState getNextLowerEnergyState();
 
     abstract public AtomicState getNextHigherEnergyState();
-
 }

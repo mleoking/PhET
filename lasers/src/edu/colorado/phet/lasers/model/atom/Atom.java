@@ -15,6 +15,7 @@ import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
+import edu.colorado.phet.common.model.BaseModel;
 
 import java.util.EventListener;
 import java.util.EventObject;
@@ -24,9 +25,13 @@ import java.util.EventObject;
  */
 public class Atom extends SphericalBody {
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Class
+    //
     static private int s_radius = 15;
     static private int s_mass = 1000;
-    private SpontaneouslyEmittingState.StateLifetimeManager stateLifetimeManager;
+    private StateLifetimeManager stateLifetimeManager;
+    private BaseModel model;
 
     static public void setHighEnergySpontaneousEmissionTime( double time ) {
         HighEnergyState.instance().setMeanLifetime( time );
@@ -49,9 +54,8 @@ public class Atom extends SphericalBody {
     }
 
 
-    private AtomicState state;
-    private EventRegistry eventRegistry = new EventRegistry();
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Events and listeners
     public void addListener( EventListener listener ) {
         eventRegistry.addListener( listener );
     }
@@ -84,8 +88,16 @@ public class Atom extends SphericalBody {
         void removalOccurred( RemovalEvent event );
     }
 
-    public Atom() {
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Instance
+    //
+    private AtomicState state;
+    private EventRegistry eventRegistry = new EventRegistry();
+
+    public Atom( BaseModel model ) {
         super( s_radius );
+        this.model = model;
         setMass( s_mass );
         setState( GroundState.instance() );
     }
@@ -98,6 +110,11 @@ public class Atom extends SphericalBody {
         return state;
     }
 
+    /**
+     * Sets the energy state of the atom. If this is a state from which the atom can spontanteously
+     * change, a StateLifetimeManager is instatiated to control the change.
+     * @param newState
+     */
     public void setState( final AtomicState newState ) {
         final AtomicState oldState = this.state;
         if( oldState != null ) {
@@ -108,14 +125,13 @@ public class Atom extends SphericalBody {
         }
         newState.incrNumInState();
         this.state = newState;
-        if( newState instanceof SpontaneouslyEmittingState ) {
+//        if( newState instanceof SpontaneouslyEmittingState ) {
             boolean emitPhotonOnLeavingState = false;
             if( newState instanceof MiddleEnergyState ) {
                 emitPhotonOnLeavingState = true;
             }
-            this.stateLifetimeManager = new SpontaneouslyEmittingState.StateLifetimeManager( this,
-                                                                                             emitPhotonOnLeavingState );
-        }
+            this.stateLifetimeManager = new StateLifetimeManager( this, emitPhotonOnLeavingState, model );
+//        }
 
         eventRegistry.fireEvent( new StateChangeEvent() );
     }

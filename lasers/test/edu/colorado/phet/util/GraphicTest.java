@@ -13,17 +13,13 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 
-/**
- * Class: GraphicTest
- * Package: edu.colorado.phet.util
- * Author: Another Guy
- * Date: Nov 24, 2004
- * <p/>
- * CVS Info:
- * Current revision:   $Revision$
- * On branch:          $Name$
- * Latest change by:   $Author$
- * On date:            $Date$
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 public class GraphicTest {
     private static Point2D pr = new Point2D.Double();

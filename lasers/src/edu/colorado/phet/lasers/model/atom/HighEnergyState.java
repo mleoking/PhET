@@ -13,7 +13,7 @@ package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
 
-public class HighEnergyState extends SpontaneouslyEmittingState {
+public class HighEnergyState extends AtomicState {
 
     private static HighEnergyState instance = new HighEnergyState();
 
