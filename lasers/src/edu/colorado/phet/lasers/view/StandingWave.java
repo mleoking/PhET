@@ -90,9 +90,17 @@ public class StandingWave extends PhetGraphic implements ModelElement {
         elapsedTime += dt;
         double a = Math.sin( ( elapsedTime / period ) * Math.PI );
         wavePath.moveTo( (float)origin.getX(), (float)origin.getY() );
-        for( int i = 0; i < numPts; i++ ) {
+        //        for( int i = 0; i < numPts - 3; i+=3 ) {
+        for( int i = 0; i < numPts; i += 3 ) {
             double x = dx * i;
             double y = amplitude * ( a * Math.sin( ( x / lambda ) * Math.PI ) );
+            //            double x1 = dx * (i + 1);
+            //            double y1 = amplitude * ( a * Math.sin( ( x1 / lambda ) * Math.PI ) );
+            //            double x2 = dx * (i + 2);
+            //            double y2 = amplitude * ( a * Math.sin( ( x2 / lambda ) * Math.PI ) );
+            //            wavePath.curveTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ),
+            //                              (float)( x1 + origin.getX() ), (float)( y1 + origin.getY() ),
+            //                              (float)( x2 + origin.getX() ), (float)( y2 + origin.getY() ));
             wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
         }
     }

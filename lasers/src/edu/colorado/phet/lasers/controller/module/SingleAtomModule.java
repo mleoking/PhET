@@ -8,7 +8,7 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -36,8 +36,8 @@ public class SingleAtomModule extends BaseLaserModule {
     private PhetImageGraphic pumpingLampGraphic;
     private JPanel pumpingBeamControlPanel;
 
-    public SingleAtomModule( AbstractClock clock ) {
-        super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
+    public SingleAtomModule( PhetFrame frame ) {
+        super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), frame );
 
         setControlPanel( new SingleAtomControlPanel( this ) );
 
