@@ -13,6 +13,7 @@ package edu.colorado.phet.common.util;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
@@ -170,9 +171,15 @@ public class EventChannel implements InvocationHandler {
      * @throws Throwable
      */
     public Object invoke( Object proxy, Method method, Object[] args ) throws Throwable {
-        for( int i = 0; i < targets.size(); i++ ) {
-            Object target = targets.get( i );
-            method.invoke( target, args );
+        Object target = null;
+        try {
+            for( int i = 0; i < targets.size(); i++ ) {
+                target = targets.get( i );
+                method.invoke( target, args );
+            }
+        }
+        catch( InvocationTargetException ite ) {
+            throw new InvocationTargetException( ite, "target = " + target );
         }
         return null;
     }
