@@ -39,7 +39,6 @@ public class PumpHandleGraphic extends DefaultInteractiveGraphic {
             public boolean contains( int x, int y ) {
                 boolean result = x >= image.getBounds().getMinX() && x <= image.getBounds().getMaxX()
                                  && y >= image.getBounds().getMinY() && y <= image.getBounds().getMinY() + 10;
-                if( result )
                 return result;
             }
         };
