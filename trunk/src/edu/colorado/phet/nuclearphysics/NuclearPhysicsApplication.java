@@ -16,18 +16,18 @@ import edu.colorado.phet.nuclearphysics.controller.FisionModule;
 
 public class NuclearPhysicsApplication extends PhetApplication {
 
-    public NuclearPhysicsApplication(ApplicationDescriptor descriptor, Module m, AbstractClock clock) {
-        super(descriptor, m, clock);    //To change body of overridden methods use File | Settings | File Templates.
+    public NuclearPhysicsApplication( ApplicationDescriptor descriptor, Module m, AbstractClock clock ) {
+        super( descriptor, m, clock );    //To change body of overridden methods use File | Settings | File Templates.
     }
 
-    public static void main(String[] args) {
-        String desc = GraphicsUtil.formatMessage("An investigation of\nnuclear fision and fusion");
-        ApplicationDescriptor appDesc = new ApplicationDescriptor("Nuclear Physics",
-                desc,
-                "0.1");
-        Module module = new FisionModule();
-        NuclearPhysicsApplication app = new NuclearPhysicsApplication(appDesc, module,
-                new ThreadedClock(20, 50, true));
-        app.startApplication(module);
+    public static void main( String[] args ) {
+        String desc = GraphicsUtil.formatMessage( "An investigation of\nnuclear fision and fusion" );
+        ApplicationDescriptor appDesc = new ApplicationDescriptor( "Nuclear Physics",
+                                                                   desc,
+                                                                   "0.1" );
+        AbstractClock clock = new ThreadedClock( 20, 50, true );
+        Module module = new FisionModule( clock );
+        NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc, module, clock );
+        app.startApplication( module );
     }
 }

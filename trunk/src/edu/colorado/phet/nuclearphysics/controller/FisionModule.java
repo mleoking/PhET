@@ -8,9 +8,12 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Particle;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 import edu.colorado.phet.nuclearphysics.model.Uranium2235;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
@@ -31,7 +34,7 @@ public class FisionModule extends Module {
     private ApparatusPanel physicalPanel;
     private Uranium2235 uraniumNucleus;
 
-    public FisionModule() {
+    public FisionModule( AbstractClock clock ) {
         super( "Fision" );
 
         apparatusPanel = new ApparatusPanel();
@@ -52,6 +55,19 @@ public class FisionModule extends Module {
         apparatusPanel.add( potentialProfilePanel );
         apparatusPanel.add( physicalPanel );
 
+
+
+        // Start the model
+        this.setModel( new BaseModel( clock ) );
+        this.getModel().addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                apparatusPanel.repaint();
+            }
+        } );
+        boolean b = clock.hasStarted();
+        b = clock.isRunning();
+
+
         potentialProfile = new PotentialProfile( 250, 400, 75 );
         PotentialProfileGraphic ppg = new PotentialProfileGraphic( potentialProfile,
                                                                    new Point2D.Double( 250, 600 ) );
@@ -60,26 +76,29 @@ public class FisionModule extends Module {
         System.out.println( potentialProfilePanel.getWidth() );
         uraniumNucleus = new Uranium2235( new Point2D.Double( 300, 400 ) );
         addNeucleus( uraniumNucleus );
+        uraniumNucleus.setVelocity( 10, 10 );
 //        addNeucleus( new Nucleus( new Point2D.Double( 400, 400 ), 5, 3, potentialProfile ));
 
 
         JPanel controlPanel = new FisionControlPanel( this );
         super.setControlPanel( controlPanel );
+
     }
 
     private void addNeucleus( Nucleus nucleus ) {
+        this.getModel().addModelElement( nucleus );
         NucleusGraphic ng = new NucleusGraphic( nucleus );
         physicalPanel.addGraphic( ng );
     }
 
     private void addProton( double x, double y ) {
-        Particle p = new Particle( new Point2D.Double( x, y ) );
+        NuclearParticle p = new NuclearParticle( new Point2D.Double( x, y ) );
         ProtonGraphic pg = new ProtonGraphic( p );
         physicalPanel.addGraphic( pg );
     }
 
     private void addNeutron( double x, double y ) {
-        Particle p = new Particle( new Point2D.Double( x, y ) );
+        NuclearParticle p = new NuclearParticle( new Point2D.Double( x, y ) );
         NeutronGraphic ng = new NeutronGraphic( p );
         physicalPanel.addGraphic( ng );
     }

@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.nuclearphysics.model.Particle;
+import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 
 import java.awt.*;
 
@@ -18,7 +18,7 @@ public class ProtonGraphic extends ParticleGraphic {
         super( color );
     }
 
-    public ProtonGraphic( Particle particle ) {
+    public ProtonGraphic( NuclearParticle particle ) {
         super( particle, ProtonGraphic.color );
     }
 }
