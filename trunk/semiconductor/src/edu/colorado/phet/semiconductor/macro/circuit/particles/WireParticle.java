@@ -50,10 +50,6 @@ public class WireParticle extends SimpleObservable implements ModelElement {
 
     }
 
-    private void translate( double dx ) {
-        setPosition( dist + dx );
-    }
-
     public void setSpeed( double speed ) {
         this.speed = speed;
     }

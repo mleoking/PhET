@@ -9,7 +9,10 @@ import edu.colorado.phet.semiconductor.macro.SemiconductorModule;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatterySpinner;
 import edu.colorado.phet.semiconductor.macro.circuit.particles.WireParticle;
 import edu.colorado.phet.semiconductor.macro.circuit.particles.WireParticleGraphic;
-import edu.colorado.phet.semiconductor.macro.doping.*;
+import edu.colorado.phet.semiconductor.macro.doping.DopantChangeListener;
+import edu.colorado.phet.semiconductor.macro.doping.DopantDropListener;
+import edu.colorado.phet.semiconductor.macro.doping.DopantGraphic;
+import edu.colorado.phet.semiconductor.macro.doping.DopantSlot;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 
@@ -38,7 +41,6 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
     ArrayList particleGraphics = new ArrayList();
     private BatterySpinner batterySpinner;
     ArrayList dopantSlots = new ArrayList();
-    ArrayList circuitListeners = new ArrayList();
     private JButton jb;
     private ArrayList dopantChangeListeners = new ArrayList();
     private boolean conductionAllowed;
@@ -107,7 +109,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         for( int i = 0; i < numDopantSlots(); i++ ) {
             dopantSlotAt( i ).setDopantType( null );
         }
-        updateCircuitListeners();
+//        updateCircuitListeners();
         updateDopantChangeListeners();
         jb.setEnabled( false );
     }
@@ -204,10 +206,6 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         return batterySpinner;
     }
 
-    PhetVector getCenter( Rectangle2D rect ) {
-        return new PhetVector( rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2 );
-    }
-
     public void addDopantChangeListener( DopantChangeListener dcl ) {
         dopantChangeListeners.add( dcl );
     }
@@ -228,7 +226,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         }
         if( closest != null ) {
             closest.setDopantType( dopant.getType() );
-            updateCircuitListeners();
+//            updateCircuitListeners();
             module.removeDopantGraphic( dopant );
             jb.setEnabled( true );
             updateDopantChangeListeners();
@@ -247,20 +245,12 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         }
     }
 
-    public void addCircuitListener( CircuitListener cl ) {
-        circuitListeners.add( cl );
-    }
-
-    private void updateCircuitListeners() {
-        for( int i = 0; i < circuitListeners.size(); i++ ) {
-            CircuitListener circuitListener = (CircuitListener)circuitListeners.get( i );
-            circuitListener.circuitChanged( this );
-        }
-    }
-
-    public MacroCircuitGraphic getCircuitGraphic() {
-        return circuitGraphic;
-    }
+//    private void updateCircuitListeners() {
+//        for( int i = 0; i < circuitListeners.size(); i++ ) {
+//            CircuitListener circuitListener = (CircuitListener)circuitListeners.get( i );
+//            circuitListener.circuitChanged( this );
+//        }
+//    }
 
     public JButton getClearDopantButton() {
         return jb;
@@ -268,15 +258,6 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
 
     public void setConductionAllowed( boolean allowed ) {
         this.conductionAllowed = allowed;
-    }
-
-    public boolean isDiodeType( DopantType n, DopantType p ) {
-        if( numDopantSlots() == 2 && dopantSlotAt( 0 ).getDopantType() == n && dopantSlotAt( 1 ).getDopantType() == p ) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
     public void setSingleSection() {

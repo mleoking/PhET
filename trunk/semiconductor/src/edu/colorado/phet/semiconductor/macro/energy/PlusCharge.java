@@ -19,10 +19,6 @@ public class PlusCharge extends Particle {
         this.cell = cell;
     }
 
-    public void relayout() {
-        setPosition( cell.getX(), cell.getEnergy() );
-    }
-
     public EnergyLevel getEnergyLevel() {
         return cell.getEnergyLevel();
     }
@@ -31,7 +27,4 @@ public class PlusCharge extends Particle {
         return cell.getBandSet();
     }
 
-    public EnergyCell getCell() {
-        return cell;
-    }
 }

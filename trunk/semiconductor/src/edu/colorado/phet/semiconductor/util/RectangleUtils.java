@@ -15,4 +15,5 @@ public class RectangleUtils {
     public static PhetVector getCenter( Rectangle2D rect ) {
         return new PhetVector( rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2 );
     }
+
 }

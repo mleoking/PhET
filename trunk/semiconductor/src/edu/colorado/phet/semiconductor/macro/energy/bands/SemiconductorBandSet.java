@@ -82,6 +82,9 @@ public class SemiconductorBandSet extends BandSet {
         return new EnergyLevelIterator();
     }
 
+    public void trickDopantType( DopantType dopantType ) {
+        this.dopantType = dopantType;
+    }
 
     public void setDopantType( DopantType dopantType ) {
         this.dopantType = dopantType;
@@ -91,8 +94,8 @@ public class SemiconductorBandSet extends BandSet {
             dopantManager.clear( energyLevel );
         }
         if( dopantType == null ) {
-            dopeLevels( getBottomBand(), 0, getBottomBand().numEnergyLevels() ,getEnergySection() );
-            dopeLevels( getValenceBand(), 0, getBottomBand().numEnergyLevels() ,getEnergySection() );
+            dopeLevels( getBottomBand(), 0, getBottomBand().numEnergyLevels(), getEnergySection() );
+            dopeLevels( getValenceBand(), 0, getBottomBand().numEnergyLevels(), getEnergySection() );
         }
         else {
             dope();
@@ -100,21 +103,21 @@ public class SemiconductorBandSet extends BandSet {
     }
 
 
-    public void dope(  ) {
-        SemiconductorBandSet semiconductorBandSet=this;
+    public void dope() {
+        SemiconductorBandSet semiconductorBandSet = this;
         if( getDopantType() == DopantType.N ) {
-            dopeLevels( semiconductorBandSet.getBottomBand(), 0, semiconductorBandSet.getBottomBand().numEnergyLevels() ,semiconductorBandSet.getEnergySection() );
-            dopeLevels( semiconductorBandSet.getValenceBand(), 0, semiconductorBandSet.getValenceBand().numEnergyLevels(),semiconductorBandSet.getEnergySection()  );
+            dopeLevels( semiconductorBandSet.getBottomBand(), 0, semiconductorBandSet.getBottomBand().numEnergyLevels(), semiconductorBandSet.getEnergySection() );
+            dopeLevels( semiconductorBandSet.getValenceBand(), 0, semiconductorBandSet.getValenceBand().numEnergyLevels(), semiconductorBandSet.getEnergySection() );
             dopeLevels( semiconductorBandSet.getConductionBand(), 0, getDopantType().getNumFilledLevels(), semiconductorBandSet.getEnergySection() );
         }
-        else if( getDopantType()== DopantType.P ) {
-            dopeLevels( semiconductorBandSet.getBottomBand(), 0, semiconductorBandSet.getBottomBand().numEnergyLevels(),semiconductorBandSet.getEnergySection()  );
+        else if( getDopantType() == DopantType.P ) {
+            dopeLevels( semiconductorBandSet.getBottomBand(), 0, semiconductorBandSet.getBottomBand().numEnergyLevels(), semiconductorBandSet.getEnergySection() );
             dopeLevels( semiconductorBandSet.getValenceBand(), 0, getDopantType().getNumFilledLevels(), semiconductorBandSet.getEnergySection() );
         }
 
     }
 
-    public void dopeLevels( Band band, int min, int max ,EnergySection energySection) {
+    public void dopeLevels( Band band, int min, int max, EnergySection energySection ) {
         for( int level = min; level < max; level++ ) {
             energySection.fillLevel( band.energyLevelAt( level ) );
         }

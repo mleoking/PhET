@@ -7,5 +7,4 @@ package edu.colorado.phet.semiconductor.macro.circuit;
  * Copyright (c) Feb 9, 2004 by Sam Reid
  */
 public interface ConductionListener {
-    public void setConductionAllowed( boolean allowed );
 }

@@ -23,7 +23,4 @@ public class Remove implements BandParticleState {
         return true;
     }
 
-    public boolean isMoving() {
-        return false;
-    }
 }

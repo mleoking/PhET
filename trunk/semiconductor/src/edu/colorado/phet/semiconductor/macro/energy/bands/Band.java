@@ -74,8 +74,4 @@ public class Band {
 //        return getBandSet().indexOf( this ) == BandSet.UPPER;
 //    }
 
-    public int getIndex() {
-        return getBandSet().indexOf( this );
-    }
-
 }

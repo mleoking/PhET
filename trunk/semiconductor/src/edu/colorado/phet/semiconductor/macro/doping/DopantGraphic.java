@@ -11,8 +11,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -23,12 +21,7 @@ import java.util.Random;
 public class DopantGraphic extends TransformGraphic implements Boundary {
     Dopant dopant;
     private Point viewLoc;
-    ArrayList loc = new ArrayList();
     private SimpleBufferedImageGraphic imageGraphic;
-    private Random random;
-    private double rad = .06;
-    private int numPics = 10;
-    static int seed = 0;
 //    private Rectangle2D.Double rect;
     private BufferedImage buffer;
 
@@ -41,7 +34,7 @@ public class DopantGraphic extends TransformGraphic implements Boundary {
         this.imageGraphic = new SimpleBufferedImageGraphic( buffer );
 
         this.dopant = dopant;
-        this.random = new Random( seed++ );
+//        this.random = new Random( seed++ );
 //        double minx=0;
 //        double miny=0;
 //        double maxx=0;

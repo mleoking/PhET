@@ -17,21 +17,18 @@ public class DopantSlotGraphic implements Graphic {
     private TexturePaint green;
     private TexturePaint red;
     private Shape shape;
-    private DopantType type;
 //    private String name;
     private TexturePaint texture;
     static final Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
 
     public DopantSlotGraphic( Shape shape, DopantType type ) throws IOException {
         this.shape = shape;
-        this.type = type;
 //        this.name = name;
         green = new TexturePaint( SemiconductorModule.imageLoader.loadImage( "images/particle-green-med.gif" ), new Rectangle2D.Double( 0, 0, 15, 15 ) );
         red = new TexturePaint( SemiconductorModule.imageLoader.loadImage( "images/particle-red-med.gif" ), new Rectangle2D.Double( 0, 0, 15, 15 ) );
     }
 
     public void setDopantType( DopantType type ) {
-        this.type = type;
         this.texture = getTexture( type );
     }
 

@@ -50,11 +50,4 @@ public class MoveToPosition implements BandParticleState {
         }
     }
 
-    public boolean isMoving() {
-        return true;
-    }
-
-    public PhetVector getDestination() {
-        return target;
-    }
 }

@@ -13,15 +13,11 @@ import java.awt.*;
  * Copyright (c) Mar 15, 2004 by Sam Reid
  */
 public class ElectricFieldSectionGraphic extends TransformGraphic {
-    private ElectricFieldSection field;
-    private ModelViewTransform2D transform;
     private ElectricFieldGraphic bfieldG;
     private ElectricFieldGraphic ifieldG;
 
     public ElectricFieldSectionGraphic( ElectricFieldSection field, ModelViewTransform2D transform ) {
         super( transform );
-        this.field = field;
-        this.transform = transform;
 
         bfieldG = new ElectricFieldGraphic( "battery force", field.getBatteryField(), transform );
         ifieldG = new ElectricFieldGraphic( "internal force", field.getInternalField(), transform );

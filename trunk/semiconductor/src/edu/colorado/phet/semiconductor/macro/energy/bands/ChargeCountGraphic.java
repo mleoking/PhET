@@ -22,6 +22,7 @@ public class ChargeCountGraphic implements Graphic {
     private Font font = new Font( "dialog", Font.BOLD, 20 );
     Color color = Color.black;
     BandSetGraphic bsg;
+    boolean visible = false;
 
     public ChargeCountGraphic( EnergySection es, BandSetGraphic bsg, ModelViewTransform2D transform ) {
         this.es = es;
@@ -31,13 +32,15 @@ public class ChargeCountGraphic implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
-        //TODO fix charge count graphic.
-        PhetVector ctr = RectangleUtils.getCenter( bsg.getViewport() );
-        Point pt = transform.modelToView( ctr );
-        g.setFont( font );
-        g.setColor( color );
-        String str = "Net Charge=" + es.getExcessCharge( bandSet );
-        int width = (int)font.getStringBounds( str, g.getFontRenderContext() ).getWidth();
-        g.drawString( str, pt.x - width / 2, pt.y );
+        if( visible ) {
+            //TODO fix charge count graphic.
+            PhetVector ctr = RectangleUtils.getCenter( bsg.getViewport() );
+            Point pt = transform.modelToView( ctr );
+            g.setFont( font );
+            g.setColor( color );
+            String str = "Net Charge=" + es.getExcessCharge( bandSet );
+            int width = (int)font.getStringBounds( str, g.getFontRenderContext() ).getWidth();
+            g.drawString( str, pt.x - width / 2, pt.y );
+        }
     }
 }

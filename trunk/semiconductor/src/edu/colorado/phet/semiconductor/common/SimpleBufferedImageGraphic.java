@@ -25,23 +25,10 @@ public class SimpleBufferedImageGraphic implements Graphic, Boundary {
         }
     }
 
-    public void setImage( BufferedImage image ) {
-        this.image = image;
-    }
-
-    public SimpleBufferedImageGraphic( BufferedImage image, AffineTransform transform ) {
-        this.image = image;
-        this.transform = transform;
-    }
-
     public void paint( Graphics2D graphics2D ) {
         if( image != null && transform != null ) {
             graphics2D.drawRenderedImage( image, transform );
         }
-    }
-
-    public BufferedImage getBufferedImage() {
-        return image;
     }
 
     public void setTransform( AffineTransform transform ) {
@@ -57,10 +44,6 @@ public class SimpleBufferedImageGraphic implements Graphic, Boundary {
         double imHeight = image.getHeight();
         AffineTransform imageTransform = AffineTransform.getTranslateInstance( ctr.x - imWidth / 2, ctr.y - imHeight / 2 );
         return imageTransform;
-    }
-
-    public AffineTransform getTransform() {
-        return transform;
     }
 
     public void setPosition( int centerX, int centerY ) {

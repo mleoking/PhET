@@ -14,12 +14,10 @@ import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
  */
 public class MoveToCell implements BandParticleState {
 //    private BandParticle bp;
-    private BandParticle bp;
     private EnergyCell target;
     Speed speed;
 
     public MoveToCell( BandParticle bp, EnergyCell target, Speed speed ) {
-        this.bp = bp;
 //        this.bp = bp;
         this.target = target;
         this.speed = speed;
@@ -37,9 +35,7 @@ public class MoveToCell implements BandParticleState {
     }
 
     public boolean stepInTime( BandParticle particle, double dt ) {
-//        target.setOwner(particle);
         particle.setEnergyCell( target );
-//        target.setOwner(particle);
         double distPerStep = speed.getSpeed() * dt;
         PhetVector targetLoc = target.getPosition();
         PhetVector myLoc = particle.getPosition();
@@ -57,10 +53,6 @@ public class MoveToCell implements BandParticleState {
             particle.setPosition( newLoc );
             return false;
         }
-    }
-
-    public boolean isMoving() {
-        return true;
     }
 
 }

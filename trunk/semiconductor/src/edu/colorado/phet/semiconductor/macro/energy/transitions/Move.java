@@ -26,10 +26,19 @@ public class Move extends StateTransition {
         this.speed = speed;
     }
 
+    public EnergyCell getDst() {
+        return dst;
+    }
+
+    public String toString() {
+        return "src=" + src + ", dst=" + dst;
+    }
+
     public BandParticleState getState( BandParticle particle, EnergySection section ) {
         //logic for deciding if a particle should move.
         BandParticle occupant = section.getBandParticle( src );
-
+//        System.out.println( "src = " + src );
+//        System.out.println( "occupant = " + occupant+", particle="+particle );
         if( occupant == particle && particle.isLocatedAtCell() ) {
             if( !section.isClaimed( dst ) ) {
                 return new MoveToCell( particle, dst, speed );

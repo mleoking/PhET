@@ -39,18 +39,6 @@ public class CompositeLinearBranch {
         return null;
     }
 
-    public LinearBranch getBranch( double dist ) {
-        double start = 0;
-        for( int i = 0; i < branches.size(); i++ ) {
-            LinearBranch linearBranch = (LinearBranch)branches.get( i );
-            if( linearBranch.getLength() <= start + dist ) {
-                return linearBranch;
-            }
-            start += linearBranch.getLength();
-        }
-        return null;
-    }
-
     public LinearBranch branchAt( int i ) {
         return (LinearBranch)this.branches.get( i );
     }

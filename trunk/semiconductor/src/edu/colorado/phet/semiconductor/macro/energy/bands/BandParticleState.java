@@ -13,6 +13,4 @@ public interface BandParticleState {
      */
     boolean stepInTime( BandParticle particle, double dt );
 
-    boolean isMoving();
-
 }

@@ -17,10 +17,9 @@ import edu.colorado.phet.semiconductor.macro.circuit.battery.BatteryListener;
 import edu.colorado.phet.semiconductor.macro.doping.DopantChangeListener;
 import edu.colorado.phet.semiconductor.macro.doping.DopantType;
 import edu.colorado.phet.semiconductor.macro.energy.bands.*;
-import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelWithCriteria;
-import edu.colorado.phet.semiconductor.macro.energy.statemodels.PStateModel2;
-import edu.colorado.phet.semiconductor.macro.energy.states.ExitLeftState;
-import edu.colorado.phet.semiconductor.macro.energy.states.ExitRightState;
+import edu.colorado.phet.semiconductor.macro.energy.statemodels.DefaultCriteria;
+import edu.colorado.phet.semiconductor.macro.energy.statemodels.ExciteForConduction;
+import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
 import edu.colorado.phet.semiconductor.macro.energy.states.MoveToCell;
 import edu.colorado.phet.semiconductor.macro.energy.states.Speed;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
@@ -56,7 +55,6 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     private ModelViewTransform2D transform;
     private Battery battery;
     private BufferedImage particleImage;
-    private double particleWidth;
     private BufferedImage plusImage;
 
     ChoiceStateModel stateModel = new ChoiceStateModel( this );
@@ -68,7 +66,6 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 //    StateModelSet stateModelSet;
 
     public EnergySection( ModelViewTransform2D transform, double particleWidth, Battery battery, Speed speed, Rectangle2D.Double bounds ) throws IOException {
-        this.particleWidth = particleWidth;
         this.transform = transform;
         this.battery = battery;
         this.speed = speed;
@@ -82,9 +79,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 //        stateModelSet = new StateModelSet( this );
         //TODO
         //stateModel = stateModelSet.getNullModel();
-        PStateModel2 psm2 = new PStateModel2( this, 1, 0 );
-        ModelWithCriteria mwc = new ModelWithCriteria( DopantType.P, .1, 10, psm2 );
-        stateModel.addModel( mwc );
+        generateStateDiagrams();
     }
 
     public int numParticles() {
@@ -131,6 +126,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         double insetX = getWidth() / 2 - bandWidth / 2;
         newBandSet( new Rectangle2D.Double( getX() + insetX, getY(), bandWidth, getHeight() ), 0 );
         voltageChanged( getBattery() );
+        generateStateDiagrams();
     }
 
     void setupTwoRegions() {
@@ -145,6 +141,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 
         addEField( bandrect, bandrect2 );
         voltageChanged( getBattery() );
+        generateStateDiagrams();
     }
 
     private void setupThreeRegions() {
@@ -163,6 +160,230 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         addEField( b, c );
 
         voltageChanged( getBattery() );
+        generateStateDiagrams();
+    }
+
+//    private void generateStateDiagrams() {
+//        stateModel.clear();
+//        double minVolts = .1;
+//        double maxVolts = 10;
+//
+//        DefaultStateDiagram rightDiagram = new DefaultStateDiagram( this );
+//        //setup excitations.
+//        for( int i = 0; i < numBandSets(); i++ ) {
+//            SemiconductorBandSet bandSet = bandSetAt( i );
+//            if( bandSet.getDopantType() == DopantType.P ) {
+//                rightDiagram.exciteP( DopantType.P.getDopingBand(), i );
+//            }
+//            else if( bandSet.getDopantType() == DopantType.N ) {
+//                rightDiagram.exciteN( DopantType.N.getDopingBand(), i );
+//            }
+//        }
+//        for( int i = 0; i < numBandSets(); i++ ) {
+//            SemiconductorBandSet bandSet = bandSetAt( i );
+//            DopantType dt = bandSet.getDopantType();
+//            if( dt != null ) {
+//
+//                Band band = bandSet.bandAt( dt.getDopingBand() );
+//                EnergyLevel level = band.energyLevelAt( dt.getNumFilledLevels() );
+//                int levelHeight = level.getAbsoluteHeight();
+//                rightDiagram.propagateRight( energyCellAt( levelHeight, 0 ) );
+//            }
+//        }
+//        //setup the left side.
+//
+//
+//        SemiconductorBandSet bs0 = bandSetAt( 0 );
+//        DopantType leftDopant = bs0.getDopantType();
+//        if( leftDopant != null ) {
+//            Band band = bs0.bandAt( leftDopant.getDopingBand() );
+//            EnergyCell conductionCell = band.energyLevelAt( leftDopant.getNumFilledLevels() ).cellAt( 0 );
+//            rightDiagram.enter( conductionCell );
+//            rightDiagram.propagateRight( conductionCell );
+//        }
+//
+//        //setup the right side.
+//        SemiconductorBandSet bsR = getRightBand();
+//        DopantType rightDopant = bsR.getDopantType();
+//        if( bsR.getDopantType() != null ) { //okay to leave.
+//            Band leaveBand = bsR.bandAt( rightDopant.getDopingBand() );
+//            EnergyCell exitCell = leaveBand.energyLevelAt( rightDopant.getNumFilledLevels() ).cellAt( 1 );
+//            rightDiagram.exitRight( exitCell );
+//        }
+//
+//
+//        stateModel.addModel( new PositiveVoltage(), rightDiagram );
+//    }
+
+    private void generateStateDiagrams() {
+        stateModel.clear();
+        double minVolts = .1;
+        double maxVolts = 10;
+        if( numBandSets() == 1 ) {
+            ConductRight1 pright = new ConductRight1( this, 1, 0, DopantType.P );
+            stateModel.addModel( new DefaultCriteria( DopantType.P, 0, maxVolts ), pright );
+
+            ConductLeft1 pleft = new ConductLeft1( this, 1, 0, DopantType.P );
+            stateModel.addModel( new DefaultCriteria( DopantType.P, -maxVolts, -minVolts ), pleft );
+
+            ConductRight1 nright = new ConductRight1( this, 2, 0, DopantType.N );
+            stateModel.addModel( new DefaultCriteria( DopantType.N, 0, maxVolts ), nright );
+
+            ConductLeft1 nleft = new ConductLeft1( this, 2, 0, DopantType.N );
+            stateModel.addModel( new DefaultCriteria( DopantType.N, -maxVolts, -minVolts ), nleft );
+        }
+        if( numBandSets() == 2 ) {
+            add2StateDiagrams();
+        }
+        if( numBandSets() == 3 ) {
+            add3StateDiagrams();
+        }
+    }
+
+    class DopantList {
+        ArrayList list = new ArrayList();
+
+        public DopantList( DopantType a, DopantType b, DopantType c ) {
+            list.add( a );
+            list.add( b );
+            list.add( c );
+        }
+
+        public String toString() {
+            return list.toString();
+        }
+    }
+
+    private void add3StateDiagrams() {
+        double minVolts = .1;
+        double maxVolts = 10;
+        DopantType[] keys = new DopantType[]{null, DopantType.P, DopantType.N};
+        ArrayList lists = new ArrayList();
+        for( int i = 0; i < keys.length; i++ ) {
+            DopantType a = keys[i];
+            for( int j = 0; j < keys.length; j++ ) {
+                DopantType b = keys[j];
+                for( int k = 0; k < keys.length; k++ ) {
+                    DopantType c = keys[k];
+                    lists.add( new DopantList( a, b, c ) );
+                }
+            }
+        }
+        System.out.println( "lists = " + lists );
+        add3StateBothDir( DopantType.P, maxVolts );
+        add3StateBothDir( DopantType.N, maxVolts );
+//        addPNP();
+        PNPHandler pnpHandler = new PNPHandler( this );
+        stateModel.addModel( pnpHandler, pnpHandler );
+    }
+
+    private void add3StateBothDir( DopantType type, double maxVolts ) {
+        {//right
+            SimpleConductRight3 nnn = new SimpleConductRight3( this, type );
+            DefaultCriteria nnnCrit = new DefaultCriteria( type, type, type, 0, maxVolts );
+            Clear3 clear3 = new Clear3( this, nnn.getLeftExcite(), nnn.getMidExcite(), nnn.getRightExcite() );
+            VoltageSplit vs = new VoltageSplit( this, clear3, nnn );
+            stateModel.addModel( nnnCrit, vs );
+        }
+        {//left
+            SimpleConductLeft3 nnn = new SimpleConductLeft3( this, type );
+            DefaultCriteria nnnCrit = new DefaultCriteria( type, type, type, -maxVolts, 0 );
+            Clear3 clear3 = new Clear3( this, nnn.getLeftExcite(), nnn.getMidExcite(), nnn.getRightExcite() );
+            VoltageSplit vs = new VoltageSplit( this, clear3, nnn );
+            stateModel.addModel( nnnCrit, vs );
+        }
+    }
+
+    private void add2StateDiagrams() {
+        {
+            addSimpleConductRight( DopantType.P );//pp
+            addSimpleConductRight( DopantType.N );//nn
+            addS_( DopantType.P );//sp
+            addS_( DopantType.N );//sn
+
+            //ps right and ns right are trivial, maybe shouldn't show anything.
+
+            addSimpleConductLeft( DopantType.P );//pp left
+            addSimpleConductLeft( DopantType.N );//nn left
+            add_S( DopantType.P );//ps
+            add_S( DopantType.N );//pn
+        }
+        PNHandler pnHandler = new PNHandler( this );
+        stateModel.addModel( pnHandler, pnHandler );
+        NPHandler npHandler = new NPHandler( this );
+        stateModel.addModel( npHandler, npHandler );
+    }
+
+    private void add_S( DopantType dopantType ) {
+        DefaultStateDiagram sp = new DefaultStateDiagram( this );
+        ExciteForConduction excite = sp.excite( dopantType.getDopingBand(), 0, dopantType.getNumFilledLevels() - 1 );
+        sp.move( excite.getRightCell(), excite.getLeftCell(), getSpeed() );
+        sp.exitLeft( excite.getLeftCell() );
+        ModelCriteria mc = new DefaultCriteria( dopantType, null, Double.NEGATIVE_INFINITY, 0 );
+
+        DefaultStateDiagram restore = new DefaultStateDiagram( this );
+        EnergyCell r = getLowerNeighbor( excite.getRightCell() );
+        EnergyCell l = getLeftNeighbor( r );
+        restore.enter( l );
+        restore.move( l, r, getSpeed() );
+        restore.move( excite.getRightCell(), excite.getLeftCell(), getSpeed() );
+        restore.exitLeft( excite.getLeftCell() );
+        restore.unexcite( r );
+        restore.unexcite( l );
+        VoltageSplit vs = new VoltageSplit( this, restore, sp );
+        stateModel.addModel( mc, vs );
+
+        DefaultStateDiagram right = new DefaultStateDiagram( this );
+        right.enter( l );
+        right.move( l, r, getSpeed() );
+        right.unexcite( r );
+        right.unexcite( l );
+        ModelCriteria mc2 = new DefaultCriteria( null, dopantType, 0, Double.POSITIVE_INFINITY );
+        stateModel.addModel( mc2, right );
+    }
+
+    private void addS_( DopantType dopantType ) {
+        DefaultStateDiagram sp = new DefaultStateDiagram( this );
+        ExciteForConduction excite = sp.excite( dopantType.getDopingBand(), 1, dopantType.getNumFilledLevels() - 1 );
+        sp.move( excite.getLeftCell(), excite.getRightCell(), getSpeed() );
+        sp.exitRight( excite.getRightCell() );
+        ModelCriteria mc = new DefaultCriteria( null, dopantType, 0, Double.POSITIVE_INFINITY );
+
+        DefaultStateDiagram restore = new DefaultStateDiagram( this );
+        EnergyCell r = getLowerNeighbor( excite.getRightCell() );
+        EnergyCell l = getLeftNeighbor( r );
+        restore.enter( r );
+        restore.move( r, l, getSpeed() );
+        restore.move( excite.getLeftCell(), excite.getRightCell(), getSpeed() );
+        restore.exitRight( excite.getRightCell() );
+        restore.unexcite( r );
+        restore.unexcite( l );
+        VoltageSplit vs = new VoltageSplit( this, restore, sp );
+        stateModel.addModel( mc, vs );
+
+        DefaultStateDiagram left = new DefaultStateDiagram( this );
+        left.enter( r );
+        left.move( r, l, getSpeed() );
+        left.unexcite( r );
+        left.unexcite( l );
+        ModelCriteria mc2 = new DefaultCriteria( null, dopantType, Double.NEGATIVE_INFINITY, 0 );
+        stateModel.addModel( mc2, left );
+    }
+
+    private void addSimpleConductLeft( DopantType type ) {
+        SimpleConductLeft2 scl2 = new SimpleConductLeft2( this, type );
+        Clear2 clear = new Clear2( this, scl2.getLeftExcite(), scl2.getRightExcite() );
+        ConductRight2 cr2 = new ConductRight2( this, clear, scl2 );
+        ModelCriteria mc = new DefaultCriteria( type, type, Double.NEGATIVE_INFINITY, 0 );
+        stateModel.addModel( mc, cr2 );
+    }
+
+    private void addSimpleConductRight( DopantType type ) {
+        SimpleConductRight2 scr2 = new SimpleConductRight2( this, type );
+        Clear2 clear = new Clear2( this, scr2.getLeftExcite(), scr2.getRightExcite() );
+        ConductRight2 cr2 = new ConductRight2( this, clear, scr2 );
+        ModelCriteria mc = new DefaultCriteria( type, type, 0, Double.POSITIVE_INFINITY );
+        stateModel.addModel( mc, cr2 );
     }
 
     public void addEField( Rectangle2D.Double bandrect, Rectangle2D.Double bandrect2 ) {
@@ -256,10 +477,6 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         plusGraphics.add( plusGraphic );
     }
 
-    public void addBandSet( BandSet bandSet ) {
-        bandSets.add( bandSet );
-    }
-
     public void stepInTime( double dt ) {
         for( int i = 0; i < particles.size(); i++ ) {
             BandParticle bandParticle = (BandParticle)particles.get( i );
@@ -293,6 +510,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         }
         Shape orig = graphics2D.getClip();
         graphics2D.setClip( clip );
+
         for( int i = 0; i < bandSetGraphics.size(); i++ ) {
             BandSetGraphic bandSetGraphic = (BandSetGraphic)bandSetGraphics.get( i );
             bandSetGraphic.paint( graphics2D );
@@ -311,7 +529,11 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
             ElectricFieldSectionGraphic electricFieldGraphic = (ElectricFieldSectionGraphic)electricFieldGraphics.get( i );
             electricFieldGraphic.paint( graphics2D );
         }
+
         graphics2D.setClip( orig );
+//        graphics2D.setColor( Color.green );
+//        graphics2D.setStroke( new BasicStroke( 1) );
+//        graphics2D.draw( clip );
         bucketSection.paint( graphics2D );
     }
 
@@ -384,12 +606,13 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         }
         determineState();
         recomputeElectricFields();
+        generateStateDiagrams();
     }
 
     private void determineState() {
         //TODO
 //        if( isNP() && getVoltage() > 0 ) {
-//            this.stateModel = stateModelSet.getNPForward();
+//            this.stateModel = stateModelSet.getPNForward();
 //        }
 //        else if( isPN() && getVoltage() < 0 ) {
 //            this.stateModel = stateModelSet.getPnforward();
@@ -472,28 +695,13 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
 
-    public ArrayList getParticles() {
-        return particles;
-    }
-
     public Battery getBattery() {
         return battery;
-    }
-
-    public int indexOf( BandSet bs ) {
-        return bandSets.indexOf( bs );
     }
 
 
     public void addConductionListener( ConductionListener cl ) {
         conductionListeners.add( cl );
-    }
-
-    public void setConductionAllowed( boolean allowed ) {
-        for( int i = 0; i < conductionListeners.size(); i++ ) {
-            ConductionListener cl = (ConductionListener)conductionListeners.get( i );
-            cl.setConductionAllowed( allowed );
-        }
     }
 
     public Speed getSpeed() {
@@ -597,21 +805,6 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         return null;
     }
 
-    public EnergyCell getLowerNeighbor( EnergyCell cell ) {
-        int index = cell.getIndex();
-        int level = cell.getEnergyLevel().getAbsoluteHeight();
-        if( level == 0 ) {
-            return null;
-        }
-//        System.out.println( "Getting lower neighber for level=" + level + ", id=" + cell.getEnergyLevel().getID() );
-        EnergyLevel lower = cell.getBandSet().levelAt( level - 1 );
-
-        if( lower == null ) {
-//            System.out.println("lower = " + lower);
-            return null;
-        }
-        return lower.cellAt( index );
-    }
 
     public Speed getFallSpeed() {
         return new ConstantSpeed( .7 );
@@ -657,43 +850,6 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         return sum / particles.size();
     }
 
-    public int getNumParticlesLeavingLeft() {
-        int sum = 0;
-        for( int i = 0; i < particles.size(); i++ ) {
-            BandParticle bandParticle = (BandParticle)particles.get( i );
-            if( bandParticle.getState() instanceof ExitLeftState ) {
-                sum++;
-            }
-        }
-        return sum;
-    }
-
-    public int getNumParticlesLeavingRight() {
-        int sum = 0;
-        for( int i = 0; i < particles.size(); i++ ) {
-            BandParticle bandParticle = (BandParticle)particles.get( i );
-            if( bandParticle.getState() instanceof ExitRightState ) {
-                sum++;
-            }
-        }
-        return sum;
-    }
-
-    public ElectricFieldSection electricFieldSectionAt( int i ) {
-        return (ElectricFieldSection)electricFields.get( i );
-    }
-
-    public ElectricFieldSection getElectricFieldSection( BandSet curBS, BandSet dstBS ) {
-        int index1 = indexOf( curBS );
-        int index2 = indexOf( dstBS );
-        if( Math.abs( index1 - index2 ) != 1 ) {
-            return null;
-        }
-        else {
-            return electricFieldSectionAt( Math.min( index1, index2 ) );
-        }
-    }
-
     public BandSetGraphic bandSetGraphicAt( int bandIndex ) {
         return (BandSetGraphic)bandSetGraphics.get( bandIndex );
     }
@@ -712,14 +868,6 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
 
     public boolean isNP() {
         return isDiodeForTypes( DopantType.N, DopantType.P );
-    }
-
-    public boolean isPP() {
-        return isDiodeForTypes( DopantType.P, DopantType.P );
-    }
-
-    public boolean isNN() {
-        return isDiodeForTypes( DopantType.N, DopantType.N );
     }
 
     public boolean isDiodeForTypes( DopantType left, DopantType right ) {
@@ -751,6 +899,10 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         EnergyLevel hi = getHighestFilledLevel( bs );
         EnergyLevel dst = bs.levelAt( hi.getAbsoluteHeight() + 1 );        //up one.
         EnergyCell dstCell = dst.cellAt( neighbor.getIndex() );
+        setupBias( src, dstCell );
+    }
+
+    private void setupBias( EnergyCell src, EnergyCell dstCell ) {
         BandParticle bp = getBandParticle( src );
         if( bp.isLocatedAtCell() && !isClaimed( dstCell ) ) {
             EnergySection.ContinuousBiasObserver cbo = new EnergySection.ContinuousBiasObserver( dstCell, bp );
@@ -763,41 +915,9 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         return numBandSets() * 2;
     }
 
-    public int getNumParticles( EnergyLevel above ) {
-        int sum = 0;
-        if( isClaimed( above.cellAt( 0 ) ) ) {
-            sum++;
-        }
-        if( isClaimed( above.cellAt( 1 ) ) ) {
-            sum++;
-        }
-        return sum;
-    }
-
-    public int getNumParticlesAtCells( EnergyLevel above ) {
-        int sum = 0;
-        BandParticle a = getBandParticle( above.cellAt( 0 ) );
-        BandParticle b = getBandParticle( above.cellAt( 1 ) );
-        if( a != null && a.isLocatedAtCell() ) {
-            sum++;
-        }
-        if( b != null && b.isLocatedAtCell() ) {
-            sum++;
-        }
-        return sum;
-    }
-
     public int numRows() {
         return bandSetAt( 0 ).numEnergyLevels();
     }
-
-//    public double getElectricForce( BandParticle bp ) {
-//        EnergyCell cell = bp.getEnergyCell();
-//        int column = cell.getColumn();
-//        int left = getColumnCharge( column - 1 );
-//        int right = getColumnCharge( column + 1 );
-//        return right - left;
-//    }
 
     public int getColumnCharge( int column ) {
         if( column == -1 ) {
@@ -849,37 +969,33 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         throw new RuntimeException( "No such case." );
     }
 
-    public double getElectricForceV1( BandParticle bp ) {
-        EnergyCell cell = bp.getEnergyCell();
-        if( numBandSets() == 1 ) {
-            return getVoltage();
+    public EnergyCell getLowerNeighbor( EnergyCell cell ) {
+        int index = cell.getIndex();
+        int level = cell.getEnergyLevel().getAbsoluteHeight();
+        if( level == 0 ) {
+            return null;
         }
-        else if( numBandSets() == 2 ) {
-            return ElectricFieldSection.toVoltStrength( getVoltage() ) + electricFieldSectionAt( 0 ).getInternalField().getStrength();
+//        System.out.println( "Getting lower neighber for level=" + level + ", id=" + cell.getEnergyLevel().getID() );
+        EnergyLevel lower = cell.getBandSet().levelAt( level - 1 );
+
+        if( lower == null ) {
+//            System.out.println("lower = " + lower);
+            return null;
         }
-        else if( numBandSets() == 3 ) {
-            int column = cell.getColumn();
-            if( column <= 2 ) {
-                return ElectricFieldSection.toVoltStrength( getVoltage() ) + electricFieldSectionAt( 0 ).getInternalField().getStrength();
-            }
-            else if( column > 2 ) {
-                return ElectricFieldSection.toVoltStrength( getVoltage() ) + electricFieldSectionAt( 1 ).getInternalField().getStrength();
-            }
-        }
-        throw new RuntimeException( "No case found." );
+        return lower.cellAt( index );
     }
 
-    public BandParticle[] getParticles( SemiconductorBandSet bandSet ) {
-        ArrayList list = new ArrayList();
-        for( int i = 0; i < numParticles(); i++ ) {
-            BandParticle bp = particleAt( i );
-            if( bp.getBandSet() == bandSet ) {
-                list.add( bp );
-            }
-        }
-        return (BandParticle[])list.toArray( new BandParticle[0] );
+    public boolean isOwned( EnergyLevel level ) {
+        return isOwned( level.cellAt( 0 ) ) && isOwned( level.cellAt( 1 ) );
     }
 
+    public boolean isOwned( EnergyCell cell ) {
+        BandParticle bp = getBandParticle( cell );
+        if( bp != null && bp.isLocatedAtCell() ) {
+            return true;
+        }
+        return false;
+    }
 
     interface InternalBiasSetup {
         boolean isValid( EnergySection energySection );
@@ -932,10 +1048,12 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         }
 
         public void apply( EnergySection energySection ) {
-//            EnergyCell asrc = bandSetAt( 1 ).bandAt( 2 ).energyLevelAt( 1 ).cellAt( 0 );
-//            moveLeft1Down2( asrc );
-//            EnergyCell bsrc = bandSetAt( 1 ).bandAt( 2 ).energyLevelAt( 1 ).cellAt( 1 );
-//            moveRight1Down2( bsrc );
+            EnergyLevel hi = getHighestFilledLevel( bandSetAt( 1 ) );
+            setupBias( hi.cellAt( 0 ), -1 );
+            setupBias( getLowerNeighbor( hi.cellAt( 0 ) ), -2 );
+
+            setupBias( hi.cellAt( 1 ), 1 );
+            setupBias( getLowerNeighbor( hi.cellAt( 1 ) ), 2 );
         }
 
     }
@@ -946,10 +1064,17 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         }
 
         public void apply( EnergySection energySection ) {
-//            EnergyCell asrc = bandSetAt( 0 ).bandAt( 2 ).energyLevelAt( 1 ).cellAt( 1 );
-//            moveRight1Down2( asrc );
-//            EnergyCell bsrc = bandSetAt( 2 ).bandAt( 2 ).energyLevelAt( 1 ).cellAt( 0 );
-//            moveLeft1Down2( bsrc );
+            EnergyLevel ctr = getHighestFilledLevel( bandSetAt( 1 ) );
+            EnergyLevel hiLeft = getHighestFilledLevel( bandSetAt( 0 ) );
+            EnergyCell leftCell = ctr.cellAt( 0 );
+            EnergyCell rightCell = ctr.cellAt( 1 );
+
+            setupBias( hiLeft.cellAt( 0 ), getUpperNeighbor( leftCell ) );
+            setupBias( hiLeft.cellAt( 1 ), getUpperNeighbor( getUpperNeighbor( leftCell ) ) );
+
+            EnergyLevel hiRight = getHighestFilledLevel( bandSetAt( 2 ) );
+            setupBias( hiRight.cellAt( 0 ), getUpperNeighbor( rightCell ) );
+            setupBias( hiRight.cellAt( 1 ), getUpperNeighbor( getUpperNeighbor( rightCell ) ) );
         }
 
     }

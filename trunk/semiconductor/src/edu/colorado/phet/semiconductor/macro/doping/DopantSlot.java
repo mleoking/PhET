@@ -3,11 +3,9 @@ package edu.colorado.phet.semiconductor.macro.doping;
 import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.semiconductor.macro.SemiconductorModule;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 public class DopantSlot implements TransformListener {
@@ -17,8 +15,6 @@ public class DopantSlot implements TransformListener {
     ModelViewTransform2D transform;
     private Color defaultColor;
     DopantSlotGraphic graphic;
-    Paint N_PAINT;
-    Paint P_PAINT;
 
     public DopantSlot( DopantType dopant, final Shape modelShape, final ModelViewTransform2D transform, Color color ) throws IOException {
         this.dopant = dopant;
@@ -28,9 +24,6 @@ public class DopantSlot implements TransformListener {
         graphic = new DopantSlotGraphic( viewShape, getDopantType() );
         transform.addTransformListener( this );
         transformChanged( transform );
-
-        N_PAINT = new TexturePaint( SemiconductorModule.imageLoader.loadImage( "images/particle-green-med.gif" ), new Rectangle2D.Double( 0, 0, 15, 15 ) );
-        P_PAINT = new TexturePaint( SemiconductorModule.imageLoader.loadImage( "images/particle-red-med.gif" ), new Rectangle2D.Double( 0, 0, 15, 15 ) );
     }
 
     public void setDopantType( DopantType dopantType ) {

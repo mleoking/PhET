@@ -3,22 +3,16 @@ package edu.colorado.phet.semiconductor.macro.energy.bands;
 
 import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.common.ClipGraphic;
-import edu.colorado.phet.semiconductor.common.Particle;
-import edu.colorado.phet.semiconductor.common.ParticleGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
-import edu.colorado.phet.semiconductor.macro.circuit.MacroCircuitGraphic;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
-import java.util.Hashtable;
 
 /**
  * User: Sam Reid
@@ -28,22 +22,18 @@ import java.util.Hashtable;
  */
 public class BandSetGraphic extends TransformGraphic implements BandParticleObserver {
     CompositeInteractiveGraphic graphic = new CompositeInteractiveGraphic();
-    Hashtable particleToPlus = new Hashtable();
     ClipGraphic clipGraphic;
-    Hashtable bandParticleGraphicTable = new Hashtable();
-    private Hashtable plusGraphicTable = new Hashtable();
 //    private boolean showPlusses = true;
     ShapeGraphic backgroundWhite;
     ShapeGraphic backgroundBorder;
-    private EnergySection diodeSection;
     private ChargeCountGraphic chargeCountGraphic;
     protected SemiconductorBandSet bandSet;
     private Rectangle2D.Double viewport;
     private boolean paintLevelIDs = false;
+//    private boolean paintLevelIDs = true;
 
     public BandSetGraphic( EnergySection diodeSection, ModelViewTransform2D transform, final SemiconductorBandSet bandSet, final Rectangle2D.Double viewport ) {
         super( transform );
-        this.diodeSection = diodeSection;
         this.bandSet = bandSet;
         this.viewport = viewport;
         backgroundWhite = new ShapeGraphic( viewport, Color.white );
@@ -71,34 +61,6 @@ public class BandSetGraphic extends TransformGraphic implements BandParticleObse
         graphic.addGraphic( backgroundBorder, 3 );
 
         chargeCountGraphic = new ChargeCountGraphic( diodeSection, this, transform );
-    }
-
-    public void particleRemoved( BandParticle bandParticle ) {
-        Graphic g = (Graphic)bandParticleGraphicTable.get( bandParticle );
-        graphic.remove( g );
-        bandParticleGraphicTable.remove( bandParticle );
-
-        Particle plus = (Particle)particleToPlus.get( bandParticle );
-        plusGraphicTable.remove( plus );
-        particleToPlus.remove( bandParticle );
-    }
-
-    public void addParticle( BandParticle bandParticle ) {
-        try {
-            BandParticleGraphic bandParticleGraphic = new BandParticleGraphic( bandParticle, getTransform(), MacroCircuitGraphic.getParticleImage() );
-            bandParticleGraphicTable.put( bandParticle, bandParticleGraphic );
-            graphic.addGraphic( bandParticleGraphic, 1 );
-
-            double modelDX = getTransform().viewToModelDifferentialX( MacroCircuitGraphic.getPlusImage().getWidth() );
-            Particle plus = new Particle( bandParticle.getX() + modelDX * 1.003, bandParticle.getY() );
-            ParticleGraphic plusGraphic = new ParticleGraphic( plus, getTransform(), MacroCircuitGraphic.getPlusImage() );
-            plusGraphicTable.put( plus, plusGraphic );
-//            plusCGraphic.addGraphic(plusGraphic, 2);
-            particleToPlus.put( bandParticle, plus );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
     }
 
     public void update() {

@@ -2,7 +2,6 @@ package edu.colorado.phet.semiconductor.macro.energyprobe;
 
 import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
@@ -40,14 +39,6 @@ public class LeadGraphic extends TransformGraphic implements SimpleObserver {
 
     public void paint( Graphics2D graphics2D ) {
         graphic.paint( graphics2D );
-    }
-
-    public Boundary getBoundary() {
-        return new Boundary() {
-            public boolean contains( int x, int y ) {
-                return graphic.contains( x, y );
-            }
-        };
     }
 
     public Point getTail() {

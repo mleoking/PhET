@@ -32,7 +32,6 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
     private BufferedImage batteryImage;
     private static BufferedImage particleImage;
     private static ImageLoader loader = new ImageLoader();
-    private static BufferedImage posImage;
 
     public MacroCircuitGraphic( MacroCircuit circuit, ModelViewTransform2D transform ) throws IOException {
         this.circuit = circuit;
@@ -106,19 +105,8 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
         }
         else {
             loader.setPhetLoader();
-            batteryImage = loader.loadBufferedImage( "images/AA-battery.gif" );
+            batteryImage = ImageLoader.loadBufferedImage( "images/AA-battery.gif" );
             return batteryImage;
-        }
-    }
-
-    public static BufferedImage getPlusImage() throws IOException {
-        if( posImage != null ) {
-            return posImage;
-        }
-        else {
-            loader.setPhetLoader();
-            posImage = loader.loadImage( "images/particle-red-plus.gif" );
-            return posImage;
         }
     }
 
@@ -141,14 +129,6 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
         return (Graphic)wireGraphics.get( i );
     }
 
-    public ShapeGraphic getResistorGraphic() {
-        return resistorGraphic;
-    }
-
-    public StretchedBufferedImage getBatteryGraphic() {
-        return battGraphic;
-    }
-
     public void paint( Graphics2D graphics2D ) {
         for( int i = 0; i < numWireGraphics(); i++ ) {
             wireGraphicAt( i ).paint( graphics2D );
@@ -166,9 +146,4 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
         }
     }
 
-    public Shape getResistorShape() {
-        Stroke resStroke = resistorGraphic.getOutlineStroke();
-        Shape sh = resistorGraphic.getShape();
-        return resStroke.createStrokedShape( sh );
-    }
 }

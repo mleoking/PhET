@@ -13,12 +13,10 @@ import java.awt.event.ActionListener;
  * Copyright (c) Feb 7, 2004 by Sam Reid
  */
 public class DiodeControlPanel extends JPanel {
-    SemiconductorModule module;
     ButtonGroup bg = new ButtonGroup();
     private JPanel pan = new JPanel();
 
     public DiodeControlPanel( final SemiconductorModule module ) {
-        this.module = module;
         pan.setLayout( new BoxLayout( pan, BoxLayout.Y_AXIS ) );
 
         addJButton( "One (1)", new ActionListener() {
@@ -41,6 +39,17 @@ public class DiodeControlPanel extends JPanel {
 
         setBackground( new Color( 240, 230, 210 ) );
         add( pan );
+        final JCheckBox gate = new JCheckBox( "Gate" );
+        gate.setSelected( true );
+        gate.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getMagnetGraphic().setVisible( gate.isSelected() );
+                if( !gate.isSelected() ) {
+                    module.releaseGate();
+                }
+            }
+        } );
+        add( gate );
     }
 
     private void addJButton( String s, ActionListener actionListener, boolean selected ) {
