@@ -1,10 +1,10 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.statemodels;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.semiconductor.macro.EntryPoint;
 import edu.colorado.phet.semiconductor.macro.doping.DopantType;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
-import edu.colorado.phet.semiconductor.macro.energy.StateModel;
 import edu.colorado.phet.semiconductor.macro.energy.StateTransitionList;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandSet;
@@ -20,9 +20,9 @@ import java.util.ArrayList;
  * Time: 8:50:15 AM
  * Copyright (c) Mar 15, 2004 by Sam Reid
  */
-public class DefaultStateModel implements StateModel {
+public class DefaultStateModel implements ModelElement {
     EnergySection energySection;
-    StateTransitionList transitionList = new StateTransitionList();
+    StateTransitionList transitionList = new StateTransitionList( energySection );
 
     public DefaultStateModel( EnergySection energySection ) {
         this.energySection = energySection;
@@ -88,7 +88,7 @@ public class DefaultStateModel implements StateModel {
     }
 
     //step in time.
-    public void updateStates() {
+    public void stepInTime( double dt ) {
         for( int i = 0; i < energySection.numParticles(); i++ ) {
             BandParticle bp = energySection.particleAt( i );
             transitionList.apply( bp, energySection );

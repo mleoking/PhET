@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.common.examples;
 
+import edu.colorado.phet.common.view.plaf.AnimFactoryLookAndFeel;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
@@ -16,7 +17,7 @@ import java.awt.*;
  * Copyright (c) Apr 2, 2004 by Sam Reid
  */
 public class TestComponents {
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IllegalAccessException, UnsupportedLookAndFeelException, InstantiationException, ClassNotFoundException {
         JFrame frame = new JFrame( "Test Slider UI" );
         JMenuBar jmb = new JMenuBar() {
             protected void paintComponent( Graphics g ) {
@@ -80,8 +81,16 @@ public class TestComponents {
 
         frame.setSize( 600, 600 );
         GraphicsUtil.centerFrameOnScreen( frame );
-        PlafUtil.applyPlayful();
+//        PlafUtil.applyPlayful();
+
+
+        UIManager.setLookAndFeel( AnimFactoryLookAndFeel.class.getName() );
+        PlafUtil.updateFrames();
+
+
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+
+
     }
 }

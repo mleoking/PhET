@@ -1,6 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 
 import java.util.ArrayList;
@@ -11,10 +12,12 @@ import java.util.ArrayList;
  * Time: 9:57:07 PM
  * Copyright (c) Mar 16, 2004 by Sam Reid
  */
-public class StateTransitionList {
+public class StateTransitionList implements ModelElement {
     ArrayList t = new ArrayList();
+    private EnergySection energySection;
 
-    public StateTransitionList() {
+    public StateTransitionList( EnergySection energySection ) {
+        this.energySection = energySection;
     }
 
     public void addTransition( StateTransition transition ) {
@@ -33,5 +36,16 @@ public class StateTransitionList {
             }
         }
         return false;
+    }
+
+    public void apply( EnergySection energySection ) {
+        for( int i = 0; i < energySection.numParticles(); i++ ) {
+            BandParticle bp = energySection.particleAt( i );
+            apply( bp, energySection );
+        }
+    }
+
+    public void stepInTime( double dt ) {
+        apply( energySection );
     }
 }
