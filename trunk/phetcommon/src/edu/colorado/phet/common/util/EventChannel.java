@@ -22,9 +22,32 @@ import java.util.EventObject;
  * @version $Revision$
  */
 public interface EventChannel {
+    /**
+     * Adds a listener to the channel
+     * @param listener
+     */
     void addListener( EventListener listener );
+
+    /**
+     * Removes a listener from the channel
+     * @param listener
+     */
     void removeListener( EventListener listener );
+
+    /**
+     * Removes all listeners from the channel
+     */
     void removeAllListeners();
+
+    /**
+     * Causes the channel to call event handlers for particular listeners on the channel.
+     * @param event
+     */
     void fireEvent( EventObject event );
+
+    /**
+     * Gets the number of listeners on the channel
+     * @return
+     */
     int getNumListeners();
 }
