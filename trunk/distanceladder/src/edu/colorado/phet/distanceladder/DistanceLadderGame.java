@@ -75,9 +75,7 @@ public class DistanceLadderGame {
 
         doLevel( new Level1( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
-        doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
 
-        JOptionPane.showConfirmDialog( app.getApplicationView().getPhetFrame(), "???" );
         cockpitModule.activate( null );
     }
 

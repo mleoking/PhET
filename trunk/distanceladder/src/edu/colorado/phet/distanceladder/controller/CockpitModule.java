@@ -132,6 +132,7 @@ public class CockpitModule extends Module {
         double dy = cockpitDx * Math.cos( this.starView.getPovTheta() );
         starView.movePov( dx, dy, gamma );
         cockpit.moveIncr( dx, dy );
+        System.out.println( "dx: " + dx + "  dy: " + dy );
         cockpit.setVelocity( (float)dx, (float)dy );
     }
 
