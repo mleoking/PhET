@@ -132,11 +132,12 @@ public class CCK2Module extends Module {
         }
     };
     private BufferedImage flameImage;
-    private JLabel helpLabel;
+//    private JLabel helpLabel;
     private boolean firstBranch = true;
     private boolean usePointAmmeter;
     private Ammeter ammeter;
     private AmmeterGraphic ammeterGraphic;
+    private boolean helpVisible = false;
 
     public BufferedImage getFlameImage() {
         return flameImage;
@@ -287,13 +288,13 @@ public class CCK2Module extends Module {
 
         getApparatusPanel().setLayout(new FlowLayout(FlowLayout.LEFT));
 //        getApparatusPanel().add(helpButton);
-        JPanel viewPanel = new ViewPanel(this);
-        getApparatusPanel().add(viewPanel);
+//        JPanel viewPanel = new ViewPanel(this);
+//        getApparatusPanel().add(viewPanel);
 
-        helpLabel = new JLabel("Right click an object to show options.");
-        helpLabel.setFont(new Font("Lucida Sans", Font.BOLD, 16));
-        helpLabel.setForeground(Color.black);
-        getApparatusPanel().add(helpLabel);
+//        helpLabel = new JLabel("Right click an object to show options.");
+//        helpLabel.setFont(new Font("Lucida Sans", Font.BOLD, 16));
+//        helpLabel.setForeground(Color.black);
+//        getApparatusPanel().add(helpLabel);
         if (usePointAmmeter) {
             ammeter = new Ammeter(vm.getVoltmeterUnit().getX(), vm.getVoltmeterUnit().getY() + .5);
             ammeterGraphic = new AmmeterGraphic(ammeter, getTransform(), this, circuitGraphic);
@@ -336,6 +337,8 @@ public class CCK2Module extends Module {
         this.getCircuit().addBranch(ammeterBranch);
 
         setLifelikeWireColor(COPPER);
+        JPanel controlPanel = new CCKControlPanel(this);
+        super.setControlPanel(controlPanel);
     }
 //    public static final Color COPPER=new Color(235,160,40);
 //    public static final Color COPPER=new Color(214, 18, 34);
@@ -648,5 +651,9 @@ public class CCK2Module extends Module {
     public void setLifelikeWireColor(Color color) {
         lifelikeGraphicFactory.setWireColor(color);
         circuitGraphic.setLifelikeWireColor(color);
+    }
+
+    public void setHelpVisible(boolean helpVisible) {
+        this.helpVisible = helpVisible;
     }
 }
