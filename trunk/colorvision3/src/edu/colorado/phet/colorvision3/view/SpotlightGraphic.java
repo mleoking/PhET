@@ -24,6 +24,9 @@ import edu.colorado.phet.common.view.util.ImageLoader;
  */
 public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObserver
 {
+  /** How far the bulb is inside the spotlight. */
+  private static final int BULB_OFFSET = 40;
+  
   private Spotlight2D _model;
   private PhetImageGraphic _spotlightGraphic;
   private AffineTransform _rotate;
@@ -121,7 +124,7 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
     // Location
     {
       Rectangle spotBounds = _spotlightGraphic.getBounds();
-      _spotlightGraphic.setPosition( (int)(_model.getX() - spotBounds.width),
+      _spotlightGraphic.setPosition( (int)(_model.getX() - spotBounds.width + BULB_OFFSET),
                                      (int)(_model.getY() - (spotBounds.height/2)) );
     }
 
@@ -132,7 +135,7 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
     
       // Rotate about the right-center edge of the spotlight image.
       Rectangle bounds = _spotlightGraphic.getBounds();
-      int centerX = (int) (bounds.x + (bounds.width));
+      int centerX = (int) (bounds.x + (bounds.width) - BULB_OFFSET);
       int centerY = (int) (bounds.y + (bounds.height/2));
     
       // Create the transform.
