@@ -67,4 +67,16 @@ public class RectangleUtils {
     public static Rectangle2D expand( Rectangle2D r, double dw, double dh ) {
         return new Rectangle2D.Double( r.getX() - dw, r.getY() - dh, r.getWidth() + dw * 2, r.getHeight() + dh * 2 );
     }
+
+    public static Rectangle union( Rectangle[] rectangles ) {
+        if( rectangles.length == 0 ) {
+            return null;
+        }
+        Rectangle union = new Rectangle( rectangles[0] );
+        for( int i = 1; i < rectangles.length; i++ ) {
+            Rectangle rectangle = rectangles[i];
+            union = union.union( rectangle );
+        }
+        return union;
+    }
 }
