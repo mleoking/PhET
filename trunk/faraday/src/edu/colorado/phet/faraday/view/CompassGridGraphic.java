@@ -12,10 +12,6 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -23,6 +19,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 
@@ -35,7 +32,7 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
+public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, ApparatusPanel2.ChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -48,6 +45,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
 
+    // Size of the parent component
+    private Dimension _parentSize;
+    
     // The magnet model element that the grid is observing.
     private AbstractMagnet _magnetModel;
     
@@ -91,14 +91,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
         
         _alphaEnabled = DEFAULT_ALPHA_ENABLED;
         
-        setSpacing( xSpacing, ySpacing );
+        _parentSize = component.getSize();
         
-        // Need to reset the grid when the parent component is resized.
-        component.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                resetSpacing();
-            }
-        });
+        setSpacing( xSpacing, ySpacing );
         
         update();
     }
@@ -131,24 +126,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
         // Clear existing needles.
         _needles.clear();
         
-        // Determine the dimensions of the parent component.
-        int width, height;
-        {
-            Component component = getComponent();
-            if ( component instanceof ApparatusPanel2 ) {
-                Dimension canvasSize = ( (ApparatusPanel2) component ).getVirtualCanvasSize();
-                width = canvasSize.width;
-                height = canvasSize.height;
-            }
-            else {
-                width = component.getWidth();
-                height = component.getHeight();
-            }
-        }
-        
         // Determine how many needles are needed to fill the parent component.
-        int xCount = (int)(width / xSpacing) + 1;
-        int yCount = (int)(height / ySpacing) + 1;
+        int xCount = (int) ( _parentSize.width / xSpacing ) + 1;
+        int yCount = (int) ( _parentSize.height / ySpacing ) + 1;
         
         // Create the needles.
         for ( int i = 0; i < xCount; i++ ) {
@@ -341,5 +321,17 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
             }
             repaint();
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // ApparatusPanel2.ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
+     */
+    public void canvasSizeChanged( ChangeEvent event ) {
+        _parentSize = event.getCanvasSize();
+        resetSpacing();   
     }
 }
