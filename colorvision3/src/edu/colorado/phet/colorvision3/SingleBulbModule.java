@@ -11,8 +11,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.colorvision3.control.SingleBulbControlPanel;
 import edu.colorado.phet.colorvision3.control.SpectrumSlider;
-import edu.colorado.phet.colorvision3.event.ColorChangeEvent;
-import edu.colorado.phet.colorvision3.event.ColorChangeListener;
+import edu.colorado.phet.colorvision3.event.VisibleColorChangeEvent;
+import edu.colorado.phet.colorvision3.event.VisibleColorChangeListener;
 import edu.colorado.phet.colorvision3.model.Filter;
 import edu.colorado.phet.colorvision3.model.Person;
 import edu.colorado.phet.colorvision3.model.PhotonBeam;
@@ -40,7 +40,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$
  */
-public class SingleBulbModule extends Module implements ChangeListener, ColorChangeListener
+public class SingleBulbModule extends Module implements ChangeListener, VisibleColorChangeListener
 {
 	//----------------------------------------------------------------------------
 	// Class data
@@ -298,12 +298,12 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
   //----------------------------------------------------------------------------
 	
   /**
-   * Handles a ColorChangeEvent, which occurs when the perceived color changes.
+   * Handles a VisibleColorChangeEvent, which occurs when the perceived color changes.
    * 
    * @param event the event
    * @throws IllegalArgumentException if the event is from an unexpected source
    */
-  public void colorChanged( ColorChangeEvent event )
+  public void colorChanged( VisibleColorChangeEvent event )
   {
     if ( event.getSource() == _photonBeamModel || event.getSource() == _postFilterBeamModel )
     {
@@ -311,7 +311,7 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     }
     else
     {
-      throw new IllegalArgumentException( "unexpected ColorChangeEvent from " + event.getSource() );
+      throw new IllegalArgumentException( "unexpected VisibleColorChangeEvent from " + event.getSource() );
     }
   }
   

@@ -1,4 +1,4 @@
-/* ColorChangeEvent.java, Copyright 2004 University of Colorado PhET */
+/* VisibleColorChangeEvent.java, Copyright 2004 University of Colorado PhET */
 
 package edu.colorado.phet.colorvision3.event;
 
@@ -7,12 +7,12 @@ import java.util.EventObject;
 import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
- * ColorChangeEvent occurs when a color changes in some way.
+ * VisibleColorChangeEvent occurs when a color changes in some way.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$
  */
-public class ColorChangeEvent extends EventObject
+public class VisibleColorChangeEvent extends EventObject
 {
 	//----------------------------------------------------------------------------
 	// Instance data
@@ -32,7 +32,7 @@ public class ColorChangeEvent extends EventObject
    * @param color the color
    * @param intensity the intensity
    */
-  public ColorChangeEvent( Object source, VisibleColor color )
+  public VisibleColorChangeEvent( Object source, VisibleColor color )
   {
     super( source );
     _color = color;

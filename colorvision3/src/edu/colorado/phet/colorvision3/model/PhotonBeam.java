@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.colorvision3.event.ColorChangeEvent;
-import edu.colorado.phet.colorvision3.event.ColorChangeListener;
+import edu.colorado.phet.colorvision3.event.VisibleColorChangeEvent;
+import edu.colorado.phet.colorvision3.event.VisibleColorChangeListener;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -305,7 +305,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
       _photons.add( photon );
     }
     
-    // If the perceived color or intensity has changed, then fire a ColorChangeEvent.
+    // If the perceived color or intensity has changed, then fire a VisibleColorChangeEvent.
     if ( !newPerceivedColor.equals(_perceivedColor) || newPerceivedIntensity != _perceivedIntensity )
     {
       _perceivedColor = newPerceivedColor;
@@ -321,7 +321,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
         VisibleColor color = new VisibleColor( r, g, b, a );
         
         // Notify listeneners about the new color.
-        ColorChangeEvent event = new ColorChangeEvent( this, color );
+        VisibleColorChangeEvent event = new VisibleColorChangeEvent( this, color );
         fireColorChangeEvent( event );
       }
     }
@@ -380,39 +380,39 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
   //----------------------------------------------------------------------------
 
   /**
-   * Adds a ColorChangeListener.
+   * Adds a VisibleColorChangeListener.
    * 
    * @param listener the listener to add
    */
-  public void addColorChangeListener( ColorChangeListener listener )
+  public void addColorChangeListener( VisibleColorChangeListener listener )
   {
-    _listenerList.add( ColorChangeListener.class, listener );
+    _listenerList.add( VisibleColorChangeListener.class, listener );
   }
   
   /**
-   * Removes a ColorChangeListener.
+   * Removes a VisibleColorChangeListener.
    * 
    * @param listener the listener to remove
    */
-  public void removeColorChangeListener( ColorChangeListener listener )
+  public void removeColorChangeListener( VisibleColorChangeListener listener )
   {
-    _listenerList.remove( ColorChangeListener.class, listener );
+    _listenerList.remove( VisibleColorChangeListener.class, listener );
   }
   
   /**
-   * Fires a ColorChangeEvent.
+   * Fires a VisibleColorChangeEvent.
    * This occurs each time the color or intensity of the photon beam changes.
    * 
    * @param event the event
    */
-  private void fireColorChangeEvent( ColorChangeEvent event )
+  private void fireColorChangeEvent( VisibleColorChangeEvent event )
   {
     Object[] listeners = _listenerList.getListenerList();
     for ( int i = 0; i < listeners.length; i+=2 )
     {
-      if ( listeners[i] == ColorChangeListener.class )
+      if ( listeners[i] == VisibleColorChangeListener.class )
       {
-        ((ColorChangeListener)listeners[i+1]).colorChanged( event );
+        ((VisibleColorChangeListener)listeners[i+1]).colorChanged( event );
       }
     }
   }
