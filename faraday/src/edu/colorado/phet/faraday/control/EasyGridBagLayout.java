@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday.control;
 
 // JDK
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -25,84 +26,242 @@ import javax.swing.JPanel;
  *
  * @author Chris Malley
  * @version $Revision$ $Date$
- *
  */
 public class EasyGridBagLayout extends GridBagLayout {
 
-    //-----------------------------------------------------------------
+    //----------------------------------------------------------------------------
     // Class data
-    //-----------------------------------------------------------------
-
-    /** Default gridwidth constraint */
+    //----------------------------------------------------------------------------
+    
+    /// Default constraint values
     public static final int DEFAULT_GRIDWIDTH = 1;
-
-    /** Default gridheight constraint */
     public static final int DEFAULT_GRIDHEIGHT = 1;
-
-    /** Default anchor constraint */
     public static final int DEFAULT_ANCHOR = GridBagConstraints.WEST;
-
-    /** Default fill constraint */
     public static final int DEFAULT_FILL = GridBagConstraints.NONE;
-
-    /** Default insets constraint */
     public static final Insets DEFAULT_INSETS = new Insets( 2, 2, 2, 2 );
-
-    /** Default ipadx constraint */
     public static final int DEFAULT_IPADX = 0;
-
-    /** Default ipady constraint */
     public static final int DEFAULT_IPADY = 0;
 
-    //-----------------------------------------------------------------
+    //----------------------------------------------------------------------------
     // Instance data
-    //-----------------------------------------------------------------
+    //----------------------------------------------------------------------------
+    
+    // Default constraints
+    private int _width, _height, _anchor, _fill, _ipadx, _ipady;
+    private Insets _insets;
 
     // Panel to be managed
     private JPanel _panel;
-
-    // Default insets
-    private Insets _insets;
-
+    
     // Reuse, to conserve memory.
     private GridBagConstraints _constraints;
 
-    //-----------------------------------------------------------------
+    //----------------------------------------------------------------------------
     // Constructors
-    //-----------------------------------------------------------------
+    //----------------------------------------------------------------------------
 
     /** 
-     * Constructor with default Insets.
+     * Sole constructor.
      *
      * @param panel the panel to be managed
      * @throws NullPointerException if panel is null
      */
     public EasyGridBagLayout( JPanel panel ) throws NullPointerException {
-        this( panel, DEFAULT_INSETS );
-    }
-
-    /** 
-     * Constructor with specific Insets.
-     *
-     * @param panel the panel to be managed
-     * @param insets the insets to be used for all constraints
-     * @throws NullPointerException if panel is null
-     */
-    public EasyGridBagLayout( JPanel panel, Insets insets ) throws NullPointerException {
         super();
 
         if ( panel == null ) {
             throw new NullPointerException();
         }
 
+        // Default constraints
+        _width = DEFAULT_GRIDWIDTH;
+        _height = DEFAULT_GRIDHEIGHT;
+        _anchor = DEFAULT_ANCHOR;
+        _fill = DEFAULT_FILL;
+        _ipadx = DEFAULT_IPADX;
+        _ipady = DEFAULT_IPADY;
+        _insets = DEFAULT_INSETS;
+        
         _panel = panel;
-        _insets = insets;
+
         _constraints = new GridBagConstraints();
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the default grid size.
+     * 
+     * @param size the size
+     */
+    public void setSize( Dimension size ) {
+        setSize( size.width, size.height );
+    }
+    
+    /**
+     * Sets the default grid size 
+     * 
+     * @param width
+     * @param height
+     */
+    public void setSize( int width, int height ) {
+        _width = width;
+        _height = height;
+    }
+    
+    /**
+     * Sets the default grid width.
+     * 
+     * @param width
+     */
+    public void setWidth( int width ) {
+        _width = width;
+    }
+    
+    /**
+     * Sets the default grid height.
+     * @param height
+     */
+    public void setHeight( int height ) {
+        _height = height;
+    }
+    
+    /**
+     * Gets the default grid size.
+     * 
+     * @return a copy of the grid size
+     */
+    public Dimension getSize() {
+        return new Dimension( _width, _height );
+    }
+    
+    /**
+     * Gets the default grid width.
+     * 
+     * @return the width
+     */
+    public int getWidth() {
+        return _width;
+    }
+    
+    /**
+     * Gets the default grid height.
+     * 
+     * @return the height
+     */
+    public int getHeight() {
+        return _height;
+    }
 
-    //-----------------------------------------------------------------
-    // The "new and improved" interface ...
-    //-----------------------------------------------------------------
+    /**
+     * Sets the default anchor.
+     * 
+     * @param anchor see GridBagConstraint for valid values
+     */
+    public void setAnchor( int anchor ) {
+        _anchor = anchor;
+    }
+    
+    /**
+     * Gets the default anchor.
+     * 
+     * @return the anchor, see GridBagConstraint for valid values
+     */
+    public int getAnchor() {
+        return _anchor;
+    }
+    
+    /**
+     * Sets the default fill.
+     * 
+     * @param fill see GridBagConstraint for valid values
+     */
+    public void setFill( int fill ) {
+        _fill = fill;
+    }
+    
+    /**
+     * Gets the default fill.
+     * 
+     * @return the fill, see GridBagConstraint for valid values
+     */
+    public int getFill() {
+        return _fill;
+    }
+    
+    /**
+     * Sets the default internal padding.
+     * 
+     * @param ipadx horizontal padding
+     * @param ipady vertical padding
+     */
+    public void setIPad( int ipadx, int ipady ) {
+        _ipadx = ipadx;
+        _ipady = ipady;
+    }
+    
+    /**
+     * Sets the default horizontal internal padding.
+     * 
+     * @param ipadx the horizontal padding
+     */
+    public void setIPadX( int ipadx ) {
+        _ipadx = ipadx;
+    }
+    
+    /**
+     * Sets the default vertical internal padding.
+     * 
+     * @param ipady the vertical padding
+     */
+    public void setIPadY( int ipady ) {
+        _ipady = ipady;
+    }
+    
+    /**
+     * Gets the default horizontal internal padding.
+     * 
+     * @return the horizontal padding
+     */
+    public int getIPadX() {
+        return _ipadx;
+    }
+    
+    /**
+     * Gets the default vertical internal padding.
+     * 
+     * @return the vertical padding
+     */
+    public int getIPadY() {
+        return _ipady;
+    }
+
+    /**
+     * Sets the default insets. This method copies the insets provided.
+     * 
+     * @param insets the insets
+     */
+    public void setInsets( Insets insets ) {
+        _insets.top = insets.top;
+        _insets.left = insets.left;
+        _insets.bottom = insets.bottom;
+        _insets.bottom = insets.right;
+    }
+    
+    /**
+     * Gets the default insets.
+     * 
+     * @return a copy of the insets
+     */
+    public Insets getInsets() {
+        return (Insets) _insets.clone();
+    }
+
+    //----------------------------------------------------------------------------
+    // Adding components
+    //----------------------------------------------------------------------------  
 
     /**
      * Adds a component to the managed panel.
@@ -114,7 +273,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param column the column in the grid
      */
     public void addComponent( JComponent component, int row, int column ) {
-        addComponent( component, row, column, DEFAULT_GRIDWIDTH, DEFAULT_GRIDHEIGHT, DEFAULT_ANCHOR, DEFAULT_FILL, _insets );
+        addComponent( component, row, column, _width, _height, _anchor, _fill, _insets );
     }
 
     /**
@@ -129,7 +288,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param height the height
      */
     public void addComponent( JComponent component, int row, int column, int width, int height ) {
-        addComponent( component, row, column, width, height, DEFAULT_ANCHOR, DEFAULT_FILL, _insets );
+        addComponent( component, row, column, width, height, _anchor, _fill, _insets );
     }
 
     /**
@@ -145,69 +304,9 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param anchor the anchor
      */
     public void addComponent( JComponent component, int row, int column, int width, int height, int anchor ) {
-        addComponent( component, row, column, width, height, anchor, DEFAULT_FILL, _insets );
+        addComponent( component, row, column, width, height, anchor, _fill, _insets );
     }
-
-    /**
-     * Adds an anchored component to the managed panel.
-     * This is a convenience function for setting GridBagConstraints.
-     * Default values are used for all unspecified constraints.
-     *
-     * @param component the component to add
-     * @param row the row in the grid 
-     * @param column the column in the grid
-     * @param anchor the anchor
-     */
-    public void addAnchoredComponent( JComponent component, int row, int column, int anchor ) {
-        addComponent( component, row, column, DEFAULT_GRIDWIDTH, DEFAULT_GRIDHEIGHT, anchor, DEFAULT_FILL, _insets );
-    }
-
-    /**
-     * Adds an anchored component to the managed panel.
-     * This is a convenience function for setting GridBagConstraints.
-     * Default values are used for all unspecified constraints.
-     *
-     * @param component the component to add
-     * @param row the row in the grid 
-     * @param column the column in the grid
-     * @param width the width
-     * @param height the height
-     * @param anchor the anchor
-     */
-    public void addAnchoredComponent( JComponent component, int row, int column, int width, int height, int anchor ) {
-        addComponent( component, row, column, width, height, anchor, DEFAULT_FILL, _insets );
-    }
-
-    /**
-     * Adds a filled component to the managed panel.
-     * This is a convenience function for setting GridBagConstraints.
-     * Default values are used for all unspecified constraints.
-     *
-     * @param component the component to add
-     * @param row the row in the grid 
-     * @param column the column in the grid
-     * @param fill the fill
-     */
-    public void addFilledComponent( JComponent component, int row, int column, int fill ) {
-        addComponent( component, row, column, DEFAULT_GRIDWIDTH, DEFAULT_GRIDHEIGHT, DEFAULT_ANCHOR, fill, _insets );
-    }
-
-    /**
-     * Adds a filled component to the managed panel.
-     * This is a convenience function for setting GridBagConstraints.
-     * Default values are used for all unspecified constraints.
-     *
-     * @param component the component to add
-     * @param row the row in the grid 
-     * @param column the column in the grid
-     * @param width the width
-     * @param height the height
-     * @param fill the fill
-     */
-    public void addFilledComponent( JComponent component, int row, int column, int width, int height, int fill ) {
-        addComponent( component, row, column, width, height, DEFAULT_ANCHOR, fill, _insets );
-    }
-
+    
     /**
      * Adds a component to the managed panel.
      * This is a convenience function for setting GridBagConstraints.
@@ -222,7 +321,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param fill the fill
      */
     public void addComponent( JComponent component, int row, int column, int width, int height, int anchor, int fill ) {
-        addComponent( component, row, column, width, height, DEFAULT_ANCHOR, fill, _insets );
+        addComponent( component, row, column, width, height, _anchor, fill, _insets );
     }
 
     /**
@@ -248,8 +347,8 @@ public class EasyGridBagLayout extends GridBagLayout {
         _constraints.anchor = anchor;
         _constraints.fill = fill;
         _constraints.insets = _insets;
-        _constraints.ipadx = DEFAULT_IPADX;
-        _constraints.ipady = DEFAULT_IPADY;
+        _constraints.ipadx = _ipadx;
+        _constraints.ipady = _ipady;
 
         // Determine sensible weights
         {
@@ -286,6 +385,80 @@ public class EasyGridBagLayout extends GridBagLayout {
         _panel.add( component, _constraints );
     }
 
+    
+    //----------------------------------------------------------------------------
+    // Adding anchored components
+    //----------------------------------------------------------------------------
+
+
+    /**
+     * Adds an anchored component to the managed panel.
+     * This is a convenience function for setting GridBagConstraints.
+     * Default values are used for all unspecified constraints.
+     *
+     * @param component the component to add
+     * @param row the row in the grid 
+     * @param column the column in the grid
+     * @param anchor the anchor
+     */
+    public void addAnchoredComponent( JComponent component, int row, int column, int anchor ) {
+        addComponent( component, row, column, _width, _height, anchor, _fill, _insets );
+    }
+
+    /**
+     * Adds an anchored component to the managed panel.
+     * This is a convenience function for setting GridBagConstraints.
+     * Default values are used for all unspecified constraints.
+     *
+     * @param component the component to add
+     * @param row the row in the grid 
+     * @param column the column in the grid
+     * @param width the width
+     * @param height the height
+     * @param anchor the anchor
+     */
+    public void addAnchoredComponent( JComponent component, int row, int column, int width, int height, int anchor ) {
+        addComponent( component, row, column, width, height, anchor, _fill, _insets );
+    }
+
+    //----------------------------------------------------------------------------
+    // Adding filled components
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Adds a filled component to the managed panel.
+     * This is a convenience function for setting GridBagConstraints.
+     * Default values are used for all unspecified constraints.
+     *
+     * @param component the component to add
+     * @param row the row in the grid 
+     * @param column the column in the grid
+     * @param fill the fill
+     */
+    public void addFilledComponent( JComponent component, int row, int column, int fill ) {
+        addComponent( component, row, column, _width, _height, _anchor, fill, _insets );
+    }
+
+    /**
+     * Adds a filled component to the managed panel.
+     * This is a convenience function for setting GridBagConstraints.
+     * Default values are used for all unspecified constraints.
+     *
+     * @param component the component to add
+     * @param row the row in the grid 
+     * @param column the column in the grid
+     * @param width the width
+     * @param height the height
+     * @param fill the fill
+     */
+    public void addFilledComponent( JComponent component, int row, int column, int width, int height, int fill ) {
+        addComponent( component, row, column, width, height, _anchor, fill, _insets );
+    }
+
+    //----------------------------------------------------------------------------
+    // Setting minumum dimensions.
+    //----------------------------------------------------------------------------
+    
     /**
      * Sets the minimum width for a column.
      *
