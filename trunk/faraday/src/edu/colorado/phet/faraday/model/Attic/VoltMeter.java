@@ -48,6 +48,7 @@ public class VoltMeter extends AbstractResistor {
     public VoltMeter( double resistance ) {
         super( resistance );
         _voltage = 0.0;
+        _voltageHistory = new double[ HISTORY_SIZE ];
         _smoothingEnabled = false;
     }
 
