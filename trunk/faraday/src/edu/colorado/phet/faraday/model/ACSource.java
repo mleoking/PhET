@@ -42,6 +42,9 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.
+     */
     public ACSource() {
         super();
         _maxAmplitude = 1.0; // biggest
@@ -54,6 +57,11 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the maximum amplitude.
+     * 
+     * @param maxAmplitude the maximum amplitude, 0...1 inclusive
+     */
     public void setMaxAmplitude( double maxAmplitude ) {
         assert( maxAmplitude >=0 && maxAmplitude <= 1 );
         if ( maxAmplitude != _maxAmplitude ) {
@@ -68,10 +76,20 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
         }
     }
     
+    /**
+     * Gets the maximum amplitude.
+     * 
+     * @return the maximum amplitude, 0...1 inclusive
+     */
     public double getMaxAmplitude() {
         return _maxAmplitude;
     }
     
+    /**
+     * Sets the frequency.
+     * 
+     * @param frequency the frequency, 0...1 inclusive
+     */
     public void setFrequency( double frequency ) {
         assert( frequency >= 0 && frequency <= 1 );
         if ( frequency != _frequency ) {
@@ -80,6 +98,11 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
         }
     }
     
+    /**
+     * Gets the frequency.
+     * 
+     * @return the frequency, 0...1 inclusive
+     */
     public double getFrequency() {
         return _frequency;
     }
@@ -89,6 +112,8 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
     //----------------------------------------------------------------------------
     
     /*
+     * Varies the amplitude over time, based on maxAmplitude and frequency.
+     * 
      * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
      */
     public void stepInTime( double dt ) {
