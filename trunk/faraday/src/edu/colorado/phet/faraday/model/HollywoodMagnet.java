@@ -65,6 +65,12 @@ public class HollywoodMagnet extends AbstractMagnet {
     public Vector2D getStrength( Point2D p, Vector2D strengthDst ) {
         assert( p != null );
         
+        // Result will be copied into strengthDst, if it was provided.
+        Vector2D bTotal = strengthDst;
+        if ( bTotal == null ) {
+            bTotal = new Vector2D();
+        }
+        
         /* 
          * Magnitude (in Gauss) drops off linearly as distance increases.
          */
@@ -134,8 +140,7 @@ public class HollywoodMagnet extends AbstractMagnet {
         }
         
         // Vector
-        Vector2D v = new Vector2D();
-        v.setMagnitudeAngle( fieldMagnitude, fieldDirection );
-        return v;
+        bTotal.setMagnitudeAngle( fieldMagnitude, fieldDirection );
+        return bTotal;
     }
 }

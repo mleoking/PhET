@@ -196,7 +196,7 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
         if ( isEnabled() ) {
             
             getLocation( _point /* destination */ );
-            _emf = _magnetModel.getStrength( _point );
+            _magnetModel.getStrength( _point, _emf /* destination */ );
             
             if ( _emf.getMagnitude() == 0 ) {
                 // Do nothing if there is no magnetic field, direction should remain unchanged.

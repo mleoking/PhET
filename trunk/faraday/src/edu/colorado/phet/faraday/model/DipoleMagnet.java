@@ -49,6 +49,9 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     private Point2D _northPoint, _southPoint;
     private Point2D _normalizedPoint;
     
+    // Reusable vectors
+    private Vector2D _bNorth, _bSouth;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -60,6 +63,8 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         _northPoint = new Point2D.Double();
         _southPoint = new Point2D.Double();
         _normalizedPoint = new Point2D.Double();
+        _bNorth = new Vector2D();
+        _bSouth = new Vector2D();
     }
     
     //----------------------------------------------------------------------------
@@ -81,6 +86,12 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         assert( p != null );
         assert( getWidth() > getHeight() );
  
+        // Result will be copied into strengthDst, if it was provided.
+        Vector2D bTotal = strengthDst;
+        if ( bTotal == null ) {
+            bTotal = new Vector2D();
+        }
+        
         // All of our calculations are based a magnet located at the origin,
         // with the north pole pointing down the X-axis.
         // The point we received is based on the magnet's actual location and origin.
@@ -96,27 +107,26 @@ public abstract class DipoleMagnet extends AbstractMagnet {
               
         // Choose the appropriate algorithm based on
         // whether the point is inside or outside the magnet.
-        Vector2D B = null;
         if ( _bounds.contains( _normalizedPoint ) )  {
-            B = getStrengthInside( _normalizedPoint );
+            getStrengthInside( _normalizedPoint, bTotal );
         }
         else
         {
-            B = getStrengthOutside( _normalizedPoint );
+            getStrengthOutside( _normalizedPoint, bTotal );
         }
         
         // Adjust the field vector to match the magnet's direction.
-        B.rotate( getDirection() );
+        bTotal.rotate( getDirection() );
 
         // Clamp magnitude to magnet strength.
         double magnetStrength = super.getStrength();
-        double magnitude = B.getMagnitude();
+        double magnitude = bTotal.getMagnitude();
         if ( magnitude > magnetStrength ) {
-            B.setMagnitude( magnetStrength );
+            bTotal.setMagnitude( magnetStrength );
             //System.out.println( "BarMagnet.getStrengthOutside - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
         }
         
-        return B;
+        return bTotal;
     }
     
     /**
@@ -130,11 +140,12 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * </ul>
      * 
      * @param p the point
-     * @return magnetic field strength vector
+     * @param vDst write the result into this vector
      */
-    private Vector2D getStrengthInside( Point2D p ) {
+    private void getStrengthInside( Point2D p, Vector2D vDst ) {
         assert( p != null );
-        return new Vector2D( getStrength(), 0 );
+        assert( vDst != null );
+        vDst.setMagnitudeAngle( getStrength(), 0 );
     }
     
     /**
@@ -152,10 +163,11 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * </ul>
      * 
      * @param p the point
-     * @return magnetic field strength vector
+     * @param vDst write the result into this vector
      */
-    private Vector2D getStrengthOutside( Point2D p ) {
+    private void getStrengthOutside( Point2D p, Vector2D vDst ) {
         assert( p != null );
+        assert( vDst != null );
         assert( getWidth() > getHeight() );
         
         // Magnet strength.
@@ -177,17 +189,18 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         double cN = +( C / Math.pow( rN, 3.0 ) ); // constant multiplier
         double xN = cN * ( p.getX() - ( L / 2 ) ); // X component
         double yN = cN * p.getY(); // Y component
-        Vector2D BN = new Vector2D( xN, yN ); // north dipole vector
+        _bNorth.setXY( xN, yN ); // north dipole vector
         
         // South dipole field strength vector.
         double cS = -( C / Math.pow( rS, 3.0 ) ); // constant multiplier
         double xS = cS * ( p.getX() + ( L / 2 ) ); // X component
         double yS = cS * p.getY(); // Y component
-        Vector2D BS = new Vector2D( xS, yS ); // south dipole vector
+        _bSouth.setXY( xS, yS ); // south dipole vector
         
         // Total field strength is the vector sum.
-        BN.add( BS );
+        _bNorth.add( _bSouth );
         
-        return BN;
+        // Copy the result into vDst
+        vDst.copy( _bNorth );
     }
 }
