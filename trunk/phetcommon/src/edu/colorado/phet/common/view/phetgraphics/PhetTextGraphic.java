@@ -97,13 +97,13 @@ public class PhetTextGraphic extends PhetGraphic {
     }
 
     public void setColor( Color color ) {
-        this.color = color;
+        this.color = color;//TODO we need to compare to current color to avoid potential autorepaints.
         setBoundsDirty();
         autorepaint();
     }
 
     public void setFont( Font font ) {
-        this.font = font;
+        this.font = font;//TODO we need to compare to current Font to avoid potential autorepaints.
         this.fontMetrics = getComponent().getFontMetrics( font );
         setBoundsDirty();
         autorepaint();
