@@ -9,6 +9,7 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.geom.Ellipse2D;
 import java.util.Collection;
@@ -23,7 +24,7 @@ public class GreenhouseModule extends BaseGreenhouseModule {
 
 
     public GreenhouseModule() {
-        super( "Greenhouse Effect" );
+        super( SimStrings.get( "ModuleTitle.GreenHouseModule" ) );
 
         // Add some clouds
         createCloud( getEarth().getLocation().getX() + 1,

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class GlassPaneModule extends BaseGreenhouseModule {
 
 
     public GlassPaneModule() {
-        super( "Glass Layers" );
+        super( SimStrings.get( "ModuleTitle.GlassLayerModule" ) );
 
         // Create glass panes
         for( int i = 0; i < numGlassPanes; i++ ) {

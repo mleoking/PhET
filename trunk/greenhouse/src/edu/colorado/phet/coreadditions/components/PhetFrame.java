@@ -9,6 +9,7 @@ package edu.colorado.phet.coreadditions.components;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -33,8 +34,8 @@ public class PhetFrame extends JFrame {
         this.helpMenu = ( new HelpMenu( app.getApplicationDescriptor().getWindowTitle(),
                                         app.getApplicationDescriptor().getDescription(),
                                         app.getApplicationDescriptor().getVersion() ) );
-        JMenu controlMenu = new JMenu( "Control" );
-        JMenuItem showClockDialog = new JMenuItem( "FixedClock" );
+        JMenu controlMenu = new JMenu( SimStrings.get( "PhetFrame.ControlMenuTitle" ) );
+        JMenuItem showClockDialog = new JMenuItem( SimStrings.get( "PhetFrame.FixedClockMenuItem" ) );
         showClockDialog.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                clockDialog.setVisible(true);

@@ -8,6 +8,7 @@ package edu.colorado.phet.instrumentation;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
 
 import java.awt.*;
@@ -90,7 +91,7 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         gbi.drawImage( thermometerBody, 0, 0, this );
 
         gbi.setFont( temperatureFont );
-        String s = formatter.format( thermometer.getTemperature() ) + "K";
+        String s = formatter.format( thermometer.getTemperature() ) + SimStrings.get( "ThermometerGraphic.TempUnits" );
         FontMetrics fontMetrics = gbi.getFontMetrics();
         int width = thermometerBI.getWidth() - 14;
         int height = fontMetrics.getHeight();

@@ -7,6 +7,7 @@
 package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -43,16 +44,18 @@ public class GreenhouseLegend extends JPanel {
         ImageIcon sunlightPhotonIcon = new ImageIcon( sunlightPhotonBI );
 
         setLayout( new GridBagLayout() );
-        this.setBorder( BorderFactory.createTitledBorder( "Legend" ) );
+        this.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "GreenhouseLegend.LegendTitle" ) ) );
 //            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( "images/small-yellow-electron.gif" ));
         int rowIdx = 0;
         try {
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "Sunlight photon", sunlightPhotonIcon, SwingConstants.LEFT ),
+            GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "GreenhouseLegend.SunlightPhotonLabel" ),
+                                              sunlightPhotonIcon, SwingConstants.LEFT ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
                                               GridBagConstraints.WEST );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "Infrared photon", irPhotonIcon, SwingConstants.LEFT ),
+            GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "GreenhouseLegend.InfraredPhotonLabel" ),
+                                              irPhotonIcon, SwingConstants.LEFT ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
