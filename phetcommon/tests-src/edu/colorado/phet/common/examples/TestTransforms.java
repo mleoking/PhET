@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -112,22 +113,25 @@ public class TestTransforms extends Module {
 
         public void paint( Graphics2D g ) {
             AffineTransform orig = g.getTransform();
-            g.transform( transform.toAffineTransform() );
+            g.transform( transform.getAffineTransform() );
             sg.paint( g );
             g.setTransform( orig );
         }
 
         public boolean contains( int x, int y ) {
-            Point2D.Double modelCoord = transform.viewToModel( x, y );
+            Point2D modelCoord = transform.viewToModel( x, y );
             return sg.getShape().contains( modelCoord );
         }
     }
 
     public static void main( String[] args ) {
-        ApplicationModel ad = new ApplicationModel( "Test Transforms", "A Test", "1.0" );
         AbstractClock ac = new SwingTimerClock( 1, 30, true );
         Module m = new TestTransforms( ac );
+        ApplicationModel ad = new ApplicationModel( "Test Transforms", "A Test", "1.0", new FrameSetup.MaxExtent(), m, ac );
+
+
         PhetApplication pa = new PhetApplication( ad );
+
         pa.startApplication();
     }
 
