@@ -1,9 +1,12 @@
-/**
- * Class: DialGauge
- * Class: edu.colorado.phet.sound.view
- * User: Ron LeMaster
- * Date: Sep 8, 2004
- * Time: 7:39:47 AM
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.instrumentation;
 
@@ -22,10 +25,11 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-// todo: add min and max lines and legends on face
-// todo: add min and max limits to needle
-// todo: add ScalarObservable interface and ScalarObserver interface
-
+/**
+ * Dial Gauge
+ * <p/>
+ * A round dial gauge with a red needle. Also displays a numberic value.
+ */
 public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
 
     private ScalarObservable dataSource;
@@ -48,16 +52,16 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
     private Color backgroundColor = new Color( 245, 255, 250 );
 
     /**
-     *
-     * @param dataSource
+     * @param dataSource The ScalarObservable object from which the gauge gets its data
      * @param component
-     * @param x
-     * @param y
+     * @param x          x location of the center of the dial
+     * @param y          y location of the center of the dial
      * @param diam
-     * @param min
-     * @param max
-     * @param title
-     * @param units
+     * @param min        minimum value the dial will display. This corresponds to the most counter-clockwise
+     *                   tick mark
+     * @param max        maximum value the dial will display. This corresponds to the most clockwise tick mark
+     * @param title      String printed near top of dial
+     * @param units      String printed after digital readout
      */
     public DialGauge( ScalarObservable dataSource, Component component,
                       double x, double y, double diam, double min, double max,
@@ -66,16 +70,16 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
     }
 
     /**
-     *
-     * @param dataSource
+     * @param dataSource The ScalarObservable object from which the gauge gets its data
      * @param component
-     * @param x
-     * @param y
+     * @param x          x location of the center of the dial
+     * @param y          y location of the center of the dial
      * @param diam
-     * @param min
-     * @param max
-     * @param title
-     * @param units
+     * @param min        minimum value the dial will display. This corresponds to the most counter-clockwise
+     *                   tick mark
+     * @param max        maximum value the dial will display. This corresponds to the most clockwise tick mark
+     * @param title      String printed near top of dial
+     * @param units      String printed after digital readout
      * @param font
      */
     public DialGauge( ScalarObservable dataSource, Component component,
@@ -212,6 +216,4 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
             restoreGraphicsState();
         }
     }
-
-    
 }
