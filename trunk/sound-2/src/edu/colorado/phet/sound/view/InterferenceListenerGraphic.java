@@ -6,26 +6,18 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.sound.TwoSpeakerInterferenceModule;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.sound.SoundConfig;
+import edu.colorado.phet.sound.TwoSpeakerInterferenceModule;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
 
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.awt.*;
 
 public class InterferenceListenerGraphic extends ListenerGraphic implements InteractiveSpeakerGraphic.MouseReleaseListener {
-
-    //
-    // Static fields and methods
-    //
-//    private static int s_earOffsetX = 25;
-//    private static int s_earOffsetY = 105;
 
     private Point2D.Double audioSourceA;
     private Point2D.Double audioSourceB;
@@ -119,7 +111,6 @@ public class InterferenceListenerGraphic extends ListenerGraphic implements Inte
         // When the timer pops, update our amplitude
         double dist = this.getLocation().distance( interactiveGraphic.getAudioSourceLocation() );
         final double numTimeSteps = dist / SoundConfig.PROPOGATION_SPEED;
-        final long waitTime = (long)numTimeSteps * SoundConfig.s_waitTime;
         Thread sleeper = new Thread( new Runnable() {
             int counter;
             public void run() {
@@ -130,14 +121,13 @@ public class InterferenceListenerGraphic extends ListenerGraphic implements Inte
                 } ;
                 InterferenceListenerGraphic.this.soundModel.addModelElement( counterModelElement );
                 while( counter < numTimeSteps  ) {
-                    // NOP
+                    try {
+                        Thread.sleep( 50 );
+                    }
+                    catch( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
                 }
-//                try {
-//                    Thread.sleep( waitTime );
-//                }
-//                catch( InterruptedException e ) {
-//                    e.printStackTrace();
-//                }
                 soundModel.removeModelElement( counterModelElement );
                 audioSourceA = interactiveGraphic.getAudioSourceLocation();
                 InterferenceListenerGraphic.this.updateAmplitude();

@@ -11,9 +11,9 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.sound.model.SoundModel;
+import edu.colorado.phet.sound.view.BufferedWaveMediumGraphic;
 import edu.colorado.phet.sound.view.ReflectingWallGraphic;
 import edu.colorado.phet.sound.view.SoundControlPanel;
-import edu.colorado.phet.sound.view.BufferedWaveMediumGraphic;
 
 import javax.swing.*;
 import javax.swing.border.Border;

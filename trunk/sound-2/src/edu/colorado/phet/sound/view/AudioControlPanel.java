@@ -55,9 +55,6 @@ public class AudioControlPanel extends JPanel {
                              ? SoundApparatusPanel.SPEAKER_SOURCE
                              : SoundApparatusPanel.LISTENER_SOURCE;
                 module.setAudioSource( source );
-                //                    SingleSourceApparatusPanel sap = (SingleSourceApparatusPanel)PhetApplication.instance().getPhetMainPanel().getApparatusPanel();
-                //                    sap.determineAudioReferencPt( /*sap.getAudioReferencPt()*/ );
-                //                    sap.setPrimaryOscillatorFrequency( sap.getPrimaryOscillatorFrequency() );
 
             }
         } );
@@ -68,7 +65,6 @@ public class AudioControlPanel extends JPanel {
                              ? SoundApparatusPanel.LISTENER_SOURCE
                              : SoundApparatusPanel.SPEAKER_SOURCE;
                 module.setAudioSource( source );
-                //                    ( (SingleSourceApparatusPanel)application.getPhetMainPanel().getApparatusPanel() ).determineAudioReferencPt();
             }
         } );
 

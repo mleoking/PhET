@@ -29,7 +29,6 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
     private Point2D.Double audioSourceB;
     private SoundModel soundModel;
     private boolean saveInterferenceOverideEnabled = false;
-    private double amplitudeAtHead;
 
     protected TwoSpeakerInterferenceModule( ApplicationModel appModel ) {
         super( appModel, "<html>Two Source<br>Interference</html>" );
@@ -149,10 +148,5 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
 
     public int rgbAt( int x, int y ) {
         return super.rgbAt( x, y ) * 3 / 2;
-    }
-
-
-    public void setAmplitudeAtHead( double amplitude ) {
-        amplitudeAtHead = amplitude;
     }
 }

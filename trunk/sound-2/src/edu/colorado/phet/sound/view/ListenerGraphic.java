@@ -17,7 +17,6 @@ import edu.colorado.phet.sound.model.SoundModel;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.awt.*;
 import java.util.LinkedList;
 
 public class ListenerGraphic extends DefaultInteractiveGraphic {
