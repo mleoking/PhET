@@ -69,6 +69,8 @@ public class IdealGasConfig {
 
     public static final String THERMOMETER_IMAGE_FILE = IMAGE_DIRECTORY + "thermometer.gif";
 
+    public static final String RULER_IMAGE_FILE = IMAGE_DIRECTORY + "meter-stick.gif";
+
     // Animation images
     public static final String ANIMATION_DIRECTORY = IMAGE_DIRECTORY + "animations/";
     public static final int NUM_PUSHER_ANIMATION_FRAMES = 19;
