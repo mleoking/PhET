@@ -11,10 +11,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.controller.HeliumBalloonModule;
-import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
-import edu.colorado.phet.idealgas.controller.IdealGasModule;
-import edu.colorado.phet.idealgas.controller.RigidHollowSphereModule;
+import edu.colorado.phet.idealgas.controller.*;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
@@ -40,19 +37,20 @@ public class IdealGasApplication extends PhetApplication {
             Module rigidSphereModule = new RigidHollowSphereModule( getClock() );
             Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
             Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
+            Module movableWallsModule = new MovableWallsModule( getClock() );
             Module[] modules = new Module[]{
                 idealGasModule,
                 rigidSphereModule,
                 heliumBalloonModule,
-                hotAirBalloonModule
+                hotAirBalloonModule,
+                movableWallsModule
             };
             setModules( modules );
-            setInitialModule( idealGasModule );
+            setInitialModule( movableWallsModule );
+//            setInitialModule( idealGasModule );
 
             // Set the initial size
             setFrameCenteredSize( 1020, 700 );
-
-//            new FrameRateReporter( clock );
         }
     }
 
