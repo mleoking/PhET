@@ -132,7 +132,12 @@ public class Force1dControlPanel extends ControlPanel {
 //        setup( module.imageElementAt( 0 ) );
 
         super.setHelpPanelEnabled( true );
-        super.removeTitle();
+        if( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
+
+        }
+        else {
+            super.removeTitle();
+        }
 
         module.getForceModel().getPlotDeviceModel().addListener( new PlotDeviceModel.ListenerAdapter() {
             public void recordingStarted() {
@@ -247,12 +252,20 @@ public class Force1dControlPanel extends ControlPanel {
         return modelSlider;
     }
 
-    public void updateGraphics() {
-        freeBodyDiagramSuite.updateGraphics();
-    }
+//    public void mainLoop() {
+//        freeBodyDiagramSuite.updateGraphics();
+//    }
 
     public void reset() {
         freeBodyDiagramSuite.reset();
+    }
+
+    public void handleUserInput() {
+        freeBodyDiagramSuite.handleUserInput();
+    }
+
+    public void updateGraphics() {
+        freeBodyDiagramSuite.updateGraphics();
     }
 
     interface SpinnerHandler {

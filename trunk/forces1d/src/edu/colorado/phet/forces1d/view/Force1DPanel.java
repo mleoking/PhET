@@ -60,7 +60,7 @@ public class Force1DPanel extends ApparatusPanel2 {
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
         super( module.getModel(), module.getClock() );
-        setAutoPaint( false );
+//        setAutoPaint( false );
         this.backgroundGraphic = new BufferedPhetGraphic( this, 800, 800, Color.white );
         backgroundGraphic.setGraphicsSetup( new BasicGraphicsSetup() );
         this.module = module;
@@ -284,7 +284,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         goButtonHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( floatingControl.getGoButton(), this ), 30 );
 
         HelpItem2 dragHelpItem = new HelpItem2( this, "<html>Apply a force to the object</html>" );
-        dragHelpItem.pointDownAt( blockGraphic, 15 );
+        dragHelpItem.pointUpAt( blockGraphic, 15 );
 
         HelpItem2 zoomHelpButton = new HelpItem2( this, "<html>Zoom in<br>and out.</html>" );
         zoomHelpButton.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getChartComponent().getMagPlus(), this ), 30 );

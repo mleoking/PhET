@@ -6,8 +6,8 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -36,7 +36,6 @@ public class Force1DModule extends Module {
     private Force1DModel forceModel;
     protected Force1DPanel forcePanel;
     private Force1dControlPanel forceControlPanel;
-    private AbstractClock clock;
     private Force1dObject[] imageElements;
     private static boolean readyToRender = false;
     private DefaultPlaybackPanel playbackPanel;
@@ -45,12 +44,12 @@ public class Force1DModule extends Module {
     private int objectIndex;
 
     public Force1DModule( AbstractClock clock ) throws IOException {
-        this( clock, "Advanced Controls" );
+        this( clock, "More Controls" );
     }
 
     public Force1DModule( AbstractClock clock, String name ) throws IOException {
-        super( name );
-        this.clock = clock;
+        super( name, clock );
+//        this.clock = clock;
 
         forceModel = new Force1DModel( this );
         setModel( new BaseModel() );
@@ -71,27 +70,16 @@ public class Force1DModule extends Module {
         setControlPanel( forceControlPanel );
         addModelElement( forceModel );
 
-        ModelElement updateGraphics = new ModelElement() {
-            public void stepInTime( double dt ) {
-                updateGraphics();
-            }
-        };
-
-        addModelElement( updateGraphics );
         playbackPanel = new DefaultPlaybackPanel( getForceModel().getPlotDeviceModel() );
 
         getForceModel().setBoundsWalled();
 
         CrashAudioPlayer crashAudioPlayer = new CrashAudioPlayer();
         getForceModel().addCollisionListener( crashAudioPlayer );
-
-
-//        addHelpItem( new HelpItem( getApparatusPanel(), "Help Item", 100, 100 ) );
     }
 
     protected void updateGraphics() {
         forcePanel.updateGraphics();
-        forceControlPanel.updateGraphics();
     }
 
     public void setHelpEnabled( boolean h ) {
@@ -245,10 +233,6 @@ public class Force1DModule extends Module {
         p.paintImmediately( 0, 0, p.getWidth(), p.getHeight() );
     }
 
-    public AbstractClock getClock() {
-        return clock;
-    }
-
     public Force1dObject imageElementAt( int i ) {
         return imageElements[i];
     }
@@ -303,4 +287,21 @@ public class Force1DModule extends Module {
         setObject( imageElements[objectIndex] );
         getForceModel().setGravity( 9.8 );
     }
+
+    public void clockTicked( ClockTickEvent event ) {
+        handleControlPanelInputs();
+        getApparatusPanel().handleUserInput();
+        getModel().clockTicked( event );
+        updateControlPanelGraphics();
+        updateGraphics();
+    }
+
+    public void updateControlPanelGraphics() {
+        forceControlPanel.updateGraphics();
+    }
+
+    public void handleControlPanelInputs() {
+        forceControlPanel.handleUserInput();
+    }
+
 }

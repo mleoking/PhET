@@ -22,7 +22,7 @@ import java.io.IOException;
  * Copyright (c) Jan 16, 2005 by Sam Reid
  */
 public class FreeBodyDiagramSuite {
-    private FreeBodyDiagramPanel diagramPanel;
+    private FreeBodyDiagramPanel fbdPanel;
     private JCheckBox checkBox;
     private Force1DModule module;
     private JDialog dialog;
@@ -33,12 +33,12 @@ public class FreeBodyDiagramSuite {
 
     public FreeBodyDiagramSuite( final Force1DModule module ) {
         this.module = module;
-        diagramPanel = new FreeBodyDiagramPanel( module );
+        fbdPanel = new FreeBodyDiagramPanel( module );
         checkBox = new JCheckBox( "Free Body Diagram", true );
         checkBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 boolean showFBD = checkBox.isSelected();
-                diagramPanel.setVisible( showFBD );
+                fbdPanel.setVisible( showFBD );
                 if( showFBD ) {
                     checkBox.setVisible( false );
                 }
@@ -48,7 +48,7 @@ public class FreeBodyDiagramSuite {
         try {
             final JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER, 1, 1 ) );
 
-            final ApparatusPanel2 fbdPanel = diagramPanel.getFBDPanel();
+            final ApparatusPanel2 fbdPanel = this.fbdPanel.getFBDPanel();
             fbdPanel.setLayout( null );
             BufferedImage tearImage = ImageLoader.loadBufferedImage( "images/tear-20.png" );
             BufferedImage xImage = ImageLoader.loadBufferedImage( "images/x-20.png" );
@@ -72,7 +72,7 @@ public class FreeBodyDiagramSuite {
 
             closeButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    diagramPanel.setVisible( false );
+                    fbdPanel.setVisible( false );
                     checkBox.setVisible( true );
                     checkBox.setSelected( false );
                 }
@@ -105,8 +105,8 @@ public class FreeBodyDiagramSuite {
         Point togo = controlPanel.getLocationOnScreen();
         togo.x -= w;
         dialog.setLocation( togo );
-        dialogContentPane.add( diagramPanel.getFBDPanel() );
-        diagramPanel.getFBDPanel().setLocation( dialogInsetX, dialogInsetY );
+        dialogContentPane.add( fbdPanel.getFBDPanel() );
+        fbdPanel.getFBDPanel().setLocation( dialogInsetX, dialogInsetY );
         dialog.setVisible( true );
         controlPanel.invalidate();
         controlPanel.doLayout();
@@ -121,7 +121,7 @@ public class FreeBodyDiagramSuite {
         dialogInsetX = 15;
         dialogInsetY = 15;
 
-        JPanel windowAP = diagramPanel.getFBDPanel();
+        JPanel windowAP = fbdPanel.getFBDPanel();
         Dimension preferredSize = new Dimension( windowAP.getWidth() + dialogInsetX * 2, windowAP.getHeight() + dialogInsetY * 2 );
         dialogContentPane.setSize( preferredSize );
         dialogContentPane.setPreferredSize( preferredSize );
@@ -137,8 +137,8 @@ public class FreeBodyDiagramSuite {
     }
 
     private void closeDialog() {
-        diagramPanel.getFBDPanel().setLocation( 0, 0 );
-        controlPanel.add( diagramPanel.getFBDPanel() );
+        fbdPanel.getFBDPanel().setLocation( 0, 0 );
+        controlPanel.add( fbdPanel.getFBDPanel() );
         dialog.setVisible( false );
     }
 
@@ -146,14 +146,15 @@ public class FreeBodyDiagramSuite {
         return checkBox;
     }
 
-    public void updateGraphics() {
-        diagramPanel.updateGraphics();
-    }
+//    public void updateGraphics() {
+//        fbdPanel.getFBDPanel().handleUserInput();
+//        fbdPanel.updateGraphics();
+//    }
 
     public void addTo( ControlPanel controlPanel ) {
         this.controlPanel = controlPanel;
         controlPanel.add( checkBox );
-        controlPanel.add( diagramPanel.getFBDPanel() );
+        controlPanel.add( fbdPanel.getFBDPanel() );
     }
 
     public void reshapeTopRight( JComponent container, JComponent movable, int dx, int dy ) {
@@ -166,6 +167,14 @@ public class FreeBodyDiagramSuite {
     }
 
     public void reset() {
-        diagramPanel.reset();
+        fbdPanel.reset();
+    }
+
+    public void handleUserInput() {
+        fbdPanel.getFBDPanel().handleUserInput();
+    }
+
+    public void updateGraphics() {
+        fbdPanel.updateGraphics();
     }
 }

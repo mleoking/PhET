@@ -82,4 +82,8 @@ public class SimpleControlPanel extends ControlPanel {
     public void setup( Force1dObject imageElement ) {
         simpleForceModule.setObject( imageElement );
     }
+
+    public void handleUserInput() {
+        fbdSuite.handleUserInput();
+    }
 }
