@@ -1,12 +1,13 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.view.lightweight.tests;
+package edu.colorado.phet.common.view.basicgraphics.tests;
 
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.basicgraphics.BasicGraphic;
+import edu.colorado.phet.common.view.basicgraphics.BasicShapeGraphic;
+import edu.colorado.phet.common.view.basicgraphics.RenderedGraphic;
+import edu.colorado.phet.common.view.basicgraphics.RepaintDelegate;
+import edu.colorado.phet.common.view.basicgraphics.repaint.*;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.lightweight.ApparatusPanel2;
-import edu.colorado.phet.common.view.lightweight.HeavyweightGraphic;
-import edu.colorado.phet.common.view.lightweight.LightweightGraphic;
-import edu.colorado.phet.common.view.lightweight.LightweightShapeGraphic;
-import edu.colorado.phet.common.view.lightweight.repaint.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -14,10 +15,11 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -27,23 +29,25 @@ import java.util.Random;
  * Time: 8:03:51 AM
  * Copyright (c) Sep 10, 2004 by Sam Reid
  */
-public class LightweightGraphicsTest implements SynchronizedRepaintDelegate {
+public class BasicGraphicsTest implements SynchronizedRepaintDelegate {
     private JFrame frame;
-    private ApparatusPanel2 panel;
+    private ApparatusPanel panel;
     private Thread thread;
     private int ellipseSize;
     private static final int numToShow = 100;
     private ArrayList heaviweights;
     private Random random;
-    private SynchronizedRepaintDelegate repaintDelegate;
-    private Stroke stroke;
+    private RepaintDelegate repaintDelegate;
     private Timer timer;
     private boolean threadAlive = true;
     private Runnable runnable;
     private boolean antialias = true;
 
     public void finishedUpdateCycle() {
-        repaintDelegate.finishedUpdateCycle();
+        if( repaintDelegate instanceof SynchronizedRepaintDelegate ) {
+            SynchronizedRepaintDelegate srd = (SynchronizedRepaintDelegate)repaintDelegate;
+            srd.finishedUpdateCycle();
+        }
     }
 
     public void repaint( Component component, Rectangle rect ) {
@@ -77,47 +81,13 @@ public class LightweightGraphicsTest implements SynchronizedRepaintDelegate {
             setLocation( 400, 0 );
 
             setContentPane( contentPane );
-            JRadioButton imm = new JRadioButton( "Immediate" );
-            imm.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    repaintDelegate = new ImmediatePaint( panel );
-                }
-            } );
-            JRadioButton swing = new JRadioButton( "Swing" );
-            swing.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    repaintDelegate = new SwingPaint( panel );
-                }
-            } );
-            JRadioButton sync = new JRadioButton( "Sync'ed" );
-            sync.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    repaintDelegate = new SyncedRepaintDelegate( panel );
-                }
-            } );
-            JRadioButton syncSWING = new JRadioButton( "Immediate under Swing" );
-            syncSWING.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    repaintDelegate = new ImmediatePaintSwingThread( panel );
-                }
-            } );
-            JRadioButton immSep = new JRadioButton( "Immediate Separate Rectangles" );
-            immSep.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    repaintDelegate = new ImmediatePaintSeparateRectangles( panel );
-                }
-            } );
-            contentPane.add( imm );
-            contentPane.add( swing );
-            contentPane.add( sync );
-            contentPane.add( syncSWING );
-            contentPane.add( immSep );
             ButtonGroup bg = new ButtonGroup();
-            bg.add( imm );
-            bg.add( swing );
-            bg.add( sync );
-            bg.add( syncSWING );
-            bg.add( immSep );
+            addButton( contentPane, bg, new Repaint() );
+            addButton( contentPane, bg, new ImmediateUnionPaint( panel ) );
+            addButton( contentPane, bg, new ImmediateDisjointPaint( panel ) );
+            addButton( contentPane, bg, new InvokeAndWaitImmediatePaint( panel ) );
+            addButton( contentPane, bg, new InvokeLaterImmediatePaint( panel ) );
+            addButton( contentPane, bg, new UnionRepaint( panel ) );
             contentPane.add( new JSeparator() );
             JRadioButton swingTimer = new JRadioButton( "Swing Timer" );
             JRadioButton threadTime = new JRadioButton( "Thread Timer" );
@@ -150,26 +120,67 @@ public class LightweightGraphicsTest implements SynchronizedRepaintDelegate {
 
             contentPane.add( ant );
             pack();
+
+            panel.addKeyListener( new KeyListener() {
+                public void keyTyped( KeyEvent e ) {
+                    if( e.getKeyChar() == 's' ) {
+                        for( int i = 0; i < heaviweights.size(); i++ ) {
+                            RenderedGraphic renderedGraphic = (RenderedGraphic)heaviweights.get( i );
+                            renderedGraphic.setVisible( true );
+                        }
+//                        renderedGraphic.setVisible( true );
+                    }
+                    else if( e.getKeyChar() == 'h' ) {
+                        for( int i = 0; i < heaviweights.size(); i++ ) {
+                            RenderedGraphic renderedGraphic = (RenderedGraphic)heaviweights.get( i );
+                            renderedGraphic.setVisible( false );
+                        }
+//                        renderedGraphic.setVisible( false );
+                    }
+                }
+
+                public void keyPressed( KeyEvent e ) {
+                }
+
+                public void keyReleased( KeyEvent e ) {
+                }
+            } );
+        }
+
+        private void addButton( JPanel contentPane, ButtonGroup bg, final RepaintDelegate repaintDelegate ) {
+            JRadioButton imm = new JRadioButton( repaintDelegate.getClass().getName() );
+            imm.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    BasicGraphicsTest.this.repaintDelegate = repaintDelegate;
+                }
+            } );
+            contentPane.add( imm );
+            bg.add( imm );
         }
 
     }
 
-    class MyGraphic extends HeavyweightGraphic {
+    class MyGraphic extends RenderedGraphic {
         double speed;
+        AffineTransform tx;
 
-        public MyGraphic( LightweightGraphic lightweightGraphic, Component component, double speed ) {
-            super( lightweightGraphic, component );
+        public MyGraphic( BasicGraphic basicGraphic, Component component, double speed ) {
+            super( basicGraphic, component );
             this.speed = speed;
+            tx = AffineTransform.getTranslateInstance( speed, 0 );
         }
 
+        public AffineTransform getTranslateInstance() {
+            return tx;
+        }
     }
 
-    private HeavyweightGraphic newShape() {
+    private RenderedGraphic newShape() {
         Color color = new Color( random.nextFloat(), random.nextFloat(), random.nextFloat() );
         Shape shape = randomShape();
         Stroke stroke = new BasicStroke( random.nextInt( 10 ) + 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-        final LightweightShapeGraphic shapeGraphic = new LightweightShapeGraphic( shape, color, stroke, Color.black );
-        HeavyweightGraphic hg = new MyGraphic( shapeGraphic, panel, random.nextDouble() * 5 + 1 );
+        final BasicShapeGraphic shapeGraphic = new BasicShapeGraphic( shape, color, stroke, Color.black );
+        RenderedGraphic hg = new MyGraphic( shapeGraphic, panel, random.nextDouble() * 5 + 1 );
         panel.addGraphic( hg, 0 );
         hg.setRepaintDelegate( this );
         return hg;
@@ -196,7 +207,7 @@ public class LightweightGraphicsTest implements SynchronizedRepaintDelegate {
                 public Shape newShape() {
                     GeneralPath gp = new GeneralPath();
                     gp.moveTo( random.nextInt( panel.getWidth() ), random.nextInt( panel.getHeight() ) );
-                    Point2D startPoint = gp.getCurrentPoint();
+//                    Point2D startPoint = gp.getCurrentPoint();
                     for( int i = 0; i < 3 + random.nextInt( 4 ); i++ ) {
                         gp.lineTo( (float)( gp.getCurrentPoint().getX() + ( random.nextFloat() - .5 ) * ellipseSize * 2 ), (float)( gp.getCurrentPoint().getY() + ( random.nextFloat() - .5 ) * ellipseSize * 2 ) );
                     }
@@ -210,9 +221,9 @@ public class LightweightGraphicsTest implements SynchronizedRepaintDelegate {
         return initer.newShape();
     }
 
-    public LightweightGraphicsTest() {
+    public BasicGraphicsTest() {
         frame = new JFrame();
-        panel = new ApparatusPanel2() {
+        panel = new ApparatusPanel() {
             protected void paintComponent( Graphics graphics ) {
                 Graphics2D g2 = (Graphics2D)graphics;
                 if( antialias ) {
@@ -232,8 +243,8 @@ public class LightweightGraphicsTest implements SynchronizedRepaintDelegate {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         random = new Random( 0 );
         this.heaviweights = new ArrayList();
-        stroke = new BasicStroke( 5.0f );
-        repaintDelegate = new ImmediatePaint( panel );
+//        stroke = new BasicStroke( 5.0f );
+        repaintDelegate = new ImmediateUnionPaint( panel );
         for( int i = 0; i < numToShow; i++ ) {
             heaviweights.add( newShape() );
         }
@@ -265,27 +276,29 @@ public class LightweightGraphicsTest implements SynchronizedRepaintDelegate {
     private void stepOnce() {
         for( int i = 0; i < heaviweights.size(); i++ ) {
             MyGraphic heavyweightGraphic = (MyGraphic)heaviweights.get( i );
-            LightweightShapeGraphic shapeGraphic = (LightweightShapeGraphic)heavyweightGraphic.getLightweightGraphic();
+            BasicShapeGraphic shapeGraphic = (BasicShapeGraphic)heavyweightGraphic.getBasicGraphic();
             Shape old = shapeGraphic.getShape();
             double speed = heavyweightGraphic.speed;
-            Shape newShape = AffineTransform.getTranslateInstance( speed, 0 ).createTransformedShape( old );
+            Shape newShape = heavyweightGraphic.getTranslateInstance().createTransformedShape( old );
             if( newShape.getBounds().getX() > panel.getWidth() ) {
                 int x = newShape.getBounds().x + newShape.getBounds().width;
                 newShape = AffineTransform.getTranslateInstance( -x, 0 ).createTransformedShape( newShape );
             }
             shapeGraphic.setShape( newShape );
         }
-        repaintDelegate.finishedUpdateCycle();
+        finishedUpdateCycle();
+
     }
 
     public static void main( String[] args ) {
-        new LightweightGraphicsTest().start();
+        new BasicGraphicsTest().start();
     }
 
     private void start() {
         frame.setVisible( true );
         panel.repaint();
         thread.start();
+        panel.requestFocus();
 //        timer.start();
     }
 }

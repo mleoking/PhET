@@ -1,8 +1,9 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.view.lightweight.tests;
+package edu.colorado.phet.common.view.basicgraphics.tests;
 
-import edu.colorado.phet.common.view.lightweight.ApparatusPanel2;
-import edu.colorado.phet.common.view.lightweight.LightweightShapeGraphic;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.basicgraphics.BasicShapeGraphic;
+import edu.colorado.phet.common.view.basicgraphics.RenderedGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,20 +18,20 @@ import java.util.Random;
  */
 public class TestGraphics {
     private JFrame frame;
-    private ApparatusPanel2 panel;
+    private ApparatusPanel panel;
     private Thread thread;
 
     public TestGraphics() {
         frame = new JFrame();
-        panel = new ApparatusPanel2();
+        panel = new ApparatusPanel();
         frame.setContentPane( panel );
         frame.setSize( 400, 400 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         final Random random = new Random( 0 );
-        final LightweightShapeGraphic shapeGraphic = new LightweightShapeGraphic( new Rectangle( 10, 10, 60, 80 ), Color.blue );
-        panel.addLightweightGraphic( shapeGraphic, 0 );
+        final BasicShapeGraphic shapeGraphic = new BasicShapeGraphic( new Rectangle( 10, 10, 60, 80 ), Color.blue );
+        panel.addGraphic( new RenderedGraphic( shapeGraphic, panel ), 0 );
         //or just do the following...
-//        HeavyweightGraphic hg = new HeavyweightGraphic( shapeGraphic, panel );//this should be automated in ApparatusPanel.add(Lightweight...)
+//        RenderedGraphic hg = new RenderedGraphic( shapeGraphic, panel );//this should be automated in ApparatusPanel.add(Lightweight...)
 //        panel.addGraphic( hg, 0 );
 
         thread = new Thread( new Runnable() {

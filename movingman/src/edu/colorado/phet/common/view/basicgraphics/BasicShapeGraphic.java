@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.view.lightweight;
+package edu.colorado.phet.common.view.basicgraphics;
 
 import java.awt.*;
 
@@ -9,18 +9,18 @@ import java.awt.*;
  * Time: 7:34:52 AM
  * Copyright (c) Sep 10, 2004 by Sam Reid
  */
-public class LightweightShapeGraphic extends LightweightGraphic {
+public class BasicShapeGraphic extends BasicGraphic {
     private Shape shape;
     private Paint paint;
     private Stroke stroke;
     private Paint strokePaint;
 
-    public LightweightShapeGraphic( Shape shape, Paint paint ) {
+    public BasicShapeGraphic( Shape shape, Paint paint ) {
         this.shape = shape;
         this.paint = paint;
     }
 
-    public LightweightShapeGraphic( Shape shape, Paint paint, Stroke stroke, Paint strokeColor ) {
+    public BasicShapeGraphic( Shape shape, Paint paint, Stroke stroke, Paint strokeColor ) {
         this.shape = shape;
         this.paint = paint;
         this.stroke = stroke;
@@ -48,7 +48,7 @@ public class LightweightShapeGraphic extends LightweightGraphic {
 
     public void setPaint( Paint paint ) {
         this.paint = paint;
-        super.paintChanged();
+        super.appearanceChanged();
     }
 
     public void setStroke( Stroke stroke ) {

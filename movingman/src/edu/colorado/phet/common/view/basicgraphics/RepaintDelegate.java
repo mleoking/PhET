@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.view.lightweight;
+package edu.colorado.phet.common.view.basicgraphics;
 
 import java.awt.*;
 

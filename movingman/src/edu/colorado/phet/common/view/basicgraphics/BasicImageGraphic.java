@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.view.lightweight;
+package edu.colorado.phet.common.view.basicgraphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -11,15 +11,15 @@ import java.awt.image.BufferedImage;
  * Time: 5:59:39 PM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public class LightweightImageGraphic extends LightweightGraphic {
+public class BasicImageGraphic extends BasicGraphic {
     private BufferedImage image;
     private AffineTransform transform;
 
-    public LightweightImageGraphic( BufferedImage image ) {
+    public BasicImageGraphic( BufferedImage image ) {
         this( image, new AffineTransform() );
     }
 
-    public LightweightImageGraphic( BufferedImage image, AffineTransform transform ) {
+    public BasicImageGraphic( BufferedImage image, AffineTransform transform ) {
         this.image = image;
         this.transform = transform;
     }
@@ -66,10 +66,7 @@ public class LightweightImageGraphic extends LightweightGraphic {
 
     /**
      * Any side effects produced on this transform will not be automatically
-     * observed by this class.  You must call setBoundsDirty(); repaint();
-     * or simply setTransform().
-     *
-     * @return the AffineTransform associated with this PhetImageGraphic.
+     * observed by this class.
      */
     public AffineTransform getTransform() {
         return transform;
