@@ -55,27 +55,31 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
     }
 
     public void update() {
+        int offsetX = -2 * (int)Box2DGraphic.s_thickness;
+        int offsetY = 3 * (int)Box2DGraphic.s_thickness;
+
         // Update the pusher
-        int nextLocationX = (int)box.getMinX() - currPusherFrame.getHeight( null ) - (int)Box2DGraphic.s_thickness;
-        int dir = nextLocationX - location.x;
-        currPusherFrame = dir == 0 ? currPusherFrame : ( dir > 0 ? pusher.getNextFrame() : pusher.getPrevFrame() );
-        location.setLocation( box.getMinX() - currPusherFrame.getHeight( null ) - Box2DGraphic.s_thickness,
-                              box.getMaxY() - currPusherFrame.getWidth( null ) + Box2DGraphic.s_thickness );
+        int nextLocationX = (int)box.getMinX() - currPusherFrame.getHeight( null ) + offsetX;
+        if( nextLocationX != location.x ) {
+            location.setLocation( nextLocationX, box.getMaxY() - currPusherFrame.getWidth( null ) + offsetY );
 
-        // Update the leaner
-        double newPressure = box.getPressure();
-        dir = newPressure == lastPressure ? 0 :
-              ( newPressure > lastPressure * s_leaningManStateChangeScaleFactor ? 1 : -1 );
-        lastPressure = newPressure;
-        if( dir > 0 && leaner.getCurrFrameNum() + 1 < leaner.getNumFrames() ) {
-            currLeanerFrame = leaner.getNextFrame();
-        }
-        else if( dir < 0 && leaner.getCurrFrameNum() > 0 ) {
-            currLeanerFrame = leaner.getPrevFrame();
-        }
+            // Update the leaner
+            int dir = nextLocationX - location.x;
+            currPusherFrame = dir > 0 ? pusher.getNextFrame() : pusher.getPrevFrame();
+            double newPressure = box.getPressure();
+            dir = newPressure == lastPressure ? 0 :
+                  ( newPressure > lastPressure * s_leaningManStateChangeScaleFactor ? 1 : -1 );
+            lastPressure = newPressure;
+            if( dir > 0 && leaner.getCurrFrameNum() + 1 < leaner.getNumFrames() ) {
+                currLeanerFrame = leaner.getNextFrame();
+            }
+            else if( dir < 0 && leaner.getCurrFrameNum() > 0 ) {
+                currLeanerFrame = leaner.getPrevFrame();
+            }
 
-        this.setBoundsDirty();
-        this.repaint();
+            this.setBoundsDirty();
+            this.repaint();
+        }
     }
 
 }

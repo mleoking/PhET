@@ -160,7 +160,10 @@ public class IdealGasModel extends BaseModel {
             if( modelElement instanceof Body ) {
                 Body body = (Body)modelElement;
                 //            this.box.addContainedBody( body );
-                addKineticEnergyToSystem( body.getKineticEnergy() );
+
+                // Since model elements are added outside the stepInTime() loop, their energy
+                // is accounted for already, and doesn't need to be added here
+//                addKineticEnergyToSystem( body.getKineticEnergy() );
                 bodies.add( body );
             }
         }
@@ -183,6 +186,10 @@ public class IdealGasModel extends BaseModel {
         externalForces.remove( force );
     }
 
+    /**
+     * To be called by objects that deliberately add energy to the system within the stepInTime() method
+     * @param keIncr
+     */
     public void addKineticEnergyToSystem( double keIncr ) {
         deltaKE += keIncr;
     }
@@ -208,7 +215,7 @@ public class IdealGasModel extends BaseModel {
         return totalKE;
     }
 
-    public synchronized void stepInTime( double dt ) {
+    public /*synchronized */void stepInTime( double dt ) {
         // Managing energy step 1: Get the amount of kinetic energy in the system
         // before anything happens
         double totalPreKE = this.getTotalKineticEnergy();
@@ -374,7 +381,7 @@ public class IdealGasModel extends BaseModel {
      * @param body
      * @return
      */
-    private double getPotentialEnergy( Body body ) {
+    public double getPotentialEnergy( Body body ) {
         double pe = 0;
         if( this.gravity != null ) {
             double gravity = this.getGravity().getAmt();
