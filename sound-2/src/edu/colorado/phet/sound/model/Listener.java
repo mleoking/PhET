@@ -20,6 +20,7 @@ public class Listener extends SimpleObservable implements ModelElement {
     private SoundModel model;
     private double frequencyHeard;
     private double amplitudeHeard;
+    private double octaveAmplitudeHeard;
 
     public Listener( SoundModel model, Point2D.Double soundOrigin ) {
         this.model = model;
@@ -36,17 +37,30 @@ public class Listener extends SimpleObservable implements ModelElement {
         notifyObservers();
     }
 
+    int cnt = 0;
     public void stepInTime( double dt ) {
         int distFromSource = (int)this.location.distance( origin );
         double currentFrequency = model.getPrimaryWavefront().getFrequencyAtTime( distFromSource );
         double currentAmplitude = model.getPrimaryWavefront().getMaxAmplitudeAtTime( distFromSource );
+        double currentOctaveAmplitude = model.getOctaveWavefront().getMaxAmplitudeAtTime( distFromSource );
         boolean notifyFlag = false;
-        if( currentFrequency != frequencyHeard || currentAmplitude != amplitudeHeard ) {
+
+        boolean flag = false;
+        if (currentOctaveAmplitude != octaveAmplitudeHeard) {
+            System.out.println( "cnt = " + cnt++ );
+            flag = true;
+        }
+        if( currentFrequency != frequencyHeard
+            || currentAmplitude != amplitudeHeard
+            || currentOctaveAmplitude != octaveAmplitudeHeard ) {
             notifyFlag = true;
         }
         frequencyHeard = currentFrequency;
         amplitudeHeard = currentAmplitude;
+        octaveAmplitudeHeard = currentOctaveAmplitude;
         if( notifyFlag ) {
+            if( flag )
+                System.out.println( "!!!" );
             notifyObservers();
         }
     }
