@@ -494,7 +494,6 @@ public class BaseLaserModule extends Module {
                 Atom atom = (Atom)source;
                 if( atom.getCurrState() instanceof HighEnergyState
                     && !displayHighLevelEmissions ) {
-//                    isPhotonGraphicVisible = true;
                     isPhotonGraphicVisible = false;
                 }
                 else {
@@ -517,6 +516,11 @@ public class BaseLaserModule extends Module {
             // photon goes away. Set it's visibility based on the state of the simulation
             PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
             pg.setVisible( isPhotonGraphicVisible );
+
+            if( photon.getWavelength() > LaserConfig.MAX_WAVELENGTH && isPhotonGraphicVisible ) {
+                System.out.println( "BaseLaserModule$InternalPhotonEmittedListener.photonEmittedEventOccurred" );
+            }
+
             addGraphic( pg, LaserConfig.PHOTON_LAYER );
             photon.addLeftSystemListener( new PhotonLeftSystemListener( photon, pg ) );
         }

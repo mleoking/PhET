@@ -69,6 +69,7 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Start with the pumping beam turned down all the way
         pumpingBeam.setPhotonsPerSecond( 0 );
+        pumpingBeam.setMaxPhotonsPerSecond( (int)pumpingBeam.getMaxPhotonsPerSecond() * 2 );
 
         // Enable only the stimulating beam to start with
         seedBeam.setEnabled( true );

@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.lasers.controller;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 import javax.swing.*;
@@ -29,7 +30,7 @@ import java.awt.event.ActionListener;
 public class HighLevelEmissionControlPanel extends JPanel {
 
     public HighLevelEmissionControlPanel( final BaseLaserModule module ) {
-        final JCheckBox displayHighLevelEmissionsCB = new JCheckBox( "<html>Display photons<br>emitted from upper<br>energy state</html>" );
+        final JCheckBox displayHighLevelEmissionsCB = new JCheckBox( SimStrings.get( "OptionsControlPanel.DisplayUpperStatePhotons" ) );
         displayHighLevelEmissionsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setDisplayHighLevelEmissions( displayHighLevelEmissionsCB.isSelected() );
