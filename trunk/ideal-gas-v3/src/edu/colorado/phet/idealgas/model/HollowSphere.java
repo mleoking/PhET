@@ -127,4 +127,10 @@ public class HollowSphere extends SphericalBody {
         }
         return offset;
     }
+
+    public Point2D contactPt;
+    public void setContactPt( Point2D.Double contactPt ) {
+        this.contactPt = contactPt;
+        notifyObservers();
+    }
 }

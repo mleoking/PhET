@@ -57,19 +57,14 @@ public class IdealGasModel extends BaseModel {
                                          10, 10 );
 
         collisionExperts.add( new SphereHollowSphereExpert( this, dt ) );
-        collisionExperts.add( new SphereSphereExpert( this, dt ) );
         collisionExperts.add( new SphereBoxExpert( this ) );
-        // Set up collision classes
-//        //        new SphereHotAirBalloonContactDetector();
-//        new SphereBoxCollisionExpert();
-//        //        new SphereBoxContactDetector();
-//        new SphereHollowSphereContactDetector();
-//        new SphereSphereContactDetector();
-//
-//        //        BalloonSphereCollision.register();
-//        SphereBoxCollision.register( collisionFactory );
-//        SphereSphereCollision.register( collisionFactory );
-//        SphereHollowSphereCollision.register( collisionFactory );
+        collisionExperts.add( new SphereSphereExpert( this, dt ) );
+
+//        collisionExperts.add( new SphereHollowSphereExpert( this, dt ) );
+//        collisionExperts.add( new SphereSphereExpert( this, dt ) );
+//        collisionExperts.add( new SphereBoxExpert( this ) );
+
+//        new SphereHotAirBalloonContactDetector();
     }
 
     /**

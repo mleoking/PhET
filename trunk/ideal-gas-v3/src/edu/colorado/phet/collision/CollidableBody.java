@@ -41,6 +41,21 @@ public abstract class CollidableBody extends Body {
         return collidable;
     }
 
+    public void stepInTime( double dt ) {
+        // Save the velocity and position before they are updated. This information
+        // is used in collision calculations
+        if( velocityPrev == null ) {
+            velocityPrev = new Vector2D.Double();
+        }
+        velocityPrev.setComponents( getVelocity().getX(), getVelocity().getY() );
+        if( positionPrev == null ) {
+            positionPrev = new Point2D.Double();
+        }
+        positionPrev.setLocation( getPosition() );
+
+        super.stepInTime( dt );
+    }
+
     public void setCollidable( boolean collidable ) {
         this.collidable = collidable;
     }
@@ -50,10 +65,10 @@ public abstract class CollidableBody extends Body {
     }
 
     public void setVelocity( double vx, double vy ) {
-        if( velocityPrev == null ) {
-            velocityPrev = new Vector2D.Double();
-        }
-        velocityPrev.setComponents( getVelocity().getX(), getVelocity().getY() );
+//        if( velocityPrev == null ) {
+//            velocityPrev = new Vector2D.Double();
+//        }
+//        velocityPrev.setComponents( getVelocity().getX(), getVelocity().getY() );
         super.setVelocity( vx, vy );
     }
 
@@ -62,10 +77,10 @@ public abstract class CollidableBody extends Body {
     }
 
     public void setPosition( double x, double y ) {
-        if( positionPrev == null ) {
-            positionPrev = new Point2D.Double();
-        }
-        positionPrev.setLocation( getPosition() );
+//        if( positionPrev == null ) {
+//            positionPrev = new Point2D.Double();
+//        }
+//        positionPrev.setLocation( getPosition() );
         super.setPosition( x, y );
     }
 
