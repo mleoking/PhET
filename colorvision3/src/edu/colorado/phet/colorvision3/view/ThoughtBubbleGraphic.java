@@ -186,7 +186,7 @@ public class ThoughtBubbleGraphic extends PhetGraphic
    */
   public void paint( Graphics2D g2 )
   {
-    if ( isVisible() )
+    if ( super.isVisible() )
     {
       super.saveGraphicsState( g2 );
       {
