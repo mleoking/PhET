@@ -52,7 +52,9 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         GridBagConstraints gbc = new GridBagConstraints( 0, 0,
                                                          1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
+        gbc.anchor = GridBagConstraints.CENTER;
 
         // Add the options for mirror on/off
         JPanel mirrorOptionPanel = createMirrorControlPanel( module );
