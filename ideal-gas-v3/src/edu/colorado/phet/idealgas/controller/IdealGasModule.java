@@ -14,9 +14,9 @@ import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.PhetControlPanel;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
@@ -61,7 +61,7 @@ public class IdealGasModule extends Module {
     private PressureSlice pressureSlice;
     private AbstractClock clock;
     private PressureSliceGraphic pressureSliceGraphic;
-    private DefaultInteractiveGraphic rulerGraphic;
+    private PhetGraphic rulerGraphic;
     private EnergyHistogramDialog histogramDlg;
     private ArrayList visibleInstruments = new ArrayList();
     private JDialog measurementDlg;
@@ -139,7 +139,7 @@ public class IdealGasModule extends Module {
             BufferedImage handleImg = ImageLoader.loadBufferedImage( IdealGasConfig.HANDLE_IMAGE_FILE );
             PhetImageGraphic handleGraphic = new PhetImageGraphic( getApparatusPanel(), handleImg );
 
-            PumpHandleGraphic handleGraphicImage = new PumpHandleGraphic( pump, handleGraphic,
+            PumpHandleGraphic handleGraphicImage = new PumpHandleGraphic( getApparatusPanel(), pump, handleGraphic,
                                                                           IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238,
                                                                           IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 100,
                                                                           IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238 );
@@ -190,7 +190,8 @@ public class IdealGasModule extends Module {
 
         // Set up the control panel
         idealGasControlPanel = new IdealGasControlPanel( this );
-        PhetControlPanel controlPanel = new PhetControlPanel( this, idealGasControlPanel );
+        ControlPanel controlPanel = new ControlPanel( this );
+        controlPanel.add( idealGasControlPanel );
         setControlPanel( controlPanel );
 
         // Place a slider to control the stove
@@ -215,16 +216,19 @@ public class IdealGasModule extends Module {
     }
 
     private void addHelp() {
-        HelpItem helpItem1 = new HelpItem( "Wall can be moved\nleft and right",
+        HelpItem helpItem1 = new HelpItem( getApparatusPanel(),
+                                           "Wall can be moved\nleft and right",
                                            box.getPosition().getX(), box.getPosition().getY(),
                                            HelpItem.BELOW, HelpItem.LEFT );
         helpItem1.setForegroundColor( IdealGasConfig.helpColor );
         addHelpItem( helpItem1 );
-        HelpItem helpItem2 = new HelpItem( "Door can be slid\nleft and right",
+        HelpItem helpItem2 = new HelpItem( getApparatusPanel(),
+                                           "Door can be slid\nleft and right",
                                            box.getPosition().getX() + 100, box.getPosition().getY() - 50 );
         helpItem2.setForegroundColor( IdealGasConfig.helpColor );
         addHelpItem( helpItem2 );
-        HelpItem helpItem3 = new HelpItem( "Heat can be removed or added\nby adjusting stove",
+        HelpItem helpItem3 = new HelpItem( getApparatusPanel(),
+                                           "Heat can be removed or added\nby adjusting stove",
                                            box.getPosition().getX() + 50, box.getMaxY() + 50 );
         helpItem3.setForegroundColor( IdealGasConfig.helpColor );
         addHelpItem( helpItem3 );
@@ -232,8 +236,8 @@ public class IdealGasModule extends Module {
 
     public JDialog setMeasurementDlgVisible( boolean isVisible ) {
         if( measurementDlg == null ) {
-            measurementDlg = new MeasurementDialog( PhetApplication.instance().getApplicationView().getPhetFrame(), this );
-            JFrame frame = PhetApplication.instance().getApplicationView().getPhetFrame();
+            measurementDlg = new MeasurementDialog( PhetApplication.instance().getPhetFrame(), this );
+            JFrame frame = PhetApplication.instance().getPhetFrame();
             measurementDlg.setLocationRelativeTo( frame );
             measurementDlg.setLocation( (int)( frame.getLocation().getX() + frame.getWidth() * 3 / 5 ),
                                         (int)frame.getLocation().getY() + 20 );
@@ -250,7 +254,7 @@ public class IdealGasModule extends Module {
 
     public JDialog setSpeciesMonitorDlgEnabled( boolean isEnabled ) {
         if( speciesMonitorDlg == null ) {
-            speciesMonitorDlg = new SpeciesMonitorDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
+            speciesMonitorDlg = new SpeciesMonitorDialog( PhetApplication.instance().getPhetFrame(),
                                                           idealGasModel );
         }
         speciesMonitorDlg.setVisible( isEnabled );
@@ -421,7 +425,7 @@ public class IdealGasModule extends Module {
 
     public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
         if( histogramDlg == null ) {
-            histogramDlg = new EnergyHistogramDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
+            histogramDlg = new EnergyHistogramDialog( PhetApplication.instance().getPhetFrame(),
                                                       (IdealGasModel)getModel() );
         }
         histogramDlg.setVisible( histogramDlgEnabled );

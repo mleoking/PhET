@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.view.graphics.Boundary;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.idealgas.model.Pump;
 
@@ -18,12 +18,12 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * This class is provided just to overide isInHotSpot to make the pump
- * handle work correctly. The behavior for controlling mouse-related
+* handle work correctly. The behavior for controlling mouse-related
  * movement of the pump handle is all contained in BaseIdealGasApparatusPanel.
  * This isn't really the right way to do it, but it is how things were
  * done way back when the application was originally written.
  */
-public class PumpHandleGraphic extends DefaultInteractiveGraphic {
+public class PumpHandleGraphic extends PhetGraphic {
     private Pump pump;
     private PhetImageGraphic image;
     private int lastYPumped;
@@ -32,59 +32,47 @@ public class PumpHandleGraphic extends DefaultInteractiveGraphic {
     private Stroke highlightStroke = new BasicStroke( 1 );
     private Rectangle2D highlightRect = new Rectangle2D.Double();
 
-    public PumpHandleGraphic( Pump pump, final PhetImageGraphic image, int x, int y,
+    public PumpHandleGraphic( Component component, Pump pump, final PhetImageGraphic image, int x, int y,
                               int minX, int minY,
                               int maxX, int maxY ) {
-        super( image );
+        super( component );
         this.pump = pump;
         this.image = image;
-        image.setPosition( x, y );
+        image.setLocation( x, y );
+//        image.setPosition( x, y );
 
-        Boundary hitArea = new Boundary() {
-            public boolean contains( int x, int y ) {
-                boolean result = x >= image.getBounds().getMinX() && x <= image.getBounds().getMaxX()
-                                 && y >= image.getBounds().getMinY() && y <= image.getBounds().getMinY() + 10;
-                return result;
-            }
-        };
-        super.setBoundary( hitArea );
-        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
-        this.addTranslationBehavior( new PumpHandleTranslator( x, y, minX, minY, maxX, maxY ) );
-        this.setGraphic( image );
+//        Boundary hitArea = new Boundary() {
+//            public boolean contains( int x, int y ) {
+//                boolean result = x >= image.getBounds().getMinX() && x <= image.getBounds().getMaxX()
+//                                 && y >= image.getBounds().getMinY() && y <= image.getBounds().getMinY() + 10;
+//                return result;
+//            }
+//        };
+//        super.setBoundary( hitArea );
+        this.setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
+//        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
+        addTranslationListener( new PumpHandleTranslator( x, y, minX, minY, maxX, maxY ) );
+//        this.addTranslationBehavior( new PumpHandleTranslator( x, y, minX, minY, maxX, maxY ) );
+//        this.setGraphic( image );
     }
 
     public void paint( Graphics2D g ) {
-        super.paint( g );
-        //        if( handleHighlighted ) {
-        //            GraphicsState gs = new GraphicsState( g );
-        //            highlightRect.setRect( image.getBounds().getMinX(), image.getBounds().getMinY(),
-        //                                   image.getBounds().getWidth(), 9 );
-        //            g.setColor( Color.red );
-        //            g.setStroke( new BasicStroke( 1 ) );
-        //            g.draw( highlightRect );
-        //            gs.restoreGraphics();
-        //        }
+//        super.paint( g );
+        image.paint( g );
     }
 
-    public void mouseEntered( MouseEvent e ) {
-        super.mouseEntered( e );
+    public void fireMouseEntered( MouseEvent e ) {
+        super.fireMouseEntered( e );
         handleHighlighted = true;
     }
 
-    public void mouseExited( MouseEvent e ) {
-        super.mouseExited( e );
+    public void fireMouseExited( MouseEvent e ) {
+        super.fireMouseExited( e );
         handleHighlighted = false;
     }
 
-    public void mouseDragged( MouseEvent e ) {
-        super.mouseDragged( e );
-
-        //        try {
-        //            Thread.sleep( 20 );
-        //        }
-        //        catch( InterruptedException e1 ) {
-        //            e1.printStackTrace();
-        //        }
+    public void fireMouseDragged( MouseEvent e ) {
+        super.fireMouseDragged( e );
 
         // Determine if we should pump now. We do it if the mouse is moving down
         int yNew = e.getY();
@@ -96,7 +84,12 @@ public class PumpHandleGraphic extends DefaultInteractiveGraphic {
         lastYTracked = yNew;
     }
 
-    private class PumpHandleTranslator implements Translatable {
+    protected Rectangle determineBounds() {
+        return image.getBounds();
+    }
+
+    private class PumpHandleTranslator implements TranslationListener {
+//    private class PumpHandleTranslator implements Translatable {
         private int x;
         private int y;
         private int minX;
@@ -113,10 +106,12 @@ public class PumpHandleGraphic extends DefaultInteractiveGraphic {
             this.maxY = maxY;
         }
 
-        public void translate( double dx, double dy ) {
+        public void translationOccurred( TranslationEvent translationEvent ) {
+            double dx = translationEvent.getDx();
+            double dy = translationEvent.getDy();
             x = (int)Math.min( maxX, Math.max( minX, x + dx ) );
             y = (int)Math.min( maxY, Math.max( minY, y + dy ) );
-            image.setPosition( x, y );
+            image.setLocation( x, y );
         }
     }
 }

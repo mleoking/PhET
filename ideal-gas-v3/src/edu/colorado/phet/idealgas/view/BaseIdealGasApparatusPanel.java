@@ -10,7 +10,6 @@ package edu.colorado.phet.idealgas.view;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasApplication;
@@ -33,7 +32,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     //    private PumpHandleGraphic handleGraphicImage;
     private PhetImageGraphic flamesGraphicImage;
     private PhetImageGraphic iceGraphicImage;
-    protected DefaultInteractiveGraphic doorGraphicImage;
+    protected PhetImageGraphic doorGraphicImage;
 
 
     /**
@@ -102,10 +101,14 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
         int baseFlameHeight = IdealGasConfig.Y_BASE_OFFSET + 545;
         int flameHeight = baseFlameHeight - value;
         int iceHeight = baseFlameHeight + value;
-        flamesGraphicImage.setPosition( (int)flamesGraphicImage.getPosition().getX(),
+        flamesGraphicImage.setLocation( (int)flamesGraphicImage.getLocation().getX(),
                                         (int)Math.min( (float)flameHeight, baseFlameHeight ) );
-        iceGraphicImage.setPosition( (int)iceGraphicImage.getPosition().getX(),
+        iceGraphicImage.setLocation( (int)iceGraphicImage.getLocation().getX(),
                                      (int)Math.min( (float)iceHeight, baseFlameHeight ) );
+//        flamesGraphicImage.setPosition( (int)flamesGraphicImage.getPosition().getX(),
+//                                        (int)Math.min( (float)flameHeight, baseFlameHeight ) );
+//        iceGraphicImage.setPosition( (int)iceGraphicImage.getPosition().getX(),
+//                                     (int)Math.min( (float)iceHeight, baseFlameHeight ) );
         this.repaint();
     }
 

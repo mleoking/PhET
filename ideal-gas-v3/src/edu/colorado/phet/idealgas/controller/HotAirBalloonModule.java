@@ -10,7 +10,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHotAirBalloonExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.PhetControlPanel;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.BoxMustContainParticle;
@@ -105,7 +105,7 @@ public class HotAirBalloonModule extends IdealGasModule {
         // Add the specific controls we need for the hot air balloon
         IdealGasControlPanel controlPanel = new IdealGasControlPanel( this );
         controlPanel.addParticleControl( new HotAirBalloonControlPanel( balloon ) );
-        this.setControlPanel( new PhetControlPanel( this ) );
+        this.setControlPanel( new ControlPanel( this ) );
         getControlPanel().add( controlPanel );
     }
 
