@@ -173,12 +173,15 @@ public class PickupCoilPanel extends FaradayPanel {
                 // Radio buttons with icons.
                 ImageIcon lightbulbIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.LIGHTBULB_ICON ) );
                 ImageIcon lightbulbIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.LIGHTBULB_ICON_SELECTED ) );
-                ImageIcon voltmeterIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.VOLTMETER_ICON ) );
-                ImageIcon voltmeterIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.VOLTMETER_ICON_SELECTED ) );
                 _lightbulbRadioButton = new JRadioButton( lightbulbIcon );
                 _lightbulbRadioButton.setSelectedIcon( lightbulbIconSelected );
+                
+                ImageIcon voltmeterIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.VOLTMETER_ICON ) );
+                ImageIcon voltmeterIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.VOLTMETER_ICON_SELECTED ) );
                 _voltmeterRadioButton = new JRadioButton( voltmeterIcon );
                 _voltmeterRadioButton.setSelectedIcon( voltmeterIconSelected );
+                
+                // Horizontal layout.
                 layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
                 layout.addAnchoredComponent( _voltmeterRadioButton, 0, 1, GridBagConstraints.WEST );
             }
@@ -186,6 +189,8 @@ public class PickupCoilPanel extends FaradayPanel {
                 // Radio buttons with text.
                 _lightbulbRadioButton = new JRadioButton( SimStrings.get( "PickupCoilPanel.lightbulb" ) );
                 _voltmeterRadioButton = new JRadioButton( SimStrings.get( "PickupCoilPanel.voltmeter" ) );
+                
+                // Vertical layout
                 layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
                 layout.addAnchoredComponent( _voltmeterRadioButton, 1, 0, GridBagConstraints.WEST );
             }
