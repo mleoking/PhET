@@ -1,10 +1,14 @@
+/* Copyright 2002-2004, University of Colorado */
+
 /*
- * Class: MathUtil
- * Package: edu.colorado.phet.common.imaging
- *
- * Created by: Ron LeMaster
- * Date: Dec 12, 2002
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
+
 package edu.colorado.phet.common.math;
 
 import java.awt.geom.Line2D;
@@ -12,6 +16,9 @@ import java.awt.geom.Point2D;
 
 /**
  * A class of static general purpose math utilities
+ * 
+ * @author Ron LeMaster
+ * @version $Revision$
  */
 public class MathUtil {
 

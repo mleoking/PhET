@@ -1,13 +1,24 @@
-/**
- * Class: AbstractVector2D
- * Package: edu.colorado.phet.common.math
- * Author: Another Guy
- * Date: May 20, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
+
 package edu.colorado.phet.common.math;
 
 import java.awt.geom.Point2D;
 
+/**
+ * Vector2D
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public interface Vector2D extends AbstractVector2D {
 
     Vector2D add( AbstractVector2D v );

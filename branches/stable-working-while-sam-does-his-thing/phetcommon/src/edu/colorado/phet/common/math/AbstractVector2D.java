@@ -1,9 +1,14 @@
-/**
- * Class: AbstractVector2D
- * Package: edu.colorado.phet.common.math
- * Author: Another Guy
- * Date: May 20, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
+
 package edu.colorado.phet.common.math;
 
 import java.awt.geom.Point2D;
@@ -11,6 +16,9 @@ import java.awt.geom.Point2D;
 /**
  * High level abstraction of a 2-D Vector data structure.  The two main implementations
  * are the Vector2D and ImmutableVector2D.
+ * 
+ * @author Ron LeMaster
+ * @version $Revision$
  */
 public interface AbstractVector2D {
 
