@@ -65,6 +65,31 @@ public class ColorChangeEvent extends EventObject
     return _intensity;
   }
 
+	//----------------------------------------------------------------------------
+	// Conversions
+  //----------------------------------------------------------------------------
+
+  /**
+   * Provides a String representation of this event.
+   * The format of this String may change in the future.
+   *
+   * @return a String
+   */
+  public String toString()
+  {
+    int r = _color.getRed();
+    int g = _color.getGreen();
+    int b = _color.getBlue();
+    int a = _color.getAlpha();
+    double w = _color.getWavelength();
+    double i = _intensity;
+    
+    return "color=[" + r + "," + g + "," + b + "," + a + "]" +
+           " wavelength=" + w + 
+           " intensity=" + i + 
+           " source=[" + super.getSource() + "]";
+  }
+  
 }
 
 /* end of file */
