@@ -58,6 +58,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/23) - resize electron.png to eliminate need for scaling
 (3/23) - move all knowledge of rendering strategy inside compass grid graphic
 (3/23) - water wheel needs to hit 0/90/180/270 degree rotation points to hit min/max field strength
 (3/23) - remove source files for unused classes: ACPowerSupplyPanel, BatteryPanel, DeveloperPanel

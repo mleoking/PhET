@@ -80,8 +80,6 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
         int ry = getImage().getHeight() / 2;
         setRegistrationPoint( rx, ry );
         
-        scale( 0.25 ); // XXX
-        
         update();
     }
 
