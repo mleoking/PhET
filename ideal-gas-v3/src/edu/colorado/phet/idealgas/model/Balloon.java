@@ -78,8 +78,8 @@ public class Balloon extends HollowSphere {
     private void adjustRadius() {
         // Adjust the radius of the balloon
         //Make sure the balloon doesn't expand beyond the box
-        double maxRadius = Math.min( ( box.getMaxX() - box.getMinX() ) / 2,
-                                     ( box.getMaxY() - box.getMinY() ) / 2 );
+        double maxRadius = 0.99 * Math.min( ( box.getMaxX() - box.getMinX() ) / 2,
+                                            ( box.getMaxY() - box.getMinY() ) / 2 );
         double dr = Math.pow( Math.abs( accumulatedImpact ), dampingExponent ) * MathUtil.getSign( accumulatedImpact );
         double newRadius = Math.min( this.getRadius() + dr, maxRadius );
         if( !Double.isNaN( newRadius ) ) {

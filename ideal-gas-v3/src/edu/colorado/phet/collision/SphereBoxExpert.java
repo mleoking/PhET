@@ -19,6 +19,8 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
         this.model = model;
     }
 
+    static int cnt = 0;
+
     public boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean haveCollided = false;
         if( applies( bodyA, bodyB ) && areInContact( bodyA, bodyB ) ) {
@@ -27,9 +29,31 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
             Box2D box = bodyA instanceof Box2D ?
                         (Box2D)bodyA : (Box2D)bodyB;
             if( !box.isInOpening( sphere ) ) {
-                collision = new SphereBoxCollision( sphere, box, model );
-                collision.collide();
-                haveCollided = true;
+
+                boolean result = false;
+                double sx = sphere.getPosition().getX();
+                double sy = sphere.getPosition().getY();
+                double r = sphere.getRadius();
+
+                if( box.isInOpening( sphere ) ) {
+                    return result;
+                }
+
+                // Check for contact with each of the walls
+                boolean leftWall = ( sx - r ) <= box.getMinX();
+                boolean rightWall = ( sx + r ) >= box.getMaxX();
+                boolean topWall = ( sy - r ) <= box.getMinY();
+                boolean bottomWall = ( sy + r ) >= box.getMaxY();
+
+                //If the sphere is in contact with two opposing walls, don't do anything
+                if( !( leftWall && rightWall || topWall && bottomWall ) ) {
+
+                    collision = new SphereBoxCollision( sphere, box, model );
+                    collision.collide();
+                    // If the following line is enabled, the helium balloon will freeze the simulation
+                    // if it expands to fill the box
+                    haveCollided = true;
+                }
             }
         }
         return haveCollided;
