@@ -77,7 +77,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
         _magnetModel.addObserver( this );
         
         // Set the model's size to match the image.
-        _magnetModel.setSize( getWidth()/2, getHeight()/2 );
+        _magnetModel.setSize( getWidth(), getHeight() );
         
         // Registration point is the center of the image.
         centerRegistrationPoint();
