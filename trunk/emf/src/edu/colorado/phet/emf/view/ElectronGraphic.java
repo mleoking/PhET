@@ -8,6 +8,8 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
 //import edu.colorado.phet.common.view.graphics.SimpleBufferedImageGraphic;
@@ -21,12 +23,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class ElectronGraphic extends FastPaintImageGraphic
-//public class ElectronGraphic extends SimpleBufferedImageGraphic
-        implements SimpleObserver {
+        implements SimpleObserver, TransformListener {
 
     private Point location = new Point();
     private ApparatusPanel apparatusPanel;
     private Electron electron;
+    private AffineTransform atx = new AffineTransform( );
+    private AffineTransform containerTx;
 
     public ElectronGraphic( ApparatusPanel apparatusPanel, BufferedImage image, Electron electron ) {
         super( image, apparatusPanel );
@@ -35,37 +38,44 @@ public class ElectronGraphic extends FastPaintImageGraphic
         electron.addObserver( this );
     }
 
+    public void transformChanged( ModelViewTransform2D mvt ) {
+        containerTx = mvt.getAffineTransform();
+        update();
+    }
+
     public Point getLocation() {
         return location;
     }
 
-    public boolean contains( int x, int y ) {
-        boolean result = super.contains( x - location.x + getImage().getWidth( null ) / 2, y - location.y + getImage().getHeight( null ) / 2 );
-        return result;
-    }
-
     public void update() {
 
-//        super.setLocation( (int)electron.getCurrentPosition().getX(), (int)electron.getCurrentPosition().getY() );
+//        Rectangle r1 = new Rectangle( location.x - getImage().getWidth( null ) / 2, location.y - getImage().getHeight( null ) / 2,
+//                                      getImage().getWidth( null ), getImage().getHeight( null ));
         location.x = (int)electron.getCurrentPosition().getX();
         location.y = (int)electron.getCurrentPosition().getY();
 
-        // Moving to new graphics 7/8/04
-        // handle transform change
-        AffineTransform atx = this.getTransform();
-        Point2D.Double p2d = new Point2D.Double();
-        atx.transform( electron.getCurrentPosition(), p2d );
-        location.setLocation( p2d );
-//        location.setLocation( electron.getCurrentPosition() );
+        atx.setToTranslation( location.x - getImage().getWidth( null ) / 2, location.y - getImage().getHeight( null ) / 2);
+        AffineTransform totalTx = new AffineTransform();
+        if( containerTx != null ) {
+            totalTx.concatenate( containerTx );
+        }
+        totalTx.concatenate( atx );
+        super.setTransform( totalTx );
 
+//        Rectangle r2 = new Rectangle( location.x - getImage().getWidth( null ) / 2, location.y - getImage().getHeight( null ) / 2,
+//                                      getImage().getWidth( null ), getImage().getHeight( null ));
+
+        // todo: eventually use the fast repaint, rather than repainting the whole apparatus panel
+//        super.repaint();   // method 1 for fast repaint: requires making repaint() protected in super class
+//        apparatusPanel.repaint( r1 );  // method 2 for fast repaint
+//        apparatusPanel.repaint( r2 );  // method 2 for fast repaint
         apparatusPanel.repaint();
-//        apparatusPanel.repaint( location.x - 20, location.y - 20, 40, 40 );
     }
 
-    public void paint( Graphics2D g2 ) {
-        Image img = getImage();
-        g2.drawImage( img, location.x - img.getWidth( null ) / 2, location.y - img.getHeight( null ) / 2, null );
-    }
+//    public void paint( Graphics2D g2 ) {
+//        Image img = getImage();
+//        g2.drawImage( img, location.x - img.getWidth( null ) / 2, location.y - img.getHeight( null ) / 2, null );
+//    }
 
     private Image getImage() {
         return super.getBufferedImage();
