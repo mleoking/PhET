@@ -85,7 +85,6 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
 
         // Voltmeter
         _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel );
-        _voltMeterGraphic.scale( 0.3 ); // XXX scale in PhotoShop
         
         // Interactivity
         super.setCursorHand();
