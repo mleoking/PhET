@@ -238,6 +238,7 @@ public class IdealGasModel extends BaseModel {
             me.stepInTime( dt );
         }
 
+        // Add or remove heat depending on the state of the stove
         addHeatFromStove();
 
         super.stepInTime( dt );
@@ -289,7 +290,7 @@ public class IdealGasModel extends BaseModel {
                 //            if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
                 if( /* getBox().isInOpening( gasMolecule )
-                    &&*/ gasMolecule.getPosition().getY() < getBox().getMinY() + s_escapeOffset ) {
+                    && */ gasMolecule.getPosition().getY() < getBox().getMinY() + s_escapeOffset ) {
                     removeList.add( gasMolecule );
                 }
             }
@@ -297,6 +298,8 @@ public class IdealGasModel extends BaseModel {
         for( int i = 0; i < removeList.size(); i++ ) {
             GasMolecule gasMolecule = (GasMolecule)removeList.get( i );
             gasMolecule.removeYourselfFromSystem();
+            this.bodies.remove( gasMolecule );
+            super.removeModelElement( gasMolecule );
         }
         removeList.clear();
 
@@ -309,8 +312,6 @@ public class IdealGasModel extends BaseModel {
         int totalEnergy = 0;
         for( int i = 0; i < numModelElements(); i++ ) {
             Object body = modelElementAt( i );
-            //        for( int i = 0; i < bodies.size(); i++ ) {
-            //            Object body = bodies.get( i );
             if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
                 totalEnergy += this.getBodyEnergy( gasMolecule );
