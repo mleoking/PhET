@@ -1,12 +1,8 @@
 - Sam, clockStateListeners
 
-- molecules can't escape through door
 - door need to be painted differently
 
-- Molecules don't stay inside moving wall.Add kinetice energy to molecules when they
-collide with the moving wall.
-
-- Get rid of SphereWallContactDetector and SphereWallCollision
+- do we need Wall classes at all?
 
 - Fix up collisions with sphere. Can we get rid of constraints?
 

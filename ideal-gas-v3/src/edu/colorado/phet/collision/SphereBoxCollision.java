@@ -40,18 +40,33 @@ public class SphereBoxCollision implements Collision {
         if( box.isInOpening( sphere ) ) {
             return;
         }
+
+        // Collision with left wall?
         if( ( sx - r ) <= box.getMinX() ) {
             sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             double wx = box.getMinX();
             double newX = wx + ( sx - wx );
             sphere.setPosition( newX, sphere.getPosition().getY() );
+
+            // Handle giving particle kinetic energy if the wall is moving
+            double vx0 = sphere.getVelocity().getX();
+            double vx1 = vx0 + box.getLeftWallVx();
+            sphere.setVelocity( vx1, sphere.getVelocity().getY() );
+
+            // Add the energy to the system, so it doesn't get
+            // taken back out when energy conservation is performed
+            model.addKineticEnergyToSystem( box.getLeftWallVx() );
         }
+
+        // Collision with right wall?
         if( ( sx + r ) >= box.getMaxX() ) {
             sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             double wx = box.getMaxX();
             double newX = wx + ( sx - wx );
             sphere.setPosition( newX, sphere.getPosition().getY() );
         }
+
+        // Collision with bottom wall?
         if( ( sy - r ) <= box.getMinY() ) {
             sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
             double wy = box.getMinY();
@@ -59,6 +74,8 @@ public class SphereBoxCollision implements Collision {
             sphere.setPosition( sphere.getPosition().getX(), newY );
 
         }
+
+        // Collision with top wall?
         if( ( sy + r ) >= box.getMaxY() ) {
             sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
             double wy = box.getMaxY();
