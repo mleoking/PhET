@@ -6,14 +6,13 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- compute emf by averaging emf at center and 2 edges of coil
+
 - fast movement of magnet is not shown by lightbulb or voltmeter
 - add Verlet behavior to voltmeter needle 
 - make lightbulb ramp up/down instead of immediate on/off
 - show important "spikes" in induced emf (consider totally disabling smoothing)
 - collision detection between compass and magnet
 - collision detection between magnet and coil
-- transparent bar magnet layer so that field meter looks like it's inside it
 - animate electrons when lightbulb is enabled (front of coil only)
 - remove AffineTransform from BarMagnet.getStrength(Point2D) as possible optimization
 - optimize performance
@@ -25,6 +24,7 @@ MEDIUM PRIORITY:
 - check for unnecessary notification, events and updates
 
 LOW PRIORITY:
+- transparent bar magnet layer so that field meter looks like it's inside it
 - agree on control labels
 - Wiggle Me's
 - remove unused images from JAR file
@@ -38,6 +38,9 @@ phetcommon:
 
 DONE:
 v0r11...
+(2/3) - compute induced emf using average of flux at 3 points (center and 2 edges of coil)
+(2/3) - calibrate MAX_EMF to match emf induced when magnet strength, loop radius, #loops are all maximums
+(2/3) - simplify some of the Developer Controls (magnet size, needle size)
 (2/3) - optimize grid when background is black (don't use alpha)
 (2/3) - lower frame rate to 10 fps (performance optimization)
 (2/3) - convert all model elements to use radians instead of degrees (performance optimization)
