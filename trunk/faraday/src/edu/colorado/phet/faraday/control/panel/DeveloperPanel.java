@@ -24,7 +24,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.dialog.ColorChooserFactory;
-import edu.colorado.phet.faraday.control.dialog.ColorChooserFactory.Listener;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;

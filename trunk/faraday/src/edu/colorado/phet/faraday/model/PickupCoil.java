@@ -15,7 +15,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.MedianFilter;
 import edu.colorado.phet.common.model.ModelElement;
 
 

@@ -12,11 +12,8 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 
-import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -27,7 +24,10 @@ import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
-import edu.colorado.phet.faraday.view.*;
+import edu.colorado.phet.faraday.view.BarMagnetGraphic;
+import edu.colorado.phet.faraday.view.CompassGraphic;
+import edu.colorado.phet.faraday.view.CompassGridGraphic;
+import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 
 /**

@@ -13,7 +13,6 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.text.MessageFormat;
 
 import javax.swing.event.ChangeEvent;

@@ -11,7 +11,10 @@
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;

@@ -15,8 +15,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.faraday.FaradayConfig;
-
 
 /**
  * VerticalSpacerPanel

@@ -11,9 +11,6 @@
 
 package edu.colorado.phet.faraday.model;
 
-import java.awt.geom.Point2D;
-
-import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**

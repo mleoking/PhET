@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.faraday.model;
 
-import edu.colorado.phet.common.util.SimpleObservable;
 
 
 /**
