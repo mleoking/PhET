@@ -41,7 +41,8 @@ public class ColorBands implements Graphic {
         AffineTransform at = g.getTransform();
         AffineTransform newTransform = resistorGraphic.getImageTransform();
 //        g.setTransform(iwp.getTransform(w, iwp.bi));
-        g.setTransform(newTransform);
+//        g.setTransform(newTransform);
+        g.transform(newTransform);
         int resistance = (int) hr.getResistance();//resistorGraphic.getBranch().getint) ((Resistor) w).getResistance();
         Color[] c = new ColorComputation().to3Colors(resistance);
         g.setColor(c[0]);

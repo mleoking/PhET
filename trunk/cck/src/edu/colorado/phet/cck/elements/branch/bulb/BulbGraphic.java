@@ -126,7 +126,7 @@ public class BulbGraphic extends ConnectibleImageGraphic {
         AffineTransform save = g2.getTransform();
         BufferedImage image = originalImage;
         AffineTransform at = super.getImageTransform();//getTransform(branch, image);
-        g2.setTransform(at);
+        g2.transform(at);
 //        Rectangle rect = sh.getBounds();
         g2.setStroke(new BasicStroke(2));
         g2.setColor(Color.yellow);
