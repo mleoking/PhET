@@ -3,10 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
+- cursor that moves across the AC sin wave
 
 HIGH PRIORITY:
-- cursor that moves across the AC sin wave
+- Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 - add a water wheel graphic to turbine, paddles as wide as widest water stream
 - RPM readout on turbine (at center of rotation?)
 - handle for faucet that looks like the side view of a faucet handle, put slider inside handle
