@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.coreadditions;
 
+import edu.colorado.phet.mechanics.Body;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -19,7 +21,7 @@ public class CompositeBody extends Body {
         setMass( getMass() + body.getMass() );
     }
 
-    public Point2D.Double getCM() {
+    public Point2D getCM() {
         double xSum = 0;
         double ySum = 0;
         double massSum = 0;
@@ -36,7 +38,7 @@ public class CompositeBody extends Body {
 
     public double getMomentOfInertia() {
         double mOfI = 0;
-        Point2D.Double cm = this.getCM();
+        Point2D cm = this.getCM();
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             double dist = cm.distance( body.getCM() );

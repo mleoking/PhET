@@ -1,0 +1,5 @@
+- use NuclearBody interface and leaveSystem() instead of lists of graphics mapped to model elements.
+- counters on multiple nucleus panel aren't right
+- listeners and leaveSystem() implementations are spread around in odd places
+- Kaboom is the performancd boottleneck
+- graphics don't scale

@@ -7,12 +7,11 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class Nucleus extends Body {
+public class Nucleus extends NuclearModelElement {
 
     private int numProtons;
     private int numNeutrons;
@@ -23,7 +22,6 @@ public class Nucleus extends Body {
 
     public Nucleus( Point2D position, int numProtons, int numNeutrons ) {
         super( position, new Vector2D.Double(), new Vector2D.Double(), 0, 0 );
-        //        super( position, new Vector2D.Double(), new Vector2D.Double(), 0, 0 );
         this.setPosition( position.getX(), position.getY() );
         this.numProtons = numProtons;
         this.numNeutrons = numNeutrons;
@@ -32,7 +30,6 @@ public class Nucleus extends Body {
         int numParticles = getNumNeutrons() + getNumProtons();
         double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
         radius = Math.sqrt( particleArea / Math.PI ) / 3;
-        //        radius = Math.sqrt( particleArea / Math.PI ) / 2;
     }
 
     public Point2D getCM() {

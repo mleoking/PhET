@@ -14,14 +14,11 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
-import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 
 import java.awt.geom.Point2D;
-import java.util.List;
 import java.util.Random;
 
-public class SingleNucleusFissionModule extends ProfiledNucleusModule
-        implements NeutronGun, FissionListener {
+public class SingleNucleusFissionModule extends ProfiledNucleusModule implements NeutronGun, FissionListener {
     private static Random random = new Random();
     private Neutron neutronToAdd;
     private AbstractClock clock;
@@ -54,8 +51,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
                 }
             }
         } );
-
-
     }
 
     public void stop() {
@@ -107,7 +102,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
     }
 
     public void fission( final FissionProducts products ) {
-
         // Constrain velocity of the daughter nuclei to be more or less horizontal
         double theta = ( random.nextDouble() * Math.PI / 2 ) - ( Math.PI / 4 );
         Nucleus daughter1 = products.getDaughter1();
@@ -120,15 +114,18 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         // Remove the neutron and old nucleus
         getModel().removeModelElement( products.getInstigatingNeutron() );
         getModel().removeModelElement( products.getParent() );
-        List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
-        for( int i = 0; i < graphics.size(); i++ ) {
-            NucleusGraphic ng = (NucleusGraphic)graphics.get( i );
-            getPotentialProfilePanel().removeGraphic( ng );
-            this.getPhysicalPanel().removeGraphic( ng );
-        }
-        NeutronGraphic ng = (NeutronGraphic)NeutronGraphic.getGraphicForNeutron( products.getInstigatingNeutron() );
-        this.getPhysicalPanel().removeGraphic( ng );
-        getPotentialProfilePanel().removeNucleusGraphic( products.getParent() );
+//        List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
+//        for( int i = 0; i < graphics.size(); i++ ) {
+//            NucleusGraphic ng = (NucleusGraphic)graphics.get( i );
+//            getPotentialProfilePanel().removeGraphic( ng );
+//            this.getPhysicalPanel().removeGraphic( ng );
+//        }
+
+        products.getInstigatingNeutron().leaveSystem();
+        products.getParent().leaveSystem();
+//        NeutronGraphic ng = (NeutronGraphic)NeutronGraphic.getGraphicForNeutron( products.getInstigatingNeutron() );
+//        this.getPhysicalPanel().removeGraphic( ng );
+//        getPotentialProfilePanel().removeNucleusGraphic( products.getParent() );
 
         // Remove the potential profile for the old nucleus and replace it with a gray one
         //        potentialProfilePanel.removePotentialProfile( products.getParent().getPotentialProfile() );
@@ -137,17 +134,20 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         // Add fission products
         Neutron[] neutronProducts = products.getNeutronProducts();
         for( int i = 0; i < neutronProducts.length; i++ ) {
-            NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
+            final NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
             getModel().addModelElement( neutronProducts[i] );
             getPhysicalPanel().addGraphic( npg );
+            neutronProducts[i].addListener( new NuclearModelElement.Listener() {
+                public void leavingSystem( NuclearModelElement nme ) {
+                    getPhysicalPanel().removeGraphic( npg );
+                }
+            } );
         }
 
         // Add a model element that will make the daughter nuclei slide down the
         // profile
         getModel().addModelElement( new ModelElement() {
             private double forceScale = 0.1;
-            //            private double forceScale = 0.05;
-            //            private double forceScale = 0.0005;
 
             public void stepInTime( double dt ) {
                 stepDaughterNucleus( products.getParent(), products.getDaughter1() );
@@ -205,34 +205,34 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
     //
     // Inner classes
     //
-    private class InternalNeutronGun implements Runnable {
-        private long waitTime = 1000;
-        private boolean kill = false;
-
-        public void run() {
-            while( kill == false ) {
-                try {
-                    Thread.sleep( waitTime );
-                    this.fireNeutron();
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        public synchronized void kill() {
-            this.kill = true;
-        }
-
-        public void fireNeutron() {
-            double bounds = 600;
-            double gamma = random.nextDouble() * Math.PI * 2;
-            double x = bounds * Math.cos( gamma );
-            double y = bounds * Math.sin( gamma );
-            Neutron neutron = new Neutron( new Point2D.Double( x, y ), gamma + Math.PI * 2 );
-            SingleNucleusFissionModule.this.neutronToAdd = neutron;
-        }
-    }
-
+//    private class InternalNeutronGun implements Runnable {
+//        private long waitTime = 1000;
+//        private boolean kill = false;
+//
+//        public void run() {
+//            while( kill == false ) {
+//                try {
+//                    Thread.sleep( waitTime );
+//                    this.fireNeutron();
+//                }
+//                catch( InterruptedException e ) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//        public synchronized void kill() {
+//            this.kill = true;
+//        }
+//
+//        public void fireNeutron() {
+//            double bounds = 600;
+//            double gamma = random.nextDouble() * Math.PI * 2;
+//            double x = bounds * Math.cos( gamma );
+//            double y = bounds * Math.sin( gamma );
+//            Neutron neutron = new Neutron( new Point2D.Double( x, y ), gamma + Math.PI * 2 );
+//            SingleNucleusFissionModule.this.neutronToAdd = neutron;
+//        }
+//    }
+//
 }

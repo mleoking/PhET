@@ -7,11 +7,10 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 
-public class NuclearParticle extends Body {
+public class NuclearParticle extends NuclearModelElement {
     private double radius;
 
     public NuclearParticle( Point2D location ) {
