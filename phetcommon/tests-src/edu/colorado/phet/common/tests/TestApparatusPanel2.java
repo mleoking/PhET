@@ -1,17 +1,16 @@
 package edu.colorado.phet.common.tests;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -31,15 +30,16 @@ import java.awt.event.MouseEvent;
 public class TestApparatusPanel2 {
 
     static class TestAppModel extends ApplicationModel {
-        public TestAppModel( ) {
+        public TestAppModel() {
             super( "", "", "" );
-            this.setClock( new SwingTimerClock( 10, 40, true));
+            this.setClock( new SwingTimerClock( 10, 40, true ) );
             TestModule module = new TestModule();
             setModule( module );
             setFrameCenteredSize( 400, 300 );
             setInitialModule( module );
         }
     }
+
     static class TestModule extends Module {
 
         protected TestModule() {
@@ -52,9 +52,9 @@ public class TestApparatusPanel2 {
             setModel( model );
 
             String family = "Serif";
-                    int style = Font.PLAIN;
-                    int size = 12;
-                    Font font = new Font(family, style, size);
+            int style = Font.PLAIN;
+            int size = 12;
+            Font font = new Font( family, style, size );
             PhetGraphic pg = new TestGraphic( ap, font, "YO!", Color.blue, 100, 100 );
             pg.setCursorHand();
             ap.addGraphic( pg );
@@ -69,8 +69,8 @@ public class TestApparatusPanel2 {
             super( component, font, text, color, x, y );
             addTranslationListener( new TranslationListener() {
                 public void translationOccurred( TranslationEvent translationEvent ) {
-                    setLocation( (int)(getLocation().getX() + translationEvent.getDx()),
-                                 (int)(getLocation().getY() + translationEvent.getDy() ));
+                    setLocation( (int)( getLocation().getX() + translationEvent.getDx() ),
+                                 (int)( getLocation().getY() + translationEvent.getDy() ) );
                 }
             } );
         }
@@ -82,7 +82,7 @@ public class TestApparatusPanel2 {
 
     static class TestGraphic2 extends PhetShapeGraphic {
         public TestGraphic2( Component component, int x, int y ) {
-            super( component, new Rectangle( x, y, 30, 20), Color.red  );
+            super( component, new Rectangle( x, y, 30, 20 ), Color.red );
         }
 
         public void fireMouseEntered( MouseEvent e ) {

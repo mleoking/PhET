@@ -13,10 +13,10 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockStateEvent;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.util.GraphicsState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -94,6 +95,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
             public void pausedStateChanged( boolean isPaused ) {
                 modelPaused = isPaused;
             }
+
+            public void stateChanged( ClockStateEvent event ) {
+            }
         } );
         modelPaused = clock.isPaused();
     }
@@ -105,7 +109,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         super( null );
 
         // The following lines use a mouse processor in the model loop
-        MouseProcessor mouseProcessor = new MouseProcessor(  getGraphic() );
+        MouseProcessor mouseProcessor = new MouseProcessor( getGraphic() );
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
@@ -276,6 +280,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         g2.setColor( origColor );
         g2.setStroke( origStroke );
+    }
+
+    private List getGraphicsSetups() {
+        return new ArrayList();
     }
 
 
