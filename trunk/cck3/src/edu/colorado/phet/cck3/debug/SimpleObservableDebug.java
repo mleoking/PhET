@@ -23,7 +23,7 @@ public class SimpleObservableDebug extends SimpleObservable {
 //            System.out.println( "toString() = " + super.toString() );
 //            new Exception( "Too many observers." ).printStackTrace();
 //        }
-        if( numObservers() > 100 ) {
+        if( numObservers() > 200 ) {
 //            System.out.println( "true = " + true );
             System.out.println( "Debug> " + getClass().getName() + " now has " + numObservers() + " observers." );
         }

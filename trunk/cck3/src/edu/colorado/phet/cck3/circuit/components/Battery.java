@@ -25,18 +25,22 @@ public class Battery extends CircuitComponent {
 
     public Battery( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl, double internalResistance, boolean internalResistanceOn ) {
         super( kl, start, dir, length, height );
+        setKirkhoffEnabled( false );
         setVoltageDrop( 9.0 );
         setInternalResistance( internalResistance );
         setResistance( internalResistance );
         setInternalResistanceOn( internalResistanceOn );
+        setKirkhoffEnabled( true );
     }
 
     public Battery( KirkhoffListener kl, Junction startJunction, Junction endjJunction, double length, double height, double internalResistance, boolean internalResistanceOn ) {
         super( kl, startJunction, endjJunction, length, height );
+        setKirkhoffEnabled( false );
         setVoltageDrop( 9.0 );
         setResistance( internalResistance );
         setInternalResistance( internalResistance );
         setInternalResistanceOn( internalResistanceOn );
+        setKirkhoffEnabled( true );
     }
 
     public void setVoltageDrop( double voltageDrop ) {

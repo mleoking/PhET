@@ -241,5 +241,7 @@ public abstract class ComponentEditor extends JDialog {
 
     public void delete() {
         circuit.removeCircuitListener( circuitListener );
+        setVisible( false );
+        dispose();
     }
 }

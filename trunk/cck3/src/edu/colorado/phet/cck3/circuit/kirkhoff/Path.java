@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Path {
-    ArrayList entries = new ArrayList();
+    private ArrayList entries = new ArrayList();
 
     public Path( Path init, Branch branch, Junction last ) {
         entries.addAll( init.entries );
@@ -121,15 +121,16 @@ public class Path {
 
     public static Path[] getLoops( Circuit c ) {
         ArrayList all = new ArrayList();
-        for( int i = 0; i < c.numJunctions(); i++ ) {
-            Junction j = c.junctionAt( i );
-            Branch[] b = c.getAdjacentBranches( j );
-            for( int k = 0; k < b.length; k++ ) {
-                Branch branch = b[k];
-                Path init = new Path( branch, branch.opposite( j ) );
-
-                addLoops( init, c, all );
-            }
+        long time = System.currentTimeMillis();
+        for( int i = 0; i < c.numBranches(); i++ ) {
+            Branch b = c.branchAt( i );
+            Path init = new Path( b, b.getStartJunction() );
+            addLoops( init, c, all );
+        }
+        long finalTime = System.currentTimeMillis();
+        long dt = finalTime - time;
+        if( dt > 0 ) {
+            System.out.println( "Loop computation time=" + dt + ", num loops=" + all.size() );
         }
         return (Path[])all.toArray( new Path[0] );
     }

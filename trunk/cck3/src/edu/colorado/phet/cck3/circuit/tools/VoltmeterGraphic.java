@@ -223,6 +223,9 @@ public class VoltmeterGraphic extends CompositeGraphic {
     }
 
     public void recomputeVoltage() {
+        if( !isVisible() ) {
+            return;
+        }
         if( redLeadGraphic == null || blackLeadGraphic == null ) {
             return;
         }

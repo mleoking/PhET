@@ -54,4 +54,5 @@ public abstract class CircuitComponent extends Branch {
     public void setHeight( double height ) {
         this.height = height;
     }
+
 }

@@ -81,4 +81,8 @@ public class BranchSet {
     public void translate( double dx, double dy ) {
         translate( new Vector2D.Double( dx, dy ) );
     }
+
+    public Branch[] getBranches() {
+        return (Branch[])branches.toArray( new Branch[0] );
+    }
 }

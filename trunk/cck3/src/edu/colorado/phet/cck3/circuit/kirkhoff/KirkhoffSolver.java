@@ -22,8 +22,40 @@ public class KirkhoffSolver {
     private ArrayList listeners = new ArrayList();
     public static boolean debugging = false;
 //    public static boolean debugging = true;
+    public boolean running = false;
+    private boolean queue = false;
 
-    public void apply( Circuit circuit ) {
+    public void apply( final Circuit circuit ) {
+        Runnable r = new Runnable() {
+            public void run() {
+                if( running ) {
+                    return;
+                }
+                running = true;
+                System.out.println( "Running Kirkhoff" );
+                applyOrig( circuit );
+                running = false;
+                System.out.println( "Finished Kirkhoff" );
+                //need to handle queues
+                if( queue ) {
+                    queue = false;
+                    Thread t = new Thread( this );
+                    t.setPriority( Thread.MIN_PRIORITY );
+                    t.start();
+                }
+            }
+        };
+        Thread t = new Thread( r );
+        t.setPriority( Thread.MIN_PRIORITY );
+        if( !running ) {
+            t.start();
+        }
+        else {
+            queue = true;
+        }
+    }
+
+    public void applyOrig( Circuit circuit ) {
         //create a gauss jordan matrix.
         MatrixTable mt = new MatrixTable( circuit );
 

@@ -28,7 +28,9 @@ public class Bulb extends CircuitComponent {
                  double width, double height, KirkhoffListener kl ) {
         super( kl, start, dir, distBetweenJunctions, height );
         this.width = width;
+        setKirkhoffEnabled( false );
         init( kl );
+        setKirkhoffEnabled( true );
     }
 
     private void init( KirkhoffListener kl ) {

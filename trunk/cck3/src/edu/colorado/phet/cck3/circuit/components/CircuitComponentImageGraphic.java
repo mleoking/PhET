@@ -9,6 +9,8 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -31,6 +33,7 @@ public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implem
     private TransformListener transformListener;
     private PhetImageGraphic imageGraphic;
     private PhetShapeGraphic highlightGraphic;
+    private PhetTextGraphic debugText;
 
     public CircuitComponentImageGraphic( BufferedImage image, Component parent, CircuitComponent component, ModelViewTransform2D transform ) {
         super( parent );
@@ -53,6 +56,8 @@ public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implem
                 changed();
             }
         };
+        debugText = new PhetTextGraphic( getComponent(), new Font( "dialog", 0, 12 ), "", Color.black, 0, 0 );
+        addGraphic( debugText );
         transform.addTransformListener( transformListener );
         changed();
         setVisible( true );
@@ -72,6 +77,15 @@ public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implem
         shape = new BasicStroke( 6 ).createStrokedShape( shape );
         highlightGraphic.setShape( shape );
         highlightGraphic.setVisible( component.isSelected() );
+        String text = "r=" + component.getResistance();
+        if( component instanceof Battery ) {
+            Battery batt = (Battery)component;
+            text += " ir= " + batt.getInteralResistance();
+        }
+        debugText.setText( text );
+        Point ctr = RectangleUtils.getCenter( highlightGraphic.getBounds() );
+        debugText.setPosition( ctr.x, ctr.y );
+
         super.setBoundsDirty();
     }
 

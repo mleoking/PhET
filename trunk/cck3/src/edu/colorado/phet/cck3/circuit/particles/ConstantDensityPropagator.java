@@ -5,7 +5,6 @@ import edu.colorado.phet.cck3.FireHandler;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
-import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 
@@ -19,12 +18,12 @@ import java.util.Collections;
  * Copyright (c) Jun 8, 2004 by Sam Reid
  */
 public class ConstantDensityPropagator implements ModelElement {
-    ParticleSet particleSet;
-    Circuit circuit;
+    private ParticleSet particleSet;
+    private Circuit circuit;
     private double speedScale = .01;
     private double MIN_CURRENT = Math.pow( 10, -10 );
     private double MAX_CURRENT = FireHandler.FIRE_CURRENT;
-    int numEqualize = 2;
+    private int numEqualize = 2;
 
     public ConstantDensityPropagator( ParticleSet particleSet, Circuit circuit ) {
         this.particleSet = particleSet;
@@ -103,7 +102,10 @@ public class ConstantDensityPropagator implements ModelElement {
 ////        System.out.println( "maxDX = " + maxDX + ", distMoving=" + distMoving + ", newDist=" + newDist );
 //        boolean sameDirAsCurrent = vec > 0 && e.getBranch().getCurrent() > 0;
 //        if( sameDirAsCurrent ) {
-        e.setDistAlongWire( dest );
+        if( dest >= 0 && dest <= e.getBranch().getLength() ) {
+            e.setDistAlongWire( dest );
+        }
+
 //        }
     }
 
@@ -170,16 +172,24 @@ public class ConstantDensityPropagator implements ModelElement {
                 overshoot = Math.abs( branch.getLength() - newX );
                 under = false;
             }
-            if( Double.isNaN( overshoot ) ) {
+            if( Double.isNaN( overshoot ) ) {  //never happens
                 throw new RuntimeException( "Overshoot is NaN" );
             }
 //            System.out.println( "overshoot = " + overshoot+", under="+under );
+            if( overshoot < 0 ) { //never happens.
+                throw new RuntimeException( "Overshoot is <0" );
+            }
             CircuitLocation[] loc = getLocations( e, dt, overshoot, under );
             if( loc.length == 0 ) {
                 System.out.println( "No outgoing wires for current=" + current );
-                new KirkhoffSolver().apply( circuit );
-                RuntimeException re = new RuntimeException( "No outgoing wires, current=" + current );
-                re.printStackTrace();
+//                new KirkhoffSolver().apply( circuit );
+//                RuntimeException re = new RuntimeException( "No outgoing wires, current=" + current );
+////                re.printStackTrace();
+//                StackTraceElement[] se = re.getStackTrace();
+//                for( int i = 0; i < 5; i++ ) {
+//                    StackTraceElement stackTraceElement = se[i];
+//                    System.err.println( stackTraceElement );
+//                }
 //                JOptionPane.showMessageDialog( null, "No outgoing wires, current=" + current );
                 return;
             }
@@ -219,7 +229,6 @@ public class ConstantDensityPropagator implements ModelElement {
     }
 
     private CircuitLocation[] getLocations( Electron e, double dt, double overshoot, boolean under ) {
-        Branch[] adj = null;
         Branch branch = e.getBranch();
         Junction jroot = null;
         if( under ) {
@@ -228,27 +237,39 @@ public class ConstantDensityPropagator implements ModelElement {
         else {
             jroot = branch.getEndJunction();
         }
-        adj = circuit.getAdjacentBranches( jroot );
+        Branch[] adj = circuit.getAdjacentBranches( jroot );
         ArrayList all = new ArrayList();
         //keep only those with outgoing current.
         for( int i = 0; i < adj.length; i++ ) {
-            Branch branch1 = adj[i];
-            double current = branch1.getCurrent();
-            double distAlongNew = Double.POSITIVE_INFINITY;
-            if( current > 0 && branch1.getStartJunction() == jroot ) {//start near the beginning.
-                distAlongNew = overshoot;
+            Branch neighbor = adj[i];
+            double current = neighbor.getCurrent();
+            if( current > FireHandler.FIRE_CURRENT ) {
+                current = FireHandler.FIRE_CURRENT;
             }
-            else if( current < 0 && branch1.getEndJunction() == jroot ) {
-                distAlongNew = branch1.getLength() - overshoot;
+            else if( current < -FireHandler.FIRE_CURRENT ) {
+                current = -FireHandler.FIRE_CURRENT;
             }
-            if( !Double.isInfinite( distAlongNew ) ) {
-                if( distAlongNew < branch1.getLength() ) {
-                    CircuitLocation cl = new CircuitLocation( branch1, distAlongNew );
-                    all.add( cl );
+            if( current > 0 && neighbor.getStartJunction() == jroot ) {//start near the beginning.
+                double distAlongNew = overshoot;
+                if( distAlongNew > neighbor.getLength() ) {
+                    distAlongNew = neighbor.getLength();
                 }
-                else {
-                    System.out.println( "DistAlongNew too high, current=" + current );
+                else if( distAlongNew < 0 ) {
+                    distAlongNew = 0;
                 }
+                CircuitLocation cl = new CircuitLocation( neighbor, distAlongNew );
+                all.add( cl );
+            }
+            else if( current < 0 && neighbor.getEndJunction() == jroot ) {
+                double distAlongNew = neighbor.getLength() - overshoot;
+                if( distAlongNew > neighbor.getLength() ) {
+                    distAlongNew = neighbor.getLength();
+                }
+                else if( distAlongNew < 0 ) {
+                    distAlongNew = 0;
+                }
+                CircuitLocation cl = new CircuitLocation( neighbor, distAlongNew );
+                all.add( cl );
             }
         }
         return (CircuitLocation[])all.toArray( new CircuitLocation[0] );

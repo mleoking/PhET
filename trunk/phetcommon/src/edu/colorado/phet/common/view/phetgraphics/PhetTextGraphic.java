@@ -36,6 +36,9 @@ public class PhetTextGraphic extends PhetGraphic implements IPhetTextGraphic {
     }
 
     protected Rectangle determineBounds() {
+        if( text == "" ) {
+            return null;
+        }
         int width = fontMetrics.stringWidth( text );//this ignores antialias and fractional metrics.
         int ascent = fontMetrics.getAscent();
         int descent = fontMetrics.getDescent();
