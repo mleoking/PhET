@@ -1,9 +1,9 @@
 package edu.colorado.phet.movingman;
 
+import edu.colorado.phet.common.math.LinearTransform1d;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.movingman.common.RangeToRange;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -19,12 +19,12 @@ import java.text.DecimalFormat;
  * To change this template use Options | File Templates.
  */
 public class WalkWayGraphic implements Graphic {
-    int numTickMarks = 21;
+    private int numTickMarks = 21;
     private double treex;
     private double housex;
-    MovingManModule module;
-    DecimalFormat format = new DecimalFormat( "##" );
-    Font font = new Font( "dialog", 0, 20 );
+    private MovingManModule module;
+    private DecimalFormat format = new DecimalFormat( "##" );
+    private Font font = MMFontManager.getFontSet().getWalkwayFont();
     private BufferedImage tree;
     private BufferedImage house;
     private Stroke borderStroke = new BasicStroke( 1 );
@@ -53,8 +53,8 @@ public class WalkWayGraphic implements Graphic {
     public void paint( Graphics2D graphics2D ) {
         GraphicsState graphicsState = new GraphicsState( graphics2D );
 //        graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        RangeToRange transform = module.getManPositionTransform();
-        double modelRange = transform.getInputWidth();
+        LinearTransform1d transform = module.getManPositionTransform();
+        double modelRange = transform.getInputRange();
         double modelDX = modelRange / ( numTickMarks - 1 );
         graphics2D.setColor( Color.black );
         graphics2D.setFont( font );
@@ -69,7 +69,7 @@ public class WalkWayGraphic implements Graphic {
         graphics2D.setColor( Color.black );
 
         for( int i = 0; i < numTickMarks; i++ ) {
-            double modelx = transform.getLowInputPoint() + i * modelDX;
+            double modelx = transform.getMinInput() + i * modelDX;
             int viewx = (int)transform.evaluate( modelx );
 
             Point dst = new Point( viewx, height - 20 );

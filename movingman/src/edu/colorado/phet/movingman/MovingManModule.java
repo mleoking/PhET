@@ -5,6 +5,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.LinearTransform1d;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
@@ -14,9 +15,13 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.BasicPhetPanel;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.help.HelpItem;
+import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
-import edu.colorado.phet.movingman.common.RangeToRange;
 import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.common.plaf.PhetLookAndFeel;
 import edu.colorado.phet.movingman.misc.JEPFrame;
@@ -24,10 +29,15 @@ import edu.colorado.phet.movingman.plots.MMPlot;
 import smooth.util.SmoothUtilities;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -42,7 +52,7 @@ public class MovingManModule extends Module {
     private static boolean addJEP = true;
 
     private ManGraphic manGraphic;
-    private RangeToRange manPositionTransform;
+    private LinearTransform1d manPositionTransform;
 
     private MMTimer recordTimer;
     private MMTimer playbackTimer;
@@ -60,7 +70,6 @@ public class MovingManModule extends Module {
     private Color purple = new Color( 200, 175, 250 );
     private PhetFrame frame;
     private ModelElement mainModelElement;
-//    private Observer crashObserver;
     private Color backgroundColor;
     private MovingManModel model;
     private PlotSet plotSet;
@@ -73,6 +82,7 @@ public class MovingManModule extends Module {
     private ApparatusPanel mypanel;
     public static final double TIME_SCALE = 1.0 / 50.0;
     private int numSmoothingPoints;
+    private HelpItem closeHelpItem;
 
     public int getNumSmoothingPoints() {
         return numSmoothingPoints;
@@ -157,8 +167,6 @@ public class MovingManModule extends Module {
 
     public MovingManModule( AbstractClock clock ) throws IOException {
         super( "The Moving Man" );
-
-//        glassPane = new JPanel();
         model = new MovingManModel( this, clock );
         mypanel = new DebugApparatusPanel();
 
@@ -173,13 +181,9 @@ public class MovingManModule extends Module {
         backgroundColor = new Color( 250, 190, 240 );
         backgroundGraphic = new BufferedGraphicForComponent( 0, 0, 800, 400, backgroundColor, getApparatusPanel() );
 
-        manPositionTransform = new RangeToRange( -getMaxManPosition(), getMaxManPosition(), 50, 600 );
+        manPositionTransform = new LinearTransform1d( -getMaxManPosition(), getMaxManPosition(), 50, 600 );
         manGraphic = new ManGraphic( this, model.getMan(), 0, manPositionTransform );
-        getModel().addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                manGraphic.stepInTime( dt );
-            }
-        } );
+
         getApparatusPanel().addGraphic( manGraphic, 1 );
         recordTimer = new MMTimer( "Record" );//, MovingManModel.TIMER_SCALE );
         playbackTimer = new MMTimer( "Playback" );//, MovingManModel.TIMER_SCALE );
@@ -200,21 +204,7 @@ public class MovingManModule extends Module {
             }
         };
         getModel().addModelElement( mainModelElement );
-//        crashObserver = new Observer() {//TODO add crash observer
-//            public void positionChanged( Observable o, Object arg ) {
-//                if( isMotionMode() ) {
-//                    double manx = ( model.getMan().getX() );
-//                    double manv = getVelocity();
-//                    if( manx >= getMaxManPosition() && manv > 0 ) {
-//                        motionMode.collidedWithWall();
-//                    }
-//                    else if( manx <= -getMaxManPosition() && manv < 0 ) {
-//                        motionMode.collidedWithWall();
-//                    }
-//                }
-//            }
-//        };
-//        model.getMan().addObserver( crashObserver );
+
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
                 initMediaPanel();
@@ -241,12 +231,12 @@ public class MovingManModule extends Module {
         start = new Point2D.Double( start.getX() + 50, start.getY() + 50 );
         wiggleMe = new WiggleMe( getApparatusPanel(), start,
                                  new ImmutableVector2D.Double( 0, 1 ), 15, .02, "Drag the Man" );
+        wiggleMe.setVisible( false );//TODO don't delete this line.
         addListener( new ListenerAdapter() {
             public void recordingStarted() {
                 setWiggleMeVisible( false );
             }
         } );
-        setWiggleMeVisible( true );
         this.wiggleMeListener = new ManGraphic.Listener() {
             public void manGraphicChanged() {
                 Point2D start = manGraphic.getRectangle().getLocation();
@@ -254,14 +244,72 @@ public class MovingManModule extends Module {
                 wiggleMe.setCenter( new Point( (int)start.getX(), (int)start.getY() ) );
             }
         };
+        setWiggleMeVisible( true );
+
         manGraphic.addListener( this.wiggleMeListener );
         getApparatusPanel().addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 getApparatusPanel().requestFocus();
             }
         } );
+
+        closeHelpItem = new HelpItem( "Close this plot", 250, 450 );
+        closeHelpItem.setForegroundColor( Color.red );
+        closeHelpItem.setShadowColor( Color.black );
+        addHelpItem( closeHelpItem );
+
         layout = new MovingManLayout( this );
         fireReset();
+        plotSet.getVelocityPlot().addListener( new MMPlot.Listener() {
+            public void nominalValueChanged( double value ) {
+                manGraphic.setVelocity( value );
+            }
+        } );
+    }
+
+    public void showMegaHelp() {
+        showHelpImage( "images/mm-mh.gif" );
+    }
+
+    public void showHelpImage( String imageName ) {
+
+        final JFrame imageFrame = new JFrame();
+        try {
+            BufferedImage image = ImageLoader.loadBufferedImage( imageName );
+
+            JLabel label = new JLabel( new ImageIcon( image ) );
+            imageFrame.setContentPane( label );
+            imageFrame.pack();
+            GraphicsUtil.centerWindowOnScreen( imageFrame );
+            imageFrame.setVisible( true );
+            imageFrame.addWindowListener( new WindowAdapter() {
+                public void windowClosing( WindowEvent e ) {
+                    imageFrame.dispose();
+                }
+            } );
+            imageFrame.setResizable( false );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            StringWriter sw = new StringWriter();
+            e.printStackTrace( new PrintWriter( sw ) );
+            JOptionPane.showMessageDialog( getApparatusPanel(), sw.getBuffer().toString(),
+                                           SimStrings.get( "CCK3ControlPanel.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
+        }
+
+    }
+
+    public void setHelpEnabled( boolean h ) {
+        super.setHelpEnabled( h );
+        setWiggleMeVisible( h );
+        Point plotLocation = null;
+        if( getPositionPlot().isVisible() ) {
+            JButton closeButton = getPositionPlot().getCloseButton();
+            closeHelpItem.setLocation( closeButton.getLocation().x - 100, closeButton.getLocation().y + closeButton.getHeight() );
+        }
+        else {
+            removeHelpItem( closeHelpItem );
+        }
     }
 
     private void fireReset() {
@@ -293,6 +341,9 @@ public class MovingManModule extends Module {
     }
 
     public void setWiggleMeVisible( boolean b ) {
+        if( b == wiggleMe.isVisible() ) {
+            return;
+        }
         if( !b ) {
             wiggleMe.setVisible( false );
             getApparatusPanel().removeGraphic( wiggleMe );
@@ -303,6 +354,7 @@ public class MovingManModule extends Module {
             wiggleMe.setVisible( true );
             getApparatusPanel().addGraphic( wiggleMe, 100 );
             getModel().addModelElement( wiggleMe );
+            manGraphic.addListener( wiggleMeListener );
         }
     }
 
@@ -431,16 +483,16 @@ public class MovingManModule extends Module {
     }
 
     public void setRightDirPositive( boolean rightPos ) {
-        RangeToRange newTransform;
+        LinearTransform1d newTransform;
         double appPanelWidth = getApparatusPanel().getWidth();
         int inset = 50;
         if( rightPos ) {//as usual
-            newTransform = new RangeToRange( -getMaxManPosition(), getMaxManPosition(), inset, appPanelWidth - inset );
+            newTransform = new LinearTransform1d( -getMaxManPosition(), getMaxManPosition(), inset, appPanelWidth - inset );
             walkwayGraphic.setTreeX( -10 );
             walkwayGraphic.setHouseX( 10 );
         }
         else {
-            newTransform = new RangeToRange( getMaxManPosition(), -getMaxManPosition(), inset, appPanelWidth - inset );
+            newTransform = new LinearTransform1d( getMaxManPosition(), -getMaxManPosition(), inset, appPanelWidth - inset );
             walkwayGraphic.setTreeX( 10 );
             walkwayGraphic.setHouseX( -10 );
         }
@@ -456,7 +508,7 @@ public class MovingManModule extends Module {
         getApparatusPanel().repaint();
     }
 
-    public RangeToRange getManPositionTransform() {
+    public LinearTransform1d getManPositionTransform() {
         return manPositionTransform;
     }
 
@@ -467,7 +519,40 @@ public class MovingManModule extends Module {
         final JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( getApparatusPanel() );
         JPanel jp = (JPanel)parent.getContentPane();
         BasicPhetPanel bpp = (BasicPhetPanel)jp;
-        bpp.setAppControlPanel( movingManControlPanel.getMediaPanel() );
+        final JPanel appPanel = new JPanel( new BorderLayout() );
+//        appPanel.setLayout( new FlowLayout() );
+        final JComponent playbackPanel = movingManControlPanel.getPlaybackPanel();
+        appPanel.add( playbackPanel, BorderLayout.CENTER );
+//        final Runnable relayout = new Runnable() {
+//            public void run() {
+//                int width = appPanel.getWidth();
+//                int dw = width - playbackPanel.getWidth();
+//                playbackPanel.reshape( dw / 2, 0, playbackPanel.getPreferredSize().width, playbackPanel.getPreferredSize().height );
+//            }
+//        };
+        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );
+        final JLabel phetIconLabel = new JLabel( imageIcon );
+//        final Runnable relayout=new Runnable() {
+//            public void run() {
+//                phetIconLabel.reshape( 0,0,phetIconLabel.getPreferredSize().width, phetIconLabel.getPreferredSize().height );
+//            }
+//        };
+//        appPanel.addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                relayout.run();
+//            }
+//
+//            public void componentShown( ComponentEvent e ) {
+//                relayout.run();
+//            }
+//        } );
+
+        appPanel.add( phetIconLabel, BorderLayout.WEST );
+        HelpPanel hp = new HelpPanel( this );
+//        JButton help = new JButton( "Help" );
+        appPanel.add( hp, BorderLayout.EAST );
+        bpp.setAppControlPanel( appPanel );
+//        relayout.run();
         initMediaPanel = true;
     }
 
@@ -560,7 +645,13 @@ public class MovingManModule extends Module {
     }
 
     public void setRecordMode() {
+        //enter the text box values.
+        enterTextBoxValues();
         setMode( recordMode );
+    }
+
+    private void enterTextBoxValues() {
+        plotSet.enterTextBoxValues();
     }
 
     public void startPlaybackMode( double playbackSpeed ) {
@@ -592,7 +683,7 @@ public class MovingManModule extends Module {
         return (int)( requestedTime / TIME_SCALE );
     }
 
-    public void setManTransform( RangeToRange transform ) {
+    public void setManTransform( LinearTransform1d transform ) {
         this.manPositionTransform = transform;
     }
 
@@ -647,7 +738,7 @@ public class MovingManModule extends Module {
         AbstractClock clock = new SwingTimerClock( 1, 30, true );
         clock.setDelay( 30 );
 //        AbstractClock clock = new SwingTimerClock( 1, 30, false );
-        MovingManModule m = new MovingManModule( clock );
+        final MovingManModule m = new MovingManModule( clock );
         FrameSetup setup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 800 ) );
 
         ApplicationModel desc = new ApplicationModel( "The Moving Man", "The Moving Man Application.",
@@ -685,6 +776,7 @@ public class MovingManModule extends Module {
                     Thread.sleep( 1000 );
                     fixComponent( frame.getContentPane() );
                     fixComponent( frame );
+                    m.repaintBackground();
                 }
                 catch( InterruptedException e1 ) {
                     e1.printStackTrace();
@@ -744,9 +836,10 @@ public class MovingManModule extends Module {
         m.setNumSmoothingPoints( 12 );
     }
 
-    private static void addJEP( MovingManModule module ) {
+    private static void addJEP( final MovingManModule module ) {
         final JFrame frame = module.getFrame();
-        JMenu misc = new JMenu( "Misc" );
+        JMenu misc = new JMenu( "Special Features" );
+        misc.setMnemonic( 'S' );
         JMenuItem jep = new JMenuItem( "Expression Evaluator" );
         misc.add( jep );
         final JEPFrame jef = new JEPFrame( frame, module );
@@ -755,6 +848,14 @@ public class MovingManModule extends Module {
                 jef.setVisible( true );
             }
         } );
+
+        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( "Invert X-Axis", false );
+        jcbmi.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                module.setRightDirPositive( !jcbmi.isSelected() );
+            }
+        } );
+        misc.add( jcbmi );
         frame.getJMenuBar().add( misc );
     }
 

@@ -44,7 +44,7 @@ public class PhetLookAndFeel extends SmoothLookAndFeel {
             System.out.println( "Chose font for <=800" );
         }
         else {
-            System.out.println( "Chose font for width between 1024" );
+            System.out.println( "Chose font for width between between 800 and 1280" );
         }
         font = uifont;
 

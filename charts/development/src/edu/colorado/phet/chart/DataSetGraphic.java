@@ -22,7 +22,7 @@ public abstract class DataSetGraphic implements DataSet.Observer {
         this.chart = chart;
     }
 
-    protected DataSet getDataSet() {
+    public DataSet getDataSet() {
         return dataSet;
     }
 

@@ -1,8 +1,6 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.model.ModelElement;
-
 import java.util.ArrayList;
 
 /**
@@ -11,7 +9,7 @@ import java.util.ArrayList;
  * Time: 12:45:47 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class MMTimer implements ModelElement {
+public class MMTimer {
     private double time = 0;
     private String name;
     private ArrayList listeners = new ArrayList();
@@ -24,9 +22,13 @@ public class MMTimer implements ModelElement {
         void timeChanged();
     }
 
-    public void stepInTime( double dt ) {
+    public void stepInTime( double dt, double maxTime ) {
+        double origTime = time;
         time += dt;
-        updateObservers();
+        time = Math.min( time, maxTime );
+        if( time != origTime ) {
+            updateObservers();
+        }
     }
 
     public void addListener( Listener listener ) {

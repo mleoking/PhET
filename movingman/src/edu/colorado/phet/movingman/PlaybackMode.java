@@ -32,9 +32,11 @@ public class PlaybackMode extends Mode {
 
     public void stepInTime( double dt ) {
         if( !module.isPaused() ) {
-            module.getPlaybackTimer().stepInTime( dt * playbackSpeed );
-            if( module.getPlaybackTimer().getTime() < module.getRecordingTimer().getTime() ) {
-                module.setReplayTime( module.getPlaybackTimer().getTime() );
+            module.getPlaybackTimer().stepInTime( dt * playbackSpeed, module.getRecordingTimer().getTime() );
+            double playTime = module.getPlaybackTimer().getTime();
+            double recTime = module.getRecordingTimer().getTime();
+            if( playTime < recTime ) {
+                module.setReplayTime( playTime );
             }
             else {
                 module.setPaused( true );
