@@ -72,8 +72,7 @@ public class HotAirBalloonModule extends IdealGasModule {
             double m = 10;
             GasMolecule p1 = new HeavySpecies( new Point2D.Double( x, y ),
                                                new Vector2D.Double( vx, vy ),
-                                               new Vector2D.Double( 0, 0 ),
-                                               m );
+                                               new Vector2D.Double( 0, 0 ));
             getIdealGasModel().addModelElement( p1 );
             constraintSpec = new BoxMustContainParticle( box, p1, getIdealGasModel() );
             p1.addConstraint( constraintSpec );
@@ -95,8 +94,7 @@ public class HotAirBalloonModule extends IdealGasModule {
                 double m = 10;
                 p1 = new HeavySpecies( new Point2D.Double( 350 + i * 10, 350 + j * 10 ),
                                        new Vector2D.Double( vx, vy ),
-                                       new Vector2D.Double( 0, 0 ),
-                                       m );
+                                       new Vector2D.Double( 0, 0 ));
                 balloon.addContainedBody( p1 );
                 getIdealGasModel().addModelElement( p1 );
                 //                getIdealGasApplication().addBody( p1, 2 );

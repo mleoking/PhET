@@ -130,4 +130,8 @@ public class IdealGasModule extends Module {
     protected PressureSensingBox getBox() {
         return box;
     }
+
+    public Pump getPump() {
+        return pump;
+    }
 }

@@ -92,8 +92,7 @@ public class TestMoleculeHotAirBalloonCollision extends PhetApplication {
                     m[0] = new HeavySpecies( new Point2D.Double( sphere1.getPosition().getX(),
                                                                  sphere1.getPosition().getY() + 60 ),
                                              new Vector2D.Double( 0, -130 ),
-                                             new Vector2D.Double(),
-                                             5 );
+                                             new Vector2D.Double());
 //                    m[0] = new HeavySpecies( new Point2D.Double( 383.3, 389.35 ),
 //                                                      new Vector2D.Double( -217.8, 999.85 ),
 //                                                      new Vector2D.Double(),
