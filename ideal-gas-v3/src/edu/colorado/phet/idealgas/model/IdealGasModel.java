@@ -291,6 +291,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
     /**
      * Step the model through a tick of the clock
+     *
      * @param dt
      */
     public void stepInTime( double dt ) {
