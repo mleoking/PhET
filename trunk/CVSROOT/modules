@@ -25,24 +25,53 @@
 # can be useful for creating a module that consists of many directories
 # spread out over the entire source repository.
 
-# ideal gas project
-idealgas ideal-gas-v3
+# antutil
+antutil antutil
 
-# Nuclear physics project
-nuclearphysics nuclearphysics
+#
+# Common framework modules
+#
 
-# Phet common code project
-phetcommon phetcommon
+# Charts
+charts charts
 
-# Mechanics project
-mechanics mechanics
-
-# Collision project
+# Collisions 
 collision collision
 
+# Mechanics 
+mechanics mechanics
+
+# Phet common code 
+phetcommon phetcommon
+
+
+#
+# Simulations
+#
+
+# Bernoulli
+bernoulli bernoulli
+
+# Circuit construction kit
+cck cck3
+
 # Battery-voltage
-batteryvoltage batteryvoltage
+battery-voltage batteryvoltage
 
 # Balloons
 balloons balloons
 
+# Ideal gas 
+ideal-gas ideal-gas-v3
+
+# Nuclear physics 
+nuclear-physics nuclearphysics
+
+# Sound
+sound sound-2
+
+# John Travoltage
+john-travoltage travoltage
+
+# Moving man
+moving-man movingman
