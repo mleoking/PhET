@@ -19,7 +19,7 @@ public class PhetApplication {
     private ApplicationModel applicationModel;
     private ModuleManager moduleManager = new ModuleManager();
 
-    public PhetApplication( ApplicationModel descriptor, JComponent apparatusPanelContainer ) {
+    public PhetApplication( ApplicationModel descriptor ) {
         if( descriptor.getModules() == null ) {
             throw new RuntimeException( "Module(s) not specified in ApplicationModel" );
         }
@@ -27,7 +27,7 @@ public class PhetApplication {
             throw new RuntimeException( "Clock not specified in ApplicationModel" );
         }
         this.applicationModel = descriptor;
-
+        JComponent apparatusPanelContainer;
         if( descriptor.numModules() == 1 ) {
             apparatusPanelContainer = new JPanel();
             apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );

@@ -127,7 +127,7 @@ public class TestTransforms extends Module {
         ApplicationModel ad = new ApplicationModel( "Test Transforms", "A Test", "1.0" );
         AbstractClock ac = new SwingTimerClock( 1, 30, true );
         Module m = new TestTransforms( ac );
-        PhetApplication pa = new PhetApplication( ad, null );
+        PhetApplication pa = new PhetApplication( ad );
         pa.startApplication();
     }
 
