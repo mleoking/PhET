@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.controller;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -34,6 +35,12 @@ public class HighLevelEmissionControlPanel extends JPanel {
                 module.setDisplayHighLevelEmissions( displayHighLevelEmissionsCB.isSelected() );
             }
         } );
-        this.add( displayHighLevelEmissionsCB );
+        this.setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                         1, 1, 1, 1,
+                                                         GridBagConstraints.NORTHWEST,
+                                                         GridBagConstraints.HORIZONTAL,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        this.add( displayHighLevelEmissionsCB, gbc );
     }
 }

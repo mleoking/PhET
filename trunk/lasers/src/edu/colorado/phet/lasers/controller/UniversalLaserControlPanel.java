@@ -21,14 +21,14 @@ import java.awt.event.ActionEvent;
  * Latest change by:   $Author$
  * On date:            $Date$
  */
-public class UniversalAtomControlPanel extends LaserControlPanel {
+public class UniversalLaserControlPanel extends LaserControlPanel {
     private boolean threeEnergyLevels;
     private BaseLaserModule laserModule;
     private WaveViewControlPanel waveViewControlPanel;
     private BasicOptionsPanel basicBasicOptionsPanel;
     private HighLevelEmissionControlPanel highLevelEmissionControlPanel;
 
-    public UniversalAtomControlPanel( final BaseLaserModule module ) {
+    public UniversalLaserControlPanel( final BaseLaserModule module ) {
         super( module );
         this.laserModule = module;
 
@@ -39,7 +39,7 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
 
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                         1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE,
+                                                         1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
         optionsPanel.add( new MirrorOnOffControlPanel( module ), gbc );
@@ -53,6 +53,9 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
         container.add( optionsPanel );
 
         super.addControl( container );
+
+        this.doLayout();
+        this.setPreferredSize( new Dimension( 190, (int)this.getSize().getHeight() ) );
 
 //        setThreeEnergyLevels( module.getThreeEnergyLevels() );
     }

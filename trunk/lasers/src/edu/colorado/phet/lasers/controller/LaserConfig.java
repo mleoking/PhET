@@ -34,7 +34,7 @@ public class LaserConfig {
     // Spontaneous emission times, in milliseconds
     public static final int MAXIMUM_STATE_LIFETIME = 200;
     public static final int MIDDLE_ENERGY_STATE_MAX_LIFETIME = 400;
-    public static final int HIGH_ENERGY_STATE_MAX_LIFETIME = 50;
+    public static final int HIGH_ENERGY_STATE_MAX_LIFETIME = 100;
     public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = 50;
     //    public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = ( MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_STATE_LIFETIME ) / 2;
 
