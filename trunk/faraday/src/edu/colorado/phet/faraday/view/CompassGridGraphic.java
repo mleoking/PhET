@@ -287,17 +287,11 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
     
     /**
      * Determines the bounds of the grid.
-     * Take the union of all the bounds of all needles in the grid.
+     * For efficiency, the bounds are precomputed in update.
      * 
      * @return the bounds of the grid
      */
     protected Rectangle determineBounds() {
-//        Rectangle r = new Rectangle();
-//        for ( int i = 0; i < _needles.size(); i++ ) {
-//            CompassGridNeedle needle = (CompassGridNeedle) _needles.get(i);
-//            r = r.union( needle.getBounds() );
-//        }
-//        return r;
         return _bounds;
     }
     
@@ -311,6 +305,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
     public void update() {
         if ( isVisible() ) {
             
+            super.setBoundsDirty();
             _bounds = new Rectangle();
             
             double magnetStrength = _magnetModel.getStrength();
