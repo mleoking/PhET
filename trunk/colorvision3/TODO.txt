@@ -1,15 +1,10 @@
 "To Do" list for "colorvision3" project
 
 HIGH:
-o cull filtered photons and make them fully opaque
-o make use of intensity component of ColorChangeEvent when source is photon beam
-o reduce CPU usage (lots of repaints when photon beam is enabled)
-o why is filter notch curve not anti-aliased when photon beam is enabled?
-o filter notch curve is not drawn correctly, Y scale is off
-o spectrum graphic bounds get changed when I render the SpectrumSlider bounds
+o fix filter notch graphic (anti-aliasing messed up, spectrum graphic bounds seems to get changed)
 
 MEDIUM:
-o move "enabled" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
+o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
 
 LOW:
 o switch to PhET code formatting conventions
