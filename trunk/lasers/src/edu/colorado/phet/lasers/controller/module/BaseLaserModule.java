@@ -429,7 +429,7 @@ public class BaseLaserModule extends Module {
 
     public void reset() {
         laserModel.reset();
-        setSwingComponentsVisible( true );
+//        setSwingComponentsVisible( true );
     }
 
     public void setSwingComponentsVisible( boolean areVisible ) {
