@@ -1,5 +1,7 @@
 package edu.colorado.phet.mazegame;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,29 +17,29 @@ public class ScorePanel extends JPanel implements ItemListener {
     boolean traceOn;
     boolean clockOn;
 
-    JButton startBtn = new JButton( "Restart" );
-    JButton pauseBtn = new JButton( "Pause" );
-    JButton resetBtn = new JButton( "Reset" );
+    JButton startBtn = new JButton( SimStrings.get( "ScorePanel.RestartButton" ) );
+    JButton pauseBtn = new JButton( SimStrings.get( "ScorePanel.PauseButton" ) );
+    JButton resetBtn = new JButton( SimStrings.get( "ScorePanel.ResetButton" ) );
     //JButton soundBtn = new JButton("Sound ON/OFF");
-    JCheckBox soundChkBox = new JCheckBox( "Sound", true );
-    JCheckBox traceChkBox = new JCheckBox( "Trace", false );
-    JButton scoreBtn = new JButton( "Start Game" );
+    JCheckBox soundChkBox = new JCheckBox( SimStrings.get( "ScorePanel.SoundCheckBox" ), true );
+    JCheckBox traceChkBox = new JCheckBox( SimStrings.get( "ScorePanel.TraceCheckBox" ), false );
+    JButton scoreBtn = new JButton( SimStrings.get( "ScorePanel.StartButton" ) );
 
-    JRadioButton radio0 = new JRadioButton( "Practice", true );
-    JRadioButton radio1 = new JRadioButton( "Level 1", false );
-    JRadioButton radio2 = new JRadioButton( "Level 2", false );
-    JRadioButton radio3 = new JRadioButton( "Certain Death", false );
+    JRadioButton radio0 = new JRadioButton( SimStrings.get( "ScorePanel.PracticeRadioButton" ), true );
+    JRadioButton radio1 = new JRadioButton( SimStrings.get( "ScorePanel.Level1RadioButton" ), false );
+    JRadioButton radio2 = new JRadioButton( SimStrings.get( "ScorePanel.Level2RadioButton" ), false );
+    JRadioButton radio3 = new JRadioButton( SimStrings.get( "ScorePanel.CertainDeathRadioButton" ), false );
 
     ButtonGroup radioGroup = new ButtonGroup();
     ClockPanel myClock1;
 
-    JLabel timeLbl = new JLabel( "Time:" );
+    JLabel timeLbl = new JLabel( SimStrings.get( "ScorePanel.TimeLabel" ) + ":" );
 
     //JLabel timeInSecLbl = new JLabel("0.0");
-    JLabel collisionsLbl = new JLabel( "Collisions:" );
+    JLabel collisionsLbl = new JLabel( SimStrings.get( "ScorePanel.CollisionsLabel" ) + ":" );
     JLabel nbrCollisionsLbl = new JLabel( "0" );
-    JLabel scoreLbl = new JLabel( "Score:" );
-    JLabel ptsScoreLbl = new JLabel( "No game" );
+    JLabel scoreLbl = new JLabel( SimStrings.get( "ScorePanel.ScoreLabel" ) + ":" );
+    JLabel ptsScoreLbl = new JLabel( SimStrings.get( "ScorePanel.NoGameLabel" ) );
 
     JPanel panel1 = new JPanel();
     JPanel panel2 = new JPanel();
@@ -173,7 +175,7 @@ public class ScorePanel extends JPanel implements ItemListener {
             ScorePanel.this.pArena.stop();
             myClock1.stop();
             //startStopLbl.setText("Press start to begin.");
-            startBtn.setText( "Restart" );
+            startBtn.setText( SimStrings.get( "ScorePanel.RestartButton" ) );
             startBtn.setEnabled( true );
             pauseBtn.setEnabled( false );
             resetBtn.setEnabled( true );
