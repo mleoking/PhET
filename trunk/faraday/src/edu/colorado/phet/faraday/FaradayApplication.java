@@ -20,6 +20,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.control.dialog.BackgroundColorDialog;
@@ -163,6 +164,8 @@ public class FaradayApplication extends PhetApplication {
      */
     public static void main( String[] args ) throws IOException {
 
+//        PhetGraphic.SKIP_RECTANGLE_COMPUTATION = true;
+        
         // Initialize localization.
         SimStrings.init( args, FaradayConfig.LOCALIZATION_BUNDLE_BASENAME );
         
