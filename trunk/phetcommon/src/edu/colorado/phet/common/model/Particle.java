@@ -97,7 +97,6 @@ public class Particle extends SimpleObservable implements ModelElement, Translat
                       + dt * velocity.getY()
                       + dt * dt * acceleration.getY() / 2;
         this.setPosition( xNew, yNew );
-        //        position.setLocation( xNew, yNew );
 
         // New velocity
         if( prevAcceleration == null ) {
@@ -106,7 +105,6 @@ public class Particle extends SimpleObservable implements ModelElement, Translat
         double vxNew = velocity.getX() + dt * ( acceleration.getX() + prevAcceleration.getX() ) / 2;
         double vyNew = velocity.getY() + dt * ( acceleration.getY() + prevAcceleration.getY() ) / 2;
         setVelocity( vxNew, vyNew );
-        //        velocity.setComponents( vxNew, vyNew );
 
         // New acceleration
         prevAcceleration.setComponents( acceleration.getX(), acceleration.getY() );
@@ -116,7 +114,6 @@ public class Particle extends SimpleObservable implements ModelElement, Translat
 
     public void translate( double dx, double dy ) {
         setPosition( position.getX() + dx, position.getY() + dy );
-//        position.setLocation( position.getX() + dx, position.getY() + dy );
         notifyObservers();
     }
 }
