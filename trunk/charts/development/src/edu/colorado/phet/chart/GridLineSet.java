@@ -27,6 +27,7 @@ public class GridLineSet {
                               Color.black, minorTickSpacing, crossesOtherAxisAt );
         majorGrid = new Grid( chart, orientation, new BasicStroke( 1 ),
                               Color.black, majorTickSpacing, crossesOtherAxisAt );
+        minorGrid.setTicksVisible( false );
     }
 
     public void paint( Graphics2D graphics2D ) {

@@ -30,11 +30,13 @@ public class ChartTest {
 
         chart.getHorizonalGridlines().setMajorGridlinesVisible( true );
         chart.getVerticalGridlines().setMajorGridlinesVisible( true );
-        chart.getVerticalGridlines().setMajorTickSpacing( 3 );
-        chart.getVerticalGridlines().setMajorGridlinesColor(Color.blue);
+        chart.getVerticalGridlines().setMajorTickSpacing( Math.pow( 10, 12 ) );
+        chart.getHorizonalGridlines().setMajorTickSpacing( 1 );
+
+        chart.getVerticalGridlines().setMajorGridlinesColor( Color.blue );
         chart.getHorizonalGridlines().setMajorGridlinesColor( Color.green );
-        chart.getVerticalGridlines().setMajorGridlinesStroke(new BasicStroke(1,BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND,1.0f,new float[]{5,5},0));
-        chart.getHorizonalGridlines().setMajorGridlinesStroke(new BasicStroke(1,BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND,1.0f,new float[]{5,5},0));
+        chart.getVerticalGridlines().setMajorGridlinesStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1.0f, new float[]{5, 5}, 0 ) );
+        chart.getHorizonalGridlines().setMajorGridlinesStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1.0f, new float[]{5, 5}, 0 ) );
 
         JFrame frame = new JFrame( "ChartTest" );
         frame.setContentPane( apparatusPanel );
