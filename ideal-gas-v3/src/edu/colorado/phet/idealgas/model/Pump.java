@@ -20,6 +20,9 @@ public class Pump extends SimpleObservable {
     private Module module;
 
     public Pump( Module module, Box2D box ) {
+        if( box == null ) {
+            throw new RuntimeException( "box cannot be null");
+        }
         this.module = module;
         this.model = (IdealGasModel)module.getModel();
         this.box = box;

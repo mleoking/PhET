@@ -1,5 +1,5 @@
 /*
- * Class: HeavySpeciesGraphic
+ * Class: LightSpeciesGraphic
  * Package: edu.colorado.phet.graphics.idealgas
  *
  * Created by: Ron LeMaster
@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.common.view.util.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,16 +18,16 @@ import java.io.IOException;
 /**
  *
  */
-public class HeavySpeciesGraphic extends GasMoleculeGraphic {
+public class LightSpeciesGraphic extends GasMoleculeGraphic {
 
-    public HeavySpeciesGraphic( Component component, GasMolecule molecule ) {
+    public LightSpeciesGraphic( Component component, GasMolecule molecule ) {
         super( component, s_particleImage, molecule );
     }
 
     //
     // Static fields and methods
     //
-    static String s_imageName = IdealGasConfig.BLUE_PARTICLE_IMAGE_FILE;
+    static String s_imageName = IdealGasConfig.RED_PARTICLE_IMAGE_FILE;
     static BufferedImage s_particleImage;
     static {
         try {

@@ -90,6 +90,10 @@ public class IdealGasModel extends BaseModel {
         return constantVolume;
     }
 
+    public void setCurrentGasSpecies( Class currentGasSpecies ) {
+        this.currentGasSpecies = currentGasSpecies;
+    }
+
     public Class getCurrentGasSpecies() {
         return currentGasSpecies;
     }

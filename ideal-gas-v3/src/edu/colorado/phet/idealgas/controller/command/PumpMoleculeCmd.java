@@ -7,14 +7,15 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
-import edu.colorado.phet.idealgas.model.GasMolecule;
-import edu.colorado.phet.idealgas.model.GasMoleculeFactory;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.LightSpecies;
+import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
+import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 
 public class PumpMoleculeCmd extends AddModelElementCmd {
     //public class PumpMoleculeCmd implements Command {
@@ -27,23 +28,23 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
     private double initialEnergy;
 
 
-//    public PumpMoleculeCmd( IdealGasModel model, double initialEnergy ) {
-//        this( model, model.getCurrentGasSpecies() );
-//        this.initialEnergy = ( initialEnergy == 0 ? DEFAULT_ENERGY : initialEnergy );
-//    }
-//
-//    public PumpMoleculeCmd( IdealGasModel model ) {
-//        this( model, model.getCurrentGasSpecies() );
-//    }
-//
-//    public PumpMoleculeCmd( IdealGasModel model,
-//                            Class speciesClass ) {
-//        super( model, s_gasFactory.create( model,
-//                                           model.getAverageMoleculeEnergy() ));
-//        this.model = model;
-//        this.speciesClass = speciesClass;
-//        this.initialEnergy = DEFAULT_ENERGY;
-//    }
+    //    public PumpMoleculeCmd( IdealGasModel model, double initialEnergy ) {
+    //        this( model, model.getCurrentGasSpecies() );
+    //        this.initialEnergy = ( initialEnergy == 0 ? DEFAULT_ENERGY : initialEnergy );
+    //    }
+    //
+    //    public PumpMoleculeCmd( IdealGasModel model ) {
+    //        this( model, model.getCurrentGasSpecies() );
+    //    }
+    //
+    //    public PumpMoleculeCmd( IdealGasModel model,
+    //                            Class speciesClass ) {
+    //        super( model, s_gasFactory.create( model,
+    //                                           model.getAverageMoleculeEnergy() ));
+    //        this.model = model;
+    //        this.speciesClass = speciesClass;
+    //        this.initialEnergy = DEFAULT_ENERGY;
+    //    }
 
     public PumpMoleculeCmd( IdealGasModel model,
                             GasMolecule molecule,
@@ -59,12 +60,14 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
         super.doIt();
         molecule.setModel( model );
 
-        PhetGraphic graphic = new HeavySpeciesGraphic( module.getApparatusPanel(), molecule );
+        PhetGraphic graphic = null;
+        if( molecule instanceof HeavySpecies ) {
+            graphic = new HeavySpeciesGraphic( module.getApparatusPanel(), molecule );
+        }
+        else if( molecule instanceof LightSpecies ) {
+            graphic = new LightSpeciesGraphic( module.getApparatusPanel(), molecule );
+        }
         module.getApparatusPanel().addGraphic( graphic, 10 );
-        //        pumpGasMolecule( speciesClass );
-        //                                (IdealGasModel)application.getPhysicalSystem() );
-        //        return pumpGasMolecule( speciesClass,
-        //                                (IdealGasModel)application.getPhysicalSystem() );
     }
 
     //
