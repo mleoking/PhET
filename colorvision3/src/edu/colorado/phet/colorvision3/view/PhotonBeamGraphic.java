@@ -19,7 +19,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * PhotonBeamGraphic provides a view of a PhotonBeam.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @revision $Id$
+ * @version $Id$
  */
 public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver
 {

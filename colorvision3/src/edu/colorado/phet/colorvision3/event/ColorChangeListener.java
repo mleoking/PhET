@@ -8,7 +8,7 @@ import java.util.EventListener;
  * ColorChangeListener listens for ColorChangeEvent.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @revision $Id$
+ * @version $Id$
  */
 public interface ColorChangeListener extends EventListener
 {

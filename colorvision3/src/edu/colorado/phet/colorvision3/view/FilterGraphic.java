@@ -20,8 +20,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
  * FilterGraphic is the UI component that represents a filter.
  * It is a Shape that is described using constructive area geometry.
  *
- * @author cmalley
- * @revision $Id$
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Id$
  */
 public class FilterGraphic extends PhetGraphic implements SimpleObserver
 {

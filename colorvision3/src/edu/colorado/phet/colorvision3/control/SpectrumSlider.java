@@ -33,7 +33,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * it optional depicts a transmission width. 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @revision $Id$
+ * @version $Id$
  */
 public class SpectrumSlider extends DefaultInteractiveGraphic implements Translatable
 {
