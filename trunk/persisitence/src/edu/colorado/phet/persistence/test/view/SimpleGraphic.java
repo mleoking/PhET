@@ -12,7 +12,9 @@ package edu.colorado.phet.persistence.test.view;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 /**
  * SimpleGraphic
@@ -25,6 +27,7 @@ public class SimpleGraphic extends PhetGraphic {
 
     public SimpleGraphic() {
         super( null );
+                
     }
 
     public SimpleGraphic( Component component ) {

@@ -103,8 +103,10 @@ public class Module_D extends Module implements Serializable {
         PhetGraphic pg6 = new PhetShapeGraphic( panel, new PersistentEllipse2D( new Ellipse2D.Double( 150, 50, 50, 150 ) ), Color.green, new BasicStroke( 1 ), Color.black );
 
         CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
-        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
-        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
+        cpg.addGraphic( new PhetShapeGraphic( panel, new PersistentEllipse2D( new Ellipse2D.Double( 130, 30, 30, 30 )), Color.red ) );
+        cpg.addGraphic( new PhetShapeGraphic( panel, new PersistentEllipse2D( new Ellipse2D.Double( 160, 30, 30, 30 )), Color.blue ) );
+        cpg.setLocation( 0, 0 );
+//        cpg.setLocation( 100, 100 );
 //        cpg.addGraphic( new PhetShadowTextGraphic( panel, "compositegraphic", new Font( "Lucida Sans", 0, 12 ), 130, 30, Color.white, 1, 1, Color.black ) );
 
         BasicStroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
@@ -122,8 +124,8 @@ public class Module_D extends Module implements Serializable {
 //        addGraphicToPanel( pg4, panel );
 //        addGraphicToPanel( pg5, panel );
 //        addGraphicToPanel( pg6, panel );      // works with exceptions
-//        addGraphicToPanel( cpg, panel );
-        addGraphicToPanel( g, panel );      // works
+        addGraphicToPanel( cpg, panel );
+//        addGraphicToPanel( g, panel );      // gradient-stroked text: works
 //        panel.addGraphic( pg2 );
 //        panel.addGraphic( pg3 );
 //        panel.addGraphic( pg4 );

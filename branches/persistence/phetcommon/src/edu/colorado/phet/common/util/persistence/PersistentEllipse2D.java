@@ -23,14 +23,16 @@ import java.awt.*;
  * @version $Revision$
  */
 public class PersistentEllipse2D extends Ellipse2D implements Persistent {
-    private Ellipse2D ellipse = new Double();
+    private Ellipse2D ellipse;
 
     public PersistentEllipse2D() {
+        ellipse = new Double();
     }
 
     public PersistentEllipse2D( Ellipse2D ellipse ) {
         this.ellipse = ellipse;
-    }
+    }    
+
 
     ////////////////////////////////////////////
     // Persistence setters and getters

@@ -93,6 +93,10 @@ public class PhetShapeGraphic extends PhetGraphic {
                 g.setRenderingHints( hints );
             }
             if( shape != null ) {
+
+                // todo: doing location entirely separately from the transform
+//                g.translate( getLocation().getX(), getLocation().getY() );
+
                 g.transform( getNetTransform() );
                 if( fill != null ) {
                     g.setPaint( fill );
@@ -105,12 +109,14 @@ public class PhetShapeGraphic extends PhetGraphic {
                     g.draw( shape );
                     g.setStroke( origStroke );
                 }
-                try {
-                    g.transform( getNetTransform().createInverse() );
-                }
-                catch( NoninvertibleTransformException e ) {
-                    e.printStackTrace();
-                }
+
+                // Todo: this code shouldn't be needed because we restore the graphics state before we exit
+//                try {
+//                    g.transform( getNetTransform().createInverse() );
+//                }
+//                catch( NoninvertibleTransformException e ) {
+//                    e.printStackTrace();
+//                }
             }
             super.restoreGraphicsState();
         }
@@ -120,6 +126,8 @@ public class PhetShapeGraphic extends PhetGraphic {
         if( shape == null ) {
             return null;
         }
+
+        // todo: this looks like it could be expensive!!!
         if( stroke == null ) {
             return getNetTransform().createTransformedShape( shape.getBounds() ).getBounds();
         }

@@ -22,7 +22,7 @@ import java.awt.*;
 public class CompositePhetGraphic extends GraphicLayerSet {
 
     /**
-     * Provided for Jaba Beans compliance
+     * Provided for Java Beans compliance
      */
     public CompositePhetGraphic() {
         // noop

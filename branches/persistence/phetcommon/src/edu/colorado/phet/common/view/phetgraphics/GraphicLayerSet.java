@@ -15,6 +15,10 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Rectangle2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -63,6 +67,15 @@ public class GraphicLayerSet extends PhetGraphic {
      */
     public void paint( Graphics2D g ) {
         if( isVisible() ) {
+
+            // Translate the graphics, rather than try do it in the net transform
+//            g.translate( getLocation().getX(), getLocation().getY() );
+
+            // todo: by saving the graphics state and applying out transform, we insure that our child graphics
+            // get relative placement
+            super.saveGraphicsState( g );
+            g.transform( getNetTransform() );
+
             Iterator it = graphicMap.iterator();
             while( it.hasNext() ) {
                 PhetGraphic graphic = (PhetGraphic)it.next();
@@ -76,6 +89,8 @@ public class GraphicLayerSet extends PhetGraphic {
                     System.out.println( "GraphicLayerSet.paint: graphic == null" );
                 }
             }
+
+            super.restoreGraphicsState();
         }
     }
 
@@ -97,10 +112,25 @@ public class GraphicLayerSet extends PhetGraphic {
      */
     public boolean contains( int x, int y ) {
         if( isVisible() ) {
+
+            // Tranform the coords to the local reference coords of this composite
+            // todo: store the inverse transform in setTransform(), and utility variables
+            // for orgPt and invPt, for efficiency
+            Point2D orgPt = new Point2D.Double( x, y);
+            Point2D invPt = new Point2D.Double( );
+            try {
+                this.getTransform().inverseTransform( orgPt, invPt );
+            }
+            catch( NoninvertibleTransformException e ) {
+                e.printStackTrace();
+            }
+
+            invPt.setLocation( orgPt.getX() - this.getLocation().getX(), orgPt.getY() - this.getLocation().getY());
             Iterator it = this.graphicMap.iterator();
             while( it.hasNext() ) {
                 PhetGraphic o = (PhetGraphic)it.next();
-                if( o.contains( x, y ) ) {
+//                if( o.contains( x, y ) ) {
+                if( o.contains( (int)invPt.getX(), (int)invPt.getY() ) ) {
                     return true;
                 }
             }
@@ -119,7 +149,14 @@ public class GraphicLayerSet extends PhetGraphic {
         for( int i = 0; i < r.length; i++ ) {
             r[i] = ch[i].getBounds();
         }
+        // todo: Reduce inefiicieny of RectangleUtils.union, by sending a pre-allocated Rectangle to a
+        // new versions of RectangleUtils.union that takes a seoond parameter, which is the result Rectangle
         Rectangle bounds = RectangleUtils.union( r );//children do their own transform.
+
+        // The bounds we have calculated so far are realative to the location of the composite, so we have to
+        // translate them.  rjl-1-0-05
+        bounds.setLocation( (int)(bounds.getX() + getLocation().getX()), (int)(bounds.getY() + getLocation().getY() ));
+
         return bounds;
     }
 
@@ -153,6 +190,16 @@ public class GraphicLayerSet extends PhetGraphic {
      * Ensure that all children will repaint in their respective rectangles.
      */
     protected void forceRepaint() {
+
+        // todo: figure out if there's any reason why this shouldn't worlk
+        // We don't need to do anything here because the superclass behavior causes us to be completely redrawn.
+        // I'm not at all sure thaht worrying about only painting the components that are dirty is work the
+        // complexity.   rjl-1-9-05
+        if( true ) {
+            super.forceRepaint();
+            return;
+        }
+
         syncBounds();//This guarantees a notification, if necessary.
         Iterator it = graphicMap.iterator();
         while( it.hasNext() ) {

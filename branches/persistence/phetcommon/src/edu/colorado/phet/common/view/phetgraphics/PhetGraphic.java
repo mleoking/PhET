@@ -16,7 +16,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationHandler;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.common.util.persistence.PersistentAffineTransform;
+//import edu.colorado.phet.common.util.persistence.PersistentAffineTransform;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -48,8 +48,8 @@ public abstract class PhetGraphic {
     
     private Point location = new Point();
     private Point registrationPoint = new Point();
-    private PersistentAffineTransform transform = new PersistentAffineTransform();
-//    private AffineTransform transform = new AffineTransform();
+//    private PersistentAffineTransform transform = new PersistentAffineTransform();
+    private AffineTransform transform = new AffineTransform();
     private Rectangle lastBounds = new Rectangle();
     private Rectangle bounds = new Rectangle();
     private Component component;
@@ -316,7 +316,8 @@ public abstract class PhetGraphic {
      */
     public void setTransform( AffineTransform transform ) {
         if( !transform.equals( this.transform ) ) {
-            this.transform = new PersistentAffineTransform( transform );
+            this.transform = new AffineTransform( transform );
+//            this.transform = new PersistentAffineTransform( transform );
             setBoundsDirty();
             autorepaint();
         }
@@ -328,7 +329,8 @@ public abstract class PhetGraphic {
      * @return the transform
      */
     public AffineTransform getTransform() {
-        return new PersistentAffineTransform( transform );
+        return new AffineTransform( transform );
+//        return new PersistentAffineTransform( transform );
     }
 
     /**
@@ -383,16 +385,21 @@ public abstract class PhetGraphic {
         // Use preConcatenate, so that transforms are shown in the order that they will occur.
         
         // Translate to registration point
+
+        // todo: why are there minus signs on the parameters here?
         net.preConcatenate( AffineTransform.getTranslateInstance( -registrationPoint.x, -registrationPoint.y ) );
         // Apply local transform
         net.preConcatenate( transform );
         // Translate to location
+        // todo: moved this to doing the translation as a completely separate step. See GraphicLayerSet.paint(), contains(), and determine bounds()
         net.preConcatenate( AffineTransform.getTranslateInstance( location.x, location.y ) );
+
+        // todo: Not needed, because GraphicLayerSets apply their transforms to the graphics before we get here
         // Apply parent's net transform
-        if( parent != null ) {
-            AffineTransform parentTransform = parent.getNetTransform();
-            net.preConcatenate( parentTransform );
-        }
+//        if( parent != null ) {
+//            AffineTransform parentTransform = parent.getNetTransform();
+//            net.preConcatenate( parentTransform );
+//        }
 
         return net;
     }
@@ -478,8 +485,8 @@ public abstract class PhetGraphic {
      * Sets the local transform to the identity matrix.
      */
     public void clearTransform() {
-        setTransform( new PersistentAffineTransform() );
-//        setTransform( new AffineTransform() );
+//        setTransform( new PersistentAffineTransform() );
+        setTransform( new AffineTransform() );
     }
     
     //----------------------------------------------------------------------------

@@ -78,6 +78,10 @@ public class PhetImageGraphic extends PhetGraphic {
 
     public void paint( Graphics2D g ) {
         if( isVisible() && image != null ) {
+
+            // todo: doing location entirely separately from the transform
+//            g.translate( getLocation().getX(), getLocation().getY() );
+
             g.drawRenderedImage( image, getNetTransform() );
         }
     }

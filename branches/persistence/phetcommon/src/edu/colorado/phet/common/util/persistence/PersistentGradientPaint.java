@@ -35,6 +35,26 @@ public class PersistentGradientPaint extends GradientPaint implements Persistent
         this.gradientPaint = gradientPaint;
     }
 
+    public PersistentGradientPaint( float x1, float y1, Color color1, float x2, float y2, Color color2 ) {
+        super( 0, 0, Color.black, 0, 0, Color.black );
+        gradientPaint = new GradientPaint( x1, y1, color1, x2, y2, color2 );
+    }
+
+    public PersistentGradientPaint( float x1, float y1, Color color1, float x2, float y2, Color color2, boolean cyclic ) {
+        super( 0, 0, Color.black, 0, 0, Color.black );
+        gradientPaint = new GradientPaint( x1, y1, color1, x2, y2, color2, cyclic );
+    }
+
+    public PersistentGradientPaint( Point2D pt1, Color color1, Point2D pt2, Color color2 ) {
+        super( 0, 0, Color.black, 0, 0, Color.black );
+        gradientPaint = new GradientPaint( pt1, color1, pt2, color2 );
+    }
+
+    public PersistentGradientPaint( Point2D pt1, Color color1, Point2D pt2, Color color2, boolean cyclic ) {
+        super( 0, 0, Color.black, 0, 0, Color.black );
+        gradientPaint = new GradientPaint( pt1, color1, pt2, color2, cyclic );
+    }
+
     private void setPaint( GradientPaint paint ) {
         gradientPaint = paint;
     }

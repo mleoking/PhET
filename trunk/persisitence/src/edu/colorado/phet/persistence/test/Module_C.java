@@ -45,9 +45,7 @@ public class Module_C extends Module implements Serializable {
 
         // Create the apparatus panel
         ApparatusPanel ap = new ApparatusPanel();
-//        ApparatusPanel2 ap = new ApparatusPanel2( model, appModel.getClock() );
         setApparatusPanel( ap );
-//        ap.setUseOffscreenBuffer( true );
 
         // Add a particle
         ap.addGraphic( new SimpleGraphic( ap ) );

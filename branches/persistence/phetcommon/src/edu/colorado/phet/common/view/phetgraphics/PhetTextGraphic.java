@@ -52,16 +52,19 @@ public class PhetTextGraphic extends PhetGraphic {
 
     public void paint( Graphics2D g ) {
         if( isVisible() ) {
+            super.saveGraphicsState( g );
             g.setFont( font );
             g.setColor( color );
             g.transform( getNetTransform() );
             g.drawString( text, 0, 0 );
-            try {
-                g.transform( getNetTransform().createInverse() );
-            }
-            catch( NoninvertibleTransformException e ) {
-                e.printStackTrace();
-            }
+            // Todo: shouldn't need to do this if we save and restore the graphics state
+//            try {
+//                g.transform( getNetTransform().createInverse() );
+//            }
+//            catch( NoninvertibleTransformException e ) {
+//                e.printStackTrace();
+//            }
+            super.restoreGraphicsState();
         }
     }
 

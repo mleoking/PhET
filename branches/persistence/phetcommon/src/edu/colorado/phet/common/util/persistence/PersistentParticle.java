@@ -29,7 +29,7 @@ public class PersistentParticle extends SimpleObservable implements ModelElement
     private Vector2D prevAcceleration = new Vector2D.Double();
 
     public PersistentParticle() {
-    }
+    }    
 
     protected PersistentParticle( Point2D position, Vector2D velocity,
                                   Vector2D acceleration ) {
