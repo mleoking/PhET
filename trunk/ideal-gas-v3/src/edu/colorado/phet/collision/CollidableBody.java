@@ -60,32 +60,8 @@ public abstract class CollidableBody extends Body {
         this.collidable = collidable;
     }
 
-    public void setVelocity( Vector2D velocity ) {
-        setVelocity( velocity.getX(), velocity.getY() );
-    }
-
-    public void setVelocity( double vx, double vy ) {
-//        if( velocityPrev == null ) {
-//            velocityPrev = new Vector2D.Double();
-//        }
-//        velocityPrev.setComponents( getVelocity().getX(), getVelocity().getY() );
-        super.setVelocity( vx, vy );
-    }
-
     public Vector2D getVelocityPrev() {
         return velocityPrev;
-    }
-
-    public void setPosition( double x, double y ) {
-//        if( positionPrev == null ) {
-//            positionPrev = new Point2D.Double();
-//        }
-//        positionPrev.setLocation( getPosition() );
-        super.setPosition( x, y );
-    }
-
-    public void setPosition( Point2D position ) {
-        setPosition( position.getX(), position.getY() );
     }
 
     public Point2D getPositionPrev() {
