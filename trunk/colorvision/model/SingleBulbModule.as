@@ -2,12 +2,21 @@
 	private var bulbIsMonochromatic:Boolean;
 	public function setBulbMonochromatic(bulbIsMonochromatic:Boolean):Void {
 		this.bulbIsMonochromatic = bulbIsMonochromatic;
+
+		if( !bulbIsMonochromatic ){
+			_root.spectrumSlider._visible = false;
+			var ctx = {rb:255, gb:255, bb:255};
+			_root.bulb1.setColor(ctx);
+			_root.bulb1.setWavelength(0);
+		}
+
 	}
 	public function isBulbMonochromatic():Boolean {
 		return this.bulbIsMonochromatic;
 	}
 	public function activate():Void {
 		super.activate();
+		setBulbMonochromatic( !_root.whiteLight.selected );
 		for (var i = 0; i < elements.length; i++) {
 			if (elements[i] == _level0.monochromaticLight) {
 			}
