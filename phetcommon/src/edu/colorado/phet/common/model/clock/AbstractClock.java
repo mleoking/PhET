@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.common.model.clock;
 
+import edu.colorado.phet.common.util.EventRegistry;
+
 import java.util.ArrayList;
+import java.util.EventListener;
 
 /**
  * AbstractClock
@@ -30,6 +33,7 @@ public abstract class AbstractClock {
     private static final int DEAD = 3;
     private int executionState = NOT_STARTED;
     private double dt;
+    private EventRegistry eventRegistry = new EventRegistry();
 
     public AbstractClock( double dt, int delay, boolean isFixed ) {
         if( isFixed ) {
@@ -131,19 +135,11 @@ public abstract class AbstractClock {
 
     protected void clockTicked( double dt ) {
         runningTime += dt;
-        timeListeners.clockTicked( this, dt );
+        eventRegistry.fireEvent( new ClockTickEvent( this, dt ));
     }
 
     public String toString() {
         return getClass().getName() + ", time=" + this.getRunningTime();
-    }
-
-    public void removeClockTickListener( ClockTickListener listener ) {
-        timeListeners.removeClockTickListener( listener );
-    }
-
-    public void addClockTickListener( ClockTickListener tickListener ) {
-        timeListeners.addClockTickListener( tickListener );
     }
 
     protected void setRunningTime( double runningTime ) {
@@ -178,8 +174,30 @@ public abstract class AbstractClock {
         }
     }
 
-    private interface TickConverter {
-        double getSimulationTime( long wallTimeSinceLastTick );
+    public void removeClockTickListener( ClockTickListener listener ) {
+        timeListeners.removeClockTickListener( listener );
+    }
+
+    public void addClockTickListener( ClockTickListener tickListener ) {
+        timeListeners.addClockTickListener( tickListener );
+    }
+
+    public void addListener( EventListener listener ) {
+        eventRegistry.addListener( listener );
+    }
+
+    public void removeListener( EventListener listener ) {
+        eventRegistry.removeListener( listener );
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    // Inner classes
+    //
+
+    public class Static implements TickConverter {
+        public double getSimulationTime( long wallTimeSinceLastTick ) {
+            return dt;
+        }
     }
 
     private class TimeScaling implements TickConverter {
@@ -188,9 +206,8 @@ public abstract class AbstractClock {
         }
     }
 
-    public class Static implements TickConverter {
-        public double getSimulationTime( long wallTimeSinceLastTick ) {
-            return dt;
-        }
+    private interface TickConverter {
+        double getSimulationTime( long wallTimeSinceLastTick );
     }
+
 }

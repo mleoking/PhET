@@ -12,6 +12,7 @@ package edu.colorado.phet.common.model;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 
 /**
  * This class is encompasses all the model elements in a physical system. It provides
@@ -43,7 +44,7 @@ public class BaseModel extends CompositeModelElement implements ClockTickListene
         commandList.addCommand( cmd );
     }
 
-    public void clockTicked( AbstractClock c, double dt ) {
-        stepInTime( dt );
+    public void clockTicked( ClockTickEvent event ) {
+        stepInTime( event.getDt() );
     }
 }
