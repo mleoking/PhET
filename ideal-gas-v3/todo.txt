@@ -4,3 +4,9 @@
 - pressure slice graphic overlays mannequin
 - when hollow sphere is only thing in the box, the gravity response is jerky
 - molecules don't disappear when they leave the box
+
+
+
+- Gravity: there is a lot of code in the model that refers to a gravity object, but all the
+manipulation of gravity is currently done in the module, and that object only appears in the
+model as a modelElement 
