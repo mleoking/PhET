@@ -27,7 +27,7 @@ public class VerticalGuideline extends DefaultInteractiveGraphic {
             public void translate( double dx, double dy ) {
                 xLocation += dx;
                 verticalLine.setLocation( xLocation );
-                //                component.repaint();
+                component.repaint();
             }
         } );
     }
@@ -35,7 +35,6 @@ public class VerticalGuideline extends DefaultInteractiveGraphic {
     private static class VerticalLine extends PhetShapeGraphic {
 
         private Rectangle2D.Double line = new Rectangle2D.Double();
-        //        private Line2D.Double line = new Line2D.Double();
         private Color color;
 
         public VerticalLine( Component component, Color color, int position ) {
