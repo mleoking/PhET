@@ -27,7 +27,7 @@ public class TestButton {
     public static void main( String[] args ) {
         AbstractClock clock = new SwingTimerClock( 1, 30 );
         final BaseModel model = new BaseModel();
-        ApparatusPanel2 panel = new ApparatusPanel2( model, clock );
+        ApparatusPanel2 panel = new ApparatusPanel2( clock );
 //        ApparatusPanel panel = new ApparatusPanel( );
         panel.addGraphicsSetup( new BasicGraphicsSetup() );
         panel.addRepaintDebugGraphic( clock );

@@ -13,10 +13,9 @@ package edu.colorado.phet.common.tests;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 
 import java.awt.*;
@@ -32,7 +31,7 @@ public class DebugMenuTest {
     public static void main( String[] args ) {
         ApplicationModel am = new ApplicationModel( "Debug Test", "", "" );
         am.setClock( new SwingTimerClock( 1, 25, AbstractClock.FRAMES_PER_SECOND ) );
-        DebugMenuTestModule debugMenuTestModule = new DebugMenuTestModule();
+        DebugMenuTestModule debugMenuTestModule = new DebugMenuTestModule( am.getClock() );
         am.setModules( new Module[]{debugMenuTestModule} );
         am.setInitialModule( debugMenuTestModule );
 
@@ -41,12 +40,12 @@ public class DebugMenuTest {
     }
 
     static class DebugMenuTestModule extends Module {
-        protected DebugMenuTestModule() {
-            super( "Debug Menu Test" );
+        protected DebugMenuTestModule( AbstractClock clock ) {
+            super( "Debug Menu Test", clock );
 
             BaseModel model = new BaseModel();
             setModel( model );
-            ApparatusPanel2 ap = new ApparatusPanel2( model );
+            ApparatusPanel2 ap = new ApparatusPanel2( clock );
 //            ap.setUseOffscreenBuffer( true );
             ap.setBackground( Color.white );
             setApparatusPanel( ap );

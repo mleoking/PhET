@@ -22,13 +22,15 @@ import java.awt.geom.AffineTransform;
  * Date: Dec 16, 2004
  * Time: 1:19:40 PM
  * Copyright (c) Dec 16, 2004 by Sam Reid
+ *
+ * @deprecated Use JSlider wrapped in a PhetJComponent.
  */
 
 public class TestSlider {
     public static void main( String[] args ) {
         AbstractClock clock = new SwingTimerClock( 1, 30 );
         final BaseModel model = new BaseModel();
-        ApparatusPanel2 panel = new ApparatusPanel2( model, clock );
+        ApparatusPanel2 panel = new ApparatusPanel2( clock );
         panel.addGraphicsSetup( new BasicGraphicsSetup() );
         panel.addRepaintDebugGraphic( clock );
         final PhetSlider phetSlider = new PhetSlider( panel, 0, 100, 50, true );

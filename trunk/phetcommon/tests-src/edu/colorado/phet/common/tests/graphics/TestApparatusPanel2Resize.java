@@ -25,7 +25,7 @@ public class TestApparatusPanel2Resize {
         JFrame frame = new JFrame( "Test AP2" );
         BaseModel model = new BaseModel();
         SwingTimerClock clock = new SwingTimerClock( 1, 30 );
-        ApparatusPanel2 panel = new ApparatusPanel2( model, clock );
+        ApparatusPanel2 panel = new ApparatusPanel2( clock );
         JLabel comp = new JLabel( "Label" );
         comp.reshape( 250, 250, comp.getPreferredSize().width, comp.getPreferredSize().height );
         panel.add( comp );

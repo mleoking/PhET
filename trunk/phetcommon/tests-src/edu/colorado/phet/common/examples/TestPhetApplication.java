@@ -32,7 +32,7 @@ public class TestPhetApplication {
     static class MyModule extends Module {
 
         public MyModule( String name, AbstractClock clock, Color color ) {
-            super( name );
+            super( name, clock );
 
 //            final ControlPanel controlPanel = new ControlPanel( this );
 //            setControlPanel( controlPanel );
@@ -67,7 +67,7 @@ public class TestPhetApplication {
     static class MyModule2 extends Module {
 
         public MyModule2( String name, AbstractClock clock, Color color ) {
-            super( name );
+            super( name, clock );
             setApparatusPanel( new ApparatusPanel() );
             setModel( new BaseModel() );
             JButton ctrl = new JButton( "Click Me" );
@@ -142,8 +142,8 @@ public class TestPhetApplication {
     }
 
     static class MyModule3 extends Module {
-        public MyModule3() {
-            super( "Test Module" );
+        public MyModule3( AbstractClock clock ) {
+            super( "Test Module", clock );
             setApparatusPanel( new ApparatusPanel() );
             setModel( new BaseModel() );
 
@@ -169,7 +169,7 @@ public class TestPhetApplication {
         Module module2 = new MyModule( "1ntht", clock, Color.red );
         Module module3 = new MyModule2( "Button", clock, Color.red );
 
-        MyModule3 modulePhotons = new MyModule3();
+        MyModule3 modulePhotons = new MyModule3( clock );
 
 
         Module[] m = new Module[]{module, module2, module3, modulePhotons};
