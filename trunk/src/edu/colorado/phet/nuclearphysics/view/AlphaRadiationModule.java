@@ -58,6 +58,7 @@ public class AlphaRadiationModule extends NuclearPhysicsModule implements DecayL
         clear();
 
         nucleus = new Uranium235( new Point2D.Double( 0, 0 ) );
+//        nucleus.setVelocity( 10, 10 );
 //        nucleus = new Uranium235( new Point2D.Double( 200, 400 ) );
         setUraniumNucleus( nucleus );
         nucleus.addDecayListener( this );
