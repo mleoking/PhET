@@ -32,13 +32,13 @@ public class OneAtomTwoLevelsModule extends SingleAtomBaseModule {
         setMonitorPanel( monitorPanel );
         setControlPanel( new TwoLevelControlPanel( this, clock ) );
 
-        double newHeight = 100;
-        ResonatingCavity cavity = this.getCavity();
-        double cavityHeight =  cavity.getHeight();
-        Point2D cavityPos = cavity.getPosition();
-        double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
-        cavity.setPosition( cavityPos.getX(), yNew );
-        cavity.setHeight( newHeight );
+//        double newHeight = 100;
+//        ResonatingCavity cavity = this.getCavity();
+//        double cavityHeight =  cavity.getHeight();
+//        Point2D cavityPos = cavity.getPosition();
+//        double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
+//        cavity.setPosition( cavityPos.getX(), yNew );
+//        cavity.setHeight( newHeight );
 
         ApparatusConfiguration config = new ApparatusConfiguration();
         config.setStimulatedPhotonRate( 8.0f );

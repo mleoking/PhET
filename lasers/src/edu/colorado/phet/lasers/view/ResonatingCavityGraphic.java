@@ -42,6 +42,10 @@ public class ResonatingCavityGraphic extends PhetGraphic implements SimpleObserv
     }
 
     public void update() {
+//        rep = cavity.getBounds();
         rep.setRect( cavity.getMinX(), cavity.getMinY(), cavity.getWidth(), cavity.getHeight() );
+        if( cavity.getWidth() == 300 ) {
+            System.out.println( "!!!" );
+        }
     }
 }
