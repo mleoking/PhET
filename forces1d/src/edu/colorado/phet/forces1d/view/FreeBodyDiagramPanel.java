@@ -1,10 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.common.ApparatusPanel3;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -23,12 +23,12 @@ import java.awt.event.MouseEvent;
 public class FreeBodyDiagramPanel {
 
     private FreeBodyDiagram freeBodyDiagram;
-    private ApparatusPanel2 fbdPanel;
+    private ApparatusPanel3 fbdPanel;
     private WiggleMe fbdWiggleMe;
     private PlotDevice forcePlotDevice;
 
     public FreeBodyDiagramPanel( final Force1DModule module ) {
-        fbdPanel = new ApparatusPanel2( module.getModel(), module.getClock() );
+        fbdPanel = new ApparatusPanel3( module.getModel(), module.getClock() );
         fbdPanel.addGraphicsSetup( new BasicGraphicsSetup() );
         int fbdWidth = 180;
         fbdPanel.setPreferredSize( new Dimension( fbdWidth, fbdWidth ) );
@@ -75,7 +75,7 @@ public class FreeBodyDiagramPanel {
         return freeBodyDiagram;
     }
 
-    public ApparatusPanel2 getFBDPanel() {
+    public ApparatusPanel3 getFBDPanel() {
         return fbdPanel;
     }
 
