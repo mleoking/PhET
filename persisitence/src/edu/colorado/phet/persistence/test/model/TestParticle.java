@@ -11,7 +11,7 @@
 package edu.colorado.phet.persistence.test.model;
 
 import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.persistence.test.util.PersistentParticle;
+import edu.colorado.phet.common.util.persistence.PersistentParticle;
 
 /**
  * TestParticle
