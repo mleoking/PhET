@@ -16,6 +16,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**
@@ -54,11 +55,11 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
      * Sets the magnitude of the magnet's strength, in Gauss.
      * 
      * @param strength the strength
-     * @throws IllegalArgumentException if strength is not >= 0
+     * @throws IllegalArgumentException if strength is outside of the min/max range
      */
     public void setStrength( double strength ) {
-        if ( ! (strength >= 0 ) ) {
-            throw new IllegalArgumentException( "strength must be >= 0 : " + strength );
+        if ( ! (strength >= FaradayConfig.MAGNET_STRENGTH_MIN && strength <= FaradayConfig.MAGNET_STRENGTH_MAX ) ) {
+            throw new IllegalArgumentException( "strength is out of range: " + strength );
         }
         if ( strength != _strength ) {
             _strength = strength;
