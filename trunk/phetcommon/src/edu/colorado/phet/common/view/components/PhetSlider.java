@@ -9,6 +9,7 @@ package edu.colorado.phet.common.view.components;
 
 import edu.colorado.phet.common.math.ModelViewTx1D;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -222,7 +223,14 @@ public class PhetSlider extends JPanel {
             return true;
         }
         catch( IllegalValueException ive ) {
-            JOptionPane.showMessageDialog( this, "Value out of range.\nMinimum= " + ive.getMin() + ", Maximum=" + ive.getMax() + "\nYou entered: " + ive.getValue(), "Illegal value.", JOptionPane.ERROR_MESSAGE );
+            String outofrange = SimStrings.get( "Common.PhetSlider.OutOfRange" );
+            String minimum = SimStrings.get( "Common.PhetSlider.Minimum" );
+            String maximum = SimStrings.get( "Common.PhetSlider.Maximum" );
+            String youentered = SimStrings.get( "Common.PhetSlider.YouEntered" );
+            String description = SimStrings.get( "Common.PhetSlider.Description" );
+            JOptionPane.showMessageDialog( this, outofrange + ".\n" + minimum + "= " + ive.getMin()
+                                + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
+                                + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );
             double value = getValue();
             textField.setText( formatter.format( value ) );
             return false;

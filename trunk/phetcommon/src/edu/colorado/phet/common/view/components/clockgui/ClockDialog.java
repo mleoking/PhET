@@ -23,7 +23,7 @@ public class ClockDialog extends JDialog {
     private ClockControlPanel clockControlPanel;
 
     public ClockDialog( JFrame parentFrame, ThreadedClock clock ) {
-        super( parentFrame, SimStrings.get( "ClockDialog.Title" ), false );
+        super( parentFrame, SimStrings.get( "Common.ClockDialog.Title" ), false );
         init( clock );
         this.pack();
         clock.addClockStateListener( clockControlPanel );
@@ -40,7 +40,7 @@ public class ClockDialog extends JDialog {
 
     private JPanel buildButtonPanel() {
         JPanel buttonPnl = new JPanel( new FlowLayout() );
-        JButton okBtn = new JButton( SimStrings.get( "ClockDialog.OK" ) );
+        JButton okBtn = new JButton( SimStrings.get( "Common.ClockDialog.OK" ) );
         okBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 updateClock();
@@ -49,7 +49,7 @@ public class ClockDialog extends JDialog {
         } );
         buttonPnl.add( okBtn );
 
-        JButton cancelBtn = new JButton( SimStrings.get( "ClockDialog.Cancel" ) );
+        JButton cancelBtn = new JButton( SimStrings.get( "Common.ClockDialog.Cancel" ) );
         cancelBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 ClockDialog.this.hide();
