@@ -120,10 +120,11 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     }
 
     public synchronized void paint( Graphics2D g2 ) {
-//        GraphicsUtil.setAntiAliasingOn( g2 );
+        //        GraphicsUtil.setAntiAliasingOn( g2 );
+
+        Color color = fieldSense == FORCE_ON_ELECTRON ? arrowRed : arrowGreen;
 
         if( fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
-            Color color = fieldSense == FORCE_ON_ELECTRON ? arrowRed : arrowGreen;
             g2.setColor( color );
             g2.setStroke( hollowArrowStroke );
             for( int i = 0; i < arrows.size(); i++ ) {
@@ -144,23 +145,24 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             for( int i = 0; i < latticePts.length; i++ ) {
                 Vector2D f = latticePts[i].field.scale( fieldSense );
                 double l = f.getMagnitude();
-                double theta = f.getAngle();
-                Arrow arrow = new Arrow( new Point2D.Double( -l / 2, 0 ), new Point2D.Double( l / 2, 0 ),
-                                         maxArrowHeadWidth,
-                                         maxArrowHeadWidth, 3, 0.5, true );
-                AffineTransform orgTx = g2.getTransform();
-                AffineTransform tx = latticePts[i].tx;
-                tx.setToTranslation( latticePts[i].location.getX(), latticePts[i].location.getY() );
-                tx.rotate( theta );
-                g2.setColor( Color.red );
-                g2.transform( tx );
+                if( l != 0 ) {
+                    double theta = f.getAngle();
+                    Arrow arrow = new Arrow( new Point2D.Double( -l / 2, 0 ), new Point2D.Double( l / 2, 0 ),
+                                             maxArrowHeadWidth,
+                                             maxArrowHeadWidth, 3, 0.5, true );
+                    AffineTransform orgTx = g2.getTransform();
+                    AffineTransform tx = latticePts[i].tx;
+                    tx.setToTranslation( latticePts[i].location.getX(), latticePts[i].location.getY() );
+                    tx.rotate( theta );
+                    g2.transform( tx );
 
-                g2.setColor( arrowColor );
-                g2.draw( arrow.getShape() );
-                // GraphicsUtil.setAlpha( g2, 0.5 );
-                g2.fill( arrow.getShape() );
-                GraphicsUtil.setAlpha( g2, 1 );
-                g2.setTransform( orgTx );
+                    g2.setColor( color );
+                    g2.draw( arrow.getShape() );
+                    // GraphicsUtil.setAlpha( g2, 0.5 );
+                    g2.fill( arrow.getShape() );
+                    GraphicsUtil.setAlpha( g2, 1 );
+                    g2.setTransform( orgTx );
+                }
             }
         }
     }

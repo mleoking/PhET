@@ -12,8 +12,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 //import edu.colorado.phet.common.view.ApplicationModel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
-import edu.colorado.phet.common.view.util.framesetup.AbsoluteFrameSetup;
+import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
 import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
@@ -56,7 +55,7 @@ public class EmfApplication {
 
         SwingTimerClock clock = new SwingTimerClock( 1, 20, true  );
         Module antennaModule = new EmfModule( clock );
-        FrameSetup fs = new AbsoluteFrameSetup( 1024, 768 );
+        FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
         ApplicationModel appDescriptor = new ApplicationModel(
                 "Radio Waves", GraphicsUtil.formatMessage( "An exploration of how electro-magnetic waves\nare created, how they move through\nspace, and their effects" ),
                 "1", fs );

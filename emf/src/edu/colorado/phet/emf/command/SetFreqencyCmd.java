@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.emf.command;
 
-import edu.colorado.phet.common.model.command.Command;
+import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.emf.model.EmfModel;
 
 public class SetFreqencyCmd implements Command {

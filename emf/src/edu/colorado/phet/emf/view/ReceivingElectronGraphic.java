@@ -7,7 +7,7 @@
 package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.Config;
 

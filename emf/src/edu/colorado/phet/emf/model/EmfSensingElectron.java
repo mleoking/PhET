@@ -31,7 +31,7 @@ public class EmfSensingElectron extends PositionConstrainedElectron {
 
     public synchronized void stepInTime( double dt ) {
         super.stepInTime( dt );
-        Vector2D v = this.getVelocity();
+        Vector2D v = (Vector2D)this.getVelocity();
 
         // If there is no field, then move the electron back to its original location
         if( sourceElectron.isFieldOff( this.getCurrentPosition().getX() ) ) {

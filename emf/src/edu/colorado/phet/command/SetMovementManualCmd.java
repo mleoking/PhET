@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.command;
 
-import edu.colorado.phet.common.model.command.Command;
+import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.emf.model.EmfModel;
 import edu.colorado.phet.emf.model.movement.ManualMovement;
 

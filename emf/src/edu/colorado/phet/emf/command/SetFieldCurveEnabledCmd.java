@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.emf.command;
 
-import edu.colorado.phet.common.model.command.Command;
+import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.emf.view.EmfPanel;
 
 public class SetFieldCurveEnabledCmd implements Command {
