@@ -400,7 +400,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public void setScale( double scale ) {
         transformManager.setScale( scale );
         scaledComponentLayout.layoutSwingComponents( scale );
-        paintImmediately( 0, 0, getWidth(), getHeight() );
+        repaint( 0, 0, getWidth(), getHeight() );
     }
 
 
