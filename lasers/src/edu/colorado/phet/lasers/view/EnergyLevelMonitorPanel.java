@@ -15,15 +15,16 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.lasers.coreadditions.VisibleColor;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.atom.HighEnergyState;
 import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -138,7 +139,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
 
         // Draw middle level atoms
         if( numLevels >= 2 ) {
-            g2.setColor( Color.red );
+            Color c = VisibleColor.wavelengthToColor( MiddleEnergyState.instance().getWavelength() );
+            g2.setColor( c );
             for( int i = 0; i < numMiddleLevel; i++ ) {
                 g2.fillArc( (int)( middleLevelLine.getPosition().getX() + ( atomDiam * i ) ),
                             (int)( middleLevelLine.getPosition().getY() - atomDiam ),
@@ -150,7 +152,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
 
         // Draw high level atoms, if the level is enabled
         if( numLevels >= 3 ) {
-            g2.setColor( Color.blue );
+            Color c = VisibleColor.wavelengthToColor( HighEnergyState.instance().getWavelength() );
+            g2.setColor( c );
             for( int i = 0; i < numHighLevel; i++ ) {
                 g2.fillArc( (int)( highLevelLine.getPosition().getX() + ( atomDiam * i ) ),
                             (int)( highLevelLine.getPosition().getY() - atomDiam ),

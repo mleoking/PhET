@@ -16,6 +16,7 @@ public class GroundState extends AtomicState {
     }
 
     private static GroundState instance = new GroundState();
+
     public static GroundState instance() {
         return instance;
     }
@@ -24,7 +25,7 @@ public class GroundState extends AtomicState {
     private GroundState() {
         setEnergyLevel( 0 );
         setEmittedPhotonWavelength( Photon.GRAY );
-        setMeanLifetime(  Double.POSITIVE_INFINITY );
+        setMeanLifetime( Double.POSITIVE_INFINITY );
     }
 
     public void collideWithPhoton( Atom atom, Photon photon ) {
@@ -45,5 +46,13 @@ public class GroundState extends AtomicState {
         else {
             //            System.out.println( "no emission" );
         }
+    }
+
+    public AtomicState getNextLowerEnergyState() {
+        return this;
+    }
+
+    public AtomicState getNextHigherEnergyState() {
+        return MiddleEnergyState.instance();
     }
 }
