@@ -49,7 +49,15 @@ public class ApparatusPanel extends JPanel {
         super( null );
         this.addMouseListener( graphic );
         this.addMouseMotionListener( graphic );
-        setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+//        setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+        final Stroke borderStroke = new BasicStroke( 1 );
+        addGraphic( new Graphic() {
+            public void paint( Graphics2D g ) {
+                g.setColor( Color.black );
+                g.setStroke( borderStroke );
+                g.drawRect( 0, 0, getWidth() - 1, getHeight() - 1 );
+            }
+        }, Double.NEGATIVE_INFINITY );
     }
 
     public void addGraphicsSetup( GraphicsSetup setup ) {

@@ -38,6 +38,14 @@ public class DoubleGeneralPath {
         path.moveTo( (float)x, (float)y );
     }
 
+    public void moveTo( Point2D pt ) {
+        moveTo( pt.getX(), pt.getY() );
+    }
+
+    public void moveTo( AbstractVector2D vec ) {
+        moveTo( vec.getX(), vec.getY() );
+    }
+
     public void lineTo( double x, double y ) {
         path.lineTo( (float)x, (float)y );
     }
@@ -49,6 +57,11 @@ public class DoubleGeneralPath {
     public void lineToRelative( double dx, double dy ) {
         Point2D cur = path.getCurrentPoint();
         lineTo( cur.getX() + dx, cur.getY() + dy );
+    }
+
+    public void lineToRelative( AbstractVector2D vec ) {
+        Point2D cur = path.getCurrentPoint();
+        lineTo( cur.getX() + vec.getX(), cur.getY() + vec.getY() );
     }
 
     public GeneralPath getGeneralPath() {
