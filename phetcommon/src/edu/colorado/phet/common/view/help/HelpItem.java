@@ -153,7 +153,8 @@ public class HelpItem extends PhetGraphic {
 
         for( int i = 0; i < sa.length; i++ ) {
             int y = (int)yBase + (int)location.getY() + ( i + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
-            PhetShadowTextGraphic textGraphic = new PhetShadowTextGraphic( getComponent(), sa[i], font, x, y, foregroundColor, 1, 1, shadowColor );
+            PhetShadowTextGraphic textGraphic = new PhetShadowTextGraphic( getComponent(), font, sa[i], foregroundColor, 1, 1, shadowColor );
+            textGraphic.setLocation( x, y );
             shadowTextGraphics.add( textGraphic );
         }
     }

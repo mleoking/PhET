@@ -26,18 +26,46 @@ public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
     private String[] text;
     private FontMetrics fontMetrics;
 
+    public PhetMultiLineTextGraphic( Component component, Font font, String[] text, Color color ) {
+        this( component, font, text, new Basic( component, font, color ) );
+    }
+
+    public PhetMultiLineTextGraphic( Component component, Font font, String[] text, Color color, int dx, int dy, Color backgroundColor ) {
+        this( component, font, text, new Shadowed( component, font, color, dx, dy, backgroundColor ) );
+    }
+
+    public PhetMultiLineTextGraphic( Component component, Font font, String[] text, LineCreator lineCreator ) {
+        super( component );
+        this.text = text;
+        this.lineCreator = lineCreator;
+        this.fontMetrics = component.getFontMetrics( font );
+        init();
+    }
+
+    /**
+     * @deprecated
+     */
     public PhetMultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, Color color ) {
         this( component, text, font, x, y, new Basic( component, font, color ) );
     }
 
+    /**
+     * @deprecated
+     */
     public PhetMultiLineTextGraphic( Component component, String text, Font font, int x, int y, Color foreground, int dx, int dy, Color background ) {
         this( component, new String[]{text}, font, x, y, foreground, dx, dy, background );
     }
 
+    /**
+     * @deprecated
+     */
     public PhetMultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, Color foreground, int dx, int dy, Color background ) {
         this( component, text, font, x, y, new Shadowed( component, font, foreground, dx, dy, background ) );
     }
 
+    /**
+     * @deprecated
+     */
     public PhetMultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, LineCreator lineCreator ) {
         super( component );
         this.text = text;
@@ -105,7 +133,9 @@ public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
         }
 
         public PhetGraphic createLine( String text, int x, int y ) {
-            return new PhetShadowTextGraphic( component, text, font, x, y, foregroundColor, dx, dy, backgroundColor );
+            PhetShadowTextGraphic pstg = new PhetShadowTextGraphic( component, font, text, foregroundColor, dx, dy, backgroundColor );
+            pstg.setLocation( x, y );
+            return pstg;
         }
     }
 

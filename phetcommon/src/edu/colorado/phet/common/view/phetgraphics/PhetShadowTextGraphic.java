@@ -25,6 +25,15 @@ public class PhetShadowTextGraphic extends PhetGraphic {
     private PhetTextGraphic foreground;
     private PhetTextGraphic background;
 
+    public PhetShadowTextGraphic( Component component, Font font, String text, Color foregroundColor, int dx, int dy, Color backgroundColor ) {
+        super( component );
+        foreground = new PhetTextGraphic( component, font, text, foregroundColor );
+        background = new PhetTextGraphic( component, font, text, backgroundColor, dx, dy );
+    }
+
+    /**
+     * @deprecated
+     */
     public PhetShadowTextGraphic( Component component, String text, Font font, int x, int y, Color foregroundColor, int dx, int dy, Color backgroundColor ) {
         super( component );
         foreground = new PhetTextGraphic( component, font, text, foregroundColor, 0, 0 );

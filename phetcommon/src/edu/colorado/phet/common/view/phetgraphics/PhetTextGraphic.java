@@ -22,9 +22,7 @@ import java.awt.*;
  * PhetTextGraphic
  *
  * @author ?
- *         <<<<<<< PhetTextGraphic.java
  * @version $Revision$
- *          >>>>>>> 1.18
  */
 public class PhetTextGraphic extends PhetGraphic {
     private Font font;
@@ -32,11 +30,21 @@ public class PhetTextGraphic extends PhetGraphic {
     private Color color;
     private FontMetrics fontMetrics;
 
+    /**
+     * Create a PhetTextGraphic at (0,0).  You can now set location easily with setLocation().
+     *
+     * @param component
+     * @param font
+     * @param text
+     * @param color
+     */
+    public PhetTextGraphic( Component component, Font font, String text, Color color ) {
+        this( component, font, text, color, 0, 0 );
+    }
 
     public PhetTextGraphic( Component component, Font font, String text, Color color, int x, int y ) {
         super( component );
         setFont( font );
-//        this.font = font;
         this.text = text;
         this.color = color;
         this.fontMetrics = component.getFontMetrics( font );

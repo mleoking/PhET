@@ -56,12 +56,12 @@ public class TestPhetGraphicsStrategy extends JFrame {
             },
             new TestPhetGraphicSource() {
                 public PhetGraphic createGraphic( Component panel ) {
-                    return new PhetMultiLineTextGraphic( panel, new String[]{"PhET", "Multi-", "Line", "TextGraphic"}, new Font( "dialog", 0, 28 ), 200, 200, Color.red, 1, 1, Color.yellow );
+                    return new PhetMultiLineTextGraphic( panel, new Font( "dialog", 0, 28 ), new String[]{"PhET", "Multi-", "Line", "TextGraphic"}, Color.red, 1, 1, Color.yellow );
                 }
             },
             new TestPhetGraphicSource() {
                 public PhetGraphic createGraphic( Component panel ) {
-                    return new PhetShadowTextGraphic( panel, "Shadowed", new Font( "dialog", Font.BOLD, 28 ), 120, 120, Color.blue, 1, 1, Color.green );
+                    return new PhetShadowTextGraphic( panel, new Font( "dialog", Font.BOLD, 28 ), "Shadowed", Color.blue, 1, 1, Color.green );
                 }
             },
             new TestPhetGraphicSource() {
@@ -69,7 +69,10 @@ public class TestPhetGraphicsStrategy extends JFrame {
                     CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
                     cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
                     cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
-                    cpg.addGraphic( new PhetShadowTextGraphic( panel, "compositegraphic", new Font( "Lucida Sans", 0, 12 ), 130, 30, Color.white, 1, 1, Color.black ) );
+                    PhetShadowTextGraphic graphic = new PhetShadowTextGraphic( panel, new Font( "Lucida Sans", 0, 12 ), "compositegraphic", Color.white, 1, 1, Color.black );
+                    graphic.setLocation( 130, 30 );
+                    cpg.addGraphic( graphic );
+
                     return cpg;
                 }
             },
