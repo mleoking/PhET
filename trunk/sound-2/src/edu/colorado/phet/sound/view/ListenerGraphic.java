@@ -64,6 +64,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
             location.setLocation( x, y );
             image.setPosition( (int)x, (int)y );
             listener.setLocation( location );
+            model.setListenerLocation( location.getX() - SoundConfig.s_speakerBaseX, location.getY() );
         }
     }
 
@@ -86,6 +87,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
      */
     private int numSamples = 5;
     private LinkedList samples = new LinkedList();
+
 
     /**
      *
