@@ -46,13 +46,17 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     private static final double WAVE_LAYER = 4;
     private static final double CURSOR_LAYER = 5;
 
-    // Value display
+    // Amplitude & frequency values
     private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
     private static final Color VALUE_COLOR = Color.GREEN;
     
-    // Sine wave display
+    // Sine wave
     private static final Dimension WAVE_VIEWPORT_SIZE = new Dimension( 156, 122 );
     private static final Point WAVE_ORIGIN = new Point( 133, 103 );
+    
+    // Cursor
+    private static final Color CURSOR_COLOR = Color.RED;
+    private static final Stroke CURSOR_STROKE = new BasicStroke( 1f );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -64,6 +68,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     private PhetTextGraphic _amplitudeValue;
     private PhetTextGraphic _frequencyValue;
     private SineWaveGraphic _waveGraphic;
+    private PhetShapeGraphic _cursorGraphic;
     private String _amplitudeFormat;
     private String _frequencyFormat;
     private double _previousMaxAmplitude;
@@ -153,6 +158,18 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             addGraphic( _waveGraphic, WAVE_LAYER );
         }
         
+        // Cursor
+        {
+            int yOffset = WAVE_VIEWPORT_SIZE.height / 2;
+            Shape shape = new Line2D.Double( 0, -yOffset, 0, yOffset );
+            _cursorGraphic = new PhetShapeGraphic( component );
+            _cursorGraphic.setShape( shape );
+            _cursorGraphic.setBorderColor( CURSOR_COLOR );
+            _cursorGraphic.setStroke( CURSOR_STROKE );
+            _cursorGraphic.setLocation( WAVE_ORIGIN );
+            addGraphic( _cursorGraphic, CURSOR_LAYER );
+        }
+        
         // Registration point is the bottom center.
         int rx = getWidth() / 2;
         int ry = getHeight();
@@ -221,6 +238,16 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                 _waveGraphic.update();
             }
             
+            // Update the cursor position on every clock tick.
+            {
+                int x = _cursorGraphic.getX() + 1;
+                int y = _cursorGraphic.getY();
+                if ( x > WAVE_ORIGIN.x + ( WAVE_VIEWPORT_SIZE.width / 2 ) ) {
+                    x = WAVE_ORIGIN.x - ( WAVE_VIEWPORT_SIZE.width / 2  );
+                }
+                _cursorGraphic.setLocation( x, y );
+            }
+            
             _previousMaxAmplitude = maxAmplitude;
             _previousFrequency = frequency;
             
@@ -282,20 +309,25 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         private static final double AXES_LAYER = 3;
         private static final double TICK_LAYER = 4;
         
-        // Title parameters
+        // Title
         private static final Font TITLE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
         private static final Color TITLE_COLOR = Color.WHITE;
         
-        // Axes parameters
+        // Axes
         private static final Stroke AXES_STROKE = new BasicStroke( 1f );
         private static final Color AXES_COLOR = new Color( 255, 255, 255, 100 ); // transparent white
         
-        // Tick mark parameters
+        // Tick marks
         private static final Stroke TICK_STROKE = AXES_STROKE;
         private static final Color TICK_COLOR = AXES_COLOR;
         private static final int TICK_SPACING = 10; // pixels
         private static final int TICK_LENGTH = 8; // pixels
         
+        /**
+         * Sole constructor.
+         * 
+         * @param component
+         */
         public BackgroundGraphic( Component component ) {
             super( component );
             
