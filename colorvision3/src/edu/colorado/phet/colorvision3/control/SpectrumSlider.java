@@ -2,18 +2,18 @@
 
 package edu.colorado.phet.colorvision3.control;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
@@ -24,6 +24,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
+import edu.colorado.phet.colorvision3.view.BoundsOutline;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
@@ -57,6 +58,8 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
 	// Instance data
   //----------------------------------------------------------------------------
 
+  // The parent Component.
+  private Component _parent;
   // The upper left corner of the spectrum graphic.
   private Point _location;
   // The spectrum graphic.
@@ -91,6 +94,8 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   {
     super( null );
   
+    _parent = parent;
+    
     // Listeners
     _listenerList = new EventListenerList();
     
@@ -101,10 +106,10 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     _knob = new SpectrumSliderKnob( parent );
  
     // Drag behavior
+    super.setBoundedGraphic( _knob );
+    super.addCursorHandBehavior();
+    super.addTranslationBehavior( this );
     _dragBounds = new Rectangle( 0, 0, 0, 0); // set correctly by setLocation
-    this.setBoundedGraphic( _knob );
-    this.addCursorHandBehavior();
-    this.addTranslationBehavior( this );
     
     // Initial values.
     setMinimum( 0 );
@@ -221,15 +226,11 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     _attributedString.addAttribute( TextAttribute.FOREGROUND, color );
     _attributedString.addAttribute( TextAttribute.FONT, font );
     
-    // Determine the label dimensions.
-    // This will be used in calculating the SpectrumSlider bounds.
-    // Note that we use the font height to calculate the label width,
-    // since LineMetrics tell us nothing about the width.
-    FontRenderContext frc = new FontRenderContext( null, true, false );
-    LineMetrics metrics = font.getLineMetrics( _labelString, frc );
-    float height = metrics.getHeight();
-    int numChars = metrics.getNumChars();
-    _labelDimension = new Dimension( (int)(numChars * height), (int)height );
+    // Determine the label dimensions for bounds calculations.
+    FontMetrics fontMetrics = _parent.getFontMetrics( font );
+    int height = fontMetrics.getHeight();
+    int width = fontMetrics.stringWidth( label );
+    _labelDimension = new Dimension( width, height );
   }
   
   /**
@@ -301,11 +302,11 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   }
 
   /**
-   * Determines the bounds.
+   * Gets the bounds.
    * 
    * @return the bounds
    */
-  protected Rectangle determineBounds()
+  protected Rectangle getBounds()
   {
     // Start with the spectrum graphic's bounds.
     Rectangle bounds = _spectrum.getBounds();
@@ -327,10 +328,31 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     return bounds;
   }
 
+  /*
+   * Overrides superclass implementation.
+   */
+  public void setVisible( boolean visible )
+  {
+    if ( visible != super.isVisible() )
+    {
+      super.setVisible( visible );
+      repaint();
+    }
+  }
+  
 	//----------------------------------------------------------------------------
 	// Rendering
   //----------------------------------------------------------------------------
-
+  
+  /**
+   * Repaints the slider.
+   */
+  public void repaint()
+  {
+    Rectangle r = getBounds();
+    _parent.repaint( r.x, r.y, r.width, r.height );
+  }
+  
   /**
    * Renders the slider.
    * 
@@ -346,7 +368,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
       // Request antialiasing.
       RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
       g2.setRenderingHints( hints );
-
+      
       // Render label.
       if ( _attributedString != null )
       {
@@ -361,6 +383,8 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
       if ( _transmissionWidth > 0 )
       {
         renderBellCurve( g2, (int)_transmissionWidth, _spectrum.getBounds().height );
+//        System.out.println( "paint: spectrum bounds=" + _spectrum.getBounds() ); //XXX
+//        System.out.println( "paint: this bounds=" + this.determineBounds() ); //XXX
       }
   
       // Render slider knob.
@@ -368,6 +392,8 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
       
       // Restore graphics state
       g2.setRenderingHints( oldHints );
+      
+      BoundsOutline.paint( g2, getBounds(), Color.GREEN, new BasicStroke(1f) ); // DEBUG
     }
   }
   
