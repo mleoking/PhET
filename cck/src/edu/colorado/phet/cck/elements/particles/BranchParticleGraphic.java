@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -21,24 +21,17 @@ import java.awt.image.ImageObserver;
  * Time: 3:36:19 AM
  * Copyright (c) Sep 4, 2003 by Sam Reid
  */
-public class BranchParticleGraphic implements Graphic {
+public class BranchParticleGraphic extends FastPaintImageGraphic {
     BranchParticle particle;
     ModelViewTransform2D transform;
-    private Module module;
     private BufferedImage image;
-    private ImageObserver obs;
     private Point viewCoord;
-    private int width = 20;
-    private int height = 20;
 
     public BranchParticleGraphic( BranchParticle particle, ModelViewTransform2D transform, Module module, BufferedImage image, ImageObserver obs ) {
+        super( image, module.getApparatusPanel() );
         this.particle = particle;
         this.transform = transform;
-        this.module = module;
         this.image = image;
-        this.obs = obs;
-        this.width = image.getWidth();
-        this.height = image.getHeight();
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D ModelViewTransform2D ) {
                 stateChanged();
@@ -57,19 +50,16 @@ public class BranchParticleGraphic implements Graphic {
             public void currentOrVoltageChanged( Branch branch2 ) {
             }
         } );
-        stateChanged();
+
+        ImmutableVector2D loc = particle.getPosition2D();
+        this.viewCoord = transform.modelToView( loc );
+        super.setPositionNoRepaint( viewCoord );
     }
 
     private void stateChanged() {
         ImmutableVector2D loc = particle.getPosition2D();
         this.viewCoord = transform.modelToView( loc );
-        module.getApparatusPanel().repaint();
-    }
-
-    public void paint( Graphics2D g ) {
-//        g.setColor(Color.blue);
-//        g.fillRect(viewCoord.x-width/2,viewCoord.y-height/2,width,height);
-        g.drawImage( image, viewCoord.x - width / 2, viewCoord.y - height / 2, obs );
+        super.setPosition( viewCoord );
     }
 
     public BranchParticle getBranchParticle() {

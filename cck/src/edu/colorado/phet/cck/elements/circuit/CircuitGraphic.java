@@ -79,7 +79,7 @@ public class CircuitGraphic extends CompositeInteractiveGraphic implements Circu
         addGraphic( cbg, 0 );
         graphicsTable.put( branch, cbg );
         compositeTransformListener.addTransformListener( cbg );
-        module.repaint();
+//        module.repaint();
     }
 
     public AbstractBranchGraphic[] getBranchGraphics() {
@@ -168,7 +168,7 @@ public class CircuitGraphic extends CompositeInteractiveGraphic implements Circu
         AbstractBranchGraphic g = (AbstractBranchGraphic)graphicsTable.get( branch );
         removeGraphic( g );
         graphicsTable.remove( branch );
-        module.repaint();
+//        module.repaint();
     }
 
     public void connectivityChanged( Circuit circuit2 ) {
@@ -176,7 +176,7 @@ public class CircuitGraphic extends CompositeInteractiveGraphic implements Circu
 
     public void transformChanged( ModelViewTransform2D ModelViewTransform2D ) {
         compositeTransformListener.transformChanged( ModelViewTransform2D );
-        module.repaint();
+//        module.repaint();
     }
 
     public AbstractBranchGraphic getGraphic( Branch newElm ) {

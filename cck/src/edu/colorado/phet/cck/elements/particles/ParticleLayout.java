@@ -19,16 +19,6 @@ public class ParticleLayout {
         this.distBetweenElectrons = distBetweenElectrons;
     }
 
-//    public void layout2(Branch newElm, ParticleSet ps) {
-//        double electronDX = newElm.getLength() / 10.0;
-//        double electronX = electronDX;
-//        while (electronX < newElm.getLength()) {
-//            BranchParticle bp = new BranchParticle(newElm);
-//            ps.addParticle(bp);
-//            bp.setPosition(electronX);
-//            electronX += electronDX;
-//        }
-//    }
     public void layout( Circuit circuit, ParticleSet ps ) {
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             layout( circuit.branchAt( i ), ps );
@@ -39,7 +29,6 @@ public class ParticleLayout {
 
         ps.removeParticlesForBranch( newElm );
 
-//        double electronX = 0;
         double electronX = distBetweenElectrons;
         while( electronX < newElm.getLength() ) {
             BranchParticle bp = new BranchParticle( newElm );
