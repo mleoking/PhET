@@ -70,7 +70,8 @@ public class LightBulb extends SimpleObservable implements SimpleObserver {
      * @return the intensity (0.0 - 1.0)
      */
     public double getIntensity() {
-        double intensity = _coilModel.getVoltage() / FaradayConfig.MAX_EMF;
+        double voltage = Math.abs( _coilModel.getVoltage() );
+        double intensity = voltage / FaradayConfig.MAX_EMF;
         intensity = MathUtil.clamp( 0, intensity, 1 );
         if ( intensity == Double.NaN ) {
             System.out.println( "WARNING: LightBulb.stepInTime: intensity=NaN" );
