@@ -112,8 +112,8 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     super.addTranslationBehavior( this );
 
     // Initial values.
-    setMinimum( 0 );
-    setMaximum( 100 );
+    setMinimum( (int) VisibleColor.MIN_WAVELENGTH );
+    setMaximum( (int) VisibleColor.MAX_WAVELENGTH );
     setLocation( 0, 0 );
     setValue( 0 );
     setTransmissionWidth( 0 );
@@ -180,7 +180,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
    * 
    * @param minimum the minimum
    */
-  public void setMinimum( int minimum )
+  protected void setMinimum( int minimum )
   {
     _minimum = minimum;
   }
@@ -200,7 +200,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
    * 
    * @param maximum the maximum
    */
-  public void setMaximum( int maximum )
+  protected void setMaximum( int maximum )
   {
     _maximum = maximum;
   }
