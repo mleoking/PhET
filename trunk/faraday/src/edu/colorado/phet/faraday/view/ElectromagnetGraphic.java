@@ -12,8 +12,22 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 
-import edu.colorado.phet.faraday.model.Electromagnet;
+import javax.swing.event.MouseInputAdapter;
+
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.faraday.model.Battery;
+import edu.colorado.phet.faraday.model.SourceCoil;
 
 
 /**
@@ -22,9 +36,231 @@ import edu.colorado.phet.faraday.model.Electromagnet;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ElectromagnetGraphic extends BarMagnetGraphic {
+public class ElectromagnetGraphic 
+implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
 
-    public ElectromagnetGraphic( Component component, Electromagnet magnetModel ) {
-        super( component, magnetModel );
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private Rectangle _parentBounds;
+    private SourceCoil _sourceCoilModel;
+    private CoilGraphic _coilGraphic;
+    private BatteryGraphic _batteryGraphic;
+    private CompositePhetGraphic _foreground, _background;
+    private CollisionDetector _collisionDetector;
+    
+    //----------------------------------------------------------------------------
+    // Constructors & finalizers
+    //----------------------------------------------------------------------------
+    
+    public ElectromagnetGraphic(
+            Component component,
+            BaseModel baseModel,
+            SourceCoil sourceCoilModel,
+            Battery batteryModel ) {
+        
+        assert ( component != null );
+        assert ( baseModel != null );
+        assert ( sourceCoilModel != null );
+        assert ( batteryModel != null );
+        
+        _collisionDetector = new CollisionDetector( this );
+        
+        _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
+        
+        _sourceCoilModel = sourceCoilModel;
+        _sourceCoilModel.addObserver( this );
+        
+        // Graphics components
+        _coilGraphic = new CoilGraphic( component, baseModel, sourceCoilModel );
+        _batteryGraphic = new BatteryGraphic( component, batteryModel );
+        
+        // Foreground composition
+        _foreground = new CompositePhetGraphic( component );
+        _foreground.addGraphic( _coilGraphic.getForeground() );
+        _foreground.addGraphic( _batteryGraphic );
+        
+        // Background composition
+        _background = new CompositePhetGraphic( component );
+        _background.addGraphic( _coilGraphic.getBackground() );
+        
+        // Interactivity
+        _foreground.setCursorHand();
+        _background.setCursorHand();
+        InteractivityListener listener = new InteractivityListener();
+        _foreground.addTranslationListener( listener );
+        _foreground.addMouseInputListener( listener );
+        _background.addTranslationListener( listener );
+        _background.addMouseInputListener( listener );
+        
+        update();
+    }
+    
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void finalize() {
+        _sourceCoilModel.removeObserver( this );
+        _sourceCoilModel = null;
+        _coilGraphic.finalize();
+        _batteryGraphic.finalize();
+    }
+    
+
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+
+    /**
+     * Gets the PhetGraphic that contains the foreground elements of the coil.
+     * 
+     * @return the foreground graphics
+     */
+    public PhetGraphic getForeground() {
+        return _foreground;
+    }
+    
+    /**
+     * Gets the PhetGraphic that contains the background elements of the coil.
+     * 
+     * @return the background graphics
+     */
+    public PhetGraphic getBackground() {
+        return _background;
+    }
+    
+    /**
+     * Gets the coil graphic.
+     * This is intended for use in debugging, or for connecting a control panel.
+     */
+    public CoilGraphic getCoilGraphic() {
+        return _coilGraphic;
+    }
+ 
+    /**
+     * Is a specified point inside the graphic?
+     * 
+     * @param p the point
+     * @return true or false
+     */
+    public boolean contains( Point p ) {
+        return _foreground.contains( p ) || _background.contains( p );
+    }
+    
+    public void setVisible( boolean visible ) {
+        _foreground.setVisible( visible );
+        _background.setVisible( visible );
+        update();
+    }
+    
+    public boolean isVisible() {
+        return _foreground.isVisible() || _background.isVisible();
+    }
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    public void update() {
+        if ( isVisible() ) {
+            // Location
+            _foreground.setLocation( (int) _sourceCoilModel.getX(), (int) _sourceCoilModel.getY() );
+            _background.setLocation( (int) _sourceCoilModel.getX(), (int) _sourceCoilModel.getY() );
+            
+            // Position the voltage sources at the top of the coil.
+            _foreground.clearTransform();
+            _background.clearTransform();
+            Rectangle bounds = new Rectangle( _coilGraphic.getForeground().getBounds() );
+            bounds.union( _coilGraphic.getBackground().getBounds() );
+            int x = 0;
+            int y = -( bounds.height / 2 ) - 25;
+            _batteryGraphic.setLocation( x, y );
+            
+            // Direction (do this *after* positioning voltage sources!)
+            _foreground.rotate( _sourceCoilModel.getDirection() );
+            _background.rotate( _sourceCoilModel.getDirection() );
+            
+            _foreground.repaint();
+            _background.repaint();
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // ICollidable implementation
+    //----------------------------------------------------------------------------
+   
+    /*
+     * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionDetector()
+     */
+    public CollisionDetector getCollisionDetector() {
+        return _collisionDetector;
+    }
+    
+    /*
+     * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionBounds()
+     */
+    public Rectangle[] getCollisionBounds() {
+       return _coilGraphic.getCollisionBounds();
+    }
+    
+    //----------------------------------------------------------------------------
+    // ApparatusPanel2.ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
+     */
+    public void canvasSizeChanged( ChangeEvent event ) {
+        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /**
+     * InteractivityListener is an inner class that handles interactivity.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private class InteractivityListener extends MouseInputAdapter implements TranslationListener {
+        
+        private boolean _stopDragging;
+        
+        public InteractivityListener() {
+            super();
+            _stopDragging = false;
+        }
+        
+        public void translationOccurred( TranslationEvent e ) {
+            int dx = e.getDx();
+            int dy = e.getDy();
+            boolean collidesNow = _collisionDetector.collidesNow();
+            boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
+            if ( !collidesNow && wouldCollide ) {
+                // Ignore the translate if it would result in a collision.
+                _stopDragging = true;
+                update();
+            }
+            else if ( !_stopDragging && _parentBounds.contains( e.getMouseEvent().getPoint() ) ) {
+                // Translate if the mouse cursor is inside the parent component.
+                double x = _sourceCoilModel.getX() + e.getDx();
+                double y = _sourceCoilModel.getY() + e.getDy();
+                _sourceCoilModel.setLocation( x, y );
+            }
+        }
+        
+        public void mouseDragged( MouseEvent event ) {
+            if ( _stopDragging && contains( event.getPoint() ) ) {
+                _stopDragging = false;
+            }
+        }
+        
+        public void mouseReleased( MouseEvent event ) {
+            _stopDragging = false;
+        }
     }
 }

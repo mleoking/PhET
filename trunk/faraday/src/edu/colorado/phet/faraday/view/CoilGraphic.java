@@ -355,11 +355,8 @@ public class CoilGraphic implements SimpleObserver {
      * @return true or false
      */
     private boolean electronsChanged() {
-        boolean changed = false;
-        if ( _voltage != _coilModel.getVoltage() ) {
-            changed = true;
-            _voltage = _coilModel.getVoltage();
-        }
+        boolean changed = ! ( _voltage == 0 && _coilModel.getVoltage() == 0 );
+        _voltage = _coilModel.getVoltage();
         return changed;
     }
     
@@ -629,9 +626,11 @@ public class CoilGraphic implements SimpleObserver {
         double speed = _coilModel.getVoltage() / FaradayConfig.MAX_EMF;
         
         // Rescale the speed to improve the visual effect.
-        double sign = ( speed < 0 ) ? -1 : +1;
-        speed = sign * _coilModel.getMagnet().rescale( Math.abs( speed ) );
-        speed = MathUtil.clamp( -1, speed, +1 );
+        if ( _coilModel.getMagnet() != null ) {  //XXX
+            double sign = ( speed < 0 ) ? -1 : +1;
+            speed = sign * _coilModel.getMagnet().rescale( Math.abs( speed ) );
+            speed = MathUtil.clamp( -1, speed, +1 );
+        }
 
         return speed;
     }

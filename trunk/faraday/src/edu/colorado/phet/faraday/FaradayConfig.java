@@ -45,6 +45,7 @@ public class FaradayConfig {
     // Images
     private static final String IMAGES_DIRECTORY = "images/";
     public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
+    public static final String BATTERY_IMAGE = IMAGES_DIRECTORY + "battery.png";
     public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
     public static final String ELECTRON_IMAGE = IMAGES_DIRECTORY + "electron.png";
     public static final String FIELD_METER_IMAGE = IMAGES_DIRECTORY + "fieldMeter.png";
@@ -96,7 +97,13 @@ public class FaradayConfig {
     public static final double MAX_PICKUP_RADIUS = 125.0;
     public static final double MIN_PICKUP_RADIUS = 0.5 * MAX_PICKUP_RADIUS;
 
+    // Battery parameters 
+    public static final double BATTERY_VOLTAGE_MAX = 100.0;
 
+    // AC parameters
+    public static final double AC_AMPLITUDE_MAX = 100.0;
+    public static final double AC_FREQUENCY_MAX = 100.0;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------

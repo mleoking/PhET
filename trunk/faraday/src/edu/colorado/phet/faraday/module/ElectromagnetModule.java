@@ -23,13 +23,11 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.ElectromagnetControlPanel;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.faraday.model.Battery;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.Electromagnet;
-import edu.colorado.phet.faraday.view.CompassGraphic;
-import edu.colorado.phet.faraday.view.CompassGridGraphic;
-import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
-import edu.colorado.phet.faraday.view.FieldMeterGraphic;
+import edu.colorado.phet.faraday.model.SourceCoil;
+import edu.colorado.phet.faraday.view.*;
 
 
 /**
@@ -46,9 +44,11 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
 
     // Rendering layers
     private static final double GRID_LAYER = 1;
-    private static final double ELECTROMAGNET_LAYER = 2;
-    private static final double COMPASS_LAYER = 3;
-    private static final double METER_LAYER = 4;
+    private static final double ELECTROMAGNET_BACK_LAYER = 2;
+    private static final double ELECTROMAGNET_LAYER = 3;
+    private static final double COMPASS_LAYER = 4;
+    private static final double ELECTROMAGNET_FRONT_LAYER = 5;
+    private static final double METER_LAYER = 6;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
@@ -56,9 +56,17 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
     private static final Point MAGNET_LOCATION = new Point( 400, 300 );
     private static final Point COMPASS_LOCATION = new Point( 150, 200 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
+    private static final Point SOURCE_COIL_LOCATION = new Point( 500, 400 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
+    
+    // Battery
+    private static final double BATTERY_VOLTAGE = 9; // volts
+    
+    // Source Coil
+    private static final int NUMBER_OF_LOOPS = 4;
+    private static final double LOOP_RADIUS = 50.0;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -107,6 +115,17 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         compassModel.setRotationalKinematicsEnabled( true );
         model.addModelElement( compassModel );
         
+        // Battery
+        Battery batteryModel = new Battery();
+        batteryModel.setVoltage( BATTERY_VOLTAGE );
+        
+        // Source Coil
+        SourceCoil sourceCoilModel = new SourceCoil( batteryModel );
+        sourceCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
+        sourceCoilModel.setRadius( LOOP_RADIUS );
+        sourceCoilModel.setDirection( 0 /* radians */ );
+        sourceCoilModel.setLocation( SOURCE_COIL_LOCATION );
+        
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -117,9 +136,10 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         this.setApparatusPanel( apparatusPanel );
         
         // Bar Magnet
-        ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, electromagnetModel );
+        ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, sourceCoilModel, batteryModel );
         apparatusPanel.addChangeListener( electromagnetGraphic );
-        apparatusPanel.addGraphic( electromagnetGraphic, ELECTROMAGNET_LAYER );
+        apparatusPanel.addGraphic( electromagnetGraphic.getForeground(), ELECTROMAGNET_FRONT_LAYER );
+        apparatusPanel.addGraphic( electromagnetGraphic.getBackground(), ELECTROMAGNET_BACK_LAYER );
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, electromagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
@@ -128,7 +148,7 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         apparatusPanel.addChangeListener( _gridGraphic );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
         
-        // CompassGraphic
+        // Compass
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addChangeListener( compassGraphic );
@@ -137,7 +157,7 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         // Field Meter
         FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, electromagnetModel );
         fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        fieldMeterGraphic.setVisible( true );
+        fieldMeterGraphic.setVisible( false );
         apparatusPanel.addChangeListener( fieldMeterGraphic );
         apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
         
@@ -157,7 +177,8 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        ElectromagnetControlPanel controlPanel = new ElectromagnetControlPanel( this );
+        ElectromagnetControlPanel controlPanel = new ElectromagnetControlPanel( this, 
+                batteryModel, compassModel, _gridGraphic, fieldMeterGraphic );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
