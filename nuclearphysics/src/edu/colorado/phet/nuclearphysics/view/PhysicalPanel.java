@@ -52,23 +52,21 @@ public class PhysicalPanel extends TxApparatusPanel {
         NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
                 PhysicalPanel.this.removeGraphic( txg );
-                nucleus.removeListener( this );
             }
         };
         nucleus.addListener( listener );
         addGraphic( txg, nucleusLevel );
     }
 
-    public void removeNucleus( Nucleus nucleus ) {
-        //        removeGraphic( (Graphic)modelElementToGraphicMap.get( nucleus ) );
-        //        modelElementToGraphicMap.remove( nucleus );
-        return;
-    }
+    //    public void removeNucleus( Nucleus nucleus ) {
+    //        //        removeGraphic( (Graphic)modelElementToGraphicMap.get( nucleus ) );
+    //        //        modelElementToGraphicMap.remove( nucleus );
+    //        return;
+    //    }
 
     public synchronized void addGraphic( Graphic graphic ) {
         TxGraphic txg = new TxGraphic( graphic, nucleonTx );
         super.addGraphic( txg );
-        //        addGraphic( graphic, nucleonTx );
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
@@ -85,31 +83,9 @@ public class PhysicalPanel extends TxApparatusPanel {
         gs.restoreGraphics();
     }
 
-    public void clear() {
-        //        Iterator it = modelElementToGraphicMap.keySet().iterator();
-        //        while( it.hasNext() ) {
-        //            removeGraphic( (Graphic)modelElementToGraphicMap.get( (Nucleus)it.next() ) );
-        //        }
-        //        modelElementToGraphicMap.clear();
-    }
-
-    //    protected void addGraphic( Graphic graphic, double level, AffineTransform atx ) {
-    //        TxGraphic txg = new TxGraphic( graphic, atx );
-    //        super.addGraphic( txg, level );
-    //    }
-    //
-    //    protected void addGraphic( Graphic graphic, AffineTransform atx ) {
-    //        TxGraphic txg = new TxGraphic( graphic, atx );
-    //        super.addGraphic( txg );
-    //    }
-
     //
     // Statics
     //
-
-    //    public synchronized void addOriginCenteredGraphic( Graphic graphic, double level ) {
-    //        this.addGraphic( graphic, level, originTx );
-    //    }
     public void addOriginCenteredGraphic( Graphic graphic, double level ) {
         TxGraphic txg = new TxGraphic( graphic, this.originTx );
         addGraphic( txg, level );

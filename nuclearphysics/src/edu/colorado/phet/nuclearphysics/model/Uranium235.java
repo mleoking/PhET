@@ -164,8 +164,8 @@ public class Uranium235 extends Nucleus {
      */
     private void morph( int numNeutrons, int numProtons ) {
         if( doMorph ) {
-            this.morphTargetNeutrons = numNeutrons - getNumNeutrons();
-            this.morphTargetProtons = numProtons - getNumProtons();
+            this.morphTargetNeutrons = getNumNeutrons() - numNeutrons;
+            this.morphTargetProtons = getNumProtons() - numProtons;
         }
         else {
             this.morphTargetNeutrons = 1;

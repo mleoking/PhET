@@ -184,12 +184,12 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:/PhET/common2/development/Phet Common 2.iml" filepath="C:/PhET/common2/development/Phet Common 2.iml" />
-      <module fileurl="file://C:/PhET/mechanics/development/mechanics.iml" filepath="C:/PhET/mechanics/development/mechanics.iml" />
+      <module fileurl="file://C:/PhET/mechanics/development/Mechanics.iml" filepath="C:/PhET/mechanics/development/Mechanics.iml" />
+      <module fileurl="file://C:/PhET/common2/development/PhetCommon.iml" filepath="C:/PhET/common2/development/PhetCommon.iml" />
       <module fileurl="file://$PROJECT_DIR$/nuclearphysics.iml" filepath="$PROJECT_DIR$/nuclearphysics.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="false" jdk-15="false" project-jdk-name="java version &quot;1.4.2_03&quot;" />
+  <component name="ProjectRootManager" version="2" assert-keyword="false" jdk-15="false" project-jdk-name="java version &quot;1.4.2_04&quot;" />
   <component name="RmicSettings">
     <option name="IS_EANABLED" value="false" />
     <option name="DEBUGGING_INFO" value="true" />

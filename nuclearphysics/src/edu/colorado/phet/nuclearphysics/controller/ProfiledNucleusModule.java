@@ -48,7 +48,6 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
     }
 
     public void clear() {
-        getPhysicalPanel().clear();
         getPotentialProfilePanel().clear();
         this.getModel().removeModelElement( nucleus );
     }

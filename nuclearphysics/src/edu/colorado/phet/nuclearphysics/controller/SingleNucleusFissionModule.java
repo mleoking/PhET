@@ -11,11 +11,15 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class SingleNucleusFissionModule extends ProfiledNucleusModule implements NeutronGun, FissionListener {
@@ -25,6 +29,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     private double orgDt;
     private Uranium235 nucleus;
     private Neutron neutron;
+    private ArrayList transientModelElements = new ArrayList();
 
     public SingleNucleusFissionModule( AbstractClock clock ) {
 
@@ -54,9 +59,15 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     }
 
     public void stop() {
-        getPhysicalPanel().clear();
         getPotentialProfilePanel().removeAllGraphics();
+        getPhysicalPanel().removeAllGraphics();
         getModel().removeModelElement( nucleus );
+        ( (NuclearPhysicsModel)getModel() ).removeNuclearPartilces();
+
+        for( int i = 0; i < transientModelElements.size(); i++ ) {
+            ModelElement modelElement = (ModelElement)transientModelElements.get( i );
+            getModel().removeModelElement( modelElement );
+        }
     }
 
     public void start() {
@@ -118,6 +129,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         for( int i = 0; i < neutronProducts.length; i++ ) {
             final NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
             getModel().addModelElement( neutronProducts[i] );
+            transientModelElements.add( neutronProducts[i] );
             getPhysicalPanel().addGraphic( npg );
             final int i1 = i;
             neutronProducts[i].addListener( new NuclearModelElement.Listener() {
@@ -130,7 +142,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
         // Add a model element that will make the daughter nuclei slide down the
         // profile
-        getModel().addModelElement( new ModelElement() {
+        ModelElement daughterStepper = new ModelElement() {
             private double forceScale = 0.1;
 
             public void stepInTime( double dt ) {
@@ -160,7 +172,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
                 // down the profile
                 double potential = 0;
                 // I don't know why the -10 is needed here, but it is. I don't have time to figure out why.
-                // Without it, the 
+                // Without it, the
                 if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 10 ) ) {
                     potential = profile.getMaxPotential();
                 }
@@ -169,7 +181,9 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
                 }
                 daughter.setPotential( potential );
             }
-        } );
+        };
+        getModel().addModelElement( daughterStepper );
+        transientModelElements.add( daughterStepper );
 
         Nucleus dn1 = products.getDaughter1();
         Nucleus dn2 = products.getDaughter2();
@@ -183,5 +197,23 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
                                     25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
+
+        System.out.println( "--------------------------------------------------" );
+        Graphic[] ga = getPotentialProfilePanel().getGraphic().getGraphics();
+        for( int i = 0; i < ga.length; i++ ) {
+            TxGraphic graphic = (TxGraphic)ga[i];
+            System.out.println( "-->" + graphic.getWrappedGraphic() );
+        }
+        Graphic[] ga2 = getPhysicalPanel().getGraphic().getGraphics();
+        for( int i = 0; i < ga2.length; i++ ) {
+            TxGraphic graphic = (TxGraphic)ga2[i];
+            System.out.println( "-->" + graphic.getWrappedGraphic() );
+        }
+
+        List l = ( (NuclearPhysicsModel)getModel() ).getNuclearModelElements();
+        for( int i = 0; i < l.size(); i++ ) {
+            Object o = (Object)l.get( i );
+            System.out.println( "o = " + o );
+        }
     }
 }
