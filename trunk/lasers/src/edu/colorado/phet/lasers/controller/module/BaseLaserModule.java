@@ -52,7 +52,8 @@ import java.awt.geom.Rectangle2D;
 public class BaseLaserModule extends Module {
 
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
-    static protected final double s_boxHeight = 150;
+    static protected final double s_boxHeight = 120;
+//    static protected final double s_boxHeight = 150;
     static protected final double s_boxWidth = 300;
     static protected final double s_laserOffsetX = 100;
 
@@ -98,7 +99,6 @@ public class BaseLaserModule extends Module {
         // Create the apparatus panel
         final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getModel(), clock );
         apparatusPanel.setUseOffscreenBuffer( true );
-        //        ApparatusPanel apparatusPanel = new ApparatusPanel();
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
 
@@ -130,7 +130,7 @@ public class BaseLaserModule extends Module {
         addGraphic( cavityGraphic, LaserConfig.CAVITY_LAYER );
 
         // Create the energy levels dialog
-        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( laserModel );
+        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( laserModel, clock );
         energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel );
         energyLevelsDialog.setBounds( new Rectangle( (int)( frame.getBounds().getX() + frame.getBounds().getWidth() * 1 / 2 ),
                                                      10,

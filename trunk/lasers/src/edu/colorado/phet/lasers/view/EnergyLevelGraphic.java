@@ -25,11 +25,14 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
+ * mouse, and it's range of movement is limited by the energy levels of the next higher and next lower energy states.
+ */
 public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements AtomicState.EnergyLevelChangeListener {
     private AtomicState atomicState;
     private Color color;
     private double xLoc;
-    private double yLoc;
     private double width;
     private EnergyLevelRep energyLevelRep;
     private Rectangle bounds = new Rectangle();
@@ -49,27 +52,23 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         addTranslationBehavior( new EnergyLevelTranslator() );
     }
 
-    public void setBasePosition( double x, double y ) {
-        xLoc = x;
-        yLoc = y;
-    }
-
     public void energyLevelChangeOccurred( AtomicState.EnergyLevelChangeEvent event ) {
         energyLevelRep.update();
     }
 
     public void update( ModelViewTx1D tx ) {
         this.energyYTx = tx;
-        update();
-    }
-
-    public void update() {
         energyLevelRep.update();
     }
 
     public Point2D getPosition() {
         return energyLevelRep.getBounds().getLocation();
     }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////
+    // Inner classes
+    //
 
     /**
      * Inner class that handles translation of the graphic

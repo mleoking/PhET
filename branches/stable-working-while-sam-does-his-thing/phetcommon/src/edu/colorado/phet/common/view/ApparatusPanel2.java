@@ -167,8 +167,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 catch( NoninvertibleTransformException e1 ) {
                     e1.printStackTrace();
                 }
-                bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
-                bImgGraphics = (Graphics2D)bImg.getGraphics();
+                createOffscreenBuffer();
+//                bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+//                bImgGraphics = (Graphics2D)bImg.getGraphics();
 
                 // Adjust the locations of Swing components
                 Component[] components = ApparatusPanel2.this.getComponents();
@@ -182,6 +183,11 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 }
             }
         } );
+    }
+
+    private void createOffscreenBuffer() {
+        bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+        bImgGraphics = (Graphics2D)bImg.getGraphics();
     }
 
     public boolean isUseOffscreenBuffer() {
@@ -314,7 +320,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         GraphicsState gs = new GraphicsState( g2 );
         g2.transform( graphicTx );
         //        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-        if( useOffscreenBuffer ) {
+        if( useOffscreenBuffer && bImg != null ) {
             bImgGraphics = (Graphics2D)bImg.getGraphics();
             bImgGraphics.setColor( this.getBackground() );
             bImgGraphics.fillRect( bImg.getMinX(), bImg.getMinY(), bImg.getWidth(), bImg.getHeight() );

@@ -444,4 +444,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         PhotonGraphic.removeInstance( this );
         photon.removeListener( this );
     }
+
+
+//    protected void setBoundsDirty() {
+////         NOP
+//    }
 }

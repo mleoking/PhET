@@ -57,9 +57,9 @@ public class MultipleAtomModule extends BaseLaserModule {
         // Set up the model elements
         ResonatingCavity cavity = getCavity();
         Rectangle2D cavityBounds = cavity.getBounds();
-        cavity.setBounds( cavityBounds.getMinX(), cavityBounds.getMinY(),
-                          cavityBounds.getMinX() + cavityBounds.getWidth(),
-                          cavityBounds.getMinY() + ( cavityBounds.getHeight() * 1.5 ) );
+//        cavity.setBounds( cavityBounds.getMinX(), cavityBounds.getMinY(),
+//                          cavityBounds.getMinX() + cavityBounds.getWidth(),
+//                          cavityBounds.getMinY() + ( cavityBounds.getHeight() * 1.5 ) );
         cavityBounds = cavity.getBounds();
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() );
@@ -140,8 +140,8 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         Atom atom = null;
         atoms = new ArrayList();
-        //        int numAtoms = 4;
-        int numAtoms = 20;
+        int numAtoms = 6;
+//        int numAtoms = 20;
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new Atom( getModel() );
             boolean placed = false;

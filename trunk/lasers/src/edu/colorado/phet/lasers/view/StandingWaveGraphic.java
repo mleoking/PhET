@@ -50,6 +50,7 @@ public class StandingWaveGraphic extends PhetGraphic implements Photon.LeftSyste
 
         this.mirror = mirror;
         double cyclesInCavity = 10;
+        double period = 100;
         internalWaveOrigin = new Point2D.Double( cavity.getMinX(), cavity.getMinY() + cavity.getHeight() / 2 );
         internalStandingWave = new StandingWave( component, internalWaveOrigin, cavity.getWidth(),
                                                  cavity.getWidth() / cyclesInCavity, 100,
