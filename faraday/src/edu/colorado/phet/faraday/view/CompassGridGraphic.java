@@ -76,6 +76,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // The grid's bounds.
     private Rectangle _bounds;
     
+    // Rendering hints.
+    private final RenderingHints _renderingHints;
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -103,6 +106,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         _strengthThreshold = DEFAULT_STRENGTH_THRESHOLD;
         
         _bounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
+        
+        _renderingHints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         
         setSpacing( xSpacing, ySpacing );
         
@@ -321,9 +326,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
      * @param g2 the graphics context
      */
     public void paint( Graphics2D g2 ) {
-        if ( isVisible() ) {       
+        if ( isVisible() ) { 
             super.saveGraphicsState( g2 );
-            g2.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+            g2.setRenderingHints( _renderingHints );
             // Draw the needles.
             for ( int i = 0; i < _needles.size(); i++ ) {
                 CompassGridNeedle needle = (CompassGridNeedle)_needles.get(i);
@@ -332,7 +337,6 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
                 }
             }
             super.restoreGraphicsState();
-            setBoundsDirty();
         }
     }
     
