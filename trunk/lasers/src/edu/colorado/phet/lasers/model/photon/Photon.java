@@ -185,9 +185,22 @@ public class Photon extends Particle implements Collidable {
     }
 
     public void setVelocity( double vx, double vy ) {
-        VelocityChangedEvent vce = new VelocityChangedEvent();
+        collidableAdapter.updateVelocity();
         super.setVelocity( vx, vy );
-        velocityChangedListenerProxy.velocityChanged( vce );
+        if( !getVelocity().equals( getVelocityPrev() ) ) {
+            VelocityChangedEvent vce = new VelocityChangedEvent();
+            velocityChangedListenerProxy.velocityChanged( vce );
+        }
+    }
+
+    public void setPosition( double x, double y ) {
+        collidableAdapter.updatePosition();
+        super.setPosition( x, y );
+    }
+
+    public void setPosition( Point2D position ) {
+        collidableAdapter.updatePosition();
+        super.setPosition( position );
     }
 
     public Vector2D getVelocityPrev() {
@@ -199,7 +212,7 @@ public class Photon extends Particle implements Collidable {
     }
 
     public void stepInTime( double dt ) {
-        collidableAdapter.stepInTime( dt );
+//        collidableAdapter.stepInTime( dt );
         super.stepInTime( dt );
     }
 

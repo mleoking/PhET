@@ -16,6 +16,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.view.util.ColorFromWavelength;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -273,23 +274,23 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     }
 
     private void createImage( Photon photon ) {
-        theta = photon.getVelocity().getAngle();
 
         // This code is for the squiggle view of photons
         //        generateAnimation( photon );
         //        setImage( animation[0] );
 
-        // Set the color of the image
+        // See if we've already got an image for this photon's color. If not, make one and cache it
         Double wavelength = new Double( photon.getWavelength() );
         BufferedImage bi = (BufferedImage)s_colorToImage.get( wavelength );
         if( bi == null ) {
-            BufferedImageOp op = new edu.colorado.phet.common.view.util.ColorFromWavelength( photon.getWavelength() );
+            BufferedImageOp op = new ColorFromWavelength( photon.getWavelength() );
             bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
             op.filter( s_particleImage, bi );
             s_colorToImage.put( wavelength, bi );
         }
 
         // Rotate the image
+        theta = photon.getVelocity().getAngle();
         BufferedImage bi2 = BufferedImageUtils.getRotatedImage( bi, theta );
         setImage( bi2 );
     }
@@ -369,7 +370,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         if( angle <= Math.PI && angle >= 0 ) {
             dy = getBounds().getHeight();
         }
+
         setPosition( (int)( photon.getPosition().getX() - dx ), (int)( photon.getPosition().getY() - dy ) );
+
 
         // Get the next frame of the animaton
         //        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;

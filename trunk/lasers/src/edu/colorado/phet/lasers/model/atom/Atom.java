@@ -18,6 +18,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 
+import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -62,11 +63,6 @@ public class Atom extends SolidSphere {
     private StateLifetimeManager stateLifetimeManager;
     private BaseModel model;
     private AtomicState state;
-//    private EventRegistry eventRegistry = new EventRegistry();
-//    private EventChannel stateChangeChannel = new EventChannel( StateChangeListener.class );
-//    private StateChangeListener stateChangeListenerProxy = (StateChangeListener)stateChangeChannel.getListenerProxy();
-//    private EventChannel removeChannel = new EventChannel( RemovalListener.class );
-//    private RemovalListener removalListenerProxy = (RemovalListener)removeChannel.getListenerProxy();
 
     public Atom( BaseModel model ) {
         super( s_radius );
@@ -110,8 +106,15 @@ public class Atom extends SolidSphere {
         emitPhotonOnLeavingState = true;
 
         this.stateLifetimeManager = new StateLifetimeManager( this, emitPhotonOnLeavingState, model );
-//        eventRegistry.fireEvent( new StateChangeEvent() );
         listenerProxy.stateChanged( new Event( this ) );
+    }
+
+    public void setPosition( double x, double y ) {
+        super.setPosition( x, y );
+    }
+
+    public void setPosition( Point2D position ) {
+        super.setPosition( position );
     }
 
     public void stepInTime( double dt ) {
@@ -123,15 +126,11 @@ public class Atom extends SolidSphere {
      */
     void emitPhoton( final Photon emittedPhoton ) {
         photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( this, emittedPhoton ) );
-//
-//        eventRegistry.fireEvent( new PhotonEmittedEvent( this, emittedPhoton ) );
     }
 
     public void removeFromSystem() {
         state.decrementNumInState();
         listenerProxy.leftSystem( new Event( this ) );
-//        removalListenerProxy.removalOccurred( new RemovalEvent() );
-//        eventRegistry.fireEvent( new RemovalEvent() );
     }
 
 
