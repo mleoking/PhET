@@ -89,3 +89,6 @@ signal-circuit signalcircuit
 
 # Greenhouse effect
 greenhouse-effect greenhouse
+
+# Force 1D
+force1d force1d &phetcommon &charts
