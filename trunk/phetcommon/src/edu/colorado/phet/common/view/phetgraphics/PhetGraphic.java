@@ -14,18 +14,23 @@ import java.util.Stack;
  * Testing.
  */
 public abstract class PhetGraphic implements BoundedGraphic {
+    private Point location = new Point();
     private Rectangle lastBounds = null;
     private Rectangle bounds = null;
     private Component component;
-//    private boolean visible = false;
     protected boolean visible = true;
     private boolean boundsDirty = true;
     private RenderingHints savedRenderingHints;
     private RenderingHints renderingHints;
     private Stack graphicsStates = new Stack();
+    private CompositePhetGraphic parent;
 
     protected PhetGraphic( Component component ) {
         this.component = component;
+    }
+
+    protected void setParent( CompositePhetGraphic parent ) {
+        this.parent = parent;
     }
 
     public Rectangle getBounds() {
@@ -76,7 +81,13 @@ public abstract class PhetGraphic implements BoundedGraphic {
     }
 
     public boolean isVisible() {
-        return visible;
+        // If we have a parent, check to see if it is visible
+        if( parent != null ) {
+            return parent.isVisible() && this.visible;
+        }
+        else {
+            return visible;
+        }
     }
 
     public void setVisible( boolean visible ) {
@@ -112,12 +123,12 @@ public abstract class PhetGraphic implements BoundedGraphic {
     }
 
     public void repaint() {
-        if( visible ) {
+        if( isVisible() ) {
             forceRepaint();
         }
     }
 
-    private void forceRepaint() {
+    protected void forceRepaint() {
         syncBounds();
         if( lastBounds != null ) {
             component.repaint( lastBounds.x, lastBounds.y, lastBounds.width, lastBounds.height );
@@ -131,6 +142,18 @@ public abstract class PhetGraphic implements BoundedGraphic {
     }
 
     protected abstract Rectangle determineBounds();
+
+    public void setLocation( Point p ) {
+        setLocation( p.x, p.y );
+    }
+
+    public void setLocation( int x, int y ) {
+        this.location.setLocation( x, y );
+    }
+
+    public Point getLocation() {
+        return location;
+    }
 
     public int getWidth() {
         return getBounds().width;

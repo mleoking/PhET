@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class CompositePhetGraphic extends PhetGraphic {
     private ArrayList list = new ArrayList();
+    private Point location = new Point();
 
     public CompositePhetGraphic( Component component ) {
         super( component );
@@ -16,6 +17,25 @@ public class CompositePhetGraphic extends PhetGraphic {
 
     public void addGraphic( PhetGraphic graphic ) {
         list.add( graphic );
+        graphic.setParent( this );
+    }
+
+    public void setLocation( Point p ) {
+        this.setLocation( p.x, p.y );
+    }
+
+    public void setLocation( int x, int y ) {
+        int dx = x - location.x;
+        int dy = y - location.y;
+        location.setLocation( x, y );
+        for( int i = 0; i < list.size(); i++ ) {
+            PhetGraphic graphic = (PhetGraphic)list.get( i );
+            graphic.setLocation( graphic.getLocation().x + dx, graphic.getLocation().y + dy );
+        }
+    }
+
+    public Point getLocation() {
+        return location;
     }
 
     public void repaint() {
@@ -66,19 +86,20 @@ public class CompositePhetGraphic extends PhetGraphic {
         }
     }
 
-    public void setVisible( boolean visible ) {
-        super.setVisible( visible );
-//        for( int i = 0; i < list.size(); i++ ) {
-//            PhetGraphic graphic = (PhetGraphic)list.get( i );
-//            graphic.setVisible( visible );
-//        }
-    }
-
     public int numGraphics() {
         return list.size();
     }
 
     public void removeGraphic( PhetGraphic graphic ) {
         list.remove( graphic );
+        graphic.setParent( null );
     }
+
+    protected void forceRepaint() {
+        for( int i = 0; i < list.size(); i++ ) {
+            PhetGraphic graphic = (PhetGraphic)list.get( i );
+            graphic.forceRepaint();
+        }
+    }
+
 }
