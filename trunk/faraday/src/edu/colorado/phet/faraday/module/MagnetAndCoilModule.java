@@ -175,7 +175,7 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         // Control Panel
         MagnetAndCoilControlPanel controlPanel = new MagnetAndCoilControlPanel( this, 
             magnetModel, compassModel, pickupCoilModel, lightbulbModel, voltmeterModel,
-            magnetGraphic, _gridGraphic );
+            magnetGraphic, _gridGraphic, pickupCoilGraphic.getCoilGraphic() );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------

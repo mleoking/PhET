@@ -20,7 +20,7 @@ import java.awt.geom.Point2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AbstractCoil extends SpacialObservable {
+public abstract class AbstractCoil extends SpacialObservable {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -136,4 +136,11 @@ public class AbstractCoil extends SpacialObservable {
     public double getArea() {
         return _numberOfLoops * ( Math.PI * _radius * _radius );
     }
+    
+    /**
+     * Gets the voltage across the ends of the coil.
+     * 
+     * @return voltage across the ends of the coil, in volts
+     */
+    public abstract double getVoltage();
 }

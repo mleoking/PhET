@@ -55,11 +55,17 @@ public class CoilGraphic implements SimpleObserver {
     private BaseModel _baseModel;
     private CompositePhetGraphic _foreground;
     private CompositePhetGraphic _background;
-    private boolean _currentAnimationEnabled;
+    private boolean _electronAnimationEnabled;
     private Stroke _loopStroke;
     private Color _foregroundColor, _middlegroundColor, _backgroundColor;
     private ArrayList _paths; // array of QuadBezierSpline
     private ArrayList _electrons; // array of Electron
+    
+    // Properties that determine the physical appearance of the coil.
+    private int _numberOfLoops;
+    private double _loopRadius;
+    
+    private double _voltage;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -87,7 +93,7 @@ public class CoilGraphic implements SimpleObserver {
         _foreground.setRenderingHints( hints );
         _background.setRenderingHints( hints );
         
-        _currentAnimationEnabled = false;  //XXX
+        _electronAnimationEnabled = false;  //XXX
         _loopStroke = new BasicStroke( WIRE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL );
         _foregroundColor = FOREGROUND_COLOR;
         _middlegroundColor = MIDDLEGROUND_COLOR;
@@ -95,6 +101,10 @@ public class CoilGraphic implements SimpleObserver {
         
         _paths = new ArrayList();
         _electrons = new ArrayList();
+        
+        _numberOfLoops = -1; // force update
+        _loopRadius = -1; // force update
+        _voltage = 0;
         
         update();
     }
@@ -135,10 +145,15 @@ public class CoilGraphic implements SimpleObserver {
      * 
      * @param enabled true to enabled, false to disable
      */
-    public void setCurrentAnimationEnabled( boolean enabled ) {
-        if ( enabled != _currentAnimationEnabled ) {
-            _currentAnimationEnabled = enabled;
-            update();
+    public void setElectronAnimationEnabled( boolean enabled ) {
+        if ( enabled != _electronAnimationEnabled ) {
+            _electronAnimationEnabled = enabled;
+            final int numberOfElectrons = _electrons.size();
+            for ( int i = 0; i < numberOfElectrons; i++ ) {
+                Electron electron = (Electron)  _electrons.get(i);
+                // XXX set the speed and direction
+                electron.setEnabled( _electronAnimationEnabled );
+            }
         }
     }
     
@@ -147,8 +162,8 @@ public class CoilGraphic implements SimpleObserver {
      * 
      * @return true if enabled, false if disabled
      */
-    public boolean isCurrentAnimationEnabled() {
-        return _currentAnimationEnabled;
+    public boolean isElectronAnimationEnabled() {
+        return _electronAnimationEnabled;
     }
 
     /**
@@ -202,20 +217,85 @@ public class CoilGraphic implements SimpleObserver {
         return _backgroundColor;
     }
     
+    /**
+     * Sets the visibility of this graphic.
+     * 
+     * @param visible true for visible, false for invisible
+     */
+    public void setVisible( boolean visible ) {
+        _foreground.setVisible( visible );
+        _background.setVisible( visible );
+        update();
+    }
+    
+    /**
+     * Gets the visibility of this graphic.
+     * It is considered visible if either the foreground or background is visible.
+     * 
+     * @return true if visible, false if invisible
+     */
+    public boolean isVisible() {
+        return ( _foreground.isVisible() || _background.isVisible() );
+    }
+    
+    /* 
+     * Determines if the physical appearance of the coil has changed.
+     * 
+     * @return true or false
+     */
+    private boolean coilChanged() {
+        boolean changed = false;
+        if ( _numberOfLoops != _coilModel.getNumberOfLoops() ||
+             _loopRadius != _coilModel.getRadius() ) {
+            changed = true;
+            _numberOfLoops = _coilModel.getNumberOfLoops();
+            _loopRadius = _coilModel.getRadius();
+        }
+        return changed;
+    }
+    
+    /*
+     * Determines if the electron animation has changed.
+     * 
+     * @return true or false
+     */
+    private boolean electronsChanged() {
+        boolean changed = false;
+        if ( _voltage != _coilModel.getVoltage() ) {
+            changed = true;
+            _voltage = _coilModel.getVoltage();
+        }
+        return changed;
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
     /*
+     * Updates the view to match the model.
+     * 
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
-        if ( _foreground.isVisible() || _background.isVisible() ) {
-            updateGraphics();
+        if ( isVisible() ) {
+            
+            // Update the phyiscal appearance of the coil.
+            if ( coilChanged() ) {
+                updateCoil();
+            }
+            
+            // Change the speed/direction of electrons to match the voltage.
+            if ( electronsChanged() ) {
+                updateElectrons();
+            }
         }
     }
     
-    private void updateGraphics() {
+    /**
+     * Updates the coil, recreating all graphics and electron model elements.
+     */
+    private void updateCoil() {
         
         // Removing any existing graphics components.
         _foreground.clear();
@@ -403,20 +483,18 @@ public class CoilGraphic implements SimpleObserver {
         }
         
         // Add electrons.
-        if ( _currentAnimationEnabled )
-        {
-            final int numberOfElectrons = (int) ( radius / 20 );
-            for ( int j = 0; j < _paths.size(); j++ ) {
-                for ( int i = 0; i < numberOfElectrons; i++ ) {
-                    Electron electron = new Electron();
-                    electron.setCurves( _paths );
-                    electron.setCurveLocation( j, i / (double) numberOfElectrons );
-                    _electrons.add( electron );
-                    _baseModel.addModelElement( electron );
+        final int numberOfElectrons = (int) ( radius / 25 );
+        for ( int j = 0; j < _paths.size(); j++ ) {
+            for ( int i = 0; i < numberOfElectrons; i++ ) {
+                Electron electron = new Electron();
+                electron.setCurves( _paths );
+                electron.setCurveLocation( j, i / (double) numberOfElectrons );
+                electron.setEnabled( _electronAnimationEnabled );
+                _electrons.add( electron );
+                _baseModel.addModelElement( electron );
 
-                    ElectronGraphic electronGraphic = new ElectronGraphic( _component, electron );
-                    _foreground.addGraphic( electronGraphic );
-                }
+                ElectronGraphic electronGraphic = new ElectronGraphic( _component, electron );
+                _foreground.addGraphic( electronGraphic );
             }
         }
         
@@ -424,4 +502,17 @@ public class CoilGraphic implements SimpleObserver {
         _background.repaint();
     }
 
+    /**
+     * Updates the speed and direction of electrons, based on the voltage across the coil.
+     */
+    private void updateElectrons() {
+        // Speed and direction is a function of the voltage.
+        //XXX
+        
+        // Update all electrons.
+        final int numberOfElectrons = _electrons.size();
+        for ( int i = 0; i < numberOfElectrons; i++ ) {
+            //XXX
+        }
+    }
 }

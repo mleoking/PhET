@@ -26,6 +26,7 @@ import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.module.MagnetAndCoilModule;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
+import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 
 /**
@@ -48,6 +49,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
     private Voltmeter _voltmeterModel;
     private BarMagnetGraphic _magnetGraphic;
     private CompassGridGraphic _gridGraphic;
+    private CoilGraphic _coilGraphic;
     
     // UI components
     private JButton _flipPolarityButton;
@@ -80,6 +82,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
      * @param voltmeterModel
      * @param magnetGraphic
      * @param gridGraphic
+     * @param coilGraphic
      */
     public MagnetAndCoilControlPanel( 
         MagnetAndCoilModule module,
@@ -89,7 +92,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         Lightbulb lightbulbModel,
         Voltmeter voltmeterModel,
         BarMagnetGraphic magnetGraphic,
-        CompassGridGraphic gridGraphic ) {
+        CompassGridGraphic gridGraphic,
+        CoilGraphic coilGraphic ) {
 
         super( module );
 
@@ -100,6 +104,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         assert( voltmeterModel != null );
         assert( magnetGraphic != null );
         assert( gridGraphic != null );
+        assert( coilGraphic != null );
 
         // Things we'll be controlling.
         _magnetModel = magnetModel;
@@ -109,6 +114,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         _voltmeterModel = voltmeterModel;
         _magnetGraphic = magnetGraphic;
         _gridGraphic = gridGraphic;
+        _coilGraphic = coilGraphic;
 
         JPanel fillerPanel = new JPanel();
         {
@@ -270,7 +276,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         _radiusSlider.setValue( (int) _pickupCoilModel.getRadius() );
         _lightbulbRadioButton.setSelected( _lightbulbModel.isEnabled() );
         _voltmeterRadioButton.setSelected( _voltmeterModel.isEnabled() );
-        //TODO: _electronsCheckBox.setSelected( ??? );
+        _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
     }
     
     //----------------------------------------------------------------------------
@@ -330,7 +336,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
             }
             else if ( e.getSource() == _electronsCheckBox ) {
                 // Electrons enabled
-                // TODO: ???( _electronsCheckBox.isSelected() );
+                _coilGraphic.setElectronAnimationEnabled( _electronsCheckBox.isSelected() );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
