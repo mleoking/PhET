@@ -13,10 +13,9 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
@@ -73,6 +72,14 @@ public class TestPhetGraphics extends JFrame {
                     cpg.addGraphic( new PhetShadowTextGraphic( panel, "compositegraphic", new Font( "Lucida Sans", 0, 12 ), 130, 30, Color.white, 1, 1, Color.black ) );
                     return cpg;
                 }
+            },
+            new TestPhetGraphicSource() {
+                public PhetGraphic createGraphic( ApparatusPanel panel ) {
+                    Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 4, new float[]{6, 6}, 0 );
+                    final OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new Font( "Lucida Sans", Font.ITALIC, 68 ), 50, 300, Color.yellow, stroke, Color.black );
+                    g.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
+                    return g;
+                }
             }
         };
         for( int i = 0; i < graphics.length; i++ ) {
@@ -108,8 +115,7 @@ public class TestPhetGraphics extends JFrame {
         } );
         clock = new SwingTimerClock( 1, 30, true );
         panel.addGraphic( new PhetShapeGraphic( panel, new Rectangle( 5, 5, 5, 5 ), Color.black ) );
-        final RepaintDebugGraphic rdg = new RepaintDebugGraphic( panel, clock, 100 );
-//        rdg.setTransparency( 128);
+        final RepaintDebugGraphic rdg = new RepaintDebugGraphic( panel, clock );
         panel.addGraphic( rdg );
 
         rdg.setActive( false );
@@ -143,4 +149,44 @@ public class TestPhetGraphics extends JFrame {
         panel.requestFocus();
         setVisible( true );
     }
+
+    public static class OutlineTextGraphic extends PhetShapeGraphic {
+        private String text;
+        private Font font;
+
+        public OutlineTextGraphic( Component component, String text, Font font, int x, int y, Color fillColor, Stroke stroke, Color strokeColor ) {
+            super( component );
+            this.text = text;
+            this.font = font;
+            setShape( createTextShape() );
+            setColor( fillColor );
+            setStroke( stroke );
+            setBorderColor( strokeColor );
+            component.addComponentListener( new ComponentAdapter() {
+                public void componentShown( ComponentEvent e ) {
+                    setShape( createTextShape() );
+                }
+            } );
+            component.addComponentListener( new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    setShape( createTextShape() );
+                }
+            } );
+            setLocation( x, y );
+        }
+
+        private Shape createTextShape() {
+            Graphics2D g2 = (Graphics2D)getComponent().getGraphics();
+            if( g2 != null ) {
+                FontRenderContext frc = g2.getFontRenderContext();
+                if( frc != null ) {
+                    TextLayout textLayout = new TextLayout( text, font, frc );
+                    return textLayout.getOutline( new AffineTransform() );
+                }
+            }
+            return null;
+        }
+
+    }
+
 }
