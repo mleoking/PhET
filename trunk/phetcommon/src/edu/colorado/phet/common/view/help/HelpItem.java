@@ -47,7 +47,7 @@ public class HelpItem implements Graphic {
         foregroundColor = new Color( 156, 156, 0 );
     }
 
-    private String[] tokenizeString( String inputText ) {
+    public static String[] tokenizeString( String inputText ) {
         StringTokenizer st = new StringTokenizer( inputText, "\n" );
         ArrayList list = new ArrayList();
         while( st.hasMoreTokens() ) {
