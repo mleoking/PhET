@@ -26,16 +26,16 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.FaradaySlider;
-import edu.colorado.phet.faraday.model.ACSource;
+import edu.colorado.phet.faraday.model.ACPowerSupply;
 
 
 /**
- * ACSourceGraphic is the graphical representation of an alternating current source.
+ * ACPowerSupplyGraphic is the graphical representation of an AC power supply.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
+public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -60,8 +60,8 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ACSource _acSourceModel;
-    private PhetImageGraphic _acBoxGraphic;
+    private ACPowerSupply _acPowerSupplyModel;
+    private PhetImageGraphic _boxGraphic;
     private FaradaySlider _amplitudeSlider;
     private FaradaySlider _frequencySlider;
     private PhetTextGraphic _amplitudeValue;
@@ -80,17 +80,17 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
      * Sole constructor.
      * 
      * @param component
-     * @param acSourceModel
+     * @param acPowerSupplyModel
      */
-    public ACSourceGraphic( Component component, ACSource acSourceModel ) {
+    public ACPowerSupplyGraphic( Component component, ACPowerSupply acPowerSupplyModel ) {
         
         super( component );
         
         assert( component != null );
-        assert( acSourceModel != null );
+        assert( acPowerSupplyModel != null );
         
-        _acSourceModel = acSourceModel;
-        _acSourceModel.addObserver( this );
+        _acPowerSupplyModel = acPowerSupplyModel;
+        _acPowerSupplyModel.addObserver( this );
         
         // Enable anti-aliasing.
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -98,17 +98,17 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
         
         // AC panel
         {
-            _acBoxGraphic = new PhetImageGraphic( component, FaradayConfig.AC_SOURCE_IMAGE );
-            addGraphic( _acBoxGraphic, BOX_LAYER );
+            _boxGraphic = new PhetImageGraphic( component, FaradayConfig.AC_POWER_SUPPLY_IMAGE );
+            addGraphic( _boxGraphic, BOX_LAYER );
         }   
         
         // Title label
         {
-            String s = SimStrings.get( "ACSourceGraphic.title" );
+            String s = SimStrings.get( "ACPowerSupplyGraphic.title" );
             PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
             addGraphic( title, LABEL_LAYER );
             title.centerRegistrationPoint();
-            title.setLocation( _acBoxGraphic.getWidth() / 2, 36 );
+            title.setLocation( _boxGraphic.getWidth() / 2, 36 );
         }
         
         // Amplitude slider
@@ -118,7 +118,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             
             _amplitudeSlider.setMinimum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MIN ) );
             _amplitudeSlider.setMaximum( (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MAX ) );
-            _amplitudeSlider.setValue( (int) ( 100.0 * _acSourceModel.getMaxAmplitude() ) );
+            _amplitudeSlider.setValue( (int) ( 100.0 * _acPowerSupplyModel.getMaxAmplitude() ) );
             
             _amplitudeSlider.centerRegistrationPoint();
             _amplitudeSlider.rotate( -Math.PI / 2 );  // rotate -90 degrees
@@ -132,7 +132,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             addGraphic( _amplitudeValue, VALUE_LAYER );
             _amplitudeValue.setLocation( 45, 70 );
             
-            _amplitudeFormat = SimStrings.get( "ACSourceGraphic.amplitude.format" );
+            _amplitudeFormat = SimStrings.get( "ACPowerSupplyGraphic.amplitude.format" );
         }
         
         // Frequency slider
@@ -142,7 +142,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
 
             _frequencySlider.setMinimum( (int) ( 100.0 * FaradayConfig.AC_FREQUENCY_MIN ) );
             _frequencySlider.setMaximum( (int) ( 100.0 * FaradayConfig.AC_FREQUENCY_MAX ) );
-            _frequencySlider.setValue( (int) ( 100.0 * _acSourceModel.getFrequency() ) );
+            _frequencySlider.setValue( (int) ( 100.0 * _acPowerSupplyModel.getFrequency() ) );
             
             _frequencySlider.centerRegistrationPoint();
             _frequencySlider.setLocation( 102, 190 );
@@ -155,7 +155,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             addGraphic( _frequencyValue, VALUE_LAYER );
             _frequencyValue.setLocation( 210, 207 );
             
-            _frequencyFormat = SimStrings.get( "ACSourceGraphic.frequency.format" );
+            _frequencyFormat = SimStrings.get( "ACPowerSupplyGraphic.frequency.format" );
         }
         
         // Sine Wave
@@ -186,8 +186,8 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _acSourceModel.removeObserver( this );
-        _acSourceModel = null;
+        _acPowerSupplyModel.removeObserver( this );
+        _acPowerSupplyModel = null;
     }
 
     //----------------------------------------------------------------------------
@@ -199,11 +199,11 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
      */
     public void update() {
         
-        setVisible( _acSourceModel.isEnabled() );
+        setVisible( _acPowerSupplyModel.isEnabled() );
         if ( isVisible() ) {
             
-            double maxAmplitude = _acSourceModel.getMaxAmplitude();
-            double frequency = _acSourceModel.getFrequency();
+            double maxAmplitude = _acPowerSupplyModel.getMaxAmplitude();
+            double frequency = _acPowerSupplyModel.getFrequency();
             
             // Update the displayed amplitude.
             if ( maxAmplitude != _previousMaxAmplitude ) {
@@ -271,13 +271,13 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
                 // Read the value.
                 double maxAmplitude = _amplitudeSlider.getValue() / 100.0;
                 // Update the model.
-                _acSourceModel.setMaxAmplitude( maxAmplitude );
+                _acPowerSupplyModel.setMaxAmplitude( maxAmplitude );
             }
             else if ( event.getSource() == _frequencySlider ) {
                 // Read the value.
                 double frequency = _frequencySlider.getValue() / 100.0;
                 // Upate the model.
-                _acSourceModel.setFrequency( frequency );
+                _acPowerSupplyModel.setFrequency( frequency );
             }
         }
     }

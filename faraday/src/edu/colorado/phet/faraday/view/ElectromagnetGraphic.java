@@ -26,7 +26,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.faraday.model.ACSource;
+import edu.colorado.phet.faraday.model.ACPowerSupply;
 import edu.colorado.phet.faraday.model.Battery;
 import edu.colorado.phet.faraday.model.Electromagnet;
 import edu.colorado.phet.faraday.model.SourceCoil;
@@ -49,7 +49,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     private Electromagnet _electromagnetModel;
     private CoilGraphic _coilGraphic;
     private BatteryGraphic _batteryGraphic;
-    private ACSourceGraphic _acSourceGraphic;
+    private ACPowerSupplyGraphic _acPowerSupplyGraphic;
     private GraphicLayerSet _foreground, _background;
     private CollisionDetector _collisionDetector;
     
@@ -63,7 +63,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
             Electromagnet electromagnetModel,
             SourceCoil sourceCoilModel,
             Battery batteryModel,
-            ACSource acSourceModel ) {
+            ACPowerSupply acPowerSupplyModel ) {
         
         assert ( component != null );
         assert ( baseModel != null );
@@ -79,13 +79,13 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         // Graphics components
         _coilGraphic = new CoilGraphic( component, sourceCoilModel, baseModel );
         _batteryGraphic = new BatteryGraphic( component, batteryModel );
-        _acSourceGraphic = new ACSourceGraphic( component, acSourceModel );
+        _acPowerSupplyGraphic = new ACPowerSupplyGraphic( component, acPowerSupplyModel );
         
         // Foreground composition
         _foreground = new GraphicLayerSet( component );
         _foreground.addGraphic( _coilGraphic.getForeground() );
         _foreground.addGraphic( _batteryGraphic );
-        _foreground.addGraphic( _acSourceGraphic );
+        _foreground.addGraphic( _acPowerSupplyGraphic );
         
         // Background composition
         _background = new GraphicLayerSet( component );
@@ -112,7 +112,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         _electromagnetModel = null;
         _coilGraphic.finalize();
         _batteryGraphic.finalize();
-        _acSourceGraphic.finalize();
+        _acPowerSupplyGraphic.finalize();
     }
     
 
@@ -184,7 +184,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
             int x = 0;
             int y = -( bounds.height / 2 ) - 14;
             _batteryGraphic.setLocation( x, y );
-            _acSourceGraphic.setLocation( x, y );
+            _acPowerSupplyGraphic.setLocation( x, y );
             
             _foreground.repaint();
             _background.repaint();
