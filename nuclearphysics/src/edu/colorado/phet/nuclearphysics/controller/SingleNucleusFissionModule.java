@@ -26,6 +26,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
     private Neutron neutronToAdd;
     private AbstractClock clock;
     private double orgDt;
+    private Uranium235 nucleus;
 
     public SingleNucleusFissionModule( AbstractClock clock ) {
         super( "Fission: One Nucleus", clock );
@@ -44,10 +45,13 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
     public void stop() {
         getPhysicalPanel().clear();
         getPotentialProfilePanel().removeAllGraphics();
+        getModel().removeModelElement( nucleus );
+//        setNucleus( null );
+//        setUraniumNucleus( null );
     }
 
     public void start() {
-        Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), getModel() );
+        nucleus = new Uranium235( new Point2D.Double( 0, 0 ), getModel() );
         nucleus.setPotential( nucleus.getPotentialProfile().getWellPotential() );
         setNucleus( nucleus );
         setUraniumNucleus( nucleus );
@@ -145,8 +149,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
                 // profile, it's potential keeps it at the top of the profile. Otherwise, it slides
                 // down the profile
                 double potential = 0;
-                // I don't know why the -5 is needed here, but it is. I don't have time to figure out why
-                if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 5 ) ) {
+                // I don't know why the -10 is needed here, but it is. I don't have time to figure out why
+                if( Math.abs( d ) <= Math.abs( profile.getProfilePeakX() - 7 ) ) {
                     potential = profile.getMaxPotential();
                 }
                 else {
