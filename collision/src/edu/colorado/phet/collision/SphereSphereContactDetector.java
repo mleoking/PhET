@@ -6,11 +6,8 @@
  */
 package edu.colorado.phet.collision;
 
-import java.awt.geom.Point2D;
 
 public class SphereSphereContactDetector implements ContactDetector {
-
-    private Point2D tempPt = new Point2D.Double();
 
     public boolean applies(Collidable bodyA, Collidable bodyB) {
         return (bodyA instanceof SolidSphere && bodyB instanceof SolidSphere);
@@ -38,8 +35,7 @@ public class SphereSphereContactDetector implements ContactDetector {
     }
 
     private boolean spheresOverlap(SphericalBody sbA, SphericalBody sbB) {
-        tempPt.setLocation(sbA.getPosition());
-        double distance = tempPt.distance(sbB.getPosition());
+        double distance = sbA.getPosition().distance(sbB.getPosition());
         return (distance <= sbA.getRadius() + sbB.getRadius());
     }
 

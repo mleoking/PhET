@@ -31,7 +31,7 @@ public class LaserControlPanel extends PhetControlPanel {
 
         super.setControlPane(laserControlPane);
 
-        final PhetSlider cheatSlider = new PhetSlider("Cheat angle", "deg", 0, 20, 0);
+        final PhetSlider cheatSlider = new PhetSlider("Cheat angle", "deg", 0, 20, LaserConfig.PHOTON_CHEAT_ANGLE);
         cheatSlider.setPaintTicks(false);
         cheatSlider.setPaintLabels(false);
         cheatSlider.addChangeListener(new ChangeListener() {

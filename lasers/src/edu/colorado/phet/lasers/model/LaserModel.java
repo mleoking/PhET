@@ -19,6 +19,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.HighEnergyState;
 import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
@@ -66,14 +67,8 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         collisionMechanism.addCollisionExpert(new PhotonAtomCollisonExpert());
         collisionMechanism.addCollisionExpert(new SphereBoxExpert());
         collisionMechanism.addCollisionExpert(new PhotonMirrorCollisonExpert());
-        addModelElement(new ModelElement() {
-            public void stepInTime(double dt) {
-                collisionMechanism.doIt(photons, atoms);
-                collisionMechanism.doIt(photons, mirrors);
-                collisionMechanism.doIt(atoms, atoms);
-                collisionMechanism.doIt(atoms, cavity);
-            }
-        });
+
+        addModelElement(new CollisionAgent());
     }
 
     public void addModelElement(ModelElement modelElement) {
@@ -192,6 +187,17 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     }
 
 
+    ////////////////////////////////////////////////////////////////////////////////
+    // Event Handling
+    //
+
+    public void leftSystemEventOccurred(Photon.LeftSystemEvent event) {
+        removeModelElement(event.getPhoton());
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Inner classes
+    //
     private class CollisionMechanism {
         private ArrayList collisionExperts = new ArrayList();
 
@@ -253,10 +259,35 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
 
     }
 
-    ////////////////////////////////////////////////////////////////////////////////
-    // Listener implementations
+    /**
+     * Takes care of getting all collisions taken care of. Does a special thing to make sure an atom
+     * can't be hit by more than one photon in a single time step.
+     */
+    private class CollisionAgent implements ModelElement {
+        PhotonAtomCollisonExpert phtonAtomExpert = new PhotonAtomCollisonExpert();
 
-    public void leftSystemEventOccurred(Photon.LeftSystemEvent event) {
-        removeModelElement(event.getPhoton());
+        public void stepInTime(double dt) {
+//            collisionMechanism.doIt(photons, myAtoms);
+            for (int i = 0; i < photons.size(); i++) {
+                Photon photon = (Photon) photons.get(i);
+                if (!(photon instanceof Photon)
+                        || (resonatingCavity.getBounds().contains(photon.getPosition()))
+                        || (resonatingCavity.getBounds().contains(photon.getPositionPrev()))) {
+                    for (int j = 0; j < atoms.size(); j++) {
+                        Atom atom = (Atom) atoms.get(j);
+                        AtomicState s1 = atom.getState();
+                        phtonAtomExpert.detectAndDoCollision(photon, atom);
+                        AtomicState s2 = atom.getState();
+                        if (s1 != s2) {
+                            break;
+                        }
+                    }
+                }
+            }
+            collisionMechanism.doIt(photons, mirrors);
+//            collisionMechanism.doIt(atoms, atoms);
+            collisionMechanism.doIt(atoms, cavity);
+        }
+
     }
 }
