@@ -50,8 +50,8 @@ public class TestFastText {
                         FastPaintTextGraphic ft = (FastPaintTextGraphic)fastShapes.get( 0 );
                         Color color = new Color( random.nextInt( 255 ), random.nextInt( 255 ), random.nextInt( 255 ) );
                         //                        ft.setPaint( color );
-                        ft.setLocation( ( (float)ft.getLocation().getX() + 2 ) % 600,
-                                        ( (float)ft.getLocation().getY() + 2 ) % 600 );
+                        ft.setLocation( ( ft.getLocation().getX() + 2 ) % 600,
+                                        ( ft.getLocation().getY() + 2 ) % 600 );
                         //                        ap.repaint();
                     }
                     catch( InterruptedException e ) {
