@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.ControlPane;
 import edu.colorado.phet.coreadditions.MessageFormatter;
 import edu.colorado.phet.emf.EmfModule;
+import edu.colorado.phet.emf.Config;
 import edu.colorado.phet.emf.command.*;
 import edu.colorado.phet.emf.model.EmfModel;
 
@@ -391,7 +392,7 @@ public class EmfControlPanel extends ControlPane implements Observer {
         Legend() {
             setLayout( new GridBagLayout() );
             this.setBorder( BorderFactory.createTitledBorder( "Legend" ) );
-            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( "images/small-yellow-electron.gif" ) );
+            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( Config.smallElectronImg ) );
             int rowIdx = 0;
             try {
                 GraphicsUtil.addGridBagComponent( this, new JLabel( "Electron", electronImg, SwingConstants.LEFT ),

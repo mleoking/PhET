@@ -8,6 +8,7 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.emf.model.Electron;
 
 import java.awt.*;
@@ -68,5 +69,40 @@ public class TransmitterElectronGraphic extends ElectronGraphic {
                 }
             }
         }
+    }
+
+
+
+    public static void main( String[] args ) {
+        int c = 0;
+        long t0 = System.currentTimeMillis();
+        for( int i = 0; i < 100000; i++ ) {
+            int j = i * i;
+            if( j % 2 == 0 ) {
+                c++;
+            }
+        }
+        long t1 = System.currentTimeMillis();
+
+        long t2 = System.currentTimeMillis();
+        for( int i = 0; i < 100000; i++ ) {
+            int j = i * i;
+            Vector2D v = new Vector2D( );
+            if( j % 2 == 0 ) {
+                c = (int)v.getX();
+            }
+        }
+//        for( Integer i1 = new Integer( 0 ); !i1.equals( new Integer( 100000 )); i1 = new Integer( i1.intValue() + 1 )) {
+//            Vector2D v = new Vector2D( );
+//            Integer j = new Integer( i1.intValue() * i1.intValue() );
+//            if( j.intValue() % 2 == 0 ) {
+//                c++;
+//                c = (int)v.getX();
+//            }
+//        }
+        long t3 = System.currentTimeMillis();
+        System.out.println( "loop 1: " + (t1 - t0 ) );
+        System.out.println( "loop 2: " + (t3 - t2 ) );
+        System.out.println( "c: " + c );
     }
 }

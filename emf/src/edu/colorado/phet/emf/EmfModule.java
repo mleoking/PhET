@@ -68,10 +68,9 @@ public class EmfModule extends Module {
         super.setApparatusPanel( apparatusPanel );
 
         // Set up the electron graphic
-//        Image multiElectron = new ImageLoader().loadBufferedImage( "images/multi-electron.gif" );
-        Image multiElectron = new ImageLoader().loadBufferedImage( "images/yellow-electron.gif" );
+        Image multiElectron = new ImageLoader().loadBufferedImage( "images/blue-sml.gif" );
+//        Image multiElectron = new ImageLoader().loadBufferedImage( "images/yellow-electron.gif" );
         ElectronGraphic electronGraphic = new TransmitterElectronGraphic( apparatusPanel, electron, multiElectron, origin );
-//        ElectronGraphic electronGraphic = new ElectronGraphic( apparatusPanel, electron, multiElectron );
         electron.addObserver( electronGraphic );
         this.getApparatusPanel().addGraphic( electronGraphic, 5 );
 
@@ -89,7 +88,7 @@ public class EmfModule extends Module {
         } );
 
         // Load image for small electron
-        Image image = ImageLoader.fetchBufferedImage( "images/small-yellow-electron.gif" );
+        Image image = ImageLoader.fetchBufferedImage( Config.smallElectronImg );
         ElectronGraphic receivingElectronGraphic = new ReceivingElectronGraphic( apparatusPanel, receivingElectron, image );
         receivingElectron.addObserver( receivingElectronGraphic );
         this.getApparatusPanel().addGraphic( receivingElectronGraphic, 5 );

@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.model.ElectronSpring;
+import edu.colorado.phet.emf.Config;
 import edu.colorado.phet.graphics.VerticalDragHandler;
 
 import java.awt.*;
@@ -84,9 +85,7 @@ public class ElectronGraphic extends DefaultInteractiveGraphic implements Observ
     //
     private static final int s_radius = 10;
     private static final float s_springConst = 10;
-    static String s_imageName = "images/yellow-electron.gif";
-//    static String s_imageName = "images/deep-green-sml.gif";
-//    static String s_imageName = "particle-green-sml.gif";
+    static String s_imageName = Config.bigElectronImg;
     static Image s_particleImage;
     static {
         ImageLoader loader = new ImageLoader();
