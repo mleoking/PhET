@@ -18,6 +18,9 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.SingleAtomControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
+import edu.colorado.phet.lasers.model.atom.HighEnergyState;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.view.LampGraphic;
 
@@ -35,11 +38,15 @@ public class SingleAtomModule extends BaseLaserModule {
     private Atom atom;
     private PhetImageGraphic pumpingLampGraphic;
     private JPanel pumpingBeamControlPanel;
+    private SingleAtomControlPanel laserControlPanel;
+    private boolean threeEnergyLevels;
 
     public SingleAtomModule( PhetFrame frame ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), frame );
 
-        setControlPanel( new SingleAtomControlPanel( this ) );
+        // Set up the control panel, and start off with two energy levels
+        laserControlPanel = new SingleAtomControlPanel( this );
+        setControlPanel( laserControlPanel );
 
         // Create beams
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
@@ -136,7 +143,9 @@ public class SingleAtomModule extends BaseLaserModule {
     public void activate( PhetApplication app ) {
         super.activate( app );
 
-        atom = new Atom();
+        laserControlPanel.setThreeEnergyLevels( this.threeEnergyLevels );
+
+        atom = new Atom( getModel() );
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2 );
         atom.setVelocity( 0, 0 );
@@ -150,7 +159,18 @@ public class SingleAtomModule extends BaseLaserModule {
     }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
-        super.setThreeEnergyLevels( threeEnergyLevels );
+        if( threeEnergyLevels ) {
+            getEnergyLevelsMonitorPanel().setNumLevels( 3 );
+            getLaserModel().getPumpingBeam().setEnabled( true );
+            MiddleEnergyState.instance().setNextHigherEnergyState( HighEnergyState.instance() );
+        }
+        else {
+            getEnergyLevelsMonitorPanel().setNumLevels( 2 );
+            getLaserModel().getPumpingBeam().setEnabled( false );
+            MiddleEnergyState.instance().setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
+        }
+//        super.setThreeEnergyLevels( threeEnergyLevels );
+        this.threeEnergyLevels = threeEnergyLevels;
         if( pumpingLampGraphic != null ) {
             pumpingLampGraphic.setVisible( threeEnergyLevels );
             pumpingBeamControlPanel.setVisible( threeEnergyLevels );

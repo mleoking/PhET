@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.LaserSimulation;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -29,9 +30,9 @@ import java.awt.event.ComponentEvent;
  */
 public class SingleAtomControlPanel extends LaserControlPanel {
     private boolean threeEnergyLevels;
-    private BaseLaserModule laserModule;
+    private SingleAtomModule laserModule;
 
-    public SingleAtomControlPanel( final BaseLaserModule module ) {
+    public SingleAtomControlPanel( final SingleAtomModule module ) {
         super( module );
         this.laserModule = module;
         addControl( new Controls() );

@@ -22,7 +22,9 @@ import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.SpontaneouslyEmittingState;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
+import edu.colorado.phet.lasers.model.atom.HighEnergyState;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
@@ -150,9 +152,6 @@ public class BaseLaserModule extends Module {
         appFrame = app.getApplicationView().getPhetFrame();
         energyLevelsDialog.setVisible( true );
         //        energyLevelsDialog.setVisible( energyDialogIsVisible );
-
-        // todo: this whole mechanism should probably be refactored
-        SpontaneouslyEmittingState.setModel( getModel() );
     }
 
     public void deactivate( PhetApplication app ) {
@@ -308,18 +307,11 @@ public class BaseLaserModule extends Module {
         getApparatusPanel().repaint();
     }
 
-    public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
-        if( threeEnergyLevels ) {
-            energyLevelsMonitorPanel.setNumLevels( 3 );
-            laserModel.getPumpingBeam().setEnabled( true );
-        }
-        else {
-            energyLevelsMonitorPanel.setNumLevels( 2 );
-            laserModel.getPumpingBeam().setEnabled( false );
-        }
-    }
-
     public PartialMirror getRightMirror() {
         return rightMirror;
+    }
+
+    protected EnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
+        return energyLevelsMonitorPanel;
     }
 }

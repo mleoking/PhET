@@ -132,9 +132,8 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         // Only the pumping beam is enabled for this module
         pumpingBeam.setEnabled( true );
-        setThreeEnergyLevels( true );
-        //        seedBeam.setIsEnabled( false );
-
+        getEnergyLevelsMonitorPanel().setNumLevels( 3 );
+        getLaserModel().getPumpingBeam().setEnabled( true );
         getModel().removeModelElement( seedBeam );
 
         ApparatusConfiguration config = new ApparatusConfiguration();
@@ -156,7 +155,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         atoms = new ArrayList();
         int numAtoms = 20;
         for( int i = 0; i < numAtoms; i++ ) {
-            atom = new Atom();
+            atom = new Atom( getModel() );
             boolean placed = false;
 
             // Place atoms so they don't overlap
