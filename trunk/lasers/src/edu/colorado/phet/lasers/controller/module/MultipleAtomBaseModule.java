@@ -81,8 +81,8 @@ public class MultipleAtomBaseModule extends BaseLaserModule {
                 placed = true;
                 atom.setPosition( ( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
                                   ( getLaserOrigin().getY() + ( Math.random() ) * ( s_boxHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-                atom.setVelocity( ( Math.random() - 0.5 ) * s_maxSpeed,
-                                  ( Math.random() - 0.5 ) * s_maxSpeed );
+                //                atom.setVelocity( ( Math.random() - 0.5 ) * s_maxSpeed,
+                //                                  ( Math.random() - 0.5 ) * s_maxSpeed );
                 for( int j = 0; j < atoms.size(); j++ ) {
                     Atom atom2 = (Atom)atoms.get( j );
                     double d = atom.getPosition().distance( atom2.getPosition() );

@@ -13,27 +13,23 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.atom.HighEnergyState;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
-import edu.colorado.phet.lasers.model.atom.GroundState;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.atom.GroundState;
+import edu.colorado.phet.lasers.model.atom.HighEnergyState;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 public class EnergyLevelMonitorPanel extends MonitorPanel {
 
     private int atomDiam = 14;
 
     private double panelWidth = 400;
-    private double panelHeight = 100;
+    private double panelHeight = 300;
 
     private double groundLevelLineOriginX = 30;
     private double groundLevelLineLength = panelWidth - 60;
@@ -81,14 +77,19 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
     public void setNumLevels( int numLevels ) {
         switch( numLevels ) {
             case 2:
-                panelHeight = 100;
+                panelHeight = 200;
+                highLevelLine.setVisible( false );
                 break;
             case 3:
-                panelHeight = 200;
+                panelHeight = 300;
+                highLevelLine.setVisible( true );
                 break;
             default:
                 throw new RuntimeException( "Number of levels out of range" );
         }
+        highLevelLine.setBasePosition( highLevelLineOriginX, panelHeight - 10 );
+        middleLevelLine.setBasePosition( middleLevelLineOriginX, panelHeight - 10 );
+        groundLevelLine.setBasePosition( groundLevelLineOriginX, panelHeight - 10 );
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         revalidate();
         repaint();
