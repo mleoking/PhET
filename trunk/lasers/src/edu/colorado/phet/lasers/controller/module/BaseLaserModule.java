@@ -23,6 +23,7 @@ import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
@@ -161,7 +162,8 @@ public class BaseLaserModule extends Module {
         setPhotonView( PHOTON_WAVE );
         beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity(), getModel() );
         addGraphic( beamGraphic, 1 );
-        waveGraphic = new StandingWaveGraphic( getApparatusPanel(), pumpingBeam, getCavity(), getModel() );
+        waveGraphic = new StandingWaveGraphic( getApparatusPanel(), getCavity(),
+                                               rightMirror, getModel(), MiddleEnergyState.instance() );
         addGraphic( waveGraphic, 20 );
     }
 
@@ -271,7 +273,7 @@ public class BaseLaserModule extends Module {
             getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.CAVITY_LAYER );
             getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
 
-            // Put on the panel to control reflectivity
+            // Put a reflectivity control on the panel
             JPanel reflectivityControl = new RightMirrorReflectivityControlPanel( rightMirror );
             reflectivityControlPanel = new JPanel();
             Dimension dim = reflectivityControl.getPreferredSize();

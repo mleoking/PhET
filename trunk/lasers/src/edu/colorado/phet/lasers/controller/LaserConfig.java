@@ -18,24 +18,6 @@ import java.awt.geom.Point2D;
 
 public class LaserConfig {
 
-    private static final LaserConfig instance = new LaserConfig();
-
-    //    public static LaserConfig instance() {
-    //        return instance;
-    //    }
-    //
-    //    public String getTitle() {
-    //        return "Lasers";
-    //    }
-    //
-    //    public float getTimeStep() {
-    //        return 0.01f;
-    //    }
-    //
-    //    public int getWaitTime() {
-    //        return 20;
-    //    }
-
     // Localization
     public static final String localizedStringsPath = "localization/LasersStrings";
 
@@ -77,4 +59,8 @@ public class LaserConfig {
 
     public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
     public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;
+
+    // Angle within which a photon is considered to be moving horizontally. This is used by the
+    // mirrors to "cheat" photons into lasing, and by the wave graphic to determine its amplitude
+    public static final double PHOTON_CHEAT_ANGLE = Math.toRadians( 10 );
 }

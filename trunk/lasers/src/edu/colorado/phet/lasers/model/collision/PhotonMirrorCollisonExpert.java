@@ -16,6 +16,7 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.CollisionUtil;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
@@ -63,7 +64,8 @@ public class PhotonMirrorCollisonExpert implements CollisionExpert {
      * @param mirror
      */
     private void doCollision( Photon photon, Mirror mirror ) {
-        double cheatFactor = Math.toRadians( 60 );
+        double cheatFactor = LaserConfig.PHOTON_CHEAT_ANGLE;
+        //        double cheatFactor = Math.toRadians( 60 );
         double dx = photon.getPosition().getX() - mirror.getPosition().getX();
         photon.setPosition( mirror.getPosition().getX() - dx, photon.getPosition().getY() );
         double vx = 0;
