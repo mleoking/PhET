@@ -13,14 +13,15 @@ import edu.colorado.phet.common.model.observation.Deletion;
 
 import java.util.Observer;
 
-/**Manages a Clock, CommandQueue and a list of Observers.  Subclasses must fill in the implementation details
+/**
+ * Manages a Clock, CommandQueue and a list of Observers.  Subclasses must fill in the implementation details
  * of being a ModelElement.
  * TODO: As of 6/17/03 nobody is using Creation and Deletion messages. If this
  * situation doesn't change, they should be removed from the system.
  */
 public class BaseModel extends ModelElement implements ClockTickListener
 //        implements IRunAndStop
- {
+{
 
     // Clock owns the ModelElement it ticks to
 //    private Clock clock;
@@ -31,14 +32,14 @@ public class BaseModel extends ModelElement implements ClockTickListener
         commonInit();
     }
 
-    public BaseModel(Observer o) {
-        this(new Observer[]{o});
+    public BaseModel( Observer o ) {
+        this( new Observer[]{o} );
         commonInit();
     }
 
-    public BaseModel(Observer[] o) {
-        for (int i = 0; i < o.length; i++) {
-            addObserver(o[i]);
+    public BaseModel( Observer[] o ) {
+        for( int i = 0; i < o.length; i++ ) {
+            addObserver( o[i] );
         }
         commonInit();
     }
@@ -48,24 +49,24 @@ public class BaseModel extends ModelElement implements ClockTickListener
 //        clock = new Clock(this, 1, 20, ThreadPriority.NORMAL);
     }
 
-    public void addModelElement(ModelElement m) {
-        compositeModelElement.addModelElement(m);
-        updateObservers(new Creation(m));
+    public void addModelElement( ModelElement m ) {
+        compositeModelElement.addModelElement( m );
+        updateObservers( new Creation( m ) );
     }
 
-    public void removeModelElement(ModelElement ts) {
-        compositeModelElement.removeModelElement(ts);
-        updateObservers(new Deletion(ts));
+    public void removeModelElement( ModelElement ts ) {
+        compositeModelElement.removeModelElement( ts );
+        updateObservers( new Deletion( ts ) );
     }
 
     protected void removeAllModelElements() {
-        while (compositeModelElement.numModelElements() > 0) {
-            removeModelElement(compositeModelElement.modelElementAt(0));
+        while( compositeModelElement.numModelElements() > 0 ) {
+            removeModelElement( compositeModelElement.modelElementAt( 0 ) );
         }
     }
 
-    public ModelElement modelElementAt(int i) {
-        return compositeModelElement.modelElementAt(i);
+    public ModelElement modelElementAt( int i ) {
+        return compositeModelElement.modelElementAt( i );
     }
 
     public int numModelElements() {
@@ -73,14 +74,14 @@ public class BaseModel extends ModelElement implements ClockTickListener
     }
 
     //Not allowed to mess with the way we call our abstract method.
-    public final void stepInTime(double dt) {
+    public final void stepInTime( double dt ) {
 //        executeQueue();
-        compositeModelElement.stepInTime(dt);
+        compositeModelElement.stepInTime( dt );
         updateObservers();
     }
 
-    public synchronized void execute(Command mmc) {
-        commandList.addCommand(mmc);
+    public synchronized void execute( Command mmc ) {
+        commandList.addCommand( mmc );
 //        System.out.println( "commandList = " + commandList.size() );
     }
 
@@ -92,9 +93,9 @@ public class BaseModel extends ModelElement implements ClockTickListener
         return this.compositeModelElement.numModelElements();
     }
 
-    public void clockTicked(Clock c, double dt) {
+    public void clockTicked( Clock c, double dt ) {
         executeQueue();
-        stepInTime(dt);
+        stepInTime( dt );
         updateObservers();
     }
 

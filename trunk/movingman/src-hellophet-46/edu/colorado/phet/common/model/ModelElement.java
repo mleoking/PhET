@@ -9,5 +9,5 @@ package edu.colorado.phet.common.model;
  * To change this template use Options | File Templates.
  */
 public abstract class ModelElement extends AutomatedObservable {
-    public abstract void stepInTime(double dt);
+    public abstract void stepInTime( double dt );
 }

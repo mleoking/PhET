@@ -14,21 +14,21 @@ public class CenteredCircleGraphic implements PositionedGraphic {
     int height;
     Color c;
 
-    public CenteredCircleGraphic(int width, int height, Color c) {
+    public CenteredCircleGraphic( int width, int height, Color c ) {
         this.width = width;
         this.height = height;
         this.c = c;
     }
 
-    public void paint(Graphics2D g, int x, int y) {
+    public void paint( Graphics2D g, int x, int y ) {
         int left = x - width / 2;
         int top = y - height / 2;
-        g.setColor(c);
-        g.fillOval(left, top, width, height);
+        g.setColor( c );
+        g.fillOval( left, top, width, height );
     }
 
     public void setColor( Color color ) {
-        this.c=color;
+        this.c = color;
     }
 
 }

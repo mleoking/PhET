@@ -21,7 +21,6 @@ public class GraphicsUtil {
     }
 
     /**
-     *
      * @param newMenu
      * @param menuBar
      * @param index
@@ -49,6 +48,7 @@ public class GraphicsUtil {
     /**
      * Add a component to a container with a GridBagLayout, creating
      * GridBagConstraints for it.
+     *
      * @param container
      * @param component
      * @param gridX
@@ -85,6 +85,7 @@ public class GraphicsUtil {
     /**
      * Places a frame on the screen, centered left and right and placed
      * vertically at the golden mean
+     *
      * @param frame
      */
     public static void centerFrameOnScreen( JFrame frame ) {
@@ -104,14 +105,14 @@ public class GraphicsUtil {
 
     /**
      * Sets the bounds for a dialog so it is centered over a frame
+     *
      * @param dialog
      */
     public static void centerDialogInParent( JDialog dialog ) {
         Rectangle frameBounds = dialog.getParent().getBounds();
-        Rectangle dialogBounds = new Rectangle(
-                (int)( frameBounds.getMinX() + frameBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
-                (int)( frameBounds.getMinY() + frameBounds.getHeight() / 2 - dialog.getHeight() / 2 ),
-                dialog.getWidth(), dialog.getHeight() );
+        Rectangle dialogBounds = new Rectangle( (int)( frameBounds.getMinX() + frameBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
+                                                (int)( frameBounds.getMinY() + frameBounds.getHeight() / 2 - dialog.getHeight() / 2 ),
+                                                dialog.getWidth(), dialog.getHeight() );
         dialog.setBounds( dialogBounds );
     }
 
@@ -179,8 +180,7 @@ public class GraphicsUtil {
             // Create the buffered image
             GraphicsDevice gs = ge.getDefaultScreenDevice();
             GraphicsConfiguration gc = gs.getDefaultConfiguration();
-            bimage = gc.createCompatibleImage(
-                    image.getWidth( null ), image.getHeight( null ), transparency );
+            bimage = gc.createCompatibleImage( image.getWidth( null ), image.getHeight( null ), transparency );
         }
         catch( HeadlessException e ) {
             // The system does not have a screen

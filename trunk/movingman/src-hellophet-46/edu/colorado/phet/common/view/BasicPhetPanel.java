@@ -14,53 +14,53 @@ public class BasicPhetPanel extends JPanel {
     private JComponent north;
     private JComponent south;
 
-    public BasicPhetPanel(JComponent apparatusPanelContainer, JComponent controlPanel, JComponent monitorPanel, JComponent appControl) {
-        this.setLayout(new BorderLayout());
-        setApparatusPanelContainer(apparatusPanelContainer);
-        setControlPanel(controlPanel);
-        setMonitorPanel(monitorPanel);
-        setAppControlPanel(appControl);
+    public BasicPhetPanel( JComponent apparatusPanelContainer, JComponent controlPanel, JComponent monitorPanel, JComponent appControl ) {
+        this.setLayout( new BorderLayout() );
+        setApparatusPanelContainer( apparatusPanelContainer );
+        setControlPanel( controlPanel );
+        setMonitorPanel( monitorPanel );
+        setAppControlPanel( appControl );
     }
 
     public JComponent getApparatusPanelContainer() {
         return center;
     }
 
-    public void setControlPanel(JComponent panel) {
-        if (east != null) {
-            remove(east);
+    public void setControlPanel( JComponent panel ) {
+        if( east != null ) {
+            remove( east );
         }
         east = panel;
-        setPanel(panel, BorderLayout.EAST);
+        setPanel( panel, BorderLayout.EAST );
     }
 
-    public void setMonitorPanel(JComponent panel) {
-        if (north != null) {
-            remove(north);
+    public void setMonitorPanel( JComponent panel ) {
+        if( north != null ) {
+            remove( north );
         }
         north = panel;
-        setPanel(panel, BorderLayout.NORTH);
+        setPanel( panel, BorderLayout.NORTH );
     }
 
-    public void setApparatusPanelContainer(JComponent panel) {
-        if (center != null) {
-            remove(center);
+    public void setApparatusPanelContainer( JComponent panel ) {
+        if( center != null ) {
+            remove( center );
         }
         center = panel;
-        setPanel(panel, BorderLayout.CENTER);
+        setPanel( panel, BorderLayout.CENTER );
     }
 
-    public void setAppControlPanel(JComponent panel) {
-        if (south != null) {
-            remove(south);
+    public void setAppControlPanel( JComponent panel ) {
+        if( south != null ) {
+            remove( south );
         }
         south = panel;
-        setPanel(panel, BorderLayout.SOUTH);
+        setPanel( panel, BorderLayout.SOUTH );
     }
 
-    private void setPanel(JComponent component, String place) {
-        if (component != null) {
-            add(component, place);
+    private void setPanel( JComponent component, String place ) {
+        if( component != null ) {
+            add( component, place );
         }
         repaint();
     }

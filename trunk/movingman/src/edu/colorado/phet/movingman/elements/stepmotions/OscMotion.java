@@ -16,26 +16,26 @@ public class OscMotion implements StepMotion {
     MotionState motionState;
     private double amplitude = 2;
 
-    public OscMotion(MotionState motionState, double k) {
+    public OscMotion( MotionState motionState, double k ) {
         this.motionState = motionState;
         this.k = k;
     }
 
-    public double stepInTime(Man man, double dt) {
-        if (Math.abs(man.getX()) < .01 && Math.abs(motionState.getVelocity()) < .01) {
-            motionState.setVelocity(0);
-            man.setX(amplitude);
+    public double stepInTime( Man man, double dt ) {
+        if( Math.abs( man.getX() ) < .01 && Math.abs( motionState.getVelocity() ) < .01 ) {
+            motionState.setVelocity( 0 );
+            man.setX( amplitude );
         }
         //f=ma
-        double acceleration = -k * (man.getX() - center);
+        double acceleration = -k * ( man.getX() - center );
         double vnew = motionState.getVelocity() + acceleration * dt;
-        motionState.setVelocity(vnew);
+        motionState.setVelocity( vnew );
         double xnew = man.getX() + vnew * dt;
         return xnew;
 //        return 0;
     }
 
-    public void setK(double k) {
+    public void setK( double k ) {
         this.k = k;
     }
 }

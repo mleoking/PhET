@@ -15,17 +15,17 @@ public class RangeToRangeInvert implements Function {
     double outEnd;
     double midout;//=(outStart+outEnd)/2;
 
-    public RangeToRangeInvert(double inStart, double inEnd, double outStart, double outEnd) {
+    public RangeToRangeInvert( double inStart, double inEnd, double outStart, double outEnd ) {
         this.inStart = inStart;
         this.inEnd = inEnd;
         this.outStart = outStart;
         this.outEnd = outEnd;
-        core = new RangeToRange(inStart, inEnd, outStart, outEnd);
-        this.midout = (outStart + outEnd) / 2;
+        core = new RangeToRange( inStart, inEnd, outStart, outEnd );
+        this.midout = ( outStart + outEnd ) / 2;
     }
 
-    public double evaluate(double in) {
-        double regular = core.evaluate(in);
+    public double evaluate( double in ) {
+        double regular = core.evaluate( in );
         double distFromMid = midout - regular;//regular-midout;
         double flipped = regular + 2 * distFromMid;
         return flipped;

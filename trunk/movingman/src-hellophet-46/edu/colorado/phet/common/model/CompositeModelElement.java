@@ -12,29 +12,29 @@ import java.util.ArrayList;
 public class CompositeModelElement extends ModelElement {
     ArrayList al = new ArrayList();
 
-    public void addModelElement(ModelElement aps) {
-        al.add(aps);
+    public void addModelElement( ModelElement aps ) {
+        al.add( aps );
     }
 
-    public ModelElement modelElementAt(int i) {
-        return (ModelElement) al.get(i);
+    public ModelElement modelElementAt( int i ) {
+        return (ModelElement)al.get( i );
     }
 
     public int numModelElements() {
         return al.size();
     }
 
-    public void stepInTime(double dt) {
-        for (int i = 0; i < numModelElements(); i++) {
-            modelElementAt(i).stepInTime(dt);
+    public void stepInTime( double dt ) {
+        for( int i = 0; i < numModelElements(); i++ ) {
+            modelElementAt( i ).stepInTime( dt );
         }
     }
 
-    public void removeModelElement(ModelElement m) {
-        al.remove(m);
+    public void removeModelElement( ModelElement m ) {
+        al.remove( m );
     }
 
     public void removeAllElements() {
-        al.removeAll(al);
+        al.removeAll( al );
     }
 }

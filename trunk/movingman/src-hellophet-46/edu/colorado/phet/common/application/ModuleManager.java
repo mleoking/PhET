@@ -22,31 +22,30 @@ public class ModuleManager {
         this.application = application;
     }
 
-    public Module moduleAt(int i) {
-        return (Module) modules.get(i);
+    public Module moduleAt( int i ) {
+        return (Module)modules.get( i );
     }
 
     public Module getActiveModule() {
         return activeModule;
     }
 
-    public int numModules()
-    {
+    public int numModules() {
         return modules.size();
     }
 
-    public void addModule(Module module) {
-        addModule(module, false);
+    public void addModule( Module module ) {
+        addModule( module, false );
     }
 
-    public void addModule(Module module, boolean isActive) {
-        modules.add(module);
-        if (isActive) {
-            setActiveModule(module);
+    public void addModule( Module module, boolean isActive ) {
+        modules.add( module );
+        if( isActive ) {
+            setActiveModule( module );
         }
-        for (int i = 0; i < observers.size(); i++) {
-            ModuleObserver moduleObserver = (ModuleObserver) observers.get(i);
-            moduleObserver.moduleAdded(module);
+        for( int i = 0; i < observers.size(); i++ ) {
+            ModuleObserver moduleObserver = (ModuleObserver)observers.get( i );
+            moduleObserver.moduleAdded( module );
         }
     }
 
@@ -54,35 +53,35 @@ public class ModuleManager {
 //        return modules;
 //    }
 
-    public void setActiveModule(int i) {
-        setActiveModule(moduleAt(i));
+    public void setActiveModule( int i ) {
+        setActiveModule( moduleAt( i ) );
     }
 
-    public void setActiveModule(Module module) {
-        if (activeModule != module) {
-            if (activeModule != null) {
-                activeModule.deactivateInternal(application );
+    public void setActiveModule( Module module ) {
+        if( activeModule != module ) {
+            if( activeModule != null ) {
+                activeModule.deactivateInternal( application );
             }
             activeModule = module;
-            module.activateInternal(application );
+            module.activateInternal( application );
         }
-        for (int i = 0; i < observers.size(); i++) {
-            ModuleObserver moduleObserver = (ModuleObserver) observers.get(i);
-            moduleObserver.activeModuleChanged(module);
+        for( int i = 0; i < observers.size(); i++ ) {
+            ModuleObserver moduleObserver = (ModuleObserver)observers.get( i );
+            moduleObserver.activeModuleChanged( module );
         }
     }
 
-    public void addModuleObserver(ModuleObserver observer) {
-        observers.add(observer);
+    public void addModuleObserver( ModuleObserver observer ) {
+        observers.add( observer );
     }
 
-    public int indexOf(Module m) {
-        return modules.indexOf(m);
+    public int indexOf( Module m ) {
+        return modules.indexOf( m );
     }
 
-    public void addAllModules(Module[] modules) {
-        for (int i = 0; i < modules.length; i++) {
-            addModule(modules[i]);
+    public void addAllModules( Module[] modules ) {
+        for( int i = 0; i < modules.length; i++ ) {
+            addModule( modules[i] );
         }
     }
 

@@ -16,24 +16,25 @@ public class ArrowWithFixedSizeArrowhead {
     Arrowhead head;
     LineSegment segment;
 
-    public ArrowWithFixedSizeArrowhead(Color color, int tailWidth) {
-        this(color, color, new BasicStroke(tailWidth), tailWidth * 3, tailWidth * 3);
+    public ArrowWithFixedSizeArrowhead( Color color, int tailWidth ) {
+        this( color, color, new BasicStroke( tailWidth ), tailWidth * 3, tailWidth * 3 );
     }
 
-    public ArrowWithFixedSizeArrowhead(Color tailColor, Color headColor, Stroke tailStroke, int headWidth, int headHeight) {
+    public ArrowWithFixedSizeArrowhead( Color tailColor, Color headColor, Stroke tailStroke, int headWidth, int headHeight ) {
         this.headHeight = headHeight;
-        this.head = new Arrowhead(headColor, headWidth, headHeight);
-        segment = new LineSegment(tailStroke, tailColor);
+        this.head = new Arrowhead( headColor, headWidth, headHeight );
+        segment = new LineSegment( tailStroke, tailColor );
     }
 
-    public void drawLine(Graphics2D g2, int x1, int y1, int x2, int y2) {
-        PhetVector vector = new PhetVector(x2 - x1, y2 - y1);
+    public void drawLine( Graphics2D g2, int x1, int y1, int x2, int y2 ) {
+        PhetVector vector = new PhetVector( x2 - x1, y2 - y1 );
         double mag = vector.getMagnitude();
-        if (mag <= headHeight)
+        if( mag <= headHeight ) {
             return;
-        vector.setMagnitude(vector.getMagnitude() - headHeight);
-        Point headPoint = new Point((int) vector.getX() + x1, (int) vector.getY() + y1);
-        segment.paint(g2, x1, y1, headPoint.x, headPoint.y);
-        head.paint(g2, headPoint.x, headPoint.y, (int) vector.getX(), (int) vector.getY());
+        }
+        vector.setMagnitude( vector.getMagnitude() - headHeight );
+        Point headPoint = new Point( (int)vector.getX() + x1, (int)vector.getY() + y1 );
+        segment.paint( g2, x1, y1, headPoint.x, headPoint.y );
+        head.paint( g2, headPoint.x, headPoint.y, (int)vector.getX(), (int)vector.getY() );
     }
 }

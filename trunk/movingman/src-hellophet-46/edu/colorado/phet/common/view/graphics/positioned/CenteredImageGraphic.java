@@ -14,17 +14,17 @@ import java.awt.image.BufferedImage;
 public class CenteredImageGraphic implements PositionedGraphic {
     BufferedImage bi;
 
-    public CenteredImageGraphic(BufferedImage bi) {
+    public CenteredImageGraphic( BufferedImage bi ) {
         this.bi = bi;
     }
 
-    public void paint(Graphics2D g, int x, int y) {
-        AffineTransform at = AffineTransform.getTranslateInstance(x - bi.getWidth() / 2, y - bi.getHeight() / 2);
-        g.drawRenderedImage(bi, at);
+    public void paint( Graphics2D g, int x, int y ) {
+        AffineTransform at = AffineTransform.getTranslateInstance( x - bi.getWidth() / 2, y - bi.getHeight() / 2 );
+        g.drawRenderedImage( bi, at );
     }
 
-    public Rectangle getRectangle(int x, int y) {
-        Rectangle r = new Rectangle(x - bi.getWidth() / 2, y - bi.getHeight() / 2, bi.getWidth(), bi.getHeight());
+    public Rectangle getRectangle( int x, int y ) {
+        Rectangle r = new Rectangle( x - bi.getWidth() / 2, y - bi.getHeight() / 2, bi.getWidth(), bi.getHeight() );
         return r;
     }
 

@@ -10,7 +10,6 @@ import edu.colorado.phet.common.view.components.clockgui.ClockDialog;
 import edu.colorado.phet.common.view.components.media.ApplicationModelControlPanel;
 import edu.colorado.phet.common.view.components.media.Resettable;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -69,14 +68,15 @@ public class ApplicationView {
     }
 
     public void addFileMenuItem( JMenuItem menuItem ) {
-        phetFrame.addFileMenuItem(menuItem);
+        phetFrame.addFileMenuItem( menuItem );
     }
-    public void addFileMenuSeparator()
-    {
+
+    public void addFileMenuSeparator() {
         phetFrame.addFileMenuSeparator();
     }
+
     public void removeFileMenuItem( JMenuItem menuItem ) {
-        phetFrame.removeFileMenuItem(menuItem);
+        phetFrame.removeFileMenuItem( menuItem );
     }
 
     public void removeFileMenuSeparator() {

@@ -20,11 +20,11 @@ public class PlotAndText {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible( boolean visible ) {
         this.visible = visible;
-        plot.setVisible(visible);
-        text.setVisible(visible);
-        grid.setVisible(visible);
+        plot.setVisible( visible );
+        text.setVisible( visible );
+        grid.setVisible( visible );
     }
 
     public BoxedPlot getPlot() {
@@ -39,7 +39,7 @@ public class PlotAndText {
         return grid;
     }
 
-    public PlotAndText(BoxedPlot plot, ValueGraphic text, GridLineGraphic grid) {
+    public PlotAndText( BoxedPlot plot, ValueGraphic text, GridLineGraphic grid ) {
         this.plot = plot;
         this.text = text;
         this.grid = grid;

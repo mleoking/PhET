@@ -14,37 +14,38 @@ import java.net.URL;
  * Copyright (c) Apr 16, 2003 by Sam Reid
  */
 public class ImageLoader {
-    public Image loadImage(String name) {
+    public Image loadImage( String name ) {
         ResourceLoader r = new ResourceLoader();
-        ResourceLoader.LoadedImageDescriptor lid = r.loadImage(name);
+        ResourceLoader.LoadedImageDescriptor lid = r.loadImage( name );
         Image im = lid.getImage();
         return im;
     }
 
-    public BufferedImage loadBufferedImage(String name) {
-        return GraphicsUtil.toBufferedImage(loadImage(name));
+    public BufferedImage loadBufferedImage( String name ) {
+        return GraphicsUtil.toBufferedImage( loadImage( name ) );
     }
 
     private class ResourceLoader extends Container {
 
-        public ResourceLoader.LoadedImageDescriptor loadImage(String imageLocation) {
+        public ResourceLoader.LoadedImageDescriptor loadImage( String imageLocation ) {
             Image image = null;
             ClassLoader cl = this.getClass().getClassLoader();
 //        O.d("Cl="+cl);
-            URL imageUrl = cl.getResource(imageLocation);
+            URL imageUrl = cl.getResource( imageLocation );
 //        O.d("Str="+imageLocation);
             Toolkit toolkit = Toolkit.getDefaultToolkit();
 //        O.d("Toolkit="+toolkit);
 //        O.d("ImageURL="+imageUrl);
-            image = toolkit.createImage(imageUrl);
+            image = toolkit.createImage( imageUrl );
 //        O.d("Image="+image);
-            MediaTracker tracker = new MediaTracker(this);
-            tracker.addImage(image, 0);
+            MediaTracker tracker = new MediaTracker( this );
+            tracker.addImage( image, 0 );
             try {
                 tracker.waitForAll();
-            } catch (InterruptedException e) {
             }
-            return new ResourceLoader.LoadedImageDescriptor(image);
+            catch( InterruptedException e ) {
+            }
+            return new ResourceLoader.LoadedImageDescriptor( image );
         }
 
 //
@@ -60,10 +61,10 @@ public class ImageLoader {
             private double width;
             private double height;
 
-            LoadedImageDescriptor(Image image) {
+            LoadedImageDescriptor( Image image ) {
                 this.image = image;
-                this.width = image.getWidth(ResourceLoader.this);
-                this.height = image.getHeight(ResourceLoader.this);
+                this.width = image.getWidth( ResourceLoader.this );
+                this.height = image.getHeight( ResourceLoader.this );
             }
 
             public Image getImage() {

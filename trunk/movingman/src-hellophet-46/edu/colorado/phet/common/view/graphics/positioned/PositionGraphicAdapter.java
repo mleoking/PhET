@@ -16,13 +16,13 @@ public class PositionGraphicAdapter implements Graphic {
     int x;
     int y;
 
-    public PositionGraphicAdapter(PositionedGraphic lp, int x, int y) {
+    public PositionGraphicAdapter( PositionedGraphic lp, int x, int y ) {
         this.x = x;
         this.y = y;
         this.lp = lp;
     }
 
-    public void paint(Graphics2D graphics2D) {
-        lp.paint(graphics2D, x, y);
+    public void paint( Graphics2D graphics2D ) {
+        lp.paint( graphics2D, x, y );
     }
 }

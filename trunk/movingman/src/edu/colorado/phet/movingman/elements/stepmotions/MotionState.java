@@ -19,7 +19,7 @@ public class MotionState {
         started = false;
     }
 
-    public void setVelocity(double velocity) {
+    public void setVelocity( double velocity ) {
         this.velocity = velocity;
     }
 

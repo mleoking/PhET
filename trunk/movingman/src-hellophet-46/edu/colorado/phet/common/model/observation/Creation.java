@@ -13,7 +13,7 @@ import edu.colorado.phet.common.model.ModelElement;
 public class Creation implements ObservationType {
     ModelElement target;
 
-    public Creation(ModelElement target) {
+    public Creation( ModelElement target ) {
         this.target = target;
     }
 

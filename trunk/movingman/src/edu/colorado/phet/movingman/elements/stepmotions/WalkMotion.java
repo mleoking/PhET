@@ -14,18 +14,18 @@ public class WalkMotion implements StepMotion {
     MotionState ms;
 //    boolean started=false;
 
-    public WalkMotion(MotionState ms) {
+    public WalkMotion( MotionState ms ) {
         this.ms = ms;
     }
 
-    public double stepInTime(Man man, double dt) {
+    public double stepInTime( Man man, double dt ) {
         double newPosition = man.getX() + vel * dt;
 //        started=true;
-        ms.setVelocity(vel);
+        ms.setVelocity( vel );
         return newPosition;
     }
 
-    public void setVelocity(double vel) {
+    public void setVelocity( double vel ) {
         this.vel = vel;
     }
 }

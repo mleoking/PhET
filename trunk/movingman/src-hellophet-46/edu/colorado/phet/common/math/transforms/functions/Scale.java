@@ -10,11 +10,11 @@ package edu.colorado.phet.common.math.transforms.functions;
 public class Scale implements Function {
     double factor;
 
-    public Scale(double factor) {
+    public Scale( double factor ) {
         this.factor = factor;
     }
 
-    public double evaluate(double in) {
+    public double evaluate( double in ) {
         return in * factor;
     }
 

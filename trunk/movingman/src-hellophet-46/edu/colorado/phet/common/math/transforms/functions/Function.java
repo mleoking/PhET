@@ -8,5 +8,5 @@ package edu.colorado.phet.common.math.transforms.functions;
  * To change this template use Options | File Templates.
  */
 public interface Function {
-    public double evaluate(double in);
+    public double evaluate( double in );
 }

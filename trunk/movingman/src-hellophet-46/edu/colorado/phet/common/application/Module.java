@@ -8,8 +8,8 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.components.media.Resettable;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.components.media.Resettable;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
 import javax.swing.*;
@@ -29,7 +29,7 @@ public abstract class Module {
     String name;
     private Resettable resettable;
 
-    protected Module(String name) {
+    protected Module( String name ) {
         this.name = name;
     }
 
@@ -37,7 +37,7 @@ public abstract class Module {
         return apparatusPanel;
     }
 
-    protected void setApparatusPanel(ApparatusPanel apparatusPanel) {
+    protected void setApparatusPanel( ApparatusPanel apparatusPanel ) {
         this.apparatusPanel = apparatusPanel;
     }
 
@@ -45,7 +45,7 @@ public abstract class Module {
         return controlPanel;
     }
 
-    protected void setControlPanel(JPanel controlPanel) {
+    protected void setControlPanel( JPanel controlPanel ) {
         this.controlPanel = controlPanel;
     }
 
@@ -53,7 +53,7 @@ public abstract class Module {
         return monitorPanel;
     }
 
-    protected void setMonitorPanel(JPanel monitorPanel) {
+    protected void setMonitorPanel( JPanel monitorPanel ) {
         this.monitorPanel = monitorPanel;
     }
 
@@ -61,11 +61,11 @@ public abstract class Module {
         return this.resettable;
     }
 
-    protected void setResetter(Resettable resettable) {
+    protected void setResetter( Resettable resettable ) {
         this.resettable = resettable;
     }
 
-    protected void setModel(BaseModel model) {
+    protected void setModel( BaseModel model ) {
         this.model = model;
     }
 
@@ -73,29 +73,29 @@ public abstract class Module {
         return model;
     }
 
-    public void activateInternal(PhetApplication app) {
-        getModel().addObserver(getApparatusPanel());
-        this.activate(app);
+    public void activateInternal( PhetApplication app ) {
+        getModel().addObserver( getApparatusPanel() );
+        this.activate( app );
     }
 
-    public void deactivateInternal(PhetApplication app) {
-        getModel().deleteObserver(getApparatusPanel());
-        this.deactivate(app);
+    public void deactivateInternal( PhetApplication app ) {
+        getModel().deleteObserver( getApparatusPanel() );
+        this.deactivate( app );
     }
 
     public String getName() {
         return name;
     }
 
-    protected void remove(ModelElement modelElement, Graphic graphic) {
-        getModel().removeModelElement(modelElement);
-        getApparatusPanel().removeGraphic(graphic);
+    protected void remove( ModelElement modelElement, Graphic graphic ) {
+        getModel().removeModelElement( modelElement );
+        getApparatusPanel().removeGraphic( graphic );
     }
 
     //
-    public abstract void activate(PhetApplication app);
+    public abstract void activate( PhetApplication app );
 
-    public abstract void deactivate(PhetApplication app);
+    public abstract void deactivate( PhetApplication app );
 
 
 }

@@ -10,5 +10,5 @@ import java.awt.geom.Point2D;
  * To change this template use Options | File Templates.
  */
 public interface Transform {
-    public Point2D.Double transform(Point2D.Double in);
+    public Point2D.Double transform( Point2D.Double in );
 }

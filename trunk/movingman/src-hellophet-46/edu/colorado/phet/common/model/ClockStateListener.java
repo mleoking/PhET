@@ -7,9 +7,9 @@ package edu.colorado.phet.common.model;
  * Copyright (c) Jun 11, 2003 by Sam Reid
  */
 public interface ClockStateListener {
-    void waitTimeChanged(int waitTime);
+    void waitTimeChanged( int waitTime );
 
-    void dtChanged(double dt);
+    void dtChanged( double dt );
 
-    void threadPriorityChanged(ThreadPriority tp);
+    void threadPriorityChanged( ThreadPriority tp );
 }

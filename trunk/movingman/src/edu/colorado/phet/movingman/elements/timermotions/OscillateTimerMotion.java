@@ -15,30 +15,30 @@ public class OscillateTimerMotion implements TimerMotion {
     private double origin;
     private double phase;
 
-    public OscillateTimerMotion(double frequency, double amplitude) {
-        this(frequency, amplitude, 0, 0);
+    public OscillateTimerMotion( double frequency, double amplitude ) {
+        this( frequency, amplitude, 0, 0 );
     }
 
-    public OscillateTimerMotion(double frequency, double amplitude, double origin, double phase) {
+    public OscillateTimerMotion( double frequency, double amplitude, double origin, double phase ) {
         this.frequency = frequency;
         this.amplitude = amplitude;
         this.origin = origin;
         this.phase = phase;
     }
 
-    public double getPosition(double time) {
-        return Math.sin(frequency * time + phase) * amplitude + origin;
+    public double getPosition( double time ) {
+        return Math.sin( frequency * time + phase ) * amplitude + origin;
     }
 
-    public void setInitialPosition(double x) {
+    public void setInitialPosition( double x ) {
         this.origin = x;
     }
 
-    public void setFrequency(double frequency) {
+    public void setFrequency( double frequency ) {
         this.frequency = frequency;
     }
 
-    public void setAmplitude(double amp) {
+    public void setAmplitude( double amp ) {
         this.amplitude = amp;
     }
 }

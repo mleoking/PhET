@@ -1,10 +1,9 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.movingman.elements;
 
-import edu.colorado.phet.common.view.graphics.ObservingGraphic;
-import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
-import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.math.transforms.BoxToBoxInvertY;
+import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
+import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.movingman.application.MovingManModule;
 
 import java.awt.*;
@@ -31,18 +30,18 @@ public class BoxedPlot implements ObservingGraphic {
     private BufferedGraphicForComponent buffer;
     private double xShift;
     boolean showValue = true;
-    GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+    GeneralPath path = new GeneralPath( GeneralPath.WIND_EVEN_ODD );
     private boolean started;
     private BoxToBoxInvertY transform;
     private boolean visible = true;
-    ArrayList rawData = new ArrayList(100);
-    ArrayList transformedData = new ArrayList(100);
+    ArrayList rawData = new ArrayList( 100 );
+    ArrayList transformedData = new ArrayList( 100 );
     float lastTime;
     double dt;
     private Graphics2D bufferGraphic;
     private Rectangle2D.Double outputBox;
 
-    public BoxedPlot(MovingManModule module, DataSeries mh, Timer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, BufferedGraphicForComponent buffer, double xShift) {
+    public BoxedPlot( MovingManModule module, DataSeries mh, Timer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, BufferedGraphicForComponent buffer, double xShift ) {
         this.module = module;
         this.mh = mh;
         this.recordingTimer = timer;
@@ -51,83 +50,89 @@ public class BoxedPlot implements ObservingGraphic {
         this.inputBox = inputBox;
         this.buffer = buffer;
         this.xShift = xShift;
-        mh.addObserver(this);
+        mh.addObserver( this );
         mh.updateObservers();
-        timer.addObserver(this);
+        timer.addObserver( this );
         this.outputBox = new Rectangle2D.Double();
     }
 
-    public void setInputBox(Rectangle2D.Double inputBox) {
+    public void setInputBox( Rectangle2D.Double inputBox ) {
         this.inputBox = inputBox;
-        setOutputBox(outputBox);//redraws everything.
+        setOutputBox( outputBox );//redraws everything.
     }
 
-    public void setOutputBox(Rectangle2D.Double outputBox) {
+    public void setOutputBox( Rectangle2D.Double outputBox ) {
         this.outputBox = outputBox;
         started = false;
-        this.transform = new BoxToBoxInvertY(inputBox, outputBox);
+        this.transform = new BoxToBoxInvertY( inputBox, outputBox );
         //Update plot based on existing data
         path.reset();
-        if (rawData.size() <= 1)
+        if( rawData.size() <= 1 ) {
             return;
-        Point2D.Double pt0 = (Point2D.Double) rawData.get(1);
-        pt0 = transform.transform(pt0);
-        path.moveTo((float) pt0.x, (float) pt0.y);
-        for (int i = 2; i < rawData.size(); i++) {
-            Point2D.Double data = (Point2D.Double) rawData.get(i);
-            data = transform.transform(data);
-            path.lineTo((float) data.x, (float) data.y);
+        }
+        Point2D.Double pt0 = (Point2D.Double)rawData.get( 1 );
+        pt0 = transform.transform( pt0 );
+        path.moveTo( (float)pt0.x, (float)pt0.y );
+        for( int i = 2; i < rawData.size(); i++ ) {
+            Point2D.Double data = (Point2D.Double)rawData.get( i );
+            data = transform.transform( data );
+            path.lineTo( (float)data.x, (float)data.y );
             started = true;
         }
     }
 
-    public void paint(Graphics2D g) {
-        if (started && visible) {
-            g.setStroke(stroke);
-            g.setColor(color);
-            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g.draw(path);
+    public void paint( Graphics2D g ) {
+        if( started && visible ) {
+            g.setStroke( stroke );
+            g.setColor( color );
+            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            g.draw( path );
         }
     }
 
-    public void update(Observable o, Object arg) {
-        if (transform == null)
+    public void update( Observable o, Object arg ) {
+        if( transform == null ) {
             return;
-        float time = (float) recordingTimer.getTime();
-        if (time == lastTime)
+        }
+        float time = (float)recordingTimer.getTime();
+        if( time == lastTime ) {
             return;
+        }
         dt = time - lastTime;
         lastTime = time;
-        if (mh.size() <= 1) {
+        if( mh.size() <= 1 ) {
             path.reset();
             started = false;
             rawData = new ArrayList();
-        } else {
-            float position = (float) mh.getLastPoint();// * scale + yoffset;
-            Point2D.Double pt = new Point2D.Double(time - xShift, position);
-            rawData.add(pt);
-            pt = transform.transform(pt);
+        }
+        else {
+            float position = (float)mh.getLastPoint();// * scale + yoffset;
+            Point2D.Double pt = new Point2D.Double( time - xShift, position );
+            rawData.add( pt );
+            pt = transform.transform( pt );
 //            pt.x+=xShift;
-            transformedData.add(pt);
-            if (mh.size() >= 2 && !started) {
-                path.moveTo((float) pt.x, (float) pt.y);
+            transformedData.add( pt );
+            if( mh.size() >= 2 && !started ) {
+                path.moveTo( (float)pt.x, (float)pt.y );
                 started = true;
-            } else if (started) {
-                if (visible && buffer.getImage() != null) {
-                    Point2D.Double a = (Point2D.Double) transformedData.get(transformedData.size() - 2);
-                    Point2D.Double b = (Point2D.Double) transformedData.get(transformedData.size() - 1);
-                    this.bufferGraphic = (Graphics2D) buffer.getImage().getGraphics();
-                    bufferGraphic.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    bufferGraphic.setColor(color);
+            }
+            else if( started ) {
+                if( visible && buffer.getImage() != null ) {
+                    Point2D.Double a = (Point2D.Double)transformedData.get( transformedData.size() - 2 );
+                    Point2D.Double b = (Point2D.Double)transformedData.get( transformedData.size() - 1 );
+                    this.bufferGraphic = (Graphics2D)buffer.getImage().getGraphics();
+                    bufferGraphic.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                    bufferGraphic.setColor( color );
 //                    this.clipArea = stroke.createStrokedShape(new Line2D.Double(b.x, b.y, a.x, a.y));
-                    bufferGraphic.setStroke(stroke);
+                    bufferGraphic.setStroke( stroke );
 //                    if (outputBox.contains(a) && outputBox.contains(b))
-                    bufferGraphic.setClip(outputBox);
-                    bufferGraphic.drawLine((int) b.x, (int) b.y, (int) a.x, (int) a.y);
+                    bufferGraphic.setClip( outputBox );
+                    bufferGraphic.drawLine( (int)b.x, (int)b.y, (int)a.x, (int)a.y );
                 }
                 try {
-                    path.lineTo((float) pt.x, (float) pt.y);
-                } catch (IllegalPathStateException ipse) {
+                    path.lineTo( (float)pt.x, (float)pt.y );
+                }
+                catch( IllegalPathStateException ipse ) {
                     ipse.printStackTrace();
                 }
             }
@@ -150,20 +155,20 @@ public class BoxedPlot implements ObservingGraphic {
         return transform.getOutputBounds();
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible( boolean visible ) {
         this.visible = visible;
     }
 
-    public void setRangeX(double time) {
+    public void setRangeX( double time ) {
         Rectangle2D.Double input = transform.getInputBounds();
-        Rectangle2D.Double newInput = new Rectangle2D.Double(input.x, input.y, time, input.height);
-        transform.setInputBounds(newInput);
+        Rectangle2D.Double newInput = new Rectangle2D.Double( input.x, input.y, time, input.height );
+        transform.setInputBounds( newInput );
         Rectangle2D.Double outputBounds = transform.getOutputBounds();
         outputBounds.width = time;
-        transform.setOutputBounds(outputBounds);
+        transform.setOutputBounds( outputBounds );
     }
 
-    public void setShift(double x) {
+    public void setShift( double x ) {
         this.xShift = x;
     }
 }

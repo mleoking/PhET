@@ -18,18 +18,18 @@ public class Clock extends CompositeClockTickListener implements Runnable {
     private Thread t;
     ArrayList clockStateListeners = new ArrayList();
 
-    public Clock(ClockTickListener parent, double dt, int waitTime, ThreadPriority priority) {
+    public Clock( ClockTickListener parent, double dt, int waitTime, ThreadPriority priority ) {
         this.parent = parent;
 //        this.system = system;
         this.dt = dt;
         this.waitTime = waitTime;
         this.priority = priority;
-        this.t = new Thread(this);
-        t.setPriority(priority.intValue());
+        this.t = new Thread( this );
+        t.setPriority( priority.intValue() );
     }
 
-    public void addClockStateListener(ClockStateListener csl) {
-        clockStateListeners.add(csl);
+    public void addClockStateListener( ClockStateListener csl ) {
+        clockStateListeners.add( csl );
     }
 
     public double getRunningTime() {
@@ -40,7 +40,7 @@ public class Clock extends CompositeClockTickListener implements Runnable {
         return timeLimit;
     }
 
-    public void setTimeLimit(double timeLimit) {
+    public void setTimeLimit( double timeLimit ) {
         this.timeLimit = timeLimit;
     }
 
@@ -52,28 +52,28 @@ public class Clock extends CompositeClockTickListener implements Runnable {
         return waitTime;
     }
 
-    public void setDt(double dt) {
+    public void setDt( double dt ) {
         this.dt = dt;
-        for (int i = 0; i < clockStateListeners.size(); i++) {
-            ClockStateListener clockStateListener = (ClockStateListener) clockStateListeners.get(i);
-            clockStateListener.dtChanged(dt);
+        for( int i = 0; i < clockStateListeners.size(); i++ ) {
+            ClockStateListener clockStateListener = (ClockStateListener)clockStateListeners.get( i );
+            clockStateListener.dtChanged( dt );
         }
     }
 
-    public void setWaitTime(int waitTime) {
+    public void setWaitTime( int waitTime ) {
         this.waitTime = waitTime;
-        for (int i = 0; i < clockStateListeners.size(); i++) {
-            ClockStateListener clockStateListener = (ClockStateListener) clockStateListeners.get(i);
-            clockStateListener.waitTimeChanged(waitTime);
+        for( int i = 0; i < clockStateListeners.size(); i++ ) {
+            ClockStateListener clockStateListener = (ClockStateListener)clockStateListeners.get( i );
+            clockStateListener.waitTimeChanged( waitTime );
         }
     }
 
-    public void setThreadPriority(ThreadPriority tp) {
-        t.setPriority(tp.intValue());
+    public void setThreadPriority( ThreadPriority tp ) {
+        t.setPriority( tp.intValue() );
         this.priority = tp;
-        for (int i = 0; i < clockStateListeners.size(); i++) {
-            ClockStateListener clockStateListener = (ClockStateListener) clockStateListeners.get(i);
-            clockStateListener.threadPriorityChanged(tp);
+        for( int i = 0; i < clockStateListeners.size(); i++ ) {
+            ClockStateListener clockStateListener = (ClockStateListener)clockStateListeners.get( i );
+            clockStateListener.threadPriorityChanged( tp );
         }
     }
 
@@ -81,24 +81,25 @@ public class Clock extends CompositeClockTickListener implements Runnable {
         return isAlive && isRunning;
     }
 
-    public synchronized void setTimeIncrement(double dt) {
+    public synchronized void setTimeIncrement( double dt ) {
         this.dt = dt;
     }
 
     public void start() {
-        if (started) {
-            throw new RuntimeException("Already started.");
-        } else {
+        if( started ) {
+            throw new RuntimeException( "Already started." );
+        }
+        else {
             t.start();
             started = true;
         }
     }
 
-    public void setAlive(boolean b) {
+    public void setAlive( boolean b ) {
         this.isAlive = b;
     }
 
-    public void setRunning(boolean b) {
+    public void setRunning( boolean b ) {
         this.isRunning = b;
     }
 
@@ -106,13 +107,13 @@ public class Clock extends CompositeClockTickListener implements Runnable {
         return isSingleStepEnabled;
     }
 
-    public void setSingleStepEnabled(boolean singleStepEnabled) {
+    public void setSingleStepEnabled( boolean singleStepEnabled ) {
         isSingleStepEnabled = singleStepEnabled;
     }
 
     public void stop() {
-        setRunning(false);
-        setAlive(false);
+        setRunning( false );
+        setAlive( false );
     }
 
     public void reset() {
@@ -121,21 +122,22 @@ public class Clock extends CompositeClockTickListener implements Runnable {
     }
 
     public void tickOnce() {
-        super.clockTicked(this, dt);
+        super.clockTicked( this, dt );
     }
 
     public void run() {
         this.isAlive = true;
         this.isRunning = true;
         runningTime = 0;
-        while (isAlive) {
-            parent.clockTicked(this, dt);
-            if (isRunning) {
+        while( isAlive ) {
+            parent.clockTicked( this, dt );
+            if( isRunning ) {
                 tickOnce();
             }
             try {
-                Thread.sleep(waitTime);
-            } catch (InterruptedException e) {
+                Thread.sleep( waitTime );
+            }
+            catch( InterruptedException e ) {
                 e.printStackTrace();
             }
         }

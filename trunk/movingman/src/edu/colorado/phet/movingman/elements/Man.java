@@ -14,19 +14,19 @@ public class Man extends ModelElement {
     double x0;
     boolean grabbed = false;
 
-    public Man(double x) {
+    public Man( double x ) {
         this.x0 = x;
         this.x = x;
     }
 
-    public void stepInTime(double dt) {
+    public void stepInTime( double dt ) {
     }
 
     public boolean isGrabbed() {
         return grabbed;
     }
 
-    public void setGrabbed(boolean grabbed) {
+    public void setGrabbed( boolean grabbed ) {
         this.grabbed = grabbed;
     }
 
@@ -34,7 +34,7 @@ public class Man extends ModelElement {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX( double x ) {
         this.x = x;
         updateObservers();
     }

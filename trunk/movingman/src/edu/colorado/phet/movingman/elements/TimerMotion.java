@@ -8,7 +8,7 @@ package edu.colorado.phet.movingman.elements;
  * To change this template use Options | File Templates.
  */
 public interface TimerMotion {
-    double getPosition(double time);
+    double getPosition( double time );
 
-    void setInitialPosition(double x);
+    void setInitialPosition( double x );
 }

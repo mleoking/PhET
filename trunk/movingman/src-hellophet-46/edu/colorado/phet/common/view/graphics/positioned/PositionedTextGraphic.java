@@ -18,33 +18,35 @@ public class PositionedTextGraphic implements PositionedGraphic {
     FontRenderContext frc;
     Color c;
 
-    public PositionedTextGraphic(Font f, String text, Color c) {
+    public PositionedTextGraphic( Font f, String text, Color c ) {
         this.c = c;
         this.f = f;
         this.text = text;
     }
 
-    public void paint(Graphics2D g, int x, int y) {
-        g.setFont(f);
-        g.setColor(c);
-        g.drawString(text, x, y);
-        if (frc == null)
+    public void paint( Graphics2D g, int x, int y ) {
+        g.setFont( f );
+        g.setColor( c );
+        g.drawString( text, x, y );
+        if( frc == null ) {
             this.frc = g.getFontRenderContext();
+        }
     }
 
-    public void setText(String text) {
+    public void setText( String text ) {
         this.text = text;
     }
 
-    public boolean containsRelativePoint(int xrel, int yrel) {
-        if (frc == null)
+    public boolean containsRelativePoint( int xrel, int yrel ) {
+        if( frc == null ) {
             return false;
-        Shape s = f.createGlyphVector(frc, text).getOutline();
-        return s.contains(xrel, yrel);
+        }
+        Shape s = f.createGlyphVector( frc, text ).getOutline();
+        return s.contains( xrel, yrel );
     }
 
-    public Rectangle2D getStringBounds(FontRenderContext frc) {
-        TextLayout tl = new TextLayout(text, f, frc);
+    public Rectangle2D getStringBounds( FontRenderContext frc ) {
+        TextLayout tl = new TextLayout( text, f, frc );
         return tl.getBounds();
 //        return f.getStringBounds(text,frc);
     }

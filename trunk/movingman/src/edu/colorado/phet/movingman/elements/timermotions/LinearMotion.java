@@ -13,20 +13,20 @@ public class LinearMotion implements TimerMotion {
     double x0;
     private double speed;
 
-    public LinearMotion(double x0, double speed) {
+    public LinearMotion( double x0, double speed ) {
         this.x0 = x0;
         this.speed = speed;
     }
 
-    public double getPosition(double time) {
+    public double getPosition( double time ) {
         return speed * time + x0;
     }
 
-    public void setInitialPosition(double x) {
+    public void setInitialPosition( double x ) {
         this.x0 = x;
     }
 
-    public void setVelocity(double v) {
+    public void setVelocity( double v ) {
         this.speed = v;
     }
 

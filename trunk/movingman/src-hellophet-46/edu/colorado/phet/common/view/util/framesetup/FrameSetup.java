@@ -9,5 +9,5 @@ import javax.swing.*;
  * Copyright (c) Jun 12, 2003 by Sam Reid
  */
 public interface FrameSetup {
-    public void initialize(JFrame frame);
+    public void initialize( JFrame frame );
 }
