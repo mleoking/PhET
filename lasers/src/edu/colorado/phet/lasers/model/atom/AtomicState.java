@@ -1,3 +1,10 @@
+/**
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
+ */
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -16,7 +23,7 @@ public abstract class AtomicState {
 
     abstract public void collideWithPhoton( Photon photon );
 
-    abstract public void stepInTime( float dt );
+    abstract public void stepInTime( double dt );
 
     abstract void decrementNumInState();
 

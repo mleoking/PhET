@@ -4,6 +4,10 @@
  * User: Ron LeMaster
  * Date: Mar 28, 2003
  * Time: 9:40:53 AM
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -43,7 +47,7 @@ public class HighEnergyHalfLifeControl extends JPanel {
                                                                LaserConfig.CONTROL_FONT_STYLE,
                                                                LaserConfig.CONTROL_FONT_SIZE  ) );
 
-        highEnergySpontaneousEmissionTimeTF.setText( Float.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
+        highEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
 
         highEnergySpontaneousEmissionTimeSlider = new JSlider( JSlider.VERTICAL,
                                         LaserConfig.MINIMUM_SPONTANEOUS_EMISSION_TIME,
@@ -55,9 +59,9 @@ public class HighEnergyHalfLifeControl extends JPanel {
         highEnergySpontaneousEmissionTimeSlider.setMajorTickSpacing( 100 );
         highEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-//                updateHighEnergySpontaneousEmissionTime( ((float)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
-                model.setHighEnergySpontaneousEmissionTime( ((float)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000  );
-                highEnergySpontaneousEmissionTimeTF.setText( Float.toString( highEnergySpontaneousEmissionTimeSlider.getValue() ) );
+//                updateHighEnergySpontaneousEmissionTime( ((double)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
+                model.setHighEnergySpontaneousEmissionTime( highEnergySpontaneousEmissionTimeSlider.getValue() / 1000  );
+                highEnergySpontaneousEmissionTimeTF.setText( Double.toString( highEnergySpontaneousEmissionTimeSlider.getValue() ) );
             }
         } );
 
@@ -71,7 +75,7 @@ public class HighEnergyHalfLifeControl extends JPanel {
 
     }
 
-//    private void updateHighEnergySpontaneousEmissionTime( float time ) {
+//    private void updateHighEnergySpontaneousEmissionTime( double time ) {
 //        new SetHighEnergySpontaneousEmissionTimeCmd( time ).doIt();
 //    }
 }

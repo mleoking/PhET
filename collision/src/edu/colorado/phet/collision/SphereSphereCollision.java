@@ -4,6 +4,10 @@
  * User: Ron LeMaster
  * Date: Apr 4, 2003
  * Time: 10:28:08 AM
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.collision;
 
@@ -54,10 +58,10 @@ public class SphereSphereCollision implements Collision {
         double totalEnergy0 = sphereA.getKineticEnergy() + sphereB.getKineticEnergy();
 
         // Get the vectors from the bodies' CMs to the point of contact
-        Vector2D r1 = new Vector2D.Float( (float)( contactPt.getX() - sphereA.getPosition().getX() ),
-                                          (float)( contactPt.getY() - sphereA.getPosition().getY() ) );
-        Vector2D r2 = new Vector2D.Float( (float)( contactPt.getX() - sphereB.getPosition().getX() ),
-                                          (float)( contactPt.getY() - sphereB.getPosition().getY() ) );
+        Vector2D r1 = new Vector2D.Double( contactPt.getX() - sphereA.getPosition().getX(),
+                                          contactPt.getY() - sphereA.getPosition().getY() );
+        Vector2D r2 = new Vector2D.Float( contactPt.getX() - sphereB.getPosition().getX(),
+                                          contactPt.getY() - sphereB.getPosition().getY() );
 
         // Get the unit vector along the line of action
         n.setComponents( loa.getX(), loa.getY() );
@@ -119,7 +123,7 @@ public class SphereSphereCollision implements Collision {
         double vr = vRel.dot( n );
 
         // Assume the coefficient of restitution is 1
-        float e = 1;
+        double e = 1;
 
         // Compute the impulse, j
         double numerator = -vr * ( 1 + e );

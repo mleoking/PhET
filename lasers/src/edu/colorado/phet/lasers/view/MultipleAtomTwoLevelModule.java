@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class MultipleAtomTwoLevelModule extends BaseLaserModule {
 
-    private float s_maxSpeed = 200;
+    private double s_maxSpeed = 200;
     private ArrayList atoms;
 
     /**
@@ -48,10 +48,10 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
             // Place atoms so they don't overlap
             do {
                 placed = true;
-                atom.setPosition( (float)( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
-                                  (float)( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-                atom.setVelocity( (float)( Math.random() - 0.5 ) * s_maxSpeed,
-                                  (float)( Math.random() - 0.5 ) * s_maxSpeed );
+                atom.setPosition( ( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
+                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
+                atom.setVelocity( ( Math.random() - 0.5 ) * s_maxSpeed,
+                                  ( Math.random() - 0.5 ) * s_maxSpeed );
                 for( int j = 0; j < atoms.size(); j++ ) {
                     Atom atom2 = (Atom)atoms.get( j );
                     double d = atom.getPosition().distance( atom2.getPosition() );
@@ -88,7 +88,7 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
 //        PhetApplication.instance().getPhetMainPanel().setControlPanel( new ThreeLevelControlPanel() );
 
 //
-//        float newHeight = 100;
+//        double newHeight = 100;
 //        new SetCavityHeightCmd( newHeight ).doIt();
 //
 //        Atom atom = null;
@@ -100,10 +100,10 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
 //            // Place atoms so they don't overlap
 //            do {
 //                placed = true;
-//                atom.setPosition( (float)( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
-//                                  (float)( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-//                atom.setVelocity( (float)( Math.random() - 0.5 ) * s_maxSpeed,
-//                                  (float)( Math.random() - 0.5 ) * s_maxSpeed );
+//                atom.setPosition( (double)( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
+//                                  (double)( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
+//                atom.setVelocity( (double)( Math.random() - 0.5 ) * s_maxSpeed,
+//                                  (double)( Math.random() - 0.5 ) * s_maxSpeed );
 //                for( int j = 0; j < atoms.size(); j++ ) {
 //                    Atom atom2 = (Atom)atoms.get( j );
 //                    if( ContactDetector.areContacting( atom, atom2 )) {

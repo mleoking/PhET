@@ -3,6 +3,10 @@
  * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 26, 2003
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.model;
 
@@ -81,11 +85,11 @@ public class ResonatingCavity extends Box2D {
         return new Rectangle2D.Double( getMinX(), getMinY(), getWidth(), getHeight() );
     }
 
-    public float getReflectivity() {
+    public double getReflectivity() {
         return rightMirror.getReflectivity();
     }
 
-    public void setReflectivity( float reflectivity ) {
+    public void setReflectivity( double reflectivity ) {
         rightMirror.setReflectivity( reflectivity );
     }
 

@@ -28,16 +28,16 @@ public class LaserApplication extends PhetApplication {
             setClock( clock );
 
             Module singleAtomModule = new OneAtomTwoLevelsModule( clock );
-            Module oneAtomThreeLevelsModule = new OneAtomThreeLevelsModule( clock );
-            Module multipleAtomTwlLevelModule = new MultipleAtomTwoLevelModule( clock );
-            Module multipleAtomThreeLevelModule = new MultipleAtomThreeLevelModule( clock );
-            Module testApparatusModule = new TestApparatusModule();
+//            Module oneAtomThreeLevelsModule = new OneAtomThreeLevelsModule( clock );
+//            Module multipleAtomTwlLevelModule = new MultipleAtomTwoLevelModule( clock );
+//            Module multipleAtomThreeLevelModule = new MultipleAtomThreeLevelModule( clock );
+//            Module testApparatusModule = new TestApparatusModule();
             Module[] modules = new Module[] {
                 singleAtomModule,
-                oneAtomThreeLevelsModule,
-                multipleAtomTwlLevelModule,
-                multipleAtomThreeLevelModule,
-                testApparatusModule
+//                oneAtomThreeLevelsModule,
+//                multipleAtomTwlLevelModule,
+//                multipleAtomThreeLevelModule,
+//                testApparatusModule
             };
             setModules( modules );
             setInitialModule( singleAtomModule );

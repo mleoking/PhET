@@ -4,6 +4,10 @@
  * User: Ron LeMaster
  * Date: Mar 28, 2003
  * Time: 9:40:53 AM
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -41,7 +45,7 @@ public class MiddleEnergyHalfLifeControl extends JPanel {
         middleEnergySpontaneousEmissionTimeTF.setFont( new Font( clockFont.getName(),
                                                                  LaserConfig.CONTROL_FONT_STYLE,
                                                                  LaserConfig.CONTROL_FONT_SIZE ) );
-        middleEnergySpontaneousEmissionTimeTF.setText( Float.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
+        middleEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
         middleEnergySpontaneousEmissionTimeSlider = new JSlider( JSlider.VERTICAL,
                                                                  LaserConfig.MINIMUM_SPONTANEOUS_EMISSION_TIME,
                                                                  LaserConfig.MAXIMUM_SPONTANEOUS_EMISSION_TIME,
@@ -52,10 +56,10 @@ public class MiddleEnergyHalfLifeControl extends JPanel {
         middleEnergySpontaneousEmissionTimeSlider.setMajorTickSpacing( 100 );
         middleEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.setMiddleEnergySpontaneousEmissionTime( ( (float)middleEnergySpontaneousEmissionTimeSlider.getValue() ) / 1000 );
+                model.setMiddleEnergySpontaneousEmissionTime( middleEnergySpontaneousEmissionTimeSlider.getValue() / 1000 );
 
                 //                updateMiddleEnergySpontaneousEmissionTime( ((float)middleEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
-                middleEnergySpontaneousEmissionTimeTF.setText( Float.toString( middleEnergySpontaneousEmissionTimeSlider.getValue() ) );
+                middleEnergySpontaneousEmissionTimeTF.setText( Double.toString( middleEnergySpontaneousEmissionTimeSlider.getValue() ) );
             }
         } );
 

@@ -4,6 +4,10 @@
  * User: Ron LeMaster
  * Date: Mar 28, 2003
  * Time: 9:16:02 AM
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -47,7 +51,7 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
                                         LaserConfig.CONTROL_FONT_STYLE,
                                         LaserConfig.CONTROL_FONT_SIZE ) );
 
-        photonRateTF.setText( Float.toString( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE ) + " photon/sec" );
+        photonRateTF.setText( Double.toString( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE ) + " photon/sec" );
 
         photonRateSlider = new JSlider( JSlider.VERTICAL,
                                         LaserConfig.MINIMUM_STIMULATING_PHOTON_RATE,
@@ -77,7 +81,7 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
 
     public void update() {
         if( photonRateSlider.getValue() != (int)collimatedBeam.getPhotonsPerSecond() ) {
-            photonRateTF.setText( Float.toString( collimatedBeam.getPhotonsPerSecond() ) );
+            photonRateTF.setText( Double.toString( collimatedBeam.getPhotonsPerSecond() ) );
             photonRateSlider.setValue( (int)collimatedBeam.getPhotonsPerSecond() );
         }
     }

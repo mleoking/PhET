@@ -4,6 +4,10 @@
  * User: Ron LeMaster
  * Date: Mar 28, 2003
  * Time: 9:18:40 AM
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -40,7 +44,7 @@ public class PumpingBeamControl extends JPanel implements SimpleObserver {
         pumpingRateTF.setFont( new Font( clockFont.getName(),
                                          LaserConfig.CONTROL_FONT_STYLE,
                                          LaserConfig.CONTROL_FONT_SIZE ));
-        pumpingRateTF.setText( Float.toString( LaserConfig.DEFAULT_PUMPING_PHOTON_RATE ) + " photon/sec" );
+        pumpingRateTF.setText( Double.toString( LaserConfig.DEFAULT_PUMPING_PHOTON_RATE ) + " photon/sec" );
 
         pumpingRateSlider = new JSlider( JSlider.VERTICAL,
                                                 LaserConfig.MINIMUM_PUMPING_PHOTON_RATE,
@@ -102,7 +106,7 @@ public class PumpingBeamControl extends JPanel implements SimpleObserver {
             int a = (int)collimatedBeam.getPhotonsPerSecond();
             int b = pumpingRateSlider.getValue();
             if( pumpingRateSlider.getValue() != (int)collimatedBeam.getPhotonsPerSecond() ) {
-                pumpingRateTF.setText( Float.toString( collimatedBeam.getPhotonsPerSecond() ));
+                pumpingRateTF.setText( Double.toString( collimatedBeam.getPhotonsPerSecond() ));
                 pumpingRateSlider.setValue( (int)collimatedBeam.getPhotonsPerSecond() );
             }
         }

@@ -4,6 +4,10 @@
  * Date: Mar 21, 2003
  * Time: 12:10:01 PM
  * To change this template use Options | File Templates.
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.model.atom;
 
@@ -55,7 +59,7 @@ public class Atom extends SphericalBody {
         notifyObservers();
     }
 
-    public void stepInTime( float dt ) {
+    public void stepInTime( double dt ) {
         super.stepInTime( dt );
         state.stepInTime( dt );
     }
@@ -89,11 +93,11 @@ public class Atom extends SphericalBody {
     static private int s_radius = 15;
     static private int s_mass = 1000;
 
-    static public void setHighEnergySpontaneousEmissionTime( float time ) {
+    static public void setHighEnergySpontaneousEmissionTime( double time ) {
         HighEnergyState.setSpontaneousEmmisionHalfLife( time );
     }
 
-    static public void setMiddleEnergySpontaneousEmissionTime( float time ) {
+    static public void setMiddleEnergySpontaneousEmissionTime( double time ) {
         MiddleEnergyState.setSpontaneousEmmisionHalfLife( time );
     }
 

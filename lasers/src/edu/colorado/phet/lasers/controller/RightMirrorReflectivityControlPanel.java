@@ -3,6 +3,10 @@
  * Package: edu.colorado.phet.lasers.controller
  * Author: Another Guy
  * Date: Apr 1, 2003
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -44,7 +48,7 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
                                           LaserConfig.CONTROL_FONT_STYLE,
                                           LaserConfig.CONTROL_FONT_SIZE ) );
 
-        reflectivityTF.setText( Float.toString( 10 ) );
+        reflectivityTF.setText( Double.toString( 10 ) );
 
         reflectivitySlider = new JSlider( JSlider.VERTICAL,
                                           0,
@@ -56,9 +60,9 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
         reflectivitySlider.setMajorTickSpacing( 10 );
         reflectivitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-//                updateReflectivity( ( (float)reflectivitySlider.getValue() ) / 100 );
-                cavity.setReflectivity(( (float)reflectivitySlider.getValue() ) / 100  );
-                reflectivityTF.setText( Float.toString( reflectivitySlider.getValue() ) );
+//                updateReflectivity( ( (double)reflectivitySlider.getValue() ) / 100 );
+                cavity.setReflectivity( reflectivitySlider.getValue() / 100  );
+                reflectivityTF.setText( Double.toString( reflectivitySlider.getValue() ) );
             }
         } );
 

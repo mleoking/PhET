@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.model.mirror
  * Author: Another Guy
  * Date: Apr 2, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.model.mirror;
 
@@ -10,17 +15,17 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 public class Partial implements ReflectionStrategy {
 
-    private float reflectivity;
+    private double reflectivity;
 
-    public Partial( float reflectivity ) {
+    public Partial( double reflectivity ) {
         this.reflectivity = reflectivity;
     }
 
-    public float getReflectivity() {
+    public double getReflectivity() {
         return reflectivity;
     }
 
-    public void setReflectivity( float reflectivity ) {
+    public void setReflectivity( double reflectivity ) {
         if( reflectivity < 0 || reflectivity > 1 ) {
             throw new RuntimeException( "Reflectivity not between 0 and 1.0");
         }
@@ -36,7 +41,7 @@ public class Partial implements ReflectionStrategy {
             result = true;
         }
         else {
-            float r = (float)Math.random();
+            double r = Math.random();
             if( r < reflectivity ) {
                 result = true;
             }

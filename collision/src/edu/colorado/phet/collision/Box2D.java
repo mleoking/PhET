@@ -2,6 +2,10 @@
  * User: Ron LeMaster
  * Date: Oct 18, 2002
  * Time: 10:55:17 AM
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.collision;
 
@@ -149,10 +153,6 @@ public class Box2D extends Body implements Collidable {
     }
 
     public double getContactOffset( Body body ) {
-        return 0;
-    }
-
-    public float getContactOffset( Collidable body ) {
         return 0;
     }
 

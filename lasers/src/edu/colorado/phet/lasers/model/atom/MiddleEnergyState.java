@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 21, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.model.atom;
 
@@ -89,7 +94,7 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
     //
     // Abstract methods implemented
     //
-    protected float getSpontaneousEmmisionHalfLife() {
+    protected double getSpontaneousEmmisionHalfLife() {
         return s_spontaneousEmmisionHalfLife;
     }
 
@@ -101,7 +106,7 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
         s_numInstances--;
     }
 
-    protected float getEmittedPhotonWavelength() {
+    protected double getEmittedPhotonWavelength() {
         return s_wavelength;
     }
 
@@ -110,9 +115,9 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
     //
     static private int s_numInstances = 0;
     static public int s_wavelength = Photon.RED;
-    static private float s_spontaneousEmmisionHalfLife = ((float)LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME) / 1000;
+    static private double s_spontaneousEmmisionHalfLife = LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME / 1000;
 
-    public static void setSpontaneousEmmisionHalfLife( float spontaneousEmmisionHalfLife ) {
+    public static void setSpontaneousEmmisionHalfLife( double spontaneousEmmisionHalfLife ) {
         s_spontaneousEmmisionHalfLife = spontaneousEmmisionHalfLife;
     }
 

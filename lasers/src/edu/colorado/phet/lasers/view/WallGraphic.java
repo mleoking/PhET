@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.lasers.view
  * Author: Another Guy
  * Date: Mar 26, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.view;
 
@@ -22,7 +27,7 @@ import java.util.Observable;
 public class WallGraphic extends PhetShapeGraphic {
 
     private final static Color s_mirrorColor = new Color( 180, 180, 180 );
-    private Rectangle2D.Float rep = new Rectangle2D.Float();
+    private Rectangle2D rep = new Rectangle2D.Double();
     private Wall wall;
 
     /**

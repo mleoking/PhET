@@ -4,6 +4,10 @@
  * User: Ron LeMaster
  * Date: Mar 28, 2003
  * Time: 9:44:21 AM
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -37,7 +41,7 @@ public class SimulationRateControlPanel extends JPanel {
         simulationRateTF.setFont( new Font( clockFont.getName(),
                                             LaserConfig.CONTROL_FONT_STYLE,
                                             LaserConfig.CONTROL_FONT_SIZE ));
-        simulationRateTF.setText( Float.toString( 10 ) );
+        simulationRateTF.setText( Double.toString( 10 ) );
 
         simulationRateSlider = new JSlider( JSlider.VERTICAL,
                                         minValue,
@@ -49,8 +53,8 @@ public class SimulationRateControlPanel extends JPanel {
         simulationRateSlider.setMajorTickSpacing( 5 );
         simulationRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateSimulationRate( ((float)simulationRateSlider.getValue()) / 1000 );
-                simulationRateTF.setText( Float.toString( simulationRateSlider.getValue() ) );
+                updateSimulationRate( simulationRateSlider.getValue() / 1000 );
+                simulationRateTF.setText( Double.toString( simulationRateSlider.getValue() ) );
             }
         } );
 

@@ -41,11 +41,11 @@ public class PartialMirror extends Mirror {
         partialStrategy = new Partial( 1.0f );
     }
 
-    public float getReflectivity() {
+    public double getReflectivity() {
         return partialStrategy.getReflectivity();
     }
 
-    public void setReflectivity( float reflectivity ) {
+    public void setReflectivity( double reflectivity ) {
         partialStrategy.setReflectivity( reflectivity );
     }
 
