@@ -328,4 +328,8 @@ public class MultiMap implements Map {
     }
     // end of ReverseIterator
 
+    public String toString() {
+        return map.toString();
+    }
+
 }
