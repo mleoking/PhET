@@ -43,8 +43,6 @@ public class SingleAtomModule extends BaseLaserModule {
     private Atom atom;
     private PhetImageGraphic pumpingLampGraphic;
     private UniversalAtomControlPanel laserControlPanel;
-//    private SingleAtomControlPanel laserControlPanel;
-    private boolean threeEnergyLevels;
     private BeamControl2 pumpBeamControl;
 
     public SingleAtomModule( PhetFrame frame, AbstractClock clock ) {
@@ -148,9 +146,14 @@ public class SingleAtomModule extends BaseLaserModule {
         atom.removeFromSystem();
     }
 
+    /**
+     * Extends the base class behavior. Shows the pumping beam and enables it if
+     * three levels are set.
+     *
+     * @param threeEnergyLevels
+     */
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         super.setThreeEnergyLevels( threeEnergyLevels );
-        this.threeEnergyLevels = threeEnergyLevels;
         if( pumpingLampGraphic != null ) {
             pumpingLampGraphic.setVisible( threeEnergyLevels );
             pumpBeamControl.setVisible( threeEnergyLevels );

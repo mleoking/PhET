@@ -127,8 +127,6 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         // Set the averaging time for the energy levels display
         setEnergyLevelsAveragingPeriod( 2000 );
-
-
     }
 
     /**
@@ -193,4 +191,19 @@ public class MultipleAtomModule extends BaseLaserModule {
         middleStateMeanLifetime = MiddleEnergyState.instance().getMeanLifeTime();
         highStateMeanLifetime = HighEnergyState.instance().getMeanLifeTime();
     }
+
+
+    /**
+     * Extends the base class behavior. After letting the base class behavior
+     * happen, the pumping beam is enabled, since this is the only beam shown
+     * on the multiple atom panel.
+     *
+     * @param threeEnergyLevels
+     */
+    public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
+        super.setThreeEnergyLevels( threeEnergyLevels );
+        this.threeEnergyLevels = threeEnergyLevels;
+        getLaserModel().getPumpingBeam().setEnabled( true );
+    }
+
 }
