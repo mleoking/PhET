@@ -14,9 +14,12 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 
 /**
@@ -34,6 +37,10 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
     private AbstractClock clock;
     private boolean active = false;
 
+    public RepaintDebugGraphic( ApparatusPanel panel, AbstractClock clock ) {
+        this( panel, clock, 128 );
+    }
+
     public RepaintDebugGraphic( ApparatusPanel panel, AbstractClock clock, int transparency ) {
         super( panel );
         this.panel = panel;
@@ -41,10 +48,6 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         setActive( true );
         setIgnoreMouse( true );
         setTransparency( transparency );
-    }
-
-    public RepaintDebugGraphic( ApparatusPanel panel, AbstractClock clock ) {
-        this( panel, clock, 128 );
     }
 
     public void setTransparency( int alpha ) {
@@ -92,5 +95,40 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
 
     public boolean isActive() {
         return active;
+    }
+
+    public static void enable( final ApparatusPanel apparatusPanel, AbstractClock clock ) {
+        final RepaintDebugGraphic debugGraphic = new RepaintDebugGraphic( apparatusPanel, clock );
+        apparatusPanel.addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                apparatusPanel.requestFocus();
+            }
+        } );
+        debugGraphic.setVisible( false );
+        apparatusPanel.addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
+                    boolean active = !debugGraphic.isActive();
+
+                    debugGraphic.setActive( active );
+                    debugGraphic.setVisible( active );
+                    if( active ) {
+                        apparatusPanel.addGraphic( debugGraphic, Double.POSITIVE_INFINITY );
+                    }
+                    else {
+                        apparatusPanel.removeGraphic( debugGraphic );
+                    }
+                    apparatusPanel.paintImmediately( 0, 0, apparatusPanel.getWidth(), apparatusPanel.getHeight() );
+                }
+            }
+
+            public void keyReleased( KeyEvent e ) {
+            }
+
+            public void keyTyped( KeyEvent e ) {
+            }
+        } );
+        debugGraphic.setActive( false );
+        debugGraphic.setVisible( false );
     }
 }
