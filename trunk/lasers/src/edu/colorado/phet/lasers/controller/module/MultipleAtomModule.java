@@ -141,6 +141,7 @@ public class MultipleAtomModule extends BaseLaserModule {
             boolean placed = false;
 
             // Place atoms so they don't overlap
+            int tries = 0;
             do {
                 placed = true;
                 atom.setPosition((cavityBounds.getX() + (Math.random()) * (cavityBounds.getWidth() - atom.getRadius() * 4) + atom.getRadius() * 2),
@@ -155,10 +156,30 @@ public class MultipleAtomModule extends BaseLaserModule {
                         break;
                     }
                 }
+                if (tries > 1000) {
+                    System.out.println("Unable to place all atoms");
+                    break;
+                }
             } while (!placed);
             atoms.add(atom);
             addAtom(atom);
         }
+//        atom = new Atom(getModel());
+//        atom.setPosition( cavityBounds.getX() + (cavityBounds.getWidth()  / 2 - atom.getRadius() * 3 ),
+//                (cavityBounds.getY() + (cavityBounds.getHeight() / 2 )));
+//        atom.setVelocity(0, 0 );
+//        atom.setVelocity((float)s_maxSpeed, 0 );
+////                (float) (Math.random() - 0.5) * s_maxSpeed);
+//        atoms.add(atom);
+//        addAtom(atom);
+//
+//        atom = new Atom(getModel());
+//        atom.setPosition( cavityBounds.getX() + (cavityBounds.getWidth()  / 2 + atom.getRadius() * 3 ),
+//                (cavityBounds.getY() + (cavityBounds.getHeight() / 2 )));
+//        atom.setVelocity( -s_maxSpeed, 0 );
+////                (float) (Math.random() - 0.5) * s_maxSpeed);
+//        atoms.add(atom);
+//        addAtom(atom);
 
         MiddleEnergyState.instance().setMeanLifetime(middleStateMeanLifetime);
         HighEnergyState.instance().setMeanLifetime(highStateMeanLifetime);

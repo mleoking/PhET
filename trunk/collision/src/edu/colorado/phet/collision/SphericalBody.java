@@ -11,7 +11,6 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 
@@ -25,17 +24,17 @@ public class SphericalBody extends Body implements Collidable {
     private double radius;
     private CollidableAdapter collidableAdapter;
 
-    public SphericalBody( double radius ) {
+    public SphericalBody(double radius) {
         this.radius = radius;
-        collidableAdapter = new CollidableAdapter( this );
+        collidableAdapter = new CollidableAdapter(this);
     }
 
-    protected SphericalBody( Point2D center,
-                             Vector2D velocity,
-                             Vector2D acceleration,
-                             double mass,
-                             double radius ) {
-        super( center, velocity, acceleration, mass, 0 );
+    protected SphericalBody(Point2D center,
+                            Vector2D velocity,
+                            Vector2D acceleration,
+                            double mass,
+                            double radius) {
+        super(center, velocity, acceleration, mass, 0);
         this.radius = radius;
     }
 
@@ -51,7 +50,7 @@ public class SphericalBody extends Body implements Collidable {
         return radius;
     }
 
-    public void setRadius( double radius ) {
+    public void setRadius(double radius) {
         this.radius = radius;
     }
 
@@ -59,7 +58,7 @@ public class SphericalBody extends Body implements Collidable {
         return this.getPosition();
     }
 
-    public double getContactOffset( Body body ) {
+    public double getContactOffset(Body body) {
         return this.getRadius();
     }
 
@@ -69,5 +68,10 @@ public class SphericalBody extends Body implements Collidable {
 
     public Point2D getPositionPrev() {
         return collidableAdapter.getPositionPrev();
+    }
+
+    public void stepInTime(double dt) {
+        collidableAdapter.stepInTime(dt);
+        super.stepInTime(dt);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

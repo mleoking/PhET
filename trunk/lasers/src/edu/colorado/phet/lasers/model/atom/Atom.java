@@ -11,7 +11,7 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.collision.SphericalBody;
+import edu.colorado.phet.collision.SolidSphere;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -23,7 +23,7 @@ import java.util.EventObject;
 /**
  *
  */
-public class Atom extends SphericalBody {
+public class Atom extends SolidSphere {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     // Class
@@ -80,8 +80,10 @@ public class Atom extends SphericalBody {
      *
      * @param newState
      */
+
     public void setState(final AtomicState newState) {
         final AtomicState oldState = this.state;
+
         if (oldState != null) {
             oldState.decrementNumInState();
         }
