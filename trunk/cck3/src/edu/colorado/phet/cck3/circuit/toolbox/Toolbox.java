@@ -93,7 +93,6 @@ public class Toolbox extends CompositeGraphic {
             y += dy;
         }
         {
-
             if( !CCK3Module.SHOW_GRAB_BAG ) {
                 BufferedImage resistorImage = module.getImageSuite().getResistorImage();
                 double initalResistorHeight = CCK3Module.RESISTOR_DIMENSION.getHeightForLength( componentWidth );

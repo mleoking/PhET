@@ -54,7 +54,7 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
         };
         transform.addTransformListener( transformListener );
 //<<<<<<< BranchGraphic.java
-        if( CCK3Module.DEBUG_ALL ) {
+        if( CCK3Module.GRAPHICAL_DEBUG ) {
             debugText = new PhetTextGraphic( apparatusPanel, new Font( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
         }
 ////=======

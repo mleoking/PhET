@@ -102,7 +102,7 @@
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
 
-        <javac srcdir="C:\PhET\common2\development\src" destdir="${classes}"/>
+        <javac srcdir="C:\PhET\projects-ii\phetcommon\src" destdir="${classes}"/>
         <javac srcdir="${src}" classpath="${classes}" destdir="${classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
@@ -127,7 +127,7 @@
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
-            <fileset dir="C:\PhET\common2\development\data"/>
+            <fileset dir="C:\PhET\projects-ii\phetcommon\data"/>
             <manifest>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>

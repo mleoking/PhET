@@ -59,7 +59,7 @@ public class CircuitComponentImageGraphic extends CCKCompositePhetGraphic implem
             }
         };
 //<<<<<<< CircuitComponentImageGraphic.java
-        if( CCK3Module.DEBUG_ALL ) {
+        if( CCK3Module.GRAPHICAL_DEBUG ) {
             debugText = new PhetTextGraphic( getComponent(), new Font( "dialog", 0, 12 ), "", Color.black, 0, 0 );
             addGraphic( debugText );
         }

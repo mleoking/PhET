@@ -35,7 +35,7 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
     private PhetTextGraphic debugGraphic;
 //    private boolean showLabel = false;
 //<<<<<<< JunctionGraphic.java
-    private boolean showLabel = CCK3Module.DEBUG_ALL;
+    private boolean showLabel = CCK3Module.GRAPHICAL_DEBUG;
 //=======
 //    private boolean showLabel = false;
 //>>>>>>> 1.13

@@ -189,9 +189,9 @@ public class VoltmeterGraphic extends CompositeGraphic {
                 Rectangle tipRect = getTipShape().getBounds();
                 Point2D tipCenter = RectangleUtils.getCenter( tipRect );
                 Point2D tipCenterModel = circuitGraphic.getTransform().viewToModel( new Point( (int)tipCenter.getX(), (int)tipCenter.getY() ) );
-                Point2D.Double branchCenterModel = branch.getStartJunction().getPosition();
-//                Point2D branchCenterModel = circuitGraphic.getTransform().viewToModel( (int)branchCenterView.getX(), (int)branchCenterView.getY() );
-                Vector2D vec = new Vector2D.Double( branchCenterModel, tipCenterModel );
+                Point2D.Double branchStartModel = branch.getStartJunction().getPosition();
+//                Point2D branchStartModel = circuitGraphic.getTransform().viewToModel( (int)branchCenterView.getX(), (int)branchCenterView.getY() );
+                Vector2D vec = new Vector2D.Double( branchStartModel, tipCenterModel );
                 double dist = vec.getMagnitude();
                 result = new BranchConnection( branch, dist );
             }
@@ -255,8 +255,6 @@ public class VoltmeterGraphic extends CompositeGraphic {
     }
 
     public abstract static class Connection {
-        public abstract Branch[] getBranchesToIgnore();
-
         public abstract Junction getJunction();
 
         public abstract double getVoltageAddon();
@@ -301,21 +299,18 @@ public class VoltmeterGraphic extends CompositeGraphic {
             this.dist = dist;
         }
 
-        public Branch[] getBranchesToIgnore() {
-            return new Branch[0];
-        }
-
         public Junction getJunction() {
             return branch.getStartJunction();
         }
 
         public double getVoltageAddon() {
+//            System.out.println( "Getting voltage ADDON, junction=" + getJunction() + ", branch = " + branch );
             double resistance = branch.getResistance();
             double length = branch.getLength();
             double resistivity = resistance / length; //infer a resistivity.
             double incrementalResistance = dist * resistivity;
             double current = branch.getCurrent();
-            double voltage = current * incrementalResistance;//the sign is probably wrong.
+            double voltage = current * incrementalResistance;//the sign is probably right
 //            System.out.println( "dist=" + dist + ", resistance = " + resistance + ", incrementalRes=" + incrementalResistance + ", current=" + current + ", DV=" + voltage );
             return voltage;
         }
