@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.view.SimStrings;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.LightSpecies;
 
@@ -30,7 +30,7 @@ public class SpeciesSelectionPanel extends JPanel {
         speciesGroup.add( heavySpeciesRB );
         speciesGroup.add( lightSpeciesRB );
 
-        Insets insets = new Insets( 4, 4, 0, 0 );
+        Insets insets = new Insets( 0, 0, 0, 0 );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.WEST, GridBagConstraints.NONE,
                                                          insets, 0, 0 );

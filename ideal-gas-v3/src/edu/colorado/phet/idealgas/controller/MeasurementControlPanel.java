@@ -7,8 +7,8 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
@@ -30,7 +30,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
     private void init() {
 //        this.remove( getGravityControlPanel() );
 //        this.add( new PressureSliceControl() );
-//        this.add( new RulerControlPanel() );
+//        this.add( new RulerControl() );
         JButton measurementDlgBtn = new JButton( "<html><center>Measurement<br>Tools</center></html>" );
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
         measurementDlgBtn.addActionListener( new ActionListener() {

@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

@@ -10,15 +10,13 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.SimStrings;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.Random;
 

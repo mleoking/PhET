@@ -10,7 +10,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHotAirBalloonExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.SimStrings;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
 
@@ -33,10 +33,12 @@ public class HotAirBalloonModule extends IdealGasModule {
         box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
 
         // Add the hot air balloon to the model
-        balloon = new HotAirBalloon( new Point2D.Double( 400, 350 ),
-                                     new Vector2D.Double( 0, -20 ),
+        double habRadius = 50;
+        double habY = box.getMaxY() - habRadius;
+        balloon = new HotAirBalloon( new Point2D.Double( 400, habY ),
                                      new Vector2D.Double( 0, 0 ),
-                                     200, 50,
+                                     new Vector2D.Double( 0, 0 ),
+                                     200, habRadius,
                                      60,
                                      getIdealGasModel() );
         box.setMinimumWidth( balloon.getRadius() * 3 );

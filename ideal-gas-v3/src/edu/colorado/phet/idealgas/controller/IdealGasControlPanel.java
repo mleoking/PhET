@@ -6,12 +6,11 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.view.SimStrings;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.LightSpecies;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -81,8 +80,21 @@ public class IdealGasControlPanel extends JPanel {
 
         addConstantParamControls();
         addGravityControls();
-        addSpeciesControls();
+        JPanel speciesButtonPanel = new SpeciesSelectionPanel( module.getPump() );
+        speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Gas_In_Pump" ) ) );
+        this.add( speciesButtonPanel );
+        this.add( new NumParticlesControls() );
         addStoveControls();
+        JButton measurementDlgBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ));
+        measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
+        measurementDlgBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                JDialog dlg = new MeasurementDialog( (Frame)SwingUtilities.getRoot( IdealGasControlPanel.this ),
+                                                     (IdealGasModule)getModule() );
+                dlg.setVisible( true );
+            }
+        } );
+        this.add( measurementDlgBtn );
 
         Border border = BorderFactory.createEtchedBorder();
         this.setBorder( border );
@@ -183,53 +195,6 @@ public class IdealGasControlPanel extends JPanel {
     }
 
     /**
-     * Create a panel with controls for the gas species and add it to the
-     * IdealGasControlPanel
-     */
-    private void addSpeciesControls() {
-        JPanel speciesButtonPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-        speciesButtonPanel.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 100 ) );
-        final JRadioButton heavySpeciesRB = new JRadioButton( SimStrings.get( "Common.Heavy_Species" ) );
-        heavySpeciesRB.setForeground( Color.blue );
-        final JRadioButton lightSpeciesRB = new JRadioButton( SimStrings.get( "Common.Light_Species" ) );
-        lightSpeciesRB.setForeground( Color.red );
-        final ButtonGroup speciesGroup = new ButtonGroup();
-        speciesGroup.add( heavySpeciesRB );
-        speciesGroup.add( lightSpeciesRB );
-        speciesButtonPanel.add( heavySpeciesRB );
-        heavySpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
-        lightSpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
-        speciesButtonPanel.add( lightSpeciesRB );
-        speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Gas_In_Pump" ) ) );
-        this.add( speciesButtonPanel );
-        heavySpeciesRB.setSelected( true );
-        heavySpeciesRB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                if( heavySpeciesRB.isSelected() ) {
-                    module.setCurrentSpecies( HeavySpecies.class );
-                }
-            }
-        } );
-
-        lightSpeciesRB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                if( lightSpeciesRB.isSelected() ) {
-                    module.setCurrentSpecies( LightSpecies.class );
-                }
-            }
-        } );
-
-        final JCheckBox cmLinesOnCB = new JCheckBox( SimStrings.get( "IdealGasControlPanel.Show_CM_lines" ) );
-        cmLinesOnCB.setPreferredSize( new Dimension( 110, 15 ) );
-        speciesButtonPanel.add( cmLinesOnCB );
-        cmLinesOnCB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                module.setCmLinesOn( cmLinesOnCB.isSelected() );
-            }
-        } );
-    }
-
-    /**
      * Create a panel for controlling the stove
      */
     private void addStoveControls() {
@@ -295,6 +260,43 @@ public class IdealGasControlPanel extends JPanel {
         this.add( stovePanel );
     }
 
+    private class NumParticlesControls extends JPanel {
+        NumParticlesControls() {
+            super( new GridLayout( 1, 2 ) );
+            this.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 40 ) );
+            this.setLayout( new GridLayout( 2, 1 ) );
+
+            this.add( new JLabel( SimStrings.get( "MeasurementControlPanel.Number_of_particles" ) ) );
+            // Set up the spinner for controlling the number of particles in
+            // the hollow sphere
+            Integer value = new Integer( 0 );
+            Integer min = new Integer( 0 );
+            Integer max = new Integer( 1000 );
+            Integer step = new Integer( 1 );
+            SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
+            final JSpinner particleSpinner = new JSpinner( model );
+            particleSpinner.setPreferredSize( new Dimension( 20, 5 ) );
+            this.add( particleSpinner );
+
+            particleSpinner.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    setNumParticlesInBox( ( (Integer)particleSpinner.getValue() ).intValue() );
+                }
+            } );
+
+            // Hook the spinner up so it will track molecules put in the box by the pump
+            getModule().getModel().addObserver( new SimpleObserver() {
+                public void update() {
+                    int h = getModule().getIdealGasModel().getHeavySpeciesCnt();
+                    int l = getModule().getIdealGasModel().getLightSpeciesCnt();
+//                    int h = HeavySpecies.getNumMolecules().intValue();
+//                    int l = LightSpecies.getNumMolecules().intValue();
+                    particleSpinner.setValue( new Integer( l + h ) );
+                }
+            } );
+        }
+    }
+
     /**
      * This method is provided simply so a subclass can get a reference
      * to the gravity controls, so it can remove them. This is a hack
@@ -343,6 +345,23 @@ public class IdealGasControlPanel extends JPanel {
     protected IdealGasModule getModule() {
         return module;
     }
+
+    private void setNumParticlesInBox( int numParticles ) {
+        int dn = numParticles - ( getModule().getIdealGasModel().getHeavySpeciesCnt()
+                                  + getModule().getIdealGasModel().getLightSpeciesCnt() );
+        if( dn > 0 ) {
+            for( int i = 0; i < dn; i++ ) {
+                getModule().pumpGasMolecules( 1 );
+            }
+        }
+        else if( dn < 0 ) {
+            for( int i = 0; i < -dn; i++ ) {
+                getModule().removeGasMolecule();
+            }
+        }
+    }
+
+
 
     //    private void makeScreenShot() {
     //        Window w = SwingUtilities.getWindowAncestor( this );

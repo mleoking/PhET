@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.view.SimStrings;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +15,9 @@ import java.awt.event.ActionListener;
 
 public class MeasurementDialog extends JDialog {
 
-    private MeasurementModule module;
+    private IdealGasModule module;
 
-    public MeasurementDialog( Frame owner, MeasurementModule module ) {
+    public MeasurementDialog( Frame owner, IdealGasModule module ) {
         super( owner, "Measurement Tools", false );
         this.module = module;
         JPanel panel = new JPanel();
@@ -33,17 +33,24 @@ public class MeasurementDialog extends JDialog {
                                       insets, 0, 0 );
         panel.add( new PressureSliceControl(), gbc );
 
-        gbc = new GridBagConstraints( 1, 0, 1, 1, 1, 1,
-                                      GridBagConstraints.WEST,
-                                      GridBagConstraints.NONE,
-                                      insets, 0, 0 );
-        panel.add( new RulerControlPanel(), gbc );
+//        gbc = new GridBagConstraints( 1, 0, 1, 1, 1, 1,
+//                                      GridBagConstraints.WEST,
+//                                      GridBagConstraints.NONE,
+//                                      insets, 0, 0 );
+        gbc.gridy = 2;
+        panel.add( new RulerControl(), gbc );
 
-        gbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
-                                      GridBagConstraints.CENTER,
-                                      GridBagConstraints.NONE,
-                                      insets, 0, 0 );
+//        gbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+//                                      GridBagConstraints.CENTER,
+//                                      GridBagConstraints.NONE,
+//                                      insets, 0, 0 );
+        gbc.gridy = 3;
         panel.add( new HistogramControlPanel(), gbc );
+
+        gbc.gridy = 4;
+        panel.add( new CmLinesControl(), gbc );
+
+
 
         this.pack();
     }
@@ -51,7 +58,7 @@ public class MeasurementDialog extends JDialog {
     class PressureSliceControl extends JPanel {
         PressureSliceControl() {
             final JCheckBox pressureSliceCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Measure_pressure_in_layer" ) );
-            pressureSliceCB.setPreferredSize( new Dimension( 140, 30 ) );
+//            pressureSliceCB.setPreferredSize( new Dimension( 140, 30 ) );
             this.add( pressureSliceCB );
             pressureSliceCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -61,10 +68,10 @@ public class MeasurementDialog extends JDialog {
         }
     }
 
-    class RulerControlPanel extends JPanel {
-        RulerControlPanel() {
+    class RulerControl extends JPanel {
+        RulerControl() {
             final JCheckBox rulerCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Display_ruler" ) );
-            rulerCB.setPreferredSize( new Dimension( 140, 15 ) );
+//            rulerCB.setPreferredSize( new Dimension( 140, 15 ) );
             this.add( rulerCB );
             rulerCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -86,4 +93,16 @@ public class MeasurementDialog extends JDialog {
         }
     }
 
+    class CmLinesControl extends JPanel {
+        public CmLinesControl() {
+            final JCheckBox cmLinesOnCB = new JCheckBox( SimStrings.get( "IdealGasControlPanel.Show_CM_lines" ) );
+//            cmLinesOnCB.setPreferredSize( new Dimension( 110, 15 ) );
+            this.add( cmLinesOnCB );
+            cmLinesOnCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    module.setCmLinesOn( cmLinesOnCB.isSelected() );
+                }
+            } );
+        }
+    }
 }
