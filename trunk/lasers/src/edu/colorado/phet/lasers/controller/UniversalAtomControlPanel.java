@@ -43,7 +43,6 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
         optionsPanel.add( new MirrorOnOffControlPanel( module ), gbc );
-//        gbc.gridy++;
 
         // Add controls for the different views of beams and photons
         optionsPanel.add( highLevelEmissionControlPanel, gbc );
@@ -63,6 +62,10 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
         laserModule.setThreeEnergyLevels( threeEnergyLevels );
         waveViewControlPanel.setVisible( threeEnergyLevels );
         highLevelEmissionControlPanel.setVisible( threeEnergyLevels );
+    }
+
+    public void setUpperTransitionView( int viewType ) {
+        waveViewControlPanel.setUpperTransitionView( viewType );
     }
 
     //--------------------------------------------------------------------------------

@@ -202,8 +202,10 @@ public class BaseLaserModule extends Module {
                 waveGraphic = null;
                 break;
             case PHOTON_WAVE:
-                waveGraphic = new StandingWaveGraphic( getApparatusPanel(), getCavity(),
-                                                       rightMirror, getModel(), MiddleEnergyState.instance() );
+                if( waveGraphic == null ) {
+                    waveGraphic = new StandingWaveGraphic( getApparatusPanel(), getCavity(),
+                                                           rightMirror, getModel(), MiddleEnergyState.instance() );
+                }
                 addGraphic( waveGraphic, 20 );
                 break;
             default :
@@ -216,11 +218,14 @@ public class BaseLaserModule extends Module {
         switch( pumpingPhotonView ) {
             case PHOTON_DISCRETE:
                 getApparatusPanel().removeGraphic( beamGraphic );
-                beamGraphic = null;
+                PhotonGraphic.setAllVisible( true, getPumpingBeam().getWavelength() );
                 break;
             case PHOTON_CURTAIN:
-                beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
+                if( beamGraphic == null ) {
+                    beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
+                }
                 addGraphic( beamGraphic, 1 );
+                PhotonGraphic.setAllVisible( false, getPumpingBeam().getWavelength() );
                 break;
             default :
                 throw new RuntimeException( "Invalid parameter value" );
@@ -382,9 +387,10 @@ public class BaseLaserModule extends Module {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //-------------------------------------------------------------------------------------------------
     // Event handling
-    //
+    //-------------------------------------------------------------------------------------------------
+
     public class InternalPhotonEmittedListener implements PhotonEmittedListener {
 
         public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
@@ -430,11 +436,9 @@ public class BaseLaserModule extends Module {
         }
     }
 
-
-    //---------------------------------------------------------------------------------
-    // Event handling
-    //---------------------------------------------------------------------------------
-
+    /**
+     * Handles cleanup when an atom is removed from the system
+     */
     public class AtomRemovalListener implements Atom.Listener {
         private AtomGraphic atomGraphic;
 
@@ -453,6 +457,10 @@ public class BaseLaserModule extends Module {
         }
     }
 
+    /**
+     * Handles cleanup when a photon leaves the system. Takes care of removing the photon's
+     * associated graphic
+     */
     public class PhotonLeftSystemListener implements Photon.LeftSystemEventListener {
         private Photon photon;
         private PhotonGraphic graphic;
@@ -463,7 +471,6 @@ public class BaseLaserModule extends Module {
         }
 
         public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
-
             // Track number of photons
             BaseLaserModule.this.numPhotons--;
 
@@ -472,7 +479,7 @@ public class BaseLaserModule extends Module {
             getApparatusPanel().repaint( graphic.getBounds() );
 
             // Take us off the listener list of the photon
-            photon.removeLeftSystemListener( this );
+//            photon.removeLeftSystemListener( this );
             graphic = null;
         }
     }

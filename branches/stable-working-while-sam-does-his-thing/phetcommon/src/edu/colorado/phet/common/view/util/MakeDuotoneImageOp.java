@@ -138,7 +138,9 @@ public class MakeDuotoneImageOp implements BufferedImageOp {
             double m = ( componentRefLevel ) / ( grayRefLevel );
             double c = ( grayLevel - grayRefLevel ) * m;
             result = (int)c;
+            result = (int)( ( grayLevel / grayRefLevel ) * componentRefLevel );
         }
+
         return result;
     }
 }

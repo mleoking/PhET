@@ -337,15 +337,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         g2.setColor( origColor );
         g2.setStroke( origStroke );
-        //        g2.draw( this.getBounds() );
-        //        if( repaintArea != null ) {
-        //            g2.setColor( Color.green );
-        //            g2.setStroke( new BasicStroke( 7, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 0.1f, new float[]{15, 15}, 0 ) );
-        //            g2.draw( repaintArea );
-        //        }
-
-        //        long dt=System.currentTimeMillis()-now;
-        //        System.out.println( "dt = " + dt );
         graphicsState.restoreGraphics();
     }
 

@@ -138,10 +138,6 @@ public class Photon extends Particle implements Collidable {
         //        setMass( 1 );
     }
 
-    public interface Listener {
-        void leavingSystem( Photon photon );
-    }
-
     /**
      * Rather than use the superclass behavior, the receiver
      * puts itself in the class free pool, so it can be used

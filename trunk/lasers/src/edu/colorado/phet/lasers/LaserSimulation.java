@@ -26,12 +26,6 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.XMLEncoder;
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
@@ -46,13 +40,8 @@ public class LaserSimulation extends PhetApplication {
 
 
             AbstractClock clock = new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND );
-            //            AbstractClock clock = new SwingTimerClock( 10, 40 );
             setClock( clock );
             setFrameCenteredSize( 900, 600 );
-
-            // Create a frame
-            //            PhetFrame frame = new PhetFrame( this );
-            //            setFrame( frame );
 
             Module singleAtomModule = new SingleAtomModule( getFrame(), clock );
             Module multipleAtomModule = new MultipleAtomModule( getFrame(), clock );
@@ -61,23 +50,24 @@ public class LaserSimulation extends PhetApplication {
                 multipleAtomModule
             };
             setModules( modules );
-//                        setInitialModule( multipleAtomModule );
+//            setInitialModule( multipleAtomModule );
             setInitialModule( singleAtomModule );
 
-            JMenuItem saveStateMI = new JMenuItem( "Save state" );
-            getFrame().addFileMenuItem( saveStateMI );
-            saveStateMI.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    try {
-                        XMLEncoder encoder = new XMLEncoder( new BufferedOutputStream( new FileOutputStream( "/temp/test.xml" ) ) );
-                        encoder.writeObject( PhetApplication.instance() );
-                        encoder.close();
-                    }
-                    catch( FileNotFoundException e1 ) {
-                        e1.printStackTrace();
-                    }
-                }
-            } );
+//            JMenuItem saveStateMI = new JMenuItem( "Save state" );
+//            getFrame().addFileMenuItem( saveStateMI );
+//            saveStateMI.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    try {
+//                        XMLEncoder encoder = new XMLEncoder( new BufferedOutputStream( new FileOutputStream( "/temp/test.xml" ) ) );
+//                        encoder.writeObject( PhetApplication.instance() );
+//                        encoder.close();
+//                    }
+//                    catch( FileNotFoundException e1 ) {
+//                        e1.printStackTrace();
+//                    }
+//                }
+//            } );
+
             // Print out frame rate for debugging
 //            clock.addClockTickListener( new ClockTickListener() {
 //                int frameAve = 25;

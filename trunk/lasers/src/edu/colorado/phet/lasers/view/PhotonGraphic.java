@@ -247,6 +247,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     private PhotonGraphic( Component component, Photon photon ) {
         super( component, s_particleImage );
         init( component, photon );
+        photon.addLeftSystemListener( this );
+        s_instances.add( this );
     }
 
     private void init( Component component, Photon photon ) {
@@ -438,8 +440,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Listener implementions
     //
+
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
-        PhotonGraphic.removeInstance( this );
-        photon.removeLeftSystemListener( this );
+        s_instances.remove( this );
     }
 }
