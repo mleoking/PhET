@@ -83,9 +83,6 @@ public class IdealGasControlPanel extends JPanel {
         addGravityControls();
         addSpeciesControls();
         addStoveControls();
-        this.add( new PressureSliceControl() );
-        this.add( new RulerControl() );
-        //        addLinebergerControls();
 
         Border border = BorderFactory.createEtchedBorder();
         this.setBorder( border );
@@ -382,20 +379,6 @@ public class IdealGasControlPanel extends JPanel {
                 public void actionPerformed( ActionEvent e ) {
                     module.setPressureSliceEnabled( pressureSliceCB.isSelected() );
                     //                    IdealGasControlPanel.this.getIdealGasApplication().setPressureSliceEnabled( pressureSliceCB.isSelected() );
-                }
-            } );
-        }
-    }
-
-    protected class RulerControl extends JPanel {
-        RulerControl() {
-            final JCheckBox rulerCB = new JCheckBox( "Display ruler" );
-            rulerCB.setPreferredSize( new Dimension( 140, 15 ) );
-            this.add( rulerCB );
-            rulerCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.setRulerEnabed( rulerCB.isSelected() );
-                    //                    IdealGasControlPanel.this.getIdealGasApplication().setRulerEnabed( rulerCB.isSelected() );
                 }
             } );
         }

@@ -10,13 +10,15 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.PhetControlPanel;
+import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
+import edu.colorado.phet.idealgas.view.RulerGraphic;
 
 public class MeasurementModule extends IdealGasModule {
-    PhetControlPanel previousControlPanel = null;
-    PhetApplication application;
+
     private EnergyHistogramDialog histogramDlg;
+    private DefaultInteractiveGraphic rulerGraphic;
 
     public MeasurementModule( AbstractClock clock ) {
         super( clock,  "Measurements" );
@@ -32,5 +34,22 @@ public class MeasurementModule extends IdealGasModule {
         histogramDlg = new EnergyHistogramDialog( application.getApplicationView().getPhetFrame(),
                                                   (IdealGasModel)getModel() );
         histogramDlg.setVisible( true );
+
+
+        rulerGraphic = new RulerGraphic( getApparatusPanel() );
     }
+
+    public void setRulerEnabed( boolean rulerEnabled ) {
+//        if( rulerGraphic == null ) {
+//            rulerGraphic = new RulerGraphic( getApparatusPanel() );
+//        }
+        if( rulerEnabled ) {
+            getApparatusPanel().addGraphic( rulerGraphic, Integer.MAX_VALUE );
+        }
+        else {
+            getApparatusPanel().removeGraphic( rulerGraphic );
+        }
+        getApparatusPanel().repaint();
+    }
+
 }

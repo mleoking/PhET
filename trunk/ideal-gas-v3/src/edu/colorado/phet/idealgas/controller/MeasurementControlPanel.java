@@ -6,22 +6,20 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.model.*;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.IdealGasParticle;
+import edu.colorado.phet.idealgas.model.LightSpecies;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Observer;
-import java.util.Observable;
-import java.util.List;
+import java.awt.event.ActionListener;
 
 public class MeasurementControlPanel extends IdealGasControlPanel {
     public MeasurementControlPanel( IdealGasModule module ) {
@@ -32,7 +30,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
     private void init() {
         this.remove( getGravityControlPanel() );
 //        this.add( new PressureSliceControl() );
-//        this.add( new RulerControl() );
+        this.add( new RulerControlPanel() );
         addLinebergerControls();
     }
 
@@ -62,7 +60,6 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
             }
         }
         else if( dn < 0 ) {
-            IdealGasParticle particle = null;
             for( int i = 0; i < -dn; i++ ) {
                 getModule().removeGasMolecule();
             }
@@ -126,4 +123,16 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
         }
     }
 
+    protected class RulerControlPanel extends JPanel {
+        RulerControlPanel() {
+            final JCheckBox rulerCB = new JCheckBox( "Display ruler" );
+            rulerCB.setPreferredSize( new Dimension( 140, 15 ) );
+            this.add( rulerCB );
+            rulerCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    ((MeasurementModule)getModule()).setRulerEnabed( rulerCB.isSelected() );
+                }
+            } );
+        }
+    }
 }
