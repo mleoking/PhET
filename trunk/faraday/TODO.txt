@@ -3,8 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- animate electrons when lightbulb is enabled (front of coil only)
-- 50% more space between electrons
+- don't recreate coil when emf changes, only when physical coil properties change
+- on/off control for electrons
+- make electrons jump between front & back layers
+- make electrons look different in front and back layers
 - make QuadBezierSpline a subclass of QuadCurve.Double
 
 HIGH PRIORITY:
@@ -40,6 +42,7 @@ phetcommon:
 
 DONE:
 v0r12...
+(2/9) - 25% more space between electrons
 (2/9) - add jiggle to voltmeter needle
 (2/9) - move localization init into PhetApplication
 (2/9) - reposition objects in all modules
