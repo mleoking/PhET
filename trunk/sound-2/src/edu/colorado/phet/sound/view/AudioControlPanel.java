@@ -79,4 +79,8 @@ public class AudioControlPanel extends JPanel {
         speakerRB.setSelected( source == SoundApparatusPanel.SPEAKER_SOURCE );
         module.setAudioSource( source );
     }
+
+    public void setSpeakerRBEnabled( boolean enabled ) {
+        speakerRB.setEnabled( enabled );
+    }
 }
