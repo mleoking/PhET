@@ -15,10 +15,12 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
 import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
 import edu.colorado.phet.coreadditions.PhetLookAndFeel;
 
+import java.util.Locale;
 import java.util.logging.Logger;
 
 public class EmfApplication {
@@ -41,6 +43,18 @@ public class EmfApplication {
 //        logger.setLevel( Level.INFO );
 //        logger.addHandler( logHandler );
 
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( Config.localizedStringsPath );
+
         // Log a few message at different severity levels
         PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel();
         if( args.length > 0 ) {
@@ -59,8 +73,9 @@ public class EmfApplication {
         Module antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
         ApplicationModel appDescriptor = new ApplicationModel(
-                "Radio Waves", GraphicsUtil.formatMessage( "An exploration of how electro-magnetic waves\nare created, how they move through\nspace, and their effects" ),
-                "1", fs );
+                SimStrings.get( "EmfApplication.title" ),
+                SimStrings.get( "EmfApplication.description" ),
+                SimStrings.get( "EmfApplication.version" ), fs );                   
         appDescriptor.setModule( antennaModule );
         appDescriptor.setInitialModule( antennaModule );
         appDescriptor.setClock( clock );
