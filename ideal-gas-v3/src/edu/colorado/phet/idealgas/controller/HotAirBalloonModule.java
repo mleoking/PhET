@@ -100,8 +100,10 @@ public class HotAirBalloonModule extends IdealGasModule {
 
         // Add the specific controls we need for the hot air balloon
         IdealGasControlPanel controlPanel = new IdealGasControlPanel( this );
-        controlPanel.addComponent( new HotAirBalloonControlPanel( balloon ));
-        this.setControlPanel( new PhetControlPanel( this, controlPanel ));
+        controlPanel.addComponent( new HotAirBalloonControlPanel( balloon ) );
+        this.setControlPanel( new PhetControlPanel( this ) );
+        getControlPanel().add( controlPanel );
+//        this.setControlPanel( new PhetControlPanel( this, controlPanel ));
     }
 
 }
