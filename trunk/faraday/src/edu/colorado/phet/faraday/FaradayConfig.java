@@ -65,7 +65,7 @@ public class FaradayConfig {
     public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
     
     // EMF parameters
-    public static final double MAX_EMF = 1.0E6; // volts
+    public static final double MAX_EMF = 4.0E7; // volts
     
     // Magnet parameters (applicable to all magnet types)
     public static final double MAGNET_STRENGTH_MIN = 100; // Gauss
