@@ -48,8 +48,6 @@ public class BarMagnetModule extends FaradayModule {
     private static final double BAR_MAGNET_LAYER = 2;
     private static final double COMPASS_LAYER = 3;
     private static final double FIELD_METER_LAYER = 4;
-    private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
-    private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations
     private static final Point BAR_MAGNET_LOCATION = new Point( 400, 300 );
@@ -133,12 +131,6 @@ public class BarMagnetModule extends FaradayModule {
         fieldMeterGraphic.setVisible( false );
         apparatusPanel.addChangeListener( fieldMeterGraphic );
         apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
-        
-        // Debugger
-//        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
-//        debugger.setLocationColor( Color.GREEN );
-//        debugger.add( compassGraphic );
-//        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
         
         // Collision detection
         barMagnetGraphic.getCollisionDetector().add( compassGraphic );

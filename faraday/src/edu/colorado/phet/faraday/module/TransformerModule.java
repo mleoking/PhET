@@ -49,8 +49,6 @@ public class TransformerModule extends FaradayModule {
     private static final double ELECTROMAGNET_FRONT_LAYER = 5;
     private static final double PICKUP_COIL_FRONT_LAYER = 6;
     private static final double FIELD_METER_LAYER = 7;
-    private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
-    private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations
     private static final Point ELECTROMAGNET_LOCATION = new Point( 200, 400 );
@@ -196,16 +194,8 @@ public class TransformerModule extends FaradayModule {
         apparatusPanel.addChangeListener( fieldMeterGraphic );
         apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
         
-        // Debugger
-//      DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
-//      debugger.setLocationColor( Color.GREEN );
-//      debugger.add( fieldMeterGraphic );
-//      apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
-        
         // Collision detection
         electromagnetGraphic.getCollisionDetector().add( compassGraphic );
-//        electromagnetGraphic.getCollisionDetector().add( pickupCoilGraphic );
-//        pickupCoilGraphic.getCollisionDetector().add( electromagnetGraphic );
         pickupCoilGraphic.getCollisionDetector().add( compassGraphic );
         compassGraphic.getCollisionDetector().add( electromagnetGraphic );
         compassGraphic.getCollisionDetector().add( pickupCoilGraphic );

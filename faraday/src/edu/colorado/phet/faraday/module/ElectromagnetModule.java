@@ -48,8 +48,6 @@ public class ElectromagnetModule extends FaradayModule {
     private static final double COMPASS_LAYER = 3;
     private static final double ELECTROMAGNET_FRONT_LAYER = 4;
     private static final double FIELD_METER_LAYER = 5;
-    private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
-    private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations
     private static final Point ELECTROMAGNET_LOCATION = new Point( 400, 400 );
@@ -166,12 +164,6 @@ public class ElectromagnetModule extends FaradayModule {
         fieldMeterGraphic.setVisible( false );
         apparatusPanel.addChangeListener( fieldMeterGraphic );
         apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
-
-        // Debugger
-//        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
-//        debugger.setLocationColor( Color.GREEN );
-//        debugger.add( testSlider );
-//        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
 
         // Collision detection
         electromagnetGraphic.getCollisionDetector().add( compassGraphic );

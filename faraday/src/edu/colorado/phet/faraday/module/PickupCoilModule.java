@@ -50,8 +50,6 @@ public class PickupCoilModule extends FaradayModule {
     private static final double COMPASS_LAYER = 4;
     private static final double PICKUP_COIL_FRONT_LAYER = 5;
     private static final double FIELD_METER_LAYER = 6;
-    private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
-    private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations
     private static final Point MAGNET_LOCATION = new Point( 200, 400 );
@@ -165,12 +163,6 @@ public class PickupCoilModule extends FaradayModule {
         fieldMeterGraphic.setVisible( false );
         apparatusPanel.addChangeListener( fieldMeterGraphic );
         apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
-        
-        // Debugger
-//        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
-//        debugger.add( pickupCoilGraphic.getForeground(), Color.RED, Color.RED );
-//        debugger.add( pickupCoilGraphic.getBackground(), Color.GREEN, Color.GREEN );
-//        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
 
         // Collision detection
         barMagnetGraphic.getCollisionDetector().add( compassGraphic );
