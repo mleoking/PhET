@@ -214,20 +214,37 @@ public class FieldMeterGraphic extends CompositePhetGraphic
              * We need to perform this format-dependent check on the strings
              * because a value like -0.00005 will display as -0.00.
              */
-            if ( bString.equals( STRING_NEGATIVE_ZERO ) ) {
-                bString = STRING_POSITIVE_ZERO;
-            }
-            if ( bxString.equals( STRING_NEGATIVE_ZERO ) ) {
-                bxString = STRING_POSITIVE_ZERO;
-            }
-            if ( byString.equals( STRING_NEGATIVE_ZERO ) ) {
-                byString = STRING_POSITIVE_ZERO;
-            }
-            if ( angleString.equals( STRING_NEGATIVE_ZERO ) ) {
-                angleString = STRING_POSITIVE_ZERO;
-            }
-            else if ( angleString.equals( STRING_NEGATIVE_PI ) ) {
-                angleString = STRING_POSITIVE_PI;
+            {
+                // B
+                if ( bString.equals( STRING_NEGATIVE_ZERO ) ) {
+                    bString = STRING_POSITIVE_ZERO;
+                }
+
+                if ( bString.equals( STRING_POSITIVE_ZERO ) ) {
+                    // If B displays 0, all others should display zero.
+                    bxString = STRING_POSITIVE_ZERO;
+                    byString = STRING_POSITIVE_ZERO;
+                    angleString = STRING_POSITIVE_ZERO;
+                }
+                else {
+                    // Bx
+                    if ( bxString.equals( STRING_NEGATIVE_ZERO ) ) {
+                        bxString = STRING_POSITIVE_ZERO;
+                    }
+
+                    // By
+                    if ( byString.equals( STRING_NEGATIVE_ZERO ) ) {
+                        byString = STRING_POSITIVE_ZERO;
+                    }
+
+                    // Theta
+                    if ( angleString.equals( STRING_NEGATIVE_ZERO ) ) {
+                        angleString = STRING_POSITIVE_ZERO;
+                    }
+                    else if ( angleString.equals( STRING_NEGATIVE_PI ) ) {
+                        angleString = STRING_POSITIVE_PI;
+                    }
+                }
             }
             
             // Set the text graphics.
