@@ -72,17 +72,13 @@ public class GeneratorModule extends FaradayModule {
      * 
      * @param appModel the application model
      */
-    public GeneratorModule( ApplicationModel appModel ) {
+    public GeneratorModule( AbstractClock clock ) {
 
-        super( SimStrings.get( "GeneratorModule.title" ) );
-        assert( appModel != null );
+        super( SimStrings.get( "GeneratorModule.title" ), clock );
 
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
-
-        // Clock
-        AbstractClock clock = appModel.getClock();
 
         // Module model
         BaseModel model = new BaseModel();
@@ -133,7 +129,7 @@ public class GeneratorModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
 

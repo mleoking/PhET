@@ -82,17 +82,13 @@ public class TransformerModule extends FaradayModule {
      * 
      * @param appModel the application model
      */
-    public TransformerModule( ApplicationModel appModel ) {
+    public TransformerModule( AbstractClock clock ) {
 
-        super( SimStrings.get( "TransformerModule.title" ) );
-        assert( appModel != null );
+        super( SimStrings.get( "TransformerModule.title" ), clock );
 
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
-
-        // Clock
-        AbstractClock clock = appModel.getClock();
 
         // Module model
         BaseModel model = new BaseModel();
@@ -163,7 +159,7 @@ public class TransformerModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
         

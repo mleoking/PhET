@@ -67,17 +67,13 @@ public class BarMagnetModule extends FaradayModule {
      * 
      * @param appModel the application model
      */
-    public BarMagnetModule( ApplicationModel appModel ) {
+    public BarMagnetModule( AbstractClock clock ) {
         
-        super( SimStrings.get( "BarMagnetModule.title" ) );
-        assert( appModel != null );
+        super( SimStrings.get( "BarMagnetModule.title" ), clock );
 
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
-
-        // Clock
-        AbstractClock clock = appModel.getClock();
 
         // Module model
         BaseModel model = new BaseModel();
@@ -107,7 +103,7 @@ public class BarMagnetModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
         
