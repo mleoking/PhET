@@ -1,5 +1,8 @@
-/* PersonGraphic.java */
+/* PersonGraphic.java, Copyright 2004 University of Colorado */
+
 package edu.colorado.phet.colorvision3.view;
+
+import java.awt.Point;
 
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
 import edu.colorado.phet.colorvision3.model.Person;
@@ -11,41 +14,56 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 /**
  * PersonGraphic is the view component that represents the person viewing color.
  * The perceived color is shown as a "thought balloon" that floats 
- * about the rendered head. This view component is a 2D composite graphic.
+ * about the rendered head.  The head consists of a foreground and background
+ * layer, so that light appears to fall on the face.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$
  */
 public class PersonGraphic extends CompositePhetGraphic implements SimpleObserver
 { 
-  // Coordinates relative to upper-left.
+	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+
+  // Relative location of the head graphic.
   private static final int HEAD_X_OFFSET = 0;
   private static final int HEAD_Y_OFFSET = 120;
+  // Relative location of the thought bubble graphic.
   private static final int THOUGHT_BUBBLE_X_OFFSET = 170;
   private static final int THOUGHT_BUBBLE_Y_OFFSET = 5;
-    
-  private Person _model;
+   
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+
+  private Person _personModel;
   private PhetImageGraphic _headBackgroundGraphic, _headForegroundGraphic;
   private ThoughtBubbleGraphic _thoughtBubbleGraphic;
     
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
+
   /**
-   * Sole constructor.
+   * Sole constructor. Note that this graphic adds its components to the 
+   * apparatus, so that it can set up foreground and background elements.
    * 
    * @param apparatusPanel the apparatus panel
    * @param backgroundLayer layer for background elements
    * @param foregroundLayer layer for foreground elements
-   * @param model the model of the person
+   * @param personModel the model of the person
    */
   public PersonGraphic( 
     ApparatusPanel apparatusPanel,
     double backgroundLayer,
     double foregroundLayer,
-    Person model )
+    Person personModel )
   {
     super( apparatusPanel );
     
     // Save a reference to the model.
-    _model = model;
+    _personModel = personModel;
  
     // Head background graphic
     _headBackgroundGraphic = new PhetImageGraphic( apparatusPanel, ColorVisionConfig.HEAD_BACKGROUND_IMAGE );
@@ -67,17 +85,35 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
     //  Sync the view with the model.
     update();
   }
-  
+ 
+	//----------------------------------------------------------------------------
+	// Accessors
+  //----------------------------------------------------------------------------
+
   /**
    * Sets the location of the associated model.
    *
-   * @param x x coordinate
-   * @param y y coordinate
+   * @param location the location
+   */
+  public void setLocation( Point location )
+  {
+    _personModel.setLocation( location.x, location.y );
+  }
+  
+  /**
+   * Convenience method for setting location.
+   *
+   * @param x X coordinate
+   * @param y Y coordinate
    */
   public void setLocation( int x, int y )
   {
-    _model.setLocation( x, y );
+    setLocation( new Point(x,y) );
   }
+
+	//----------------------------------------------------------------------------
+	// SimpleObserver implementation
+  //----------------------------------------------------------------------------
 
   /**
    * Synchronizes the view with the model.
@@ -85,13 +121,13 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
    */
   public void update()
   { 
-    _headBackgroundGraphic.setPosition( (int)(_model.getX() + HEAD_X_OFFSET),
-                                        (int)(_model.getY() + HEAD_Y_OFFSET) );
-    _headForegroundGraphic.setPosition( (int)(_model.getX() + HEAD_X_OFFSET),
-                                        (int)(_model.getY() + HEAD_Y_OFFSET) );
-    _thoughtBubbleGraphic.setPosition( (int)(_model.getX() + THOUGHT_BUBBLE_X_OFFSET), 
-                                      (int)(_model.getY() + THOUGHT_BUBBLE_Y_OFFSET) );
-    _thoughtBubbleGraphic.setFill( _model.getColor() );
+    _headBackgroundGraphic.setPosition( (int)(_personModel.getX() + HEAD_X_OFFSET),
+                                        (int)(_personModel.getY() + HEAD_Y_OFFSET) );
+    _headForegroundGraphic.setPosition( (int)(_personModel.getX() + HEAD_X_OFFSET),
+                                        (int)(_personModel.getY() + HEAD_Y_OFFSET) );
+    _thoughtBubbleGraphic.setPosition( (int)(_personModel.getX() + THOUGHT_BUBBLE_X_OFFSET), 
+                                      (int)(_personModel.getY() + THOUGHT_BUBBLE_Y_OFFSET) );
+    _thoughtBubbleGraphic.setFill( _personModel.getColor() );
     
     super.repaint();
   }

@@ -1,4 +1,4 @@
-/* ColorVisionConfig */
+/* ColorVisionConfig, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3;
 
@@ -11,6 +11,10 @@ package edu.colorado.phet.colorvision3;
  */
 public class ColorVisionConfig
 {
+	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+  
   // Resource bundles
   public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/ColorVisionStrings";
 
@@ -29,6 +33,10 @@ public class ColorVisionConfig
 	public static final int APP_FRAME_WIDTH = 1024;
 	public static final int APP_FRAME_HEIGHT = 768;
 
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
+	
 	/**
 	 * This class is not intended for instantiation.
 	 */ 

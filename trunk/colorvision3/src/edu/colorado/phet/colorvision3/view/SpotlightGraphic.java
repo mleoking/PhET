@@ -1,4 +1,4 @@
-/* SpotlightGraphic.java */
+/* SpotlightGraphic.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.view;
 
@@ -14,32 +14,47 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 /**
- * SpotlightGraphic is the view component for a spotlight.
+ * SpotlightGraphic is the view component for a 2D spotlight.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @revision $Id$
  */
 public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObserver
 {
-  /** How far the bulb is inside the spotlight, in pixels. */
+	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+
+  // How far the bulb is inside the spotlight, in pixels.
   private static final int BULB_OFFSET = 130;
-  
-  private Spotlight _model;
+ 
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+
+  // The model that describes the spotlight.
+  private Spotlight _spotlightModel;
+  // The graphic used to visually depict the spotlight.
   private PhetImageGraphic _spotlightGraphic;
+  // Rotate transformed used in rendering.
   private AffineTransform _rotate;
     
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
+
   /**
    * Sole constructor.
    * 
    * @param apparatus the apparatus panel
-   * @param model the associated spotlight model
+   * @param spotlightModel the associated spotlight model
    */
-  public SpotlightGraphic( ApparatusPanel apparatus, Spotlight model )
+  public SpotlightGraphic( ApparatusPanel apparatus, Spotlight spotlightModel )
   {
     super( apparatus );
     
     // Save a reference to the model.
-    _model = model;
+    _spotlightModel = spotlightModel;
    
     // Spotlight graphic
     _spotlightGraphic = new PhetImageGraphic( apparatus, ColorVisionConfig.SPOTLIGHT_IMAGE );
@@ -49,15 +64,19 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
     update();
   }
   
+	//----------------------------------------------------------------------------
+	// Accessors
+  //----------------------------------------------------------------------------
+
   /**
    * Sets the location of the associated model.
    * 
-   * @param x
-   * @param y
+   * @param x X coordinate
+   * @param y Y coordinate
    */
   public void setLocation( int x, int y )
   {    
-    _model.setLocation( x, y );
+    _spotlightModel.setLocation( x, y );
   }
   
   /**
@@ -67,8 +86,12 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
    */
   public void setDirection( double direction )
   {
-    _model.setDirection( direction );
+    _spotlightModel.setDirection( direction );
   }
+
+	//----------------------------------------------------------------------------
+	// SimpleObserver implementation
+  //----------------------------------------------------------------------------
 
   /**
    * Synchronizes the view with the model.
@@ -79,14 +102,15 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
     // Location
     {
       Rectangle spotBounds = _spotlightGraphic.getBounds();
-      _spotlightGraphic.setPosition( (int)(_model.getX() - spotBounds.width + BULB_OFFSET),
-                                     (int)(_model.getY() - (spotBounds.height/2)) );
+      int x = (int)( _spotlightModel.getX() - spotBounds.width + BULB_OFFSET );
+      int y = (int)( _spotlightModel.getY() - (spotBounds.height/2) );
+      _spotlightGraphic.setPosition( x, y );
     }
 
     // Direction.
     {
       // Convert to radians.
-      double radians = Math.toRadians( _model.getDirection() );
+      double radians = Math.toRadians( _spotlightModel.getDirection() );
     
       // Rotate about the right-center edge of the spotlight image.
       Rectangle bounds = _spotlightGraphic.getBounds();
@@ -100,8 +124,14 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
     super.repaint();
   }
   
+	//----------------------------------------------------------------------------
+	// Rendering
+  //----------------------------------------------------------------------------
+
   /**
    * Renders the spotlight.
+   * 
+   * @param g2 the graphics context
    */
   public void paint( Graphics2D g2 )
   {    

@@ -1,32 +1,44 @@
-/* Photon.java */
+/* Photon.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.model;
 
 import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
 
-
 /**
- * Photon is the visual representation of a single photon.
- * It is used as a component of a PhotonBeamGraphic.
+ * Photon is the model of a single photon.
  *
  * @author Chris Malley, cmalley@pixelzoom.com
  * @revision $Id$
  */
 public class Photon
 {
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+
+  // Photon color
   private VisibleColor _color;
-  private double _direction; // in degrees
-  private double _intensity; // 0.0 - 100.0 %
+  // Direction in degrees
+  private double _direction;
+  // Color intensity in percent (0-100)
+  private double _intensity;
+  // False indicates the photon is available for reuse
   private boolean _inUse;
+  // Location in 2D space
   private double _x, _y;
+  // True if the photon has been previously filtered
   private boolean _isFiltered;
-  
+
   // These things are related to how a photon is displayed, but
   // are included here so that we can optimize by pre-computing
   // some values.  See the setDirection method.
   private double _deltaX, _deltaY;
   private double _width, _height;
   
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
+
   /**
    * Sole constructor.
    * 
@@ -46,6 +58,10 @@ public class Photon
     _isFiltered = false;
     setDirection( direction );  // pre-calculates deltas  
   }
+
+	//----------------------------------------------------------------------------
+	// Accessors
+  //----------------------------------------------------------------------------
 
   /**
    * Sets the "in use" state.
@@ -68,11 +84,21 @@ public class Photon
     return _inUse;
   }
 
+  /**
+   * Sets the filter status of the photon.
+   * 
+   * @param isFiltered true if the photon has been filtered, false otherwise
+   */
   public void setFiltered( boolean isFiltered )
   {
     _isFiltered = isFiltered;
   }
   
+  /**
+   * Has the photon been filtered?
+   * 
+   * @return true if the photon has been filtered, false otherwise
+   */
   public boolean isFiltered()
   {
     return _isFiltered;

@@ -1,4 +1,4 @@
-/* ColorVisionApplicationModel.java */
+/* ColorVisionApplicationModel.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3;
 
@@ -14,8 +14,8 @@ import edu.colorado.phet.common.view.util.FrameSetup;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$
  */
-public class ColorVisionApplicationModel extends ApplicationModel {
-
+public class ColorVisionApplicationModel extends ApplicationModel
+{
   /**
    * Sole constructor.
    * 
@@ -42,7 +42,6 @@ public class ColorVisionApplicationModel extends ApplicationModel {
 		
 		// Start with the "RGB Bulbs" module.
 		this.setInitialModule( rgbBulbsModule );
-		this.setInitialModule( singleBulbModule ); // XXX for testing
 	}
 }
 

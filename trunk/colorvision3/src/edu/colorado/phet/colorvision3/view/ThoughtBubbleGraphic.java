@@ -1,4 +1,4 @@
-/* ThoughtBubbleGraphic.java */
+/* ThoughtBubbleGraphic.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.view;
 
@@ -25,21 +25,38 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
  */
 public class ThoughtBubbleGraphic extends PhetGraphic
 {
+	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+  
+  // Stroke used for the bubble outline.
   private static Stroke STROKE = new BasicStroke( 1f );
   
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+  
+  // Position, relative to upper-left corner of bounding box.
   private Point _position;
+  // Paint used to fill the bubble.
   private Paint _fill;
+  // Paint used to draw the bubble's outline.
   private Paint _border;
+  // Area that describes the bubble's shape.
   private Area _area;
+
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
 
   /**
    * Sole constructor.
    * 
    * @param component the parent component
    */
-  public ThoughtBubbleGraphic( Component component )
+  public ThoughtBubbleGraphic( Component parent )
   {
-    super( component );
+    super( parent );
     
     // Initialize member data.
     _position = new Point(0,0);
@@ -68,6 +85,10 @@ public class ThoughtBubbleGraphic extends PhetGraphic
       _area.add( new Area( new Ellipse2D.Double( 175, 170, 20, 10 )) );
     }
   }
+
+	//----------------------------------------------------------------------------
+	// Accessors
+  //----------------------------------------------------------------------------
 
   /**
    * Gets the bounds of the thought bubble.
@@ -152,6 +173,10 @@ public class ThoughtBubbleGraphic extends PhetGraphic
     setPosition( new Point(x,y) );
   }
   
+	//----------------------------------------------------------------------------
+	// Rendering
+  //----------------------------------------------------------------------------
+
   /*
    * Renders the thought bubble.
    * Graphics state is saved and restored.

@@ -1,4 +1,4 @@
-/* VisibleColor.java */
+/* VisibleColor.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.model;
 
@@ -9,7 +9,9 @@ import java.awt.Color;
  * <p>
  * (1) provides the wavelength assoicated with a Color<br>
  * (2) performs conversions between wavelength and Color
- *<p>
+ * <p>
+ * Instances of VisibleColor are immutable.
+ * <p>
  * Conversions between wavelength and Color are performed using
  * a color lookup array.  This array is static, and is constructed
  * the first time that a VisibleColor is instantiated.
@@ -25,6 +27,10 @@ import java.awt.Color;
  */
 public class VisibleColor extends Color
 {
+	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+
   // Don't change these -- they are hardcoded into initColorLookup!
   public static final double MIN_WAVELENGTH = 380;
   public static final double MAX_WAVELENGTH = 780;
@@ -41,15 +47,23 @@ public class VisibleColor extends Color
   public static final VisibleColor INVISIBLE = new VisibleColor( 0, 0, 0, 0 );
   public static final Color COLOR_INVISIBLE = new Color( 0, 0, 0, 0 );
    
-  // Two colors match if each of their components differ by this amount.
+  // Two colors match if their RGB components each differ by less than this amount.
   private static final int COLOR_MATCH_DELTA = 2;
   
   // Lookup table for converting between wavelength and Color.
   private static Color _colorLookup[] = null;
   
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+
   // The wavelength
   private double _wavelength;
   
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
+
   /**
    * Constructs a VisibleColor using RGBA components.
    * 
@@ -84,6 +98,10 @@ public class VisibleColor extends Color
     this( wavelengthToColor( wavelength ) );
   }
   
+	//----------------------------------------------------------------------------
+	// Accessors
+  //----------------------------------------------------------------------------
+
   /**
    * Gets the wavelength.
    * 
@@ -94,6 +112,10 @@ public class VisibleColor extends Color
     return _wavelength;
   }
   
+	//----------------------------------------------------------------------------
+	// Conversions
+  //----------------------------------------------------------------------------
+
   /**
    * Converts to a java.awt.Color.
    * 
@@ -102,6 +124,17 @@ public class VisibleColor extends Color
   public Color toColor()
   {
     return new Color( this.getRed(), this.getGreen(), this.getBlue(), this.getAlpha() );
+  }
+  
+  /**
+   * Provides a string representation.
+   * 
+   * @return the string
+   */
+  public String toString()
+  {
+    return "VisibleColor: RGBA=" + getRed() + "-" + getGreen() + "-" + getBlue() + "-" + getAlpha() + 
+            ", wavelength=" + _wavelength;
   }
   
   /** 
@@ -181,6 +214,10 @@ public class VisibleColor extends Color
     return wavelength;
   }
   
+	//----------------------------------------------------------------------------
+	// Color Lookup
+  //----------------------------------------------------------------------------
+
   /**
    * Initializes a color lookup array, used to map between Color and wavelength.
    * This method is called only once, when the first VisibleColor is instantiated.
@@ -273,6 +310,10 @@ public class VisibleColor extends Color
     //debug_colorLookup();
     
   }  // initColorLookup
+
+	//----------------------------------------------------------------------------
+	// Debugging
+  //----------------------------------------------------------------------------
 
   /**
    * Debugging method for examining the contents of the color lookup array.
