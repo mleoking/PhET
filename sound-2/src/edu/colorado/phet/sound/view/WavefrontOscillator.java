@@ -29,14 +29,6 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
     // This is a special overide flag so that the two source interference panel works.
     private boolean interferenceOverideEnabled = false;
 
-    /**
-     *
-     */
-    public WavefrontOscillator( Wavefront wavefront ) {
-        this.wavefront = wavefront;
-        wavefront.addObserver( this );
-    }
-
     public void run() {
         super.run();
     }
@@ -65,7 +57,6 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
      *
      */
     public void setEnabled( boolean enabled ) {
-        //        super.setEnabled( enabled );
         isEnabled = enabled;
 
         // Note: If we don't do this messing around with the amplitude, the
