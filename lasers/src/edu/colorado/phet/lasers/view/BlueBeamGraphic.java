@@ -33,7 +33,8 @@ public class BlueBeamGraphic extends PhetGraphic implements SimpleObserver {
     public void update() {
         double rate = beam.getPhotonsPerSecond();
         int minLevel = 200;
-        int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( rate / maxRate ), 0.25 ) ) );
+        // The power function here controls the ramp-up of color intensity
+        int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( rate / maxRate ), 0.8 ) ) );
         color = new Color( level, level, 255 );
         bounds.setRect( cavity.getMinX(), 0, cavity.getWidth(), getComponent().getHeight() );
         setBoundsDirty();

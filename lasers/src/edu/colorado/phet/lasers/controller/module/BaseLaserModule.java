@@ -218,13 +218,25 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
     }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
+        EnergyLevelMonitorPanel monitorPanel = new EnergyLevelMonitorPanel( laserModel );
         if( threeEnergyLevels ) {
-            setEnergyMonitorPanel( new ThreeEnergyLevelMonitorPanel( getLaserModel() ) );
+            monitorPanel.setNumLevels( 3 );
             laserModel.getPumpingBeam().setActive( true );
         }
         else {
-            setEnergyMonitorPanel( new TwoEnergyLevelMonitorPanel( getLaserModel() ) );
+            monitorPanel.setNumLevels( 2 );
             laserModel.getPumpingBeam().setActive( false );
         }
+        setEnergyMonitorPanel( monitorPanel );
+
+
+//        if( threeEnergyLevels ) {
+//            setEnergyMonitorPanel( new ThreeEnergyLevelMonitorPanel( getLaserModel() ) );
+//            laserModel.getPumpingBeam().setActive( true );
+//        }
+//        else {
+//            setEnergyMonitorPanel( new TwoEnergyLevelMonitorPanel( getLaserModel() ) );
+//            laserModel.getPumpingBeam().setActive( false );
+//        }
     }
 }
