@@ -14,18 +14,16 @@ package edu.colorado.phet.lasers.model.collision;
 
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollisionExpert;
-import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.collision.CollisionUtil;
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class PhotonAtomCollisonExpert implements CollisionExpert {
-    private Class[] classes = new Class[]{Photon.class, Atom.class};
     private Object[] bodies = new Object[2];
-    private Map classifiedBodies = new HashMap( );
+    private Map classifiedBodies = new HashMap();
 
     public PhotonAtomCollisonExpert() {
         classifiedBodies.put( Photon.class, null );
@@ -34,7 +32,6 @@ public class PhotonAtomCollisonExpert implements CollisionExpert {
 
     public boolean detectAndDoCollision( Collidable body1, Collidable body2 ) {
         if( CollisionUtil.areConformantToClasses( body1, body2, Photon.class, Atom.class ) ) {
-//            CollisionUtil.getClassifiedBodies( classes, bodies, body1, body2 );
             bodies[0] = body1;
             bodies[1] = body2;
             CollisionUtil.classifyBodies( bodies, classifiedBodies );
@@ -49,22 +46,4 @@ public class PhotonAtomCollisonExpert implements CollisionExpert {
 
         return false;
     }
-
-//    private Atom getAtom( Collidable body1, Collidable body2 ) {
-//        Atom atom = body1 instanceof Atom ? (Atom)body1 :
-//                    ( body2 instanceof Atom ? (Atom)body2 : null );
-//        if( atom == null ) {
-//            throw new RuntimeException( "No instance of Atom found" );
-//        }
-//        return atom;
-//    }
-//
-//    private Photon getPhoton( Collidable body1, Collidable body2 ) {
-//        Atom atom = body1 instanceof Atom ? (Atom)body1 :
-//                    ( body2 instanceof Atom ? (Atom)body2 : null );
-//        if( atom == null ) {
-//            throw new RuntimeException( "No instance of Atom found" );
-//        }
-//        return atom;
-//    }
 }

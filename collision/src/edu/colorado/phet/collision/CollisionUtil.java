@@ -12,13 +12,9 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.model.atom.Atom;
-
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.Iterator;
 
 public class CollisionUtil {
 
@@ -59,11 +55,11 @@ public class CollisionUtil {
             }
         }
     }
-//    public static void getClassifiedBodies( Class[] classes, Collidable[] bodiesToClassify, Object[] classifiedBodies ) {
-//        bodies[0] = null;
-//        bodies[1] = null;
-//        if( areConformantToClasses( body1, body2, classes[0], classes[1])) {
-//            classifiedBodies[0] = getInstanceOfClass( classes[0], bodiesToClassify );
-//        }
-//    }
+    //    public static void getClassifiedBodies( Class[] classes, Collidable[] bodiesToClassify, Object[] classifiedBodies ) {
+    //        bodies[0] = null;
+    //        bodies[1] = null;
+    //        if( areConformantToClasses( body1, body2, classes[0], classes[1])) {
+    //            classifiedBodies[0] = getInstanceOfClass( classes[0], bodiesToClassify );
+    //        }
+    //    }
 }

@@ -1,3 +1,5 @@
+- AtomicState lifetime manager should be part of the base AtomicState now. There is no need of a separate
+SpontaneouslyEmittingState.
 - Memory leak in multiple atom panel
 - Enable photons emitted on high-to-mid state transitions
 - add CollimatedBeamGraphic, or CollimatedBeamView class

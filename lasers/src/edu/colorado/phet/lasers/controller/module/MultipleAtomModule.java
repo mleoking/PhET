@@ -13,7 +13,6 @@
 package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.lasers.controller.LaserControlPanel;
 
 import java.util.ArrayList;
 
@@ -26,8 +25,8 @@ public class MultipleAtomModule extends MultipleAtomBaseModule {
      *
      */
     public MultipleAtomModule( AbstractClock clock ) {
-        super( "Multiple Atoms" );
-        LaserControlPanel controlPanel = new LaserControlPanel( this, clock );
-        setControlPanel( controlPanel );
+        super( "Multiple Atoms", clock );
+        //        LaserControlPanel controlPanel = new LaserControlPanel( this, clock );
+        //        setControlPanel( controlPanel );
     }
 }

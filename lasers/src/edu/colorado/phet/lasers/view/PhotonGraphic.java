@@ -28,8 +28,8 @@ import java.util.HashMap;
 
 public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
 
-    //
-    // Static fields and methods
+    //////////////////////////////////////////////////////////////////////////////////////
+    // Class
     //
     static protected int s_imgHeight = (int)Photon.s_radius;
     static protected int s_imgLength = 20;
@@ -147,6 +147,10 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         return img;
     }
 
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Instance
+    //
 
     private Vector2D velocity;
     //    private BufferedImage buffImg = new BufferedImage( s_imgLength, s_imgHeight, BufferedImage.TYPE_INT_ARGB );

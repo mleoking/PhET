@@ -15,14 +15,13 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements AtomicState.EnergyLevelListener {
+public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements AtomicState.EnergyLevelChangeListener {
     private AtomicState atomicState;
     private Color color;
     private double xLoc;
@@ -42,7 +41,7 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         addCursorBehavior( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
         addTranslationBehavior( new EnergyLevelTranslator() );
 
-        EventRegistry.instance.addListener( this );
+        atomicState.addEnergyLevelChangeListener( this );
     }
 
     public void setBasePosition( double x, double y ) {
@@ -50,7 +49,7 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         yLoc = y;
     }
 
-    public void energyLevelChangeOccurred( AtomicState.EnergyLevelChange event ) {
+    public void energyLevelChangeOccurred( AtomicState.EnergyLevelChangeEvent event ) {
         energyLevelRep.update();
     }
 

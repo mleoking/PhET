@@ -14,7 +14,6 @@ package edu.colorado.phet.lasers.model.photon;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.LaserModel;
 
@@ -150,7 +149,7 @@ public class CollimatedBeam extends Particle {
                 this.addPhoton();
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
 
-//                EventRegistry.instance.fireEvent( new PhotonEmittedEvent( this ) );
+                //                EventRegistry.instance.fireEvent( new PhotonEmittedEvent( this ) );
             }
         }
     }

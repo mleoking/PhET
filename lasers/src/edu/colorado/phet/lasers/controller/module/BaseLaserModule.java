@@ -13,9 +13,8 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
@@ -69,10 +68,10 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
     /**
      *
      */
-    public BaseLaserModule( String title ) {
+    public BaseLaserModule( String title, AbstractClock clock ) {
         super( title );
 
-        EventRegistry.instance.addListener( new PEL() );
+        //        EventRegistry.instance.addListener( new PEL() );
 
         laserModel = new LaserModel();
         setModel( laserModel );
@@ -108,6 +107,11 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         leftMirror = new Mirror( p3, p4 );
         leftMirror.addReflectionStrategy( new RightReflecting() );
         leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
+
+        // Add the control panel
+        //        LaserControlPanel controlPanel = new LaserControlPanel( this, clock );
+        //        controlPanel.setMaxPhotonRate( 5 );
+        //        setControlPanel( controlPanel );
     }
 
     protected Point2D getLaserOrigin() {
@@ -127,6 +131,8 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         return (LaserModel)getModel();
     }
 
+    int cnt;
+
     protected void addAtom( Atom atom ) {
         getModel().addModelElement( atom );
         final AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
@@ -140,10 +146,16 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
                 final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
 
+                System.out.println( "cnt out: " + cnt++ );
+
                 // Add a listener that will remove the graphic if the photon leaves the system
                 photon.addListener( new Photon.Listener() {
                     public void leavingSystem( Photon photon ) {
                         getApparatusPanel().removeGraphic( pg );
+                        System.out.println( "cnt in: " + cnt-- );
+                        if( cnt < 0 ) {
+                            System.out.println( "+++" );
+                        }
                     }
                 } );
             }
@@ -230,13 +242,13 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         setEnergyMonitorPanel( monitorPanel );
 
 
-//        if( threeEnergyLevels ) {
-//            setEnergyMonitorPanel( new ThreeEnergyLevelMonitorPanel( getLaserModel() ) );
-//            laserModel.getPumpingBeam().setActive( true );
-//        }
-//        else {
-//            setEnergyMonitorPanel( new TwoEnergyLevelMonitorPanel( getLaserModel() ) );
-//            laserModel.getPumpingBeam().setActive( false );
-//        }
+        //        if( threeEnergyLevels ) {
+        //            setEnergyMonitorPanel( new ThreeEnergyLevelMonitorPanel( getLaserModel() ) );
+        //            laserModel.getPumpingBeam().setActive( true );
+        //        }
+        //        else {
+        //            setEnergyMonitorPanel( new TwoEnergyLevelMonitorPanel( getLaserModel() ) );
+        //            laserModel.getPumpingBeam().setActive( false );
+        //        }
     }
 }
