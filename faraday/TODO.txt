@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- reuse Strings in FieldMeterGraphic formatter
 - if water wheel hits critical angles, then its rotation appears jerky at some speeds
 - make electrons move at same speed whether grid is on or off
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
