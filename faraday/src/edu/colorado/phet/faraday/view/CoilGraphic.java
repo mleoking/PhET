@@ -12,7 +12,6 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
-import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.math.MathUtil;
@@ -23,6 +22,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractCoil;
+import edu.colorado.phet.faraday.model.CurveDescriptor;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.QuadBezierSpline;
 
@@ -60,7 +60,7 @@ public class CoilGraphic implements SimpleObserver {
     private boolean _electronAnimationEnabled;
     private Stroke _loopStroke;
     private Color _foregroundColor, _middlegroundColor, _backgroundColor;
-    private ArrayList _curves; // array of QuadBezierSpline
+    private ArrayList _curveDescriptors; // array of CurveDescriptor
     private ArrayList _electrons; // array of Electron
     
     // Properties that determine the physical appearance of the coil.
@@ -101,7 +101,7 @@ public class CoilGraphic implements SimpleObserver {
         _middlegroundColor = MIDDLEGROUND_COLOR;
         _backgroundColor = BACKGROUND_COLOR;
         
-        _curves = new ArrayList();
+        _curveDescriptors = new ArrayList();
         _electrons = new ArrayList();
         
         _numberOfLoops = -1; // force update
@@ -315,7 +315,7 @@ public class CoilGraphic implements SimpleObserver {
         _background.clear();
         
         // Clear the parametric path list.
-        _curves.clear();
+        _curveDescriptors.clear();
         
         // Remove electrons from the model.
         for ( int i = 0; i < _electrons.size(); i ++ ) {
@@ -348,7 +348,8 @@ public class CoilGraphic implements SimpleObserver {
                     Point controlPoint = new Point( endPoint.x - 20, endPoint.y - 20 );
                     QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
                     if ( ELECTRONS_IN_BACK ) {
-                        _curves.add( curve );
+                        CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
+                        _curveDescriptors.add( cd );
                     }
                     
                     // Horizontal gradient, left to right.
@@ -368,7 +369,8 @@ public class CoilGraphic implements SimpleObserver {
                     Point controlPoint = new Point( (int) ( radius * .15 ) + xOffset, (int) ( -radius * .70 ) );
                     QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
                     if ( ELECTRONS_IN_BACK ) {
-                        _curves.add( curve );
+                        CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
+                        _curveDescriptors.add( cd );
                     }
                     
                     Paint paint = _backgroundColor;
@@ -387,7 +389,8 @@ public class CoilGraphic implements SimpleObserver {
                 Point controlPoint = new Point( (int)(radius * .15) + xOffset, (int)(-radius * 1.20));
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
                 if ( ELECTRONS_IN_BACK ) {
-                    _curves.add( curve );
+                    CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
+                    _curveDescriptors.add( cd );
                 }
                 
                 // Diagonal gradient, upper left to lower right.
@@ -407,7 +410,8 @@ public class CoilGraphic implements SimpleObserver {
                 Point controlPoint = new Point( (int)(radius * .35) + xOffset, (int)(radius * 1.20) );
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
                 if ( ELECTRONS_IN_BACK ) {
-                    _curves.add( curve );
+                    CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
+                    _curveDescriptors.add( cd );
                 }
                 
                 // Vertical gradient, upper to lower
@@ -426,7 +430,9 @@ public class CoilGraphic implements SimpleObserver {
                 Point endPoint = new Point( (int) ( -radius * .25 ) + xOffset, 0 ); // upper
                 Point controlPoint = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( radius * 0.80 ) );
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
-                _curves.add( curve );
+                
+                CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND );
+                _curveDescriptors.add( cd );
                 
                 // Horizontal gradient, left to right
                 Paint paint = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
@@ -444,7 +450,9 @@ public class CoilGraphic implements SimpleObserver {
                 Point endPoint = new Point( xOffset, (int) -radius ); // upper
                 Point controlPoint = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( -radius * 0.80) );
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
-                _curves.add( curve );
+                
+                CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND );
+                _curveDescriptors.add( cd );
                 
                 // Horizontal gradient, left to right
                 Paint paint = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
@@ -462,7 +470,9 @@ public class CoilGraphic implements SimpleObserver {
                 Point endPoint = new Point( startPoint.x + 15, startPoint.y - 40 ); // upper
                 Point controlPoint = new Point( startPoint.x + 20, startPoint.y - 20 );
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
-                _curves.add( curve );
+                
+                CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND );
+                _curveDescriptors.add( cd );
                 
                 Paint paint = _middlegroundColor;
                 
@@ -477,20 +487,25 @@ public class CoilGraphic implements SimpleObserver {
         // Add electrons.
         final int numberOfElectrons = (int) ( radius / 25 );
         final double speed = calculateElectronSpeed();
-        for ( int j = 0; j < _curves.size(); j++ ) {
+        for ( int j = 0; j < _curveDescriptors.size(); j++ ) {
             for ( int i = 0; i < numberOfElectrons; i++ ) {
+                
+                double positionAlongCurve = i / (double)numberOfElectrons;
+                int curveIndex = j;
                 
                 // Model
                 Electron electron = new Electron();
-                electron.setCurves( _curves );
-                electron.setCurveLocation( j, i / (double) numberOfElectrons );
+                electron.setCurveDescriptors( _curveDescriptors );
+                electron.setPositionAlongCurve( positionAlongCurve, curveIndex );
                 electron.setSpeed( speed );
                 electron.setEnabled( _electronAnimationEnabled );
                 _electrons.add( electron );
                 _baseModel.addModelElement( electron );
 
                 // View
-                ElectronGraphic electronGraphic = new ElectronGraphic( _component, electron );
+                CurveDescriptor cd = electron.getCurveDescriptor();
+                CompositePhetGraphic parent = cd.getParent();
+                ElectronGraphic electronGraphic = new ElectronGraphic( _component, parent, electron );
                 _foreground.addGraphic( electronGraphic );
             }
         }

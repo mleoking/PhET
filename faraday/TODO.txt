@@ -3,8 +3,8 @@
 ===============================================================================
 
 IN PROGRESS:
-- make electrons jump between front & back layers
-- make electrons look different in front and back layers
+
+- fix electron density in coil ends
 
 HIGH PRIORITY:
 - encapulate all rescaling of emf into one place
@@ -43,6 +43,8 @@ phetcommon:
 
 DONE:
 v0r12...
+(2/10) - make electrons jump between front & back layers
+(2/10) - make electrons look different in front and back layers
 (2/10) - make QuadBezierSpline a subclass of QuadCurve.Double
 (2/10) - make electrons move as a function of induced current
 (2/10) - don't recreate coil when emf changes, only when physical coil properties change
