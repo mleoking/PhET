@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.common.tests;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
@@ -29,13 +28,18 @@ import java.awt.*;
 public class DebugMenuTest {
 
     public static void main( String[] args ) {
-        ApplicationModel am = new ApplicationModel( "Debug Test", "", "" );
-        am.setClock( new SwingTimerClock( 1, 25, AbstractClock.FRAMES_PER_SECOND ) );
-        DebugMenuTestModule debugMenuTestModule = new DebugMenuTestModule( am.getClock() );
-        am.setModules( new Module[]{debugMenuTestModule} );
-        am.setInitialModule( debugMenuTestModule );
+        SwingTimerClock clock = new SwingTimerClock( 1, 25, AbstractClock.FRAMES_PER_SECOND );
+//        ApplicationModel am = new ApplicationModel( "Debug Test", "", "" );
+//        am.setClock( clock );
+//        DebugMenuTestModule debugMenuTestModule = new DebugMenuTestModule( am.getClock() );
+//        am.setModules( new Module[]{debugMenuTestModule} );
+//        am.setInitialModule( debugMenuTestModule );
 
-        PhetApplication app = new PhetApplication( am, args );
+        PhetApplication app = new PhetApplication( args, clock, "Debug Test", "", "" );
+        DebugMenuTestModule debugMenuTestModule = new DebugMenuTestModule( clock );
+        app.addModule( debugMenuTestModule );
+        app.setInitialModule( debugMenuTestModule );
+//        PhetApplication app = new PhetApplication( am, args );
         app.startApplication();
     }
 
