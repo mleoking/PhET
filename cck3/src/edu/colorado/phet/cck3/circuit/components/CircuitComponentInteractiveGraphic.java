@@ -95,6 +95,9 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         }
 
         public boolean isVisiblityRequested() {
+            if( branch instanceof GrabBagResistor ) {
+                return false;
+            }
             return setVisibleItem.isSelected();
         }
 
@@ -160,6 +163,9 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         }
 
         public void setVisibilityRequested( boolean b ) {
+            if( branch instanceof GrabBagResistor ) {
+                return;
+            }
             if( setVisibleItem.isSelected() != b ) {
                 setVisibleItem.doClick( 20 );
             }

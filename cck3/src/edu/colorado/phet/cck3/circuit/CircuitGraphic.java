@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.CachingImageLoader;
 
 import java.awt.*;
@@ -821,6 +822,9 @@ public class CircuitGraphic extends CompositeGraphic {
             else if( b instanceof Bulb ) {
                 addBulbGraphic( (Bulb)b );
             }
+            else if( b instanceof GrabBagResistor ) {
+                addGrabBagGraphic( (GrabBagResistor)b );
+            }
             else if( b instanceof Resistor ) {
                 addResistorGraphic( (Resistor)b );
             }
@@ -833,6 +837,15 @@ public class CircuitGraphic extends CompositeGraphic {
             else {
                 addWireGraphic( b );
             }
+        }
+
+        private void addGrabBagGraphic( GrabBagResistor b ) {
+//            module.getCircuit().addBranch( b );
+            BufferedImage image = b.getItemInfo().getImage();
+            CircuitGraphic.this.addGraphic( b, BufferedImageUtils.flipY( image ) );
+
+//            module.relayout( new Branch[]{b} );
+//            module.getApparatusPanel().repaint();
         }
 
         private void addBatteryGraphic( Battery component ) {
