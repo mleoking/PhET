@@ -13,6 +13,8 @@ package edu.colorado.phet.faraday.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.faraday.FaradayConfig;
+
 
 /**
  * AbstractCoil is the abstract base class for all coils.
@@ -20,7 +22,7 @@ import java.awt.geom.Point2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractCoil extends SpacialObservable {
+public abstract class AbstractCoil extends AbstractVoltageSource {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -37,21 +39,10 @@ public abstract class AbstractCoil extends SpacialObservable {
     
     /**
      * Zero-argument constructor.
-     * Creates a default coil with one loop, radius=10.0, location=(0,0), direction=0.0
+     * Creates a default coil with one loop, radius=10.0
      */
     public AbstractCoil() {
         this( 1, 10.0 );
-    }
-    
-    /**
-     * Partially-specified constructor.
-     * Creates the specified coil with location=(0,0), direction=0.0
-     * 
-     * @param numberOfLoops number of loops in the coil
-     * @param radius radius used for all loops
-     */
-    public AbstractCoil( int numberOfLoops, double radius ) {
-        this( numberOfLoops, radius, new Point2D.Double(0,0), 0.0 );
     }
     
     /**
@@ -59,12 +50,8 @@ public abstract class AbstractCoil extends SpacialObservable {
      * 
      * @param numberOfLoops number of loops in the coil
      * @param radius radius used for all loops
-     * @param location location of the coil
-     * @param direction direction in degrees (see setDirection)
      */
-    public AbstractCoil( int numberOfLoops, double radius, Point2D location, double direction ) {
-        super( location, direction );
-        assert( location != null );
+    public AbstractCoil( int numberOfLoops, double radius ) {
         setNumberOfLoops( numberOfLoops );
         setRadius( radius );
     }
@@ -136,18 +123,4 @@ public abstract class AbstractCoil extends SpacialObservable {
     public double getArea() {
         return _numberOfLoops * ( Math.PI * _radius * _radius );
     }
-    
-    /**
-     * Gets the voltage across the ends of the coil.
-     * 
-     * @return voltage across the ends of the coil, in volts
-     */
-    public abstract double getVoltage();
-    
-    /**
-     * Gets the magnet associated with the coil, if there is one.
-     * 
-     * @return the magnet, possibly null
-     */
-    public abstract AbstractMagnet getMagnet();
 }

@@ -62,10 +62,7 @@ public class FaradayConfig {
 
     // Fonts
     public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
-    
-    // EMF parameters
-    public static final double MAX_EMF = 4.0E7; // volts
-    
+
     // Bar Magnet parameters
     public static final double BAR_MAGNET_STRENGTH_MAX = 300.0; // Gauss
     public static final double BAR_MAGNET_STRENGTH_MIN = 0.5 * BAR_MAGNET_STRENGTH_MAX; // Gauss
@@ -92,6 +89,7 @@ public class FaradayConfig {
     public static final Dimension GRID_NEEDLE_SIZE = new Dimension( GRID_NEEDLE_WIDTH, (int) ( GRID_NEEDLE_WIDTH / GRID_NEEDLE_ASPECT_RATIO ) );
     
     // Pickup Coil parameters
+    public static final double MAX_PICKUP_EMF = 4.0E7; // volts
     public static final int MAX_PICKUP_LOOPS = 3;
     public static final int MIN_PICKUP_LOOPS = 1;
     public static final double MAX_PICKUP_RADIUS = 125.0;

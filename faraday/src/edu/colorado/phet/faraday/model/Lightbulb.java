@@ -29,7 +29,7 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PickupCoil _pickupCoilModel;
+    private AbstractVoltageSource _voltageSourceModel;
     private boolean _enabled;
     
     //----------------------------------------------------------------------------
@@ -39,13 +39,13 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
     /**
      * Sole constructor.
      * 
-     * @param pickupCoilModel the pickup coil that the lightbulb is across
+     * @param voltageSourceModel the voltage source that the lightbulb is across
      */
-    public Lightbulb( PickupCoil pickupCoilModel ) {
+    public Lightbulb( AbstractVoltageSource voltageSourceModel ) {
         super();
         
-        _pickupCoilModel = pickupCoilModel;
-        _pickupCoilModel.addObserver( this );
+        _voltageSourceModel = voltageSourceModel;
+        _voltageSourceModel.addObserver( this );
 
         _enabled = true;
     }
@@ -55,8 +55,8 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _pickupCoilModel.removeObserver( this );
-        _pickupCoilModel = null;
+        _voltageSourceModel.removeObserver( this );
+        _voltageSourceModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -70,8 +70,8 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
      * @return the intensity (0.0 - 1.0)
      */
     public double getIntensity() {
-        double voltage = Math.abs( _pickupCoilModel.getVoltage() );
-        double intensity = voltage / FaradayConfig.MAX_EMF;
+        double voltage = Math.abs( _voltageSourceModel.getVoltage() );
+        double intensity = voltage / _voltageSourceModel.getMaxVoltage();
         intensity = MathUtil.clamp( 0, intensity, 1 );
         if ( intensity == Double.NaN ) {
             System.out.println( "WARNING: LightBulb.stepInTime: intensity=NaN" );
@@ -100,11 +100,14 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
     public boolean isEnabled() {
         return _enabled;
     }
-    
+
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
+    /*
+     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     */
     public void update() {
         if ( isEnabled() ) {
             notifyObservers();

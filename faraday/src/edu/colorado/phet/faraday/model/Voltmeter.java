@@ -25,7 +25,7 @@ import edu.colorado.phet.faraday.util.IRescaler;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Voltmeter extends SimpleObservable implements ModelElement, SimpleObserver {
+public class Voltmeter extends SimpleObservable implements ModelElement {
   
     //----------------------------------------------------------------------------
     // Class data
@@ -63,8 +63,8 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     // Instance data
     //----------------------------------------------------------------------------
     
-    // Coil the voltmeter is connected to.
-    private PickupCoil _pickupCoilModel;
+    // The voltage source that the voltmeter is connected to.
+    private AbstractVoltageSource _voltageSourceModel;
     
     // Whether the voltmeter is enabled (ie, connected to the coil).
     private boolean _enabled;
@@ -85,28 +85,18 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     /**
      * Sole constructor.
      * 
-     * @param pickupCoilModel voltmeter is connected to this coil
+     * @param voltageSourceModel voltmeter is connected to this voltage source
      */
-    public Voltmeter( PickupCoil pickupCoilModel ) {
+    public Voltmeter( AbstractVoltageSource voltageSourceModel ) {
         super();
         
-        assert( pickupCoilModel != null );
+        assert( voltageSourceModel != null );
         
-        _pickupCoilModel = pickupCoilModel;
-        _pickupCoilModel.addObserver( this );
+        _voltageSourceModel = voltageSourceModel;
         
         _enabled = true;
         _rotationalKinematicsEnabled = false; // expensive, so disabled by default
         _needleAngle = ZERO_NEEDLE_ANGLE;
-    }
-
-    /**
-     * Finalizes an instance of this type.
-     * Call this method prior to releasing all references to an object of this type.
-     */
-    public void finalize() {
-        _pickupCoilModel.removeObserver( this );
-        _pickupCoilModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -173,7 +163,7 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
      * @return the voltage, in volts
      */
     public double getVoltage() {
-        return _pickupCoilModel.getVoltage();
+        return _voltageSourceModel.getVoltage();
     }
     
     /**
@@ -206,7 +196,7 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
      */
     private double getDesiredNeedleAngle() {
         //  Convert the voltage to a value in the range -1...+1.
-        double voltage = _pickupCoilModel.getVoltage() / FaradayConfig.MAX_EMF;
+        double voltage = _voltageSourceModel.getVoltage() / _voltageSourceModel.getMaxVoltage();
         voltage = MathUtil.clamp( -1, voltage, +1 );
         
         // Rescale the voltage to improve the visual effect.
@@ -217,25 +207,6 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
         
         // Determine the needle deflection angle.
         return voltage * MAX_NEEDLE_ANGLE;
-    }
-    
-    //----------------------------------------------------------------------------
-    // SimpleObserver implementation
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Updates the needle angle immediately if the angle is non-zero.
-     * This allows us to capture "spikes" in the induced emf, such as when 
-     * the magnet polarity is flipped.
-     * 
-     * @see edu.colorado.phet.common.util.SimpleObserver#update()
-     */
-    public void update() {
-        // React instantly to non-zero needle angles. 
-        double needleAngle = getDesiredNeedleAngle();
-        if ( needleAngle != ZERO_NEEDLE_ANGLE ) {
-            setNeedleAngle( needleAngle );
-        }
     }
 
     //----------------------------------------------------------------------------

@@ -639,7 +639,7 @@ public class CoilGraphic implements SimpleObserver {
      */
     private double calculateElectronSpeed() {
         
-        double speed = _coilModel.getVoltage() / FaradayConfig.MAX_EMF;
+        double speed = _coilModel.getVoltage() / _coilModel.getMaxVoltage();
         speed = MathUtil.clamp( -1, speed, +1 );
         
         // Rescale the speed to improve the visual effect.
