@@ -45,7 +45,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private double panelHeight = 500;
     private double sliderWidth = 100;
 
-    private Point2D origin = new Point2D.Double( 50, panelHeight - 10 );
+    private Point2D origin = new Point2D.Double( 50, panelHeight - 30 );
     private double levelLineOriginX = origin.getX() + 30;
     private double levelLineLength = panelWidth - levelLineOriginX - sliderWidth - 20;
 
@@ -89,7 +89,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         highLevelLifetimeSlider = new EnergyLifetimeSlider( HighEnergyState.instance(), this, highLevelLine, SimStrings.get( "EnergyLevelMonitorPanel.HighLevelSlider" ) );
         this.add( highLevelLifetimeSlider );
 
-        setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
+        //        setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
 
         model.addObserver( this );
         this.model = model;
@@ -100,6 +100,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                                                              getBounds().getWidth(), getBounds().getHeight() * 0.8 );
                 energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
                                                (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
+                energyYTx.setModelToViewFunction( new ModelViewTx1D.PowerFunction( 0.98 ) );
+                System.out.println( origin.getY() + "   " + bounds.getBounds().getMaxY() );
 
                 highLevelLine.update( energyYTx );
                 middleLevelLine.update( energyYTx );
@@ -181,11 +183,13 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         }
 
         // Draw squiggles showing what energy photons the beams are putting out
-        double modelHeight = energyYTx.modelToView( stimulatingBeamEnergy );
-        System.out.println( "stimulatingBeamEnergy = " + stimulatingBeamEnergy );
-        System.out.println( "modelHeight = " + modelHeight );
-        Line2D stimBeamEnergy = new Line2D.Double( origin.getX() + 5, origin.getY(),
-                                                   origin.getX() + 5, modelHeight );
+        //(int)Math.pow( energyYTx.modelToView( atomicState.getEnergyLevel() ), .98 );
+        double y0 = energyYTx.modelToView( GroundState.instance().getEnergyLevel() );
+        //        double y0 = Math.pow( energyYTx.modelToView( GroundState.instance().getEnergyLevel()), .98 );
+        double y1 = energyYTx.modelToView( stimulatingBeamEnergy );
+        //        double y1 = Math.pow( energyYTx.modelToView( stimulatingBeamEnergy ), .98 );
+        Line2D stimBeamEnergy = new Line2D.Double( origin.getX() + 5, y0,
+                                                   origin.getX() + 5, y1 );
         Color c = VisibleColor.wavelengthToColor( Photon.energyToWavelength( stimulatingBeamEnergy ) );
         g2.setColor( c );
         g2.setStroke( new BasicStroke( 2 ) );
