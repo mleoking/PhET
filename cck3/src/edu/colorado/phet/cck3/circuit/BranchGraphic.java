@@ -30,7 +30,7 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
     private Color highlightColor = Color.yellow;
     private PhetShapeGraphic highlight;
     private PhetTextGraphic debugText;
-    private boolean debug = false;
+//    private boolean debug = false;
 
     public BranchGraphic( Branch branch, ApparatusPanel apparatusPanel, double thickness, ModelViewTransform2D transform, Color color ) {
         super( apparatusPanel );
@@ -53,13 +53,25 @@ public class BranchGraphic extends CCKCompositePhetGraphic {
             }
         };
         transform.addTransformListener( transformListener );
-        if( debug ) {
+//<<<<<<< BranchGraphic.java
+        if( CCK3Module.DEBUG_ALL ) {
             debugText = new PhetTextGraphic( apparatusPanel, new Font( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
-            addGraphic( debugText );
         }
+////=======
+//        if( debug ) {
+//            debugText = new PhetTextGraphic( apparatusPanel, new Font( "Dialog", 0, 12 ), "", Color.black, 0, 0 );
+//            addGraphic( debugText );
+//        }
+//>>>>>>> 1.12
 
         doupdate();
         setVisible( true );
+//<<<<<<< BranchGraphic.java
+        if( debugText != null ) {
+            addGraphic( debugText );
+        }
+//=======
+//>>>>>>> 1.12
     }
 
     public void setVisible( boolean visible ) {

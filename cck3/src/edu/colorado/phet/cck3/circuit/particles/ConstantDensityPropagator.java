@@ -23,6 +23,10 @@ public class ConstantDensityPropagator implements ModelElement {
     private double speedScale = .01;
     private double MIN_CURRENT = Math.pow( 10, -10 );
     private double MAX_CURRENT = FireHandler.FIRE_CURRENT;
+//    private double MAX_STEP = .15;
+    private double MAX_STEP = .182;
+//    private double MAX_STEP = .35;
+//    private double MAX_STEP = .1 / 10;
     private int numEqualize = 2;
 
     public ConstantDensityPropagator( ParticleSet particleSet, Circuit circuit ) {
@@ -155,7 +159,10 @@ public class ConstantDensityPropagator implements ModelElement {
             current = MathUtil.getSign( current ) * MAX_CURRENT;
         }
         double speed = current * speedScale;
-        double newX = x + speed * dt;
+        double dx = speed * dt;
+//        System.out.println( "dx = " + dx );
+        dx = cap( dx, MAX_STEP );
+        double newX = x + dx;
         Branch branch = e.getBranch();
         if( branch.containsScalarLocation( newX ) ) {
             e.setDistAlongWire( newX );
@@ -196,6 +203,25 @@ public class ConstantDensityPropagator implements ModelElement {
             //choose the branch with the furthest away electron
             CircuitLocation chosen = chooseDestinationBranch( loc );
             e.setLocation( chosen.getBranch(), Math.abs( chosen.getX() ) );
+        }
+    }
+
+    private double cap( double value, double max_step ) {
+        if( value > 0 ) {
+            if( value > max_step ) {
+                return max_step;
+            }
+            else {
+                return value;
+            }
+        }
+        else {
+            if( value < -max_step ) {
+                return -max_step;
+            }
+            else {
+                return value;
+            }
         }
     }
 //
