@@ -39,8 +39,8 @@ public class NuclearPhysicsModule extends Module {
         } );
 
         physicalPanel = new PhysicalPanel();
-        apparatusPanel = new ApparatusPanel();
-        super.setApparatusPanel( apparatusPanel );
+        //        apparatusPanel = new ApparatusPanel();
+        //        super.setApparatusPanel( apparatusPanel );
         apparatusPanel.setLayout( new GridLayout( 1, 1 ) );
         setPhysicalPanel( physicalPanel );
         apparatusPanel.add( physicalPanel );
