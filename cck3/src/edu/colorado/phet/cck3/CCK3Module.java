@@ -114,7 +114,8 @@ public class CCK3Module extends Module {
     public static final Color apparatusPanelColor = new Color( 187, 216, 255 );
     public static final Color toolboxColor = new Color( 241, 241, 241 );
 
-    private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
+//    private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
+    private DecimalFormat decimalFormat = new DecimalFormat( "0.0##" );
     //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0000" ); //For debugging.
     private ResistivityManager resistivityManager;
     private boolean internalResistanceOn = false;
@@ -216,16 +217,17 @@ public class CCK3Module extends Module {
         setControlPanel( jsp );
         //        doinit();
         //        inited = true;
-        messageGraphic = new PhetShadowTextGraphic( getApparatusPanel(), "text", new Font( "Lucida Sans", Font.BOLD, 16 ), 100, 100, Color.red, 1, 1, Color.black );
+        messageGraphic = new PhetShadowTextGraphic( getApparatusPanel(), "text", new Font( "Lucida Sans", Font.BOLD, 13 ), 50, 100, Color.red, 1, 1, Color.black );
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                int x = messageGraphic.getBounds().height * 2;
+                int x = messageGraphic.getBounds().height;
                 int y = getApparatusPanel().getHeight() - messageGraphic.getBounds().height;
                 messageGraphic.setPosition( x, y );
             }
         } );
-        getApparatusPanel().addGraphic( messageGraphic );
+        getApparatusPanel().addGraphic( messageGraphic, Double.POSITIVE_INFINITY );
         setResistivityEnabled( true );
+
     }
 
     private void relayout() {
@@ -391,7 +393,7 @@ public class CCK3Module extends Module {
         //        };
         //        getModel().addModelElement( me );
         setSeriesAmmeterVisible( false );
-
+        setInternalResistanceOn( true );
     }
 
     public void setHelpEnabled( boolean h ) {
@@ -666,6 +668,7 @@ public class CCK3Module extends Module {
         if( Arrays.asList( args ).contains( "debug" ) ) {
             debugMode = true;
         }
+        System.out.println( "debugMode = " + debugMode );
 //        boolean virtualLab = false;
 
 //        if( Arrays.asList( args ).contains( "-grabbag" ) ) {
@@ -1063,7 +1066,7 @@ public class CCK3Module extends Module {
     }
 
     public void setAdvancedEnabled( boolean advanced ) {
-        setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() && advanced );
+//        setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() && advanced );
 //        setResistivityEnabled( advanced );//now this is always on by default.
     }
 
