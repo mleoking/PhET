@@ -66,7 +66,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     private Turbine _turbineModel;
     private PhetShapeGraphic _waterGraphic;
     private Rectangle _waterShape;
-    private BarMagnetGraphic _barMagnetGraphic;
+    private PhetImageGraphic _barMagnetGraphic;
     private PhetImageGraphic _waterWheelGraphic;
     private PhetTextGraphic _rpmValue;
     private FaradaySlider _flowSlider;
@@ -133,18 +133,10 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
         
         // Bar magnet
         {
-            _barMagnetGraphic = new BarMagnetGraphic( component, turbineModel );
-            addGraphic( _barMagnetGraphic, BAR_MAGNET_LAYER );
-
-            /*
-             * WORKAROUND:
-             * BarMagnetGraphic was designed to live directly on the apparatus panel,
-             * and handle its own mouse events. De-register all listeners and observers
-             * so that we can handle updating the BarMagnetGraphic ourselves.
-             */
-            turbineModel.removeObserver( _barMagnetGraphic );
-            _barMagnetGraphic.removeAllMouseInputListeners();
+            _barMagnetGraphic = new PhetImageGraphic( component, FaradayConfig.BAR_MAGNET_IMAGE );
+            _barMagnetGraphic.centerRegistrationPoint();
             _barMagnetGraphic.setLocation( 0, 0 );
+            addGraphic( _barMagnetGraphic, BAR_MAGNET_LAYER );
             
             // Set the model's size to match the bar magnet image.
             _turbineModel.setSize( _barMagnetGraphic.getWidth(), _barMagnetGraphic.getHeight() );
@@ -185,19 +177,6 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     public void finalize() {
         _turbineModel.removeObserver( this );
         _turbineModel = null;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the bar magnet graphic, required by some control panels.
-     * 
-     * @return the bar magnet graphic
-     */
-    public BarMagnetGraphic getBarMagnetGraphic() {
-        return _barMagnetGraphic;
     }
     
     //----------------------------------------------------------------------------
