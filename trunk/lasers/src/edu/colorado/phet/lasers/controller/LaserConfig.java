@@ -34,6 +34,9 @@ public class LaserConfig {
     //        return 20;
     //    }
 
+    // Localization
+    public static final String localizedStringsPath = "localization/LasersStrings";
+
     // Physical things
     public static Point2D.Double ORIGIN = new Point2D.Double( 50, 150 );
 
@@ -65,7 +68,7 @@ public class LaserConfig {
     public static final String HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
     public static final String LOW_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";
     public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "flashlight.png";
-    //    public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "ray-gun-1A.png";
+//    public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "ray-gun-1A.png";
 
     // Graphics layers
     public static final double CAVITY_LAYER = 10;

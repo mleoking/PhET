@@ -12,6 +12,7 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -64,7 +65,7 @@ public class SimulationRateControlPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         this.add( simulationRateTF, gbc );
 
-        Border border = new TitledBorder( "Simulation Rate" );
+        Border border = new TitledBorder( SimStrings.get( "SimulationRateControlPanel.BorderTitle" ) );
         this.setBorder( border );
     }
 

@@ -16,6 +16,8 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 
@@ -26,12 +28,15 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class LaserSimulation extends PhetApplication {
 
     static class LaserAppModel extends ApplicationModel {
         public LaserAppModel() {
-            super( "Lasers", "Lasers", "0.1" );
+            super( SimStrings.get( "LasersApplication.title" ),
+                   SimStrings.get( "LasersApplication.description" ),
+                   SimStrings.get( "LasersApplication.version" ) );
 
             AbstractClock clock = new SwingTimerClock( 7, 40 );
             //            AbstractClock clock = new SwingTimerClock( 10, 40 );
@@ -59,6 +64,17 @@ public class LaserSimulation extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( LaserConfig.localizedStringsPath );
         try {
             UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
         }

@@ -14,6 +14,7 @@ package edu.colorado.phet.lasers.controller;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -75,7 +76,7 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         this.add( photonRateTF, gbc );
-        Border frequencyBorder = new TitledBorder( "Stimulation Rate" );
+        Border frequencyBorder = new TitledBorder( SimStrings.get( "StimulatingBeamControl.BorderTitle" ) );
         this.setBorder( frequencyBorder );
     }
 
