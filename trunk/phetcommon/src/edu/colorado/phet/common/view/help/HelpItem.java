@@ -89,14 +89,53 @@ public class HelpItem implements Graphic {
 
     private void init( Graphics2D g ) {
         FontMetrics fontMetrics = g.getFontMetrics( font );
+
         shadowTextGraphics = new ArrayList();
         String[] sa = tokenizeString( text );
-        int x = (int)( location.getX() + fontMetrics.getStringBounds( " ", g ).getWidth() );
+
+        int x = 0;
+        double maxStrLen = 0;
+        switch( horizontalAlignment ) {
+            case HelpItem.RIGHT:
+                maxStrLen = getMaxStrLen( sa, g, fontMetrics );
+                x = (int)( location.getX() - maxStrLen - fontMetrics.getStringBounds( " ", g ).getWidth() );
+                break;
+            case HelpItem.LEFT:
+                x = (int)( location.getX() + fontMetrics.getStringBounds( " ", g ).getWidth() );
+                break;
+            case HelpItem.CENTER:
+                maxStrLen = getMaxStrLen( sa, g, fontMetrics );
+                x = (int)( location.getX() - maxStrLen / 2 );
+                break;
+        }
+
+        double yBase = 0;
+        switch( verticalAlignment ) {
+            case HelpItem.TOP:
+                yBase = -sa.length * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
+                break;
+            case HelpItem.BOTTOM:
+                yBase = 0;
+                break;
+            case HelpItem.CENTER:
+                yBase = -(sa.length + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() ) / 2;
+                break;
+        }
+
         for( int i = 0; i < sa.length; i++ ) {
-            int y = (int)location.getY() + ( i + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
+            int y = (int)yBase + (int)location.getY() + ( i + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
             ShadowTextGraphic textGraphic = new ShadowTextGraphic( font, sa[i], 1, 1, x, y, foregroundColor, shadowColor );
             shadowTextGraphics.add( textGraphic );
         }
     }
 
+    private double getMaxStrLen( String[] sa, Graphics2D g, FontMetrics fontMetrics ) {
+        double maxStrLen = 0;
+        for( int i = 0; i < sa.length; i++ ) {
+            String s = sa[i];
+            double strLen = fontMetrics.getStringBounds( s, g ).getWidth();
+            maxStrLen = strLen > maxStrLen ? strLen : maxStrLen;
+        }
+        return maxStrLen;
+    }
 }
