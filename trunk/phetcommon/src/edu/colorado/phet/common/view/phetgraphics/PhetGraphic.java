@@ -10,17 +10,6 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
-import java.util.Stack;
-
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.MouseInputListener;
-
 import edu.colorado.phet.common.view.graphics.mousecontrols.CompositeMouseInputListener;
 import edu.colorado.phet.common.view.graphics.mousecontrols.CursorControl;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationHandler;
@@ -28,19 +17,28 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.Stack;
+
 /**
  * PhetGraphic is the base class for all PhET graphics.
- * <p>
+ * <p/>
  * This graphic class auto-magically repaints itself in the appropriate bounds,
  * using component.paint(int x,int y,int width,int height).
- * This class manages the current and previous bounds for painting, and whether 
+ * This class manages the current and previous bounds for painting, and whether
  * the region is dirty.
  *
  * @author ?
  * @version $Revision$
  */
 public abstract class PhetGraphic {
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -91,8 +89,8 @@ public abstract class PhetGraphic {
     public Component getComponent() {
         return component;
     }
-    
-       
+
+
     /**
      * Sets the parent of this Graphic.
      *
@@ -108,7 +106,7 @@ public abstract class PhetGraphic {
     
     /**
      * Saves the graphics context by pushing it onto a stack.
-     * 
+     *
      * @param g2 the graphics context
      */
     protected void saveGraphicsState( Graphics2D g2 ) {
@@ -117,11 +115,11 @@ public abstract class PhetGraphic {
 
     /**
      * Restores the graphics context that is on top of the stack.
-     * The context is popped off of the stack.  If this stack is 
+     * The context is popped off of the stack.  If this stack is
      * empty, calling this method does nothing.
      */
     protected void restoreGraphicsState() {
-        if ( ! graphicsStates.empty() ) {
+        if( !graphicsStates.empty() ) {
             GraphicsState gs = (GraphicsState)graphicsStates.pop();
             gs.restoreGraphics();
         }
@@ -131,19 +129,19 @@ public abstract class PhetGraphic {
      * Saves the rendering hints that are associated with a graphics context.
      * The name of the method is a misnomer; there is no stack involved,
      * and exactly one set of rendering hints can be restored.
-     * 
+     *
      * @param g2 the graphics context
      */
-    protected void pushRenderingHints( Graphics2D g2) {
+    protected void pushRenderingHints( Graphics2D g2 ) {
         savedRenderingHints = g2.getRenderingHints();
     }
 
     /**
      * Restores the rendering hints.
-     * The rendering hints that were saved are applied to the supplied 
-     * graphics context. If no hints were saved, calling this method 
+     * The rendering hints that were saved are applied to the supplied
+     * graphics context. If no hints were saved, calling this method
      * does nothing.
-     * 
+     *
      * @param g2 the graphics context
      */
     protected void popRenderingHints( Graphics2D g2 ) {
@@ -155,7 +153,7 @@ public abstract class PhetGraphic {
     /**
      * Sets the rendering hints for this graphic.
      * These hints should be used when rendering the graphic.
-     * 
+     *
      * @param hints the rendering hints
      */
     public void setRenderingHints( RenderingHints hints ) {
@@ -164,7 +162,7 @@ public abstract class PhetGraphic {
 
     /**
      * Gets the rendering hints for this graphic.
-     * 
+     *
      * @return the rendering hints, possibly null
      */
     public RenderingHints getRenderingHints() {
@@ -201,7 +199,7 @@ public abstract class PhetGraphic {
             return visible;
         }
     }
-    
+
     /**
      * Determines whether this graphic (independent of its parents) would be visible.
      *
@@ -219,18 +217,18 @@ public abstract class PhetGraphic {
      * Sets the graphic's registration point.
      * The registration point is the point about which transformations are applied.
      * It is relative to the graphic's bounding box, prior to applying any transforms.
-     * 
+     *
      * @param registrationPoint the registration point
      */
-    public void setRegistrationPoint( Point registrationPoint) {
+    public void setRegistrationPoint( Point registrationPoint ) {
         setRegistrationPoint( registrationPoint.x, registrationPoint.y );
     }
-    
+
     /**
      * Sets the graphic's registration point.
      * The registration point is the point about which transformations are applied.
      * It is relative to the graphic's bounding box, prior to applying any transforms.
-     * 
+     *
      * @param x X coordinate of the registration point
      * @param y Y coordinate of the registration point
      */
@@ -239,13 +237,13 @@ public abstract class PhetGraphic {
         setBoundsDirty();
         autorepaint();
     }
-    
+
     /**
      * Gets a copy of the registration point.
      * The registration point is the point about which transformations are applied.
      * It is relative to the graphic's bounding box, prior to applying any transforms.
      * The default is (0,0), which is the upper-left corner of the bounding box.
-     * 
+     *
      * @return the registration point
      */
     public Point getRegistrationPoint() {
@@ -259,7 +257,7 @@ public abstract class PhetGraphic {
     /**
      * Sets this graphic's local transform.
      * The local transform is applied relative to the registration point.
-     * 
+     *
      * @param transform the transform
      */
     public void setTransform( AffineTransform transform ) {
@@ -267,28 +265,28 @@ public abstract class PhetGraphic {
         setBoundsDirty();
         autorepaint();
     }
-    
+
     /**
      * Gets a copy of the local transform.
-     * 
+     *
      * @return the transform
      */
     public AffineTransform getTransform() {
         return new AffineTransform( transform );
     }
-    
+
     /**
      * Pre-concatenates the local transform with a specified transform.
      *
      * @param transform the transform to preconcatenate
      */
     public void transform( AffineTransform transform ) {
-        preConcatenateTransform( new AffineTransform( transform )  );
+        preConcatenateTransform( new AffineTransform( transform ) );
     }
-    
+
     /**
      * Concatenates a transform to the local transform.
-     * 
+     *
      * @param transform the transform to concatenate.
      */
     protected void concatenateTransform( AffineTransform transform ) {
@@ -296,10 +294,10 @@ public abstract class PhetGraphic {
         setBoundsDirty();
         autorepaint();
     }
-    
+
     /**
      * Pre-concatenates a transform to the local transform.
-     * 
+     *
      * @param transform the transform to pre-concatenate.
      */
     protected void preConcatenateTransform( AffineTransform transform ) {
@@ -307,12 +305,12 @@ public abstract class PhetGraphic {
         setBoundsDirty();
         autorepaint();
     }
-    
+
     /**
      * Gets the "net" transform.  The net transform is the result of applying
      * the local transform relative to the registration point, then applying
      * the parent's net transform (if a parent exists).
-     * <p>
+     * <p/>
      * This method should be used in methods involving painting and bounds calculations.
      *
      * @return the net AffineTransform of this graphic
@@ -331,7 +329,7 @@ public abstract class PhetGraphic {
             AffineTransform parentTransform = parent.getNetTransform();
             net.preConcatenate( parentTransform );
         }
-        
+
         return net;
     }
     
@@ -345,73 +343,73 @@ public abstract class PhetGraphic {
     
     /**
      * Pre-concatenates the current local transform with a translation transform.
-     * 
+     *
      * @param tx the distance to translate along the x-axis
      * @param ty the distance to translate along the y-axis
      */
     public void translate( double tx, double ty ) {
         preConcatenateTransform( AffineTransform.getTranslateInstance( tx, ty ) );
     }
-    
+
     /**
      * Pre-concatenates the current local transform with a rotation transform.
-     * 
-     * @param the angle of rotation in radians
+     *
+     * @param theta angle of rotation in radians
      */
     public void rotate( double theta ) {
         preConcatenateTransform( AffineTransform.getRotateInstance( theta ) );
     }
-    
+
     /**
      * Pre-concatenates the current local transform with a translated rotation transform.
      * Rotation is performed about the supplied origin of rotation.
-     *  
+     *
      * @param theta the angle of rotation in radians
-     * @param x the x coordinate of the origin of the rotation
-     * @param y the y coordinate of the origin of the rotation
+     * @param x     the x coordinate of the origin of the rotation
+     * @param y     the y coordinate of the origin of the rotation
      */
     public void rotate( double theta, double x, double y ) {
         preConcatenateTransform( AffineTransform.getRotateInstance( theta, x, y ) );
     }
-    
+
     /**
      * Pre-concatenates the current local transform with a scale transform.
-     * 
+     *
      * @param sx the X scaling multiplier
      * @param sy the Y scaling multiplier
      */
     public void scale( double sx, double sy ) {
         preConcatenateTransform( AffineTransform.getScaleInstance( sx, sy ) );
     }
-    
+
     /**
      * Pre-concatenates the current local transform with a uniform scale transform.
-     * 
+     *
      * @param s the scale multiplier, applied to both axes
      */
     public void scale( double s ) {
         preConcatenateTransform( AffineTransform.getScaleInstance( s, s ) );
     }
-    
+
     /**
      * Pre-concatenates the current local transform with a scale transform.
-     * 
+     *
      * @param shx the X shear multiplier
      * @param shy the Y shear multiplier
      */
     public void shear( double shx, double shy ) {
         preConcatenateTransform( AffineTransform.getShearInstance( shx, shy ) );
     }
-    
+
     /**
      * Pre-concatenates the current local transform with a uniform shear transform.
-     * 
+     *
      * @param sh the shear multiplier, applied to both axes
      */
     public void shear( double sh ) {
         preConcatenateTransform( AffineTransform.getShearInstance( sh, sh ) );
     }
-    
+
     /**
      * Sets the local transform to the identity matrix.
      */
@@ -426,7 +424,7 @@ public abstract class PhetGraphic {
     /**
      * Computes the Rectangle in which this graphic resides.
      * This is only called if the shape is dirty.
-     * <p>
+     * <p/>
      * Subclasses of PhetGraphic must implement this method.
      * Proper computation of the bounds often involves application
      * of the graphic's transform.  See PhetShapeGraphic.determineBounds
@@ -435,7 +433,7 @@ public abstract class PhetGraphic {
      * @return the Rectangle that contains this graphic.
      */
     protected abstract Rectangle determineBounds();
-    
+
     /**
      * Gets the rectangle within which this PhetGraphic lies.
      *
@@ -445,14 +443,14 @@ public abstract class PhetGraphic {
         syncBounds();
         return bounds;
     }
-    
+
     /**
      * Flags the bounds for recomputation when applicable.
      */
     public void setBoundsDirty() {
         boundsDirty = true;
     }
-    
+
     /**
      * Determines whether this phetGraphic contains the appropriate point.
      *
@@ -536,10 +534,10 @@ public abstract class PhetGraphic {
         int dy = y - currentLocation.y;
         transform( AffineTransform.getTranslateInstance( dx, dy ) );
     }
-    
+
     /**
      * Gets the top-left corner of the boundary of this PhetGraphic.
-     * Note that if any transform is set (either in this graphic or 
+     * Note that if any transform is set (either in this graphic or
      * parents) then the location may not be the same point that was
      * set using setLocation.
      *
@@ -551,7 +549,7 @@ public abstract class PhetGraphic {
 
     /**
      * Convenience method, gets the X coordinate of the location.
-     * 
+     *
      * @return X coordinate
      */
     public int getX() {
@@ -560,7 +558,7 @@ public abstract class PhetGraphic {
 
     /**
      * Convenience method, gets the Y coordinate of the location.
-     * 
+     *
      * @return Y coordinate
      */
     public int getY() {
@@ -574,17 +572,17 @@ public abstract class PhetGraphic {
     /**
      * Gets the size of the graphic.
      * The size is the dimension of the bounding rectangle.
-     * 
+     *
      * @return the size
      */
     public Dimension getSize() {
         return new Dimension( getWidth(), getHeight() );
     }
-    
+
     /**
      * Gets the width of the graphics.
      * The width is the width of the bounding rectangle.
-     * 
+     *
      * @return the width
      */
     public int getWidth() {
@@ -594,7 +592,7 @@ public abstract class PhetGraphic {
     /**
      * Gets the height of the graphics.
      * The height is the height of the bounding rectangle.
-     * 
+     *
      * @return the height
      */
     public int getHeight() {
@@ -613,7 +611,7 @@ public abstract class PhetGraphic {
     public void addPhetGraphicListener( PhetGraphicListener phetGraphicListener ) {
         listeners.add( phetGraphicListener );
     }
-    
+
     /**
      * Notifies registered Observers that this PhetGraphic has changed.
      */
@@ -630,7 +628,7 @@ public abstract class PhetGraphic {
     
     /**
      * Adds a listener for translations (dragging).
-     * 
+     *
      * @param translationListener the listener
      */
     public void addTranslationListener( TranslationListener translationListener ) {
@@ -643,16 +641,16 @@ public abstract class PhetGraphic {
     
     /**
      * Adds a mouse input listener.
-     * 
+     *
      * @param listener the listener add
      */
     public void addMouseInputListener( MouseInputListener listener ) {
         mouseInputListener.addMouseInputListener( listener );
     }
-    
+
     /**
      * Removes a mouse input listener.
-     * 
+     *
      * @param listener the listener to remove
      */
     private void removeMouseInputListener( MouseInputListener listener ) {
@@ -661,7 +659,7 @@ public abstract class PhetGraphic {
 
     /**
      * Gets the delegate that manages mouse input listeners.
-     * 
+     *
      * @return the delegate
      */
     protected CompositeMouseInputListener getMouseInputListener() {
@@ -669,28 +667,28 @@ public abstract class PhetGraphic {
     }
 
     /**
-     * Sets an internal state subclasses can use to determine whether to 
+     * Sets an internal state subclasses can use to determine whether to
      * ignore the mouse.
-     * 
+     *
      * @param ignoreMouse true or false
      */
     protected void setIgnoreMouse( boolean ignoreMouse ) {
         this.ignoreMouse = ignoreMouse;
     }
-    
+
     /**
      * Gets the current state of ignore mouse.
-     * 
+     *
      * @return true or false
      */
     protected boolean getIgnoreMouse() {
         return ignoreMouse;
     }
-    
+
     /**
      * Passes a "mouse clicked" event to the mouse input delegate,
      * who in turn sends it to all registered mouse input listeners.
-     * 
+     *
      * @param e the event
      */
     public void fireMouseClicked( MouseEvent e ) {
@@ -702,7 +700,7 @@ public abstract class PhetGraphic {
     /**
      * Passes a "mouse pressed" event to the mouse input delegate,
      * who in turn sends it to all registered mouse input listeners.
-     * 
+     *
      * @param e the event
      */
     public void fireMousePressed( MouseEvent e ) {
@@ -714,7 +712,7 @@ public abstract class PhetGraphic {
     /**
      * Passes a "mouse released" event to the mouse input delegate,
      * who in turn sends it to all registered mouse input listeners.
-     * 
+     *
      * @param e the event
      */
     public void fireMouseReleased( MouseEvent e ) {
@@ -726,7 +724,7 @@ public abstract class PhetGraphic {
     /**
      * Passes a "mouse entered" event to the mouse input listener delegate,
      * who in turn sends it to all registered mouse input listeners.
-     * 
+     *
      * @param e the event
      */
     public void fireMouseEntered( MouseEvent e ) {
@@ -738,7 +736,7 @@ public abstract class PhetGraphic {
     /**
      * Passes a "mouse exited" event to the mouse input listener delegate,
      * who in turn sends it to all registered mouse input listeners.
-     * 
+     *
      * @param e the event
      */
     public void fireMouseExited( MouseEvent e ) {
@@ -750,7 +748,7 @@ public abstract class PhetGraphic {
     /**
      * Passes a "mouse dragged" event to the mouse input listener delegate,
      * who in turn sends it to all registered mouse input listeners.
-     * 
+     *
      * @param e the event
      */
     public void fireMouseDragged( MouseEvent e ) {
@@ -762,7 +760,7 @@ public abstract class PhetGraphic {
     /**
      * Passes a "mouse moved" event to the mouse input listener delegate,
      * who in turn sends it to all registered mouse input listeners.
-     * 
+     *
      * @param e the event
      */
     public void fireMouseMoved( MouseEvent e ) {
@@ -811,7 +809,7 @@ public abstract class PhetGraphic {
 
     /**
      * Sets a popup menu, displayed when the right mouse button is pressed.
-     * 
+     *
      * @param menu the menu
      */
     public void setPopupMenu( final JPopupMenu menu ) {
@@ -835,14 +833,14 @@ public abstract class PhetGraphic {
     /**
      * Paints the graphic. Subclasses must implement this method.
      * For a good example, see PhetShapeGraphic.paint.
-     * <p>
+     * <p/>
      * In general, a well-behaved paint method should:
      * <ul>
      * <li>leave the graphics context as it found it, by either explicitly
      * saving and restoring state information, or by calling saveGraphicsState
      * and restoreGraphicsState
      * <li>use getTransform to get the transform information it needs to
-     * correctly draw the graphic.  This transform should be passed to 
+     * correctly draw the graphic.  This transform should be passed to
      * g2.transform.
      * </ul>
      */
@@ -850,13 +848,13 @@ public abstract class PhetGraphic {
 
     /**
      * Set the autorepaint value.
-     * 
+     *
      * @param autorepaint true or false
      */
     public void setAutoRepaint( boolean autorepaint ) {
         this.autorepaint = autorepaint;
     }
-    
+
     /**
      * Repaints the graphic if autorepaint is set to true.
      */
