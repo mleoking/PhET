@@ -34,7 +34,7 @@ import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 
 /**
- * TransformerModule
+ * TransformerModule is the "Transformer" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
