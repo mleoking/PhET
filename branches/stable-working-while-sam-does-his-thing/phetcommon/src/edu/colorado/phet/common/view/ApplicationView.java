@@ -27,19 +27,19 @@ public class ApplicationView {
     private PhetFrame phetFrame;
     private ClockControlPanel clockControlPanel;
 
-    private BasicPhetPanel basicPhetPanel;
+    private ContentPanel basicPhetPanel;
 
     public ApplicationView( ApplicationModel applicationModel, JComponent apparatusPanelContainer )
             throws IOException {
         if( applicationModel.getUseClockControlPanel() ) {
             clockControlPanel = new ClockControlPanel( applicationModel.getClock() );
         }
-        basicPhetPanel = new BasicPhetPanel( apparatusPanelContainer, null, null, clockControlPanel );
+        basicPhetPanel = new ContentPanel( apparatusPanelContainer, null, null, clockControlPanel );
         phetFrame = applicationModel.getFrame();
         phetFrame.setContentPane( basicPhetPanel );
     }
 
-    public BasicPhetPanel getBasicPhetPanel() {
+    public ContentPanel getBasicPhetPanel() {
         return basicPhetPanel;
     }
 
