@@ -2,12 +2,12 @@
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.movingman.MMTimer;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.DragHandler;
+import edu.colorado.phet.movingman.common.ObservingGraphic;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -25,14 +25,12 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
     MovingManModule module;
     MMTimer MMTimer;
     private Color color;
-//    private BoxToBoxInvertY2 transform;
     ModelViewTransform2D transform;
     int x = 0;
     int width = 8;
     int height;
     int y;
     private DragHandler dragHandler;
-//    private BoxToBoxInvertY2 inversion;
     boolean visible = false;
     private Stroke stroke = new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL, 2, new float[]{6, 4}, 0 );
     private Stroke dummystroke = new BasicStroke( 2.0f );

@@ -27,10 +27,6 @@ public class RecordMode extends Mode {
         module.getVelocityPlot().setPaintYLines( new double[]{10, 20} );
         module.getAccelerationPlot().setPaintYLines( new double[]{25, 50} );
 
-        module.getPositionGraphic().setSliderVisible( false );
-        module.getVelocityGraphic().setSliderVisible( false );
-        module.getAccelerationGraphic().setSliderVisible( false );
-
         module.setNumSmoothingPoints( numRecordSmoothingPoints );
         module.repaintBackground();
     }
