@@ -47,10 +47,11 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         this.image = image;
         this.listener = listener;
 
+        this.addCursorHandBehavior();
         ListenerTranslationBehavior target = new ListenerTranslationBehavior( minX, minY, maxX, maxY );
         this.addTranslationBehavior( target );
+        // Do this to make the listener update
         target.translate( 0, 0 );
-        this.addCursorHandBehavior();
     }
 
     protected Point2D.Double getLocation() {
@@ -76,8 +77,9 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
             location.setLocation( x, y );
             image.setPosition( (int)x, (int)y );
 
-            // todo: minX and minY here aren't the right way to do this.
-            listener.setLocation( new Point2D.Double( x - minX, y - minY ) );
+            double earOffsetX = 15;
+            double earOffsetY = 30;
+            listener.setLocation( new Point2D.Double( x - SoundConfig.s_wavefrontBaseX + earOffsetX, y - SoundConfig.s_wavefrontBaseY + earOffsetY ) );
         }
     }
 

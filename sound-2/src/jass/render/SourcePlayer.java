@@ -168,7 +168,7 @@ public class SourcePlayer extends In {
     /**
      * Set RtAudio latency parameter if using  native sound.
      *
-     * @param numRtAudioBuffer rtaudio parameter influences latency. 0 will choose minimum
+     * @param numRtAudioBuffers rtaudio parameter influences latency. 0 will choose minimum
      */
     public void setNumRtAudioBuffersNative( int numRtAudioBuffers ) {
         this.numRtAudioBuffers = numRtAudioBuffers;

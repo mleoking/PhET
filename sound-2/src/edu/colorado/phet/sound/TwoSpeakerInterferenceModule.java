@@ -36,6 +36,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         soundModel = (SoundModel)getModel();
         speakerListener = new Listener( (SoundModel)getModel(),
                                         new Point2D.Double());
+        speakerListener.setLocation( new Point2D.Double() );
         setListener( speakerListener );
         headListener = new Listener( (SoundModel)getModel(),
                                      new Point2D.Double());
@@ -99,9 +100,6 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
                                                                                audioSourceB,
                                                                                soundModel.getPrimaryWavefront() );
             getApparatusPanel().addGraphic( listenerGraphic, 9 );
-
-            headListener.setLocation( new Point2D.Double( SoundConfig.s_headBaseX - SoundConfig.s_speakerBaseX,
-                                                          SoundConfig.s_headBaseY - SoundConfig.s_speakerBaseY ) );
 
             // Add help items
             HelpItem help1 = new HelpItem( "Listener can be moved\nin all directions",
