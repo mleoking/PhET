@@ -25,9 +25,9 @@ public class MotionMode extends Mode {
         module.setReplayTime( timeIndex );
         module.setAccelerationPlotMagnitude( 4 );
         module.setVelocityPlotMagnitude( 4 );
-        module.getPositionPlot().getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
-        module.getVelocityPlot().getGrid().setPaintYLines( new double[]{-3, -1.5, 0, 1.5, 3} );
-        module.getAccelerationPlot().getGrid().setPaintYLines( new double[]{-3, -1.5, 0, 1.5, 3} );
+        module.getPositionPlot().setPaintYLines( new double[]{5, 10} );
+        module.getVelocityPlot().setPaintYLines( new double[]{1.5, 3} );
+        module.getAccelerationPlot().setPaintYLines( new double[]{1.5, 3} );
         module.setNumSmoothingPoints( numSmoothingPointsMotion );
         motionSuite.initialize( module.getMan() );
         module.repaintBackground();

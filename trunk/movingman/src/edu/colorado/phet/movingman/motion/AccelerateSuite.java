@@ -1,9 +1,9 @@
 package edu.colorado.phet.movingman.motion;
 
-import edu.colorado.phet.common.view.graphics.TransformSlider;
 import edu.colorado.phet.movingman.Man;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.PhetLookAndFeel;
+import edu.colorado.phet.movingman.common.TransformSlider;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -160,13 +160,13 @@ public class AccelerateSuite extends MotionSuite {
     }
 
     public void initialize( Man man ) {
-        module.getPositionPlot().getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
+        module.getPositionPlot().setPaintYLines( new double[]{5, 10} );
 
         module.setVelocityPlotMagnitude( 11 );
-        module.getVelocityPlot().getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
+        module.getVelocityPlot().setPaintYLines( new double[]{5, 10} );
 
         module.setAccelerationPlotMagnitude( 3 );
-        module.getAccelerationPlot().getGrid().setPaintYLines( new double[]{-2, -1, 0, 1, 2} );
+        module.getAccelerationPlot().setPaintYLines( new double[]{1, 2} );
         module.repaintBackground();
     }
 

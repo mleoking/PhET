@@ -40,9 +40,9 @@ public class PlotsSetup {
         module.setPositionPlotMagnitude( positionMagnitude );
         module.setVelocityPlotMagnitude( velocityMagnitude );
         module.setAccelerationPlotMagnitude( accelerationMagnitude );
-        module.getPositionPlot().getGrid().setPaintYLines( positionLines );
-        module.getVelocityPlot().getGrid().setPaintYLines( velocityLines );
-        module.getAccelerationPlot().getGrid().setPaintYLines( accelerationLines );
+        module.getPositionPlot().setPaintYLines( positionLines );
+        module.getVelocityPlot().setPaintYLines( velocityLines );
+        module.getAccelerationPlot().setPaintYLines( accelerationLines );
         module.repaintBackground();
     }
 }

@@ -23,9 +23,9 @@ public class RecordMode extends Mode {
         module.setReplayTime( timeIndex );
         module.setAccelerationPlotMagnitude( 75 );
         module.setVelocityPlotMagnitude( 25 );
-        module.getPositionPlot().getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
-        module.getVelocityPlot().getGrid().setPaintYLines( new double[]{-20, -10, 0, 10, 20} );
-        module.getAccelerationPlot().getGrid().setPaintYLines( new double[]{-50, -25, 0, 25, 50} );
+        module.getPositionPlot().setPaintYLines( new double[]{5, 10} );
+        module.getVelocityPlot().setPaintYLines( new double[]{10, 20} );
+        module.getAccelerationPlot().setPaintYLines( new double[]{25, 50} );
 
         module.getPositionGraphic().setSliderVisible( false );
         module.getVelocityGraphic().setSliderVisible( false );

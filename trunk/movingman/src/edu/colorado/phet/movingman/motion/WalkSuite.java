@@ -1,10 +1,10 @@
 package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.graphics.TransformSlider;
 import edu.colorado.phet.movingman.Man;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.PhetLookAndFeel;
+import edu.colorado.phet.movingman.common.TransformSlider;
 
 import javax.swing.*;
 import javax.swing.border.Border;

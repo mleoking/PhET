@@ -10,11 +10,9 @@ import java.awt.*;
  * Copyright (c) Sep 21, 2004 by Sam Reid
  */
 public class Grid extends AbstractGrid {
-    private GridTicks ticks;
 
     public Grid( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing, double crossesOtherAxisAt ) {
         super( chart, orientation, stroke, color, tickSpacing, crossesOtherAxisAt );
-        ticks = new GridTicks( chart, orientation, new BasicStroke( 2 ), Color.black, tickSpacing );
     }
 
     public void paint( Graphics2D g ) {
@@ -51,36 +49,7 @@ public class Grid extends AbstractGrid {
             }
             g.setStroke( origStroke );
             g.setColor( origColor );
-
         }
-        ticks.paint( g );
     }
-
-    public void setSpacing( double spacing ) {
-        super.setSpacing( spacing );
-        ticks.setSpacing( spacing );
-    }
-
-    public void setTicksVisible( boolean visible ) {
-        ticks.setVisible( visible );
-    }
-
-    public static class GridTicks extends AbstractTicks {
-        public GridTicks( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing ) {
-            super( chart, orientation, stroke, color, tickSpacing );
-        }
-
-        public int getVerticalTickX() {
-            Chart chart = getChart();
-            return chart.transformX( chart.getRange().getMinX() );
-        }
-
-        public int getHorizontalTickY() {
-            Chart chart = getChart();
-            return chart.transformY( chart.getRange().getMinY() );
-        }
-
-    }
-
 
 }

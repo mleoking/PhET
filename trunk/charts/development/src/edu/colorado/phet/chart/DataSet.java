@@ -60,6 +60,12 @@ public class DataSet {
         return pointAt( size() - 1 );
     }
 
+    public void clear() {
+        while( dataPoints.size() > 0 ) {
+            removePoint( 0 );
+        }
+    }
+
     public interface Observer {
         void pointAdded( Point2D point );
 

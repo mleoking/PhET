@@ -34,6 +34,7 @@ public class MovingManControlPanel extends JPanel {
     private JButton reset;
     private JButton pause;
     private JButton go;
+    private boolean useMotionPanel = false;
 
     public void setRunningState() {
         playbackPanel.pause.setEnabled( false );
@@ -199,10 +200,6 @@ public class MovingManControlPanel extends JPanel {
 
         public MotionPanel() throws IOException {
             motions = new MotionSuite[]{
-//                new StandSuite( module ),
-//                new WalkSuite( module ),
-//                new AccelerateSuite( module ),
-
                 new VariablePosition( module ),
                 new VariableVelocity( module ),
                 new VariableAcceleration( module ),
@@ -220,7 +217,8 @@ public class MovingManControlPanel extends JPanel {
             ActionListener changeListener = new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     int index = getSelectedButton();
-                    module.getManGraphic().setShowIdea( false );
+//                    module.getManGraphic().setShowIdea( false );
+                    module.setWiggleMeVisible( false );
                     if( index == 0 ) {
                         startRecordingManual();
                     }
@@ -345,7 +343,10 @@ public class MovingManControlPanel extends JPanel {
         ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );
         JLabel phetIconLabel = new JLabel( imageIcon );
         northPanel.add( phetIconLabel );
-        northPanel.add( motionPanel );
+        if( useMotionPanel ) {
+            northPanel.add( motionPanel );
+        }
+
         final JCheckBox invertAxes = new JCheckBox( "Invert X-Axis", false );
         invertAxes.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

@@ -5,7 +5,6 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * User: Sam Reid
@@ -14,6 +13,7 @@ import java.util.Collections;
  * Copyright (c) Sep 21, 2004 by Sam Reid
  */
 public abstract class AbstractGrid implements Graphic {
+    private double[] lines;
     public final static int HORIZONTAL = 1;
     public final static int VERTICAL = 2;
 
@@ -44,6 +44,7 @@ public abstract class AbstractGrid implements Graphic {
 
     public void setSpacing( double spacing ) {
         this.spacing = spacing;
+        lines = null;
     }
 
     public void setCrossesOtherAxisAt( double crossesOtherAxisAt ) {
@@ -82,37 +83,40 @@ public abstract class AbstractGrid implements Graphic {
         return spacing;
     }
 
-    private static double[] getGridLinesSlowButCorrectVersion( double origin, double min, double max, double spacing ) {
-        ArrayList results = new ArrayList();
-        for( double currentPoint = origin; currentPoint <= max; currentPoint += spacing ) {
-            if( currentPoint >= min && currentPoint <= max ) {
-                results.add( new Double( currentPoint ) );
-            }
-        }
-        for( double currentPoint = origin - spacing; currentPoint >= min; currentPoint -= spacing ) {
-            if( currentPoint >= min && currentPoint <= max ) {
-                results.add( new Double( currentPoint ) );
-            }
-        }
-        Collections.sort( results );
-        double[] output = new double[results.size()];
-        for( int i = 0; i < output.length; i++ ) {
-            output[i] = ( (Double)results.get( i ) ).doubleValue();
-        }
-        return output;
-    }
+//    private static double[] getGridLinesSlowButCorrectVersion( double origin, double min, double max, double spacing ) {
+//        ArrayList results = new ArrayList();
+//        for( double currentPoint = origin; currentPoint <= max; currentPoint += spacing ) {
+//            if( currentPoint >= min && currentPoint <= max ) {
+//                results.add( new Double( currentPoint ) );
+//            }
+//        }
+//        for( double currentPoint = origin - spacing; currentPoint >= min; currentPoint -= spacing ) {
+//            if( currentPoint >= min && currentPoint <= max ) {
+//                results.add( new Double( currentPoint ) );
+//            }
+//        }
+//        Collections.sort( results );
+//        double[] output = new double[results.size()];
+//        for( int i = 0; i < output.length; i++ ) {
+//            output[i] = ( (Double)results.get( i ) ).doubleValue();
+//        }
+//        return output;
+//    }
+//
+//    private static double[] getGridLinesv3( double origin, double min, double max, double spacing ) {
+//        int n = (int)( ( ( min - origin ) / spacing ) + 1 );
+//        int numGridLines = (int)( ( max - min ) / spacing ) + 1;
+//        double[] output = new double[numGridLines];
+//        for( int i = 0; i < output.length; i++ ) {
+//            output[i] = origin + spacing * ( i + n );
+//        }
+//        return output;
+//    }
 
-    private static double[] getGridLinesv3( double origin, double min, double max, double spacing ) {
-        int n = (int)( ( ( min - origin ) / spacing ) + 1 );
-        int numGridLines = (int)( ( max - min ) / spacing ) + 1;
-        double[] output = new double[numGridLines];
-        for( int i = 0; i < output.length; i++ ) {
-            output[i] = origin + spacing * ( i + n );
+    public double[] getGridLines( double origin, double min, double max, double spacing ) {
+        if( lines != null ) {
+            return lines;
         }
-        return output;
-    }
-
-    public static double[] getGridLines( double origin, double min, double max, double spacing ) {
         int n = (int)Math.ceil( ( min - origin ) / spacing );
         ArrayList results = new ArrayList();
         for( double currentPoint = origin + n * spacing; currentPoint <= max; currentPoint += spacing ) {
@@ -125,4 +129,7 @@ public abstract class AbstractGrid implements Graphic {
         return output;
     }
 
+    public void setGridlines( double[] lines ) {
+        this.lines = lines;
+    }
 }

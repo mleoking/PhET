@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.view.graphics;
 
 import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.movingman.common.GraphicsState;
+import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -39,19 +39,17 @@ public class BufferedGraphicForComponent implements Graphic {
         this.height = height;
     }
 
-    GraphicsState renderState = new GraphicsState();
-
     public void paintBufferedImage() {
         if( image == null ) {
             return;
         }
         Graphics2D graphics = image.createGraphics();
-        renderState.saveState( graphics );
+        GraphicsState renderState = new GraphicsState( graphics );
         graphics.setColor( backgroundColor );
         graphics.fillRect( 0, 0, width, height );
         graphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         compositeGraphic.paint( graphics );
-        renderState.restoreState( graphics );
+        renderState.restoreGraphics();
     }
 
     public void setSize( int width, int height ) {
@@ -88,10 +86,8 @@ public class BufferedGraphicForComponent implements Graphic {
         this.y = y;
     }
 
-    GraphicsState graphicsState = new GraphicsState();
-
     public void paint( Graphics2D graphics2D ) {
-        graphicsState.saveState( graphics2D );
+        GraphicsState graphicsState = new GraphicsState( graphics2D );
         if( !inited ) {
             setSize( width, height );
             inited = true;
@@ -103,11 +99,25 @@ public class BufferedGraphicForComponent implements Graphic {
             }
             graphics2D.drawImage( image, x, y, target );
         }
-        graphicsState.restoreState( graphics2D );
+        graphicsState.restoreGraphics();
     }
 
     public void setAlphaComposite( AlphaComposite ac ) {
         this.alphaComposite = ac;
+    }
+
+    public void paintBufferedImage( Rectangle rect ) {
+        if( image == null ) {
+            return;
+        }
+        Graphics2D graphics = image.createGraphics();
+        GraphicsState renderState = new GraphicsState( graphics );
+        graphics.setColor( backgroundColor );
+        graphics.fillRect( 0, 0, width, height );
+        graphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        graphics.setClip( rect );
+        compositeGraphic.paint( graphics );
+        renderState.restoreGraphics();
     }
 }
 

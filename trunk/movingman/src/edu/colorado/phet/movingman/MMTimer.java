@@ -10,12 +10,12 @@ import edu.colorado.phet.movingman.common.AutomatedObservable;
  * Time: 12:45:47 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class Timer extends AutomatedObservable implements ModelElement {
+public class MMTimer extends AutomatedObservable implements ModelElement {
     private double time = 0;
     private String name;
     private double timerScale;
 
-    public Timer( String name, double timerScale ) {
+    public MMTimer( String name, double timerScale ) {
         this.name = name;
         this.timerScale = timerScale;
     }
@@ -27,7 +27,7 @@ public class Timer extends AutomatedObservable implements ModelElement {
     }
 
     public String toString() {
-        return "Timer, name=" + name;
+        return "MMTimer, name=" + name;
     }
 
     public double getTime() {

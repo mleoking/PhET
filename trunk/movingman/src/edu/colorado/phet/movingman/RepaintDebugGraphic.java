@@ -5,7 +5,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.movingman.common.GraphicsState;
+import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
 
@@ -31,13 +31,11 @@ public class RepaintDebugGraphic implements Graphic, ClockTickListener {
         setActive( true );
     }
 
-    GraphicsState state = new GraphicsState();
-
     public void paint( Graphics2D gr ) {
-        state.saveState( gr );
+        GraphicsState state = new GraphicsState( gr );
         gr.setColor( new Color( r, g, b ) );
         gr.fillRect( 0, 0, panel.getWidth(), panel.getHeight() );
-        state.restoreState( gr );
+        state.restoreGraphics();
     }
 
     public void clockTicked( AbstractClock c, double dt ) {

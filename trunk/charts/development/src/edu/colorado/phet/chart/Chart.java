@@ -15,13 +15,18 @@ import java.util.ArrayList;
 
 public class Chart implements Graphic {
     private Component component;
+    private Range2D range;
+    private Rectangle viewBounds;
+
     private ArrayList dataSetGraphics = new ArrayList();
     private Axis xAxis;
     private Axis yAxis;
     private GridLineSet verticalGridlines;
     private GridLineSet horizonalGridlines;
-    private Range2D range;
-    private Rectangle viewBounds;
+
+    private TickMarkSet verticalTicks;
+    private TickMarkSet horizontalTicks;
+
     private Paint background = Color.white;
     private Stroke outlineStroke = new BasicStroke( 1 );
     private Color outlineColor = Color.black;
@@ -35,7 +40,69 @@ public class Chart implements Graphic {
         this.yAxis = new Axis( this, AbstractGrid.VERTICAL );
         this.verticalGridlines = new GridLineSet( this, AbstractGrid.VERTICAL );
         this.horizonalGridlines = new GridLineSet( this, AbstractGrid.HORIZONTAL );
+        this.verticalTicks = new TickMarkSet( this, AbstractGrid.VERTICAL, 1, 2 );
+        this.horizontalTicks = new TickMarkSet( this, AbstractGrid.HORIZONTAL, 1, 2 );
         this.transform = new ModelViewTransform2D( range.getBounds(), viewBounds );
+    }
+
+    public static class TickMarkSet {
+        private GridTicks majorTicks;
+        private GridTicks minorTicks;
+
+        public TickMarkSet( Chart chart, int orientation, double minorTickSpacing, double majorTickSpacing ) {
+            minorTicks = new GridTicks( chart, orientation, new BasicStroke( 2 ), Color.black, minorTickSpacing );
+            majorTicks = new GridTicks( chart, orientation, new BasicStroke( 2 ), Color.black, majorTickSpacing );
+        }
+
+        public void paint( Graphics2D graphics2D ) {
+            minorTicks.paint( graphics2D );
+            majorTicks.paint( graphics2D );
+        }
+
+        public void setMajorTickSpacing( double majorTickSpacing ) {
+            majorTicks.setSpacing( majorTickSpacing );
+        }
+
+        public void setMinorTickSpacing( double minorTickSpacing ) {
+            minorTicks.setSpacing( minorTickSpacing );
+        }
+
+        public void setVisible( boolean visible ) {
+            majorTicks.setVisible( visible );
+            minorTicks.setVisible( visible );
+        }
+
+        public void setMajorGridlines( double[] lines ) {
+            majorTicks.setGridlines( lines );
+        }
+    }
+
+    public TickMarkSet getVerticalTicks() {
+        return verticalTicks;
+    }
+
+    public TickMarkSet getHorizontalTicks() {
+        return horizontalTicks;
+    }
+
+    public static class GridTicks extends AbstractTicks {
+        public GridTicks( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing ) {
+            super( chart, orientation, stroke, color, tickSpacing );
+        }
+
+        public int getVerticalTickX() {
+            Chart chart = getChart();
+            return chart.transformX( chart.getRange().getMinX() );
+        }
+
+        public int getHorizontalTickY() {
+            Chart chart = getChart();
+            return chart.transformY( chart.getRange().getMinY() );
+        }
+    }
+
+    public ModelViewTransform2D getTransform() {
+        return transform;
     }
 
     public GridLineSet getVerticalGridlines() {
@@ -81,8 +148,13 @@ public class Chart implements Graphic {
     }
 
     public void addDataSetGraphic( DataSetGraphic dataSetGraphic ) {
-        dataSetGraphic.setChart( this );
-        dataSetGraphics.add( dataSetGraphic );
+        if( dataSetGraphic.getChart() == null || dataSetGraphic.getChart() == this ) {
+            dataSetGraphic.setChart( this );
+            dataSetGraphics.add( dataSetGraphic );
+        }
+        else {
+            throw new RuntimeException( "DataSetGraphic was associated with the wrong Chart instance." );
+        }
     }
 
     Component getComponent() {
@@ -115,6 +187,9 @@ public class Chart implements Graphic {
         //paint the gridlines
         horizonalGridlines.paint( graphics2D );
         verticalGridlines.paint( graphics2D );
+
+        horizontalTicks.paint( graphics2D );
+        verticalTicks.paint( graphics2D );
 
         //paint the axes
         xAxis.paint( graphics2D );

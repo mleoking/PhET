@@ -2,7 +2,7 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
-import edu.colorado.phet.movingman.common.GraphicsRestore;
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.movingman.plots.BoxedPlot;
 import edu.colorado.phet.movingman.plots.DataSeries;
 
@@ -18,8 +18,8 @@ import java.util.Observable;
  */
 public class ValueGraphic implements ObservingGraphic {
     private MovingManModule module;
-    private Timer recordingTimer;
-    private Timer playbackTimer;
+    private MMTimer recordingMMTimer;
+    private MMTimer playbackMMTimer;
     private DataSeries series;
     private String pre;
     private String unitsString;
@@ -34,28 +34,28 @@ public class ValueGraphic implements ObservingGraphic {
     private int x;
     private int y;
 
-    public ValueGraphic( MovingManModule module, Timer timer, Timer playbackTimer, DataSeries series, String pre, String units, int x, int y, BoxedPlot offsetSource ) {
+    public ValueGraphic( MovingManModule module, MMTimer MMTimer, MMTimer playbackMMTimer, DataSeries series, String pre, String units, int x, int y, BoxedPlot offsetSource ) {
         this.module = module;
         this.fontMetrics = module.getApparatusPanel().getFontMetrics( font );
-        this.recordingTimer = timer;
-        this.playbackTimer = playbackTimer;
+        this.recordingMMTimer = MMTimer;
+        this.playbackMMTimer = playbackMMTimer;
         this.series = series;
         this.pre = pre;
         this.unitsString = units;
         this.offsetSource = offsetSource;
-        timer.addObserver( this );
-        playbackTimer.addObserver( this );
+        MMTimer.addObserver( this );
+        playbackMMTimer.addObserver( this );
         this.fontMetrics = module.getApparatusPanel().getFontMetrics( font );
     }
 
     public void paint( Graphics2D g ) {
         if( output != null && visible ) {
-            GraphicsRestore gr = new GraphicsRestore( g );
+            GraphicsState gs = new GraphicsState( g );
             g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             g.setFont( font );
             g.setColor( color );
             g.drawString( text, x, y );
-            gr.restore();
+            gs.restoreGraphics();
         }
 
     }
@@ -66,7 +66,7 @@ public class ValueGraphic implements ObservingGraphic {
             index = series.size() - 1;
         }
         else {
-            double time = playbackTimer.getTime() + offsetSource.getxShift();
+            double time = playbackMMTimer.getTime() + offsetSource.getxShift();
             index = (int)( time / MovingManModule.TIMER_SCALE );
         }
         if( series.indexInBounds( index ) ) {
