@@ -33,6 +33,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
     /**
      * Constructor
+     *
      * @param clock
      */
     public RigidHollowSphereModule( AbstractClock clock ) {
@@ -123,6 +124,10 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         getIdealGasControlPanel().addParticleControl( controlPanel );
     }
 
+    protected Pump.PumpingEnergyStrategy getPumpingEnergyStrategy() {
+        return new Pump.FixedEnergyStrategy();
+    }
+
     public void setCurrentGasSpecies( Class gasSpecies ) {
         this.gasSpecies = gasSpecies;
     }
@@ -140,13 +145,14 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
             if( gasSpecies.isInstance( gasMolecule ) ) {
                 found = true;
                 moleculesInSphere.remove( gasMolecule );
+                this.sphere.removeContainedBody( gasMolecule );
             }
         }
 
         // TODO: this next thing looks really wrong. Why remove something if nothing was found?
-        if( !found ) {
-            gasMolecule = (GasMolecule)moleculesInSphere.removeFirst();
-        }
+//        if( !found ) {
+//            gasMolecule = (GasMolecule)moleculesInSphere.removeFirst();
+//        }
         getIdealGasModel().removeModelElement( gasMolecule );
     }
 

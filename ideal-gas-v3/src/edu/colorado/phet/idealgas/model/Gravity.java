@@ -7,14 +7,15 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.AbstractModelElement;
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Body;
 
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
 
-public class Gravity extends AbstractModelElement {
+public class Gravity implements ModelElement {
     //public class Gravity implements Force {
     //public class Gravity implements Force {
 
@@ -42,12 +43,23 @@ public class Gravity extends AbstractModelElement {
         double oldAmt = acceleration.getMagnitude();
         this.acceleration = new Vector2D.Double( 0, amt );
         double change = acceleration.getMagnitude() - oldAmt;
-        fireEvent( new ChangeEvent( this, change ) );
+//        fireEvent( new ChangeEvent( this, change ) );
+        listenerProxy.gravityChanged( new ChangeEvent( this, change ) );
     }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes
+    private EventChannel channel = new EventChannel( ChangeListener.class );
+    private ChangeListener listenerProxy = (ChangeListener)channel.getListenerProxy();
+
+    public void addListener( ChangeListener listener ) {
+        channel.addListener( listener );
+    }
+
+    public void removeListener( ChangeListener listener ) {
+        channel.removeListener( listener );
+    }
 
     public interface ChangeListener extends EventListener {
         void gravityChanged( Gravity.ChangeEvent event );

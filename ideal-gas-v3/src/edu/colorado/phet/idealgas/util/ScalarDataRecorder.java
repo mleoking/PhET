@@ -74,8 +74,6 @@ public class ScalarDataRecorder {
                 }
             }
         }
-//        System.out.println( "this: " + this + "  size: " + dataRecord.size() );
-
         dataTotal = 0;
         for( int i = 0; i < dataRecord.size(); i++ ) {
             DataRecordEntry entry = (DataRecordEntry)dataRecord.get( i );

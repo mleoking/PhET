@@ -37,6 +37,10 @@ import edu.colorado.phet.idealgas.view.monitors.*;
 import edu.colorado.phet.instrumentation.Thermometer;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,11 +48,12 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 
-public class IdealGasModule extends Module implements EventChannel {
+public class IdealGasModule extends Module {
 
     private IdealGasModel idealGasModel;
     private PressureSensingBox box;
@@ -67,7 +72,6 @@ public class IdealGasModule extends Module implements EventChannel {
     private JDialog speciesMonitorDlg;
     private IdealGasControlPanel idealGasControlPanel;
     private Thermometer thermometer;
-    private EventRegistry eventRegistry = new EventRegistry();
     private BufferedImage basePumpImg;
     private BufferedImage currentPumpImg;
     private BufferedImage bluePumpImg;
@@ -75,6 +79,7 @@ public class IdealGasModule extends Module implements EventChannel {
     private PhetImageGraphic pumpGraphic;
     private JDialog averagingControlDlg;
     private Box2DGraphic boxGraphic;
+    private JPanel pressureSlideTimeAveCtrlPane;
 
 
     public IdealGasModule( AbstractClock clock ) {
@@ -88,6 +93,7 @@ public class IdealGasModule extends Module implements EventChannel {
 
     public IdealGasModule( AbstractClock clock, String name ) {
         super( name );
+        this.clock = clock;
 
         // Create the model
         idealGasModel = new IdealGasModel( clock.getDt() );
@@ -112,7 +118,8 @@ public class IdealGasModule extends Module implements EventChannel {
 
         // Add the pressure gauge
         PressureSlice gaugeSlice = new PressureSlice( box, idealGasModel, clock );
-        gaugeSlice.setTimeAveragingWindow( 2500 );
+
+        gaugeSlice.setTimeAveragingWindow( 2500 * ( clock.getDt() / clock.getDelay() ) );
         gaugeSlice.setUpdateContinuously( true );
         gaugeSlice.setY( box.getMinY() + 50 );
         idealGasModel.addModelElement( gaugeSlice );
@@ -128,7 +135,7 @@ public class IdealGasModule extends Module implements EventChannel {
         addGraphic( thermometer, 8 );
 
         // Create the pump
-        pump = new Pump( this, box );
+        pump = new Pump( this, box, getPumpingEnergyStrategy() );
 
         // Set up the graphics for the pump
         try {
@@ -204,6 +211,10 @@ public class IdealGasModule extends Module implements EventChannel {
 
         // Add help items
         addHelp();
+    }
+
+    protected Pump.PumpingEnergyStrategy getPumpingEnergyStrategy() {
+        return new Pump.ConstantEnergyStrategy( idealGasModel );
     }
 
     private void addHelp() {
@@ -307,10 +318,15 @@ public class IdealGasModule extends Module implements EventChannel {
         return thermometer;
     }
 
+    //------------------------------------------------------------------------------------
+    // Measurement tools
+    //------------------------------------------------------------------------------------
+
     /**
      * @param pressureSliceEnabled
      */
     public void setPressureSliceEnabled( boolean pressureSliceEnabled ) {
+
         if( pressureSlice == null ) {
             pressureSlice = new PressureSlice( getBox(), (IdealGasModel)getModel(), clock );
             pressureSlice.setUpdateContinuously( false );
@@ -319,28 +335,29 @@ public class IdealGasModule extends Module implements EventChannel {
                                                              getBox() );
 
             // Create a nonmodal dialog with controls for the averaging times of the pressure slice
+            DecimalFormat tfFmt = new DecimalFormat( "#.0" );
+            final double timeScale = clock.getDt() / clock.getDelay();
             final JTextField aveTimeTF = new JTextField( 3 );
             aveTimeTF.setHorizontalAlignment( JTextField.RIGHT );
-//            aveTimeTF.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    pressureSlice.setTimeAveragingWindow( Double.parseDouble( aveTimeTF.getText() ) * 1000 );
-//                }
-//            } );
-            aveTimeTF.setText( Double.toString( pressureSlice.getTimeAveragingWindow() / 1000 ));
-
-            JButton setTimeBtn = new JButton( "Set");
-            setTimeBtn.addActionListener( new ActionListener() {
+            aveTimeTF.setText( tfFmt.format( pressureSlice.getTimeAveragingWindow() / ( 1000 * timeScale ) ) );
+            aveTimeTF.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    pressureSlice.setTimeAveragingWindow( Double.parseDouble( aveTimeTF.getText() ) * 1000 );
+                    double realAveTime = Double.parseDouble( aveTimeTF.getText() ) * 1000;
+                    double simAveTime = realAveTime * timeScale;
+                    pressureSlice.setTimeAveragingWindow( simAveTime );
                 }
             } );
 
-            averagingControlDlg = new JDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
-                                               "Averaging time", false );
-            averagingControlDlg.setUndecorated( true );
-            averagingControlDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
-            averagingControlDlg.set
-            Container ctrlPane = averagingControlDlg.getContentPane();
+            JButton setTimeBtn = new JButton( "Set" );
+            setTimeBtn.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    double realAveTime = Double.parseDouble( aveTimeTF.getText() ) * 1000;
+                    double simAveTime = realAveTime * timeScale;
+                    pressureSlice.setTimeAveragingWindow( simAveTime );
+                }
+            } );
+
+            JPanel ctrlPane = new JPanel();
             ctrlPane.setLayout( new GridBagLayout() );
             GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0,
                                                              1, 1, 1, 1,
@@ -349,35 +366,37 @@ public class IdealGasModule extends Module implements EventChannel {
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
             ctrlPane.add( aveTimeTF, gbc );
             ctrlPane.add( new JLabel( "sec" ), gbc );
-            gbc.insets = new Insets( 0, 10, 0, 0);
+            gbc.insets = new Insets( 0, 10, 0, 0 );
             ctrlPane.add( setTimeBtn, gbc );
+            Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
+                                                                new Color( 40, 20, 255 ),
+                                                                Color.black ),
+                                              SimStrings.get( "IdealGasControlPanel.AveTimePanelTitle" ) );
+            ctrlPane.setBorder( border );
+            Color background = new Color( 240, 230, 255 );
+            ctrlPane.setBackground( background );
 
-            averagingControlDlg.pack();
-            final Rectangle graphicBounds = ((PhetShapeGraphic)pressureSliceGraphic.getGraphic()).getBounds();
-            Rectangle frameBounds = PhetApplication.instance().getApplicationView().getPhetFrame().getBounds();
-            Rectangle bounds = averagingControlDlg.getBounds();
-            averagingControlDlg.setBounds( frameBounds.x + (int)graphicBounds.getMinX() +10,
-                                                   (int)((PhetGraphic)boxGraphic.getGraphic()).getY() + frameBounds.y,
-                                                   (int)bounds.getWidth(), (int)bounds.getHeight() );
-
+            pressureSlideTimeAveCtrlPane = new JPanel();
+            pressureSlideTimeAveCtrlPane.setOpaque( false );
+            pressureSlideTimeAveCtrlPane.add( ctrlPane );
+            pressureSlideTimeAveCtrlPane.setBounds( 15,
+                                                    15,
+                                                    200, 100 );
+            getApparatusPanel().add( pressureSlideTimeAveCtrlPane );
         }
         if( pressureSliceEnabled ) {
             getModel().addModelElement( pressureSlice );
             addGraphic( pressureSliceGraphic, 20 );
-            averagingControlDlg.setVisible( true );
-
-            JPanel placementPane = new JPanel( null );
-            placementPane.setOpaque( false );
-            placementPane.add(new JLabel("FFFFF") );
-            Rectangle bounds = ((PhetShapeGraphic)pressureSliceGraphic.getGraphic()).getBounds();
-            placementPane.setBounds( bounds.x-100, bounds.y, 100, 50);
-            getApparatusPanel().add( placementPane );
-
+            pressureSlideTimeAveCtrlPane.setVisible( true );
+            pressureSlideTimeAveCtrlPane.revalidate();
+            pressureSlideTimeAveCtrlPane.repaint();
         }
         else {
             getApparatusPanel().removeGraphic( pressureSliceGraphic );
             getModel().removeModelElement( pressureSlice );
-            averagingControlDlg.setVisible( false );
+            if( pressureSlideTimeAveCtrlPane != null ) {
+                pressureSlideTimeAveCtrlPane.setVisible( false );
+            }
         }
     }
 
@@ -422,7 +441,6 @@ public class IdealGasModule extends Module implements EventChannel {
             component.setVisible( true );
         }
 
-
         // FOR DEBUG. displays the total energy in the system
 //        TotalEnergyMonitor tem = new TotalEnergyMonitor( null, idealGasModel );
 //        tem.setVisible( true );
@@ -443,37 +461,25 @@ public class IdealGasModule extends Module implements EventChannel {
     //-----------------------------------------------------
     // Event handling
     //-----------------------------------------------------
-    EventChannelProxy resetEventChannel = new EventChannelProxy( ResetListener.class );
-    ResetListener resetListenersProxy = (ResetListener)resetEventChannel.getProxy();
+    EventChannel resetEventChannel = new EventChannel( ResetListener.class );
+    ResetListener resetListenersProxy = (ResetListener)resetEventChannel.getListenerProxy();
 
     public void reset() {
         getIdealGasModel().removeAllMolecules();
         resetListenersProxy.resetOccurred( new ResetEvent( this ) );
-//        eventRegistry.fireEvent( new ResetEvent( this ) );
     }
 
     public void addListener( EventListener listener ) {
         resetEventChannel.addListener( listener );
-//        eventRegistry.addListener( listener );
     }
 
     public void removeListener( EventListener listener ) {
         resetEventChannel.removeListener( listener );
-//        eventRegistry.removeListener( listener );
     }
 
     public void removeAllListeners() {
         resetEventChannel.removeAllListeners();
-//        eventRegistry.removeAllListeners();
     }
-
-//    public void fireEvent( EventObject event ) {
-//        eventRegistry.fireEvent( event );
-//    }
-
-//    public int getNumListeners() {
-//        return eventRegistry.getNumListeners();
-//    }
 
     public void setCurrentPumpImage( Color color ) {
         if( color.equals( Color.blue ) ) {

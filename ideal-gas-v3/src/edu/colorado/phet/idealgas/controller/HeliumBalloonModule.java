@@ -61,6 +61,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                                                                 getIdealGasModel() );
         balloon.addConstraint( constraintSpec );
 
+        // Puts molecules into the chamber, outside the balloon
         for( int i = 0; i < 0; i++ ) {
 //        for( int i = 0; i < 50; i++ ) {
             double x = Math.random() * ( xDiag - xOrigin - 20 ) + xOrigin + 50;
@@ -121,7 +122,10 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                                       insets, 0, 0 );
         controlPanel.add( new HeliumBalloonModule.HeliumFactoryPanel(), gbc );
         getIdealGasControlPanel().addParticleControl( controlPanel );
-//        getIdealGasControlPanel().addComponent( controlPanel );
+    }
+
+    protected Pump.PumpingEnergyStrategy getPumpingEnergyStrategy() {
+        return new Pump.FixedEnergyStrategy();
     }
 
     public void setCurrentGasSpecies( Class gasSpecies ) {
@@ -174,8 +178,6 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                     setNumParticles( ( (Integer)particleSpinner.getValue() ).intValue() );
                 }
             } );
-//            this.balloon = balloon;
-//            this.gasSpecies = gasSpecies;
         }
 
         protected void setNumParticles( int numParticles ) {
@@ -196,12 +198,11 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                                                                HeliumBalloonModule.this );
                     cmd.doIt();
                     balloon.addContainedBody( molecule );
-
                 }
             }
             else if( dn < 0 ) {
                 for( int i = 0; i < -dn; i++ ) {
-                    removeGasMolecule();
+                    removeGasMolecule( LightSpecies.class );
                 }
             }
             currNumMolecules += dn;
@@ -209,48 +210,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 
         public void resetOccurred( ResetEvent event ) {
             currNumMolecules = 0;
-//            super.reset();
         }
     }
-
-//    public class HeliumFactoryPanel extends MoleculeFactoryPanel implements IdealGasModule.ResetListener {
-//        private int currNumMolecules;
-//
-//        public HeliumFactoryPanel() {
-//            super( HeliumBalloonModule.this, balloon, gasSpecies );
-//            HeliumBalloonModule.this.addListener( this );
-//        }
-//
-//        protected void setNumParticles( int numParticles ) {
-//            int dn = numParticles - currNumMolecules;
-//            if( dn > 0 ) {
-//                for( int i = 0; i < dn; i++ ) {
-//                    Class species = getCurrentGasSpecies();
-//                    Point2D location = getNewMoleculeLocation();
-//                    Vector2D velocity = getNewMoleculeVelocity();
-//                    GasMolecule gm = null;
-//                    if( species == HeavySpecies.class ) {
-//                        gm = new HeavySpecies( location, velocity, new Vector2D.Double() );
-//                    }
-//                    if( species == LightSpecies.class ) {
-//                        gm = new LightSpecies( location, velocity, new Vector2D.Double() );
-//                    }
-//                    pumpMolecule( gm );
-//                }
-//            }
-//            else if( dn < 0 ) {
-//                for( int i = 0; i < -dn; i++ ) {
-//                    removeGasMoleculeFromBalloon();
-//                }
-//            }
-//            currNumMolecules += dn;
-//        }
-//
-//        public void resetOccurred( ResetEvent event ) {
-//            currNumMolecules = 0;
-//            super.reset();
-//        }
-//    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Event handling
