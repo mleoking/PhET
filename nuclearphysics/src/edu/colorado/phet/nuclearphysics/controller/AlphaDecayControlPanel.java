@@ -11,9 +11,9 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.Format;
 
@@ -33,8 +33,8 @@ public class AlphaDecayControlPanel extends JPanel {
         timerTF.setPreferredSize( new Dimension( 80, 30 ) );
 
         JButton replayBtn = new JButton( "Reset" );
-        replayBtn.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+        replayBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 module.stop();
                 module.start();
             }
