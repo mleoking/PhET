@@ -19,13 +19,9 @@ public class MyJPanel extends JPanel
     private int xAcc, yAcc;
     private boolean mouseVisible;
     private Color myGreen;
-//    private Thread myThread;
-//    private MouseEvent lastEvent;
-//    private int nPInit;		//# of positions in stack
     private int nAInit;		//position-averaging radius
     private int nGroupInit;	//# of avg-positions averaged in computing v, a
     private int timeStep;	//time step in millisec
-//    private int nbrOfUpdates;  //test
     private double velFactor;   //velocity vector multiplication factor
     private double accFactor;    //acceleration vector multiplication factor
     private int radius = 9; //Radius of ball
@@ -36,12 +32,9 @@ public class MyJPanel extends JPanel
     public static final int SHOW_ACC = 2;
     public static final int SHOW_BOTH = 3;
     public static final int SHOW_NEITHER = 4;
-//    public static final int CURSOR_VISIBLE = 5;
-//    public static final int SHOW_SLIDERS = 6;
     private VelAccAvg vaa;
     private VAScrolls vaMenu;
     private ArrowA arrow;
-//    private boolean antialias = false;
     private boolean antialias = true;
     private Timer timer;
 
@@ -55,7 +48,6 @@ public class MyJPanel extends JPanel
         mouseVisible = false;
         nAInit = 10;
         nGroupInit = 5;
-//        nPInit = 3 * nGroupInit + 2 * nAInit;
         timeStep = 10;
         velFactor = 5.0;
         accFactor = 6.0;
@@ -158,8 +150,6 @@ public class MyJPanel extends JPanel
             arrow.paint( g );
         }
 
-        //else System.out.println("buttonFlag has invalid value.");
-
     }//end of paintComponent method
 
     public void actionPerformed( ActionEvent e ) {
@@ -173,31 +163,21 @@ public class MyJPanel extends JPanel
             buttonFlag = SHOW_BOTH;
         }
         else if( e.getSource() == hideMouseButton ) {
-            //buttonFlag = CURSOR_VISIBLE;
             hideOrShowCursor();
         }
         else if( e.getSource() == neitherButton ) {
             buttonFlag = SHOW_NEITHER;
         }
         else if( e.getSource() == moreButton ) {
-            //if(vaMenu == null){
-            //	vaMenu = new edu.colorado.phet.motion2d.VAScrolls(vaa, this);
-            //vaMenu.toFront();
-            //}
-            //else {
             vaMenu.setVisible( true );
-            //vaMenu.toFront();
-            //}
             moreButton.setEnabled( false );
             vaMenu.toFront();
         }
 
-        //System.out.println(buttonFlag);
     }//end of actionPerformed method
 
 
     public void mouseDragged( MouseEvent e ) {
-//        this.lastEvent = e;
         setXYNow( e.getX(), e.getY() );
     }//end of mouseDragged method
 
