@@ -15,48 +15,56 @@ import java.util.*;
 /**
  * MultiMap
  *
- * @author ?
+ * @author Ron LeMaster
  * @version $Revision$
  */
-public class MultiMap extends TreeMap {
+public class MultiMap implements Map {
     private long lastModified = 0;
+    private TreeMap map = new TreeMap();
 
     /**
      * @deprecated
      * @param key
      * @param value
      */
-    public void add( Object key, Object value ) {
-        put( key, value );
+    public Object add( Object key, Object value ) {
+        return put( key, value );
     }
 
     /**
-     * Adds an object to the map at the key specified.
-     *
+     * Adds an object to the map at the key specified. Note that the name for this method cannot
+     * be "put", or it will override that method in the Map interface, which must be preserved for
+     * XMLEncoder and XMLDecoder to work properly.
      * @param key
      * @param value
      * @return The list at the key, prior to the addition of the specified value
      */
     public Object put( Object key, Object value ) {
-        Object returnValue = this.get( key );
+        Object returnValue = map.get( key );
         ArrayList list = (ArrayList)returnValue;
         lastModified = System.currentTimeMillis();
         if( returnValue == null ) {
             list = new ArrayList();
-            super.put( key, list );
+            map.put( key, list );
+//            super.put( key, list );
+            returnValue = list;
         }
         list.add( value );
         return returnValue;
     }
 
+    public Object lastKey() {
+        return map.lastKey();
+    }
+
     public void putAll( Map map ) {
         lastModified++;
-        super.putAll( map );
+        map.putAll( map );
     }
 
     public boolean containsValue( Object value ) {
         boolean result = false;
-        Iterator it = values().iterator();
+        Iterator it = map.values().iterator();
         while( it.hasNext() && !result ) {
             result = ( (ArrayList)it.next() ).contains( value );
         }
@@ -65,12 +73,12 @@ public class MultiMap extends TreeMap {
 
     public void clear() {
         lastModified++;
-        super.clear();
+        map.clear();
     }
 
     public Object remove( Object key ) {
         lastModified++;
-        return super.remove( key );
+        return map.remove( key );
     }
 
     public void removeValue( Object value ) {
@@ -94,8 +102,69 @@ public class MultiMap extends TreeMap {
         return new ReverseIterator();
     }
 
+    /**
+     * Returns the number of values in the MultiMap. Note that this is not
+     * neccessarilly the same as the number of entries.
+     * @return
+     */
+    public int size() {
+        int n = 0;
+        Iterator it = map.entrySet().iterator();
+        while( it.hasNext() ) {
+            Entry entry = (Entry)it.next();
+            List list = (List)entry.getValue();
+            n += list.size();
+        }
+        return n;
+    }
 
-    //
+    public boolean isEmpty() {
+        return map.isEmpty();
+    }
+
+    public boolean containsKey(Object key) {
+        return map.containsKey( key );
+    }
+
+    /**
+     * Returns all the values in the map. The list returned will have an entry for
+     * every value in the map, rather than one for every key.
+     * @return
+     */
+    public Collection values() {
+        ArrayList values = new ArrayList();
+        Iterator it = map.entrySet().iterator();
+        while( it.hasNext() ) {
+            Entry entry = (Entry)it.next();
+            List list = (List)entry.getValue();
+            values.addAll( list );
+        }
+        return values;
+    }
+
+    public Set entrySet() {
+        throw new RuntimeException( "not implemented" );
+    }
+
+    public Set keySet() {
+        return map.keySet();
+    }
+
+    public Object get(Object key) {
+        return map.get( key );
+    }
+
+    ///////////////////////////////////////////////////////
+    // Persistence support
+    public TreeMap getMap() {
+        return map;
+    }
+
+    public void setMap(TreeMap map) {
+        this.map = map;
+    }
+
+    ///////////////////////////////////////////////////////
     // Inner classes
     //
 
@@ -123,7 +192,8 @@ public class MultiMap extends TreeMap {
         private ArrayList currentList;
 
         ForwardIterator() {
-            mapIterator = MultiMap.this.entrySet().iterator();
+            mapIterator = map.entrySet().iterator();
+//            mapIterator = MultiMap.this.entrySet().iterator();
             if( mapIterator.hasNext() ) {
                 nextListIterator();
             }
@@ -176,10 +246,10 @@ public class MultiMap extends TreeMap {
         private int currentListIdx = 0;
 
         public ReverseIterator() {
-            if( !MultiMap.this.isEmpty() ) {
-                Object currentLastKey = MultiMap.this.lastKey();
+            if( !map.isEmpty() ) {
+                Object currentLastKey = map.lastKey();
                 if( currentLastKey != null ) {
-                    currentList = (ArrayList)MultiMap.this.get( currentLastKey );
+                    currentList = (ArrayList)map.get( currentLastKey );
                     currentListIdx = currentList.size();
                 }
             }
@@ -221,7 +291,7 @@ public class MultiMap extends TreeMap {
             if( currentList != null ) {
                 currentList.remove( currentListIdx );
                 if( currentList.isEmpty() ) {
-                    Iterator it = MultiMap.this.keySet().iterator();
+                    Iterator it = map.keySet().iterator();
                     boolean found = false;
                     while( it.hasNext() && !found ) {
                         Object o = it.next();
@@ -236,7 +306,7 @@ public class MultiMap extends TreeMap {
         }
 
         private void nextList() {
-            Iterator it = MultiMap.this.values().iterator();
+            Iterator it = map.values().iterator();
             ArrayList nextList = null;
             boolean found = false;
             while( it.hasNext() && !found ) {
@@ -255,6 +325,5 @@ public class MultiMap extends TreeMap {
         }
     }
     // end of ReverseIterator
-
 
 }
