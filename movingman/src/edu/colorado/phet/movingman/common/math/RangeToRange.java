@@ -7,24 +7,24 @@ package edu.colorado.phet.movingman.common.math;
  * Time: 12:58:11 PM
  * To change this template use Options | File Templates.
  */
-public class RangeToRange implements Function {
-    Translate t1;
-    Scale s;
-    Translate t2;
-    double inStart;
-    double inEnd;
-    double outStart;
-    double outEnd;
+public class RangeToRange {
+    private double t1;
+    private double s;
+    private double t2;
+    private double inStart;
+    private double inEnd;
+    private double outStart;
+    private double outEnd;
 
     public RangeToRange( double inStart, double inEnd, double outStart, double outEnd ) {
         this.inStart = inStart;
         this.inEnd = inEnd;
         this.outStart = outStart;
         this.outEnd = outEnd;
-        t1 = new Translate( -inStart );
+        t1 = ( -inStart );
         double scale = ( outEnd - outStart ) / ( inEnd - inStart );
-        s = new Scale( scale );
-        t2 = new Translate( outStart );
+        s = scale;
+        t2 = ( outStart );
     }
 
     public double getLowInputPoint() {
@@ -44,9 +44,9 @@ public class RangeToRange implements Function {
     }
 
     public double evaluate( double in ) {
-        in = t1.evaluate( in );
-        in = s.evaluate( in );
-        in = t2.evaluate( in );
+        in = t1 + in;
+        in = s * in;
+        in = t2 + in;
         return in;
     }
 

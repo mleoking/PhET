@@ -10,17 +10,17 @@ import edu.colorado.phet.movingman.plots.DataSeries;
  * Time: 3:42:23 PM
  * Copyright (c) Jul 1, 2003 by Sam Reid
  */
-public class DefaultSmoothedDataSeries {
+public class SmoothDataSeries {
     private DataSeries data = new DataSeries();
     private DataSeries smoothed = new DataSeries();
-    private DefaultSmoothedDataSeries derivative;
+    private SmoothDataSeries derivative;
     private int numSmoothingPoints;
 
-    public DefaultSmoothedDataSeries( int numSmoothingPoints ) {
+    public SmoothDataSeries( int numSmoothingPoints ) {
         this.numSmoothingPoints = numSmoothingPoints;
     }
 
-    public void setDerivative( DefaultSmoothedDataSeries derivative ) {
+    public void setDerivative( SmoothDataSeries derivative ) {
         this.derivative = derivative;
     }
 

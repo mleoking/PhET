@@ -30,7 +30,6 @@ public class Man extends AutomatedObservable {
 
     public void setVelocity( double velocity ) {
         this.velocity = velocity;
-//        System.out.println( "SET velocity = " + velocity );
     }
 
     public boolean isGrabbed() {
