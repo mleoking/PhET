@@ -22,8 +22,6 @@ public class Pump extends SimpleObservable implements GasSource {
 
 
     // Coordinates of the intake port on the box
-//    protected static final float s_intakePortX = 265 + IdealGasConfig.X_BASE_OFFSET;
-//    protected static final float s_intakePortY = 480 + IdealGasConfig.Y_BASE_OFFSET;
     protected static final float s_intakePortX = 430 + IdealGasConfig.X_BASE_OFFSET;
     protected static final float s_intakePortY = 400 + IdealGasConfig.Y_BASE_OFFSET;
     // Offset for dithering the initial position of particles pumped into the box
@@ -39,8 +37,10 @@ public class Pump extends SimpleObservable implements GasSource {
     // The box to which the pump is attached
     private Box2D box;
     private Module module;
+    private PumpingEnergyStrategy pumpingEnergyStrategy;
 
-    public Pump( Module module, Box2D box ) {
+    public Pump( Module module, Box2D box, PumpingEnergyStrategy pumpingEnergyStrategy ) {
+        this.pumpingEnergyStrategy = pumpingEnergyStrategy;
         if( box == null ) {
             throw new RuntimeException( "box cannot be null" );
         }
@@ -66,16 +66,22 @@ public class Pump extends SimpleObservable implements GasSource {
      */
     protected GasMolecule pumpGasMolecule() {
 
-        // Add a new gas molecule to the system
-        double moleculeEnergy = Math.max( IdealGasModel.DEFAULT_ENERGY, model.getAverageMoleculeEnergy() );
-        GasMolecule newMolecule = createMolecule( this.currentGasSpecies,
-                                                  moleculeEnergy );
+        // Give the new molecule the same energy as the average of all molecules in the system.
+        // If there aren't any other molecules in the system, use the default energy
+        double moleculeEnergy = pumpingEnergyStrategy.getMoleculeEnergy();
+//        if( model.getNumMolecules() > 0 ) {
+//            moleculeEnergy = model.getAverageEnergy();
+//        }
+//        else {
+//            moleculeEnergy = IdealGasModel.DEFAULT_ENERGY;
+//        }
+        GasMolecule newMolecule = createMolecule( this.currentGasSpecies, moleculeEnergy );
         new PumpMoleculeCmd( model, newMolecule, module ).doIt();
 
         // Constrain the molecule to be inside the box
         Constraint constraintSpec = new BoxMustContainParticle( box, newMolecule, model );
         newMolecule.addConstraint( constraintSpec );
-        box.addContainedBody( newMolecule );     // added 9/14/04 RJL
+        box.addContainedBody( newMolecule );
 
         notifyObservers();
         return newMolecule;
@@ -118,9 +124,8 @@ public class Pump extends SimpleObservable implements GasSource {
         }
 
         double pe = model.getPotentialEnergy( newMolecule );
-        //            double pe = model.getBodyEnergy( newMolecule );
-        //        double pe = physicalSystem.getBodyEnergy( newMolecule );
-        double vSq = 2 * ( initialEnergy - pe ) / newMolecule.getMass();
+        double vSq = 2 * ( initialEnergy ) / newMolecule.getMass();
+//        double vSq = 2 * ( initialEnergy - pe ) / newMolecule.getMass();
         if( vSq <= 0 ) {
             System.out.println( "vSq <= 0 in PumpMoleculeCmd.createMolecule" );
         }
@@ -143,7 +148,7 @@ public class Pump extends SimpleObservable implements GasSource {
     //-------------------------------------------------------------------------------------
     // Inner classes
     //-------------------------------------------------------------------------------------
-    private ArrayList listeners = new ArrayList( );
+    private ArrayList listeners = new ArrayList();
 
     public void addListener( Pump.Listener listener ) {
         listeners.add( listener );
@@ -176,4 +181,42 @@ public class Pump extends SimpleObservable implements GasSource {
         }
     }
 
+    //------------------------------------------------------------------------------
+    // Pumping energy strategies
+    //------------------------------------------------------------------------------
+
+    public interface PumpingEnergyStrategy {
+        double getMoleculeEnergy();
+    }
+
+    public static class ConstantEnergyStrategy implements PumpingEnergyStrategy {
+        private IdealGasModel model;
+
+        public ConstantEnergyStrategy( IdealGasModel model ) {
+            this.model = model;
+        }
+
+        public double getMoleculeEnergy() {
+            double energy = 0;
+            if( model.getNumMolecules() > 0 ) {
+                energy = model.getAverageEnergy();
+            }
+            else {
+                energy = IdealGasModel.DEFAULT_ENERGY;
+            }
+            return energy;
+        }
+    }
+
+    public static class FixedEnergyStrategy implements PumpingEnergyStrategy {
+        private double fixedEnergy = IdealGasModel.DEFAULT_ENERGY;
+
+        public FixedEnergyStrategy() {
+            this.fixedEnergy = fixedEnergy;
+        }
+
+        public double getMoleculeEnergy() {
+            return fixedEnergy;
+        }
+    }
 }

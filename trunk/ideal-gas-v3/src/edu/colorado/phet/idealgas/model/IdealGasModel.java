@@ -174,9 +174,11 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             ( (GasMolecule)modelElement ).removeYourselfFromSystem();
         }
         if( modelElement instanceof HeavySpecies ) {
+//            HeavySpecies.removeParticle( (HeavySpecies)modelElement );
             heavySpeciesCnt--;
         }
         if( modelElement instanceof LightSpecies ) {
+//            LightSpecies.removeParticle( (LightSpecies)modelElement );
             lightSpeciesCnt--;
         }
 
@@ -199,7 +201,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             ModelElement element = this.modelElementAt( i );
             if( element instanceof Body ) {
                 Body body = (Body)element;
-                deltaPE = body.getPosition().getY() * change;
+                deltaPE = body.getPosition().getY() * change * body.getMass();
             }
         }
         deltaKE += deltaPE;
@@ -239,6 +241,31 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     }
 
     /**
+     * Gets the temperature of the gas in the model
+     *
+     * @return
+     */
+    public double getTemperature() {
+        double totalKE = 0;
+        int numBodies = 0;
+        for( int i = 0; i < this.numModelElements(); i++ ) {
+            ModelElement element = this.modelElementAt( i );
+            if( element instanceof GasMolecule ) {
+                numBodies++;
+                GasMolecule body = (GasMolecule)element;
+                double ke = body.getKineticEnergy();
+                if( Double.isNaN( ke ) ) {
+                    System.out.println( "Total kinetic energy in system NaN: " + body.getClass() );
+                }
+                else {
+                    totalKE += ke;
+                }
+            }
+        }
+        return totalKE / numBodies;
+    }
+
+    /**
      * @return
      */
     public double getTotalKineticEnergy() {
@@ -265,7 +292,6 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         currentlyInStepInTimeMethod = true;
         double totalEnergyPre = this.getTotalEnergy();
         double totalKEPre = this.getTotalKineticEnergy();
-//        double totalPEPre = totalEnergyPre - totalKEPre;
 
         // Clear the accelerations on the bodies in the model
         for( int i = 0; i < bodies.size(); i++ ) {
@@ -292,14 +318,16 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         // and adjust it if neccessary
         double totalEnergyPost = this.getTotalEnergy();
         double totalKEPost = this.getTotalKineticEnergy();
-//        double totalPEPost = totalEnergyPost - totalKEPost;
         double r1 = Math.sqrt( totalEnergyPre + deltaKE );
-        deltaKE = 0;
+
         double r2 = Math.sqrt( totalEnergyPost );
         double ratio = r1 / r2;
-//        double peRatio = (totalPEPost == 0 ) ? 1 : totalPEPre / totalPEPost;
-//        System.out.println( "peRatio = " + peRatio );
 
+        double dE = totalEnergyPost - ( totalEnergyPre + deltaKE );
+        double r0 = dE / totalKEPost;
+        ratio = Math.sqrt( 1 - r0 );
+
+        deltaKE = 0;
         if( totalEnergyPre != 0 && ratio != 1 ) {
             for( int i = 0; i < this.numModelElements(); i++ ) {
                 ModelElement element = this.modelElementAt( i );
@@ -489,6 +517,14 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
     public List getBodies() {
         return bodies;
+    }
+
+    public double getAverageEnergy() {
+        return getTotalEnergy() / getNumMolecules();
+    }
+
+    public int getNumMolecules() {
+        return ( getHeavySpeciesCnt() + getLightSpeciesCnt() );
     }
 
     public int getHeavySpeciesCnt() {
