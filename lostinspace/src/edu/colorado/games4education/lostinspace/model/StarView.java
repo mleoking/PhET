@@ -30,14 +30,20 @@ public class StarView {
         visibleStars = determineVisibleStars( this.starField );
     }
 
+    /**
+     * The visible stars are determined each time the point of view is changed,
+     * and the result is cached
+     * @param starField
+     * @return
+     */
     private ArrayList determineVisibleStars( StarField starField ) {
-        ArrayList visibleStars = null;
+        ArrayList visibleStars = new ArrayList();
 
         // For all the starList in the star field
         List starList = starField.getStars();
         for( int i = 0; i < starList.size(); i++ ) {
             Star star = (Star)starList.get( i );
-            if( isVisible( star ) ){
+            if( isVisible( star ) ) {
                 visibleStars.add( star );
             }
         }
@@ -47,87 +53,55 @@ public class StarView {
     private boolean isVisible( Star star ) {
         boolean result = false;
 
-        // Perform xform from star's cartesian coords to
-        // polar coords based on our POV
-        double r = povPt.distance( star.getLocation() );
-        double dx = star.getLocation().getX() - povPt.getX();
-        double dy = star.getLocation().getY() - povPt.getY();
-        double theta;
-        if( dx == 0 ) {
-            if( dy > 0 ) {
-                theta = Math.PI / 2;
-            }
-            else {
-                theta = Math.PI * 3 / 2;
-            }
-        }
-        else {
-            theta = Math.atan(  dy / dx );
-            theta = ( dx < 0 ? theta + Math.PI / 2 : theta );
-        }
-        PolarCoords polarCoords = new PolarCoords( r, theta );
-
         // Determine if the star is in our field of view
+        Point2DPolar starPC = new Point2DPolar( star.getLocation(), povPt );
+        result = starPC.getTheta() >= povTheta - viewAngle / 2
+                 && starPC.getTheta() <= povTheta + viewAngle / 2;
 
-        // If star is visible, add it to the result list
         return result;
     }
-
 
     public ArrayList getVisibleStars() {
         return visibleStars;
     }
 
     public double getBrightness( Star star ) {
-        double brightness = 0;
-        
-        // Get the list of visible stars
-
-        // For all the visible stars
-
-        // Perform xform from star's cartesian coords to
-        // polar coords based on our POV
-
-        // now that we know r, the brightness is
-        // 1 / r^2
-
-        return brightness;
+        Point2DPolar starPC = new Point2DPolar( star.getLocation(), povPt );
+        return star.getLuminance() / ( starPC.getR() * starPC.getR() );
     }
 
+    /**
+     * Returns the location of the star in the field of view
+     * @param star
+     * @return
+     */
     public Point2D.Double getLocation( Star star ) {
-        Point2D.Double location = null;
-
+        Point2DPolar starPC = new Point2DPolar( star.getLocation(), povPt );
+        double x = starPC.getR() * Math.sin( -starPC.getTheta() );
+        double y = star.getZ();
+        Point2D.Double location = new Point2D.Double( x, y );
         return location;
     }
 
+    //
+    // Inner classes
+    //
 
-    static class PolarCoords {
-        private double r;
-        private double theta;
+    static class ViewRecord {
+        private double brightness;
+        private Point2D.Double location;
 
-        public PolarCoords( double r, double theta ) {
-            this.r = r;
-            this.theta = theta;
+        public ViewRecord( double brightness, Point2D.Double location ) {
+            this.brightness = brightness;
+            this.location = location;
         }
 
-        public double getR() {
-            return r;
+        public double getBrightness() {
+            return brightness;
         }
 
-        public double getTheta() {
-            return theta;
-        }
-    }
-
-    static class CoordXformer {
-        PolarCoords xform( Point2D.Double cartCoords ) {
-            PolarCoords result = null;
-            return result;
-        }
-
-        Point2D.Double xformPolarToView( PolarCoords polarCoords ) {
-            Point2D.Double result = null;
-            return result;
+        public Point2D.Double getLocation() {
+            return location;
         }
     }
 }
