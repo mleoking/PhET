@@ -78,7 +78,14 @@ public class LightBulbGraphic extends CompositePhetGraphic {
         if ( scale < 0 || scale > 1 ) {
             throw new IllegalArgumentException( "scale must be between 0 and 1: " + scale );
         }
-        _lightEmission.clearTransform();
-        _lightEmission.scale( scale );
+        
+        if ( scale == 0 ) {
+            _lightEmission.setVisible( false );
+        }
+        else {
+            _lightEmission.setVisible( true );
+            _lightEmission.clearTransform();
+            _lightEmission.scale( scale );
+        }
     }
 }
