@@ -246,8 +246,6 @@ public class Kaboom implements ModelElement {
         message = new PhetMultiLineTextGraphic( ap, messageStrings, new Font( "Lucida sans", Font.BOLD, 32 ),
                                                 ap.getWidth() / 2 - 80, ap.getHeight() / 2 - 10,
                                                 Color.red );
-//        labelMessage = new JLabel( new ImageIcon("images/flames_0001.gif"));
-//        labelMessage = new JLabel( new ImageIcon("images/flames.gif"));
         labelMessage = new JLabel( "<html><center>I canna change<br>the laws of physics,<br>Captain!</center></html>" );
         labelMessage.setFont( new Font( "Lucida sans", Font.BOLD, 32 ) );
         labelMessage.setForeground( Color.red );
