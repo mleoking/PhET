@@ -18,12 +18,12 @@ import edu.colorado.phet.common.util.SimpleObservable;
 
 
 /**
- * WireCoil is the model of a coil of wire loops.
+ * Coil is the model of a coil of wire loops.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WireCoil extends SimpleObservable {
+public class Coil extends SimpleObservable {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -31,13 +31,13 @@ public class WireCoil extends SimpleObservable {
     
     // Radius of the coil
     private double _radius;
-    // Gauge of wire used for all loops in the coil
-    private int _gauge;
     // Location of the coil
     private Point2D _location;
     // Direction, in degrees
     private double _direction;
-    // Wire loops that make up the coil (array of WireLoop)
+    // Spacing between the loops
+    private double _spacing;
+    // Wire loops that make up the coil (array of Loop)
     private ArrayList _loops;
 
     //----------------------------------------------------------------------------
@@ -46,28 +46,21 @@ public class WireCoil extends SimpleObservable {
     
     /**
      * Zero-argument constructor.
-     * Creates a coil with one loop, radius=10, gauge=1, location=(0,0), direction=0.0
+     * Creates a default coil with one loop, radius=10.0, location=(0,0), direction=0.0, spacing=1.0
      */
-    public WireCoil() {
-        _radius = 10.0;
-        _gauge = 1;
-        _location = new Point2D.Double( 0, 0 );
-        _direction = 0.0;
-        _loops = new ArrayList();
-        
-        setNumberOfLoops( 1 );
+    public Coil() {
+        this( 1, 10.0 );
     }
     
     /**
      * Partially-specified constructor.
-     * Creates the specified coil with location=(0,0), direction=0.0
+     * Creates the specified coil with location=(0,0), direction=0.0, spacing=1.0
      * 
      * @param numberOfLoops number of wire loops in the coil
      * @param radius radius used for all wire loops
-     * @param gauge gauge of wire used for all wire loops
      */
-    public WireCoil( int numberOfLoops, double radius, int gauge ) {
-        this( numberOfLoops, radius, gauge, new Point2D.Double(0,0), 0.0 );
+    public Coil( int numberOfLoops, double radius ) {
+        this( numberOfLoops, radius, new Point2D.Double(0,0), 0.0, 1.0 );
     }
     
     /**
@@ -75,16 +68,16 @@ public class WireCoil extends SimpleObservable {
      * 
      * @param numberOfLoops number of wire loops in the coil
      * @param radius radius used for all wire loops
-     * @param gauge gauge of wire used for all wire loops
      * @param location location of the coil
      * @param direction direction in degrees (see setDirection)
+     * @param spacing spacing between the loops
      */
-    public WireCoil( int numberOfLoops, double radius, int gauge, Point2D location, double direction ) {
-        this();
+    public Coil( int numberOfLoops, double radius, Point2D location, double direction, double spacing ) {
         _radius = radius;
-        _gauge = gauge;
-        _location.setLocation( location.getX(), location.getY() );
+        _location = new Point2D.Double( location.getX(), location.getY() );
         _direction = direction;
+        _spacing = spacing;
+        _loops = new ArrayList();
         setNumberOfLoops( numberOfLoops );
     }
     
@@ -101,8 +94,8 @@ public class WireCoil extends SimpleObservable {
     public void setNumberOfLoops( int numberOfLoops ) {
         _loops.clear();
         for( int i = 0; i < numberOfLoops; i++ ) {
-            Point2D location = new Point2D.Double( _location.getX() + (i * _gauge), _location.getY() );
-            _loops.add( new WireLoop( _radius, _gauge, location, _direction ) );
+            Point2D location = new Point2D.Double( _location.getX() + (i * _spacing), _location.getY() );
+            _loops.add( new Loop( _radius, location, _direction ) );
         }
     }
     
@@ -146,25 +139,23 @@ public class WireCoil extends SimpleObservable {
     }
     
     /**
-     * Sets the gauge of wire used for the loops in the coil.
-     * The thickness of a wire increases as its gauge decreases.
-     * For example, 12 gauge wire is thicker than 14 gauge.
+     * Sets the spacing between loops in the coil.
      * 
-     * @param gauge the wire gauge
+     * @param spacing the spacing
      */
-    public void setGauge( int gauge ) {
-        _gauge = gauge;
+    public void setSpacing( double spacing ) {
+        _spacing = spacing;
         updateLoops();
         notifyObservers();
     }
     
     /**
-     * Gets the gauge of wire used for the loops.
+     * Gets the spacing between the loops.
      * 
-     * @return the gauge
+     * @return the spacing
      */
-    public int getGauge() {
-        return _gauge;
+    public double getSpacing() {
+        return _spacing;
     }
     
     /**
@@ -246,12 +237,11 @@ public class WireCoil extends SimpleObservable {
      * Updates the loops based on changes made to the coil.
      */
     private void updateLoops() {
-        WireLoop loop = null;
+        Loop loop = null;
         for( int i = 0; i < _loops.size(); i++ ) {
-            loop = (WireLoop)_loops.get(i);
+            loop = (Loop)_loops.get(i);
             loop.setRadius( _radius );
-            loop.setGauge( _gauge );
-            loop.setLocation( _location.getX() + (i * _gauge), _location.getY() );
+            loop.setLocation( _location.getX() + (i * _spacing), _location.getY() );
             loop.setDirection( _direction );
         }
     }

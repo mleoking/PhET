@@ -22,16 +22,16 @@ import edu.colorado.phet.common.model.ModelElement;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PickupCoil extends WireCoil implements ModelElement {
+public class PickupCoil extends Coil implements ModelElement {
     
     private BarMagnet _magnet; // XXX should be IMagnet, any type of magnet
-    private double _emf;
+    private double _EMF;
     private double _previousEMF;
     private double _previousFlux;
     
     public PickupCoil() {
         super();
-        _emf = 0.0;
+        _EMF = 0.0;
         _previousFlux = 0.0;
     }
     
@@ -44,7 +44,7 @@ public class PickupCoil extends WireCoil implements ModelElement {
     }
 
     public double getEMF() {
-        return _emf;
+        return _EMF;
     }
     
     /**
@@ -54,18 +54,33 @@ public class PickupCoil extends WireCoil implements ModelElement {
      * @param dt time delta
      */
     public void stepInTime( double dt ) {
+        
+       // Calculate theta, angle between magnetic field and surface area vector.
         Point2D magnetLocation = _magnet.getLocation();
-        double theta = 1.0;  // XXX calculate angle in radians between B-Field and surface area vector.
+        Point2D coilLocation = super.getLocation();
+        double adjacent = Math.abs( magnetLocation.getY() - coilLocation.getY() );
+        double opposite = Math.abs( magnetLocation.getX() - magnetLocation.getX() );
+        double theta = Math.atan( opposite / adjacent );
+        
+        // Magnetic field strength at the coil's location.
         double B = _magnet.getStrength( getLocation() );
+        double direction = _magnet.getDirection();
+        if ( direction % 360 == 0 ) {
+            B = -B;
+        }
+        
+        // Calculate change in flux.
         double A = getArea();
-        double flux = B * A * theta;
+        double flux = B * A * Math.cos( theta );
         double deltaFlux = flux - _previousFlux;
-        _emf = -( getNumberOfLoops() * deltaFlux );
         _previousFlux = flux;
-        if ( _emf != _previousEMF ) {
+        
+        // Calculate induced EMF.
+        _EMF = -( getNumberOfLoops() * deltaFlux );
+        if ( _EMF != _previousEMF ) {
             notifyObservers();
         }
-        _previousEMF = _emf;
+        _previousEMF = _EMF;
     }
     
 }

@@ -17,13 +17,13 @@ import edu.colorado.phet.common.util.SimpleObservable;
 
 
 /**
- * WireLoop is the model of a loop of wire.
+ * Loop is the model of a loop of wire.
  * This class is package private.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-class WireLoop extends SimpleObservable {
+class Loop extends SimpleObservable {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -31,8 +31,6 @@ class WireLoop extends SimpleObservable {
 
     // Radius of the loop.
     private double _radius;
-    // Gauge of the wire.
-    private int _gauge;
     // Location
     private Point2D _location;
     // Direction, in degrees
@@ -44,12 +42,11 @@ class WireLoop extends SimpleObservable {
 
     /**
      * Zero-argument constructor.
-     * Creates a loop with radius=10, gauge = 1, location=(0,0), direction=0.
+     * Creates a loop with radius=10, location=(0,0), direction=0.
      */
-    public WireLoop() {
+    public Loop() {
         // Initialize member data.
         _radius = 10.0;
-        _gauge = 1;
         _location = new Point2D.Double( 0, 0 );
         _direction = 0.0;   
     }
@@ -58,14 +55,12 @@ class WireLoop extends SimpleObservable {
      * Fully-specified constructor.
      * 
      * @param radius the radius of the loop
-     * @param gauge the gauge of the wire
      * @param location the location of the loop's center
      * @param direction the direction in degrees (see setDirection)
      */
-    public WireLoop( double radius, int gauge, Point2D location, double direction ) {
+    public Loop( double radius, Point2D location, double direction ) {
         this();
         setRadius( radius );
-        setGauge( gauge );
         setLocation( location );
         setDirection( direction );
     }
@@ -104,30 +99,6 @@ class WireLoop extends SimpleObservable {
      */
     public double getArea() {
         return Math.PI * Math.pow( _radius, 2.0 );
-    }
-    
-    /**
-     * Sets the gauge of wire used for the loops in the coil.
-     * The thickness of a wire increases as its gauge decreases.
-     * For example, 12 gauge wire is thicker than 14 gauge.
-     * 
-     * @param gauge the wire gauge
-     */
-    public void setGauge( int gauge ) {
-        if ( gauge <= 0 ) {
-            throw new IllegalArgumentException( "gauge must be > 0" );
-        }
-        _gauge = gauge;
-        notifyObservers();
-    }
-    
-    /**
-     * Gets the gauge of the wire.
-     * 
-     * @return the gauge
-     */
-    public int getGauge() {
-        return _gauge;
     }
     
     /**

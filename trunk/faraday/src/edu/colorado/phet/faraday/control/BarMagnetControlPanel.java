@@ -15,6 +15,7 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -27,19 +28,17 @@ import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.module.BarMagnetModule;
 
 /**
- * BarMagnetControlPanel is the control panel for the "Two Coils" simulation module.
- * This control panel currently has no controls, but does contain the default PhET logo
- * graphic and Help buttons.
+ * BarMagnetControlPanel
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class BarMagnetControlPanel extends ControlPanel {
     
-    public static final int STRENGTH_MAX_PERCENTAGE = 100;
-    public static final int STRENGTH_MIN_PERCENTAGE = 25;
+    public static final int STRENGTH_MAX_PERCENTAGE = 60;
+    public static final int STRENGTH_MIN_PERCENTAGE = 30;
     public static final int AREA_MAX_PERCENTAGE = 100;
-    public static final int AREA_MIN_PERCENTAGE = 25;
+    public static final int AREA_MIN_PERCENTAGE = 50;
     
     private BarMagnetModule _module;
     private JButton _flipPolarityButton;
@@ -47,6 +46,8 @@ public class BarMagnetControlPanel extends ControlPanel {
     private JCheckBox _fieldCheckBox;
     private JSpinner _loopsSpinner;
     private JSlider _areaSlider;
+    private JRadioButton _meterRadioButton;
+    private JRadioButton _bulbRadioButton;
     
     /**
      * Sole constructor.
@@ -61,6 +62,9 @@ public class BarMagnetControlPanel extends ControlPanel {
         
         JPanel panel = new JPanel();
         {
+            Font defaultFont = panel.getFont();
+            Font titleFont = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
+            
             // WORKAROUND: Filler to set consistent panel width
             JPanel fillerPanel = new JPanel();
             fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
@@ -71,9 +75,7 @@ public class BarMagnetControlPanel extends ControlPanel {
             {
                 // Titled border with a larger font.
                 TitledBorder border = new TitledBorder( SimStrings.get( "barMagnetPanel.title" ) );
-                Font defaultFont = barMagnetPanel.getFont();
-                Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
-                border.setTitleFont( font );
+                border.setTitleFont( titleFont );
                 barMagnetPanel.setBorder( border );
 
                 // Flip Polarity button
@@ -89,6 +91,18 @@ public class BarMagnetControlPanel extends ControlPanel {
                     _strengthSlider = new JSlider();
                     _strengthSlider.setMinimum( STRENGTH_MIN_PERCENTAGE );
                     _strengthSlider.setMaximum( STRENGTH_MAX_PERCENTAGE );
+                    _strengthSlider.setValue( STRENGTH_MIN_PERCENTAGE );
+                    
+                    // Slider labels
+                    Hashtable table = new Hashtable();
+                    JLabel weakerLabel = new JLabel(SimStrings.get("strengthSlider.weaker"));
+                    table.put( new Integer(STRENGTH_MIN_PERCENTAGE), weakerLabel );
+                    JLabel strongerLabel = new JLabel(SimStrings.get("strengthSlider.stronger"));
+                    table.put( new Integer(STRENGTH_MAX_PERCENTAGE), strongerLabel );
+                    _strengthSlider.setLabelTable( table );
+                    _strengthSlider.setPaintLabels( true );
+                    _strengthSlider.setMajorTickSpacing( STRENGTH_MAX_PERCENTAGE - STRENGTH_MIN_PERCENTAGE );
+                    _strengthSlider.setPaintTicks( true );
                     
                     // Layout
                     sliderPanel.setLayout( new BoxLayout( sliderPanel, BoxLayout.X_AXIS ) );
@@ -111,12 +125,8 @@ public class BarMagnetControlPanel extends ControlPanel {
             {
                 // Titled border with a larger font.
                 TitledBorder border = new TitledBorder( SimStrings.get( "pickupCoilPanel.title" ) );
-                Font defaultFont = pickupCoilPanel.getFont();
-                Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
-                border.setTitleFont( font );
-                
+                border.setTitleFont( titleFont );
                 pickupCoilPanel.setBorder( border );
-                pickupCoilPanel.setLayout( new BoxLayout( pickupCoilPanel, BoxLayout.Y_AXIS ) );
                 
                 // Number of loops
                 JPanel loopsPanel = new JPanel();
@@ -143,12 +153,24 @@ public class BarMagnetControlPanel extends ControlPanel {
                 JPanel areaPanel = new JPanel();
                 {
                     // Label
-                    JLabel label = new JLabel( SimStrings.get( "loopArea.label" ) );
+                    JLabel label = new JLabel( SimStrings.get( "areaSlider.label" ) );
                     
                     // Slider
                     _areaSlider = new JSlider();
                     _areaSlider.setMinimum( AREA_MIN_PERCENTAGE );
                     _areaSlider.setMaximum( AREA_MAX_PERCENTAGE );
+                    _areaSlider.setValue( AREA_MIN_PERCENTAGE );
+                    
+                    // Slider labels
+                    Hashtable table = new Hashtable();
+                    JLabel smallerLabel = new JLabel(SimStrings.get("areaSlider.smaller"));
+                    table.put( new Integer(AREA_MIN_PERCENTAGE), smallerLabel );
+                    JLabel largerLabel = new JLabel(SimStrings.get("areaSlider.larger"));
+                    table.put( new Integer(AREA_MAX_PERCENTAGE), largerLabel );
+                    _areaSlider.setLabelTable( table );
+                    _areaSlider.setPaintLabels( true );
+                    _areaSlider.setMajorTickSpacing( AREA_MAX_PERCENTAGE - AREA_MIN_PERCENTAGE );
+                    _areaSlider.setPaintTicks( true );
                     
                     // Layout
                     areaPanel.setLayout( new BoxLayout( areaPanel, BoxLayout.X_AXIS ) );
@@ -156,10 +178,32 @@ public class BarMagnetControlPanel extends ControlPanel {
                     areaPanel.add( _areaSlider );
                 }
                 
+                // Type of "load"
+                JPanel loadPanel = new JPanel();
+                {
+                    // Titled border with a larger font.
+                    TitledBorder border2 = new TitledBorder( SimStrings.get( "loadPanel.title" ) );
+                    border.setTitleFont( titleFont );
+                    loadPanel.setBorder( border2 );
+                    
+                    // Radio buttons
+                    _bulbRadioButton = new JRadioButton( SimStrings.get( "bulbRadioButton.label" ) );
+                    _meterRadioButton = new JRadioButton( SimStrings.get( "meterRadioButton.label" ) );
+                    ButtonGroup group = new ButtonGroup();
+                    group.add( _bulbRadioButton );
+                    group.add( _meterRadioButton );
+
+                    // Layout
+                    loadPanel.setLayout( new BoxLayout( loadPanel, BoxLayout.Y_AXIS ) );
+                    loadPanel.add( _bulbRadioButton );
+                    loadPanel.add( _meterRadioButton );
+                }
+                
                 // Layout
                 pickupCoilPanel.setLayout( new BoxLayout( pickupCoilPanel, BoxLayout.Y_AXIS ) );
                 pickupCoilPanel.add( loopsPanel );
                 pickupCoilPanel.add( areaPanel );
+                pickupCoilPanel.add( loadPanel );
             }
             
             //  Layout so that control groups fill horizontal space.
@@ -177,6 +221,8 @@ public class BarMagnetControlPanel extends ControlPanel {
             _fieldCheckBox.addActionListener( listener );
             _loopsSpinner.addChangeListener( listener );
             _areaSlider.addChangeListener( listener );
+            _bulbRadioButton.addActionListener( listener );
+            _meterRadioButton.addActionListener( listener );
         }
         super.setControlPane( panel );
     }
@@ -197,6 +243,14 @@ public class BarMagnetControlPanel extends ControlPanel {
         _areaSlider.setValue( value );
     }
     
+    public void setBulbEnabled( boolean value ) {
+        _bulbRadioButton.setSelected( value );
+    }
+    
+    public void setMeterEnabled( boolean value ) {
+        _meterRadioButton.setSelected( value );
+    }
+    
     private class EventListener implements ActionListener, ChangeListener {
         
         public EventListener() {}
@@ -207,6 +261,12 @@ public class BarMagnetControlPanel extends ControlPanel {
             }
             else if ( e.getSource() == _fieldCheckBox ) {
                 _module.setFieldLinesEnabled( _fieldCheckBox.isSelected() );
+            }
+            else if ( e.getSource() == _bulbRadioButton ) {
+                _module.enableBulb(); 
+            }
+            else if ( e.getSource() == _meterRadioButton ) {
+                _module.enableMeter();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );

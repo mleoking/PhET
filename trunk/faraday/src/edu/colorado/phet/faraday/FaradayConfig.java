@@ -41,9 +41,10 @@ public class FaradayConfig {
     public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
     public static final String BFIELD_IMAGE = IMAGES_DIRECTORY + "bField.png";
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightBulb.png";
+    public static final String LIGHT_EMISSION_IMAGE = IMAGES_DIRECTORY + "lightEmission.png";
     public static final String LOOP_IMAGE = IMAGES_DIRECTORY + "loop.png";
-    public static final String SOURCE_COIL_IMAGE = IMAGES_DIRECTORY + "sourceCoil.png";
-    public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltMeter.png";
+    public static final String METER_BODY_IMAGE = IMAGES_DIRECTORY + "voltMeterBody.png";
+    public static final String METER_NEEDLE_IMAGE = IMAGES_DIRECTORY + "voltMeterNeedle.png";
 
     // Dimensions
     public static final int APP_FRAME_WIDTH = 1024;
