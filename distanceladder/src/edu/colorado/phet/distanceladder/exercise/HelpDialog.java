@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class HelpDialog extends JDialog {
+    private JScrollPane jScrollPane;
 
     public HelpDialog( JFrame owner, JTextComponent questionPane ) {
         super( owner, false );
@@ -25,8 +26,10 @@ public class HelpDialog extends JDialog {
         Container container = this.getContentPane();
         container.setLayout( new BorderLayout() );
         questionPane.setEditable( false );
-        JScrollPane jScrollPane = new JScrollPane( questionPane );
-        jScrollPane.setAutoscrolls( true );
+        // This line makes the scroll pane in which we put the TextComponent
+        // scroll to the top
+        questionPane.setCaretPosition( 0 );
+        jScrollPane = new JScrollPane( questionPane );
         jScrollPane.setPreferredSize( new Dimension( 400, 200 ) );
         container.add( jScrollPane, BorderLayout.NORTH );
 

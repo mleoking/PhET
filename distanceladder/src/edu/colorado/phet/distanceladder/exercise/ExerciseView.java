@@ -77,6 +77,7 @@ public class ExerciseView {
                 }
             };
             questionPane.setEditable( false );
+            questionPane.setCaretPosition( 0 );
             JScrollPane jScrollPane = new JScrollPane( questionPane );
             jScrollPane.setAutoscrolls( true );
             jScrollPane.setPreferredSize( new Dimension( 300, 200 ) );

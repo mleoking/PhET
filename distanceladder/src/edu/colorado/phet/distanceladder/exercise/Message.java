@@ -11,12 +11,19 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Message {
-    private String text;
 
-    public Message() {
+    public final static int NEXT = 0;
+    public final static int GO_TO_GAME = 1;
+
+    private String text;
+    private Container parent;
+
+    public Message( Container parent ) {
+        this.parent = parent;
     }
 
-    public Message( String text ) {
+    public Message( Container parent, String text ) {
+        this( parent );
         this.text = text;
     }
 
@@ -28,22 +35,37 @@ public class Message {
         this.text = text;
     }
 
-    public void display() {
+
+    public int display() {
         JEditorPane textPane = new JEditorPane( "text/html", getText() );
         textPane.setPreferredSize( new Dimension( 400, 300 ) );
-        JScrollPane jScrollPane = new JScrollPane( textPane );
-        int response = JOptionPane.showConfirmDialog( null,
-                                                      jScrollPane,
-                                                      "Don't Panic!",
-                                                      JOptionPane.OK_CANCEL_OPTION );
-        if( response == JOptionPane.CANCEL_OPTION ) {
-            int confirm = JOptionPane.showConfirmDialog( null,
-                                                         "Are you sure you want to quit the game?",
-                                                         "Confirm Exit",
-                                                         JOptionPane.YES_NO_OPTION );
-            if( confirm == JOptionPane.YES_OPTION ) {
-                System.exit( 0 );
+        int response = 0;
+        do {
+            JScrollPane jScrollPane = new JScrollPane( textPane );
+            jScrollPane.getVerticalScrollBar().setValue( 0 );
+            response = JOptionPane.showOptionDialog( parent,
+                                                     jScrollPane,
+                                                     "Don't Panic!",
+                                                     JOptionPane.DEFAULT_OPTION,
+                                                     JOptionPane.INFORMATION_MESSAGE,
+                                                     null,
+                                                     new Object[]{"Next", "Go to Game", "Quit"},
+                                                     "Next" );
+            if( response == JOptionPane.CANCEL_OPTION ) {
+                int confirm = JOptionPane.showConfirmDialog( parent,
+                                                             "Are you sure you want to quit the game?",
+                                                             "Confirm Exit",
+                                                             JOptionPane.YES_NO_OPTION );
+                if( confirm == JOptionPane.YES_OPTION ) {
+                    System.exit( 0 );
+                }
             }
+        } while( response != 0 && response != 1 );
+        if( response == 0 ) {
+            return NEXT;
+        }
+        else {
+            return GO_TO_GAME;
         }
     }
 }

@@ -26,7 +26,7 @@ import java.util.Iterator;
  */
 public class StarViewGraphic extends CompositeInteractiveGraphic implements SimpleObserver {
 
-    private static double minStarRadius = 2;
+    private static double minStarRadius = 3;
 
     private Container container;
     private StarView starView;
@@ -87,7 +87,7 @@ public class StarViewGraphic extends CompositeInteractiveGraphic implements Simp
             if( !visibleStars.contains( star ) ) {
                 removeList.add( star );
                 StarGraphic sg = (StarGraphic)starToGraphicMap.get( star );
-                this.remove( sg );
+                this.removeGraphic( sg );
             }
         }
         for( int i = 0; i < removeList.size(); i++ ) {
@@ -96,5 +96,4 @@ public class StarViewGraphic extends CompositeInteractiveGraphic implements Simp
         }
         container.repaint();
     }
-
 }

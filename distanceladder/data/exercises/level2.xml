@@ -4,7 +4,6 @@
         <![CDATA[
         <html>
         <font face="Lucida, sans-serif">
-        <b>
         Measure the distance to the star, using the parallax instrument.
         <p>
         To enable the instrument, press the <b>On</b> button on the control panel. To learn how to
@@ -16,16 +15,16 @@
         ]]>
     </question>
     <choice id="A">
-        <text>50 parsecs</text>
+        <text>50 light-years</text>
     </choice>
     <choice id="B">
-        <text>100 parsecs</text>
+        <text>100 light-years</text>
     </choice>
     <choice id="C">
-        <text>200 parsecs</text>
+        <text>200 light-years</text>
     </choice>
     <choice id="D">
-        <text>400 parsecs</text>
+        <text>400 light-years</text>
     </choice>
     <answer id="C"/>
     <numTries num="1"/>
