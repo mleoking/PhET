@@ -31,7 +31,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     private static final double MIN_STEPS_PER_CYCLE = 10;
     
     // Determines whether all critical angles will be hit.
-    private static final boolean HIT_CRITICAL_ANGLES = true;
+    private static final boolean HIT_CRITICAL_ANGLES = false;
         
     //----------------------------------------------------------------------------
     // Instance data
