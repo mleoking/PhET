@@ -1,13 +1,23 @@
-/**
- * Class: Vector3D
- * Package: edu.colorado.phet.coreadditions
- * Author: Another Guy
- * Date: Oct 2, 2003
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.mechanics;
 
 import edu.colorado.phet.common.math.Vector2D;
 
+/**
+ * Vector3D
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class Vector3D extends PhysicalVector {
 
     public Vector3D() {

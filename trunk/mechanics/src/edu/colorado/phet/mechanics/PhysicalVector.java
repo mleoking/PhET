@@ -1,9 +1,12 @@
+/* Copyright 2002-2004, University of Colorado */
+
 /*
- * Class: PhysicalVector
- * Package: edu.colorado.phet.common.model
- * User: Ron LeMaster
- * Date: Oct 18, 2002
- * Time: 3:50:24 PM
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.mechanics;
 
@@ -11,6 +14,9 @@ package edu.colorado.phet.mechanics;
  * This class represents mathmatical vectors. It has package visibility,
  * and is intended to be subclassed to represent vectors of specific
  * dimensionalities.
+ * 
+ * @author Ron LeMaster
+ * @version $Revision$
  */
 public class PhysicalVector {
 
