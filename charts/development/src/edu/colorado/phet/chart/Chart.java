@@ -8,6 +8,7 @@ package edu.colorado.phet.chart;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.RectangleUtils;
@@ -17,7 +18,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class Chart implements Graphic {
+public class Chart extends PhetGraphic {
     private Component component;
     private Range2D range;
     private Rectangle viewBounds;
@@ -39,6 +40,7 @@ public class Chart implements Graphic {
     private AbstractTitle title;
 
     public Chart( Component component, Range2D range, Rectangle viewBounds ) {
+        super( component );
         this.component = component;
         this.range = range;
         this.viewBounds = viewBounds;
@@ -357,12 +359,16 @@ public class Chart implements Graphic {
         return union;
     }
 
-    private void repaint() {
+    public void repaint() {
         Rectangle r = getViewBounds();
         Rectangle vert = verticalTicks.getMajorTickTextBounds();
         Rectangle horiz = horizontalTicks.getMajorTickTextBounds();
         Rectangle union = RectangleUtils.union( new Rectangle[]{r, vert, horiz} );
         component.repaint( union.x, union.y, union.width, union.height );
+    }
+
+    protected Rectangle determineBounds() {
+        return getVisibleBounds();
     }
 
     private void fireTransformChanged() {

@@ -90,9 +90,12 @@
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="C:\PhET\projects-ii\phetcommon\src" destdir="${classes}"/>
-        <javac srcdir="${src}" classpath="${classes}" destdir="${classes}"/>
-        <javac srcdir="${test-src}" classpath="${classes}" destdir="${classes}"/>
+        <property name="phetdest" value="${ant.output}/phetcommon-classes"/>
+        <delete dir="${phetdest}"/>
+        <mkdir dir="${phetdest}"/>
+        <javac srcdir="C:\PhET\projects-ii\phetcommon\src" classpath="C:\PhET\projects-ii\phetcommon\lib\smoothmetal.jar" destdir="${phetdest}"/>
+        <javac srcdir="${src}" classpath="${phetdest}" destdir="${classes}"/>
+<!--        <javac srcdir="${test-src}" classpath="${classes}" destdir="${classes}"/>-->
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
