@@ -79,8 +79,9 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
 	private static final double BLUE_SPOTLIGHT_ANGLE  = -(RED_SPOTLIGHT_ANGLE);
 
 	// Bounds
-	private static final Rectangle BEAM_BOUNDS = 
-	  new Rectangle( 0, 0, (int) (PERSON_X + 160), 10000 );
+	private static final Rectangle BEAM_BOUNDS =
+	  new Rectangle( 0, 0, (int)(PERSON_X + 160), 10000 );
+	  //new Rectangle( (int)SPOTLIGHT_X, 0, (int)(PERSON_X - SPOTLIGHT_X + 100), 1000 );
 	private static final Dimension INTENSITY_SLIDER_SIZE = new Dimension(20,100);
 	
 	//----------------------------------------------------------------------------
@@ -147,14 +148,17 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
     // Red photon beam model
     _redPhotonBeamModel = new PhotonBeam( _redSpotlightModel );
     _redPhotonBeamModel.setBounds( BEAM_BOUNDS );
+    model.addModelElement( _redPhotonBeamModel );
 
     // Green photon beam model
     _greenPhotonBeamModel = new PhotonBeam( _greenSpotlightModel );
     _greenPhotonBeamModel.setBounds( BEAM_BOUNDS );
+    model.addModelElement( _greenPhotonBeamModel );
     
     // Blue photon beam model
     _bluePhotonBeamModel = new PhotonBeam( _blueSpotlightModel );
     _bluePhotonBeamModel.setBounds( BEAM_BOUNDS );
+    model.addModelElement( _bluePhotonBeamModel );
 		
 		//----------------------------------------------------------------------------
 		// View
@@ -215,7 +219,7 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
 		//----------------------------------------------------------------------------
 		// Observers
     //----------------------------------------------------------------------------
-
+    
     // Models notify their associated views of any updates.
     
     _personModel.addObserver( personGraphic );
@@ -237,12 +241,6 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
 		// Listeners
     //----------------------------------------------------------------------------
 
-    // Photon beams are notified when the simulation clock ticks.
-    // Since photon beams are not model elements, we must register for clock ticks explicitly.
-    clock.addClockTickListener( _redPhotonBeamModel );
-    clock.addClockTickListener( _greenPhotonBeamModel );
-    clock.addClockTickListener( _bluePhotonBeamModel );
-    
     // Photon beams notify when their perceived intensity changes.
     _redPhotonBeamModel.addColorChangeListener( this );
     _greenPhotonBeamModel.addColorChangeListener( this );
@@ -252,13 +250,14 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
     _redSlider.addChangeListener( this );
     _greenSlider.addChangeListener( this );
     _blueSlider.addChangeListener( this );
-    
+   
 		//----------------------------------------------------------------------------
 		// Help
     //----------------------------------------------------------------------------
 
 		// This module has no Help.
 		super.setHelpEnabled( false );
+
 	}
 	
 	//----------------------------------------------------------------------------
