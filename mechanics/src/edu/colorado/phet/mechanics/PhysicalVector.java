@@ -14,17 +14,17 @@ package edu.colorado.phet.mechanics;
  */
 public class PhysicalVector {
 
-    private float[] scalars;
+    private double[] scalars;
 
     protected PhysicalVector( int numDimensions ) {
-        scalars = new float[numDimensions];
+        scalars = new double[numDimensions];
     }
 
-    protected float getScalarAt( int idx ) {
+    protected double getScalarAt( int idx ) {
         return scalars[idx];
     }
 
-    protected void setScalarAt( int idx, float value ) {
+    protected void setScalarAt( int idx, double value ) {
         scalars[idx] = value;
     }
 
@@ -44,22 +44,22 @@ public class PhysicalVector {
         return result;
     }
 
-    public float getMagnitudeSq() {
-        float sum = 0;
+    public double getMagnitudeSq() {
+        double sum = 0;
         for( int i = 0; i < scalars.length; i++ ) {
             sum += scalars[i] * scalars[i];
         }
         return sum;
     }
 
-    public float getMagnitude() {
-        return (float)Math.sqrt( getMagnitudeSq() );
+    public double getMagnitude() {
+        return Math.sqrt( getMagnitudeSq() );
     }
 
     /**
      * @deprecated
      */
-    public float getLength() {
+    public double getLength() {
         return getMagnitude();
     }
 
@@ -73,41 +73,41 @@ public class PhysicalVector {
     }
 
     protected PhysicalVector generalNormalize() {
-        float length = getMagnitude();
-        return multiply( 1.0f / length, this );
+        double length = getMagnitude();
+        return multiply( 1.0 / length, this );
     }
 
-    protected PhysicalVector multiply( float scale, PhysicalVector result ) {
+    protected PhysicalVector multiply( double scale, PhysicalVector result ) {
         for( int i = 0; i < scalars.length; i++ ) {
             result.scalars[i] = scalars[i] * scale;
         }
         return result;
     }
 
-    public float dot( PhysicalVector that ) {
+    public double dot( PhysicalVector that ) {
 
         // TODO check that vectors are the same length, or class
 
-        float result = 0;
+        double result = 0;
         for( int i = 0; i < scalars.length; i++ ) {
             result += this.scalars[i] * that.scalars[i];
         }
         return result;
     }
 
-    public float distance( PhysicalVector that ) {
-        return (float)Math.sqrt( distanceSquared( that ) );
+    public double distance( PhysicalVector that ) {
+        return Math.sqrt( distanceSquared( that ) );
     }
 
-    public float distanceSquared( PhysicalVector that ) {
+    public double distanceSquared( PhysicalVector that ) {
 
         // Check that operation can be done
         if( this.scalars.length != that.scalars.length ) {
             throw new RuntimeException( "Vectors of different dimensionalities set to PhysicalVector.distanceSquared" );
         }
-        float result = 0;
+        double result = 0;
         for( int i = 0; i < scalars.length; i++ ) {
-            float diff = this.scalars[i] - that.scalars[i];
+            double diff = this.scalars[i] - that.scalars[i];
             result += diff * diff;
         }
         return result;

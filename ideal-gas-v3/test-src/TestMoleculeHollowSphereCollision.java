@@ -6,11 +6,11 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
+import edu.colorado.phet.idealgas.controller.AddModelElementCmd;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
-import edu.colorado.phet.idealgas.controller.AddModelElementCmd;
 import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -57,7 +57,7 @@ public class TestMoleculeHollowSphereCollision extends PhetApplication {
             HollowSphere sphere = null;
             sphere = new HollowSphere( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
                                                            box.getMinY() + box.getHeight() / 2 ),
-                                       new Vector2D.Double( 20, 0 ),
+                                       new Vector2D.Double( 0, 0 ),
                                        new Vector2D.Double( 0, 0 ),
                                        100,
                                        50 );
@@ -80,9 +80,9 @@ public class TestMoleculeHollowSphereCollision extends PhetApplication {
             final GasMolecule[] m = new GasMolecule[]{null};
             testBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m[0] = new HeavySpecies( new Point2D.Double( box.getMinX() + box.getWidth() / 2 + 30,
+                    m[0] = new HeavySpecies( new Point2D.Double( box.getMinX() + box.getWidth() / 2 + 80,
                                                                              box.getMinY() + box.getHeight() / 2 ),
-                                                      new Vector2D.Double( 50, 0 ),
+                                                      new Vector2D.Double( -500, 0 ),
                                                       new Vector2D.Double(),
                                                       5 );
 //                    m[0] = new HeavySpecies( new Point2D.Double( 383.3, 389.35 ),

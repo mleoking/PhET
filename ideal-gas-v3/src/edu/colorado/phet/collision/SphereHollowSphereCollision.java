@@ -7,10 +7,10 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.HollowSphere;
-import edu.colorado.phet.idealgas.model.SphericalBody;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.idealgas.model.HollowSphere;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.SphericalBody;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
