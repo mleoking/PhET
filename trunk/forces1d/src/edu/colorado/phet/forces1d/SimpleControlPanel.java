@@ -3,6 +3,7 @@ package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
+import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 import javax.swing.*;
@@ -20,9 +21,11 @@ public class SimpleControlPanel extends ControlPanel {
     private FreeBodyDiagramSuite fbdSuite;
     private JCheckBox frictionCheckBox;
     private BarrierCheckBox barriers;
+    private SimpleForceModule simpleForceModule;
 
     public SimpleControlPanel( final SimpleForceModule simpleForceModule ) {
         super( simpleForceModule );
+        this.simpleForceModule = simpleForceModule;
         frictionCheckBox = new JCheckBox( "Friction", true );
         frictionCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -53,6 +56,8 @@ public class SimpleControlPanel extends ControlPanel {
                 setChangesEnabled( true );
             }
         } );
+        ObjectSelectionPanel osp = new ObjectSelectionPanel( simpleForceModule.getImageElements(), this );
+        add( osp );
     }
 
     private void setChangesEnabled( boolean enabled ) {
@@ -66,5 +71,9 @@ public class SimpleControlPanel extends ControlPanel {
 
     public void reset() {
         fbdSuite.reset();
+    }
+
+    public void setup( Force1dObject imageElement ) {
+        simpleForceModule.setObject( imageElement );
     }
 }

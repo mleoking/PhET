@@ -27,7 +27,7 @@ public class HorizontalCursor extends PhetGraphic {
     private Color fillColor;
     double modelX = 0;
     int width = 8;
-    boolean visible = true;
+//    boolean visible = true;
     private Stroke stroke = new BasicStroke( 1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 2, new float[]{6, 4}, 0 );
     private Rectangle shape = null;
 
@@ -89,12 +89,12 @@ public class HorizontalCursor extends PhetGraphic {
     }
 
 
-    public void setVisible( boolean visible ) {
-        this.visible = visible;
-    }
+//    public void setVisible( boolean visible ) {
+//        this.visible = visible;
+//    }
 
     public void paint( Graphics2D g ) {
-        if( visible && shape != null ) {
+        if( isVisible() && shape != null ) {
             GraphicsState state = new GraphicsState( g );
             g.setColor( outlineColor );
             g.setStroke( stroke );
@@ -119,7 +119,7 @@ public class HorizontalCursor extends PhetGraphic {
     }
 
     public boolean contains( int x, int y ) {
-        return visible && shape != null && shape.contains( x, y );
+        return isVisible() && shape != null && shape.contains( x, y );
     }
 
     public void setModelX( double modelX ) {

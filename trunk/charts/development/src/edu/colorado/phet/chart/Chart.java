@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.chart;
 
+import edu.colorado.phet.chart.common.HTMLGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -100,13 +101,20 @@ public class Chart extends PhetGraphic {
     public static class VerticalTitle extends AbstractTitle {
         private Chart chart;
         private int offsetX;
-        private PhetTextGraphic graphic;
+        private PhetGraphic graphic;
 
         public VerticalTitle( Chart chart, String title, Font font, Color color, int offsetX ) {
             super( chart, title, font, color );
             this.chart = chart;
             this.offsetX = offsetX;
-            graphic = new PhetTextGraphic( chart.getComponent(), font, title, color, 0, 0 );
+
+            if( title.startsWith( "<html>" ) ) {
+                graphic = new HTMLGraphic( chart.getComponent(), title, font, color );
+            }
+            else {
+                graphic = new PhetTextGraphic( chart.getComponent(), font, title, color, 0, 0 );
+            }
+
         }
 
         public Rectangle getBounds() {

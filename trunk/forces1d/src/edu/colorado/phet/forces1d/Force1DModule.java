@@ -224,4 +224,16 @@ public class Force1DModule extends Module {
     public Force1DLookAndFeel getForce1DLookAndFeel() {
         return force1DLookAndFeel;
     }
+
+    public void setObject( Force1dObject force1dObject ) {
+
+        getForcePanel().getBlockGraphic().setImage( force1dObject );
+        forceModel.getBlock().setMass( force1dObject.getMass() );
+        forceModel.getBlock().setStaticFriction( force1dObject.getStaticFriction() );
+        forceModel.getBlock().setKineticFriction( force1dObject.getKineticFriction() );
+    }
+
+    public void clearData() {
+        getForcePanel().clearData();
+    }
 }

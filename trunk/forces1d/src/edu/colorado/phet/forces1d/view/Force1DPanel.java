@@ -82,11 +82,11 @@ public class Force1DPanel extends ApparatusPanel3 {
 
         double appliedForceRange = 1000;
         Force1DLookAndFeel laf = module.getForce1DLookAndFeel();
-        PlotDevice.ParameterSet forceParams = new PlotDevice.ParameterSet( this, "Forces", model.getPlotDeviceModel(),
+        PlotDevice.ParameterSet forceParams = new PlotDevice.ParameterSet( this, "Applied Force", model.getPlotDeviceModel(),
                                                                            forcePlotDeviceView, model.getAppliedForceDataSeries().getSmoothedDataSeries(),
                                                                            laf.getAppliedForceColor(), new BasicStroke( strokeWidth ),
                                                                            new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMaxTime(), appliedForceRange * 2 ),
-                                                                           0, "N", "Applied Force", true );
+                                                                           0, "N", "Applied Force", true, "Applied Force (N)" );
         forceParams.setZoomRates( 300, 100, 5000 );
 
         forcePlotDevice = new PlotDevice( forceParams, backgroundGraphic );
@@ -99,21 +99,21 @@ public class Force1DPanel extends ApparatusPanel3 {
         double accelRange = 10;
         PlotDevice.ParameterSet accelParams = new PlotDevice.ParameterSet( this, "Acceleration", model.getPlotDeviceModel(), forcePlotDeviceView, model.getAccelerationDataSeries(),
                                                                            laf.getAccelerationColor(), new BasicStroke( strokeWidth ),
-                                                                           new Rectangle2D.Double( 0, -accelRange, model.getPlotDeviceModel().getMaxTime(), accelRange * 2 ), 0, "N/kg", "Acceleration", false );
+                                                                           new Rectangle2D.Double( 0, -accelRange, model.getPlotDeviceModel().getMaxTime(), accelRange * 2 ), 0, "<html>m/s<sup>2</html>", "Acceleration", false, "<html>Acceleration (m/s<sup><small>2</small></sup>)</html>" );
 
         accelPlotDevice = new PlotDevice( accelParams, backgroundGraphic );
         backgroundGraphic.addGraphic( accelPlotDevice );
         double velRange = 10;
         PlotDevice.ParameterSet velParams = new PlotDevice.ParameterSet( this, "Velocity", model.getPlotDeviceModel(), forcePlotDeviceView, model.getVelocityDataSeries().getSmoothedDataSeries(),
                                                                          laf.getVelocityColor(), new BasicStroke( strokeWidth ),
-                                                                         new Rectangle2D.Double( 0, -velRange, model.getPlotDeviceModel().getMaxTime(), velRange * 2 ), 0, "m/s", "Velocity", false );
+                                                                         new Rectangle2D.Double( 0, -velRange, model.getPlotDeviceModel().getMaxTime(), velRange * 2 ), 0, "m/s", "Velocity", false, "Vecocity (m/s)" );
         velPlotDevice = new PlotDevice( velParams, backgroundGraphic );
         backgroundGraphic.addGraphic( velPlotDevice );
 
         double posRange = 10;
         PlotDevice.ParameterSet posParams = new PlotDevice.ParameterSet( this, "Position", model.getPlotDeviceModel(), forcePlotDeviceView, model.getPositionDataSeries().getSmoothedDataSeries(),
                                                                          laf.getPositionColor(), new BasicStroke( strokeWidth ),
-                                                                         new Rectangle2D.Double( 0, -posRange, model.getPlotDeviceModel().getMaxTime(), posRange * 2 ), 0, "m", "Position", false );
+                                                                         new Rectangle2D.Double( 0, -posRange, model.getPlotDeviceModel().getMaxTime(), posRange * 2 ), 0, "m", "Position", false, "Position (m/s)" );
         posPlotDevice = new PlotDevice( posParams, backgroundGraphic );
         backgroundGraphic.addGraphic( posPlotDevice );
         forcePlotDevice.addListener( new PlotDevice.Listener() {
@@ -137,7 +137,7 @@ public class Force1DPanel extends ApparatusPanel3 {
         } );
         Font checkBoxFont = new Font( "Lucida Sans", Font.PLAIN, 14 );
 
-        final JCheckBox showNetForce = new JCheckBox( "Net Force", true );
+        final JCheckBox showNetForce = new JCheckBox( "Total Force", true );
 
         showNetForce.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -246,6 +246,10 @@ public class Force1DPanel extends ApparatusPanel3 {
             }
         } );
 //        setUseOffscreenBuffer( true );
+//        Button3D button3D=new Button3D( this, "Button3D!");
+//        Button3D button3D=new Button3D( this, "<html>Button<sub>3d</sub><br>IN HTML</html>");
+//        addGraphic( button3D,Double.POSITIVE_INFINITY );
+//        button3D.setLocation( 100,100);
     }
 
     public Force1DLookAndFeel getLookAndFeel() {
@@ -254,11 +258,13 @@ public class Force1DPanel extends ApparatusPanel3 {
 
     private void setShowFrictionForce( boolean selected ) {
         forcePlotDevice.setDataSeriesVisible( 2, selected );
+        repaintBuffer();
         repaint();
     }
 
     private void setShowNetForce( boolean selected ) {
         forcePlotDevice.setDataSeriesVisible( 1, selected );
+        repaintBuffer();
         repaint();
     }
 //
@@ -438,5 +444,9 @@ public class Force1DPanel extends ApparatusPanel3 {
 
     public PlotDevice getPlotDevice() {
         return forcePlotDevice;
+    }
+
+    public void clearData() {
+        forcePlotDevice.clearData();
     }
 }
