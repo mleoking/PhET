@@ -38,15 +38,17 @@ public class IdealGasApplication extends PhetApplication {
             Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
             Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
             Module movableWallsModule = new MovableWallsModule( getClock() );
+            Module diffusionModule = new DiffusionModule( getClock() );
             Module[] modules = new Module[]{
                 idealGasModule,
                 rigidSphereModule,
                 heliumBalloonModule,
                 hotAirBalloonModule,
-                movableWallsModule
+                movableWallsModule,
+                diffusionModule
             };
             setModules( modules );
-            setInitialModule( movableWallsModule );
+            setInitialModule( diffusionModule );
 //            setInitialModule( idealGasModule );
 
             // Set the initial size
