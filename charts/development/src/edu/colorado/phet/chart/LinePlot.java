@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.chart;
 
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
@@ -20,10 +22,19 @@ public class LinePlot extends DataSetGraphic {
         this( component, chart, dataSet, new BasicStroke( 1 ), Color.black );
     }
 
-    public LinePlot( Component component, Chart chart, DataSet dataSet, Stroke stroke, Paint paint ) {
+    public LinePlot( Component component, final Chart chart, DataSet dataSet, Stroke stroke, Paint paint ) {
         super( component, chart, dataSet );
         phetShapeGraphic = new PhetShapeGraphic( getComponent(), null, stroke, paint );
         addGraphic( phetShapeGraphic );
+        setClip( chart.getChartBounds() );
+        chart.addPhetGraphicListener( new PhetGraphicListener() {
+            public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+                setClip( chart.getChartBounds() );
+            }
+
+            public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+            }
+        } );
     }
 
     public void pointAdded( Point2D point ) {
@@ -31,6 +42,7 @@ public class LinePlot extends DataSetGraphic {
             throw new RuntimeException( "Null point" );
         }
         Point viewLocation = getChart().transform( point );
+        System.out.println( "viewLocation = " + viewLocation );
         if( generalPath == null ) {
             generalPath = new GeneralPath();
             generalPath.moveTo( viewLocation.x, viewLocation.y );

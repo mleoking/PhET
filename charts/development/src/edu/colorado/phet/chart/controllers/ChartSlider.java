@@ -37,6 +37,7 @@ public class ChartSlider extends GraphicLayerSet {
         super( apparatusPanel );
         this.chart = chart;
         slider = new JSlider( JSlider.VERTICAL, 0, numTicks, numTicks / 2 );
+        slider.setOpaque( false );
 
         preferredWidth = slider.getPreferredSize().width;
         slider.addChangeListener( new ChangeListener() {
@@ -48,17 +49,18 @@ public class ChartSlider extends GraphicLayerSet {
         } );
         sliderGraphic = new PhetJComponent( apparatusPanel, slider );
         addGraphic( sliderGraphic );
-        update();
+        updateLocation();
         apparatusPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                update();
+                updateLocation();
             }
         } );
+
     }
 
     public double getValue() {
         int value = slider.getValue();
-        Rectangle r = chart.getViewBounds();
+        Rectangle r = chart.getChartBounds();
         Function.LinearFunction transform1d = new Function.LinearFunction( 0, numTicks, r.y + r.height, r.y );
         double output = transform1d.evaluate( value );
         double modelValue = chart.getModelViewTransform().viewToModelY( (int)output );
@@ -69,8 +71,8 @@ public class ChartSlider extends GraphicLayerSet {
         this.offsetX = offsetX;
     }
 
-    public void update() {
-        Rectangle viewBounds = chart.getViewBounds();
+    public void updateLocation() {
+        Rectangle viewBounds = chart.getChartBounds();
         viewBounds.x -= chart.getVerticalTicks().getWidth() - 5;
         System.out.println( "viewBounds = " + viewBounds );
         int x = viewBounds.x;
@@ -78,17 +80,28 @@ public class ChartSlider extends GraphicLayerSet {
         Dimension iconDim = getIconDimension();
 
         int insetYGuess = iconDim.height / 2;
+//        int insetYGuess = 0;
         int dx = iconDim.width;
 
-        Rectangle newShape = new Rectangle( x - dx - offsetX, y - insetYGuess, slider.getPreferredSize().width, viewBounds.height + insetYGuess * 2 );
+        Rectangle newShape = new Rectangle( x - dx - offsetX, y - insetYGuess,
+                                            slider.getPreferredSize().width, viewBounds.height + insetYGuess * 2 );
         slider.setPreferredSize( new Dimension( newShape.width, newShape.height ) );
-        slider.setOpaque( false );
+
         setLocation( newShape.x, newShape.y );
+        sliderGraphic.repaint();
+        System.out.println( "sliderGraphic = " + sliderGraphic.getBounds() );
+    }
+
+    public void setBounds( int x, int y, int width, int height ) {
+        slider.setPreferredSize( new Dimension( width, height ) );
+        setLocation( x, y );
         sliderGraphic.repaint();
     }
 
     private Dimension getIconDimension() {
         Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
+        String str = vert != null ? vert.getIconHeight() + "" : "null";
+        System.out.println( "vert.getIconHeight() = " + str );
         if( vert == null ) {
             return new Dimension( preferredWidth, preferredWidth );
         }
@@ -97,7 +110,7 @@ public class ChartSlider extends GraphicLayerSet {
 
     public void setValue( double y ) {
         double viewY = chart.getModelViewTransform().modelToViewY( y );
-        Rectangle r = chart.getViewBounds();
+        Rectangle r = chart.getChartBounds();
         Function.LinearFunction transform1d = new Function.LinearFunction( r.y + r.height, r.y, 0, numTicks );
         int tick = (int)transform1d.evaluate( viewY );
         ChangeListener[] s = slider.getChangeListeners();

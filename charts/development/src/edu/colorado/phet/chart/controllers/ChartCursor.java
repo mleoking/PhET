@@ -103,8 +103,8 @@ public class ChartCursor extends CompositePhetGraphic {
     public void update() {
         int xCenter = chart.getModelViewTransform().modelToViewX( modelX ) + chart.getX();
         int x = xCenter - width / 2;
-        int y = chart.getViewBounds().y;
-        int height = chart.getViewBounds().height;
+        int y = chart.getChartBounds().y;
+        int height = chart.getChartBounds().height;
         shape.setBounds( x, y, width, height );
 //        shape=chart.getNetTransform().createTransformedShape( shape ).getBounds();
         shapeGraphic.setShape( shape );

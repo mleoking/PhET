@@ -2,7 +2,6 @@
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic2;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.Man;
 import edu.colorado.phet.movingman.model.MovingManModel;
@@ -21,6 +20,10 @@ import java.awt.geom.Rectangle2D;
  * Copyright (c) Oct 19, 2004 by Sam Reid
  */
 public class PlotSet {
+    private MinimizablePlot minizablePositionPlot;
+    private MinimizablePlot minimizableVelocityPlot;
+    private MinimizablePlot minimizableAccelerationPlot;
+
     private MMPlot positionPlot;
     private MMPlot velocityPlot;
     private MMPlot accelerationPlot;
@@ -29,7 +32,7 @@ public class PlotSet {
     private MovingManApparatusPanel movingManApparatusPanel;
 
     public PlotSet( final MovingManModule module,
-                    MovingManApparatusPanel movingManApparatusPanel ) {
+                    final MovingManApparatusPanel movingManApparatusPanel ) {
         this.movingManApparatusPanel = movingManApparatusPanel;
         this.movingManModel = module.getMovingManModel();
         this.module = module;
@@ -43,7 +46,7 @@ public class PlotSet {
         Stroke plotStroke = new BasicStroke( 3.0f );
         Rectangle2D.Double positionInputBox = new Rectangle2D.Double( minTime, -maxPositionView, movingManModel.getMaxTime() - minTime, maxPositionView * 2 );
 
-        positionPlot = new MMPlot( movingManApparatusPanel );
+        positionPlot = new MMPlot( movingManApparatusPanel, "Position" );
         BasicStroke plotStroke2 = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         positionPlot.addPlotDeviceData( new PlotDevice.PlotDeviceData( positionPlot, module.getMovingManModel().getPosition().getSmoothedDataSeries(), Color.blue, "Position", plotStroke2 ) );
 //        positionPlot = new MMPlot( SimStrings.get( "PlotSet.PositionLabel" ), module,
@@ -62,12 +65,12 @@ public class PlotSet {
 
         positionPlot.setPaintYLines( new double[]{5, 10} );
 //        getBuffer().addGraphic( positionPlot, 3 );
-        movingManApparatusPanel.addGraphic( positionPlot, 3 );//todo fix buffering.
+
 
 //        positionPlot.addSliderListener( new SliderHandler( module, positionSetter ) );
 
         Rectangle2D.Double velocityInputBox = new Rectangle2D.Double( minTime, -maxVelocity, movingManModel.getMaxTime() - minTime, maxVelocity * 2 );
-        velocityPlot = new MMPlot( movingManApparatusPanel );
+        velocityPlot = new MMPlot( movingManApparatusPanel, "Velocity" );
 //        velocityPlot = new MMPlot( SimStrings.get( "PlotSet.VelocityLabel" ), module,
 //                                   movingManModel.getVelocitySeries().getSmoothedDataSeries(), module.getRecordingTimer(),
 //                                   Color.red, plotStroke, velocityInputBox, getBuffer(), xshiftVelocity,
@@ -76,7 +79,7 @@ public class PlotSet {
         velocityPlot.addPlotDeviceData( new PlotDevice.PlotDeviceData( velocityPlot, module.getMovingManModel().getVelocitySeries().getSmoothedDataSeries(), Color.red, "Velocity", plotStroke2 ) );
         velocityPlot.setMagnitude( 12 );
         velocityPlot.setPaintYLines( new double[]{5, 10} );
-        movingManApparatusPanel.addGraphic( velocityPlot, 4 );
+
         final MMPlot.TextBox velocityBox = velocityPlot.getTextBox();
         ManSetter velSetter = new ManSetter() {
             public void setValue( Man man, double value ) {
@@ -88,7 +91,7 @@ public class PlotSet {
 //        velocityPlot.addSliderListener( new SliderHandler( module, velSetter ) );
 
         Rectangle2D.Double accelInputBox = new Rectangle2D.Double( minTime, -maxAccel, movingManModel.getMaxTime() - minTime, maxAccel * 2 );
-        accelerationPlot = new MMPlot( movingManApparatusPanel );
+        accelerationPlot = new MMPlot( movingManApparatusPanel, "Acceleration" );
 //        accelerationPlot = new MMPlot( SimStrings.get( "PlotSet.AccelerationLabel" ), module,
 //                                       movingManModel.getAcceleration().getSmoothedDataSeries(), module.getRecordingTimer(),
 //                                       Color.black, plotStroke, accelInputBox, getBuffer(), xshiftAcceleration,
@@ -97,8 +100,6 @@ public class PlotSet {
 //        accelerationPlot.addSuperScript( "2" );
         Color green = new Color( 40, 185, 80 );
         accelerationPlot.addPlotDeviceData( new PlotDevice.PlotDeviceData( accelerationPlot, module.getMovingManModel().getAcceleration().getSmoothedDataSeries(), green, "Acceleration", plotStroke2 ) );
-        movingManApparatusPanel.addGraphic( accelerationPlot, 5 );
-
         accelerationPlot.setPaintYLines( new double[]{5, 10} );
         accelerationPlot.setMagnitude( 12 );
 
@@ -137,10 +138,22 @@ public class PlotSet {
 //                }
 //            }
 //        } );
-    }
 
-    private BufferedPhetGraphic2 getBuffer() {
-        return movingManApparatusPanel.getBuffer();
+        minizablePositionPlot = new MinimizablePlot( movingManApparatusPanel, positionPlot );
+        minimizableVelocityPlot = new MinimizablePlot( movingManApparatusPanel, velocityPlot );
+        minimizableAccelerationPlot = new MinimizablePlot( movingManApparatusPanel, accelerationPlot );
+
+        MinimizablePlot.Listener listener = new MinimizablePlot.Listener() {
+            public void plotVisibilityChanged() {
+                movingManApparatusPanel.relayout();
+            }
+        };
+        minizablePositionPlot.addListener( listener );
+        minimizableVelocityPlot.addListener( listener );
+        minimizableAccelerationPlot.addListener( listener );
+        movingManApparatusPanel.addGraphic( minizablePositionPlot, 3 );//todo fix buffering.
+        movingManApparatusPanel.addGraphic( minimizableVelocityPlot, 4 );
+        movingManApparatusPanel.addGraphic( minimizableAccelerationPlot, 5 );
     }
 
     public void setNumSmoothingPoints( int n ) {
@@ -268,5 +281,17 @@ public class PlotSet {
                 module.setNumSmoothingPoints( 2 );
             }
         }
+    }
+
+    public MinimizablePlot getMinizablePositionPlot() {
+        return minizablePositionPlot;
+    }
+
+    public MinimizablePlot getMinimizableVelocityPlot() {
+        return minimizableVelocityPlot;
+    }
+
+    public MinimizablePlot getMinimizableAccelerationPlot() {
+        return minimizableAccelerationPlot;
     }
 }

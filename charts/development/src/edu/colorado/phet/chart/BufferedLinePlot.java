@@ -6,62 +6,68 @@
  */
 package edu.colorado.phet.chart;
 
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic2;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
-public class BufferedLinePlot implements DataSet.Observer {
+public class BufferedLinePlot {
     private boolean visible = true;
     private GeneralPath generalPath;
     private Stroke stroke;
     private Paint paint;
-    private BufferedPhetGraphic2 bufferedPhetGraphic;
+    private BufferedImage bufferedImage;
     private Chart chart;
     private boolean autorepaint;
+    private int dx = 0;
+    private int dy = 0;
+//    private LinkedList rawData = new LinkedList();
 
-    public BufferedLinePlot( Chart chart, DataSet dataSet, BufferedPhetGraphic2 bufferedPhetGraphic ) {
-        this( chart, dataSet, new BasicStroke( 1 ), Color.black, bufferedPhetGraphic );
+    public BufferedLinePlot( Chart chart, BufferedImage bufferedImage ) {
+        this( chart, new BasicStroke( 1 ), Color.black, bufferedImage );
     }
 
-    public BufferedLinePlot( Chart chart, DataSet dataSet, Stroke stroke, Paint paint, BufferedPhetGraphic2 bufferedPhetGraphic ) {
+    public BufferedLinePlot( Chart chart, Stroke stroke, Paint paint, BufferedImage bufferedImage ) {
         this.chart = chart;
-        dataSet.addObserver( this );
+        this.bufferedImage = bufferedImage;
         this.stroke = stroke;
         this.paint = paint;
-        this.bufferedPhetGraphic = bufferedPhetGraphic;
         setVisible( true );
     }
 
-    public void pointAdded( Point2D point ) {
+    public void setOffset( int dx, int dy ) {
+        this.dx = dx;
+        this.dy = dy;
+    }
+
+    public Rectangle lineTo( Point2D point ) {
         if( point == null ) {
             throw new RuntimeException( "Null point" );
         }
-//        Point viewLocation = chart.transform( point );
+//        rawData.add( point );
         Point viewLocation = chart.transform( point );
-        viewLocation.x += chart.getX();
-        viewLocation.y += chart.getY();
+//        System.out.println( "viewLocation = " + viewLocation );
+        viewLocation.x += dx;
+        viewLocation.y += dy;
+//        System.out.println( "viewLocation @dx= " + viewLocation );
         if( generalPath == null ) {
             generalPath = new GeneralPath();
             generalPath.moveTo( viewLocation.x, viewLocation.y );
+            return new Rectangle( viewLocation.x, viewLocation.y, 0, 0 );
         }
         else {
-
+            Rectangle bounds = null;
             if( isVisible() && autorepaint ) {
                 //Determine the exact region for repaint.
                 Line2D line = new Line2D.Double( generalPath.getCurrentPoint(), viewLocation );
 
-                Rectangle bounds = stroke.createStrokedShape( line ).getBounds();
+                bounds = stroke.createStrokedShape( line ).getBounds();
                 drawToBuffer( line );
-                JComponent jc = (JComponent)chart.getComponent();
-
-//                jc.paintImmediately( bounds.x, bounds.y, bounds.width, bounds.height );
-                jc.repaint( bounds.x, bounds.y, bounds.width, bounds.height );//We could pass a flag (or call a method) that this rectangle not be unioned with the rest of the crowd.
             }
             generalPath.lineTo( (float)viewLocation.getX(), (float)viewLocation.getY() );
+
+            return bounds;
         }
     }
 
@@ -73,22 +79,28 @@ public class BufferedLinePlot implements DataSet.Observer {
         this.visible = visible;
     }
 
-    public void pointRemoved( Point2D point ) {
-    }
-
     private void drawToBuffer( Line2D line ) {
         if( isVisible() ) {
-            Graphics2D g2 = bufferedPhetGraphic.getImage().createGraphics();
+            Graphics2D g2 = bufferedImage.createGraphics();
+//            g2.transform( chart.getNetTransform() );
             g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
             g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             g2.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY );
             g2.setStroke( stroke );
             g2.setPaint( paint );
             Shape origClip = g2.getClip();
-            g2.setClip( chart.getViewBounds() );
+
+            g2.setClip( getClip() );
             g2.draw( line );
             g2.setClip( origClip );
         }
+    }
+
+    private Shape getClip() {
+        Rectangle chartBounds = new Rectangle( chart.getChartBounds() );
+        chartBounds.x += dx;
+        chartBounds.y += dy;
+        return chartBounds;
     }
 
     public void cleared() {
@@ -100,7 +112,8 @@ public class BufferedLinePlot implements DataSet.Observer {
     }
 
     public void repaintAll() {
-        Graphics2D graphics2D = bufferedPhetGraphic.getImage().createGraphics();
+
+        Graphics2D graphics2D = bufferedImage.createGraphics();
         Shape origClip = graphics2D.getClip();
         if( generalPath != null ) {
             Stroke oldStroke = graphics2D.getStroke();
@@ -110,7 +123,7 @@ public class BufferedLinePlot implements DataSet.Observer {
             graphics2D.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY );
             graphics2D.setStroke( stroke );
             graphics2D.setPaint( paint );
-            graphics2D.setClip( chart.getViewBounds() );
+            graphics2D.setClip( getClip() );
             graphics2D.draw( generalPath );
             graphics2D.setStroke( oldStroke );
             graphics2D.setPaint( oldPaint );
@@ -120,9 +133,14 @@ public class BufferedLinePlot implements DataSet.Observer {
 
     public void clear() {
         generalPath = null;
+//        rawData.clear();
     }
 
     public void setAutoRepaint( boolean autorepaint ) {
         this.autorepaint = autorepaint;
+    }
+
+    public void setBufferedImage( BufferedImage image ) {
+        this.bufferedImage = image;
     }
 }

@@ -5,14 +5,12 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.help.HelpPanel;
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic2;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -22,7 +20,7 @@ import edu.colorado.phet.movingman.common.LinearTransform1d;
 import edu.colorado.phet.movingman.misc.JEPFrame;
 import edu.colorado.phet.movingman.model.*;
 import edu.colorado.phet.movingman.plotdevice.PlotDevice;
-import edu.colorado.phet.movingman.plots.MMPlot;
+import edu.colorado.phet.movingman.plotdevice.PlotDeviceListener;
 import edu.colorado.phet.movingman.plots.PlotSet;
 import edu.colorado.phet.movingman.view.ManGraphic;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
@@ -76,12 +74,8 @@ public class MovingManModule extends Module {
             }
 
             public void componentResized( ComponentEvent e ) {
-                getModel().execute( new Command() {
-                    public void doIt() {
-                        initMediaPanel();
-                        relayout();
-                    }
-                } );
+                initMediaPanel();
+                relayout();
             }
         } );
         clock.addClockTickListener( getModel() );//todo is this redundant now?
@@ -92,7 +86,7 @@ public class MovingManModule extends Module {
 
         movingManModel.fireReset();
 
-        getVelocityPlot().addListener( new MMPlot.Listener() {
+        getVelocityPlot().addListener( new PlotDeviceListener() {
             CircularBuffer circularBuffer = new CircularBuffer( 20 );
 
             public void nominalValueChanged( double value ) {
@@ -108,10 +102,10 @@ public class MovingManModule extends Module {
             public void zoomChanged() {
             }
 
-            public void minimized() {
+            public void minimizePressed() {
             }
 
-            public void maximized() {
+            public void maximizePressed() {
             }
 
             public void sliderMoved() {
@@ -188,7 +182,7 @@ public class MovingManModule extends Module {
     }
 
     public void repaintBackground( Rectangle rect ) {
-        getMovingManApparatusPanel().repaintBackground( rect );
+//        getMovingManApparatusPanel().repaintBackground( rect );
     }
 
 
@@ -217,9 +211,9 @@ public class MovingManModule extends Module {
         return getTimeModel().isPaused();
     }
 
-    public BufferedPhetGraphic2 getBuffer() {
-        return getMovingManApparatusPanel().getBuffer();
-    }
+//    public BufferedPhetGraphic2 getBuffer() {
+//        return getMovingManApparatusPanel().getBuffer();
+//    }
 
     public MovingManModel getMovingManModel() {
         return movingManModel;
@@ -262,6 +256,8 @@ public class MovingManModule extends Module {
         getTimeModel().setRecordMode();
         reset();
         setPaused( true );
+
+//        getMovingManApparatusPanel().getPlotSet().setCursorsVisible( true );
     }
 
     public void repaintBackground() {
@@ -326,7 +322,7 @@ public class MovingManModule extends Module {
         getMovingManApparatusPanel().relayout();
         Component c = getApparatusPanel();
         if( c.getHeight() > 0 && c.getWidth() > 0 ) {
-            getMovingManApparatusPanel().setTheSize( c.getWidth(), c.getHeight() );
+//            getMovingManApparatusPanel().setTheSize( c.getWidth(), c.getHeight() );
             getApparatusPanel().repaint();
         }
     }
@@ -418,7 +414,7 @@ public class MovingManModule extends Module {
         movingManModel.reset();
         setCursorsVisible( false );
         getPlotSet().reset();
-        getMovingManApparatusPanel().paintBufferedImage();
+//        getMovingManApparatusPanel().paintBufferedImage();
         getApparatusPanel().repaint();
     }
 
@@ -500,7 +496,7 @@ public class MovingManModule extends Module {
     }
 
 
-    public static void main( String[] args ) throws Exception {
+    public static void main( final String[] args ) throws Exception {
         edu.colorado.phet.common.view.PhetLookAndFeel plaf = new edu.colorado.phet.common.view.PhetLookAndFeel();
         plaf.apply();
         edu.colorado.phet.common.view.PhetLookAndFeel.setLookAndFeel();
@@ -520,7 +516,7 @@ public class MovingManModule extends Module {
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
                 try {
-                    runMain();
+                    runMain( args );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -535,7 +531,7 @@ public class MovingManModule extends Module {
         } );
     }
 
-    private static void runMain() throws IOException, InvocationTargetException, InterruptedException {
+    private static void runMain( String[] args ) throws IOException, InvocationTargetException, InterruptedException {
         AbstractClock clock = new SwingTimerClock( 1, 30, true );
         clock.setDelay( 30 );
         final MovingManModule m = new MovingManModule( clock );
@@ -544,7 +540,7 @@ public class MovingManModule extends Module {
         ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ),
                                                       SimStrings.get( "MovingManApplication.description" ),
                                                       SimStrings.get( "MovingManApplication.version" ), setup, m, clock );
-        PhetApplication tpa = new PhetApplication( desc );
+        PhetApplication tpa = new PhetApplication( desc, args );
 
         final PhetFrame frame = tpa.getPhetFrame();
         m.setFrame( frame );

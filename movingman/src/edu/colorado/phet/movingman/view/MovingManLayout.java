@@ -2,10 +2,7 @@
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.movingman.common.LinearTransform1d;
-import edu.colorado.phet.movingman.plotdevice.PlotDevice;
-import edu.colorado.phet.movingman.plots.MMPlot;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -16,18 +13,16 @@ import java.util.ArrayList;
  * Copyright (c) Jul 1, 2003 by Sam Reid
  */
 public class MovingManLayout {
-    private int plotInsetRight = 13;
     private int walkwayHeight = 150;
     private int topInset = 20;
     private int walkwayBottomInset = 55;
     private int spaceBetweenPlots = 20;
-    private int plotInsetX = 100;
 
     private MMVerticalLayout verticalLayout;
     private MovingManApparatusPanel movingManApparatusPanel;
-    private ChartLayoutItem layoutItemX;
-    private ChartLayoutItem layoutItemV;
-    private ChartLayoutItem layoutItemA;
+    private LayoutItem layoutItemX;
+    private LayoutItem layoutItemV;
+    private LayoutItem layoutItemA;
 
     public MovingManLayout( MovingManApparatusPanel movingManApparatusPanel ) {
         this.movingManApparatusPanel = movingManApparatusPanel;
@@ -37,54 +32,16 @@ public class MovingManLayout {
         verticalLayout.addSpacer( walkwayBottomInset );
         verticalLayout.addSpacer( topInset );
         verticalLayout.addSpacer( spaceBetweenPlots );
-        layoutItemX = new ChartLayoutItem( this.movingManApparatusPanel, movingManApparatusPanel.getPlotSet().getPositionPlot() );
+        layoutItemX = movingManApparatusPanel.getPlotSet().getMinizablePositionPlot();
         verticalLayout.addLayoutItem( layoutItemX );
         verticalLayout.addSpacer( spaceBetweenPlots );
-        layoutItemV = new ChartLayoutItem( this.movingManApparatusPanel, movingManApparatusPanel.getPlotSet().getVelocityPlot() );
+        layoutItemV = movingManApparatusPanel.getPlotSet().getMinimizableVelocityPlot();
         verticalLayout.addLayoutItem( layoutItemV );
         verticalLayout.addSpacer( spaceBetweenPlots );
-        layoutItemA = new ChartLayoutItem( this.movingManApparatusPanel, movingManApparatusPanel.getPlotSet().getAccelerationPlot() );
+        layoutItemA = movingManApparatusPanel.getPlotSet().getMinimizableAccelerationPlot();
         verticalLayout.addLayoutItem( layoutItemA );
         verticalLayout.addSpacer( spaceBetweenPlots );
         relayout();
-    }
-
-    class ChartLayoutItem implements LayoutItem {
-        private PlotDevice plot;
-        private JComponent component;
-
-        private MMPlot.ChartButton chartButton;
-
-        public ChartLayoutItem( JComponent component, PlotDevice plot ) {
-            this.component = component;
-            this.plot = plot;
-            this.chartButton = plot.getShowButton();
-        }
-
-        public boolean isVariable() {
-            if( plot.isVisible() ) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-
-        public int getHeight() {
-            return chartButton.getPreferredSize().height;
-        }
-
-        public void setVerticalParameters( int y, int height ) {
-            if( component.getWidth() > 0 && height > 0 ) {
-                int width = component.getWidth() - plotInsetX - plotInsetRight;
-                plot.setViewBounds( plotInsetX, y, width, height );
-            }
-        }
-
-        public void setY( int y ) {
-            chartButton.setLocation( chartButton.getX(), y );
-        }
-
     }
 
     static class MMVerticalLayout {
@@ -106,7 +63,7 @@ public class MovingManLayout {
                 if( layoutItem.isVariable() ) {
                 }
                 else {
-                    size += layoutItem.getHeight();
+                    size += layoutItem.getLayoutHeight();
                 }
             }
             return size;
@@ -134,7 +91,7 @@ public class MovingManLayout {
                 }
                 else {
                     layoutItem.setY( y );
-                    y += layoutItem.getHeight();
+                    y += layoutItem.getLayoutHeight();
                 }
             }
         }
@@ -155,10 +112,10 @@ public class MovingManLayout {
         }
     }
 
-    static interface LayoutItem {
+    public static interface LayoutItem {
         public boolean isVariable();
 
-        public int getHeight();
+        public int getLayoutHeight();
 
         public void setVerticalParameters( int y, int height );
 
@@ -176,7 +133,7 @@ public class MovingManLayout {
             return false;
         }
 
-        public int getHeight() {
+        public int getLayoutHeight() {
             return height;
         }
 
@@ -199,6 +156,7 @@ public class MovingManLayout {
         movingManApparatusPanel.getManGraphic().setY( walkwayHeight - movingManApparatusPanel.getManGraphic().getHeight() );
         WalkWayGraphic wa = movingManApparatusPanel.getWalkwayGraphic();
         wa.setBounds( walkwayInsetX, 0, movingManApparatusPanel.getWidth() - walkwayInsetX * 2, walkwayHeight );
+        movingManApparatusPanel.repaintBackground();
     }
 
 }
