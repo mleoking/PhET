@@ -45,18 +45,19 @@ public class CollidableAdapter implements Collidable, ModelElement {
 
     public CollidableAdapter( Particle particle ) {
         this.particle = particle;
+        velocityPrev = new Vector2D.Double( particle.getVelocity() );
+        positionPrev = new Point2D.Double( particle.getPosition().getX(), particle.getPosition().getY());
     }
 
+    /**
+     * This should be called by the stepInTime() method of the ModelElement in which this object
+     * is contained. It should be called before the ModelElement updates its velocity and position.
+     * @param dt
+     */
     public void stepInTime( double dt ) {
         // Save the velocity and position before they are updated. This information
         // is used in collision calculations
-        if( velocityPrev == null ) {
-            velocityPrev = new Vector2D.Double();
-        }
         velocityPrev.setComponents( particle.getVelocity().getX(), particle.getVelocity().getY() );
-        if( positionPrev == null ) {
-            positionPrev = new Point2D.Double( particle.getPosition().getX(), particle.getPosition().getY() );
-        }
         positionPrev.setLocation( particle.getPosition() );
     }
 
