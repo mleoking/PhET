@@ -88,7 +88,7 @@ public class PhetTextGraphic extends PhetGraphic {
     }
 
     public void setText( String text ) {
-        if( this.text == text ) {
+        if( this.text.equals( text ) || this.text == text ) {
             return;
         }
         this.text = text;
