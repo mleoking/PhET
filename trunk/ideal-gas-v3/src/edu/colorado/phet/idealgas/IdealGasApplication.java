@@ -11,7 +11,8 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.controller.*;
+import edu.colorado.phet.idealgas.controller.DiffusionModule;
+import edu.colorado.phet.idealgas.controller.MovableWallsModule;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
@@ -33,23 +34,23 @@ public class IdealGasApplication extends PhetApplication {
             setClock( clock );
 
             // Create the modules
-            Module idealGasModule = new IdealGasModule( getClock() );
-            Module rigidSphereModule = new RigidHollowSphereModule( getClock() );
-            Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
-            Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
+//            Module idealGasModule = new IdealGasModule( getClock() );
+//            Module rigidSphereModule = new RigidHollowSphereModule( getClock() );
+//            Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
+//            Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
             Module movableWallsModule = new MovableWallsModule( getClock() );
             Module diffusionModule = new DiffusionModule( getClock() );
             Module[] modules = new Module[]{
-                idealGasModule,
-                rigidSphereModule,
-                heliumBalloonModule,
-                hotAirBalloonModule,
+//                idealGasModule,
+//                rigidSphereModule,
+//                heliumBalloonModule,
+//                hotAirBalloonModule,
                 movableWallsModule,
                 diffusionModule
             };
             setModules( modules );
-            setInitialModule( movableWallsModule );
-//            setInitialModule( diffusionModule );
+//            setInitialModule( movableWallsModule );
+            setInitialModule( diffusionModule );
 //            setInitialModule( idealGasModule );
 
             // Set the initial size
