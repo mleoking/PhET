@@ -42,12 +42,14 @@ public interface AbstractVector2D {
 
     double getCrossProductScalar( AbstractVector2D v );
 
+    Point2D getDestination( Point2D startPt );
+
     public class Double implements AbstractVector2D {
         private double x;
         private double y;
 
         protected Double() {
-            this(0,0);
+            this( 0, 0 );
         }
 
         protected Double( double x, double y ) {
@@ -65,6 +67,10 @@ public interface AbstractVector2D {
 
         protected Double( Point2D p ) {
             this( p.getX(), p.getY() );
+        }
+
+        protected Double( Point2D initialPt, Point2D finalPt ) {
+            this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() );
         }
 
         public boolean equals( Object obj ) {
@@ -136,7 +142,6 @@ public interface AbstractVector2D {
             this.y = y;
         }
 
-
         public double dot( AbstractVector2D that ) {
             double result = 0;
             result += this.getX() * that.getX();
@@ -160,6 +165,10 @@ public interface AbstractVector2D {
             return ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
         }
 
+        public Point2D getDestination( Point2D startPt ) {
+            return new Point2D.Double( startPt.getX() + getX(), startPt.getY() + getY() );
+        }
+
         public static AbstractVector2D parseAngleAndMagnitude( double r, double angle ) {
             AbstractVector2D vector = new AbstractVector2D.Double( Math.cos( angle ), Math.sin( angle ) );
             return vector.getScaledInstance( r );
@@ -172,7 +181,7 @@ public interface AbstractVector2D {
         private float y;
 
         protected Float() {
-            this(0,0);
+            this( 0, 0 );
         }
 
         protected Float( float x, float y ) {
@@ -300,6 +309,10 @@ public interface AbstractVector2D {
 
         public double getCrossProductScalar( AbstractVector2D v ) {
             return ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
+        }
+
+        public Point2D getDestination( Point2D startPt ) {
+            return new Point2D.Float( (float)( getX() + startPt.getX() ), (float)( getY() + startPt.getY() ) );
         }
 
         public static AbstractVector2D parseAngleAndMagnitude( double r, double angle ) {

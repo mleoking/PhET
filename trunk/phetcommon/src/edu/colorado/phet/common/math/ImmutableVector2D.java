@@ -31,12 +31,9 @@ public interface ImmutableVector2D extends AbstractVector2D {
         }
 
         public Double( Point2D initialPt, Point2D finalPt ) {
-            this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() );
+            super( initialPt, finalPt );
         }
 
-        public Point2D getDestination( Point2D.Double startPt ) {
-            return new Point2D.Double( startPt.getX() + getX(), startPt.getY() + getY() );
-        }
     }
 
     public class Float extends AbstractVector2D.Float {
@@ -59,5 +56,10 @@ public interface ImmutableVector2D extends AbstractVector2D {
         public Float( Point2D p ) {
             super( p );
         }
+
+        public Float( Point2D initialPt, Point2D finalPt ) {
+            this( (float)( finalPt.getX() - initialPt.getX() ), (float)( finalPt.getY() - initialPt.getY() ) );
+        }
+
     }
 }
