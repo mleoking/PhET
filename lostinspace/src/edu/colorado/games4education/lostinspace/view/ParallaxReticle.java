@@ -9,17 +9,16 @@ package edu.colorado.games4education.lostinspace.view;
 
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
+import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.geom.*;
 
 public class ParallaxReticle extends DefaultInteractiveGraphic implements Translatable {
 
-    private Point2D.Double location = new Point2D.Double( );
-    private AffineTransform atx = new AffineTransform( );
+    private Point2D.Double location = new Point2D.Double();
+    private AffineTransform atx = new AffineTransform();
     private Reticle reticle;
     private Container container;
 
@@ -70,8 +69,8 @@ public class ParallaxReticle extends DefaultInteractiveGraphic implements Transl
         private int numMinorTicks = 10;
         private int majorTickIncr = length / ( numMajorTicks - 1 );
         private int minorTickIncr = majorTickIncr / numMinorTicks;
-        private Rectangle2D.Double bounds = new Rectangle2D.Double( 0, - height / 2, length, height );
-        private Point2D.Double testPoint = new Point2D.Double( );
+        private Rectangle2D.Double bounds = new Rectangle2D.Double( 0, -height / 2, length, height );
+        private Point2D.Double testPoint = new Point2D.Double();
 
         public Rectangle2D.Double getBounds() {
             return bounds;
@@ -100,12 +99,12 @@ public class ParallaxReticle extends DefaultInteractiveGraphic implements Transl
 
         public boolean contains( int x, int y ) {
             try {
-                atx.inverseTransform( new Point2D.Double( (double)x, (double)y ), testPoint);
+                atx.inverseTransform( new Point2D.Double( (double)x, (double)y ), testPoint );
             }
             catch( NoninvertibleTransformException e ) {
                 e.printStackTrace();
             }
-            return bounds.contains( testPoint ) ;
+            return bounds.contains( testPoint );
         }
     }
 }

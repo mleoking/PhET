@@ -7,23 +7,21 @@
  */
 package edu.colorado.games4education.lostinspace.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.games4education.lostinspace.Config;
+import edu.colorado.games4education.lostinspace.controller.CockpitModule;
+import edu.colorado.games4education.lostinspace.controller.ParallaxButton;
+import edu.colorado.games4education.lostinspace.controller.PhotometerButton;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.games4education.lostinspace.controller.CockpitModule;
-import edu.colorado.games4education.lostinspace.controller.ParallaxButton;
-import edu.colorado.games4education.lostinspace.controller.PhotometerButton;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
@@ -34,7 +32,8 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
     Point2D.Double parallaxButtonLocation = new Point2D.Double( 425, 535 );
 
     private BufferedImage cockpitImage;
-    private BufferedImage joystickImage;
+    private BufferedImage joystickBaseImage;
+    private BufferedImage joystickControlImage;
     private AffineTransform cockpitTx = new AffineTransform();
     private AffineTransform joystickTx = new AffineTransform();
 
@@ -46,7 +45,8 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
         ImageLoader imgLoader = new ImageLoader();
         try {
             cockpitImage = imgLoader.loadImage( "images/cockpit-view.gif" );
-            joystickImage = imgLoader.loadImage( "images/joystick.gif" );
+            joystickBaseImage = imgLoader.loadImage( "images/joystick-base.gif" );
+            joystickControlImage = imgLoader.loadImage( "images/joystick-control.gif" );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -54,9 +54,9 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
         this.addGraphic( new JoystickGraphic(), joystickLayer );
 
         joystickTx.concatenate( cockpitTx );
-        joystickTx.translate( 530, 480 );
+        joystickTx.translate( 530, 545 );
 
-        addGraphic( new ParallaxButton( module, parallaxButtonLocation), joystickLayer );
+        addGraphic( new ParallaxButton( module, parallaxButtonLocation ), joystickLayer );
         addGraphic( new PhotometerButton( module, photometerButtonLocation ), joystickLayer );
     }
 
@@ -78,13 +78,19 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
         private Point2D.Double testPt = new Point2D.Double();
         private Point2D.Double knobCenter = new Point2D.Double( 40, 10 );
         private Point dragStart;
+        private double joystickDx;
 
         public JoystickGraphic() {
             super( null, null );
             addCursorHandBehavior();
             Graphic jg = new Graphic() {
                 public void paint( Graphics2D g ) {
-                    g.drawImage( joystickImage, joystickTx, CockpitGraphic.this );
+                    AffineTransform tx = new AffineTransform( joystickTx );
+                    double phi = Math.atan( joystickDx / joystickBaseImage.getHeight( ) );
+                    g.drawImage( joystickBaseImage, tx, CockpitGraphic.this );
+                    tx.translate( 29, -70 );
+                    tx.rotate( phi, joystickControlImage.getWidth() / 2, joystickControlImage.getHeight( ) );
+                    g.drawImage( joystickControlImage, tx, CockpitGraphic.this );
                 }
             };
             setGraphic( jg );
@@ -100,8 +106,8 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
                         e.printStackTrace();
                     }
 
-                    result = testPt.getX() > 30 && testPt.getX() < 50
-                             && testPt.getY() > 0 && testPt.getY() < 20;
+                    result = testPt.getX() > 25 && testPt.getX() < 25 + joystickControlImage.getWidth()
+                             && testPt.getY() > -70 && testPt.getY() < -50;
                     return result;
                 }
             };
@@ -112,10 +118,19 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
             dragStart = e.getPoint();
         }
 
+        public void mouseReleased( MouseEvent e ) {
+            joystickDx = 0;
+            module.update();
+        }
+
         public void mouseDragged( MouseEvent e ) {
             double dx = e.getPoint().getX() - dragStart.getX();
             double dy = e.getPoint().getY() - dragStart.getY();
-            module.changePov( 1 * (dx > 0 ? 1 : -1 ), 1 * (dy > 0 ? 1 : -1 ) );
+            double gamma = Math.atan( ( 1 * ( dx > 0 ? 1 : -1 ) ) / Config.fixedStarDistance );
+            module.changeCockpitPov( 1 * ( dx > 0 ? 1 : -1 ), 0, -gamma );
+//            module.changeCockpitPov( 1 * ( dx > 0 ? 1 : -1 ), 1 * ( dy > 0 ? 1 : -1 ), -gamma );
+
+            joystickDx = dx;
         }
     }
 }

@@ -7,15 +7,16 @@
  */
 package edu.colorado.games4education.lostinspace.view;
 
-import edu.colorado.games4education.lostinspace.model.StarView;
-import edu.colorado.games4education.lostinspace.model.Star;
 import edu.colorado.games4education.lostinspace.Config;
+import edu.colorado.games4education.lostinspace.model.Star;
+import edu.colorado.games4education.lostinspace.model.StarView;
+import edu.colorado.games4education.lostinspace.model.Point2DPolar;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -51,9 +52,10 @@ public class StarViewGraphic extends CompositeInteractiveGraphic {
             Star visibleStar = (Star)visibleStars.get( i );
             StarGraphic starGraphic = (StarGraphic)starToGraphicMap.get( visibleStar );
             if( starGraphic == null ) {
-                starGraphic = new StarGraphic( 10, Color.white, new Point2D.Double() );
+                starGraphic = new StarGraphic( 10, visibleStar.getColor(), new Point2D.Double() );
                 starToGraphicMap.put( visibleStar, starGraphic );
-                this.addGraphic( starGraphic, Config.starLayer );
+                Point2DPolar starPc = starView.getPolarCoords( visibleStar );
+                this.addGraphic( starGraphic, 1 / starPc.getR() );
             }
             starGraphic.update( visibleStar, starView.getLocation( visibleStar ) );
 
@@ -62,7 +64,7 @@ public class StarViewGraphic extends CompositeInteractiveGraphic {
             Iterator starIt = starToGraphicMap.keySet().iterator();
             while( starIt.hasNext() ) {
                 Star star = (Star)starIt.next();
-                if( !visibleStars.contains( star )) {
+                if( !visibleStars.contains( star ) ) {
                     removeList.add( star );
                 }
             }

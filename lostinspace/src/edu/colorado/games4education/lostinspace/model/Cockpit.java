@@ -15,7 +15,7 @@ public class Cockpit implements ModelElement {
 
     private Point2D.Double location = new Point2D.Double();
     private double orientation;
-    
+
 
     public Point2D.Double getLocation() {
         return location;

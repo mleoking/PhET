@@ -4,15 +4,13 @@ import edu.colorado.phet.common.model.clock.ThreadedClock;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
-import edu.colorado.games4education.lostinspace.model.UniverseModel;
-import edu.colorado.games4education.lostinspace.model.StarField;
-import edu.colorado.games4education.lostinspace.model.NormalStar;
-import edu.colorado.games4education.lostinspace.model.StarView;
+import edu.colorado.games4education.lostinspace.model.*;
 import edu.colorado.games4education.lostinspace.controller.CockpitModule;
 import edu.colorado.games4education.lostinspace.controller.StarMapModule;
 import edu.colorado.games4education.lostinspace.LostInSpaceApplication;
 
 import java.awt.geom.Point2D;
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -37,15 +35,19 @@ public class CockpitModuleTest {
         app.startApplication( cockpitModule );
 
         StarField starField = cockpitModule.getStarField();
-        NormalStar star = null;
+        Star star = null;
         StarView starView = cockpitModule.getStarView();
         Point2D.Double p = null;
 
-        star = new NormalStar( 100, new Point2D.Double( 100, 10 ), 0 );
+        star = new NormalStar( Color.green, 100, new Point2D.Double( 150, 10 ), -50 );
         starField.addStar( star );
-        star = new NormalStar( 100, new Point2D.Double( 500, 20 ), 0 );
+        star = new NormalStar( Color.blue, 100, new Point2D.Double( 100, 10 ), 50 );
         starField.addStar( star );
-        starView.setPov( 10, 10, 0 );
+
+        star = new FixedStar( Color.red, 100, 0, -80 );
+        starField.addStar( star );
+
+        starView.setPov( 0, 0, 0 );
         List l = starView.getVisibleStars();
         cockpitModule.update();
     }

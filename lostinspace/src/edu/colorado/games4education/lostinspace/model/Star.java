@@ -8,6 +8,7 @@ package edu.colorado.games4education.lostinspace.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
@@ -16,11 +17,17 @@ public abstract class Star implements ModelElement {
     private double luminance;
     private Point2D.Double location;
     private double z;
+    private Color color;
 
-    protected Star( double luminance, Point2D.Double location, double syntheticZBound ) {
+    public Star( Color color, double luminance, Point2D.Double location, double syntheticZBound ) {
         this.luminance = luminance;
         this.location = location;
-        setZ( (random.nextDouble() * syntheticZBound / 2) * ( random.nextBoolean() ? 1 : -1 ));        
+        setZ( ( random.nextDouble() * syntheticZBound / 2 ) * ( random.nextBoolean() ? 1 : -1 ) );
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public double getLuminance() {

@@ -10,10 +10,10 @@ package edu.colorado.games4education.lostinspace.view;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.IOException;
 
 public class StarMapGraphic implements Graphic, ImageObserver {

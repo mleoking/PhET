@@ -16,4 +16,6 @@ public class Config {
     public static final double cockpitLayer = 5;
     public static final double starLayer = 7;
     public static final double measurementInstrumentLayer = 10;
+
+    public static final double fixedStarDistance = 1E3;
 }

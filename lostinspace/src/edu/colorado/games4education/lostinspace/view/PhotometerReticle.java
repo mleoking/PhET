@@ -13,15 +13,15 @@ import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 
 public class PhotometerReticle extends DefaultInteractiveGraphic implements Translatable {
-    private Point2D.Double location = new Point2D.Double( );
+    private Point2D.Double location = new Point2D.Double();
     private Container container;
-    private AffineTransform atx = new AffineTransform( );
+    private AffineTransform atx = new AffineTransform();
 
     public PhotometerReticle( Container container ) {
         super( null, null );
@@ -71,11 +71,12 @@ public class PhotometerReticle extends DefaultInteractiveGraphic implements Tran
             path.lineTo( 0, 0 );
             path.lineTo( 0, width );
             path.lineTo( width / 3, width );
-            path.moveTo(  width * 2 / 3, width );
+            path.moveTo( width * 2 / 3, width );
             path.lineTo( width, width );
             path.lineTo( width, 0 );
             path.lineTo( width * 2 / 3, 0 );
         }
+
         public void paint( Graphics2D g ) {
             g.setColor( color );
             g.setStroke( stroke );
@@ -84,12 +85,12 @@ public class PhotometerReticle extends DefaultInteractiveGraphic implements Tran
 
         public boolean contains( int x, int y ) {
             try {
-                atx.inverseTransform( new Point2D.Double( (double)x, (double)y ), testPoint);
+                atx.inverseTransform( new Point2D.Double( (double)x, (double)y ), testPoint );
             }
             catch( NoninvertibleTransformException e ) {
                 e.printStackTrace();
             }
-            return path.contains( testPoint ) ;
+            return path.contains( testPoint );
         }
     }
 }
