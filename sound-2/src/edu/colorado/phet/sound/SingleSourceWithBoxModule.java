@@ -13,6 +13,7 @@ import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
 import edu.colorado.phet.sound.view.SoundControlPanel;
+import edu.colorado.phet.sound.view.DialGauge;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
