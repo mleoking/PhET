@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.utils;
 
 import java.awt.geom.Rectangle2D;
 

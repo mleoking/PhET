@@ -23,6 +23,7 @@ import edu.colorado.phet.movingman.motion.MotionSuite;
 import edu.colorado.phet.movingman.plots.BoxedPlot;
 import edu.colorado.phet.movingman.plots.CursorGraphic;
 import edu.colorado.phet.movingman.plots.GridLineGraphic;
+import edu.colorado.phet.movingman.plots.PlotAndText;
 import smooth.util.SmoothUtilities;
 
 import javax.swing.*;
