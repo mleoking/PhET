@@ -843,18 +843,19 @@ public class PlotDevice extends CompositePhetGraphic {
             } );
             textField.addKeyListener( new KeyListener() {
                 public void keyTyped( KeyEvent e ) {
-                    changedByUser = true;
-                    //TODO a bug detecting VK_ENTER on my machine.
-//                    if( e.getKeyCode() == KeyEvent.VK_RE ) {
-                    parseAndSetValue();
-//                    }
                 }
 
                 public void keyPressed( KeyEvent e ) {
-                    System.out.println( "pressed" );
+//                    System.out.println( "pressed" );
                 }
 
                 public void keyReleased( KeyEvent e ) {
+                    changedByUser = true;
+                    //TODO a bug detecting VK_ENTER on my machine.
+                    if( e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                        System.out.println( "pressed enter." );
+                        parseAndSetValue();
+                    }
                 }
             } );
             label.setFont( font );

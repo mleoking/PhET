@@ -5,7 +5,7 @@ import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.forces1d.common.AffineTransformBuilder;
+import edu.colorado.phet.forces1d.common.phetcomponents.AffineTransformBuilder;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 

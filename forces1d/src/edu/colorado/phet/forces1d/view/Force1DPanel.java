@@ -3,14 +3,14 @@ package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
-import edu.colorado.phet.forces1d.common.PhetButton;
 import edu.colorado.phet.forces1d.common.TitleLayout;
+import edu.colorado.phet.forces1d.common.phetcomponents.PhetButton;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -28,7 +28,7 @@ import java.io.IOException;
  * Time: 10:16:32 PM
  * Copyright (c) Nov 12, 2004 by Sam Reid
  */
-public class Force1DPanel extends ApparatusPanel {
+public class Force1DPanel extends ApparatusPanel2 {
     private Force1DModule module;
     private BlockGraphic blockGraphic;
     private ArrowSetGraphic arrowSetGraphic;
@@ -46,6 +46,7 @@ public class Force1DPanel extends ApparatusPanel {
     private OffscreenPointerGraphic offscreenPointerGraphic;
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
+        super( module.getModel(), module.getClock() );
         this.module = module;
         this.model = module.getForceModel();
         addGraphicsSetup( new BasicGraphicsSetup() );
@@ -97,6 +98,11 @@ public class Force1DPanel extends ApparatusPanel {
                 double appliedForce = value;
                 model.setAppliedForce( appliedForce );
             }
+        } );
+        forcePlotDevice.addListener( new PlotDevice.Listener() {
+            public void nominalValueChanged( double value ) {
+            }
+
         } );
         Font checkBoxFont = new Font( "Lucida Sans", Font.PLAIN, 14 );
 
@@ -182,7 +188,7 @@ public class Force1DPanel extends ApparatusPanel {
         blockGraphic.addMouseInputListener( listener );
         freeBodyDiagram.addMouseInputListener( listener );
 
-
+//        setUseOffscreenBuffer( true );
     }
 
     public Force1DLookAndFeel getLookAndFeel() {
@@ -209,12 +215,28 @@ public class Force1DPanel extends ApparatusPanel {
 //        System.out.println( "..." );
     }
 
+    private boolean didLayout = false;//TODO fix this.
+
+    public void resetDidLayout() {
+        this.didLayout = false;
+    }
+
     public void relayout() {
+        if( !didLayout ) {
+            forceLayout();
+        }
+//        forceLayout();
+//        requestFocus();
+    }
+
+    public void forceLayout() {
         if( getWidth() > 0 && getHeight() > 0 ) {
+//            int panelWidth = getWidth();
             int panelWidth = getWidth();
 
             int fbdX = 15;
-            int walkwayHeight = 180;
+            int walkwayHeight = panelWidth / 6;
+//            int walkwayHeight = panelWidth/10;
             int fbdWidth = walkwayHeight;
             int fbdHeight = walkwayHeight;
 
@@ -240,8 +262,8 @@ public class Force1DPanel extends ApparatusPanel {
             }
             updateGraphics();
             repaint();
+            didLayout = true;
         }
-//        requestFocus();
     }
 
     public Function.LinearFunction getWalkwayTransform() {
