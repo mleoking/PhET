@@ -40,8 +40,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     private double _emf;  // in volts
     private double[] _emfHistory;
     private double _flux; // in webers
-    private double _maxEmf; // DEBUG
     private boolean _smoothingEnabled;
+    
+    // Debugging stuff...
+    private double _maxEmf;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -147,7 +149,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     /**
      * Updates the emf, using Faraday's Law.
      * <p>
-     * This is provides as a separate method for situations 
+     * This is provided as a separate method for situations 
      * where the emf needs to be recomputed immediately (independent of the 
      * simulation clock).  For example, when flipping the magnet polarity,
      * the emf needs to be recomputed immediately so that we can temporarily
@@ -157,14 +159,47 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
 
         // TODO handle arbitrary coil orientation
         
-        // Magnetic field strength at the coil's location.
-        AbstractVector2D strength = _magnetModel.getStrength( getLocation() );
-        double B = strength.getMagnitude();
-        double theta = strength.getAngle();
+        // Flux at the center of the coil.
+        double centerFlux = 0;
+        {
+            Point2D location = getLocation();
+            AbstractVector2D strength = _magnetModel.getStrength( location );
+            double B = strength.getMagnitude();
+            double theta = strength.getAngle();
+            double A = getArea();
+            centerFlux = B * A * Math.cos( theta );
+        }
+        
+        // Flux at the top edge of the coil.
+        double topFlux = 0;
+        {
+            double x = getX();
+            double y = getY() - getRadius();
+            Point2D location = new Point2D.Double( x, y );
+            AbstractVector2D strength = _magnetModel.getStrength( location );
+            double B = strength.getMagnitude();
+            double theta = strength.getAngle();
+            double A = getArea();
+            topFlux = B * A * Math.cos( theta ); 
+        }
+        
+        // Flux at the bottom edge of the coil.
+        double bottomFlux = 0;
+        {
+            double x = getX();
+            double y = getY() + getRadius();
+            Point2D location = new Point2D.Double( x, y );
+            AbstractVector2D strength = _magnetModel.getStrength( location );
+            double B = strength.getMagnitude();
+            double theta = strength.getAngle();
+            double A = getArea();
+            bottomFlux = B * A * Math.cos( theta ); 
+        }
+        
+        // Average the flux.
+        double flux = ( centerFlux + topFlux + bottomFlux ) / 3;
         
         // Calculate the change in flux.
-        double A = getArea();
-        double flux = B * A * Math.cos( theta );
         double deltaFlux = flux - _flux;
         _flux = flux;
         
