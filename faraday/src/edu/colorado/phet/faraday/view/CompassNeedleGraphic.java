@@ -50,10 +50,6 @@ public class CompassNeedleGraphic extends PhetGraphic {
         
         super( component );
         
-//        _direction = 0.0;
-//        _size = new Dimension( 40, 20 );
-//        _strength = 1.0;
-        
         _northColor = Color.RED;
         _southColor = Color.BLUE;
         _hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );

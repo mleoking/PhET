@@ -13,7 +13,6 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 
@@ -25,7 +24,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.IMagnet;
+import edu.colorado.phet.faraday.model.AbstractCompass;
 
 /**
  * CompassGraphic is the graphical representation of a compass.
@@ -40,7 +39,7 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
     // Instance data
     //----------------------------------------------------------------------------
     
-    private IMagnet _magnetModel;
+    private AbstractCompass _compassModel;
     private CompassNeedleGraphic _needle;
 
     //----------------------------------------------------------------------------
@@ -54,10 +53,10 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
      * @param component the parent Component
      * @param magnetModel the magnet that the compass is observing
      */
-    public CompassGraphic( Component component, IMagnet magnetModel ) {
+    public CompassGraphic( Component component, AbstractCompass compassModel ) {
         super( component );
         
-        _magnetModel = magnetModel;
+        _compassModel = compassModel;
         
         PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.COMPASS_IMAGE );
         int rx = body.getImage().getWidth() / 2;
@@ -66,6 +65,7 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         
         _needle = new CompassNeedleGraphic( component );
         _needle.setSize( 55, 15 );
+        _needle.setDirection( _compassModel.getDirection() );
         
         PhetShapeGraphic anchor = new PhetShapeGraphic( component);
         anchor.setShape( new Ellipse2D.Double( -2, -2, 4, 4 ) );
@@ -80,12 +80,26 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         super.setCursorHand();
         super.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent e ) {
-                Point p = getLocation();
-                setLocation( p.x + e.getDx(), p.y + e.getDy() );
-                update();
+                double x = _compassModel.getX() + e.getDx();
+                double y = _compassModel.getY() + e.getDy();
+                _compassModel.setLocation( x, y );
             }
         } );
         
+        update();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Override inherited methods
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates when we become visible.
+     * 
+     * @param visible true for visible, false for invisible
+     */
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
         update();
     }
     
@@ -98,10 +112,18 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
      */
     public void update() {
         if( isVisible() ) {
-            Point p = getLocation();
-            AbstractVector2D strength = _magnetModel.getStrength( p );
-            _needle.setDirection( Math.toDegrees( strength.getAngle() ) );
-            System.out.println( "B = " + strength.getMagnitude() + " @ " + Math.toDegrees( strength.getAngle() ) ); // DEBUG
+            
+            // DEBUG
+            System.out.println( "CompassGraphic.update - " +
+                    "direction=" + _compassModel.getDirection() +
+                    " B=[" + _compassModel.getFieldStrength().getMagnitude() + 
+                    " @ " + Math.toDegrees( _compassModel.getFieldStrength().getAngle() ) + "]" );
+
+            // Rotation of the needle
+            _needle.setDirection( _compassModel.getDirection() );
+            
+            // Location
+            setLocation( (int) _compassModel.getX(), (int) _compassModel.getY() );
         }
     }
 

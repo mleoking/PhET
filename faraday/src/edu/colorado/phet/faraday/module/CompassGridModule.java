@@ -24,9 +24,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.CompassGridControlPanel;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
-import edu.colorado.phet.faraday.model.BarMagnet;
-import edu.colorado.phet.faraday.model.HollywoodMagnet;
+import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.DebuggerGraphic;
@@ -132,6 +130,17 @@ public class CompassGridModule extends Module {
         _magnetModel.setDirection( 0 );
         _magnetModel.setSize( MAGNET_SIZE );
         
+        // Compass model
+        AbstractCompass compassModel = null;
+        if ( FaradayConfig.HOLLYWOOD_ENABLED ) {
+            compassModel = new HollywoodCompass( _magnetModel );
+        }
+        else {
+            compassModel = new Compass( _magnetModel ); 
+        }
+        compassModel.setLocation( COMPASS_LOCATION );
+        model.addModelElement( compassModel );
+        
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -152,7 +161,7 @@ public class CompassGridModule extends Module {
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
         
         // CompassGraphic
-        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _magnetModel );
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
@@ -176,8 +185,10 @@ public class CompassGridModule extends Module {
         //----------------------------------------------------------------------------
         
         _magnetModel.addObserver( magnetGraphic );
-        _magnetModel.addObserver( compassGraphic );
         _magnetModel.addObserver( _gridGraphic );
+        _magnetModel.addObserver( compassModel );
+        
+        compassModel.addObserver( compassGraphic );
         
         //----------------------------------------------------------------------------
         // Listeners
