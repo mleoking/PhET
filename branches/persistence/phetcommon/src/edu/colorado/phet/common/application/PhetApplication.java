@@ -13,9 +13,12 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.awt.event.*;
 
 /**
  * The top-level class for all PhET applications.
@@ -29,7 +32,7 @@ public class PhetApplication {
     private ApplicationModel applicationModel;
     private ModuleManager moduleManager;
 
-    public PhetApplication( ApplicationModel descriptor ) {
+    public PhetApplication( final ApplicationModel descriptor ) {
 
         moduleManager = new ModuleManager( this );
 
@@ -48,6 +51,26 @@ public class PhetApplication {
         }
         moduleManager.addAllModules( descriptor.getModules() );
         s_instance = this;
+
+        // Attach a listener to the frame that will set the reference sizes for all
+        // Apparatus2 instances the first time focus is gained for the frame.
+        phetFrame.addWindowFocusListener( new WindowAdapter() {
+            int focusCnt;
+
+            public void windowGainedFocus( WindowEvent e ) {
+                focusCnt++;
+                if( focusCnt == 1 ) {
+                    for( int i = 0; i < descriptor.getModules().length; i++ ) {
+                        Module module = (Module)descriptor.getModules()[i];
+                        ApparatusPanel panel = module.getApparatusPanel();
+                        if( panel instanceof ApparatusPanel2 ) {
+                            ApparatusPanel2 apparatusPanel = (ApparatusPanel2)panel;
+                            apparatusPanel.setRefernceSize();
+                        }
+                    }
+                }
+            }
+        } );
     }
 
     public void startApplication() {
