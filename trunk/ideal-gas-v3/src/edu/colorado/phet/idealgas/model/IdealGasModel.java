@@ -57,6 +57,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     private double averageLightSpeciesSpeed;
     private int heavySpeciesCnt;
     private int lightSpeciesCnt;
+    private Rectangle2D modelBounds;
 
     public IdealGasModel( double dt ) {
         // Add a collision collisionGod
@@ -369,8 +370,9 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             ModelElement body = this.modelElementAt( i );
             if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
-                if( /* getBox().isInOpening( gasMolecule )
-                    && */ gasMolecule.getPosition().getY() < getBox().getMinY() + s_escapeOffset ) {
+                if( !modelBounds.contains( gasMolecule.getPosition() )) {
+//                if( /* getBox().isInOpening( gasMolecule )
+////                    && */ gasMolecule.getPosition().getY() < getBox().getMinY() + s_escapeOffset ) {
                     removeList.add( gasMolecule );
                 }
             }
@@ -575,6 +577,11 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         }
     }
 
+
+    public void setModelBounds( Rectangle2D modelBounds ) {
+        this.modelBounds = modelBounds;
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Event handling
     //
@@ -589,7 +596,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
                 SphereSphereExpert sphereSphereExpert = (SphereSphereExpert)collisionExpert;
                 sphereSphereExpert.setIgnoreGasMoleculeInteractions( selected );
             }
-        }        
+        }
     }
 }
 
