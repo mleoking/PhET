@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- fast movement of magnet is not shown by lightbulb or voltmeter
 - redo lightbulb graphic, looks ratty on black background
 - add Verlet behavior to voltmeter needle & lightbulb
 - show important "spikes" in induced emf (consider totally disabling smoothing)
@@ -28,6 +29,7 @@ LOW PRIORITY:
 
 phetcommon:
 - MathUtil.clamp behavior with Double.NaN
+- add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
 
 DONE:
 (1/28) - pull "developer" panel out of BarMagnetControlPanel so that it can be reused elsewhere
