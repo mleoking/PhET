@@ -14,6 +14,7 @@ package edu.colorado.phet.faraday.view;
 import java.awt.Component;
 import java.awt.Rectangle;
 
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
@@ -50,17 +51,20 @@ public class PickupCoilGraphic implements SimpleObserver {
      * Sole constructor.
      * 
      * @param component the parent Component
+     * @param BaseModel the base model
      * @param pickupCoilModel the pickup coil model
      * @param lightBulbModel the lightbulb model
      * @param voltMeterModel the voltmeter model
      */
     public PickupCoilGraphic( 
             Component component, 
+            BaseModel baseModel,
             PickupCoil pickupCoilModel, 
             LightBulb lightBulbModel,
             VoltMeter voltMeterModel ) {
         
         assert ( component != null );
+        assert ( baseModel != null );
         assert ( pickupCoilModel != null );
         assert ( lightBulbModel != null );
         assert ( voltMeterModel != null );
@@ -69,7 +73,7 @@ public class PickupCoilGraphic implements SimpleObserver {
         _pickupCoilModel.addObserver( this );
         
         // Graphics components
-        _coilGraphic = new CoilGraphic( component, pickupCoilModel );
+        _coilGraphic = new CoilGraphic( component, baseModel, pickupCoilModel );
         _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel, pickupCoilModel.getMagnet() );
         _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel, pickupCoilModel.getMagnet() );
         
