@@ -19,7 +19,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.BeamControl2;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.UniversalAtomControlPanel;
+import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
@@ -47,7 +47,7 @@ public class MultipleAtomModule extends BaseLaserModule {
     private ArrayList atoms;
     private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
     private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME;
-    private UniversalAtomControlPanel laserControlPanel;
+    private UniversalLaserControlPanel laserControlPanel;
 
     /**
      *
@@ -58,7 +58,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         setThreeEnergyLevels( true );
 
         // Set the control panel
-        laserControlPanel = new UniversalAtomControlPanel( this );
+        laserControlPanel = new UniversalLaserControlPanel( this );
         setControlPanel( laserControlPanel );
 //        setControlPanel(new MultipleAtomControlPanel(this));
 

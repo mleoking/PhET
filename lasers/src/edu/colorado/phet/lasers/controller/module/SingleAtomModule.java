@@ -19,7 +19,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.BeamControl2;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.UniversalAtomControlPanel;
+import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -42,14 +42,14 @@ import java.io.IOException;
 public class SingleAtomModule extends BaseLaserModule {
     private Atom atom;
     private PhetImageGraphic pumpingLampGraphic;
-    private UniversalAtomControlPanel laserControlPanel;
+    private UniversalLaserControlPanel laserControlPanel;
     private BeamControl2 pumpBeamControl;
 
     public SingleAtomModule( PhetFrame frame, AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), frame, clock );
 
         // Set up the control panel, and start off with two energy levels
-        laserControlPanel = new UniversalAtomControlPanel( this );
+        laserControlPanel = new UniversalLaserControlPanel( this );
 //        laserControlPanel = new SingleAtomControlPanel(this);
         setControlPanel( laserControlPanel );
 

@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -44,6 +45,12 @@ public class MirrorOnOffControlPanel extends JPanel {
                 }
             }
         } );
-        this.add( mirrorCB );
+        this.setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                         1, 1, 1, 1,
+                                                         GridBagConstraints.NORTHWEST,
+                                                         GridBagConstraints.HORIZONTAL,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        this.add( mirrorCB, gbc );
     }
 }

@@ -100,6 +100,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         model.getSeedBeam().addWavelengthChangeListener( this );
 
         // Create a horizontal line for each energy level, then add them to the panel
+        JLabel levelsHelp = new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.EnergyLevelHelp" ) );
+        levelsHelp.setBounds( (int)( levelLineOriginX + 50 ), 15, 200, 30 );
+        this.add( levelsHelp );
         highLevelLine = new EnergyLevelGraphic( this, HighEnergyState.instance(),
                                                 Color.blue, levelLineOriginX, levelLineLength );
         middleLevelLine = new EnergyLevelGraphic( this, MiddleEnergyState.instance(),
@@ -114,7 +117,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
 
         // Add lifetime sliders and a title for them
         JLabel legend = new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.EnergyLevelLifetimeLabel" ) );
-        legend.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ), 15, 100, 30 );
+        legend.setBounds( (int)( levelLineOriginX + levelLineLength ), 15, 150, 30 );
         this.add( legend );
         middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(),
                                                               middleLevelLine,
