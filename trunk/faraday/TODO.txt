@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- CoilGraphic collision bounds are incorrect, should be based on #loops, wire width, and loop spacing
 - if water wheel hits critical angles, then its rotation appears jerky at some speeds
 - make electrons move at same speed whether grid is on or off
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
@@ -14,7 +15,6 @@ HIGH PRIORITY:
 - disable lightbulb/voltmeter/electron rescaling so that their response is proportional to magnet strength
 
 MEDIUM PRIORITY:
-- CoilGraphic.getCollisionBounds isn't right for electromagnet, cuts into coil
 - redo Turbine model, it should not extend BarMagnet (it has a BarMagnet)
 - lightbulb flashes the first time that you visit each module
 - sliders sometimes remain hilited after you roll off them
