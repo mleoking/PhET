@@ -1,3 +1,5 @@
+- Track states with a StateChangeListener, or Listener interface in Atom.
+
 - Make AtomicState subclasses singletons, and do not have the instance bound to an Atom instance. This will allow
 the monitor panel to be a listener of the state.
 - There are two versions of ThreeEnergyLevelMonitorPanel
