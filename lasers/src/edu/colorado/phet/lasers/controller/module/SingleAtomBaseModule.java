@@ -8,10 +8,13 @@ package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.view.BlueBeamGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import java.awt.geom.Point2D;
 
@@ -48,6 +51,8 @@ public class SingleAtomBaseModule extends BaseLaserModule {
         pumpingBeam.setWidth( Photon.s_radius * 2 );
         pumpingBeam.setActive( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
+        BlueBeamGraphic beamGraphic = new BlueBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
+        addGraphic( beamGraphic, 1 );
     }
 
     public void activate( PhetApplication app ) {
@@ -64,5 +69,24 @@ public class SingleAtomBaseModule extends BaseLaserModule {
         super.deactivate( app );
         getLaserModel().removeModelElement( atom );
         atom.removeFromSystem();
+    }
+
+
+    public void photonCreated( CollimatedBeam beam, Photon photon ) {
+        if( beam == stimulatingBeam ) {
+            final PhotonGraphic photonGraphic = new PhotonGraphic( getApparatusPanel(), photon );
+            addGraphic( photonGraphic, LaserConfig.PHOTON_LAYER );
+
+            // Add a listener that will remove the graphic from the apparatus panel when the
+            // photon leaves the system
+            photon.addListener( new Photon.Listener() {
+                public void leavingSystem( Photon photon ) {
+                    getApparatusPanel().removeGraphic( photonGraphic );
+                }
+            } );
+        }
+        else if( beam == pumpingBeam ) {
+
+        }
     }
 }
