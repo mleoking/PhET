@@ -70,7 +70,7 @@ public class FaradayConfig {
 
     // Bar Magnet parameters
     public static final double BAR_MAGNET_STRENGTH_MAX = 300.0; // Gauss
-    public static final double BAR_MAGNET_STRENGTH_MIN = 0.25 * BAR_MAGNET_STRENGTH_MAX; // Gauss
+    public static final double BAR_MAGNET_STRENGTH_MIN = 0.50 * BAR_MAGNET_STRENGTH_MAX; // Gauss
     public static final double BAR_MAGNET_ASPECT_RATIO = 5.0/1.0;
     public static final int BAR_MAGNET_WIDTH_MAX = 350;
     public static final int BAR_MAGNET_WIDTH_MIN = 150;
