@@ -11,3 +11,5 @@ individual widgets in the control panel should be SimpleObservers of the model e
 implement WavefrontOscillator. Give it a corresponding class in the model. Or, Move all the oscillator stuff to the view
 
 Octave wavefront is generating even when it's not enabled. Should it?
+
+MyOscillator priority is max priority. Bring this down
