@@ -27,8 +27,8 @@ public class TotalBranchGraphic extends CompositeGraphic {
         BranchGraphic bg = new BranchGraphic( branch, apparatusPanel, wireThickness, transform, color );
         interactiveBranchGraphic = new InteractiveBranchGraphic( circuitGraphic, bg, transform, module );
 
-        JunctionGraphic jg = new JunctionGraphic( apparatusPanel, branch.getStartJunction(), transform, junctionRadius );
-        JunctionGraphic jg2 = new JunctionGraphic( apparatusPanel, branch.getEndJunction(), transform, junctionRadius );
+        JunctionGraphic jg = new JunctionGraphic( apparatusPanel, branch.getStartJunction(), transform, junctionRadius, circuitGraphic.getCircuit() );
+        JunctionGraphic jg2 = new JunctionGraphic( apparatusPanel, branch.getEndJunction(), transform, junctionRadius, circuitGraphic.getCircuit() );
         interactiveJunctionGraphic1 = new InteractiveWireJunctionGraphic( circuitGraphic, jg, transform, module );
         interactiveJunctionGraphic2 = new InteractiveWireJunctionGraphic( circuitGraphic, jg2, transform, module );
         addGraphic( interactiveBranchGraphic );

@@ -7,6 +7,7 @@ import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.common.MultiLineComponentTextGraphic;
 import edu.colorado.phet.cck3.common.PositionedHelpItem;
 import edu.colorado.phet.cck3.common.RectangleUtils;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
@@ -31,6 +32,7 @@ public class CCKHelp {
     private Circuit circuit;
     private CircuitGraphic circuitGraphic;
     private Toolbox toolbox;
+    private SimpleObserver observer;
 
     public CCKHelp( CCK3Module module ) {
         this.module = module;
@@ -40,8 +42,14 @@ public class CCKHelp {
         this.toolbox = module.getToolbox();
         Font helpFont = new Font( "Lucida Sans", Font.BOLD, 16 );
 
-        ToolboxTarget tt = new ToolboxTarget();
-        myToolboxHelpItem = new PositionedHelpItem( "Grab wires\nand components\nfrom the Toolbox.", tt, helpFont, getApparatusPanel() );
+        ToolboxTarget toolboxTarget = new ToolboxTarget();
+        myToolboxHelpItem = new PositionedHelpItem( "Grab wires\nand components\nfrom the Toolbox.", toolboxTarget, helpFont, getApparatusPanel() );
+        observer = new SimpleObserver() {
+            public void update() {
+                myToolboxHelpItem.changed();
+            }
+        };
+        toolbox.addObserver( observer );
         myToolboxHelpItem.changed();
         JunctionTarget jt = new JunctionTarget();
         junctionHelpItem = new PositionedHelpItem( "Drag junctions or\nright click for menu.", jt, helpFont, getApparatusPanel() );
@@ -77,9 +85,7 @@ public class CCKHelp {
 
         public void changed() {
             notifyObservers();
-//            getApparatusPanel().repaint();
         }
-
     }
 
     class ToolboxTarget extends HelpTarget {
@@ -93,13 +99,15 @@ public class CCKHelp {
         }
 
         public Point getTextLocation() {
-            Shape shape = transform.createTransformedShape( toolbox.getBounds2D() );
-            Point topLeft = shape.getBounds().getLocation();
+//            Shape shape = transform.createTransformedShape( toolbox.getBounds2D() );
+            Shape shape = toolbox.getShape();
+            Point topLeft = new Point( shape.getBounds().getLocation() );
+//            System.out.println( "topLeft = " + topLeft );
             if( myToolboxHelpItem == null ) {
                 return null;
             }
             else {
-                topLeft.translate( -myToolboxHelpItem.getBounds().width - 20, -45 );
+                topLeft.translate( (int)( -myToolboxHelpItem.getTextBounds().getWidth() - 20 ), -45 );
                 return topLeft;
             }
         }

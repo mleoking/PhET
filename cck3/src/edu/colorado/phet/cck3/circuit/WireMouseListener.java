@@ -37,6 +37,8 @@ public class WireMouseListener extends MouseInputAdapter {
         isDragging = false;
         startTarget = null;
         endTarget = null;
+//        branch.setSelected( true );
+        circuitGraphic.getCircuit().setSelection( branch );
     }
 
     public void mouseReleased( MouseEvent e ) {
@@ -48,6 +50,7 @@ public class WireMouseListener extends MouseInputAdapter {
         if( endTarget != null ) {
             circuitGraphic.collapseJunctions( endTarget, branch.getEndJunction() );
         }
+//        branch.setSelected( false );
     }
 
     public void mouseDragged( MouseEvent e ) {

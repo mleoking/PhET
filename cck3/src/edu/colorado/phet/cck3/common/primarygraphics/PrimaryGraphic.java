@@ -22,10 +22,6 @@ public abstract class PrimaryGraphic implements BoundedGraphic {
         this.component = component;
     }
 
-    protected void setBounds( Rectangle bounds ) {
-        this.bounds.setBounds( bounds );
-    }
-
     public Rectangle getBounds() {
         syncBounds();
         return bounds;
@@ -52,6 +48,7 @@ public abstract class PrimaryGraphic implements BoundedGraphic {
 
     public void setVisible( boolean visible ) {
         this.visible = visible;
+        repaint();//if we just turned invisible, we need to paint over ourselves.
     }
 
     public boolean contains( int x, int y ) {
@@ -66,23 +63,31 @@ public abstract class PrimaryGraphic implements BoundedGraphic {
 
     private void rebuildBounds() {
         Rectangle newBounds = determineBounds();
-        if( this.bounds == null ) {
-            this.bounds = new Rectangle( newBounds );
-        }
-        else {
-            this.bounds.setBounds( newBounds );
-        }
-        if( lastBounds == null ) {
-            lastBounds = new Rectangle( bounds );
+        if( newBounds != null ) {
+            if( this.bounds == null ) {
+                this.bounds = new Rectangle( newBounds );
+            }
+            else {
+                this.bounds.setBounds( newBounds );
+            }
+            if( lastBounds == null ) {
+                lastBounds = new Rectangle( bounds );
+            }
         }
     }
 
     public void repaint() {
-        if( visible ) {
+        if( visible || true ) {
             syncBounds();
-            component.repaint( lastBounds.x, lastBounds.y, lastBounds.width, lastBounds.height );
-            component.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
-            lastBounds.setBounds( bounds );
+            if( lastBounds != null ) {
+                component.repaint( lastBounds.x, lastBounds.y, lastBounds.width, lastBounds.height );
+            }
+            if( bounds != null ) {
+                component.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
+            }
+            if( bounds != null ) {
+                lastBounds.setBounds( bounds );
+            }
         }
     }
 

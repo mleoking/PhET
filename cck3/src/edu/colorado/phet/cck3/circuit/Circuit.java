@@ -532,4 +532,36 @@ public class Circuit {
         }
         return xe;
     }
+
+    public void setSelection( Branch branch ) {
+        for( int i = 0; i < branches.size(); i++ ) {
+            Branch branch1 = (Branch)branches.get( i );
+            if( branch1 == branch ) {
+                branch1.setSelected( true );
+            }
+            else {
+                branch1.setSelected( false );
+            }
+        }
+        for( int i = 0; i < junctions.size(); i++ ) {
+            Junction junction = (Junction)junctions.get( i );
+            junction.setSelected( false );
+        }
+    }
+
+    public void setSelection( Junction junction ) {
+        for( int i = 0; i < branches.size(); i++ ) {
+            Branch branch1 = (Branch)branches.get( i );
+            branch1.setSelected( false );
+        }
+        for( int i = 0; i < junctions.size(); i++ ) {
+            Junction junction1 = (Junction)junctions.get( i );
+            if( junction1 == junction ) {
+                junction.setSelected( true );
+            }
+            else {
+                junction1.setSelected( false );
+            }
+        }
+    }
 }

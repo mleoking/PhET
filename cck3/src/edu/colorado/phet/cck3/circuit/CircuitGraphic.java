@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
+import edu.colorado.phet.cck3.common.RectangleUtils;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -14,6 +15,7 @@ import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.HashedImageLoader;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -28,6 +30,7 @@ import java.util.*;
 public class CircuitGraphic extends CompositeGraphic {
     static double junctionRadius = CCK3Module.JUNCTION_RADIUS;
     public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);
+    public static final Color SILVER = Color.gray;
     private CompositeGraphic filamentLayer = new CompositeGraphic();
     private CompositeGraphic branches = new CompositeGraphic();
     private CompositeGraphic fires = new CompositeGraphic();
@@ -60,6 +63,31 @@ public class CircuitGraphic extends CompositeGraphic {
 
         Graphic solderGraphic = new Graphic() {
             public void paint( Graphics2D g ) {
+                g.setColor( SILVER );
+                Graphic[] gr = junctionLayer.getGraphics();
+                for( int i = 0; i < gr.length; i++ ) {
+                    HasJunctionGraphic ho = (HasJunctionGraphic)gr[i];
+                    Junction jo = ho.getJunctionGraphic().getJunction();
+                    Branch[] n = circuit.getAdjacentBranches( jo );
+                    if( n.length > 1 ) {
+
+                        Shape shape = ho.getJunctionGraphic().getShape();
+                        double radius = ho.getJunctionGraphic().getRadius();
+
+                        radius *= 1.34;
+                        Ellipse2D.Double ellipse = new Ellipse2D.Double();
+                        Rectangle rect = shape.getBounds();
+                        Point ctr = RectangleUtils.getCenter( rect );
+                        double viewRadius = transform.modelToViewX( radius );
+                        ellipse.setFrameFromCenter( ctr.x, ctr.y, ctr.x + viewRadius, ctr.y + viewRadius );
+                        g.fill( ellipse );
+                    }
+                }
+            }
+        };
+
+        Graphic connectorGraphic = new Graphic() {
+            public void paint( Graphics2D g ) {
                 if( isLifelike() ) {
                     g.setColor( COPPER );
                 }
@@ -87,9 +115,11 @@ public class CircuitGraphic extends CompositeGraphic {
                 }
             }
         };
-        addGraphic( solderGraphic );
 
+        addGraphic( solderGraphic );
         addGraphic( branches );
+        addGraphic( connectorGraphic );
+
         addGraphic( fires );
         addGraphic( filamentLayer );
         addGraphic( leverLayer );
@@ -112,13 +142,13 @@ public class CircuitGraphic extends CompositeGraphic {
                 if( branch instanceof CircuitComponent ) {
                     ReadoutGraphic rg = null;
                     if( branch instanceof Battery ) {
-                        rg = new ReadoutGraphic.BatteryReadout( branch, transform, module.getApparatusPanel(), readoutGraphicsVisible );
+                        rg = new ReadoutGraphic.BatteryReadout( branch, transform, module.getApparatusPanel(), readoutGraphicsVisible, module.getDecimalFormat() );
                     }
                     else if( branch instanceof SeriesAmmeter ) {
                         rg = null;
                     }
                     else {
-                        rg = new ReadoutGraphic( branch, transform, module.getApparatusPanel(), readoutGraphicsVisible );
+                        rg = new ReadoutGraphic( branch, transform, module.getApparatusPanel(), readoutGraphicsVisible, module.getDecimalFormat() );
                     }
                     if( rg != null ) {
                         readoutMap.put( branch, rg );
@@ -262,7 +292,7 @@ public class CircuitGraphic extends CompositeGraphic {
 
     public void convertToComponentGraphic( Junction junction, CircuitComponent branch ) {
 //        InteractiveWireJunctionGraphic j = new InteractiveWireJunctionGraphic( this, new JunctionGraphic( apparatusPanel, junction, getTransform(), junctionRadius ), getTransform(), module );
-        JunctionGraphic jg = new JunctionGraphic( apparatusPanel, junction, getTransform(), junctionRadius );
+        JunctionGraphic jg = new JunctionGraphic( apparatusPanel, junction, getTransform(), junctionRadius, getCircuit() );
         InteractiveComponentJunctionGraphic ij = new InteractiveComponentJunctionGraphic( this, jg, branch, module );
         removeGraphic( junction );
         junctionLayer.addGraphic( ij );
@@ -291,7 +321,7 @@ public class CircuitGraphic extends CompositeGraphic {
     }
 
     public InteractiveWireJunctionGraphic newJunctionGraphic( Junction junction ) {
-        InteractiveWireJunctionGraphic j = new InteractiveWireJunctionGraphic( this, new JunctionGraphic( apparatusPanel, junction, getTransform(), junctionRadius ), getTransform(), module );
+        InteractiveWireJunctionGraphic j = new InteractiveWireJunctionGraphic( this, new JunctionGraphic( apparatusPanel, junction, getTransform(), junctionRadius, getCircuit() ), getTransform(), module );
         return j;
     }
 
@@ -308,7 +338,7 @@ public class CircuitGraphic extends CompositeGraphic {
             Junction junction1 = newJ[i];
             Branch connection = circuit.getAdjacentBranches( junction1 )[0];
             if( connection instanceof CircuitComponent ) {
-                InteractiveComponentJunctionGraphic j = new InteractiveComponentJunctionGraphic( this, new JunctionGraphic( apparatusPanel, junction1, getTransform(), junctionRadius ), (CircuitComponent)connection, module );
+                InteractiveComponentJunctionGraphic j = new InteractiveComponentJunctionGraphic( this, new JunctionGraphic( apparatusPanel, junction1, getTransform(), junctionRadius, getCircuit() ), (CircuitComponent)connection, module );
                 junctionLayer.addGraphic( j );
             }
             else {
@@ -613,7 +643,7 @@ public class CircuitGraphic extends CompositeGraphic {
         }
 
         private void addSeriesAmmeterGraphic( SeriesAmmeter seriesAmmeter ) {
-            SchematicAmmeterGraphic ccbg = new SchematicAmmeterGraphic( apparatusPanel, seriesAmmeter, getTransform(), wireThickness );
+            SchematicAmmeterGraphic ccbg = new SchematicAmmeterGraphic( apparatusPanel, seriesAmmeter, getTransform(), wireThickness, module.getDecimalFormat() );
             CircuitGraphic.this.addGraphic( seriesAmmeter, ccbg );
         }
 

@@ -31,16 +31,18 @@ public class ReadoutGraphic implements Graphic {
     private ModelViewTransform2D transform;
     private ApparatusPanel panel;
 //    DecimalFormat formatter = new DecimalFormat( "#0.00000" );//for debugging.
-    DecimalFormat formatter = new DecimalFormat( "#0.0#" );
+//    DecimalFormat formatter = new DecimalFormat( "#0.0#" );
     static Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
 //    static Font font = new Font( "Dialog", Font.BOLD, 18 );
     boolean visible = false;
+    private DecimalFormat formatter;
 
-    public ReadoutGraphic( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible ) {
+    public ReadoutGraphic( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible, DecimalFormat formatter ) {
         this.branch = branch;
         this.transform = transform;
         this.panel = panel;
         this.visible = visible;
+        this.formatter = formatter;
 
         recompute();
         transform.addTransformListener( new TransformListener() {
@@ -158,13 +160,13 @@ public class ReadoutGraphic implements Graphic {
     }
 
     public static class BatteryReadout extends ReadoutGraphic {
-        public BatteryReadout( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible ) {
-            super( branch, transform, panel, visible );
+        public BatteryReadout( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible, DecimalFormat decimalFormatter ) {
+            super( branch, transform, panel, visible, decimalFormatter );
         }
 
         protected String getText() {
             double volts = Math.abs( branch.getVoltageDrop() );
-            String vol = formatter.format( volts );
+            String vol = super.formatter.format( volts );
             return "" + vol + " Volts";
         }
     }

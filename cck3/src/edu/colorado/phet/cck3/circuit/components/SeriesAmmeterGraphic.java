@@ -33,7 +33,7 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
     private AffineTransform affineTx;
 
     private Stroke stroke = new BasicStroke( 5 );
-    private Font font = new Font( "Lucida Sans", 0, 12 );
+    private Font font = new Font( "Lucida Sans", Font.BOLD, 17 );
     private Shape shape;
     private String text = "Ammeter";
     private String fixedMessage;
@@ -46,7 +46,7 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
         this.fixedMessage = fixedMessage;
     }
 
-    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, CCK3Module module ) {
+    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, final CCK3Module module ) {
         this.parent = parent;
         this.component = component;
         this.transform = transform;
@@ -68,7 +68,8 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
         transform.addTransformListener( transformListener );
         kirkhoffSolutionListener = new KirkhoffSolutionListener() {
             public void finishedKirkhoff() {
-                DecimalFormat df = new DecimalFormat( "#0.0#" );
+                DecimalFormat df = module.getDecimalFormat(); 
+//                        new DecimalFormat( "#0.0#" );
                 String form = df.format( Math.abs( component.getCurrent() ) );
                 text = "" + form + " Amps";
                 doupdate();
@@ -181,7 +182,8 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
 
         g.setColor( Color.black );
 
-        Point2D textLoc = north.getScaledInstance( -2.5 ).getDestination( start );
+//        Point2D textLoc = north.getScaledInstance( -2.5 ).getDestination( start );
+        Point2D textLoc = north.getScaledInstance( -2.9 ).getDestination( start );
         textLoc = dir.getInstanceOfMagnitude( 2 ).getDestination( textLoc );
 
         g.rotate( angle, textLoc.getX(), textLoc.getY() );

@@ -20,21 +20,38 @@ public class JunctionGraphic extends FastPaintShapeGraphic {
     private Junction junction;
     private ModelViewTransform2D transform;
     private double radius;
+    private Circuit circuit;
     private double strokeWidthModelCoords = CCK3Module.JUNCTION_GRAPHIC_STROKE_WIDTH;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
 
-    public JunctionGraphic( Component parent, Junction junction, ModelViewTransform2D transform, double radius ) {
+    public JunctionGraphic( Component parent, Junction junction, ModelViewTransform2D transform, double radius, Circuit circuit ) {
         super( null, Color.black, new BasicStroke( 2 ), parent );
         this.junction = junction;
         this.transform = transform;
         this.radius = radius;
+        this.circuit = circuit;
         simpleObserver = new SimpleObserver() {
             public void update() {
                 doupdate();
             }
         };
         junction.addObserver( simpleObserver );
+        circuit.addCircuitListener( new CircuitListener() {
+            public void junctionRemoved( Junction junction ) {
+                doupdate();
+            }
+
+            public void branchRemoved( Branch branch ) {
+                doupdate();
+            }
+
+            public void junctionsMoved() {
+            }
+
+            public void branchesMoved( Branch[] branches ) {
+            }
+        } );
         doupdate();
         transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
@@ -44,12 +61,34 @@ public class JunctionGraphic extends FastPaintShapeGraphic {
         transform.addTransformListener( transformListener );
     }
 
+    public void paint( Graphics2D g ) {
+        super.paint( g );
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    private Stroke createStroke( double strokeWidth ) {
+        Stroke s = new BasicStroke( transform.modelToViewDifferentialX( strokeWidth ) );
+        return s;
+    }
+
     private void doupdate() {
         Ellipse2D.Double ellipse = new Ellipse2D.Double();
         ellipse.setFrameFromCenter( junction.getX(), junction.getY(), junction.getX() + radius, junction.getY() + radius );
         setShape( transform.createTransformedShape( ellipse ) );
-        Stroke s = new BasicStroke( transform.modelToViewDifferentialX( strokeWidthModelCoords ) );
-        setOutlineStroke( s );
+
+//        setOutlineStroke( createStroke( strokeWidthModelCoords ) );
+        int numConnections = circuit.getNeighbors( getJunction() ).length;
+        if( numConnections == 1 ) {
+            super.setOutlinePaint( Color.red );
+            super.setOutlineStroke( createStroke( strokeWidthModelCoords * 2 ) );
+        }
+        else {
+            super.setOutlinePaint( Color.black );
+            super.setOutlineStroke( createStroke( strokeWidthModelCoords ) );
+        }
     }
 
     public Junction getJunction() {

@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.help.HelpItem;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -18,7 +19,7 @@ import java.awt.*;
  */
 public class PositionedHelpItem implements BoundedGraphic {
     String text;
-    Target movingObject;
+    Target target;
     Font font;
     private MultiLineComponentTextGraphic textGraphic;
     private boolean visible = true;
@@ -26,13 +27,13 @@ public class PositionedHelpItem implements BoundedGraphic {
     private Color arrowColor = Color.blue;
     private Component parent;
 
-    public PositionedHelpItem( String text, Target movingObject, Font font, Component component ) {
+    public PositionedHelpItem( String text, Target target, Font font, Component component ) {
         this.parent = component;
         this.text = text;
-        this.movingObject = movingObject;
+        this.target = target;
         this.font = font;
         String[] lines = HelpItem.tokenizeString( text );
-        Point location = movingObject.getTextLocation();
+        Point location = target.getTextLocation();
         if( location == null ) {
             location = new Point();
             visible = false;
@@ -40,7 +41,7 @@ public class PositionedHelpItem implements BoundedGraphic {
         int x = location.x;
         int y = location.y;
         textGraphic = new MultiLineComponentTextGraphic( component, lines, font, x, y, Color.blue, 1, 1, Color.yellow );
-        movingObject.addObserver( new SimpleObserver() {
+        target.addObserver( new SimpleObserver() {
             public void update() {
                 changed();
             }
@@ -48,7 +49,8 @@ public class PositionedHelpItem implements BoundedGraphic {
     }
 
     public void changed() {
-        Point location = movingObject.getTextLocation();
+        Point location = target.getTextLocation();
+//        System.out.println( "PHI.location = " + location );
         if( location == null ) {
             visible = false;
             return;
@@ -59,7 +61,7 @@ public class PositionedHelpItem implements BoundedGraphic {
             int x = location.x;
             int y = location.y;
             textGraphic.setPosition( x, y );
-            arrow = movingObject.getArrow( textGraphic );
+            arrow = target.getArrow( textGraphic );
             Rectangle newBounds = getBounds();
             FastPaint.fastRepaint( parent, rect, newBounds );
         }
@@ -91,6 +93,10 @@ public class PositionedHelpItem implements BoundedGraphic {
             return a;
         }
 
+    }
+
+    public Rectangle2D getTextBounds() {
+        return textGraphic.getBounds();
     }
 
     public abstract static class Target extends SimpleObservable {

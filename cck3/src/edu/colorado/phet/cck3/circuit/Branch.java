@@ -6,12 +6,11 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
+import net.n3.nanoxml.IXMLElement;
+import net.n3.nanoxml.XMLElement;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-
-import net.n3.nanoxml.XMLElement;
-import net.n3.nanoxml.IXMLElement;
 
 /**
  * User: Sam Reid
@@ -25,11 +24,12 @@ public class Branch extends SimpleObservable {
     double voltageDrop;
     private Junction startJunction;
     private Junction endJunction;
-    String label;
+    private String label;
     private static int indexCounter = 0;
     private static final double WIRE_RESISTANCE = 0.0001;
-    CompositeKirkhoffListener compositeKirkhoffListener = new CompositeKirkhoffListener();
-    ArrayList ivListeners = new ArrayList();
+    private CompositeKirkhoffListener compositeKirkhoffListener = new CompositeKirkhoffListener();
+    private ArrayList ivListeners = new ArrayList();
+    private boolean isSelected = false;
 
     protected Branch( KirkhoffListener listener ) {
         label = toLabel( indexCounter++ );
@@ -41,6 +41,15 @@ public class Branch extends SimpleObservable {
         this( listener );
         this.startJunction = startJunction;
         this.endJunction = endJunction;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected( boolean selected ) {
+        isSelected = selected;
+        notifyObservers();
     }
 
     public void addCurrentVoltListener( CurrentVoltListener currentListener ) {
@@ -220,7 +229,7 @@ public class Branch extends SimpleObservable {
     }
 
     public static Branch parseXML( IXMLElement xml, Junction startJunction, Junction endJunction, KirkhoffListener kl ) {
-        return new Branch( kl,startJunction, endJunction );
+        return new Branch( kl, startJunction, endJunction );
     }
 
     public void delete() {

@@ -45,7 +45,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
         this.transform = module.getTransform();
         this.voltmeter = voltmeter;
         this.module = module;
-        unitGraphic = new UnitGraphic( voltmeter.getUnit(), module.loadBufferedImage( "images/vm3.gif" ), parent );
+        unitGraphic = new UnitGraphic( voltmeter.getUnit(), module.loadBufferedImage( "images/vm3.gif" ), parent, module.getDecimalFormat() );
         addGraphic( unitGraphic );
         redLeadGraphic = new LeadGraphic( voltmeter.getRedLead(), module.loadBufferedImage( "images/probeRed.gif" ), parent, Math.PI / 8 );
         blackLeadGraphic = new LeadGraphic( voltmeter.getBlackLead(), module.loadBufferedImage( "images/probeBlack.gif" ), parent, -Math.PI / 8 );
@@ -147,7 +147,7 @@ public class VoltmeterGraphic extends CompositeGraphic {
                 Graphic graphic = g[i];
                 if( graphic instanceof InteractiveBranchGraphic ) {
                     InteractiveBranchGraphic ibg = (InteractiveBranchGraphic)graphic;
-                    Shape shape = ibg.getBranchGraphic().getShape();
+                    Shape shape = ibg.getBranchGraphic().getCoreShape();//getShape();
                     Area intersection = new Area( tipShape );
                     intersection.intersect( new Area( shape ) );
                     if( !intersection.isEmpty() ) {
@@ -227,9 +227,11 @@ public class VoltmeterGraphic extends CompositeGraphic {
         double relY = -73;
         private static final String UNKNOWN_VOLTS = "???";
         private String voltageString = UNKNOWN_VOLTS;
-        private DecimalFormat voltFormatter = new DecimalFormat( "#0.0#" );
+        private DecimalFormat voltFormatter;
+//        private DecimalFormat voltFormatter = new DecimalFormat( "#0.0#" );
 
-        public UnitGraphic( Voltmeter.VoltmeterUnit vm, BufferedImage image, Component parent ) {
+        public UnitGraphic( Voltmeter.VoltmeterUnit vm, BufferedImage image, Component parent, DecimalFormat voltFormatter ) {
+            this.voltFormatter = voltFormatter;
             unitGraphic = new FastPaintImageGraphic( image, parent );
             textGraphic = new FastPaintTextGraphic( UNKNOWN_VOLTS, font, 0, 0, parent );
             addGraphic( unitGraphic );
