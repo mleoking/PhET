@@ -108,7 +108,7 @@ public class BaseLaserModule extends Module {
                                        s_boxWidth + s_laserOffsetX * 2,
                                        new Vector2D.Double( 1, 0 ),
                                        LaserConfig.MAXIMUM_SEED_PHOTON_RATE );
-        seedBeam.addPhotonEmittedListener( new PhotonEmissionListener() );
+        seedBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         seedBeam.setEnabled( true );
         getLaserModel().setStimulatingBeam( seedBeam );
 
@@ -118,7 +118,7 @@ public class BaseLaserModule extends Module {
                                           s_boxWidth,
                                           new Vector2D.Double( 0, 1 ),
                                           LaserConfig.MAXIMUM_SEED_PHOTON_RATE );
-        pumpingBeam.addPhotonEmittedListener( new PhotonEmissionListener() );
+        pumpingBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         pumpingBeam.setEnabled( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
 
@@ -143,12 +143,14 @@ public class BaseLaserModule extends Module {
         setControlPanel( controlPanel );
     }
 
+    /**
+     * @param app
+     */
     public void activate( PhetApplication app ) {
         super.activate( app );
         Photon.setStimulationBounds( cavity.getBounds() );
         appFrame = app.getApplicationView().getPhetFrame();
         energyLevelsDialog.setVisible( true );
-        //        energyLevelsDialog.setVisible( energyDialogIsVisible );
 
         // Clear the numbers of atoms in each state.
         GroundState.instance().clearNumInState();
@@ -156,11 +158,17 @@ public class BaseLaserModule extends Module {
         HighEnergyState.instance().clearNumInState();
     }
 
+    /**
+     * @param app
+     */
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
         energyLevelsDialog.setVisible( false );
     }
 
+    //-----------------------------------------------------------------------------
+    // Getter and setters
+    //-----------------------------------------------------------------------------
     public int getLasingPhotonView() {
         return lasingPhotonView;
     }
@@ -202,9 +210,6 @@ public class BaseLaserModule extends Module {
         return numPhotons;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
-    // Setters and getters
-    //
     protected Point2D getLaserOrigin() {
         return laserOrigin;
     }
@@ -240,26 +245,6 @@ public class BaseLaserModule extends Module {
 
     public double getEnerglyLevelsAveragingPeriod() {
         return energyLevelsMonitorPanel.getAveragingPeriod();
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    // Other methods
-    //
-    protected void addAtom( Atom atom ) {
-        getModel().addModelElement( atom );
-        final AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
-        addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
-
-        // Add a listener to the atom that will create a photon graphic if the atom
-        // emits a photon, and another to deal with an atom leaving the system
-        atom.addListener( new PhotonEmissionListener() );
-        atom.addListener( new AtomRemovalListener( atomGraphic ) );
-    }
-
-    protected void removeAtom( Atom atom ) {
-        getModel().removeModelElement( atom );
-        atom.removeFromSystem();
     }
 
     public void setDisplayHighLevelEmissions( boolean display ) {
@@ -323,6 +308,26 @@ public class BaseLaserModule extends Module {
         getApparatusPanel().paintImmediately( getApparatusPanel().getBounds() );
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    // Other methods
+    //
+    protected void addAtom( Atom atom ) {
+        getModel().addModelElement( atom );
+        final AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
+        addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
+
+        // Add a listener to the atom that will create a photon graphic if the atom
+        // emits a photon, and another to deal with an atom leaving the system
+        atom.addListener( new InternalPhotonEmittedListener() );
+        atom.addListener( new AtomRemovalListener( atomGraphic ) );
+    }
+
+    protected void removeAtom( Atom atom ) {
+        getModel().removeModelElement( atom );
+        atom.removeFromSystem();
+    }
+
     protected void createMirrors() {
         // If there already mirrors in the model, get rid of them
         if( rightMirror != null ) {
@@ -355,45 +360,39 @@ public class BaseLaserModule extends Module {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Event handling
     //
-    public class PhotonEmissionListener implements PhotonEmittedListener {
+    public class InternalPhotonEmittedListener implements PhotonEmittedListener {
 
         public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
 
             // Track the number of photons
             BaseLaserModule.this.numPhotons++;
-
-            Object source = event.getSource();
-
             Photon photon = event.getPhoton();
             getModel().addModelElement( photon );
             boolean isPhotonGraphicVisible = true;
 
             // Determine if we should display a photon graphic, or some other representations
-            // This is awful code. TODO: refactor!!!
+            Object source = event.getSource();
+
+            // Was the photon emitted by an atom?
             if( source instanceof Atom ) {
                 Atom atom = (Atom)source;
                 if( atom.getState() instanceof HighEnergyState
                     && !displayHighLevelEmissions ) {
                     isPhotonGraphicVisible = false;
                 }
+                else {
+                    isPhotonGraphicVisible = ( lasingPhotonView == PHOTON_DISCRETE );
+                }
+            }
+
+            // Is it a photon from the seed beam?
+            if( source == seedBeam ) {
+                isPhotonGraphicVisible = true;
             }
 
             // Is it a pumping beam photon, and are we viewing discrete photons?
-            if( !( source instanceof Atom ) ) {
-                if( pumpingPhotonView != PHOTON_DISCRETE
-                    || photon.getWavelength() != pumpingBeam.getWavelength() ) {
-                    isPhotonGraphicVisible = true;
-                }
-                // Is it a lasing wavelength photon, and are we viewing discrete photons?
-                else if( lasingPhotonView == PHOTON_DISCRETE
-                         && photon.getWavelength() == MiddleEnergyState.instance().getWavelength() ) {
-                    isPhotonGraphicVisible = true;
-                }
-                // Is it a photon from the seed beam?
-                else if( seedBeam.isEnabled()
-                         && photon.getWavelength() == seedBeam.getWavelength() ) {
-                    isPhotonGraphicVisible = true;
-                }
+            if( source == pumpingBeam ) {
+                isPhotonGraphicVisible = (pumpingPhotonView == PHOTON_DISCRETE );
             }
 
             // Create a photon graphic, add it to the appratus panel and attach a
@@ -407,9 +406,10 @@ public class BaseLaserModule extends Module {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Inner classes
-    //
+    //---------------------------------------------------------------------------------
+    // Event handling
+    //---------------------------------------------------------------------------------
+
     public class AtomRemovalListener implements Atom.Listener {
         private AtomGraphic atomGraphic;
 
