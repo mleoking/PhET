@@ -59,4 +59,11 @@ public interface ICompassGridModule {
      * @return the size, in pixels
      */
     public Dimension getGridNeedleSize();
+    
+    /**
+     * Controls the method used to draw field strength.
+     * 
+     * @param true to use alpha, false to use color saturation
+     */
+    public void setAlphaEnabled( boolean enabled );
 }

@@ -16,9 +16,11 @@ import java.awt.Component;
 
 import javax.swing.JDialog;
 
+import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.faraday.module.ICompassGridModule;
 
 
 /**
@@ -50,7 +52,10 @@ public class BackgroundColorDialog implements ColorChooserFactory.Listener {
         _app = app;
         String title = SimStrings.get( "BackgroundColorDialog.title" );
         Component parent = app.getPhetFrame();
+        
+        // Start with the active module's background color.
         Color initialColor = app.getModuleManager().getActiveModule().getApparatusPanel().getBackground();
+        
         _dialog = ColorChooserFactory.createDialog( title, parent, initialColor, this );
     }
     
@@ -97,8 +102,9 @@ public class BackgroundColorDialog implements ColorChooserFactory.Listener {
         handleColorChange( originalColor );
     }
     
-    /**
+    /*
      * Sets the background color for all apparatus panels in all modules.
+     * If the module has a compass grid, sets whether it uses alpha.
      * 
      * @param color the color
      */
@@ -106,8 +112,14 @@ public class BackgroundColorDialog implements ColorChooserFactory.Listener {
         ModuleManager moduleManager = _app.getModuleManager();
         int numberOfModules = moduleManager.numModules();
         for ( int i = 0; i < numberOfModules; i++ ) {
+            Module module = moduleManager.moduleAt( i );
             moduleManager.moduleAt( i ).getApparatusPanel().setBackground( color );
-            _app.getPhetFrame().repaint();
+            if ( module instanceof ICompassGridModule ) {
+                // If the color is black, don't use alpha.
+                boolean alphaEnabled = ( ! color.equals( Color.BLACK ) );
+                ( (ICompassGridModule) module ).setAlphaEnabled( alphaEnabled );
+            }
         }
+        _app.getPhetFrame().repaint();
     }
 }
