@@ -55,6 +55,11 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void paint( Graphics2D g ) {
         if( isVisible() ) {
+            super.saveGraphicsState( g );
+            RenderingHints hints = super.getRenderingHints();
+            if ( hints != null ) {
+                g.setRenderingHints( hints );
+            }
             if( shape != null ) {
                 if( fill != null ) {
                     g.setPaint( fill );
@@ -68,6 +73,7 @@ public class PhetShapeGraphic extends PhetGraphic {
                     g.setStroke( origStroke );
                 }
             }
+            super.restoreGraphicsState();
         }
     }
 
