@@ -72,15 +72,15 @@ public class IdealGasControlPanel extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
         this.add( pic, gbc );
 
-        JButton clearBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Clear" ));
-        clearBtn.setBackground( new Color( 180, 255, 180));
-        clearBtn.addActionListener( new ActionListener() {
+        JButton resetBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Reset" ));
+        resetBtn.setBackground( new Color( 180, 255, 180));
+        resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getIdealGasModel().removeAllMolecules();
             }
         } );
         gbc.gridy++;
-        this.add( clearBtn, gbc );
+        this.add( resetBtn, gbc );
 
         ToggleButton measurementDlgBtn = new MeasurementDialogButton();
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
