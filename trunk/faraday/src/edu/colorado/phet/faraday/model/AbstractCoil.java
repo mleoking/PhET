@@ -53,10 +53,10 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
      * @param radius radius used for all loops
      */
     public AbstractCoil( int numberOfLoops, double radius, double wireWidth, double loopSpacing ) {
-        setNumberOfLoops( numberOfLoops );
-        setRadius( radius );
-        setWireWidth( wireWidth );
-        setLoopSpacing( loopSpacing );
+        _numberOfLoops = numberOfLoops;
+        _radius = radius;
+        _wireWidth = wireWidth;
+        _loopSpacing = loopSpacing;
     }
     
     //----------------------------------------------------------------------------
