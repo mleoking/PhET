@@ -1,4 +1,4 @@
-/* IntensitySliderWiggleMe.java, Copyright 2004 University of Colorado PhET */
+/* FilterSliderWiggleMe.java, Copyright 2004 University of Colorado PhET */
 
 package edu.colorado.phet.colorvision3.help;
 
@@ -20,14 +20,14 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
- * IntensitySliderWiggleMe is a help graphic that tells the user to move an 
- * intensity slider. This class sets up the "look" of the graphic, while the
- * superclass handles the animation behavior.
+ * FilterSliderWiggleMe is a help graphic that tells the user to move the filter slider.
+ * This class sets up the "look" of the graphic, while the superclass handles
+ * the animation behavior.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @revision $Id$ $Name$
  */
-public class IntensitySliderWiggleMe extends WiggleMe
+public class FilterSliderWiggleMe extends WiggleMe
 {
 	//----------------------------------------------------------------------------
 	// Class data
@@ -48,12 +48,12 @@ public class IntensitySliderWiggleMe extends WiggleMe
 	 * @param component the parent Component
 	 * @param model the module model
 	 */
-  public IntensitySliderWiggleMe( Component component, BaseModel model )
+  public FilterSliderWiggleMe( Component component, BaseModel model )
   {
     super( component, model );
     
     Shape arrowShape = null;
-    String string = SimStrings.get( "intensitySlider.wiggleMe.text" );
+    String string = SimStrings.get( "filterSlider.wiggleMe.text" );
     
     // Create shapes, calculate bounds.
     Rectangle arrowBounds = null;
@@ -62,7 +62,7 @@ public class IntensitySliderWiggleMe extends WiggleMe
     {
       // Arrow pointing left.
       Point2D tip = new Point2D.Double( 0, 0 );
-      Point2D tail = new Point2D.Double( 25, 25 );
+      Point2D tail = new Point2D.Double( 25, 10 );
       Arrow arrow = new Arrow( tail, tip, 6, 6, 2, 100, false );
       arrowShape = arrow.getShape();
       arrowBounds = arrowShape.getBounds();

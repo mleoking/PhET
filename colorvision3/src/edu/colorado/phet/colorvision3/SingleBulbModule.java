@@ -15,6 +15,7 @@ import edu.colorado.phet.colorvision3.control.SpectrumSlider;
 import edu.colorado.phet.colorvision3.control.ToggleSwitch;
 import edu.colorado.phet.colorvision3.event.VisibleColorChangeEvent;
 import edu.colorado.phet.colorvision3.event.VisibleColorChangeListener;
+import edu.colorado.phet.colorvision3.help.FilterSliderWiggleMe;
 import edu.colorado.phet.colorvision3.model.Filter;
 import edu.colorado.phet.colorvision3.model.Person;
 import edu.colorado.phet.colorvision3.model.PhotonBeam;
@@ -67,6 +68,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
   private static final double BULB_SLIDER_LABEL_LAYER = 14;
   private static final double FILTER_SLIDER_LABEL_LAYER = 15;
   private static final double FILTER_SWITCH_LABEL_LAYER = 16;
+  private static final double WIGGLE_ME_LAYER = 17;
   private static final double HELP_LAYER = Double.MAX_VALUE;
 
   // Colors
@@ -94,6 +96,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	private static final Point BULB_SLIDER_LOCATION         = new Point( 100, 100 );
 	private static final Point BULB_SLIDER_LABEL_LOCATION   = new Point( 100,  85 );
 	private static final Point BULB_PIPE_LOCATION           = new Point(  50, 112 );
+	private static final Point WIGGLE_ME_LOCATION           = new Point( 220, 560 );
 	
   //Angles
 	private static final double SPOTLIGHT_ANGLE = 0.0;
@@ -136,6 +139,9 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	private SolidBeamGraphic _postFilterBeamGraphic;
 	private PhotonBeamGraphic _photonBeamGraphic;
 
+	// Help
+	private FilterSliderWiggleMe _wiggleMe;
+	
 	//----------------------------------------------------------------------------
 	// Constructors
   //----------------------------------------------------------------------------
@@ -325,6 +331,11 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 		// Help
     //----------------------------------------------------------------------------
 
+    // Wiggle Me's
+    _wiggleMe = new FilterSliderWiggleMe( apparatusPanel, model );
+    _wiggleMe.setLocation( WIGGLE_ME_LOCATION );
+    apparatusPanel.addGraphic( _wiggleMe, WIGGLE_ME_LAYER );
+    
 		// This module has no Help.
 		super.setHelpEnabled( false );
 
@@ -338,6 +349,8 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 		_filterSlider.setValue( (int)wavelength );
 		_bulbSlider.setValue( (int)wavelength );
 		_filterSwitch.setOn( true );
+		
+    _wiggleMe.start(); // Start the wiggle me last.
 		
 	} // constructor
 	
@@ -377,6 +390,13 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     
     if (event.getSource() == _filterSlider )
     {
+      // Disable the wiggle-me when the slider is moved.
+      if ( _wiggleMe.isRunning() )
+      {
+        _wiggleMe.stop();
+        _wiggleMe.setVisible( false );
+      }
+      
       // The filter slider was moved.
       double wavelength = _filterSlider.getValue();
       _filterModel.setTransmissionPeak( wavelength );
