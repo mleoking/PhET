@@ -49,11 +49,11 @@ public class CompassGridModule extends Module {
     private static final double HELP_LAYER = Double.MAX_VALUE;
 
     // Locations of model components
-    private static final Point GRID_LOCATION = new Point( 0, 0 );
-    private static final Point BAR_MAGNET_LOCATION = new Point( 300, 400 );
+    private static final Point BAR_MAGNET_LOCATION = new Point( 350, 350 );
 
     // Locations of view components
-
+    private static final Point GRID_LOCATION = new Point( 0, 0 );
+    
     // Colors
     private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
 
@@ -72,6 +72,9 @@ public class CompassGridModule extends Module {
     
     // View
     private GridGraphic _gridGraphic;
+    
+    // Control
+    private CompassGridControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -107,8 +110,8 @@ public class CompassGridModule extends Module {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        CompassGridControlPanel controlPanel = new CompassGridControlPanel( this );
-        this.setControlPanel( controlPanel );
+        _controlPanel = new CompassGridControlPanel( this );
+        this.setControlPanel( _controlPanel );
 
         // Apparatus Panel
         ApparatusPanel apparatusPanel = new ApparatusPanel2( model, clock );
@@ -150,16 +153,20 @@ public class CompassGridModule extends Module {
         // Initalize
         //----------------------------------------------------------------------------
         
-        controlPanel.setBarMagnetStrength( BAR_MAGNET_STRENGTH );
-        controlPanel.setBarMagnetSize( BAR_MAGNET_SIZE );
-        controlPanel.setGridDensity( GRID_X_SPACING, GRID_Y_SPACING );
-        controlPanel.setNeedleSize( NEEDLE_SIZE );
+        reset();
     }
    
     //----------------------------------------------------------------------------
     // Controller methods
     //----------------------------------------------------------------------------
 
+    public void reset() {
+        _controlPanel.setBarMagnetStrength( BAR_MAGNET_STRENGTH );
+        _controlPanel.setBarMagnetSize( BAR_MAGNET_SIZE );
+        _controlPanel.setGridDensity( GRID_X_SPACING, GRID_Y_SPACING );
+        _controlPanel.setNeedleSize( NEEDLE_SIZE );
+    }
+    
     public void flipBarMagnetPolarity() {
         //System.out.println( "flipBarMagnetPolarity" ); // DEBUG
         double direction = _barMagnetModel.getDirection();

@@ -33,7 +33,7 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
     private int _xSpacing;
     private int _ySpacing;
     private Dimension _needleSize;
-    private ArrayList _compasses; // array of MiniCompassGraphic
+    private ArrayList _needles; // array of NeedleGraphic
     
     /**
      * @param component
@@ -43,7 +43,7 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
         
         _barMagnetModel = barMagnetModel;
         _needleSize = new Dimension( 40, 20 );
-        _compasses = new ArrayList();
+        _needles = new ArrayList();
         
         setSpacing( xDensity, yDensity );
     }
@@ -53,27 +53,25 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
         _xSpacing = xSpacing;
         _ySpacing = ySpacing;
         
-        // Clear existing compasses.
-        _compasses.clear();
+        // Clear existing needles.
+        _needles.clear();
         super.clear();
         
         // Create new compasses.
         Component component = getComponent();
-        System.out.println( "component="  + component );
         int width = component.getWidth();
         int height = component.getHeight();
         int xCount = (width / xSpacing) + 2;  // HACK
         int yCount = (height / ySpacing) + 2;  // HACK
-        MiniCompassShape compass;
-        
-        System.out.println( "apparatus panel dimensions: " + component.getSize() );
+        NeedleGraphic needle;
 
         for ( int i = 0; i < xCount; i++ ) {
             for ( int j = 0; j < yCount; j++ ) {
-                compass = new MiniCompassShape( component );
-                compass.setLocation( i * xSpacing, j * ySpacing );
-                _compasses.add( compass );
-                super.addGraphic( compass );
+                needle = new NeedleGraphic( component );
+                needle.setLocation( i * xSpacing, j * ySpacing );
+                needle.setSize( _needleSize );
+                _needles.add( needle );
+                super.addGraphic( needle );
             }
         }
         
@@ -90,9 +88,9 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
 
     public void setNeedleSize( final Dimension needleSize ) {
         _needleSize = new Dimension( needleSize );
-        for ( int i = 0; i < _compasses.size(); i++ ) {
-            MiniCompassShape compass = (MiniCompassShape)_compasses.get(i);
-            compass.setSize( _needleSize );
+        for ( int i = 0; i < _needles.size(); i++ ) {
+            NeedleGraphic needle = (NeedleGraphic)_needles.get(i);
+            needle.setSize( _needleSize );
         }
         update();
     }
@@ -106,17 +104,17 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
      */
     public void update() {
         double magnetStrength = _barMagnetModel.getStrength();
-        for ( int i = 0; i < _compasses.size(); i++ ) {
+        for ( int i = 0; i < _needles.size(); i++ ) {
             
-            MiniCompassShape compass = (MiniCompassShape)_compasses.get(i);
+            NeedleGraphic needle = (NeedleGraphic)_needles.get(i);
             
-            Point2D p = new Point2D.Double( compass.getX(), compass.getY() );
+            Point2D p = needle.getLocation();
             
             double direction = _barMagnetModel.getDirection( p );
-            compass.setDirection( direction );
+            needle.setDirection( direction );
             
             double pointStrength = _barMagnetModel.getStrength( p );
-            compass.setStrength( pointStrength / magnetStrength );
+            needle.setStrength( pointStrength / magnetStrength );
         }
         repaint();
     }
