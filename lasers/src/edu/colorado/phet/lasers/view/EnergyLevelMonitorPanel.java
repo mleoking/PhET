@@ -77,8 +77,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
 
         model.addObserver( this );
         this.model = model;
-        model.getPumpingBeam().addListener2( this );
-        model.getStimulatingBeam().addListener2( this );
+        model.getPumpingBeam().addListener( this );
+        model.getStimulatingBeam().addListener( this );
 
 
         highLevelLine = new EnergyLevelGraphic( this, HighEnergyState.instance(),

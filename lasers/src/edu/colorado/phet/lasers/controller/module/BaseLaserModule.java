@@ -28,6 +28,8 @@ import edu.colorado.phet.lasers.model.mirror.Partial;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 import edu.colorado.phet.lasers.view.*;
 
 import java.awt.*;
@@ -37,7 +39,7 @@ import java.awt.geom.Rectangle2D;
 /**
  *
  */
-public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
+public class BaseLaserModule extends Module {
 
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
     static protected final double s_boxHeight = 150;
@@ -83,7 +85,7 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
                                               s_boxHeight - Photon.s_radius,
                                               s_boxWidth + s_laserOffsetX * 2,
                                               new Vector2D.Double( 1, 0 ) );
-        stimulatingBeam.addListener( this );
+        stimulatingBeam.addListener( new PhotonEmissionListener() );
         stimulatingBeam.setActive( true );
         getLaserModel().setStimulatingBeam( stimulatingBeam );
 
@@ -93,7 +95,7 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
                                           s_boxHeight + s_laserOffsetX * 2,
                                           s_boxWidth,
                                           new Vector2D.Double( 0, 1 ) );
-        pumpingBeam.addListener( this );
+        pumpingBeam.addListener( new PhotonEmissionListener() );
         pumpingBeam.setActive( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
 
@@ -130,15 +132,15 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
 
         // Add the control panel
         LaserControlPanel controlPanel = new LaserControlPanel( this, clock );
-        //        controlPanel.setMaxPhotonRate( 5 );
         setControlPanel( controlPanel );
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Implementations of listeners interfaces
     //
-    public class AtomPhotonEmissionListener implements Atom.PhotonEmissionListener {
-        public void photonEmissionOccurred( Atom.PhotonEmissionEvent event ) {
+
+    public class PhotonEmissionListener implements PhotonEmittedListener {
+        public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
             Photon photon = event.getPhoton();
             getModel().addModelElement( photon );
             final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
@@ -146,11 +148,7 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
 
             // Add a listener that will remove the graphic if the photon leaves the system
             // todo: change to new listener model
-            photon.addListener( new Photon.Listener() {
-                public void leavingSystem( Photon photon ) {
-                    getApparatusPanel().removeGraphic( pg );
-                }
-            } );
+            photon.addListener( new PhotonLeftSystemListener( pg ) );
         }
     }
 
@@ -196,7 +194,7 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
 
         // Add a listener to the atom that will create a photon graphic if the atom
         // emits a photon, and another to deal with an atom leaving the system
-        atom.addListener( new AtomPhotonEmissionListener() );
+        atom.addListener( new PhotonEmissionListener() );
         atom.addListener( new AtomRemovalListener( atomGraphic ) );
     }
 
@@ -211,12 +209,20 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
         
         // Add a listener that will remove the graphic from the apparatus panel when the
         // photon leaves the system
-        photon.addListener( new Photon.Listener() {
-            public void leavingSystem( Photon photon ) {
-                getApparatusPanel().removeGraphic( photonGraphic );
-                getApparatusPanel().repaint( photonGraphic.getBounds() );
-            }
-        } );
+        photon.addListener( new PhotonLeftSystemListener( photonGraphic ) );
+    }
+
+    public class PhotonLeftSystemListener implements Photon.LeftSystemEventListener {
+        private PhotonGraphic graphic;
+
+        public PhotonLeftSystemListener( PhotonGraphic graphic ) {
+            this.graphic = graphic;
+        }
+
+        public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
+            getApparatusPanel().removeGraphic( graphic );
+            getApparatusPanel().repaint( graphic.getBounds() );
+        }
     }
 
     public void activate( PhetApplication app ) {

@@ -34,7 +34,7 @@ public class LampGraphic extends PhetImageGraphic implements CollimatedBeam.Wave
     public LampGraphic( CollimatedBeam beam, Component component, BufferedImage image, AffineTransform transform ) {
         super( component, image, transform );
         this.beam = beam;
-        beam.addListener2( this );
+        beam.addListener( this );
 
         update();
     }

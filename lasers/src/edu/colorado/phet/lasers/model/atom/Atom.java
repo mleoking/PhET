@@ -15,6 +15,7 @@ import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 
 import java.util.EventListener;
 import java.util.EventObject;
@@ -75,22 +76,22 @@ public class Atom extends SphericalBody {
         void stateChangeOccurred( StateChangeEvent event );
     }
 
-    public class PhotonEmissionEvent extends EventObject {
-        private Photon photon;
+    //    public class PhotonEmissionEvent extends EventObject {
+    //        private Photon photon;
+    //
+    //        public PhotonEmissionEvent( Photon photon ) {
+    //            super( Atom.this );
+    //            this.photon = photon;
+    //        }
+    //
+    //        public Photon getPhoton() {
+    //            return photon;
+    //        }
+    //    }
 
-        public PhotonEmissionEvent( Photon photon ) {
-            super( Atom.this );
-            this.photon = photon;
-        }
-
-        public Photon getPhoton() {
-            return photon;
-        }
-    }
-
-    public interface PhotonEmissionListener extends EventListener {
-        void photonEmissionOccurred( PhotonEmissionEvent event );
-    }
+    //    public interface PhotonEmissionListener extends EventListener {
+    //        void photonEmissionOccurred( PhotonEmissionEvent event );
+    //    }
 
     public class RemovalEvent extends EventObject {
         public RemovalEvent() {
@@ -156,7 +157,8 @@ public class Atom extends SphericalBody {
      *
      */
     void emitPhoton( final Photon emittedPhoton ) {
-        eventRegistry.fireEvent( new PhotonEmissionEvent( emittedPhoton ) );
+        eventRegistry.fireEvent( new PhotonEmittedEvent( this, emittedPhoton ) );
+        //        eventRegistry.fireEvent( new PhotonEmissionEvent( emittedPhoton ) );
     }
 
     public void removeFromSystem() {

@@ -60,7 +60,6 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                                            s_boxWidth + s_laserOffsetX * 2, s_boxHeight );
         stimulatingBeam.setBounds( stimulatingBeamBounds );
         stimulatingBeam.setDirection( new Vector2D.Double( 1, 0 ) );
-        stimulatingBeam.addListener( this );
         stimulatingBeam.setActive( true );
         stimulatingBeam.setPhotonsPerSecond( 1 );
 
@@ -71,7 +70,6 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                                        s_boxWidth, s_boxHeight + s_laserOffsetX * 2 );
         pumpingBeam.setBounds( pumpingBeamBounds );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
-        pumpingBeam.addListener( this );
         pumpingBeam.setActive( true );
         BlueBeamGraphic beamGraphic = new BlueBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
         addGraphic( beamGraphic, 1 );

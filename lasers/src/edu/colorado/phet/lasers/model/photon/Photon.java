@@ -16,6 +16,7 @@ import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
@@ -116,12 +117,12 @@ public class Photon extends Particle implements Collidable {
     // Inner classes & interfaces
     //
     public class LeftSystemEvent extends EventObject {
-        public LeftSystemEvent( Object source ) {
-            super( source );
+        public LeftSystemEvent() {
+            super( Photon.this );
         }
 
         public Photon getPhoton() {
-            return (Photon)source;
+            return Photon.this;
         }
     }
 
@@ -133,6 +134,7 @@ public class Photon extends Particle implements Collidable {
     // Instance
     //
     private EventListenerList listenerList = new EventListenerList();
+    private EventRegistry eventRegistry = new EventRegistry();
     private int numObservers;
     private int numStimulatedPhotons;
     // If this photon was produced by the stimulation of another, this
@@ -188,12 +190,14 @@ public class Photon extends Particle implements Collidable {
         void leavingSystem( Photon photon );
     }
 
-    public void addListener( Listener listener ) {
-        bulletinBoard.addListener( listener );
+    public void addListener( EventListener listener ) {
+        //        bulletinBoard.addListener( listener );
+        eventRegistry.addListener( listener );
     }
 
-    public void removeListener( Listener listener ) {
+    public void removeListener( EventListener listener ) {
         bulletinBoard.removeListener( listener );
+        eventRegistry.removeListener( listener );
     }
 
     /**
@@ -202,11 +206,12 @@ public class Photon extends Particle implements Collidable {
      * again. This helps prevent us from flogging the heap.
      */
     public void removeFromSystem() {
-        bulletinBoard.notifyListeners( new SubscriptionService.Notifier() {
-            public void doNotify( Object obj ) {
-                ( (Listener)obj ).leavingSystem( Photon.this );
-            }
-        } );
+        //        bulletinBoard.notifyListeners( new SubscriptionService.Notifier() {
+        //            public void doNotify( Object obj ) {
+        //                ( (Listener)obj ).leavingSystem( Photon.this );
+        //            }
+        //        } );
+        eventRegistry.fireEvent( new LeftSystemEvent() );
         if( beam != null ) {
             beam.removePhoton( this );
         }
