@@ -48,7 +48,6 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
     
     // Read the images.
     BufferedImage headBufferedImage;
-    BufferedImage thoughtCloudImage;
     try {
       headBufferedImage = ImageLoader.loadBufferedImage( ColorVisionConfig.HEAD_IMAGE );
     }
