@@ -10,11 +10,8 @@ import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.sound.SoundConfig;
 
-import java.util.ArrayList;
-
 public class Wavefront extends SimpleObservable implements ModelElement {
 
-    private ArrayList waveFunctions = new ArrayList();
     private WaveFunction waveFunction;
     private WavefrontType wavefrontType = new SphericalWavefront();
 
@@ -65,14 +62,6 @@ public class Wavefront extends SimpleObservable implements ModelElement {
     }
 
     /**
-     *
-     * @param waveFunction
-     */
-    public void addWaveFunction( WaveFunction waveFunction ) {
-        waveFunctions.add( waveFunction );
-    }
-
-    /**
      * Moves the wave front forward through time
      */
     public void stepInTime( double dt ) {
@@ -110,12 +99,7 @@ public class Wavefront extends SimpleObservable implements ModelElement {
         // Generate the new element(s) of the wavefront
         double a = waveFunction.waveAmplitude( time );
         for( int i = 0; i < stepSize; i++ ) {
-
-            // todo: this call only needs to be called once. I've replaced it
-            // with the one below it and the line above the start of the for loop
-//            amplitude[i] = waveFunction.waveAmplitude( time );
             amplitude[i] = a;
-
             if( frequencyAtTime[i] != frequency ) {
                 frequencyAtTime[i] = frequency;
             }
@@ -190,9 +174,7 @@ public class Wavefront extends SimpleObservable implements ModelElement {
      * @return
      */
     public double getWavelengthAtTime( int t ) {
-//    public double getWavelengthAtTime( int t, double dt ) {
         double lambda = propagationSpeed / ( SoundConfig.s_timeStep * getFrequencyAtTime( t ) );
-//        double lambda = propagationSpeed / ( dt * getFrequencyAtTime( t ) );
 
         // I'm sorry to say I'm not sure just why 6.2 is the right factor here, but
         // it works

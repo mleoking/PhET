@@ -95,7 +95,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        ListenerGraphic listenerGraphic = new InterferenceListenerGraphic( soundModel, new Listener(),
+        ListenerGraphic listenerGraphic = new InterferenceListenerGraphic( this, new Listener(),
                                                                            new PhetImageGraphic( getApparatusPanel(), headImg ),
                                                                            (double)SoundConfig.s_headBaseX, (double)SoundConfig.s_headBaseY,
                                                                            (double)SoundConfig.s_headBaseX - 150, (double)SoundConfig.s_headBaseY - 200,

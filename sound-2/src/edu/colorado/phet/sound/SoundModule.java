@@ -19,8 +19,6 @@ public class SoundModule extends Module {
     private Wavefront octaveWavefront;
     private WavefrontOscillator primaryOscillator;
     private WavefrontOscillator octaveOscillator;
-//    private Listener speakerListener = new Listener();
-//    private Listener headListener = new Listener();
     private Listener currentListener;
 
     public SoundModule( String name ) {
@@ -33,23 +31,11 @@ public class SoundModule extends Module {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-        //        PhetMainPanel mainPanel = getSoundApplication().getPhetMainPanel();
-        //        if( mainPanel != null ) {
-        //            SoundControlPanel soundControlPanel = (SoundControlPanel)mainPanel.getControlPanel();
-        //            soundControlPanel.setAudioControlVisible( true );
-        //            soundControlPanel.setAudioEnabled( this.audioEnabledOnActivation );
-        //        }
-        //        this.setWavefrontType( getSoundApplication().getSoundSystem().getWavefrontType() );
     }
 
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
         getSoundModel().setAudioEnabled( false );
-        //        PhetMainPanel mainPanel = getSoundApplication().getPhetMainPanel();
-        //        if( mainPanel != null ) {
-        //            SoundControlPanel soundControlPanel = (SoundControlPanel)mainPanel.getControlPanel();
-        //            this.audioEnabledOnActivation = soundControlPanel.getAudioEnabled();
-        //        }
     }
 
     public void setAudioEnabled( boolean enabled ) {
@@ -88,7 +74,7 @@ public class SoundModule extends Module {
      * @param source
      */
     public void setAudioSource( int source ) {
-        getSoundModel().setAudioSource( source );
+//        getSoundModel().setAudioSource( source );
     }
 
     public WavefrontOscillator getPrimaryOscillator() {
@@ -105,4 +91,12 @@ public class SoundModule extends Module {
         getOctaveOscillator().observe( listener );
     }
 
+    public Listener getCurrentListener() {
+        return currentListener;
+    }
+
+    public void setOscillatorFrequency( double dopplerFrequency ) {
+        getPrimaryOscillator().setFrequency( (float)dopplerFrequency );
+        getOctaveOscillator().setFrequency( (float)dopplerFrequency * 2 );
+    }
 }

@@ -9,10 +9,8 @@ package edu.colorado.phet.sound.model;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.sound.SoundConfig;
-import edu.colorado.phet.sound.view.SoundApparatusPanel;
 
 import java.util.Iterator;
-import java.awt.geom.Point2D;
 
 public class SoundModel extends BaseModel {
 
@@ -20,23 +18,15 @@ public class SoundModel extends BaseModel {
 
     private WaveMedium waveMedium = new WaveMedium();
     private AbstractClock clock;
-    private int audioSource;
-//    private Point2D.Double audioReferencePt;
-    private double frequency;
 
-    // Brought over from SoundApplication
     private Wavefront primaryWavefront;
     private Wavefront octaveWavefront;
     private WavefrontOscillator primaryOscillator;
-    private boolean audioEnabled;
-//    private float octaveAmplitude = 0;
     private WavefrontOscillator octaveOscillator;
     private boolean octaveEnabled = false;
-    private Point2D.Double listenerLocation;
-    private boolean initialized = false;
 
     // Used to save and restore audio state when Stop and Run are pressed
-    private boolean savedAudioEnabledState = false;
+//    private boolean savedAudioEnabledState = false;
 
 
     public SoundModel( AbstractClock clock ) {
@@ -100,33 +90,13 @@ public class SoundModel extends BaseModel {
         super.stepInTime( dt );
     }
 
-    public void setAudioSource( int audioSource ) {
-        this.audioSource = audioSource;
-        updateOscillators();
-    }
-
-    public int getAudioSource() {
-        return audioSource;
-    }
-
-    public void setAudioReferencePoint( Point2D.Double refPt ) {
-//        this.audioReferencePt = refPt;
-        primaryOscillator.setReferencePoint( refPt );
-        octaveOscillator.setReferencePoint( refPt );
-    }
-
-    public void setOscillatorFrequency( double frequency ) {
-        this.frequency = frequency;
-    }
-
     public void setAudioEnabled( boolean audioEnabled ) {
 //        if( this.initialized ) {
             primaryOscillator.setEnabled( audioEnabled );
             octaveOscillator.setEnabled( audioEnabled && octaveEnabled );
 //        }
-        this.audioEnabled = audioEnabled;
+//        this.audioEnabled = audioEnabled;
     }
-
 
     /**
      *
@@ -187,61 +157,9 @@ public class SoundModel extends BaseModel {
         this.octaveOscillator = octaveOscillator;
     }
 
-//    public boolean isOctaveEnabled() {
-//        return octaveEnabled;
-//    }
-
     public void setOctaveEnabled( boolean octaveEnabled ) {
 //        this.octaveEnabled = octaveEnabled;
         this.octaveWavefront.setEnabled( octaveEnabled );
     }
 
-    // Listener-related methods
-    /**
-     *
-     */
-    public void setListenerLocation( Point2D.Double location ) {
-        this.setListenerLocation( location.getX(), location.getY() );
-    }
-
-    /**
-     *
-     */
-    public void setListenerLocation( double x, double y ) {
-        if( listenerLocation == null ) {
-            listenerLocation = new Point2D.Double();
-        }
-
-        synchronized( listenerLocation ) {
-            this.listenerLocation.setLocation( x, y );
-        }
-        setOscillatorReferencePoint();
-    }
-
-    /**
-     *
-     */
-    public void updateOscillators() {
-        setOscillatorReferencePoint();
-        if( primaryOscillator != null ) {
-            primaryOscillator.update();
-        }
-        if( octaveOscillator != null ) {
-            octaveOscillator.update();
-        }
-    }
-
-    private void setOscillatorReferencePoint() {
-        // HACK!!! Test is stupid
-        if( primaryOscillator != null ) {
-            if( audioSource == SoundApparatusPanel.LISTENER_SOURCE ) {
-                primaryOscillator.setReferencePoint( listenerLocation );
-                octaveOscillator.setReferencePoint( listenerLocation );
-            }
-            else {
-                primaryOscillator.setReferencePoint( 0, 0 );
-                octaveOscillator.setReferencePoint( 0, 0 );
-            }
-        }
-    }
 }

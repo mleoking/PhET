@@ -34,7 +34,7 @@ public class SingleSourceListenModule extends SingleSourceModule {
             PhetImageGraphic head = new PhetImageGraphic( getApparatusPanel(), headImg );
             head.setPosition( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
             soundModel = (SoundModel)getModel();
-            ListenerGraphic listenerGraphic = new ListenerGraphic( soundModel, headListener, head,
+            ListenerGraphic listenerGraphic = new ListenerGraphic( this, headListener, head,
                                                                    SoundConfig.s_headBaseX, SoundConfig.s_headBaseY,
                                                                    SoundConfig.s_headBaseX - 150, SoundConfig.s_headBaseY,
                                                                    SoundConfig.s_headBaseX + 150, SoundConfig.s_headBaseY );

@@ -9,6 +9,7 @@ package edu.colorado.phet.sound.view;
 import edu.colorado.phet.sound.model.Wavefront;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Listener;
+import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 import java.awt.geom.Point2D;
@@ -36,15 +37,15 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
      * @param audioSourceB
      * @param interferringWavefront
      */
-    public InterferenceListenerGraphic( SoundModel model, Listener listener,
+    public InterferenceListenerGraphic( SoundModule module, Listener listener,
                                         PhetImageGraphic image, double x, double y,
                   double minX, double minY,
                   double maxX, double maxY,
                   Point2D.Double audioSourceA,
                   Point2D.Double audioSourceB,
                   Wavefront interferringWavefront ) {
-        super( model, listener, image, x, y, minX, minY, maxX, maxY );
-        this.soundModel = model;
+        super( module, listener, image, x, y, minX, minY, maxX, maxY );
+        this.soundModel = (SoundModel)module.getModel();
         this.audioSourceA = audioSourceA;
         this.audioSourceB = audioSourceB;
         this.interferringWavefront = interferringWavefront;
@@ -76,7 +77,6 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
 
         // Determine the difference in distance of the listener's ear to
         // each audio source in units of phase angle of the current frequency
-//        SoundApplication soundApplication = (SoundApplication)PhetApplication.instance();
         earLocation.setLocation( this.getLocation().getX() + s_earOffsetX,
                                  this.getLocation().getY() + s_earOffsetY );
         double distA = (float)earLocation.distance( audioSourceA );
@@ -88,7 +88,6 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
         // The amplitude factor for max amplitude is the sum of the two wavefront
         // amplitudes times the cosine of the phase angle
         double amplitudeA = soundModel.getAmplitude();
-//        float amplitudeA = soundApplication.getAmplitude();
         double maxAmplitude = amplitudeA * Math.abs( Math.cos( theta ));
 
         // HACK!!!!

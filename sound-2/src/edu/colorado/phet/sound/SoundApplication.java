@@ -26,14 +26,13 @@ public class SoundApplication extends PhetApplication {
             // Specify the clock
 //            this.setClock( new ThreadedClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime, true ));
             this.setClock( new SwingTimerClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ));
-//            this.setClock( new SwingTimerClock( 1, 20, true ));
-//            this.setClock( new SwingTimerClock( 5, 50 ));
 
             // Set up the modules
             Module singleSourceModule = new SingleSourceListenModule( this );
-//            Module measureModule = new SingleSourceMeasureModule( this );
-//            Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
-            this.setModules( new Module[]{ singleSourceModule /*, measureModule, twoSourceIntereferenceModule*/ } );
+            Module measureModule = new SingleSourceMeasureModule( this );
+            Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
+            this.setModules( new Module[]{ singleSourceModule, measureModule, twoSourceIntereferenceModule } );
+//            this.setModules( new Module[]{ singleSourceModule /*, measureModule, twoSourceIntereferenceModule*/ } );
             this.setInitialModule( singleSourceModule );
         }
     }
