@@ -79,7 +79,7 @@ public class FaradaySlider extends GraphicSlider {
         setKnob( knob );
         
         // Knob Highlight
-        PhetGraphic knobHighlight = new PhetImageGraphic( component, FaradayConfig.SLIDER_KNOB_RED_IMAGE );
+        PhetGraphic knobHighlight = new PhetImageGraphic( component, FaradayConfig.SLIDER_KNOB_HIGHLIGHT_IMAGE );
         knobHighlight.centerRegistrationPoint();
         setKnobHighlight( knobHighlight );
     }
