@@ -8,6 +8,7 @@
 package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
@@ -27,6 +28,8 @@ public class HeavySpeciesGraphic extends GasMoleculeGraphic {
     static {
         try {
             s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
+            MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( 120, 120, 255 ));
+            op.filter( s_particleImage, s_particleImage );
         }
         catch( IOException e ) {
             e.printStackTrace();
