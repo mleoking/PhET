@@ -93,7 +93,6 @@ public class PickupCoilModule extends FaradayModule {
         barMagnetModel.setLocation( MAGNET_LOCATION );
         barMagnetModel.setDirection( 0 /* radians */ );
         barMagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
-        model.addModelElement( barMagnetModel );
         
         // Rescaler
         IRescaler rescaler = new MagneticFieldRescaler( barMagnetModel );

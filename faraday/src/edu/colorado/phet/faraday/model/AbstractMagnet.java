@@ -24,7 +24,7 @@ import edu.colorado.phet.common.model.ModelElement;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractMagnet extends SpacialObservable implements ModelElement {
+public abstract class AbstractMagnet extends SpacialObservable {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -226,16 +226,5 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
      */
     public double getHeight() {
         return _size.getHeight();
-    }
-    
-    //----------------------------------------------------------------------------
-    // ModelElement implementation
-    //----------------------------------------------------------------------------
-    
-    /*
-     * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
-     */
-    public void stepInTime( double dt ) {
-        // Do nothing.     
     }
 }

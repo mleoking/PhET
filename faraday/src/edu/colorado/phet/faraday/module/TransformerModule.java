@@ -117,7 +117,6 @@ public class TransformerModule extends FaradayModule {
         electromagnetModel.setDirection( 0 /* radians */ );
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         // Do NOT set the size! -- size will be based on the source coil appearance.
-        model.addModelElement( electromagnetModel );
         electromagnetModel.update();
          
         // Rescaler
