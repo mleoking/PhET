@@ -39,8 +39,8 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
         try {
             s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
             s_groundStateImage = ImageLoader.loadBufferedImage( s_groundStateImageName );
-            s_highEnergyStateImage = ImageLoader.loadBufferedImage( s_groundStateImageName );
-            s_middleEnergyStateImage = ImageLoader.loadBufferedImage( s_groundStateImageName );
+            s_highEnergyStateImage = ImageLoader.loadBufferedImage( s_highEnergyStateImageName );
+            s_middleEnergyStateImage = ImageLoader.loadBufferedImage( s_middleEnergyStateImageName );
         }
         catch( IOException e ) {
             e.printStackTrace();

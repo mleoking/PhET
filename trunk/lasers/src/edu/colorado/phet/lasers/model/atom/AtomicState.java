@@ -13,6 +13,10 @@ public abstract class AtomicState {
 
     private Atom atom;
 
+    public interface Listener {
+        void numInStateChanged( int num );
+    }
+
     protected AtomicState( Atom atom ) {
         this.atom = atom;
     }
@@ -22,8 +26,6 @@ public abstract class AtomicState {
     }
 
     abstract public void collideWithPhoton( Photon photon );
-
-    abstract public void stepInTime( double dt );
 
     abstract void decrementNumInState();
 

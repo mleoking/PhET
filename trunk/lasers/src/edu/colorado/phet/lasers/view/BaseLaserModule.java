@@ -24,15 +24,15 @@ import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
+import java.awt.*;
 
 /**
  *
  */
 public abstract class BaseLaserModule extends Module implements CollimatedBeam.Listener {
-//public class BaseLaserModule extends ApparatusPanel {
 
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
-    static protected final double s_boxHeight = 250;
+    static protected final double s_boxHeight = 150;
     static protected final double s_boxWidth = 500;
     static protected final double s_laserOffsetX = 100;
 
@@ -54,6 +54,7 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
 
         ApparatusPanel apparatusPanel = new ApparatusPanel();
         setApparatusPanel( apparatusPanel );
+        apparatusPanel.setBackground( Color.white );
 
         incomingBeam = new CollimatedBeam( getLaserModel(),
                                            Photon.RED,

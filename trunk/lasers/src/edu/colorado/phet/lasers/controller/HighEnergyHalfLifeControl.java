@@ -60,7 +60,8 @@ public class HighEnergyHalfLifeControl extends JPanel {
         highEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
 //                updateHighEnergySpontaneousEmissionTime( ((double)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
-                model.setHighEnergySpontaneousEmissionTime( highEnergySpontaneousEmissionTimeSlider.getValue() / 1000  );
+                model.setHighEnergySpontaneousEmissionTime( highEnergySpontaneousEmissionTimeSlider.getValue()  );
+//                model.setHighEnergySpontaneousEmissionTime( highEnergySpontaneousEmissionTimeSlider.getValue() / 1000  );
                 highEnergySpontaneousEmissionTimeTF.setText( Double.toString( highEnergySpontaneousEmissionTimeSlider.getValue() ) );
             }
         } );

@@ -167,6 +167,7 @@ public class LaserModel extends BaseModel {
      */
     public void setHighEnergySpontaneousEmissionTime( double time ) {
         Atom.setHighEnergySpontaneousEmissionTime( time );
+//        Atom.setHighEnergySpontaneousEmissionTime( 1000 );
     }
 
     /**
