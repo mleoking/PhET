@@ -17,17 +17,18 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 public class Kaboom implements Graphic, Runnable {
+    private static long waitTime = 100;
+    private static Font kaboomFont = new Font( "Lucinda Sans", Font.BOLD, 18 );
+    private static String kaboomStr = "Kaboom!!!";
+    private static AffineTransform kaboomStrTx;
+
     private Point2D.Double location;
     private double radius;
     private Ellipse2D.Double shape = new Ellipse2D.Double();
     private double maxRadius;
     private ApparatusPanel apparatusPanel;
-    private long waitTime = 100;
     private double radiusIncr;
     private double kaboomAlpha = 0.4;
-    private Font kaboomFont = new Font( "Lucinda Sans", Font.BOLD, 18 );
-    private String kaboomStr = "Kaboom!!!";
-    private AffineTransform kaboomStrTx;
 
 
     public Kaboom( Point2D.Double location,
@@ -42,7 +43,6 @@ public class Kaboom implements Graphic, Runnable {
 
         double theta = Math.random() * Math.PI - ( Math.PI / 2 );
         kaboomStrTx = AffineTransform.getRotateInstance( theta );
-
 
         Thread thread = new Thread( this );
         thread.start();
@@ -65,6 +65,8 @@ public class Kaboom implements Graphic, Runnable {
 //
         g.setTransform( orgTx );
     }
+
+    static int num = 0;
 
     public void run() {
         while( kaboomAlpha > 0 ) {

@@ -31,6 +31,23 @@ public class Uranium235Graphic extends NucleusGraphic {
         this.displayLabel = displayLabel;
     }
 
+//    protected Image computeImage() {
+//        Image img = super.computeImage();
+//        Graphics2D g = (Graphics2D)img.getGraphics();
+//        g.setColor( color );
+//        g.setFont( isotopeFont );
+//        FontMetrics fm = g.getFontMetrics();
+//        g.drawString( "235", -fm.stringWidth( "235" ), 0 );
+//        int dy = fm.getHeight() * 3 / 4;
+//        g.setFont( elementFont );
+//        nucleusTx.setToTranslation( img.getWidth( null ) / 2, img.getHeight( null ) / 2 );
+//        AffineTransform orgTx = g.getTransform();
+//        g.transform( nucleusTx );
+//        g.drawString( "U", 0, dy );
+//        g.setTransform( orgTx );
+//        return img;
+//    }
+
     public void paint( Graphics2D g ) {
         nucleusTx.setToTranslation( nucleus.getLocation().getX(), nucleus.getLocation().getY() );
         super.paint( g );

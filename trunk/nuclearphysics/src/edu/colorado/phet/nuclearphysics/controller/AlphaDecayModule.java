@@ -51,8 +51,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
     public void start() {
 
-//        PhetApplication.instance().setPaused( false );
-        
         // todo: combine these calls
         Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), getModel() );
         setNucleus( nucleus );
@@ -76,6 +74,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         getPotentialProfilePanel().removeAllAlphaParticles();
         getPotentialProfilePanel().removeAllPotentialProfiles();
+        getPotentialProfilePanel().removeGraphic( leaderLines );
 
         getPhysicalPanel().clear();
         getPhysicalPanel().removeAllGraphics();
@@ -111,7 +110,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
             public void paint( Graphics2D g ) {
                 if( alphaRing != null ) {
                     GraphicsUtil.setAntiAliasingOn( g );
-                    GraphicsUtil.setAlpha( g, 0.3 );
+                    GraphicsUtil.setAlpha( g, 0.4 );
                     g.setColor( Color.blue );
                     g.setStroke( ringStroke );
                     g.draw( alphaRing );
@@ -122,19 +121,17 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         this.getPhysicalPanel().addOriginCenteredGraphic( ringGraphic );
 
         // Add leader lines from the ring up to the profile
-//        final Stroke leaderLineStroke = new BasicStroke( 1f );
         float miterLimit = 10f;
         float[] dashPattern = {10f};
         float dashPhase = 5f;
         final Stroke leaderLineStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
                                                          BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
-
         leaderLines = new Graphic() {
             public void paint( Graphics2D g ) {
                 if( leaderLine1 != null && leaderLine2 != null ) {
                     g.setColor( Color.black );
                     g.setStroke( leaderLineStroke );
-                    GraphicsUtil.setAlpha( g, 0.2 );
+                    GraphicsUtil.setAlpha( g, 0.4 );
                     g.draw( leaderLine1 );
                     g.draw( leaderLine2 );
                     GraphicsUtil.setAlpha( g, 1 );
@@ -193,7 +190,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getModel().addModelElement( decayProducts.getDaughter() );
         getPotentialProfilePanel().addPotentialProfile( decayProducts.getDaughter() );
 
-        addRingGraphic( decayProducts.getDaughter() );
+        // Set the size of the alpha decay threshold ring and the positions of the
+        // leader lines
+        setRingAttributes( decayProducts.getDaughter() );
 
         // Make a bang!
         Kaboom kaboom = new Kaboom( new Point2D.Double(),

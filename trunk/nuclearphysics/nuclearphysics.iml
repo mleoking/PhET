@@ -9,7 +9,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Phet Common-2" level="application" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -19,6 +18,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="PhetCommon-2" level="application" />
   </component>
 </module>
 

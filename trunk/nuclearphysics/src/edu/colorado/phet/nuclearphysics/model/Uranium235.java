@@ -69,8 +69,6 @@ public class Uranium235 extends Nucleus {
 
     public void stepInTime( double dt ) {
 
-        AlphaParticle ap = null;
-
         // See if any of the alpha particles has escaped, and initiate alpha decay if it has
         for( int j = 0; j < alphaParticles.length; j++ ) {
             AlphaParticle alphaParticle = alphaParticles[j];
@@ -78,21 +76,14 @@ public class Uranium235 extends Nucleus {
                 > getPotentialProfile().getAlphaDecayX() * getPotentialProfile().getAlphaDecayX() ) {
 
                 // set the alpha particle directly on the profile
-                ap = alphaParticle;
                 double d = alphaParticle.getLocation().distance( this.getLocation() );
                 double dx = alphaParticle.getLocation().getX() - this.getLocation().getX();
                 double dy = alphaParticle.getLocation().getY() - this.getLocation().getY();
                 dx *= this.getPotentialProfile().getAlphaDecayX() / d * MathUtil.getSign( dx );
                 dy *= this.getPotentialProfile().getAlphaDecayX() / d * MathUtil.getSign( dy );
                 alphaParticle.setPotential( getPotentialProfile().getHillY( getPotentialProfile().getAlphaDecayX() ) );
-                alphaParticle.setLocation( this.getLocation().getX() + dx, this.getLocation().getY() + dy );
-
-//                try {
-//                    Thread.sleep( 1000 );
-//                }
-//                catch( InterruptedException e ) {
-//                    e.printStackTrace();
-//                }
+                int sign = MathUtil.getSign( alphaParticle.getLocation().getX() - this.getLocation().getX() );
+                alphaParticle.setLocation( this.getLocation().getX() + dx * sign, this.getLocation().getY() + dy );
 
                 AlphaDecayProducts decayProducts = new AlphaDecayProducts( this, alphaParticle );
                 for( int i = 0; i < decayListeners.size(); i++ ) {
@@ -106,16 +97,17 @@ public class Uranium235 extends Nucleus {
         super.stepInTime( dt );
 
         // Check to see if we are being hit by a neutron
-        for( int i = 0; i < model.numModelElements(); i++ ) {
-            ModelElement me = model.modelElementAt( i );
-            if( me instanceof Neutron ) {
-                Neutron neutron = (Neutron)me;
-                if( neutron.getLocation().distanceSq( this.getLocation() )
-                    < this.getRadius() * this.getRadius() ) {
-                    this.fission( neutron );
-                }
-            }
-        }
+        fissionCheck();
+//        for( int i = 0; i < model.numModelElements(); i++ ) {
+//            ModelElement me = model.modelElementAt( i );
+//            if( me instanceof Neutron ) {
+//                Neutron neutron = (Neutron)me;
+//                if( neutron.getLocation().distanceSq( this.getLocation() )
+//                    < this.getRadius() * this.getRadius() ) {
+//                    this.fission( neutron );
+//                }
+//            }
+//        }
 
         // Handle fission morphing
         if( morphTargetNeutrons != 0 ) {
@@ -140,6 +132,19 @@ public class Uranium235 extends Nucleus {
 //            if( temp * morphTargetNeutrons <= 0 ) {
 //                super.fission( fissionInstigatingNeutron );
 //            }
+        }
+    }
+
+    public void fissionCheck() {
+        for( int i = 0; i < model.numModelElements(); i++ ) {
+            ModelElement me = model.modelElementAt( i );
+            if( me instanceof Neutron ) {
+                Neutron neutron = (Neutron)me;
+                if( neutron.getLocation().distanceSq( this.getLocation() )
+                    < this.getRadius() * this.getRadius() ) {
+                    this.fission( neutron );
+                }
+            }
         }
     }
 

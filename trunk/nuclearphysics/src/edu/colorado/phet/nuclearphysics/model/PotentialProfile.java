@@ -320,4 +320,9 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
             updateObservers();
         }
     }
+
+    public double getDyDx( double v ) {
+        double dyDx = cubicUtil.dyDx( v );
+        return Double.isNaN( dyDx ) ? 0 : dyDx;
+    }
 }

@@ -119,7 +119,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         // Add a model element that will make the daughter nuclei slide down the
         // profile
         getModel().addModelElement( new ModelElement() {
-            private double forceScale = 0.0005;
+            private double forceScale = 0.05;
+//            private double forceScale = 0.0005;
 
             public void stepInTime( double dt ) {
                 stepDaughterNucleus( products.getParent(), products.getDaughter1() );
@@ -132,6 +133,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
                 PotentialProfile profile = parent.getPotentialProfile();
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
                 force = Double.isNaN( force ) ? 0 : force;
+                force = -profile.getDyDx( -d ) * forceScale;
                 if( daughter.getVelocity().getX() == 0 && daughter.getVelocity().getY() == 0 ) {
                     double dx = daughter.getLocation().getX() - parent.getLocation().getX();
                     double dy = daughter.getLocation().getY() - parent.getLocation().getY();
