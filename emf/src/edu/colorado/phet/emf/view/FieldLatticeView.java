@@ -8,22 +8,22 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
-//import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
-//import edu.colorado.phet.common.view.graphics.ObservingGraphic;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.view.graphics.splines.CubicSpline;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.Observable;
 
 public class FieldLatticeView implements Graphic, SimpleObserver {
-//public class FieldLatticeView implements ObservingGraphic {
+    //public class FieldLatticeView implements ObservingGraphic {
 
     // Note that origin is the view origin, NOT the origin of the electron
     // emitting the field
@@ -33,6 +33,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     private int numLatticePtsX;
     private int numLatticePtsY;
     private Vector2D[][] latticePts;
+    private AffineTransform[][] latticeTx;
     private Electron sourceElectron;
     private CubicSpline spline = new CubicSpline();
     private boolean autoscaleEnabled = false;
@@ -56,7 +57,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                              int latticeSpacingX, int latticeSpacingY ) {
 
         if( !( fieldSense == FORCE_ON_ELECTRON
-                || fieldSense == ELECTRIC_FIELD ) ) {
+               || fieldSense == ELECTRIC_FIELD ) ) {
             throw new RuntimeException( "Bad actual parameter: fieldSense " );
         }
         this.fieldSense = fieldSense;
@@ -66,37 +67,39 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         numLatticePtsX = 1 + ( width - 1 ) / latticeSpacingX;
         numLatticePtsY = 1 + ( height - 1 ) / latticeSpacingY;
         latticePts = new Vector2D[numLatticePtsY][numLatticePtsX];
+        latticeTx = new AffineTransform[numLatticePtsY][numLatticePtsX];
         for( int i = 0; i < numLatticePtsY; i++ ) {
             for( int j = 0; j < numLatticePtsX; j++ ) {
                 latticePts[i][j] = new Vector2D();
+                latticeTx[i][j] = new AffineTransform();
             }
         }
         this.sourceElectron = sourceElectron;
         sourceElectron.addObserver( this );
 
-//        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//        GraphicsDevice gs = ge.getDefaultScreenDevice();
-//        GraphicsConfiguration gc = gs.getDefaultConfiguration();
-//        buffImg = gc.createCompatibleImage( 800, 800, Transparency.TRANSLUCENT );
-//        g2DBuffImg = buffImg.createGraphics();
+        //        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        //        GraphicsDevice gs = ge.getDefaultScreenDevice();
+        //        GraphicsConfiguration gc = gs.getDefaultConfiguration();
+        //        buffImg = gc.createCompatibleImage( 800, 800, Transparency.TRANSLUCENT );
+        //        g2DBuffImg = buffImg.createGraphics();
     }
 
 
     public synchronized void paint( Graphics2D g2 ) {
 
         boolean displayCurve = fieldDisplayType == EmfPanel.CURVE
-                || fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS;
+                               || fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS;
 
         float scaleFactor = 1.0f;
-//        if( autoscaleEnabled ) {
-//            scaleFactor = getAutoscaleFactor();
-//        }
+        //        if( autoscaleEnabled ) {
+        //            scaleFactor = getAutoscaleFactor();
+        //        }
 
         // Draw field vectors and a spline curve
         for( int i = 0; i < numLatticePtsY; i++ ) {
 
             boolean atXAxis = Math.abs( sourceElectron.getCurrentPosition().getY() - ( origin.getY() + i * latticeSpacingY ) )
-                    < latticeSpacingY / 2;
+                              < latticeSpacingY / 2;
 
             // If we are to display a spline on this row of the lattice, clear its data cache now
             if( displayCurve && atXAxis ) {
@@ -118,11 +121,11 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
                         // Add a point for the source electron's origin, if the last spline
                         // point and the next one straddle it
-//                        if( x - sourceElectron.getStartPosition().getX() > 0
-//                                && x - sourceElectron.getStartPosition().getX() < latticeSpacingX ) {
-//                            spline.addPoint( (int)sourceElectron.getStartPosition().getX(),
-//                                             (int)sourceElectron.getStartPosition().getY() );
-//                        }
+                        //                        if( x - sourceElectron.getStartPosition().getX() > 0
+                        //                                && x - sourceElectron.getStartPosition().getX() < latticeSpacingX ) {
+                        //                            spline.addPoint( (int)sourceElectron.getStartPosition().getX(),
+                        //                                             (int)sourceElectron.getStartPosition().getY() );
+                        //                        }
 
                         tempPt.setLocation( x, sourceElectron.getCurrentPosition().getY() );
                         Vector2D ff = null;
@@ -137,16 +140,33 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                         ff.setY( fieldSense == FORCE_ON_ELECTRON ? ff.getY() : -ff.getY() );
                         if( fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
                             Color color = fieldSense == FORCE_ON_ELECTRON ? arrowRed : arrowGreen;
-//                            Color color = fieldSense == FORCE_ON_ELECTRON ? arrowColor : arrowGreen;
                             g2.setColor( color );
-                            drawHollowArrow( g2, x, y, x, y + (int)ff.getY() );
+                            Arrow arrow = new Arrow( new Point2D.Double( x, y ),
+                                                     new Point2D.Double( x, y + ff.getY() ),
+                                                     hollowArrowHeadWidth * 0.7, hollowArrowHeadWidth,
+                                                     hollowArrowWidth, 0.5, false );
+                            g2.setStroke( hollowArrowStroke );
+                            g2.draw( arrow.getShape() );
                         }
+
                     }
                     else if( fieldDisplayType == EmfPanel.FULL_FIELD ) {
-                        BufferedImage bi = FieldVector.getGraphic( l, theta, curveColor );
-                        if( bi != null ) {
-                            g2.drawImage( bi, x - ( bi.getWidth() / 2 ), y - ( bi.getHeight() / 2 ), this.imgObserver );
-                        }
+                        Arrow arrow = new Arrow( new Point2D.Double( -l / 2, 0 ), new Point2D.Double( l / 2, 0 ),
+                                                 FieldVector.maxArrowHeadWidth,
+                                                 FieldVector.maxArrowHeadWidth, 3, 0.5, true );
+                        AffineTransform orgTx = g2.getTransform();
+                        AffineTransform tx = latticeTx[i][j];
+                        tx.setToTranslation( x, y );
+                        tx.rotate( theta );
+                        g2.setColor( Color.red );
+                        g2.transform( tx );
+
+                        g2.setColor( arrowColor );
+                        g2.draw( arrow.getShape() );
+                        // GraphicsUtil.setAlpha( g2, 0.5 );
+                        g2.fill( arrow.getShape() );
+                        GraphicsUtil.setAlpha( g2, 1 );
+                        g2.setTransform( orgTx );
                     }
                 }
             }
@@ -156,69 +176,63 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                 g2.setColor( arrowRed );
                 g2.setStroke( splineStroke );
                 spline.paint( g2 );
-//                spline.paint( g2DBuffImg );
             }
         }
-//        g2.drawImage( buffImg, nopAT, null );
     }
-
 
     /**
      * Get the strength of the field at each of the lattice points
      */
     public synchronized void update() {
-//    public synchronized void update( Observable o, Object arg ) {
-        /*if( o instanceof Electron )*/ {
-            for( int j = 0; j < numLatticePtsX; j++ ) {
-                for( int i = 0; i < numLatticePtsY; i++ ) {
-                    latticePtLocation.setLocation( j * latticeSpacingX, i * latticeSpacingY );
-                    Vector2D fs = null;
-                    if( displayStaticField && fieldDisplayType != EmfPanel.NO_FIELD ) {
-                        fs = sourceElectron.getStaticFieldAt( latticePtLocation );
-                    }
-                    else if( displayDynamicField && fieldDisplayType != EmfPanel.NO_FIELD ) {
-                        fs = sourceElectron.getDynamicFieldAt( latticePtLocation );
-                    }
-                    if( fs != null ) {
-                        latticePts[i][j].setX( fs.getX() );
-                        latticePts[i][j].setY( fs.getY() );
-                    }
-                    else {
-                        latticePts[i][j].setX( 0 );
-                        latticePts[i][j].setY( 0 );
-                    }
+        for( int j = 0; j < numLatticePtsX; j++ ) {
+            for( int i = 0; i < numLatticePtsY; i++ ) {
+                latticePtLocation.setLocation( j * latticeSpacingX, i * latticeSpacingY );
+                Vector2D fs = null;
+                if( displayStaticField && fieldDisplayType != EmfPanel.NO_FIELD ) {
+                    fs = sourceElectron.getStaticFieldAt( latticePtLocation );
+                }
+                else if( displayDynamicField && fieldDisplayType != EmfPanel.NO_FIELD ) {
+                    fs = sourceElectron.getDynamicFieldAt( latticePtLocation );
+                }
+                if( fs != null ) {
+                    latticePts[i][j].setX( fs.getX() );
+                    latticePts[i][j].setY( fs.getY() );
+                }
+                else {
+                    latticePts[i][j].setX( 0 );
+                    latticePts[i][j].setY( 0 );
                 }
             }
         }
     }
 
-//    private float getAutoscaleFactor() {
-//        float maxMag = 0;
-//
-//        // If the movement strategy is sinusoidal, then get the max field at the origin,
-//        // and use it as the scale factor. Note that the 5 in the expression is strictly
-//        // empirical. I don't know why it looks right
-//        if( SinusoidalMovement.class.isAssignableFrom( sourceElectron.getMovementStrategyType() ) ) {
-//            maxMag = sourceElectron.getMaxAccelerationAtLocation( origin ).getLength() / 5;
-//        }
-//        // If not sinusoidal, find the biggest vector in lattice and use it to determine
-//        // the scale factor
-//        else {
-//            for( int i = 0; i < numLatticePtsY; i++ ) {
-//                for( int j = 0; j < numLatticePtsX; j++ ) {
-//                    float m = Math.max( maxMag, Math.max( latticePts[i][j].getX(), latticePts[i][j].getY() ) );
-//                    if( !Float.isNaN( m ) ) {
-//                        maxMag = m;
-//                    }
-//                }
-//            }
-//        }
-//        // Determine the scale factor for the painting of the vectors
-//        return latticeSpacingX / maxMag;
-//    }
+    //    private float getAutoscaleFactor() {
+    //        float maxMag = 0;
+    //
+    //        // If the movement strategy is sinusoidal, then get the max field at the origin,
+    //        // and use it as the scale factor. Note that the 5 in the expression is strictly
+    //        // empirical. I don't know why it looks right
+    //        if( SinusoidalMovement.class.isAssignableFrom( sourceElectron.getMovementStrategyType() ) ) {
+    //            maxMag = sourceElectron.getMaxAccelerationAtLocation( origin ).getLength() / 5;
+    //        }
+    //        // If not sinusoidal, find the biggest vector in lattice and use it to determine
+    //        // the scale factor
+    //        else {
+    //            for( int i = 0; i < numLatticePtsY; i++ ) {
+    //                for( int j = 0; j < numLatticePtsX; j++ ) {
+    //                    float m = Math.max( maxMag, Math.max( latticePts[i][j].getX(), latticePts[i][j].getY() ) );
+    //                    if( !Float.isNaN( m ) ) {
+    //                        maxMag = m;
+    //                    }
+    //                }
+    //            }
+    //        }
+    //        // Determine the scale factor for the painting of the vectors
+    //        return latticeSpacingX / maxMag;
+    //    }
 
     public void setFieldCurvesEnabled( boolean enabled ) {
-//        this.fieldCurvesEnabled = enabled;
+        //        this.fieldCurvesEnabled = enabled;
     }
 
     public void setAutoscaleEnabled( boolean enabled ) {
@@ -252,13 +266,15 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     }
 
 
-//
-// Statics
-//
+    //
+    // Statics
+    //
     public final static Color arrowRed = new Color( 200, 0, 0 );
     public final static Color arrowGreen = new Color( 0, 100, 0 );
-//    private static Color curveColor = new Color( 80, 0, 230 );
-    private static BasicStroke arrowStroke = new BasicStroke( 4 );
+    private static Color arrowColor = new Color( 255, 48, 48 );
+    private static int hollowArrowWidth = 10;
+    private static int hollowArrowHeadWidth = 20;
+    private static BasicStroke hollowArrowStroke = new BasicStroke( 2 );
     private static BasicStroke splineStroke = new BasicStroke( 2 );
     public static final int ELECTRIC_FIELD = -1;
     public static final int FORCE_ON_ELECTRON = 1;
@@ -272,40 +288,11 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         Graphics2D g2d = s_latticePtImg.createGraphics();
 
         // Draw on the image
-//        g2d.setColor( Color.blue );
-//        g2d.drawArc( 0, 0,
-//                     2, 2,
-//                     0, 360 );
-//     g2d.fill(new Ellipse2D.Float( 0, 0, s_latticePtDiam, s_latticePtDiam ));
+        //        g2d.setColor( Color.blue );
+        //        g2d.drawArc( 0, 0,
+        //                     2, 2,
+        //                     0, 360 );
+        //     g2d.fill(new Ellipse2D.Float( 0, 0, s_latticePtDiam, s_latticePtDiam ));
         g2d.dispose();
-    }
-
-
-    private static Color arrowColor = new Color( 0, 0, 200 );
-    private static int maxWidth = 10; // width of arrowhead
-    private static int arrowWidth = 10;
-    private static int arrowHeadWidth = 20;
-    static BasicStroke hollowArrowStroke = new BasicStroke( 2 );
-
-    private static void drawHollowArrow( Graphics2D g2, int x1, int y1, int x2, int y2 ) {
-        if( x1 != x2 || y1 != y2 ) {
-            g2.setStroke( hollowArrowStroke );
-//            g2.setStroke( new BasicStroke( 2f ) );
-
-            int y3 = y2 - Math.min( Math.abs( y2 - y1 ) / 2, maxWidth ) * MathUtil.getSign( y2 - y1 );
-            GeneralPath arrow = new GeneralPath();
-            arrow.moveTo( x1 - arrowWidth / 2, y1 );
-            arrow.lineTo( x1 - arrowWidth / 2, y3 );
-
-            arrow.lineTo( x1 - arrowHeadWidth / 2, y3 );
-            arrow.lineTo( x1, y2 );
-            arrow.lineTo( x1 + arrowHeadWidth / 2, y3 );
-
-            arrow.lineTo( x1 + arrowWidth / 2, y3 );
-            arrow.lineTo( x1 + arrowWidth / 2, y1 );
-            arrow.lineTo( x1 - arrowWidth / 2, y1 );
-
-            g2.draw( arrow );
-        }
     }
 }

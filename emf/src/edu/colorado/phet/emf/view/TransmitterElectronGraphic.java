@@ -7,19 +7,18 @@
 package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.BoundedGraphic;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.emf.model.Electron;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.emf.Config;
-import edu.colorado.phet.graphics.VerticalDragHandler;
+import edu.colorado.phet.emf.model.Electron;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class TransmitterElectronGraphic extends DefaultInteractiveGraphic implements BoundedGraphic, Translatable {
@@ -37,7 +36,6 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic implem
     private Graphic wiggleMeGraphic;
     private ElectronGraphic electronGraphic;
     private Electron electron;
-    private VerticalDragHandler dragHandler;
     private Point dragPt;
 
     public TransmitterElectronGraphic( ApparatusPanel apparatusPanel, Electron electron, Point origin ) {
@@ -58,7 +56,6 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic implem
     public boolean contains( int x, int y ) {
         boolean b = electronGraphic.contains( x, y );
         return b;
-
     }
 
     private void init( ApparatusPanel apparatusPanel, final Point origin, Electron electron ) {

@@ -12,6 +12,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.command.Command;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
@@ -28,6 +29,7 @@ import edu.colorado.phet.util.StripChart;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 
 public class EmfModule extends Module {
@@ -51,7 +53,9 @@ public class EmfModule extends Module {
 
         super.setModel( new EmfModel( clock ) );
 
+//        final Point origin = new Point( 129, 250 );
         final Point origin = new Point( 125, 250 );
+
         Antenna transmittingAntenna = new Antenna( new Point2D.Double( origin.getX(), origin.getY() - 100 ),
                                                    new Point2D.Double( origin.getX(), origin.getY() + 250 ) );
         electronLoc = new Point2D.Double( origin.getX(), origin.getY() + 50 );
@@ -113,6 +117,13 @@ public class EmfModule extends Module {
         // Set the control panel
         setControlPanel( new EmfControlPanel( (EmfModel)this.getModel(),
                                               this ) );
+
+
+//        Ellipse2D.Double s = new Ellipse2D.Double();
+//        s.setFrameFromCenter( origin.getX(), origin.getY(), origin.getX() + 5, origin.getY() + 5);
+//        getApparatusPanel().addGraphic( new ShapeGraphic( s, Color.yellow ));
+//
+
     }
 
     public void setAutoscaleEnabled( boolean enabled ) {
