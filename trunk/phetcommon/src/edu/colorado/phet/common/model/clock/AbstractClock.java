@@ -20,6 +20,10 @@ import java.util.ArrayList;
  * @version $Revision$
  */
 public abstract class AbstractClock {
+
+    static public final int MILLISECONDS_PER_TICK = 0;
+    static public final int FRAMES_PER_SECOND = 1;
+
 //    private CompositeClockTickListener timeListeners = new CompositeClockTickListener();
     //test comment
     private double runningTime;
@@ -32,6 +36,36 @@ public abstract class AbstractClock {
     private int executionState = NOT_STARTED;
     private double dt;
     private EventListenerList eventRegistry = new EventListenerList();
+
+    /**
+     * Constructor that allows tick to be specified either in milliseconds between ticks,
+     * or frames-per-second
+     *
+     * @param dt           The simulation time between ticks
+     * @param tickSpec
+     * @param tickSpecType
+     * @param isFixed      Specifies if the simulation time reported at each tick is always
+     *                     dt, or is scaled according to the desired tick spacing and the actual time between ticks.
+     */
+    public AbstractClock( double dt, int tickSpec, int tickSpecType, boolean isFixed ) {
+        if( isFixed ) {
+            tickConverter = new Static();
+        }
+        else {
+            tickConverter = new TimeScaling();
+        }
+        switch( tickSpecType ) {
+            case FRAMES_PER_SECOND:
+                this.delay = 1000 / tickSpec;
+                break;
+            case MILLISECONDS_PER_TICK:
+                this.delay = tickSpec;
+                break;
+            default:
+                throw new RuntimeException( "Invalid tick type" );
+        }
+        this.dt = dt;
+    }
 
     public AbstractClock( double dt, int delay, boolean isFixed ) {
         if( isFixed ) {
