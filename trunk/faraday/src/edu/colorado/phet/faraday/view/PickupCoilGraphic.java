@@ -13,6 +13,8 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
 import java.awt.Rectangle;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -31,7 +33,7 @@ import edu.colorado.phet.faraday.model.Voltmeter;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PickupCoilGraphic implements SimpleObserver {
+public class PickupCoilGraphic implements SimpleObserver, ICollidable {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -42,6 +44,7 @@ public class PickupCoilGraphic implements SimpleObserver {
     private LightbulbGraphic _lightbulbGraphic;
     private VoltmeterGraphic _voltmeterGraphic;
     private CompositePhetGraphic _foreground, _background;
+    private CollisionDetector _collisionDetector;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -69,6 +72,8 @@ public class PickupCoilGraphic implements SimpleObserver {
         assert ( lightbulbModel != null );
         assert ( voltmeterModel != null );
         
+        _collisionDetector = new CollisionDetector( this );
+        
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
         
@@ -92,8 +97,16 @@ public class PickupCoilGraphic implements SimpleObserver {
         _background.setCursorHand();
         TranslationListener listener = new TranslationListener() {
             public void translationOccurred( TranslationEvent e ) {
-                // Translate if the mouse cursor is inside the parent component.
-                if ( component.contains( e.getMouseEvent().getPoint() ) ) {
+                int dx = e.getDx();
+                int dy = e.getDy();
+                boolean collidesNow = _collisionDetector.collidesNow();
+                boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
+                if ( !collidesNow && wouldCollide ) {
+                    // Ignore the translate if it would result in a collision.
+                    update();
+                }
+                else if ( component.contains( e.getMouseEvent().getPoint() ) ) {
+                    // Translate if the mouse cursor is inside the parent component.
                     double x = _pickupCoilModel.getX() + e.getDx();
                     double y = _pickupCoilModel.getY() + e.getDy();
                     _pickupCoilModel.setLocation( x, y );
@@ -174,5 +187,23 @@ public class PickupCoilGraphic implements SimpleObserver {
         
         _foreground.repaint();
         _background.repaint();
+    }
+    
+    //----------------------------------------------------------------------------
+    // ICollidable implementation
+    //----------------------------------------------------------------------------
+   
+    /*
+     * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionDetector()
+     */
+    public CollisionDetector getCollisionDetector() {
+        return _collisionDetector;
+    }
+    
+    /*
+     * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionBounds()
+     */
+    public Rectangle[] getCollisionBounds() {
+       return _coilGraphic.getCollisionBounds();
     }
 }

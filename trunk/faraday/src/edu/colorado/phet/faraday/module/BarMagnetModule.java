@@ -136,11 +136,15 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
         
         // Debugger
-        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
-        debugger.setLocationColor( Color.GREEN );
-        debugger.setLocationStrokeWidth( 1 );
+//        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
+//        debugger.setLocationColor( Color.GREEN );
+//        debugger.setLocationStrokeWidth( 1 );
 //        debugger.add( compassGraphic );
-        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
+//        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
+        
+        // Collision detection
+        magnetGraphic.getCollisionDetector().add( compassGraphic );
+        compassGraphic.getCollisionDetector().add( magnetGraphic );
         
         //----------------------------------------------------------------------------
         // Control

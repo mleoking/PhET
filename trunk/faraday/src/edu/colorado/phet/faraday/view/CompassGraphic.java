@@ -13,6 +13,8 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
@@ -31,7 +33,7 @@ import edu.colorado.phet.faraday.model.Compass;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class CompassGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class CompassGraphic extends CompositePhetGraphic implements SimpleObserver, ICollidable {
   
     //----------------------------------------------------------------------------
     // Class data
@@ -59,6 +61,7 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
     
     private Compass _compassModel;
     private CompassNeedleGraphic _needle;
+    private CollisionDetector _collisionDetector;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -75,6 +78,8 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         super( component );
         assert( component != null );
         assert( compassModel != null );
+        
+        _collisionDetector = new CollisionDetector( this );
         
         _compassModel = compassModel;
         _compassModel.addObserver( this );
@@ -123,8 +128,16 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         super.setCursorHand();
         super.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent e ) {
-                // Translate if the mouse cursor is inside the parent component.
-                if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
+                int dx = e.getDx();
+                int dy = e.getDy();
+                boolean collidesNow = _collisionDetector.collidesNow();
+                boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
+                if ( !collidesNow && wouldCollide ) {
+                    // Ignore the translate if it would result in a collision.
+                    update();
+                }
+                else if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
+                    // Translate if the mouse cursor is inside the parent component.
                     double x = _compassModel.getX() + e.getDx();
                     double y = _compassModel.getY() + e.getDy();
                     _compassModel.setLocation( x, y );
@@ -161,4 +174,26 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         }
     }
 
+    //----------------------------------------------------------------------------
+    // ICollidable implementation
+    //----------------------------------------------------------------------------
+
+    /*
+     * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionDetector()
+     */
+    public CollisionDetector getCollisionDetector() {
+        return _collisionDetector;
+    }
+
+    /*
+     * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionBounds()
+     */
+    public Rectangle[] getCollisionBounds() {
+        Rectangle[] bounds = null;
+        if ( isVisible() ) {
+            bounds = new Rectangle[1];
+            bounds[0] = getBounds();
+        }
+        return bounds;
+    }
 }
