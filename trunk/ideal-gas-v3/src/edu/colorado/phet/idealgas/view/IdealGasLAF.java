@@ -6,26 +6,26 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
-import javax.swing.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class IdealGasLAF extends MetalLookAndFeel {
-//    static Color backgroundColor = new Color( 60, 80, 60 );
+//    static Color BACKGROUND_COLOR = new Color( 60, 80, 60 );
 //    static Color buttonBackgroundColor = new Color( 100, 120, 60 );
 //    static Color controlTextColor = new Color( 230, 230, 230 );
 //    static Font font = new Font( "SansSerif", Font.BOLD, 16 );
 //
 //    public IdealGasLAF() {
-//        super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
+//        super( BACKGROUND_COLOR, buttonBackgroundColor, controlTextColor, font );
 //    }
 //    static private class LandF extends MetalLookAndFeel {
     Color backgroundColor = new Color( 200, 200, 220 );
-//            Color backgroundColor = new Color( 160, 180, 160 );
+//            Color BACKGROUND_COLOR = new Color( 160, 180, 160 );
     Color buttonBackgroundColor = new Color( 160, 160, 200 );
     Color controlTextColor = new Color( 0, 0, 0 );
     Font controlFont = new Font( "SansSerif", Font.BOLD, 12 );

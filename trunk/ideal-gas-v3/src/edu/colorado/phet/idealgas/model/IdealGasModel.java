@@ -368,11 +368,14 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         // the box before they go away completely
         for( int i = 0; i < this.numModelElements(); i++ ) {
             ModelElement body = this.modelElementAt( i );
+//            if( body instanceof Body && box.containsBody( (Body)body )) {
+//                if( !modelBounds.contains( ((Body)body).getPosition() )) {
+//                    box.removeContainedBody( (Body)body );
+//                }
+//            }
             if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
                 if( !modelBounds.contains( gasMolecule.getPosition() )) {
-//                if( /* getBox().isInOpening( gasMolecule )
-////                    && */ gasMolecule.getPosition().getY() < getBox().getMinY() + s_escapeOffset ) {
                     removeList.add( gasMolecule );
                 }
             }

@@ -15,17 +15,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class IdealGasLandF extends MetalLookAndFeel {
-//    static Color backgroundColor = new Color( 60, 80, 60 );
+//    static Color BACKGROUND_COLOR = new Color( 60, 80, 60 );
 //    static Color buttonBackgroundColor = new Color( 100, 120, 60 );
 //    static Color controlTextColor = new Color( 230, 230, 230 );
 //    static Font font = new Font( "SansSerif", Font.BOLD, 16 );
 //
 //    public IdealGasLandF() {
-//        super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
+//        super( BACKGROUND_COLOR, buttonBackgroundColor, controlTextColor, font );
 //    }
 //    static private class LandF extends MetalLookAndFeel {
     public static Color backgroundColor = new Color( 200, 200, 220 );
-//            Color backgroundColor = new Color( 160, 180, 160 );
+//            Color BACKGROUND_COLOR = new Color( 160, 180, 160 );
     public static Color buttonBackgroundColor = new Color( 160, 160, 200 );
     Color controlTextColor = new Color( 0, 0, 0 );
     Font controlFont = new Font( "SansSerif", Font.BOLD, 12 );
