@@ -2,8 +2,8 @@
 package edu.colorado.phet.cck.common;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 
@@ -17,10 +17,10 @@ public class ShapeGraphic2 implements Graphic {
     Shape shape;
     HasModelShape hsm;
     private BasicStroke stroke;
-    private ModelViewTransform2d transform;
+    private ModelViewTransform2D transform;
     private Color color;
 
-    public ShapeGraphic2(HasModelShape hsm, ModelViewTransform2d transform, Color color, BasicStroke stroke) {
+    public ShapeGraphic2(HasModelShape hsm, ModelViewTransform2D transform, Color color, BasicStroke stroke) {
         this.hsm = hsm;
         this.stroke = stroke;
         this.shape = hsm.getShape();
@@ -33,7 +33,7 @@ public class ShapeGraphic2 implements Graphic {
         });
         doupdate();
         transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
+            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
                 doupdate();
             }
         });

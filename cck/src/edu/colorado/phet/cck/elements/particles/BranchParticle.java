@@ -6,7 +6,8 @@ import edu.colorado.phet.cck.elements.branch.BranchObserver;
 import edu.colorado.phet.cck.elements.circuit.JunctionGroup;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.common.model.AutomatedObservable;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.math.PhetVector;
+
 
 /**
  * User: Sam Reid

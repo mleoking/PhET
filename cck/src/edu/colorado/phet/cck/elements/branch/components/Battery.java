@@ -8,7 +8,8 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.elements.xml.BatteryData;
 import edu.colorado.phet.cck.elements.xml.BranchData;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.math.PhetVector;
+
 
 /**
  * User: Sam Reid

@@ -42,8 +42,14 @@ public class ImagePortion implements InteractiveGraphic {
         interactionHandler.mouseDragged(event);
     }
 
+    public void mouseMoved(MouseEvent e) {
+    }
+
     public void mouseReleased(MouseEvent event) {
         interactionHandler.mouseReleased(event);
+    }
+
+    public void mouseClicked(MouseEvent e) {
     }
 
     public void mouseEntered(MouseEvent event) {
@@ -101,6 +107,10 @@ public class ImagePortion implements InteractiveGraphic {
 
     public int getImageWidth() {
         return image.getWidth();
+    }
+
+    public boolean contains(int x, int y) {
+        return imageShape.contains(x,y);
     }
 
 }

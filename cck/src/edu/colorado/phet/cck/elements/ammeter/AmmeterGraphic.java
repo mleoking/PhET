@@ -3,15 +3,15 @@ package edu.colorado.phet.cck.elements.ammeter;
 
 import edu.colorado.phet.cck.CCK2Module;
 import edu.colorado.phet.cck.common.SimpleObserver;
+import edu.colorado.phet.cck.common.DifferentialDragHandler;
 import edu.colorado.phet.cck.elements.branch.AbstractBranchGraphic;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.elements.circuit.CircuitObserver;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.coreadditions.graphics.DifferentialDragHandler;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
  */
 public class AmmeterGraphic implements InteractiveGraphic {
     Ammeter ammeter;
-    ModelViewTransform2d transform;
+    ModelViewTransform2D transform;
     CCK2Module module;
     private CircuitGraphic ccg;
     MeasuringGraphicNew graphic = new MeasuringGraphicNew();
@@ -35,7 +35,7 @@ public class AmmeterGraphic implements InteractiveGraphic {
     ArrayList data = new ArrayList();
     private DifferentialDragHandler ddh;
 
-    public AmmeterGraphic(Ammeter ammeter, ModelViewTransform2d transform, CCK2Module module, CircuitGraphic ccg) {
+    public AmmeterGraphic(Ammeter ammeter, ModelViewTransform2D transform, CCK2Module module, CircuitGraphic ccg) {
         this.ammeter = ammeter;
         this.transform = transform;
         this.module = module;
@@ -47,7 +47,7 @@ public class AmmeterGraphic implements InteractiveGraphic {
         });
         doUpdate();
         transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
+            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
                 doUpdate();
             }
         });
@@ -103,7 +103,13 @@ public class AmmeterGraphic implements InteractiveGraphic {
         module.getApparatusPanel().repaint();
     }
 
+    public void mouseMoved(MouseEvent e) {
+    }
+
     public void mouseReleased(MouseEvent event) {
+    }
+
+    public void mouseClicked(MouseEvent e) {
     }
 
     public void mouseEntered(MouseEvent event) {
@@ -112,5 +118,9 @@ public class AmmeterGraphic implements InteractiveGraphic {
 
     public void mouseExited(MouseEvent event) {
         event.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    public boolean contains(int x, int y) {
+        return graphic.contains(new Point(x,y));
     }
 }

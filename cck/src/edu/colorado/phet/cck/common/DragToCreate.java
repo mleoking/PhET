@@ -37,7 +37,7 @@ public class DragToCreate implements InteractiveGraphic {
     }
 
     public boolean canHandleMousePress(MouseEvent event) {
-        return icon.canHandleMousePress(event);
+        return icon.contains(event.getX(),event.getY());
     }
 
     public void mousePressed(MouseEvent event) {
@@ -62,12 +62,18 @@ public class DragToCreate implements InteractiveGraphic {
         }
     }
 
+    public void mouseMoved(MouseEvent e) {
+    }
+
     public void mouseReleased(MouseEvent event) {
         if (created != null) {
             ps.mouseReleased(created, event);
 //            created.mouseReleased(event);
             created = null;
         }
+    }
+
+    public void mouseClicked(MouseEvent e) {
     }
 
     public void mouseEntered(MouseEvent event) {
@@ -86,5 +92,9 @@ public class DragToCreate implements InteractiveGraphic {
     public void setTipLocation(Point point) {
 //        this.tipLocation = point;
         textDisplay.setLocation(point.x - 120, point.y);
+    }
+
+    public boolean contains(int x, int y) {
+        return icon.contains(x,y);
     }
 }

@@ -7,9 +7,9 @@ import edu.colorado.phet.cck.elements.branch.ConnectibleImageGraphic;
 import edu.colorado.phet.cck.elements.branch.components.Bulb;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.math.PhetVector;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -30,14 +30,14 @@ public class BulbGraphic extends ConnectibleImageGraphic {
     private Rectangle bounds;
 //    public static boolean showJunctionHoles = false;
 
-    public BulbGraphic(final Circuit circuit, final ModelViewTransform2d transform, Bulb branch,
+    public BulbGraphic(final Circuit circuit, final ModelViewTransform2D transform, Bulb branch,
                        CCK2Module module, final BufferedImage image,
                        Stroke highlightStroke, Color highlightColor) {
         super(circuit, transform, branch, module, image, highlightStroke, highlightColor);
         this.bulbBranch = branch;
         this.originalImage = image;
         transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
+            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
                 updateGap(image);
             }
         });

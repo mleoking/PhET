@@ -7,11 +7,12 @@ import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchGraphicFactory;
 import edu.colorado.phet.cck.elements.branch.components.*;
 import edu.colorado.phet.cck.elements.junction.Junction;
-import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.coreadditions.graphics.transform.CompositeTransformListener;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.graphics.transforms.CompositeTransformListener;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.math.PhetVector;
+
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -25,7 +26,7 @@ import java.util.Hashtable;
  * Time: 1:54:00 AM
  * Copyright (c) Aug 28, 2003 by Sam Reid
  */
-public class CircuitGraphic extends CompositeGraphic implements CircuitObserver, TransformListener {
+public class CircuitGraphic extends CompositeInteractiveGraphic implements CircuitObserver, TransformListener {
     Circuit circuit;
 
     CCK2Module module;
@@ -156,7 +157,7 @@ public class CircuitGraphic extends CompositeGraphic implements CircuitObserver,
 
     public void branchRemoved(Circuit circuit2, Branch branch) {
         AbstractBranchGraphic g = (AbstractBranchGraphic) graphicsTable.get(branch);
-        removeGraphic(g);
+        remove(g);
         graphicsTable.remove(branch);
         module.repaint();
     }
@@ -164,8 +165,8 @@ public class CircuitGraphic extends CompositeGraphic implements CircuitObserver,
     public void connectivityChanged(Circuit circuit2) {
     }
 
-    public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
-        compositeTransformListener.transformChanged(modelViewTransform2d);
+    public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
+        compositeTransformListener.transformChanged(ModelViewTransform2D);
         module.repaint();
     }
 
@@ -182,7 +183,7 @@ public class CircuitGraphic extends CompositeGraphic implements CircuitObserver,
 //        System.out.println("graphicsTable(before removal) = " + graphicsTable);
         graphicsTable.remove(b);
 //        module.getApparatusPanel().removeGraphic(abg);
-        removeGraphic(abg);
+        remove(abg);
 //        System.out.println("module.getApparatusPanel().getCompositeGraphic() = " + module.getApparatusPanel().getCompositeGraphic());
 //        System.out.println("graphicsTable = " + graphicsTable);
     }

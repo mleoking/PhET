@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.math.PhetVector;
 
 import java.util.ArrayList;
 

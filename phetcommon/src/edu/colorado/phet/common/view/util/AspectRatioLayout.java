@@ -23,6 +23,8 @@ public class AspectRatioLayout implements LayoutManager {
     }
 
     public AspectRatioLayout(Component target, int insetX, int insetY, double aspectRatio) {
+        if (target==null)
+        throw new RuntimeException("Null target component.");
         this.aspectRatio = aspectRatio;
         this.target = target;
         this.insetX = insetX;

@@ -1,7 +1,5 @@
 package edu.colorado.phet.cck.elements.kirkhoff;
 
-import org.srr.util.O;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Sam Reid
@@ -46,7 +44,7 @@ public class GaussJordanMatrixInterpreter implements Interpreter {
     public boolean isValidSolution() {
         for (int i = 0; i < m.numRows(); i++) {
             if (countEntries(i, .001) > 2) {
-                O.d("Invalid row=row[" + i + "]:\n" + m.rowToString(i));
+                System.out.println("Invalid row=row[" + i + "]:\n" + m.rowToString(i));
                 return false;
             }
         }

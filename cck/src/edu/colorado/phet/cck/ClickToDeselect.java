@@ -31,6 +31,9 @@ public class ClickToDeselect implements InteractiveGraphic {
     public void mouseDragged(MouseEvent event) {
     }
 
+    public void mouseMoved(MouseEvent e) {
+    }
+
     public void deselectAll(Component co) {
         for (int i = 0; i < circuit.numBranches(); i++) {
             circuit.branchAt(i).setSelected(false);
@@ -47,6 +50,9 @@ public class ClickToDeselect implements InteractiveGraphic {
         deselectAll(event.getComponent());
     }
 
+    public void mouseClicked(MouseEvent e) {
+    }
+
     public void mouseEntered(MouseEvent event) {
     }
 
@@ -54,6 +60,10 @@ public class ClickToDeselect implements InteractiveGraphic {
     }
 
     public void paint(Graphics2D g) {
+    }
+
+    public boolean contains(int x,int y) {
+        return true;
     }
 
 }

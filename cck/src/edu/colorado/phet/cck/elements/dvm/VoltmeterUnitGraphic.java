@@ -3,10 +3,10 @@ package edu.colorado.phet.cck.elements.dvm;
 
 import edu.colorado.phet.cck.common.SimpleObservable;
 import edu.colorado.phet.cck.common.SimpleObserver;
+import edu.colorado.phet.cck.common.DifferentialDragHandler;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.coreadditions.graphics.DifferentialDragHandler;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -25,7 +25,7 @@ import java.text.DecimalFormat;
 public class VoltmeterUnitGraphic extends SimpleObservable implements InteractiveGraphic {
 
     private BufferedImage dvmImage;
-    private ModelViewTransform2d transform;
+    private ModelViewTransform2D transform;
     VoltmeterUnit vm;
     private AffineTransform trf;
     int x;
@@ -34,7 +34,7 @@ public class VoltmeterUnitGraphic extends SimpleObservable implements Interactiv
     private String voltageText;
     private Font font = new Font("Dialog", 0, 20);
 
-    public VoltmeterUnitGraphic(VoltmeterUnit vm, BufferedImage dvmImage, ModelViewTransform2d transform) {
+    public VoltmeterUnitGraphic(VoltmeterUnit vm, BufferedImage dvmImage, ModelViewTransform2D transform) {
         this.vm = vm;
         this.dvmImage = dvmImage;
         this.transform = transform;
@@ -46,7 +46,7 @@ public class VoltmeterUnitGraphic extends SimpleObservable implements Interactiv
         });
         changed();
         transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
+            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
                 changed();
             }
         });
@@ -77,7 +77,13 @@ public class VoltmeterUnitGraphic extends SimpleObservable implements Interactiv
         vm.translate(modelDX.x, modelDX.y);
     }
 
+    public void mouseMoved(MouseEvent e) {
+    }
+
     public void mouseReleased(MouseEvent event) {
+    }
+
+    public void mouseClicked(MouseEvent e) {
     }
 
     public void mouseEntered(MouseEvent event) {
@@ -109,5 +115,10 @@ public class VoltmeterUnitGraphic extends SimpleObservable implements Interactiv
             this.voltageText = "???";
         } else
             this.voltageText = df.format(voltage) + " V";
+    }
+
+    public boolean contains(int xa, int ya) {
+                Rectangle2D.Double rect = new Rectangle2D.Double(x, y, dvmImage.getWidth(), dvmImage.getHeight());
+        return rect.contains(xa,ya);
     }
 }

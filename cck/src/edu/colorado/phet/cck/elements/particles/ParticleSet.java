@@ -15,7 +15,7 @@ import java.util.Random;
  * Time: 3:48:35 AM
  * Copyright (c) Sep 4, 2003 by Sam Reid
  */
-public class ParticleSet extends ModelElement {
+public class ParticleSet implements ModelElement {
     ArrayList particles = new ArrayList();
     Circuit circuit;
     ArrayList observers = new ArrayList();

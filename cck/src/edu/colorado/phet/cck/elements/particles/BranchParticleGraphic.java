@@ -6,9 +6,9 @@ import edu.colorado.phet.cck.elements.branch.BranchObserver;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
-import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
-import edu.colorado.phet.coreadditions.math.PhetVector;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.math.PhetVector;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -24,7 +24,7 @@ import java.util.Observer;
  */
 public class BranchParticleGraphic implements Graphic {
     BranchParticle particle;
-    ModelViewTransform2d transform;
+    ModelViewTransform2D transform;
     private Module module;
     private BufferedImage image;
     private ImageObserver obs;
@@ -32,7 +32,7 @@ public class BranchParticleGraphic implements Graphic {
     private int width = 20;
     private int height = 20;
 
-    public BranchParticleGraphic(BranchParticle particle, ModelViewTransform2d transform, Module module, BufferedImage image, ImageObserver obs) {
+    public BranchParticleGraphic(BranchParticle particle, ModelViewTransform2D transform, Module module, BufferedImage image, ImageObserver obs) {
         this.particle = particle;
         this.transform = transform;
         this.module = module;
@@ -41,7 +41,7 @@ public class BranchParticleGraphic implements Graphic {
         this.width = image.getWidth();
         this.height = image.getHeight();
         transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2d modelViewTransform2d) {
+            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
                 stateChanged();
             }
         });

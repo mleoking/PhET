@@ -4,13 +4,15 @@ package edu.colorado.phet.cck.elements.particles;
 import edu.colorado.phet.cck.CCK2Module;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+
 
 import java.awt.*;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -21,7 +23,7 @@ import java.util.Iterator;
 public class ParticleSetGraphic implements Graphic {
 //    ArrayList particleGraphics = new ArrayList();
     ParticleSet particleSet;
-    private ModelViewTransform2d transform;
+    private ModelViewTransform2D transform;
     private CCK2Module module;
 
     Hashtable table = new Hashtable();//key=branch particle, value= graphic
@@ -30,7 +32,7 @@ public class ParticleSetGraphic implements Graphic {
         return (BranchParticleGraphic) table.get(bp);
     }
 
-    public ParticleSetGraphic(ParticleSet particleSet, final ModelViewTransform2d transform, final CCK2Module module) {
+    public ParticleSetGraphic(ParticleSet particleSet, final ModelViewTransform2D transform, final CCK2Module module) {
         this.particleSet = particleSet;
         this.transform = transform;
         this.module = module;
@@ -40,7 +42,12 @@ public class ParticleSetGraphic implements Graphic {
             }
 
             public void particleAdded(BranchParticle bp) {
-                BranchParticleGraphic bgp = new BranchParticleGraphic(bp, transform, module, module.getImageSuite().getParticleImage(), module.getApparatusPanel());
+                BranchParticleGraphic bgp = null;
+                try {
+                    bgp = new BranchParticleGraphic(bp, transform, module, module.getImageSuite().getParticleImage(), module.getApparatusPanel());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 if (table.containsKey(bp))
                     throw new RuntimeException("Graphic for particle already exists.");
                 table.put(bp, bgp);
