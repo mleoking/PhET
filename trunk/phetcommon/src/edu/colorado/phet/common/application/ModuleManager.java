@@ -79,7 +79,7 @@ public class ModuleManager {
             setActiveModule( module );
         }
         for( int i = 0; i < observers.size(); i++ ) {
-            PhetApplication.ModuleObserver moduleObserver = (PhetApplication.ModuleObserver)observers.get( i );
+            ModuleObserver moduleObserver = (ModuleObserver)observers.get( i );
             moduleObserver.moduleAdded( module );
         }
     }
@@ -98,7 +98,7 @@ public class ModuleManager {
         deactivate();
         activate( module );
         for( int i = 0; i < observers.size(); i++ ) {
-            PhetApplication.ModuleObserver moduleObserver = (PhetApplication.ModuleObserver)observers.get( i );
+            ModuleObserver moduleObserver = (ModuleObserver)observers.get( i );
             moduleObserver.activeModuleChanged( module );
         }
     }
@@ -114,7 +114,7 @@ public class ModuleManager {
         }
     }
 
-    public void addModuleObserver( PhetApplication.ModuleObserver observer ) {
+    public void addModuleObserver( ModuleObserver observer ) {
         observers.add( observer );
     }
 

@@ -131,18 +131,4 @@ public class PhetApplication {
     public void removeClockTickListener( ClockTickListener clockTickListener ) {
         applicationModel.getClock().removeClockTickListener( clockTickListener );
     }
-
-    /**
-     * Observes additions and removals of Modules, change in the active Module.
-     *
-     * @author Ron LeMaster
-     * @version $Revision$
-     */
-    public static interface ModuleObserver {
-        public void moduleAdded( Module m );
-
-        public void activeModuleChanged( Module m );
-
-        public void moduleRemoved( Module m );
-    }
 }
