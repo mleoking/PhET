@@ -50,7 +50,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         ClockStateListener {
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
-    private long averagingPeriod = 100;
+    private long averagingPeriod = 200;
     private long lastPaintTime;
     private int numUpdatesToAverage;
     private int numGroundLevelAccum = 0;
