@@ -35,14 +35,17 @@ public class ShapeGraphic implements BoundedGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        if( fillPaint != null ) {
-            g.setPaint( fillPaint );
-            g.fill( shape );
-        }
-        if( outlineStroke != null ) {
-            g.setPaint( outlinePaint );
-            g.setStroke( outlineStroke );
-            g.draw( shape );
+        if( shape != null ) {
+            if( fillPaint != null ) {
+                g.setPaint( fillPaint );
+//                System.out.println( "shape = " + shape +", bounds="+shape.getBounds());
+                g.fill( shape );
+            }
+            if( outlineStroke != null ) {
+                g.setPaint( outlinePaint );
+                g.setStroke( outlineStroke );
+                g.draw( shape );
+            }
         }
     }
 

@@ -112,8 +112,8 @@ public class ModelViewTransform2D {
 
     public void setModelBounds( Rectangle2D.Double modelBounds ) {
         this.modelBounds = modelBounds;
-        listeners.transformChanged( this );
         dirty = true;
+        listeners.transformChanged( this );
     }
 
     public void setViewBounds( Rectangle viewBounds ) {
@@ -123,9 +123,9 @@ public class ModelViewTransform2D {
         if( viewBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "View Bounds height must be positive." );
         }
+        dirty = true;
         this.viewBounds = viewBounds;
         listeners.transformChanged( this );
-        dirty = true;
     }
 
     public Rectangle getViewBounds() {
