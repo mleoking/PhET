@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.colorvision3.control;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -13,6 +15,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
+import edu.colorado.phet.colorvision3.view.BoundsOutline;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
@@ -134,19 +137,23 @@ public class ToggleSwitch extends DefaultInteractiveGraphic
   }
   
   /**
-   * Determines the bounds.
+   * Gets the bounds.
+   * If the switch is in the "on" state, the bounds of the "on" image are used.
+   * If the switch is in the "off" state, the bounds of the "off" image are used.
    * 
    * @return the bounds
    */
   protected Rectangle getBounds()
   {
-    // Add the bounds of the images, in case they're different sizes.
-    Rectangle r = new Rectangle( _onImage.getBounds() );
-    r.add( _offImage.getBounds() );
-    
-    // Translate to the location.
-    Rectangle bounds = new Rectangle( r.x + _location.x, r.y + _location.y, r.width, r.height );
-    
+    Rectangle bounds = null;
+    if ( isOn() )
+    {
+      bounds = new Rectangle( _onImage.getBounds() );
+    }
+    else
+    {
+      bounds = new Rectangle( _offImage.getBounds() );
+    }
     return bounds;
   }
 
@@ -180,6 +187,7 @@ public class ToggleSwitch extends DefaultInteractiveGraphic
       {
         _offImage.paint( g2 );
       }
+      BoundsOutline.paint( g2, getBounds(), Color.RED, new BasicStroke(1f) ); // DEBUG
     }
   }
   
