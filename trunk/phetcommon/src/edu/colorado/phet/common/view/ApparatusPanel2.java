@@ -278,7 +278,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
         if( rectangles.size() > 0 ) {
             int numRectangles = rectangles.size();
 //            System.out.println( "numRectangles = " + numRectangles );
-            this.repaintArea = RectangleUtils.union( rectangles );
+            Rectangle unionRectangle = RectangleUtils.union( rectangles );
+            this.repaintArea = transformManager.transform( unionRectangle );
             paintImmediately( repaintArea );
             rectangles.clear();
         }
@@ -286,7 +287,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     private void addRectangleToRepaintList( int x, int y, int width, int height ) {
         Rectangle r = new Rectangle( x, y, width, height );
-        r = transformManager.transform( r );
         rectangles.add( r );
     }
 
