@@ -10,19 +10,20 @@
  */
 package edu.colorado.phet.common.view.components;
 
-import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.SimStrings;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * ModelSlider
@@ -85,11 +86,11 @@ public class ModelSlider extends JPanel {
         textPanel.add( textField, BorderLayout.WEST );
         textPanel.add( unitsReadout, BorderLayout.EAST );
         try {
-            GraphicsUtil.addGridBagComponent( this, titleLabel, 0, 0, 1, 1,
+            SwingUtils.addGridBagComponent( this, titleLabel, 0, 0, 1, 1,
                                               GridBagConstraints.NONE, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, slider, 0, 1, 1, 1,
+            SwingUtils.addGridBagComponent( this, slider, 0, 1, 1, 1,
                                               GridBagConstraints.NONE, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, textPanel, 0, 2, 2, 1,
+            SwingUtils.addGridBagComponent( this, textPanel, 0, 2, 2, 1,
                                               GridBagConstraints.NONE, GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {

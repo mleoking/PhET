@@ -10,14 +10,18 @@
  */
 package edu.colorado.phet.common.view;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-
-import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * PhetFrame
@@ -55,7 +59,7 @@ public class PhetFrame extends JFrame {
      * @param menu
      */
     public void addMenu( JMenu menu ) {
-        GraphicsUtil.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
+        SwingUtils.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
     }
 
     public void addFileMenuSeparator() {
