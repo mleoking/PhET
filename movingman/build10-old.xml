@@ -1,5 +1,8 @@
 <project name="General Ant Build Script" default="Publish Executables" basedir=".">
 
+    <property file="build.properties"/>
+    <property file="build.number"/>
+
     <!--  Set ant output directories.  -->
     <property name="ant.output" value="../ant_output"/>
     <property name="classes" location="${ant.output}/classes"/>
@@ -17,21 +20,11 @@
     <property name="src" location="src"/>
     <property name="tests-src" location="tests-src"/>
     <property name="data" location="data"/>
-
-    <property file="build.properties"/>
-    <property file="../local.build.properties"/>
-    <property file="build.time.stamp" location="${data}"/>
-
-    <property name="build.number.txt" value="${data}/${distname}.build.number"/>
-    <property name="timestamp.name" value="${data}/${distname}.build.time.stamp"/>
+    <property name="desktop" location="C:/Documents and Settings/Sam Reid/Desktop"></property>
 
     <description>
         Build File.
     </description>
-
-    <taskdef name="copyclasspath" classname="org.reids.anttasks.CopyClasspath" classpath="${antutil}"/>
-    <taskdef name="createresourcetag" classname="org.reids.anttasks.CreateResourcesTag" classpath="${antutil}"/>
-    <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile" classpath="${antutil}"/>
 
     <target name="Clean Dependencies">
         <delete dir="${idea.classes}"></delete>
@@ -50,7 +43,7 @@
         <mkdir dir="${backup}/${distname}_src_${backup.time}"/>
         <copy todir="${backup}/${distname}_src_${backup.time}">
             <fileset dir="${src}"/>
-            <fileset dir="${tests-src}"/>
+            <!--            <fileset dir="${tests-src}"/>-->
         </copy>
     </target>
 
@@ -77,17 +70,17 @@
         <copyclasspath directory="${backup}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>
     </target>
 
-    <!--    <target name="Backup Dev and Lib to desktop" depends="init">-->
-    <!--        <mkdir dir="${desktop}"/>-->
-    <!--        <tstamp>-->
-    <!--            <format property="backup.time" pattern="d-MMMM-yyyy h-mmaa" locale="en" timezone="MST"></format>-->
-    <!--        </tstamp>-->
-    <!--        <mkdir dir="${desktop}/${distname}_dev_${backup.time}"/>-->
-    <!--        <copy todir="${desktop}/${distname}_dev_${backup.time}">-->
-    <!--            <fileset dir="${development}"/>-->
-    <!--        </copy>-->
-    <!--        <copyclasspath directory="${desktop}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>-->
-    <!--    </target>-->
+    <target name="Backup Dev and Lib to desktop" depends="init">
+        <mkdir dir="${desktop}"/>
+        <tstamp>
+            <format property="backup.time" pattern="d-MMMM-yyyy h-mmaa" locale="en" timezone="MST"></format>
+        </tstamp>
+        <mkdir dir="${desktop}/${distname}_dev_${backup.time}"/>
+        <copy todir="${desktop}/${distname}_dev_${backup.time}">
+            <fileset dir="${development}"/>
+        </copy>
+        <copyclasspath directory="${desktop}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>
+    </target>
 
     <target name="Clean"
         description="clean up">
@@ -101,32 +94,42 @@
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <javac srcdir="src-hellophet-46" destdir="${classes}"/>
         <javac srcdir="${src}" destdir="${classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
 
-    <target name="Generate Build Info">
-        <buildnumber file="${build.number.txt}"/>
+    <target name="Synchronize Build meta info">
         <tstamp>
             <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"></format>
         </tstamp>
-        <echo file="${timestamp.name}" message="${jar.creation.time}"></echo>
+        <echo file="build.time.stamp.txt" message="${jar.creation.time}"></echo>
+        <copy file="build.time.stamp.txt" tofile="${data}/build.time.stamp.txt"></copy>
+        <copy file="build.number" tofile="${data}/build.number"/>
     </target>
+
 
     <target name="Generate Jar" depends="Compile"
         description="generate the distribution">
         <!-- Create the distribution directory -->
         <delete dir="${jars}"/>
         <mkdir dir="${jars}"/>
-        <antcall target="Generate Build Info"/>
-        <property file="${build.number.txt}"/>
+        <buildnumber/>
+        <tstamp>
+            <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"></format>
+        </tstamp>
+        <echo file="build.time.stamp.txt" message="${jar.creation.time}"></echo>
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
+            <fileset file="build.number"/>
+            <fileset file="build.time.stamp.txt"/>
             <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="version" value="${version}"/>
+                <attribute name="build" value="${build.number}"/>
                 <attribute name="Main-Class" value="${main.class}"/>
+                <!--                <attribute name="time.stamp" value="${jar.creation.time}"/>-->
             </manifest>
         </jar>
     </target>
@@ -144,7 +147,6 @@
     <target name="Publish Library" depends="Generate Jar,Javadoc"
         description="generate the release distribution, including binary, source and docs">
         <mkdir dir="${releases}"/>
-        <property file="${build.number.txt}"/>
         <property name="destdir" value="${releases}/${distname}${version}_library-build-${build.number}"/>
         <mkdir dir="${destdir}"/>
         <mkdir dir="${destdir}/src"/>
@@ -182,6 +184,10 @@
         <CreateBatchFile mainJar="bin/${distname}.jar" libDir="${destdir}/lib" mainClassName="${main.class}" outputFile="${destdir}/run_${distname}.bat"/>
     </target>
 
+    <taskdef name="copyclasspath" classname="org.reids.anttasks.CopyClasspath"/>
+    <taskdef name="createresourcetag" classname="org.reids.anttasks.CreateResourcesTag"/>
+    <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile"/>
+
     <target name="Copy Classpath To lib">
         <delete dir="${lib}"/>
         <copyclasspath directory="${lib}" ignore="${ignorepath}"/>
@@ -197,8 +203,7 @@
     <target name="Publish Executables" depends="Generate Jar"
         description="generate executables, jar files, lib files, a batchfile">
         <mkdir dir="${releases}"/>
-        <property file="${build.number.txt}"/>
-        <property name="destdir" value="${releases}\${distname}${version}_exec-build-${build.number}"/>
+        <property name="destdir" value="${releases}/${distname}${version}_exec-build-${build.number}"/>
         <mkdir dir="${destdir}"/>
         <copy todir="${destdir}">
             <fileset dir="${jars}"/>
@@ -208,11 +213,8 @@
                 <include name="${distname}.jnlp"></include>
             </fileset>
         </copy>
-        <!--        <copyclasspath directory="${destdir}/lib" ignore="${ignorepath}"/>-->
+        <copyclasspath directory="${destdir}/lib" ignore="${ignorepath}"/>
         <CreateBatchFile mainJar="${distname}.jar" libDir="${destdir}/lib" mainClassName="${main.class}" outputFile="${destdir}/run_${distname}.bat"/>
-        <exec dir="${destdir}" executable="explorer">
-            <arg line="${destdir}"/>
-        </exec>
     </target>
 
     <target name="Open Explorer">
@@ -221,10 +223,30 @@
         </exec>
     </target>
 
-    <target name="Open Explorer Top">
-        <exec dir="${basedir}" executable="explorer">
-            <arg line="${basedir}"></arg>
-        </exec>
+    <!--    <taskdef name="ssh" classname="com.sshtools.ant.Ssh"/>-->
+    <!--    <taskdef name="sftp" classname="com.sshtools.ant.Sftp"/>-->
+    <!--    <target name="Test SSH Task">-->
+    <!--        <ssh host="ucsub.colorado.edu"-->
+    <!--            verifyhost="false"-->
+    <!--            always="true"-->
+    <!--            username="reids"-->
+    <!--            password="xxxxx">-->
+    <!--            <sftp action="put"-->
+    <!--                depends="true"-->
+    <!--                remotedir="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/pion/phet/temp">-->
+    <!--                <fileset dir="C:/test">-->
+    <!--                    <include name="*.txt"></include>-->
+    <!--                </fileset>-->
+    <!--            </sftp>-->
+    <!--        </ssh>-->
+    <!--    </target>-->
+
+    <!--    <taskdef resource="C:/Documents and Settings/Sam Reid/Desktop/GenJar/genjar.properties"/>-->
+    <taskdef name="genjar" classname="org.apache.tools.ant.taskdefs.optional.genjar.GenJar"/>
+    <target name="Use GenJar">
+        <genjar jarfile="gen-out.jar">
+            <class name="edu.colorado.phet.movingman.application.MovingManModule"/>
+        </genjar>
     </target>
 
 </project>
