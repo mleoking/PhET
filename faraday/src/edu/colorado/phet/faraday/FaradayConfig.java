@@ -75,7 +75,6 @@ public class FaradayConfig {
 
     // Electromagnet parameters
     public static final double ELECTROMAGNET_STRENGTH_MAX = 300.0; // Gauss
-    public static final double ELECTROMAGNET_STRENGTH_MIN = 0.0;  // must be zero !!!
     public static final int ELECTROMAGNET_LOOPS_MAX = 4;
     public static final int ELECTROMAGNET_LOOPS_MIN = 1;
     
@@ -97,11 +96,14 @@ public class FaradayConfig {
     public static final double MIN_PICKUP_RADIUS = 0.5 * MAX_PICKUP_RADIUS;
 
     // Battery parameters 
-    public static final double BATTERY_VOLTAGE_MAX = 100.0;
+    public static final double BATTERY_VOLTAGE_MAX = MAX_PICKUP_EMF;  // volts
+    public static final double BATTERY_AMPLITUDE_MAX = 1.0; // -1...1
+    public static final double BATTERY_AMPLITUDE_MIN = -1.0; // -1...1
 
     // AC parameters
-    public static final double AC_VOLTAGE_MAX = 100.0;
-    public static final double AC_AMPLITUDE_MAX = 1.0;  // 0...1
+    public static final double AC_VOLTAGE_MAX = MAX_PICKUP_EMF;  // volts
+    public static final double AC_MAXAMPLITUDE_MAX = 1.0;  // 0...1
+    public static final double AC_MAXAMPLITUDE_MIN = 0.0;  // 0...1
     public static final double AC_FREQUENCY_MAX = 1.0;  // 0...1
     public static final double AC_FREQUENCY_MIN = 0.25;  // 0...1
     

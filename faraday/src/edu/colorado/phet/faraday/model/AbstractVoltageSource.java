@@ -33,9 +33,9 @@ public abstract class AbstractVoltageSource extends SpacialObservable {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _voltage;
     private double _maxVoltage;
     private boolean _enabled;
+    private double _amplitude;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -45,9 +45,9 @@ public abstract class AbstractVoltageSource extends SpacialObservable {
      * Sole constructor.
      */
     public AbstractVoltageSource() {
-        _voltage = 0.0;
         _enabled = true;
         _maxVoltage = DEFAULT_MAX_VOLTAGE;
+        _amplitude = 1.0; // full strength
     }
     
     //----------------------------------------------------------------------------
@@ -55,27 +55,12 @@ public abstract class AbstractVoltageSource extends SpacialObservable {
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the voltage.
-     * 
-     * @param voltage the voltage, in volts
-     */
-    public void setVoltage( double voltage ) {
-        if ( voltage != _voltage ) {
-            _voltage = voltage;
-            if ( _enabled ) {
-                updateSelf();
-                notifyObservers();
-            }
-        }
-    }
-    
-    /**
      * Gets the voltage.
      * 
      * @return the voltage, in volts
      */
     public double getVoltage() {
-        return _voltage;
+        return _amplitude * _maxVoltage;
     }
     
     /**
@@ -96,6 +81,20 @@ public abstract class AbstractVoltageSource extends SpacialObservable {
      */
     public double getMaxVoltage() {
         return _maxVoltage;
+    }
+    
+    
+    public void setAmplitude( double amplitude ) {
+        assert( amplitude >= -1 && amplitude <= 1 );
+        if ( amplitude != _amplitude ) {
+            _amplitude = amplitude;
+            updateSelf();
+            notifyObservers();
+        }
+    }
+    
+    public double getAmplitude() {
+        return _amplitude;  
     }
     
     /**

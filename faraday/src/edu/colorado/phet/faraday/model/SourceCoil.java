@@ -44,6 +44,7 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
             }
             _voltageSource = voltageSource;
             _voltageSource.addObserver( this );
+            super.setMaxVoltage( _voltageSource.getMaxVoltage() );
             update();
         }
     }
@@ -57,10 +58,17 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
      */
     public void update() {
         if ( isEnabled() && _voltageSource != null ) {
-            double sourceVoltage = _voltageSource.getVoltage();
-            int numberOfLoops = getNumberOfLoops();
-            double voltage = ( numberOfLoops / FaradayConfig.ELECTROMAGNET_LOOPS_MAX ) * sourceVoltage;  // XXX hack
-            setVoltage( voltage );
+
+            /*
+             * The amplitude of the voltage in the source coil is a based on
+             * the number of loops in the coil and the relative magnitude of
+             * the voltage supplied by the voltage source.
+             */
+            double amplitude = 
+                ( getNumberOfLoops() / FaradayConfig.ELECTROMAGNET_LOOPS_MAX ) * 
+                ( _voltageSource.getVoltage() / _voltageSource.getMaxVoltage() );
+            super.setAmplitude( amplitude );
+            
             notifyObservers();
         }
     }

@@ -63,23 +63,27 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
-        
+     
         // Get the voltage across the ends of the coil.
-        double voltage = _coilModel.getVoltage();
+        double coilVoltage = _coilModel.getVoltage();
         
         // Flip the polarity
-        int sign = ( voltage < 0 ) ? -1 : +1;
-        if ( sign == 1 && _isFlipped ) {
+        if ( coilVoltage >= 0 && _isFlipped ) {
             flipPolarity();
             _isFlipped = false;
         }
-        else if ( sign == -1 && !_isFlipped ) {
+        else if ( coilVoltage < 0 && !_isFlipped ) {
             flipPolarity();
             _isFlipped = true;
         }
         
-        // Set the strength -- see Kirchhoff's rule.
-        double strength = Math.abs( voltage );
+        /* 
+         * Set the strength.
+         * This is a bit of a "fudge". 
+         * We set the strength of the magnet to be proportional to the voltage in the coil.
+         */
+        double percent = Math.abs( coilVoltage / _coilModel.getMaxVoltage() );
+        double strength = percent * getMaxStrength();
         setStrength( strength );
     }
 }

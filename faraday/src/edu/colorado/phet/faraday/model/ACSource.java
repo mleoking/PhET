@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.model;
 
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 
 
@@ -32,7 +33,8 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _amplitude; // 0...1
+//    private double _voltage; 
+    private double _maxAmplitude; // 0...1
     private double _frequency; // 0...1
     private int _sign; // -1 or +1
     
@@ -42,25 +44,32 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
     
     public ACSource() {
         super();
-        _amplitude = 1.0; // biggest
+//        _voltage = 0.0;
+        _maxAmplitude = 1.0; // biggest
         _frequency = 1.0; // fastest
-        _sign = 1;
+        _sign = +1; // positive voltage
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
-    public void setAmplitude( double amplitude ) {
-        assert( amplitude >= 0 && amplitude <= 1 );
-        if ( amplitude != _amplitude ) {
-            _amplitude = amplitude;
+    public void setMaxAmplitude( double maxAmplitude ) {
+        assert( maxAmplitude >=0 && maxAmplitude <= 1 );
+        if ( maxAmplitude != _maxAmplitude ) {
+            _maxAmplitude = maxAmplitude;
+            
+            // Make sure the amplitude stays in range.
+            double amplitude = getAmplitude();
+            double clamplitude = MathUtil.clamp( -maxAmplitude, amplitude, maxAmplitude );
+            setAmplitude( clamplitude );
+            
             notifyObservers();
         }
     }
     
-    public double getAmplitude() {
-        return _amplitude;  
+    public double getMaxAmplitude() {
+        return _maxAmplitude;
     }
     
     public void setFrequency( double frequency ) {
@@ -75,6 +84,10 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
         return _frequency;
     }
     
+//    public double getVoltage() {
+//        return _voltage;
+//    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -84,23 +97,37 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
      */
     public void stepInTime( double dt ) {
         if ( isEnabled() ) {
-            if ( _amplitude == 0 ) {
-                setVoltage( 0 );
-            }
-            else {
-                double max = Math.abs( _amplitude * getMaxVoltage() );
-                double delta = Math.abs( _frequency * ( max / MIN_STEPS_PER_CYCLE ) );
-                double voltage = getVoltage() + ( _sign * delta );
-                if ( voltage > max ) {
+
+            double amplitude = 0.0;
+            if ( _maxAmplitude != 0.0 ) {
+                double delta = Math.abs( _frequency * _maxAmplitude / MIN_STEPS_PER_CYCLE );
+                amplitude = getAmplitude() + ( _sign * delta );
+                if ( amplitude > _maxAmplitude ) {
                     _sign = -1;
-                    voltage = max - delta;
+                    amplitude = _maxAmplitude - delta;
                 }
-                else if ( voltage < -max ) {
+                else if ( amplitude < -_maxAmplitude ) {
                     _sign = +1;
-                    voltage = -max + delta;
+                    amplitude = _maxAmplitude - delta;
                 }
-                setVoltage( voltage );
             }
+            setAmplitude( amplitude );
+                
+//                double max = Math.abs( amplitude * getMaxVoltage() );
+//                double delta = Math.abs( _frequency * ( max / MIN_STEPS_PER_CYCLE ) );
+//                double voltage = _voltage + ( _sign * delta );
+//                if ( voltage > max ) {
+//                    _sign = -1;
+//                    voltage = max - delta;
+//                }
+//                else if ( voltage < -max ) {
+//                    _sign = +1;
+//                    voltage = -max + delta;
+//                }
+////                _voltage = voltage;
+//            }
+//            notifyObservers();
+
         }
     } 
 }

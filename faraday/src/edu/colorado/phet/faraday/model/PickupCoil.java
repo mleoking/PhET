@@ -33,6 +33,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     
     private AbstractMagnet _magnetModel;
     private double _flux; // in webers
+    private double _emf; // in volts
     
     // Debugging stuff...
     private double _maxEmf;
@@ -51,7 +52,17 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         assert( magnetModel != null );
         _magnetModel = magnetModel;
         _flux = 0.0;
+        _emf = 0.0;
         updateEmf();
+    }
+    
+    //----------------------------------------------------------------------------
+    // AbstractVoltageSource override
+    //----------------------------------------------------------------------------
+    
+    // Kirchhoff's rule -- voltage across the ends of the coil equals the emf.
+    public double getVoltage() {
+        return _emf;
     }
     
     //----------------------------------------------------------------------------
@@ -152,8 +163,11 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         // Calculate the induced EMF.
         double emf = -( getNumberOfLoops() * deltaFlux );
         
-        // Set the voltage across the ends of the coil -- see Kirchhoff's rule.
-        setVoltage( emf );
+        // Update the emf if it has changed.
+        if ( emf != _emf ) {
+            _emf = emf;
+            notifyObservers();
+        }
         
 //        // DEBUG: use this to determine the maximum EMF in the simulation.
 //        if ( Math.abs(emf) > Math.abs(_maxEmf) ) {

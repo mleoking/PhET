@@ -63,12 +63,9 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
-    // Battery
-    private static final double BATTERY_VOLTAGE = 50; // XXX % ?
-    
     // Source Coil
-    private static final int NUMBER_OF_LOOPS = 4;
-    private static final double LOOP_RADIUS = 50.0;
+    private static final int NUMBER_OF_LOOPS = FaradayConfig.ELECTROMAGNET_LOOPS_MAX;
+    private static final double LOOP_RADIUS = 50.0;  // Fixed loop radius
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -103,15 +100,14 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
      
         // Battery
         Battery batteryModel = new Battery();
-        batteryModel.setMaxVoltage( FaradayConfig.BATTERY_VOLTAGE_MAX );
-        batteryModel.setVoltage( BATTERY_VOLTAGE );
+        batteryModel.setMaxVoltage( FaradayConfig.BATTERY_VOLTAGE_MAX  );
+        batteryModel.setAmplitude( 0.5 );
         
         // AC Source 
         ACSource acSourceModel = new ACSource();
         acSourceModel.setMaxVoltage( FaradayConfig.AC_VOLTAGE_MAX );
-        acSourceModel.setVoltage( 0 );
-        acSourceModel.setAmplitude( FaradayConfig.AC_AMPLITUDE_MAX  / 2 );
-        acSourceModel.setFrequency( FaradayConfig.AC_FREQUENCY_MIN + (( FaradayConfig.AC_FREQUENCY_MAX - FaradayConfig.AC_FREQUENCY_MIN ) / 2) );
+        acSourceModel.setMaxAmplitude( 0.5 );
+        acSourceModel.setFrequency( 0.5 );
         acSourceModel.setEnabled( false );
         model.addModelElement( acSourceModel );
         
@@ -127,11 +123,11 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         Electromagnet electromagnetModel = new Electromagnet( sourceCoilModel );
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
-        electromagnetModel.setMinStrength( 0 );
         electromagnetModel.setLocation( MAGNET_LOCATION );
         electromagnetModel.setDirection( 0 /* radians */ );
         electromagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE ); // XXX should be based on coil graphic size
         model.addModelElement( electromagnetModel );
+        electromagnetModel.update();
          
         // Rescaler
         IRescaler rescaler = new MagneticFieldRescaler( electromagnetModel );
