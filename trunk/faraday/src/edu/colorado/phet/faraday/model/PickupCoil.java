@@ -63,6 +63,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         _emfHistory = new double[ HISTORY_SIZE ];
         _flux = 0.0;
         _smoothingEnabled = false;
+        updateEmf();
     }
     
     //----------------------------------------------------------------------------
@@ -150,17 +151,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     //----------------------------------------------------------------------------
     // Update methods
     //----------------------------------------------------------------------------
- 
-    /**
-     * Causes an immediate update to happen, independent of the simulation clock.
-     * If median smoothing of data was enabled, it is temporarily disabled.
-     */
-    public void updateNow() {
-        boolean smoothingWasEnabled = isSmoothingEnabled();
-        setSmoothingEnabled( false );
-        updateEmf();
-        setSmoothingEnabled( smoothingWasEnabled );
-    }
     
     /**
      * Updates the emf, using Faraday's Law.

@@ -338,7 +338,6 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 // Magnet polarity
                 _magnetModel.setDirection( _magnetModel.getDirection() + Math.PI );
                 _compassModel.startMovingNow();
-                _pickupCoilModel.updateNow();
             }
             else if ( e.getSource() == _gridCheckBox ) {
                 // Grid enable
@@ -392,7 +391,6 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 // Update the model.
                 int radius = (int) ( ( percent / 100.0 ) * FaradayConfig.MAX_PICKUP_RADIUS );
                 _pickupCoilModel.setRadius( radius );
-                _pickupCoilModel.updateNow();
                 // Update the label.
                 Object[] args = { new Integer( percent ) };
                 String text = MessageFormat.format( SimStrings.get( "MagnetAndCoilModule.radius" ), args );
@@ -403,7 +401,6 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 int numberOfLoops = ( (Integer) _loopsSpinner.getValue() ).intValue();
                 // Update the model.
                 _pickupCoilModel.setNumberOfLoops( numberOfLoops );
-                _pickupCoilModel.updateNow();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
