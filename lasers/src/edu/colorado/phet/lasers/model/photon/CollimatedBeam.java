@@ -14,9 +14,9 @@ package edu.colorado.phet.lasers.model.photon;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.EventRegistry;
 
 import javax.swing.event.EventListenerList;
 import java.awt.geom.Point2D;
@@ -179,14 +179,12 @@ public class CollimatedBeam extends Particle {
         }
         this.photonsPerSecond = photonsPerSecond;
         nextTimeToProducePhoton = getNextTimeToProducePhoton();
-
         fireRateChangeEvent( new RateChangeEvent() );
     }
 
     public void setWavelength( int wavelength ) {
         this.wavelength = wavelength;
         WavelengthChangeEvent event = new WavelengthChangeEvent();
-//        fireWavelengthChangeEvent( event );
         eventRegistry.fireEvent( event );
     }
 
@@ -249,12 +247,13 @@ public class CollimatedBeam extends Particle {
 
     private double genPositionY() {
         double yDelta = velocity.getX() != 0 ? Math.random() * bounds.getHeight() : 0;
+        yDelta -= bounds.getHeight() / 2;
         return this.getPosition().getY() + yDelta;
     }
 
     private double genPositionX() {
-        double xDelta = velocity.getY() != 0 ?
-                        Math.random() * bounds.getWidth() : 0;
+        double xDelta = velocity.getY() != 0 ? Math.random() * bounds.getWidth() : 0;
+        xDelta -= bounds.getWidth() / 2;
         return this.getPosition().getX() + xDelta;
     }
 

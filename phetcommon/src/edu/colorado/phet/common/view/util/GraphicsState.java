@@ -37,6 +37,11 @@ public class GraphicsState {
         background = graphics2D.getBackground();
     }
 
+    /**
+     * Sets all set-able attributes of the graphics. Note that paintMode/XORmode are
+     * not get-able from the graphics, so we cannot restore the mode if it has
+     * been changed between g = new GraphicsState() and g.restoreGraphics().
+     */
     public void restoreGraphics() {
         if( g2.getRenderingHints() != renderingHints ) {
             g2.setRenderingHints( renderingHints );

@@ -41,7 +41,7 @@ public class LaserSimulation extends PhetApplication {
             AbstractClock clock = new SwingTimerClock( 7, 40 );
             //            AbstractClock clock = new SwingTimerClock( 10, 40 );
             setClock( clock );
-            setFrameCenteredSize( 900, 750 );
+            setFrameCenteredSize( 900, 600 );
 
             Module singleAtomModule = new SingleAtomModule( clock );
             Module multipleAtomModule = new MultipleAtomModule( clock );
@@ -69,9 +69,9 @@ public class LaserSimulation extends PhetApplication {
             Locale.setDefault( new Locale( applicationLocale ) );
         }
         String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
+        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ));
+            Locale.setDefault( new Locale( locale ) );
         }
 
         SimStrings.setStrings( LaserConfig.localizedStringsPath );

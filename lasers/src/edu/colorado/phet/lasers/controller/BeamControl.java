@@ -15,7 +15,6 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
-import edu.colorado.phet.lasers.model.photon.Photon;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -85,7 +84,7 @@ public class BeamControl extends JPanel implements SimpleObserver {
                 beam.setWavelength( (int)( scaleFactor / wavelengthSlider.getValue() ) );
             }
         } );
-        wavelengthSlider.setValue( (int)( scaleFactor / beam.getWavelength() ));
+        wavelengthSlider.setValue( (int)( scaleFactor / beam.getWavelength() ) );
 
 
         // Lay out the panel
@@ -94,10 +93,14 @@ public class BeamControl extends JPanel implements SimpleObserver {
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 5, 0, 5 ), 20, 0 );
+        this.add( new JLabel( SimStrings.get( "StimulatingBeamControl.IntensitySliderLabel" ) ), gbc );
+        gbc.gridy++;
         this.add( photonRateSlider, gbc );
         gbc.gridy++;
         //        gbc.anchor = GridBagConstraints.WEST;
         //        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.add( new JLabel( SimStrings.get( "StimulatingBeamControl.WavelengthSliderLabel" ) ), gbc );
+        gbc.gridy++;
         this.add( wavelengthSlider, gbc );
         //        this.add( photonRateTF, gbc );
         Border frequencyBorder = new TitledBorder( SimStrings.get( "StimulatingBeamControl.BorderTitle" ) );

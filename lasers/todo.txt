@@ -1,3 +1,9 @@
+- AtomGraphic should just be a listener, not a SimpleObserver
+- Photons jump to right when stimulated emissoin happens
+- Put off..max labels on intensity slider
+- color control under the lamp, intensity on top
+- Make colors of energy levels map to real values
+- Prevent energy levels from being dragged past each other
 
 
 - AtomicState lifetime manager should be part of the base AtomicState now. There is no need of a separate
@@ -16,6 +22,7 @@ Should we keep or toss TxTranslatable, TxGraphic, TxBoundary, if we keep, can we
 Refactor ModelViewTx2D and AffineTxUtil
 
 =========================================================
+- Changed AtomGraphic to be an EventListener from a SimpleObserver
 - Beam control panels change if the rate of the beam changes
 - Lenses of lamps are the same as the photons they produce
 - Make colors of energy levels map to real values

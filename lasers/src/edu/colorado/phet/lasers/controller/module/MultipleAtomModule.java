@@ -33,8 +33,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -42,11 +42,6 @@ import java.util.ArrayList;
  *
  */
 public class MultipleAtomModule extends BaseLaserModule {
-
-    //    static protected final Point2D s_origin = LaserConfig.ORIGIN;
-    //    static protected final double s_boxHeight = 150;
-    //    static protected final double s_boxWidth = 500;
-    //    static protected final double s_laserOffsetX = 100;
 
     private double s_maxSpeed = .1;
     private ArrayList atoms;
@@ -69,12 +64,12 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
         Point2D pumpingBeamOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX + s_boxWidth / 2 - Photon.s_radius / 2,
-                                                        s_origin.getY() - s_laserOffsetX );
+                                                        s_origin.getY() );
         pumpingBeam.setBounds( new Rectangle2D.Double( pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
                                                        s_boxWidth, s_boxHeight + s_laserOffsetX * 2 ) );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.addListener( this );
-        pumpingBeam.setWidth( Photon.s_radius * 2 );
+        //        pumpingBeam.setWidth( Photon.s_radius * 2 );
         pumpingBeam.setActive( true );
         BlueBeamGraphic beamGraphic = new BlueBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
         addGraphic( beamGraphic, 1 );
@@ -103,15 +98,19 @@ public class MultipleAtomModule extends BaseLaserModule {
                                 (int)sbmDim.getWidth() + 10, (int)sbmDim.getHeight() + 10 );
             sbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             sbmPanel.add( sbm );
-//            sbmPanel.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+            //            sbmPanel.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             sbmPanel.setOpaque( false );
             getApparatusPanel().add( sbmPanel );
 
             // Pumping beam lamp
+            double pumpScaleX = scaleX;
+            double pumpScaleY = s_boxWidth / gunBI.getHeight();
+            AffineTransformOp atxOp2 = new AffineTransformOp( AffineTransform.getScaleInstance( pumpScaleX, pumpScaleY ), AffineTransformOp.TYPE_BILINEAR );
+            BufferedImage pumpBeamImage = atxOp2.filter( gunBI, null );
             AffineTransform pumpingBeamTx = new AffineTransform();
-            pumpingBeamTx.translate( getLaserOrigin().getX() + beamImage.getHeight() + s_boxWidth / 2 - beamImage.getHeight() / 2, 10 );
+            pumpingBeamTx.translate( getLaserOrigin().getX() + pumpBeamImage.getHeight() + s_boxWidth / 2 - pumpBeamImage.getHeight() / 2, 10 );
             pumpingBeamTx.rotate( Math.PI / 2 );
-            BufferedImage pumpingBeamLamp = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( beamImage, null );
+            BufferedImage pumpingBeamLamp = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( pumpBeamImage, null );
             PhetImageGraphic pumpingLampGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), pumpingBeamLamp, pumpingBeamTx );
             addGraphic( pumpingLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
@@ -119,10 +118,11 @@ public class MultipleAtomModule extends BaseLaserModule {
             JPanel pbmPanel = new JPanel();
             BeamControl pbm = new BeamControl( pumpingBeam );
             Dimension pbmDim = pbm.getPreferredSize();
-            pbmPanel.setBounds( (int)( pumpingBeamTx.getTranslateX() + pumpingLampGraphic.getWidth() ), 10,
+            //            pbmPanel.setBounds( (int)( pumpingBeamTx.getTranslateX() + pumpingLampGraphic.getWidth() ), 10,
+            pbmPanel.setBounds( (int)( pumpingBeamTx.getTranslateX() - ( pumpingLampGraphic.getHeight() * pumpScaleY ) - pbmDim.getWidth() ), 10,
                                 (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );
             pbmPanel.add( pbm );
-//            pbmPanell.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+            //            pbmPanell.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             pbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             pbmPanel.setOpaque( false );
             getApparatusPanel().add( pbmPanel );
