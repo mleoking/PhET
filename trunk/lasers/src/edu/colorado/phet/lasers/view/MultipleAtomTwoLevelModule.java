@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class MultipleAtomTwoLevelModule extends BaseLaserModule {
 
-    private double s_maxSpeed = 200;
+    private double s_maxSpeed = .5;
     private ArrayList atoms;
 
     /**
@@ -38,6 +38,54 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
 
 //        double newHeight = 100;
 //        setCavityHeight( newHeight );
+
+//        Atom atom = null;
+//        atoms = new ArrayList();
+//        for( int i = 0; i < 20; i++ ) {
+//            atom = new Atom();
+//            boolean placed = false;
+//
+//            // Place atoms so they don't overlap
+//            do {
+//                placed = true;
+//                atom.setPosition( ( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
+//                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( s_boxHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
+////                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
+//                atom.setVelocity( ( Math.random() - 0.5 ) * s_maxSpeed,
+//                                  ( Math.random() - 0.5 ) * s_maxSpeed );
+//                for( int j = 0; j < atoms.size(); j++ ) {
+//                    Atom atom2 = (Atom)atoms.get( j );
+//                    double d = atom.getPosition().distance( atom2.getPosition() );
+//                    if( d <= atom.getRadius() + atom2.getRadius() ) {
+////                    if( ContactDetector.areContacting( atom, atom2 )) {
+//                        placed = false;
+//                        break;
+//                    }
+//                }
+//            } while( !placed );
+//            atoms.add( atom );
+//            addAtom( atom );
+////            new AddAtomCmd( atom ).doIt();
+//        }
+//
+//        ApparatusConfiguration config = new ApparatusConfiguration();
+//        config.setStimulatedPhotonRate( 2.0f );
+//        config.setMiddleEnergySpontaneousEmissionTime( 0.500f );
+//        config.setPumpingPhotonRate( 0f );
+//        config.setHighEnergySpontaneousEmissionTime( 0.05f );
+//        config.setReflectivity( 0.7f );
+//        config.configureSystem( (LaserModel)getModel() );
+
+        setMonitorPanel(new TwoEnergyLevelMonitorPanel( (LaserModel)getModel() ));
+        setControlPanel( new TwoLevelControlPanel( this, clock ) );
+    }
+
+    /**
+     *
+     */
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+
 
         Atom atom = null;
         atoms = new ArrayList();
@@ -50,7 +98,7 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
                 placed = true;
                 atom.setPosition( ( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
                                   ( getLaserOrigin().getY() + ( Math.random() ) * ( s_boxHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-//                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
+
                 atom.setVelocity( ( Math.random() - 0.5 ) * s_maxSpeed,
                                   ( Math.random() - 0.5 ) * s_maxSpeed );
                 for( int j = 0; j < atoms.size(); j++ ) {
@@ -76,15 +124,6 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
         config.setReflectivity( 0.7f );
         config.configureSystem( (LaserModel)getModel() );
 
-        setMonitorPanel(new TwoEnergyLevelMonitorPanel( (LaserModel)getModel() ));
-        setControlPanel( new TwoLevelControlPanel( this, clock ) );
-    }
-
-    /**
-     *
-     */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
 //        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( new ThreeEnergyLevelMonitorPanel() );
 //        PhetApplication.instance().getPhetMainPanel().setControlPanel( new ThreeLevelControlPanel() );
 

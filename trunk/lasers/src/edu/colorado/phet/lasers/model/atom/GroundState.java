@@ -8,8 +8,20 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 
 public class GroundState extends AtomicState {
+
+    static private int s_numInstances = 0;
+    static public int s_wavelength = Photon.GRAY;
+
+    static public interface Listener {
+        void numInstancesChanged( int numInstances );
+    }
+
+    static public int getNumInstances() {
+        return s_numInstances;
+    }
 
     protected GroundState( Atom atom ) {
         super( atom );
@@ -50,19 +62,14 @@ public class GroundState extends AtomicState {
 
     void decrementNumInState() {
         s_numInstances--;
+//        subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
+//            public void doNotify( Object obj ) {
+//                ((Listener)obj).numInstancesChanged( getNumInstances() );
+//            }
+//        } );
     }
 
     int getNumAtomsInState() {
         return getNumInstances();
-    }
-
-    //
-    // Static fields and methods
-    //
-    static private int s_numInstances = 0;
-    static public int s_wavelength = Photon.GRAY;
-
-    static public int getNumInstances() {
-        return s_numInstances;
     }
 }

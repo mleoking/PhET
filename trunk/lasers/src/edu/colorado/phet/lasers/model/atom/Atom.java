@@ -12,7 +12,7 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.coreadditions.ListenerMechanism;
+import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.collision.SphericalBody;
 
 import java.util.LinkedList;
@@ -49,7 +49,7 @@ public class Atom extends SphericalBody {
     private AtomicState state;
 //    private LinkedList listeners = new LinkedList();
 //
-    ListenerMechanism listenerMechanism = new ListenerMechanism();
+    SubscriptionService subscriptionService = new SubscriptionService();
     public interface Listener {
         void photonEmitted( Atom atom, Photon photon );
         void leftSystem( Atom atom );
@@ -62,12 +62,12 @@ public class Atom extends SphericalBody {
     }
 
     public void addListener( Listener listner ) {
-        listenerMechanism.addListener( listner );
+        subscriptionService.addListener( listner );
 //        listeners.add( listner );
     }
 
     public void removeListener( Listener listener ) {
-        listenerMechanism.removeListener( listener );
+        subscriptionService.removeListener( listener );
 //        listeners.remove( listener );
     }
 
@@ -81,13 +81,11 @@ public class Atom extends SphericalBody {
 
     public void setState( AtomicState newState ) {
         this.state = newState;
-//        setChanged();
         notifyObservers();
     }
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-//        state.stepInTime( dt );
     }
 
     /**
@@ -101,7 +99,7 @@ public class Atom extends SphericalBody {
 //            Listener listener = (Listener)listeners.get( i );
 //            listener.photonEmitted( this, emittedPhoton );
 //        }
-        listenerMechanism.notifyListeners( new ListenerMechanism.Notifier() {
+        subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
             public void doNotify( Object obj ) {
                 ((Listener)obj).photonEmitted( Atom.this, emittedPhoton );
             }
@@ -114,7 +112,7 @@ public class Atom extends SphericalBody {
 //            Listener listener = (Listener)listeners.get( i );
 //            listener.leftSystem( this );
 //        }
-        listenerMechanism.notifyListeners( new ListenerMechanism.Notifier() {
+        subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
             public void doNotify( Object obj ) {
                 ((Listener)obj).leftSystem( Atom.this );
             }

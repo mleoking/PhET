@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This abstract class represents physical bodies. It is abstract so that only
+ * This abstract class represents physical particles. It is abstract so that only
  * subclasses can be instantiated, forcing them to declare if they do or do not
  * have physical extent.
  */
@@ -18,10 +18,10 @@ public class CollidableAdapter implements Collidable, ModelElement {
 
     private Vector2D velocityPrev;
     private Point2D positionPrev;
-    private Body body;
+    private Particle particle;
 
-    public CollidableAdapter( Body body ) {
-        this.body = body;
+    public CollidableAdapter( Particle particle ) {
+        this.particle = particle;
     }
 
     public void stepInTime( double dt ) {
@@ -30,11 +30,11 @@ public class CollidableAdapter implements Collidable, ModelElement {
         if( velocityPrev == null ) {
             velocityPrev = new Vector2D.Double();
         }
-        velocityPrev.setComponents( body.getVelocity().getX(), body.getVelocity().getY() );
+        velocityPrev.setComponents( particle.getVelocity().getX(), particle.getVelocity().getY() );
         if( positionPrev == null ) {
-            positionPrev = new Point2D.Double( body.getPosition().getX(), body.getPosition().getY() );
+            positionPrev = new Point2D.Double( particle.getPosition().getX(), particle.getPosition().getY() );
         }
-        positionPrev.setLocation( body.getPosition() );
+        positionPrev.setLocation( particle.getPosition() );
     }
 
     public Vector2D getVelocityPrev() {

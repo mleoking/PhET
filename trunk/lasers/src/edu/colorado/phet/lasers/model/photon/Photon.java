@@ -12,20 +12,25 @@
 package edu.colorado.phet.lasers.model.photon;
 
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.collision.SphericalBody;
+import edu.colorado.phet.collision.Collidable;
+import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.mechanics.Body;
 
 import java.util.ArrayList;
 import java.util.Observer;
 import java.util.LinkedList;
 import java.util.List;
+import java.awt.geom.Point2D;
 
 /**
  *
  */
-public class Photon extends SphericalBody {
+public class Photon extends Particle implements Collidable {
 
     static public double s_speed = 1;
 //    static public double s_speed = 500;
@@ -105,6 +110,7 @@ public class Photon extends SphericalBody {
     // If this photon has stimulated the production of another photon, this
     // is a reference to that photon
     private Photon childPhoton;
+    private CollidableAdapter collidableAdapter;
     private boolean isCollidable;
 
     public synchronized void addObserver( SimpleObserver o ) {
@@ -127,25 +133,26 @@ public class Photon extends SphericalBody {
      * heap so hard.
      */
     private Photon() {
-        super( s_radius );
+//        super( s_radius );
+        collidableAdapter = new CollidableAdapter( this );
         setVelocity( s_speed, 0 );
-        setMass( 1 );
+//        setMass( 1 );
     }
 
-    private List listeners = new LinkedList();
+//    private List listeners = new LinkedList();
+    private SubscriptionService bulletinBoard = new SubscriptionService();
 
     public interface Listener {
         void leavingSystem( Photon photon );
     }
 
     public void addListener( Listener listener ) {
-        listeners.add( listener );
+        bulletinBoard.addListener( listener );
     }
 
     public void removeListener( Listener listener ) {
-        listeners.remove( listener );
+        bulletinBoard.removeListener( listener );
     }
-
 
     /**
      * Rather than use the superclass behavior, the receiver
@@ -153,11 +160,11 @@ public class Photon extends SphericalBody {
      * again. This helps prevent us from flogging the heap.
      */
     public void removeFromSystem() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.leavingSystem( this );
-        }
-//        super.removeFromSystem();
+        bulletinBoard.notifyListeners( new SubscriptionService.Notifier() {
+            public void doNotify( Object obj ) {
+                ((Listener)obj).leavingSystem( Photon.this );
+            }
+        } );
         if( beam != null ) {
             beam.removePhoton( this );
         }
@@ -205,4 +212,11 @@ public class Photon extends SphericalBody {
     }
 
 
+    public Vector2D getVelocityPrev() {
+        return collidableAdapter.getVelocityPrev();
+    }
+
+    public Point2D getPositionPrev() {
+        return collidableAdapter.getPositionPrev();
+    }
 }
