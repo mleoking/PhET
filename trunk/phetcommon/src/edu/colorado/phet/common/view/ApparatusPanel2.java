@@ -113,8 +113,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     public void paint() {
         paintStrategy.paintImmediately();
-        // Clear the rectangles so they get garbage collectged
-        rectangles.clear();
     }
 
     /**
@@ -194,6 +192,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
     // Rendering
     //-------------------------------------------------------------------------
 
+    /**
+     * @deprecated Use Paint();
+     */
     public void paintImmediately() {
         paintDirtyRectanglesImmediately();
     }
@@ -242,7 +243,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     /**
      * Provided for backward compatibility
      *
-     * @deprecated
+     * @deprecated Use Paint()
      */
     public void megarepaintImmediately() {
         paintDirtyRectanglesImmediately();
@@ -255,6 +256,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         if( rectangles.size() > 0 ) {
             this.repaintArea = RectangleUtils.union( rectangles );
             paintImmediately( repaintArea );
+            rectangles.clear();
         }
     }
 
@@ -391,7 +393,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 ApparatusPanel2.this.paintDirtyRectanglesImmediately();
             }
         };
-
 
         public MouseProcessor( GraphicLayerSet mouseDelegator, final AbstractClock clock ) {
             this.clock = clock;
@@ -572,6 +573,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
             //TODO: even if we use an offscreen buffer, we could still just throw the changed part to the screen.
             Rectangle region = new Rectangle( 0, 0, apparatusPanel2.getWidth(), apparatusPanel2.getHeight() );
             apparatusPanel2.paintImmediately( region );
+            apparatusPanel2.rectangles.clear();
+            // Clear the rectangles so they get garbage collectged
         }
 
         public void render( Graphics2D g2 ) {
