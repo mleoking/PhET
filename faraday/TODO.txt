@@ -3,13 +3,12 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- water wheel needs to hit 0/90/180/270 degree rotation points to hit min/max field
 
 HIGH PRIORITY:
 - flatten static components of TurbineGraphic
 - make electrons move at same speed whether grid is on or off
 - verify that AC hits zero crossings, check with lightbulb
-- water wheel needs to hit 0/90/180/270 degree rotation points to hit min/max field
 - check voltmeter ticks on Windows, they appear to be "off" on the left side of the guage
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 - calibrate lightbulb
@@ -59,7 +58,8 @@ PHETCOMMON:
 
 DONE:
 v0r20...
-(3/23) - remove unused source files: ACPowerSupplyPanel, BatteryPanel, DeveloperPanel
+(3/23) - water wheel needs to hit 0/90/180/270 degree rotation points to hit min/max field strength
+(3/23) - remove source files for unused classes: ACPowerSupplyPanel, BatteryPanel, DeveloperPanel
 (3/22) - handle for faucet that looks like the side view of a faucet handle, put slider inside handle
 (3/22) - make water wheel look like brown wood
 (3/22) - set initial positions of compass & field meter in Generator module
