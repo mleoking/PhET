@@ -36,6 +36,10 @@ public class PhetFrame extends JFrame {
         appDescriptor.getFrameSetup().initialize( this );
     }
 
+    public void setVisible( boolean b ) {
+        super.setVisible( b );
+    }
+
     /**
      * Adds a JMenu before the Help Menu.
      *

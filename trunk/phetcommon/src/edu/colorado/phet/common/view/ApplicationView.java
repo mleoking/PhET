@@ -34,7 +34,6 @@ public class ApplicationView {
 
     public void setVisible( boolean isVisible ) {
         phetFrame.setVisible( isVisible );
-        appDescriptor.getFrameSetup().initialize( phetFrame );
     }
 
     public void addFileMenuItem( JMenuItem menuItem ) {
