@@ -6,17 +6,10 @@
  */
 package edu.colorado.phet.colorvision;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ThreadedClock;
-
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class ColorVision {
 
@@ -24,10 +17,10 @@ public class ColorVision {
         JFrame frame = new JFrame( "Color test" );
         Container contentPane = frame.getContentPane();
         CvPanel photonBeamPanel = new CvPanel();
-        photonBeamPanel.setPreferredSize( new Dimension( 700, 600 ));
+        photonBeamPanel.setPreferredSize( new Dimension( 700, 600 ) );
 
         PhotonBeam redBeam = new PhotonBeam();
-        redBeam.setLocation( Config.beamX , 130 );
+        redBeam.setLocation( Config.beamX, 130 );
         redBeam.setTheta( 30 );
         redBeam.setColor( Color.red );
         redBeam.setRate( 16 );
@@ -35,7 +28,7 @@ public class ColorVision {
         photonBeamPanel.addPhotonBeam( redBeam );
 
         PhotonBeam greenBeam = new PhotonBeam();
-        greenBeam.setLocation( Config.beamX , 300 );
+        greenBeam.setLocation( Config.beamX, 300 );
         greenBeam.setTheta( 0 );
         greenBeam.setColor( Color.green );
         greenBeam.setRate( 16 );
@@ -43,7 +36,7 @@ public class ColorVision {
         photonBeamPanel.addPhotonBeam( greenBeam );
 
         PhotonBeam blueBeam = new PhotonBeam();
-        blueBeam.setLocation( Config.beamX , 470 );
+        blueBeam.setLocation( Config.beamX, 470 );
         blueBeam.setTheta( -30 );
         blueBeam.setColor( Color.blue );
         blueBeam.setRate( 16 );
@@ -63,6 +56,7 @@ public class ColorVision {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.pack();
         frame.setVisible( true );
+        //How awesome
     }
 
 }
