@@ -230,6 +230,15 @@ public class BaseLaserModule extends Module {
         return energyLevelsMonitorPanel;
     }
 
+    public void setEnergyLevelsAveragingPeriod( double value ) {
+        energyLevelsMonitorPanel.setAveragingPeriod( (long)value );
+    }
+
+    public double getEnerglyLevelsAveragingPeriod() {
+        return energyLevelsMonitorPanel.getAveragingPeriod();
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////
     // Other methods
     //

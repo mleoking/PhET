@@ -362,6 +362,14 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     public void threadPriorityChanged( int priority ) {
     }
 
+    public void setAveragingPeriod( long value ) {
+        averagingPeriod = value;
+    }
+
+    public long getAveragingPeriod() {
+        return averagingPeriod;
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////
     // Inner classes
