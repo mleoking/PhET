@@ -12,11 +12,10 @@ public class ModelViewTx1D {
     private double m;
 
     /**
-     *
      * @param modelValue1 Model value corresponding to viewValue1
      * @param modelValue2 Model value corresponding to viewValue2
-     * @param viewValue1 View value corresponding to modelValue1
-     * @param viewValue2 View value corresponding to modelValue2
+     * @param viewValue1  View value corresponding to modelValue1
+     * @param viewValue2  View value corresponding to modelValue2
      */
     public ModelViewTx1D( double modelValue1, double modelValue2, int viewValue1, int viewValue2 ) {
 

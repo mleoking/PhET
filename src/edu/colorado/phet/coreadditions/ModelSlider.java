@@ -7,11 +7,10 @@
 package edu.colorado.phet.coreadditions;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.coreadditions.ModelViewTx1D;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class ModelSlider extends JPanel {
