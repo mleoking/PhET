@@ -1,12 +1,12 @@
 "To Do" list for "colorvision3" project
 
 HIGH:
-o fix filter notch graphic (anti-aliasing messed up, spectrum graphic bounds seems to get changed)
 
 MEDIUM:
 o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
 
 LOW:
+o parent -> component throughout
 o switch to PhET code formatting conventions
 o Help
 
