@@ -55,7 +55,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
         catch( UnsupportedLookAndFeelException e ) {
             e.printStackTrace();
         }
-        String desc = GraphicsUtil.formatMessage( SimStrings.get( "NuclearPhysicsApplication.description" ) );
+        String desc = SimStrings.get( "NuclearPhysicsApplication.description" );
         ApplicationModel appDesc = new ApplicationModel( SimStrings.get( "NuclearPhysicsApplication.title" ),
                                                          desc,
                                                          SimStrings.get( "NuclearPhysicsApplication.version" ),
