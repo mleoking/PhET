@@ -52,6 +52,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/29) - add Developer menu to control various internal knobs
 (3/29) - optimize getCollisionBounds implementations so that rectangles are reused
 (3/29) - fixed CoilGraphic collision bounds
 (3/29) - fix area control in PickupCoilPanel so that the area (not the radius) scales correctly
