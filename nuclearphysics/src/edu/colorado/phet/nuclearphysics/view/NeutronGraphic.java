@@ -21,9 +21,6 @@ import java.util.HashMap;
 
 public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
 
-    //
-    // Statics
-    //
     private static Stroke outlineStroke = new BasicStroke( 0.35f );
     private static Color color = Color.gray;
     private static BufferedImage neutronImage;
@@ -70,7 +67,6 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
         g.draw( circle );
         g.setTransform( orgTx );
     }
-
 
     public void update() {
         super.update();

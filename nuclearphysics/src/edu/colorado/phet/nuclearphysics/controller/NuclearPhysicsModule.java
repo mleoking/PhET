@@ -30,10 +30,10 @@ public class NuclearPhysicsModule extends Module {
         super.setApparatusPanel( apparatusPanel );
 
         // Start the model
-        //        this.setModel();
         this.setModel( new FissionModel( clock ) );
         this.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
+                // todo: get rid of this, and make the graphics self-painting
                 apparatusPanel.repaint();
             }
         } );
@@ -61,7 +61,6 @@ public class NuclearPhysicsModule extends Module {
 
     protected void addControlPanelElement( JPanel panel ) {
         ( (NuclearPhysicsControlPanel)getControlPanel() ).addPanelElement( panel );
-        //        ( (NuclearPhysicsControlPanel)getControlPanel() ).addPanelElement( panel );
     }
 
     protected void addNucleus( Nucleus nucleus ) {
@@ -71,28 +70,30 @@ public class NuclearPhysicsModule extends Module {
 
     protected void addNeutron( NuclearParticle particle ) {
         this.getModel().addModelElement( particle );
-        NeutronGraphic ng = new NeutronGraphic( particle );
+        final NeutronGraphic ng = new NeutronGraphic( particle );
         physicalPanel.addGraphic( ng );
+
+        particle.addListener( new NuclearModelElement.Listener() {
+            public void leavingSystem( NuclearModelElement nme ) {
+                physicalPanel.removeGraphic( ng );
+            }
+        } );
     }
 
     protected void addNeutron( NuclearParticle particle, Nucleus nucleus ) {
         this.getModel().addModelElement( particle );
-        NeutronGraphic ng = new NeutronGraphic( particle );
+        final NeutronGraphic ng = new NeutronGraphic( particle );
         physicalPanel.addGraphic( ng );
+
+        particle.addListener( new NuclearModelElement.Listener() {
+            public void leavingSystem( NuclearModelElement nme ) {
+                physicalPanel.removeGraphic( ng );
+            }
+        } );
     }
 
     protected void setUraniumNucleus( Uranium235 uraniumNucleus ) {
         addNucleus( uraniumNucleus );
-    }
-
-    protected void handleDecay( AlphaDecayProducts decayProducts ) {
-        // Remove the old nucleus
-        getModel().removeModelElement( decayProducts.getParent() );
-        physicalPanel.removeNucleus( decayProducts.getParent() );
-
-        // Add the new nuclei
-        getModel().addModelElement( decayProducts.getDaughter() );
-        getModel().addModelElement( decayProducts.getAlphaParticle() );
     }
 
     protected PhysicalPanel getPhysicalPanel() {

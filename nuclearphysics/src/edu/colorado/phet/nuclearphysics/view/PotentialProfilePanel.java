@@ -21,6 +21,7 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
@@ -287,8 +288,13 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     public void addNucleusGraphic( Nucleus nucleus ) {
-        NucleusGraphic ng = new NucleusGraphic( nucleus );
+        final NucleusGraphic ng = new NucleusGraphic( nucleus );
         profileNucleusMap.put( nucleus, ng );
+        nucleus.addListener( new NuclearModelElement.Listener() {
+            public void leavingSystem( NuclearModelElement nme ) {
+                PotentialProfilePanel.this.removeGraphic( ng );
+            }
+        } );
     }
 
     public void removeNucleusGraphic( Nucleus nucleus ) {
