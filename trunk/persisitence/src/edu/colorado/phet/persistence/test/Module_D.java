@@ -43,6 +43,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.Serializable;
+import java.beans.XMLEncoder;
+import java.beans.XMLDecoder;
 
 /**
  * Module_A
@@ -60,10 +62,12 @@ public class Module_D extends Module implements Serializable {
         setModel( model );
 
         // Create the apparatus panel
-//        ApparatusPanel2 ap = new ApparatusPanel2( model, appModel.getClock() );
+        ApparatusPanel2 ap = new ApparatusPanel2( model, appModel.getClock() );
 //        ap.setUseOffscreenBuffer( true );
-        ApparatusPanel ap = new ApparatusPanel();
+//        ApparatusPanel ap = new ApparatusPanel();
         setApparatusPanel( ap );
+
+//        TestSaveState.addDebug( ap );
 
         // Add an image graphic
         PhetImageGraphic pig = new PhetImageGraphic( getApparatusPanel(), "images/Phet-Flatirons-logo-3-small.gif" );
@@ -105,8 +109,8 @@ public class Module_D extends Module implements Serializable {
         CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
         cpg.addGraphic( new PhetShapeGraphic( panel, new PersistentEllipse2D( new Ellipse2D.Double( 130, 30, 30, 30 )), Color.red ) );
         cpg.addGraphic( new PhetShapeGraphic( panel, new PersistentEllipse2D( new Ellipse2D.Double( 160, 30, 30, 30 )), Color.blue ) );
-        cpg.setLocation( 0, 0 );
-//        cpg.setLocation( 100, 100 );
+//        cpg.setLocation( 0, 0 );
+        cpg.setLocation( 100, 100 );
 //        cpg.addGraphic( new PhetShadowTextGraphic( panel, "compositegraphic", new Font( "Lucida Sans", 0, 12 ), 130, 30, Color.white, 1, 1, Color.black ) );
 
         BasicStroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
@@ -124,7 +128,7 @@ public class Module_D extends Module implements Serializable {
 //        addGraphicToPanel( pg4, panel );
 //        addGraphicToPanel( pg5, panel );
 //        addGraphicToPanel( pg6, panel );      // works with exceptions
-        addGraphicToPanel( cpg, panel );
+//        addGraphicToPanel( cpg, panel );
 //        addGraphicToPanel( g, panel );      // gradient-stroked text: works
 //        panel.addGraphic( pg2 );
 //        panel.addGraphic( pg3 );
@@ -133,6 +137,21 @@ public class Module_D extends Module implements Serializable {
 //        panel.addGraphic( cpg );
 //        panel.addGraphic( g );
 
+        SimpleGraphic sg = new SimpleGraphic( panel );
+        sg.setLocation( 100, 50 );
+        CompositePhetGraphic cpg3 = new CompositePhetGraphic( panel );
+        cpg3.addGraphic( sg );
+        addGraphicToPanel( sg, panel );
+
+//        GraphicLayerSet gls1 = panel.getGraphic();
+//        XMLEncoder e = TestSaveState.getTestEncoder();
+//        e.writeObject( gls1 );
+//        e.close();
+//        XMLDecoder d = TestSaveState.getTestDecoder();
+//        GraphicLayerSet gls2 = (GraphicLayerSet)d.readObject();
+//        d.close();
+
+        return;
     }
 
     int i = 0;
@@ -168,6 +187,7 @@ public class Module_D extends Module implements Serializable {
 //            }
 //        } );
         panel.addGraphic( pg );
+
     }
 
 
