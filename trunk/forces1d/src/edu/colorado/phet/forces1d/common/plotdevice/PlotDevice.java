@@ -1,15 +1,17 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.forces1d.common.plotdevice;
 
-import edu.colorado.phet.chart.*;
+import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.chart.DataSet;
+import edu.colorado.phet.chart.LinePlot;
+import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.controllers.HorizontalCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -23,7 +25,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -37,35 +38,246 @@ import java.util.ArrayList;
  * Time: 12:54:39 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class PlotDevice extends PhetGraphic {
+public class PlotDevice extends CompositePhetGraphic {
+
     private String title;
     private PlotDeviceModel plotDeviceModel;
     private PlotDeviceView plotDeviceView;
-    private DataSeries dataSeries;
+
     private PhetTimer timer;
     private Color color;
     private Stroke stroke;
-    private double xShift;
-
-    private boolean visible = true;
-    private Chart chart;
-    private DataSet dataSet;
-    private float lastTime;
-    private Font axisFont = MMFontManager.getFontSet().getAxisFont();
-    private Font titleFont = MMFontManager.getFontSet().getTitleFont();
-    private Font readoutFont = MMFontManager.getFontSet().getReadoutFont();
 
     private VerticalChartSlider verticalChartSlider;
     private HorizontalCursor horizontalCursor;
-    private GeneralPath path = new GeneralPath();
-    private CloseButton closeButton;
-    private ChartButton showButton;
-    private MagButton magPlus;
-    private MagButton magMinus;
     private TextBox textBox;
-    private boolean cursorVisible;
-    private PhetTextGraphic readout;
-    private PhetTextGraphic readoutValue;
+    private ChartComponent chartComponent;
+    private ChartButton showButton;
+
+    public class ChartComponent {
+        private DataSeries dataSeries;
+        private GeneralPath path = new GeneralPath();
+        private CloseButton closeButton;
+
+        private MagButton magPlus;
+        private MagButton magMinus;
+        private PhetTextGraphic readout;
+        private PhetTextGraphic readoutValue;
+        private Chart chart;
+        private DataSet dataSet;
+        private float lastTime;
+        private double xShift;
+
+        public ChartComponent( ApparatusPanel panel, Rectangle2D inputBox, DataSeries dataSeries, double xShift ) throws IOException {
+
+            Font axisFont = MMFontManager.getFontSet().getAxisFont();
+            Font readoutFont = MMFontManager.getFontSet().getReadoutFont();
+            this.dataSeries = dataSeries;
+            this.xShift = xShift;
+
+            chart = new Chart( panel, new Range2D( inputBox ), new Rectangle( 0, 0, 100, 100 ) );
+            chart.setBackground( Color.yellow );
+            dataSet = new DataSet();
+            chart.addDataSetGraphic( new LinePlot( dataSet, new BasicStroke( 2 ), Color.red ) );
+            dataSeries.addListener( new DataSeries.Listener() {
+                public void changed() {
+                    update( (float)timer.getTime() );
+                }
+            } );
+            chart.getHorizontalTicks().setVisible( true );
+            chart.getHorizonalGridlines().setMajorGridlinesColor( Color.darkGray );
+            chart.getVerticalGridlines().setMajorGridlinesColor( Color.darkGray );
+            chart.getXAxis().setMajorTickFont( axisFont );
+            chart.getYAxis().setMajorTicksVisible( false );
+            chart.getYAxis().setMajorTickFont( axisFont );
+            chart.getVerticalGridlines().setMinorGridlinesVisible( false );
+            chart.getXAxis().setMajorGridlines( new double[]{2, 4, 6, 8, 10, 12, 14, 16, 18, 20} ); //to ignore the 0.0
+            chart.getXAxis().setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{6, 6}, 0 ) );
+
+            chart.setVerticalTitle( title, color, verticalTitleFont );
+
+            chart.getVerticalTicks().setMajorOffset( new JSlider().getWidth() - 5, 0 );
+
+            closeButton = new CloseButton();
+            closeButton.setToolTipText( "Close Graph" );
+            panel.add( closeButton );
+
+            BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+            BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+            final double smooth = 1;
+            ActionListener smoothPos = new Increment( smooth );
+            ActionListener smoothNeg = new Decrement( smooth );
+            ActionListener incPos = new Increment( 5 );
+            ActionListener incNeg = new Decrement( 5 );
+            magPlus = new MagButton( new ImageIcon( imgPlus ), smoothPos, incPos, "Zoom In" );
+            magMinus = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, "Zoom Out" );
+            panel.add( magPlus );
+            panel.add( magMinus );
+
+            readout = new PhetTextGraphic( panel, readoutFont, title + " = ", color, 100, 100 );
+            panel.addGraphic( readout, 10000 );
+            readoutValue = new PhetTextGraphic( panel, readoutFont, units, color, 100, 100 );
+            panel.addGraphic( readoutValue, 10000 );
+        }
+
+        protected Rectangle determineBounds() {
+            return chart.getVisibleBounds();
+        }
+
+        public void setShift( double xShift ) {
+            this.xShift = xShift;
+        }
+
+        public void setInputRange( Rectangle2D.Double inputBox ) {
+            Range2D range = new Range2D( inputBox );
+            chart.setRange( range );
+            refitCurve();
+        }
+
+        private void refitCurve() {
+            path.reset();
+            Point2D.Double[] copy = dataSet.toArray();
+            dataSet.clear();
+            for( int i = 0; i < copy.length; i++ ) {
+                Point2D.Double aDouble = copy[i];
+                dataSet.addPoint( aDouble );
+            }
+        }
+
+        public double getxShift() {
+            return xShift;
+        }
+
+        public Chart getChart() {
+            return chart;
+        }
+
+        public void reset() {
+            path.reset();
+            dataSet.clear();
+        }
+
+        public void setVisible( boolean visible ) {
+            closeButton.setVisible( visible );
+            magPlus.setVisible( visible );
+            magMinus.setVisible( visible );
+
+            readout.setVisible( visible );
+            readoutValue.setVisible( visible );
+        }
+
+        public void update( float time ) {
+            if( time == lastTime ) {
+                return;
+            }
+            lastTime = time;
+            if( dataSeries.size() <= 1 ) {
+                dataSet.clear();
+            }
+            else {
+                float position = (float)dataSeries.getLastPoint();// * scale + yoffset;
+                if( Float.isInfinite( position ) ) {
+                    return;
+                }
+                Point2D.Double pt = new Point2D.Double( time - xShift, position );
+                dataSet.addPoint( pt );
+                horizontalCursor.setMaxX( time );//so it can't be dragged past the end of recorded pressTime.
+//                drawSegment( dataSet, color );
+            }
+        }
+
+        public void setMagnitude( double magnitude ) {
+
+            Rectangle2D.Double positionInputBox = new Rectangle2D.Double( plotDeviceModel.getMinTime(), -magnitude, plotDeviceModel.getMaxTime() - plotDeviceModel.getMinTime(), magnitude * 2 );
+            chartComponent.setInputRange( positionInputBox );
+            plotDeviceView.repaintBackground( getChart().getViewBounds() );
+        }
+
+        public void setViewBounds( Rectangle rectangle ) {
+
+            chart.setViewBounds( rectangle );
+            chart.setBackground( Color.yellow );
+            chart.getVerticalTicks().setMajorOffset( 0, 0 );
+            Rectangle vb = chart.getViewBounds();
+            int x = vb.x + vb.width - closeButton.getPreferredSize().width;
+            int y = vb.y;
+            closeButton.setPosition( x - 2, y + 2 );
+
+            Dimension buttonSize = magPlus.getPreferredSize();
+            JSlider js = verticalChartSlider.getSlider();
+            int magSep = 1;
+            int magOffsetY = 7;
+            int magY = js.getY() + js.getHeight() - 2 * buttonSize.height - magSep - magOffsetY;
+
+            int magX = chart.getViewBounds().x + 3;
+            magPlus.reshape( magX, magY, buttonSize.width, buttonSize.height );
+            magMinus.reshape( magX, magY + magSep + buttonSize.height, buttonSize.width, buttonSize.height );
+
+            readout.setLocation( chart.getViewBounds().x + 15, chart.getViewBounds().y + readout.getHeight() - 5 );
+            readoutValue.setLocation( readout.getX() + readout.getWidth() + 5, readout.getY() );
+//        moveScript();
+        }
+
+        class Decrement implements ActionListener {
+            double increment;
+
+            public Decrement( double increment ) {
+                this.increment = increment;
+            }
+
+            public void actionPerformed( ActionEvent e ) {
+                Range2D origRange = chart.getRange();
+                double diffY = origRange.getMaxY();
+                double newDiffY = diffY + increment;
+                int MAX = 100;
+                if( newDiffY < MAX ) {
+                    setMagnitude( newDiffY );
+                    setPaintYLines( getYLines( newDiffY, 5 ) );
+                    plotDeviceView.repaintBackground();
+                }
+            }
+
+        }
+
+        class Increment implements ActionListener {
+            double increment;
+
+            public Increment( double increment ) {
+                this.increment = increment;
+            }
+
+            public void actionPerformed( ActionEvent e ) {
+                Range2D origRange = chart.getRange();
+                double diffY = origRange.getMaxY();
+                double newDiffY = diffY - increment;
+                if( newDiffY > 0 ) {
+                    setMagnitude( newDiffY );
+                    setPaintYLines( getYLines( newDiffY, 5 ) );
+                    plotDeviceView.repaintBackground();
+                }
+            }
+
+        }
+
+        public void setPaintYLines( double[] lines ) {
+            double[] full = new double[lines.length * 2 + 1];
+            for( int i = 0; i < lines.length; i++ ) {
+                full[i] = lines[i];
+                full[full.length - 1 - i] = -lines[i];
+            }
+            full[lines.length] = 0;
+
+            double[] half = new double[lines.length * 2];
+            for( int i = 0; i < lines.length; i++ ) {
+                half[i] = lines[i];
+                half[half.length - 1 - i] = -lines[i];
+            }
+            chart.getHorizonalGridlines().setMajorGridlines( half );
+            chart.getVerticalTicks().setMajorGridlines( full );
+            chart.getYAxis().setMajorGridlines( full );
+        }
+
+    }
 
     private DecimalFormat format = new DecimalFormat( "0.00" );
     private FloatingControl floatingControl;
@@ -117,52 +329,36 @@ public class PlotDevice extends PhetGraphic {
         this.units = parameters.units;
         this.title = parameters.title;
         this.plotDeviceModel = parameters.plotDeviceModel;
-        this.dataSeries = parameters.series;
         this.timer = parameters.timer;
         this.color = parameters.color;
         this.stroke = parameters.stroke;
-        this.xShift = parameters.xShift;
+        chartComponent = new ChartComponent( parameters.panel, parameters.inputBox, parameters.series, parameters.xShift );
         ApparatusPanel panel = parameters.panel;
         Rectangle2D.Double inputBox = parameters.inputBox;
-        chart = new Chart( panel, new Range2D( inputBox ), new Rectangle( 0, 0, 100, 100 ) );
-        horizontalCursor = new HorizontalCursor( panel, chart, new Color( 15, 0, 255, 50 ), new Color( 50, 0, 255, 150 ), 8 );
-        panel.addGraphic( horizontalCursor, 1000 );
 
-        chart.setBackground( createBackground() );
-        dataSet = new DataSet();
-        dataSeries.addListener( new DataSeries.Listener() {
-            public void changed() {
-                update();
+        horizontalCursor = new HorizontalCursor( panel, chartComponent.getChart(), new Color( 15, 0, 255, 50 ), new Color( 50, 0, 255, 150 ), 8 );
+        horizontalCursor.addListener( new HorizontalCursor.Listener() {
+            public void modelValueChanged( double modelX ) {
+                plotDeviceModel.cursorMovedToTime( modelX );
             }
         } );
+        panel.addGraphic( horizontalCursor, 1000 );
+
         setInputRange( inputBox );
         timer.addListener( new PhetTimer.Listener() {
             public void timeChanged( PhetTimer timer ) {
                 update();
             }
         } );
-        chart.getHorizontalTicks().setVisible( true );
-        chart.getHorizonalGridlines().setMajorGridlinesColor( Color.darkGray );
-        chart.getVerticalGridlines().setMajorGridlinesColor( Color.darkGray );
-        chart.getXAxis().setMajorTickFont( axisFont );
-        chart.getYAxis().setMajorTicksVisible( false );
-        chart.getYAxis().setMajorTickFont( axisFont );
-        chart.getVerticalGridlines().setMinorGridlinesVisible( false );
-        chart.getXAxis().setMajorGridlines( new double[]{2, 4, 6, 8, 10, 12, 14, 16, 18, 20} ); //to ignore the 0.0
-        chart.getXAxis().setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{6, 6}, 0 ) );
 
-        chart.setVerticalTitle( title, color, verticalTitleFont );
-
-        verticalChartSlider = new VerticalChartSlider( chart );
-        chart.getVerticalTicks().setMajorOffset( -verticalChartSlider.getSlider().getWidth() - 5, 0 );
-        horizontalCursor.addListener( new HorizontalCursor.Listener() {
-            public void modelValueChanged( double modelX ) {
-                plotDeviceModel.cursorMovedToTime( modelX );
+        showButton = new ChartButton( "Show " + title );
+        showButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setVisible( true );
             }
         } );
-        closeButton = new CloseButton();
-        closeButton.setToolTipText( "Close Graph" );
-        panel.add( closeButton );
+        verticalChartSlider = new VerticalChartSlider( chartComponent.getChart() );
+
 
         setCloseHandler( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -170,29 +366,7 @@ public class PlotDevice extends PhetGraphic {
                 plotDeviceView.relayout();
             }
         } );
-        showButton = new ChartButton( "Show " + title );
-        showButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setVisible( true );
-            }
-        } );
 
-        BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
-        BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
-        final double smooth = 1;
-        ActionListener smoothPos = new Increment( smooth );
-        ActionListener smoothNeg = new Decrement( smooth );
-        ActionListener incPos = new Increment( 5 );
-        ActionListener incNeg = new Decrement( 5 );
-        magPlus = new MagButton( new ImageIcon( imgPlus ), smoothPos, incPos, "Zoom In" );
-        magMinus = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, "Zoom Out" );
-        panel.add( magPlus );
-        panel.add( magMinus );
-
-        readout = new PhetTextGraphic( panel, readoutFont, title + " = ", color, 100, 100 );
-        panel.addGraphic( readout, 10000 );
-        readoutValue = new PhetTextGraphic( panel, readoutFont, units, color, 100, 100 );
-        panel.addGraphic( readoutValue, 10000 );
         textBox = new TextBox( plotDeviceModel, 5, parameters.labelStr );
         textBox.setHorizontalAlignment( JTextField.RIGHT );
 
@@ -211,6 +385,7 @@ public class PlotDevice extends PhetGraphic {
         } );
 
         titleLable = new JLabel( title );
+        Font titleFont = MMFontManager.getFontSet().getTitleFont();
         titleLable.setFont( titleFont );
         titleLable.setBackground( plotDeviceView.getBackgroundColor() );
         titleLable.setOpaque( true );
@@ -227,13 +402,20 @@ public class PlotDevice extends PhetGraphic {
         textGraphic = new PhetTextGraphic( panel, MMFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, 0, 0 );
     }
 
+    private void setInputRange( Rectangle2D.Double inputBox ) {
+        Range2D range = new Range2D( inputBox );
+        getChart().setRange( range );
+        chartComponent.refitCurve();
+        plotDeviceView.repaintBackground( getChart().getViewBounds() );
+    }
+
     private void updateTextBox( final PlotDeviceModel module, final DataSeries series ) {
         int index = 0;
         if( module.isTakingData() ) {
             index = series.size() - 1;
         }
         else {
-            double time = module.getPlaybackTimer().getTime() + getxShift();
+            double time = module.getPlaybackTimer().getTime() + chartComponent.getxShift();
             index = (int)time;//(int)( time / MovingManModel.TIMER_SCALE );
         }
         if( series.indexInBounds( index ) ) {
@@ -248,18 +430,19 @@ public class PlotDevice extends PhetGraphic {
     }
 
     public Chart getChart() {
-        return chart;
+        return chartComponent.getChart();
     }
 
-    public void addDataSeries(DataSeries dataSeries,Color color,String title,Stroke stroke){
-        dataSeries.addListener( new DataSeries.Listener() {
-            public void changed() {
-                dataSet.addPoint( );
-            }
-        } );
-        DataSet dataSet=new DataSet();
-        DataSetGraphic dsg=new LinePlot( dataSet,stroke, color );
-        chart.addDataSetGraphic( dsg );
+    public void addDataSeries( DataSeries dataSeries, Color color, String title, Stroke stroke ) {
+//        final DataSet dataSet=new DataSet();
+//        dataSeries.addListener( new DataSeries.Listener() {
+//            public void changed() {
+//                dataSet.addPoint( );
+//            }
+//        } );
+//
+//        DataSetGraphic dsg=new LinePlot( dataSet,stroke, color );
+//        chart.addDataSetGraphic( dsg );
     }
 
     public void addSuperScript( String s ) {
@@ -284,8 +467,8 @@ public class PlotDevice extends PhetGraphic {
         if( !textBox.getText().equals( valueString ) ) {
             textBox.setText( valueString );
         }
-        readoutValue.setText( valueString + " " + units );
-        moveScript();
+        chartComponent.readoutValue.setText( valueString + " " + units );
+//        moveScript();
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.nominalValueChanged( value );
@@ -300,8 +483,8 @@ public class PlotDevice extends PhetGraphic {
         textBox.requestFocusInWindow();
     }
 
-    public void setLabelText(String labelText){
-        textBox.setLabelText(labelText);
+    public void setLabelText( String labelText ) {
+        textBox.setLabelText( labelText );
     }
 
     public static class TextBox extends JPanel {
@@ -410,46 +593,6 @@ public class PlotDevice extends PhetGraphic {
         }
     }
 
-    class Decrement implements ActionListener {
-        double increment;
-
-        public Decrement( double increment ) {
-            this.increment = increment;
-        }
-
-        public void actionPerformed( ActionEvent e ) {
-            Range2D origRange = chart.getRange();
-            double diffY = origRange.getMaxY();
-            double newDiffY = diffY + increment;
-            int MAX = 100;
-            if( newDiffY < MAX ) {
-                setMagnitude( newDiffY );
-                setPaintYLines( getYLines( newDiffY, 5 ) );
-                plotDeviceView.repaintBackground();
-            }
-        }
-    }
-
-    class Increment implements ActionListener {
-        double increment;
-
-        public Increment( double increment ) {
-            this.increment = increment;
-        }
-
-        public void actionPerformed( ActionEvent e ) {
-            Range2D origRange = chart.getRange();
-            double diffY = origRange.getMaxY();
-            double newDiffY = diffY - increment;
-            if( newDiffY > 0 ) {
-                setMagnitude( newDiffY );
-                setPaintYLines( getYLines( newDiffY, 5 ) );
-                plotDeviceView.repaintBackground();
-            }
-        }
-
-    }
-
     private double[] getYLines( double magnitude, double dy ) {
         ArrayList values = new ArrayList();
         for( double i = dy; i < magnitude; i += dy ) {
@@ -502,7 +645,7 @@ public class PlotDevice extends PhetGraphic {
         }
     }
 
-    class MagButton extends JButton {
+    static class MagButton extends JButton {
         public MagButton( Icon icon, ActionListener smooth, ActionListener click, String tooltip ) {
             super( icon );
             addMouseListener( new RepeatClicker( smooth, click ) );
@@ -525,12 +668,12 @@ public class PlotDevice extends PhetGraphic {
         }
     }
 
-    private Paint createBackground() {
-        return Color.yellow;
-    }
+//    private Paint createBackground() {
+//        return Color.yellow;
+//    }
 
     public void setCloseHandler( ActionListener actionListener ) {
-        closeButton.addActionListener( actionListener );
+        chartComponent.closeButton.addActionListener( actionListener );
     }
 
     public PlotDeviceModel getPlotDeviceModel() {
@@ -538,8 +681,7 @@ public class PlotDevice extends PhetGraphic {
     }
 
     public void reset() {
-        path.reset();
-        dataSet.clear();
+        chartComponent.reset();
         horizontalCursor.setMaxX( Double.POSITIVE_INFINITY );//so it can't be dragged past, hopefully.
         setTextValue( 0 );
         verticalChartSlider.setValue( 0 );
@@ -549,8 +691,25 @@ public class PlotDevice extends PhetGraphic {
         setViewBounds( new Rectangle( x, y, width, height ) );
     }
 
-    public boolean isVisible() {
-        return visible;
+
+    public void setViewBounds( Rectangle rectangle ) {
+        chartComponent.setViewBounds( rectangle );
+        verticalChartSlider.setOffsetX( chartComponent.chart.getVerticalTicks().getMajorTickTextBounds().width + getChart().getTitle().getBounds().width );
+        verticalChartSlider.update();
+
+
+        int floaterX = 5;
+
+        titleLable.reshape( floaterX, getChart().getViewBounds().y, titleLable.getPreferredSize().width, titleLable.getPreferredSize().height );
+        textBox.reshape( floaterX,
+                         titleLable.getY() + titleLable.getHeight() + 5,
+                         textBox.getPreferredSize().width,
+                         textBox.getPreferredSize().height );
+        int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
+        int floatX = floaterX + dw / 2;
+        floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
+
+        chartComponent.refitCurve();
     }
 
     private static class CloseButton extends JButton {
@@ -574,10 +733,10 @@ public class PlotDevice extends PhetGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        if( visible ) {
+        if( isVisible() ) {
             GraphicsState state = new GraphicsState( g );
-            chart.paint( g );
-            Point pt = chart.getTransform().modelToView( 15, 0 );
+            getChart().paint( g );
+            Point pt = getChart().getTransform().modelToView( 15, 0 );
             pt.y -= 3;
             textGraphic.setLocation( pt.x, pt.y );
 //            textGraphic.paint( g );
@@ -589,44 +748,38 @@ public class PlotDevice extends PhetGraphic {
             PhetShapeGraphic psg = new PhetShapeGraphic( plotDeviceView.getApparatusPanel(), arrow.getShape(), Color.red, new BasicStroke( 1 ), Color.black );
             psg.paint( g );
 
-            g.setClip( chart.getViewBounds() );
+            g.setClip( getChart().getViewBounds() );
             g.setColor( color );
             g.setStroke( stroke );
-            g.draw( path );
+            g.draw( chartComponent.path );
 
             state.restoreGraphics();
         }
     }
 
-    public double getxShift() {
-        return xShift;
-    }
 
     public ModelViewTransform2D getTransform() {
-        return chart.getTransform();
+        return getChart().getTransform();
     }
 
     public void setVisible( boolean visible ) {
-        this.visible = visible;
+        super.setVisible( visible );
         setSliderVisible( visible );
-        if( visible && cursorVisible ) {
+        if( visible ) {
             horizontalCursor.setVisible( true );
         }
         else {
             horizontalCursor.setVisible( false );
         }
-        closeButton.setVisible( visible );
+        chartComponent.setVisible( visible );
+
         plotDeviceView.getApparatusPanel().setLayout( null );
         plotDeviceView.getApparatusPanel().add( showButton );
         showButton.reshape( 100, 100, showButton.getPreferredSize().width, showButton.getPreferredSize().height );
         plotDeviceView.relayout();
         showButton.setVisible( !visible );
-        magPlus.setVisible( visible );
-        magMinus.setVisible( visible );
-
-        readout.setVisible( visible );
         textBox.setVisible( visible );
-        readoutValue.setVisible( visible );
+
 
         floatingControl.setVisible( visible );
         titleLable.setVisible( visible );
@@ -635,148 +788,46 @@ public class PlotDevice extends PhetGraphic {
         }
     }
 
-    protected Rectangle determineBounds() {
-        return chart.getVisibleBounds();
-    }
-
-    public void setShift( double xShift ) {
-        this.xShift = xShift;
-    }
-
-    public void setInputRange( Rectangle2D.Double inputBox ) {
-        Range2D range = new Range2D( inputBox );
-        chart.setRange( range );
-        refitCurve();
-        plotDeviceView.repaintBackground( chart.getViewBounds() );
-    }
-
-    private void refitCurve() {
-        path.reset();
-        Point2D.Double[] copy = dataSet.toArray();
-        dataSet.clear();
-        for( int i = 0; i < copy.length; i++ ) {
-            Point2D.Double aDouble = copy[i];
-            dataSet.addPoint( aDouble );
-            drawSegment();
-        }
-    }
-
-    public void setPaintYLines( double[] lines ) {
-        double[] full = new double[lines.length * 2 + 1];
-        for( int i = 0; i < lines.length; i++ ) {
-            full[i] = lines[i];
-            full[full.length - 1 - i] = -lines[i];
-        }
-        full[lines.length] = 0;
-
-        double[] half = new double[lines.length * 2];
-        for( int i = 0; i < lines.length; i++ ) {
-            half[i] = lines[i];
-            half[half.length - 1 - i] = -lines[i];
-        }
-        chart.getHorizonalGridlines().setMajorGridlines( half );
-        chart.getVerticalTicks().setMajorGridlines( full );
-        chart.getYAxis().setMajorGridlines( full );
-    }
-
-    public void setViewBounds( Rectangle rectangle ) {
-        chart.setViewBounds( rectangle );
-        chart.setBackground( createBackground() );
-        verticalChartSlider.setOffsetX( chart.getVerticalTicks().getMajorTickTextBounds().width + chart.getTitle().getBounds().width );
-        verticalChartSlider.update();
-        chart.getVerticalTicks().setMajorOffset( 0, 0 );
-        Rectangle vb = chart.getViewBounds();
-        int x = vb.x + vb.width - closeButton.getPreferredSize().width;
-        int y = vb.y;
-        closeButton.setPosition( x - 2, y + 2 );
-
-        Dimension buttonSize = magPlus.getPreferredSize();
-        JSlider js = verticalChartSlider.getSlider();
-        int magSep = 1;
-        int magOffsetY = 7;
-        int magY = js.getY() + js.getHeight() - 2 * buttonSize.height - magSep - magOffsetY;
-
-        int magX = chart.getViewBounds().x + 3;
-        magPlus.reshape( magX, magY, buttonSize.width, buttonSize.height );
-        magMinus.reshape( magX, magY + magSep + buttonSize.height, buttonSize.width, buttonSize.height );
-
-        readout.setLocation( chart.getViewBounds().x + 15, chart.getViewBounds().y + readout.getHeight() - 5 );
-        readoutValue.setLocation( readout.getX() + readout.getWidth() + 5, readout.getY() );
-        moveScript();
-
-        int floaterX = 5;
-
-        titleLable.reshape( floaterX, chart.getViewBounds().y, titleLable.getPreferredSize().width, titleLable.getPreferredSize().height );
-        textBox.reshape( floaterX,
-                         titleLable.getY() + titleLable.getHeight() + 5,
-                         textBox.getPreferredSize().width,
-                         textBox.getPreferredSize().height );
-        int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
-        int floatX = floaterX + dw / 2;
-        floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
-
-        refitCurve();
-    }
-
-    private void moveScript() {
-        if( superScriptGraphic != null ) {
-            Rectangle b = readoutValue.getBounds();
-            superScriptGraphic.setLocation( b.x + b.width, b.y + b.height / 2 );
-        }
-    }
+//    private void moveScript() {
+//        if( superScriptGraphic != null ) {
+//            Rectangle b = readoutValue.getBounds();
+//            superScriptGraphic.setLocation( b.x + b.width, b.y + b.height / 2 );
+//        }
+//    }
 
     public void update() {
-        float time = (float)timer.getTime();
-        if( time == lastTime ) {
-            return;
-        }
-        lastTime = time;
-        if( dataSeries.size() <= 1 ) {
-            dataSet.clear();
-        }
-        else {
-            float position = (float)dataSeries.getLastPoint();// * scale + yoffset;
-            if( Float.isInfinite( position ) ) {
-                return;
-            }
-            Point2D.Double pt = new Point2D.Double( time - xShift, position );
-            dataSet.addPoint( pt );
-            horizontalCursor.setMaxX( time );//so it can't be dragged past the end of recorded pressTime.
-            drawSegment(dataSet, color, );
-        }
+        chartComponent.update( (float)timer.getTime() );
     }
 
-    private void drawSegment(DataSet dataSet,Color color) {
-        if( visible && dataSet.size() >= 2 ) {
-            int element = dataSet.size();
-            Point2D a = chart.getTransform().modelToView( dataSet.pointAt( element - 2 ) );
-            Point2D b = chart.getTransform().modelToView( dataSet.pointAt( element - 1 ) );
-            Line2D.Double line = new Line2D.Double( a, b );
-            if( dataSet.size() == 2 ) {
-                path.reset();
-                path.moveTo( (int)a.getX(), (float)a.getY() );
-            }
-            if( path.getCurrentPoint() != null ) {
-                path.lineTo( (float)b.getX(), (float)b.getY() );
-                BufferedPhetGraphic bufferedPhetGraphic = plotDeviceView.getBackground();
-                BufferedImage im = bufferedPhetGraphic.getBuffer();
-                Graphics2D g2 = im.createGraphics();
-                g2.setStroke( new BasicStroke( 2 ) );
-                g2.setColor( color );
-                g2.setClip( chart.getViewBounds() );
-                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-                g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
-                g2.draw( line );
-                Shape shape = stroke.createStrokedShape( line );
-                plotDeviceView.getApparatusPanel().repaint( shape.getBounds() );
-            }
-        }
-    }
+//    private void drawSegment( DataSet dataSet, Color color ) {
+//        if( isVisible() && dataSet.size() >= 2 ) {
+//            int element = dataSet.size();
+//            Point2D a = chart.getTransform().modelToView( dataSet.pointAt( element - 2 ) );
+//            Point2D b = chart.getTransform().modelToView( dataSet.pointAt( element - 1 ) );
+//            Line2D.Double line = new Line2D.Double( a, b );
+//            if( dataSet.size() == 2 ) {
+//                path.reset();
+//                path.moveTo( (int)a.getX(), (float)a.getY() );
+//            }
+//            if( path.getCurrentPoint() != null ) {
+//                path.lineTo( (float)b.getX(), (float)b.getY() );
+//                BufferedPhetGraphic bufferedPhetGraphic = plotDeviceView.getBackground();
+//                BufferedImage im = bufferedPhetGraphic.getBuffer();
+//                Graphics2D g2 = im.createGraphics();
+//                g2.setStroke( new BasicStroke( 2 ) );
+//                g2.setColor( color );
+//                g2.setClip( chart.getViewBounds() );
+//                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//                g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
+//                g2.draw( line );
+//                Shape shape = stroke.createStrokedShape( line );
+//                plotDeviceView.getApparatusPanel().repaint( shape.getBounds() );
+//            }
+//        }
+//    }
 
     public void setMagnitude( double magnitude ) {
-        Rectangle2D.Double positionInputBox = new Rectangle2D.Double( plotDeviceModel.getMinTime(), -magnitude, plotDeviceModel.getMaxTime() - plotDeviceModel.getMinTime(), magnitude * 2 );
-        setInputRange( positionInputBox );
-        plotDeviceView.repaintBackground( chart.getViewBounds() );
+        chartComponent.setMagnitude( magnitude );
     }
 
     public void setSliderVisible( boolean b ) {
@@ -793,6 +844,7 @@ public class PlotDevice extends PhetGraphic {
 
     public void updateSlider() {
         JSlider js = verticalChartSlider.getSlider();
+        DataSet dataSet = chartComponent.dataSet;
         if( !js.getValueIsAdjusting() && dataSet.size() > 0 ) {
             double lastY = dataSet.getLastPoint().getY();
             verticalChartSlider.setValue( lastY );
@@ -801,6 +853,7 @@ public class PlotDevice extends PhetGraphic {
 
     public void cursorMovedToTime( double time, int index ) {
         horizontalCursor.setX( time );
+        DataSeries dataSeries = chartComponent.dataSeries;
         verticalChartSlider.setValue( dataSeries.pointAt( index ) );
         setTextValue( dataSeries.pointAt( index ) );
     }
@@ -809,7 +862,6 @@ public class PlotDevice extends PhetGraphic {
         if( isVisible() ) {
             horizontalCursor.setVisible( visible );
         }
-        cursorVisible = visible;
     }
 
     static class FloatingControl extends VerticalLayoutPanel {
