@@ -106,10 +106,6 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
      * @return
      */
     Color getColorForAmplitude( double amplitude, int x, int y ) {
-        System.out.println( "x = " + x );
-        if( x < 10 ) {
-            System.out.println( "???" );
-        }
         int zeroGray = rgbReporter.rgbAt( x, y );
         double normalizedAmplitude = amplitude / SoundConfig.s_maxAmplitude * zeroGray;
         int colorIndex = Math.min( (int)( ( normalizedAmplitude ) + zeroGray ), s_lineColor.length - 1 );
