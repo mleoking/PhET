@@ -14,9 +14,9 @@ package edu.colorado.phet.lasers.model.atom;
 import edu.colorado.phet.collision.SolidSphere;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
+import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 
 import java.util.EventListener;
 import java.util.EventObject;
@@ -62,9 +62,11 @@ public class Atom extends SolidSphere {
     private StateLifetimeManager stateLifetimeManager;
     private BaseModel model;
     private AtomicState state;
-    private EventRegistry eventRegistry = new EventRegistry();
-    private EventChannel stateChangeChannel = new EventChannel( StateChangeListener.class );
-    private StateChangeListener stateChangeListenerProxy = (StateChangeListener)stateChangeChannel.getListenerProxy();
+//    private EventRegistry eventRegistry = new EventRegistry();
+//    private EventChannel stateChangeChannel = new EventChannel( StateChangeListener.class );
+//    private StateChangeListener stateChangeListenerProxy = (StateChangeListener)stateChangeChannel.getListenerProxy();
+//    private EventChannel removeChannel = new EventChannel( RemovalListener.class );
+//    private RemovalListener removalListenerProxy = (RemovalListener)removeChannel.getListenerProxy();
 
     public Atom( BaseModel model ) {
         super( s_radius );
@@ -108,7 +110,8 @@ public class Atom extends SolidSphere {
         emitPhotonOnLeavingState = true;
 
         this.stateLifetimeManager = new StateLifetimeManager( this, emitPhotonOnLeavingState, model );
-        eventRegistry.fireEvent( new StateChangeEvent() );
+//        eventRegistry.fireEvent( new StateChangeEvent() );
+        listenerProxy.stateChanged( new Event( this ) );
     }
 
     public void stepInTime( double dt ) {
@@ -119,46 +122,60 @@ public class Atom extends SolidSphere {
      *
      */
     void emitPhoton( final Photon emittedPhoton ) {
-        eventRegistry.fireEvent( new PhotonEmittedEvent( this, emittedPhoton ) );
+        photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( this, emittedPhoton ) );
+//
+//        eventRegistry.fireEvent( new PhotonEmittedEvent( this, emittedPhoton ) );
     }
 
     public void removeFromSystem() {
         state.decrementNumInState();
-        eventRegistry.fireEvent( new RemovalEvent() );
+        listenerProxy.leftSystem( new Event( this ) );
+//        removalListenerProxy.removalOccurred( new RemovalEvent() );
+//        eventRegistry.fireEvent( new RemovalEvent() );
     }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Inner classes
-    public void addListener( EventListener listener ) {
-        eventRegistry.addListener( listener );
-    }
+    // Event handling
+    public class Event extends EventObject {
+        public Event( Object source ) {
+            super( source );
+        }
 
-    public void removeListener( EventListener listener ) {
-        eventRegistry.removeListener( listener );
-    }
-
-    public class StateChangeEvent extends EventObject {
-        public StateChangeEvent() {
-            super( Atom.this );
+        public Atom getAtom() {
+            return (Atom)getSource();
         }
 
         public AtomicState getState() {
-            return Atom.this.getState();
+            return getAtom().getState();
         }
     }
 
-    public interface StateChangeListener extends EventListener {
-        void stateChangeOccurred( StateChangeEvent event );
+    public interface Listener extends EventListener {
+        void stateChanged( Event event );
+
+        void leftSystem( Event event );
     }
 
-    public class RemovalEvent extends EventObject {
-        public RemovalEvent() {
-            super( Atom.this );
-        }
+    private EventChannel listenerChannel = new EventChannel( Listener.class );
+    private Listener listenerProxy = (Listener)listenerChannel.getListenerProxy();
+
+    public void addListener( Listener listener ) {
+        listenerChannel.addListener( listener );
     }
 
-    public interface RemovalListener extends EventListener {
-        void removalOccurred( RemovalEvent event );
+    public void removeListener( Listener listener ) {
+        listenerChannel.removeListener( listener );
+    }
+
+    private EventChannel photonEventChannel = new EventChannel( PhotonEmittedListener.class );
+    PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEventChannel.getListenerProxy();
+
+    public void addListener( PhotonEmittedListener listener ) {
+        photonEventChannel.addListener( listener );
+    }
+
+    public void removeListener( PhotonEmittedListener listener ) {
+        photonEventChannel.removeListener( listener );
     }
 }

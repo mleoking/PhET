@@ -31,7 +31,7 @@ import java.util.EventObject;
  * A sinusoidal standing wave.
  */
 public class StandingWave extends PhetGraphic implements ModelElement,
-                                                         AtomicState.EnergyLevelChangeListener {
+                                                         AtomicState.Listener {
 
     private Point2D origin;
     private double lambda;
@@ -101,10 +101,6 @@ public class StandingWave extends PhetGraphic implements ModelElement,
         saveGraphicsState( g2 );
         g2.setColor( color );
         g2.draw( wavePath );
-
-        //        g2.setColor( Color.green );
-        //        g2.draw( determineBounds() );
-
         restoreGraphicsState();
     }
 
@@ -121,9 +117,13 @@ public class StandingWave extends PhetGraphic implements ModelElement,
         eventRegistry.fireEvent( new ChangeEvent( this ) );
     }
 
-    public void energyLevelChangeOccurred( AtomicState.EnergyLevelChangeEvent event ) {
+    public void energyLevelChanged( AtomicState.Event event ) {
         double lambda = Photon.energyToWavelength( event.getEnergy() );
         color = VisibleColor.wavelengthToColor( lambda );
+    }
+
+    public void meanLifetimechanged( AtomicState.Event event ) {
+
     }
 
 
