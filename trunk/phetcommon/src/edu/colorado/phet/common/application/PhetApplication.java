@@ -1,64 +1,107 @@
-/**
- * Class: PhetApplication
- * Package: edu.colorado.phet.common.examples.hellophet.application
- * Author: Another Guy
- * Date: Jun 11, 2003
- */
+/* Copyright University of Colorado, 2003 */
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.ApplicationView;
-import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
-import edu.colorado.phet.common.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
+import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.TabbedApparatusPanelContainer;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 
+/**
+ * The top-level class for all PhET applications. It contains an ApplicationView and
+ */
 public class PhetApplication {
     private ApplicationView view;
     private ModuleManager moduleManager;
     private AbstractClock clock;
     private ApplicationDescriptor descriptor;
-    private ApparatusPanelContainerFactory containerStrategy;
+    private Module initialModule;
 
-    public PhetApplication( ApplicationDescriptor descriptor, Module m, AbstractClock clock ) {
-        this( descriptor, SingleApparatusPanelContainer.getFactory(), new Module[]{m}, clock );
+    public PhetApplication( ApplicationDescriptor descriptor ) {
+        if( descriptor.getModules() == null ) {
+            throw new RuntimeException( "Module(s) not specified in ApplicationDescriptor" );
+        }
+        if( descriptor.getClock() == null ) {
+            throw new RuntimeException( "Clock not specified in ApplicationDescriptor" );
+        }
+        init( descriptor, descriptor.getModules(), descriptor.getClock() );
     }
 
     /**
-     * Create a PhET Application that uses a TabbedApparatusPanelStrategy.
+     * Creates an application that has a single module
+     *
+     * @param descriptor
+     * @param m
+     * @param clock
+     * @deprecated
      */
-    public PhetApplication( ApplicationDescriptor descriptor, Module[] modules, AbstractClock clock ) {
-        this( descriptor, new TabbedApparatusPanelContainer.Factory(), modules, clock );
+    public PhetApplication( ApplicationDescriptor descriptor, Module m, AbstractClock clock ) {
+        init( descriptor, new Module[]{m}, clock );
     }
 
-    public PhetApplication( ApplicationDescriptor descriptor,
-                            ApparatusPanelContainerFactory containerStrategy,
-                            Module[] modules, AbstractClock clock ) {
+    /**
+     * Create a PhET Application that has multiple modules, selectable by a tabbed pane
+     *
+     * @deprecated
+     */
+    public PhetApplication( ApplicationDescriptor descriptor, Module[] modules, AbstractClock clock ) {
+        init( descriptor, modules, clock );
+    }
+
+    private void init( ApplicationDescriptor descriptor,
+                       Module[] modules, AbstractClock clock ) {
         // The clock reference must be set before the call
         this.clock = clock;
         this.descriptor = descriptor;
-        this.containerStrategy = containerStrategy;
+
         moduleManager = new ModuleManager( this );
+        JComponent apparatusPanelContainer = null;
+        if( modules.length == 1 ) {
+            apparatusPanelContainer = new JPanel();
+            apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
+            apparatusPanelContainer.add( modules[0].getApparatusPanel() );
+        }
+        else {
+            apparatusPanelContainer = new TabbedApparatusPanelContainer( moduleManager );
+        }
 
         try {
-            view = new ApplicationView( this );
+            view = new ApplicationView( this.getApplicationDescriptor(), apparatusPanelContainer, clock );
         }
         catch( IOException e ) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            e.printStackTrace();
         }
         moduleManager.addAllModules( modules );
+        clock.addClockTickListener( moduleManager );
         s_instance = this;
 
-        clock.addClockTickListener( moduleManager );
+        this.initialModule = descriptor.getInitialModule();
     }
 
     public void setClock( AbstractClock clock ) {
         this.clock = clock;
     }
 
+    /**
+     * @param initialModule
+     * @deprecated
+     */
     public void startApplication( Module initialModule ) {
+        this.initialModule = initialModule;
+        startApplication();
+        //        moduleManager.setActiveModule( initialModule );
+        //        clock.start();
+        //        view.setVisible( true );
+    }
+
+    public void startApplication() {
+        if( initialModule == null ) {
+            throw new RuntimeException( "Initial module not specified." );
+        }
         moduleManager.setActiveModule( initialModule );
         clock.start();
         view.setVisible( true );
@@ -76,19 +119,8 @@ public class PhetApplication {
         return this.descriptor;
     }
 
-    /**
-     * @param moduleClass
-     */
-    public void activateModuleOfClass( Class moduleClass ) {
-        moduleManager.activateModuleOfClass( moduleClass );
-    }
-
     public ApplicationDescriptor getDescriptor() {
         return descriptor;
-    }
-
-    public ApparatusPanelContainerFactory getContainerStrategy() {
-        return containerStrategy;
     }
 
     public AbstractClock getClock() {
@@ -102,6 +134,10 @@ public class PhetApplication {
 
     public static PhetApplication instance() {
         return s_instance;
+    }
+
+    public ApparatusPanelContainer getApparatusPanelContainer() {
+        return null;
     }
 
 }
