@@ -162,7 +162,7 @@ public class SineWaveGraphic extends PhetShapeGraphic {
      * The zero crossing (180 phase) of the center-most cycle is at the origin.
      * <p>
      * NOTE! As a performance optimization, you must call this method explicitly
-     * after changing paramter values.
+     * after changing parameter values.
      */
     public void update() {
         
