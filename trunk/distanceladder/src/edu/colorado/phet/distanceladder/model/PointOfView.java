@@ -15,6 +15,10 @@ public class PointOfView extends Point2D.Double {
     public PointOfView() {
     }
 
+    public PointOfView( PointOfView pov ) {
+        this( pov.getX(), pov.getY(), pov.getTheta() );
+    }
+
     public PointOfView( double x, double y, double theta ) {
         super( x, y );
         this.theta = theta;

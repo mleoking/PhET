@@ -24,6 +24,7 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
     private boolean isOn = false;
     private String label = "On";
     private CockpitModule module;
+    private AffineTransform hitTx = new AffineTransform();
 
     public PhotometerButton( CockpitModule module, Point2D.Double location ) {
         super( null, null );
@@ -45,6 +46,9 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
                 int strWidth = fontMetrics.stringWidth( label );
                 g.drawString( label, (int)( button.getWidth() - strWidth ) / 2, 15 );
 
+                hitTx.setTransform( orgTx );
+                hitTx.translate( buttonTx.getTranslateX(), buttonTx.getTranslateY() );
+
                 g.setTransform( orgTx );
             }
         };
@@ -54,7 +58,7 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
             public boolean contains( int x, int y ) {
                 Point2D.Double testPt = new Point2D.Double( x, y );
                 try {
-                    buttonTx.inverseTransform( testPt, testPt );
+                    hitTx.inverseTransform( testPt, testPt );
                 }
                 catch( NoninvertibleTransformException e ) {
                     e.printStackTrace();
@@ -70,6 +74,7 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
 
     public void mousePressed( MouseEvent e ) {
         isOn = !isOn;
+        System.out.println( "pb:" + isOn );
         module.setPhotometerReticle( isOn );
         label = isOn ? "Off" : "On";
     }

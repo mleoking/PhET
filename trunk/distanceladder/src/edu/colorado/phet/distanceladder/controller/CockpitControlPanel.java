@@ -24,6 +24,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Format;
@@ -33,11 +34,16 @@ import java.io.*;
 
 public class CockpitControlPanel extends JPanel {
     private CockpitModule module;
-    private int markRef;
+    boolean parallaxInstrumentEnabled = false;
+    boolean photometerEnabled = false;
+    private ParallaxPanel parallaxPanel;
+    private PhotometerPanel photometerPanel;
 
     public CockpitControlPanel( CockpitModule module ) {
 
         this.module = module;
+        parallaxPanel = new ParallaxPanel();
+        photometerPanel = new PhotometerPanel();
 
         this.setLayout( new GridBagLayout() );
         int rowIdx = 0;
@@ -47,12 +53,12 @@ public class CockpitControlPanel extends JPanel {
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new ParallaxPanel(),
+            GraphicsUtil.addGridBagComponent( this, parallaxPanel,
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new BrightnessPanel(),
+            GraphicsUtil.addGridBagComponent( this, photometerPanel,
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
@@ -67,6 +73,16 @@ public class CockpitControlPanel extends JPanel {
             e.printStackTrace();
         }
         this.module = module;
+    }
+
+    public void setParallaxEnabled( boolean isEnabled ) {
+        parallaxInstrumentEnabled = isEnabled;
+        parallaxPanel.update();
+    }
+
+    public void setPhotometerEnabled( boolean isEnabled ) {
+        photometerEnabled = isEnabled;
+        photometerPanel.update();
     }
 
 
@@ -144,12 +160,13 @@ public class CockpitControlPanel extends JPanel {
         private double leftRightSliderFactor = 100;
         private JTextField alphaTF;
         private JTextField betaTF;
-        private JSlider leftRightSlider;
+//        private JSlider leftRightSlider;
         private JTextField leftRightTF;
         private JButton computeBtn;
-        boolean parallaxInstrumentEnabled = false;
         private JButton markBtn;
         private JButton helpBtn;
+        private JLabel reticleLabel1;
+        private JLabel reticleLabel2;
 
 
         public ParallaxPanel() {
@@ -176,35 +193,49 @@ public class CockpitControlPanel extends JPanel {
             leftRightTF.setBackground( Color.white );
             leftRightTF.setHorizontalAlignment( JTextField.RIGHT );
 
-            leftRightSlider = new JSlider( -500, 500, 0 );
-            leftRightSlider.setMajorTickSpacing( 100 );
-            leftRightSlider.setMinorTickSpacing( 25 );
-            leftRightSlider.setPaintTicks( true );
-            leftRightSlider.setPaintTrack( true );
-            leftRightSlider.addChangeListener( new ChangeListener() {
-                private int parallaxRef = 0;
-                private int parallaxCurr = 0;
+            // Add an observer to the star ship that puts its relative position in the leftRightTF
+            final PointOfView markPov = new PointOfView();
+            ( (UniverseModel)module.getModel() ).getStarShip().addObserver( new SimpleObserver() {
+                private DecimalFormat leftRightFormat = new DecimalFormat( "##.0" );
 
-                public void stateChanged( ChangeEvent e ) {
-                    parallaxCurr = leftRightSlider.getValue();
-
-                    // Set the point of view of the cockpit
-                    double d = (double)( parallaxCurr - parallaxRef ) / leftRightSliderFactor;
-                    parallaxRef = parallaxCurr;
-                    PointOfView pov = module.getCockpitPov();
-                    pov.setLocation( pov.getX() - d * Math.sin( pov.getTheta() ),
-                                     pov.getY() + d * Math.cos( pov.getTheta() ) );
-                    module.setPov( pov );
-
-                    // Display the lateral offset
-                    leftRightTF.setText( Integer.toString( parallaxRef - markRef ) );
+                public void update() {
+                    if( leftRightTF.isEnabled() ) {
+                        double x = ( (UniverseModel)module.getModel() ).getStarShip().getPov().distance( markPov );
+                        leftRightTF.setText( leftRightFormat.format( new Double( x ) ) );
+                    }
                 }
             } );
 
+//            leftRightSlider = new JSlider( -500, 500, 0 );
+//            leftRightSlider.setMajorTickSpacing( 100 );
+//            leftRightSlider.setMinorTickSpacing( 25 );
+//            leftRightSlider.setPaintTicks( true );
+//            leftRightSlider.setPaintTrack( true );
+//            leftRightSlider.addChangeListener( new ChangeListener() {
+//                private int parallaxRef = 0;
+//                private int parallaxCurr = 0;
+//
+//                public void stateChanged( ChangeEvent e ) {
+//                    parallaxCurr = leftRightSlider.getValue();
+//
+//                    // Set the point of view of the cockpit
+//                    double d = (double)( parallaxCurr - parallaxRef ) / leftRightSliderFactor;
+//                    parallaxRef = parallaxCurr;
+//                    PointOfView pov = module.getCockpitPov();
+//                    pov.setLocation( pov.getX() - d * Math.sin( pov.getTheta() ),
+//                                     pov.getY() + d * Math.cos( pov.getTheta() ) );
+//                    module.setPov( pov );
+//
+//                    // Display the lateral offset
+//                    leftRightTF.setText( Integer.toString( parallaxRef - markRef ) );
+//                }
+//            } );
+
             markBtn = new JButton( new AbstractAction( "Mark" ) {
                 public void actionPerformed( ActionEvent e ) {
-                    markRef = leftRightSlider.getValue();
-                    leftRightTF.setText( "0" );
+//                    markRef = leftRightSlider.getValue();
+//                    leftRightTF.setText( "0" );
+                    markPov.setPointOfView( ( (UniverseModel)module.getModel() ).getStarShip().getPov() );
                 }
             } );
 
@@ -269,14 +300,14 @@ public class CockpitControlPanel extends JPanel {
 
             int rowIdx = 0;
             try {
-                GraphicsUtil.addGridBagComponent( this, parallaxReticleBtn,
-                                                  0, rowIdx++, 2, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, leftRightSlider,
-                                                  0, rowIdx++, 2, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
+//                GraphicsUtil.addGridBagComponent( this, parallaxReticleBtn,
+//                                                  0, rowIdx++, 2, 1,
+//                                                  GridBagConstraints.NONE,
+//                                                  GridBagConstraints.CENTER );
+//                GraphicsUtil.addGridBagComponent( this, leftRightSlider,
+//                                                  0, rowIdx++, 2, 1,
+//                                                  GridBagConstraints.NONE,
+//                                                  GridBagConstraints.CENTER );
 //                GraphicsUtil.addGridBagComponent( this, leftRightTF,
 //                                                  0, rowIdx++,
 //                                                  1, 1,
@@ -290,12 +321,18 @@ public class CockpitControlPanel extends JPanel {
                                                   1, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Enter reticle offset:" ),
+                reticleLabel1 = new JLabel( "Reticle offset A:" );
+                GraphicsUtil.addGridBagComponent( this, reticleLabel1,
                                                   0, rowIdx, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
                 GraphicsUtil.addGridBagComponent( this, alphaTF,
                                                   1, rowIdx++, 1, 1,
+                                                  GridBagConstraints.NONE,
+                                                  GridBagConstraints.CENTER );
+                reticleLabel2 = new JLabel( "Reticle offset B:" );
+                GraphicsUtil.addGridBagComponent( this, reticleLabel2,
+                                                  0, rowIdx, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
                 GraphicsUtil.addGridBagComponent( this, betaTF,
@@ -325,23 +362,26 @@ public class CockpitControlPanel extends JPanel {
         private void update() {
             alphaTF.setEnabled( parallaxInstrumentEnabled );
             betaTF.setEnabled( parallaxInstrumentEnabled );
-            leftRightSlider.setEnabled( parallaxInstrumentEnabled );
             leftRightTF.setEnabled( parallaxInstrumentEnabled );
             markBtn.setEnabled( parallaxInstrumentEnabled );
             computeBtn.setEnabled( parallaxInstrumentEnabled );
             helpBtn.setEnabled( parallaxInstrumentEnabled );
-            module.setParallaxReticleOn( parallaxInstrumentEnabled );
+            reticleLabel1.setEnabled( parallaxInstrumentEnabled );
+            reticleLabel2.setEnabled( parallaxInstrumentEnabled );
+//            leftRightSlider.setEnabled( parallaxInstrumentEnabled );
+//            module.setParallaxReticleOn( parallaxInstrumentEnabled );
         }
     }
 
-    private class BrightnessPanel extends JPanel {
+    private class PhotometerPanel extends JPanel {
         private JButton brightnessReticleBtn;
-        private boolean photometerEnabled = false;
         private JTextField brightnessTF;
         private String enableString = "Enable";
         private String disableString = "Disable";
+        private JLabel textFieldLabel;
+        private SimpleObserver photometerObserver;
 
-        public BrightnessPanel() {
+        public PhotometerPanel() {
             super( new GridBagLayout() );
 
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
@@ -353,7 +393,7 @@ public class CockpitControlPanel extends JPanel {
             brightnessTF = new JTextField( 6 );
             final Format brightnessFormatter = new DecimalFormat( "###E0" );
 
-            final SimpleObserver photometerObserver = new SimpleObserver() {
+            photometerObserver = new SimpleObserver() {
                 public void update() {
                     StarView starView = ( (UniverseModel)module.getModel() ).getStarShip().getStarView();
                     List visibleStars = starView.getVisibleStars();
@@ -373,24 +413,19 @@ public class CockpitControlPanel extends JPanel {
                     photometerEnabled = !photometerEnabled;
                     module.setPhotometerReticle( photometerEnabled );
                     brightnessReticleBtn.setText( photometerEnabled ? disableString : enableString );
-                    if( photometerEnabled ) {
-                        module.getPhotometerReticle().getPhotometer().addObserver( photometerObserver );
-                    }
-                    else {
-                        module.getPhotometerReticle().getPhotometer().removeObserver( photometerObserver );
-                    }
-                    BrightnessPanel.this.update();
+                    PhotometerPanel.this.update();
                 }
             } );
 
             // Lay out panel
             int rowIdx = 0;
             try {
-                GraphicsUtil.addGridBagComponent( this, brightnessReticleBtn,
-                                                  0, rowIdx++, 2, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Brightness:" ),
+//                GraphicsUtil.addGridBagComponent( this, brightnessReticleBtn,
+//                                                  0, rowIdx++, 2, 1,
+//                                                  GridBagConstraints.NONE,
+//                                                  GridBagConstraints.CENTER );
+                textFieldLabel = new JLabel( "Brightness:" );
+                GraphicsUtil.addGridBagComponent( this, textFieldLabel,
                                                   0, rowIdx, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
@@ -402,10 +437,21 @@ public class CockpitControlPanel extends JPanel {
             catch( AWTException e ) {
                 e.printStackTrace();
             }
+
+            update();
         }
 
         private void update() {
+            System.out.println( "pe: " + photometerEnabled );
             brightnessTF.setEnabled( photometerEnabled );
+            textFieldLabel.setEnabled( photometerEnabled );
+            if( photometerEnabled ) {
+                module.getPhotometerReticle().getPhotometer().addObserver( photometerObserver );
+            }
+            else {
+                module.getPhotometerReticle().getPhotometer().removeObserver( photometerObserver );
+                brightnessTF.setText( "" );
+            }
         }
     }
 
