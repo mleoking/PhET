@@ -18,17 +18,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -37,6 +27,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.Voltmeter;
@@ -64,11 +55,10 @@ public class PickupCoilPanel extends FaradayPanel {
 
     // UI components
     private JSpinner _loopsSpinner;
-    private JSlider _areaSlider;
+    private ControlPanelSlider _areaSlider;
     private JRadioButton _voltmeterRadioButton;
     private JRadioButton _lightbulbRadioButton;
     private JCheckBox _electronsCheckBox;
-    private JLabel _areaValue;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -107,65 +97,6 @@ public class PickupCoilPanel extends FaradayPanel {
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
-
-        // Number of loops
-        JPanel loopsPanel = new JPanel();
-        {
-            JLabel loopsLabel = new JLabel( SimStrings.get( "PickupCoilPanel.numberOfLoops" ) );
-
-            // Spinner, keyboard editing disabled.
-            SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
-            spinnerModel.setMaximum( new Integer( FaradayConfig.MAX_PICKUP_LOOPS ) );
-            spinnerModel.setMinimum( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
-            spinnerModel.setValue( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
-            _loopsSpinner = new JSpinner( spinnerModel );
-            JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
-            tf.setEditable( false );
-
-            // Dimensions
-            _loopsSpinner.setPreferredSize( SPINNER_SIZE );
-            _loopsSpinner.setMaximumSize( SPINNER_SIZE );
-            _loopsSpinner.setMinimumSize( SPINNER_SIZE );
-
-            // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( loopsPanel );
-            loopsPanel.setLayout( layout );
-            layout.addAnchoredComponent( loopsLabel, 0, 0, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( _loopsSpinner, 0, 1, GridBagConstraints.WEST );
-        }
-
-        // Loop area
-        JPanel areaPanel = new JPanel();
-        {
-            areaPanel.setBorder( BorderFactory.createEtchedBorder() );
-
-            // Values are a percentage of the maximum.
-            int max = 100;
-            int min = (int) ( 100.0 * FaradayConfig.MIN_PICKUP_LOOP_AREA / FaradayConfig.MAX_PICKUP_LOOP_AREA );
-            int range = max - min;
-
-            // Slider
-            _areaSlider = new JSlider();
-            _areaSlider.setMaximum( max );
-            _areaSlider.setMinimum( min );
-            _areaSlider.setValue( min );
-
-            // Slider tick marks
-            _areaSlider.setMajorTickSpacing( range );
-            _areaSlider.setMinorTickSpacing( 10 );
-            _areaSlider.setSnapToTicks( false );
-            _areaSlider.setPaintTicks( true );
-            _areaSlider.setPaintLabels( true );
-
-            // Value
-            _areaValue = new JLabel( UNKNOWN_VALUE );
-
-            // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( areaPanel );
-            areaPanel.setLayout( layout );
-            layout.addAnchoredComponent( _areaValue, 0, 0, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( _areaSlider, 1, 0, GridBagConstraints.WEST );
-        }
 
         JPanel indicatorPanel = new JPanel();
         {
@@ -209,7 +140,51 @@ public class PickupCoilPanel extends FaradayPanel {
             group.add( _lightbulbRadioButton );
             group.add( _voltmeterRadioButton );   
         }
+        
+        // Number of loops
+        JPanel loopsPanel = new JPanel();
+        {
+            JLabel loopsLabel = new JLabel( SimStrings.get( "PickupCoilPanel.numberOfLoops" ) );
 
+            // Spinner, keyboard editing disabled.
+            SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
+            spinnerModel.setMaximum( new Integer( FaradayConfig.MAX_PICKUP_LOOPS ) );
+            spinnerModel.setMinimum( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
+            spinnerModel.setValue( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
+            _loopsSpinner = new JSpinner( spinnerModel );
+            JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
+            tf.setEditable( false );
+
+            // Dimensions
+            _loopsSpinner.setPreferredSize( SPINNER_SIZE );
+            _loopsSpinner.setMaximumSize( SPINNER_SIZE );
+            _loopsSpinner.setMinimumSize( SPINNER_SIZE );
+
+            // Layout
+            EasyGridBagLayout layout = new EasyGridBagLayout( loopsPanel );
+            loopsPanel.setLayout( layout );
+            layout.addAnchoredComponent( loopsLabel, 0, 0, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( _loopsSpinner, 0, 1, GridBagConstraints.WEST );
+        }
+
+        // Loop area
+        {
+            // Values are a percentage of the maximum.
+            int max = 100;
+            int min = (int) ( 100.0 * FaradayConfig.MIN_PICKUP_LOOP_AREA / FaradayConfig.MAX_PICKUP_LOOP_AREA );
+            int range = max - min;
+
+            // Slider
+            String format = SimStrings.get( "PickupCoilPanel.area" );
+            _areaSlider = new ControlPanelSlider( format );
+            _areaSlider.setMaximum( max );
+            _areaSlider.setMinimum( min );
+            _areaSlider.setValue( min );
+            _areaSlider.setMajorTickSpacing( range );
+            _areaSlider.setMinorTickSpacing( 10 );
+            _areaSlider.setSnapToTicks( false );
+        }
+        
         // Electrons on/off
         _electronsCheckBox = new JCheckBox( SimStrings.get( "PickupCoilPanel.showElectrons" ) );
 
@@ -219,7 +194,7 @@ public class PickupCoilPanel extends FaradayPanel {
         int row = 0;
         layout.addFilledComponent( indicatorPanel, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( loopsPanel, row++, 0 );
-        layout.addFilledComponent( areaPanel, row++, 0, GridBagConstraints.HORIZONTAL );
+        layout.addFilledComponent( _areaSlider, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _electronsCheckBox, row++, 0 );
 
         // Wire up event handling
@@ -293,10 +268,6 @@ public class PickupCoilPanel extends FaradayPanel {
                 // Update the model.
                 double area = ( percent / 100.0 ) * FaradayConfig.MAX_PICKUP_LOOP_AREA;
                 _pickupCoilModel.setLoopArea( area );
-                // Update the label.
-                Object[] args = { new Integer( percent ) };
-                String text = MessageFormat.format( SimStrings.get( "PickupCoilPanel.area" ), args );
-                _areaValue.setText( text );
             }
             else if ( e.getSource() == _loopsSpinner ) {
                 // Read the value.

@@ -25,6 +25,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
@@ -53,8 +54,7 @@ public class BarMagnetPanel extends FaradayPanel {
 
     // UI components
     private JButton _flipPolarityButton;
-    private JLabel _strengthValue;
-    private JSlider _strengthSlider;
+    private ControlPanelSlider _strengthSlider;
     private JCheckBox _seeInsideCheckBox;
     private JCheckBox _gridCheckBox;
     private JCheckBox _fieldMeterCheckBox;
@@ -103,36 +103,21 @@ public class BarMagnetPanel extends FaradayPanel {
         setBorder( titleBorder );
         
         // Magnet strength
-        JPanel strengthPanel = new JPanel();
         {
-            strengthPanel.setBorder( BorderFactory.createEtchedBorder() );
-
             // Values are a percentage of the maximum.
             int max = 100;
             int min = (int) ( 100.0 * FaradayConfig.BAR_MAGNET_STRENGTH_MIN / FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
             int range = max - min;
 
             // Slider
-            _strengthSlider = new JSlider();
+            String format = SimStrings.get( "BarMagnetPanel.strength" );
+            _strengthSlider = new ControlPanelSlider( format );
             _strengthSlider.setMaximum( max );
             _strengthSlider.setMinimum( min );
             _strengthSlider.setValue( min );
-
-            // Slider tick marks
             _strengthSlider.setMajorTickSpacing( range );
             _strengthSlider.setMinorTickSpacing( 10 );
             _strengthSlider.setSnapToTicks( false );
-            _strengthSlider.setPaintTicks( true );
-            _strengthSlider.setPaintLabels( true );
-
-            // Value
-            _strengthValue = new JLabel( UNKNOWN_VALUE );
-
-            // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( strengthPanel );
-            strengthPanel.setLayout( layout );
-            layout.addAnchoredComponent( _strengthValue, 0, 0, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( _strengthSlider, 1, 0, GridBagConstraints.WEST );
         }
 
         //  Flip Polarity button
@@ -154,7 +139,7 @@ public class BarMagnetPanel extends FaradayPanel {
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         int row = 0;
-        layout.addFilledComponent( strengthPanel, row++, 0, GridBagConstraints.HORIZONTAL );
+        layout.addFilledComponent( _strengthSlider, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _flipPolarityButton, row++, 0 );
         layout.addComponent( _seeInsideCheckBox, row++, 0 );
         layout.addComponent( _gridCheckBox, row++, 0 );
@@ -280,10 +265,6 @@ public class BarMagnetPanel extends FaradayPanel {
                 // Update the model.
                 double strength = (  percent / 100.0 ) * FaradayConfig.BAR_MAGNET_STRENGTH_MAX ;
                 _barMagnetModel.setStrength( strength );
-                // Update the label.
-                Object[] args = { new Integer( percent ) };
-                String text = MessageFormat.format( SimStrings.get( "BarMagnetPanel.strength" ), args );
-                _strengthValue.setText( text );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
