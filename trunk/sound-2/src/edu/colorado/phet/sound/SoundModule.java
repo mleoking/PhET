@@ -128,4 +128,8 @@ public class SoundModule extends Module implements RgbReporter {
     public int rgbAt( int x, int y ) {
         return 128;
     }
+
+    public boolean getAudioEnabled() {
+        return this.audioEnabled;
+    }
 }
