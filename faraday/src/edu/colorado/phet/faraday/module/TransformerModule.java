@@ -163,6 +163,7 @@ public class TransformerModule extends FaradayModule {
         // Pickup Coil
         PickupCoilGraphic pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
                 pickupCoilModel, lightbulbModel, voltmeterModel, electromagnetModel );
+        pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( 3.0 );
         apparatusPanel.addChangeListener( pickupCoilGraphic );
         apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
