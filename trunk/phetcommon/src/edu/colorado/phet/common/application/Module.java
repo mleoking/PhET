@@ -149,14 +149,27 @@ public class Module {
     ///////////////////////////////////////////////////////////////////////////////////
     // Help related methods
     //
+
+    /**
+     * Tells whether this module has on-screen help
+     * @return
+     */
     public boolean hasHelp() {
         return helpManager.getNumGraphics() > 0;
     }
 
+    /**
+     * Switches the display of onscreen help off and on
+     * @param h
+     */
     public void setHelpEnabled(boolean h) {
         helpManager.setHelpEnabled(apparatusPanel, h);
     }
 
+    /**
+     * Adds a an onscreen help item to the module
+     * @param helpItem
+     */
     public void addHelpItem(HelpItem helpItem) {
         helpManager.addHelpItem(helpItem);
         if (controlPanel != null && controlPanel instanceof ControlPanel ) {
@@ -164,6 +177,10 @@ public class Module {
         }
     }
 
+    /**
+     * Removes an onscreen help item from the module
+     * @param helpItem
+     */
     public void removeHelpItem(HelpItem helpItem) {
         helpManager.removeHelpItem(helpItem);
         if (controlPanel != null && controlPanel instanceof ControlPanel && helpManager.getNumHelpItems() == 0) {
@@ -171,6 +188,17 @@ public class Module {
         }
     }
 
+    /**
+     * This must be overrideen by subclasses that have megahelp
+     */
     public void showMegaHelp() {
+    }
+
+    /**
+     * This must be overriden by subclasses that have megahelp to return true
+     * @return
+     */
+    public boolean hasMegaHelp() {
+        return false;
     }
 }
