@@ -53,6 +53,10 @@ public abstract class Body extends Particle {
         super.stepInTime( dt );
     }
 
+    public double getSpeed() {
+        return getVelocity().getMagnitude();    
+    }
+
     public double getTheta() {
         return theta;
     }
