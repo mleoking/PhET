@@ -52,6 +52,11 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private CollisionMechanism collisionMechanism;
     private int numPhotons;
 
+    // Counters for the number of atoms in each state
+    private int numGroundStateAtoms;
+    private int numMiddleStateAtoms;
+    private int numHighStateAtoms;
+
     /**
      *
      */
@@ -73,27 +78,47 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
             bodies.add( modelElement );
         }
         if( modelElement instanceof Photon ) {
-            photons.add( modelElement );
-            // we have to listen for photons leaving the system when they
-            // are absorbed by atoms
-            Photon photon = (Photon)modelElement;
-            ( (Photon)modelElement ).addLeftSystemListener( this );
+            addPhoton( modelElement );
 
-            // If the photon is moving nearly horizontally, consider it to be lasing
-            if( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
-                || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow ) {
-                lasingPhotons.add( photon );
-                laserListenerProxy.lasingPopulationChanged( new LaserEvent( this ) );
-            }
         }
         if( modelElement instanceof Atom ) {
-            atoms.add( modelElement );
+            addAtom( modelElement );
         }
         if( modelElement instanceof Mirror ) {
             mirrors.add( modelElement );
         }
         if( modelElement instanceof ResonatingCavity ) {
             this.resonatingCavity = (ResonatingCavity)modelElement;
+        }
+    }
+
+    private void addAtom( ModelElement modelElement ) {
+        atoms.add( modelElement );
+        Atom atom = (Atom)modelElement;
+        atom.addChangeListener( new AtomChangeListener() );
+        if( atom.getCurrState() == GroundState.instance() ) {
+            numGroundStateAtoms++;
+        }
+        if( atom.getCurrState() == MiddleEnergyState.instance() ) {
+            numMiddleStateAtoms++;
+        }
+        if( atom.getCurrState() == HighEnergyState.instance() ) {
+            numHighStateAtoms++;
+        }
+    }
+
+    private void addPhoton( ModelElement modelElement ) {
+        photons.add( modelElement );
+        // we have to listen for photons leaving the system when they
+        // are absorbed by atoms
+        Photon photon = (Photon)modelElement;
+        ( (Photon)modelElement ).addLeftSystemListener( this );
+
+        // If the photon is moving nearly horizontally, consider it to be lasing
+        if( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
+            || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow ) {
+            lasingPhotons.add( photon );
+            laserListenerProxy.lasingPopulationChanged( new LaserEvent( this ) );
         }
     }
 
@@ -195,15 +220,15 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     }
 
     public int getNumGroundStateAtoms() {
-        return Atom.getNumGroundStateAtoms();
+        return numGroundStateAtoms;
     }
 
     public int getNumMiddleStateAtoms() {
-        return Atom.getNumMiddleStateAtoms();
+        return numMiddleStateAtoms;
     }
 
     public int getNumHighStateAtoms() {
-        return Atom.getNumHighStateAtoms();
+        return numHighStateAtoms;
     }
 
     public void setBounds( Rectangle2D bounds ) {
@@ -410,4 +435,34 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
 
         removeModelElement( event.getPhoton() );
     }
+
+    /**
+     * Keeps track of number of atoms in each state
+     */
+    private class AtomChangeListener implements Atom.ChangeListener {
+
+        public void stateChanged( Atom.ChangeEvent event ) {
+            AtomicState prevState = event.getPrevState();
+            AtomicState currState = event.getCurrState();
+            if( prevState instanceof GroundState ) {
+                numGroundStateAtoms--;
+            }
+            if( prevState instanceof MiddleEnergyState ) {
+                numMiddleStateAtoms--;
+            }
+            if( prevState instanceof HighEnergyState ) {
+                numHighStateAtoms--;
+            }
+            if( currState instanceof GroundState ) {
+                numGroundStateAtoms++;
+            }
+            if( currState instanceof MiddleEnergyState ) {
+                numMiddleStateAtoms++;
+            }
+            if( currState instanceof HighEnergyState ) {
+                numHighStateAtoms++;
+            }
+        }
+    }
+
 }
