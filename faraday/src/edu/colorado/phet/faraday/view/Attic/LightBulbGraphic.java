@@ -48,13 +48,13 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
     
     // These parameters affect an individual ray.
     private static final Color RAY_COLOR = Color.YELLOW;
-    private static final int MAX_RAY_LENGTH = 300;
-    private static final int MIN_RAY_LENGTH = 20;
+    private static final int MAX_RAY_LENGTH = 500;
+    private static final int MIN_RAY_LENGTH = 10;
     private static final double MAX_RAY_WIDTH = 4.0;
     private static final double MIN_RAY_WIDTH = 2.0;
 
     // These parameters affect the collection of rays.
-    private static final int MAX_RAYS = 40;
+    private static final int MAX_RAYS = 60;
     private static final int MIN_RAYS = 8;
     private static final double RAYS_START_ANGLE = Math.toRadians( 135 );
     private static final double RAYS_ARC_ANGLE = Math.toRadians( 270 );
