@@ -187,6 +187,12 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
     public void mouseMoved( MouseEvent e ) {
     }
 
+    public void setY( int y ) {
+        this.y = y;
+        setBoundsDirty();
+        autorepaint();
+    }
+
     public Rectangle getRectangle() {
         return new Rectangle( x - currentImage.getWidth() / 2, y, currentImage.getWidth(), currentImage.getHeight() );
     }
