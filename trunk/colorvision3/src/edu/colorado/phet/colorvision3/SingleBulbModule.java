@@ -221,12 +221,15 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     // Filter slider
     _filterSlider = new SpectrumSlider( apparatusPanel );
     _filterSlider.setLocation( FILTER_SLIDER_LOCATION );
-    _filterSlider.setMinimum( (int) VisibleColor.MIN_WAVELENGTH );
-    _filterSlider.setMaximum( (int) VisibleColor.MAX_WAVELENGTH );
-    _filterSlider.setValue( (int) VisibleColor.MIN_WAVELENGTH );
     _filterSlider.setLabel( SimStrings.get("filterSlider.label") );
     _filterSlider.setTransmissionWidth( _filterModel.getTransmissionWidth()/2 );
     apparatusPanel.addGraphic( _filterSlider, FILTER_SLIDER_LAYER );
+    
+    // Wavelength slider
+    _wavelengthSlider = new SpectrumSlider( apparatusPanel );
+    _wavelengthSlider.setLocation( WAVELENGTH_SLIDER_LOCATION );
+    _wavelengthSlider.setLabel( SimStrings.get("wavelengthSlider.label") );
+    apparatusPanel.addGraphic( _wavelengthSlider, WAVELENGTH_SLIDER_LAYER );
     
     // Pipe connecting filter control to filter.
     _filterPipe = new PipeGraphic( apparatusPanel );
@@ -235,15 +238,6 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     _filterPipe.addSegment( PipeGraphic.VERTICAL, 100,   0, 115 );
     _filterPipe.setLocation( FILTER_PIPE_LOCATION );
     apparatusPanel.addGraphic( _filterPipe, FILTER_PIPE_LAYER );
-    
-    // Wavelength slider
-    _wavelengthSlider = new SpectrumSlider( apparatusPanel );
-    _wavelengthSlider.setLocation( WAVELENGTH_SLIDER_LOCATION );
-    _wavelengthSlider.setMinimum( (int) VisibleColor.MIN_WAVELENGTH );
-    _wavelengthSlider.setMaximum( (int) VisibleColor.MAX_WAVELENGTH );
-    _wavelengthSlider.setValue( (int) VisibleColor.MIN_WAVELENGTH );
-    _wavelengthSlider.setLabel( SimStrings.get("wavelengthSlider.label") );
-    apparatusPanel.addGraphic( _wavelengthSlider, WAVELENGTH_SLIDER_LAYER );
     
     // Pipe connecting wavelength control to spotlight. 
     _wavelengthPipe = new PipeGraphic( apparatusPanel );
