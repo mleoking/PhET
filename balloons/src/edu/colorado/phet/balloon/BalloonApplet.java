@@ -69,6 +69,8 @@ public class BalloonApplet extends JApplet {
     }
 
     public void init() {
+        SimStrings.setStrings ( BalloonsConfig.localizedStringsPath );
+
         plussy.setPaint( PlusPainter.NONE );
         minnie.setPaint( MinusPainter.NONE );
 
@@ -146,12 +148,13 @@ public class BalloonApplet extends JApplet {
         panel.add( painterPanel, BorderLayout.CENTER );
         panel.add( controlPanel, BorderLayout.SOUTH );
 
-        JCheckBox chargedBalloonBtn = new JCheckBox( "Ignore Initial Balloon Charge", true );
-        JRadioButton showAllCharges = new JRadioButton( "Show all charges" );
+        JCheckBox chargedBalloonBtn = new JCheckBox(
+                                SimStrings.get( "BalloonApplet.IgnoreInitialBalloonCharge" ), true );
+        JRadioButton showAllCharges = new JRadioButton( SimStrings.get( "BalloonApplet.ShowAllCharges" ) );
         showAllCharges.addActionListener( new ShowAll( plussy, minnie ) );
-        JRadioButton showNoCharges = new JRadioButton( "Show no charges" );
+        JRadioButton showNoCharges = new JRadioButton( SimStrings.get( "BalloonApplet.ShowNoCharges" ) );
         showNoCharges.addActionListener( new ShowNone( plussy, minnie ) );
-        JRadioButton showDiff = new JRadioButton( "Show charge differences" );
+        JRadioButton showDiff = new JRadioButton( SimStrings.get( "BalloonApplet.ShowChargeDifferences" ) );
         showDiff.addActionListener( new ShowDiff( plussy, minnie ) );
 
         ButtonGroup bg = new ButtonGroup();
@@ -171,11 +174,11 @@ public class BalloonApplet extends JApplet {
         buttonPanel.add( showAllCharges );
         buttonPanel.add( showNoCharges );
         buttonPanel.add( showDiff );
-        buttonPanel.setBorder( PhetLookAndFeel.createSmoothBorder( "Charge Display" ) );
-        JButton resetBtn = new JButton( "Reset" );
+        buttonPanel.setBorder( PhetLookAndFeel.createSmoothBorder( SimStrings.get( "BalloonApplet.ChargeDisplay" ) ) );
+        JButton resetBtn = new JButton( SimStrings.get( "BalloonApplet.Reset" ) );
         controlPanel.add( resetBtn );
         controlPanel.add( buttonPanel );
-        JCheckBox soloBalloon = new JCheckBox( "Only One Balloon", false );
+        JCheckBox soloBalloon = new JCheckBox( SimStrings.get( "BalloonApplet.OnlyOneBalloon" ), false );
         soloBalloon.addActionListener( new SoloBalloon( soloBalloon, b ) );
 
         SetBalloonCharge sbc = ( new SetBalloonCharge( chargedBalloonBtn, bPainter, showNoCharges, showDiff, showAllCharges ) );
@@ -195,7 +198,7 @@ public class BalloonApplet extends JApplet {
         twoBtn.add( chargedBalloonBtn );
         controlPanel.add( twoBtn );
 
-        JCheckBox showWall = new JCheckBox( "Wall", true );
+        JCheckBox showWall = new JCheckBox( SimStrings.get( "BalloonApplet.Wall" ), true );
         controlPanel.add( showWall );
 
         int wallInset = 10;
