@@ -58,7 +58,7 @@ public class SingleAtomControlPanel extends LaserControlPanel {
                 }
             }
         } );
-        //        this.addControl( mirrorCB );
+        this.addControl( mirrorCB );
     }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {

@@ -133,6 +133,15 @@ public class BaseLaserModule extends Module {
         // Add the control panel
         LaserControlPanel controlPanel = new LaserControlPanel( this );
         setControlPanel( controlPanel );
+
+        // Make a spectrum slider
+        //        SpectrumSlider slider = new SpectrumSlider( getApparatusPanel() );
+        //        slider.setLocation( new Point(100,100) ); // default is (0,0)
+        //        slider.setOrientation( SpectrumSlider.HORIZONTAL ); // default is HORIZONTAL
+        //        slider.setTransmissionWidth( 50.0 ); // default is 0.0
+        //        slider.setKnobSize( new Dimension(10,15) ); // default is (20,30)
+        //        slider.setSpectrumSize( new Dimension( 100, 20) ); // default is (200,25)
+        //        addGraphic( slider, 20 );
     }
 
     public void activate( PhetApplication app ) {

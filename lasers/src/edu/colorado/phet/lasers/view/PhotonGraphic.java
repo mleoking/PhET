@@ -307,15 +307,19 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     }
 
     public void update() {
-        setPosition( photon );
-
-        double w = getBounds().getWidth();
-        double h = getBounds().getHeight();
-        double cx = this.getBounds().getX() + w / 2;
-        double cy = this.getBounds().getY() + h / 2;
-        double x = w * Math.cos( photon.getVelocity().getAngle() );
-        double y = h * Math.sin( photon.getVelocity().getAngle() );
-        setPosition( (int)( photon.getPosition().getX() - x ), (int)( photon.getPosition().getY() - y ) );
+        double angle = photon.getVelocity().getAngle();
+        double dx = 0;
+        double dy = 0;
+        // If the photon is travelling to the right, we need to offset the image to the left
+        // so that the head of the photon graphic corresponds properly with the location of
+        // the photon itself.
+        if( angle <= Math.PI / 2 && angle >= -Math.PI / 2 ) {
+            dx = getBounds().getWidth();
+        }
+        if( angle <= Math.PI && angle >= 0 ) {
+            dy = getBounds().getHeight();
+        }
+        setPosition( (int)( photon.getPosition().getX() - dx ), (int)( photon.getPosition().getY() - dy ) );
 
         // Get the next frame of the animaton
         //        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;
