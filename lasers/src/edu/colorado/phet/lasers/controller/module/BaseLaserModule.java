@@ -21,6 +21,7 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.SpontaneouslyEmittingState;
 import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.lasers.model.mirror.Partial;
@@ -188,6 +189,9 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         super.activate( app );
         appFrame = app.getApplicationView().getPhetFrame();
         energyLevelsDialog.setVisible( energyDialogIsVisible );
+
+        // todo: this whole mechanism should probably be refactored
+        SpontaneouslyEmittingState.setModel( getModel() );
     }
 
     public void deactivate( PhetApplication app ) {

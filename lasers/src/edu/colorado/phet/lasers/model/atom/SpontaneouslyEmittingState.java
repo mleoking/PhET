@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
@@ -20,64 +21,85 @@ import java.awt.geom.Point2D;
 /**
  *
  */
-public abstract class SpontaneouslyEmittingState extends AtomicState implements ModelElement {
+public abstract class SpontaneouslyEmittingState extends AtomicState {
 
-    private double lifeTime;
-    private double deathTime;
-
-    /**
-     * @param atom
-     */
-    public SpontaneouslyEmittingState( Atom atom ) {
-        super( atom );
-        double temp = 0;
-        while( temp == 0 ) {
-            temp = Math.random();
-        }
-
-        // Assign a deathtime based on an exponential distribution
-        deathTime = -Math.log( temp ) * getSpontaneousEmmisionHalfLife();
-
-        // TEST ONLY!!!
-        deathTime = getSpontaneousEmmisionHalfLife();
-
-        lifeTime = 0;
+    private static BaseModel s_model;
+    public static void setModel( BaseModel model ) {
+        s_model = model;
     }
 
     /**
-     * @param dt
+     *
      */
-    public void stepInTime( double dt ) {
-        lifeTime += dt;
-        if( lifeTime >= deathTime ) {
-            Photon emittedPhoton = emitPhoton();
+    public static class StateLifetimeManager implements ModelElement {
+        private Atom atom;
+        private double lifeTime;
+        private double deathTime;
+        private SpontaneouslyEmittingState state;
 
-            double speed = emittedPhoton.getVelocity().getMagnitude();
-            double theta = Math.random() * Math.PI * 2;
-            double x = speed * Math.cos( theta );
-            double y = speed * Math.sin( theta );
-            emittedPhoton.setVelocity( x, y );
-            emittedPhoton.setPosition( new Point2D.Double( getAtom().getPosition().getX(), getAtom().getPosition().getY() ) );
+        public StateLifetimeManager( Atom atom ) {
+            this.atom = atom;
+            s_model.addModelElement( this );
 
-            // Place the replacement photon beyond the atom, so it doesn't collide again
-            // right away
-            Vector2D vHat = new Vector2D.Double( emittedPhoton.getVelocity() ).normalize();
-            Vector2D position = new Vector2D.Double( getAtom().getPosition() );
-            position.add( vHat.scale( getAtom().getRadius() + 10 ) );
-            emittedPhoton.setPosition( position.getX(), position.getY() );
-            getAtom().emitPhoton( emittedPhoton );
+            double temp = 0;
+            while( temp == 0 ) {
+                temp = Math.random();
+            }
 
-            // Change state
-            decrementNumInState();
-            getAtom().setState( nextLowerEnergyState() );
+            if( atom.getState() instanceof SpontaneouslyEmittingState ) {
+                state = (SpontaneouslyEmittingState)atom.getState();
+            }
+            else {
+                throw new RuntimeException( "Atom not in a spontaneously emitting state" );
+            }
+
+            // Assign a deathtime based on an exponential distribution
+            deathTime = -Math.log( temp ) * state.getSpontaneousEmmisionHalfLife();
+
+            // This line gives a fixed death time
+            deathTime = state.getSpontaneousEmmisionHalfLife();
+
+            lifeTime = 0;
         }
-    }
 
-    protected Photon emitPhoton() {
-        Photon emittedPhoton = Photon.create();
-        emittedPhoton.setWavelength( getEmittedPhotonWavelength() );
+        public void stepInTime( double dt ) {
+            lifeTime += dt;
+            if( lifeTime >= deathTime ) {
+                Photon emittedPhoton = emitPhoton();
 
-        return emittedPhoton;
+                double speed = emittedPhoton.getVelocity().getMagnitude();
+                double theta = Math.random() * Math.PI * 2;
+                double x = speed * Math.cos( theta );
+                double y = speed * Math.sin( theta );
+                emittedPhoton.setVelocity( x, y );
+                emittedPhoton.setPosition( new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ) );
+
+                // Place the replacement photon beyond the atom, so it doesn't collide again
+                // right away
+                Vector2D vHat = new Vector2D.Double( emittedPhoton.getVelocity() ).normalize();
+                Vector2D position = new Vector2D.Double( atom.getPosition() );
+                position.add( vHat.scale( atom.getRadius() + 10 ) );
+                emittedPhoton.setPosition( position.getX(), position.getY() );
+                atom.emitPhoton( emittedPhoton );
+
+                // Change state
+                atom.setState( state.nextLowerEnergyState() );
+
+                // Remove us from the model
+                kill();
+            }
+        }
+
+        protected Photon emitPhoton() {
+            Photon emittedPhoton = Photon.create();
+            emittedPhoton.setWavelength( state.getEmittedPhotonWavelength() );
+
+            return emittedPhoton;
+        }
+
+        public void kill() {
+            s_model.removeModelElement( this );
+        }
     }
 
     //
@@ -88,8 +110,4 @@ public abstract class SpontaneouslyEmittingState extends AtomicState implements 
     abstract protected AtomicState nextLowerEnergyState();
 
     abstract protected double getEmittedPhotonWavelength();
-
-    //
-    // Static fields and methods
-    //
 }

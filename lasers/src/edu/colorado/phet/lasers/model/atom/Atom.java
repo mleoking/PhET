@@ -22,6 +22,7 @@ public class Atom extends SphericalBody {
 
     static private int s_radius = 15;
     static private int s_mass = 1000;
+    private SpontaneouslyEmittingState.StateLifetimeManager stateLifetimeManager;
 
     static public void setHighEnergySpontaneousEmissionTime( double time ) {
         HighEnergyState.setSpontaneousEmmisionHalfLife( time );
@@ -58,7 +59,8 @@ public class Atom extends SphericalBody {
     public Atom() {
         super( s_radius );
         setMass( s_mass );
-        setState( new GroundState( this ) );
+        setState( GroundState.instance() );
+//        setState( new GroundState( this ) );
     }
 
     public void addListener( Listener listner ) {
@@ -70,7 +72,7 @@ public class Atom extends SphericalBody {
     }
 
     public void collideWithPhoton( Photon photon ) {
-        state.collideWithPhoton( photon );
+        state.collideWithPhoton( this, photon );
     }
 
     public AtomicState getState() {
@@ -79,7 +81,18 @@ public class Atom extends SphericalBody {
 
     public void setState( final AtomicState newState ) {
         final AtomicState oldState = this.state;
+        if( oldState != null ) {
+            oldState.decrementNumInState();
+        }
+        if( this.stateLifetimeManager != null ) {
+            stateLifetimeManager.kill();
+        }
+        newState.incrNumInState();
         this.state = newState;
+        if( newState instanceof SpontaneouslyEmittingState ) {
+            this.stateLifetimeManager = new SpontaneouslyEmittingState.StateLifetimeManager( this );
+        }
+
         notifyObservers();
         this.subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
             public void doNotify( Object obj ) {
