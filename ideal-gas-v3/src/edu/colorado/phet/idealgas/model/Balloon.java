@@ -91,14 +91,15 @@ public class Balloon extends HollowSphere {
         // Compute the change in momentum and record it as pressure
         Vector2D momentumChange = momentumPost.subtract( momentumPre );
         double impact = momentumChange.getMagnitude();
-        ScalarDataRecorder recorder = this.containsBody( particle )
+        // todo: change this to a test that relies on containsBody, when that is correctly implemented
+        ScalarDataRecorder recorder = this.contains( particle )
                                       ? insidePressureRecorder
                                       : outsidePressureRecorder;
         recorder.addDataRecordEntry( impact );
         momentumPre.setComponents( momentumPost.getX(), momentumPost.getY() );
     }
 
-    public boolean containsBody( Body body ) {
+    private boolean contains( Body body ) {
         double distSq = this.getCenter().distanceSq( body.getCM() );
         return distSq < this.getRadius() * this.getRadius();
     }
@@ -137,13 +138,5 @@ public class Balloon extends HollowSphere {
             }
         }
     }
-
-    /**
-     * @param body
-     * @return
-     */
-//    public boolean isInContactWithBody( Body body ) {
-//        throw new RuntimeException( "Not implemented" );
-//    }
 }
 

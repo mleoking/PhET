@@ -38,23 +38,15 @@ public class ScalarDataRecorder {
     public ScalarDataRecorder( AbstractClock clock, int updatePeriod ) {
         new PeriodicDataComputer( updatePeriod ).start();
     }
-    /**
-     *
-     */
+
     public void clear() {
         dataRecord.removeAll( dataRecord );
     }
 
-    /**
-     *
-     */
     public double getDataTotal() {
         return dataTotal;
     }
 
-    /**
-     *
-     */
     public double getDataAverage() {
         return dataAverage;
     }

@@ -67,24 +67,8 @@ public abstract class CollidableBody extends Body {
         return positionPrev;
     }
 
-    public abstract double getContactOffset( Body body );
+//    public abstract double getContactOffset( Body body );
 
-//    public void stepInTimeNoNotify( double dt ) {
-//        this.stepInTime( dt );
-//
-//        // any of the constraints need to add or remove constraints from the list
-//        workingList.clear();
-//        workingList.addAll( constraints );
-//        for( Iterator iterator = workingList.iterator(); iterator.hasNext(); ) {
-//            Constraint constraintSpec = (Constraint)iterator.next();
-////            constraintSpec.apply();
-//        }
-//    }
-
-
-    /**
-     * Containment methods
-     */
     public List getContainedBodies() {
         return containedBodies;
     }

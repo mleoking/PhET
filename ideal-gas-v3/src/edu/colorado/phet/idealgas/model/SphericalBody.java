@@ -54,11 +54,11 @@ public class SphericalBody extends CollidableBody {
         return this.getPosition();
     }
 
-    public boolean isInContactWithBody( CollidableBody body ) {
-        tempVector.setLocation( this.getPosition().getX(), this.getPosition().getY() );
-        double distance = tempVector.distance( body.getPosition() );
-        return ( distance <= this.getContactOffset( body ) + body.getContactOffset( this ) );
-    }
+//    public boolean isInContactWithBody( CollidableBody body ) {
+//        tempVector.setLocation( this.getPosition().getX(), this.getPosition().getY() );
+//        double distance = tempVector.distance( body.getPosition() );
+//        return ( distance <= this.getContactOffset( body ) + body.getContactOffset( this ) );
+//    }
 
     public double getContactOffset( Body body ) {
         return this.getRadius();
