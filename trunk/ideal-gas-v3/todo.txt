@@ -2,11 +2,15 @@
 
 - Fix up collisions with sphere. Can we get rid of constraints?
 
+- Make the stove a model element and move IdealGasModel.addHeatFromStove() to Stove.stepInTime()
+
 - Combine collision detectors and collision classes into common collision experts
 - Add collision detectors and collisions for the hollow sphere classes
 
 - check CollidableBody.stepInTimeNoNotify()
+
 - pressure slice graphic overlays mannequin
+
 - when hollow sphere is only thing in the box, the gravity response is jerky
 
 - scalarDataRecorder should be re-written so it doesn't need a clock, but rather observes an ScalarReporter
