@@ -259,21 +259,21 @@ public class IdealGasControlPanel extends JPanel {
         this.gravitySlider.setValue( (int)amt );
     }
 
-    private void setNumParticlesInBox( int numParticles ) {
-        int dn = numParticles - ( getModule().getIdealGasModel().getHeavySpeciesCnt()
-                                  + getModule().getIdealGasModel().getLightSpeciesCnt() );
-        if( dn > 0 ) {
-            for( int i = 0; i < dn; i++ ) {
-                getModule().pumpGasMolecules( 1 );
-            }
-        }
-        else if( dn < 0 ) {
-            for( int i = 0; i < -dn; i++ ) {
-                getModule().removeGasMolecule();
-            }
-        }
-    }
-
+//    private void setNumParticlesInBox( int numParticles ) {
+//        int dn = numParticles - ( getModule().getIdealGasModel().getHeavySpeciesCnt()
+//                                  + getModule().getIdealGasModel().getLightSpeciesCnt() );
+//        if( dn > 0 ) {
+//            for( int i = 0; i < dn; i++ ) {
+//                getModule().pumpGasMolecules( 1 );
+//            }
+//        }
+//        else if( dn < 0 ) {
+//            for( int i = 0; i < -dn; i++ ) {
+//                getModule().removeGasMolecule();
+//            }
+//        }
+//    }
+//
     public void addComponent( Component component ) {
         gbc.gridy++;
         this.add( component, gbc );

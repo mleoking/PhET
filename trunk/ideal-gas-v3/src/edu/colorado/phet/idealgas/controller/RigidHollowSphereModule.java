@@ -119,7 +119,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                       insets, 0, 0 );
-        controlPanel.add( new HollowSphereControlPanel( this, RigidHollowSphereModule.this ), gbc );
+        controlPanel.add( new HollowSphereControlPanel( this, RigidHollowSphereModule.this, sphere ), gbc );
         getIdealGasControlPanel().addParticleControl( controlPanel );
     }
 
@@ -142,6 +142,8 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                 moleculesInSphere.remove( gasMolecule );
             }
         }
+
+        // TODO: this next thing looks really wrong. Why remove something if nothing was found?
         if( !found ) {
             gasMolecule = (GasMolecule)moleculesInSphere.removeFirst();
         }
@@ -163,6 +165,5 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                                                    this );
         cmd.doIt();
         this.sphere.addContainedBody( gm );
-
     }
 }

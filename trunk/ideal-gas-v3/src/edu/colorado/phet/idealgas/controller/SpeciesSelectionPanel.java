@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.LightSpecies;
@@ -103,7 +102,7 @@ public abstract class SpeciesSelectionPanel extends JPanel {
         heavySpinner.setPreferredSize( new Dimension( 50, 20 ) );
         heavySpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int dn = ((Integer)heavySpinner.getValue()).intValue()  - ( module.getIdealGasModel().getHeavySpeciesCnt() );
+                int dn = ((Integer)heavySpinner.getValue()).intValue() - getHeavySpeciesCnt();
                 if( dn > 0 ) {
                     for( int i = 0; i < dn; i++ ) {
                         createMolecule( HeavySpecies.class );
@@ -117,22 +116,13 @@ public abstract class SpeciesSelectionPanel extends JPanel {
             }
         } );
 
-        // Hook the spinner up so it will track molecules put in the box by the pump
-        module.getModel().addObserver( new SimpleObserver() {
-            public void update() {
-                int h = module.getIdealGasModel().getHeavySpeciesCnt();
-                heavySpinner.setValue( new Integer( h ) );
-            }
-        } );
-
-
         // Spinner for light species
         SpinnerNumberModel lightSpinnerModel = new SpinnerNumberModel( value, min, max, step );
         lightSpinner = new JSpinner( lightSpinnerModel );
         lightSpinner.setPreferredSize( new Dimension( 50, 20 ) );
         lightSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int dn = ((Integer)lightSpinner.getValue()).intValue()  - ( module.getIdealGasModel().getLightSpeciesCnt());
+                int dn = ((Integer)lightSpinner.getValue()).intValue()  - getLightSpeciesCnt();
                 if( dn > 0 ) {
                     for( int i = 0; i < dn; i++ ) {
                         createMolecule( LightSpecies.class );
@@ -145,14 +135,6 @@ public abstract class SpeciesSelectionPanel extends JPanel {
                 }
             }
         } );
-
-        // Hook the spinner up so it will track molecules put in the box by the pump
-        module.getModel().addObserver( new SimpleObserver() {
-            public void update() {
-                int h = module.getIdealGasModel().getLightSpeciesCnt();
-                lightSpinner.setValue( new Integer( h ) );
-            }
-        } );
     }
 
     //----------------------------------------------------------------------------------
@@ -162,9 +144,19 @@ public abstract class SpeciesSelectionPanel extends JPanel {
         return module;
     }
 
+    public JSpinner getHeavySpinner() {
+        return heavySpinner;
+    }
+
+    public JSpinner getLightSpinner() {
+        return lightSpinner;
+    }
+
     //----------------------------------------------------------------------------------
     // Abstract methods
     //----------------------------------------------------------------------------------
     protected abstract void createMolecule( Class moleculeClass );
     protected abstract void removeMolecule( Class moleculeClass );
+    protected abstract int getHeavySpeciesCnt();
+    protected abstract int getLightSpeciesCnt();
 }

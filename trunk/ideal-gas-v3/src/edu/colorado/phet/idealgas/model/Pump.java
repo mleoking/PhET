@@ -14,6 +14,9 @@ import edu.colorado.phet.idealgas.controller.GasSource;
 import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
 
 public class Pump extends SimpleObservable implements GasSource {
 
@@ -49,6 +52,11 @@ public class Pump extends SimpleObservable implements GasSource {
     public void pump( int numMolecules ) {
         for( int i = 0; i < numMolecules; i++ ) {
             this.pumpGasMolecule();
+        }
+        MoleculeEvent event = new MoleculeEvent( this, currentGasSpecies, numMolecules );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.moleculesAdded( event );
         }
         return;
     }
@@ -131,4 +139,41 @@ public class Pump extends SimpleObservable implements GasSource {
 
         return newMolecule;
     }
+
+    //-------------------------------------------------------------------------------------
+    // Inner classes
+    //-------------------------------------------------------------------------------------
+    private ArrayList listeners = new ArrayList( );
+
+    public void addListener( Pump.Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Pump.Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    public interface Listener extends EventListener {
+        void moleculesAdded( MoleculeEvent event );
+    }
+
+    public class MoleculeEvent extends EventObject {
+        private Class species;
+        private int numMolecules;
+
+        public MoleculeEvent( Object source, Class species, int numMolecules ) {
+            super( source );
+            this.species = species;
+            this.numMolecules = numMolecules;
+        }
+
+        public Class getSpecies() {
+            return species;
+        }
+
+        public int getNumMolecules() {
+            return numMolecules;
+        }
+    }
+
 }

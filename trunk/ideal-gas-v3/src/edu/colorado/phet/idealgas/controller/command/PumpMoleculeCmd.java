@@ -9,15 +9,21 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.LightSpecies;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 
 public class PumpMoleculeCmd extends AddModelElementCmd {
-    //public class PumpMoleculeCmd implements Command {
 
-    //    protected IdealGasApplication application;
+    //-------------------------------------------------------------
+    // Static fields and methods
+    //-------------------------------------------------------------
+
+    protected static final float DEFAULT_ENERGY = IdealGasModel.DEFAULT_ENERGY;
+
     private GasMolecule molecule;
     private Module module;
     protected Class speciesClass;
@@ -46,22 +52,6 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
             graphic = new LightSpeciesGraphic( module.getApparatusPanel(), molecule );
         }
         idealGasModel.getBox().addContainedBody( molecule );
-        Constraint constraintSpec = new BoxMustContainParticle( idealGasModel.getBox(), molecule, idealGasModel );
-//        molecule.addConstraint( constraintSpec );
         module.getApparatusPanel().addGraphic( graphic, 10 );
     }
-
-    //
-    // Static fields and methods
-    //
-    protected static final float PI_OVER_2 = (float)Math.PI / 2;
-    protected static final float PI_OVER_4 = (float)Math.PI / 4;
-    protected static final float MAX_V = -30;
-
-    protected static final float DEFAULT_ENERGY = IdealGasModel.DEFAULT_ENERGY;
-    // Coordinates of the intake port on the box
-    protected static final float s_intakePortX = 430 + IdealGasConfig.X_BASE_OFFSET;
-    protected static final float s_intakePortY = 400 + IdealGasConfig.Y_BASE_OFFSET;
-    // Offset for dithering the initial position of particles pumped into the box
-    private static float s_intakePortOffsetY = 1;
 }
