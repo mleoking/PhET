@@ -261,7 +261,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                     
                     // Positive tick mark
                     PhetShapeGraphic positiveTick = new PhetShapeGraphic( component );
-                    positiveTick.setShape( new Line2D.Double( 0, 0, 0, length ) );
+                    positiveTick.setShape( new Line2D.Double( 0, 1, 0, length ) );
                     positiveTick.setBorderColor( color );
                     positiveTick.setStroke( stroke );
                     positiveTick.setLocation( PIVOT_POINT );
@@ -271,7 +271,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                     
                     // Negative tick mark
                     PhetShapeGraphic negativeTick = new PhetShapeGraphic( component );
-                    negativeTick.setShape( new Line2D.Double( 0, 0, 0, length ) );
+                    negativeTick.setShape( new Line2D.Double( 0, 1, 0, length ) );
                     negativeTick.setBorderColor( color );
                     negativeTick.setStroke( stroke );
                     negativeTick.setLocation( PIVOT_POINT );
