@@ -10,18 +10,14 @@
  */
 package edu.colorado.phet.common.view;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.SwingUtils;
+
+import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * PhetFrame
@@ -32,25 +28,43 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 public class PhetFrame extends JFrame {
     HelpMenu helpMenu;
     private JMenu defaultFileMenu;
+    private boolean paused;
 
-    public PhetFrame( ApplicationModel appDescriptor ) {
-        super( appDescriptor.getWindowTitle() );
-        this.addWindowListener( new WindowAdapter() {
-            public void windowClosing( WindowEvent e ) {
-                System.exit( 0 );
+    public PhetFrame(final ApplicationModel appDescriptor) {
+        super(appDescriptor.getWindowTitle());
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
             }
-        } );
+
+            // Pause the clock if the simulation window is iconified.
+            public void windowIconified(WindowEvent e) {
+                super.windowIconified(e);
+                paused = appDescriptor.getClock().isPaused(); // save clock state
+                if (!paused) {
+                    appDescriptor.getClock().setPaused(true);
+                }
+            }
+
+            // Restore the clock state if the simulation window is deiconified.
+            public void windowDeiconified(WindowEvent e) {
+                super.windowDeiconified(e);
+                if (!paused) {
+                    appDescriptor.getClock().setPaused(false);
+                }
+            }
+        });
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = new HelpMenu( appDescriptor );
+        this.helpMenu = new HelpMenu(appDescriptor);
         defaultFileMenu = new PhetFileMenu();
-        menuBar.add( defaultFileMenu );
-        menuBar.add( helpMenu );
-        setJMenuBar( menuBar );
-        appDescriptor.getFrameSetup().initialize( this );
+        menuBar.add(defaultFileMenu);
+        menuBar.add(helpMenu);
+        setJMenuBar(menuBar);
+        appDescriptor.getFrameSetup().initialize(this);
     }
 
-    public void setVisible( boolean b ) {
-        super.setVisible( b );
+    public void setVisible(boolean b) {
+        super.setVisible(b);
     }
 
     /**
@@ -58,31 +72,31 @@ public class PhetFrame extends JFrame {
      *
      * @param menu
      */
-    public void addMenu( JMenu menu ) {
-        SwingUtils.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
+    public void addMenu(JMenu menu) {
+        SwingUtils.addMenuAt(menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1);
     }
 
     public void addFileMenuSeparator() {
-        defaultFileMenu.insertSeparator( defaultFileMenu.getComponentCount() + 1 );
+        defaultFileMenu.insertSeparator(defaultFileMenu.getComponentCount() + 1);
     }
 
-    public void addFileMenuItem( JMenuItem menuItem ) {
-        defaultFileMenu.insert( menuItem, defaultFileMenu.getComponentCount() );
+    public void addFileMenuItem(JMenuItem menuItem) {
+        defaultFileMenu.insert(menuItem, defaultFileMenu.getComponentCount());
     }
 
-    public void removeFileMenuItem( JMenuItem menuItem ) {
-        JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
-            getJMenuBar().remove( testMenu );
+    public void removeFileMenuItem(JMenuItem menuItem) {
+        JMenu testMenu = getJMenuBar().getMenu(0);
+        if (testMenu != null && testMenu instanceof PhetFileMenu) {
+            getJMenuBar().remove(testMenu);
         }
-        getJMenuBar().add( defaultFileMenu, 0 );
+        getJMenuBar().add(defaultFileMenu, 0);
     }
 
-    public void setFileMenu( PhetFileMenu defaultFileMenu ) {
-        JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
-            getJMenuBar().remove( testMenu );
+    public void setFileMenu(PhetFileMenu defaultFileMenu) {
+        JMenu testMenu = getJMenuBar().getMenu(0);
+        if (testMenu != null && testMenu instanceof PhetFileMenu) {
+            getJMenuBar().remove(testMenu);
         }
-        getJMenuBar().add( defaultFileMenu, 0 );
+        getJMenuBar().add(defaultFileMenu, 0);
     }
 }
