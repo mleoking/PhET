@@ -24,13 +24,11 @@ public class XmlExercise extends ExerciseModel {
         try {
             // Build the document with SAX and Xerces, no validation
             SAXBuilder builder = new SAXBuilder();
+
             // Create the document
             ClassLoader cl = this.getClass().getClassLoader();
             URL url = cl.getResource( filename );
             Document doc = builder.build( url );
-            // Output the document, use standard formatter
-            XMLOutputter fmt = new XMLOutputter();
-            fmt.output( doc, System.out );
 
             Element root = doc.getRootElement();
             Element question = root.getChild( "question" );

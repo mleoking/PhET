@@ -24,8 +24,7 @@ import java.util.Random;
  * Time: 9:09:55 AM
  */
 
-public class
-        CockpitModuleTest {
+public class CockpitModuleTest {
     private static ApplicationDescriptor appDesc;
     private Color[] colors = new Color[] { Color.green, Color.magenta, Color.orange,
                                            Color.white, Color.yellow };

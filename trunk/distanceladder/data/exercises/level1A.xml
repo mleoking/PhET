@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<exercise>
+	<question>
+        <![CDATA[
+        <html>Can you tell which star is farthest from you?</html>
+        ]]>
+	</question>
+	<choice id="A" >
+		<text>The red star</text>
+	</choice>
+		<choice id="B" >
+		<text>The blue star</text>
+	</choice>
+	<choice id="C" >
+		<text>The green star</text>
+	</choice>
+		<choice id="D" >
+		<text>The yellow star</text>
+	</choice>
+	<answer id="D"/>
+	<numTries num="1" />
+</exercise>

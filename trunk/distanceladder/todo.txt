@@ -1,6 +1,9 @@
-- fix distortion when turning
+- Fix tranform for hit detection in Joystick. Currently using JoystickTx, but that doesn't seem
+to work.
 
-- resize star graphics as ship gets closer and farther from star
+- Fix clipping at sides of StarView
+
+- Fix model so you don't have to call setStarField() to get the views to update.
 
 - Handle situation where cockpit is at same location as a star. The isVisible test needs to handle this.
 

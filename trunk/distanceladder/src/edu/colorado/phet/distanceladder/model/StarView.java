@@ -31,6 +31,7 @@ public class StarView extends SimpleObservable implements SimpleObserver {
     public StarView( Starship starship, StarField starField, double viewAngle, Rectangle2D.Double bounds ) {
         this.starship = starship;
         starship.addObserver( this );
+        starField.addObserver( this );
         this.starField = starField;
         this.viewAngle = viewAngle;
         this.bounds = bounds;

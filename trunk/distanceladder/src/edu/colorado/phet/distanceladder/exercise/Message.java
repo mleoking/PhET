@@ -7,6 +7,9 @@
  */
 package edu.colorado.phet.distanceladder.exercise;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class Message {
     private String text;
 
@@ -23,5 +26,11 @@ public class Message {
 
     public void setText( String text ) {
         this.text = text;
+    }
+
+    public void display() {
+        JEditorPane textPane = new JEditorPane( "text/html", getText() );
+        textPane.setPreferredSize( new Dimension( 500, 400 ));
+        JOptionPane.showMessageDialog( null, new JScrollPane( textPane ));
     }
 }
