@@ -97,12 +97,14 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         final Stroke ringStroke = new BasicStroke( 2f );
         ringGraphic = new Graphic() {
             public void paint( Graphics2D g ) {
-                GraphicsUtil.setAntiAliasingOn( g );
-                GraphicsUtil.setAlpha( g, 0.3 );
-                g.setColor( Color.blue );
-                g.setStroke( ringStroke );
-                g.draw( alphaRing );
-                GraphicsUtil.setAlpha( g, 1 );
+                if( alphaRing != null ) {
+                    GraphicsUtil.setAntiAliasingOn( g );
+                    GraphicsUtil.setAlpha( g, 0.3 );
+                    g.setColor( Color.blue );
+                    g.setStroke( ringStroke );
+                    g.draw( alphaRing );
+                    GraphicsUtil.setAlpha( g, 1 );
+                }
             }
         };
         this.getPhysicalPanel().addOriginCenteredGraphic( ringGraphic );
@@ -111,12 +113,14 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         final Stroke leaderLineStroke = new BasicStroke( 1f );
         leaderLines = new Graphic() {
             public void paint( Graphics2D g ) {
-                g.setColor( Color.black );
-                g.setStroke( leaderLineStroke );
-                GraphicsUtil.setAlpha( g, 0.3 );
-                g.draw( leaderLine1 );
-                g.draw( leaderLine2 );
-                GraphicsUtil.setAlpha( g, 1 );
+                if( leaderLine1 != null && leaderLine2 != null ) {
+                    g.setColor( Color.black );
+                    g.setStroke( leaderLineStroke );
+                    GraphicsUtil.setAlpha( g, 0.3 );
+                    g.draw( leaderLine1 );
+                    g.draw( leaderLine2 );
+                    GraphicsUtil.setAlpha( g, 1 );
+                }
             }
         };
         this.getPhysicalPanel().addOriginCenteredGraphic( leaderLines );
@@ -124,12 +128,19 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     }
 
     private void setRingAttributes( Nucleus nucleus ) {
-        double radius = Math.abs( nucleus.getPotentialProfile().getAlphaDecayX() );
-        double x = getNucleus().getLocation().getX() - radius;
-        double y = getNucleus().getLocation().getY() - radius;
-        alphaRing = new Ellipse2D.Double( x, y, radius * 2, radius * 2 );
-        leaderLine1 = new Line2D.Double( x, -1000, x, 1000 );
-        leaderLine2 = new Line2D.Double( x + radius * 2, -1000, x + radius * 2, 1000 );
+        if( nucleus.getPotentialProfile().getAlphaDecayX() < 0 ) {
+            double radius = Math.abs( nucleus.getPotentialProfile().getAlphaDecayX() );
+            double x = getNucleus().getLocation().getX() - radius;
+            double y = getNucleus().getLocation().getY() - radius;
+            alphaRing = new Ellipse2D.Double( x, y, radius * 2, radius * 2 );
+            leaderLine1 = new Line2D.Double( x, -1000, x, 1000 );
+            leaderLine2 = new Line2D.Double( x + radius * 2, -1000, x + radius * 2, 1000 );
+        }
+        else {
+            alphaRing = null;
+            leaderLine1 = null;
+            leaderLine2 = null;
+        }
     }
 
     public void alphaDecay( AlphaDecayProducts decayProducts ) {
