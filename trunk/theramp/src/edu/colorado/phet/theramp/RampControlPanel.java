@@ -18,11 +18,14 @@ import java.awt.event.ActionListener;
  */
 
 public class RampControlPanel extends ControlPanel {
+    private RampModule rampModule;
+
     /**
      * @param module
      */
     public RampControlPanel( final RampModule module ) {
         super( module );
+        this.rampModule = module;
         JButton3D jb = new JButton3D( "Reset" );
         add( jb );
         jb.addActionListener( new ActionListener() {
@@ -77,38 +80,38 @@ public class RampControlPanel extends ControlPanel {
         JPanel forcePanel = new VerticalLayoutPanel();
         forcePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Forces to Show" ) );
 
-        final JCheckBox showFriction = new JCheckBox( "Friction",true );
+        final JCheckBox showFriction = new JCheckBox( "Friction", true );
         showFriction.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showFriction.getText(), showFriction.isSelected() );
             }
         } );
 
-        final JCheckBox showApplied = new JCheckBox( "Applied",true );
+        final JCheckBox showApplied = new JCheckBox( "Applied", true );
         showApplied.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showApplied.getText(), showApplied.isSelected() );
             }
         } );
-        final JCheckBox showTotal = new JCheckBox( "Total",true );
+        final JCheckBox showTotal = new JCheckBox( "Total", true );
         showTotal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showTotal.getText(), showTotal.isSelected() );
             }
         } );
-        final JCheckBox showWall = new JCheckBox( "Wall",true );
+        final JCheckBox showWall = new JCheckBox( "Wall", true );
         showWall.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showWall.getText(), showWall.isSelected() );
             }
         } );
-        final JCheckBox showGravity = new JCheckBox( "Gravitational",true );
+        final JCheckBox showGravity = new JCheckBox( "Gravitational", true );
         showGravity.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showGravity.getText(), showGravity.isSelected() );
             }
         } );
-        final JCheckBox showNormal = new JCheckBox( "Normal",true );
+        final JCheckBox showNormal = new JCheckBox( "Normal", true );
         showNormal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showNormal.getText(), showNormal.isSelected() );
@@ -122,5 +125,12 @@ public class RampControlPanel extends ControlPanel {
         forcePanel.add( showNormal );
 
         add( forcePanel );
+
+        ObjectComboBox ocb = new ObjectComboBox( module.getRampObjects(), this );
+        add( ocb );
+    }
+
+    public void setup( RampObject rampObject ) {
+        rampModule.setObject( rampObject );
     }
 }

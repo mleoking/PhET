@@ -4,7 +4,6 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.model.Ramp;
 import edu.colorado.phet.theramp.model.RampModel;
@@ -13,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -40,6 +38,10 @@ public class RampPanel extends ApparatusPanel2 {
     private AnimationStep animationStep;
     private Timer animationTimer;
     private ActionListener animator;
+
+    public Dimension getRenderingSize() {
+        return new Dimension( 1061, 871 );
+    }
 
     public static interface AnimationStep {
         boolean step();
@@ -197,7 +199,7 @@ public class RampPanel extends ApparatusPanel2 {
                     animationStep = new Zooming( RampPanel.this, 0.9 );
                     animationTimer.start();
                 }
-                if (e.getKeyCode()==KeyEvent.VK_CONTROL){
+                if( e.getKeyCode() == KeyEvent.VK_CONTROL ) {
 //                    Rectangle2D vp=new Zooming( RampPanel.this, 1).getViewPort();
 //                    System.out.println( "vp = " + vp );
                 }
@@ -207,7 +209,7 @@ public class RampPanel extends ApparatusPanel2 {
                 animationTimer.stop();
                 animationStep = null;
                 if( e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
-                    setReferenceSize( 1061, 871 );//my special little rendering size.
+                    setReferenceSize( getRenderingSize() );//my special little rendering size.
                     setViewPortOrigin( 0, 0 );
                 }
                 else if( e.getKeyCode() == KeyEvent.VK_1 ) {
@@ -231,7 +233,7 @@ public class RampPanel extends ApparatusPanel2 {
                 System.out.println( "e = " + e );
                 Rectangle b = getBounds();
                 System.out.println( "b = " + b );
-                setReferenceSize( 1061, 871 );//my special little rendering size.
+                setReferenceSize( getRenderingSize() );//my special little rendering size.
                 requestFocus();
             }
         } );

@@ -16,7 +16,7 @@ public class Block extends SimpleObservable {
     private Ramp ramp;
 
     private double mass = 5;//kg
-    private double position = 0.0;
+    private double position = 5.0;
     private double velocity = 0.0;//m/s
     private double acceleration = 0.0;
     private double kineticFriction = 0.50;
@@ -76,6 +76,18 @@ public class Block extends SimpleObservable {
 
     public void setVelocity( double v ) {
         this.velocity = v;
+    }
+
+    public void setMass( double mass ) {
+        this.mass = mass;
+    }
+
+    public void setStaticFriction( double staticFriction ) {
+        this.staticFriction = staticFriction;
+    }
+
+    public void setKineticFriction( double kineticFriction ) {
+        this.kineticFriction = kineticFriction;
     }
 
     static class Sign {

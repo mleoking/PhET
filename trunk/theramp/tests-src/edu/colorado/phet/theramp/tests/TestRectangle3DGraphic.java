@@ -31,10 +31,10 @@ public class TestRectangle3DGraphic {
         Stroke stroke = new BasicStroke( 5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND );
         Rectangle rectangle = new Rectangle( 100, 100, 50, 200 );
         Paint paint = new GradientPaint( 0, 0, Color.red, 0, 600, Color.blue, true );
-        final Rectangle3DGraphic rectangle3DGraphic = new Rectangle3DGraphic( ap, rectangle, paint, stroke, paint, paint, 30,-30, Color.black );
-        final Rectangle3DGraphic rectangle3DGraphic2 = new Rectangle3DGraphic( ap, rectangle, paint, stroke, paint, paint, 30,30, Color.black );
-        final Rectangle3DGraphic rectangle3DGraphic3 = new Rectangle3DGraphic( ap, rectangle, paint, stroke, paint, paint, -30,-30, Color.black );
-        final Rectangle3DGraphic rectangle3DGraphic4 = new Rectangle3DGraphic( ap, rectangle, paint, stroke, paint, paint, -30,30, Color.black );
+        final Rectangle3DGraphic rectangle3DGraphic = new Rectangle3DGraphic( ap, rectangle, paint, stroke, paint, paint, 30, -30, Color.black );
+        final Rectangle3DGraphic rectangle3DGraphic2 = new Rectangle3DGraphic( ap, rectangle, paint, stroke, paint, paint, 30, 30, Color.black );
+        final Rectangle3DGraphic rectangle3DGraphic3 = new Rectangle3DGraphic( ap, rectangle, paint, stroke, paint, paint, -30, -30, Color.black );
+        final Rectangle3DGraphic rectangle3DGraphic4 = new Rectangle3DGraphic( ap, rectangle, paint, stroke, paint, paint, -30, 30, Color.black );
 //        final Rectangle3DGraphic rectangle3DGraphic = new Rectangle3DGraphic( ap, rectangle, paint, stroke, paint, paint, 30,30, Color.black );
         ap.addGraphicsSetup( new BasicGraphicsSetup() );
         ap.addGraphic( rectangle3DGraphic );
@@ -49,17 +49,18 @@ public class TestRectangle3DGraphic {
         clock.start();
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
-                int height = Math.abs( (int)( 300 * Math.sin( .001 * System.currentTimeMillis() ) + 30 ) );
+//                int height = Math.abs( (int)( 300 * Math.sin( .001 * System.currentTimeMillis() ) + 30 ) );
+                int height = ( (int)( 300 * Math.sin( .001 * System.currentTimeMillis() ) + 30 ) );
                 int y0 = 400;
                 Rectangle r2 = new Rectangle( 100, y0 - height, 50, height );
-                Rectangle r11=new Rectangle( r2);
-                r11.x=200;
+                Rectangle r11 = new Rectangle( r2 );
+                r11.x = 200;
 
-                Rectangle r12=new Rectangle( r2);
-                r12.x=300;
+                Rectangle r12 = new Rectangle( r2 );
+                r12.x = 300;
 
-                Rectangle r13=new Rectangle( r2);
-                r13.x=400;
+                Rectangle r13 = new Rectangle( r2 );
+                r13.x = 400;
                 rectangle3DGraphic.setRectangle( r2 );
                 rectangle3DGraphic2.setRectangle( r11 );
                 rectangle3DGraphic3.setRectangle( r12 );
