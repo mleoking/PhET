@@ -1,6 +1,10 @@
 "To Do" list for "colorvision3" project
 
 HIGH:
+o fix problem with PhotonBeam emitting one zero-intensity photon
+o make PhotonBeam graphic render zero-intensity photons as invisible
+o fix problem with updating sliders while simulation is paused
+o perceived color doesn't go to black when filter blocks all photons
 (DONE) o pre-fitler beam sometimes not visible
 (DONE) o photons slow way down when switching filter on
 (DONE) o new images for filter switch
