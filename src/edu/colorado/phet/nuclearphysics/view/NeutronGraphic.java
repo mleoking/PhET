@@ -14,7 +14,11 @@ public class NeutronGraphic extends ParticleGraphic {
 
     private static Color color = Color.gray;
 
-    public NeutronGraphic( Particle particle) {
+    public NeutronGraphic() {
+        super( color );
+    }
+
+    public NeutronGraphic( Particle particle ) {
         super( particle, NeutronGraphic.color );
     }
 }

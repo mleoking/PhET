@@ -14,7 +14,7 @@ public class Particle {
 
     public Particle( Point2D.Double position ) {
         this.position = position;
-        this.radius = 5;
+        this.radius = RADIUS;
     }
 
     public Point2D.Double getPosition() {
@@ -28,4 +28,9 @@ public class Particle {
     public double getRadius() {
         return this.radius;
     }
+
+    //
+    // Statics
+    //
+    public final static double RADIUS = 5;
 }

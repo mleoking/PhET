@@ -6,12 +6,17 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
+import java.awt.geom.Point2D;
+
 public class Nucleus {
     private int numProtons;
     private int numNeutrons;
     private PotentialProfile potentialProfile;
+    private Point2D.Double position;
 
-    public Nucleus( int numProtons, int numNeutrons, PotentialProfile potentialProfile ) {
+    public Nucleus( Point2D.Double position, int numProtons, int numNeutrons,
+                    PotentialProfile potentialProfile ) {
+        this.position = position;
         this.numProtons = numProtons;
         this.numNeutrons = numNeutrons;
         this.potentialProfile = potentialProfile;
@@ -27,5 +32,9 @@ public class Nucleus {
 
     public PotentialProfile getPotentialProfile() {
         return potentialProfile;
+    }
+
+    public Point2D.Double getPosition() {
+        return position;
     }
 }
