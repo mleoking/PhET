@@ -10,17 +10,16 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
+import edu.colorado.phet.common.util.MultiMap;
+import edu.colorado.phet.common.view.util.RectangleUtils;
+
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.swing.event.MouseInputListener;
-
-import edu.colorado.phet.common.util.MultiMap;
-import edu.colorado.phet.common.view.util.RectangleUtils;
 
 /**
  * GraphicLayerSet is a collection of PhetGraphics (referred to as "children").
@@ -51,25 +50,22 @@ public class GraphicLayerSet extends PhetGraphic {
     /**
      * Paints all PhetGraphics in order on the Graphics2D device
      *
-     * @param g the Graphics2D on which to paint.
+     * @param g2 the Graphics2D on which to paint.
      */
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
             super.saveGraphicsState( g2 );
-            
             // Apply rendering hints to all children.
             RenderingHints hints = getRenderingHints();
             if( hints != null ) {
                 g2.setRenderingHints( hints );
             }
-            
             // Iterate over each child graphic.
             Iterator it = graphicMap.iterator();
             while( it.hasNext() ) {
                 PhetGraphic graphic = (PhetGraphic)it.next();
                 graphic.paint( g2 );//The children know about our transform implicitly.  They handle the transform.
             }
-            
             super.restoreGraphicsState();
         }
     }
@@ -192,8 +188,7 @@ public class GraphicLayerSet extends PhetGraphic {
     public void addGraphic( PhetGraphic graphic, double layer ) {
         this.graphicMap.put( new Double( layer ), graphic );
         graphic.setParent( this );
-        setBoundsDirty();
-        graphic.repaint();//Automatically repaint the added graphic.
+        graphic.autorepaint();//Automatically repaint the added graphic.
     }
 
     /**
@@ -328,6 +323,10 @@ public class GraphicLayerSet extends PhetGraphic {
         }
     }
 
+    public MultiMap getGraphicMap() {
+        return graphicMap;
+    }
+
     //////////////////////////////////////////////////////////////
     // Inner classes
     //
@@ -379,6 +378,9 @@ public class GraphicLayerSet extends PhetGraphic {
         public void mouseReleased( MouseEvent e ) {
             if( activeUnit != null ) {
                 activeUnit.fireMouseReleased( e );
+                activeUnit = null;//needs to stop getting drag events.
+                //TODO one debug session suggests that two mousereleased events may be getting fired.
+                //TODO having trouble repeating this, though.
             }
         }
 
@@ -416,4 +418,5 @@ public class GraphicLayerSet extends PhetGraphic {
             }
         }
     }
+
 }
