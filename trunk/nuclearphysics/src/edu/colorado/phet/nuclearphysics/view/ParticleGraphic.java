@@ -18,6 +18,7 @@ public class ParticleGraphic implements Graphic, SimpleObserver {
     private NuclearParticle particle;
     private Point2D.Double position = new Point2D.Double();
     private Color color;
+    private double radius = 20;
 
     protected ParticleGraphic( Color color ) {
         this.color = color;
@@ -67,7 +68,6 @@ public class ParticleGraphic implements Graphic, SimpleObserver {
     //
     // Statics
     //
-    private static double radius = 20;
     private static Stroke outlineStroke = new BasicStroke( 0.5f );
 
 }
