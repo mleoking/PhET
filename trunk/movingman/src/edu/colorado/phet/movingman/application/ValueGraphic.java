@@ -2,7 +2,7 @@
 package edu.colorado.phet.movingman.application;
 
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
-import edu.colorado.phet.movingman.common.HTMLGraphic;
+import edu.colorado.phet.movingman.common.PhetTextGraphic;
 import edu.colorado.phet.movingman.elements.BoxedPlot;
 import edu.colorado.phet.movingman.elements.DataSeries;
 import edu.colorado.phet.movingman.elements.Timer;
@@ -19,18 +19,19 @@ import java.util.Observable;
  */
 public class ValueGraphic implements ObservingGraphic {
     private MovingManModule module;
-    Timer recordingTimer;
+    private Timer recordingTimer;
     private Timer playbackTimer;
     private DataSeries series;
     private String pre;
     private String unitsString;
-    DecimalFormat format = new DecimalFormat( "#0.00" );
+    private DecimalFormat format = new DecimalFormat( "#0.00" );
     private String output;
-    Font font = new Font( "Lucida Sans", 0, 20 );
-    Color color = Color.black;
+    private Font font = new Font( "Lucida Sans", 0, 20 );
+    private Color color = Color.black;
     private BoxedPlot offsetSource;
     private boolean visible = true;
-    HTMLGraphic htmlGraphic;
+//    private HTMLGraphic htmlGraphic;
+    private PhetTextGraphic htmlGraphic;
 
     public ValueGraphic( MovingManModule module, Timer timer, Timer playbackTimer, DataSeries series, String pre, String units, int x, int y, BoxedPlot offsetSource ) {
         this.module = module;
@@ -42,13 +43,21 @@ public class ValueGraphic implements ObservingGraphic {
         this.offsetSource = offsetSource;
         timer.addObserver( this );
         playbackTimer.addObserver( this );
-        htmlGraphic = new HTMLGraphic( "", font, color, x, y );
+//        htmlGraphic = new HTMLGraphic( "", font, color, x, y );
+        htmlGraphic = new PhetTextGraphic( module.getApparatusPanel(), font, "", color, x, y );
     }
 
     public void paint( Graphics2D g ) {
         if( output != null && visible ) {
-            htmlGraphic.paint( g );
+//            htmlGraphic.paint( g );
+            g.setFont( font );
+            g.setColor( color );
+            g.drawString( htmlGraphic.getText(), htmlGraphic.getX(), htmlGraphic.getY() );
         }
+        Shape s1 = getShape();
+        g.setStroke( new BasicStroke() );
+        g.setColor( Color.blue );
+        g.draw( s1 );
     }
 
     public void update( Observable o, Object arg ) {
@@ -66,9 +75,28 @@ public class ValueGraphic implements ObservingGraphic {
             if( valueString.equals( "-0.00" ) ) {
                 valueString = "0.00";
             }
-            this.output = "<html>" + pre + valueString + " " + unitsString + "</html>";
-            htmlGraphic.setText( output );
+            String orig = this.output + "";
+            Rectangle r1 = getShape();
+            this.output = makeOutput( valueString );
+
+            if( !orig.equals( this.output ) ) {
+                htmlGraphic.setText( output );
+                paintImmediately( r1, getShape() );
+            }
         }
+    }
+
+    private String makeOutput( String valueString ) {
+        return pre + valueString + " " + unitsString;
+    }
+
+    private void paintImmediately( Rectangle r1, Rectangle shape ) {
+        Rectangle union = r1.union( shape );
+        module.getApparatusPanel().paintImmediately( union );
+    }
+
+    private Rectangle getShape() {
+        return htmlGraphic.getBounds();
     }
 
     public void setPosition( int x, int y ) {

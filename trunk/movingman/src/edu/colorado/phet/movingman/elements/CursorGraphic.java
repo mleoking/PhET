@@ -10,6 +10,7 @@ import edu.colorado.phet.movingman.application.MovingManModule;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 
 /**
@@ -31,6 +32,7 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
     private BoxToBoxInvertY inversion;
     boolean visible = false;
     private Stroke stroke = new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL, 2, new float[]{6, 4}, 0 );
+    private Stroke dummystroke = new BasicStroke( 2.0f );
 
     public CursorGraphic( MovingManModule module, Timer timer, Color color, BoxToBoxInvertY transform, int y, int height ) {
         this.module = module;
@@ -77,7 +79,19 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
         }
         double time = timer.getTime();
         double coordinate = transform.transform( new Point2D.Double( time, 0 ) ).x;
+        Rectangle origShape = getShape();
         this.x = (int)coordinate - width / 2;
+        Rectangle newShape = getShape();
+        paintImmediately( origShape, newShape );
+    }
+
+    private void paintImmediately( Rectangle s1, Rectangle s2 ) {
+        Rectangle union = s1.union( s2 );
+        module.getApparatusPanel().paintImmediately( union );
+    }
+
+    private Rectangle getShape() {
+        return dummystroke.createStrokedShape( new Rectangle2D.Double( x, y, width, height ) ).getBounds();
     }
 
     public boolean canHandleMousePress( MouseEvent event ) {

@@ -14,6 +14,7 @@ import edu.colorado.phet.movingman.common.ImageFlip3;
 import edu.colorado.phet.movingman.common.RescaleOp3;
 import edu.colorado.phet.movingman.common.tests.IdeaGraphic2;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -44,71 +45,91 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     private ArrowWithFixedSizeArrowhead arrow;
     private IdeaGraphic2 motionIdea;
     private ArrowWithFixedSizeArrowhead motionArrow;
+    double lastx = 0;
 
     public ManGraphic( MovingManModule module, Man m, int y, RangeToRange transform ) throws IOException {
         this.module = module;
         this.m = m;
         this.y = y;
         this.transform = transform;
-        ImageLoader loader = new ImageLoader();
-//        standingMan = loader.loadBufferedImage( "images/stand-150.gif" );
-        standingMan = loader.loadBufferedImage( "images/stand-ii.gif" );
-//        leftMan = loader.loadBufferedImage( "images/left-150.gif" );
-        leftMan = loader.loadBufferedImage( "images/left-ii.gif" );
+        standingMan = ImageLoader.loadBufferedImage( "images/stand-ii.gif" );
+        leftMan = ImageLoader.loadBufferedImage( "images/left-ii.gif" );
         int height = 120;
-        standingMan = RescaleOp3.rescaleYMaintainAspectRatio( standingMan, height );
-        leftMan = RescaleOp3.rescaleYMaintainAspectRatio( leftMan, height );
+        JFrame frame = new JFrame();
+        frame.setContentPane( module.getApparatusPanel() );
+        module.getApparatusPanel().setVisible( true );
+        frame.setVisible( true );
+        standingMan = RescaleOp3.rescaleYMaintainAspectRatio( module.getApparatusPanel(), standingMan, height );
+        leftMan = RescaleOp3.rescaleYMaintainAspectRatio( module.getApparatusPanel(), leftMan, height );
         rightMan = ImageFlip3.flipX( leftMan );
 
         currentImage = standingMan;
         m.addObserver( this );
         m.updateObservers();
         inversion = transform.invert();
+        update();
     }
 
-    double lastx = 0;
+    public void update() {
+        update( null, null );
+    }
 
     public void setShowIdea( boolean showIdea ) {
-        this.showIdea = showIdea;
+        if( this.showIdea != showIdea ) {
+            this.showIdea = showIdea;
+            module.getApparatusPanel().repaint();
+        }
     }
 
     public void paint( Graphics2D g ) {
         g.drawImage( currentImage, x - currentImage.getWidth() / 2, y, null );
-
         if( showIdea ) {
-            if( ideaGraphic == null ) {
-                g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-                Color lightBlue = module.getPurple();
-                Font ideaFont = new Font( "Lucida", Font.ITALIC, 18 );
-
-                BufferedImage ideaImage = null;
-                try {
-                    ideaImage = ImageLoader.loadBufferedImage( "images/icons/TipOfTheDay24.gif" );
-                }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
-                int ideaX = module.getApparatusPanel().getWidth() / 8;
-                ideaGraphic = new IdeaGraphic2( true, ideaX, y + 250, new String[]{"Drag the man"},
-                                                g.getFontRenderContext(), ideaFont, Color.black, ideaImage, lightBlue );
-                int motionIdeaX = (int)( module.getApparatusPanel().getWidth() * .6 );
-                arrow = new ArrowWithFixedSizeArrowhead( Color.black, 10 );
-                motionIdea = new IdeaGraphic2( true, motionIdeaX, y + 270, new String[]{"Or choose a premade motion."}, g.getFontRenderContext(),
-                                               ideaFont, Color.black, ideaImage, lightBlue );
-                motionArrow = new ArrowWithFixedSizeArrowhead( Color.black, 10 );
-            }
-            ideaGraphic.paint( g );
-            motionIdea.paint( g );
-            Point ideaCenter = ideaGraphic.getImageCenter();
-            arrow.drawLine( g, ideaCenter.x, ideaCenter.y, x - currentImage.getWidth() / 2, y + currentImage.getHeight() / 2 );
-
-            Point motionCenter = motionIdea.getImageCenter();
-            motionArrow.drawLine( g, motionCenter.x, motionCenter.y, module.getApparatusPanel().getWidth(), 85 );
-
+            paintIdea( g );
         }
+    }
+
+    private void paintIdea( Graphics2D g ) {
+        if( ideaGraphic == null ) {
+            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            Color lightBlue = module.getPurple();
+            Font ideaFont = new Font( "Lucida", Font.ITALIC, 18 );
+
+            BufferedImage ideaImage = null;
+            try {
+                ideaImage = ImageLoader.loadBufferedImage( "images/icons/TipOfTheDay24.gif" );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            int ideaX = module.getApparatusPanel().getWidth() / 8;
+            ideaGraphic = new IdeaGraphic2( true, ideaX, y + 250, new String[]{"Drag the man"},
+                                            g.getFontRenderContext(), ideaFont, Color.black, ideaImage, lightBlue );
+            int motionIdeaX = (int)( module.getApparatusPanel().getWidth() * .6 );
+            arrow = new ArrowWithFixedSizeArrowhead( Color.black, 10 );
+            motionIdea = new IdeaGraphic2( true, motionIdeaX, y + 270, new String[]{"Or choose a premade motion."}, g.getFontRenderContext(),
+                                           ideaFont, Color.black, ideaImage, lightBlue );
+            motionArrow = new ArrowWithFixedSizeArrowhead( Color.black, 10 );
+        }
+        ideaGraphic.paint( g );
+        motionIdea.paint( g );
+        Point ideaCenter = ideaGraphic.getImageCenter();
+        arrow.drawLine( g, ideaCenter.x, ideaCenter.y, x - currentImage.getWidth() / 2, y + currentImage.getHeight() / 2 );
+
+        Point motionCenter = motionIdea.getImageCenter();
+        motionArrow.drawLine( g, motionCenter.x, motionCenter.y, module.getApparatusPanel().getWidth(), 85 );
+    }
+
+    public void update( Observable o, Object arg ) {
+        Rectangle origRectangle = getRectangle();
+
+        double output = transform.evaluate( m.getX() );
+        int oldX = x;
+        this.x = (int)output;
+
         cb.addPoint( x - lastx );
         lastx = x;
         double velocity = cb.average();
+        BufferedImage origImage = currentImage;
         if( velocity == 0 && currentImage != this.standingMan ) {
             currentImage = this.standingMan;
         }
@@ -118,11 +139,14 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
         else if( velocity > 0 && currentImage != this.rightMan ) {
             currentImage = this.rightMan;
         }
+        if( oldX != x || origImage != currentImage ) {
+            paintImmediately( origRectangle, getRectangle() );
+        }
     }
 
-    public void update( Observable o, Object arg ) {
-        double output = transform.evaluate( m.getX() );
-        this.x = (int)output;
+    private void paintImmediately( Rectangle r1, Rectangle r2 ) {
+        Rectangle union = r1.union( r2 );
+        module.getApparatusPanel().paintImmediately( union );
     }
 
     public boolean canHandleMousePress( MouseEvent event ) {
@@ -150,15 +174,15 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
             module.getMovingManControlPanel().startRecordingManual();
         }
         final Point newPt = dragHandler.getNewLocation( event.getPoint() );
-        Rectangle curRect = new Rectangle( x - currentImage.getWidth() / 2, y, currentImage.getWidth(), currentImage.getHeight() );
+//        Rectangle curRect = getRectangle();
         int graphicsPt = newPt.x;
         double manPoint = inversion.evaluate( graphicsPt );
         m.setX( manPoint );
-        Rectangle newRect = new Rectangle( x - currentImage.getWidth() / 2, y, currentImage.getWidth(), currentImage.getHeight() );
-        Rectangle total = newRect.union( curRect );
-
-        module.getApparatusPanel().paintImmediately( total );
         setShowIdea( false );
+    }
+
+    public Rectangle getRectangle() {
+        return new Rectangle( x - currentImage.getWidth() / 2, y, currentImage.getWidth(), currentImage.getHeight() );
     }
 
     public void mouseReleased( MouseEvent event ) {
