@@ -43,18 +43,18 @@ public class PhetTextGraphic extends PhetGraphic {
         setRegistrationPoint( 0, -height );
     }
 
-    public void paint( Graphics2D g ) {
+    public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
-            g.setFont( font );
-            g.setColor( color );
-            g.transform( getNetTransform() );
-            g.drawString( text, 0, 0 );
-            try {
-                g.transform( getNetTransform().createInverse() );
+            super.saveGraphicsState( g2 );
+            RenderingHints hints = getRenderingHints();
+            if( hints != null ) {
+                g2.setRenderingHints( hints );
             }
-            catch( NoninvertibleTransformException e ) {
-                e.printStackTrace();
-            }
+            g2.setFont( font );
+            g2.setColor( color );
+            g2.transform( getNetTransform() );
+            g2.drawString( text, 0, 0 );
+            super.restoreGraphicsState();
         }
     }
 

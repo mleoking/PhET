@@ -33,15 +33,17 @@ public class PhetShadowTextGraphic extends PhetGraphic {
         setLocation( x, y );
     }
 
-    public void paint( Graphics2D g ) {
-        g.transform( getNetTransform() );
-        background.paint( g );
-        foreground.paint( g );
-        try {
-            g.transform( getNetTransform().createInverse() );
-        }
-        catch( NoninvertibleTransformException e ) {
-            e.printStackTrace();
+    public void paint( Graphics2D g2 ) {
+        if ( isVisible() ) {
+            super.saveGraphicsState( g2 );
+            RenderingHints hints = getRenderingHints();
+            if( hints != null ) {
+                g2.setRenderingHints( hints );
+            }
+            g2.transform( getNetTransform() );
+            background.paint( g2 );
+            foreground.paint( g2 );
+            super.restoreGraphicsState();
         }
     }
 

@@ -73,31 +73,25 @@ public class PhetShapeGraphic extends PhetGraphic {
         this.border = border;
     }
 
-    public void paint( Graphics2D g ) {
+    public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
-            super.saveGraphicsState( g );
+            super.saveGraphicsState( g2 );
             RenderingHints hints = super.getRenderingHints();
             if( hints != null ) {
-                g.setRenderingHints( hints );
+                g2.setRenderingHints( hints );
             }
             if( shape != null ) {
-                g.transform( getNetTransform() );
+                g2.transform( getNetTransform() );
                 if( fill != null ) {
-                    g.setPaint( fill );
-                    g.fill( shape );
+                    g2.setPaint( fill );
+                    g2.fill( shape );
                 }
                 if( stroke != null ) {
-                    g.setPaint( border );
-                    Stroke origStroke = g.getStroke();
-                    g.setStroke( stroke );
-                    g.draw( shape );
-                    g.setStroke( origStroke );
-                }
-                try {
-                    g.transform( getNetTransform().createInverse() );
-                }
-                catch( NoninvertibleTransformException e ) {
-                    e.printStackTrace();
+                    g2.setPaint( border );
+                    Stroke origStroke = g2.getStroke();
+                    g2.setStroke( stroke );
+                    g2.draw( shape );
+                    g2.setStroke( origStroke );
                 }
             }
             super.restoreGraphicsState();

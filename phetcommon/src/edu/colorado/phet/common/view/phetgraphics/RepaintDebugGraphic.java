@@ -51,15 +51,17 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         this.alpha = alpha;
     }
 
-    public void paint( Graphics2D gr ) {
-
+    public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
-            GraphicsState state = new GraphicsState( gr );
-            gr.setColor( new Color( r, g, b, alpha ) );
-
-            gr.setTransform( new AffineTransform() );
-            gr.fillRect( 0, 0, panel.getWidth(), panel.getHeight() );
-            state.restoreGraphics();
+            super.saveGraphicsState( g2 );
+            RenderingHints hints = getRenderingHints();
+            if( hints != null ) {
+                g2.setRenderingHints( hints );
+            }
+            g2.setColor( new Color( r, g, b, alpha ) );
+            g2.setTransform( new AffineTransform() );
+            g2.fillRect( 0, 0, panel.getWidth(), panel.getHeight() );
+            super.restoreGraphicsState();
         }
     }
 

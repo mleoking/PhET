@@ -103,8 +103,16 @@ public class BufferedPhetGraphic extends PhetGraphic {
         }
     }
 
-    public void paint( Graphics2D g ) {
-        imageGraphic.paint( g );
+    public void paint( Graphics2D g2 ) {
+        if ( isVisible() ) {
+          super.saveGraphicsState( g2 );
+          RenderingHints hints = getRenderingHints();
+          if( hints != null ) {
+              g2.setRenderingHints( hints );
+          }
+          imageGraphic.paint( g2 );
+          super.restoreGraphicsState();
+        }
     }
 
     public void addGraphic( PhetGraphic graphic ) {
