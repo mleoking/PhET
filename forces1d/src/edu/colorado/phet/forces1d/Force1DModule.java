@@ -3,6 +3,7 @@ package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
@@ -84,6 +85,7 @@ public class Force1DModule extends Module {
         CrashAudioPlayer crashAudioPlayer = new CrashAudioPlayer();
         getForceModel().addCollisionListener( crashAudioPlayer );
 
+
 //        addHelpItem( new HelpItem( getApparatusPanel(), "Help Item", 100, 100 ) );
     }
 
@@ -123,57 +125,6 @@ public class Force1DModule extends Module {
         }
     }
 
-//    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException, InterruptedException, InvocationTargetException {
-//        AbstractClock clock = new SwingTimerClock( 1, 30 );
-//        UIManager.setLookAndFeel( new PhetLookAndFeel() );
-////        final Force1DModule module = new Force1DModule( clock );
-////        module.getApparatusPanel().getGraphic().setVisible( false );
-//        FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
-//        final Force1DModule simpleModule = new SimpleForceModule( clock );
-////        Module[] m = new Module[]{simpleModule, module};
-//        Module[] m = new Module[]{simpleModule};
-//
-//        ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
-//                                                       frameSetup, m, clock );
-//        final PhetApplication phetApplication = new PhetApplication( model );
-//
-//        phetApplication.getPhetFrame().addWindowStateListener( new WindowStateListener() {
-//            public void windowStateChanged( WindowEvent e ) {
-//                int oldState = e.getOldState();
-//                int newState = e.getNewState();
-//                if( ( oldState & Frame.MAXIMIZED_BOTH ) == 0 &&
-//                    ( newState & Frame.MAXIMIZED_BOTH ) != 0 ) {
-//                    readyToRender = true;
-//                }
-//            }
-//        } );
-////        module.getApparatusPanel().addComponentListener( new ComponentAdapter() {
-////            public void componentResized( ComponentEvent e ) {
-////                if( readyToRender ) {
-////                    setup( module );
-////                    setup( simpleModule );
-////                    readyToRender = false;
-////                }
-////            }
-////        } );
-//        JMenu options = new JMenu( "Options" );
-//        JMenuItem item = new JMenuItem( "Chart Background Color" );
-////        item.addActionListener( new ActionListener() {
-////            public void actionPerformed( ActionEvent e ) {
-////                module.showColorDialog();
-////            }
-////        } );
-//        options.add( item );
-//
-//        phetApplication.getPhetFrame().addMenu( options );
-////        PersistenceUtil.addMenuItems( phetApplication );
-//        phetApplication.startApplication();
-//
-//        new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
-//        simpleModule.setPhetFrame( phetApplication.getPhetFrame() );
-////        module.setPhetFrame( phetApplication.getPhetFrame() );
-//    }
-
     public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException, InterruptedException, InvocationTargetException {
         AbstractClock clock = new SwingTimerClock( 1, 30 );
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
@@ -206,6 +157,7 @@ public class Force1DModule extends Module {
                 }
             }
         } );
+
         JMenu options = new JMenu( "Options" );
         JMenuItem item = new JMenuItem( "Chart Background Color" );
         item.addActionListener( new ActionListener() {
@@ -222,10 +174,39 @@ public class Force1DModule extends Module {
         new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
         simpleModule.setPhetFrame( phetApplication.getPhetFrame() );
         module.setPhetFrame( phetApplication.getPhetFrame() );
+
+        phetApplication.getModuleManager().addModuleObserver( new ModuleObserver() {
+            public void moduleAdded( Module m ) {
+            }
+
+            public void activeModuleChanged( Module m ) {
+                simpleModule.getForcePanel().setReferenceSize();
+                module.getForcePanel().setReferenceSize();
+            }
+
+            public void moduleRemoved( Module m ) {
+
+            }
+        } );
+
+//        final ContentPanel cp=phetApplication.getPhetFrame().getBasicPhetPanel();
+//        cp.addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                int h=cp.getHeight();
+//                JPanel controlPanel = module.getControlPanel();
+//                Dimension orig=controlPanel.getPreferredSize();
+//                controlPanel.setPreferredSize( new Dimension( orig.width,h) );
+//                Dimension newDim=controlPanel.getPreferredSize();
+////                controlPanel.reshape( 0,0,newDim.width, newDim.height );
+//            }
+//        } );
+
     }
 
     private void setPhetFrame( PhetFrame phetFrame ) {
         this.phetFrame = phetFrame;
+        getForcePanel().setPhetFrame( phetFrame );
+
     }
 
     private void showColorDialog() {

@@ -28,7 +28,9 @@ public class ObjectComboBox extends JComboBox {
         super( toLabelArray( imageElements, controlPanel ) );
         setRenderer( new ComboBoxRenderer() );
         this.controlPanel = controlPanel;
-        setBorder( PhetLookAndFeel.createSmoothBorder( "Choose Object" ) );
+        if( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
+            setBorder( PhetLookAndFeel.createSmoothBorder( "Choose Object" ) );
+        }
         addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
 //                Object sel = getSelectedItem();

@@ -9,6 +9,7 @@ import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -35,6 +36,11 @@ public class SimpleControlPanel extends ControlPanel {
 
         fbdSuite = new FreeBodyDiagramSuite( simpleForceModule );
         fbdSuite.addTo( this );
+        if( Toolkit.getDefaultToolkit().getScreenSize().width < 1200 ) {
+            super.removeTitle();
+        }
+
+
         add( frictionCheckBox );
         barriers = new BarrierCheckBox( simpleForceModule );
         add( barriers );

@@ -92,6 +92,10 @@ public class LeanerGraphic extends PhetImageGraphic {
         }
     }
 
+    public void screenSizeChanged() {
+        update( true );
+    }
+
     private void update( boolean forceLocation ) {
         boolean facingRight = true;
         double app = module.getForceModel().getAppliedForce();
