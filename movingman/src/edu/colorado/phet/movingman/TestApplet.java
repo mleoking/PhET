@@ -1,8 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.movingman.application.MovingManModule;
-
 import javax.swing.*;
 import java.io.IOException;
 
