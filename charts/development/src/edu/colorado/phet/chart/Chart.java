@@ -91,45 +91,39 @@ public class Chart extends PhetGraphic {
 
     public static class VerticalTitle extends AbstractTitle {
         private Chart chart;
+        private PhetTextGraphic graphic;
 
         public VerticalTitle( Chart chart, String title, Font font, Color color ) {
             super( chart, title, font, color );
             this.chart = chart;
+            graphic = new PhetTextGraphic( chart.getComponent(), font, title, color, 0, 0 );
         }
 
         public Rectangle getBounds() {
-//            GraphicsState state = new GraphicsState( g );
-            PhetTextGraphic ptg = new PhetTextGraphic( chart.getComponent(), font, title, color, 0, 0 );
-            Shape rect = ptg.getBounds();
+            Shape rect = graphic.getBounds();
             Rectangle chartRect = chart.getViewBounds();
             Rectangle frame = chart.getVerticalTicks().getMajorTickTextBounds();
             if( frame == null ) {
                 frame = chart.getViewBounds();
             }
-//            g.translate( chartRect.x - rect.getHeight() - frame.width * 1.2, chartRect.y + chartRect.height - chartRect.height / 2 + rect.width / 2 );
             AffineTransform at = new AffineTransform();
             at.translate( chartRect.x - frame.width, chartRect.y + chartRect.height - chartRect.height / 2 + rect.getBounds().width / 2 );
             at.rotate( -Math.PI / 2 );
             Shape trf = at.createTransformedShape( rect );
             return trf.getBounds();
-//            ptg.paint( g );
-//            state.restoreGraphics();
-
         }
 
         public void paint( Graphics2D g ) { //TODO this implementation is slow but correct.
             GraphicsState state = new GraphicsState( g );
-            PhetTextGraphic ptg = new PhetTextGraphic( chart.getComponent(), font, title, color, 0, 0 );
-            Rectangle rect = ptg.getBounds();
+            Rectangle rect = graphic.getBounds();
             Rectangle chartRect = chart.getViewBounds();
             Rectangle frame = chart.getVerticalTicks().getMajorTickTextBounds();
             if( frame == null ) {
                 frame = chart.getViewBounds();
             }
-//            g.translate( chartRect.x - rect.getHeight() - frame.width * 1.2, chartRect.y + chartRect.height - chartRect.height / 2 + rect.width / 2 );
             g.translate( chartRect.x - frame.width, chartRect.y + chartRect.height - chartRect.height / 2 + rect.width / 2 );
             g.rotate( -Math.PI / 2 );
-            ptg.paint( g );
+            graphic.paint( g );
             state.restoreGraphics();
         }
     }
