@@ -2,8 +2,8 @@
 
 HIGH:
 RBG Bulbs module:
-1. Add a "wiggle me" that disappears as soon as one of the sliders is moved.
-    Position this wiggle-me so that it is pointing at the knob of the top (red) slider.
+(DONE) 1. Add a "wiggle me" that disappears as soon as one of the sliders is moved.
+          Position this wiggle-me so that it is pointing at the knob of the top (red) slider.
 
 Single Bulb module:
 (DONE) 2. When the bulb is white, reduce the number of photons passed by the filter
@@ -26,6 +26,8 @@ Global issues;
 (DONE) 11. Pause when the simulation is minimized.
 
 MEDIUM:
+o investigate fixed clock
+o Match intensity slider value to background gradient color
 o support orientation of SpectrumSlider
 o support scaling of SpectrumSlider
 o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
