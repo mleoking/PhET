@@ -11,12 +11,18 @@
 
 package edu.colorado.phet.common.application;
 
-import java.io.IOException;
-import java.util.Locale;
-
 import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
+
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.util.Locale;
 
 /**
  * The top-level class for all PhET applications.
@@ -51,32 +57,62 @@ public class PhetApplication {
         s_instance = this;
     }
 
+    /**
+     * Starts the PhetApplication.
+     */
     public void startApplication() {
         if( applicationModel.getInitialModule() == null ) {
             throw new RuntimeException( "Initial module not specified." );
         }
+
         moduleManager.setActiveModule( applicationModel.getInitialModule() );
         applicationModel.start();
         phetFrame.setVisible( true );
+
+        // Set up a mechanism that will set the reference sizes of all ApparatusPanel2 instances
+        // after the PhetFrame has been set to its startup size. We have to do this with a strange
+        // looking "inner listener". When the outer WindowAdapter gets called, the PhetFrame is
+        // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
+        phetFrame.addWindowFocusListener( new WindowAdapter() {
+            public void windowGainedFocus( WindowEvent e ) {
+                for( int i = 0; i < applicationModel.getModules().length; i++ ) {
+                    Module module = (Module)applicationModel.getModules()[i];
+                    ApparatusPanel panel = module.getApparatusPanel();
+                    if( panel instanceof ApparatusPanel2 ) {
+                        final ApparatusPanel2 apparatusPanel = (ApparatusPanel2)panel;
+
+                        // Add the listener to the apparatus panel that will tell it to set its
+                        // reference size
+                        apparatusPanel.addComponentListener( new ComponentAdapter() {
+                            public void componentResized( ComponentEvent e ) {
+                                apparatusPanel.setReferenceSize();
+                                apparatusPanel.removeComponentListener( this );
+                            }
+                        } );
+                    }
+                }
+                phetFrame.removeWindowFocusListener( this );
+            }
+        } );
     }
-    
+
     /**
      * Initialize application localization.
-     * 
-     * @param args the commandline arguments that were passed to main
+     *
+     * @param args       the commandline arguments that were passed to main
      * @param bundleName the base name of the resource bundle containing localized strings
      */
     public static void initLocalization( String[] args, String bundleName ) {
         // Get the default locale from property javaws.locale.
         String applicationLocale = System.getProperty( "javaws.locale" );
-        if ( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
             SimStrings.setLocale( new Locale( applicationLocale ) );
         }
 
         // Override default locale using "user.language=" command line argument.
         String argsKey = "user.language=";
-        for ( int i = 0; i < args.length; i++ ) {
-            if ( args[i].startsWith( argsKey ) ) {
+        for( int i = 0; i < args.length; i++ ) {
+            if( args[i].startsWith( argsKey ) ) {
                 String locale = args[i].substring( argsKey.length(), args[i].length() );
                 SimStrings.setLocale( new Locale( locale ) );
                 break;
