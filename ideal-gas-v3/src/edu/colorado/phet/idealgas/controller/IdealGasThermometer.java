@@ -27,9 +27,6 @@ class IdealGasThermometer extends Thermometer implements SimpleObserver {
 
     public void update() {
         double newTemperature = idealGasModel.getTemperature();
-//        double newTemperature = idealGasModel.getTotalKineticEnergy() /
-//                                ( idealGasModel.getHeavySpeciesCnt() +
-//                                  idealGasModel.getLightSpeciesCnt() );
         newTemperature = Double.isInfinite( newTemperature ) ? 0 : newTemperature;
         newTemperature = Double.isNaN( newTemperature ) ? 0 : newTemperature;
         // Scale to appropriate units
