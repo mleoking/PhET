@@ -12,7 +12,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -36,9 +35,9 @@ public class Box2D extends CollidableBody {
 
 
     // TODO: put the opening characteristics in a specialization of this class.
-    private Vector2D[] opening = new Vector2D[]{
-        new Vector2D.Float( 0, 0 ),
-        new Vector2D.Float( 0, 0 )};
+    private Point2D[] opening = new Point2D.Double[]{
+        new Point2D.Double(),
+        new Point2D.Double()};
 
     private Wall[] walls = new Wall[4];
     private IdealGasModel model;
@@ -78,9 +77,11 @@ public class Box2D extends CollidableBody {
         setPosition( new Point2D.Double( minX, minY ) );
 
         // Update the position of the door
-        Vector2D[] opening = this.getOpening();
-        opening[0].setY( minY );
-        opening[1].setY( minY );
+        Point2D[] opening = this.getOpening();
+        opening[0].setLocation( opening[0].getX(), minY );
+        opening[1].setLocation( opening[1].getX(), minY );
+//        opening[0].setY( minY );
+//        opening[1].setY( minY );
         this.setOpening( opening );
 
         // Left wall - Note: The location of the existing wall doesn't get updated
@@ -104,7 +105,7 @@ public class Box2D extends CollidableBody {
     /**
      *
      */
-    public void setOpening( Vector2D[] opening ) {
+    public void setOpening( Point2D[] opening ) {
         this.opening[0] = opening[0];
         this.opening[1] = opening[1];
         notifyObservers();
@@ -113,7 +114,7 @@ public class Box2D extends CollidableBody {
     /**
      *
      */
-    public Vector2D[] getOpening() {
+    public Point2D[] getOpening() {
         return this.opening;
     }
 

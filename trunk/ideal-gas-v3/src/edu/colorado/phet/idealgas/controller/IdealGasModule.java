@@ -17,8 +17,10 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.view.BaseIdealGasApparatusPanel;
 import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.Mannequin;
+import edu.colorado.phet.idealgas.view.IdealGasMonitorPanel;
 import edu.colorado.phet.idealgas.model.*;
 
+import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.awt.*;
 import java.io.IOException;
@@ -51,6 +53,9 @@ public class IdealGasModule extends Module {
         pump = new Pump( this, box );
 
         setApparatusPanel( new BaseIdealGasApparatusPanel( this, box, pump ) );
+        IdealGasMonitorPanel monitorPanel = new IdealGasMonitorPanel( idealGasModel );
+        idealGasModel.addObserver( monitorPanel );
+        setMonitorPanel( monitorPanel);
 
         // Set up the box
         Box2DGraphic boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
@@ -61,9 +66,9 @@ public class IdealGasModule extends Module {
         addGraphic( pusher, 10 );
 
         // Set up the control panel
-        PhetControlPanel controlPanel = new PhetControlPanel( this, new IdealGasControlPanel( this ));
-        setControlPanel( controlPanel );
-
+//        PhetControlPanel controlPanel = new PhetControlPanel( this, new IdealGasControlPanel( this ));
+//        setControlPanel( controlPanel );
+        setControlPanel( new IdealGasControlPanel( this ));
     }
 
     public void setCurrentSpecies( Class moleculeClass ) {
@@ -75,7 +80,8 @@ public class IdealGasModule extends Module {
     }
 
     public void setStove( int value ) {
-        System.out.println( "not implemented" );
+        idealGasModel.setHeatSource( (double)value );
+        ((BaseIdealGasApparatusPanel)getApparatusPanel()).setStove( value );
     }
 
     public void setGravity( Gravity gravity ) {

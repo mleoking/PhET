@@ -31,7 +31,6 @@ public class IdealGasControlPanel extends JPanel {
     private Gravity gravity = new Gravity( 0 );
     private NumberFormat gravityFormat = NumberFormat.getInstance();
     private JTextField gravityTF;
-//    private IdealGasApplication application;
     private JCheckBox gravityOnCB;
     private JSlider gravitySlider;
     private JPanel gravityControlPanel;
@@ -53,8 +52,8 @@ public class IdealGasControlPanel extends JPanel {
      */
     private void init() {
 
-//        this.application = getIdealGasApplication();
 //        application.addExternalForce( gravity );
+
         this.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         this.setPreferredSize( new Dimension( 140, 300 ) );
 
@@ -123,16 +122,12 @@ public class IdealGasControlPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 idealGasModel.setConstantVolume( constantVolumeRB.isSelected() );
                 idealGasModel.setConstantPressure( constantPressureRB.isSelected() );
-//                application.getIdealGasSystem().setConstantVolume( constantVolumeRB.isSelected() );
-//                application.getIdealGasSystem().setConstantPressure( constantPressureRB.isSelected() );
             }
         } );
         constantPressureRB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 idealGasModel.setConstantPressure( constantPressureRB.isSelected() );
                 idealGasModel.setConstantVolume( constantVolumeRB.isSelected() );
-//                application.getIdealGasSystem().setConstantPressure( constantPressureRB.isSelected() );
-//                application.getIdealGasSystem().setConstantVolume( constantVolumeRB.isSelected() );
             }
         } );
         constantVolumeRB.setSelected( true );
@@ -213,7 +208,6 @@ public class IdealGasControlPanel extends JPanel {
             public void actionPerformed( ActionEvent event ) {
                 if( heavySpeciesRB.isSelected() ) {
                     module.setCurrentSpecies( HeavySpecies.class );
-//                    application.setCurrentSpecies( HeavySpecies.class );
                 }
             }
         } );
@@ -222,7 +216,6 @@ public class IdealGasControlPanel extends JPanel {
             public void actionPerformed( ActionEvent event ) {
                 if( lightSpeciesRB.isSelected() ) {
                     module.setCurrentSpecies( LightSpecies.class );
-//                    application.setCurrentSpecies( LightSpecies.class );
                 }
             }
         } );
@@ -233,7 +226,6 @@ public class IdealGasControlPanel extends JPanel {
         cmLinesOnCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 module.setCmLinesOn( cmLinesOnCB.isSelected() );
-//                application.setCmLinesOn( cmLinesOnCB.isSelected() );
             }
         } );
     }
