@@ -27,6 +27,7 @@ public class LineGrid extends PhetGraphic implements ApparatusPanel2.ChangeListe
     private Paint color;
     private Stroke stroke;
     private double alpha = 1;
+    private ApparatusPanel2 appPanel;
 
     public LineGrid( ApparatusPanel2 component, int dx, int dy, Color color ) {
         this( component, dx, dy, color, defaultStroke );
@@ -34,6 +35,7 @@ public class LineGrid extends PhetGraphic implements ApparatusPanel2.ChangeListe
 
     public LineGrid( ApparatusPanel2 component, int dx, int dy, Color color, Stroke stroke ) {
         super( component );
+        appPanel = component;
         this.dx = dx;
         this.dy = dy;
         this.color = color;
@@ -59,10 +61,16 @@ public class LineGrid extends PhetGraphic implements ApparatusPanel2.ChangeListe
     }
 
     protected Rectangle determineBounds() {
-        return getComponent().getBounds();
+        setCanvasSize( appPanel.getCanvasSize() );
+        System.out.println( "LineGrid.determineBounds: " + canvasSize );
+
+        return new Rectangle( canvasSize);
     }
 
     public void paint( Graphics2D g2 ) {
+
+        System.out.println( "LineGrid.paint: " + canvasSize );
+
         GraphicsState gs = new GraphicsState( g2 );
 
         g2.setPaint( color );
