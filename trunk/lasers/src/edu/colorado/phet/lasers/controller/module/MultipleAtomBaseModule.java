@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  *
  */
-public abstract class MultipleAtomBaseModule extends BaseLaserModule {
+public class MultipleAtomBaseModule extends BaseLaserModule {
 
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
     static protected final double s_boxHeight = 150;

@@ -49,6 +49,7 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
     private Mirror leftMirror;
     private MirrorGraphic rightMirrorGraphic;
     private MirrorGraphic leftMirrorGraphic;
+    private Frame appFrame;
 
     /**
      *
@@ -149,18 +150,21 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         } );
     }
 
-    protected MonitorPanel getEnergyMonitorPanel() {
+    public MonitorPanel getEnergyMonitorPanel() {
         return monitorPanel;
     }
 
-    protected void setEnergyMonitorPanel( MonitorPanel monitorPanel ) {
-        this.monitorPanel = monitorPanel;
+    public void setEnergyMonitorPanel( MonitorPanel monitorPanel ) {
+        if( energyLevelsDialog != null ) {
+            energyLevelsDialog.setVisible( false );
+        }
+        energyLevelsDialog = new EnergyLevelsDialog( appFrame, monitorPanel, getLaserModel() );
+        energyLevelsDialog.setVisible( true );
     }
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-        energyLevelsDialog = new EnergyLevelsDialog( app.getApplicationView().getPhetFrame(),
-                                                     monitorPanel, getLaserModel() );
+        appFrame = app.getApplicationView().getPhetFrame();
         energyLevelsDialog.setVisible( true );
     }
 
