@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +26,7 @@ public class PlaybackPanel extends JPanel {
         this.module = module;
         ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
 
-        pause = new JButton( "Pause", pauseIcon );
+        pause = new JButton( SimStrings.get( "PlaybackPanel.PauseButton" ), pauseIcon );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 //pausing from playback leaves it alone
@@ -33,7 +34,7 @@ public class PlaybackPanel extends JPanel {
             }
         } );
         ImageIcon playIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Play24.gif" ) );
-        play = new JButton( "Playback", playIcon );
+        play = new JButton( SimStrings.get( "PlaybackPanel.PlaybackButton" ), playIcon );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.startPlaybackMode( 1.0 );
@@ -41,7 +42,7 @@ public class PlaybackPanel extends JPanel {
         } );
 
         ImageIcon rewindIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Rewind24.gif" ) );
-        rewind = new JButton( "Rewind", rewindIcon );
+        rewind = new JButton( SimStrings.get( "PlaybackPanel.RewindButton" ), rewindIcon );
         rewind.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.rewind();
@@ -50,7 +51,7 @@ public class PlaybackPanel extends JPanel {
         } );
 
         ImageIcon slowIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/StepForward24.gif" ) );
-        slowMotion = new JButton( "Slow Playback", slowIcon );
+        slowMotion = new JButton( SimStrings.get( "PlaybackPanel.ShowPlaybackButton" ), slowIcon );
         slowMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.startPlaybackMode( .4 );
