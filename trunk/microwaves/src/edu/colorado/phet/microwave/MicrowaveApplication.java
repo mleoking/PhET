@@ -16,8 +16,10 @@ import edu.colorado.phet.coreadditions.PhetLookAndFeel;
 import edu.colorado.phet.coreadditions.clock.DynamicClockModel;
 import edu.colorado.phet.coreadditions.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions.components.PhetFrame;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.util.logging.Logger;
+import java.util.Locale;
 
 public class MicrowaveApplication {
 
@@ -28,9 +30,22 @@ public class MicrowaveApplication {
     public static double s_speedOfLight = 10;
 
     public static PhetApplication s_application;
-
+    
+    // Localization
+    public static final String localizedStringsPath = "localization/MicrowavesStrings";
 
     public static void main( String[] args ) {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            SimStrings.setLocale( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            SimStrings.setLocale( new Locale( locale ) );
+        }
+
+        SimStrings.setStrings( localizedStringsPath );
 
         // Get a logger; the logger is automatically created if
         // it doesn't already exist
@@ -75,9 +90,9 @@ public class MicrowaveApplication {
             coffeeModule
         };
         ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
-                "Microwaves",
-                MessageFormatter.format( "A simluation for exploring how\nmicrowaves heat things." ), ".01",
-                1024, 768 );
+                SimStrings.get( "MicrowavesApplication.title" ),
+                MessageFormatter.format( SimStrings.get( "MicrowavesApplication.description" ) ),
+                SimStrings.get( "MicrowavesApplication.version" ), 1024, 768 );
         s_application = new PhetApplication( appDescriptor, modules,
                                              new SwingTimerClock( new DynamicClockModel( 20, 50 ) ) );
         PhetFrame frame = s_application.getApplicationView().getPhetFrame();
