@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.common;
+package edu.colorado.phet.movingman.common.plaf;
 
 import smooth.basic.SmoothTitledBorder;
 import smooth.metal.SmoothLookAndFeel;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.common.math;
+package edu.colorado.phet.movingman.common;
 
 /**
  * Created by IntelliJ IDEA.

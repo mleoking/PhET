@@ -5,7 +5,6 @@ import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
-import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -13,6 +12,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.movingman.MMTimer;
 import edu.colorado.phet.movingman.MovingManModule;
+import edu.colorado.phet.movingman.common.ObservingGraphic;
 import edu.colorado.phet.movingman.common.TransformJSlider;
 
 import javax.swing.*;

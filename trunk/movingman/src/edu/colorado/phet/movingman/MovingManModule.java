@@ -11,13 +11,14 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.BasicPhetPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.movingman.common.PhetLookAndFeel;
+import edu.colorado.phet.movingman.common.RangeToRange;
 import edu.colorado.phet.movingman.common.WiggleMe;
-import edu.colorado.phet.movingman.common.math.RangeToRange;
+import edu.colorado.phet.movingman.common.plaf.PhetLookAndFeel;
 import edu.colorado.phet.movingman.misc.JEPFrame;
 import edu.colorado.phet.movingman.motion.MotionSuite;
 import edu.colorado.phet.movingman.plots.BoxedPlot;
@@ -78,10 +79,6 @@ public class MovingManModule extends Module {
     private Model model;
     private PlotSet plotSet;
     private WiggleMe wiggleMe;
-
-    public void repaint() {
-        getApparatusPanel().repaint( 0, 0, getApparatusPanel().getWidth(), getApparatusPanel().getHeight() );
-    }
 
     public void repaintBackground( Rectangle rect ) {
         backgroundGraphic.paintBufferedImage( rect );
@@ -269,11 +266,8 @@ public class MovingManModule extends Module {
         super( "The Moving Man" );
         model = new Model();
         model.clock = clock;
-        ApparatusPanel mypanel = new ApparatusPanel() {
-            public void repaint( Rectangle r ) {
-                super.repaint( r );
-            }
-        };
+        ApparatusPanel mypanel = new ApparatusPanel();
+        mypanel.addGraphicsSetup( new BasicGraphicsSetup() );
         mypanel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
         super.setApparatusPanel( mypanel );
         super.setModel( new BaseModel() );

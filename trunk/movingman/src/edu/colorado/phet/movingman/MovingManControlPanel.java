@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.movingman.common.PhetLookAndFeel;
+import edu.colorado.phet.movingman.common.plaf.PhetLookAndFeel;
 import edu.colorado.phet.movingman.common.plaf.PlafUtil;
 import edu.colorado.phet.movingman.motion.*;
 import edu.colorado.phet.movingman.plots.DataSeries;
