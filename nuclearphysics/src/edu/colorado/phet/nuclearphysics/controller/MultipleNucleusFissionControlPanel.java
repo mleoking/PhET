@@ -120,8 +120,6 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 module.start();
                 startNumU235 = 0;
                 percentDecayTF.setText( "0" );
-                percentDecayTF.setEditable( false );
-                percentDecayTF.setBackground( Color.white );
                 numU235Spinner.setValue( new Integer( 1 ) );
                 numU238Spinner.setValue( new Integer( 0 ) );
             }
@@ -130,6 +128,9 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         percentDecayTF = new JTextField( 4 );
         percentDecayTF.setHorizontalAlignment( JTextField.RIGHT );
         percentDecayTF.setText( "0" );
+        percentDecayTF.setEditable( false );
+        percentDecayTF.setBackground( Color.white );
+
 
         final JCheckBox containmentCB = new JCheckBox( SimStrings.get( "MultipleNucleusFissionControlPanel.ContainmentCheckBox" ) );
         containmentCB.setForeground( Color.white );
