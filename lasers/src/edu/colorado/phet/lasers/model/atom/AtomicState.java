@@ -7,8 +7,7 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.lasers.EventRegistry;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.util.EventListener;

@@ -15,9 +15,8 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.lasers.EventRegistry;
-import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
 import javax.swing.event.EventListenerList;
@@ -174,8 +173,6 @@ public class Photon extends Particle implements Collidable {
         //        setMass( 1 );
     }
 
-    private SubscriptionService bulletinBoard = new SubscriptionService();
-
     public interface Listener {
         void leavingSystem( Photon photon );
     }
@@ -185,7 +182,6 @@ public class Photon extends Particle implements Collidable {
     }
 
     public void removeListener( EventListener listener ) {
-        bulletinBoard.removeListener( listener );
         eventRegistry.removeListener( listener );
     }
 

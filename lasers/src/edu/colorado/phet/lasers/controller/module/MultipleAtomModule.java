@@ -22,6 +22,7 @@ import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.MultipleAtomControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -55,7 +56,10 @@ public class MultipleAtomModule extends BaseLaserModule {
         // Set the control panel
         setControlPanel( new MultipleAtomControlPanel( this ) );
 
-
+        ResonatingCavity cavity = getCavity();
+        Rectangle2D cavityBounds = cavity.getBounds();
+        cavity.setBounds( cavityBounds.getMinX(), cavityBounds.getMinY(), cavityBounds.getMinX() + cavityBounds.getWidth(), cavityBounds.getMinY() + ( cavityBounds.getHeight() * 1.5 ) );
+        cavityBounds = cavity.getBounds();
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() );
         CollimatedBeam seedBeam = ( (LaserModel)getModel() ).getSeedBeam();
@@ -68,10 +72,10 @@ public class MultipleAtomModule extends BaseLaserModule {
         seedBeam.setPhotonsPerSecond( 1 );
 
         CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
-        Point2D pumpingBeamOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX + s_boxWidth / 2 - Photon.s_radius / 2,
+        Point2D pumpingBeamOrigin = new Point2D.Double( cavityBounds.getMinX() + cavityBounds.getWidth() / 2 - Photon.s_radius / 2,
                                                         s_origin.getY() - 140 );
         Rectangle2D.Double pumpingBeamBounds = new Rectangle2D.Double( pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
-                                                                       s_boxWidth, s_boxHeight + s_laserOffsetX * 2 );
+                                                                       cavityBounds.getWidth(), s_boxHeight + s_laserOffsetX * 2 );
         pumpingBeam.setBounds( pumpingBeamBounds );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.setEnabled( true );
@@ -151,10 +155,13 @@ public class MultipleAtomModule extends BaseLaserModule {
     public void activate( PhetApplication app ) {
         super.activate( app );
 
+        Rectangle2D cavityBounds = getCavity().getBounds();
+
         Atom atom = null;
         atoms = new ArrayList();
-//        int numAtoms = 1;
-        int numAtoms = 20;
+        //        int numAtoms = 1;
+        int numAtoms = 40;
+        //        int numAtoms = 20;
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new Atom( getModel() );
             boolean placed = false;
@@ -162,10 +169,8 @@ public class MultipleAtomModule extends BaseLaserModule {
             // Place atoms so they don't overlap
             do {
                 placed = true;
-                atom.setPosition( ( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
-                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( s_boxHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-                //                atom.setVelocity( ( Math.random() - 0.5 ) * s_maxSpeed,
-                //                                  ( Math.random() - 0.5 ) * s_maxSpeed );
+                atom.setPosition( ( cavityBounds.getX() + ( Math.random() ) * ( cavityBounds.getWidth() - atom.getRadius() * 2 ) + atom.getRadius() ),
+                                  ( cavityBounds.getY() + ( Math.random() ) * ( cavityBounds.getHeight() - atom.getRadius() * 2 ) ) + atom.getRadius() );
                 for( int j = 0; j < atoms.size(); j++ ) {
                     Atom atom2 = (Atom)atoms.get( j );
                     double d = atom.getPosition().distance( atom2.getPosition() );

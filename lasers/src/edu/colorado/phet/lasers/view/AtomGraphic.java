@@ -40,11 +40,25 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.StateChangeLis
         update( event.getState() );
     }
 
+    protected Rectangle determineBounds() {
+        return energyRep.getBounds();
+    }
+
+    /**
+     * Determines the radius and color of the ring surrounding the atom that represents its energy state.
+     *
+     * @param state
+     */
     public void update( AtomicState state ) {
+        double groundStateRingThickness = 5;
+        // used to scale the thickness of the ring so it changes size a reasonable amount through the visible range
+        double ringThicknessExponent = 0.15;
         if( atomicState != state ) {
             atomicState = state;
             double energyRatio = state.getEnergyLevel() / GroundState.instance().getEnergyLevel();
-            double energyRepRad = Math.pow( energyRatio, .2 ) * ( getImage().getWidth() / 2 );
+
+            double energyRepRad = Math.pow( energyRatio, ringThicknessExponent )
+                                  * ( getImage().getWidth() / 2 ) + groundStateRingThickness;
             energyRep = new Ellipse2D.Double( atom.getPosition().getX() - energyRepRad, atom.getPosition().getY() - energyRepRad,
                                               energyRepRad * 2, energyRepRad * 2 );
             if( state.getWavelength() == Photon.GRAY ) {

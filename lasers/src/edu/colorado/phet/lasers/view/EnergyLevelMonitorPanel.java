@@ -19,6 +19,7 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
@@ -228,7 +229,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     }
 
     public class EnergyLifetimeSlider extends JSlider implements AtomicState.MeanLifetimeChangeListener {
-        private int maxLifetime = 100;
+        private int maxLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME;
+        //        private int maxLifetime = 100;
         private EnergyLevelGraphic graphic;
         private int sliderHeight = 50;
 
