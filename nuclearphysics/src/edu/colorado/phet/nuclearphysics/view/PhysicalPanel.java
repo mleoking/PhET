@@ -54,7 +54,6 @@ public class PhysicalPanel extends TxApparatusPanel {
         NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
                 PhysicalPanel.this.removeGraphic( txg );
-                System.out.println( "nucleusCnt = " + nucleusCnt-- );
             }
         };
         nucleus.addListener( listener );
@@ -72,6 +71,11 @@ public class PhysicalPanel extends TxApparatusPanel {
         super.addGraphic( txg );
         //        addGraphic( graphic, nucleonTx );
     }
+
+    //    public synchronized void addGraphic( Graphic graphic, double level ) {
+    //        TxGraphic txg = new TxGraphic( graphic, nucleonTx );
+    //        super.addGraphic( txg, level );
+    //    }
 
     protected synchronized void paintComponent( Graphics graphics ) {
         origin.setLocation( this.getWidth() / 2, this.getHeight() / 2 );

@@ -2,10 +2,11 @@
 <project version="4" relativePaths="false">
   <component name="AspectsView" />
   <component name="BookmarkManager">
-    <editor_bookmark url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="154" />
-    <editor_bookmark url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="278" />
-    <editor_bookmark url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="122" />
-    <editor_bookmark url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="292" />
+    <editor_bookmark url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="340" />
+    <editor_bookmark url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="162" />
+    <editor_bookmark url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="288" />
+    <editor_bookmark url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="123" />
+    <editor_bookmark url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="302" />
   </component>
   <component name="CheckinPanelState" />
   <component name="Commander">
@@ -76,7 +77,7 @@
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="SHOW_CHECKIN_OPTIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Worked on containment graphic" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed containment from rectangle to circle" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
@@ -92,7 +93,7 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="132">
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="133">
         <option name="ENABLED" value="true" />
         <option name="SUSPEND_VM" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -105,7 +106,7 @@
         <option name="myCondition" value="" />
         <option name="myLogMessage" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/model/Containment.java" line="33">
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/model/Containment.java" line="34">
         <option name="ENABLED" value="true" />
         <option name="SUSPEND_VM" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -118,7 +119,33 @@
         <option name="myCondition" value="" />
         <option name="myLogMessage" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="346">
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="181">
+        <option name="ENABLED" value="true" />
+        <option name="SUSPEND_VM" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="myCondition" value="" />
+        <option name="myLogMessage" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="280">
+        <option name="ENABLED" value="true" />
+        <option name="SUSPEND_VM" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="myCondition" value="" />
+        <option name="myLogMessage" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" line="206">
         <option name="ENABLED" value="true" />
         <option name="SUSPEND_VM" value="true" />
         <option name="LOG_ENABLED" value="false" />
@@ -157,10 +184,10 @@
     <option name="HIDE_WARNINGS" value="false" />
   </component>
   <component name="FileEditorManager" split-orientation="horizontal" split-proportion="0.5">
-    <first-group selected-file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/view/ContainmentGraphic.java">
+    <first-group selected-file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionControlPanel.java">
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/view/ContainmentGraphic.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="69" column="0" selection-start="2461" selection-end="2461" vertical-scroll-proportion="0.47089946">
+          <state line="28" column="26" selection-start="977" selection-end="977" vertical-scroll-proportion="-2.731463">
             <folding>
               <element signature="imports" expanded="true" />
               <element signature="class#Translator#0;class#ContainmentGraphic#0" expanded="true" />
@@ -171,60 +198,67 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionControlPanel.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="197" column="0" selection-start="9457" selection-end="9457" vertical-scroll-proportion="0.45652175">
-            <folding />
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/model/Uranium235.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="34" column="0" selection-start="1130" selection-end="1130" vertical-scroll-proportion="0.31569666">
-            <folding />
-          </state>
-        </provider>
-      </entry>
-      <entry file="jar://C:/j2sdk1.4.2_04/src.zip!/javax/swing/JSpinner.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="395" column="0" selection-start="12541" selection-end="12541" vertical-scroll-proportion="0.31569666">
+          <state line="88" column="0" selection-start="3596" selection-end="3596" vertical-scroll-proportion="0.39478958">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="372" column="0" selection-start="15045" selection-end="15045" vertical-scroll-proportion="0.7210145">
+          <state line="228" column="18" selection-start="9131" selection-end="9131" vertical-scroll-proportion="0.31462926">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
-          </state>
-        </provider>
-      </entry>
-      <entry file="file://C:/PhET/common2/development/src/edu/colorado/phet/common/model/Particle.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="38" column="49" selection-start="1087" selection-end="1087" vertical-scroll-proportion="0.28042328">
-            <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/view/PhysicalPanel.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="121" column="0" selection-start="4383" selection-end="4383" vertical-scroll-proportion="1.1058201">
+          <state line="56" column="0" selection-start="2047" selection-end="2047" vertical-scroll-proportion="0.3151751">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
           </state>
         </provider>
       </entry>
-      <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/NuclearPhysicsModule.java" pinned="false">
+      <entry file="file://C:/PhET/common2/development/src/edu/colorado/phet/common/view/ApparatusPanel.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="99" column="0" selection-start="3445" selection-end="3445" vertical-scroll-proportion="1.1058201">
+          <state line="108" column="16" selection-start="3519" selection-end="3519" vertical-scroll-proportion="0.73947895">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/view/Kaboom.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="93" column="12" selection-start="3099" selection-end="3099" vertical-scroll-proportion="0.922179">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/model/Neutron.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="23" column="0" selection-start="603" selection-end="603" vertical-scroll-proportion="0.6225681">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://C:/PhET/common2/development/src/edu/colorado/phet/common/model/Particle.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="39" column="0" selection-start="1088" selection-end="1088" vertical-scroll-proportion="0.33268481">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/model/Containment.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="26" column="14" selection-start="688" selection-end="688" vertical-scroll-proportion="0.52910054">
+          <state line="39" column="26" selection-start="1049" selection-end="1049" vertical-scroll-proportion="0.94163424">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/src/todo" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="2" column="0" selection-start="143" selection-end="143" vertical-scroll-proportion="0.07782101">
             <folding />
           </state>
         </provider>
@@ -433,14 +467,14 @@
     <layout>
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.11689815" order="0" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.23457792" order="0" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.21674313" order="2" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.23457792" order="0" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.3325688" order="2" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.249183" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.3428899" order="9" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="7" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.13480392" order="2" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.26720184" order="3" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.3016055" order="3" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.085784316" order="3" />
       <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.6936275" order="0" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.31880733" order="4" />
@@ -538,34 +572,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/view/PotentialProfilePanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="293" column="24" selection-start="11323" selection-end="11323" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/view/NeutronGraphic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="24" selection-start="648" selection-end="648" vertical-scroll-proportion="0.11709602">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/view/NucleusGraphic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="13" selection-start="689" selection-end="689" vertical-scroll-proportion="0.12254902">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/todo">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="57" selection-start="57" selection-end="57" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/NuclearPhysicsApplication.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="53" column="38" selection-start="2432" selection-end="2432" vertical-scroll-proportion="0.6595208">
@@ -582,30 +588,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/NuclearPhysicsModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="99" column="0" selection-start="3445" selection-end="3445" vertical-scroll-proportion="1.1058201">
+        <state line="99" column="0" selection-start="3445" selection-end="3445" vertical-scroll-proportion="1.0112903">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/view/PhysicalPanel.java">
+    <entry file="jar://C:/j2sdk1.4.2_04/src.zip!/javax/swing/JSpinner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="0" selection-start="4383" selection-end="4383" vertical-scroll-proportion="1.1058201">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="395" column="0" selection-start="12541" selection-end="12541" vertical-scroll-proportion="0.34824902">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/model/Uranium235.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="0" selection-start="1130" selection-end="1130" vertical-scroll-proportion="0.35871744">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/model/Neutron.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="0" selection-start="603" selection-end="603" vertical-scroll-proportion="0.6225681">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/todo">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="0" selection-start="143" selection-end="143" vertical-scroll-proportion="0.07782101">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/model/Containment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="14" selection-start="688" selection-end="688" vertical-scroll-proportion="0.52910054">
+        <state line="39" column="26" selection-start="1049" selection-end="1049" vertical-scroll-proportion="0.94163424">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/view/Kaboom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="12" selection-start="3099" selection-end="3099" vertical-scroll-proportion="0.922179">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/view/ContainmentGraphic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="0" selection-start="2461" selection-end="2461" vertical-scroll-proportion="0.47089946">
+        <state line="28" column="26" selection-start="977" selection-end="977" vertical-scroll-proportion="-2.731463">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#Translator#0;class#ContainmentGraphic#0" expanded="true" />
@@ -614,37 +646,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/j2sdk1.4.2_04/src.zip!/javax/swing/JSpinner.java">
+    <entry file="file://C:/PhET/common2/development/src/edu/colorado/phet/common/view/ApparatusPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="395" column="0" selection-start="12541" selection-end="12541" vertical-scroll-proportion="0.31569666">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/model/Uranium235.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="1130" selection-end="1130" vertical-scroll-proportion="0.31569666">
+        <state line="108" column="16" selection-start="3519" selection-end="3519" vertical-scroll-proportion="0.73947895">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/common2/development/src/edu/colorado/phet/common/model/Particle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="49" selection-start="1087" selection-end="1087" vertical-scroll-proportion="0.28042328">
+        <state line="39" column="0" selection-start="1088" selection-end="1088" vertical-scroll-proportion="0.33268481">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/view/PhysicalPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="0" selection-start="2047" selection-end="2047" vertical-scroll-proportion="0.3151751">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionControlPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="197" column="0" selection-start="9457" selection-end="9457" vertical-scroll-proportion="0.45652175">
+        <state line="88" column="0" selection-start="3596" selection-end="3596" vertical-scroll-proportion="0.39478958">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/nuclearphysics/controller/MultipleNucleusFissionModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="372" column="0" selection-start="15045" selection-end="15045" vertical-scroll-proportion="0.7210145">
+        <state line="228" column="18" selection-start="9131" selection-end="9131" vertical-scroll-proportion="0.31462926">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
