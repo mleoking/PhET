@@ -62,4 +62,19 @@ public interface RepaintStrategy {
             component.paintImmediately( union );
         }
     }
+
+    /**
+     * Adapter to go in a PhetGraphic.
+     */
+    public static class FalseComponent extends Component {
+        private RepaintStrategy repaintStrategy;
+
+        public FalseComponent( RepaintStrategy repaintStrategy ) {
+            this.repaintStrategy = repaintStrategy;
+        }
+
+        public void repaint( int x, int y, int width, int height ) {
+            repaintStrategy.repaint( x, y, width, height );
+        }
+    }
 }
