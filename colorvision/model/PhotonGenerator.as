@@ -17,6 +17,7 @@
 		alpha = 100;
 		photons = new Array();
 		rateAtEyeball = 0;
+                running = false;
 	}
 	public function setLocation(xLoc:Number, yLoc:Number) {
 		this.xLoc = xLoc;
@@ -70,6 +71,8 @@
 				else {
 					this.rateAtEyeball = photons[i].getRate();
 					photons.splice(i,1);
+                                        trace("pg: deleting instnace");
+                                        Photon.deleteInstance(p);
 				}
 			}
 			if( photons.length == 0 ){
