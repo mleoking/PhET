@@ -208,8 +208,6 @@ public class Electron extends SpacialObservable implements ModelElement {
             QuadBezierSpline curve = descriptor.getCurve();
             Point2D location = curve.evaluate( _pathPosition );
             super.setLocation( location );
-            
-            notifyObservers();
         }
     }
     
