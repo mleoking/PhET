@@ -60,15 +60,18 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         _compassModel = compassModel;
         _compassModel.addObserver( this );
         
+        // Compass body
         PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.COMPASS_IMAGE );
         int rx = body.getImage().getWidth() / 2;
-        int ry = body.getImage().getHeight() / 2 + 11;
+        int ry = body.getImage().getHeight() / 2;
         body.setRegistrationPoint( rx, ry );
         
+        // Needle
         _needle = new CompassNeedleGraphic( component );
         _needle.setSize( 55, 15 );
         _needle.setDirection( _compassModel.getDirection() );
         
+        // Thing that anchors the needle to the body.
         PhetShapeGraphic anchor = new PhetShapeGraphic( component);
         anchor.setShape( new Ellipse2D.Double( -2, -2, 4, 4 ) );
         anchor.setPaint( Color.LIGHT_GRAY );
