@@ -19,15 +19,11 @@ import java.io.IOException;
  * Copyright (runner) May 18, 2003 by Sam Reid
  */
 public class ApplicationModelControlPanel extends JPanel {
-    Resettable rh;
-
     JButton play;
     JButton pause;
-//    JButton reset;
     JButton step;
     AbstractClock clock;
-    Resettable resetHandler;
-    private JButton resetButton;
+    private JButton logoButton;
 
     public ApplicationModelControlPanel(AbstractClock runner) throws IOException {
         this(runner, null);
@@ -47,7 +43,7 @@ public class ApplicationModelControlPanel extends JPanel {
         ImageIcon playIcon = new ImageIcon(playU);
         ImageIcon pauseIcon = new ImageIcon(pauseU);
         ImageIcon stepIcon = new ImageIcon(stepU);
-        this.rh = rh;
+//        this.rh = rh;
         play = new JButton("Play", playIcon);
         pause = new JButton("Pause", pauseIcon);
         step = new JButton("Step", stepIcon);
@@ -73,22 +69,8 @@ public class ApplicationModelControlPanel extends JPanel {
         step.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 clock.tickOnce();
-/*
-                clock.execute(new Command() {
-                    public void doIt() {
-                        //clock.stepInTime();
-                        clock.tickOnce();
-                    }
-                });
-*/
             }
         });
-
-
-//        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-//        add(play);
-//        add(pause);
-//        add(step);
 
         setLayout(new BorderLayout());
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -98,7 +80,7 @@ public class ApplicationModelControlPanel extends JPanel {
         this.add(buttonPanel, BorderLayout.CENTER);
 
         ImageIcon logo = new ImageIcon(new ImageLoader().loadImage("images/Phet-logo-48x48.gif"));
-        JButton logoButton = new JButton(logo);
+        logoButton = new JButton(logo);
         logoButton.setToolTipText("Full Frame");
         logoButton.setPreferredSize(new Dimension(logo.getIconWidth() + 12, logo.getIconHeight() + 12));
         this.add(logoButton, BorderLayout.EAST);
@@ -113,47 +95,11 @@ public class ApplicationModelControlPanel extends JPanel {
             }
         });
 
-//        if( rh != null ) {
-//            BufferedImage resetU = cil.loadBufferedImage( root + "Stop24.gif" );
-//            ImageIcon resetIcon = new ImageIcon( resetU );
-//            resetButton = new JButton( "Reset", resetIcon );
-//            resetButton.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    rh.reset();
-//                }
-//            } );
-//            add( resetButton );
-//        }
-
-
-        BufferedImage resetU = cil.loadImage(root + "Stop24.gif");
-        ImageIcon resetIcon = new ImageIcon(resetU);
-        resetButton = new JButton("Reset", resetIcon);
-        resetButton.addActionListener(new ResetActionListener());
-        if (rh != null)
-            add(resetButton);
-
         play.setEnabled(false);
         pause.setEnabled(true);
     }
 
-    class ResetActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            resetHandler.reset();
-        }
-
+    public JButton getLogoButton() {
+        return logoButton;
     }
-
-    public void setResettable(Resettable r) {
-        if (r == null) {
-            remove(resetButton);
-        } else {
-            resetHandler = r;
-            add(resetButton);
-        }
-    }
-
-//    public void setModel(BaseModel clock) {
-//        this.clock = clock;
-//    }
 }
