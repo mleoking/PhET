@@ -98,7 +98,7 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
         double tan = Math.tan( Math.toRadians( theta ) );
         double x0 = Double.isInfinite( tan ) ? x : x - ( yMax - y ) / tan;
         double y0 = Double.isInfinite( tan ) ? y : y - ( xMax - x ) * tan;
-
+        
         synchronized( interferingWaveMask ) {
             interferingWaveMask.reset();
 
@@ -124,15 +124,15 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
     /**
      * @return
      */
-    double getX() {
-        return x;
+    public int getX() {
+        return (int) (x + .5);
     }
 
     /**
      * @return
      */
-    double getY() {
-        return y;
+    public int getY() {
+        return (int) (y + .5);
     }
 
     /**
