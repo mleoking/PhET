@@ -12,6 +12,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.DecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
@@ -20,9 +21,11 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 public class PotentialProfilePanel extends ApparatusPanel {
     private NucleusGraphic nucleusGraphic;
+    private ArrayList nucleusGraphics = new ArrayList();
     private NucleusGraphic decayGraphic;
     private PotentialProfileGraphic profileGraphic;
     private PotentialProfile potentialProfile;
@@ -38,8 +41,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
         addGraphic( profileGraphic );
     }
 
-    private void setNucleusGraphic( NucleusGraphic nucleusGraphic ) {
-        this.nucleusGraphic = nucleusGraphic;
+    private void addNucleusGraphic( NucleusGraphic nucleusGraphic ) {
+        nucleusGraphics.add( nucleusGraphic );
     }
 
     public PotentialProfile getPotentialProfile() {
@@ -51,7 +54,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
             addPotentialProfile( (PotentialProfileGraphic)graphic );
         }
         if( graphic instanceof NucleusGraphic ) {
-            setNucleusGraphic( (NucleusGraphic)graphic );
+            addNucleusGraphic( (NucleusGraphic)graphic );
         }
         else {
             super.addGraphic( graphic );
@@ -74,39 +77,32 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
         super.paintComponent( graphics );
         Graphics2D g2 = (Graphics2D)graphics;
-        AffineTransform orgTx = g2.getTransform();
 
         // Draw axes
         drawAxes( g2 );
 
-        if( nucleusGraphic != null ) {
+        for( int i = 0; i < nucleusGraphics.size(); i++ ) {
+            NucleusGraphic nucleusGraphic = (NucleusGraphic)nucleusGraphics.get( i );
             Nucleus nucleus = nucleusGraphic.getNucleus();
-            double scale = 0.3;
-            AffineTransform atx = scaleInPlaceTx( scale, origin.getX(),
-                                                  origin.getY() - nucleus.getPotentialEnergy() );
-            g2.setTransform( atx );
-
             double xStat = nucleus.getStatisticalLocationOffset().getX();
             potentialSense = ( xStat > 0 ? -1 : 1 );
             double yStat = nucleus.getStatisticalLocationOffset().getY();
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
-            double x = origin.getX() + (int)( d / scale );
-            double y = nucleus.getPotentialEnergy();
-            nucleusGraphic.paint( g2, (int)x, (int)origin.getY() - (int)y );
+            double x = origin.getX() + d;
+
+            double y = ( nucleus instanceof AlphaParticle ? potentialProfile.getWellPotential() + AlphaParticle.RADIUS : 0 );
+
+            nucleusGraphic.paint( g2, (int)x, (int)( origin.getY() - y ) );
+
         }
 
         if( decayGraphic != null ) {
             DecayNucleus nucleus = (DecayNucleus)decayGraphic.getNucleus();
-            double scale = 0.3;
-            AffineTransform atx = scaleInPlaceTx( scale, origin.getX(),
-                                                  origin.getY() - nucleus.getPotentialEnergy() - nucleus.getRadius() * scale );
-            g2.setTransform( atx );
-
             // Note: -y is needed because we're currently working in view coordinates. The profile is a cubic
             // in view coordinates
             double y = nucleus.getPotentialEnergy();
             double x = potentialProfile.getHillX( -y ) * potentialSense;
-            decayGraphic.paint( g2, (int)( (int)origin.getX() + x / scale ), (int)origin.getY() - (int)y );
+            decayGraphic.paint( g2, (int)( (int)origin.getX() + x ), (int)origin.getY() - (int)y );
         }
 
         // Paint a dot on the hill for the spot at the same level as the well
@@ -116,9 +112,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
 //            g2.setColor( Color.red );
 //            g2.fillOval( (int)xTest + (int)origin.getX() - 5, (int)origin.getY() + (int)yTest - 5, 10, 10 );
 //        }
-
-        // Restore the affine transform to the graphics
-        g2.setTransform( orgTx );
 
     }
 
@@ -161,7 +154,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
     public void setNucleus( Nucleus nucleus ) {
         nucleusGraphic = new NucleusGraphic( nucleus );
-        this.setNucleusGraphic( nucleusGraphic );
+        this.addNucleusGraphic( nucleusGraphic );
         setPotentialProfile( nucleus.getPotentialProfile() );
     }
 
@@ -172,6 +165,13 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
     public void addDecayProduct( Nucleus decayNucleus ) {
         this.decayGraphic = new NucleusGraphic( decayNucleus );
+    }
+
+
+    public void addAlphaParticle( AlphaParticle alphaParticle ) {
+        NucleusGraphic graphic = new NucleusGraphic( alphaParticle );
+        alphaParticle.addObserver( graphic );
+        this.addGraphic( graphic );
     }
 
     public void clear() {

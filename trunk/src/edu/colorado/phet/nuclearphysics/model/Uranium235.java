@@ -12,9 +12,17 @@ import java.util.ArrayList;
 public class Uranium235 extends Nucleus {
 
     private ArrayList decayListeners = new ArrayList();
+    private AlphaParticle[] alphaParticles = new AlphaParticle[4];
 
     public Uranium235( Point2D.Double position ) {
         super( position, 145, 92, potentialProfile );
+        for( int i = 0; i < alphaParticles.length; i++ ) {
+            alphaParticles[i] = new AlphaParticle( position, potentialProfile.getAlphaDecayX() / 3 );
+        }
+    }
+
+    public AlphaParticle[] getAlphaParticles() {
+        return alphaParticles;
     }
 
     public void addDecayListener( DecayListener listener ) {
@@ -59,7 +67,7 @@ public class Uranium235 extends Nucleus {
     }
 
     public DecayProducts decay() {
-        // Create two new nucleuses
+        // Create two new nuclei
         int n1Protons = 60;
         int n1Neutrons = 40;
         double theta = Math.random() * Math.PI * 2;

@@ -61,6 +61,6 @@ public class ParticleGraphic implements Graphic {
     // Statics
     //
     private static double radius = 20;
-    private static Stroke outlineStroke = new BasicStroke( 1f );
+    private static Stroke outlineStroke = new BasicStroke( 0.5f );
 
 }

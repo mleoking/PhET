@@ -27,7 +27,6 @@ public class NuclearPhysicsModule extends Module {
     private PotentialProfile potentialProfile;
     private PotentialProfilePanel potentialProfilePanel;
     private PhysicalPanel physicalPanel;
-    private Uranium235 uraniumNucleus;
 
     public NuclearPhysicsModule( String name, AbstractClock clock ) {
         super( name );
@@ -77,6 +76,11 @@ public class NuclearPhysicsModule extends Module {
         potentialProfilePanel.setNucleus( nucleus );
     }
 
+    protected void addAlphaParticle( AlphaParticle alphaParticle ) {
+        this.getModel().addModelElement( alphaParticle );
+        potentialProfilePanel.addAlphaParticle( alphaParticle );
+    }
+
     public void setProfileMaxHeight( double modelValue ) {
         potentialProfile.setMaxPotential( modelValue );
         potentialProfilePanel.repaint();
@@ -96,14 +100,8 @@ public class NuclearPhysicsModule extends Module {
         return this.potentialProfilePanel.getPotentialProfile();
     }
 
-
-    protected Uranium235 getUraniumNucleus() {
-        return uraniumNucleus;
-    }
-
     protected void setUraniumNucleus( Uranium235 uraniumNucleus ) {
-        this.uraniumNucleus = uraniumNucleus;
-        addNeucleus( getUraniumNucleus() );
+        addNeucleus( uraniumNucleus );
     }
 
     protected void handleDecay( DecayProducts decayProducts ) {
@@ -129,16 +127,6 @@ public class NuclearPhysicsModule extends Module {
         return potentialProfilePanel;
     }
 
-    public void testDecay() {
-        DecayProducts dp = uraniumNucleus.alphaDecay();
-        getModel().removeModelElement( dp.getN0() );
-        getModel().addModelElement( dp.getN1() );
-        getModel().addModelElement( dp.getN2() );
-        physicalPanel.removeNucleus( dp.getN0() );
-        potentialProfilePanel.removeNucleus();
-        physicalPanel.addNucleus( dp.getN1() );
-        physicalPanel.addNucleus( dp.getN1() );
-    }
 
     //
     // Statics

@@ -19,6 +19,7 @@ public class Nucleus extends Body {
     private double potentialEnergy;
     private PotentialProfile potentialProfile;
     private Point2D.Double statisticalLocationOffset = new Point2D.Double();
+    private double statisticalLocationOffsetSigma;
 
     public Nucleus( Point2D.Double position, int numProtons, int numNeutrons,
                     PotentialProfile potentialProfile ) {
@@ -28,10 +29,15 @@ public class Nucleus extends Body {
         this.numNeutrons = numNeutrons;
         this.potentialProfile = potentialProfile;
         this.potentialEnergy = potentialProfile.getWellPotential();
+        this.statisticalLocationOffsetSigma = 0;
 
         int numParticles = getNumNeutrons() + getNumProtons();
         double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
         radius = Math.sqrt( particleArea / Math.PI ) / 2;
+    }
+
+    protected void setStatisticalLocationOffsetSigma( double statisticalLocationOffsetSigma ) {
+        this.statisticalLocationOffsetSigma = statisticalLocationOffsetSigma;
     }
 
     public Point2D.Double getCM() {
@@ -68,7 +74,7 @@ public class Nucleus extends Body {
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        double d = ( random.nextGaussian() * potentialProfile.getAlphaDecayX() / 3 ) * ( Math.random() > 0.5 ? 1 : -1 );
+        double d = ( random.nextGaussian() * statisticalLocationOffsetSigma ) * ( Math.random() > 0.5 ? 1 : -1 );
         double theta = Math.random() * Math.PI * 2;
         double dx = d * Math.cos( theta );
         double dy = d * Math.sin( theta );
@@ -84,6 +90,6 @@ public class Nucleus extends Body {
     //
     // Statics
     //
-    private static double maxStatisticalLocationOffset = 200;
+    protected static double maxStatisticalLocationOffset = 0;
     private static Random random = new Random();
 }

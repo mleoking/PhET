@@ -17,6 +17,16 @@ import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import java.awt.geom.Point2D;
 
 public class AlphaRadiationModule extends NuclearPhysicsModule implements DecayListener {
+
+    //
+    // Statics
+    //
+    private static int numAlphaParticles = 4;
+
+
+    //
+    // Instance fields and methods
+    //
     private Uranium235 nucleus;
 
     public AlphaRadiationModule( AbstractClock clock ) {
@@ -25,7 +35,11 @@ public class AlphaRadiationModule extends NuclearPhysicsModule implements DecayL
 
         nucleus = new Uranium235( new Point2D.Double( 200, 400 ) );
         setUraniumNucleus( nucleus );
-        getUraniumNucleus().addDecayListener( this );
+        nucleus.addDecayListener( this );
+
+        for( int i = 0; i < nucleus.getAlphaParticles().length; i++ ) {
+            addAlphaParticle( nucleus.getAlphaParticles()[i] );
+        }
     }
 
     public void alphaDecay( DecayProducts decayProducts ) {
@@ -39,11 +53,15 @@ public class AlphaRadiationModule extends NuclearPhysicsModule implements DecayL
         this.getModel().removeModelElement( nucleus );
     }
 
-
     public void run() {
         clear();
-        setUraniumNucleus( new Uranium235( new Point2D.Double( 200, 400 ) ) );
-        getUraniumNucleus().addDecayListener( this );
-    }
 
+        nucleus = new Uranium235( new Point2D.Double( 200, 400 ) );
+        setUraniumNucleus( nucleus );
+        nucleus.addDecayListener( this );
+
+        for( int i = 0; i < nucleus.getAlphaParticles().length; i++ ) {
+            addAlphaParticle( nucleus.getAlphaParticles()[i] );
+        }
+    }
 }
