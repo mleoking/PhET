@@ -265,6 +265,15 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
         return result;
     }
 
+    /**
+     * Returns the x distance from the center of the profile to the profile's peak
+     *
+     * @return
+     */
+    public double getProfilePeakX() {
+        return endPt2.getX();
+    }
+
     // A test to see if the parametric equations are being computed properly
 //    public Point2D.Double[] genPts( int numPts ) {
 //        Point2D.Double[] result = new Point2D.Double[numPts];
