@@ -25,17 +25,7 @@ public class HighEnergyHalfLifeControl extends JPanel {
     private JSlider highEnergySpontaneousEmissionTimeSlider;
     private JTextField highEnergySpontaneousEmissionTimeTF;
 
-    public HighEnergyHalfLifeControl( LaserModel model ) {
-        this.setLayout( new GridLayout( 2, 1 ));
-        addHighEnergyControls( model );
-    }
-
-    /**
-     *
-     */
-    private void addHighEnergyControls( final LaserModel model ) {
-        JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
-        controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
+    public HighEnergyHalfLifeControl( final LaserModel model ) {
 
         JPanel timeReadoutPanel = new JPanel( new BorderLayout() );
         highEnergySpontaneousEmissionTimeTF = new JTextField( 4 );
@@ -46,7 +36,8 @@ public class HighEnergyHalfLifeControl extends JPanel {
                                                                LaserConfig.CONTROL_FONT_STYLE,
                                                                LaserConfig.CONTROL_FONT_SIZE  ) );
 
-        highEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
+        highEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) );
+//        highEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
 
         highEnergySpontaneousEmissionTimeSlider = new JSlider( JSlider.VERTICAL,
                                         LaserConfig.MINIMUM_SPONTANEOUS_EMISSION_TIME,
@@ -65,14 +56,19 @@ public class HighEnergyHalfLifeControl extends JPanel {
             }
         } );
 
-        timeReadoutPanel.add( highEnergySpontaneousEmissionTimeTF, BorderLayout.CENTER );
-        controlPanel.add( timeReadoutPanel );
-        controlPanel.add( highEnergySpontaneousEmissionTimeSlider );
+        this.setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0,0, 1,1,1,1,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.HORIZONTAL,
+                                                         new Insets( 0,5,0,5 ), 20, 0 );
+        this.add( highEnergySpontaneousEmissionTimeSlider, gbc );
+        gbc.gridx++;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.add( highEnergySpontaneousEmissionTimeTF, gbc );
 
         Border frequencyBorder = new TitledBorder( "High Energy Lifetime" );
-        controlPanel.setBorder( frequencyBorder );
-        this.add( controlPanel );
-
+        this.setBorder( frequencyBorder );
     }
 
 //    private void updateHighEnergySpontaneousEmissionTime( double time ) {

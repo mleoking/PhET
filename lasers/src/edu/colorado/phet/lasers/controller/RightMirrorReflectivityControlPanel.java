@@ -36,9 +36,6 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
         }
         this.cavity = cavity;
 
-        JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
-        controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
-
         JPanel timeReadoutPanel = new JPanel( new BorderLayout() );
         reflectivityTF = new JTextField( 4 );
         reflectivityTF.setEditable( false );
@@ -66,13 +63,33 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
             }
         } );
 
-        timeReadoutPanel.add( reflectivityTF, BorderLayout.CENTER );
-        controlPanel.add( timeReadoutPanel );
-        controlPanel.add( reflectivitySlider );
+        JPanel controlPanel = new JPanel( new GridBagLayout() );
+//        JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
+//        controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
+        GridBagConstraints gbc = new GridBagConstraints( 0,0, 1,1,1,1,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.HORIZONTAL,
+                                                         new Insets( 0,5,0,5 ), 20, 0 );
+
+//        timeReadoutPanel.add( reflectivityTF, BorderLayout.CENTER );
+//        controlPanel.add( timeReadoutPanel );
+//        controlPanel.add( reflectivityTF, gbc);
+//        gbc.gridx++;
+//        controlPanel.add( reflectivitySlider,gbc );
+//
+//        Border border = new TitledBorder( "Reflectivity" );
+//        controlPanel.setBorder( border );
+//        this.add( controlPanel );
+        this.setLayout( new GridBagLayout() );
+        this.add( reflectivitySlider,gbc );
+        gbc.gridx++;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.add( reflectivityTF, gbc);
 
         Border border = new TitledBorder( "Reflectivity" );
-        controlPanel.setBorder( border );
-        this.add( controlPanel );
+        this.setBorder( border );
+//        this.add( controlPanel );
     }
 
 //    private void updateReflectivity( float reflectivity ) {

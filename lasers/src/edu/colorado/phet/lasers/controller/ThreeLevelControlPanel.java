@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.LaserApplication;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -32,11 +33,11 @@ public class ThreeLevelControlPanel extends LaserControlPanel {
 
     private static class ControlPanel extends JPanel {
         ControlPanel( LaserModel model, AbstractClock clock ) {
-            this.setLayout( new GridLayout( 7, 1 ) );
+//            this.setLayout( new GridLayout( 7, 1 ) );
             this.setLayout( new GridBagLayout() );
             GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                              GridBagConstraints.CENTER,
-                                                             GridBagConstraints.NONE,
+                                                             GridBagConstraints.HORIZONTAL,
                                                              new Insets( 0, 0, 0, 0 ),
                                                              0, 0 );
             Border border = BorderFactory.createEtchedBorder();
