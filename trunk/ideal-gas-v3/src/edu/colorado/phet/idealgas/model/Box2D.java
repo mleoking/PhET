@@ -10,6 +10,7 @@ import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * A 2 dimensional box
@@ -24,6 +25,8 @@ public class Box2D extends CollidableBody {
     private double maxX;
     private double maxY;
     private double leftWallVx = 0;
+    boolean autoNotify = true;
+
 
     // TODO: put the opening characteristics in a specialization of this class.
     private Point2D[] opening = new Point2D.Double[]{
@@ -67,8 +70,6 @@ public class Box2D extends CollidableBody {
     public void setBounds( double minX, double minY, double maxX, double maxY ) {
         this.setState( new Point2D.Double( minX, minY ), new Point2D.Double( maxX, maxY ) );
     }
-
-    boolean autoNotify = true;
 
     public void notifyObservers() {
         if( autoNotify ) {
@@ -159,6 +160,10 @@ public class Box2D extends CollidableBody {
                           && p.getY() - rad >= this.getMinY()
                           && p.getY() + rad <= this.getMaxY();
         return !isInBox;
+    }
+
+    public Rectangle2D getBoundsInternal() {
+        return new Rectangle2D.Double( getCorner1X(), getCorner1Y(), getWidth(), getHeight() );
     }
 
     // TODO: change references so these methods don't have to be public.

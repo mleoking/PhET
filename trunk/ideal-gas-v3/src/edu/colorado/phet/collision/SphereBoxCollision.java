@@ -7,10 +7,10 @@
  */
 package edu.colorado.phet.collision;
 
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.common.math.MathUtil;
 
 public class SphereBoxCollision implements Collision {
 
@@ -38,7 +38,7 @@ public class SphereBoxCollision implements Collision {
             sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             double wx = box.getMinX();
             double dx = wx - ( sx - r );
-            double newX = sx + ( dx + 2 );
+            double newX = sx + ( dx * 2 );
             sphere.setPosition( newX, sphere.getPosition().getY() );
 
             // Handle giving particle kinetic energy if the wall is moving
