@@ -43,6 +43,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -109,6 +111,13 @@ public class IdealGasModule extends Module {
 
         // Create the box and its graphic
         createBoxAndGraphic( clock );
+
+        // Create a listener that will keep the model bounds set correctly
+        getApparatusPanel().addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                idealGasModel.setModelBounds( getApparatusPanel().getBounds());
+            }
+        } );
 
         // Create the pressure gauge and thermometer
         createGauges( clock );

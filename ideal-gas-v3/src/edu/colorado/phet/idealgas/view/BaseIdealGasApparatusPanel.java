@@ -11,6 +11,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasApplication;
@@ -92,7 +93,6 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
      *
      */
     protected void paintComponent( Graphics graphics ) {
-
         super.paintComponent( graphics );
     }
 
@@ -147,4 +147,9 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     //            new AddHelpItemCmd( helpText3 ).doIt();
     //        }
     //    }
+
+
+    public void removeGraphic( PhetGraphic graphic ) {
+        super.removeGraphic( graphic );
+    }
 }
