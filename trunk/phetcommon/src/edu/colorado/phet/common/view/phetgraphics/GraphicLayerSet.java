@@ -30,7 +30,7 @@ public class GraphicLayerSet extends PhetGraphic {
             Iterator it = graphicMap.iterator();
             while( it.hasNext() ) {
                 PhetGraphic graphic = (PhetGraphic)it.next();
-                graphic.paint( g );
+                graphic.paint( g );//The children know about our transform implicitly.  They handle the transform.
             }
         }
     }
@@ -75,7 +75,8 @@ public class GraphicLayerSet extends PhetGraphic {
         for( int i = 0; i < r.length; i++ ) {
             r[i] = ch[i].getBounds();
         }
-        return RectangleUtils.union( r );
+        Rectangle bounds = RectangleUtils.union( r );//children do their own transform.
+        return bounds;
     }
 
     /**
@@ -92,6 +93,16 @@ public class GraphicLayerSet extends PhetGraphic {
      */
     public void removeGraphic( PhetGraphic graphic ) {
         graphicMap.removeValue( graphic );
+        graphic.setParent( null );
+    }
+
+    public void setBoundsDirty() {
+        super.setBoundsDirty();
+        Iterator it = graphicMap.iterator();
+        while( it.hasNext() ) {
+            PhetGraphic graphic = (PhetGraphic)it.next();
+            graphic.setBoundsDirty();
+        }
     }
 
     /**
@@ -103,7 +114,6 @@ public class GraphicLayerSet extends PhetGraphic {
             PhetGraphic graphic = (PhetGraphic)it.next();
             graphic.forceRepaint();
         }
-
     }
 
     /**
@@ -113,6 +123,7 @@ public class GraphicLayerSet extends PhetGraphic {
      */
     public void addGraphic( PhetGraphic graphic ) {
         addGraphic( graphic, 0 );
+        graphic.setParent( this );
     }
 
     /**
@@ -291,11 +302,4 @@ public class GraphicLayerSet extends PhetGraphic {
 
     }
 
-    public int getX() {
-        return getLocation().x;
-    }
-
-    public int getY() {
-        return getLocation().y;
-    }
 }

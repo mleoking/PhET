@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
+import java.awt.geom.NoninvertibleTransformException;
 
 /**
  * User: University of Colorado, PhET
@@ -28,8 +29,14 @@ public class PhetTextGraphic extends PhetGraphic {
         if( isVisible() ) {
             g.setFont( font );
             g.setColor( color );
-            Point location = super.getLocation();
-            g.drawString( text, location.x, location.y );
+            g.transform( getTransform() );
+            g.drawString( text, 0, 0 );
+            try {
+                g.transform( getTransform().createInverse() );
+            }
+            catch( NoninvertibleTransformException e ) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -41,9 +48,9 @@ public class PhetTextGraphic extends PhetGraphic {
         int ascent = fontMetrics.getAscent();
         int descent = fontMetrics.getDescent();
         int leading = fontMetrics.getLeading();
-        Point location = getLocation();
+        Point location = new Point( 0, 0 );
         Rectangle bounds = new Rectangle( location.x, location.y - ascent + leading, width, ascent + descent + leading );
-        return bounds;
+        return getTransform().createTransformedShape( bounds ).getBounds();
     }
 
     public Font getFont() {
@@ -60,15 +67,6 @@ public class PhetTextGraphic extends PhetGraphic {
 
     public FontMetrics getFontMetrics() {
         return fontMetrics;
-    }
-
-    public void setLocation( int x, int y ) {
-        Point loc = getLocation();
-        if( loc.x != x || loc.y != y ) {
-            super.setLocation( x, y );
-            setBoundsDirty();
-            repaint();
-        }
     }
 
     public void setText( String text ) {

@@ -4,6 +4,7 @@ package edu.colorado.phet.common.view.phetgraphics;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import java.awt.*;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -15,32 +16,29 @@ import java.awt.geom.Rectangle2D;
 public class PhetShadowTextGraphic extends PhetGraphic {
     private PhetTextGraphic foreground;
     private PhetTextGraphic background;
-    private int dx;
-    private int dy;
 
     public PhetShadowTextGraphic( Component component, String text, Font font, int x, int y, Color foregroundColor, int dx, int dy, Color backgroundColor ) {
         super( component );
-        this.dx = dx;
-        this.dy = dy;
-        foreground = new PhetTextGraphic( component, font, text, foregroundColor, x, y );
-        background = new PhetTextGraphic( component, font, text, backgroundColor, x + dx, y + dy );
-    }
-
-    public void setLocation( int x, int y ) {
-        foreground.setLocation( x, y );
-        background.setLocation( x + dx, y + dy );
-        super.setLocation( x, y );
-        super.setBoundsDirty();
-        super.repaint();
+        foreground = new PhetTextGraphic( component, font, text, foregroundColor, 0, 0 );
+        background = new PhetTextGraphic( component, font, text, backgroundColor, 0 + dx, 0 + dy );
+        setLocation( x, y );
     }
 
     public void paint( Graphics2D g ) {
+        g.transform( getTransform() );
         background.paint( g );
         foreground.paint( g );
+        try {
+            g.transform( getTransform().createInverse() );
+        }
+        catch( NoninvertibleTransformException e ) {
+            e.printStackTrace();
+        }
     }
 
     protected Rectangle determineBounds() {
         Rectangle2D b = foreground.getBounds().createUnion( background.getBounds() );
+        b = getTransform().createTransformedShape( b ).getBounds2D();
         return RectangleUtils.toRectangle( b );
     }
 

@@ -2,7 +2,7 @@
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 
 /**
  * User: University of Colorado, PhET
@@ -65,6 +65,7 @@ public class PhetShapeGraphic extends PhetGraphic {
                 g.setRenderingHints( hints );
             }
             if( shape != null ) {
+                g.transform( getTransform() );
                 if( fill != null ) {
                     g.setPaint( fill );
                     g.fill( shape );
@@ -76,6 +77,12 @@ public class PhetShapeGraphic extends PhetGraphic {
                     g.draw( shape );
                     g.setStroke( origStroke );
                 }
+                try {
+                    g.transform( getTransform().createInverse() );
+                }
+                catch( NoninvertibleTransformException e ) {
+                    e.printStackTrace();
+                }
             }
             super.restoreGraphicsState();
         }
@@ -86,18 +93,14 @@ public class PhetShapeGraphic extends PhetGraphic {
             return null;
         }
         if( stroke == null ) {
-            return shape.getBounds();
+            return getTransform().createTransformedShape( shape.getBounds() ).getBounds();
         }
         else {
             Shape outlineShape = stroke.createStrokedShape( shape );
             Rectangle bounds = outlineShape.getBounds();
             Rectangle expanded = new Rectangle( bounds.x, bounds.y, bounds.width + 1, bounds.height + 1 ); //necessary to capture the entire bounds.
-            return expanded;
+            return getTransform().createTransformedShape( expanded ).getBounds();
         }
-    }
-
-    public Point getPosition() {
-        return shape.getBounds().getLocation();
     }
 
     public void setShape( Shape shape ) {
@@ -114,19 +117,17 @@ public class PhetShapeGraphic extends PhetGraphic {
         if( differentShape ) {
             this.shape = shape;
             setBoundsDirty();
+            notifyChanged();
             repaint();
         }
-
-
-    }
-
-    public void translate( double dx, double dy ) {
-        Shape newShape = AffineTransform.getTranslateInstance( dx, dy ).createTransformedShape( shape );
-        setShape( newShape );
     }
 
     public boolean contains( int x, int y ) {
-        return isVisible() && getShape() != null && getShape().contains( x, y );
+        if( getShape() != null ) {
+            Shape txShape = getTransform().createTransformedShape( getShape() );
+            return isVisible() && txShape.contains( x, y );
+        }
+        return false;
     }
 
     public void setBorderColor( Color color ) {
@@ -154,13 +155,6 @@ public class PhetShapeGraphic extends PhetGraphic {
             this.fill = paint;
             repaint();
         }
-    }
-
-    public void setLocation( int x, int y ) {
-        int oldX = getLocation().x;
-        int oldY = getLocation().y;
-        super.setLocation( x, y );
-        translate( x - oldX, y - oldY );
     }
 
     public void setColor( Color color ) {

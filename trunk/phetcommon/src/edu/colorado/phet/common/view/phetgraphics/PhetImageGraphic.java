@@ -15,7 +15,6 @@ import java.io.IOException;
 
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
-    private AffineTransform transform;
     private boolean shapeDirty = true;
     private Shape shape;
 
@@ -37,22 +36,17 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     public PhetImageGraphic( Component component, BufferedImage image ) {
-        this( component, image, new AffineTransform() );
+        this( component, image, 0, 0 );
     }
 
     public PhetImageGraphic( Component component, BufferedImage image, int x, int y ) {
         super( component );
         this.image = image;
-        this.transform = AffineTransform.getTranslateInstance( x, y );
-    }
-
-    public PhetImageGraphic( Component component, BufferedImage image, AffineTransform transform ) {
-        super( component );
-        this.image = image;
-        this.transform = transform;
+        setLocation( x, y );
     }
 
     public Shape getShape() {
+        AffineTransform transform = getTransform();
         if( shapeDirty ) {
             if( image == null ) {
                 return null;
@@ -74,47 +68,29 @@ public class PhetImageGraphic extends PhetGraphic {
 
     public void paint( Graphics2D g ) {
         if( isVisible() && image != null ) {
-            Point loc = getLocation();
-            g.translate( loc.x, loc.y );
-            g.drawRenderedImage( image, transform );
-            g.translate( -loc.x, -loc.y );
+            g.drawRenderedImage( image, getTransform() );
         }
     }
 
     public void setLocation( Point p ) {
-        super.setLocation( p );
-        setBoundsDirty();
-        repaint();
+        setLocation( p.x, p.y );
     }
 
-    public void setTransform( AffineTransform transform ) {
-        if( !transform.equals( this.transform ) ) {
-            this.transform = transform;
+    public void setBoundsDirty() {
+        super.setBoundsDirty();
+        shapeDirty = true;
+    }
+
+    public void setImage( BufferedImage image ) {
+        if( this.image != image ) {
+            this.image = image;
             setBoundsDirty();
-            shapeDirty = true;
             repaint();
         }
     }
 
-    public void setImage( BufferedImage image ) {
-        this.image = image;
-        setBoundsDirty();
-        repaint();
-    }
-
     public BufferedImage getImage() {
         return image;
-    }
-
-    /**
-     * Any side effects produced on this transform will not be automatically
-     * observed by this class.  You must call setBoundsDirty(); repaint();
-     * or simply setTransform().
-     *
-     * @return the AffineTransform associated with this PhetImageGraphic.
-     */
-    public AffineTransform getTransform() {
-        return transform;
     }
 
 }
