@@ -20,13 +20,14 @@ import java.io.IOException;
 
 public class SingleSourceApparatusPanel extends SoundApparatusPanel {
 
-    private PhetImageGraphic speakerFrame;
-    private PhetImageGraphic speakerCone;
+//    private PhetImageGraphic speakerFrame;
+//    private PhetImageGraphic speakerCone;
     private WavefrontGraphic wavefrontGraphic = null;
     private BufferedImage speakerFrameImg;
     private BufferedImage speakerConeImg;
     private int audioSource = SPEAKER_SOURCE;
     private boolean audioEnabledOnActivation;
+    private SpeakerGraphic speakerGraphic;
 
 
     /**
@@ -45,7 +46,7 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
                                      SoundConfig.s_wavefrontRadius );
 
         // Set up the octave wavefront and graphic
-        WavefrontGraphic wgB = new WavefrontGraphic( waveMedium, this );
+//        WavefrontGraphic wgB = new WavefrontGraphic( waveMedium, this );
         //        wavefrontGraphic.init( waveMedium );
         this.addGraphic( wavefrontGraphic, 7 );
         Point2D.Double audioSourceB = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
@@ -58,29 +59,14 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
         this.setBackground( SoundConfig.MIDDLE_GRAY );
 
         // Set up the speaker
-        try {
-            speakerFrameImg = ImageLoader.loadBufferedImage( SoundConfig.SPEAKER_FRAME_IMAGE_FILE );
-            speakerConeImg = ImageLoader.loadBufferedImage( SoundConfig.SPEAKER_CONE_IMAGE_FILE );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-            throw new RuntimeException( "Image files not found" );
-        }
-        speakerFrame = new PhetImageGraphic( this, speakerFrameImg );
-        speakerFrame.setPosition( SoundConfig.s_speakerBaseX,
-                                  SoundConfig.s_wavefrontBaseY - speakerFrameImg.getHeight( null ) / 2 );
-        speakerCone = new PhetImageGraphic( this, speakerConeImg );
-        speakerCone.setPosition( SoundConfig.s_speakerBaseX + s_speakerConeOffsetX,
-                                 SoundConfig.s_wavefrontBaseY - speakerConeImg.getHeight( null ) / 2 );
-        this.addGraphic( speakerFrame, 8 );
-        this.addGraphic( speakerCone, 9 );
+        speakerGraphic = new SpeakerGraphic( this, waveMedium );
+        this.addGraphic( speakerGraphic, 8 );
         waveMedium.addObserver( new SimpleObserver() {
             private int s_maxSpeakerConeExcursion = 6;
 
             public void update() {
                 int coneOffset = (int)( waveMedium.getAmplitudeAt( 0 ) / SoundConfig.s_maxAmplitude * s_maxSpeakerConeExcursion );
-                speakerCone.setPosition( SoundConfig.s_speakerBaseX + s_speakerConeOffsetX + coneOffset,
-                                         SoundConfig.s_wavefrontBaseY - speakerConeImg.getHeight( null ) / 2 );
+                speakerGraphic.setConePosition( coneOffset );
             }
         } );
     }
@@ -124,18 +110,18 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
      *
      * @return
      */
-    protected PhetGraphic getSpeakerFrame() {
-        return speakerFrame;
-    }
+//    protected PhetGraphic getSpeakerFrame() {
+//        return speakerFrame;
+//    }
 
     /**
      * TODO: refactor this class so that we don't need this to make interference work
      *
      * @return
      */
-    protected PhetGraphic getSpeakerCone() {
-        return speakerCone;
-    }
+//    protected PhetGraphic getSpeakerCone() {
+//        return speakerCone;
+//    }
 
     /**
      * Gets the amplitude at the speaker or the listener, depending on what is

@@ -211,7 +211,6 @@ public class SoundModel extends BaseModel {
         if( listenerLocation == null ) {
             listenerLocation = new Point2D.Double();
         }
-        System.out.println( "location = " + listenerLocation );
 
         synchronized( listenerLocation ) {
             this.listenerLocation.setLocation( x, y );

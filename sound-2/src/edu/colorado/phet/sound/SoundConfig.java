@@ -34,7 +34,8 @@ public class SoundConfig {
 
     public static final int s_maxFrequency = 1000;
     public static final int s_defaultFrequency = 500;
-    public static final int s_maxAmplitude = 10;
+    public static final int s_maxAmplitude = 1;
+//    public static final int s_maxAmplitude = 10;
     public static final int s_defaultAmplitude = 5;
 
     // This parameter defines how tightly spaced the waves are on the screen. If it is too small,
