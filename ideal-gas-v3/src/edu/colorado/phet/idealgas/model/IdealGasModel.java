@@ -242,8 +242,8 @@ public class IdealGasModel extends BaseModel {
         // Managing energy step 1: Get the amount of kinetic energy in the system
         // before anything happens
         currentlyInStepInTimeMethod = true;
-        double energyPre = this.getTotalEnergy();
-        //        double totalPreKE = this.getTotalKineticEnergy();
+//        double energyPre = this.getTotalEnergy();
+                double energyPre = this.getTotalKineticEnergy();
 
         // Clear the accelerations on the bodies in the model
         for( int i = 0; i < bodies.size(); i++ ) {
@@ -267,18 +267,15 @@ public class IdealGasModel extends BaseModel {
 
         // Managing energy, step 2: Get the total kinetic energy in the system,
         // and adjust it if neccessary
-        double energyPost = this.getTotalEnergy();
-        //        double totalPostKE = this.getTotalKineticEnergy();
+//        double energyPost = this.getTotalEnergy();
+                double energyPost = this.getTotalKineticEnergy();
         double ratio;
         double r1 = Math.sqrt( energyPre + deltaKE );
-        //        double r1 = Math.sqrt( totalPreKE + deltaKE );
         deltaKE = 0;
         double r2 = Math.sqrt( energyPost );
-        //        double r2 = Math.sqrt( totalPostKE );
         ratio = r1 / r2;
 
         if( energyPre != 0 && ratio != 1 ) {
-            //        if( totalPreKE != 0 && ratio != 1 ) {
             for( int i = 0; i < this.numModelElements(); i++ ) {
                 ModelElement element = this.modelElementAt( i );
                 if( element instanceof Body ) {
@@ -291,7 +288,7 @@ public class IdealGasModel extends BaseModel {
                         System.out.println( "halt!" );
                     }
                     else if( body.getKineticEnergy() > 0 ) {
-                        body.setVelocity( (float)vx, (float)vy );
+                        body.setVelocity( vx, vy );
                     }
                 }
             }
@@ -336,15 +333,10 @@ public class IdealGasModel extends BaseModel {
                 numGasMolecules++;
             }
         }
-        averageMoleculeEnergy = numGasMolecules != 0 ?
-                                totalEnergy / numGasMolecules
-                                : 0;
+        averageMoleculeEnergy = numGasMolecules != 0 ? totalEnergy / numGasMolecules : 0;
         averageHeavySpeciesSpeed = getHeavySpeciesCnt() > 0 ? totalHeavySpeed / getHeavySpeciesCnt() : 0;
-//        System.out.println( "averageHeavySpeciesSpeed = " + averageHeavySpeciesSpeed );
-
         averageLightSpeciesSpeed = getLightSpeciesCnt() > 0 ? totalLightSpeed / getLightSpeciesCnt() : 0;
         currentlyInStepInTimeMethod = false;
-
 
         // Update either pressure or volume
         updateFreeParameter();

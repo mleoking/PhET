@@ -11,7 +11,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HollowSphere;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.SphericalBody;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
@@ -46,7 +45,6 @@ public class HotAirBalloon extends HollowSphere {
 
     public void setOpeningAngle( double theta ) {
         this.theta = theta;
-
         // Set the current location of the opening. It moves with the balloon
         double angle = theta * Math.PI / 180;
         oxOffset = getRadius() * Math.sin( angle / 2 );
@@ -55,7 +53,6 @@ public class HotAirBalloon extends HollowSphere {
     }
 
     public void stepInTime( double dt ) {
-
         super.stepInTime( dt );
 
         // Set the current location of the opening. It moves with the balloon
@@ -92,14 +89,14 @@ public class HotAirBalloon extends HollowSphere {
         opening = new Rectangle2D.Double( o1x, o1y, o2x - o1x, 20 );
     }
 
-    public boolean isInOpening( SphericalBody particle ) {
-        double px = particle.getPosition().getX();
-        double py = particle.getPosition().getY();
-        boolean b = px - particle.getRadius() >= opening.getMinX()
-                    && px + particle.getRadius() <= opening.getMaxX()
-                    && py + particle.getRadius() >= opening.getMinY();
-        return b;
-    }
+//    public boolean isInOpening( SphericalBody particle ) {
+//        double px = particle.getPosition().getX();
+//        double py = particle.getPosition().getY();
+//        boolean b = px - particle.getRadius() >= opening.getMinX()
+//                    && px + particle.getRadius() <= opening.getMaxX()
+//                    && py + particle.getRadius() >= opening.getMinY();
+//        return b;
+//    }
 
     public void setHeatSource( double value ) {
         heatSource = value;
