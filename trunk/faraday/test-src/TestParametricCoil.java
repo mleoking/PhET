@@ -40,8 +40,8 @@ public class TestParametricCoil extends JComponent {
     private static final Color END_POINT_COLOR = Color.BLUE;
     
     // Debugging parameters
-    private static final boolean DRAW_POINTS = true;
-    private static final boolean DRAW_ORIGIN = true;
+    private static final boolean DRAW_POINTS = false;
+    private static final boolean DRAW_ORIGIN = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -270,7 +270,7 @@ public class TestParametricCoil extends JComponent {
             {
                 Point e1 = new Point( (int)(_radius * .25) + offset, 0 );
                 Point e2 = new Point( (int)(_radius * .15) + offset, (int)(_radius * .98) );
-                Point c = new Point( (int)(_radius * .30) + offset, (int)(_radius * .70) );
+                Point c = new Point( (int)(_radius * .30) + offset, (int)(_radius * .80) );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
             
