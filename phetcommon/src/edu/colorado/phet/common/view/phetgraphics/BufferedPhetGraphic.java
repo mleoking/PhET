@@ -54,7 +54,9 @@ public class BufferedPhetGraphic extends PhetImageGraphic {
 
     public void repaintBuffer() {
         Graphics2D g2 = buffer.createGraphics();
-        graphicsSetup.setup( g2 );
+        if( graphicsSetup != null ) {
+            graphicsSetup.setup( g2 );
+        }
         if( background != null ) {
             g2.setPaint( background );
             g2.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
