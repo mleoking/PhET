@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.branch.components;
 
 import edu.colorado.phet.cck.elements.branch.Branch;
@@ -17,7 +17,6 @@ public class AmmeterBranch extends Branch implements HasResistance {
 
     public AmmeterBranch( Circuit parent, double x1, double y1, double x2, double y2 ) {
         super( parent, x1, y1, x2, y2 );//resistance is internal resistance here.
-        this.resistance = resistance;
     }
 
     public Branch copy() {

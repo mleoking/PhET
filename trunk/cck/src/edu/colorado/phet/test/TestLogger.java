@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.test;
 
 import java.util.logging.ConsoleHandler;
@@ -13,15 +13,15 @@ import java.util.logging.Logger;
  * Copyright (c) Dec 3, 2003 by Sam Reid
  */
 public class TestLogger {
-    public static void main(String[] args) {
-        Logger log = Logger.getLogger("tester.logger");
-        log.setLevel(Level.ALL);
+    public static void main( String[] args ) {
+        Logger log = Logger.getLogger( "tester.logger" );
+        log.setLevel( Level.ALL );
 
         ConsoleHandler ch = new ConsoleHandler();
-        ch.setLevel(Level.ALL);
-        log.addHandler(ch);
-        log.log(new LogRecord(Level.FINEST, "hey there"));
-        log.fine("Hello");
+        ch.setLevel( Level.ALL );
+        log.addHandler( ch );
+        log.log( new LogRecord( Level.FINEST, "hey there" ) );
+        log.fine( "Hello" );
         ch.flush();
     }
 }

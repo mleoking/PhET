@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.dvm;
 
 
@@ -22,7 +22,7 @@ public class VoltmeterUnit extends SimpleObservable {
     public void setLocation( double x, double y ) {
         this.x = x;
         this.y = y;
-        updateObservers();
+        notifyObservers();
     }
 
     public double getX() {
@@ -36,6 +36,6 @@ public class VoltmeterUnit extends SimpleObservable {
     public void translate( double dx, double dy ) {
         x += dx;
         y += dy;
-        updateObservers();
+        notifyObservers();
     }
 }

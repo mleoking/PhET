@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.test;
 
 import java.util.ArrayList;
@@ -19,15 +19,15 @@ public class PersonList {
         return people;
     }
 
-    public void setPeople(ArrayList people) {
+    public void setPeople( ArrayList people ) {
         this.people = people;
     }
 
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < people.size(); i++) {
-            Person person = (Person) people.get(i);
-            sb.append("Person[" + i + "]=" + person.getName());
+        for( int i = 0; i < people.size(); i++ ) {
+            Person person = (Person)people.get( i );
+            sb.append( "Person[" + i + "]=" + person.getName() );
         }
         return sb.toString();
     }

@@ -1,9 +1,8 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.circuit;
 
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.components.HasResistance;
-import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.elements.particles.ObjectSelector;
 import edu.colorado.phet.common.math.PhetVector;
 

@@ -1,8 +1,8 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.CCK2Module;
-import edu.colorado.phet.cck.elements.junction.JunctionGraphic;
+import edu.colorado.phet.cck.elements.circuit.JunctionGraphic;
 import edu.colorado.phet.cck.elements.particles.ParticleSetGraphic;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;

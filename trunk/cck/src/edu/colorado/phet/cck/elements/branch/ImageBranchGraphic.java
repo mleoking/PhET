@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.CCK2Module;
@@ -7,7 +7,7 @@ import edu.colorado.phet.cck.elements.branch.components.Battery;
 import edu.colorado.phet.cck.elements.branch.components.HasResistance;
 import edu.colorado.phet.cck.elements.branch.components.Resistor;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.cck.elements.junction.Junction;
+import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.selection.SelectionListener;
 import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;

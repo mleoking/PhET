@@ -1,10 +1,9 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.circuit;
 
 import edu.colorado.phet.cck.elements.branch.AbstractBranchGraphic;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.components.Wire;
-import edu.colorado.phet.cck.elements.junction.Junction;
 
 /**
  * User: Sam Reid

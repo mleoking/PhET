@@ -1,9 +1,9 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.particles;
 
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchObserver;
-import edu.colorado.phet.cck.elements.junction.Junction;
+import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.util.SimpleObserver;

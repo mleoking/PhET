@@ -1,11 +1,11 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.branch.components;
 
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchObserver;
 import edu.colorado.phet.cck.elements.branch.CompositeBranch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.cck.elements.junction.Junction;
+import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.cck.elements.xml.BulbData;
 import edu.colorado.phet.common.math.LinearTransform1d;
@@ -25,12 +25,10 @@ import java.util.ArrayList;
 public class Bulb extends Branch implements HasResistance {
     double resistance;
     CompositeBranch cb;
-//    private double gapWidth;
     private double height;
     private PhetVector secondStartPoint;
     private double intensity = 0;
     ArrayList intensityObservers = new ArrayList();
-//    private Point2D.Double ctrl;
     private boolean recursing = false;
     private double width;
     private PhetVector vecFromStartJunction;

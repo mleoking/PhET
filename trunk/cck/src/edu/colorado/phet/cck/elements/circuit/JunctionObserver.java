@@ -1,5 +1,5 @@
-/*Copyright, Sam Reid, 2003.*/
-package edu.colorado.phet.cck.elements.junction;
+/*Copyright, University of Colorado, 2004.*/
+package edu.colorado.phet.cck.elements.circuit;
 
 
 /**

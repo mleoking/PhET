@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.particles;
 
 import edu.colorado.phet.cck.CCK2Module;
@@ -50,6 +50,7 @@ public class ConstantDensityPropagator implements Propagator {
         double speed = bp.getBranch().getCurrent() * currentSpeedScale;
 //       System.out.println("speed = " + speed);
         speed = clamp( speed );
+
 //        System.out.println("Clamped speed = " + speed);
         //Apply any necessary clamps.
 //        if (speed == 0)

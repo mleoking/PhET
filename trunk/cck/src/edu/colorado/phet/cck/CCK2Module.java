@@ -1,45 +1,54 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck;
 
-import edu.colorado.phet.cck.common.*;
+import edu.colorado.phet.cck.common.CCKDragToCreate;
+import edu.colorado.phet.cck.common.InteractiveGraphicSource;
+import edu.colorado.phet.cck.common.VersionUtils;
 import edu.colorado.phet.cck.elements.ErrorGraphic;
 import edu.colorado.phet.cck.elements.ImageSuite;
-import edu.colorado.phet.cck.elements.ammeter.Ammeter;
-import edu.colorado.phet.cck.elements.ammeter.AmmeterGraphic;
+import edu.colorado.phet.cck.elements.ammeter.InteractiveTargetAmmeterGraphic;
+import edu.colorado.phet.cck.elements.ammeter.TargetAmmeter;
+import edu.colorado.phet.cck.elements.ammeter.TargetAmmeterGraphic;
 import edu.colorado.phet.cck.elements.branch.*;
 import edu.colorado.phet.cck.elements.branch.components.*;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.elements.circuit.CircuitObserver;
+import edu.colorado.phet.cck.elements.circuit.Junction;
 import edu.colorado.phet.cck.elements.dvm.Voltmeter;
 import edu.colorado.phet.cck.elements.dvm.VoltmeterGraphic;
-import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.elements.kirkhoff.CircuitSolver;
 import edu.colorado.phet.cck.elements.particles.ParticleLayout;
 import edu.colorado.phet.cck.elements.particles.ParticleSet;
 import edu.colorado.phet.cck.elements.particles.ParticleSetGraphic;
 import edu.colorado.phet.cck.util.MyConsoleHandler;
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.*;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.AspectRatioLayout;
-import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
+import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Arrays;
@@ -120,7 +129,7 @@ public class CCK2Module extends Module {
             getApparatusPanel().repaint();
         }
     };
-    private static int numTicks = 0;
+
     private ComponentListener relayout = new ComponentAdapter() {
         public void componentResized( ComponentEvent e ) {
             relayout();
@@ -131,27 +140,26 @@ public class CCK2Module extends Module {
         }
     };
     private BufferedImage flameImage;
-//    private JLabel helpLabel;
-    private boolean firstBranch = true;
+
     private boolean usePointAmmeter;
-    private Ammeter ammeter;
-    private AmmeterGraphic ammeterGraphic;
-    private boolean helpVisible = false;
+    private TargetAmmeter ammeter;
+    private TargetAmmeterGraphic ammeterGraphic;
     private static final double AMMETER_BRANCH_Y = 1.0;
     private Rectangle2D.Double modelRect;
     private static boolean virtualLab;
+    private Rectangle lastArea;
 
     public BufferedImage getFlameImage() {
         return flameImage;
     }
 
-    public CCK2Module( final boolean usePointAmmeter, AbstractClock clock ) throws IOException {
+    public CCK2Module( final boolean usePointAmmeter ) throws IOException {
         super( "Circuit Construction Kit-ii" );
         this.usePointAmmeter = usePointAmmeter;
 
         imageSuite = new CCK2ImageSuite();
-        flameImage = imageSuite.getImageLoader().loadBufferedImage( "images/flame.gif" );
-        setModel( new BaseModel( clock ) );
+        flameImage = ImageLoader.loadBufferedImage( "images/flame.gif" );
+        setModel( new BaseModel() );
         setApparatusPanel( new ApparatusPanel() );
         showErrorGraphic = new ErrorGraphic( getApparatusPanel() );
         getApparatusPanel().addGraphic( showErrorGraphic, 1000 );
@@ -217,9 +225,23 @@ public class CCK2Module extends Module {
         } );
 
         if( usePointAmmeter ) {
-            ammeter = new Ammeter( vm.getVoltmeterUnit().getX() - 2, vm.getVoltmeterUnit().getY() - .2 );
-            ammeterGraphic = new AmmeterGraphic( ammeter, getTransform(), this, circuitGraphic );
-            getApparatusPanel().addGraphic( ammeterGraphic, 2000 );
+            ammeter = new TargetAmmeter( vm.getVoltmeterUnit().getX() - 2, vm.getVoltmeterUnit().getY() - .2 );
+            ammeter.addAboutToTranslateListener( new SimpleObserver() {
+                public void update() {
+                    lastArea = ammeterGraphic.getVisibleRect();
+                }
+            } );
+            ammeter.addObserver( new SimpleObserver() {
+                public void update() {
+                    getApparatusPanel().repaint( lastArea );
+                    getApparatusPanel().repaint( ammeterGraphic.getVisibleRect() );
+//
+//                    getApparatusPanel().paintImmediately( lastArea );
+//                    getApparatusPanel().paintImmediately( ammeterGraphic.getVisibleRect() );
+                }
+            } );
+            ammeterGraphic = new TargetAmmeterGraphic( ammeter, getTransform(), this, circuitGraphic );
+            getApparatusPanel().addGraphic( new InteractiveTargetAmmeterGraphic( ammeterGraphic ), 2000 );
         }
 
         JunctionCoverUpGraphic jcpg = new JunctionCoverUpGraphic( circuitGraphic, transform, imageSuite.getParticleImageWidth() / 2 + 3 );
@@ -265,8 +287,8 @@ public class CCK2Module extends Module {
         dragY -= dragDY;
         final Battery batteryWithWires = new Battery( circuit, creationX1, dragY, creationX2, dragY, 9, 0 );
         dragY -= dragDY;
-        final BufferedImage battIm = imageSuite.getLifelikeSuite().getBatteryImage();
-        final double modelWidthBatt = transform.viewToModelDifferentialX( battIm.getWidth() );
+//        final BufferedImage battIm = imageSuite.getLifelikeSuite().getBatteryImage();
+//        final double modelWidthBatt = transform.viewToModelDifferentialX( battIm.getWidth() );
 //        double battSep = modelWidthBatt;
 //        final Battery batteryWithoutWires = new Battery(circuit, creationX1, dragY, creationX1 + battSep, dragY, 9.0, 1);
 //        final double batty = dragY;
@@ -277,14 +299,27 @@ public class CCK2Module extends Module {
         dragY -= dragDY;
         final Wire wireDragBranch = new Wire( circuit, creationX1, dragY, creationX2, dragY );
 
-        Rectangle2D.Double creationPanelRect = new Rectangle2D.Double( creationX1 - 1.2, dragY - .5, modelRect.width - creationX1 - .1 + 1.2, dragYInit - dragY + 1 );
-        HasModelShape hsm = new FixedModelShape( creationPanelRect );
-        ShapeGraphic2 creationPanelGraphic = new ShapeGraphic2( hsm, getTransform(), new Color( 244, 201, 255 ), new BasicStroke( 2 ) );
-        graphic.addGraphic( creationPanelGraphic, -1 );
+//        final Rectangle2D.Double creationPanelRect = new Rectangle2D.Double( creationX1 - 1.2, dragY - .5, modelRect.width - creationX1 - .1 + 1.2, dragYInit - dragY + 1 );
+        double creationPanelWidth = modelRect.width - creationX1 - .1 + 1.2;
+        final RoundRectangle2D.Double creationPanelRect = new RoundRectangle2D.Double( creationX1 - 1.2, dragY - .5, creationPanelWidth, dragYInit - dragY + 1, creationPanelWidth * .06, creationPanelWidth * .06 );
+//        HasModelShape hsm = new FixedModelShape( creationPanelRect );
+        Stroke creationPanelGraphicStroke = new BasicStroke( 2.0f );
+        Color creationPanelColor = new Color( 244, 201, 255 );
+
+        final ShapeGraphic sg = new ShapeGraphic( null, creationPanelColor, Color.black, creationPanelGraphicStroke );
+        transform.addTransformListener( new TransformListener() {
+            public void transformChanged( ModelViewTransform2D mvt ) {
+                sg.setShape( mvt.createTransformedShape( creationPanelRect ) );
+            }
+        } );
+        graphic.addGraphic( sg, -1 );
+
+//        ShapeGraphic2 creationPanelGraphic = new ShapeGraphic2( hsm, getTransform(), new Color( 244, 201, 255 ), new BasicStroke( 2 ) );
+//        graphic.addGraphic( creationPanelGraphic, -1 );
 //        getApparatusPanel().addGraphic(creationPanelGraphic, -1);
 
 
-        DragToCreate createResistor = getDragToCreate( dragBranch, "Resistor" );
+        CCKDragToCreate createResistor = getDragToCreate( dragBranch, "Resistor" );
 
         graphic.addGraphic( createResistor, -1 );
 //        getApparatusPanel().addGraphic(createResistor, -1);
@@ -299,22 +334,22 @@ public class CCK2Module extends Module {
 ////                batteryWithoutWires.resetDirVector();
 //            }
 //        });
-//        DragToCreate createBattery = getDragToCreate(batteryWithoutWires, "Battery");
+//        CCKDragToCreate createBattery = getDragToCreate(batteryWithoutWires, "Battery");
 //        getApparatusPanel().addGraphic(createBattery, -1);
 
-        DragToCreate createBattery2 = getDragToCreate( batteryWithWires, "Battery w/ Wires" );
+        CCKDragToCreate createBattery2 = getDragToCreate( batteryWithWires, "Battery w/ Wires" );
 //        getApparatusPanel().addGraphic(createBattery2, -1);
         graphic.addGraphic( createBattery2, -1 );
 
-        DragToCreate createBulb = getDragToCreate( bulbCreateBranch, "Light Bulb" );
+        CCKDragToCreate createBulb = getDragToCreate( bulbCreateBranch, "Light Bulb" );
 //        getApparatusPanel().addGraphic(createBulb, -1);
         graphic.addGraphic( createBulb, -1 );
 
-        DragToCreate createSwitch = getDragToCreate( switchCreateBranch, "Switch" );
+        CCKDragToCreate createSwitch = getDragToCreate( switchCreateBranch, "Switch" );
 //        getApparatusPanel().addGraphic(createSwitch, -1);
         graphic.addGraphic( createSwitch, -1 );
 
-        DragToCreate createWire = getDragToCreate( wireDragBranch, "Wire" );
+        CCKDragToCreate createWire = getDragToCreate( wireDragBranch, "Wire" );
 //        getApparatusPanel().addGraphic(createWire, -1);
         graphic.addGraphic( createWire, -1 );
 
@@ -341,7 +376,7 @@ public class CCK2Module extends Module {
 //        System.out.println("Copper=rgb="+COPPER.getRed()+", "+COPPER.getGreen()+", "+COPPER.getBlue());
 //    }
 
-    private DragToCreate getDragToCreate( final Branch branch, String name ) {
+    private CCKDragToCreate getDragToCreate( final Branch branch, String name ) {
         AbstractBranchGraphic cbg = circuitGraphic.createBranchGraphic( branch );
         InteractiveGraphicSource source = new InteractiveGraphicSource() {
             public InteractiveGraphic newInteractiveGraphic() {
@@ -354,8 +389,8 @@ public class CCK2Module extends Module {
             }
         };
         Point loc = transform.modelToView( branch.getX1(), branch.getY1() );
-        DragToCreate.Proxy proxy = new DragToCreate.BranchProxy();
-        final DragToCreate dragToCreate = new DragToCreate( cbg, source, name, loc, proxy );
+        CCKDragToCreate.Proxy proxy = new CCKDragToCreate.BranchProxy();
+        final CCKDragToCreate dragToCreate = new CCKDragToCreate( cbg, source, name, loc, proxy );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D ModelViewTransform2D ) {
                 dragToCreate.setTipLocation( transform.modelToView( branch.getX1(), branch.getY1() ) );
@@ -535,18 +570,22 @@ public class CCK2Module extends Module {
         else {
             usePointAmmeter = true;
         }
-        final CCK2Module module = new CCK2Module( usePointAmmeter, stc );
+        final CCK2Module module = new CCK2Module( usePointAmmeter );
 
-        ApplicationDescriptor ad = new ApplicationDescriptor( "Circuit Construction Kit II",
-                                                              "Create, interact with and observe simple circuits.",
-                                                              "ii-V6.5", new FrameSetup() {
-                                                                  public void initialize( JFrame jFrame ) {
-                                                                      jFrame.setVisible( true );
-                                                                      jFrame.setSize( 600, 600 );
-                                                                  }
-                                                              } );
+//        ApplicationDescriptor ad = new ApplicationDescriptor( "Circuit Construction Kit II",
+//                                                              "Create, interact with and observe simple circuits.",
+//                                                              "ii-V6.5", new FrameSetup() {
+//                                                                  public void initialize( JFrame jFrame ) {
+//                                                                      jFrame.setVisible( true );
+//                                                                      jFrame.setSize( 600, 600 );
+//                                                                  }
+//                                                              } );
+        ApplicationModel ad = new ApplicationModel( "Circuit Construction Kit",
+                                                    "aeou",
+                                                    "ii-V7",
+                                                    new FrameCenterer( 40, 40 ), module, stc );
 
-        PhetApplication app = new PhetApplication( ad, module, stc );
+        PhetApplication app = new PhetApplication( ad );
         app.getApplicationView().getPhetFrame().setSize( Toolkit.getDefaultToolkit().getScreenSize().width * 3 / 4, Toolkit.getDefaultToolkit().getScreenSize().height * 3 / 4 );
 //        app.getApplicationView().getPhetFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
         app.getApplicationView().getBasicPhetPanel().setAppControlPanel( null );
@@ -579,7 +618,7 @@ public class CCK2Module extends Module {
         jmb.add( fileMenu, 0 );
         jmb.add( cckMenu );
         jmb.add( helpMenu );
-        app.startApplication( module );
+        app.startApplication();
         app.getApplicationView().getPhetFrame().setExtendedState( JFrame.MAXIMIZED_BOTH );
         module.getApparatusPanel().repaint();
         enableAspectRatio( app, module );
@@ -602,6 +641,7 @@ public class CCK2Module extends Module {
     }
 
     public void setHelpVisible( boolean helpVisible ) {
-        this.helpVisible = helpVisible;
+//        this.helpVisible = helpVisible;
+        //TODO implement this.
     }
 }

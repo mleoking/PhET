@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.util;
 
 import java.awt.*;
@@ -14,14 +14,9 @@ public class ResourceLoaderCopy extends Container {
             throw new RuntimeException( "JNLP cannot load from \\ delimited filenames." );
         }
         ClassLoader cl = this.getClass().getClassLoader();
-//        O.d("Cl="+cl);
         URL imageUrl = cl.getResource( imageLocation );
-//        O.d("Str="+imageLocation);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-//        O.d("Toolkit="+toolkit);
-//        O.d("ImageURL="+imageUrl);
         Image image = toolkit.createImage( imageUrl );
-//        O.d("Image="+image);
         MediaTracker tracker = new MediaTracker( this );
         tracker.addImage( image, 0 );
         try {
@@ -31,10 +26,6 @@ public class ResourceLoaderCopy extends Container {
         }
         return new LoadedImageDescriptor( image );
     }
-
-    //
-    // Inner classes
-    //
 
     /**
      * A class that describes an image that has been loaded by a

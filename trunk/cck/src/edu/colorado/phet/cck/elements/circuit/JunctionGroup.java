@@ -1,7 +1,5 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.circuit;
-
-import edu.colorado.phet.cck.elements.junction.Junction;
 
 import java.awt.geom.Point2D;
 import java.util.Arrays;

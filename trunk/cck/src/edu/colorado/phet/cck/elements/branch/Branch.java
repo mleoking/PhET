@@ -1,9 +1,9 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.cck.elements.junction.Junction;
-import edu.colorado.phet.cck.elements.junction.JunctionObserver;
+import edu.colorado.phet.cck.elements.circuit.Junction;
+import edu.colorado.phet.cck.elements.circuit.JunctionObserver;
 import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.cck.selection.CompositeSelectionListener;
 import edu.colorado.phet.cck.selection.SelectionListener;
@@ -29,9 +29,6 @@ public abstract class Branch {
     boolean selected;
     double current;
     private double voltageDrop;
-    public static final int UNKNOWN = 0;
-    public static final int SAME_AS_ORIENTATION = 1;
-    public static final int OPPOSITE_OF_ORIENTATION = -1;
     public static int ID_COUNTER = 0;
     private int id;
     DecimalFormat df = new DecimalFormat( "##.0##" );
@@ -254,7 +251,7 @@ public abstract class Branch {
             return null;
         }
     }
-//    static final DecimalFormat df=new DecimalFormat("0.0");
+
     public String toString() {
         return "x1=" + df.format( getX1() ) + ", y1=" + df.format( getY1() ) + ", x2=" + df.format( getX2() ) + ", y2=" + df.format( getY2() ) + ", voltage=" + df.format( voltageDrop ) + ", current=" + df.format( current ) + ", id=" + id;
     }

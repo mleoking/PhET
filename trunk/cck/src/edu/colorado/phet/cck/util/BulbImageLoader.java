@@ -1,10 +1,33 @@
+/** Sam Reid*/
 package edu.colorado.phet.cck.util;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-public class ImageConverter {
+/**
+ * User: Sam Reid
+ * Date: May 18, 2004
+ * Time: 11:44:37 PM
+ * Copyright (c) May 18, 2004 by Sam Reid
+ */
+public class BulbImageLoader {
+    public static BufferedImage loadImage( String name ) {
+        ResourceLoaderCopy r = new ResourceLoaderCopy();
+//        O.d("RLC="+r);
+        ResourceLoaderCopy.LoadedImageDescriptor lid = r.loadImage( name );
+//        O.d("Lid="+lid);
+        Image im = lid.getImage();
+//        O.d("Image="+im);
+        try {
+            return toBufferedImageARGB( im, r );
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            throw new RuntimeException( e );
+        }
+    }
+
     public static final BufferedImage toBufferedImageRGB( Image im, Component c )
             throws InterruptedException {
         //helper.ThreadHelper.nap(1000);

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, 2004.*/
 package edu.colorado.phet.cck.elements.dvm;
 
 import edu.colorado.phet.common.util.SimpleObservable;
@@ -49,7 +49,7 @@ public class CableGraphic extends SimpleObservable implements Graphic {
         cy = out.getY();
         float dcy = 100;
         cableCurve = new CubicCurve2D.Double( cx, cy, cx, cy + dcy, ( 2 * dx + cx ) / 3, dy, dx, dy );
-        updateObservers();
+        notifyObservers();
     }
 
     public void paint( Graphics2D g ) {

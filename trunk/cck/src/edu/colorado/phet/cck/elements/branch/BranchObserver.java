@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck.elements.branch;
 
-import edu.colorado.phet.cck.elements.junction.Junction;
+import edu.colorado.phet.cck.elements.circuit.Junction;
 
 
 /**
