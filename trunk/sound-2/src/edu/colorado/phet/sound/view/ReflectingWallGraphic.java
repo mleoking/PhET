@@ -97,27 +97,29 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
         double yMax = 800;
         double tan = Math.tan( Math.toRadians( theta ) );
         double x0 = Double.isInfinite( tan ) ? x : x - ( yMax - y ) / tan;
-        double y0 = Double.isInfinite( tan ) ? y : y - ( xMax - x ) * tan;
+        double x1 = Double.isInfinite( tan ) ? x : x - ( 0 - y ) / tan;
+        double y0 = Double.isInfinite( tan ) ? tan : y - ( xMax - x ) * tan;
         
         synchronized( interferingWaveMask ) {
             interferingWaveMask.reset();
 
-            if( theta > 0 && theta < 90 ) {
+            if( y0 >= 0 ) {
                 // The +2 is here so the wall will show
                 interferingWaveMask.moveTo( (float)x0 + 2, (float)yMax );
                 interferingWaveMask.lineTo( (float)xMax + 2, (float)y0 );
                 interferingWaveMask.lineTo( (float)xMax + 2, (float)yMax );
                 interferingWaveMask.closePath();
+                wallEdge.setLine( x0, yMax, xMax, y0 );
             }
             else {
                 // The +2 is here so the wall will show
                 interferingWaveMask.moveTo( (float)x0 + 2, (float)yMax );
-                interferingWaveMask.lineTo( (float)x0 + 2, (float)y0 );
-                interferingWaveMask.lineTo( (float)xMax + 2, (float)y0 );
+                interferingWaveMask.lineTo( (float)x1 + 2, (float) 0 );
+                interferingWaveMask.lineTo( (float)xMax + 2, (float) 0 );
                 interferingWaveMask.lineTo( (float)xMax + 2, (float)yMax );
                 interferingWaveMask.closePath();
+                wallEdge.setLine( x0, yMax, x1, 0.0 );
             }
-            wallEdge.setLine( x0, yMax, xMax, y0 );
         }
     }
 
