@@ -148,7 +148,8 @@ public class IdealGasControlPanel extends JPanel {
 
         // Add control for gravity, set default to OFF
         //        gravitySlider = new JSlider( JSlider.VERTICAL, 0, 5000, 0 );
-        gravitySlider = new JSlider( JSlider.VERTICAL, 0, s_gravityControlPanelHeight - 30, 0 );
+        gravitySlider = new JSlider( JSlider.VERTICAL, 0, 10, 0 );
+//        gravitySlider = new JSlider( JSlider.VERTICAL, 0, s_gravityControlPanelHeight - 30, 0 );
         gravityOnCB = new JCheckBox( SimStrings.get( "Common.On" ) );
         leftPanel.add( gravityOnCB );
         gravityOnCB.addActionListener( new ActionListener() {
