@@ -46,13 +46,27 @@ public class SphereHollowSphereContactDetector implements ContactDetector {
             throw new RuntimeException( "bad arguments" );
         }
 
-        double distSq = sphere.getPosition().distanceSq( hollowSphere.getPosition() );
-        double distPrevSq = sphere.getPositionPrev().distanceSq( hollowSphere.getPositionPrev() );
-        double radSq = hollowSphere.getRadius() * hollowSphere.getRadius();
-        if( ( distSq > radSq && distPrevSq < radSq )
-            || ( distSq < radSq && distPrevSq > radSq ) ) {
+        double dist = sphere.getPosition().distance( hollowSphere.getPosition() );
+        double distPrev = sphere.getPositionPrev().distance( hollowSphere.getPositionPrev() );
+        double radS = sphere.getRadius();
+        double radH = hollowSphere.getRadius();
+        if( ( dist + radS > radH && distPrev + radS < radH )
+            || ( dist - radS < radH && distPrev - radS > radH ) ) {
             result = true;
         }
+
+//        double distSq = sphere.getPosition().distanceSq( hollowSphere.getPosition() );
+//        double distPrevSq = sphere.getPositionPrev().distanceSq( hollowSphere.getPositionPrev() );
+//        double radSq = hollowSphere.getRadius() * hollowSphere.getRadius();
+//
+//        // Account for the radius of the sphere
+//        distSq += distSq < radSq ?  sphere.getRadius() : -sphere.getRadius();
+//        distPrevSq += distPrevSq < radSq ?  sphere.getRadius() : -sphere.getRadius();
+
+//        if( ( distSq > radSq && distPrevSq < radSq )
+//            || ( distSq < radSq && distPrevSq > radSq ) ) {
+//            result = true;
+//        }
         return result;
     }
 
