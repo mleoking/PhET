@@ -36,6 +36,7 @@ public class ScalarDataRecorder {
     }
 
     public ScalarDataRecorder( AbstractClock clock, int updatePeriod ) {
+        this.clock = clock;
         new PeriodicDataComputer( updatePeriod ).start();
     }
 
@@ -75,7 +76,7 @@ public class ScalarDataRecorder {
             }
         }
 
-        float total = 0;
+        double total = 0;
         for( int i = 0; i < dataRecord.size(); i++ ) {
             DataRecordEntry entry = (DataRecordEntry)dataRecord.get( i );
             total += entry.getValue();
@@ -100,6 +101,10 @@ public class ScalarDataRecorder {
 
     public int getNumEntries() {
         return this.dataRecord.size();
+    }
+
+    public void setTimeWindow( double timeWindow ) {
+        this.timeWindow = timeWindow;
     }
 
 

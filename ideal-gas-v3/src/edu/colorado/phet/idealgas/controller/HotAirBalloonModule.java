@@ -10,6 +10,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.SphereHotAirBalloonExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
@@ -73,9 +74,6 @@ public class HotAirBalloonModule extends IdealGasModule {
             getIdealGasModel().addModelElement( p1 );
             constraintSpec = new BoxMustContainParticle( box, p1, getIdealGasModel() );
             p1.addConstraint( constraintSpec );
-
-//            constraintSpec = new HotAirBalloonMustNotContainParticle( balloon, p1 );
-//            p1.addConstraint( constraintSpec );
         }
 
         // Put some particles inside the balloon
@@ -94,20 +92,16 @@ public class HotAirBalloonModule extends IdealGasModule {
                                        new Vector2D.Double( 0, 0 ) );
                 balloon.addContainedBody( p1 );
                 getIdealGasModel().addModelElement( p1 );
-                //                getIdealGasApplication().addBody( p1, 2 );
 
                 constraintSpec = new BoxMustContainParticle( box, p1, getIdealGasModel() );
                 p1.addConstraint( constraintSpec );
-
-//                constraintSpec = new HotAirBalloonMustContainParticle( balloon, p1 );
-//                //                p1.addConstraint( constraintSpec );
             }
         }
 
         // Add the specific controls we need for the hot air balloon
-        getControlPanel().add( new HotAirBalloonControlPanel( balloon ) );
-
-
+        IdealGasControlPanel controlPanel = new IdealGasControlPanel( this );
+        controlPanel.addComponent( new HotAirBalloonControlPanel( balloon ));
+        this.setControlPanel( new PhetControlPanel( this, controlPanel ));
     }
 
 }

@@ -26,11 +26,14 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
     private ScalarDataRecorder temperatureRecorder;
     private Box2D box;
     private IdealGasModel model;
+    //Converts raw data to ATM
+    private double scaleFactor = .025;
 
     public PressureSlice( Box2D box, IdealGasModel model, AbstractClock clock ) {
         this.box = box;
         this.model = model;
         pressureRecorder = new ScalarDataRecorder( clock );
+        pressureRecorder.setTimeWindow( 5 );
         temperatureRecorder = new ScalarDataRecorder( clock );
     }
 
@@ -66,11 +69,10 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
     }
 
     public double getPressure() {
-        double pressure = pressureRecorder.getDataTotal();
+//        double pressure = pressureRecorder.getDataAverage();
+        double pressure = pressureRecorder.getDataTotal() / pressureRecorder.getTimeWindow();
         double sliceLength = box.getMaxX() - box.getMinX();
-
-        // This is so cobbled up it's embarassing!!! The factors here just work. I'm not sure why
-        return pressure * 0.31f / ( sliceLength );
+        return scaleFactor * pressure / ( sliceLength );
     }
 
     public double getTemperature() {

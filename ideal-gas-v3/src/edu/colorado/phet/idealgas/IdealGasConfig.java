@@ -84,14 +84,16 @@ public class IdealGasConfig {
     // Offset for locating objects in the apparatus panel
     public static final int X_BASE_OFFSET = 50;
 //    public static final int X_BASE_OFFSET = 100;
-    public static final int Y_BASE_OFFSET = 0;
-//    public static final int Y_BASE_OFFSET = -100;
+//    public static final int Y_BASE_OFFSET = 0;
+    public static final int Y_BASE_OFFSET = -80;
+    public static final int X_STOVE_OFFSET = 247;
+    public static final int Y_STOVE_OFFSET = 545;
 
     // Dimensions of control panel
     public static final int CONTROL_PANEL_WIDTH = 125;
 
     // Frame setup for the application
-    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 960, 768 );
+    public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 920, 700 );
 
     // Colors
     public static final Color helpColor = new Color( 50, 150, 50 );

@@ -1,18 +1,14 @@
 - ScalarDataRecorder should computeDataStatistics everytime a datum is added if it isn't a clocked recorder. When I
 do it, then make computeDataStatistics() private.
-- add Help
-- smooth response of the pressure gauge
 - make needle on dial gauge triangular
 - Test setting locale via command line parameter, not property
 - Put pump, box and mannequin on common baseline
 - consolidate MoleculePanel classes in RigidHollowSphere and HeliumBalloon
 - set default energy so kinetic energy is never < 0
-- average speed doesn't report properly
 - make more versatile & robust collision detection system that works heirarchically with object types
 - when hot air balloon is putting in heat, the whole system heats up, but only when gravity is on
 - rename and consolidate collision expert/detector classes
 - Sam, clockStateListeners
-- Fix up collisions with sphere. Can we get rid of constraints?
 - Make the stove a model element and move IdealGasModel.addHeatFromStove() to Stove.stepInTime()
 - check CollidableBody.stepInTimeNoNotify()
 - pressure slice graphic overlays mannequin

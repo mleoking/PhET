@@ -36,7 +36,7 @@ public class PressureDialGauge implements Graphic {
         center = new Point2D.Double( box.getMaxX() + radius + stemLength, pressureSlice.getY() );
         pressureGauge = new DialGauge( new ObservablePressureBox(), component,
                                        center.getX(), center.getY(),
-                                       radius * 2, 0, 100, "Pressure", "Atm",
+                                       radius * 2, 0, 3, "Pressure", "Atm",
                                        font );
         pressureGauge.setBackground( new Color( 230, 255, 230 ) );
         stem = new Rectangle2D.Double( box.getMaxX(), center.getY() - stemThickness / 2,
@@ -58,7 +58,6 @@ public class PressureDialGauge implements Graphic {
 
         public double getValue() {
             return pressureSlice.getPressure();
-//            return box.getPressure();
         }
 
         public void update() {

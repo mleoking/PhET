@@ -69,6 +69,10 @@ public class IdealGasModule extends Module {
     public JDialog setMeasurementDlgVisible( boolean isVisible ) {
         if( measurementDlg == null ) {
             measurementDlg = new MeasurementDialog( PhetApplication.instance().getApplicationView().getPhetFrame(), this );
+            JFrame frame = PhetApplication.instance().getApplicationView().getPhetFrame();
+            measurementDlg.setLocationRelativeTo( frame );
+            measurementDlg.setLocation( (int)( frame.getLocation().getX() + frame.getWidth() * 3 / 5 ),
+                                        (int)frame.getLocation().getY() + 20 );
         }
         measurementDlg.setVisible( isVisible );
         if( isVisible ) {
@@ -237,11 +241,13 @@ public class IdealGasModule extends Module {
 
         // Place a slider to control the stove
         StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
-        stoveControlPanel.setBounds( 370, 515, 300, 120 );
+        stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET + 80,
+                                     IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 30, 300, 120 );
         getApparatusPanel().add( stoveControlPanel );
 
         // Add help items
         addHelp();
+
         //        Rendered renderer = new Rendered( getApparatusPanel() );
         //        idealGasModel.addModelElement( renderer );
     }
