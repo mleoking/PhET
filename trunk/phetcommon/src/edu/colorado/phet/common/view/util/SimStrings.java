@@ -13,6 +13,7 @@ import java.util.Vector;
 public class SimStrings {
 
     private static Vector localizedStrings;
+    private static Vector stringsPaths;
 
     static {
         SimStrings.setStrings( "localization/CommonStrings" );
@@ -21,11 +22,18 @@ public class SimStrings {
     public static void setStrings( String stringsPath ) {
         if( localizedStrings == null ) {
             localizedStrings = new Vector();
+            stringsPaths = new Vector();
+        }
+        if ( stringsPaths.contains( stringsPath ) ) {
+            System.out.println( "ignoring duplicate strings path: " + stringsPath );
+            return;
         }
         try {
+            System.out.println( "loading strings path: " + stringsPath );
             ResourceBundle rb = ResourceBundle.getBundle( stringsPath );
             if( rb != null ) {
                 localizedStrings.add( rb );
+                stringsPaths.add( stringsPath );
             }
         }
         catch( Exception x ) {
