@@ -53,10 +53,7 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         //        debugger.setActive( true );
         //        this.addGraphic( debugger, 8);
 
-
         setControlPanel( new MeasureControlPanel( this, appModel.getClock() ) );
-        //        ClockPanelLarge cpl = new ClockPanelLarge();
-        //        ((SoundControlPanel)getControlPanel()).addPanel( cpl );
     }
 
     

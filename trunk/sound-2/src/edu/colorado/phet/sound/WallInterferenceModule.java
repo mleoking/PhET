@@ -23,6 +23,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -63,7 +64,9 @@ public class WallInterferenceModule extends SoundModule {
                                                  s_wallThickness,
                                                  s_wallHeight,
                                                  s_initialWallAngle );
+
         DefaultInteractiveGraphic interactiveWallGraphic = new InteractiveWallGraphic( wallGraphic );
+//        interactiveWallGraphic.addMouseInputListener( new );
         interactiveWallGraphic.addCursorHandBehavior();
         interactiveWallGraphic.addTranslationBehavior( new WallTranslator( wallGraphic ));
         addGraphic( interactiveWallGraphic, 8 );
@@ -82,23 +85,37 @@ public class WallInterferenceModule extends SoundModule {
         PhetControlPanel controlPanel = new PhetControlPanel( this, panel );
         setControlPanel( controlPanel );
     }
-
     private class InteractiveWallGraphic extends DefaultInteractiveGraphic {
         private ReflectingWallGraphic reflectingWallGraphic;
+        private Cursor savedCursor;
 
         public InteractiveWallGraphic( ReflectingWallGraphic wallGraphic ) {
             super( wallGraphic );
             this.reflectingWallGraphic = wallGraphic;
+            addMouseInputListener( new MouseInputAdapter() {
+
+            } );
         }
 
         public void mouseEntered( MouseEvent e ) {
             super.mouseEntered( e );
-            reflectingWallGraphic.setDisplayHelpOrnaments( true );            
+            reflectingWallGraphic.setDisplayHelpOrnaments( true );
+            if( reflectingWallGraphic.getMidPoint().distance( e.getPoint() ) < 100 ) {
+                savedCursor = getApparatusPanel().getCursor();
+                getApparatusPanel().setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ));
+            }
+//            else {
+//                savedCursor = getApparatusPanel().getCursor();
+//                getApparatusPanel().setCursor( Cursor.getPredefinedCursor( Cursor.NE_RESIZE_CURSOR ));
+//            }
         }
 
         public void mouseExited( MouseEvent e ) {
             super.mouseExited( e );
             reflectingWallGraphic.setDisplayHelpOrnaments( false );
+            if( savedCursor != null ) {
+                getApparatusPanel().setCursor( savedCursor );
+            }
         }
     }
 

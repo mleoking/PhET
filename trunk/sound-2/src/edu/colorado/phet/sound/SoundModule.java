@@ -83,8 +83,9 @@ public class SoundModule extends Module {
      * Determines whether the source for audio is at the speaker or the listener
      * @param source
      */
-    public void setAudioSource( int source ) {
-//        getSoundModel().setAudioSource( source );
+    public void setAudioSource( int source ){
+        // NOP  This should probably be an abstract method, or the classes refactored so this doesn't
+        // need to be here at all.
     }
 
     public WavefrontOscillator getPrimaryOscillator() {

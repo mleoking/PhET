@@ -10,6 +10,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="PhetCommon" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -20,7 +21,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="jdom" level="application" />
-    <orderEntry type="module" module-name="Phet Common 2" />
     <orderEntryProperties />
   </component>
 </module>

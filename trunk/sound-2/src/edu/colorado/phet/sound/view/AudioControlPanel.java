@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 public class AudioControlPanel extends JPanel {
         private JCheckBox audioOnOffCB;
 
-        AudioControlPanel( final SoundModule module ) {
+        public AudioControlPanel( final SoundModule module ) {
             this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
             this.setPreferredSize( new Dimension( 125, 100 ) );
 

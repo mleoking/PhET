@@ -22,8 +22,6 @@ public abstract class SingleSourceModule extends SoundModule {
 
     protected SingleSourceModule( ApplicationModel appModel, String name ) {
         super( appModel, name );
-
-//        this.setModel( new SoundModel( appModel.getClock() ) );
         SingleSourceApparatusPanel apparatusPanel = new SingleSourceApparatusPanel( (SoundModel)getModel() );
         this.setApparatusPanel( apparatusPanel );
         initControlPanel();

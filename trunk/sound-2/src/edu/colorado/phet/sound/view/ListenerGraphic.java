@@ -20,6 +20,8 @@ import java.util.LinkedList;
 
 public class ListenerGraphic extends DefaultInteractiveGraphic {
 
+    private float s_dopplerShiftScaleFactor = 10f;
+
     private double lastEventX;
     private long lastEventTime;
     private double clockScaleFactor;
@@ -43,7 +45,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         this.model = (SoundModel)module.getModel();
         this.image = image;
 
-        this.addTranslationBehavior( new ListenerTranslationBehavior( minX, minY, maxX, maxY ));
+        this.addTranslationBehavior( new ListenerTranslationBehavior( minX, minY, maxX, maxY ) );
         this.addCursorHandBehavior();
         this.listener = listener;
     }
@@ -66,25 +68,25 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         }
 
         public void translate( double dx, double dy ) {
-            double x = Math.max( minX, Math.min( maxX, location.getX() + dx ));
-            double y = Math.max( minY, Math.min( maxY, location.getY() + dy ));
+            double x = Math.max( minX, Math.min( maxX, location.getX() + dx ) );
+            double y = Math.max( minY, Math.min( maxY, location.getY() + dy ) );
             location.setLocation( x, y );
             image.setPosition( (int)x, (int)y );
 
             // todo: minX and minY here aren't the right way to do this.
-            listener.setLocation( new Point2D.Double( x - minX, y - minY ));
+            listener.setLocation( new Point2D.Double( x - minX, y - minY ) );
         }
     }
 
     /**
      *
      */
-    private int numSamples = 5;
+    private int numSamples = 3;
+    //    private int numSamples = 5;
     private LinkedList samples = new LinkedList();
 
 
     /**
-     *
      * @param event
      */
     public void mousePressed( MouseEvent event ) {
@@ -93,14 +95,13 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         // Record the frequency when we started dragging, and the point that
         // the graphic is at in the X axis. These will be used to compute
         // the Doppler-shifted frequency
-        nonDopplerFrequency = model.getPrimaryWavefront().getFrequency();
+        nonDopplerFrequency = model.getPrimaryWavefront().getFrequency() * SoundConfig.s_frequencyDisplayFactor;
         lastEventX = location.getX();
         lastEventTime = event.getWhen();
         clockScaleFactor = SoundConfig.s_timeStep / SoundConfig.s_waitTime;
     }
 
     /**
-     *
      * @param event
      */
     public void mouseDragged( MouseEvent event ) {
@@ -127,49 +128,20 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
                 }
                 samples.remove( 0 );
 
-                // The following two lines must occur in the order shown. Otherwise, the frequency
-                // change will get stepped on
-
-                // todo: this appears to be an important line of code, but I'm not sure what it does
-//                ( (SingleSourceApparatusPanel)getApparatusPanel() ).determineAudioReferencPt();
-
                 double dopplerFrequency = nonDopplerFrequency - ( aveVx / numSamples ) * s_dopplerShiftScaleFactor;
-//                if( model.getAudioSource() == SoundApparatusPanel.LISTENER_SOURCE ) {
-//                    model.setOscillatorFrequency( dopplerFrequency );
-//                }
-                if( module.getCurrentListener() == this.listener) {
+                if( module.getCurrentListener() == this.listener ) {
                     module.setOscillatorFrequency( dopplerFrequency );
                 }
-//                if( model.getAudioSource() == SoundApparatusPanel.LISTENER_SOURCE ) {
-//                    model.setOscillatorFrequency( dopplerFrequency );
-//                }
-            }
 
-            // We must yield so the PhysicalSystem thread can get the update.
-//                Thread.yield();
-            try {
-                Thread.sleep( 20 );
-            }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
+                // We must yield so the PhysicalSystem thread can get the update.
+                //                Thread.yield();
+                try {
+                    Thread.sleep( 20 );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
             }
         }
     }
-
-    /**
-     *
-     */
-    public void mouseReleased( MouseEvent e ) {
-
-        super.mouseReleased( e );
-
-        // Reset the frequency to eliminate Doppler shift
-//        ( (SingleSourceApparatusPanel)getApparatusPanel() ).determineAudioReferencPt();
-    }
-
-    //
-    // Static fields and methods
-    //
-//    private float s_dopplerShiftScaleFactor = 1f;
-    private float s_dopplerShiftScaleFactor = 0.01f;
 }
