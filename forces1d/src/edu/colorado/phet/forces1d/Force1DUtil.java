@@ -36,4 +36,8 @@ public class Force1DUtil {
             }
         };
     }
+
+    public static Color transparify( Color c, int alpha ) {
+        return new Color( c.getRed(), c.getGreen(), c.getBlue(), alpha );
+    }
 }

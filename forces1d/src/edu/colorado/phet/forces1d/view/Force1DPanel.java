@@ -39,6 +39,8 @@ public class Force1DPanel extends ApparatusPanel {
     private PlotDeviceView plotDeviceView;
     private RepaintDebugGraphic repaintDebugGraphic;
     private FreeBodyDiagram freeBodyDiagram;
+    private Force1DLookAndFeel lookAndFeel = new Force1DLookAndFeel();
+    private OffscreenPointerGraphic offscreenPointerGraphic;
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
         this.module = module;
@@ -149,8 +151,15 @@ public class Force1DPanel extends ApparatusPanel {
         freeBodyDiagram = new FreeBodyDiagram( this, module );
         addGraphic( freeBodyDiagram, Double.POSITIVE_INFINITY );
 
+
+        offscreenPointerGraphic = new OffscreenPointerGraphic( this, blockGraphic, walkwayGraphic );
+        addGraphic( offscreenPointerGraphic, 1000 );
+        offscreenPointerGraphic.setLocation( 400, 50 );
     }
 
+    public Force1DLookAndFeel getLookAndFeel() {
+        return lookAndFeel;
+    }
 
     private void setShowFrictionForce( boolean selected ) {
         forcePlotDevice.setDataSeriesVisible( 2, selected );
@@ -181,9 +190,10 @@ public class Force1DPanel extends ApparatusPanel {
             int fbdWidth = walkwayHeight;
             int fbdHeight = walkwayHeight;
 
-            int walkwayX = fbdWidth + fbdX + 7;
+            int fbdWalkwayInset = 7;
+            int walkwayX = fbdWidth + fbdX + fbdWalkwayInset;
             int walkwayY = 0;
-            int walkwayWidth = panelWidth - fbdWidth;
+            int walkwayWidth = panelWidth - fbdWidth - fbdX - fbdWalkwayInset * 2;
             walkwayTransform.setOutput( walkwayX, walkwayX + walkwayWidth );
             walkwayGraphic.setBounds( walkwayX, walkwayY, walkwayWidth, walkwayHeight );
 
