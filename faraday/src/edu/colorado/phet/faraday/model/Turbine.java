@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday.model;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**
@@ -34,7 +35,8 @@ public class Turbine extends BarMagnet implements ModelElement {
     //----------------------------------------------------------------------------
     
     private double _speed; // -1...+1 (see setSpeed)
-    private double _maxRotationDelta; // in radians
+    private double _maxRPM; // rotations per minute at full speed
+    private double _maxDelta; // radians
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -46,7 +48,7 @@ public class Turbine extends BarMagnet implements ModelElement {
     public Turbine() {
         super();
         _speed = 0;
-        _maxRotationDelta = DEFAULT_MAX_ROTATION_DELTA;
+        setMaxRPM( 100.0 );
     }
     
     //----------------------------------------------------------------------------
@@ -78,35 +80,35 @@ public class Turbine extends BarMagnet implements ModelElement {
     }
     
     /**
-     * Sets the rotation delta that will occur
-     * when the turbine is running at full speed.
+     * Sets the maximum rotations per minute.
      * 
-     * @param maxDelta the maximum rotation delta, in radians
+     * @param maxRPM
      */
-    public void setMaxRotationDelta( double maxDelta ) {
-        _maxRotationDelta = maxDelta;
+    public void setMaxRPM( double maxRPM ) {
+        _maxRPM = maxRPM;
+        
+        // Pre-compute the maximum change in angle per clock tick.
+        double framesPerSecond = FaradayConfig.FRAME_RATE;
+        double framesPerMinute = 60 * framesPerSecond;
+        _maxDelta = ( 2 * Math.PI) * ( maxRPM / framesPerMinute );
     }
     
     /**
-     * Gets the rotation delta that will occur
-     * when the turbine is running at full speed.
+     * Gets the maximum rotations per minute.
      * 
-     * @return the maximum rotation delta, in radians
+     * @return the maximum rotations per minute
      */
-    public double getMaxRotationDelta() {
-        return _maxRotationDelta;
+    public double getMaxRPM() {
+        return _maxRPM;
     }
     
     /**
-     * Gets the number of rotations per minute.
+     * Gets the number of rotations per minute at the current speed.
      * 
      * @return rotations per minute
      */
     public double getRPM() {
-        double framesPerSecond = 24; //XXX
-        double framePerMinute = 60 * framesPerSecond;
-        double maxRPM = ( framePerMinute * _maxRotationDelta ) / ( 2 * Math.PI );
-        return Math.abs( _speed * maxRPM );
+        return Math.abs( _speed * _maxRPM );
     }
     
     //----------------------------------------------------------------------------
@@ -117,7 +119,7 @@ public class Turbine extends BarMagnet implements ModelElement {
      * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
      */
     public void stepInTime( double dt ) {
-        double delta = _speed * _maxRotationDelta;
+        double delta = _speed * _maxDelta;
         setDirection( getDirection() + delta );
     }
 }
