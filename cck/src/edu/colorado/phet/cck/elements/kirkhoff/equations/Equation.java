@@ -1,7 +1,6 @@
 package edu.colorado.phet.cck.elements.kirkhoff.equations;
 
 
-
 /**
  * Represents numBranches values of current, then numBranches values of voltage, then the right-hand-side.
  * The matrix will be:

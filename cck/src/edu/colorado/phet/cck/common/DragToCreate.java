@@ -37,7 +37,7 @@ public class DragToCreate implements InteractiveGraphic {
     }
 
     public boolean canHandleMousePress(MouseEvent event) {
-        return icon.contains(event.getX(),event.getY());
+        return icon.contains(event.getX(), event.getY());
     }
 
     public void mousePressed(MouseEvent event) {
@@ -95,6 +95,6 @@ public class DragToCreate implements InteractiveGraphic {
     }
 
     public boolean contains(int x, int y) {
-        return icon.contains(x,y);
+        return icon.contains(x, y);
     }
 }

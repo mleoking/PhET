@@ -7,7 +7,6 @@ import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.elements.particles.ObjectSelector;
 import edu.colorado.phet.common.math.PhetVector;
 
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +41,9 @@ public class Circuit {
         return branches.size();
     }
 
-    /**Adds a disconnected branch to this circuit.*/
+    /**
+     * Adds a disconnected branch to this circuit.
+     */
     public void addCircuitObserver(CircuitObserver observer) {
         circuitObservers.add(observer);
     }
@@ -137,7 +138,9 @@ public class Circuit {
         return true;
     }
 
-    /**TODO this fails when you add a new branch to an existing branch with multiple connections.*/
+    /**
+     * TODO this fails when you add a new branch to an existing branch with multiple connections.
+     */
     private boolean itWouldMakeTwoSegmentsTotallyOverlap(Junction j1, Junction j2) {
         Junction opposite1 = j1.getBranch().getOppositeJunction(j1);
         Junction opposite2 = j2.getBranch().getOppositeJunction(j2);
@@ -243,7 +246,9 @@ public class Circuit {
         return (Branch[]) list.toArray(new Branch[0]);
     }
 
-    /**Returns all paths from a to b.*/
+    /**
+     * Returns all paths from a to b.
+     */
     public BranchPath[] getPaths(Junction a, Junction b) {
         ArrayList list = new ArrayList();
         if (a.hasConnection(b)) {
@@ -350,7 +355,9 @@ public class Circuit {
         return (Junction[]) sel.toArray(new Junction[0]);
     }
 
-    /**Adds the branch to this circuit, and connects any branches that are at the same location.*/
+    /**
+     * Adds the branch to this circuit, and connects any branches that are at the same location.
+     */
     public void attachBranch(Branch b) {
         addBranch(b);
         for (int i = 0; i < numBranches(); i++) {

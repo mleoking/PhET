@@ -6,13 +6,12 @@ import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
-
 import java.awt.*;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.io.IOException;
 
 /**
  * User: Sam Reid

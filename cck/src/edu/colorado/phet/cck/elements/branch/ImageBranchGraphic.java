@@ -2,19 +2,19 @@
 package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.CCK2Module;
+import edu.colorado.phet.cck.elements.branch.components.AmmeterBranch;
 import edu.colorado.phet.cck.elements.branch.components.Battery;
 import edu.colorado.phet.cck.elements.branch.components.HasResistance;
 import edu.colorado.phet.cck.elements.branch.components.Resistor;
-import edu.colorado.phet.cck.elements.branch.components.AmmeterBranch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.selection.SelectionListener;
+import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.common.math.PhetVector;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -69,7 +69,7 @@ public class ImageBranchGraphic extends CompositeInteractiveGraphic implements T
             }
         });
         if (!(branch instanceof AmmeterBranch))
-        menu.add(delete);
+            menu.add(delete);
         final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem("Show Value", false);
 //        JMenuItem showValue=new JMenuItem("Show Value");
         showValue.addActionListener(new ActionListener() {
@@ -244,7 +244,9 @@ public class ImageBranchGraphic extends CompositeInteractiveGraphic implements T
         return imageRect;
     }
 
-    /**Returns the AffineTransform that will take the specified image, and place it centered at (x,y) at the specified angle.*/
+    /**
+     * Returns the AffineTransform that will take the specified image, and place it centered at (x,y) at the specified angle.
+     */
     public AffineTransform getImageTransform(BufferedImage bi, double angle, double x, double y) {
         AffineTransform at = new AffineTransform();
         at.translate(x - bi.getWidth() / 2.0, y - bi.getHeight() / 2.0);

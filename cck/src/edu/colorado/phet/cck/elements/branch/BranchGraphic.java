@@ -10,7 +10,6 @@ import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,7 +23,7 @@ import java.awt.geom.Line2D;
  * Time: 3:15:26 PM
  * Copyright (c) Aug 23, 2003 by Sam Reid
  */
-public class BranchGraphic implements BranchObserver, SelectionListener, AbstractBranchGraphic,Boundary {
+public class BranchGraphic implements BranchObserver, SelectionListener, AbstractBranchGraphic, Boundary {
     private Circuit circuit;
     private ModelViewTransform2D transform;
     Branch branch;
@@ -169,7 +168,7 @@ public class BranchGraphic implements BranchObserver, SelectionListener, Abstrac
     }
 
     public boolean contains(int x, int y) {
-        return viewShape != null && viewShape.contains(x,y);
+        return viewShape != null && viewShape.contains(x, y);
     }
 
 }

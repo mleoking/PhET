@@ -7,12 +7,11 @@ import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchGraphicFactory;
 import edu.colorado.phet.cck.elements.branch.components.*;
 import edu.colorado.phet.cck.elements.junction.Junction;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.CompositeTransformListener;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.common.math.PhetVector;
-
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -62,11 +61,9 @@ public class CircuitGraphic extends CompositeInteractiveGraphic implements Circu
 //            SwitchGraphic sg=(SwitchGraphic) dc.getAbstractBranchGraphic();
 ////            sg.update();
 //            sg.setOpen(swit.isOpen());
-        }else if (branch instanceof AmmeterBranch){
-            cbg=graphicFactory.getAmmeterBranchGraphic((AmmeterBranch)branch);
-        }
-
-        else {
+        } else if (branch instanceof AmmeterBranch) {
+            cbg = graphicFactory.getAmmeterBranchGraphic((AmmeterBranch) branch);
+        } else {
             throw new RuntimeException("Branch type not supported: " + branch.getClass());
         }
         return cbg;

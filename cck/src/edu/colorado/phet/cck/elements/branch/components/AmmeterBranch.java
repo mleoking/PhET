@@ -3,8 +3,8 @@ package edu.colorado.phet.cck.elements.branch.components;
 
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
-import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.cck.elements.xml.AmmeterBranchData;
+import edu.colorado.phet.cck.elements.xml.BranchData;
 
 /**
  * User: Sam Reid
@@ -12,12 +12,12 @@ import edu.colorado.phet.cck.elements.xml.AmmeterBranchData;
  * Time: 2:36:14 AM
  * Copyright (c) Sep 3, 2003 by Sam Reid
  */
-public class AmmeterBranch  extends Branch implements HasResistance {
+public class AmmeterBranch extends Branch implements HasResistance {
     private double resistance;
 
     public AmmeterBranch(Circuit parent, double x1, double y1, double x2, double y2) {
         super(parent, x1, y1, x2, y2);//resistance is internal resistance here.
-        this.resistance=resistance;
+        this.resistance = resistance;
     }
 
     public Branch copy() {
@@ -29,11 +29,11 @@ public class AmmeterBranch  extends Branch implements HasResistance {
     }
 
     public double getResistance() {
-        return new Wire(parent, getX1(),getY1(),getX2(),getY2()).getResistance();
+        return new Wire(parent, getX1(), getY1(), getX2(), getY2()).getResistance();
     }
 
     public void setResistance(double resistance) {
-        this.resistance=resistance;
+        this.resistance = resistance;
     }
 
 }

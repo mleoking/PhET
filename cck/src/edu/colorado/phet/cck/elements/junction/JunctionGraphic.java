@@ -4,11 +4,11 @@ package edu.colorado.phet.cck.elements.junction;
 import edu.colorado.phet.cck.CCK2Module;
 import edu.colorado.phet.cck.elements.branch.DefaultBranchInteractionHandler;
 import edu.colorado.phet.cck.selection.SelectionListener;
+import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
-import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.math.PhetVector;
+import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,8 +19,8 @@ import java.awt.geom.Point2D;
 
 /**
  * Looks hollow for disconnected, different for connected.
- *  */
-public class JunctionGraphic implements InteractiveGraphic, TransformListener,Boundary {
+ */
+public class JunctionGraphic implements InteractiveGraphic, TransformListener, Boundary {
 
     private Junction junction;
     CCK2Module module;
@@ -109,7 +109,7 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener,Bo
     public void mouseMoved(MouseEvent e) {
     }
 
-    public void fireDragHappened(){
+    public void fireDragHappened() {
         module.relayoutElectrons(this.junction);
         junction.fireLocationChanged();
         module.junctionDragged();
@@ -199,7 +199,7 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener,Bo
     public boolean contains(int x, int y) {
         if (viewPoint == null)
             return false;
-        double dist = new Point(x,y).distance(viewPoint);
+        double dist = new Point(x, y).distance(viewPoint);
         return dist <= radius;
     }
 }

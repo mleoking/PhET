@@ -6,7 +6,6 @@ import edu.colorado.phet.cck.selection.CompositeSelectionListener;
 import edu.colorado.phet.cck.selection.SelectionListener;
 import edu.colorado.phet.common.math.PhetVector;
 
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 

@@ -2,8 +2,8 @@
 package edu.colorado.phet.cck.elements.ammeter;
 
 import edu.colorado.phet.cck.CCK2Module;
-import edu.colorado.phet.cck.common.SimpleObserver;
 import edu.colorado.phet.cck.common.DifferentialDragHandler;
+import edu.colorado.phet.cck.common.SimpleObserver;
 import edu.colorado.phet.cck.elements.branch.AbstractBranchGraphic;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
@@ -121,6 +121,6 @@ public class AmmeterGraphic implements InteractiveGraphic {
     }
 
     public boolean contains(int x, int y) {
-        return graphic.contains(new Point(x,y));
+        return graphic.contains(new Point(x, y));
     }
 }

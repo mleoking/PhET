@@ -24,7 +24,7 @@ public class CurrentReadout implements Graphic {
         this.visible = visible;
         this.resistorGraphic = resistorGraphic;
         hr = (HasResistance) resistorGraphic.getBranch();
-        this.font=new Font("Dialog",0,18);
+        this.font = new Font("Dialog", 0, 18);
     }
 
     public boolean containsRelativePoint(int xrel, int yrel) {
@@ -34,7 +34,9 @@ public class CurrentReadout implements Graphic {
     public void setVisible(boolean selected) {
         this.visible = selected;
     }
-    DecimalFormat df=new DecimalFormat("#0.0#");
+
+    DecimalFormat df = new DecimalFormat("#0.0#");
+
     public void paint(Graphics2D g) {
         if (!visible)
             return;
@@ -42,13 +44,13 @@ public class CurrentReadout implements Graphic {
         AffineTransform newTransform = resistorGraphic.getImageTransform();
         g.setTransform(newTransform);
 //        int resistance = (int) hr.getResistance();//resistorGraphic.getBranch().getint) ((Resistor) w).getResistance();
-        double current=resistorGraphic.getBranch().getCurrent();
-        double abs=Math.abs(current);
-        String str=df.format(abs)+" Amps";
+        double current = resistorGraphic.getBranch().getCurrent();
+        double abs = Math.abs(current);
+        String str = df.format(abs) + " Amps";
         g.setFont(font);
-        float height=(float) font.getStringBounds(str,g.getFontRenderContext()).getHeight();
+        float height = (float) font.getStringBounds(str, g.getFontRenderContext()).getHeight();
         g.setColor(Color.black);
-        g.drawString(str,20,height*3);
+        g.drawString(str, 20, height * 3);
 
         g.setTransform(at);
     }

@@ -3,13 +3,12 @@ package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.CCK2Module;
 import edu.colorado.phet.cck.elements.branch.bulb.BulbGraphic;
+import edu.colorado.phet.cck.elements.branch.components.AmmeterBranch;
 import edu.colorado.phet.cck.elements.branch.components.Battery;
 import edu.colorado.phet.cck.elements.branch.components.Bulb;
 import edu.colorado.phet.cck.elements.branch.components.Switch;
-import edu.colorado.phet.cck.elements.branch.components.AmmeterBranch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -97,14 +96,14 @@ public class SchematicGraphicFactory implements BranchGraphicFactory {
     }
 
     public AbstractBranchGraphic getAmmeterBranchGraphic(AmmeterBranch resistor) {
-        BufferedImage ammeterImage=null;
+        BufferedImage ammeterImage = null;
         try {
             ammeterImage = module.getImageSuite().getAmmeterImage();
         } catch (IOException e) {
             e.printStackTrace();
         }
         ImageBranchGraphic ibg = new ImageBranchGraphic(circuit, module.getTransform(), resistor, wireColor, wireStroke, module, ammeterImage, LifelikeGraphicFactory.branchStroke, highlightColor);
-        CurrentReadout cb=new CurrentReadout(true,ibg);
+        CurrentReadout cb = new CurrentReadout(true, ibg);
         ibg.addGraphicAfterImage(cb);
         DefaultCompositeBranchGraphic gr = new DefaultCompositeBranchGraphic(transform, resistor, module, ibg);
         return gr;

@@ -4,12 +4,12 @@ package edu.colorado.phet.cck.elements.branch;
 import edu.colorado.phet.cck.CCK2Module;
 import edu.colorado.phet.cck.elements.junction.JunctionGraphic;
 import edu.colorado.phet.cck.elements.particles.ParticleSetGraphic;
+import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.CompositeTransformListener;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 
 import java.awt.*;
 
@@ -27,7 +27,7 @@ public class DefaultCompositeBranchGraphic extends CompositeInteractiveGraphic i
     private JunctionGraphic endJunctionGraphic;
     public static final int JUNCTION_RADIUS = 16;
 //    public static final Color junctionColor = Color.red;
-    public static Color JUNCTION_COLOR =CCK2Module.COPPER;// new Color(94, 222, 101);
+    public static Color JUNCTION_COLOR = CCK2Module.COPPER;// new Color(94, 222, 101);
     public static final BasicStroke JUNCTION_STROKE = new BasicStroke(2);
 //    public static Stroke JUNCTION_STROKE;
 

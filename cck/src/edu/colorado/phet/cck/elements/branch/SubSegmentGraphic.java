@@ -66,7 +66,7 @@ public class SubSegmentGraphic implements InteractiveGraphic {
     }
 
     public boolean contains(int x, int y) {
-        return target.getShape().contains(x,y);
+        return target.getShape().contains(x, y);
     }
 }
 

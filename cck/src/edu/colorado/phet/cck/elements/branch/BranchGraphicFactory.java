@@ -1,10 +1,10 @@
 package edu.colorado.phet.cck.elements.branch;
 
 import edu.colorado.phet.cck.CCK2Module;
+import edu.colorado.phet.cck.elements.branch.components.AmmeterBranch;
 import edu.colorado.phet.cck.elements.branch.components.Battery;
 import edu.colorado.phet.cck.elements.branch.components.Bulb;
 import edu.colorado.phet.cck.elements.branch.components.Switch;
-import edu.colorado.phet.cck.elements.branch.components.AmmeterBranch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 

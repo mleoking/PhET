@@ -1,9 +1,9 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.cck.elements.dvm;
 
+import edu.colorado.phet.cck.common.DifferentialDragHandler;
 import edu.colorado.phet.cck.common.SimpleObservable;
 import edu.colorado.phet.cck.common.SimpleObserver;
-import edu.colorado.phet.cck.common.DifferentialDragHandler;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
@@ -118,7 +118,7 @@ public class VoltmeterUnitGraphic extends SimpleObservable implements Interactiv
     }
 
     public boolean contains(int xa, int ya) {
-                Rectangle2D.Double rect = new Rectangle2D.Double(x, y, dvmImage.getWidth(), dvmImage.getHeight());
-        return rect.contains(xa,ya);
+        Rectangle2D.Double rect = new Rectangle2D.Double(x, y, dvmImage.getWidth(), dvmImage.getHeight());
+        return rect.contains(xa, ya);
     }
 }
