@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.control;
 
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
@@ -25,7 +26,7 @@ import edu.colorado.phet.faraday.view.FieldMeterGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BarMagnetControlPanel extends FaradayControlPanel {
+public class BarMagnetControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------------------
     // Constructors

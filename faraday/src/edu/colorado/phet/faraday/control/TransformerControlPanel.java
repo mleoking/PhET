@@ -11,11 +11,16 @@
 
 package edu.colorado.phet.faraday.control;
 
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
+import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.module.TransformerModule;
-import edu.colorado.phet.faraday.view.*;
+import edu.colorado.phet.faraday.view.CoilGraphic;
+import edu.colorado.phet.faraday.view.CompassGridGraphic;
+import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 /**
  * TransformerControlPanel is the control panel for the "Transformer" module.
@@ -23,7 +28,7 @@ import edu.colorado.phet.faraday.view.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TransformerControlPanel extends FaradayControlPanel {
+public class TransformerControlPanel extends ControlPanel {
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,6 +75,8 @@ public class TransformerControlPanel extends FaradayControlPanel {
                 sourceCoilGraphic, gridGraphic, fieldMeterGraphic );
         electromagnetPanel.setFieldMeterEnabled( false );
         addFullWidth( electromagnetPanel );
+        
+        addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
         
         PickupCoilPanel pickupCoilPanel = new PickupCoilPanel( 
                 pickupCoilModel, pickupCoilGraphic, lightbulbModel, voltmeterModel );

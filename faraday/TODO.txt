@@ -7,7 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - center of slider knob doesn't line up with ticks on Battery
-
 - Lightbulb appears to beat with a false peak
 - animate AC wave
 - adjust electron animation so that electrons move farther
@@ -17,7 +16,6 @@ HIGH PRIORITY:
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
-- add spacing between titled panels in the control panel
 - calibration throughout
 - electrons in electromagnet coil loops don't line up with each other (is this due to the smaller radius?)
 
@@ -53,6 +51,7 @@ phetcommon:
 
 DONE:
 v0r17...
+(3/10) - add spacing between titled panels in the control panel
 (3/10) - workaround for zero scaling exception on Windows & Linux
 (3/9) - replace deprecated Module constructor with new constructor for all modules
 (3/9) - add water faucet to control turbine speed

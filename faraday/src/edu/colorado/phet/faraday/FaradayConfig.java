@@ -60,7 +60,7 @@ public class FaradayConfig {
     // Dimensions
     public static final int APP_FRAME_WIDTH = 1024;
     public static final int APP_FRAME_HEIGHT = 768;
-    public static final int CONTROL_PANEL_MIN_WIDTH = 225;
+    public static final int CONTROL_PANEL_SPACER_HEIGHT = 15;
 
     // Colors
     public static final Color LABEL_COLOR = Color.BLACK;
