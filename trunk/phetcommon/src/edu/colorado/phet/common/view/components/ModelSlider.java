@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
- * ModelSlider
+ * ModelSlider combines title, slider, and textfield, with units for normal usage.
+ * It also encapsulates a transform between view and model coordinates.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -73,7 +74,7 @@ public class ModelSlider extends JPanel {
         createSlider();
 
         titleLabel = new JLabel( title );
-        Font titleFont = new Font( "Lucida Sans", Font.BOLD, 20 );
+        Font titleFont = new Font( "Lucida Sans", Font.BOLD, 14 );
         titleLabel.setFont( titleFont );
 
         unitsReadout = new JTextField( " " + this.units );
@@ -97,6 +98,10 @@ public class ModelSlider extends JPanel {
             throw new RuntimeException( e );
         }
         setValue( initialValue );
+    }
+
+    public void setTitleFont( Font titleFont ) {
+        titleLabel.setFont( titleFont );
     }
 
     public JLabel getTitleLabel() {
