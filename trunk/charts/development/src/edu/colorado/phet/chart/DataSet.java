@@ -10,8 +10,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class DataSet {
-    ArrayList dataPoints = new ArrayList();
-    ArrayList observers = new ArrayList();
+    private ArrayList dataPoints = new ArrayList();
+    private ArrayList observers = new ArrayList();
 
     public Point2D pointAt( int i ) {
         return (Point2D)dataPoints.get( i );
@@ -51,6 +51,13 @@ public class DataSet {
 
     public void removePoint( int index ) {
         dataPoints.remove( index );
+    }
+
+    public Point2D getLastPoint() {
+        if( size() == 0 ) {
+            throw new RuntimeException( "No such point 'last point', size=0" );
+        }
+        return pointAt( size() - 1 );
     }
 
     public interface Observer {
