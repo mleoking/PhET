@@ -40,7 +40,7 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
         while( it.hasNext() ) {
             Graphic graphic = (Graphic)it.next();
             AffineTransform orgTx = g.getTransform();
-            // If there is an affine transform bound to this graphic, apply
+            // If there is an affine transform bound to this graphic, updateFrames
             // it to the graphics object
             AffineTransform atx = (AffineTransform)graphicTxMap.get( graphic );
             if( atx != null ) {

@@ -28,6 +28,41 @@ public class PlafUtil {
         UIManager.installLookAndFeel( "Playful", new PlayfulLookAndFeel().getClass().getName() );
     }
 
+    public static void applyPlayful() {
+        try {
+            UIManager.setLookAndFeel( PlayfulLookAndFeel.class.getName() );
+            updateFrames();
+        }
+        catch( ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+        catch( InstantiationException e ) {
+            e.printStackTrace();
+        }
+        catch( IllegalAccessException e ) {
+            e.printStackTrace();
+        }
+        catch( UnsupportedLookAndFeelException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateFrames() {
+        Frame[] frames = JFrame.getFrames();
+        ArrayList alreadyChecked = new ArrayList();
+        for( int i = 0; i < frames.length; i++ ) {
+            SwingUtilities.updateComponentTreeUI( frames[i] );
+            if( !alreadyChecked.contains( frames[i] ) ) {
+                Window[] owned = frames[i].getOwnedWindows();
+                for( int j = 0; j < owned.length; j++ ) {
+                    Window window = owned[j];
+                    SwingUtilities.updateComponentTreeUI( window );
+                }
+            }
+            alreadyChecked.add( frames[i] );
+        }
+    }
+
     public static JMenuItem[] getLookAndFeelItems() {
         UIManager.LookAndFeelInfo[] inst = UIManager.getInstalledLookAndFeels();
         ButtonGroup bg = new ButtonGroup();
@@ -52,33 +87,27 @@ public class PlafUtil {
                 */
                 public void actionPerformed( ActionEvent e ) {
                     try {
-                        UIManager.setLookAndFeel( lookAndFeelInfo.getClassName() );
-                        Frame[] frames = JFrame.getFrames();
-                        ArrayList alreadyChecked = new ArrayList();
-                        for( int i = 0; i < frames.length; i++ ) {
-                            SwingUtilities.updateComponentTreeUI( frames[i] );
-                            if( !alreadyChecked.contains( frames[i] ) ) {
-                                Window[] owned = frames[i].getOwnedWindows();
-                                for( int j = 0; j < owned.length; j++ ) {
-                                    Window window = owned[j];
-                                    SwingUtilities.updateComponentTreeUI( window );
-                                }
-                            }
-                            alreadyChecked.add( frames[i] );
+                        if( UIManager.getLookAndFeel().getClass().getName().equals( lookAndFeelInfo.getClassName() ) ) {
+                            //do not reapply an existing look and feel
+                        }
+                        else {
+                            UIManager.setLookAndFeel( lookAndFeelInfo.getClassName() );
+                            updateFrames();
                         }
                     }
                     catch( ClassNotFoundException e1 ) {
-                        e1.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                        e1.printStackTrace();
                     }
                     catch( InstantiationException e1 ) {
-                        e1.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                        e1.printStackTrace();
                     }
                     catch( IllegalAccessException e1 ) {
-                        e1.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                        e1.printStackTrace();
                     }
                     catch( UnsupportedLookAndFeelException e1 ) {
-                        e1.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                        e1.printStackTrace();
                     }
+
                 }
             } );
         }

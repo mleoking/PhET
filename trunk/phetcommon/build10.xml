@@ -96,7 +96,7 @@
         <mkdir dir="${classes}"/>
         <javac srcdir="${src}" destdir="${classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
-        <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
+        <javac srcdir="${tests-src}" destdir="${classes}"/>
     </target>
 
     <target name="Synchronize Build meta info">
