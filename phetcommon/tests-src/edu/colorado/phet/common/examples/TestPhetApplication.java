@@ -145,6 +145,7 @@ public class TestPhetApplication {
         Module[] m = new Module[]{module, module2, module3, modulePhotons};
 
         ApplicationModel applicationModel = new ApplicationModel( "Test app", "My Test", ".10" );
+        applicationModel.setName( "apptest" );
         applicationModel.setClock( clock );
         applicationModel.setModules( m );
         applicationModel.setInitialModule( modulePhotons );

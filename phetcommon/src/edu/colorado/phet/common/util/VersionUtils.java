@@ -93,7 +93,11 @@ public class VersionUtils {
     }
 
     public static VersionInfo readVersionInfo( String name, ClassLoader cl ) throws IOException {
-        URL buildNumberURL = cl.getResource( name + ".build.number" );
+        String buildnumberName = name + ".build.number";
+        URL buildNumberURL = cl.getResource( buildnumberName );
+        if( buildNumberURL == null ) {
+            throw new IOException( "No resource found: " + buildnumberName );
+        }
         System.out.println( "loading resource info=" + name + ", BuildURL = " + buildNumberURL );
         int buildNum = -1;
         BufferedReader br = new BufferedReader( new InputStreamReader( buildNumberURL.openStream() ) );
