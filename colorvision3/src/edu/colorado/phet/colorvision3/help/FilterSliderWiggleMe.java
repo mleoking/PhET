@@ -42,7 +42,7 @@ public class FilterSliderWiggleMe extends WiggleMe
 	// Class data
   //----------------------------------------------------------------------------
 
-	private static final Dimension DEFAULT_WIGGLE_SIZE = new Dimension(30,30);
+	private static final Dimension DEFAULT_WIGGLE_SIZE = new Dimension(20,20);
 	private static final int DEFAULT_CYCLE_LENGTH = 20;
 	private static final Font DEFAULT_FONT = new Font("SansSerif", Font.PLAIN, 18 );
 	private static final Color DEFAULT_COLOR = Color.YELLOW;
@@ -71,7 +71,7 @@ public class FilterSliderWiggleMe extends WiggleMe
     {
       // Arrow pointing left.
       Point2D tip = new Point2D.Double( 0, 0 );
-      Point2D tail = new Point2D.Double( 25, 10 );
+      Point2D tail = new Point2D.Double( 20, 20 );
       Arrow arrow = new Arrow( tail, tip, 6, 6, 2, 100, false );
       arrowShape = arrow.getShape();
       arrowBounds = arrowShape.getBounds();

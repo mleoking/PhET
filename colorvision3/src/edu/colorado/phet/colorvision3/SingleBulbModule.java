@@ -64,8 +64,8 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
   private static final double PERSON_BACKGROUND_LAYER = 1;
   private static final double BULB_PIPE_LAYER = 2;
   private static final double BULB_SLIDER_LAYER = 3;
-  private static final double FILTER_SWITCH_LAYER = 4;
-  private static final double FILTER_PIPE_LAYER = 5;
+  private static final double FILTER_PIPE_LAYER = 4;
+  private static final double FILTER_SWITCH_LAYER = 5;
   private static final double FILTER_SLIDER_LAYER = 6;
   private static final double POST_FILTER_BEAM_LAYER = 7;
   private static final double FILTER_HOLDER_LAYER = 8;
@@ -96,8 +96,8 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	private static final double FILTER_Y      = 250;
 	
 	// Locations of view components
-	private static final Point FILTER_SWITCH_LOCATION       = new Point( 352, 457 );
-	private static final Point FILTER_SWITCH_LABEL_LOCATION = new Point( 350, 558 );
+	private static final Point FILTER_SWITCH_LOCATION       = new Point( 330, 485 );
+	private static final Point FILTER_SWITCH_LABEL_LOCATION = new Point( 330, 570 );
 	private static final Point FILTER_HOLDER_LOCATION       = new Point( 342, 395 );
 	private static final Point FILTER_SLIDER_LOCATION       = new Point( 100, 515 );
 	private static final Point FILTER_SLIDER_LABEL_LOCATION = new Point( 100, 500 );
@@ -105,7 +105,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	private static final Point BULB_SLIDER_LOCATION         = new Point( 100, 100 );
 	private static final Point BULB_SLIDER_LABEL_LOCATION   = new Point( 100,  85 );
 	private static final Point BULB_PIPE_LOCATION           = new Point(  50, 112 );
-	private static final Point WIGGLE_ME_LOCATION           = new Point( 220, 560 );
+	private static final Point WIGGLE_ME_LOCATION           = new Point( 212, 565 );
 	
   //Angles
 	private static final double SPOTLIGHT_ANGLE = 0.0;
