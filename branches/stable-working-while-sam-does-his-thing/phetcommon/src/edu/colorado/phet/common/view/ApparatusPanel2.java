@@ -25,6 +25,8 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.CropImageFilter;
+import java.awt.image.FilteredImageSource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -276,15 +278,15 @@ public class ApparatusPanel2 extends ApparatusPanel {
         megarepaint( r.x, r.y, r.width, r.height );
     }
 
-//    public void repaint() {
-//    }
+    public void repaint() {
+    }
 
     public void repaint( int x, int y, int width, int height ) {
         megarepaint( x, y, width, height );
     }
 
-//    public void repaint( long tm ) {
-//    }
+    public void repaint( long tm ) {
+    }
 
     protected void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
@@ -292,7 +294,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         drawIt( g2 );
         gs.restoreGraphics();
     }
-
 
     private void drawIt( Graphics2D g2 ) {
         GraphicsState graphicsState = new GraphicsState( g2 );
@@ -355,6 +356,17 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public CompositeGraphic getGraphic() {
         return graphic;
     }
+
+    public Image getSnapshot() {
+        Image snapshot = createImage( new FilteredImageSource( bImg.getSource(),
+                                                               new CropImageFilter( 0, 0, (int)bImg.getWidth(), (int)bImg.getHeight() ) ) );
+        return snapshot;
+    }
+
+
+    //---------------------------------------------------------------------------
+    // Inner classes
+    //---------------------------------------------------------------------------
 
     class MouseProcessor implements ModelElement, MouseListener, MouseMotionListener {
         LinkedList mouseEventList;

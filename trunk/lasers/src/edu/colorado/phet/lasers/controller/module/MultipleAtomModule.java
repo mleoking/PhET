@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.BeamControl2;
+import edu.colorado.phet.lasers.controller.Kaboom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -131,6 +132,9 @@ public class MultipleAtomModule extends BaseLaserModule {
         setEnergyLevelsAveragingPeriod( 2000 );
 
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
+
+        // Add a kaboom element
+        getModel().addModelElement( new Kaboom( this ) );
     }
 
     /**
