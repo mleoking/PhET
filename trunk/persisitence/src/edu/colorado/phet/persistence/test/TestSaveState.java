@@ -25,6 +25,8 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.persistence.test.model.TestParticle;
 import edu.colorado.phet.common.util.persistence.PersistentPoint2D;
 import edu.colorado.phet.common.util.persistence.*;
+import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObserver;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -172,12 +174,16 @@ public class TestSaveState extends PhetApplication {
     }
 
     static void beanTest2() {
-        JPanel panel = new JPanel( );
-        CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
-        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
-        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
+        Object po1 = null;
+//        JPanel panel = new JPanel( );
+//        CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
+//        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
+//        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
 
-        Object po1 = cpg;
+        SimpleObservable so = new SimpleObservable();
+        so.addObserver( new MyObserver() );
+        po1 = so;
+
         XMLEncoder e = new XMLEncoder( System.out );
         e.writeObject( po1 );
         e.close();
@@ -197,7 +203,6 @@ public class TestSaveState extends PhetApplication {
         beanTest2();
 
         PhetApplication app = new TestSaveState( new AppModel() );
-
         JMenuItem mi2 = new JMenuItem( "Restore state" );
         mi2.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -213,10 +218,16 @@ public class TestSaveState extends PhetApplication {
             }
         } );
         app.getPhetFrame().addFileMenuItem( mi );
-
         app.getPhetFrame().addFileMenuSeparatorAfter( mi2 );
 
 //        app.getModuleManager().saveStateToConsole( "/temp/ttt.xml");
         app.startApplication();
+    }
+
+
+    public static class MyObserver implements SimpleObserver {
+        public void update() {
+            System.out.println( "TestSaveState$MyObserver.update" );
+        }
     }
 }
