@@ -48,8 +48,13 @@ public class Uranium235 extends Nucleus {
                 catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
-//                DecayProducts decayProducts = new DecayProducts( this, new DecayNucleus( this ), new DecayNucleus( alphaParticle ));
+                // Note: the production of decay products in this way is probably no longer the best
+                // way to do things, now that there are alpha particles jumping around and causing the
+                // decay in the first place. But this hacked up system still seems to work, so I'm
+                // sticking with it for now.
                 DecayProducts decayProducts = alphaDecay();
+                // Give the new alpha particle the same offset as the old one
+                decayProducts.getN2().setStatisticalLocationOffset( alphaParticle.getStatisticalLocationOffset() );
                 for( int i = 0; i < decayListeners.size(); i++ ) {
                     DecayListener decayListener = (DecayListener)decayListeners.get( i );
                     decayListener.alphaDecay( decayProducts );

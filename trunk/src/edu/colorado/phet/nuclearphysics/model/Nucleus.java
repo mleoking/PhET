@@ -13,6 +13,16 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 public class Nucleus extends Body {
+
+    //
+    // Static fields and methods
+    //
+    protected static double maxStatisticalLocationOffset = 0;
+    private static Random random = new Random();
+
+    //
+    // Instance fields and methods
+    //
     private int numProtons;
     private int numNeutrons;
     private double radius;
@@ -78,7 +88,7 @@ public class Nucleus extends Body {
         double theta = Math.random() * Math.PI * 2;
         double dx = d * Math.cos( theta );
         double dy = d * Math.sin( theta );
-//        statisticalLocationOffset.setLocation( statisticalLocationOffset.getX() - 2 , 0 );
+//        statisticalLocationOffset.setLocation( statisticalLocationOffset.getX() + 2 , 0 );
         statisticalLocationOffset.setLocation( dx, dy );
     }
 
@@ -86,10 +96,7 @@ public class Nucleus extends Body {
         return statisticalLocationOffset;
     }
 
-
-    //
-    // Statics
-    //
-    protected static double maxStatisticalLocationOffset = 0;
-    private static Random random = new Random();
+    public void setStatisticalLocationOffset( Point2D.Double statisticalLocationOffset ) {
+        this.statisticalLocationOffset.setLocation( statisticalLocationOffset );
+    }
 }

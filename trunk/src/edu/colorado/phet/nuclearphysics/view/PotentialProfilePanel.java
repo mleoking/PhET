@@ -31,7 +31,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
     //
     private static Color axisColor = new Color( 100, 100, 100 );
     private static Stroke axisStroke = new BasicStroke( 1f );
-    private static Color backgroundColor = new Color( 230, 255, 255 );
+    private static Color backgroundColor = new Color( 255, 255, 255 );
     private static String xAxisLabel = "Disance from Nucleus Center";
     private static String yAxisLabel = "Potential Energy";
     private static Font axisLabelFont;
