@@ -151,15 +151,14 @@ public class CompassNeedleGraphic extends PhetGraphic {
         if ( strength != _strength ) {
             if ( backgroundIsBlack ) {
                 // Control the brightness of the color to make the needle look "dimmer".
-                int alpha = 255;
                 int nRed = (int) ( NORTH_COLOR.getRed() * strength );
                 int nGreen = (int) ( NORTH_COLOR.getGreen() * strength );
                 int nBlue = (int) ( NORTH_COLOR.getBlue() * strength );
-                _northColor = new Color( nRed, nGreen, nBlue, 255 );
+                _northColor = new Color( nRed, nGreen, nBlue );
                 int sRed = (int) ( SOUTH_COLOR.getRed() * strength );
                 int sGreen = (int) ( SOUTH_COLOR.getGreen() * strength );
                 int sBlue = (int) ( SOUTH_COLOR.getBlue() * strength );
-                _southColor = new Color( sRed, sGreen, sBlue, alpha );
+                _southColor = new Color( sRed, sGreen, sBlue );
             }
             else {
                 // Control the alpha of the color to make the needle look "dimmer".
