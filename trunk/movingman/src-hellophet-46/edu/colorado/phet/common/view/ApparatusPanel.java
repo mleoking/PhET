@@ -80,11 +80,11 @@ public class ApparatusPanel extends JPanel implements Observer {
         super.paintComponent( graphics );
 
         // Draw a bounding rectangle
-        Rectangle boundingRect = this.getBounds();
-        graphics.setColor( Color.black );
-        graphics.drawRect( 0, 0,
-                           (int)boundingRect.getWidth() - 2,
-                           (int)boundingRect.getHeight() - 2 );
+//        Rectangle boundingRect = this.getBounds();
+//        graphics.setColor( Color.black );
+//        graphics.drawRect( 0, 0,
+//                           (int)boundingRect.getWidth() - 2,
+//                           (int)boundingRect.getHeight() - 2 );
         compositeGraphic.paint( (Graphics2D)graphics );
     }
 

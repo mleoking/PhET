@@ -92,7 +92,8 @@ public class ValueGraphic implements ObservingGraphic {
 
     private void paintImmediately( Rectangle r1, Rectangle shape ) {
         Rectangle union = r1.union( shape );
-        module.getApparatusPanel().paintImmediately( union );
+//        module.getApparatusPanel().paintImmediately( union );
+        module.getApparatusPanel().paintSoon( union );
     }
 
     private Rectangle getShape() {

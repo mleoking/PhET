@@ -66,7 +66,8 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
         }
         Rectangle union = r2.union( r );
 //        System.out.println( "union = " + union );
-        module.getApparatusPanel().paintImmediately( union );
+//        module.getApparatusPanel().paintImmediately( union );
+        module.getApparatusPanel().paintSoon( union );
     }
 
     public boolean canHandleMousePress( MouseEvent event ) {

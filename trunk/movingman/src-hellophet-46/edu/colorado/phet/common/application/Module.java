@@ -11,6 +11,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.components.media.Resettable;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.movingman.application.MovingManModule;
 
 import javax.swing.*;
 
@@ -33,8 +34,8 @@ public abstract class Module {
         this.name = name;
     }
 
-    public ApparatusPanel getApparatusPanel() {
-        return apparatusPanel;
+    public MovingManModule.RepaintDebugPanel getApparatusPanel() {
+        return (MovingManModule.RepaintDebugPanel)apparatusPanel;
     }
 
     protected void setApparatusPanel( ApparatusPanel apparatusPanel ) {
