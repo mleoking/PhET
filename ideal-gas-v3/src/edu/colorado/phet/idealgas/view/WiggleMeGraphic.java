@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +26,7 @@ public class WiggleMeGraphic implements Graphic, Runnable {
     int size = 16;
     Font font = new Font( family, style, size );
     private Point2D.Double startLocation;
+    private Color color = IdealGasConfig.helpColor;
 
     public WiggleMeGraphic( Component component, Point2D.Double startLocation ) {
         this.component = component;
@@ -57,7 +59,7 @@ public class WiggleMeGraphic implements Graphic, Runnable {
         RenderingHints orgRH = g.getRenderingHints();
         GraphicsUtil.setAntiAliasingOn( g );
         g.setFont( font );
-        g.setColor( new Color( 0, 100, 0 ) );
+        g.setColor( color );
         String s1 = SimStrings.get( "WiggleMe.Pump_the" );
         String s2 = SimStrings.get( "WiggleMe.handle!" );
         g.drawString( s1, (int)current.getX(), (int)current.getY() - g.getFontMetrics( font ).getHeight() );

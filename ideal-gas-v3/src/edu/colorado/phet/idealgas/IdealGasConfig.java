@@ -9,6 +9,8 @@ package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.view.util.FrameSetup;
 
+import java.awt.*;
+
 /**
  *
  */
@@ -80,8 +82,10 @@ public class IdealGasConfig {
     public static final String LEANER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-leaning/pusher-leaning";
 
     // Offset for locating objects in the apparatus panel
-    public static final int X_BASE_OFFSET = 100;
-    public static final int Y_BASE_OFFSET = -100;
+    public static final int X_BASE_OFFSET = 50;
+//    public static final int X_BASE_OFFSET = 100;
+    public static final int Y_BASE_OFFSET = 0;
+//    public static final int Y_BASE_OFFSET = -100;
 
     // Dimensions of control panel
     public static final int CONTROL_PANEL_WIDTH = 125;
@@ -89,9 +93,11 @@ public class IdealGasConfig {
     // Frame setup for the application
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 960, 768 );
 
+    // Colors
+    public static final Color helpColor = new Color( 0, 100, 0 );
+
     // Sounds
     public static final String SOUND_DIRECTORY = "http://sounds/";
-
     public static final String BONG_SOUND_FILE = SOUND_DIRECTORY + "bond.au";
     public static final String BOING_SOUND_FILE = SOUND_DIRECTORY + "boing.au";
 }
