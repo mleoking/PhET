@@ -20,7 +20,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.CurveDescriptor;
+import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
 import edu.colorado.phet.faraday.model.Electron;
 
 
@@ -105,10 +105,10 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
         setVisible( _electronModel.isEnabled() );
         if ( isVisible() ) {
             
-            CurveDescriptor cd = _electronModel.getCurveDescriptor();
+            ElectronPathDescriptor cd = _electronModel.getPathDescriptor();
             
             // Are we on the background layer?
-            _onBackground = ( cd.getLayer() == CurveDescriptor.BACKGROUND );
+            _onBackground = ( cd.getLayer() == ElectronPathDescriptor.BACKGROUND );
                 
             // Jump between foreground and background.
             CompositePhetGraphic parent = cd.getParent();

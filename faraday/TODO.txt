@@ -33,6 +33,7 @@ LOW PRIORITY:
 - remove smoothing code from PickupCoil when I'm sure I don't need it
 - delete DeveloperControlsPanel when we don't need it anymore
 - remove DebuggerGraphic from modules
+- move test-src programs to examples project
 
 phetcommon:
 - ApparatusPanel2 resize problems
