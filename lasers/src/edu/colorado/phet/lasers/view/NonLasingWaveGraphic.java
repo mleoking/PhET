@@ -9,8 +9,11 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -29,7 +32,9 @@ public class NonLasingWaveGraphic extends WaveGraphic {
     private AffineTransform rtx;
     private Point2D.Double p1 = new Point2D.Double();
     private Point2D.Double p2 = new Point2D.Double();
-    private Random random = new Random();
+    private Random random;
+    private LaserModel model;
+    private BaseLaserModule module;
 
     /**
      * @param component
@@ -39,20 +44,32 @@ public class NonLasingWaveGraphic extends WaveGraphic {
      * @param period
      * @param amplitude
      * @param atomicState
-     * @param model
+     * @param module
      * @param angle
      */
     public NonLasingWaveGraphic( Component component, Point2D origin, double extent,
                                  double lambda, double period, double amplitude,
-                                 AtomicState atomicState, LaserModel model, double angle ) {
-        super( component, atomicState, model.getResonatingCavity() );
+                                 AtomicState atomicState, BaseLaserModule module, double angle ) {
+        super( component, atomicState, module.getLaserModel().getResonatingCavity() );
         this.origin = origin;
         this.lambda = lambda;
         this.period = period;
         this.amplitude = amplitude;
+        this.module = module;
+        this.model = module.getLaserModel();
         this.color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
         numPts = (int)( extent / dx ) + 1;
         model.addModelElement( this );
+
+        // Create a random number generator. Sleep first to make sure it gets seeded
+        // differently than others that might have been create recently
+        try {
+            Thread.sleep(10);
+            random = new Random( System.currentTimeMillis() );
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
 
         rtx = AffineTransform.getRotateInstance( angle );
 
@@ -62,13 +79,11 @@ public class NonLasingWaveGraphic extends WaveGraphic {
     public void stepInTime( double dt ) {
         wavePath.reset();
         elapsedTime += dt;
-        double a = Math.sin( ( elapsedTime / period ) * Math.PI );
         double phase = random.nextDouble() * Math.PI;
         wavePath.moveTo( (float)origin.getX(), (float)origin.getY() );
         for( int i = 0; i < numPts; i += 3 ) {
             double x = dx * i;
             double y = amplitude * ( Math.sin( phase + ( x / lambda ) * Math.PI ) );
-//            double y = amplitude * ( a * Math.sin( ( x / lambda + phase ) * Math.PI ) );
             p1.setLocation( x, y );
             rtx.transform( p1, p2 );
             if( i == 0 ) {
@@ -79,5 +94,17 @@ public class NonLasingWaveGraphic extends WaveGraphic {
             }
         }
         update();
+    }
+
+
+    public void paint( Graphics2D g2 ) {
+        super.saveGraphicsState( g2);
+        double alpha = Math.min( getAmplitude() / 20 , 1 );
+        if( module.isMirrorsEnabled() ) {
+            alpha *=  1 - module.getRightMirror().getReflectivity();
+        }
+        GraphicsUtil.setAlpha( g2, alpha );
+        super.paint( g2 );
+        super.restoreGraphicsState();
     }
 }
