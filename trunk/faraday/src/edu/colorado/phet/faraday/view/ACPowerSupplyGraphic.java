@@ -319,7 +319,6 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             {
                 int xLength = WAVE_VIEWPORT_SIZE.width;
                 int yLength = WAVE_VIEWPORT_SIZE.height;
-                Stroke stroke = new BasicStroke( 1f );
                 
                 // X axis
                 {
@@ -331,7 +330,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     xAxis.setLocation( WAVE_ORIGIN );
                     graphicLayerSet.addGraphic( xAxis, AXES_LAYER );
                     
-                    // Tick marks
+                    // Tick marks -- start at the origin and move out in both directions.
                     int x = 0;
                     int y = TICK_LENGTH / 2;
                     while ( x <= xLength / 2 ) {
@@ -363,7 +362,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     yAxis.setLocation( WAVE_ORIGIN );
                     graphicLayerSet.addGraphic( yAxis, AXES_LAYER );
                     
-                    // Tick marks
+                    // Tick marks -- start at the origin and move out in both directions.
                     int x = TICK_LENGTH / 2;
                     int y = 0;
                     while ( y <= yLength / 2 ) {
