@@ -22,6 +22,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 
 
@@ -141,8 +142,8 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
         }
         
         // Determine how many compasses are needed to fill the parent component.
-        int xCount = (int)(width / xSpacing) + 2;  // HACK
-        int yCount = (int)(height / ySpacing) + 2;  // HACK
+        int xCount = (int)(width / xSpacing) + 4;  // HACK
+        int yCount = (int)(height / ySpacing) + 4;  // HACK
         //System.out.println( "CompassGridGraphic.setSpacing - grid is " + xCount + "x" + yCount ); // DEBUG
         
         // Create the compasses.
@@ -249,36 +250,39 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
                 needle.setDirection( Math.toDegrees( angle ) );
                 
                 // Set the needle's strength.
-                double distance = p.distance( _magnetModel.getLocation() );
-                double scale = ( magnitude / magnetStrength );
-                //scale = ( 10 * magnitude * distance ) / Math.pow( magnetStrength, 2 ); // XXX ????
+                {
+                    double distance = p.distance( _magnetModel.getLocation() );
+                    double scale = ( magnitude / magnetStrength );
+                    
+                    /*
+                     * Since the magnitude drops off rather quickly, we need to adjust the 
+                     * scale so that (a) more compasses are visible, and (b) the number of
+                     * visible compasses increases as the magnet strength increases.
+                     * <p>
+                     * The algorithm is as follows (courtesy of Mike Dubson):
+                     * <ul>
+                     * <li>Bo is some cutoff value
+                     * <li>if B > Bo, scale = 1
+                     * <li>if B <= Bo, scale = (B/Bo)**N
+                     * <li>N is between 0.3-0.8 and is adjusted for magnet strength
+                     * </ul>
+                     */
+                    final double CUTOFF = 0.8; // Bo
+                    final double MIN_EXPONENT = 0.3;
+                    final double MAX_EXPONENT = 0.8;
+                    if ( scale > CUTOFF ) {
+                        scale = 1.0;
+                    }
+                    else {
+                        double min = FaradayConfig.MAGNET_STRENGTH_MIN;
+                        double max = FaradayConfig.MAGNET_STRENGTH_MAX;
+                        double exponent = MAX_EXPONENT - ( ( (magnetStrength - min) / (max - min) ) * (MAX_EXPONENT - MIN_EXPONENT) );
+                        scale = Math.pow( scale / CUTOFF, exponent );
+                    }
 
-                scale = MathUtil.clamp( 0, scale, 1 );
-                if ( scale == Double.NaN ) {
-                    System.out.println( "WARNING: CompassGrid.update - scale=NaN" );
-                }
-                else {
+                    scale = MathUtil.clamp( 0, scale, 1 );
                     needle.setStrength( scale );
                 }
-                
-//                /* HACK:
-//                 * This is a hack to make the needles fade out linearly.
-//                 * It does not take into account arbitrary rotation of the magnet.
-//                 * It also does not use the magnitude component of the field strength vector.
-//                 */
-//                double pixelsPerGauss = 1;
-//                double range = _magnetModel.getStrength() / pixelsPerGauss;
-//                double dCenter = p.distance( _magnetModel.getLocation() );
-//                double dSouth = p.distance( _magnetModel.getX() - (_magnetModel.getSize().width/2), _magnetModel.getY() );
-//                double dNorth = p.distance( _magnetModel.getX() + (_magnetModel.getSize().width/2), _magnetModel.getY() );
-//                double distance = Math.min( dCenter, Math.min( dSouth, dNorth ) );
-//                if ( distance > range ) {
-//                    needle.setStrength( 0.0 );
-//                }
-//                else {
-//                    double scale = (range - distance) / range; 
-//                    needle.setStrength( scale );
-//                }
             }
             repaint();
         }

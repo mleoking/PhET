@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.faraday.control;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,6 +23,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.module.BarMagnetModule;
 
 /**
@@ -98,9 +98,9 @@ public class BarMagnetControlPanel extends ControlPanel {
 
                 // Slider
                 _strengthSlider = new JSlider();
-                _strengthSlider.setMinimum( (int) BarMagnetModule.MAGNET_STRENGTH_MIN );
-                _strengthSlider.setMaximum( (int) BarMagnetModule.MAGNET_STRENGTH_MAX );
-                _strengthSlider.setValue( (int) BarMagnetModule.MAGNET_STRENGTH_MIN );
+                _strengthSlider.setMinimum( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
+                _strengthSlider.setMaximum( (int) FaradayConfig.MAGNET_STRENGTH_MAX );
+                _strengthSlider.setValue( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
 
                 // Value
                 _strengthValue = new JLabel( UNKNOWN_VALUE );

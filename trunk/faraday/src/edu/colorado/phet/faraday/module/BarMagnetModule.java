@@ -57,22 +57,19 @@ public class BarMagnetModule extends Module {
     // Colors
     private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
 
-    public static final double MAGNET_STRENGTH_MIN = 100;
-    public static final double MAGNET_STRENGTH_MAX = 999;
+    // Magnet parameters
     private static final double MAGNET_STRENGTH = 350;
-    
     public static final Dimension MAGNET_SIZE_MIN = new Dimension( 10, 10 );
     public static final Dimension MAGNET_SIZE_MAX = new Dimension( 500, 200 );
     private static final Dimension MAGNET_SIZE = new Dimension( 250, 50 );
     
+    // Compass Grid parameters
     public static final int GRID_X_SPACING_MIN = 20;
     public static final int GRID_X_SPACING_MAX = 200;
     private static final int GRID_X_SPACING = 40;
-    
     public static final int GRID_Y_SPACING_MIN = 20;
     public static final int GRID_Y_SPACING_MAX = 200;
     private static final int GRID_Y_SPACING = 40;
-    
     public static final Dimension GRID_NEEDLE_SIZE_MIN = new Dimension( 1, 4 );
     public static final Dimension GRID_NEEDLE_SIZE_MAX = new Dimension( 100, 50 );
     private static final Dimension GRID_NEEDLE_SIZE = new Dimension( 25, 5 );
