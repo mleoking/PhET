@@ -10,6 +10,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.sound.SoundConfig;
+import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.sound.model.SoundModel;
 
 import javax.swing.*;
@@ -44,10 +45,12 @@ public class SoundControlPanel extends PhetControlPanel {
     }
 
 
+    //
+    // Inner classes for the component panels
+    //
     private class ControlPanel extends JPanel {
 
         ControlPanel( Module module ) {
-
             final JCheckBox drawTestCB = new JCheckBox( "Wave drawing test" );
             drawTestCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -68,7 +71,7 @@ public class SoundControlPanel extends PhetControlPanel {
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, new OctaveControlPanel( (SoundModel)module.getModel() ),
+                GraphicsUtil.addGridBagComponent( this, new OctaveControlPanel( (SoundModule)module ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
@@ -186,13 +189,13 @@ public class SoundControlPanel extends PhetControlPanel {
     }
 
     private static class OctaveControlPanel extends JPanel {
-        private SoundModel model;
         private int sliderMax = 10;
         private int sliderMin = 0;
         private int sliderDefault = 5;
+        private SoundModel model;
 
-        OctaveControlPanel( final SoundModel model ) {
-            this.model = model;
+        OctaveControlPanel( final SoundModule module ) {
+            this.model = (SoundModel)module.getModel();
             this.setLayout( new GridLayout( 2, 1 ) );
             this.setPreferredSize( new Dimension( 125, 80 ) );
 
@@ -200,10 +203,6 @@ public class SoundControlPanel extends PhetControlPanel {
                                                                sliderMin,
                                                                sliderMax,
                                                                sliderDefault );
-            //            final JSlider octaveAmplitudeSlider = new JSlider( JSlider.HORIZONTAL,
-            //                                                               0,
-            //                                                               SoundConfig.s_maxAmplitude,
-            //                                                               SoundConfig.s_defaultAmplitude );
             octaveAmplitudeSlider.setPreferredSize( new Dimension( 25, 60 ) );
             octaveAmplitudeSlider.setPaintTicks( true );
             octaveAmplitudeSlider.setMajorTickSpacing( 5 );
@@ -221,6 +220,8 @@ public class SoundControlPanel extends PhetControlPanel {
             enabledCB.addItemListener( new ItemListener() {
                 public void itemStateChanged( ItemEvent e ) {
                     model.setOctaveEnabled( enabledCB.isSelected() );
+                    // Do this to make the module update the oscillators
+                    module.setAudioEnabled( module.getAudioEnabled() );
                     if( enabledCB.isSelected() ) {
                         setModelAmplitude( octaveAmplitudeSlider.getValue() );
                     }
