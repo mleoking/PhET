@@ -13,6 +13,10 @@ import java.awt.geom.Point2D;
 public class DoubleGeneralPath {
     GeneralPath path;
 
+    public DoubleGeneralPath() {
+        this.path = new GeneralPath();
+    }
+
     public DoubleGeneralPath( Shape shape ) {
         path = new GeneralPath( shape );
     }
