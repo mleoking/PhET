@@ -39,8 +39,14 @@ import java.util.List;
  * contain any number of Graphic objects, and each layer has an integer "level"
  * associated with it. Layers are drawn in ascending order of their levels. The order
  * in which objects in a given level are drawn is undefined.
- * Test Comment.
  * <p/>
+ * The differences between this class and ApparatusPanel are:
+ * <ul>
+ * <li>The graphic objects in the panel resize when the panel is resized
+ * <li>Mouse events are handled in the model loop, not the Swing event dispatch thread
+ * <li>An option allows drawing to be done to an offscreen buffer, then the whole buffer
+ * written at one time to the graphics card
+ * </ul>
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -61,7 +67,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
     //
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private BufferedImage bImg;
-    private Graphics2D bImgGraphics;
     private boolean useOffscreenBuffer = false;
     private BufferStrategy strategy;
     private ArrayList rectangles = new ArrayList();
@@ -104,6 +109,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     /**
      * @param model
+     * @deprecated
      */
     public ApparatusPanel2( BaseModel model ) {
         super( null );
@@ -150,6 +156,12 @@ public class ApparatusPanel2 extends ApparatusPanel {
         return useOffscreenBuffer;
     }
 
+    /**
+     * Specifies whether the panel is to paint to an offscreen buffer, then paint the buffer,
+     * or paint using dirty rectangles.
+     *
+     * @param useOffscreenBuffer
+     */
     public void setUseOffscreenBuffer( boolean useOffscreenBuffer ) {
         // Todo: Determine if the following two lines help or not
 //        setOpaque( useOffscreenBuffer );
@@ -243,7 +255,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         gs.restoreGraphics();
     }
 
-
     private void drawIt( Graphics2D g2 ) {
         if( repaintArea == null ) {
             repaintArea = this.getBounds();
@@ -258,8 +269,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         GraphicsState gs = new GraphicsState( g2 );
         g2.transform( graphicTx );
-        if( useOffscreenBuffer ) {
-            bImgGraphics = (Graphics2D)bImg.getGraphics();
+        if( useOffscreenBuffer && bImg != null ) {
+            Graphics2D bImgGraphics = (Graphics2D)bImg.getGraphics();
             bImgGraphics.setColor( this.getBackground() );
             bImgGraphics.fillRect( bImg.getMinX(), bImg.getMinY(), bImg.getWidth(), bImg.getHeight() );
             getGraphic().paint( bImgGraphics );
@@ -455,7 +466,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 e1.printStackTrace();
             }
             bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
-            bImgGraphics = (Graphics2D)bImg.getGraphics();
 
             // Adjust the locations of Swing components
             Component[] components = ApparatusPanel2.this.getComponents();
