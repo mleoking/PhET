@@ -77,7 +77,7 @@ public class OptionsMenu extends JMenu {
 
     private class MoleculeInteractions extends JCheckBoxMenuItem {
         public MoleculeInteractions() {
-            super( SimStrings.get( "Molecules-interact" ), true );
+            super( SimStrings.get( "MeasurementControlPanel.Molecules-interact" ), true );
 
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

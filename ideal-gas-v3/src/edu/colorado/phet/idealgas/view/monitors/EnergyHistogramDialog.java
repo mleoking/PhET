@@ -9,7 +9,6 @@ package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -146,62 +145,6 @@ public class EnergyHistogramDialog extends JDialog {
         contentPane.add( speedHistogram, gbc );
         gbc.gridy++;
         contentPane.add( new JLabel( SimStrings.get( "EnergyHistorgramDialog.Speed_Distribution" ) ), gbc );
-
-        if( false ) {
-            try {
-                int rowIdx = 0;
-                SwingUtils.addGridBagComponent( this.getContentPane(),
-                                                energyHistogram,
-                                                0, rowIdx++, 1, 1,
-                                                GridBagConstraints.NONE,
-                                                GridBagConstraints.WEST );
-                SwingUtils.addGridBagComponent( this.getContentPane(),
-                                                new JLabel( SimStrings.get( "EnergyHistorgramDialog.Energy_Distribution" ) ),
-                                                0, rowIdx++, 1, 1,
-                                                GridBagConstraints.NONE,
-                                                GridBagConstraints.WEST );
-                SwingUtils.addGridBagComponent( this.getContentPane(),
-                                                speedHistogram,
-                                                0, rowIdx++, 1, 1,
-                                                GridBagConstraints.NONE,
-                                                GridBagConstraints.WEST );
-                SwingUtils.addGridBagComponent( this.getContentPane(),
-                                                new JLabel( SimStrings.get( "EnergyHistorgramDialog.Speed_Distribution" ) ),
-                                                0, rowIdx++, 1, 1,
-                                                GridBagConstraints.NONE,
-                                                GridBagConstraints.WEST );
-                SwingUtils.addGridBagComponent( this.getContentPane(),
-                                                heavySpeedHistogram,
-                                                0, rowIdx++, 1, 1,
-                                                GridBagConstraints.NONE,
-                                                GridBagConstraints.WEST );
-//                heavySpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Heavy_Speed_label" ) );
-                SwingUtils.addGridBagComponent( this.getContentPane(),
-                                                heavySpeedLabel,
-                                                0, rowIdx++, 1, 1,
-                                                GridBagConstraints.NONE,
-                                                GridBagConstraints.WEST );
-                SwingUtils.addGridBagComponent( this.getContentPane(),
-                                                lightSpeedHistogram,
-                                                0, rowIdx++, 1, 1,
-                                                GridBagConstraints.NONE,
-                                                GridBagConstraints.WEST );
-//                lightSpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Light_Speed_label" ) );
-                SwingUtils.addGridBagComponent( this.getContentPane(),
-                                                lightSpeedLabel,
-                                                0, rowIdx++, 1, 1,
-                                                GridBagConstraints.NONE,
-                                                GridBagConstraints.WEST );
-                SwingUtils.addGridBagComponent( this.getContentPane(),
-                                                detailsBtn,
-                                                0, rowIdx++, 1, 1,
-                                                GridBagConstraints.NONE,
-                                                GridBagConstraints.CENTER );
-            }
-            catch( AWTException e ) {
-                e.printStackTrace();
-            }
-        }
         this.repaint();
     }
 
