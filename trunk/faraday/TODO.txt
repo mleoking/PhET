@@ -1,0 +1,9 @@
+"To Do" list for "faraday" simulation
+
+HIGH:
+
+
+MEDIUM:
+
+
+LOW:
