@@ -28,8 +28,12 @@ public class GroundState extends AtomicState {
         return instance;
     }
 
-
+    
+    //
+    // Instance
+    //
     private GroundState() {
+        setEnergyLevel( 10 );
     }
 
     public void stepInTime( double dt ) {

@@ -9,6 +9,7 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -18,7 +19,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-public abstract class MonitorPanel extends JPanel implements SimpleObserver {
+public abstract class MonitorPanel extends ApparatusPanel implements SimpleObserver {
 
     private static Font axisLabelFont;
 
@@ -35,14 +36,12 @@ public abstract class MonitorPanel extends JPanel implements SimpleObserver {
     protected int numMiddleLevel;
     protected int numHighLevel;
     private String yAxisLabel = "Energy (ev)";
+    private EnergyLevelGraphic elg;
 
 
     protected MonitorPanel() {
-//        EnergyLevelGraphic elg = new EnergyLevelGraphic( this, new MiddleEnergyState( ), 30 );
-        
+        setLayout( null );
     }
-//    public void photonEmitted( Atom atom, Photon photon ) {
-//    }
 
     protected void paintComponent( Graphics g ) {
         Graphics2D g2 = (Graphics2D)g;
@@ -62,7 +61,6 @@ public abstract class MonitorPanel extends JPanel implements SimpleObserver {
         AffineTransform strTx = rotateInPlace( atx, -Math.PI / 2, strLoc.getX(), strLoc.getY() );
         g2.transform( strTx );
         g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
-
         gs.restoreGraphics();
     }
 
