@@ -101,17 +101,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     }
     
     /**
-     * Gets the voltage across the ends of the coil.
-     * According to Kirchhoff’s loop rule, the potential difference across
-     * the ends of the coil equals the magnitude of the induced EMF in the coil.
-     * 
-     * @return voltage across the ends of the coil, in volts
-     */
-    public double getVoltage() {
-        return _emf;
-    }
-    
-    /**
      * Smooths out the behavior by removing spikes in the data.
      * Changing the value of this property has the side-effect of clearing the 
      * data history.
@@ -143,6 +132,21 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         }
     }
  
+    //----------------------------------------------------------------------------
+    // AbstractCoil implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the voltage across the ends of the coil.
+     * According to Kirchhoff’s loop rule, the potential difference across
+     * the ends of the coil equals the magnitude of the induced EMF in the coil.
+     * 
+     * @return voltage across the ends of the coil, in volts
+     */
+    public double getVoltage() {
+        return _emf;
+    }
+    
     //----------------------------------------------------------------------------
     // Faraday's Law implementation
     //----------------------------------------------------------------------------
