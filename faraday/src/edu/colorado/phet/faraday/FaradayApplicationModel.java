@@ -64,7 +64,7 @@ public class FaradayApplicationModel extends ApplicationModel {
             TransformerModule transformerModule = new TransformerModule( clock );
             GeneratorModule generatorModule = new GeneratorModule( clock );
             setModules( new Module[] { barMagnetModule, pickupCoilModule, electromagnetModule, transformerModule, generatorModule } );
-            setInitialModule( electromagnetModule );
+            setInitialModule( barMagnetModule );
         }
     }
 }
