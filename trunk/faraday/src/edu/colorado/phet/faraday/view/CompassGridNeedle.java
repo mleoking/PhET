@@ -98,6 +98,24 @@ class CompassGridNeedle {
     }
     
     /**
+     * Gets the location X coordinate.
+     * 
+     * @return X
+     */
+    public double getX() {
+        return _location.getX();
+    }
+    
+    /**
+     * Gets the location Y coordinate.
+     * 
+     * @return Y
+     */
+    public double getY() {
+        return _location.getY();
+    }
+    
+    /**
      * Sets the size of the needle.
      * 
      * @param size
