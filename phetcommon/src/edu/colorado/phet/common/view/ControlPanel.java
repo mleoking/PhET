@@ -29,7 +29,7 @@ import java.util.HashMap;
  */
 public class ControlPanel extends JPanel {
     private Module module;
-    private JPanel controlPane = new JPanel(new GridBagLayout());
+    private JPanel controlPane = new JPanel( new GridBagLayout() );
     private SpringLayout layout;
     private JLabel titleLabel;
     private HelpPanel helpPanel;
@@ -38,13 +38,13 @@ public class ControlPanel extends JPanel {
     private int padY = 5;
     private ArrayList controls = new ArrayList();
     private HashMap panelEntries = new HashMap();
-    private Insets defaultInsets = new Insets( 0, 0, 0, 0);
+    private Insets defaultInsets = new Insets( 0, 0, 0, 0 );
 
 
     /**
      * @param module
      */
-    public ControlPanel(Module module) {
+    public ControlPanel( Module module ) {
         this.module = module;
         this.setLayout( new BorderLayout() );
 
@@ -86,7 +86,7 @@ public class ControlPanel extends JPanel {
 
 
     public void setHelpPanelEnabled( boolean isEnabled ) {
-        helpPanel.setVisible( isEnabled );        
+        helpPanel.setVisible( isEnabled );
     }
 
     /**
@@ -95,56 +95,56 @@ public class ControlPanel extends JPanel {
      */
     private void adjustLayout() {
         Dimension controlPaneSize = controlPane.getPreferredSize();
-        int controlPaneWidth = (int) Math.round(controlPaneSize.getWidth());
-        int controlPaneHeight = (int) Math.round(controlPaneSize.getHeight());
-        int width = (int) Math.max(imageIcon.getIconWidth() + padX * 2,
-                controlPaneWidth /*+ padX * 2 */);
-        int height = (int) (padY * 4 + imageIcon.getIconHeight()
-                + helpPanel.getPreferredSize().getHeight()
-                + controlPaneHeight);
+        int controlPaneWidth = (int)Math.round( controlPaneSize.getWidth() );
+        int controlPaneHeight = (int)Math.round( controlPaneSize.getHeight() );
+        int width = (int)Math.max( imageIcon.getIconWidth() + padX * 2,
+                                   controlPaneWidth /*+ padX * 2 */ );
+        int height = (int)( padY * 4 + imageIcon.getIconHeight()
+                            + helpPanel.getPreferredSize().getHeight()
+                            + controlPaneHeight );
 
-        this.setMinimumSize(new Dimension(width, height));
-        this.setPreferredSize(new Dimension(width, height));
+        this.setMinimumSize( new Dimension( width, height ) );
+        this.setPreferredSize( new Dimension( width, height ) );
 
         // Create springs to the center of the panel
-        Spring containerSouthEdge = layout.getConstraint(SpringLayout.SOUTH, this);
-        Spring containerEastEdge = layout.getConstraint(SpringLayout.EAST, this);
-        Spring yCenterS = FractionSpring.half(containerSouthEdge);
-        Spring xCenterS = FractionSpring.half(containerEastEdge);
+        Spring containerSouthEdge = layout.getConstraint( SpringLayout.SOUTH, this );
+        Spring containerEastEdge = layout.getConstraint( SpringLayout.EAST, this );
+        Spring yCenterS = FractionSpring.half( containerSouthEdge );
+        Spring xCenterS = FractionSpring.half( containerEastEdge );
 
         // Place the logo icon
-        Spring middleOfIconS = Spring.constant(imageIcon.getIconWidth() / 2);
-        Spring leftOfIconS = Spring.sum(xCenterS, Spring.minus(middleOfIconS));
-        layout.putConstraint(SpringLayout.NORTH, titleLabel, padY,
-                SpringLayout.NORTH, this);
-        layout.putConstraint(SpringLayout.WEST, titleLabel, leftOfIconS,
-                SpringLayout.WEST, this);
+        Spring middleOfIconS = Spring.constant( imageIcon.getIconWidth() / 2 );
+        Spring leftOfIconS = Spring.sum( xCenterS, Spring.minus( middleOfIconS ) );
+        layout.putConstraint( SpringLayout.NORTH, titleLabel, padY,
+                              SpringLayout.NORTH, this );
+        layout.putConstraint( SpringLayout.WEST, titleLabel, leftOfIconS,
+                              SpringLayout.WEST, this );
 
         // Place the panel with the controls
-        Spring controlsHalfHeightS = Spring.constant(controlPaneHeight / 2);
-        Spring bottomOfIconS = Spring.constant(imageIcon.getIconHeight() + padY * 2);
-        Spring controlsTopS = Spring.constant(padY * 2);
+        Spring controlsHalfHeightS = Spring.constant( controlPaneHeight / 2 );
+        Spring bottomOfIconS = Spring.constant( imageIcon.getIconHeight() + padY * 2 );
+        Spring controlsTopS = Spring.constant( padY * 2 );
         // Enable the following line if you want the controls to float in the middle of
         // the control panel
         //        Spring controlsTopS = Spring.sum( yCenterS, Spring.minus( controlsHalfHeightS ) );
-        Spring controlsTopSS = Spring.max(bottomOfIconS, controlsTopS);
-        layout.putConstraint(SpringLayout.NORTH, controlPane, controlsTopSS,
-                SpringLayout.NORTH, this);
-        layout.putConstraint(SpringLayout.WEST, controlPane,
-                (int) ((this.getPreferredSize().getWidth() - controlPaneWidth) / 2),
-                SpringLayout.WEST, this);
+        Spring controlsTopSS = Spring.max( bottomOfIconS, controlsTopS );
+        layout.putConstraint( SpringLayout.NORTH, controlPane, controlsTopSS,
+                              SpringLayout.NORTH, this );
+        layout.putConstraint( SpringLayout.WEST, controlPane,
+                              (int)( ( this.getPreferredSize().getWidth() - controlPaneWidth ) / 2 ),
+                              SpringLayout.WEST, this );
 
         // Place the help panel
-        Spring middleOfHelpPanelS = Spring.constant((int) helpPanel.getPreferredSize().getWidth() / 2);
-        Spring leftOfHelpPanelS = Spring.sum(xCenterS, Spring.minus(middleOfHelpPanelS));
-        layout.putConstraint(SpringLayout.WEST, helpPanel, leftOfHelpPanelS,
-                SpringLayout.WEST, this);
-        Spring bottomOfControlsS = Spring.sum(controlsTopSS, Spring.constant(controlPaneHeight));
-        Spring minOffsetY = Spring.sum(containerSouthEdge, Spring.minus(Spring.constant((int) helpPanel.getPreferredSize().getHeight())));
-        Spring s = Spring.max(Spring.sum(bottomOfControlsS, Spring.constant(padY)),
-                minOffsetY);
-        layout.putConstraint(SpringLayout.NORTH, helpPanel, s,
-                SpringLayout.NORTH, this);
+        Spring middleOfHelpPanelS = Spring.constant( (int)helpPanel.getPreferredSize().getWidth() / 2 );
+        Spring leftOfHelpPanelS = Spring.sum( xCenterS, Spring.minus( middleOfHelpPanelS ) );
+        layout.putConstraint( SpringLayout.WEST, helpPanel, leftOfHelpPanelS,
+                              SpringLayout.WEST, this );
+        Spring bottomOfControlsS = Spring.sum( controlsTopSS, Spring.constant( controlPaneHeight ) );
+        Spring minOffsetY = Spring.sum( containerSouthEdge, Spring.minus( Spring.constant( (int)helpPanel.getPreferredSize().getHeight() ) ) );
+        Spring s = Spring.max( Spring.sum( bottomOfControlsS, Spring.constant( padY ) ),
+                               minOffsetY );
+        layout.putConstraint( SpringLayout.NORTH, helpPanel, s,
+                              SpringLayout.NORTH, this );
         this.invalidate();
         this.repaint();
     }
@@ -161,8 +161,8 @@ public class ControlPanel extends JPanel {
      * @param comp
      * @return
      */
-    public Component add(Component comp) {
-        return add(comp, defaultInsets);
+    public Component add( Component comp ) {
+        return add( comp, defaultInsets );
     }
 
     /**
@@ -172,11 +172,11 @@ public class ControlPanel extends JPanel {
      * @param comp
      * @return
      */
-    public Component addFullWidth(Component comp) {
-        GridBagConstraints gbc = new GridBagConstraints(0, controls.indexOf(comp),
-                1, 1, 1, 1,
-                GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0);
-        return add(comp, gbc);
+    public Component addFullWidth( Component comp ) {
+        GridBagConstraints gbc = new GridBagConstraints( 0, controls.indexOf( comp ),
+                                                         1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
+        return add( comp, gbc );
     }
 
     /**
@@ -188,11 +188,11 @@ public class ControlPanel extends JPanel {
      * @param constraints
      * @return
      */
-    public Component add(Component comp, GridBagConstraints constraints) {
-        controls.add(comp);
-        constraints.gridy = controls.indexOf(comp);
-        this.panelEntries.put(comp, constraints);
-        controlPane.add(comp, constraints);
+    public Component add( Component comp, GridBagConstraints constraints ) {
+        controls.add( comp );
+        constraints.gridy = controls.indexOf( comp );
+        this.panelEntries.put( comp, constraints );
+        controlPane.add( comp, constraints );
         revalidate();
         repaint();
         return comp;
@@ -205,11 +205,11 @@ public class ControlPanel extends JPanel {
      * @param insets
      * @return
      */
-    public Component add(Component comp, Insets insets) {
-        GridBagConstraints gbc = new GridBagConstraints(0, controls.indexOf(comp),
-                1, 1, 1, 1,
-                GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
-        return add(comp, gbc);
+    public Component add( Component comp, Insets insets ) {
+        GridBagConstraints gbc = new GridBagConstraints( 0, controls.indexOf( comp ),
+                                                         1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
+        return add( comp, gbc );
     }
 
     /**
@@ -218,20 +218,20 @@ public class ControlPanel extends JPanel {
      *
      * @param comp
      */
-    public void remove(Component comp) {
+    public void remove( Component comp ) {
         // remove the component from the pane
-        controlPane.remove(comp);
+        controlPane.remove( comp );
 
         // Adjust the positions of the remaining controls
-        int idx = controls.indexOf(comp);
-        controls.remove(comp);
-        for (int i = 0; i < controls.size(); i++) {
-            Component compToMove = (Component) controls.get(i);
-            if (i >= idx) {
-                GridBagConstraints constraints = (GridBagConstraints) panelEntries.get(compToMove);
+        int idx = controls.indexOf( comp );
+        controls.remove( comp );
+        for( int i = 0; i < controls.size(); i++ ) {
+            Component compToMove = (Component)controls.get( i );
+            if( i >= idx ) {
+                GridBagConstraints constraints = (GridBagConstraints)panelEntries.get( compToMove );
                 constraints.gridy--;
-                controlPane.remove(compToMove);
-                controlPane.add(compToMove, constraints);
+                controlPane.remove( compToMove );
+                controlPane.add( compToMove, constraints );
             }
         }
 
