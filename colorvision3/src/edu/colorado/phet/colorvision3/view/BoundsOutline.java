@@ -27,13 +27,15 @@ public class BoundsOutline
 	// Class data
   //----------------------------------------------------------------------------
 
+  // Set this system property to enable.
+  private static final String PROPERTY = "BoundsOutline.enable";
   // Default stroke
   private static final Stroke DEFAULT_STROKE = new BasicStroke(1f);
   // Default paint
   private static final Paint DEFAULT_PAINT = Color.RED;
   
   // Global control of bounds rendering.
-  private static boolean _enabled = false;
+  private static boolean _enabled = ( System.getProperty(PROPERTY) != null );
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -133,14 +135,17 @@ public class BoundsOutline
   {
     if ( _enabled )
     {
+      // Save graphics state
       Paint oldPaint = g2.getPaint();
       Stroke oldStroke = g2.getStroke();
       
+      // Draw outline
       Rectangle r = new Rectangle( bounds.x, bounds.y, bounds.width-1, bounds.height-1 );
       g2.setPaint( paint );
       g2.setStroke( stroke );
       g2.draw( r );
       
+      // Restore graphics state
       g2.setPaint( oldPaint );
       g2.setStroke( oldStroke );
     }
