@@ -33,7 +33,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
     private Class gasSpecies = LightSpecies.class;
     private Object containerAffected;
 //    private int defaultGravity = 0;
-    private int defaultGravity = IdealGasConfig.s_maxGravity / 2;
+    private int defaultGravity = IdealGasConfig.MAX_GRAVITY / 2;
 
     public HeliumBalloonModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.HeliumBalloon" ) );

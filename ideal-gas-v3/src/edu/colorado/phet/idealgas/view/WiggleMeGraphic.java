@@ -28,7 +28,7 @@ public class WiggleMeGraphic extends PhetGraphic {
     int size = 16;
     Font font = new Font( family, style, size );
     private Point2D.Double startLocation;
-    private Color color = IdealGasConfig.helpColor;
+    private Color color = IdealGasConfig.HELP_COLOR;
     private Rectangle redrawArea;
     private ModelElement wiggleMeModelElement;
 

@@ -42,6 +42,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     private int strokeWidth = 1;
     private Paint normalBorderPaint;
     private boolean isWallHighlightedByMouse;
+    private boolean isMovable;
 
     /**
      * @param wall
@@ -142,6 +143,10 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
 
     protected Rectangle determineBounds() {
         return super.determineBounds();
+    }
+
+    public void setIsMovable( boolean isMovable ) {
+        this.isMovable = isMovable;
     }
 
     //----------------------------------------------------------------
@@ -281,7 +286,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
                 }
 
                 // If the wall is resizable and the cursor is on or near its border, give it the
-                // correct double-arrow cursor. Otherwise, make the cursor a hand.
+                // correct double-arrow cursor. Otherwise, if the wall is movable make the cursor a hand.
                 if( isResizable ) {
                     double minX = getBounds().getMinX();
                     double maxX = getBounds().getMaxX();
@@ -301,6 +306,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
                         currentCursor = Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR );
                     }
                     else {
+//                    else if( isMovable ) {
                         currentCursor = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
                     }
                 }

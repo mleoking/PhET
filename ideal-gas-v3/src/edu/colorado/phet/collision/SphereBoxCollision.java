@@ -106,7 +106,7 @@ public class SphereBoxCollision implements Collision {
 
             // Here's where we handle adding heat on the floor
             // todo: probably not the best place for this
-            if( IdealGasConfig.heatOnlyFromFloor ) {
+            if( IdealGasConfig.HEAT_ONLY_FROM_FLOOR ) {
                 double preKE = sphere.getKineticEnergy();
                 sphere.setVelocity( sphere.getVelocity().scale( 1 + model.getHeatSource() / 10000 ) );
                 double incrKE = sphere.getKineticEnergy() - preKE;

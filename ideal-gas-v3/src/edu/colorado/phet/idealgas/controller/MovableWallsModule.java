@@ -77,6 +77,12 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         // Make box non-resizable
 //        getBoxGraphic().setIgnoreMouse( true );
 
+        // Remove the Wiggle-me
+        getApparatusPanel().removeGraphic( wiggleMeGraphic );
+
+        // Remove the pump graphic
+        removePumpGraphic();
+
         // Remove the mannequin graphic and the box door
         getApparatusPanel().removeGraphic( getPusher() );
         getApparatusPanel().removeGraphic( getBoxDoorGraphic() );
@@ -85,8 +91,6 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         PChemModel pchemModel = (PChemModel)getModel();
         pchemModel.setVerticalWall( verticalWall );
         pchemModel.addListener( this );
-//        verticalWall.addChangeListener( pchemModel );
-//        verticalWall.setBounds(  verticalWall.getBounds() );
 
         // Add counters for the number of particles on either side of the vertical wall
         addParticleCounters();
@@ -243,14 +247,16 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         energyCurve.curveTo( c5A.getX(), c5A.getY(), c5B.getX(), c5B.getY(), p5.getX(), p5.getY() );
         energyCurve.curveTo( c9A.getX(), c9A.getY(), c9B.getX(), c9B.getY(), p9.getX(), p9.getY() );
         energyCurve.lineTo( p10 );
-        energyCurve.lineTo( p11 );
-        energyCurve.lineTo( p12 );
-        energyCurve.closePath();
+//        energyCurve.lineTo( p11 );
+//        energyCurve.lineTo( p12 );
+//        energyCurve.closePath();
 
         Color borderColor = Color.cyan;
         Color fill = new Color( 255, 255, 255, 160 );
         energyCurveGraphic = new PhetShapeGraphic( getApparatusPanel(), energyCurve.getGeneralPath(),
-                                                   fill, new BasicStroke( 2f ), borderColor );
+                                                   new BasicStroke( 2f ), borderColor );
+//        energyCurveGraphic = new PhetShapeGraphic( getApparatusPanel(), energyCurve.getGeneralPath(),
+//                                                   fill, new BasicStroke( 2f ), borderColor );
         energyCurveGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         energyCurveGraphic.setIgnoreMouse( true );
         getApparatusPanel().addGraphic( energyCurveGraphic, s_verticalWallLayer + 10 );
@@ -293,8 +299,8 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         // Add a listener that will make the left floor stay attached to the left wall of the box
         getBox().addChangeListener( new BoxChangeListener() );
         WallGraphic leftFloorGraphic = new WallGraphic( leftFloor, getApparatusPanel(),
-                                                        invisiblePaint, invisiblePaint,
-//                                                        Color.gray, Color.black,
+//                                                        invisiblePaint, invisiblePaint,
+                                                        Color.gray, Color.black,
                                                         WallGraphic.NORTH_SOUTH );
         leftFloorGraphic.setWallHighlightedByMouse( false );
         getModel().addModelElement( leftFloor );
@@ -307,8 +313,8 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                                box.getBoundsInternal() );
         rightFloor.setFixupStrategy( new FloorFixupStrategy() );
         WallGraphic rightFloorGraphic = new WallGraphic( rightFloor, getApparatusPanel(),
-                                                         invisiblePaint, invisiblePaint,
-//                                                         Color.gray, Color.black,
+//                                                         invisiblePaint, invisiblePaint,
+                                                         Color.gray, Color.black,
                                                          WallGraphic.NORTH_SOUTH );
         rightFloorGraphic.setWallHighlightedByMouse( false );
         getModel().addModelElement( rightFloor );
@@ -321,31 +327,37 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
         // Set the region for the walls
         setWallBounds();
+
+        leftFloorGraphic.setIsResizable( true );
+        leftFloorGraphic.setIsMovable( false );
+        rightFloorGraphic.setIsResizable( true );
     }
 
     /**
      * Sets the region of the various walls and the region of their movement based on
-     * the region of the lower vertical wall
+     * the region of the vertical wall
      */
     private void setWallBounds() {
         Rectangle2D boxBounds = getBox().getBoundsInternal();
-        Rectangle2D lowerWallBounds = verticalWall.getBounds();
+        Rectangle2D verticalWallBounds = verticalWall.getBounds();
         leftFloor.setBounds( new Rectangle2D.Double( boxBounds.getMinX(),
                                                      leftFloor.getBounds().getMinY(),
-                                                     lowerWallBounds.getMinX() - boxBounds.getMinX(),
-                                                     leftFloor.getBounds().getHeight() ) );
-        rightFloor.setBounds( new Rectangle2D.Double( lowerWallBounds.getMaxX(),
+                                                     verticalWallBounds.getMinX() - boxBounds.getMinX(),
+                                                     boxBounds.getMaxY() - leftFloor.getBounds().getMinY() ) );
+//                                                     leftFloor.getBounds().getHeight() ) );
+        rightFloor.setBounds( new Rectangle2D.Double( verticalWallBounds.getMaxX(),
                                                       rightFloor.getBounds().getMinY(),
-                                                      boxBounds.getMaxX() - lowerWallBounds.getMaxX(),
+                                                      boxBounds.getMaxX() - verticalWallBounds.getMaxX(),
                                                       rightFloor.getBounds().getHeight() ) );
         leftFloor.setMovementBounds( new Rectangle2D.Double( boxBounds.getMinX(),
-                                                             lowerWallBounds.getMinY(),
-                                                             lowerWallBounds.getMinX() - boxBounds.getMinX(),
-                                                             boxBounds.getMaxY() - lowerWallBounds.getMinY() ) );
+                                                             verticalWallBounds.getMinY(),
+                                                             verticalWallBounds.getMinX() - boxBounds.getMinX(),
+                                                             boxBounds.getMaxY() - verticalWallBounds.getMinY() ) );
         // Right floor can't go higher than the intake port on the box
-        rightFloor.setMovementBounds( new Rectangle2D.Double( lowerWallBounds.getMaxX(),
-                                                              Math.max( lowerWallBounds.getMinY(), Pump.s_intakePortY + 10 ),
-                                                              boxBounds.getMaxX() - lowerWallBounds.getMaxX(),
+        rightFloor.setMovementBounds( new Rectangle2D.Double( verticalWallBounds.getMaxX(),
+//                                                              Math.max( verticalWallBounds.getMinY(), Pump.s_intakePortY + 10 ),
+                                                              verticalWallBounds.getMinX() - boxBounds.getMinX(),
+                                                              boxBounds.getMaxX() - verticalWallBounds.getMaxX(),
                                                               boxBounds.getMaxY() - ( Pump.s_intakePortY + 10 ) ) );
     }
 

@@ -452,7 +452,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             //                Object obj = getBodies().get( i );
             for( int i = 0; i < numModelElements(); i++ ) {
                 Object modelElement = modelElementAt( i );
-                if( modelElement instanceof CollidableBody && !IdealGasConfig.heatOnlyFromFloor ) {
+                if( modelElement instanceof CollidableBody && !IdealGasConfig.HEAT_ONLY_FROM_FLOOR ) {
                     CollidableBody body = (CollidableBody)modelElement;
                     double preKE = body.getKineticEnergy();
                     body.setVelocity( body.getVelocity().scale( 1 + heatSource / 10000 ) );

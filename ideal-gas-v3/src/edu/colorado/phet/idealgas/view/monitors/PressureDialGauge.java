@@ -45,9 +45,11 @@ public class PressureDialGauge extends PhetShapeGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        g.setColor( Color.black );
+        saveGraphicsState( g );
+        g.setColor( IdealGasConfig.COLOR_SCHEME.pressureGaugeNeckColor );
         g.fill( stem );
         pressureGauge.paint( g );
+        restoreGraphicsState();
     }
 
     protected Rectangle determineBounds() {

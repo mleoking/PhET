@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
@@ -35,6 +36,7 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
     private double openingMaxX;
     private boolean doorHighlighted;
     private Point2D[] opening = new Point2D[2];
+    private PhetShapeGraphic doorShapeGraphic;
 
     public BoxDoorGraphic( Component component,
                            int x, int y, int minX, int minY, int maxX, int maxY,
@@ -48,6 +50,12 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
             e.printStackTrace();
         }
         imageGraphic = new PhetImageGraphic( component, doorImg );
+        this.addGraphic( imageGraphic );
+
+        Rectangle door = new Rectangle( imageGraphic.getWidth(), 12 );
+        doorShapeGraphic = new PhetShapeGraphic( component, door, Box2DGraphic.s_wallColor );
+        this.addGraphic( doorShapeGraphic);
+
         this.x = x;
         this.y = y;
         this.minX = minX;
@@ -95,12 +103,17 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
             maxY = (int)box.getMinY();
             imageGraphic.setLocation( (int)imageGraphic.getBounds().getMinX(),
                                       minY - (int)imageGraphic.getBounds().getHeight() );
-            imageGraphic.repaint();
+
+            doorShapeGraphic.setLocation( (int)imageGraphic.getLocation().getX(),
+                                          (int)imageGraphic.getLocation().getY()+ 13 );
+            repaint();
+
         }
     }
 
     public void paint( Graphics2D g ) {
-        imageGraphic.paint( g );
+//        imageGraphic.paint( g );
+        super.paint( g );
         if( doorHighlighted ) {
             GraphicsState gs = new GraphicsState( g );
             g.setStroke( new BasicStroke( 1 ) );

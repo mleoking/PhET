@@ -40,7 +40,7 @@ public class OptionsMenu extends JMenu {
         movableWallModule = new MovableWallsModule( application.getApplicationModel().getClock() );
 
 //        this.add( new AdvancedMenu() );
-        this.add( new AdvancedPanelsMI() );
+//        this.add( new AdvancedPanelsMI() );
         this.add( new MoleculeInteractionsMI() );
         this.add( new AddHeatFromFloorMI() );
     }
@@ -90,7 +90,7 @@ public class OptionsMenu extends JMenu {
             super( SimStrings.get( "OptionsMenu.Add_remove_heat_from_floor_only"), false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    IdealGasConfig.heatOnlyFromFloor = isSelected();
+                    IdealGasConfig.HEAT_ONLY_FROM_FLOOR = isSelected();
                 }
             } );
         }

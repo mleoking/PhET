@@ -106,7 +106,7 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
 
         // Add controls for the number and type of molecules to put in the box
         JPanel speciesButtonPanel = new PChemParticleControlPanel( module, module.getPump() );
-        speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Gas_In_Chamber" ) ) );
+        speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Particles_In_Chamber" ) ) );
         particleControlsPanel.add( speciesButtonPanel, particleControlsGbc );
     }
 
@@ -214,8 +214,8 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
 //        } );
 //        gravityOnCB.setSelected( false );
 
-        gravitySlider = new JSlider( JSlider.HORIZONTAL, 0, IdealGasConfig.s_maxGravity, 0 );
-//        gravitySlider = new JSlider( JSlider.VERTICAL, 0, IdealGasConfig.s_maxGravity, 0 );
+        gravitySlider = new JSlider( JSlider.HORIZONTAL, 0, IdealGasConfig.MAX_GRAVITY, 0 );
+//        gravitySlider = new JSlider( JSlider.VERTICAL, 0, IdealGasConfig.MAX_GRAVITY, 0 );
         gravitySlider.setPreferredSize( new Dimension( 150, 50 ) );
 //        gravitySlider.setPreferredSize( new Dimension( 60, 50 ) );
         gravitySlider.setPaintTicks( false );
@@ -224,7 +224,7 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         gravitySlider.setMinorTickSpacing( 5 );
         Hashtable labelTable = new Hashtable();
         labelTable.put( new Integer( 0 ), new JLabel( SimStrings.get( "Common.0" ) ) );
-        labelTable.put( new Integer( IdealGasConfig.s_maxGravity ), new JLabel( SimStrings.get( "Common.Max" ) ) );
+        labelTable.put( new Integer( IdealGasConfig.MAX_GRAVITY ), new JLabel( SimStrings.get( "Common.Max" ) ) );
         gravitySlider.setLabelTable( labelTable );
         gravitySlider.setPaintLabels( true );
         gravityControlPanel.add( gravitySlider, gbc );

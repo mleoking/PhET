@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 
 public class PumpSpeciesSelectorPanel2 extends GraphicLayerSet {
     private Color backgroundColor = new Color( 240, 230, 255 );;
+    private JPanel basePanel;
 
 //    protected void paintComponent( Graphics g ) {
 //        super.paintComponent( g );
@@ -40,7 +41,7 @@ public class PumpSpeciesSelectorPanel2 extends GraphicLayerSet {
         // doesn't lay out properly if it is at all complicated. To get it to lay out properly,
         // it must be put into an intermediate JPanel with a simple layout manager (in this case
         // we use the default), and that intermediate panel is then added to the ApparatusPanel.
-        JPanel basePanel = new JPanel();
+        basePanel = new JPanel();
         basePanel.setPreferredSize( new Dimension( 130, 70 ) );
 
         PhetGraphic buttonPanel = new SelectionPanel( module, module.getPump() );
@@ -50,11 +51,12 @@ public class PumpSpeciesSelectorPanel2 extends GraphicLayerSet {
 //        GridBagConstraints gbc = null;
 //        gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
 //        basePanel.add( buttonPanel, gbc );
-        Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
-                                                            new Color( 40, 20, 255 ),
-                                                            Color.black ),
-                                          SimStrings.get( "IdealGasControlPanel.Pump_Gas" ) );
-        basePanel.setBorder( border );
+        setTitle( SimStrings.get( "IdealGasControlPanel.Pump_Gas" ) );
+//        Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
+//                                                            new Color( 40, 20, 255 ),
+//                                                            Color.black ),
+//                                          SimStrings.get( "IdealGasControlPanel.Pump_Gas" ) );
+//        basePanel.setBorder( border );
 
 //        BACKGROUND_COLOR = new Color( 240, 230, 255 );
         basePanel.setBackground( backgroundColor );
@@ -67,7 +69,15 @@ public class PumpSpeciesSelectorPanel2 extends GraphicLayerSet {
         buttonPanel.setLocation( 10, 0 );
     }
 
-    class SelectionPanel extends GraphicLayerSet {
+    public void setTitle( String title ) {
+        Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
+                                                            new Color( 40, 20, 255 ),
+                                                            Color.black ),
+                                          title );
+        basePanel.setBorder( border );
+    }
+
+    private class SelectionPanel extends GraphicLayerSet {
         private IdealGasModule module;
         private GasSource gasSource;
         private JRadioButton heavySpeciesRB;

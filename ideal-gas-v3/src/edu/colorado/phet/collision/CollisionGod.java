@@ -395,7 +395,7 @@ public class CollisionGod {
 
     private Region findRegionFor( Body body ) {
         Region region = null;
-        if( IdealGasConfig.regionTest ) {
+        if( IdealGasConfig.REGION_TEST ) {
             int i = (int)( (double)body.getPosition().getX() / regionWidth );
             int j = (int)( (double)body.getPosition().getY() / regionHeight );
             region = regions[i][j];

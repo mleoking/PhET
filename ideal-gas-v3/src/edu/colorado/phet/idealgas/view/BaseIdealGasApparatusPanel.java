@@ -11,14 +11,15 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasApplication;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -26,12 +27,9 @@ import java.io.IOException;
  *
  */
 public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
-    //public class BaseIdealGasApparatusPanel extends ApparatusPanel {
 
-    // Coordinates of the intake port on the box
     private static boolean toolTipsSet = false;
 
-    //    private PumpHandleGraphic handleGraphicImage;
     private PhetImageGraphic flamesGraphicImage;
     private PhetImageGraphic iceGraphicImage;
     protected PhetImageGraphic doorGraphicImage;
@@ -43,9 +41,6 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     public BaseIdealGasApparatusPanel( Module module, AbstractClock clock, Box2D box ) {
         super( clock );
         init( module, box );
-
-        setBackground( IdealGasConfig.BACKGROUND_COLOR );
-
 //        setUseOffscreenBuffer( true );
     }
 
@@ -54,13 +49,15 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
      */
     public void init( final Module module, Box2D box ) {
         // Set the background color
-        this.setBackground( Color.white );
+        setBackground( IdealGasConfig.COLOR_SCHEME.background );
 
         try {
             // Set up the stove, flames, and ice
             BufferedImage stoveImg = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_IMAGE_FILE );
-            PhetImageGraphic stoveGraphic = new PhetImageGraphic( this, stoveImg, IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
-                                                                  IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET );
+            Point stoveLocation = new Point( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
+                                             IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET );
+            PhetImageGraphic stoveGraphic = new PhetImageGraphic( this, stoveImg );
+            stoveGraphic.setLocation( stoveLocation );
             this.addGraphic( stoveGraphic, -4 );
             BufferedImage flamesImg = ImageLoader.loadBufferedImage( IdealGasConfig.FLAMES_IMAGE_FILE );
             flamesGraphicImage = new PhetImageGraphic( this, flamesImg, IdealGasConfig.X_BASE_OFFSET + 260, IdealGasConfig.Y_BASE_OFFSET + 545 );
@@ -69,12 +66,11 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
             iceGraphicImage = new PhetImageGraphic( this, iceImg, IdealGasConfig.X_BASE_OFFSET + 260, IdealGasConfig.Y_BASE_OFFSET + 545 );
             this.addGraphic( iceGraphicImage, -6 );
 
-//            // Set up the door for the box
-//            BoxDoorGraphic boxDoorGraphic = new BoxDoorGraphic( this, IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
-//                                                 IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
-//                                                 IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
-//                                                 box );
-//            this.addGraphic( boxDoorGraphic, -6 );
+            // Add a rectangle that will mask the ice and flames when they are behind the stove
+            Rectangle2D mask = new Rectangle2D.Double( 0, 0, stoveImg.getWidth(), stoveImg.getHeight() );
+            PhetShapeGraphic maskGraphic = new PhetShapeGraphic( this, mask, IdealGasConfig.COLOR_SCHEME.background );
+            maskGraphic.setLocation( stoveLocation );
+            this.addGraphic( maskGraphic, -5 );
         }
         catch( IOException ioe ) {
             throw new RuntimeException( ioe.getMessage() );
@@ -106,10 +102,6 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
                                         (int)Math.min( (float)flameHeight, baseFlameHeight ) );
         iceGraphicImage.setLocation( (int)iceGraphicImage.getLocation().getX(),
                                      (int)Math.min( (float)iceHeight, baseFlameHeight ) );
-//        flamesGraphicImage.setPosition( (int)flamesGraphicImage.getPosition().getX(),
-//                                        (int)Math.min( (float)flameHeight, baseFlameHeight ) );
-//        iceGraphicImage.setPosition( (int)iceGraphicImage.getPosition().getX(),
-//                                     (int)Math.min( (float)iceHeight, baseFlameHeight ) );
         this.repaint();
     }
 
@@ -146,9 +138,4 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     //            new AddHelpItemCmd( helpText3 ).doIt();
     //        }
     //    }
-
-
-    public void removeGraphic( PhetGraphic graphic ) {
-        super.removeGraphic( graphic );
-    }
 }

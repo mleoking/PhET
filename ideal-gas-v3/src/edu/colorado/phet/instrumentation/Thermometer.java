@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -20,7 +21,18 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class Thermometer extends PhetGraphic {
-    private static Color color = Color.red;
+
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+
+    private static Color s_color = Color.red;
+    private static Color s_outlineColor = IdealGasConfig.COLOR_SCHEME.thermometerOutline;
+
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
+
     private BarGauge gauge;
     private Ellipse2D.Double bulb;
     private NumberFormat formatter = new DecimalFormat( "#0" );
@@ -44,8 +56,9 @@ public class Thermometer extends PhetGraphic {
     public Thermometer( Component component, Point2D.Double location, double maxScreenLevel, double thickness,
                         boolean isVertical, double minLevel, double maxLevel ) {
         super( component );
-        gauge = new BarGauge( location, maxScreenLevel, color, thickness, isVertical,
+        gauge = new BarGauge( location, maxScreenLevel, s_color, thickness, isVertical,
                               minLevel, maxLevel );
+        gauge.setOutlineColor( s_outlineColor );
         bulb = new Ellipse2D.Double( location.x - thickness / 2, location.y + maxScreenLevel - thickness * 0.1,
                                      thickness * 2, thickness * 2 );
         this.location = location;
@@ -98,7 +111,7 @@ public class Thermometer extends PhetGraphic {
         g.setColor( rectColor );
         g.setStroke( rectStroke );
         g.draw( readoutRect );
-        g.setColor( Color.black );
+        g.setColor( s_outlineColor );
         g.setStroke( new BasicStroke( 0.5f ) );
         g.draw( readoutRect );
         g.setColor( rectColor );
@@ -115,19 +128,26 @@ public class Thermometer extends PhetGraphic {
         int strLocY = (int)innerRect.getMinY() + fontMetrics.getHeight();
         g.drawString( temperatureStr, (int)innerRect.getMaxX() - 5 - fontMetrics.stringWidth( temperatureStr ), strLocY );
 
+        GraphicsUtil.setAntiAliasingOn( g );
         g.setStroke( columnStroke );
         gauge.paint( g );
-        g.setColor( color );
+        g.setColor( s_color );
         g.fill( bulb );
-        g.setColor( Color.black );
+        g.setColor( s_outlineColor );
         g.draw( bulb );
+
+        g.setColor( Color.green );
+        g.draw( determineBounds() );
+
         gs.restoreGraphics();
     }
 
     protected Rectangle determineBounds() {
+//        boundingRect = new Rectangle2D.Double( location.getX(), gauge.getBounds().getMinY(),
         boundingRect = new Rectangle2D.Double( location.getX(), location.getY(),
                                                readoutWidth + rectBorderThickness,
                                                maxScreenLevel + bulb.getHeight() );
+
 
         double minX = Math.min( boundingRect.getMinX(), readoutRect.getMinX() );
         double minY = Math.min( boundingRect.getMinY(), readoutRect.getMinY() );
