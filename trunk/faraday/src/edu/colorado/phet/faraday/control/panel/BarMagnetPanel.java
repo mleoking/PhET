@@ -183,6 +183,15 @@ public class BarMagnetPanel extends FaradayPanel {
     //----------------------------------------------------------------------------
     
     /**
+     * Access to the "Flip Polarity" control.
+     * 
+     * @param visible true of false
+     */
+    public void setFlipPolarityVisible( boolean visible ) {
+        _flipPolarityButton.setVisible( visible );
+    }
+    
+    /**
      * Access to the "See Inside" control.
      * 
      * @param visible true of false
