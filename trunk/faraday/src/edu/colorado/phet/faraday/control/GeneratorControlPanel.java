@@ -11,8 +11,11 @@
 
 package edu.colorado.phet.faraday.control;
 
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
+import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.module.GeneratorModule;
 import edu.colorado.phet.faraday.view.CoilGraphic;
@@ -26,7 +29,7 @@ import edu.colorado.phet.faraday.view.TurbineGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GeneratorControlPanel extends FaradayControlPanel {
+public class GeneratorControlPanel extends ControlPanel {
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,6 +63,8 @@ public class GeneratorControlPanel extends FaradayControlPanel {
             barMagnetPanel.setSeeInsideVisible( false );
             barMagnetPanel.setFieldMeterEnabled( false );
             addFullWidth( barMagnetPanel );
+            
+            addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
             
             PickupCoilPanel pickupCoilPanel = new PickupCoilPanel( pickupCoilModel, coilGraphic, lightbulbModel, voltmeterModel );
             addFullWidth( pickupCoilPanel );

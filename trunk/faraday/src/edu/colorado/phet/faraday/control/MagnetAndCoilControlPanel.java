@@ -11,10 +11,11 @@
 
 package edu.colorado.phet.faraday.control;
 
-import javax.swing.*;
-
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
+import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.module.MagnetAndCoilModule;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
@@ -28,7 +29,7 @@ import edu.colorado.phet.faraday.view.FieldMeterGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class MagnetAndCoilControlPanel extends FaradayControlPanel {
+public class MagnetAndCoilControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -71,6 +72,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         barMagnetPanel.setSeeInsideVisible( false );
         barMagnetPanel.setFieldMeterEnabled( false );
         addFullWidth( barMagnetPanel );
+        
+        addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
         
         PickupCoilPanel pickupCoilPanel = new PickupCoilPanel( pickupCoilModel, coilGraphic, lightbulbModel, voltmeterModel );
         addFullWidth( pickupCoilPanel );

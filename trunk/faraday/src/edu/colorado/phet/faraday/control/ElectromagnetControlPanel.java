@@ -11,23 +11,12 @@
 
 package edu.colorado.phet.faraday.control;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.MessageFormat;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
-import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.model.ACSource;
+import edu.colorado.phet.faraday.model.Battery;
+import edu.colorado.phet.faraday.model.Compass;
+import edu.colorado.phet.faraday.model.SourceCoil;
 import edu.colorado.phet.faraday.module.ElectromagnetModule;
 import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
@@ -39,7 +28,7 @@ import edu.colorado.phet.faraday.view.FieldMeterGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ElectromagnetControlPanel extends FaradayControlPanel {
+public class ElectromagnetControlPanel extends ControlPanel {
     
     //----------------------------------------------------------------------------
     // Constructors
