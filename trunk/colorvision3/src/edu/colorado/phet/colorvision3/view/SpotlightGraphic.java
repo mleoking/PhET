@@ -5,8 +5,6 @@ package edu.colorado.phet.colorvision3.view;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
 import edu.colorado.phet.colorvision3.model.Spotlight2D;
@@ -14,7 +12,6 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
 
 /**
  * SpotlightGraphic is the view component for a spotlight.
@@ -24,8 +21,8 @@ import edu.colorado.phet.common.view.util.ImageLoader;
  */
 public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObserver
 {
-  /** How far the bulb is inside the spotlight. */
-  private static final int BULB_OFFSET = 40;
+  /** How far the bulb is inside the spotlight, in pixels. */
+  private static final int BULB_OFFSET = 130;
   
   private Spotlight2D _model;
   private PhetImageGraphic _spotlightGraphic;
@@ -43,21 +40,9 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
     
     // Save a reference to the model.
     _model = model;
-    
-    // Read the images.
-    BufferedImage spotlightImage;
-    try
-    {
-      spotlightImage = ImageLoader.loadBufferedImage( ColorVisionConfig.SPOTLIGHT_IMAGE );
-    }
-    catch( IOException e )
-    {
-      e.printStackTrace();
-      throw new RuntimeException( "Image file not found" );
-    }
    
     // Spotlight graphic
-    _spotlightGraphic = new PhetImageGraphic( apparatus, spotlightImage );
+    _spotlightGraphic = new PhetImageGraphic( apparatus, ColorVisionConfig.SPOTLIGHT_IMAGE );
     this.addGraphic( _spotlightGraphic );
     
     // Sync the view with the model.

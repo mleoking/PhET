@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
@@ -26,7 +27,7 @@ public class ThoughtBubbleGraphic extends PhetGraphic
 {
   private static Stroke STROKE = new BasicStroke( 1f );
   
-  private int _x, _y;
+  private Point _position;
   private Paint _fill;
   private Paint _border;
   private Area _area;
@@ -41,7 +42,7 @@ public class ThoughtBubbleGraphic extends PhetGraphic
     super( component );
     
     // Initialize member data.
-    _x = _y = 0;
+    _position = new Point(0,0);
     _border = Color.white;
     _fill = new Color( 0,0,0,0 );
     _area = new Area();
@@ -119,27 +120,28 @@ public class ThoughtBubbleGraphic extends PhetGraphic
   }
   
   /**
-   * Gets the X coordinate location.
+   * Gets the position.
    * 
-   * @return the X coordinate
+   * @return the position
    */
-  public int getX()
+  public Point getPosition()
   {
-    return _x;
+    return _position;
+  }
+
+  /** 
+   * Sets the position, relative to the upper left corner of the 
+   * area's bounding rectangle.
+   * 
+   * @param position the position
+   */
+  public void setPosition( Point position )
+  {
+    _position = position;
   }
   
   /** 
-   * Gets the Y coordinate location.
-   * 
-   * @return the Y coordinate 
-   */
-  public int getY()
-  {
-    return _y;
-  }
-  
-  /** 
-   * Sets the location, relative to the upper left corner of the 
+   * Sets the position, relative to the upper left corner of the 
    * area's bounding rectangle.
    * 
    * @param x the X coordinate
@@ -147,8 +149,7 @@ public class ThoughtBubbleGraphic extends PhetGraphic
    */
   public void setPosition( int x, int y )
   {
-    _x = x;
-    _y = y;
+    setPosition( new Point(x,y) );
   }
   
   /*
@@ -159,22 +160,25 @@ public class ThoughtBubbleGraphic extends PhetGraphic
    */
   public void paint( Graphics2D g2 )
   {
-    super.saveGraphicsState( g2 );
+    if ( isVisible() )
     {
-      // Request antialiasing.
-      RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-      g2.setRenderingHints( hints );
-      // Translate to location.
-      g2.transform( AffineTransform.getTranslateInstance(_x,_y) );
-      // Fill the area.
-      g2.setPaint( _fill );
-      g2.fill( _area );
-      // Draw the border.
-      g2.setStroke( STROKE );
-      g2.setPaint( _border );
-      g2.draw( _area );
+      super.saveGraphicsState( g2 );
+      {
+        // Request antialiasing.
+        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        g2.setRenderingHints( hints );
+        // Translate to location.
+        g2.transform( AffineTransform.getTranslateInstance(_position.x, _position.y) );
+        // Fill the area.
+        g2.setPaint( _fill );
+        g2.fill( _area );
+        // Draw the border.
+        g2.setStroke( STROKE );
+        g2.setPaint( _border );
+        g2.draw( _area );
+      }
+      super.restoreGraphicsState();
     }
-    super.restoreGraphicsState();
   }
 
 }

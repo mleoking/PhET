@@ -42,6 +42,7 @@ public class ColorVisionApplicationModel extends ApplicationModel {
 		
 		// Start with the "RGB Bulbs" module.
 		this.setInitialModule( rgbBulbsModule );
+		this.setInitialModule( singleBulbModule ); // XXX for testing
 	}
 }
 

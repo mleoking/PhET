@@ -23,7 +23,7 @@ public class Spotlight2D extends SimpleObservable
   public static final double DROP_OFF_RATE_MAX = 100.0; // sharpest droff-off
   public static final double CUT_OFF_ANGLE_MIN = 0.0;
   public static final double CUT_OFF_ANGLE_MAX = 180.00;
-  public static final double CUT_OFF_ANGLE_DEFAULT = 20.0;
+  public static final double CUT_OFF_ANGLE_DEFAULT = 15.0;
   
   private Color _color;
   private double _cutOffAngle;
