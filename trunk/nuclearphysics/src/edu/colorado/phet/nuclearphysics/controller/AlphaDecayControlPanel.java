@@ -107,8 +107,6 @@ public class AlphaDecayControlPanel extends JPanel {
 
         public void run() {
             double startTime = module.getModel().getClock().getRunningTime();
-
-            System.out.println( "@@@@@" );
             running = true;
             while( running ) {
                 try {
