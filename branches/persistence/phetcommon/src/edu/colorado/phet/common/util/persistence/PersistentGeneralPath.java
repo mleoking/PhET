@@ -23,39 +23,27 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PersistentGeneralPath implements Shape {
+public class PersistentGeneralPath implements Shape, Persistent {
     private GeneralPath path;
-    private StateDescriptor stateDescriptor;
 
     public PersistentGeneralPath() {
+         path = new GeneralPath();
     }
 
     public PersistentGeneralPath( GeneralPath path ) {
         this.path = path;
-        stateDescriptor = new StateDescriptor( path );
     }
 
     ///////////////////////////////////////////
     // Persistence
     //
-    public StateDescriptor getPathGenerator() {
-        return stateDescriptor;
+    public StateDescriptor getState() {
+        return new GeneralPathDescriptor(path);
     }
 
-    public void setPathGenerator( StateDescriptor stateDescriptor ) {
-        this.stateDescriptor = stateDescriptor;
-        path = stateDescriptor.generate();
-    }
-
-    ///////////////////////////////////////////
-    // Getters and setters
-    //
-    public GeneralPath getPath() {
-        return path;
-    }
-
-    public void setPath( GeneralPath path ) {
-        this.path = path;
+    public void setState( StateDescriptor stateDescriptor ) {
+        path = new GeneralPath();
+        stateDescriptor.setState( this );
     }
 
     ///////////////////////////////////////////
@@ -103,17 +91,14 @@ public class PersistentGeneralPath implements Shape {
 
     public void append( PathIterator pi, boolean connect ) {
         path.append( pi, connect );
-        stateDescriptor = new StateDescriptor( path );
     }
 
     public void append( Shape s, boolean connect ) {
         path.append( s, connect );
-        stateDescriptor = new StateDescriptor( path );
     }
 
     public void closePath() {
         path.closePath();
-        stateDescriptor = new StateDescriptor( path );
     }
 
     public Shape createTransformedShape( AffineTransform at ) {
@@ -122,7 +107,6 @@ public class PersistentGeneralPath implements Shape {
 
     public void curveTo( float x1, float y1, float x2, float y2, float x3, float y3 ) {
         path.curveTo( x1, y1, x2, y2, x3, y3 );
-        stateDescriptor = new StateDescriptor( path );
     }
 
     public Point2D getCurrentPoint() {
@@ -135,32 +119,26 @@ public class PersistentGeneralPath implements Shape {
 
     public void lineTo( float x, float y ) {
         path.lineTo( x, y );
-        stateDescriptor = new StateDescriptor( path );
     }
 
     public void moveTo( float x, float y ) {
         path.moveTo( x, y );
-        stateDescriptor = new StateDescriptor( path );
     }
 
     public void quadTo( float x1, float y1, float x2, float y2 ) {
         path.quadTo( x1, y1, x2, y2 );
-        stateDescriptor = new StateDescriptor( path );
     }
 
     public void reset() {
         path.reset();
-        stateDescriptor = new StateDescriptor( path );
     }
 
     public void setWindingRule( int rule ) {
         path.setWindingRule( rule );
-        stateDescriptor = new StateDescriptor( path );
     }
 
     public void transform( AffineTransform at ) {
         path.transform( at );
-        stateDescriptor = new StateDescriptor( path );
     }
 
 
@@ -172,7 +150,7 @@ public class PersistentGeneralPath implements Shape {
      * A Jaba Bean conformant class that contains the information needed
      * to persist and restor a GeneralPath.
      */
-    public static class StateDescriptor {
+    public static class GeneralPathDescriptor implements StateDescriptor {
         int windingRule;
         ArrayList segments = new ArrayList();
         int[] segTypes;
@@ -182,10 +160,10 @@ public class PersistentGeneralPath implements Shape {
         // Pointer to the current segment
         int segPtr = 0;
 
-        public StateDescriptor() {
+        public GeneralPathDescriptor() {
         }
 
-        public StateDescriptor( GeneralPath path ) {
+        public GeneralPathDescriptor( GeneralPath path ) {
             // Winding rule
             this.windingRule = path.getWindingRule();
 
@@ -214,8 +192,8 @@ public class PersistentGeneralPath implements Shape {
         // Path generation
         //
 
-        GeneralPath generate() {
-            GeneralPath path = new GeneralPath();
+        public void setState( Persistent persistentObj ) {
+            PersistentGeneralPath path = (PersistentGeneralPath)persistentObj;
             path.setWindingRule( windingRule );
             for( int i = 0; i < segTypes.length; i++ ) {
                 int segType = segTypes[i];
@@ -238,7 +216,6 @@ public class PersistentGeneralPath implements Shape {
                         break;
                 }
             }
-            return path;
         }
 
         ///////////////////////////////////////////

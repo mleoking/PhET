@@ -22,29 +22,31 @@ import java.awt.geom.AffineTransform;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PersistentGradientPaint extends GradientPaint {
+public class PersistentGradientPaint extends GradientPaint implements Persistent {
     private GradientPaint gradientPaint;
-    private StateDescriptor stateDescriptor;
 
     public PersistentGradientPaint() {
         super( 0, 0, Color.black, 0, 0, Color.black );
+        gradientPaint = new GradientPaint( 0, 0, Color.black, 0, 0, Color.black );
     }
 
     public PersistentGradientPaint( GradientPaint gradientPaint ) {
         super( 0, 0, Color.black, 0, 0, Color.black );
         this.gradientPaint = gradientPaint;
-        stateDescriptor = new StateDescriptor( gradientPaint );
+    }
+
+    private void setPaint( GradientPaint paint ) {
+        gradientPaint = paint;
     }
 
     //////////////////////////////////////
     // Perisistence setters and getters
-    public StateDescriptor getStateDescriptor() {
-        return stateDescriptor;
+    public StateDescriptor getState() {
+        return new GradientPaintDescriptor( this );
     }
 
-    public void setStateDescriptor( StateDescriptor stateDescriptor ) {
-        this.stateDescriptor = stateDescriptor;
-        gradientPaint = stateDescriptor.generate();
+    public void setState( StateDescriptor stateDescriptor ) {
+        stateDescriptor.setState( this );
     }
 
     //////////////////////////////////////
@@ -79,20 +81,20 @@ public class PersistentGradientPaint extends GradientPaint {
         return gradientPaint.createContext( cm, deviceBounds, userBounds, xform, hints );
     }
 
-    ////////////////////////////////////////
+    //////////////////////////////////////
     // Inner classes
     //
-    public static class StateDescriptor {
+    public static class GradientPaintDescriptor implements StateDescriptor {
         private Color color1;
         private Color color2;
         private PersistentPoint2D point1;
         private PersistentPoint2D point2;
         private boolean isCyclic;
 
-        public StateDescriptor() {
+        public GradientPaintDescriptor() {
         }
 
-        StateDescriptor( GradientPaint gradientPaint ) {
+        GradientPaintDescriptor( GradientPaint gradientPaint ) {
             color1 = gradientPaint.getColor1();
             color2 = gradientPaint.getColor2();
             point1 = new PersistentPoint2D( gradientPaint.getPoint1() );
@@ -103,9 +105,10 @@ public class PersistentGradientPaint extends GradientPaint {
         //////////////////////////////////
         // Generator
         //
-        GradientPaint generate() {
+        public void setState( Persistent persistentObject ) {
+            PersistentGradientPaint persistentPaint = (PersistentGradientPaint)persistentObject;
             GradientPaint gradientPaint = new GradientPaint( point1, color1, point2, color2, isCyclic );
-            return gradientPaint;
+            persistentPaint.setPaint( gradientPaint );
         }
 
         //////////////////////////////////

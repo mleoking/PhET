@@ -12,6 +12,7 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.MultiMap;
+import edu.colorado.phet.common.util.persistence.StateDescriptor;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -129,29 +130,14 @@ public class ModuleManager {
         }
     }
 
+    /**
+     * Saves the state of the active module.
+     * @param fileName
+     */
     public void saveState( String fileName ) {
-
-//        MultiMap multiMap = new MultiMap();
-//        multiMap.put(new Integer(1), "ONE");
-//        multiMap.put(new Integer(5), "FIVE");
-//        multiMap.put(new Integer(3), "THREE");
-//        System.out.println("save = " + multiMap);
-//        XMLEncoder e = null;
-//        try {
-//            e = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(fileName)));
-//        } catch (FileNotFoundException e1) {
-//            e1.printStackTrace();
-//        }
-//        multiMap = getActiveModule().getApparatusPanel().getGraphic().getGraphicMap();
-//        e = new XMLEncoder( System.out );
-//        e.writeObject(multiMap);
-//        e.close();
-
 
         XMLEncoder encoder = null;
         try {
-//            encoder = new XMLEncoder(System.out);
-
             // Prevent the component for a PhetGraphic from being persisted for now. This keeps
             // ApparatusPanel from being persisted, for now.
             BeanInfo info = Introspector.getBeanInfo( PhetImageGraphic.class );
@@ -168,11 +154,16 @@ public class ModuleManager {
             ex.printStackTrace();
         }
         Module module = getActiveModule();
-        ModuleStateDescriptor sd = module.getStateDescriptor();
+        StateDescriptor sd = module.getState();
         encoder.writeObject( sd );
         encoder.close();
     }
 
+    /**
+     * Sets the active module to the one specified in the named file, and sets the state of the
+     * module to that specified in the file.
+     * @param fileName
+     */
     public void restoreState( String fileName ) {
         XMLDecoder decoder = null;
         try {
@@ -197,7 +188,7 @@ public class ModuleManager {
             Module module = (Module)modules.get( i );
             if( module.getClass().getName().equals( sd.getModuleClassName() ) ) {
                 setActiveModule( module );
-                module.restoreState( sd );
+                sd.setState( module );
             }
         }
     }

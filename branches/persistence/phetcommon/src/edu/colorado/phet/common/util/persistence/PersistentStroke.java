@@ -19,28 +19,31 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PersistentStroke extends BasicStroke {
-    private PersistentStroke.StateDescriptor stateDescriptor;
+public class PersistentStroke extends BasicStroke implements Persistent {
     private BasicStroke stroke;
 
-
     public PersistentStroke() {
+        stroke = new BasicStroke();
     }
 
     public PersistentStroke( BasicStroke stroke ) {
         this.stroke = stroke;
-        stateDescriptor = new StateDescriptor( stroke );
     }
 
-    public StateDescriptor getStateDescriptor() {
-        return stateDescriptor;
+    /////////////////////////////////////////////
+    // Persistence getters and setters
+    //
+    public StateDescriptor getState() {
+        return new StrokeDescriptor( this );
     }
 
-    public void setStateDescriptor( StateDescriptor stateDescriptor ) {
-        this.stateDescriptor = stateDescriptor;
-        stroke = stateDescriptor.generate();
+    public void setState( StateDescriptor stateDescriptor ) {
+        stateDescriptor.setState( this );
     }
 
+    private void setStroke( BasicStroke stroke ) {
+        this.stroke = stroke;
+    }
 
     ////////////////////////////
     // Wrapper methods
@@ -84,7 +87,7 @@ public class PersistentStroke extends BasicStroke {
     //////////////////////////////////////////
     // Inner classes
     //
-    public static class StateDescriptor {
+    public static class StrokeDescriptor implements StateDescriptor {
         private float dashPhase;
         private float lineWidth;
         private float miterLimit;
@@ -92,10 +95,10 @@ public class PersistentStroke extends BasicStroke {
         private int lineJoin;
         private float[] dashArray;
 
-        public StateDescriptor() {
+        public StrokeDescriptor() {
         }
 
-        StateDescriptor( BasicStroke stroke ) {
+        StrokeDescriptor( BasicStroke stroke ) {
             dashPhase = stroke.getDashPhase();
             lineWidth = stroke.getLineWidth();
             miterLimit = stroke.getMiterLimit();
@@ -104,6 +107,14 @@ public class PersistentStroke extends BasicStroke {
             dashArray = stroke.getDashArray();
         }
 
+        ///////////////////////////////////
+        // Generator
+        //
+        public void setState( Persistent persistentObject ) {
+            PersistentStroke persistentStroke = (PersistentStroke)persistentObject;
+            BasicStroke stroke = new BasicStroke( lineWidth, endCap, lineJoin, miterLimit, dashArray, dashPhase );
+            persistentStroke.setStroke( stroke );
+        }
 
         ////////////////////////////////////
         // Setters and getters
@@ -154,14 +165,6 @@ public class PersistentStroke extends BasicStroke {
 
         public void setDashArray( float[] dashArray ) {
             this.dashArray = dashArray;
-        }
-
-        ///////////////////////////////////
-        // Generator
-        //
-        BasicStroke generate() {
-            BasicStroke stroke = new BasicStroke( lineWidth, endCap, lineJoin, miterLimit, dashArray, dashPhase );
-            return stroke;
         }
     }
 }

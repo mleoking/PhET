@@ -22,7 +22,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PersistentEllipse2D extends Ellipse2D {
+public class PersistentEllipse2D extends Ellipse2D implements Persistent {
     private Ellipse2D ellipse = new Double();
 
     public PersistentEllipse2D() {
@@ -35,12 +35,13 @@ public class PersistentEllipse2D extends Ellipse2D {
     ////////////////////////////////////////////
     // Persistence setters and getters
     //
-    public StateDescriptor getStateDescriptor() {
-        return new StateDescriptor( ellipse );
+    public StateDescriptor getState() {
+        return new Ellipse2DDescriptor( ellipse );
     }
 
-    public void setStateDescriptor( StateDescriptor stateDescriptor ) {
-        ellipse = stateDescriptor.generate();
+    public void setState( StateDescriptor stateDescriptor ) {
+        ellipse = new Ellipse2D.Double( );
+        stateDescriptor.setState( this );
     }
 
     ////////////////////////////////////////////
@@ -169,16 +170,16 @@ public class PersistentEllipse2D extends Ellipse2D {
     //////////////////////////////////////
     // Inner classes
     //
-    public static class StateDescriptor {
+    public static class Ellipse2DDescriptor implements StateDescriptor {
         private double x;
         private double y;
         private double width;
         private double height;
 
-        public StateDescriptor() {
+        public Ellipse2DDescriptor() {
         }
 
-        StateDescriptor( Ellipse2D e ) {
+        Ellipse2DDescriptor( Ellipse2D e ) {
             x = e.getX();
             y = e.getY();
             width = e.getWidth();
@@ -188,8 +189,9 @@ public class PersistentEllipse2D extends Ellipse2D {
         ////////////////////////////////////
         // Generator
         //
-        Ellipse2D generate() {
-            return new Ellipse2D.Double( x, y, width, height );
+        public void setState( Persistent persistentObject ) {
+            PersistentEllipse2D ellipse = (PersistentEllipse2D)persistentObject;
+            ellipse.setFrame( x, y, width, height );
         }
 
         ////////////////////////////////////

@@ -21,7 +21,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PersistentRectangle2D extends Rectangle2D {
+public class PersistentRectangle2D extends Rectangle2D implements Persistent {
     private Rectangle2D rect = new Double();
 
     public PersistentRectangle2D() {
@@ -34,12 +34,12 @@ public class PersistentRectangle2D extends Rectangle2D {
     //////////////////////////////////////////
     // Persistence getters and setters
     //
-    public StateDescriptor getStateDescriptor() {
-        return new StateDescriptor( rect );
+    public StateDescriptor getState() {
+        return new RectangleDescriptor( rect );
     }
 
-    public void setStateDescriptor( StateDescriptor stateDescriptor ) {
-        rect = stateDescriptor.generate();
+    public void setState( StateDescriptor stateDescriptor ) {
+        stateDescriptor.setState( this );
     }
 
     //////////////////////////////////////////
@@ -220,16 +220,16 @@ public class PersistentRectangle2D extends Rectangle2D {
     //////////////////////////////////////////
     // Inner classes
     //
-    public static class StateDescriptor {
+    public static class RectangleDescriptor implements StateDescriptor {
         private double x;
         private double y;
         private double w;
         private double h;
 
-        public StateDescriptor() {
+        public RectangleDescriptor() {
         }
 
-        StateDescriptor( Rectangle2D rect ) {
+        RectangleDescriptor( Rectangle2D rect ) {
             x = rect.getX();
             y = rect.getY();
             w = rect.getWidth();
@@ -239,8 +239,9 @@ public class PersistentRectangle2D extends Rectangle2D {
         //////////////////////////////////////
         // Generator
         //
-        Rectangle2D generate() {
-            return new Double( x, y, w, h );
+        public void setState( Persistent persistentObject ) {
+            PersistentRectangle2D rectangle = (PersistentRectangle2D)persistentObject;
+            rectangle.setFrame( x, y, w, h );
         }
 
         //////////////////////////////////////

@@ -18,7 +18,7 @@ import java.awt.geom.AffineTransform;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PersistentAffineTransform extends AffineTransform {
+public class PersistentAffineTransform extends AffineTransform implements Persistent {
 
     public PersistentAffineTransform() {
     }
@@ -50,33 +50,33 @@ public class PersistentAffineTransform extends AffineTransform {
     //////////////////////////////////////////
     // Persistence setters and getters
     //
-    public StateDescriptor getStateDescriptor() {
-        StateDescriptor stateDescriptor = new StateDescriptor( this );
-        return stateDescriptor;
+    public StateDescriptor getState() {
+        AffineTransformDescriptor descriptor = new AffineTransformDescriptor( this );
+        return descriptor;
     }
 
-    public void setStateDescriptor( StateDescriptor stateDescriptor ) {
-        stateDescriptor.generate( this );
+    public void setState( StateDescriptor stateDescriptor ) {
+        stateDescriptor.setState( this );
     }
 
     //////////////////////////////////////////
     // Inner classes
     //
-    public static class StateDescriptor {
+    public static class AffineTransformDescriptor implements StateDescriptor {
         private double[] coeffs = new double[6];
 
-        public StateDescriptor() {
+        public AffineTransformDescriptor() {
         }
 
-        StateDescriptor( AffineTransform atx ) {
+        AffineTransformDescriptor( AffineTransform atx ) {
             atx.getMatrix( coeffs );
         }
 
         /////////////////////////////////////////
         // Generator
         //
-        void generate( PersistentAffineTransform ptx ) {
-            ptx.setTransform( new AffineTransform( coeffs ) );
+        public void setState( Persistent ptx ) {
+            ((PersistentAffineTransform)ptx).setTransform( new AffineTransform( coeffs ) );
         }
 
         /////////////////////////////////////////

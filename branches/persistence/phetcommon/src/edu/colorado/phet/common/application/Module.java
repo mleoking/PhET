@@ -21,6 +21,8 @@ import edu.colorado.phet.common.view.help.HelpManager;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.util.MultiMap;
+import edu.colorado.phet.common.util.persistence.Persistent;
+import edu.colorado.phet.common.util.persistence.StateDescriptor;
 
 import javax.swing.*;
 import java.util.Iterator;
@@ -34,7 +36,7 @@ import java.util.Iterator;
  * @author ?
  * @version $Revision$
  */
-public class Module {
+public class Module implements Persistent {
 
     BaseModel model;
     ApparatusPanel apparatusPanel;
@@ -217,6 +219,11 @@ public class Module {
     // Persistence
     //
 
+    public void setState( StateDescriptor stateDescriptor ) {
+        stateDescriptor.setState( this );
+//        restoreState( (ModuleStateDescriptor)stateDescriptor );
+    }
+
     /**
      * Returns a ModuleStateDescriptor for this Module.
      * <p/>
@@ -224,7 +231,7 @@ public class Module {
      *
      * @return
      */
-    public ModuleStateDescriptor getStateDescriptor() {
+    public StateDescriptor getState() {
         ModuleStateDescriptor sd = new ModuleStateDescriptor( this );
         return sd;
     }
@@ -232,35 +239,35 @@ public class Module {
     /**
      * Restores the state of this Module to that specificied in a ModuleStateDescriptor
      *
-     * @param sd
+     * @param stateDescriptor
      */
-    public void restoreState( ModuleStateDescriptor sd ) {
-
-        // Remove and clean up the current model
-        AbstractClock clock = PhetApplication.instance().getApplicationModel().getClock();
-        BaseModel oldModel = getModel();
-        oldModel.removeAllModelElements();
-        clock.removeClockTickListener( oldModel );
-
-        // Set up the restored model
-        BaseModel newModel = sd.getModel();
-        clock.addClockTickListener( newModel );
-        setModel( newModel );
-
-        // Set up the restored graphics
-        // Hook all the graphics up to the current apparatus panel
-        MultiMap graphicsMap = sd.getGraphicMap();
-        Iterator it = graphicsMap.iterator();
-        while( it.hasNext() ) {
-            Object obj = it.next();
-            if( obj instanceof PhetGraphic ) {
-                PhetGraphic phetGraphic = (PhetGraphic)obj;
-                phetGraphic.setComponent( getApparatusPanel() );
-            }
-        }
-        getApparatusPanel().getGraphic().setGraphicMap( sd.getGraphicMap() );
-
-        // Force a repaint on the apparatus panel
-        getApparatusPanel().repaint();
-    }
+//    private void restoreState( ModuleStateDescriptor stateDescriptor ) {
+//
+//        // Remove and clean up the current model
+//        AbstractClock clock = PhetApplication.instance().getApplicationModel().getClock();
+//        BaseModel oldModel = getModel();
+//        oldModel.removeAllModelElements();
+//        clock.removeClockTickListener( oldModel );
+//
+//        // Set up the restored model
+//        BaseModel newModel = sd.getModel();
+//        clock.addClockTickListener( newModel );
+//        setModel( newModel );
+//
+//        // Set up the restored graphics
+//        // Hook all the graphics up to the current apparatus panel
+//        MultiMap graphicsMap = sd.getGraphicMap();
+//        Iterator it = graphicsMap.iterator();
+//        while( it.hasNext() ) {
+//            Object obj = it.next();
+//            if( obj instanceof PhetGraphic ) {
+//                PhetGraphic phetGraphic = (PhetGraphic)obj;
+//                phetGraphic.setComponent( getApparatusPanel() );
+//            }
+//        }
+//        getApparatusPanel().getGraphic().setGraphicMap( sd.getGraphicMap() );
+//
+//        // Force a repaint on the apparatus panel
+//        getApparatusPanel().repaint();
+//    }
 }

@@ -21,7 +21,7 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PersistentPoint2D extends Point2D {
+public class PersistentPoint2D extends Point2D implements Persistent {
     private Point2D point2D = new Double();
 
     public PersistentPoint2D() {
@@ -34,12 +34,12 @@ public class PersistentPoint2D extends Point2D {
     ////////////////////////////////////////////
     // Persistence setters and getters
     //
-    public StateDescriptor getStateDescriptor() {
-        return new StateDescriptor( point2D );
+    public StateDescriptor getState() {
+        return new PointDescriptor( point2D );
     }
 
-    public void setStateDescriptor( StateDescriptor stateDescriptor ) {
-        point2D = stateDescriptor.generate();
+    public void setState( StateDescriptor stateDescriptor ) {
+        stateDescriptor.setState( this );
     }
 
     ////////////////////////////////////////////
@@ -92,14 +92,14 @@ public class PersistentPoint2D extends Point2D {
     //////////////////////////////////////
     // Inner classes
     //
-    public static class StateDescriptor {
+    public static class PointDescriptor implements StateDescriptor {
         private double x;
         private double y;
 
-        public StateDescriptor() {
+        public PointDescriptor() {
         }
 
-        StateDescriptor( Point2D point2D ) {
+        PointDescriptor( Point2D point2D ) {
             x = point2D.getX();
             y = point2D.getY();
         }
@@ -107,8 +107,9 @@ public class PersistentPoint2D extends Point2D {
         ////////////////////////////////////
         // Generator
         //
-        Point2D generate() {
-            return new Point2D.Double( x, y );
+        public void setState( Persistent persistentObject ) {
+            PersistentPoint2D point = (PersistentPoint2D)persistentObject;
+            point.setLocation( x, y );
         }
 
         ////////////////////////////////////
