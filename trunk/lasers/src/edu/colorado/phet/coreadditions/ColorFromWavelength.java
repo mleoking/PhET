@@ -44,15 +44,50 @@ public class ColorFromWavelength implements BufferedImageOp {
         if( dest == null ) {
             dest = createCompatibleDestImage( src, src.getColorModel() );
         }
+        ColorModel cm = src.getColorModel();
+        double redPct = (double)(color.getRed() ) / 255;
+        double greenPct = (double)(color.getGreen() ) / 255;
+        double bluePct = (double)(color.getBlue() ) / 255;
         for( int x = 0; x < src.getWidth(); x++ ) {
             for( int y = 0; y < src.getHeight(); y++ ) {
                 int rgb = src.getRGB( x, y );
-                int alpha = rgb & 0xFF000000;
-                int red = rgb & 0x00FF0000;
-                int green = rgb & 0x0000FF00;
-                int blue = rgb & 0x000000FF;
+                if( rgb != 0 ) {
+                    System.out.println( "&&&" );
+                }
+                int alpha = cm.getAlpha(  rgb );
+                double red = cm.getRed( rgb );
+                double green = cm.getGreen( rgb );
+                double blue = cm.getBlue( rgb );
+                double gray = ( red + green + blue ) / ( 3 );
+
+
+            if( gray > 200 ) {
+                System.out.println( "$$$" );
+
+            }
+//                double redPct = (double)red / 255;
+//                double greenPct = (double)green / 255;
+//                double bluePct = (double)blue / 255;
+//                double gray = ( redPct + greenPct + bluePct ) / 3;
+
+                double mr = ( color.getRed() - 255 ) / ( gray - 255 );
+                double br = 255 * ( 1 - mr );
+                double mg = ( color.getGreen() - 255 ) / ( gray - 255 );
+                double bg = 255 * ( 1 - mg );
+                double mb = ( color.getBlue() - 255 ) / ( gray - 255 );
+                double bb = 255 * ( 1 - mb );
+
+                int redNew = (int)( ( mr * gray) + br );
+                int greenNew = (int)(( mg * gray) + bg );
+                int blueNew = (int)(( mb * gray) + bb );
+
+//                int redNew = (int)( ( 255 - color.getRed() ) * gray);
+//                int blueNew = (int)(( 255 - color.getBlue() ) * gray);
+//                int greenNew = (int)(( 255 - color.getGreen() ) * gray);
+                int newRGB = alpha * 0x01000000 + redNew * 0x00010000 + greenNew * 0x00000100 + blueNew * 0x00000001;
                 if( alpha != 0 ) {
-                    dest.setRGB( x, y, color.getRGB() );
+                    dest.setRGB( x, y, newRGB );
+//                    dest.setRGB( x, y, color.getRGB() );
                 }
                 //                dest.setRGB( x, y, rgb );
             }
