@@ -14,4 +14,6 @@ public class Config {
     public static double AlphaLocationUncertaintySigmaFactor = 0.4;
 //    public static double AlphaLocationUncertaintySigmaFactor = 0.333;
 
+    public static final double neutronSpeed = 400;
+    public static final double fissionDisplacementVelocity = 2;
 }

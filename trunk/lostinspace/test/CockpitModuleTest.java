@@ -41,30 +41,20 @@ public class CockpitModuleTest {
         StarView starView = cockpitModule.getStarView();
         Point2D.Double p = null;
 
-        star = new NormalStar( 100, new Point2D.Double( 15, 10), 0 );
+        star = new NormalStar( 100, new Point2D.Double( 100, 10 ), 0 );
+        starField.addStar( star );
+        star = new NormalStar( 100, new Point2D.Double( 500, 20 ), 0 );
         starField.addStar( star );
         starView.setPov( 10, 10, 0 );
         List l = starView.getVisibleStars();
         cockpitModule.update();
-
-//        // Should print 0:0
-//        star = new NormalStar( 100, new Point2D.Double( 15, 10 ), 0 );
-//        starView.setPov( 10, 10, 0 );
-//        p = starView.getLocation( star );
-//        System.out.println( "-->" + p.getX() + ":" + p.getY() );
-//
-//        // Should print -10:0
-//        star = new NormalStar( 100, new Point2D.Double( 15, 20 ), 0 );
-//        starView.setPov( 10, 10, 0 );
-//        p = starView.getLocation( star );
-//        System.out.println( "-->" + p.getX() + ":" + p.getY() );
     }
 
     public static void main( String[] args ) {
-        String desc = GraphicsUtil.formatMessage( "A game for learning how to/nmeasure interstellar distances." );
+        String desc = GraphicsUtil.formatMessage( "A game for learning how to\nmeasure interstellar distances." );
         appDesc = new ApplicationDescriptor( "Lost In Space",
-                                                                           desc,
-                                                                           "0.1" );
+                                             desc,
+                                             "0.1" );
         CockpitModuleTest test = new CockpitModuleTest();
 
         test.test1();

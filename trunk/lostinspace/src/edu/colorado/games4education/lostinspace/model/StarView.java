@@ -83,6 +83,10 @@ public class StarView {
         return location;
     }
 
+    public void movePov( double dx, double dy ) {
+        this.povPt.setLocation( povPt.getX() + dx, povPt.getY() + dy );
+    }
+
     //
     // Inner classes
     //

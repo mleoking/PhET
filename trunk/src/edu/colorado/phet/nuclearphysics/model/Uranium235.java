@@ -23,7 +23,6 @@ public class Uranium235 extends Nucleus {
     // Instance fields and methods
     //
     private ArrayList decayListeners = new ArrayList();
-//    private AlphaParticle[] alphaParticles = new AlphaParticle[1];
     private AlphaParticle[] alphaParticles = new AlphaParticle[4];
 
     public Uranium235( Point2D.Double position ) {
@@ -72,6 +71,8 @@ public class Uranium235 extends Nucleus {
         Vector2D sep = new Vector2D( (float)( alphaParticle.getLocation().getX() - this.getLocation().getX() ),
                                      (float)( alphaParticle.getLocation().getY() - this.getLocation().getY() ) );
         sep.normalize();
+        this.setNumProtons( this.getNumProtons() - 2 );
+        this.setNumNeutrons( this.getNumNeutrons() - 2 );
         Nucleus n1 = new DecayNucleus( this, sep, this.getPotentialProfile().getWellPotential() );
 
         // n2 is the alpha particle

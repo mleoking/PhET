@@ -13,14 +13,6 @@ import java.awt.geom.Point2D;
 
 public class Nucleus extends Body {
 
-    //
-    // Static fields and methods
-    //
-
-
-    //
-    // Instance fields and methods
-    //
     private int numProtons;
     private int numNeutrons;
     private double radius;
@@ -33,7 +25,8 @@ public class Nucleus extends Body {
         this.setLocation( position.getX(), position.getY() );
         this.numProtons = numProtons;
         this.numNeutrons = numNeutrons;
-        this.potentialProfile = potentialProfile;
+        this.potentialProfile = new PotentialProfile( this );
+//        this.potentialProfile = potentialProfile;
         this.potentialEnergy = potentialProfile.getWellPotential();
 
         int numParticles = getNumNeutrons() + getNumProtons();
@@ -59,6 +52,14 @@ public class Nucleus extends Body {
 
     public int getNumNeutrons() {
         return numNeutrons;
+    }
+
+    public void setNumProtons( int numProtons ) {
+        this.numProtons = numProtons;
+    }
+
+    public void setNumNeutrons( int numNeutrons ) {
+        this.numNeutrons = numNeutrons;
     }
 
     public PotentialProfile getPotentialProfile() {

@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
+import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.coreadditions.CubicUtil;
 
 import java.awt.*;
@@ -27,7 +29,7 @@ import java.awt.geom.Point2D;
  * model will be improved sometime soon, I hope.)
  * - The bottom of the well has an x coordinate of 0
  */
-public class PotentialProfile {
+public class PotentialProfile extends SimpleObservable implements SimpleObserver {
     private double width;
     private double maxPotential;
     private double wellDepth;
@@ -48,18 +50,30 @@ public class PotentialProfile {
     private GeneralPath profilePath;
     private GeneralPath profileBackgroundPath;
     private CubicUtil cubicUtil;
+    private Nucleus nucleus;
 
     public PotentialProfile() {
     }
 
+    public PotentialProfile( Nucleus nucleus ) {
+        this.nucleus = nucleus;
+        nucleus.addObserver( this );
+        this.width = 500;
+        this.maxPotential = 2 * nucleus.getNumProtons();
+        this.wellDepth = 0.5 * nucleus.getNumNeutrons();
+        this.generate();
+    }
+
     public PotentialProfile( double width, double maxPotential, double wellDepth ) {
-        this.width = width;
+        this.width = 500;
+//        this.width = width;
         this.maxPotential = maxPotential;
         this.wellDepth = wellDepth;
 
         // Generate the cubic curves for the profile
         this.generate();
     }
+
 
     public double getWidth() {
         return width;
@@ -246,36 +260,48 @@ public class PotentialProfile {
         return result;
     }
 
-    // A test to see if the parametric equations are being computed properly
-    public Point2D.Double[] genPts( int numPts ) {
-        Point2D.Double[] result = new Point2D.Double[numPts];
-        double cx, cy, bx, by, ax, ay;
-        double x0 = endPt1.getX();
-        double y0 = endPt1.getY();
+//    // A test to see if the parametric equations are being computed properly
+//    public Point2D.Double[] genPts( int numPts ) {
+//        Point2D.Double[] result = new Point2D.Double[numPts];
+//        double cx, cy, bx, by, ax, ay;
+//        double x0 = endPt1.getX();
+//        double y0 = endPt1.getY();
+//
+//        double x3 = endPt2.getX();
+//        double y3 = endPt2.getY();
+//
+//        double x1 = ctrlPt1.getX();
+//        double y1 = ctrlPt1.getY();
+//
+//        double x2 = ctrlPt2A.getX();
+//        double y2 = ctrlPt2A.getY();
+//
+//        cx = 3 * ( x1 - x0 );
+//        bx = 3 * ( x2 - x1 ) - cx;
+//        ax = x3 - x0 - cx - bx;
+//
+//        cy = 3 * ( y1 - y0 );
+//        by = 3 * ( y2 - y1 ) - cy;
+//        ay = y3 - y0 - cy - by;
+//        double t = 0;
+//        for( int i = 0; i < numPts; i++ ) {
+//            t += 1.0 / numPts;
+//            result[i] = new Point2D.Double();
+//            result[i].x = ax * t * t * t + bx * t * t + cx * t + x0;
+//            result[i].y = ay * t * t * t + by * t * t + cy * t + y0;
+//        }
+//        return result;
+//    }
 
-        double x3 = endPt2.getX();
-        double y3 = endPt2.getY();
 
-        double x1 = ctrlPt1.getX();
-        double y1 = ctrlPt1.getY();
-
-        double x2 = ctrlPt2A.getX();
-        double y2 = ctrlPt2A.getY();
-
-        cx = 3 * ( x1 - x0 );
-        bx = 3 * ( x2 - x1 ) - cx;
-        ax = x3 - x0 - cx - bx;
-
-        cy = 3 * ( y1 - y0 );
-        by = 3 * ( y2 - y1 ) - cy;
-        ay = y3 - y0 - cy - by;
-        double t = 0;
-        for( int i = 0; i < numPts; i++ ) {
-            t += 1.0 / numPts;
-            result[i] = new Point2D.Double();
-            result[i].x = ax * t * t * t + bx * t * t + cx * t + x0;
-            result[i].y = ay * t * t * t + by * t * t + cy * t + y0;
+    public void update() {
+        this.width = 300;
+        if( this.maxPotential != 2 * nucleus.getNumProtons()
+            || this.wellDepth != 0.5 * nucleus.getNumNeutrons() ) {
+            this.maxPotential = 2 * nucleus.getNumProtons();
+            this.wellDepth = 0.5 * nucleus.getNumNeutrons();
+            this.generate();
+            updateObservers();
         }
-        return result;
     }
 }

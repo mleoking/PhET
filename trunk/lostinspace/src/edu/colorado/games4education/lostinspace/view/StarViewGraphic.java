@@ -55,7 +55,7 @@ public class StarViewGraphic extends CompositeInteractiveGraphic {
                 starToGraphicMap.put( visibleStar, starGraphic );
                 this.addGraphic( starGraphic, Config.starLayer );
             }
-            starGraphic.update( visibleStar );
+            starGraphic.update( visibleStar, starView.getLocation( visibleStar ) );
 
             // Remove stars that aren't visible
             ArrayList removeList = new ArrayList();
