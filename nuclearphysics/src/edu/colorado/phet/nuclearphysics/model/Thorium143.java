@@ -15,7 +15,7 @@ public class Thorium143 extends Nucleus {
         // as U235, even though this is inaccurate
         super( position, 92, 143 );
 //        super( position, 90, 143 );
-        getPotentialProfile().setWellPotential( 5 );
+        getPotentialProfile().setWellPotential( 0 );
         getPotentialProfile().updateObservers();
     }
 }

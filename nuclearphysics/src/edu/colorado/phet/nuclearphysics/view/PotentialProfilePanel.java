@@ -108,7 +108,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private Line2D.Double xAxis = new Line2D.Double();
     private Line2D.Double yAxis = new Line2D.Double();
     private AffineTransform profileTx = new AffineTransform();
-    private HashMap wellTxs = new HashMap();
     private HashMap wellParticles = new HashMap();
 
     public PotentialProfilePanel() {
@@ -123,20 +122,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
         origin.setLocation( this.getWidth() / 2, this.getHeight() * 0.8 );
         profileTx.setToTranslation( origin.getX(),
                                     origin.getY() );
-
-        // Set up all the well transforms. These are based on the x location of
-        // the nucleus on which each is based
-        // todo: keeping multiple wellTxs may be unnecessary now that the transform
-        // does not move alpha particles up to the well
-        Iterator wellTxIt = wellTxs.keySet().iterator();
-        while( wellTxIt.hasNext() ) {
-            Nucleus nucleus = (Nucleus)wellTxIt.next();
-            AffineTransform wellTx = (AffineTransform)wellTxs.get( nucleus );
-            wellTx.setToIdentity();
-            double x = origin.getX() - nucleus.getLocation().getX();
-            double y = origin.getY() - AlphaParticle.RADIUS;
-            wellTx.translate( x, y );
-        }
 
         // Draw everything that isn't special to this panel
         GraphicsUtil.setAlpha( g2, 1 );
@@ -155,8 +140,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
             GraphicsUtil.setAlpha( g2, ghostAlpha );
             AffineTransform orgTx = g2.getTransform();
-            Nucleus nucleus = (Nucleus)wellParticles.get( alphaParticleGraphic );
-            g2.transform( (AffineTransform)wellTxs.get( nucleus ) );
+            g2.transform( profileTx );
             double dy = -( (AlphaParticle)alphaParticleGraphic.getNucleus() ).getPotential();
             alphaParticleGraphic.paint( g2, (int)d, (int)dy );
             GraphicsUtil.setAlpha( g2, 1 );
@@ -223,14 +207,10 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
     public synchronized void addNucleus( Nucleus nucleus ) {
         addPotentialProfile( nucleus );
-        AffineTransform wellTx = new AffineTransform();
-        wellTx.setToIdentity();
-        wellTxs.put( nucleus, new AffineTransform() );
     }
 
     public synchronized void removeNucleus( Nucleus nucleus ) {
         removePotentialProfile( nucleus.getPotentialProfile() );
-        wellTxs.remove( nucleus );
     }
 
     public void addPotentialProfile( Nucleus nucleus ) {

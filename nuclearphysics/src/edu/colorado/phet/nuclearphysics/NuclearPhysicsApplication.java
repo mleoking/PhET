@@ -11,7 +11,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
-import edu.colorado.phet.common.view.plaf.LectureLookAndFeel2;
+import edu.colorado.phet.common.view.plaf.LectureLookAndFeel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
@@ -61,7 +61,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
     }
 
 
-    public static class NuclearAppLookAndFeel extends LectureLookAndFeel2 {
+    public static class NuclearAppLookAndFeel extends LectureLookAndFeel {
 
         protected void initComponentDefaults( UIDefaults table ) {
 

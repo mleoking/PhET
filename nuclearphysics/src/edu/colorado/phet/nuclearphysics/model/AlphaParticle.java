@@ -77,7 +77,8 @@ public class AlphaParticle extends Nucleus {
                     a = new Vector2D( this.getVelocity() ).normalize().multiply( (float)force );
                 }
                 this.setAcceleration( a );
-                this.setPotential( -profile.getHillY( -d ) );
+                double potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
+                this.setPotential( potential );
             }
         }
     }

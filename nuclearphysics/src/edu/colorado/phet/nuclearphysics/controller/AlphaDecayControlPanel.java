@@ -19,8 +19,7 @@ public class AlphaDecayControlPanel extends JPanel {
     private NuclearPhysicsModule module;
     private JTextField timerTF;
     private long startTime;
-//    private Timer timer;
-    Timer timer = new Timer();
+    private Timer timer = new Timer();
 
     public AlphaDecayControlPanel( final AlphaDecayModule module ) {
         this.module = module;
@@ -60,7 +59,7 @@ public class AlphaDecayControlPanel extends JPanel {
             e.printStackTrace();
         }
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Alpah Decay" );
+        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Alpha Decay" );
         this.setBorder( titledBorder );
     }
 
@@ -86,6 +85,7 @@ public class AlphaDecayControlPanel extends JPanel {
     protected void paintComponent( Graphics g ) {
         super.paintComponent( g );
     }
+
 
     private class Timer implements Runnable {
         private boolean running = false;
@@ -118,5 +118,4 @@ public class AlphaDecayControlPanel extends JPanel {
             return running;
         }
     }
-
 }
