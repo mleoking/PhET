@@ -9,11 +9,14 @@ package edu.colorado.phet.sound.model;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.sound.SoundConfig;
 
+import java.awt.geom.Point2D;
+
 public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
 
     private WaveFunction waveFunction;
     private WavefrontType wavefrontType = new SphericalWavefront();
 
+    private Point2D.Double origin = new Point2D.Double();
     private double maxAmplitude = 0.5;
     private double frequency = 25.0;
     private double[] amplitude = new double[s_length];
@@ -29,15 +32,17 @@ public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
     private double[] prevMaxAmplitudeAtTime = new double[s_length];
 
     private float time = 0;
-    private int propagationSpeed = 1;
+    private int propagationSpeed = SoundConfig.PROPOGATION_SPEED;
     // "Enabled" means that the wavefront should be added into the
     // wave medium. The waveform runs continuously whether it is enabled
     // or not, so it does not get out of phase from when it was started.
     private boolean enabled = true;
-    private SoundModel model;
 
-    public Wavefront( SoundModel model ) {
-        this.model = model;
+    public Wavefront() {
+    }
+
+    public void setOrigin( Point2D.Double origin ) {
+        this.origin = origin;
     }
 
     public boolean isEnabled() {
@@ -149,8 +154,7 @@ public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
      * legitimate indexes.
      *
      * @param frequencyIdx
-     * @return
-     * todo: rename this to reflect that it is at a distance, not a time
+     * @return todo: rename this to reflect that it is at a distance, not a time
      */
     public double getFrequencyAtTime( int frequencyIdx ) {
         frequencyIdx = Math.max( 0, Math.min( s_length - 1, frequencyIdx ) );

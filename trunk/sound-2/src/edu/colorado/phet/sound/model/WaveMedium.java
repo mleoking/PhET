@@ -21,8 +21,6 @@ public class WaveMedium extends SimpleObservable implements ModelElement {
         }
     };
 
-    public WaveMedium() {
-    }
 
     public void stepInTime( double dt ) {
         for( int i = 0; i < wavefronts.size(); i++ ) {

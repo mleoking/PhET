@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.sound.model;
 
-import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.SimpleObservable;
 
 import java.awt.geom.Point2D;
 
@@ -44,10 +44,6 @@ public class Listener extends SimpleObservable implements ModelElement {
         double currentOctaveAmplitude = model.getOctaveWavefront().getMaxAmplitudeAtTime( distFromSource );
         boolean notifyFlag = false;
 
-        boolean flag = false;
-        if (currentOctaveAmplitude != octaveAmplitudeHeard) {
-            flag = true;
-        }
         if( currentFrequency != frequencyHeard
             || currentAmplitude != amplitudeHeard
             || currentOctaveAmplitude != octaveAmplitudeHeard ) {
@@ -57,8 +53,6 @@ public class Listener extends SimpleObservable implements ModelElement {
         amplitudeHeard = currentAmplitude;
         octaveAmplitudeHeard = currentOctaveAmplitude;
         if( notifyFlag ) {
-            if( flag )
-                System.out.println( "!!!" );
             notifyObservers();
         }
     }
