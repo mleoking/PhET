@@ -392,18 +392,15 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
       }
       _spotlightModel.setColor( bulbColor );
     }
-    else if ( event.getSource() == _filterSwitch )
-    {
-      _filterModel.setEnabled( _filterSwitch.isOn() );
-    }
-    else if ( event.getSource() == _controlPanel )
-    {
-      // A control panel change was made.
-      
+    else if ( event.getSource() == _controlPanel || event.getSource() == _filterSwitch )
+    { 
       // Get current control panel settings.
       int bulbType = _controlPanel.getBulbType();
       int beamType = _controlPanel.getBeamType();
       boolean filterEnabled = _filterSwitch.isOn();
+      
+      // Filter
+      _filterModel.setEnabled( filterEnabled );
       
       // Bulb Type
       if ( bulbType == SingleBulbControlPanel.WHITE_BULB )
