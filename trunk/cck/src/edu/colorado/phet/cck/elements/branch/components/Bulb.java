@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * Date: Sep 5, 2003
  * Time: 3:13:07 AM
  * Copyright (c) Sep 5, 2003 by Sam Reid
+ * Test comment.
  */
 public class Bulb extends Branch implements HasResistance {
     double resistance;
