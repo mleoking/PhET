@@ -30,6 +30,10 @@ import edu.colorado.phet.common.math.AbstractVector2D;
  */
 public class HollywoodMagnet extends AbstractMagnet {
   
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
     // Relationship between distance and strength.
     private static final double DISTANCE_PER_GAUSS = 1.0;
         

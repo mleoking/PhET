@@ -55,7 +55,7 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
     private double _aspectRatio;
     
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructors & finalizers
     //----------------------------------------------------------------------------
 
     /**
@@ -90,6 +90,10 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
         });
     }
     
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void finalize() {
         _magnetModel.removeObserver( this );
         _magnetModel = null;

@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 
 
 /**
- * AbstractCoil is abstract base class for all coils.
+ * AbstractCoil is the abstract base class for all coils.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -81,6 +81,7 @@ public class AbstractCoil extends SpacialObservable {
      * This method destroys any existing loops and creates a new set.
      * 
      * @param numberOfLoops the number of loops
+     * @throws IllegalArgumentException if numberOfLoops is <= 0
      */
     public void setNumberOfLoops( int numberOfLoops ) {
         if ( numberOfLoops <= 0 ) {
@@ -104,6 +105,7 @@ public class AbstractCoil extends SpacialObservable {
      * This radius is shared by all loops in the coil.
      * 
      * @param radius the radius
+     * @throws IllegalArgumentException if radius is <= 0
      */
     public void setRadius( double radius ) {
         if ( radius <= 0 ) {
@@ -124,6 +126,7 @@ public class AbstractCoil extends SpacialObservable {
 
     /**
      * Gets the total surface area of all loops in the coil.
+     * This is a convenience function.
      * 
      * @return the area
      */

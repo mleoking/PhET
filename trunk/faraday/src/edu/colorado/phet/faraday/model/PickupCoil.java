@@ -18,35 +18,48 @@ import edu.colorado.phet.common.model.ModelElement;
 
 
 /**
- * PickupCoil
+ * PickupCoil is the model of a pickup coil.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class PickupCoil extends AbstractCoil implements ModelElement {
     
-    private AbstractMagnet _magnet;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private AbstractMagnet _magnetModel;
     private double _EMF;
     private double _previousEMF;
     private double _previousFlux;
     
-    public PickupCoil() {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sole constructor.
+     */
+    public PickupCoil( AbstractMagnet magnetModel ) {
         super();
+        _magnetModel = magnetModel;
         _EMF = 0.0;
+        _previousEMF = 0.0;
         _previousFlux = 0.0;
     }
     
-    public void setMagnet( AbstractMagnet magnet ) {
-        _magnet = magnet;
-    }
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
-    public AbstractMagnet getMagnet() {
-        return _magnet;
-    }
-
     public double getEMF() {
         return _EMF;
     }
+    
+    //----------------------------------------------------------------------------
+    // ModelElement implementation
+    //----------------------------------------------------------------------------
     
     /**
      * Handles ticks of the simulation clock.
@@ -61,14 +74,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         // - doesn't handle arbitrary magnet orientation?
         
        // Calculate theta, angle between magnetic field and surface area vector.
-        Point2D magnetLocation = _magnet.getLocation();
+        Point2D magnetLocation = _magnetModel.getLocation();
         Point2D coilLocation = super.getLocation();
         double adjacent = Math.abs( magnetLocation.getY() - coilLocation.getY() );
         double opposite = Math.abs( magnetLocation.getX() - magnetLocation.getX() );
         double theta = Math.atan( opposite / adjacent );
         
         // Magnetic field strength at the coil's location.
-        AbstractVector2D strength = _magnet.getStrength( getLocation() );
+        AbstractVector2D strength = _magnetModel.getStrength( getLocation() );
         double B = strength.getMagnitude();
         double direction = Math.toDegrees( strength.getAngle() );
         if ( direction % 360 == 0 ) {

@@ -16,18 +16,36 @@ import edu.colorado.phet.common.util.SimpleObserver;
 
 
 /**
- * LightBulbGraphic
+ * LightBulb is the model of a lightbulb.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class LightBulb extends AbstractResistor implements SimpleObserver {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final double MAX_VOLTAGE = 120.0; // XXX
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private Current _currentModel;
     private double _intensity; // 0-1
     
+    //----------------------------------------------------------------------------
+    // Constructors & finalizers
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sole constructor.
+     * 
+     * @param currentModel the model of the current running through the bulb
+     * @param resistance the resistance of the bulb
+     */
     public LightBulb( Current currentModel, double resistance ) {
         super( resistance );
         _currentModel = currentModel;
@@ -42,6 +60,10 @@ public class LightBulb extends AbstractResistor implements SimpleObserver {
         _currentModel.removeObserver( this );
         _currentModel = null;
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
 
     private void setIntensity( double intensity ) {
         _intensity = intensity;
@@ -55,6 +77,10 @@ public class LightBulb extends AbstractResistor implements SimpleObserver {
     public double getCurrent() {
         return _currentModel.getAmps();
     }
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
     
     /*
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
