@@ -665,17 +665,7 @@ public class CCK3Module extends Module {
     }
 
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            SimStrings.setLocale( new Locale( applicationLocale ) );
-        }
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            SimStrings.setLocale( new Locale( locale ) );
-        }
-
-        SimStrings.setStrings( localizedStringsPath );
+        SimStrings.init( args, localizedStringsPath );
 
         //        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
         SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
@@ -722,7 +712,7 @@ public class CCK3Module extends Module {
 
         JMenu dev = new JMenu( SimStrings.get( "OptionsMenu.Title" ) );
         dev.setMnemonic( SimStrings.get( "OptionsMenu.TitleMnemonic" ).charAt( 0 ) );
-        JMenuItem changeBackgroundColor = new JMenuItem( SimStrings.get( "OptionsMenu.BackgroundColor" ) );
+        JMenuItem changeBackgroundColor = new JMenuItem( SimStrings.get( "OptionsMenu.BackgroundColorMenuItem" ) );
         changeBackgroundColor.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ColorDialog.Listener listy = new ColorDialog.Listener() {
@@ -743,7 +733,7 @@ public class CCK3Module extends Module {
             }
         } );
         cck.setFrame( app.getApplicationView().getPhetFrame() );
-        JMenuItem toolboxColor = new JMenuItem( SimStrings.get( "OptionsMenu.Toolboxcolor" ) );
+        JMenuItem toolboxColor = new JMenuItem( SimStrings.get( "OptionsMenu.ToolboxcolorMenuItem" ) );
         toolboxColor.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ColorDialog.Listener listy = new ColorDialog.Listener() {

@@ -241,21 +241,9 @@ public class MacroModule extends Module {
         getApparatusPanel().repaint();
     }
 
-    public static void main( String args[] )
-            throws IOException {
+    public static void main( String args[] ) throws IOException {
+        SimStrings.init( args, localizedStringsPath );
                 
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            SimStrings.setLocale( new Locale( applicationLocale ) );
-        }
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            SimStrings.setLocale( new Locale( locale ));
-        }
-
-        SimStrings.setStrings( localizedStringsPath );
-        
         SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
         final MacroModule module = new MacroModule( swingtimerclock );
         ApplicationDescriptor ad = new ApplicationDescriptor(
