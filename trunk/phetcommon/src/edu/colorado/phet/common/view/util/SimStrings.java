@@ -7,6 +7,7 @@
 package edu.colorado.phet.common.view.util;
 
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -14,9 +15,24 @@ public class SimStrings {
 
     private static Vector localizedStrings;
     private static Vector stringsPaths;
+    private static Locale localizedLocale;
 
     static {
         SimStrings.setStrings( "localization/CommonStrings" );
+    }
+    
+    public static void setLocale( Locale locale ) {
+        localizedLocale = locale;
+        // Reload all existing string resources with the new locale
+        Vector priorPaths = stringsPaths;
+        stringsPaths = null;
+        localizedStrings = null;
+        if( priorPaths != null ) {
+            for( Iterator i = priorPaths.iterator(); i.hasNext(); ) {
+                String path = (String) i.next();
+                setStrings( path );
+            }
+        }
     }
 
     public static void setStrings( String stringsPath ) {
@@ -25,12 +41,13 @@ public class SimStrings {
             stringsPaths = new Vector();
         }
         if( stringsPaths.contains( stringsPath ) ) {
-            //System.out.println( "ignoring duplicate strings path: " + stringsPath );
             return;
         }
         try {
-            //System.out.println( "loading strings path: " + stringsPath );
-            ResourceBundle rb = ResourceBundle.getBundle( stringsPath );
+            if( localizedLocale == null ) {
+                localizedLocale = Locale.getDefault();
+            }
+            ResourceBundle rb = ResourceBundle.getBundle( stringsPath, localizedLocale );
             if( rb != null ) {
                 localizedStrings.add( rb );
                 stringsPaths.add( stringsPath );
