@@ -1,4 +1,5 @@
--
+- unify use of ModelViewTx1D in EnergyLevelGraphic and EnergyLevelMonitorPanel. The latter should set the transform
+and send it to the former.
 
 - AtomGraphic should just be a listener, not a SimpleObserver
 - Photons jump to right when stimulated emissoin happens
@@ -27,7 +28,7 @@ Refactor ModelViewTx2D and AffineTxUtil
 =========================================================
 11/16/04
 - Removed restriction of method ending in "Occurred" from EventRegistry
- 
+
 ---------------------------------------------------------
 11/16/04
 - position beam graphics from the beam origin

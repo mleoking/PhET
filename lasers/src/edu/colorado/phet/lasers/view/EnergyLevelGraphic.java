@@ -20,8 +20,6 @@ import edu.colorado.phet.lasers.coreadditions.VisibleColor;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -33,7 +31,7 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
     private double width;
     private EnergyLevelRep energyLevelRep;
     private Rectangle bounds = new Rectangle();
-    private ModelViewTx1D energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy, 0, 0 );
+    private ModelViewTx1D energyYTx;
 
     public EnergyLevelGraphic( final Component component, AtomicState atomicState, Color color, double xLoc, double width ) {
         super( null );
@@ -49,18 +47,6 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
         atomicState.addEnergyLevelChangeListener( this );
 
-        // Add a listener that will recompute, when the component in which we are
-        // placed changes size, our graphic bounds and the transform between
-        // energy values from the model and graphic coordinates
-        component.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                Rectangle compRect = component.getBounds();
-                bounds.setRect( compRect.getMinX(), compRect.getMinY() + compRect.getHeight() * 0.1,
-                                compRect.getWidth(), compRect.getHeight() * 0.8 );
-                energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
-                                               (int)bounds.getMinY(), (int)bounds.getMaxY() );
-            }
-        } );
     }
 
     public void setBasePosition( double x, double y ) {
@@ -70,6 +56,11 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
     public void energyLevelChangeOccurred( AtomicState.EnergyLevelChangeEvent event ) {
         energyLevelRep.update();
+    }
+
+    public void update( ModelViewTx1D tx ) {
+        this.energyYTx = tx;
+        update();
     }
 
     public void update() {
@@ -107,7 +98,6 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
         protected EnergyLevelRep( Component component ) {
             super( component );
-            update();
         }
 
         private void update() {
