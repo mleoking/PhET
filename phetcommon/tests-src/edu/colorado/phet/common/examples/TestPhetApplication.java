@@ -167,11 +167,9 @@ public class TestPhetApplication {
         ClockControlPanel ccp = new ClockControlPanel( clock );
         JFrame jeff = new JFrame( "CCP" );
         jeff.setContentPane( ccp );
-
-
         jeff.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         jeff.pack();
-        jeff.setVisible( true );
+        jeff.show();
     }
 
 }
