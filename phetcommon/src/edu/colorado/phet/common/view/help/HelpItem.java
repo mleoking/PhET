@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class HelpItem implements Graphic {
-    public final static int TOP = 1;
-    public final static int BOTTOM = 2;
+    public final static int ABOVE = 1;
+    public final static int BELOW = 2;
     public final static int LEFT = 3;
     public final static int CENTER = 4;
     public final static int RIGHT = 5;
@@ -37,6 +37,16 @@ public class HelpItem implements Graphic {
         this( text, x, y, CENTER, CENTER );
     }
 
+    /**
+     *
+     * @param text
+     * @param x
+     * @param y
+     * @param horizontalAlignment Specifies if the help item will be displayed to
+     * the LEFT or RIGHT of the specified x coordinate
+     * @param verticalAlignment Specifies if the help item will be displayed ABOVE
+     * or BELOW the specified y coordinate
+     */
     public HelpItem( String text, double x, double y,
                      int horizontalAlignment, int verticalAlignment ) {
         this.horizontalAlignment = horizontalAlignment;
@@ -96,11 +106,11 @@ public class HelpItem implements Graphic {
         int x = 0;
         double maxStrLen = 0;
         switch( horizontalAlignment ) {
-            case HelpItem.RIGHT:
+            case HelpItem.LEFT:
                 maxStrLen = getMaxStrLen( sa, g, fontMetrics );
                 x = (int)( location.getX() - maxStrLen - fontMetrics.getStringBounds( " ", g ).getWidth() );
                 break;
-            case HelpItem.LEFT:
+            case HelpItem.RIGHT:
                 x = (int)( location.getX() + fontMetrics.getStringBounds( " ", g ).getWidth() );
                 break;
             case HelpItem.CENTER:
@@ -111,10 +121,10 @@ public class HelpItem implements Graphic {
 
         double yBase = 0;
         switch( verticalAlignment ) {
-            case HelpItem.TOP:
+            case HelpItem.ABOVE:
                 yBase = -sa.length * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
                 break;
-            case HelpItem.BOTTOM:
+            case HelpItem.BELOW:
                 yBase = 0;
                 break;
             case HelpItem.CENTER:
