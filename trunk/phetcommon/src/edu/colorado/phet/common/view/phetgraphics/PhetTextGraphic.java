@@ -38,10 +38,10 @@ public class PhetTextGraphic extends PhetGraphic {
         if( isVisible() ) {
             g.setFont( font );
             g.setColor( color );
-            g.transform( getTransform() );
+            g.transform( getNetTransform() );
             g.drawString( text, 0, 0 );
             try {
-                g.transform( getTransform().createInverse() );
+                g.transform( getNetTransform().createInverse() );
             }
             catch( NoninvertibleTransformException e ) {
                 e.printStackTrace();
@@ -59,7 +59,7 @@ public class PhetTextGraphic extends PhetGraphic {
         int leading = fontMetrics.getLeading();
         Point location = new Point( 0, 0 );
         Rectangle bounds = new Rectangle( location.x, location.y - ascent + leading, width, ascent + descent + leading );
-        return getTransform().createTransformedShape( bounds ).getBounds();
+        return getNetTransform().createTransformedShape( bounds ).getBounds();
     }
 
     public Font getFont() {

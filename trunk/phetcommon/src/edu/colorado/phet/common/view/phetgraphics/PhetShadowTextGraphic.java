@@ -34,11 +34,11 @@ public class PhetShadowTextGraphic extends PhetGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        g.transform( getTransform() );
+        g.transform( getNetTransform() );
         background.paint( g );
         foreground.paint( g );
         try {
-            g.transform( getTransform().createInverse() );
+            g.transform( getNetTransform().createInverse() );
         }
         catch( NoninvertibleTransformException e ) {
             e.printStackTrace();
@@ -47,7 +47,7 @@ public class PhetShadowTextGraphic extends PhetGraphic {
 
     protected Rectangle determineBounds() {
         Rectangle2D b = foreground.getBounds().createUnion( background.getBounds() );
-        b = getTransform().createTransformedShape( b ).getBounds2D();
+        b = getNetTransform().createTransformedShape( b ).getBounds2D();
         return RectangleUtils.toRectangle( b );
     }
 

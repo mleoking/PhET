@@ -56,7 +56,7 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     public Shape getShape() {
-        AffineTransform transform = getTransform();
+        AffineTransform transform = getNetTransform();
         if( shapeDirty ) {
             if( image == null ) {
                 return null;
@@ -78,7 +78,7 @@ public class PhetImageGraphic extends PhetGraphic {
 
     public void paint( Graphics2D g ) {
         if( isVisible() && image != null ) {
-            g.drawRenderedImage( image, getTransform() );
+            g.drawRenderedImage( image, getNetTransform() );
         }
     }
 

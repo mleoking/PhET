@@ -78,7 +78,7 @@ public class PhetShapeGraphic extends PhetGraphic {
                 g.setRenderingHints( hints );
             }
             if( shape != null ) {
-                g.transform( getTransform() );
+                g.transform( getNetTransform() );
                 if( fill != null ) {
                     g.setPaint( fill );
                     g.fill( shape );
@@ -91,7 +91,7 @@ public class PhetShapeGraphic extends PhetGraphic {
                     g.setStroke( origStroke );
                 }
                 try {
-                    g.transform( getTransform().createInverse() );
+                    g.transform( getNetTransform().createInverse() );
                 }
                 catch( NoninvertibleTransformException e ) {
                     e.printStackTrace();
@@ -106,13 +106,13 @@ public class PhetShapeGraphic extends PhetGraphic {
             return null;
         }
         if( stroke == null ) {
-            return getTransform().createTransformedShape( shape.getBounds() ).getBounds();
+            return getNetTransform().createTransformedShape( shape.getBounds() ).getBounds();
         }
         else {
             Shape outlineShape = stroke.createStrokedShape( shape );
             Rectangle bounds = outlineShape.getBounds();
             Rectangle expanded = new Rectangle( bounds.x, bounds.y, bounds.width + 1, bounds.height + 1 ); //necessary to capture the entire bounds.
-            return getTransform().createTransformedShape( expanded ).getBounds();
+            return getNetTransform().createTransformedShape( expanded ).getBounds();
         }
     }
 
@@ -139,7 +139,7 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public boolean contains( int x, int y ) {
         if( getShape() != null ) {
-            Shape txShape = getTransform().createTransformedShape( getShape() );
+            Shape txShape = getNetTransform().createTransformedShape( getShape() );
             return isVisible() && txShape.contains( x, y );
         }
         return false;
