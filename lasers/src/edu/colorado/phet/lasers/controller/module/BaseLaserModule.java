@@ -20,6 +20,7 @@ import edu.colorado.phet.lasers.controller.LaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
@@ -108,8 +109,19 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
 
     protected void addAtom( Atom atom ) {
         getModel().addModelElement( atom );
-        AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
+        final AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
         addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
+        atom.addListener( new Atom.Listener() {
+            public void photonEmitted( Atom atom, Photon photon ) {
+            }
+
+            public void leftSystem( Atom atom ) {
+                getApparatusPanel().removeGraphic( atomGraphic );
+            }
+
+            public void stateChanged( Atom atom, AtomicState oldState, AtomicState newState ) {
+            }
+        } );
 //        ResonatingCavity cavity = getLaserModel().getResonatingCavity();
 //        Constraint constraintSpec = new CavityMustContainAtom( cavity, atom );
 //        cavity.addConstraint( constraintSpec );

@@ -53,7 +53,7 @@ public class Atom extends SphericalBody {
     public interface Listener {
         void photonEmitted( Atom atom, Photon photon );
         void leftSystem( Atom atom );
-        void stateChanged( Atom atom, AtomicState oldState, AtomicState newState );
+//        void stateChanged( Atom atom, AtomicState oldState, AtomicState newState );
     }
 
     public Atom() {
@@ -81,15 +81,15 @@ public class Atom extends SphericalBody {
     }
 
     public void setState( final AtomicState newState ) {
-        final AtomicState oldState = this.state;
+//        final AtomicState oldState = this.state;
         this.state = newState;
         notifyObservers();
-
-        this.subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
-            public void doNotify( Object obj ) {
-                ((Listener)obj).stateChanged( Atom.this, oldState, newState );
-            }
-        } );
+//
+//        this.subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
+//            public void doNotify( Object obj ) {
+//                ((Listener)obj).stateChanged( Atom.this, oldState, newState );
+//            }
+//        } );
     }
 
     public void stepInTime( double dt ) {

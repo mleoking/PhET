@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class MultipleAtomThreeLevelModule extends BaseLaserModule {
 
-    private double s_maxSpeed = .5;
+    private double s_maxSpeed = .1;
 
     private ArrayList atoms;
     private MonitorPanel monitorPanel;
@@ -40,45 +40,6 @@ public class MultipleAtomThreeLevelModule extends BaseLaserModule {
      */
     public MultipleAtomThreeLevelModule( AbstractClock clock ) {
         super( "Multiple Atoms / Three Levels" );
-
-//        Atom atom = null;
-//        atoms = new ArrayList();
-//        for( int i = 0; i < 20; i++ ) {
-//            atom = new Atom();
-//            boolean placed = false;
-//
-//            // Place atoms so they don't overlap
-//            do {
-//                placed = true;
-//                atom.setPosition( ( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
-//                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( s_boxHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-////                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-//                atom.setVelocity( ( Math.random() - 0.5 ) * s_maxSpeed,
-//                                  ( Math.random() - 0.5 ) * s_maxSpeed );
-//                for( int j = 0; j < atoms.size(); j++ ) {
-//                    Atom atom2 = (Atom)atoms.get( j );
-//                    double d = atom.getPosition().distance( atom2.getPosition() );
-//                    if( d <= atom.getRadius() + atom2.getRadius() ) {
-////                    if( ContactDetector.areContacting( atom, atom2 )) {
-//                        placed = false;
-//                        break;
-//                    }
-//                }
-//            } while( !placed );
-//            atoms.add( atom );
-//            addAtom( atom );
-////            new AddAtomCmd( atom ).doIt();
-//        }
-//
-//        ApparatusConfiguration config = new ApparatusConfiguration();
-//        config.setStimulatedPhotonRate( 2.0f );
-//        config.setMiddleEnergySpontaneousEmissionTime( 0.500f );
-//        config.setPumpingPhotonRate( 100f );
-//        config.setHighEnergySpontaneousEmissionTime( 0.05f );
-//        config.setReflectivity( 0.7f );
-//        config.configureSystem( (LaserModel)getModel() );
-//
-
         monitorPanel = new ThreeEnergyLevelMonitorPanel( (LaserModel)getModel());
         controlPanel = new ThreeLevelControlPanel( this, clock );
         setMonitorPanel( monitorPanel );
@@ -102,14 +63,12 @@ public class MultipleAtomThreeLevelModule extends BaseLaserModule {
                 placed = true;
                 atom.setPosition( ( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
                                   ( getLaserOrigin().getY() + ( Math.random() ) * ( s_boxHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-//                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
                 atom.setVelocity( ( Math.random() - 0.5 ) * s_maxSpeed,
                                   ( Math.random() - 0.5 ) * s_maxSpeed );
                 for( int j = 0; j < atoms.size(); j++ ) {
                     Atom atom2 = (Atom)atoms.get( j );
                     double d = atom.getPosition().distance( atom2.getPosition() );
                     if( d <= atom.getRadius() + atom2.getRadius() ) {
-//                    if( ContactDetector.areContacting( atom, atom2 )) {
                         placed = false;
                         break;
                     }
@@ -117,7 +76,6 @@ public class MultipleAtomThreeLevelModule extends BaseLaserModule {
             } while( !placed );
             atoms.add( atom );
             addAtom( atom );
-//            new AddAtomCmd( atom ).doIt();
         }
 
         ApparatusConfiguration config = new ApparatusConfiguration();
@@ -134,6 +92,11 @@ public class MultipleAtomThreeLevelModule extends BaseLaserModule {
      */
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
+        for( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom)atoms.get( i );
+            getLaserModel().removeModelElement( atom );
+            atom.removeFromSystem();
+        }
         atoms.clear();
     }
 }

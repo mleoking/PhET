@@ -14,18 +14,30 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.common.application.PhetApplication;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.util.Observable;
 
 public class TwoEnergyLevelMonitorPanel extends MonitorPanel {
 
+    static private int s_atomDiam = 14;
 
-    private int numGroundLevel;
-    private int numMiddleLevel;
+    static private double s_panelWidth = 600;
+    static private double s_panelHeight = 150;
+
+    static private double s_highLevelLineOriginX = 50;
+    static private double s_highLevelLineOriginY = 30;
+    static private double s_highLevelLineLength = s_panelWidth * 0.4f;
+
+    static private double s_middleLevelLineOriginX = s_highLevelLineOriginX + s_highLevelLineLength;
+    static private double s_middleLevelLineOriginY = s_highLevelLineOriginY + ( s_panelHeight / 3 );
+    static private double s_middleLevelLineLength = s_highLevelLineLength;
+
+    static private double s_groundLevelLineOriginX = 10;
+    static private double s_groundLevelLineOriginY = s_panelHeight - 20;
+    static private double s_groundLevelLineLength = s_panelWidth - 40;
+
+
     private Line2D middleLevelLine;
     private Line2D groundLevelLine;
     private LaserModel model;
@@ -37,14 +49,12 @@ public class TwoEnergyLevelMonitorPanel extends MonitorPanel {
         init();
         model.addObserver( this );
         this.model = model;
-//        PhetApplication.instance().getPhysicalSystem().addObserver( this );
     }
 
     /**
      *
      */
     private void init() {
-
         middleLevelLine = new Line2D.Double( s_middleLevelLineOriginX,
                                             s_middleLevelLineOriginY,
                                             s_middleLevelLineOriginX + s_middleLevelLineLength,
@@ -93,31 +103,10 @@ public class TwoEnergyLevelMonitorPanel extends MonitorPanel {
     }
 
     public void update() {
-        LaserModel laserSystem = model;
-        numGroundLevel = laserSystem.getNumGroundStateAtoms();
-        numMiddleLevel = laserSystem.getNumMiddleStateAtoms();
+        numGroundLevel = model.getNumGroundStateAtoms();
+        numMiddleLevel = model.getNumMiddleStateAtoms();
         this.invalidate();
         this.repaint();
     }
-
-    //
-    // Static fields and methods
-    //
-    static private int s_atomDiam = 14;
-
-    static private double s_panelWidth = 600;
-    static private double s_panelHeight = 150;
-
-    static private double s_highLevelLineOriginX = 50;
-    static private double s_highLevelLineOriginY = 30;
-    static private double s_highLevelLineLength = s_panelWidth * 0.4f;
-
-    static private double s_middleLevelLineOriginX = s_highLevelLineOriginX + s_highLevelLineLength;
-    static private double s_middleLevelLineOriginY = s_highLevelLineOriginY + ( s_panelHeight / 3 );
-    static private double s_middleLevelLineLength = s_highLevelLineLength;
-
-    static private double s_groundLevelLineOriginX = 10;
-    static private double s_groundLevelLineOriginY = s_panelHeight - 20;
-    static private double s_groundLevelLineLength = s_panelWidth - 40;
 
 }

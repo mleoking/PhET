@@ -43,15 +43,15 @@ public class SingleAtomBaseModule extends BaseLaserModule {
      */
     public void activate( PhetApplication app ) {
         super.activate( app );
-        atom = new Atom();
-        atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
-                          getLaserOrigin().getY() + s_boxHeight / 2  );
-        atom.setVelocity( 0, 0 );
-        addAtom( atom );
+//        atom = new Atom();
+//        atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
+//                          getLaserOrigin().getY() + s_boxHeight / 2  );
+//        atom.setVelocity( 0, 0 );
+//        addAtom( atom );
     }
 
     public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        removeAtom( atom );
+//        super.deactivate( app );
+//        removeAtom( atom );
     }
 }

@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class MultipleAtomTwoLevelModule extends BaseLaserModule {
 
-    private double s_maxSpeed = .5;
+    private double s_maxSpeed = .1;
     private ArrayList atoms;
 
     /**
@@ -36,47 +36,6 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
      */
     public MultipleAtomTwoLevelModule( AbstractClock clock) {
         super( "Multiple Atoms / Two Levels" );
-
-//        double newHeight = 100;
-//        setCavityHeight( newHeight );
-
-//        Atom atom = null;
-//        atoms = new ArrayList();
-//        for( int i = 0; i < 20; i++ ) {
-//            atom = new Atom();
-//            boolean placed = false;
-//
-//            // Place atoms so they don't overlap
-//            do {
-//                placed = true;
-//                atom.setPosition( ( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
-//                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( s_boxHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-////                                  ( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-//                atom.setVelocity( ( Math.random() - 0.5 ) * s_maxSpeed,
-//                                  ( Math.random() - 0.5 ) * s_maxSpeed );
-//                for( int j = 0; j < atoms.size(); j++ ) {
-//                    Atom atom2 = (Atom)atoms.get( j );
-//                    double d = atom.getPosition().distance( atom2.getPosition() );
-//                    if( d <= atom.getRadius() + atom2.getRadius() ) {
-////                    if( ContactDetector.areContacting( atom, atom2 )) {
-//                        placed = false;
-//                        break;
-//                    }
-//                }
-//            } while( !placed );
-//            atoms.add( atom );
-//            addAtom( atom );
-////            new AddAtomCmd( atom ).doIt();
-//        }
-//
-//        ApparatusConfiguration config = new ApparatusConfiguration();
-//        config.setStimulatedPhotonRate( 2.0f );
-//        config.setMiddleEnergySpontaneousEmissionTime( 0.500f );
-//        config.setPumpingPhotonRate( 0f );
-//        config.setHighEnergySpontaneousEmissionTime( 0.05f );
-//        config.setReflectivity( 0.7f );
-//        config.configureSystem( (LaserModel)getModel() );
-
         setMonitorPanel(new TwoEnergyLevelMonitorPanel( (LaserModel)getModel() ));
         setControlPanel( new TwoLevelControlPanel( this, clock ) );
     }
@@ -86,7 +45,6 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
      */
     public void activate( PhetApplication app ) {
         super.activate( app );
-
 
         Atom atom = null;
         atoms = new ArrayList();
@@ -106,7 +64,6 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
                     Atom atom2 = (Atom)atoms.get( j );
                     double d = atom.getPosition().distance( atom2.getPosition() );
                     if( d <= atom.getRadius() + atom2.getRadius() ) {
-//                    if( ContactDetector.areContacting( atom, atom2 )) {
                         placed = false;
                         break;
                     }
@@ -114,7 +71,6 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
             } while( !placed );
             atoms.add( atom );
             addAtom( atom );
-//            new AddAtomCmd( atom ).doIt();
         }
 
         ApparatusConfiguration config = new ApparatusConfiguration();
@@ -124,47 +80,6 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
         config.setHighEnergySpontaneousEmissionTime( 0.05f );
         config.setReflectivity( 0.7f );
         config.configureSystem( (LaserModel)getModel() );
-
-//        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( new ThreeEnergyLevelMonitorPanel() );
-//        PhetApplication.instance().getPhetMainPanel().setControlPanel( new ThreeLevelControlPanel() );
-
-//
-//        double newHeight = 100;
-//        new SetCavityHeightCmd( newHeight ).doIt();
-//
-//        Atom atom = null;
-//        atoms = new ArrayList();
-//        for( int i = 0; i < 20; i++ ) {
-//            atom = new Atom();
-//            boolean placed = false;
-//
-//            // Place atoms so they don't overlap
-//            do {
-//                placed = true;
-//                atom.setPosition( (double)( getLaserOrigin().getX() + ( Math.random() ) * ( s_boxWidth - atom.getRadius() * 2 ) + atom.getRadius() ),
-//                                  (double)( getLaserOrigin().getY() + ( Math.random() ) * ( newHeight - atom.getRadius() * 2 ) ) + atom.getRadius() );
-//                atom.setVelocity( (double)( Math.random() - 0.5 ) * s_maxSpeed,
-//                                  (double)( Math.random() - 0.5 ) * s_maxSpeed );
-//                for( int j = 0; j < atoms.size(); j++ ) {
-//                    Atom atom2 = (Atom)atoms.get( j );
-//                    if( ContactDetector.areContacting( atom, atom2 )) {
-//                        placed = false;
-//                        break;
-//                    }
-//                }
-//            } while( !placed );
-//            atoms.add( atom );
-//            new AddAtomCmd( atom ).doIt();
-//        }
-//
-//        ApparatusConfiguration config = new ApparatusConfiguration();
-//        config.setStimulatedPhotonRate( 2.0f );
-//        config.setMiddleEnergySpontaneousEmissionTime( 0.500f );
-//        config.setPumpingPhotonRate( 0f );
-//        config.setHighEnergySpontaneousEmissionTime( 0.05f );
-//        config.setReflectivity( 0.7f );
-//        config.configureSystem( (LaserModel)getModel() );
-//
     }
 
     /**
@@ -172,19 +87,11 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
      */
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
+        for( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom)atoms.get( i );
+            getLaserModel().removeModelElement( atom );
+            atom.removeFromSystem();
+        }
         atoms.clear();
-    }
-
-    private void setCavityHeight( double height ) {
-        ResonatingCavity cavity = getLaserModel().getResonatingCavity();
-        double cavityHeight =  cavity.getHeight();
-        Point2D cavityPos = cavity.getPosition();
-        double yNew = cavityPos.getY() + cavityHeight / 2 - height / 2;
-        cavity.setPosition( cavityPos.getX(), yNew );
-        cavity.setHeight( height );
-        CollimatedBeam stimulatingBeam = getLaserModel().getStimulatingBeam();
-        stimulatingBeam.setPosition( stimulatingBeam.getPosition().getX(),
-                                     cavity.getPosition().getY() );
-        stimulatingBeam.setHeight( height );
     }
 }
