@@ -42,7 +42,7 @@ public class CurrentReadout implements Graphic {
             return;
         AffineTransform at = g.getTransform();
         AffineTransform newTransform = resistorGraphic.getImageTransform();
-        g.setTransform(newTransform);
+        g.transform(newTransform);
 //        int resistance = (int) hr.getResistance();//resistorGraphic.getBranch().getint) ((Resistor) w).getResistance();
         double current = resistorGraphic.getBranch().getCurrent();
         double abs = Math.abs(current);
