@@ -1,9 +1,11 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.common.util;
 
-import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.PhetFrame;
 
 import javax.swing.*;
+import java.io.*;
+import java.net.URL;
 
 /**
  * User: Sam Reid
@@ -42,44 +44,46 @@ public class VersionUtils {
     </target>
 
     */
-    public static void showBuildNumber( PhetApplication app ) {
-        VersionInfo vi = readVersionInfo( app );
-        JOptionPane.showMessageDialog( app.getApplicationView().getPhetFrame(), "Build number=" + vi.getBuildNumber() + "\n" + "BuildTime=" + vi.getBuildTime() );
+    public static void showBuildNumber( PhetFrame frame ) {
+        VersionInfo vi = readVersionInfo();
+        JOptionPane.showMessageDialog( frame, "Build number=" + vi.getBuildNumber() + "\n" + "BuildTime=" + vi.getBuildTime() );
     }
 
-    public static VersionInfo readVersionInfo( PhetApplication app ) {
+    public static VersionInfo readVersionInfo() {
+        if( true ) {
+            return new VersionInfo( 0, "" );
+        }
+        ClassLoader cl = Class.class.getClassLoader();
+        URL buildNumberURL = cl.getResource( "build.number" );
+        System.out.println( "buildNumberURL = " + buildNumberURL );
+        int buildNum = -1;
+        try {
+            BufferedReader br = new BufferedReader( new InputStreamReader( buildNumberURL.openStream() ) );
+            String line = br.readLine();
+            while( line != null ) {
+                if( line.toLowerCase().startsWith( "build.number=" ) ) {
+                    String number = line.substring( "build.number=".length() );
+                    buildNum = Integer.parseInt( number );
+                }
+                line = br.readLine();
+            }
+        }
+        catch( FileNotFoundException e ) {
+            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+        }
+        catch( IOException e ) {
+            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+        }
 
-        //        ClassLoader cl = app.getClass().getClassLoader();
-        //        URL buildNumberURL = cl.getResource( "build.number" );
-        //        System.out.println( "buildNumberURL = " + buildNumberURL );
-        //        int buildNum = -1;
-        //        try {
-        //            BufferedReader br = new BufferedReader( new InputStreamReader( buildNumberURL.openStream() ) );
-        //            String line = br.readLine();
-        //            while( line != null ) {
-        //                if( line.toLowerCase().startsWith( "build.number=" ) ) {
-        //                    String number = line.substring( "build.number=".length() );
-        //                    buildNum = Integer.parseInt( number );
-        //                }
-        //                line = br.readLine();
-        //            }
-        //        }
-        //        catch( FileNotFoundException e ) {
-        //            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-        //        }
-        //        catch( IOException e ) {
-        //            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-        //        }
-        //
-        //        InputStream buildTimeURL = cl.getResourceAsStream( "build.time.stamp.txt" );
-        //        String buildTimeStr = "-1";
-        //        try {
-        //            buildTimeStr = new BufferedReader( new InputStreamReader( buildTimeURL ) ).readLine();
-        //        }
-        //        catch( IOException e ) {
-        //            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-        //        }
-        //        return new VersionInfo( buildNum, buildTimeStr );
-        return new VersionInfo( 0, "" );
+        InputStream buildTimeURL = cl.getResourceAsStream( "build.time.stamp.txt" );
+        String buildTimeStr = "-1";
+        try {
+            buildTimeStr = new BufferedReader( new InputStreamReader( buildTimeURL ) ).readLine();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+        }
+        return new VersionInfo( buildNum, buildTimeStr );
+        //        return new VersionInfo( 0, "" );
     }
 }

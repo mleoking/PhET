@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
@@ -16,16 +16,18 @@ import java.io.IOException;
 public class ApplicationView {
     private PhetFrame phetFrame;
     private ApparatusPanelContainer apparatusPanelContainer;
-    private ApplicationModelControlPanel controlPanel;
+    private ClockControlPanel clockControlPanel;
 
     private BasicPhetPanel basicPhetPanel;
-    private ApplicationDescriptor appDescriptor;
+    private ApplicationModel appDescriptor;
 
-    public ApplicationView( ApplicationDescriptor appDescriptor, JComponent apparatusPanelContainer, AbstractClock clock ) throws IOException {
-        this.appDescriptor = appDescriptor;
-        controlPanel = new ApplicationModelControlPanel( clock );
-        basicPhetPanel = new BasicPhetPanel( apparatusPanelContainer, null, null, controlPanel );
-        phetFrame = new PhetFrame( appDescriptor );
+    public ApplicationView( ApplicationModel applicationModel, JComponent apparatusPanelContainer) throws IOException {
+        this.appDescriptor = applicationModel;
+        if( applicationModel.getUseClockControlPanel() ) {
+            clockControlPanel = new ClockControlPanel( applicationModel.getClock() );
+        }
+        basicPhetPanel = new BasicPhetPanel( apparatusPanelContainer, null, null, clockControlPanel );
+        phetFrame = new PhetFrame( applicationModel );
         phetFrame.setContentPane( basicPhetPanel );
     }
 
@@ -70,10 +72,4 @@ public class ApplicationView {
         basicPhetPanel.setFullScreen( fullScreen );
     }
 
-    public static boolean moduleIsWellFormed( Module module ) {
-        boolean result = true;
-        result &= module.getModel() != null;
-        result &= module.getApparatusPanel() != null;
-        return result;
-    }
 }

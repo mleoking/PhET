@@ -3,7 +3,6 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.command.Command;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
@@ -96,8 +95,12 @@ public class Module {
      * @param app
      */
     public void activate( PhetApplication app ) {
+        if( !moduleIsWellFormed() ) {
+            throw new RuntimeException( "Module missing important data, module=" + this );
+        }
         app.getApplicationView().getBasicPhetPanel().setControlPanel( this.getControlPanel() );
         app.getApplicationView().getBasicPhetPanel().setMonitorPanel( this.getMonitorPanel() );
+        app.addClockTickListener( model );
     }
 
     /**
@@ -107,11 +110,17 @@ public class Module {
      * @param app
      */
     public void deactivate( PhetApplication app ) {
+        app.removeClockTickListener( model );
     }
 
-    public void execute( Command c ) {
-        model.execute( c );
+    public boolean moduleIsWellFormed() {
+        boolean result = true;
+        result &= this.getModel() != null;
+        result &= this.getApparatusPanel() != null;
+        return result;
     }
 
-
+    public String toString() {
+        return "name=" + name + ", model=" + model + ", apparatusPanel=" + apparatusPanel + ", controlPanel=" + controlPanel + ", monitorPanel=" + monitorPanel;
+    }
 }
