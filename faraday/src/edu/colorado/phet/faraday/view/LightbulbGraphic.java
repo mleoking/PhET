@@ -138,7 +138,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
             double intensity = _lightBulbModel.getIntensity();
             
             // Rescale the intensity to improve the visual effect.
-            intensity = FaradayUtils.rescale( intensity, _magnetModel.getStrength() );
+            intensity = Rescaler.rescale( intensity, _magnetModel.getStrength() );
             intensity = MathUtil.clamp( 0, intensity, 1 );
             if ( intensity == Double.NaN ) {
                 System.out.println( "WARNING - LightBulbGraphic.update: intensity=NaN" );
