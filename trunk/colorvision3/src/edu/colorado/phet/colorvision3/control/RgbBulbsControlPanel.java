@@ -29,11 +29,11 @@ public class RgbBulbsControlPanel extends PhetControlPanel
   {
     super( module );
     
-    // WORKAROUND: PhetControlPanel doesn't display anything unless we give it a dummy control pane.
     JPanel fillerPanel = new JPanel();
     fillerPanel.setLayout( new BoxLayout(fillerPanel, BoxLayout.X_AXIS) );
     fillerPanel.add( Box.createHorizontalStrut(ColorVisionConfig.CONTROL_PANEL_MIN_WIDTH) );
     
+    // WORKAROUND: PhetControlPanel doesn't display anything unless we give it a dummy control pane.
     this.setControlPane( fillerPanel );
   }
 
