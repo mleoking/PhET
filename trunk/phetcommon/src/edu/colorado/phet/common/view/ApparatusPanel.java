@@ -57,8 +57,8 @@ public class ApparatusPanel extends JPanel {
                 g.setStroke( borderStroke );
                 g.setColor( Color.black );
                 g.drawRect( 2, 2,
-                            (int)boundingRect.getWidth() - 4,
-                            (int)boundingRect.getHeight() - 4 );
+                            boundingRect.width - 4,
+                            boundingRect.height - 4 );
             }
         };
         addGraphic( borderGraphic, Double.POSITIVE_INFINITY );
