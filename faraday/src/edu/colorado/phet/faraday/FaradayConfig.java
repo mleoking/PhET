@@ -70,12 +70,12 @@ public class FaradayConfig {
     
     // Minimums & Maximums
     public static final double MAGNET_STRENGTH_MIN = 100;
-    public static final double MAGNET_STRENGTH_MAX = 999;
+    public static final double MAGNET_STRENGTH_MAX = 300;
     public static final int MIN_PICKUP_LOOPS = 1;
     public static final int MAX_PICKUP_LOOPS = 2;
     public static final int MIN_SOURCE_LOOPS = 1;
     public static final int MAX_SOURCE_LOOPS = 4;
-    public static final double MAX_EMF = 3.0E7;
+    public static final double MAX_EMF = 1.0E5;
 
     // Enables "Hollywood" versions of various model elements.
     public static final boolean HOLLYWOOD_MAGNET = false;

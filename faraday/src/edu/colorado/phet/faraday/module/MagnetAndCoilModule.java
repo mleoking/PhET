@@ -64,7 +64,7 @@ public class MagnetAndCoilModule extends Module {
     private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
 
     // Magnet parameters
-    private static final double MAGNET_STRENGTH = 350;
+    private static final double MAGNET_STRENGTH = 200;
     private static final Dimension MAGNET_SIZE = new Dimension( 250, 50 );
     
     // Pickup Coil parameters
