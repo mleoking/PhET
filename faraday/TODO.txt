@@ -9,7 +9,6 @@ HIGH PRIORITY:
 - trace/scan the AC wave with a cursor that represents "now"
 - add an X/Y axis at center of the AC display
 - keep zero-crossing of AC sine wave at origin of the XY axis
-- set low end of AC frequency to 10%
 - add playback controls to relevant modules (override Module.activate/deactivate)
 - look for a better AC power source graphic
 - label current source choices "DC" and "AC"
@@ -66,7 +65,8 @@ PHETCOMMON:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
-v0r19...
+v0r19...\
+(3/16) - set low end of AC frequency to 10%
 (3/16) - label ACSourceGraphic with "AC Power Supply"
 (3/16) - add field meter to Transformer & Generator modules
 v0r18...

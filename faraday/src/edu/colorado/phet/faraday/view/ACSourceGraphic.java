@@ -161,11 +161,15 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
         // Sine Wave
         {
             _waveGraphic = new SineWaveGraphic( component, WAVE_VIEWPORT_SIZE );
-            final double maxCycles = 5;
-            _waveGraphic.setMaxCycles( maxCycles );
-            _waveGraphic.setMinCycles( maxCycles / 100.0 );
             _waveGraphic.setLocation( 55, 163 );
             addGraphic( _waveGraphic, WAVE_LAYER );
+            /*
+             * Configure the cycles so the the minimum frequency displays a 1 cycle,
+             * and the maximum displays proportionally more cycles.
+             */
+            final double maxCycles = FaradayConfig.AC_FREQUENCY_MAX / FaradayConfig.AC_FREQUENCY_MIN;
+            _waveGraphic.setMaxCycles( maxCycles );
+            _waveGraphic.setMinCycles( maxCycles / 100.0 );
         }
         
         // Registration point is the bottom center.
