@@ -50,7 +50,8 @@ public abstract class AbstractCompass extends SimpleObservable implements ModelE
         
         _magnetModel = magnetModel;
         _location = new Point2D.Double( 0.0, 0.0 );
-        _direction = Math.toDegrees( _magnetModel.getStrength( _location ).getAngle() );
+        _fieldStrength = _magnetModel.getStrength( _location );
+        _direction = Math.toDegrees( _fieldStrength.getAngle() );   
     }
     
     //----------------------------------------------------------------------------
@@ -71,6 +72,7 @@ public abstract class AbstractCompass extends SimpleObservable implements ModelE
         _location.setLocation( x, y );
         update();
         notifyObservers();
+        System.out.println( "AbstractCompass.setLocation: " + toString() );
     }
     
     /**
@@ -138,5 +140,16 @@ public abstract class AbstractCompass extends SimpleObservable implements ModelE
     public void update() {
         _fieldStrength = _magnetModel.getStrength( _location );
         notifyObservers();
+    }
+    
+    public String toString() {
+        return "AbstractCompass=[" +
+            " location=" + _location + 
+            " direction=" + _direction +
+            " B=" + _fieldStrength.getMagnitude() +
+            " Bx=" + _fieldStrength.getX() +
+            " By=" + _fieldStrength.getY() +
+            " B0=" + Math.toDegrees(_fieldStrength.getAngle()) + "(" + _fieldStrength.getAngle() + ")" +
+            " ]";
     }
 }

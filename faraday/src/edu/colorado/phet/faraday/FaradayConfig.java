@@ -34,7 +34,7 @@ public class FaradayConfig {
 
     // Clock constants
     public static final double TIME_STEP = 1;
-    public static final int WAIT_TIME = 50;
+    public static final int WAIT_TIME = 50; //DEBUG
 
     // Layers
     public static final double DEBUG_LAYER = Double.MAX_VALUE - 1;
@@ -52,6 +52,7 @@ public class FaradayConfig {
     public static final String LIGHT_EMISSION_IMAGE = IMAGES_DIRECTORY + "lightEmission.png";
     public static final String METER_BODY_IMAGE = IMAGES_DIRECTORY + "voltMeterBody.png";
     public static final String METER_NEEDLE_IMAGE = IMAGES_DIRECTORY + "voltMeterNeedle.png";
+    public static final String FIELD_PROBE_IMAGE = IMAGES_DIRECTORY + "fieldProbe.png";
 
     // Dimensions
     public static final int APP_FRAME_WIDTH = 1024;
@@ -71,8 +72,9 @@ public class FaradayConfig {
     public static final int MIN_SOURCE_LOOPS = 1;
     public static final int MAX_SOURCE_LOOPS = 4;
 
-    // Enables "Hollywood" version of some calculations.
-    public static final boolean HOLLYWOOD_ENABLED = false;
+    // Enables "Hollywood" versions of various model elements.
+    public static final boolean HOLLYWOOD_MAGNET = false;
+    public static final boolean HOLLYWOOD_COMPASS = true;
     
     //----------------------------------------------------------------------------
     // Constructors

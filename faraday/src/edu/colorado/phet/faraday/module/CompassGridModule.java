@@ -25,10 +25,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.CompassGridControlPanel;
 import edu.colorado.phet.faraday.model.*;
-import edu.colorado.phet.faraday.view.BarMagnetGraphic;
-import edu.colorado.phet.faraday.view.CompassGraphic;
-import edu.colorado.phet.faraday.view.DebuggerGraphic;
-import edu.colorado.phet.faraday.view.GridGraphic;
+import edu.colorado.phet.faraday.view.*;
 
 
 /**
@@ -88,7 +85,7 @@ public class CompassGridModule extends Module {
     private AbstractMagnet _magnetModel;
     
     // View
-    private GridGraphic _gridGraphic;
+    private CompassGridGraphic _gridGraphic;
     
     // Control
     private CompassGridControlPanel _controlPanel;
@@ -118,8 +115,8 @@ public class CompassGridModule extends Module {
         this.setModel( model );
         
         // Bar Magnet
-        if ( FaradayConfig.HOLLYWOOD_ENABLED) {
-            System.out.println( "*** HOLLYWOOD is enabled ***" ); // DEBUG
+        if ( FaradayConfig.HOLLYWOOD_MAGNET ) {
+            System.out.println( "*** HOLLYWOOD_MAGNET is enabled ***" ); // DEBUG
             _magnetModel = new HollywoodMagnet();
         }
         else {
@@ -132,11 +129,12 @@ public class CompassGridModule extends Module {
         
         // Compass model
         AbstractCompass compassModel = null;
-        if ( FaradayConfig.HOLLYWOOD_ENABLED ) {
+        if ( FaradayConfig.HOLLYWOOD_COMPASS ) {
+            System.out.println( "*** HOLLYWOOD_COMPASS is enabled ***" ); // DEBUG
             compassModel = new HollywoodCompass( _magnetModel );
         }
         else {
-            compassModel = new Compass( _magnetModel ); 
+            compassModel = new Compass( _magnetModel );
         }
         compassModel.setLocation( COMPASS_LOCATION );
         model.addModelElement( compassModel );
@@ -155,7 +153,7 @@ public class CompassGridModule extends Module {
         apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
         
         // Grid
-        _gridGraphic = new GridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
         _gridGraphic.setLocation( GRID_LOCATION );
         _gridGraphic.setNeedleSize( GRID_NEEDLE_SIZE );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
@@ -165,11 +163,16 @@ public class CompassGridModule extends Module {
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
+        // Field Probe
+        FieldProbeGraphic probeGraphic = new FieldProbeGraphic( apparatusPanel, _magnetModel );
+        probeGraphic.setLocation( 100, 100 );
+        apparatusPanel.addGraphic( probeGraphic, DEBUG_LAYER );
+        
         // Debugger
         DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
         debugger.setLocationColor( Color.GREEN );
 //        debugger.add( magnetGraphic );
-//        debugger.add( compassGraphic );
+//        debugger.add( probeGraphic );
         apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
         
         //----------------------------------------------------------------------------
@@ -187,6 +190,7 @@ public class CompassGridModule extends Module {
         _magnetModel.addObserver( magnetGraphic );
         _magnetModel.addObserver( _gridGraphic );
         _magnetModel.addObserver( compassModel );
+        _magnetModel.addObserver( probeGraphic );
         
         compassModel.addObserver( compassGraphic );
         

@@ -2,9 +2,9 @@
 
 IN PROGRESS:
 - add inertia to compass needle
+- determine how to make compass needles use field vector magnitude
 
 HIGH:
-- determine how to make compass needles use field vector magnitude
 - averaging of values so that lightbulb & voltmeter behave smoothly
 - redo coil graphic, more of a tilt, thicker wire, copper/brown color
 - draw pickup coil correctly when loop area is changed
