@@ -78,6 +78,7 @@ public abstract class AbstractClock {
     public void setPaused( boolean paused ) {
         if( paused ) {
             if( executionState == RUNNING ) {
+                doPause();
                 this.executionState = PAUSED;
             }
             else {
