@@ -48,6 +48,7 @@ public class BarMagnetControlPanel extends ControlPanel {
     private BarMagnetModule _module;
     private JButton _flipPolarityButton;
     private JSlider _strengthSlider;
+    private JCheckBox _magnetTransparencyCheckBox;
     private JSlider _magnetWidthSlider, _magnetHeightSlider;
     private JSlider _xSpacingSlider, _ySpacingSlider;
     private JSlider _needleWidthSlider, _needleHeightSlider;
@@ -109,6 +110,9 @@ public class BarMagnetControlPanel extends ControlPanel {
                 strengthPanel.add( _strengthSlider );
                 strengthPanel.add( _strengthValue );
             }
+            
+            // Magnet transparency on/off
+            _magnetTransparencyCheckBox = new JCheckBox( SimStrings.get( "magnetTransparencyCheckBox.label" ) );
 
             // Magnet width
             JPanel widthPanel = new JPanel();
@@ -158,6 +162,7 @@ public class BarMagnetControlPanel extends ControlPanel {
             barMagnetPanel.setLayout( new BoxLayout( barMagnetPanel, BoxLayout.Y_AXIS ) );
             barMagnetPanel.add( _flipPolarityButton );
             barMagnetPanel.add( strengthPanel );
+            barMagnetPanel.add( _magnetTransparencyCheckBox );
             if ( ENABLE_DEBUG_CONTROLS ) {
                 barMagnetPanel.add( widthPanel );
                 barMagnetPanel.add( heightPanel );
@@ -290,6 +295,7 @@ public class BarMagnetControlPanel extends ControlPanel {
         _resetButton.addActionListener( listener );
         _flipPolarityButton.addActionListener( listener );
         _strengthSlider.addChangeListener( listener );
+        _magnetTransparencyCheckBox.addActionListener( listener );
         _magnetWidthSlider.addChangeListener( listener );
         _magnetHeightSlider.addChangeListener( listener );
         _xSpacingSlider.addChangeListener( listener );
@@ -307,8 +313,17 @@ public class BarMagnetControlPanel extends ControlPanel {
      * 
      * @param value the value
      */
-    public void setBarMagnetStrength( double value ) {
+    public void setMagnetStrength( double value ) {
         _strengthSlider.setValue( (int) value );
+    }
+    
+    /**
+     * Sets the magnet transparency checkbox.
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    public void setMagnetTransparencyEnabled( boolean enabled ) {
+        _magnetTransparencyCheckBox.setSelected( enabled );
     }
 
     /**
@@ -316,7 +331,7 @@ public class BarMagnetControlPanel extends ControlPanel {
      * 
      * @param size the size
      */
-    public void setBarMagnetSize( Dimension size ) {
+    public void setMagnetSize( Dimension size ) {
         _magnetWidthSlider.setValue( size.width );
         _magnetHeightSlider.setValue( size.height );
     }
@@ -368,6 +383,10 @@ public class BarMagnetControlPanel extends ControlPanel {
             if ( e.getSource() == _flipPolarityButton ) {
                 // Magnet polarity
                 _module.flipMagnetPolarity();
+            }
+            else if ( e.getSource() == _magnetTransparencyCheckBox ) {
+                // Grid enable
+                _module.setMagnetTransparencyEnabled( _magnetTransparencyCheckBox.isSelected() );
             }
             else if ( e.getSource() == _resetButton ) {
                 // Reset

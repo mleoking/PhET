@@ -47,7 +47,7 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
     private MagnetAndCoilModule _module;
     private JButton _flipPolarityButton;
     private JSlider _strengthSlider;
-    private JCheckBox _gridCheckBox;
+    private JCheckBox _magnetTransparencyCheckBox, _gridCheckBox;
     private JSpinner _loopsSpinner;
     private JSlider _radiusSlider;
     private JRadioButton _meterRadioButton;
@@ -116,6 +116,9 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
                 sliderPanel.add( _strengthValue );
             }
 
+            // Magnet transparency on/off
+            _magnetTransparencyCheckBox = new JCheckBox( SimStrings.get( "magnetTransparencyCheckBox.label" ) );
+
             // B-Field on/off
             _gridCheckBox = new JCheckBox( SimStrings.get( "gridCheckBox.label" ) );
 
@@ -123,6 +126,7 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
             barMagnetPanel.setLayout( new BoxLayout( barMagnetPanel, BoxLayout.Y_AXIS ) );
             barMagnetPanel.add( sliderPanel );
             barMagnetPanel.add( _flipPolarityButton );
+            barMagnetPanel.add( _magnetTransparencyCheckBox );
             barMagnetPanel.add( _gridCheckBox );
         }
 
@@ -214,6 +218,7 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
         EventListener listener = new EventListener();
         _flipPolarityButton.addActionListener( listener );
         _strengthSlider.addChangeListener( listener );
+        _magnetTransparencyCheckBox.addActionListener( listener );
         _gridCheckBox.addActionListener( listener );
         _loopsSpinner.addChangeListener( listener );
         _radiusSlider.addChangeListener( listener );
@@ -243,6 +248,15 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
         _strengthSlider.setValue( (int) strength );
     }
 
+    /**
+     * Sets the magnet transparency checkbox.
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    public void setMagnetTransparencyEnabled( boolean enabled ) {
+        _magnetTransparencyCheckBox.setSelected( enabled );
+    }
+    
     /**
      * Sets the number of loops in the pickup coil.
      * 
@@ -305,6 +319,10 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
             if ( e.getSource() == _flipPolarityButton ) {
                 // Magnet polarity
                 _module.flipMagnetPolarity();
+            }
+            else if ( e.getSource() == _magnetTransparencyCheckBox ) {
+                // Grid enable
+                _module.setMagnetTransparencyEnabled( _magnetTransparencyCheckBox.isSelected() );
             }
             else if ( e.getSource() == _gridCheckBox ) {
                 // Grid enable

@@ -3,26 +3,23 @@
 ===============================================================================
 
 IN PROGRESS:
-- use median values only when magnet or coil are being dragged
 - determine how to make compass grid use field vector magnitude
 
 HIGH:
-- no change in EMF when point moves around inside magnet
+- use median values only when magnet or coil are being dragged
 - calibration of everything so that sensitivity can be adjusted
 - separate PhetCoilGraphic into foreground & background layers
 - show electrons flowing (blue) when lightbulb is enabled, keep constant size
-- "show inside magnet" feature
 - keep compass from going inside magnet
 - when flipping polarity, jiggle the compass so that it starts moving sooner
-
 - control to turn BFieldProbe on/off
 - redo BFieldProbe graphic, use CCK probe
-- redo coil graphic (constantwire gauge, fix colors)
+- redo coil graphic (constant wire gauge, fix colors)
 
 MEDIUM:
 - lightbulb emission graphic (same as CCK?)
 - collision detection (which objects?)
-- add inertia to voltmeter needle
+- add inertia to voltmeter needle?
 - Transformer module requirements
 
 LOW:
@@ -34,6 +31,8 @@ phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 
 DONE:
+(1/20) - "see inside magnet" feature
+(1/20) - no change in EMF when point moves around inside magnet (THIS IS CORRECT! Mike)
 (1/20) - rename module Compass Grid -> Bar Magnet
 (1/20) - rename module Bar Magnet -> Magnet & Coil
 (1/20) - redo compass graphic
