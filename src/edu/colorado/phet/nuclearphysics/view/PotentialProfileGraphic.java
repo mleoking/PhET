@@ -31,9 +31,16 @@ public class PotentialProfileGraphic implements Graphic {
     private Point2D.Double ctrlPt3 = new Point2D.Double();
     AffineTransform profileTx = new AffineTransform();
 
-    public PotentialProfileGraphic(PotentialProfile profile, Point2D.Double origin) {
+    public PotentialProfileGraphic(PotentialProfile profile) {
         this.profile = profile;
+    }
+
+    public void setOrigin(Point2D.Double origin) {
         this.origin = origin;
+    }
+
+    public PotentialProfile getProfile() {
+        return profile;
     }
 
     public void paint(Graphics2D g) {
