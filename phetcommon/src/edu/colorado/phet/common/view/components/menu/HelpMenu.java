@@ -11,6 +11,7 @@
 package edu.colorado.phet.common.view.components.menu;
 
 import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.VersionUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -29,9 +30,9 @@ import java.io.IOException;
 public class HelpMenu extends JMenu {
     private ImageIcon icon;
 
-    public HelpMenu( final ApplicationModel appDescriptor ) throws IOException {
+    public HelpMenu( final PhetApplication application ) throws IOException {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
-
+        final ApplicationModel appDescriptor = application.getApplicationModel();
         icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" ) );
 
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
@@ -73,6 +74,28 @@ public class HelpMenu extends JMenu {
                 message += stackTraceElement.toString() + "\n";
             }
         }
+        JMenuItem onscreenHelp = new JMenuItem( "Help", 'h' );
+        onscreenHelp.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                application.getModuleManager().getActiveModule().setHelpEnabled( true );
+            }
+        } );
+        add( onscreenHelp );
+//        if( application.getModuleManager().getActiveModule().hasMegaHelp() ) {
+        JMenuItem megaHelpItem = new JMenuItem( "Show MegaHelp" );
+        megaHelpItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( application.getModuleManager().getActiveModule().hasMegaHelp() ) {
+                    application.getModuleManager().getActiveModule().showMegaHelp();
+                }
+                else {
+                    JOptionPane.showMessageDialog( application.getPhetFrame(), "No MegaHelp available for this module." );
+                }
+            }
+        } );
+        add( megaHelpItem );
+//        }
+        addSeparator();
         add( about );
     }
 }

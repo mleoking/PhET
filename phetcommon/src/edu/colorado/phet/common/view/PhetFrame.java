@@ -64,7 +64,7 @@ public class PhetFrame extends JFrame {
         } );
         JMenuBar menuBar = new JMenuBar();
         try {
-            this.helpMenu = new HelpMenu( model );
+            this.helpMenu = new HelpMenu( application );
         }
         catch( IOException e ) {
             e.printStackTrace();
