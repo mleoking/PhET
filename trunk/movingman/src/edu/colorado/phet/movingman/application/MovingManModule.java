@@ -397,9 +397,11 @@ public class MovingManModule extends Module {
     private void relayoutApparatusPanel() {
         layout.relayout( this );
         Component c = getApparatusPanel();
-        backgroundGraphic.setSize( c.getWidth(), c.getHeight() );
-        backgroundGraphic.paintBufferedImage();
-        getApparatusPanel().repaint();
+        if( c.getHeight() > 0 && c.getWidth() > 0 ) {
+            backgroundGraphic.setSize( c.getWidth(), c.getHeight() );
+            backgroundGraphic.paintBufferedImage();
+            getApparatusPanel().repaint();
+        }
     }
 
     public void activate( PhetApplication app ) {
