@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.view.lightweight;
+package edu.colorado.phet.common.view.basicgraphics;
 
 import java.awt.*;
 
@@ -9,7 +9,7 @@ import java.awt.*;
  * Time: 5:59:29 PM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public class LightweightTextGraphic extends LightweightGraphic {
+public class BasicTextGraphic extends BasicGraphic implements ITextGraphic {
     private Font font;
     private String text;
     private Paint paint;
@@ -17,7 +17,7 @@ public class LightweightTextGraphic extends LightweightGraphic {
     private int y;
     private FontMetrics fontMetrics;
 
-    public LightweightTextGraphic( String text, Font font, Paint paint, int x, int y, FontMetrics fontMetrics ) {
+    public BasicTextGraphic( String text, Font font, Paint paint, int x, int y, FontMetrics fontMetrics ) {
         this.font = font;
         this.text = text;
         this.paint = paint;
@@ -92,7 +92,7 @@ public class LightweightTextGraphic extends LightweightGraphic {
 
     public void setPaint( Paint paint ) {
         this.paint = paint;
-        paintChanged();
+        appearanceChanged();
     }
 
     public void setFont( Font font ) {

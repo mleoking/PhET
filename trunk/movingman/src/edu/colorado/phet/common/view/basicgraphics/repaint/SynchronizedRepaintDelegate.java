@@ -1,6 +1,6 @@
-package edu.colorado.phet.common.view.lightweight.repaint;
+package edu.colorado.phet.common.view.basicgraphics.repaint;
 
-import edu.colorado.phet.common.view.lightweight.RepaintDelegate;
+import edu.colorado.phet.common.view.basicgraphics.RepaintDelegate;
 
 /**
  * User: Sam Reid
