@@ -67,13 +67,14 @@ public class ApparatusPanel extends JPanel {
         // don't get the default layout manager. This allows us
         // to lay out components with absolute coordinates
         super( null );
-        setGraphic( new GraphicLayerSet( this ));
+        setGraphic( new GraphicLayerSet( this ) );
     }
 
     /**
      * Sets the GraphicLayerSet for the ApparatusPanel, and attaches its listeners to the panel, after
      * getting rid of the old ones. Also tells all the PhetGraphics in the new GraphicLayerSet that their
-     * containing component is this AppratusPanel. 
+     * containing component is this AppratusPanel.
+     *
      * @param newGraphic
      */
     public void setGraphic( GraphicLayerSet newGraphic ) {
@@ -175,16 +176,7 @@ public class ApparatusPanel extends JPanel {
             graphicsSetup.setup( g2 );
         }
         graphic.paint( g2 );
-        Color origColor = g2.getColor();
-        Stroke origStroke = g2.getStroke();
-
-        g2.setColor( Color.black );
-        g2.setStroke( borderStroke );
-        Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1 );
-        g2.draw( border );
-
-        g2.setColor( origColor );
-        g2.setStroke( origStroke );
+        drawBorder( g2 );
         state.restoreGraphics();
     }
 
@@ -206,5 +198,12 @@ public class ApparatusPanel extends JPanel {
 
     public GraphicLayerSet getGraphic() {
         return graphic;
+    }
+
+    protected void drawBorder( Graphics2D g2 ) {
+        g2.setColor( Color.black );
+        g2.setStroke( borderStroke );
+        Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1 );
+        g2.draw( border );
     }
 }

@@ -51,8 +51,7 @@ import java.util.LinkedList;
  */
 public class ApparatusPanel2 extends ApparatusPanel {
 
-
-    private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+//    private PaintStrategy =
     private BufferedImage bImg;
     private boolean useOffscreenBuffer = false;
     private BufferStrategy strategy;
@@ -116,17 +115,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         init( model );
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                //TODO: even if we use an offscreen buffer, we could still just throw the changed part to the screen.
-                if( useOffscreenBuffer ) {
-//                    Rectangle region = RectangleUtils.union( (Rectangle[])rectangles.toArray( new Rectangle[0] ) );
-                    Rectangle region = new Rectangle( 0, 0, getWidth(), getHeight() );
-                    paintImmediately( region );
-                }
-                else {
-                    paintDirtyRectanglesImmediately();
-                }
-                // Clear the rectangles so they get garbage collectged
-                rectangles.clear();
+                paint();
             }
         } );
     }
@@ -393,19 +382,11 @@ public class ApparatusPanel2 extends ApparatusPanel {
         else {
             getGraphic().paint( g2 );
         }
+        //remove the affine transform.
         gs.restoreGraphics();
-
-        // Draw a border around the panel
-        Color origColor = g2.getColor();
-        Stroke origStroke = g2.getStroke();
-
-        g2.setColor( Color.black );
-        g2.setStroke( borderStroke );
-        Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1 );
-        g2.draw( border );
-
-        g2.setColor( origColor );
-        g2.setStroke( origStroke );
+        super.drawBorder(g2 );
+        //restore color and stroke.
+        gs.restoreGraphics();
     }
 
     public double getScale() {
