@@ -9,8 +9,8 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.colorvision3.event.ColorChangeEvent;
 import edu.colorado.phet.colorvision3.event.ColorChangeListener;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.VisibleColor;
@@ -24,7 +24,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$
  */
-public class PhotonBeam extends SimpleObservable implements SimpleObserver, ClockTickListener
+public class PhotonBeam extends SimpleObservable implements SimpleObserver, ModelElement
 {
 	//----------------------------------------------------------------------------
 	// Class data
@@ -176,7 +176,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
   }
  
 	//----------------------------------------------------------------------------
-	// Animation
+	// ModelElement implementation
   //----------------------------------------------------------------------------
 
   /**
@@ -195,6 +195,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
   {
     Photon photon;
     int passedCount = 0;
+    int stepCount = 0;
     double lastFilteredX = 0.0;
     double lastFilteredY = 0.0;
     VisibleColor newPerceivedColor = _perceivedColor;
@@ -219,6 +220,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
       // mark it as available and make note of its color and intensity.
       if ( photon.isInUse() ) 
       {  
+        stepCount++;
         photon.stepInTime( dt );
         
         if ( ! _bounds.contains( photon.getX(), photon.getY() ))
@@ -315,7 +317,14 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
         fireColorChangeEvent( event );
       }
     }
-   
+    
+    // If the photon beam is enabled and at least one photon moved, 
+    // notify observers that the photon beam has changed.
+    if ( _enabled && stepCount > 0 )
+    {
+      notifyObservers();
+    }
+    
   } // stepInTime
 
   /**
@@ -351,13 +360,11 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
   //----------------------------------------------------------------------------
 
   /**
-   * Called each time the model changes.
-   * Since the photon beam consults the model on every tick of the 
-   * simulation clock, this method does nothing.
+   * Called each time the spotlight or filter model changes.
    */
   public void update()
   {
-    // Do nothing.
+    notifyObservers();
   }
   
 	//----------------------------------------------------------------------------
@@ -400,18 +407,6 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
         ((ColorChangeListener)listeners[i+1]).colorChanged( event );
       }
     }
-  }
-
-  /**
-   * Called each time the simulation clock ticks.
-   * 
-   * @param clock the clock
-   * @param dt the time delta since the last clock tick
-   */
-  public void clockTicked( AbstractClock clock, double dt )
-  {
-    stepInTime( dt );
-    notifyObservers();
   }
   
 }
