@@ -245,7 +245,7 @@ public class Force1DPanel extends ApparatusPanel3 {
                 setReferenceSize();
             }
         } );
-        setUseOffscreenBuffer( true );
+//        setUseOffscreenBuffer( true );
     }
 
     public Force1DLookAndFeel getLookAndFeel() {

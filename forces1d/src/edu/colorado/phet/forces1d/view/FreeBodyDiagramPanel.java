@@ -70,7 +70,7 @@ public class FreeBodyDiagramPanel {
         };
         freeBodyDiagram.addMouseInputListener( listener );
         RepaintDebugGraphic.enable( fbdPanel, module.getClock() );
-        fbdPanel.setUseOffscreenBuffer( true );
+//        fbdPanel.setUseOffscreenBuffer( true );
     }
 
     public FreeBodyDiagram getFreeBodyDiagram() {

@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetcomponents.PhetButton;
 import edu.colorado.phet.common.view.phetcomponents.PhetTextField;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.common.TitleGraphic;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice2;
@@ -111,9 +112,7 @@ public class PlotDeviceTest {
         device.rotate( Math.PI / 8 );
         timer.start();
 
-//        RepaintDebugGraphic repaintDebugGraphic=new RepaintDebugGraphic( panel, clock);
-//        panel.addGraphic( repaintDebugGraphic,Double.POSITIVE_INFINITY );
-//        panel.
+        RepaintDebugGraphic.enable( panel, clock );
         return panel;
     }
 }

@@ -8,8 +8,8 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.phetcomponents.PhetSlider;
-import edu.colorado.phet.common.view.phetcomponents.TitleGraphic;
+import edu.colorado.phet.forces1d.common.phetcomponents.PhetSlider;
+import edu.colorado.phet.forces1d.common.phetcomponents.TitleGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
