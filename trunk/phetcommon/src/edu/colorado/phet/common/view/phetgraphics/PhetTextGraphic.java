@@ -11,7 +11,6 @@
 package edu.colorado.phet.common.view.phetgraphics;
 
 import java.awt.*;
-import java.awt.geom.NoninvertibleTransformException;
 
 /**
  * PhetTextGraphic
@@ -53,7 +52,8 @@ public class PhetTextGraphic extends PhetGraphic {
             g2.setFont( font );
             g2.setColor( color );
             g2.transform( getNetTransform() );
-            g2.drawString( text, 0, 0 );
+            int descent = fontMetrics.getDescent();
+            g2.drawString( text, 0, -descent );
             super.restoreGraphicsState();
         }
     }
@@ -63,11 +63,8 @@ public class PhetTextGraphic extends PhetGraphic {
             return null;
         }
         int width = fontMetrics.stringWidth( text );//this ignores antialias and fractional metrics.
-        int ascent = fontMetrics.getAscent();
-        int descent = fontMetrics.getDescent();
-        int leading = fontMetrics.getLeading();
-        Point location = new Point( 0, 0 );
-        Rectangle bounds = new Rectangle( location.x, location.y - ascent + leading, width, ascent + descent + leading );
+        int height = fontMetrics.getHeight();
+        Rectangle bounds = new Rectangle( 0, -height, width, height );
         return getNetTransform().createTransformedShape( bounds ).getBounds();
     }
 
