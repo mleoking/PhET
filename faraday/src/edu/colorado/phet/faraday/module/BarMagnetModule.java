@@ -142,8 +142,8 @@ public class BarMagnetModule extends Module {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        BarMagnetControlPanel controlPanel = 
-            new BarMagnetControlPanel( this, magnetModel, compassModel, magnetGraphic, gridGraphic, fieldMeterGraphic );
+        BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this, 
+                magnetModel, compassModel, magnetGraphic, gridGraphic, fieldMeterGraphic );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
