@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
@@ -22,7 +23,6 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 
 
@@ -234,6 +234,10 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
      */
     public void update() {
         if ( isVisible() ) {
+            
+            // Performance optimization for drawing on black background.
+            boolean backgroundIsBlack = getComponent().getBackground().equals( Color.BLACK );
+            
             double magnetStrength = _magnetModel.getStrength();
             for( int i = 0; i < _needles.size(); i++ ) {
 
@@ -259,7 +263,7 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
                     scale = MathUtil.clamp( 0, scale, 1 );
                     
                     // Set the needle strength.
-                    needle.setStrength( scale );
+                    needle.setStrength( scale, backgroundIsBlack );
                 }
             }
             repaint();

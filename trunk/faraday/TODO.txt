@@ -4,10 +4,9 @@
 
 IN PROGRESS:
 
+
 HIGH PRIORITY:
-- lower frame rate
 - compute emf by averaging emf at center and 2 edges of coil
-- optimize grid when background is black or white (don't use alpha)
 - fast movement of magnet is not shown by lightbulb or voltmeter
 - add Verlet behavior to voltmeter needle 
 - make lightbulb ramp up/down instead of immediate on/off
@@ -16,9 +15,11 @@ HIGH PRIORITY:
 - collision detection between magnet and coil
 - transparent bar magnet layer so that field meter looks like it's inside it
 - animate electrons when lightbulb is enabled (front of coil only)
+- remove AffineTransform from BarMagnet.getStrength(Point2D) as possible optimization
 - optimize performance
 
 MEDIUM PRIORITY:
+- add background color chooser to menubar (ala CCK)
 - beautify Control Panels
 - Transformer module requirements
 - check for unnecessary notification, events and updates
@@ -37,6 +38,9 @@ phetcommon:
 
 DONE:
 v0r11...
+(2/3) - optimize grid when background is black (don't use alpha)
+(2/3) - lower frame rate to 10 fps (performance optimization)
+(2/3) - convert all model elements to use radians instead of degrees (performance optimization)
 (2/3) - fix Field Meter text field locations (broken by PhetTextGraphic change)
 (2/3) - merge HollywoodCompass into Compass, collapse AbstractCompass and Compass
 v0r10...
