@@ -60,8 +60,8 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
     private static final int MIN_RAYS = 8;
     private static final double RAYS_START_ANGLE = Math.toRadians( 135 );
     private static final double RAYS_ARC_ANGLE = Math.toRadians( 270 );
-    private static final Point2D RAYS_ORIGIN = new Point2D.Double( 0, -70 );
-    private static final double BULB_RADIUS = 28.0;
+    private static final Point2D RAYS_ORIGIN = new Point2D.Double( 0, -90 );
+    private static final double BULB_RADIUS = 30.0;
     
     //----------------------------------------------------------------------------
     // Instance data

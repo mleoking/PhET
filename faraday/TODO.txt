@@ -6,7 +6,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - fast movement of magnet is not shown by lightbulb or voltmeter
-- redo lightbulb graphic, looks ratty on black background
 - add Verlet behavior to voltmeter needle & lightbulb
 - show important "spikes" in induced emf (consider totally disabling smoothing)
 - collision detection between compass and magnet
@@ -32,6 +31,8 @@ phetcommon:
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
 
 DONE:
+(2/2) - redo lightbulb graphic, looks ratty on black background
+(2/2) - fix CoilGraphic so that it's foreground & background look right when magnet passes thru coil near edges
 (2/1) - add threshold to Compass.stepInTime to prevent Verlet from hogging CPU
 (2/1) - redo coil graphic (constant wire gauge, fix colors)
 (1/28) - pull "developer" panel out of BarMagnetControlPanel so that it can be reused elsewhere
