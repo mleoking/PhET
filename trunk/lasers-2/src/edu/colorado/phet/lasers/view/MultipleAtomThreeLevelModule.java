@@ -33,9 +33,9 @@ public class MultipleAtomThreeLevelModule extends BaseLaserModule {
     public MultipleAtomThreeLevelModule() {
         super( "Multiple Atoms / Three Levels" );
 
-        float newHeight = 100;
+        double newHeight = 100;
         ResonatingCavity cavity = this.getCavity();
-        float cavityHeight =  cavity.getHeight();
+        double cavityHeight =  cavity.getHeight();
         Point2D cavityPos = cavity.getPosition();
         double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
         cavity.setPosition( cavityPos.getX(), yNew );

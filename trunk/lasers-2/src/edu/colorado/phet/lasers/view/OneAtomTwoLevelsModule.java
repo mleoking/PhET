@@ -42,9 +42,9 @@ public class OneAtomTwoLevelsModule extends SingleAtomBaseModule {
 //        PhetApplication.instance().getPhetMainPanel().setControlPanel( new TwoLevelControlPanel() );
 
 
-        float newHeight = 100;
+        double newHeight = 100;
         ResonatingCavity cavity = this.getCavity();
-        float cavityHeight =  cavity.getHeight();
+        double cavityHeight =  cavity.getHeight();
         Point2D cavityPos = cavity.getPosition();
         double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
         cavity.setPosition( cavityPos.getX(), yNew );

@@ -12,6 +12,8 @@ import edu.colorado.phet.collision.Collision;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 
+import java.awt.geom.Point2D;
+
 public class AtomAtomCollision extends HardsphereCollision {
 
     private Atom atom1;
@@ -30,18 +32,18 @@ public class AtomAtomCollision extends HardsphereCollision {
     }
 
     protected Vector2D getLoa( Particle particleA, Particle particleB ) {
-        Vector2D posA = particleA.getPosition();
-        Vector2D posB = particleB.getPosition();
-        return new Vector2D( posA.getX() - posB.getX(),
+        Point2D posA = particleA.getPosition();
+        Point2D posB = particleB.getPosition();
+        return new Vector2D.Double( posA.getX() - posB.getX(),
                              posA.getY() - posB.getY() );
     }
 
     //
     // Abstract methods
     //
-    public void collide() {
-        super.collide( atom1, atom2, getLoa( atom1, atom2 ) );
-    }
+//    public void collide() {
+//        super.collide( atom1, atom2, getLoa( atom1, atom2 ) );
+//    }
 
     /**
      *
