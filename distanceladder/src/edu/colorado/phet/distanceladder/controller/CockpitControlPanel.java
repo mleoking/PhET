@@ -7,35 +7,27 @@
  */
 package edu.colorado.phet.distanceladder.controller;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
-import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.coreadditions.StringResourceReader;
 import edu.colorado.phet.distanceladder.model.*;
 import edu.colorado.phet.distanceladder.view.StarMapGraphic;
-import edu.colorado.phet.distanceladder.view.StarshipCoordsGraphic;
-import edu.colorado.phet.coreadditions.StringResourceReader;
 
-import java.util.List;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.geom.Point2D;
+import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.Format;
 import java.text.DecimalFormat;
-import java.net.URL;
-import java.io.*;
+import java.text.Format;
+import java.util.List;
 
 public class CockpitControlPanel extends JPanel {
     private CockpitModule module;
@@ -526,10 +518,10 @@ public class CockpitControlPanel extends JPanel {
         public StarMapPanel() {
             this.setLayout( new FlowLayout() );
 
-            starship = ((UniverseModel)module.getModel()).getStarShip();
+            starship = ( (UniverseModel)module.getModel() ).getStarShip();
             starship.addObserver( this );
-            this.setPreferredSize( new Dimension( 200, 200 ));
-            StarMapGraphic starMapGraphic = new StarMapGraphic( this, ((UniverseModel)module.getModel()).getStarField() );
+            this.setPreferredSize( new Dimension( 200, 200 ) );
+            StarMapGraphic starMapGraphic = new StarMapGraphic( this, ( (UniverseModel)module.getModel() ).getStarField() );
             this.addGraphic( starMapGraphic, 1 );
 //            this.addGraphic( new StarshipCoordsGraphic( starship, this ), 2 );
 
@@ -555,7 +547,7 @@ public class CockpitControlPanel extends JPanel {
         }
 
         public void update() {
-            this.repaint();            
+            this.repaint();
         }
     }
 }

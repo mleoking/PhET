@@ -7,21 +7,18 @@
  */
 package edu.colorado.phet.distanceladder.view;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
-import edu.colorado.phet.distanceladder.model.StarField;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.distanceladder.model.Star;
-import edu.colorado.phet.distanceladder.Config;
+import edu.colorado.phet.distanceladder.model.StarField;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class StarMapGraphic extends CompositeInteractiveGraphic implements ImageObserver {
@@ -56,7 +53,7 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
             }
         }
         Iterator starIt = starToGraphicMap.keySet().iterator();
-        while( starIt.hasNext() ){
+        while( starIt.hasNext() ) {
             Star star = (Star)starIt.next();
             if( !stars.contains( star ) ) {
                 starToGraphicMap.remove( star );

@@ -9,8 +9,6 @@ package edu.colorado.phet.distanceladder.exercise;
 
 import edu.colorado.phet.coreadditions.StringResourceReader;
 
-import java.util.ArrayList;
-
 public class HtmlMessage extends Message {
 
     public HtmlMessage( String filename ) {

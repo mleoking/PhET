@@ -8,11 +8,10 @@ package edu.colorado.phet.distanceladder.model;
 
 import edu.colorado.phet.common.model.CompositeModelElement;
 import edu.colorado.phet.distanceladder.Config;
-import edu.colorado.phet.distanceladder.Config;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.geom.Rectangle2D;
 
 /**
  * This is a class that, at this point, doesn't need to add
@@ -23,9 +22,9 @@ public class StarField extends CompositeModelElement {
     private ArrayList stars = new ArrayList();
     private Rectangle2D.Double bounds;
 
-    public StarField( ) {
+    public StarField() {
         this.bounds = new Rectangle2D.Double( -Config.universeWidth * 0.51, -Config.universeWidth * 0.51,
-                                              Config.universeWidth * 1.02 , Config.universeWidth * 1.02 );
+                                              Config.universeWidth * 1.02, Config.universeWidth * 1.02 );
     }
 
     public void addStar( Star star ) {
@@ -41,6 +40,6 @@ public class StarField extends CompositeModelElement {
     }
 
     public void reset() {
-        stars.clear();        
+        stars.clear();
     }
 }

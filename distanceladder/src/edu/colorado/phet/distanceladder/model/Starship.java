@@ -54,7 +54,7 @@ public class Starship extends Body {
     }
 
     public void move( double jumpDistance ) {
-        this.move(  jumpDistance, getPov().getTheta() );
+        this.move( jumpDistance, getPov().getTheta() );
 //        double dx = jumpDistance * Math.cos( getPov().getTheta() );
 //        double dy = jumpDistance * Math.sin( getPov().getTheta() );
 //        setPov( getLocation().getX() + dx, getLocation().getY() + dy, getPov().getTheta() );

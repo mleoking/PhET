@@ -7,16 +7,12 @@
  */
 package edu.colorado.phet.distanceladder.exercise;
 
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.XMLOutputter;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.XMLOutputter;
 
-import java.io.File;
 import java.net.URL;
-import java.util.List;
-
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 public class XmlMessage extends Message {
 

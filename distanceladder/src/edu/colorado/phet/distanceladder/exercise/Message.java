@@ -30,7 +30,7 @@ public class Message {
 
     public void display() {
         JEditorPane textPane = new JEditorPane( "text/html", getText() );
-        textPane.setPreferredSize( new Dimension( 500, 400 ));
-        JOptionPane.showMessageDialog( null, new JScrollPane( textPane ));
+        textPane.setPreferredSize( new Dimension( 500, 400 ) );
+        JOptionPane.showMessageDialog( null, new JScrollPane( textPane ) );
     }
 }

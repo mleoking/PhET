@@ -14,12 +14,10 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.awt.geom.*;
-import java.util.logging.Formatter;
 import java.text.DecimalFormat;
-import java.text.Format;
 
 public class ParallaxReticle extends DefaultInteractiveGraphic implements Translatable {
     private Point2D.Double location = new Point2D.Double();
@@ -106,7 +104,7 @@ public class ParallaxReticle extends DefaultInteractiveGraphic implements Transl
                 float tickHeight = 0;
                 if( tickCnt++ % majorTickEvery == 0 ) {
                     tickHeight = majorTickHeight;
-                    String s = numFormatter.format( Math.toDegrees( beta ));
+                    String s = numFormatter.format( Math.toDegrees( beta ) );
                     g.drawString( s, (float)e, -30 );
                     if( beta != 0 ) {
                         g.drawString( "-" + s, (float)-e, -30 );
@@ -127,7 +125,7 @@ public class ParallaxReticle extends DefaultInteractiveGraphic implements Transl
         }
 
         public void paint( Graphics2D g ) {
-            Object interpolationHint = g.getRenderingHint(  RenderingHints.KEY_INTERPOLATION );
+            Object interpolationHint = g.getRenderingHint( RenderingHints.KEY_INTERPOLATION );
 //            g.setRenderingHint(  RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
             g.setColor( color );
             g.setStroke( stroke );

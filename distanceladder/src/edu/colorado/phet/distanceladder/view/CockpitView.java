@@ -7,18 +7,16 @@
  */
 package edu.colorado.phet.distanceladder.view;
 
-import edu.colorado.phet.distanceladder.Config;
-import edu.colorado.phet.distanceladder.model.Cockpit;
-import edu.colorado.phet.distanceladder.model.PointOfView;
-import edu.colorado.phet.distanceladder.controller.CockpitModule;
-import edu.colorado.phet.distanceladder.controller.ParallaxButton;
-import edu.colorado.phet.distanceladder.controller.PhotometerButton;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.distanceladder.Config;
+import edu.colorado.phet.distanceladder.controller.CockpitModule;
+import edu.colorado.phet.distanceladder.controller.ParallaxButton;
+import edu.colorado.phet.distanceladder.controller.PhotometerButton;
+import edu.colorado.phet.distanceladder.model.PointOfView;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -39,15 +37,12 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
     private BufferedImage joystickBaseImage;
     private BufferedImage joystickControlImage;
     private AffineTransform joystickTx = new AffineTransform();
-    private AffineTransform hitTx = new AffineTransform();
 
     private double joystickLayer = Config.cockpitLayer + 1;
-    private Cockpit cockpit;
     private CockpitModule module;
     private AffineTransform atx;
 
-    public CockpitView( Cockpit cockpit, CockpitModule module ) {
-        this.cockpit = cockpit;
+    public CockpitView( CockpitModule module ) {
         this.module = module;
         ImageLoader imgLoader = new ImageLoader();
         try {
@@ -58,8 +53,7 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
         catch( IOException e ) {
             e.printStackTrace();
         }
-        module.getApparatusPanel().setSize( new Dimension( cockpitImage.getWidth(), cockpitImage.getHeight( ) ));
-
+        module.getApparatusPanel().setSize( new Dimension( cockpitImage.getWidth(), cockpitImage.getHeight() ) );
 
         this.addGraphic( new JoystickGraphic(), joystickLayer );
 
@@ -84,7 +78,7 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
         Rectangle bounds = module.getApparatusPanel().getBounds();
         double scaleX = bounds.getWidth() / cockpitImage.getWidth();
         double scaleY = bounds.getHeight() / cockpitImage.getHeight();
-        double scale = Math.min( scaleX, scaleY );
+//        double scale = Math.min( scaleX, scaleY );
 //        atx = AffineTransform.getScaleInstance( scale, scale );
         atx = AffineTransform.getScaleInstance( scaleX, scaleX );
         AffineTransform orgTx = g.getTransform();
@@ -102,12 +96,13 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
         private Point2D.Double knobCenter = new Point2D.Double( 40, 10 );
         private Point dragStart;
         private double joystickDx;
-        private AffineTransform tx = new AffineTransform( );
-        private AffineTransform hitTx = new AffineTransform( );
+        private AffineTransform tx = new AffineTransform();
+        private AffineTransform hitTx = new AffineTransform();
         private double joystickControlOffsetX = 29;
         private double joystickControlOffsetY = -70;
-        private Ellipse2D.Double joystickKnob = new Ellipse2D.Double( );
+        private Ellipse2D.Double joystickKnob = new Ellipse2D.Double();
         private double joystickMovementFactor = 10;
+        private Point2D.Double dragRef = new Point2D.Double();
 
         public JoystickGraphic() {
             super( null, null );
@@ -116,10 +111,10 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
             Graphic jg = new Graphic() {
                 public void paint( Graphics2D g ) {
                     tx.setTransform( joystickTx );
-                    double phi = Math.atan( joystickDx / joystickBaseImage.getHeight( ) );
+                    double phi = Math.atan( joystickDx / joystickBaseImage.getHeight() );
                     g.drawImage( joystickBaseImage, tx, CockpitView.this );
                     tx.translate( joystickControlOffsetX, joystickControlOffsetY );
-                    tx.rotate( phi, joystickControlImage.getWidth() / 2, joystickControlImage.getHeight( ) );
+                    tx.rotate( phi, joystickControlImage.getWidth() / 2, joystickControlImage.getHeight() );
                     g.drawImage( joystickControlImage, tx, CockpitView.this );
 
                     hitTx.setTransform( atx );
@@ -153,10 +148,9 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
 
         public void mouseReleased( MouseEvent e ) {
             joystickDx = 0;
-            module.getApparatusPanel().repaint( );
+            module.getApparatusPanel().repaint();
         }
 
-        Point2D.Double dragRef = new Point2D.Double();
         public void mouseDragged( MouseEvent e ) {
 
             // Sometimes dragStart seems to get set to null, especially
@@ -173,10 +167,9 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
             pov.setLocation( pov.getX() - ( dx / joystickMovementFactor ) * Math.sin( pov.getTheta() ),
                              pov.getY() + ( dx / joystickMovementFactor ) * Math.cos( pov.getTheta() ) );
             module.setPov( pov );
-            module.getApparatusPanel().repaint( );
+            module.getApparatusPanel().repaint();
         }
     }
-
 
     class CockpitGraphic implements Graphic {
         public void paint( Graphics2D g ) {

@@ -7,8 +7,6 @@
  */
 package edu.colorado.phet.coreadditions.fsm;
 
-import edu.colorado.phet.coreadditions.fsm.FsmEvent;
-import edu.colorado.phet.coreadditions.fsm.FsmState;
 
 public class FsmTransition {
     private FsmEvent event;

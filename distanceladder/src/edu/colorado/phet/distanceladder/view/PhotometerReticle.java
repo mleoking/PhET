@@ -90,7 +90,7 @@ public class PhotometerReticle extends DefaultInteractiveGraphic implements Tran
             path.lineTo( width / 2, -width / 2 );
             path.lineTo( width / 6, -width / 2 );
 
-            hitTestPath = new GeneralPath( new Rectangle2D.Double( -width / 2, -width / 2, width, width ));
+            hitTestPath = new GeneralPath( new Rectangle2D.Double( -width / 2, -width / 2, width, width ) );
         }
 
         public void paint( Graphics2D g ) {
@@ -114,10 +114,10 @@ public class PhotometerReticle extends DefaultInteractiveGraphic implements Tran
         }
 
         boolean containsModelPt( Point2D pt ) {
-            boolean result =  photometer.getLocation().getX() - hitTestPath.getBounds2D().getWidth() / 2 <= pt.getX()
-            && photometer.getLocation().getY() - hitTestPath.getBounds2D().getHeight() / 2 <= pt.getY()
-            && photometer.getLocation().getX() + hitTestPath.getBounds2D().getWidth() / 2 >= pt.getX()
-            && photometer.getLocation().getY() + hitTestPath.getBounds2D().getHeight() / 2 >= pt.getY();
+            boolean result = photometer.getLocation().getX() - hitTestPath.getBounds2D().getWidth() / 2 <= pt.getX()
+                             && photometer.getLocation().getY() - hitTestPath.getBounds2D().getHeight() / 2 <= pt.getY()
+                             && photometer.getLocation().getX() + hitTestPath.getBounds2D().getWidth() / 2 >= pt.getX()
+                             && photometer.getLocation().getY() + hitTestPath.getBounds2D().getHeight() / 2 >= pt.getY();
             return result;
         }
     }

@@ -7,15 +7,15 @@
  */
 package edu.colorado.phet.distanceladder.view;
 
+import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.distanceladder.model.Starship;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.AffineTransform;
 
 public class StarshipCoordsGraphic implements Graphic, SimpleObserver {
     public static Color refLineColor = Color.red;
@@ -44,14 +44,14 @@ public class StarshipCoordsGraphic implements Graphic, SimpleObserver {
         AffineTransform orgTx = g.getTransform();
         g.rotate( starship.getPov().getTheta(), starship.getPov().getX(), starship.getPov().getY() );
 
-        double maxR = Math.max( container.getWidth(), container.getHeight());
+        double maxR = Math.max( container.getWidth(), container.getHeight() );
         // Draw concentric rings
         for( double r = coordRingSpace;
              r < maxR;
              r += coordRingSpace ) {
             ring.setFrameFromCenter( starship.getLocation().getX(), starship.getLocation().getY(),
                                      starship.getLocation().getX() + r,
-                                     starship.getLocation().getY() + r);
+                                     starship.getLocation().getY() + r );
             g.draw( ring );
         }
 
@@ -59,7 +59,7 @@ public class StarshipCoordsGraphic implements Graphic, SimpleObserver {
         for( double theta = 0; theta < Math.PI * 2; theta += radialLineSpace ) {
             radialLine.setLine( starship.getLocation().getX(), starship.getLocation().getY(),
                                 starship.getLocation().getX() + maxR * Math.cos( theta ),
-                                starship.getLocation().getY() + maxR * Math.sin( theta ));
+                                starship.getLocation().getY() + maxR * Math.sin( theta ) );
             g.setColor( theta == 0 ? refLineColor : radialLineColor );
             g.draw( radialLine );
         }

@@ -6,20 +6,18 @@
  */
 package edu.colorado.phet.distanceladder.model;
 
-import edu.colorado.phet.distanceladder.Config;
 import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
 import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.distanceladder.Config;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StarView extends SimpleObservable implements SimpleObserver {
     private PointOfView pov = new PointOfView();
-//    private double povTheta;
-//    private Point2D.Double povPt = new Point2D.Double();
     private Starship starship;
     private StarField starField;
     private double viewAngle;
@@ -139,7 +137,7 @@ public class StarView extends SimpleObservable implements SimpleObserver {
         ArrayList result = new ArrayList();
         for( int i = 0; i < visibleStars.size(); i++ ) {
             Star star = (Star)visibleStars.get( i );
-            if( shape.contains( getApparentLocation( star ) )) {
+            if( shape.contains( getApparentLocation( star ) ) ) {
                 result.add( star );
             }
         }

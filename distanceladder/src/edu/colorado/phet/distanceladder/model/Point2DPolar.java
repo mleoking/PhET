@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
 public class Point2DPolar {
     private double r;
     private double theta;
-    private Point2D.Double utilPt = new Point2D.Double( );
+    private Point2D.Double utilPt = new Point2D.Double();
 
     public Point2DPolar( double r, double theta ) {
         this.r = r;
@@ -27,7 +27,7 @@ public class Point2DPolar {
     }
 
     public Point2DPolar( Point2D.Double cartCoords, double polarOriginX, double polarOriginY ) {
-        this( cartCoords, new Point2D.Double( polarOriginX, polarOriginY ));
+        this( cartCoords, new Point2D.Double( polarOriginX, polarOriginY ) );
     }
 
     /**
@@ -35,12 +35,13 @@ public class Point2DPolar {
      * That is, r is the distance between the specifried point in cartesian space,
      * and the specified PointOfView. Theta is the angular distance between the specified
      * cartesian coordinates and the direction of the PointOfView
+     *
      * @param cartCoords
      * @param pov
      */
     public Point2DPolar( Point2D.Double cartCoords, PointOfView pov ) {
         this( cartCoords, (Point2D.Double)pov );
-        this.theta = this.theta - pov.getTheta();        
+        this.theta = this.theta - pov.getTheta();
     }
 
     public Point2D.Double toPoint2D( Point2D polarOrigin ) {
