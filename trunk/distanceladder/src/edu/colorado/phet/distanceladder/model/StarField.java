@@ -39,4 +39,8 @@ public class StarField extends CompositeModelElement {
     public Rectangle2D.Double getBounds() {
         return bounds;
     }
+
+    public void reset() {
+        stars.clear();        
+    }
 }

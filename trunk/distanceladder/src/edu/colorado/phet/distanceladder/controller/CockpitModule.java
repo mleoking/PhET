@@ -36,20 +36,38 @@ public class CockpitModule extends Module {
     public CockpitModule( UniverseModel model ) {
         super( "Cockpit" );
         this.model = model;
-        ApparatusPanel apparatusPanel = new ApparatusPanel(){
-            public void repaint() {
-                super.repaint();
-            }
-
-            protected void paintComponent( Graphics graphics ) {
-
-
-                super.paintComponent( graphics );
-            }
-        };
+        ApparatusPanel apparatusPanel = new ApparatusPanel();
         setApparatusPanel( apparatusPanel );
         setModel( model );
 
+//        photometerReticle = new PhotometerReticle( apparatusPanel );
+//        photometerReticle.setLocation( 0, 0 );
+//
+//        cockpit = new Cockpit( starField );
+//        cockpitGraphic = new CockpitView( cockpit, this );
+//
+//        starField = model.getStarField();
+//        Rectangle2D.Double bounds = new Rectangle2D.Double( apparatusPanel.getBounds().getMinX(),
+//                                                             apparatusPanel.getBounds().getMinY(),
+//                                                             apparatusPanel.getBounds().getWidth(),
+//                                                             apparatusPanel.getBounds().getHeight() );
+//        starView = new StarView( model.getStarShip(), starField, Config.viewAngle, bounds );
+////        starView = new StarView( model.getStarShip(), starField, Config.viewAngle, cockpitGraphic.getBounds() );
+//        model.getStarShip().setStarView( starView );
+//        starViewGraphic = new StarViewGraphic( apparatusPanel, starView );
+//        starView.addObserver( starViewGraphic );
+//        apparatusPanel.addGraphic( cockpitGraphic, Config.cockpitLayer );
+//        apparatusPanel.addGraphic( starViewGraphic, Config.starLayer );
+//
+//        parallaxReticle = new ParallaxReticle( apparatusPanel, Config.viewAngle );
+////        parallaxReticle = new ParallaxReticle( cockpitGraphic.getBounds(), Config.viewAngle );
+//
+//        setControlPanel( new CockpitControlPanel( this ) );
+        activate( null );
+    }
+
+    public void activate( PhetApplication app ) {
+        ApparatusPanel apparatusPanel = getApparatusPanel();
         photometerReticle = new PhotometerReticle( apparatusPanel );
         photometerReticle.setLocation( 0, 0 );
 
@@ -73,7 +91,9 @@ public class CockpitModule extends Module {
 //        parallaxReticle = new ParallaxReticle( cockpitGraphic.getBounds(), Config.viewAngle );
 
         setControlPanel( new CockpitControlPanel( this ) );
+//        super.activate( app );
     }
+
 
     public StarField getStarField() {
         return starField;
