@@ -97,11 +97,20 @@ public class Electron extends SpacialObservable implements ModelElement {
         _curveIndex = 0;
         _positionAlongCurve = 1.0;
     }
-
+    
     /**
-     * Clears the set of curves.
+     * Gets the curve descriptor for the curve that the electron is currently on.
+     * 
+     * @return a CurveDescriptor
      */
-    public void clearCurves() {
+    public CurveDescriptor getCurveDescriptor() {
+        return (CurveDescriptor)_curveDescriptors.get( _curveIndex );
+    }
+    
+    /**
+     * Clears the set of curve descriptors.
+     */
+    public void clearCurveDescriptors() {
         _curveDescriptors = null;
     }
 
@@ -124,15 +133,6 @@ public class Electron extends SpacialObservable implements ModelElement {
         QuadBezierSpline curve = cd.getCurve();
         Point2D location = curve.evaluate( _positionAlongCurve );
         super.setLocation( location );
-    }
-    
-    /**
-     * Gets the curve descriptor for the curve that the electron is currently on.
-     * 
-     * @return a CurveDescriptor
-     */
-    public CurveDescriptor getCurveDescriptor() {
-        return (CurveDescriptor)_curveDescriptors.get( _curveIndex );
     }
     
     /**
@@ -179,33 +179,38 @@ public class Electron extends SpacialObservable implements ModelElement {
      */
     public void stepInTime( double dt ) {
         if ( _enabled && _speed != 0 && _curveDescriptors != null ) {
-
+            
             // Move the electron along the path.
-            _positionAlongCurve -= _speed;
+            double oldSpeedScale = ((CurveDescriptor)_curveDescriptors.get( _curveIndex )).getSpeedScale();
+            _positionAlongCurve -= _speed * oldSpeedScale;
 
             // If we've reached the end of the current path, move to the next path.
             // Handle motion in both directions.
             if ( _positionAlongCurve <= 0 ) {
-                // Move to the next curve, with wrap around.
+                // Move to the next curve, with wrap around and speed re-scaling.
                 _curveIndex++;
                 if ( _curveIndex >= _curveDescriptors.size() ) {
                     _curveIndex = 0;
                 }
                 // Set the position on the next curve.
-                _positionAlongCurve = 1.0 + _positionAlongCurve;
+                double newSpeedScale = ((CurveDescriptor)_curveDescriptors.get( _curveIndex )).getSpeedScale();
+                double overshoot = Math.abs( _positionAlongCurve * newSpeedScale / oldSpeedScale ) % 1;
+                _positionAlongCurve = 1.0 - overshoot;
             }
             else if ( _positionAlongCurve >= 1 ) {
-                // Move to the previous curve, with wrap around.
+                // Move to the previous curve, with wrap around and speed re-scaling.
                 _curveIndex--;
                 if ( _curveIndex < 0 ) {
                     _curveIndex = _curveDescriptors.size() - 1;
                 }
                 // Set the position on the next curve.
-                _positionAlongCurve = 0.0 + ( _positionAlongCurve % 1 );
+                double newSpeedScale = ((CurveDescriptor)_curveDescriptors.get( _curveIndex )).getSpeedScale();
+                double overshoot = Math.abs( (_positionAlongCurve % 1) * newSpeedScale / oldSpeedScale ) % 1;
+                _positionAlongCurve = 0.0 + overshoot;
             }
             
             // Evaluate the quadratic to determine XY location.
-            CurveDescriptor cd = (CurveDescriptor) _curveDescriptors.get( _curveIndex );
+            CurveDescriptor cd = (CurveDescriptor)_curveDescriptors.get( _curveIndex );
             QuadBezierSpline curve = cd.getCurve();
             Point2D location = curve.evaluate( _positionAlongCurve );
             super.setLocation( location );
