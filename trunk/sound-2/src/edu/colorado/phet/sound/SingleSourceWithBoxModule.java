@@ -70,6 +70,9 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
 
         // Make the listener the audio source
         getAudioControlPanel().setAudioSource( SoundApparatusPanel.LISTENER_SOURCE );
+
+        // Make the ListenerGraphic non-movable
+        getListenerGraphic().setMovable( false );
     }
 
     /**
@@ -193,6 +196,11 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
 
             public void run() {
                 try {
+                    // Disable the button so it can't be clicked while were doing out thing
+                    airButton.setEnabled( false );
+                    Color buttonBackground = airButton.getBackground();
+                    airButton.setBackground( Color.gray );
+
                     // If we're removing air, display box
                     if( evacuateToggle ) {
                         SwingUtilities.invokeLater( new Runnable() {
@@ -227,8 +235,12 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                             }
                         } );
                     }
+
+                    // Enable the button and set its text
                     evacuateToggle = !evacuateToggle;
                     airButton.setText( evacuateToggle ? evacuateLabel : addLabel );
+                    airButton.setEnabled( true );
+                    airButton.setBackground( buttonBackground );
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();
