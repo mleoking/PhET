@@ -32,6 +32,15 @@ import javax.swing.event.EventListenerList;
 public class IntensitySlider extends JPanel implements ChangeListener
 {
 	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+
+  /** Horizontal orientation */
+  public static int HORIZONTAL = JSlider.HORIZONTAL;
+  /** Vertical orientation */
+  public static int VERTICAL = JSlider.VERTICAL;
+  
+	//----------------------------------------------------------------------------
 	// Instance data
   //----------------------------------------------------------------------------
 
@@ -49,7 +58,7 @@ public class IntensitySlider extends JPanel implements ChangeListener
    * Sole constructor.
    * 
    * @param color the color whose intensity is being controlled
-   * @param orientation orientation of the control (JSlider.HORIZONTAL or JSlider.VERTICAL)
+   * @param orientation orientation of the control, HORIZONTAL or VERTICAL)
    * @param size the dimensions of the control
    */
   public IntensitySlider( Color color, int orientation, Dimension size )
@@ -198,35 +207,39 @@ public class IntensitySlider extends JPanel implements ChangeListener
       int w = component.getWidth();
       int h = component.getHeight();
       
-      // Create the background shapes.
-      int offset = 15; // HACK: distance from end of track to end of component
+      // HACK:
+      // The trackOffset is the distance from the edge of 
+      // _containerPanel to the track that the slider moves in.
+      // To make the slider knob line up with the correct colors in 
+      // the background gradient, we make the gradient extend from 
+      // one end of the track to the other.  Since we don't really 
+      // know where the track starts and ends, we take a guess here.
+      // This seems to work on all currently-supported platforms.
+      int trackOffset = 15;
+      
       Shape top, bottom, middle, shape;
-      if ( _slider.getOrientation() == JSlider.VERTICAL )
+      Point2D p1, p2;
+      if ( _slider.getOrientation() == VERTICAL )
       {
+        // The background shapes.
         top = new Rectangle2D.Double( x, y, w, h/2 );
         bottom = new Rectangle2D.Double( x, y + (h/2), w, h/2 );
-        middle = new Rectangle2D.Double( x, y + offset, w, h - (2*offset) );
+        middle = new Rectangle2D.Double( x, y + trackOffset, w, h - (2*trackOffset) );
         shape = new Rectangle2D.Double( x, y, w, h );
+        // The gradient points.
+        p1 = new Point2D.Double( x + (w/2), y + trackOffset );
+        p2 = new Point2D.Double( x + (w/2), y + h - trackOffset );
       }
-      else
+      else /* HORIZONTAL */
       {
-        top = new Rectangle2D.Double( x, y, w/2, h );
-        bottom = new Rectangle2D.Double( x + (w/2), y, w/2, h );
-        middle = new Rectangle2D.Double( x + offset, y, w - (2*offset), h );
+        // The background shapes.
+        top = new Rectangle2D.Double( x + (w/2), y, w/2, h );
+        bottom = new Rectangle2D.Double( x, y, w/2, h );
+        middle = new Rectangle2D.Double( x + trackOffset, y, w - (2*trackOffset), h );
         shape = new Rectangle2D.Double( x, y, w, h );
-      }
-      
-      // Create the gradient fill.
-      Point2D p1, p2;
-      if ( _slider.getOrientation() == JSlider.VERTICAL )
-      {
-        p1 = new Point2D.Double( x + (w/2), y + offset );
-        p2 = new Point2D.Double( x + (w/2), y + h - offset );
-      }
-      else
-      {
-        p1 = new Point2D.Double( x + w - offset, y + (h/2) );
-        p2 = new Point2D.Double( x + offset, y + (h/2) );
+        // The gradient points.
+        p1 = new Point2D.Double( x + w - trackOffset, y + (h/2) );
+        p2 = new Point2D.Double( x + trackOffset, y + (h/2) );
       }
       GradientPaint gradient = new GradientPaint( p1, _color, p2, Color.BLACK );
       
