@@ -4,8 +4,10 @@ package edu.colorado.phet.chart.controllers;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -30,11 +32,14 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
     public int offsetX = 0;
     private boolean changed;
     private PhetJComponent sliderGraphic;
+    private int preferredWidth;
 
-    public VerticalChartSlider2( Component apparatusPanel, final Chart chart ) {
+    public VerticalChartSlider2( ApparatusPanel apparatusPanel, final Chart chart ) {
         super( apparatusPanel );
         this.chart = chart;
         slider = new JSlider( JSlider.VERTICAL, 0, numTicks, numTicks / 2 );
+
+        preferredWidth = slider.getPreferredSize().width;
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double modelValue = getValue();
@@ -42,7 +47,8 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
                 changed = true;
             }
         } );
-        sliderGraphic = (PhetJComponent)PhetJComponent.newInstance( apparatusPanel, slider );
+        sliderGraphic = new PhetJComponent( apparatusPanel, slider );
+//        sliderGraphic = (PhetJComponent)PhetJComponent.newInstance( apparatusPanel, slider );
         addGraphic( sliderGraphic );
         update();
         apparatusPanel.addComponentListener( new ComponentAdapter() {
@@ -69,15 +75,24 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
         Rectangle viewBounds = chart.getViewBounds();
         int x = viewBounds.x;
         int y = viewBounds.y;
-        Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
-        int insetYGuess = vert.getIconHeight() / 2;
-        //TODO this crashed once with vert=null.
-        int dx = vert.getIconWidth();
+        Dimension iconDim = getIconDimension();
+
+        int insetYGuess = iconDim.height / 2;
+        int dx = iconDim.width;
 
         Rectangle newShape = new Rectangle( x - dx - offsetX, y - insetYGuess, slider.getPreferredSize().width, viewBounds.height + insetYGuess * 2 );
         slider.setPreferredSize( new Dimension( newShape.width, newShape.height ) );
+        slider.setOpaque( false );
         setLocation( newShape.x, newShape.y );
         sliderGraphic.repaint();
+    }
+
+    private Dimension getIconDimension() {
+        Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
+        if( vert == null ) {
+            return new Dimension( preferredWidth, preferredWidth );
+        }
+        return new Dimension( vert.getIconWidth(), vert.getIconHeight() );
     }
 
     public void setValue( double y ) {
@@ -108,6 +123,10 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
 
     public void addListener( Listener listener ) {
         eventChannel.addListener( listener );
+    }
+
+    public PhetGraphic getSliderGraphic() {
+        return sliderGraphic;
     }
 
     public JSlider getSlider() {

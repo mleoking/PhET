@@ -13,18 +13,17 @@ import edu.colorado.phet.common.util.QuickTimer;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.common.ColorDialog;
-import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.Force1DLookAndFeel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
+import smooth.windows.SmoothLookAndFeel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 /**
@@ -36,7 +35,7 @@ import java.util.Arrays;
 public class Force1DModule extends Module {
     private Force1DModel forceModel;
     protected Force1DPanel forcePanel;
-    private Force1dControlPanel forceControlPanel;
+    private Force1dControlPanel fullControlPanel;
     private SimpleControlPanel simpleControlPanel;
     private Force1dObject[] imageElements;
     private static boolean readyToRender = false;
@@ -44,6 +43,7 @@ public class Force1DModule extends Module {
     private PhetFrame phetFrame;
     private Force1DLookAndFeel force1DLookAndFeel = new Force1DLookAndFeel();
     private int objectIndex;
+    private IForceControl currentControlPanel;
 
     public Force1DModule( AbstractClock clock ) throws IOException {
         this( clock, "Force1D" );
@@ -67,9 +67,10 @@ public class Force1DModule extends Module {
         forcePanel.addRepaintDebugGraphic( clock );
         setApparatusPanel( forcePanel );
 
-        forceControlPanel = new Force1dControlPanel( this );
-        setControlPanel( forceControlPanel );
+        fullControlPanel = new Force1dControlPanel( this );
         simpleControlPanel = new SimpleControlPanel( this );
+
+        setControlPanel( simpleControlPanel );
         addModelElement( forceModel );
 
         playbackPanel = new DefaultPlaybackPanel( getForceModel().getPlotDeviceModel() );
@@ -100,7 +101,7 @@ public class Force1DModule extends Module {
     public void reset() {
         forceModel.reset();
         forcePanel.reset();
-        forceControlPanel.reset();
+        fullControlPanel.reset();
         simpleControlPanel.reset();
     }
 
@@ -116,9 +117,27 @@ public class Force1DModule extends Module {
         }
     }
 
-    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException, InterruptedException, InvocationTargetException {
+    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException,
+                                                    IllegalAccessException, InstantiationException, ClassNotFoundException {
+        String os = "";
+        try {
+            os = System.getProperty( "os.name" ).toLowerCase();
+        }
+        catch( Throwable t ) {
+            t.printStackTrace();
+        }
+
+        //could request a look and feel from the command line..
+        if( os.indexOf( "windows" ) >= 0 ) {
+            UIManager.setLookAndFeel( new SmoothLookAndFeel() );
+        }
+        else {
+            UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+        }
+
         AbstractClock clock = new SwingTimerClock( 1, 30 );
-        UIManager.setLookAndFeel( new PhetLookAndFeel() );
+//        UIManager.setLookAndFeel( new PhetLookAndFeel() );
+
         final Force1DModule module = new Force1DModule( clock );
         module.getApparatusPanel().getGraphic().setVisible( false );
         FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
@@ -172,7 +191,6 @@ public class Force1DModule extends Module {
             }
 
             public void activeModuleChanged( Module m ) {
-//                simpleModule.getForcePanel().setReferenceSize();
                 module.getForcePanel().setReferenceSize();
             }
 
@@ -180,12 +198,7 @@ public class Force1DModule extends Module {
 
             }
         } );
-//        clock.stop();
-//        new Timer(30,new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                module.clockTicked( new ClockTickEvent( this,1) );
-//            }
-//        } ).start();
+
     }
 
     private void setPhetFrame( PhetFrame phetFrame ) {
@@ -289,7 +302,7 @@ public class Force1DModule extends Module {
         QuickTimer totalTime = new QuickTimer();
 
         QuickTimer userInputTime = new QuickTimer();
-        handleControlPanelInputs();
+        handleControlUserInputs();
         getApparatusPanel().handleUserInput();
         debug( "userInputTime = " + userInputTime );
 
@@ -312,6 +325,18 @@ public class Force1DModule extends Module {
         debug( "totalTime = " + totalTime );
     }
 
+    private void handleControlUserInputs() {
+        if( getActiveControlPanel() != null ) {
+            getActiveControlPanel().handleUserInput();
+        }
+    }
+
+    private void updateControlPanelGraphics() {
+        if( getActiveControlPanel() != null ) {
+            getActiveControlPanel().updateGraphics();
+        }
+    }
+
     public static void debug( String str ) {
         boolean debug = false;
         if( debug ) {
@@ -319,19 +344,24 @@ public class Force1DModule extends Module {
         }
     }
 
-    public void updateControlPanelGraphics() {
-        forceControlPanel.updateGraphics();
-    }
+//    public void updateControlPanelGraphics() {
+//        currentControlPanel.updateGraphics();
+//    }
+//
+//    public void handleControlPanelInputs() {
+//        currentControlPanel.handleUserInput();
+//    }
 
-    public void handleControlPanelInputs() {
-        forceControlPanel.handleUserInput();
+    public IForceControl getActiveControlPanel() {
+        return currentControlPanel;
     }
 
     public void setSimpleControlPanel() {
         setControlPanel( simpleControlPanel );
     }
 
-    public void setControlPanel( JPanel controlPanel ) {
+    public void setControlPanel( IForceControl controlPanel ) {
+        this.currentControlPanel = controlPanel;
         super.setControlPanel( controlPanel );
         if( phetFrame != null ) {
             phetFrame.getBasicPhetPanel().setControlPanel( controlPanel );
@@ -339,6 +369,6 @@ public class Force1DModule extends Module {
     }
 
     public void setAdvancedControlPanel() {
-        setControlPanel( forceControlPanel );
+        setControlPanel( fullControlPanel );
     }
 }
