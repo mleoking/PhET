@@ -18,10 +18,7 @@ import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.HighEnergyState;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
+import edu.colorado.phet.lasers.model.atom.*;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
@@ -31,6 +28,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -129,6 +127,27 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         }
     }
 
+    public void reset() {
+        getPumpingBeam().setPhotonsPerSecond( 0 );
+        getSeedBeam().setPhotonsPerSecond( 0 );
+        for( Iterator iterator = bodies.iterator(); iterator.hasNext(); ) {
+            Object obj = iterator.next();
+            if( obj instanceof Atom ) {
+                Atom atom = (Atom)obj;
+                atom.setState( GroundState.instance() );
+            }
+        }
+        Photon photon = null;
+        while( !photons.isEmpty() ) {
+            photon = (Photon)photons.get( 0 );
+            photon.removeFromSystem();
+        }
+        numPhotons = 0;
+    }
+
+    //----------------------------------------------------------------
+    // Getters and setters
+    //----------------------------------------------------------------        
     public ResonatingCavity getResonatingCavity() {
         return resonatingCavity;
     }

@@ -8,6 +8,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Class: MultipleAtomControlPanel
@@ -53,6 +54,15 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         container.add( optionsPanel );
 
         super.addControl( container );
+
+        // Reset button
+        JButton resetBtn = new JButton( "Reset" );
+        resetBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.reset();
+            }
+        } );
+        super.addControl( resetBtn );
 
         this.doLayout();
         this.setPreferredSize( new Dimension( 190, (int)this.getSize().getHeight() ) );

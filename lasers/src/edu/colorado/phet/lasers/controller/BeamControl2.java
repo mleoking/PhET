@@ -23,11 +23,19 @@ import java.awt.*;
  * Latest change by:   $Author$
  * On date:            $Date$
  */
-public class BeamControl2 extends CompositeGraphic {
+public class BeamControl2 extends CompositeGraphic implements CollimatedBeam.RateChangeListener {
     private ApparatusPanel apparatusPanel;
     private Point location;
     private IntensitySlider photonRateSlider;
 
+    /**
+     * @param apparatusPanel
+     * @param location
+     * @param beam
+     * @param maximumRate
+     * @param lowerLimitingBeam
+     * @param upperLimitingBeam
+     */
     public BeamControl2( ApparatusPanel apparatusPanel, Point location,
                          CollimatedBeam beam, double maximumRate,
                          CollimatedBeam lowerLimitingBeam,
@@ -36,6 +44,7 @@ public class BeamControl2 extends CompositeGraphic {
         this.location = location;
         addWavelengthSlider( beam, lowerLimitingBeam, upperLimitingBeam );
         addIntensitySlider( beam, maximumRate );
+        beam.addRateChangeListener( this );
     }
 
     private void addWavelengthSlider( final CollimatedBeam beam,
@@ -101,5 +110,13 @@ public class BeamControl2 extends CompositeGraphic {
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         photonRateSlider.setVisible( visible );
+    }
+
+    //----------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------
+
+    public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
+        photonRateSlider.setValue( (int)event.getRate() );
     }
 }

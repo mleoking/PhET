@@ -44,6 +44,7 @@ public class SingleAtomModule extends BaseLaserModule {
     private PhetImageGraphic pumpingLampGraphic;
     private UniversalLaserControlPanel laserControlPanel;
     private BeamControl2 pumpBeamControl;
+    private BeamControl2 seedBeamControl;
 
     public SingleAtomModule( PhetFrame frame, AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), frame, clock );
@@ -102,9 +103,9 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Add controls for the seed beam
         Point controlLocation = new Point( (int)allocatedBounds.getX() - 10, (int)( allocatedBounds.getY() + allocatedBounds.getHeight() + 20 ) );
-        BeamControl2 seedBeamControl = new BeamControl2( getApparatusPanel(), controlLocation, seedBeam,
-                                                         LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                                                         null, pumpingBeam );
+        seedBeamControl = new BeamControl2( getApparatusPanel(), controlLocation, seedBeam,
+                                            LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
+                                            null, pumpingBeam );
         getApparatusPanel().addGraphic( seedBeamControl );
 
         // Pumping beam lamp
@@ -158,5 +159,16 @@ public class SingleAtomModule extends BaseLaserModule {
             pumpBeamControl.setVisible( threeEnergyLevels );
             getLaserModel().getPumpingBeam().setEnabled( threeEnergyLevels );
         }
+    }
+
+    /**
+     * Sets the visibility of Swing components on this module's apparatus panel
+     *
+     * @param areVisible
+     */
+    public void setSwingComponentsVisible( boolean areVisible ) {
+        super.setSwingComponentsVisible( areVisible );
+        pumpBeamControl.setVisible( areVisible );
+        seedBeamControl.setVisible( areVisible );
     }
 }
