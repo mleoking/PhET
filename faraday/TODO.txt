@@ -10,6 +10,7 @@ HIGH PRIORITY:
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
+- fix magnet hierarcy; Electromagnet shouldn't extend Bar Magnet
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
 - Transformer module requirements
 - Field Meter shows -0.00 and -180.00 values, should be 0.00 and 180.00

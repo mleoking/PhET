@@ -27,6 +27,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.model.Battery;
+import edu.colorado.phet.faraday.model.Electromagnet;
 import edu.colorado.phet.faraday.model.SourceCoil;
 
 
@@ -44,7 +45,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     //----------------------------------------------------------------------------
     
     private Rectangle _parentBounds;
-    private SourceCoil _sourceCoilModel;
+    private Electromagnet _electromagnetModel;
     private CoilGraphic _coilGraphic;
     private BatteryGraphic _batteryGraphic;
     private CompositePhetGraphic _foreground, _background;
@@ -57,11 +58,13 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     public ElectromagnetGraphic(
             Component component,
             BaseModel baseModel,
+            Electromagnet electromagnetModel,
             SourceCoil sourceCoilModel,
             Battery batteryModel ) {
         
         assert ( component != null );
         assert ( baseModel != null );
+        assert ( electromagnetModel != null );
         assert ( sourceCoilModel != null );
         assert ( batteryModel != null );
         
@@ -69,8 +72,8 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         
         _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
-        _sourceCoilModel = sourceCoilModel;
-        _sourceCoilModel.addObserver( this );
+        _electromagnetModel = electromagnetModel;
+        _electromagnetModel.addObserver( this );
         
         // Graphics components
         _coilGraphic = new CoilGraphic( component, baseModel, sourceCoilModel );
@@ -102,8 +105,8 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _sourceCoilModel.removeObserver( this );
-        _sourceCoilModel = null;
+        _electromagnetModel.removeObserver( this );
+        _electromagnetModel = null;
         _coilGraphic.finalize();
         _batteryGraphic.finalize();
     }
@@ -166,8 +169,8 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     public void update() {
         if ( isVisible() ) {
             // Location
-            _foreground.setLocation( (int) _sourceCoilModel.getX(), (int) _sourceCoilModel.getY() );
-            _background.setLocation( (int) _sourceCoilModel.getX(), (int) _sourceCoilModel.getY() );
+            _foreground.setLocation( (int) _electromagnetModel.getX(), (int) _electromagnetModel.getY() );
+            _background.setLocation( (int) _electromagnetModel.getX(), (int) _electromagnetModel.getY() );
             
             // Position the voltage sources at the top of the coil.
             _foreground.clearTransform();
@@ -179,8 +182,8 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
             _batteryGraphic.setLocation( x, y );
             
             // Direction (do this *after* positioning voltage sources!)
-            _foreground.rotate( _sourceCoilModel.getDirection() );
-            _background.rotate( _sourceCoilModel.getDirection() );
+            _foreground.rotate( _electromagnetModel.getDirection() );
+            _background.rotate( _electromagnetModel.getDirection() );
             
             _foreground.repaint();
             _background.repaint();
@@ -247,9 +250,9 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
             }
             else if ( !_stopDragging && _parentBounds.contains( e.getMouseEvent().getPoint() ) ) {
                 // Translate if the mouse cursor is inside the parent component.
-                double x = _sourceCoilModel.getX() + e.getDx();
-                double y = _sourceCoilModel.getY() + e.getDy();
-                _sourceCoilModel.setLocation( x, y );
+                double x = _electromagnetModel.getX() + e.getDx();
+                double y = _electromagnetModel.getY() + e.getDy();
+                _electromagnetModel.setLocation( x, y );
             }
         }
         
