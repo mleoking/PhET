@@ -3,6 +3,8 @@ package edu.colorado.phet.motion2d;
 //Helper class for Velocity Accelation
 //Buttons for displaying canned motion
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,11 +38,11 @@ public class MotionPanel extends JPanel implements ActionListener //, Runnable
         motionOn = false;
         setBackground( Color.orange );
 
-        constAIRadBtn = new JRadioButton( "Linear acc. I", false );
-        constAIIRadBtn = new JRadioButton( "Linear acc. II", false );
-        sHMRadBtn = new JRadioButton( "Simple Harmonic", false );
-        circularRadBtn = new JRadioButton( "Circular", false );
-        stopRadBtn = new JRadioButton( "Stop", true );
+        constAIRadBtn = new JRadioButton( SimStrings.get( "MotionPanel.LinearAccIRadioButton" ), false );
+        constAIIRadBtn = new JRadioButton( SimStrings.get( "MotionPanel.LinearAccIIRadioButton" ), false );
+        sHMRadBtn = new JRadioButton( SimStrings.get( "MotionPanel.SimpleHarmonicRadioButton" ), false );
+        circularRadBtn = new JRadioButton( SimStrings.get( "MotionPanel.CircularRadioButton" ), false );
+        stopRadBtn = new JRadioButton( SimStrings.get( "MotionPanel.StopRadioButton" ), true );
 
         constAIRadBtn.setBackground( Color.orange );
         constAIIRadBtn.setBackground( Color.orange );

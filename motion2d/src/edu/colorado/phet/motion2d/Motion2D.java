@@ -5,8 +5,11 @@ package edu.colorado.phet.motion2d;
 //import edu.colorado.phet.common.view.util.GraphicsUtil;
 //import edu.colorado.phet.common.view.plaf.PlafUtil;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,11 +19,21 @@ import java.awt.*;
  * To change this template use Options | File Templates.
  */
 public class Motion2D {
+    // Localization
+    public static final String localizedStringsPath = "localization/Motion2dStrings";
+    
     public static void main( String[] args ) {
-        JFrame f = new JFrame( "PhET Motion2D" );
-
         Motion2DApplet ja = new Motion2DApplet();
         ja.init();
+        
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        JFrame f = new JFrame( SimStrings.get( "Motion2dApplication.title" ) );
+
         f.setContentPane( ja );
 
         f.setSize( 800, 500 );

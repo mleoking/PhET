@@ -1,5 +1,7 @@
 package edu.colorado.phet.motion2d;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -18,7 +20,7 @@ public class VAScrolls extends JFrame implements ChangeListener {
     private Container scrollPane;
 
     public VAScrolls( Motion2DAverages vaa, Motion2DPanel myJP ) {
-        super( "Slider Controls" );
+        super( SimStrings.get( "VAScrolls.SliderControlTitle" ) );
         //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         scrollPane = getContentPane();
         this.vaa = vaa;
@@ -31,11 +33,15 @@ public class VAScrolls extends JFrame implements ChangeListener {
         timeStepBar = new JSlider( JSlider.HORIZONTAL, 3, 50, myJP.getTimeStep() );
         velFactorBar = new JSlider( JSlider.HORIZONTAL, 1, 10, (int)myJP.getVelFactor() );
         accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 36, (int)myJP.getAccFactor() );
-
-        String str5 = "Velocity scale: " + ( new Integer( (int)myJP.getVelFactor() ) ).toString() + "X";
+        
+        String str5 = SimStrings.get( "VAScrolls.VelocityScaleLabel" ) + " "
+                    + ( new Integer( (int)myJP.getVelFactor() ) ).toString()
+                    + SimStrings.get( "VAScrolls.ScaleSuffix" );
         field5 = new TextField( str5, 3 );
 
-        String str6 = "Accel scale: " + ( new Integer( (int)myJP.getAccFactor() ) ).toString() + "X";
+        String str6 = SimStrings.get( "VAScrolls.AccelerationScaleLabel" ) + " "
+                    + ( new Integer( (int)myJP.getAccFactor() ) ).toString()
+                    + SimStrings.get( "VAScrolls.ScaleSuffix" );
         field6 = new TextField( str6, 3 );
 
         field5.setEditable( false );
@@ -88,14 +94,16 @@ public class VAScrolls extends JFrame implements ChangeListener {
             //System.out.println("5");
             velFactor = velFactorBar.getValue();
             Integer i5 = new Integer( velFactor );
-            field5.setText( "Velocity scale: " + i5.toString() + "X" );
+            field5.setText( SimStrings.get( "VAScrolls.VelocityScaleLabel" ) + " "
+                    + i5.toString() + SimStrings.get( "VAScrolls.ScaleSuffix" ) );
             myJP.setVelFactor( (double)velFactor );
         }
         else if( e.getSource() == accFactorBar ) {
             //System.out.println("4");
             accFactor = accFactorBar.getValue();
             Integer i6 = new Integer( accFactor );
-            field6.setText( "Accel scale: " + i6.toString() + "X" );
+            field6.setText( SimStrings.get( "VAScrolls.AccelerationScaleLabel" ) + " "
+                    + i6.toString() + SimStrings.get( "VAScrolls.ScaleSuffix" ) );
             myJP.setAccFactor( (double)accFactor );
         }
     }//end of stateChanged

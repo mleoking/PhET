@@ -2,9 +2,12 @@ package edu.colorado.phet.motion2d;
 
 //edu.colorado.phet.motion2d.Motion2DApplet.class 06/02/02 M.Dubson
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Locale;
 
 public class Motion2DApplet extends JApplet {
 
@@ -18,6 +21,12 @@ public class Motion2DApplet extends JApplet {
     }
 
     public void init() {
+        String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        SimStrings.setStrings( Motion2D.localizedStringsPath );
+
         try {
             ballImage = ImageLoaderSolo.loadBufferedImage( "ballsmall2.gif" );
             emptyImage = ImageLoaderSolo.loadBufferedImage( "empty.gif" );
