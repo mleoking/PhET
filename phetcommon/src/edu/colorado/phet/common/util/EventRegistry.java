@@ -15,9 +15,12 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /**
- * EventRegistry. This class lets instances of EventListener register to be notified of events.
+ * EventRegistry.
+ * <p>
+ * This class lets instances of EventListener register to be notified of events.
  * It's purpose is to provide a simple and easy to use mechanism for custom events conforming to the
  * event delegation model of the AWT.
+ * <p>
  * When fireEvent( EventObject event ) is called on the registry, every registered EventListener that has
  * a public method that takes that type of event as a single parameter and has a return type of void
  * will have that method called on it.
@@ -50,7 +53,7 @@ public class EventRegistry implements EventChannel {
         for( int i = 0; i < methods.length; i++ ) {
             Method method = methods[i];
             if( method.getParameterTypes().length == 1
-                     && EventObject.class.isAssignableFrom( method.getParameterTypes()[0] ) ) {
+                && EventObject.class.isAssignableFrom( method.getParameterTypes()[0] ) ) {
 
                 // Register the listener on the event type in the method's signature
                 registerListenerForEvent( listener, method );
@@ -137,6 +140,7 @@ public class EventRegistry implements EventChannel {
 
     /**
      * Returns the number of registered listeners
+     *
      * @return
      */
     public int getNumListeners() {
