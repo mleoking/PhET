@@ -16,6 +16,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.EventRegistry;
 
 import javax.swing.event.EventListenerList;
 import java.awt.geom.Point2D;
@@ -63,6 +64,11 @@ public class CollimatedBeam extends Particle {
 
     ////////////////////////////////////////////////////////////////////////
     // Events and listeners
+    private EventRegistry eventRegistry = new EventRegistry();
+
+    public void addListener2( EventListener listener ) {
+        eventRegistry.addListener( listener );
+    }
 
     private void fireEvent( WavelengthChangeEvent event, Class listenerType ) {
         Object[] listeners = this.listeners.getListenerList();
@@ -180,7 +186,8 @@ public class CollimatedBeam extends Particle {
     public void setWavelength( int wavelength ) {
         this.wavelength = wavelength;
         WavelengthChangeEvent event = new WavelengthChangeEvent();
-        fireWavelengthChangeEvent( event );
+//        fireWavelengthChangeEvent( event );
+        eventRegistry.fireEvent( event );
     }
 
     public int getWavelength() {
