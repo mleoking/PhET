@@ -86,6 +86,9 @@ public class ElectronGraphic extends FastPaintImageGraphic {
         int imHeight = transform.modelToViewDifferentialY( radius ) * 2;
         Point2D at = electron.getPosition();
         at = transform.modelToView( at );
+        if (at.getX()<1){
+            System.out.println( "Less than 1" );
+        }
         Rectangle2D src = new Rectangle2D.Double( 0, 0, getBufferedImage().getWidth(), getBufferedImage().getHeight() );
         Rectangle2D dst = new Rectangle2D.Double( at.getX() - imWidth / 2, at.getY() - imHeight / 2, imWidth, imHeight );
         AffineTransform tx = AffineTransformUtil.getTransform( src, dst, Math.PI / 2 );//the pi/2 is a hack because AffineTransformUtil turns upside down.

@@ -106,8 +106,6 @@ public class Filament extends PathBranch {
             addPoint( getVector( halfWavelength, 2 * zigHeight ) );
         }
         addPoint( getVector( quarterWavelength, -zigHeight ) );
-
-//        addPoint( getPoint( resistorWidth / 2, resistorDY ) );
         addPoint( pin );
     }
 

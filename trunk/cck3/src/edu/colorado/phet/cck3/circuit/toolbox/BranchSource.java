@@ -26,14 +26,20 @@ import java.awt.geom.Point2D;
  * Copyright (c) May 29, 2004 by Sam Reid
  */
 public abstract class BranchSource extends DefaultInteractiveGraphic {
+    private BoundedGraphic schematic;
     private CircuitGraphic circuitGraphic;
     private Branch branch;
     private KirkhoffListener kirkhoffListener;
     private boolean created = false;
+    private BoundedGraphic lifelike;
 
-    protected BranchSource( BoundedGraphic boundedGraphic, final CircuitGraphic circuitGraphic, final ApparatusPanel panel,
+    protected BranchSource( BoundedGraphic lifelike,
+//                            BoundedGraphic schematic,
+                            final CircuitGraphic circuitGraphic, final ApparatusPanel panel,
                             Branch branch, KirkhoffListener kl ) {
-        super( boundedGraphic );
+        super( lifelike );
+        this.lifelike = lifelike;
+        this.schematic = schematic;
         this.circuitGraphic = circuitGraphic;
         this.branch = branch;
         this.kirkhoffListener = kl;
@@ -52,6 +58,15 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
             }
         };
         addMouseInputListener( ad );
+    }
+
+    public void setLifelike( boolean lifelike ) {
+        if( lifelike ) {
+            setBoundedGraphic( this.lifelike );
+        }
+        else {
+            setBoundedGraphic( this.schematic );
+        }
     }
 
     public abstract Branch createBranch();

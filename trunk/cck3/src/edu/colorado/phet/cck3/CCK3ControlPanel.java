@@ -3,7 +3,9 @@ package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
+import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.ImageLoader;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -11,6 +13,10 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -70,6 +76,17 @@ public class CCK3ControlPanel extends JPanel {
                 module.setLifelike( false );
             }
         } );
+
+        final JCheckBox showReadouts = new JCheckBox( "Show Readouts" );
+        showReadouts.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                boolean r = showReadouts.isSelected();
+                module.getCircuitGraphic().setReadoutMapVisible( r );
+                module.getApparatusPanel().repaint();
+            }
+        } );
+        add( showReadouts );
+
         JPanel visualizationPanel = new JPanel();
         visualizationPanel.setBorder( BorderFactory.createRaisedBevelBorder() );
         visualizationPanel.setLayout( new BoxLayout( visualizationPanel, BoxLayout.Y_AXIS ) );
@@ -103,6 +120,37 @@ public class CCK3ControlPanel extends JPanel {
             }
         } );
         add( zoom );
+
+        JButton jb = new JButton( "Show Megahelp Image" );
+        jb.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                showImage();
+            }
+        } );
+        add(jb);
+
+        HelpPanel hp = new HelpPanel( module );
+        add( hp );
+    }
+
+    private void showImage() {
+        final JFrame imageFrame = new JFrame();
+        try {
+            BufferedImage image = ImageLoader.loadBufferedImage( "cck1.gif" );
+            JLabel label = new JLabel( new ImageIcon( image ) );
+            imageFrame.setContentPane( label );
+            imageFrame.pack();
+            GraphicsUtil.centerWindowOnScreen( imageFrame );
+            imageFrame.setVisible( true );
+            imageFrame.addWindowListener( new WindowAdapter() {
+                public void windowClosing( WindowEvent e ) {
+                    imageFrame.dispose();
+                }
+            } );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     private void zoom( double scale ) {

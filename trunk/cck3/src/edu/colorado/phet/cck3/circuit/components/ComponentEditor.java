@@ -1,6 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
+import edu.colorado.phet.cck3.circuit.Branch;
+import edu.colorado.phet.cck3.circuit.Circuit;
+import edu.colorado.phet.cck3.circuit.CircuitListener;
+import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.common.PhetSlider;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
@@ -22,13 +26,15 @@ import java.awt.event.WindowFocusListener;
 public abstract class ComponentEditor extends JDialog {
     private CircuitComponent element;
     private Component parent;
+    private Circuit circuit;
     private PhetSlider slider;
 
     public ComponentEditor( String windowTitle, final CircuitComponent element, Component parent, String name, String units,
-                            double min, double max, double startvalue ) throws HeadlessException {
+                            double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
         super( getAncestor( parent ), windowTitle, false );
         this.element = element;
         this.parent = parent;
+        this.circuit = circuit;
 
         slider = new PhetSlider( name, units, min, max, startvalue );
         slider.setNumMajorTicks( 5 );
@@ -57,8 +63,25 @@ public abstract class ComponentEditor extends JDialog {
             public void windowLostFocus( WindowEvent e ) {
             }
         } );
-        GraphicsUtil.centerDialogInParent( this );
+        circuit.addCircuitListener( new CircuitListener() {
+            public void junctionRemoved( Junction junction ) {
+            }
+
+            public void branchRemoved( Branch branch ) {
+                if( branch == element ) {
+                    setVisible( false );
+                    dispose();
+                }
+            }
+
+            public void junctionsMoved() {
+            }
+
+            public void branchesMoved( Branch[] branches ) {
+            }
+        } );
         pack();
+        GraphicsUtil.centerDialogInParent( this );
     }
 
     public void setVisible( boolean b ) {
@@ -73,8 +96,8 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public static class BatteryEditor extends ComponentEditor {
-        public BatteryEditor( final CircuitComponent element, Component parent ) throws HeadlessException {
-            super( "Editing Battery", element, parent, "Voltage", "Volts", 0, 100, 9 );
+        public BatteryEditor( final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
+            super( "Editing Battery", element, parent, "Voltage", "Volts", 0, 100, 9, circuit );
         }
 
         protected void doChange( double value ) {
@@ -84,8 +107,8 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public static class ResistorEditor extends ComponentEditor {
-        public ResistorEditor( final CircuitComponent element, Component parent ) {
-            super( "Editing Resistor", element, parent, "Resistance", "Ohms", 1, 100, 10 );
+        public ResistorEditor( final CircuitComponent element, Component parent, Circuit circuit ) {
+            super( "Editing Resistor", element, parent, "Resistance", "Ohms", 1, 100, 10, circuit );
         }
 
         protected void doChange( double value ) {

@@ -173,6 +173,9 @@ public class Branch extends SimpleObservable {
     }
 
     public Point2D getPosition( double x ) {
+        if( getLength() == 0 ) {
+            return getStartJunction().getPosition();
+        }
         AbstractVector2D vec = new Vector2D.Double( getStartJunction().getPosition(), getEndJunction().getPosition() ).getInstanceOfMagnitude( x );
         return vec.getDestination( getStartJunction().getPosition() );
     }

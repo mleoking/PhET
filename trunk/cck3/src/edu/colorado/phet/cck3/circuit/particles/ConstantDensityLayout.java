@@ -55,6 +55,9 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
         double mydensity = ( integralNumberParticles - 1 ) / L;
 //        double dx = CCK3Module.ELECTRON_DX;
         double dx = 1 / mydensity;
+        if( mydensity == 0 ) {
+            integralNumberParticles = 0;
+        }
 //        System.out.println( "dx = " + dx );
 //        System.out.println( "desiredDensity = " + desiredDensity );
 //        System.out.println( "mydensity = " + mydensity );
