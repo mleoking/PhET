@@ -15,6 +15,10 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
  */
 public class DebuggerGraphic extends PhetGraphic {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private boolean _boundsEnabled;
     private Color _boundsColor;
     private BasicStroke _boundsStroke;
@@ -24,7 +28,11 @@ public class DebuggerGraphic extends PhetGraphic {
     private Dimension _locationSize;
     private Hashtable _specifications; // key=PhetGraphic, value=Specification
     
-    /** Rendering specification, tells us how to draw bounds & location. */
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /** Rendering specification for a specific graphic. */
     private static class Specification {
         public Color boundsColor;
         public Color locationColor;
@@ -33,6 +41,10 @@ public class DebuggerGraphic extends PhetGraphic {
             this.locationColor = locationColor;
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public DebuggerGraphic( Component component ) {
         super( component );
@@ -46,6 +58,10 @@ public class DebuggerGraphic extends PhetGraphic {
         _locationSize = new Dimension( 10, 10 );
         _specifications = new Hashtable();
     }
+    
+    //----------------------------------------------------------------------------
+    // Debugging
+    //----------------------------------------------------------------------------
     
     public void add( PhetGraphic graphic ) {
         add( graphic, _boundsColor, _locationColor );
@@ -62,6 +78,10 @@ public class DebuggerGraphic extends PhetGraphic {
         assert( graphic != null );
         _specifications.remove( graphic);
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
     public void setBoundsColor( Color boundsColor ) {
         assert( boundsColor != null );
@@ -139,6 +159,15 @@ public class DebuggerGraphic extends PhetGraphic {
         return bounds;
     }
 
+    //----------------------------------------------------------------------------
+    // Drawing
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Draws the bounds and location of graphics.
+     * 
+     * @param g2 graphics context
+     */
     public void paint( Graphics2D g2 ) {
         assert( g2 != null );
         if ( isVisible() && ( isBoundsEnabled() || isLocationEnabled() )) {
