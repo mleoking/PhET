@@ -63,8 +63,8 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
         xform = AffineTransform.getScaleInstance( 1.1, 1.1 );
         xformOp = new AffineTransformOp( xform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
         middleImg = new BufferedImage( (int)( tempBI.getWidth() * s_middleEnergyMag ),
-                                     (int)( tempBI.getHeight() * s_middleEnergyMag ),
-                                     BufferedImage.TYPE_INT_RGB );
+                                       (int)( tempBI.getHeight() * s_middleEnergyMag ),
+                                       BufferedImage.TYPE_INT_RGB );
         tempBI = GraphicsUtil.toBufferedImage( s_middleEnergyStateImage );
         middleImg = xformOp.filter( tempBI, null );
     }
@@ -74,47 +74,47 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
 
     public AtomGraphic( Component component, Atom atom ) {
         super( component, s_groundStateImageName );
-//        super( component, null );
+        //        super( component, null );
         this.atom = atom;
         atom.addObserver( this );
         update();
     }
 
 
-//    public static BufferedImage getImage() {
-////    protected Image getImage() {
-//        if( s_particleImage == null ) {
-////            ResourceLoader loader = new ResourceLoader();
-////            ResourceLoader.LoadedImageDescriptor imageDescriptor = loader.loadImage( s_imageName );
-////            s_particleImage = imageDescriptor.getImage();
-//            try {
-//                s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
-//            }
-//            catch( IOException e ) {
-//                e.printStackTrace();
-//            }
-//            this.s_radius = s_particleImage.getWidth( null ) / 2;
-////            this.s_radius = imageDescriptor.getWidth() / 2;
-//        }
-//        return s_particleImage;
-//    }
+    //    public static BufferedImage getImage() {
+    ////    protected Image getImage() {
+    //        if( s_particleImage == null ) {
+    ////            ResourceLoader loader = new ResourceLoader();
+    ////            ResourceLoader.LoadedImageDescriptor imageDescriptor = loader.loadImage( s_imageName );
+    ////            s_particleImage = imageDescriptor.getImage();
+    //            try {
+    //                s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
+    //            }
+    //            catch( IOException e ) {
+    //                e.printStackTrace();
+    //            }
+    //            this.s_radius = s_particleImage.getWidth( null ) / 2;
+    ////            this.s_radius = imageDescriptor.getWidth() / 2;
+    //        }
+    //        return s_particleImage;
+    //    }
 
     public void update() {
         AtomicState state = atom.getState();
         if( true || getImage() != middleImg ) {
-        if( state instanceof GroundState ) {
-            super.setImage( groundImg );
-        }
-        if( state instanceof HighEnergyState ) {
-            super.setImage( highImg );
-        }
-        if( state instanceof MiddleEnergyState ) {
-            super.setImage( middleImg );
-        }
-        setPosition( (int)( atom.getPosition().getX() - atom.getRadius()),
-                     (int)(atom.getPosition().getY() - atom.getRadius() ));
-        setBoundsDirty();
-        repaint();
+            if( state instanceof GroundState ) {
+                super.setImage( groundImg );
+            }
+            if( state instanceof HighEnergyState ) {
+                super.setImage( highImg );
+            }
+            if( state instanceof MiddleEnergyState ) {
+                super.setImage( middleImg );
+            }
+            setPosition( (int)( atom.getPosition().getX() - atom.getRadius() ),
+                         (int)( atom.getPosition().getY() - atom.getRadius() ) );
+            setBoundsDirty();
+            repaint();
         }
     }
 }

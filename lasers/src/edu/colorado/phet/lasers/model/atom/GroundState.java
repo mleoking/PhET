@@ -8,7 +8,6 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 
 public class GroundState extends AtomicState {
 
@@ -24,16 +23,17 @@ public class GroundState extends AtomicState {
     }
 
     private static GroundState instance = new GroundState();
+
     public static GroundState instance() {
         return instance;
     }
 
-    
+
     //
     // Instance
     //
     private GroundState() {
-        setEnergyLevel( 10 );
+        setEnergyLevel( 0 );
     }
 
     public void stepInTime( double dt ) {
@@ -55,7 +55,7 @@ public class GroundState extends AtomicState {
             }
         }
         else {
-//            System.out.println( "no emission" );
+            //            System.out.println( "no emission" );
         }
 
     }

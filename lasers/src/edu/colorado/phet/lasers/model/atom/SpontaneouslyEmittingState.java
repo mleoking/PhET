@@ -12,8 +12,8 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
@@ -24,6 +24,7 @@ import java.awt.geom.Point2D;
 public abstract class SpontaneouslyEmittingState extends AtomicState {
 
     private static BaseModel s_model;
+
     public static void setModel( BaseModel model ) {
         s_model = model;
     }
@@ -36,6 +37,7 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
         private double lifeTime;
         private double deathTime;
         private SpontaneouslyEmittingState state;
+        private boolean lifetimeFixed = true;
 
         public StateLifetimeManager( Atom atom ) {
             this.atom = atom;
@@ -53,12 +55,16 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
                 throw new RuntimeException( "Atom not in a spontaneously emitting state" );
             }
 
-            // Assign a deathtime based on an exponential distribution
-            deathTime = -Math.log( temp ) * state.getSpontaneousEmmisionHalfLife();
-
-            // This line gives a fixed death time
-            deathTime = state.getSpontaneousEmmisionHalfLife();
-
+            if( lifetimeFixed ) {
+                // This line gives a fixed death time
+                deathTime = state.getLifeTime();
+                //                deathTime = state.getSpontaneousEmmisionHalfLife();
+            }
+            else {
+                // Assign a deathtime based on an exponential distribution
+                deathTime = -Math.log( temp ) * state.getLifeTime();
+                //                deathTime = -Math.log( temp ) * state.getSpontaneousEmmisionHalfLife();
+            }
             lifeTime = 0;
         }
 
@@ -105,7 +111,7 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
     //
     // Abstract methods
     //
-    abstract protected double getSpontaneousEmmisionHalfLife();
+    //    abstract protected double getSpontaneousEmmisionHalfLife();
 
     abstract protected AtomicState nextLowerEnergyState();
 
