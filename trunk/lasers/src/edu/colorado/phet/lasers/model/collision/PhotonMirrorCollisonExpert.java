@@ -64,7 +64,7 @@ public class PhotonMirrorCollisonExpert implements CollisionExpert {
      * @param mirror
      */
     private void doCollision( Photon photon, Mirror mirror ) {
-        double cheatFactor = LaserConfig.PHOTON_CHEAT_ANGLE;
+        double cheatFactor = Math.toRadians( LaserConfig.PHOTON_CHEAT_ANGLE );
         //        double cheatFactor = Math.toRadians( 60 );
         double dx = photon.getPosition().getX() - mirror.getPosition().getX();
         photon.setPosition( mirror.getPosition().getX() - dx, photon.getPosition().getY() );

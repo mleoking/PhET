@@ -22,9 +22,7 @@ import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.*;
-import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
-import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
@@ -52,7 +50,6 @@ public class BaseLaserModule extends Module {
 
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
     static protected final double s_boxHeight = 120;
-//    static protected final double s_boxHeight = 150;
     static protected final double s_boxWidth = 300;
     static protected final double s_laserOffsetX = 100;
 
@@ -79,6 +76,7 @@ public class BaseLaserModule extends Module {
     private int lasingPhotonView = PHOTON_DISCRETE;
     private WaveBeamGraphic beamGraphic;
     private StandingWaveGraphic waveGraphic;
+    private int numPhotons;
 
 
     /**
@@ -196,6 +194,9 @@ public class BaseLaserModule extends Module {
         }
     }
 
+    public int getNumPhotons() {
+        return numPhotons;
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////
     // Setters and getters
@@ -335,6 +336,10 @@ public class BaseLaserModule extends Module {
     public class PhotonEmissionListener implements PhotonEmittedListener {
 
         public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
+
+            // Track the number of photons
+            BaseLaserModule.this.numPhotons++;
+
             Photon photon = event.getPhoton();
             getModel().addModelElement( photon );
             boolean isPhotonGraphicVisible = false;
@@ -388,6 +393,10 @@ public class BaseLaserModule extends Module {
         }
 
         public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
+
+            // Track number of photons
+            BaseLaserModule.this.numPhotons--;
+
             getApparatusPanel().removeGraphic( graphic );
             getApparatusPanel().repaint( graphic.getBounds() );
         }
