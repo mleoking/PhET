@@ -28,19 +28,21 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
     private boolean threeEnergyLevels;
     private BaseLaserModule laserModule;
     private WaveViewControlPanel waveViewControlPanel;
+    private Controls basicControls;
 
     public UniversalAtomControlPanel( final BaseLaserModule module ) {
         super( module );
         this.laserModule = module;
 
         waveViewControlPanel = new WaveViewControlPanel( module );
-        addControl( new Controls() );
+        basicControls = new Controls();
+        addControl( basicControls );
 
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-//        optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
+        optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
         optionsPanel.add( new MirrorOnOffControlPanel( module ), gbc );
 //        gbc.gridy++;
 
@@ -53,12 +55,15 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
         container.add( optionsPanel );
 
         super.addControl( container );
+
+        setThreeEnergyLevels( module.getThreeEnergyLevels() );
     }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         this.threeEnergyLevels = threeEnergyLevels;
         laserModule.setThreeEnergyLevels( threeEnergyLevels );
         waveViewControlPanel.setVisible( threeEnergyLevels );
+        basicControls.setThreeEnergyLevels( threeEnergyLevels );
     }
 
     //--------------------------------------------------------------------------------
@@ -66,16 +71,18 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
     //--------------------------------------------------------------------------------
 
     private class Controls extends JPanel {
+        private JRadioButton twoLevelsRB;
+        private JRadioButton threeLevelsRB;
 
         Controls() {
             GridBagConstraints gbc;
 
-            final JRadioButton twoLevelsRB = new JRadioButton( new AbstractAction( SimStrings.get( "LaserControlPanel.TwoLevelsRadioButton" ) ) {
+            twoLevelsRB = new JRadioButton( new AbstractAction( SimStrings.get( "LaserControlPanel.TwoLevelsRadioButton" ) ) {
                 public void actionPerformed( ActionEvent e ) {
                     setThreeEnergyLevels( false );
                 }
             } );
-            final JRadioButton threeLevelsRB = new JRadioButton( new AbstractAction( SimStrings.get( "LaserControlPanel.ThreeLevelsRadioButton" ) ) {
+            threeLevelsRB = new JRadioButton( new AbstractAction( SimStrings.get( "LaserControlPanel.ThreeLevelsRadioButton" ) ) {
                 public void actionPerformed( ActionEvent e ) {
                     setThreeEnergyLevels( true );
                 }
@@ -115,6 +122,15 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
             //Set the number of energy levels we'll see
             twoLevelsRB.setSelected( true );
             setThreeEnergyLevels( false );
+        }
+
+        private void setThreeEnergyLevels( boolean threeEnergyLevels ) {
+            if( threeEnergyLevels ) {
+                threeLevelsRB.setSelected( true );
+            }
+            else {
+                twoLevelsRB.setSelected( true );
+            }
         }
     }
 

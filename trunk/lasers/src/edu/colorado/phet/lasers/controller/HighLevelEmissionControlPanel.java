@@ -25,7 +25,7 @@ import java.awt.event.ActionListener;
 public class HighLevelEmissionControlPanel extends JPanel {
 
     public HighLevelEmissionControlPanel( final BaseLaserModule module ) {
-        final JCheckBox displayHighLevelEmissionsCB = new JCheckBox( "<html>Display photons emitted<br>from upperenergy state</html>" );
+        final JCheckBox displayHighLevelEmissionsCB = new JCheckBox( "<html>Display photons emitted<br>from upper energy state</html>" );
         displayHighLevelEmissionsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setDisplayHighLevelEmissions( displayHighLevelEmissionsCB.isSelected() );

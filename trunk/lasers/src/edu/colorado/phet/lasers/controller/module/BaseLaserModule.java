@@ -78,6 +78,7 @@ public class BaseLaserModule extends Module {
     private StandingWaveGraphic waveGraphic;
     private int numPhotons;
     private boolean displayHighLevelEmissions;
+    private boolean threeEnergyLevels;
 
 
     /**
@@ -265,7 +266,12 @@ public class BaseLaserModule extends Module {
         displayHighLevelEmissions = display;
     }
 
+    public boolean getThreeEnergyLevels() {
+        return threeEnergyLevels;
+    }
+
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
+        this.threeEnergyLevels = threeEnergyLevels;
         if( threeEnergyLevels ) {
             getEnergyLevelsMonitorPanel().setNumLevels( 3 );
             getLaserModel().getPumpingBeam().setEnabled( true );
