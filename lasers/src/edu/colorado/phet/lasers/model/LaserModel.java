@@ -225,24 +225,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         this.pumpingBeam = pumpingBeam;
     }
 
-//    public PartialMirror getRightMirror() {
-//        return rightMirror;
-//    }
-//
-//    public void setRightMirror( PartialMirror rightMirror ) {
-//        this.rightMirror = rightMirror;
-//        addModelElement( rightMirror );
-//    }
-//
-//    public PartialMirror getLeftMirror() {
-//        return leftMirror;
-//    }
-//
-//    public void setLeftMirror( PartialMirror leftMirror ) {
-//        this.leftMirror = leftMirror;
-//        addModelElement( leftMirror );
-//    }
-
     public void setHighEnergyMeanLifetime( double time ) {
         getHighEnergyState().setMeanLifetime( time );
     }
