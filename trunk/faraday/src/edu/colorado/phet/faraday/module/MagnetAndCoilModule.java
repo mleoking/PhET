@@ -171,7 +171,7 @@ public class MagnetAndCoilModule extends Module {
             magnetModel, compassModel, pickupCoilModel, lightBulbModel, voltMeterModel,
             magnetGraphic, gridGraphic );
         if ( FaradayConfig.ENABLE_DEVELOPER_CONTROLS ) {
-            controlPanel.addFullWidth( new DeveloperPanel( magnetModel, gridGraphic, apparatusPanel ) );
+            controlPanel.addFullWidth( new DeveloperPanel( magnetModel, gridGraphic, pickupCoilGraphic.getCoilGraphic(), apparatusPanel ) );
         }
         this.setControlPanel( controlPanel );
         
