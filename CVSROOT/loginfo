@@ -25,19 +25,27 @@
 # or
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 
-^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid joetreat
+#######################################################################################################
+#
+#  READ ME!
+#
+#  o The lines below configure CVS "commit emails" for projects.
+#  o There should be one line per project.
+#  o Projects are listed in alphabetical order for readability.
+#  o To received commit emails for a project, add yourself to the line for that project.
+#
+#######################################################################################################
 
-# Notifications for Chris Malley
+^charts\(/\|$\) mail -s "CVS commit: charts" ronlemaster
+^collision\(/\|$\) mail -s "CVS commit: collision" ronlemaster cmalley
 ^colorvision3\(/\|$\) mail -s "CVS commit: colorvision3" cmalley
+^emf\(/\|$\) mail -s "CVS commit: emf" ronlemaster
 ^faraday\(/\|$\) mail -s "CVS commit: faraday" cmalley
-
-# Notifications for Ron LeMaster
-^charts\(/\|$\) mail -s "CVS commit" ronlemaster
-^collision\(/\|$\) mail -s "CVS commit" ronlemaster
-^emf\(/\|$\) mail -s "CVS commit" ronlemaster
-^sound-2\(/\|$\) mail -s "CVS commit" ronlemaster
-^greenhouse\(/\|$\) mail -s "CVS commit" ronlemaster
-^ideal-gas-v3\(/\|$\) mail -s "CVS commit" ronlemaster
-^lasers\(/\|$\) mail -s "CVS commit" ronlemaster
-^nuclearphysics\(/\|$\) mail -s "CVS commit" ronlemaster
-^PhET-installer(/\|$\) mail -s "CVS commit" ronlemaster
+^greenhouse\(/\|$\) mail -s "CVS commit: greenhouse" ronlemaster
+^ideal-gas-v3\(/\|$\) mail -s "CVS commit: ideal-gas-3" ronlemaster
+^lasers\(/\|$\) mail -s "CVS commit: lasers" ronlemaster
+^nuclearphysics\(/\|$\) mail -s "CVS commit: nuclearphysics" ronlemaster
+^PhET-installer(/\|$\) mail -s "CVS commit: PhET-installer" ronlemaster
+^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid joetreat
+^sound-2\(/\|$\) mail -s "CVS commit: sound-2" ronlemaster
+^test-location\(/\|$\) mail -s "CVS commit: test-location" cmalley
