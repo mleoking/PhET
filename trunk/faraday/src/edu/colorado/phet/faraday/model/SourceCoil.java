@@ -64,7 +64,7 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
              * the number of loops in the coil and the relative magnitude of
              * the voltage supplied by the voltage source.
              */
-            double amplitude = ( getNumberOfLoops() / FaradayConfig.ELECTROMAGNET_LOOPS_MAX ) * _voltageSource.getAmplitude();
+            double amplitude = ( getNumberOfLoops() / (double) FaradayConfig.ELECTROMAGNET_LOOPS_MAX ) * _voltageSource.getAmplitude();
             super.setAmplitude( amplitude );
             
             notifyObservers();
