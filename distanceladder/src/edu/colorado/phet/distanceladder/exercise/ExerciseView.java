@@ -15,85 +15,95 @@ import java.awt.event.ActionEvent;
 import java.util.HashMap;
 
 public class ExerciseView {
-    private ExerciseModel exercise;
     private JFrame owner;
-    boolean done = false;
+    private ExerciseModel exercise;
+    private ExerciseDialog exerciseDlg;
 
-    public ExerciseView( ExerciseModel exercise, JFrame owner ) {
-        this.exercise = exercise;
+    public ExerciseView( JFrame owner, ExerciseModel exercise ) {
         this.owner = owner;
+        this.exercise = exercise;
     }
 
+    /**
+     * Displays the exercise in a non-modal dialog. Returns true or false
+     * depending on whether the user selects the correct answer.
+     *
+     * @return
+     */
     public boolean doIt() {
-        HashMap rbToAnswerMap = new HashMap();
-        JDialog exerciseDlg = new JDialog( owner,
-                                           false );
-        Container exercisePane = exerciseDlg.getContentPane();
-        exercisePane.setLayout( new BorderLayout() );
-
-        // Add the text of the question
-        JPanel questionPane = new JPanel();
-        JEditorPane questionTextPane = new JEditorPane( "text/html", exercise.getQuestion() );
-        questionPane.add( questionTextPane );
-        exercisePane.add( questionPane, BorderLayout.NORTH );
-
-        // Add the choices
-        ButtonGroup choicesBG = new ButtonGroup();
-        Answer[] choices = exercise.getChoices();
-        JPanel answerPane = new JPanel( new GridBagLayout() );
-//        exerciseDlg.getContentPane().add( answerPane );
-        exercisePane.add( answerPane, BorderLayout.CENTER );
-        try {
-            for( int i = 0; i < choices.length; i++ ) {
-                JRadioButton answerRB = new JRadioButton( choices[i].getId() + ") " + choices[i].getText() );
-                rbToAnswerMap.put( answerRB, choices[i] );
-                choicesBG.add( answerRB );
-                GraphicsUtil.addGridBagComponent( answerPane, answerRB,
-                                                  0, i, 1, 1,
-                                                  GridBagConstraints.HORIZONTAL,
-                                                  GridBagConstraints.WEST );
-            }
+        if( exerciseDlg == null ) {
+            exerciseDlg = new ExerciseDialog( owner, exercise );
+            exerciseDlg.setLocationRelativeTo( owner );
         }
-        catch( AWTException e ) {
-            e.printStackTrace();
-        }
-
-        // Add the button to submit the answer
-        JButton submitBtn = new JButton( new AbstractAction( "Submit" ) {
-            public void actionPerformed( ActionEvent e ) {
-                done = true;
-            }
-        } );
-        JPanel buttonPane = new JPanel();
-        buttonPane.add( submitBtn );
-        exercisePane.add( buttonPane, BorderLayout.SOUTH );
-
-
-        exerciseDlg.pack();
-        GraphicsUtil.centerDialogOnScreen( exerciseDlg );
-        exerciseDlg.setVisible( true );
-        try {
-            while( done == false ) {
+        exerciseDlg.present();
+        while( exerciseDlg.getSelectedAnswer() == null ) {
+            try {
                 Thread.sleep( 500 );
             }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+            }
         }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
-
-        Answer selectedAnswer = (Answer)rbToAnswerMap.get( GraphicsUtil.getSelection( choicesBG ) );
         exerciseDlg.setVisible( false );
-        return selectedAnswer == exercise.getCorrectAnswer();
-
-
-//        Object choice = JOptionPane.showInputDialog( null,
-//                                                     exercise.getQuestion(),
-//                                                     "So tell me...",
-//                                                     JOptionPane.QUESTION_MESSAGE,
-//                                                     null,
-//                                                     exercise.getChoices(),
-//                                                     "a" );
-//        return ( choice == exercise.getCorrectAnswer() );
+        return exerciseDlg.getSelectedAnswer() == exercise.getCorrectAnswer();
     }
 
+    private class ExerciseDialog extends JDialog {
+        private ButtonGroup choiceBG = new ButtonGroup();
+        private HashMap rbToAnswerMap = new HashMap();
+        private Answer selectedAnswer;
+
+        public ExerciseDialog( JFrame owner, ExerciseModel exerciseModel ) {
+            super( owner, false );
+
+            // Don't let the user close the dialog with the icon in the upper right corner
+            this.setDefaultCloseOperation( JDialog.EXIT_ON_CLOSE );
+
+            // Add the question
+            Container container = this.getContentPane();
+            JEditorPane questionPane = new JEditorPane( "text/html", exerciseModel.getQuestion() );
+            container.add( questionPane, BorderLayout.NORTH );
+
+            // Add the choices
+            JPanel choicePane = new JPanel( new GridBagLayout() );
+            container.add( choicePane, BorderLayout.CENTER );
+            for( int i = 0; i < exerciseModel.getChoices().length; i++ ) {
+                Answer answer = exerciseModel.getChoices()[i];
+                JRadioButton choiceRB = new JRadioButton( answer.getText() );
+                choiceBG.add( choiceRB );
+                rbToAnswerMap.put( choiceRB, answer );
+                try {
+                    GraphicsUtil.addGridBagComponent( choicePane, choiceRB,
+                                                      0, i, 1, 1,
+                                                      GridBagConstraints.NONE,
+                                                      GridBagConstraints.WEST );
+                }
+                catch( AWTException e ) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Add the submit button
+            JButton submitBtn = new JButton( new AbstractAction( "Submit" ) {
+                public void actionPerformed( ActionEvent e ) {
+                    JRadioButton selectedRB = GraphicsUtil.getSelection( choiceBG );
+                    selectedAnswer = (Answer)rbToAnswerMap.get( selectedRB );
+                }
+            } );
+            JPanel buttonPane = new JPanel();
+            buttonPane.add( submitBtn );
+            container.add( buttonPane, BorderLayout.SOUTH );
+
+            this.pack();
+        }
+
+        public Answer getSelectedAnswer() {
+            return selectedAnswer;
+        }
+
+        public void present() {
+            selectedAnswer = null;
+            exerciseDlg.setVisible( true );
+        }
+    }
 }

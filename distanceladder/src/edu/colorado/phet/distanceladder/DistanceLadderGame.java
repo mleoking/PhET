@@ -1,21 +1,26 @@
 package edu.colorado.phet.distanceladder;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
+import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
 import edu.colorado.phet.common.view.util.framesetup.MaxExtentFrameSetup;
+import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
+import edu.colorado.phet.common.view.ApplicationDescriptor;
+import edu.colorado.phet.distanceladder.model.*;
 import edu.colorado.phet.distanceladder.controller.CockpitModule;
 import edu.colorado.phet.distanceladder.controller.StarMapModule;
-import edu.colorado.phet.distanceladder.exercise.Exercise;
-import edu.colorado.phet.distanceladder.exercise.XmlExercise;
 import edu.colorado.phet.distanceladder.levels.Level1;
-import edu.colorado.phet.distanceladder.model.*;
+import edu.colorado.phet.distanceladder.levels.Level2;
+import edu.colorado.phet.distanceladder.levels.Level1A;
+import edu.colorado.phet.distanceladder.exercise.Exercise;
+import edu.colorado.phet.distanceladder.exercise.Message;
+import edu.colorado.phet.distanceladder.exercise.HtmlMessage;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.*;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -28,8 +33,8 @@ import java.util.Random;
 
 public class DistanceLadderGame {
     private static ApplicationDescriptor appDesc;
-    private Color[] colors = new Color[]{Color.green, Color.magenta, Color.orange,
-                                         Color.white, Color.yellow};
+    private Color[] colors = new Color[] { Color.green, Color.magenta, Color.orange,
+                                           Color.white, Color.yellow };
 
     public void test1() {
 
@@ -47,42 +52,50 @@ public class DistanceLadderGame {
 
         Star star = null;
 
-        Random random = new Random();
-        for( int i = 0; i < 200; i++ ) {
-            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-            int colorIdx = random.nextInt( colors.length );
-            star = new NormalStar( colors[colorIdx], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
-            starField.addStar( star );
-        }
+//        Random random = new Random( );
+//        for( int i = 0; i < 200; i++ ) {
+//            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+//            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+//            int colorIdx = random.nextInt( colors.length );
+//            star = new NormalStar( colors[ colorIdx ], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
+//            starField.addStar( star );
+//        }
 
         star = new NormalStar( Color.green, 1E6, new Point2D.Double( 100, 0 ), -45 );
         starField.addStar( star );
         star = new NormalStar( Color.magenta, 1E6, new Point2D.Double( 200, 0 ), -35 );
         starField.addStar( star );
 
-        model.getStarShip().setPov( new PointOfView( 0, 0, 0 ) );
+        model.getStarShip().setPov( new PointOfView( 0, 0, 0 ));
 
         starField.reset();
-        while( !new Level1( app.getApplicationView().getPhetFrame() ).doIt() ) {
-            //
-        }
 
-        Exercise ex2 = new Exercise( new XmlExercise( "exercises/vogon-question-1.xml" ), app.getApplicationView().getPhetFrame() );
-        while( !ex2.doIt() ) {
-            //
-        }
+        displayMessage( new HtmlMessage( "messages/intro-1.html" ) );
+        displayMessage( new HtmlMessage( "messages/level1-intro.html" ) );
+
+        doLevel( new Level1( app.getApplicationView().getPhetFrame(), model ) );
+        doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
+        doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
+
         JOptionPane.showConfirmDialog( app.getApplicationView().getPhetFrame(), "???" );
         cockpitModule.activate( null );
     }
 
+    private void displayMessage( Message message ) {
+        message.display();
+    }
+    private void doLevel( Exercise level ) {
+        while( !level.doIt() ) {
+            //
+        }
+    }
 
     public static void main( String[] args ) {
         String desc = GraphicsUtil.formatMessage( "A game for learning how to\nmeasure interstellar distances." );
         appDesc = new ApplicationDescriptor( "Lost In Space",
                                              desc,
                                              "0.1",
-                                             new MaxExtentFrameSetup( new FrameCenterer( 100, 100 ) ) );
+                                             new  MaxExtentFrameSetup( new FrameCenterer( 100, 100 ) ));
         DistanceLadderGame test = new DistanceLadderGame();
 
         test.test1();

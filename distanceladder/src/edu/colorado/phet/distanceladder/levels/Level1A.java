@@ -18,7 +18,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class Level1 extends Exercise {
+public class Level1A extends Exercise {
 
     private Star[] starField = new Star[]{
         new NormalStar( Color.green, 1E6, new Point2D.Double( 100, -20 ), -45 ),
@@ -27,8 +27,8 @@ public class Level1 extends Exercise {
         new NormalStar( Color.yellow, 1E6, new Point2D.Double( 5E3, -15 ), 0 )
     };
 
-    public Level1( JFrame frame, UniverseModel model ) {
-        super( frame, new XmlExercise( "exercises/level1.xml" ) );
+    public Level1A( JFrame frame, UniverseModel model ) {
+        super( frame, new XmlExercise( "exercises/level1A.xml" ) );
 //        super( frame, new Level1Model() );
         model.getStarField().reset();
         for( int i = 0; i < starField.length; i++ ) {

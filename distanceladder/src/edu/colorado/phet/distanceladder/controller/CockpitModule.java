@@ -82,6 +82,8 @@ public class CockpitModule extends Module {
         starView = new StarView( model.getStarShip(), starField, Config.viewAngle, bounds );
 //        starView = new StarView( model.getStarShip(), starField, Config.viewAngle, cockpitGraphic.getBounds() );
         model.getStarShip().setStarView( starView );
+        model.addObserver( starView );
+
         starViewGraphic = new StarViewGraphic( apparatusPanel, starView );
         starView.addObserver( starViewGraphic );
         apparatusPanel.addGraphic( cockpitGraphic, Config.cockpitLayer );

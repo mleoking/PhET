@@ -15,6 +15,7 @@ import edu.colorado.phet.distanceladder.controller.PhotometerButton;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
@@ -41,6 +42,7 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
     private BufferedImage joystickControlImage;
     private AffineTransform cockpitTx = new AffineTransform();
     private AffineTransform joystickTx = new AffineTransform();
+    private AffineTransform hitTx = new AffineTransform();
 
     private double joystickLayer = Config.cockpitLayer + 1;
     private Cockpit cockpit;
@@ -86,6 +88,8 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
 //        double scaleY = bounds.getHeight() / cockpitImage.getHeight();
         AffineTransform atx = AffineTransform.getScaleInstance( scaleX, scaleX );
         AffineTransform orgTx = g.getTransform();
+        hitTx.setTransform( orgTx );
+        hitTx.translate( joystickTx.getTranslateX(), joystickTx.getTranslateY() );
         g.transform( atx );
         super.paint( g );
         g.setTransform( orgTx );
@@ -121,12 +125,15 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
                     boolean result = false;
                     testPt.setLocation( x, y );
                     try {
-                        joystickTx.inverseTransform( testPt, testPt );
+//                        joystickTx.transform( testPt, testPt );
+                        hitTx.inverseTransform( testPt, testPt );
+//                        joystickTx.inverseTransform( testPt, testPt );
                     }
-                    catch( NoninvertibleTransformException e ) {
+                    catch( Exception e ) {
+//                    catch( NoninvertibleTransformException e ) {
                         e.printStackTrace();
                     }
-
+                    System.out.println( "x: " + x + "  y: " + y + " tx: " + testPt.getX() + "  ty: " + testPt.getY() );
                     result = testPt.getX() > 25 && testPt.getX() < 25 + joystickControlImage.getWidth()
                              && testPt.getY() > -70 && testPt.getY() < -50;
                     return result;
