@@ -104,7 +104,6 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
             double energyChange = energyYTx.viewToModelDifferential( (int)dy );
             // Don't let one level get closer than a certain number of pixels to the one above or below
             double minEnergyDifference = energyYTx.viewToModelDifferential( -minPixelsBetweenLevels );
-//            double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel(),
             double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference,
                                                    atomicState.getEnergyLevel() + energyChange ),
                                          atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference );
@@ -146,15 +145,15 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
             levelLine.setRect( xLoc, y, width, thickness );
 
             if( isAdjustable ) {
-                int xOffset = 20;
+                double xOffset = width - 50;
                 int arrowHt = 16;
                 int arrowHeadWd = 10;
                 int tailWd = 3;
-                arrow1 = new Arrow( new Point2D.Double( xLoc + width - xOffset, y ),
-                                    new Point2D.Double( xLoc + width - xOffset, y + arrowHt ),
+                arrow1 = new Arrow( new Point2D.Double( xLoc + xOffset, y ),
+                                    new Point2D.Double( xLoc + xOffset, y + arrowHt ),
                                     arrowHeadWd, arrowHeadWd, tailWd );
-                arrow2 = new Arrow( new Point2D.Double( xLoc + width - xOffset, y ),
-                                    new Point2D.Double( xLoc + width - xOffset, y - arrowHt ),
+                arrow2 = new Arrow( new Point2D.Double( xLoc + xOffset, y ),
+                                    new Point2D.Double( xLoc + xOffset, y - arrowHt ),
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
             boundingRect = determineBoundsInternal();
