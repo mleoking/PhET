@@ -56,12 +56,12 @@ public class TestPhetGraphics extends JFrame {
             },
             new TestPhetGraphicSource() {
                 public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    return new PhetMultiLineTextGraphic( panel, new String[]{"PhET", "Multi-", "Line", "TextGraphic"}, new Font( "dialog", 0, 28 ), 200, 200, Color.red, 1, 1, Color.yellow );
+                    return new PhetMultiLineTextGraphic( panel, new String[]{"PhET", "Multi-", "Line", "TextGraphic"}, new Font( "dialog", 0, 28 ), 0, 0, Color.red, 1, 1, Color.yellow );
                 }
             },
             new TestPhetGraphicSource() {
                 public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    return new PhetShadowTextGraphic( panel, "Shadowed", new Font( "dialog", Font.BOLD, 28 ), 120, 120, Color.blue, 1, 1, Color.green );
+                    return new PhetShadowTextGraphic( panel, "Shadowed", new Font( "dialog", Font.BOLD, 28 ), 0, 0, Color.blue, 1, 1, Color.green );
                 }
             },
             new TestPhetGraphicSource() {
@@ -75,8 +75,9 @@ public class TestPhetGraphics extends JFrame {
             },
             new TestPhetGraphicSource() {
                 public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                    Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 4, new float[]{6, 6}, 0 );
-                    final OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new Font( "Lucida Sans", Font.ITALIC, 68 ), 50, 300, Color.yellow, stroke, Color.black );
+//                    Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 4, new float[]{6, 6}, 0 );
+                    Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
+                    final OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new Font( "Lucida Sans", Font.ITALIC, 68 ), 0, 0, Color.yellow, stroke, Color.black );
                     g.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
                     return g;
                 }
@@ -86,19 +87,31 @@ public class TestPhetGraphics extends JFrame {
             TestPhetGraphicSource graphic = graphics[i];
             final PhetGraphic pg = graphic.createGraphic( panel );
             pg.setCursorHand();
+            pg.setBoundsDirty();
+            pg.setLocation( 0, 0 );
+            Rectangle bounds = pg.getBounds();
+            if( bounds == null ) {
+                System.out.println( "error" );
+            }
+            Point center = RectangleUtils.getCenter( pg.getBounds() );
+//            pg.setRegistrationPoint( bounds.width / 2, bounds.height / 2 );
+            pg.setRegistrationPoint( center.x, center.y );
+            pg.setLocation( i * 50, 100 );
             pg.addMouseInputListener( new MouseInputAdapter() {
                 // implements java.awt.event.MouseMotionListener
                 public void mouseDragged( MouseEvent e ) {
                     if( SwingUtilities.isRightMouseButton( e ) ) {
-                        Point ctr = RectangleUtils.getCenter( pg.getBounds() );
-                        pg.transform( AffineTransform.getRotateInstance( Math.PI / 36, ctr.x, ctr.y ) );
+//                        Point ctr = RectangleUtils.getCenter( pg.getBounds() );
+//                        pg.transform( AffineTransform.getRotateInstance( Math.PI / 36, ctr.x, ctr.y ) );
+                        pg.rotate( Math.PI / 64 );
                     }
                 }
             } );
             pg.addTranslationListener( new TranslationListener() {
                 public void translationOccurred( TranslationEvent translationEvent ) {
                     if( SwingUtilities.isLeftMouseButton( translationEvent.getMouseEvent() ) ) {
-                        pg.transform( AffineTransform.getTranslateInstance( translationEvent.getDx(), translationEvent.getDy() ) );
+//                        pg.transform( AffineTransform.getTranslateInstance( translationEvent.getDx(), translationEvent.getDy() ) );
+                        pg.setLocation( translationEvent.getX(), translationEvent.getY() );
                     }
                 }
             } );
@@ -153,6 +166,7 @@ public class TestPhetGraphics extends JFrame {
     public static class OutlineTextGraphic extends PhetShapeGraphic {
         private String text;
         private Font font;
+        private FontRenderContext fontRenderContext;
 
         public OutlineTextGraphic( Component component, String text, Font font, int x, int y, Color fillColor, Stroke stroke, Color strokeColor ) {
             super( component );
@@ -162,29 +176,36 @@ public class TestPhetGraphics extends JFrame {
             setColor( fillColor );
             setStroke( stroke );
             setBorderColor( strokeColor );
+            this.fontRenderContext = new FontRenderContext( new AffineTransform(), true, false );
             component.addComponentListener( new ComponentAdapter() {
                 public void componentShown( ComponentEvent e ) {
-                    setShape( createTextShape() );
+                    update();
                 }
             } );
             component.addComponentListener( new ComponentAdapter() {
                 public void componentResized( ComponentEvent e ) {
-                    setShape( createTextShape() );
+                    update();
                 }
             } );
             setLocation( x, y );
+            update();
+        }
+
+        void update() {
+            setShape( createTextShape() );
         }
 
         private Shape createTextShape() {
-            Graphics2D g2 = (Graphics2D)getComponent().getGraphics();
-            if( g2 != null ) {
-                FontRenderContext frc = g2.getFontRenderContext();
-                if( frc != null ) {
-                    TextLayout textLayout = new TextLayout( text, font, frc );
-                    return textLayout.getOutline( new AffineTransform() );
-                }
+//            Graphics2D g2 = (Graphics2D)getComponent().getGraphics();
+//            if( g2 != null ) {
+//                FontRenderContext frc = g2.getFontRenderContext();
+            FontRenderContext frc = fontRenderContext;
+            if( frc != null ) {
+                TextLayout textLayout = new TextLayout( text, font, frc );
+                return textLayout.getOutline( new AffineTransform() );
             }
-            return null;
+//            }
+            return new Rectangle();
         }
 
     }
