@@ -124,7 +124,7 @@ public class WallInterferenceModule extends SingleSourceModule {
             final JSlider wallAngleSlider = new JSlider( JSlider.VERTICAL,
                                                          10,
                                                          90,
-                                                         40 );
+                                                         (int) s_initialWallAngle );
             wallAngleSlider.setPreferredSize( new Dimension( 25, 100 ) );
             wallAngleSlider.setPaintTicks( true );
             wallAngleSlider.setMajorTickSpacing( 10 );
@@ -151,7 +151,7 @@ public class WallInterferenceModule extends SingleSourceModule {
             final JSlider wallTranslationSlider = new JSlider( JSlider.VERTICAL,
                                                                0,
                                                                400,
-                                                               100 );
+                                                               (int) s_wallOffsetX );
             wallTranslationSlider.setPreferredSize( new Dimension( 25, 100 ) );
             wallTranslationSlider.setPaintTicks( true );
             wallTranslationSlider.setMajorTickSpacing( 10 );
