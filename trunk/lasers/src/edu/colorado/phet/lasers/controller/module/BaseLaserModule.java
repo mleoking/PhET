@@ -17,7 +17,6 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.LaserControlPanel;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
@@ -76,7 +75,7 @@ public class BaseLaserModule extends Module {
     private StandingWaveGraphic waveGraphic;
     private int numPhotons;
     private boolean displayHighLevelEmissions;
-    private boolean threeEnergyLevels;
+    protected boolean threeEnergyLevels;
 
 
     /**
@@ -115,6 +114,7 @@ public class BaseLaserModule extends Module {
 
     /**
      * Sets up the energy levels dialog
+     *
      * @param clock
      * @param frame
      */
@@ -291,6 +291,7 @@ public class BaseLaserModule extends Module {
 
     /**
      * Enables or disables mirrors. Also does the initial creation of the mirrors
+     *
      * @param mirrorsEnabled
      */
     public void setMirrorsEnabled( boolean mirrorsEnabled ) {
@@ -416,7 +417,7 @@ public class BaseLaserModule extends Module {
 
             // Is it a pumping beam photon, and are we viewing discrete photons?
             if( source == pumpingBeam ) {
-                isPhotonGraphicVisible = (pumpingPhotonView == PHOTON_DISCRETE );
+                isPhotonGraphicVisible = ( pumpingPhotonView == PHOTON_DISCRETE );
             }
 
             // Create a photon graphic, add it to the appratus panel and attach a
