@@ -3,17 +3,15 @@
 ===============================================================================
 
 IN PROGRESS:
-- Turbine.getRPM should use the frame rate of the simulation clock
+
 
 HIGH PRIORITY:
+- flatten static components of TurbineGraphic
 - make electrons move at same speed whether grid is on or off
 - verify that AC hits zero crossings, check with lightbulb
-
 - water wheel needs to hit 0/90/180/270 degree rotation points to hit min/max field
-- make water wheel look like brown wood, but don't confuse it with the coil brown
 - check voltmeter ticks on Windows, they appear to be "off" on the left side of the guage
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
-- handle for faucet that looks like the side view of a faucet handle, put slider inside handle
 - calibrate lightbulb
 - calibrate voltmeter
 - calibrate electron speed in pickup coil
@@ -62,11 +60,14 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/22) - handle for faucet that looks like the side view of a faucet handle, put slider inside handle
+(3/22) - make water wheel look like brown wood
 (3/22) - set initial positions of compass & field meter in Generator module
 (3/22) - make generator pickup coil non-moveable, aligned with turbine magnet
 (3/22) - set minimum AC frequency to 5%
 (3/22) - put water behind magnet in turbine
 (3/22) - limit turbine to 100 RPM
+(3/22) - Turbine.getRPM should use the frame rate of the simulation clock
 (3/22) - add RPM readout to turbine
 (3/22) - add a water wheel graphic to turbine, paddles as wide as widest water stream
 v0r19...
