@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -118,7 +119,7 @@ public abstract class ComponentEditor extends JDialog {
         };
         circuit.addCircuitListener( circuitListener );
         pack();
-        GraphicsUtil.centerDialogInParent( this );
+        SwingUtils.centerDialogInParent( this );
         addWindowStateListener( new WindowStateListener() {
             public void windowStateChanged( WindowEvent e ) {
                 validateRepaint();
