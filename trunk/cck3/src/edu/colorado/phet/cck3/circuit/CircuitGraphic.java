@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.util.CachingImageLoader;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -230,6 +232,50 @@ public class CircuitGraphic extends CompositeGraphic {
             }
         }
     }
+
+    public void bumpAway( InteractiveWireJunctionGraphic interactiveWireJunctionGraphic ) {
+        Shape shape = interactiveWireJunctionGraphic.getJunctionGraphic().getShape();
+        int width = shape.getBounds().width;
+        double dx = transform.viewToModelDifferentialX( width );
+        Branch[] branches = circuit.getBranches();
+        for( int i = 0; i < branches.length; i++ ) {
+            Branch branch = branches[i];
+            Graphic graphic = getGraphic( branch );
+            if( !branch.hasJunction( interactiveWireJunctionGraphic.getJunction() ) ) {
+                if( intersectsShape( graphic, shape ) ) {
+                    AbstractVector2D vec = branch.getDirectionVector();
+                    vec = vec.getNormalVector();
+                    vec = vec.getNormalizedInstance().getScaledInstance( dx );
+                    interactiveWireJunctionGraphic.getJunction().translate( vec.getX(), vec.getY() );
+                    Branch[] b = circuit.getAdjacentBranches( interactiveWireJunctionGraphic.getJunction() );
+                    for( int j = 0; j < b.length; j++ ) {
+                        Branch branch1 = b[j];
+                        branch1.notifyObservers();
+                    }
+                    module.getApparatusPanel().repaint();
+                    break;
+                }
+            }
+        }
+    }
+
+    private boolean intersectsShape( Graphic branchGraphic, Shape shape ) {
+//        System.out.println( "branchGraphic.getClass() = " + branchGraphic.getClass() );
+        if( branchGraphic instanceof InteractiveBranchGraphic ) {
+            InteractiveBranchGraphic ibg = (InteractiveBranchGraphic)branchGraphic;
+            Shape branchShape = ibg.getBranchGraphic().getCoreShape();
+            Area area = new Area( branchShape );
+            area.intersect( new Area( shape ) );
+            return !area.isEmpty();
+        }
+        else if( branchGraphic instanceof CircuitComponentInteractiveGraphic ) {
+            CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)branchGraphic;
+//            Shape branchShape=ccig.getCircuitComponentGraphic().
+            return false;
+        }
+        return false;
+    }
+
 
     static class AmmeterTopGraphic implements Graphic {
         private SeriesAmmeter sam;
