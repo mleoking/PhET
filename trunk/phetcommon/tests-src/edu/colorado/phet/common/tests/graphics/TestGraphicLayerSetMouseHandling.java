@@ -46,11 +46,10 @@ public class TestGraphicLayerSetMouseHandling extends JFrame {
               
         // Instructions
         String[] lines = { 
-                "The red circle can be dragged independently of everything.", 
-                "Dragging the green circle also drags the red circle.",
-                "The blue square allows things behind it to be picked.",
-                "The yellow square does NOT allows thing behind it to be picked.",
-                "Dragging either square moves all 4 shapes."
+                "The RED circle can be dragged independently of everything.", 
+                "Dragging the GREEN circle also drags the red circle.",
+                "Dragging the YELLOW square moves all 4 shapes.",
+                "The BLUE square ignores mouse events."
                 };
         Font font = new Font( null, Font.PLAIN, 14 );
         PhetMultiLineTextGraphic help = new PhetMultiLineTextGraphic( apparatusPanel, font, lines, Color.BLACK );
