@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- when objects stop moving because of collision, don't restart dragging until cursor is over object
+- after a collision, don't start dragging again until cursor is over the object
 - compass grid does not fill the apparatus panel
 
 MEDIUM PRIORITY:
