@@ -94,15 +94,16 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
         {
             _amplitudeSlider = new FaradaySlider( component, 100 /* track length */ );            
             addGraphic( _amplitudeSlider, SLIDER_LAYER );
-            
-            _amplitudeSlider.centerRegistrationPoint();
-            _amplitudeSlider.setLocation( _batteryGraphic.getWidth() / 2, 42 );
+
             _amplitudeSlider.setMinimum( (int) -( _batteryModel.getMaxVoltage() ) );
             _amplitudeSlider.setMaximum( (int) ( _batteryModel.getMaxVoltage() ) );
             _amplitudeSlider.setValue( (int) ( _batteryModel.getAmplitude() * _batteryModel.getMaxVoltage() ) );
             _amplitudeSlider.addTick( _amplitudeSlider.getMinimum() );
             _amplitudeSlider.addTick( _amplitudeSlider.getMaximum() );
             _amplitudeSlider.addTick( 0 );
+            
+            _amplitudeSlider.centerRegistrationPoint();
+            _amplitudeSlider.setLocation( _batteryGraphic.getWidth() / 2, 42 );
             _amplitudeSlider.addChangeListener( new SliderListener() );
         }
         
