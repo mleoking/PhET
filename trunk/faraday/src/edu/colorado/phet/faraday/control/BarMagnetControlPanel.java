@@ -399,7 +399,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
                 _compassModel.setEnabled( _compassCheckBox.isSelected() );
             }
             else if ( e.getSource() == _backgroundColorButton ) {
-                ColorDialog.showDialog( "Background Color", null, Color.BLACK, this );
+                ColorDialog.showDialog( "Background Color", _apparatusPanel, _apparatusPanel.getBackground(), this );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
@@ -466,15 +466,31 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
         // ColorDialog.Listener implementation
         //----------------------------------------------------------------------------
         
+        /**
+         * Handles selection in the color chooser.
+         * 
+         * @param color the selected color
+         */
         public void colorChanged( Color color ) {
             _apparatusPanel.setBackground( color );
         }
         
-        public void cancelled( Color color ) {
+        /**
+         * Handles "OK" button in the color chooser.
+         * 
+         * @param color the selected color
+         */
+        public void ok( Color color ) {
             _apparatusPanel.setBackground( color );
         }
         
-        public void ok( Color color ) {
+        /**
+         * Handles "Canel" button in the color chooser.
+         * Restore the original color.
+         * 
+         * @param color the color to restore
+         */
+        public void cancelled( Color color ) {
             _apparatusPanel.setBackground( color );
         }
     }

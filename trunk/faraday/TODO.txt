@@ -6,7 +6,6 @@ IN PROGRESS:
 - bounds of light rays are not always correct (doesn't fully draw or doesn't fully erase)
 
 HIGH PRIORITY:
-- add color chooser so that folks can experiment with apparatus panel colors
 - redo lightbulb graphic, look ratty on black background
 - use offscreen buffering in apparatus panel to remove screen turds?
 - add Verlet behavior to voltmeter needle & lightbulb
@@ -34,6 +33,7 @@ phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 
 DONE:
+(1/27) - add color chooser so that folks can experiment with apparatus panel colors
 (1/27) - let control panels manipulate model/view components directly instead of via module
 (1/27) - one debug control for "Grid spacing" (instead of separate controls for XY spacing)
 (1/27) - "probe" to "meter" throughout code
