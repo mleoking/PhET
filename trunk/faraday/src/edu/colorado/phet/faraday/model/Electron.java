@@ -194,12 +194,12 @@ public class Electron extends SpacialObservable implements ModelElement {
         if ( _enabled && _speed != 0 && _path != null ) {
             
             // Move the electron along the path.
-            double oldSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
-            _pathPosition -= MAX_PATH_POSITION_DELTA * _speed * oldSpeedScale;
+            double speedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
+            _pathPosition -= MAX_PATH_POSITION_DELTA * _speed * speedScale;
             
             // Do we need to switch curves?
             if ( _pathPosition <= 0 || _pathPosition >= 1 ) {
-                switchCurves();
+                switchCurves();  // sets _pathIndex and _pathPosition
             }
             
             // Evaluate the quadratic to determine XY location.
