@@ -188,11 +188,14 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         }
     }
 
-    static public void setAllVisible( boolean areVisible ) {
+    static public void setAllVisible( boolean areVisible, double wavelength ) {
+        Color color = VisibleColor.wavelengthToColor( wavelength );
         synchronized( s_instances ) {
             for( int i = 0; i < s_instances.size(); i++ ) {
                 PhotonGraphic photonGraphic = (PhotonGraphic)s_instances.get( i );
-                photonGraphic.setVisible( areVisible );
+                if( photonGraphic.color.equals( color ) ) {
+                    photonGraphic.setVisible( areVisible );
+                }
             }
         }
     }
@@ -202,13 +205,14 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
             s_instances.remove( graphic );
         }
         synchronized( s_inactiveInstances ) {
-//            s_inactiveInstances.add( graphic );
-//            System.out.println( "add: " + cnt );
+            //            s_inactiveInstances.add( graphic );
+            //            System.out.println( "add: " + cnt );
         }
     }
 
 
     static int cnt = 0;
+
     static public PhotonGraphic getInstance( Component component, Photon photon ) {
         PhotonGraphic photonGraphic = null;
         synchronized( s_inactiveInstances ) {
@@ -217,11 +221,11 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
                 photonGraphic = (PhotonGraphic)s_inactiveInstances.get( idx );
                 s_inactiveInstances.remove( idx );
                 photonGraphic.init( component, photon );
-//                System.out.println( "remove = " + cnt );
+                //                System.out.println( "remove = " + cnt );
             }
             else {
                 photonGraphic = new PhotonGraphic( component, photon );
-//                System.out.println( "new = " + ++cnt );
+                //                System.out.println( "new = " + ++cnt );
             }
         }
         return photonGraphic;
@@ -241,7 +245,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     private Color color;
 
     private PhotonGraphic( Component component, Photon photon ) {
-//    public PhotonGraphic( Component component, Photon photon ) {
+        //    public PhotonGraphic( Component component, Photon photon ) {
         // Need to subtract half the width and height of the image to locate it
         // properly
         super( component, s_particleImage );

@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.controller;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import javax.swing.*;
@@ -93,11 +94,11 @@ public class WaveViewControlPanel extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             JRadioButton selection = SwingUtils.getSelection( lasingPhotonBG );
             if( selection == lasingPhotonViewRB ) {
-                PhotonGraphic.setAllVisible( true );
+                PhotonGraphic.setAllVisible( true, MiddleEnergyState.instance().getWavelength() );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
             }
             if( selection == lasingWaveViewRB ) {
-                PhotonGraphic.setAllVisible( false );
+                PhotonGraphic.setAllVisible( false, MiddleEnergyState.instance().getWavelength() );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_WAVE );
             }
         }
@@ -107,11 +108,11 @@ public class WaveViewControlPanel extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             JRadioButton selection = SwingUtils.getSelection( pumpPhotonBG );
             if( selection == pumpPhotonViewRB ) {
-                PhotonGraphic.setAllVisible( true );
+                PhotonGraphic.setAllVisible( true, module.getPumpingBeam().getWavelength() );
                 module.setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
             }
             if( selection == pumpCurtainViewRB ) {
-                PhotonGraphic.setAllVisible( false );
+                PhotonGraphic.setAllVisible( false, module.getPumpingBeam().getWavelength() );
                 module.setPumpingPhotonView( BaseLaserModule.PHOTON_CURTAIN );
             }
         }
