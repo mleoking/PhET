@@ -5,9 +5,11 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -100,12 +102,23 @@ public class CollisionTest {
     static class CollisionModule extends Module {
         ArrayList spheres = new ArrayList();
 
-        public CollisionModule( String name ) {
-            super( name );
-            setApparatusPanel( new ApparatusPanel() );
+        public CollisionModule( String name, AbstractClock clock, boolean useAP2, boolean offscreen, int numParticles ) {
+            super( name, clock );
+            System.out.println( "useAP2 = " + useAP2 + ", offscreenBuffer=" + offscreen + ", numparticles=" + numParticles );
+
+            if( useAP2 ) {
+                ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+                apparatusPanel.setUseOffscreenBuffer( offscreen );
+                setApparatusPanel( apparatusPanel );
+            }
+            else {
+                ApparatusPanel apparatusPanel = new ApparatusPanel();
+                setApparatusPanel( apparatusPanel );
+            }
             getApparatusPanel().addGraphicsSetup( new BasicGraphicsSetup() );
             setModel( new BaseModel() );
-            int numParticles = 600;
+//            int numParticles = 600;
+//            int numParticles = 3;
             for( int i = 0; i < numParticles; i++ ) {
                 double x = Math.random() * 600;
                 double y = Math.random() * 600;
@@ -146,14 +159,19 @@ public class CollisionTest {
     }
 
     public static void main( String[] args ) {
-        final CollisionModule module = new CollisionModule( "name" );
+        AbstractClock clock = new SwingTimerClock( 1, 30 );
+
+        boolean useAP2 = true;
+        boolean offscreen = true;
+        int numParticles = 3;
+        final CollisionModule module = new CollisionModule( "name", clock, useAP2, offscreen, numParticles );
         JFrame jf = new JFrame();
         jf.setSize( 600, 600 );
         jf.setContentPane( module.getApparatusPanel() );
         jf.setVisible( true );
         jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        SwingTimerClock clock = new SwingTimerClock( 1, 30 );
-        clock.addClockTickListener( module.getModel() );
+        clock.addClockTickListener( module );
+
         clock.start();
     }
 }
