@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+  spec="1.0+"
+  codebase="http://www.colorado.edu/physics/phet/simulations"
+  href="efield/efield.jnlp">
+  <information>
+    <title>Electric Field</title> 
+    <vendor>University of Colorado, Department of Physics</vendor> 
+    <homepage href="http://www.colorado.edu/physics/phet"/> 
+    <description>Shows the electric field in the region of charges.</description> 
+    <description kind="short">Electric field display.</description> 
+    <icon href="icons/PhET.gif"/> 
+    <icon kind="splash" href="icons/PhET.gif"/> 
+    <offline-allowed/>
+  </information>
+
+  <security>
+  </security>
+
+  <resources>
+    <j2se version="1.4+"/>
+    <jar href="efield/efield.jar"/>
+
+  </resources>
+
+  <application-desc main-class="electron.electricField.FieldNode2"> 
+  <!-- uncomment to specify user language
+    <argument>user.language=test</argument>
+  -->
+  </application>
+</jnlp>
