@@ -48,8 +48,10 @@ public class ModelViewTransform2D {
         return new Point( modelToViewX( x ), modelToViewY( y ) );
     }
 
-    public Point modelToView( Point2D.Double pt ) {
-        return modelToView( pt.x, pt.y );
+    public Point modelToView( Point2D pt ) {
+        //    public Point modelToView( Point2D.Double pt ) {
+        return modelToView( pt.getY(), pt.getY() );
+        //        return modelToView( pt.x, pt.y );
     }
 
     public Point modelToView( ImmutableVector2D pt ) {
