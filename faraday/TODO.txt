@@ -3,7 +3,8 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- animate electrons when lightbulb is enabled (front of coil only)
+- make QuadBezierSpline a subclass of QuadCurve.Double
 
 HIGH PRIORITY:
 - add Verlet behavior to voltmeter needle
@@ -11,7 +12,6 @@ HIGH PRIORITY:
 - show important "spikes" in induced emf (consider totally disabling smoothing)
 - collision detection between compass and magnet
 - collision detection between magnet and coil
-- animate electrons when lightbulb is enabled (front of coil only)
 - remove AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf as possible optimization
 - optimize performance
 
