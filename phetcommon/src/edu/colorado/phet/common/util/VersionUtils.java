@@ -50,11 +50,12 @@ public class VersionUtils {
     }
 
     public static VersionInfo readVersionInfo() {
-        if( true ) {
-            return new VersionInfo( 0, "" );
-        }
-        ClassLoader cl = Class.class.getClassLoader();
+        VersionUtils vu = new VersionUtils();
+        ClassLoader cl = vu.getClass().getClassLoader();
+        //        System.out.println( "cl = " + cl );
+        //        ClassLoader cl = new Object().getClass().getClassLoader();
         URL buildNumberURL = cl.getResource( "build.number" );
+
         System.out.println( "buildNumberURL = " + buildNumberURL );
         int buildNum = -1;
         try {
@@ -75,7 +76,7 @@ public class VersionUtils {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
 
-        InputStream buildTimeURL = cl.getResourceAsStream( "build.time.stamp.txt" );
+        InputStream buildTimeURL = cl.getResourceAsStream( "build.time.stamp" );
         String buildTimeStr = "-1";
         try {
             buildTimeStr = new BufferedReader( new InputStreamReader( buildTimeURL ) ).readLine();
