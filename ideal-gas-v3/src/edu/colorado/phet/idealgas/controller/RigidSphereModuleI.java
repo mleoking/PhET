@@ -31,9 +31,11 @@ public class RigidSphereModuleI extends IdealGasModule {
         double xDiag = 434;
         double yDiag = 397;
 
-        Box2D box = getIdealGasModel().getBox();
-        sphere = new HollowSphere( new Point2D.Double( ( box.getMinX() + box.getMaxX() ) / 2,
-                                                       ( box.getMinY() + box.getMaxY() ) / 2 ),
+        // Set the size of the box
+        final Box2D box = getIdealGasModel().getBox();
+        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
+        sphere = new HollowSphere( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
+                                                       box.getMinY() + box.getHeight() / 2 ),
                                    new Vector2D.Double( 0, 0 ),
                                    new Vector2D.Double( 0, 0 ),
                                    100,
@@ -71,10 +73,8 @@ public class RigidSphereModuleI extends IdealGasModule {
         int num = 0;
         //        int num = 6;
         //        int num = 4;
-        int sign = 1;
         for( int i = 1; i <= num; i++ ) {
             for( int j = 0; j < num; j++ ) {
-                sign *= -1;
                 double v = initialVelocity;
                 double theta = Math.random() * Math.PI * 2;
                 double vx = Math.cos( theta ) * v;
@@ -100,8 +100,6 @@ public class RigidSphereModuleI extends IdealGasModule {
         //        getIdealGasApplication().setGravityEnabled( true );
         //        getIdealGasApplication().setGravity( 15 );
 
-        // Set the size of the box
-        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
 
         // Add the specific controls we need to the control panel
         //        hsaControlPanel = new HollowSphereControlPanel( getIdealGasApplication() );

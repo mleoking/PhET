@@ -268,6 +268,14 @@ public class Box2D extends CollidableBody {
         return maxY;
     }
 
+    public double getWidth() {
+        return Math.abs( corner2.getX() - corner1.getX() );
+    }
+
+    public double getHeight() {
+        return Math.abs( corner2.getY() - corner1.getY() );
+    }
+
     public Wall[] getWalls() {
         return walls;
     }
