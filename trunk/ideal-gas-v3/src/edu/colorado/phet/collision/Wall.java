@@ -28,6 +28,7 @@ import java.util.EventObject;
 public class Wall extends CollidableBody {
     private Vector2D velocity = new Vector2D.Double();
     private Rectangle2D rep = new Rectangle2D.Double();
+    private Rectangle2D prevRep = new Rectangle2D.Double();
 
     public Wall( Rectangle2D bounds ) {
         this.rep = bounds;
@@ -38,6 +39,7 @@ public class Wall extends CollidableBody {
     public void setPosition( double x, double y ) {
         if( x != getPosition().getX() || y != getPosition().getY() ) {
             super.setPosition( x, y );
+            prevRep.setRect( rep );
             rep.setRect( x, y, rep.getWidth(), rep.getHeight() );
             changeListenerProxy.wallChanged( new ChangeEvent( this ) );
         }
@@ -47,8 +49,17 @@ public class Wall extends CollidableBody {
         setPosition( point.getX(), point.getY() );
     }
 
+    public void setBounds( Rectangle2D bounds ) {
+        rep.setRect( bounds );
+        changeListenerProxy.wallChanged( new ChangeEvent( this ) );
+    }
+
     public Rectangle2D getBounds() {
         return rep;
+    }
+
+    public Rectangle2D getPrevBounds() {
+        return prevRep;
     }
 
     public Vector2D getVelocityPrev() {
@@ -70,7 +81,9 @@ public class Wall extends CollidableBody {
 
     public void setMaxX( double x ) {
         rep.setRect( rep.getMinX(), rep.getMinY(), x - rep.getMinX(), rep.getHeight() );
-        setPosition( rep.getMinX(), rep.getMinY() );
+//        setPosition( rep.getMinX(), rep.getMinY() );
+        // We need to fire an event
+        changeListenerProxy.wallChanged( new ChangeEvent( this ) );
     }
 
     public void setMinX( double x ) {
