@@ -46,15 +46,11 @@ import java.util.LinkedList;
  *
  * @author Ron LeMaster
  * @version $Revision$
- * @see edu.colorado.phet.common.view.graphics.Graphic
  */
 public class ApparatusPanel2 extends ApparatusPanel {
 
-//    private PaintStrategy =
-    //test comment
     private BufferedImage bImg;
     private boolean useOffscreenBuffer = false;
-//    private BufferStrategy strategy;
     private ArrayList rectangles = new ArrayList();
     private Rectangle repaintArea;
 
@@ -99,16 +95,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
             }
         } );
         modelPaused = clock.isPaused();
-
-//        // Add a clock tick listener that paints the screen on every tick
-        paintTickListener = new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
-                paint();
-            }
-        };
-        clock.addClockTickListener( paintTickListener );
-        //I need more fine grained control, since I have two modules using the same clock.  Isn't this the normal thing?
-        //Also, commenting this out didn't change behavior of force1d.
     }
 
     /**
@@ -118,11 +104,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public ApparatusPanel2( BaseModel model ) {
         super( null );
         init( model );
-        model.addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                paint();
-            }
-        } );
     }
 
     protected void init( BaseModel model ) {
@@ -133,7 +114,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         this.addMouseMotionListener( mouseProcessor );
         this.addKeyListener( getGraphic().getKeyAdapter() );//TODO key events should go in processing thread as well.
 
-//        // Add a model element that paints the panile
+        // Add a model element that paints the panile
         paintModelElement = new ModelElement() {
             public void stepInTime( double dt ) {
                 paint();
