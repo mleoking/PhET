@@ -126,7 +126,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      */
     private void updateEmf( double dt ) {
         
-        double A = getLoopArea();  // surface area of the one loop
+        double A = getLoopArea();  // surface area of one loop
         
         // Flux at the center of the coil.
         double centerFlux = 0;
