@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.view.plaf;
+package edu.colorado.phet.common.tests.uitest;
 
 import javax.accessibility.Accessible;
 import javax.swing.*;
