@@ -9,7 +9,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * Filter is a model of a color filter.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class Filter extends SimpleObservable
 {

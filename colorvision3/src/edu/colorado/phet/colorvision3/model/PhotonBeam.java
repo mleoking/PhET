@@ -21,7 +21,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * The photon beam may be filtered or unfiltered.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class PhotonBeam extends SimpleObservable implements SimpleObserver, ModelElement
 {

@@ -16,7 +16,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
  * SpotlightGraphic is the view component for a 2D spotlight.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class SpotlightGraphic extends PhetImageGraphic implements SimpleObserver
 {

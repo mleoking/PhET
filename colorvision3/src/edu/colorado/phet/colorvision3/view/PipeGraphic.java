@@ -20,7 +20,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  * with color if desired.
  *
  * @author cmalley
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class PipeGraphic extends PhetShapeGraphic
 {

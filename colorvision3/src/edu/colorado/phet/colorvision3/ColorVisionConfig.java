@@ -7,7 +7,7 @@ package edu.colorado.phet.colorvision3;
  * See ColorVisionStrings.properties for localized Strings that are visible to the user.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class ColorVisionConfig
 {

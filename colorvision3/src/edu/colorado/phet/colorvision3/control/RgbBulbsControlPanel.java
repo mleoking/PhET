@@ -16,7 +16,7 @@ import edu.colorado.phet.common.view.PhetControlPanel;
  * graphic and Help buttons.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class RgbBulbsControlPanel extends PhetControlPanel
 {

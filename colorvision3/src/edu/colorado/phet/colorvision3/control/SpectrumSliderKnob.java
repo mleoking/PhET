@@ -15,7 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  * SpectrumSliderKnob is the knob on a SpectrumSlider.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class SpectrumSliderKnob extends PhetShapeGraphic
 {

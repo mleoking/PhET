@@ -22,7 +22,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
  * It is a Shape that is described using constructive area geometry.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class FilterGraphic extends PhetGraphic implements SimpleObserver
 {

@@ -17,7 +17,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  * ThoughtBubbleGraphic displays a "thought bubble", used to show perceived color.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class ThoughtBubbleGraphic extends PhetShapeGraphic
 {

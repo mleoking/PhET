@@ -19,6 +19,7 @@ Single Bulb module:
     "on" and "off" states for the filter.
 (DONE) 9. When the filter is "off", hide only the filter.  The Filter Color slider and filter stand
           should remain visible.
+(DONE) 9a. Intialize to show photon beam and yellow filter.
 
 Global issues;
 10. Work with Kathy on Help, defer MegaHelp.

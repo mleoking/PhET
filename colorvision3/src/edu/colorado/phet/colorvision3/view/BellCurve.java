@@ -15,7 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  * BellCurve draws a bell curve shape.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @revision $Id$
+ * @revision $Id$ $Name$
  */
 public class BellCurve extends PhetShapeGraphic
 {
