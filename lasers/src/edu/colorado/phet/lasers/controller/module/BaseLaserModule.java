@@ -113,10 +113,39 @@ public class BaseLaserModule extends Module {
         // Create the energy levels dialog
         createEnergyLevelsDialog( clock, frame );
 
+        // Create the mirrors
+        createMirrors();
+
         // Add the control panel
 //        LaserControlPanel controlPanel = new LaserControlPanel( this );
 //        setControlPanel( controlPanel );
     }
+
+    /**
+     * @param app
+     */
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        Photon.setStimulationBounds( cavity.getBounds() );
+        appFrame = app.getApplicationView().getPhetFrame();
+//        energyLevelsDialog.setVisible( true );
+        MiddleEnergyState.instance().setMeanLifetime( middleStateMeanLifetime );
+        HighEnergyState.instance().setMeanLifetime( highStateMeanLifetime );
+    }
+
+    /**
+     * @param app
+     */
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+//        energyLevelsDialog.setVisible( false );
+        middleStateMeanLifetime = MiddleEnergyState.instance().getMeanLifeTime();
+        highStateMeanLifetime = HighEnergyState.instance().getMeanLifeTime();
+    }
+
+    //----------------------------------------------------------------
+    // Create model elements and their associated graphics
+    //----------------------------------------------------------------
 
     /**
      * Sets up the energy levels dialog
@@ -172,26 +201,45 @@ public class BaseLaserModule extends Module {
         getLaserModel().setPumpingBeam( pumpingBeam );
     }
 
-    /**
-     * @param app
-     */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        Photon.setStimulationBounds( cavity.getBounds() );
-        appFrame = app.getApplicationView().getPhetFrame();
-//        energyLevelsDialog.setVisible( true );
-        MiddleEnergyState.instance().setMeanLifetime( middleStateMeanLifetime );
-        HighEnergyState.instance().setMeanLifetime( highStateMeanLifetime );
-    }
+    protected void createMirrors() {
+        // If there already mirrors in the model, get rid of them
+        if( rightMirror != null ) {
+            getModel().removeModelElement( rightMirror );
+        }
+        if( leftMirror != null ) {
+            getModel().removeModelElement( leftMirror );
+        }
 
-    /**
-     * @param app
-     */
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-//        energyLevelsDialog.setVisible( false );
-        middleStateMeanLifetime = MiddleEnergyState.instance().getMeanLifeTime();
-        highStateMeanLifetime = HighEnergyState.instance().getMeanLifeTime();
+        // The right mirror is a partial mirror
+        Point2D p1 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(),
+                                         cavity.getPosition().getY() );
+        Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(),
+                                         cavity.getPosition().getY() + cavity.getHeight() );
+        rightMirror = new PartialMirror( p1, p2 );
+//        rightMirror.addReflectionStrategy( new LeftReflecting() );
+        rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
+        // The left mirror is 100% reflecting
+        Point2D p3 = new Point2D.Double( cavity.getPosition().getX(),
+                                         cavity.getPosition().getY() );
+        Point2D p4 = new Point2D.Double( cavity.getPosition().getX(),
+                                         cavity.getPosition().getY() + cavity.getHeight() );
+        leftMirror = new PartialMirror( p3, p4 );
+        leftMirror.setReflectivity( 1.0 );
+//        leftMirror.addReflectionStrategy( new RightReflecting() );
+        leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
+
+        // Put a reflectivity control on the panel
+        JPanel reflectivityControl = new RightMirrorReflectivityControlPanel( rightMirror );
+        reflectivityControlPanel = new JPanel();
+        Dimension dim = reflectivityControl.getPreferredSize();
+        reflectivityControlPanel.setBounds( (int)rightMirror.getPosition().getX(),
+                                            (int)( rightMirror.getPosition().getY() + rightMirror.getBounds().getHeight() ),
+                                            (int)dim.getWidth() + 10, (int)dim.getHeight() + 10 );
+        reflectivityControlPanel.add( reflectivityControl );
+        reflectivityControl.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+        reflectivityControlPanel.setOpaque( false );
+        getApparatusPanel().add( reflectivityControlPanel );
+        reflectivityControlPanel.setVisible( false );
     }
 
     //-----------------------------------------------------------------------------
@@ -284,7 +332,6 @@ public class BaseLaserModule extends Module {
     }
 
     public EnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
-//    protected EnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
         return energyLevelsMonitorPanel;
     }
 
@@ -334,30 +381,14 @@ public class BaseLaserModule extends Module {
         getModel().removeModelElement( rightMirror );
         getApparatusPanel().removeGraphic( leftMirrorGraphic );
         getApparatusPanel().removeGraphic( rightMirrorGraphic );
-        if( reflectivityControlPanel != null ) {
-            getApparatusPanel().remove( reflectivityControlPanel );
-        }
 
         if( mirrorsEnabled ) {
-            // Create the mirrors
-            createMirrors();
-
             getModel().addModelElement( leftMirror );
             getModel().addModelElement( rightMirror );
             getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.MIRROR_LAYER );
             getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.MIRROR_LAYER );
 
-            // Put a reflectivity control on the panel
-            JPanel reflectivityControl = new RightMirrorReflectivityControlPanel( rightMirror );
-            reflectivityControlPanel = new JPanel();
-            Dimension dim = reflectivityControl.getPreferredSize();
-            reflectivityControlPanel.setBounds( (int)rightMirror.getPosition().getX(),
-                                                (int)( rightMirror.getPosition().getY() + rightMirror.getBounds().getHeight() ),
-                                                (int)dim.getWidth() + 10, (int)dim.getHeight() + 10 );
-            reflectivityControlPanel.add( reflectivityControl );
-            reflectivityControl.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-            reflectivityControlPanel.setOpaque( false );
-            getApparatusPanel().add( reflectivityControlPanel );
+            reflectivityControlPanel.setVisible( true );
             getApparatusPanel().revalidate();
         }
         getApparatusPanel().paintImmediately( getApparatusPanel().getBounds() );
@@ -392,34 +423,6 @@ public class BaseLaserModule extends Module {
     protected void removeAtom( Atom atom ) {
         getModel().removeModelElement( atom );
         atom.removeFromSystem();
-    }
-
-    protected void createMirrors() {
-        // If there already mirrors in the model, get rid of them
-        if( rightMirror != null ) {
-            getModel().removeModelElement( rightMirror );
-        }
-        if( leftMirror != null ) {
-            getModel().removeModelElement( leftMirror );
-        }
-
-        // The right mirror is a partial mirror
-        Point2D p1 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(),
-                                         cavity.getPosition().getY() );
-        Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(),
-                                         cavity.getPosition().getY() + cavity.getHeight() );
-        rightMirror = new PartialMirror( p1, p2 );
-//        rightMirror.addReflectionStrategy( new LeftReflecting() );
-        rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
-        // The left mirror is 100% reflecting
-        Point2D p3 = new Point2D.Double( cavity.getPosition().getX(),
-                                         cavity.getPosition().getY() );
-        Point2D p4 = new Point2D.Double( cavity.getPosition().getX(),
-                                         cavity.getPosition().getY() + cavity.getHeight() );
-        leftMirror = new PartialMirror( p3, p4 );
-        leftMirror.setReflectivity( 1.0 );
-//        leftMirror.addReflectionStrategy( new RightReflecting() );
-        leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
     }
 
     public void reset() {
