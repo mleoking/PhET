@@ -27,7 +27,7 @@ public class TestApparatusModule extends SingleAtomModule {
      *
      */
     public TestApparatusModule( AbstractClock clock ) {
-        super( null, clock );
+        super( clock );
         //        super( "Test" );
     }
 

@@ -32,12 +32,15 @@ import java.util.Random;
  */
 public class CollimatedBeam extends Particle implements PhotonSource {
 
-    ///////////////////////////////////////////////////////////////
-    // Class
+    //-----------------------------------------------------------------
+    // Class datat
+    //-----------------------------------------------------------------
     private static Random gaussianGenerator = new Random();
+    private static Random angleGenerator = new Random();
 
-    //////////////////////////////////////////////////////////////
-    // Instance
+    //-----------------------------------------------------------------
+    // Instance data
+    //-----------------------------------------------------------------
     private double nextTimeToProducePhoton = 0;
     private double wavelength;
     private Rectangle2D bounds;
@@ -50,15 +53,32 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     private double maxPhotonsPerSecond;
     // Is the collimated beam currently generating photons?
     private boolean isEnabled;
+    // Angle at which the beam fans out, in radians
+    private double fanout = 0;
 
 
+    /**
+     *
+     * @param wavelength
+     * @param origin
+     * @param height
+     * @param width
+     * @param direction
+     * @param maxPhotonsPerSecond
+     * @param fanout    spread of beam, in degrees
+     */
     public CollimatedBeam( double wavelength, Point2D origin, double height, double width,
-                           Vector2D direction, double maxPhotonsPerSecond ) {
+                           Vector2D direction, double maxPhotonsPerSecond, double fanout ) {
+        this.fanout = Math.toRadians( fanout );
         this.wavelength = wavelength;
         this.maxPhotonsPerSecond = maxPhotonsPerSecond;
         this.bounds = new Rectangle2D.Double( origin.getX(), origin.getY(), width, height );
         this.setPosition( origin );
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.SPEED );
+    }
+
+    public double getFanout() {
+        return fanout;
     }
 
     public void setBounds( Rectangle2D rect ) {
@@ -121,13 +141,13 @@ public class CollimatedBeam extends Particle implements PhotonSource {
         if( isEnabled() ) {
             timeSinceLastPhotonProduced += dt;
             if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
-
-//                System.out.println( "rate: " + (1 / timeSinceLastPhotonProduced ) );
-
                 timeSinceLastPhotonProduced = 0;
+                // Set the photon's velocity to a randomized angle
+                double angle = angleGenerator.nextDouble() * ( fanout / 2 ) * ( angleGenerator.nextBoolean() ? 1 : -1 );
+                Vector2D photonVelocity = new Vector2D.Double( velocity ).rotate( angle );
                 final Photon newPhoton = Photon.create( this.getWavelength(),
                                                         new Point2D.Double( genPositionX(), genPositionY() ),
-                                                        new Vector2D.Double( velocity ) );
+                                                        photonVelocity );
                 photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( this, newPhoton ) );
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
             }
@@ -146,19 +166,19 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     private double genPositionY() {
         double yDelta = 0;
         // Things are different if we're firing horizontally
-        if( velocity.getX() != 0 ) {
+        if( velocity.getX() > velocity.getY() ) {
             yDelta = Math.random() * bounds.getHeight();
         }
-        return this.getPosition().getY() + yDelta;
+        return this.getBounds().getMinY() + yDelta;
     }
 
     private double genPositionX() {
         double xDelta = 0;
-        // Things are different if we're vertically
-        if( velocity.getY() != 0 ) {
+        // Things are different if we're firing vertically
+        if( velocity.getY() > velocity.getX() ) {
             xDelta = Math.random() * bounds.getWidth();
         }
-        return this.getPosition().getX() + xDelta;
+        return this.getBounds().getMinX() + xDelta;
     }
 
     private double getNextTimeToProducePhoton() {
@@ -203,33 +223,5 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     public void removeListener( EventListener listener ) {
         rateChangeEventChannel.removeListener( listener );
     }
-
-//    public class RateChangeEvent extends EventObject {
-//        public RateChangeEvent() {
-//            super( CollimatedBeam.this );
-//        }
-//
-//        public double getRate() {
-//            return CollimatedBeam.this.getPhotonsPerSecond();
-//        }
-//    }
-//
-//    public interface RateChangeListener extends EventListener {
-//        public void rateChangeOccurred( RateChangeEvent event );
-//    }
-//
-//    public class WavelengthChangeEvent extends EventObject {
-//        public WavelengthChangeEvent() {
-//            super( CollimatedBeam.this );
-//        }
-//
-//        public double getWavelength() {
-//            return CollimatedBeam.this.getWavelength();
-//        }
-//    }
-//
-//    public interface WavelengthChangeListener extends EventListener {
-//        public void wavelengthChanged( WavelengthChangeEvent event );
-//    }
 }
 

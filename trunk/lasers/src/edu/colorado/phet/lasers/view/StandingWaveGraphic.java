@@ -81,27 +81,6 @@ public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.
         return bounds;
     }
 
-    /**
-     * Vestigial. Each of the waves gets added independently to the apparatus panel
-     *
-     * @return
-     */
-//    public void paint( Graphics2D g ) {
-//        GraphicsState gs = new GraphicsState( g );
-//
-//        g.setStroke( stroke );
-//        internalStandingWave.paint( g );
-//        externalStandingWave.paint( g );
-//
-//        g.setColor( actualColor );
-//        g.fill( rExternal );
-//
-//        // Debug code
-//        g.setColor( Color.green );
-//        g.draw( bounds );
-//        gs.restoreGraphics();
-//    }
-
     private double getExternalAmplitude() {
         double n = getInternalAmplitude();
         if( mirror != null ) {
@@ -130,13 +109,10 @@ public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.
         externalStandingWave.setAmplitude( getExternalAmplitude() );
     }
 
-//    protected double getMaxInternalAmplitude() {
-//        return 60;
-//    }
+    //-----------------------------------------------------------------
+    // Event handling
+    //-----------------------------------------------------------------
 
-    ///////////////////////////////////////////////////////////////////////////////////
-    // Interface implementations
-    //
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
         Photon photon = event.getPhoton();
         if( lasingPhotons.contains( photon ) ) {

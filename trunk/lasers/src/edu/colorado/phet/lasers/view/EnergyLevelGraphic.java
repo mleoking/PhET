@@ -12,12 +12,13 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.math.ModelViewTx1D;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -31,16 +32,15 @@ import java.awt.geom.Rectangle2D;
  * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
  * mouse, and it's range of movement is limited by the energy levels of the next higher and next lower energy states.
  */
-public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements AtomicState.Listener {
+public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicState.Listener {
     private AtomicState atomicState;
     private boolean isAdjustable;
     private Color color;
     private double xLoc;
     private double width;
     private EnergyLevelRep energyLevelRep;
-    private Rectangle bounds = new Rectangle();
     // This transform controls the y location of the line
-    private ModelViewTx1D energyYTx;
+    private ModelViewTransform1D energyYTx;
 
     /**
      * @param component
@@ -61,11 +61,11 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         this.xLoc = xLoc;
         this.width = width;
         energyLevelRep = new EnergyLevelRep( component );
-        setBoundedGraphic( energyLevelRep );
+        addGraphic( energyLevelRep );
 
         if( isAdjustable ) {
-            addCursorHandBehavior();
-            addTranslationBehavior( new EnergyLevelTranslator() );
+            setCursorHand();
+            addTranslationListener( new EnergyLevelTranslator() );
         }
     }
 
@@ -77,7 +77,7 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         //noop
     }
 
-    public void update( ModelViewTx1D tx ) {
+    public void update( ModelViewTransform1D tx ) {
         this.energyYTx = tx;
         energyLevelRep.update();
     }
@@ -98,11 +98,12 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
     /**
      * Inner class that handles translation of the graphic
      */
-    private class EnergyLevelTranslator implements Translatable {
+    private class EnergyLevelTranslator implements TranslationListener {
         private int minPixelsBetweenLevels = EnergyLevelMonitorPanel.EnergyLifetimeSlider.sliderHeight;
 
-        public void translate( double dx, double dy ) {
-            double energyChange = energyYTx.viewToModelDifferential( (int)dy );
+        public void translationOccurred( TranslationEvent translationEvent ) {
+            int dy = translationEvent.getDy();
+            double energyChange = energyYTx.viewToModelDifferential( dy );
             // Don't let one level get closer than a certain number of pixels to the one above or below
             double minEnergyDifference = energyYTx.viewToModelDifferential( -minPixelsBetweenLevels );
             double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference,

@@ -25,6 +25,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -128,6 +129,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     // A map of maps for holding photon animations. Inner maps hold animations keyed
     // by their angle of travel. The outer map keys the inner maps by color
     static HashMap s_animationMap = new HashMap();
+    private double xOffset;
+    private double yOffset;
 
     // Generates all the photon animations
     static {
@@ -267,13 +270,14 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     //----------------------------------------------------------------
 
     private double theta;
-    private Rectangle2D rect = new Rectangle2D.Double();
     private Vector2D velocity;
     //    private BufferedImage buffImg = new BufferedImage( s_imgLength, s_imgHeight, BufferedImage.TYPE_INT_ARGB );
     private BufferedImage[] animation;
     private int currAnimationFrameNum;
     private Photon photon;
     private Color color;
+    double baseImageHeight;
+    double baseImageWidth;
 
     /**
      * Private constructor.
@@ -303,13 +307,16 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         velocity = new Vector2D.Double( photon.getVelocity() );
         createImage( photon );
 
-        double w = getBounds().getWidth();
-        double h = getBounds().getHeight();
-        double cx = this.getBounds().getX() + w / 2;
-        double cy = this.getBounds().getY() + h / 2;
-        double x = cx + w * Math.cos( photon.getVelocity().getAngle() );
-        double y = cy + h * Math.sin( photon.getVelocity().getAngle() );
-        setPosition( (int)( photon.getPosition().getX() - x ), (int)( photon.getPosition().getY() - y ) );
+        computeOffsets( velocity.getAngle() );
+        setLocation( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
+
+//        double w = getBounds().getWidth();
+//        double h = getBounds().getHeight();
+//        double cx = this.getBounds().getX() + w / 2;
+//        double cy = this.getBounds().getY() + h / 2;
+//        double x = cx + w * Math.cos( photon.getVelocity().getAngle() );
+//        double y = cy + h * Math.sin( photon.getVelocity().getAngle() );
+//        setLocation( (int)( photon.getPosition().getX() - x ), (int)( photon.getPosition().getY() - y ) );
     }
 
     private void createImage( Photon photon ) {
@@ -335,6 +342,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
                 s_colorToImage.put( wavelength, bi );
             }
         }
+        // Record the height and width of he image before it's rotated
+        baseImageHeight = bi.getHeight();
+        baseImageWidth = bi.getWidth();
 
         // Rotate the image
         theta = photon.getVelocity().getAngle();
@@ -404,21 +414,28 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         currAnimationFrameNum = 0;
     }
 
+    /**
+     *
+     */
     public void update() {
-        double angle = photon.getVelocity().getAngle();
-        double dx = 0;
-        double dy = 0;
-        // If the photon is travelling to the right, we need to offset the image to the left
-        // so that the head of the photon graphic corresponds properly with the location of
-        // the photon itself.
-        if( angle <= Math.PI / 2 && angle >= -Math.PI / 2 ) {
-            dx = getBounds().getWidth();
-        }
-        if( angle <= Math.PI && angle >= 0 ) {
-            dy = getBounds().getHeight();
-        }
-
-        setPosition( (int)( photon.getPosition().getX() - dx ), (int)( photon.getPosition().getY() - dy ) );
+//        double angle = photon.getVelocity().getAngle();
+//        if( angle != theta ) {
+//            computeOffsets( angle );
+//        }
+//        double dx = 0;
+//        double dy = 0;
+//        // If the photon is travelling to the right, we need to offset the image to the left
+//        // so that the head of the photon graphic corresponds properly with the location of
+//        // the photon itself.
+//        if( angle <= Math.PI / 2 && angle >= -Math.PI / 2 ) {
+//            dx = getBounds().getWidth();
+//        }
+//        if( angle <= Math.PI && angle >= 0 ) {
+//            dy = getBounds().getHeight();
+//        }
+//
+//        setLocation( (int)( photon.getPosition().getX() - dx ), (int)( photon.getPosition().getY() - dy ) );
+        setLocation( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
 
 
         // Get the next frame of the animaton
@@ -436,55 +453,64 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         repaint();
     }
 
-    /**
-     * @param body
-     */
-    protected void setPosition( Particle body ) {
-        Photon particle = (Photon)body;
-
-        // Need to subtract half the width and height of the image to locate it
-        // porperly. The particle's location is its center, but the location of
-        // the graphic is the upper-left corner of the bounding box.
-        // TODO: coordinate the size of the particle and the image
-        double dx = s_particleImage.getWidth() * Math.cos( theta ) + s_particleImage.getWidth() / 2 * Math.sin( theta );
-        double dy = s_particleImage.getHeight() * Math.sin( theta ) + s_particleImage.getHeight() / 2 * Math.cos( theta );
-        double x = particle.getPosition().getX() - dx;
-        double y = particle.getPosition().getY() - dy;
-        //        double x = particle.getPosition().getX() - getImage().getWidth();/* - particle.getRadius() */
-        //        double y = particle.getPosition().getY() /* - particle.getRadius()*/;
-        super.setPosition( (int)x, (int)y );
-    }
-
-    public void paint( Graphics2D g ) {
-        saveGraphicsState( g );
-        super.paint( g );
-        //        g.setColor( color );
-        //        g.fillOval( (int)this.getBounds().getX(), (int)this.getBounds().getY(), 4, 4 );
-        rect.setRect( this.getBounds().getX() + getImage().getMinX(),
-                      this.getBounds().getY() + getImage().getMinY(),
-                      getImage().getWidth(),
-                      getImage().getHeight() );
-
-        //        double w = getBounds().getWidth();
-        //        double h = getBounds().getHeight();
-        //        double cx = this.getBounds().getX() + w / 2;
-        //        double cy = this.getBounds().getY() + h / 2;
-        //        double x = cx + w * Math.cos( photon.getVelocity().getAngle() );
-        //        double y = cy + h * Math.sin( photon.getVelocity().getAngle() );
-        //        g.setColor( Color.GREEN );
-        //        g.draw( rect );
-        //        g.fillArc( (int)x - 4, (int)y - 4, 8, 8, 0, 360 );
-
-        restoreGraphicsState();
-    }
-
     public void velocityChanged( Photon.VelocityChangedEvent event ) {
         createImage( (Photon)event.getSource() );
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Computes the offsets that must be applied to the buffered image's location so that it's head is
+     * at the location of the photon
+     *
+     * @param theta
+     */
+    private void computeOffsets( double theta ) {
+        // Normalize theta to be between 0 and PI*2
+        theta = ( ( theta % ( Math.PI * 2 ) ) + Math.PI * 2 ) % ( Math.PI * 2 );
+        this.theta = theta;
+
+        xOffset = 0;
+        yOffset = 0;
+        double alpha = 0;
+        double w = baseImageWidth;
+        double h = baseImageHeight;
+        if( theta >= 0 && theta <= Math.PI / 2 ) {
+            xOffset = w * Math.cos( theta ) + ( h / 2 ) * Math.sin( theta );
+            yOffset = w * Math.sin( theta ) + ( h / 2 ) * Math.cos( theta );
+        }
+        if( theta > Math.PI / 2 && theta <= Math.PI ) {
+            alpha = theta - Math.PI / 2;
+            xOffset = ( h / 2 ) * Math.cos( alpha );
+            yOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
+        }
+        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
+            alpha = theta - Math.PI;
+            xOffset = ( h / 2 ) * Math.sin( alpha );
+            yOffset = ( h / 2 ) * Math.cos( alpha );
+        }
+        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
+            alpha = Math.PI * 2 - theta;
+            xOffset = w * Math.cos(alpha) + (h/2)*Math.sin(alpha);
+            yOffset = (h/2) * Math.cos( alpha );
+        }
+//        System.out.print( "theta = " + theta );
+//        System.out.print( "    xOffset = " + xOffset );
+//        System.out.println( "    yOffset = " + yOffset );
+    }
+
+
+    /**
+     * For debugging
+     * @param g2
+     */
+    public void paint( Graphics2D g2 ) {
+        super.paint( g2 );
+//        g2.setColor( Color.green );
+//        g2.draw(  new Ellipse2D.Double( this.getLocation().getX() + xOffset - 2, this.getLocation().getY() + yOffset - 2,
+//                                        4, 4 ));
+    }
+    //-----------------------------------------------------------------
     // LeftSystemListener implementions
-    //
+    //-----------------------------------------------------------------
 
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
         s_instances.remove( this );

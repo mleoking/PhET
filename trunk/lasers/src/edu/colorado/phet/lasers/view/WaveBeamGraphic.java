@@ -11,13 +11,16 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.PhotonSource;
 
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -30,39 +33,28 @@ import java.awt.event.ComponentEvent;
  * Shows a collimated beam as a rectangle of actualColor. The saturation of the actualColor corresponds to
  * the photon rate of the beam.
  */
-public class WaveBeamGraphic extends PhetGraphic implements PhotonSource.RateChangeListener,
+public class WaveBeamGraphic extends PhetShapeGraphic implements PhotonSource.RateChangeListener,
                                                             PhotonSource.WavelengthChangeListener {
 
-    Rectangle bounds = new Rectangle();
+    Shape beamArea = new Rectangle();
     private Color actualColor;
-    private PhotonSource beam;
+    private CollimatedBeam beam;
 
-
-    public WaveBeamGraphic( Component component, PhotonSource beam ) {
+    /**
+     *
+     * @param component
+     * @param beam
+     */
+    public WaveBeamGraphic( Component component, CollimatedBeam beam ) {
         super( component );
         this.beam = beam;
         beam.addRateChangeListener( this );
         beam.addWavelengthChangeListener( this );
-
-        // Add a listener to hear when the apparatus panel resizes, so we will make the beam cover
-        // teh panel
-        component.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-//                update();
-            }
-        } );
         update();
     }
 
     protected Rectangle determineBounds() {
-        return bounds;
-    }
-
-    public void paint( Graphics2D g ) {
-        GraphicsState gs = new GraphicsState( g );
-        g.setColor( actualColor );
-        g.fill( bounds );
-        gs.restoreGraphics();
+        return beamArea.getBounds();
     }
 
     private void update() {
@@ -71,8 +63,19 @@ public class WaveBeamGraphic extends PhetGraphic implements PhotonSource.RateCha
         // The power function here controls the ramp-up of actualColor intensity
         int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond() ), .6 ) ) );
         actualColor = getActualColor( baseColor, level );
-        bounds.setRect( beam.getBounds().getX(), beam.getBounds().getY(),
-                        beam.getBounds().getWidth(), getComponent().getHeight() - beam.getBounds().getY() );
+
+        GeneralPath path = new GeneralPath();
+        double beamDepth = getComponent().getHeight() - beam.getBounds().getY();
+        path.moveTo( (float)beam.getBounds().getMinX(), (float)beam.getBounds().getMinY() );
+        path.lineTo( (float)beam.getBounds().getMaxX(), (float)beam.getBounds().getMinY() );
+        path.lineTo( (float)( beam.getBounds().getMaxX() + beamDepth * Math.sin( beam.getFanout() / 2 )),
+                     (float)getComponent().getHeight() );
+        path.lineTo( (float)( beam.getBounds().getMinX() - beamDepth * Math.sin( beam.getFanout() / 2 )),
+                     (float)getComponent().getHeight( ));
+        path.closePath();
+        beamArea = path;
+        setShape( beamArea );
+        setPaint( actualColor );
         setBoundsDirty();
         repaint();
     }

@@ -1,7 +1,8 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.control.IntensitySlider;
 import edu.colorado.phet.control.SpectrumSlider;
@@ -23,7 +24,7 @@ import java.awt.*;
  * Latest change by:   $Author$
  * On date:            $Date$
  */
-public class BeamControl2 extends CompositeGraphic implements CollimatedBeam.RateChangeListener {
+public class BeamControl2 extends GraphicLayerSet implements CollimatedBeam.RateChangeListener {
     private ApparatusPanel apparatusPanel;
     private Point location;
     private IntensitySlider photonRateSlider;

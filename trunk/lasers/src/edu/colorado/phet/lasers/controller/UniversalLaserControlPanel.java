@@ -36,9 +36,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
 
         // Add the energy levels panel. Note that it must be wrapped in another JPanel, because
         // it has a null layout manager
-        JPanel energyPanel = new JPanel();
-        energyPanel.add( module.getEnergyLevelsMonitorPanel() );
-        addControl( energyPanel );
+        addControl( module.getEnergyLevelsMonitorPanel() );
 
         waveViewControlPanel = new WaveViewControlPanel( module );
         highLevelEmissionControlPanel = new HighLevelEmissionControlPanel( module );
@@ -50,7 +48,6 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0,
                                                          1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-//                                                         1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
 
@@ -82,13 +79,10 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         } );
         JPanel resetBtnPanel = new JPanel();
         resetBtnPanel.add( resetBtn );
-//        optionsPanel.add( resetBtnPanel, gbc );
         super.addControl( resetBtnPanel );
 
         this.doLayout();
-        this.setPreferredSize( new Dimension( 360, (int)this.getSize().getHeight() + 20 ) );
-
-//        setThreeEnergyLevels( module.getThreeEnergyLevels() );
+        this.setPreferredSize( new Dimension( 340, (int)this.getSize().getHeight() ) );
     }
 
     private JPanel createMirrorControlPanel( final BaseLaserModule module ) {
@@ -101,6 +95,10 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         return panel2;
     }
 
+    /**
+     *
+     * @param threeEnergyLevels
+     */
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         this.threeEnergyLevels = threeEnergyLevels;
         laserModule.setThreeEnergyLevels( threeEnergyLevels );
@@ -108,6 +106,10 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         highLevelEmissionControlPanel.setVisible( threeEnergyLevels );
     }
 
+    /**
+     *
+     * @param viewType
+     */
     public void setUpperTransitionView( int viewType ) {
         waveViewControlPanel.setUpperTransitionView( viewType );
     }

@@ -8,8 +8,10 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -17,21 +19,43 @@ import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.AffineTransformOp;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.AffineTransform;
+import java.io.IOException;
 
-public class AtomGraphic extends PhetImageGraphic implements Atom.ChangeListener, SimpleObserver {
+public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeListener, SimpleObserver {
 
     private static String s_imageName = LaserConfig.ATOM_IMAGE_FILE;
 
     private Atom atom;
     private Color energyRepColor;
     private Ellipse2D energyRep;
+    private PhetImageGraphic imageGraphic;
 
     public AtomGraphic( Component component, Atom atom ) {
-        super( component, s_imageName );
+        super( component );
+//        super( component, s_imageName );
         this.atom = atom;
         atom.addObserver( this );
         atom.addChangeListener( this );
+
+        BufferedImage image = null;
+        try {
+            image = ImageLoader.loadBufferedImage( s_imageName );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        double scale = ( 2 * atom.getRadius() ) / image.getHeight();
+        AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
+        AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+        BufferedImage bi = atxOp.filter( image, null );
+
+        imageGraphic = new PhetImageGraphic( component, bi );
+//        imageGraphic = new PhetImageGraphic( component, image );
+        addGraphic( imageGraphic);
         update( atom.getCurrState() );
     }
 
@@ -55,7 +79,7 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.ChangeListener
         double energyRatio = state.getEnergyLevel() / GroundState.instance().getEnergyLevel();
 
         double energyRepRad = Math.pow( energyRatio, ringThicknessExponent )
-                              * ( getImage().getWidth() / 2 ) + groundStateRingThickness;
+                              * ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;
         energyRep = new Ellipse2D.Double( atom.getPosition().getX() - energyRepRad, atom.getPosition().getY() - energyRepRad,
                                           energyRepRad * 2, energyRepRad * 2 );
         if( state.getWavelength() == Photon.GRAY ) {
@@ -64,8 +88,8 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.ChangeListener
         else {
             energyRepColor = VisibleColor.wavelengthToColor( state.getWavelength() );
         }
-        setPosition( (int)( atom.getPosition().getX() - getImage().getWidth() / 2 ),
-                     (int)( atom.getPosition().getY() - getImage().getHeight() / 2 ) );
+        setLocation( (int)( atom.getPosition().getX() - imageGraphic.getImage().getWidth() / 2 ),
+                     (int)( atom.getPosition().getY() - imageGraphic.getImage().getHeight() / 2 ) );
         setBoundsDirty();
         repaint();
     }

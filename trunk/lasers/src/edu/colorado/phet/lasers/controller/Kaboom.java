@@ -14,16 +14,17 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.Animation;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.FrameSequence;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
@@ -76,6 +77,7 @@ public class Kaboom implements ModelElement {
     }
 
     private void kaboom() {
+
         Random random = new Random();
         final ApparatusPanel2 ap = (ApparatusPanel2)module.getApparatusPanel();
 
@@ -85,7 +87,7 @@ public class Kaboom implements ModelElement {
         bounds.setRect( bounds.getMinX(), bounds.getMinY(), ap.getWidth() - bounds.getMinX(), bounds.getHeight() );
 
         // Make a bunch of images from the current state of the apparatus panel
-        BufferedImage snapshot = BufferedImageUtils.toBufferedImage( ap.getSnapshot() );
+//        BufferedImage snapshot = BufferedImageUtils.toBufferedImage( ap.getSnapshot() );
 
         // Make a static image of the current state of the apparatus panel, and use it as a background
 //        wholeBackground = new PhetImageGraphic( ap, snapshot );
@@ -134,7 +136,7 @@ public class Kaboom implements ModelElement {
         // Add the flames
         clock.doStart();
         Flames flames = new Flames( ap, clock );
-        flames.setPosition( (int)cavity.getBounds().getMinX(), (int)cavity.getBounds().getMaxY() - flames.getHeight() );
+        flames.setLocation( (int)cavity.getBounds().getMinX(), (int)cavity.getBounds().getMaxY() - flames.getHeight() );
         ap.addGraphic( flames, tileLayer - .5 );
 
         // Add the message to the user
@@ -177,12 +179,12 @@ public class Kaboom implements ModelElement {
     //----------------------------------------------------------------
 
     private class Flames extends PhetImageGraphic {
-        Animation frames;
+        FrameSequence frames;
 
         protected Flames( final Component component, final AbstractClock clock ) {
             super( component );
             try {
-                frames = new Animation( "images/flames", 15 );
+                frames = new FrameSequence( "images/flames", 15 );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -190,7 +192,7 @@ public class Kaboom implements ModelElement {
             setImage( frames.getFrame( 0 ) );
 
             clock.addClockTickListener( new ClockTickListener() {
-                public void clockTicked( AbstractClock c, double dt ) {
+                public void clockTicked( ClockTickEvent event ) {
                     if( frames.getCurrFrameNum() == ( frames.getNumFrames() - 1 ) ) {
                         clock.removeClockTickListener( this );
                         ( (ApparatusPanel)component ).removeGraphic( Flames.this );
