@@ -11,15 +11,23 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 import java.awt.geom.Point2D;
+import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class MeterStickGraphic extends DefaultInteractiveGraphic {
+    private Component component;
 
-    public MeterStickGraphic( PhetImageGraphic meterStickImg, Point2D.Double location ) {
+    public MeterStickGraphic( Component component, PhetImageGraphic meterStickImg, Point2D.Double location ) {
         super( meterStickImg );
+        this.component = component;
         this.addCursorHandBehavior();
         this.addTranslationBehavior( new ImageTranslator( meterStickImg, location ) );
     }
 
+    public void mouseDragged( MouseEvent e ) {
+        super.mouseDragged( e );
+        component.repaint();
+    }
     //    int cnt = 0;
     //    public void mouseDragged( MouseEvent e ) {
     //        if( cnt++ % 3 == 0 ) {

@@ -37,6 +37,7 @@ public class SoundApplication extends PhetApplication {
                                           twoSourceIntereferenceModule, wallInterferenceModule,
                                           evacuatedBoxModule} );
             //                        this.setModules( new Module[]{ evacuatedBoxModule  } );
+//            this.setInitialModule( measureModule );
             this.setInitialModule( evacuatedBoxModule );
 
             // Create the frame setup
