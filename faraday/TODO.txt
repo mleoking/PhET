@@ -58,6 +58,8 @@ PHETCOMMON:
 
 DONE:
 v0r19...
+(3/18) - make sure that AC hits all peaks and zero-crossing values.
+(3/18) - added a debug readout for the current AC amplitude value
 (3/17) - flatten all static graphics in voltmeter
 (3/17) - revise the Fireworks image used for the voltmeter body
 (3/17) - add tick marks around voltmeter display, convert guage to Java shapes
