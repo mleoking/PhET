@@ -11,6 +11,8 @@
 package edu.colorado.phet.common.view.components.menu;
 
 import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.VersionUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -82,7 +84,7 @@ public class HelpMenu extends JMenu {
         } );
         add( onscreenHelp );
 //        if( application.getModuleManager().getActiveModule().hasMegaHelp() ) {
-        JMenuItem megaHelpItem = new JMenuItem( "Show MegaHelp" );
+        final JMenuItem megaHelpItem = new JMenuItem( "Show MegaHelp" );
         megaHelpItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( application.getModuleManager().getActiveModule().hasMegaHelp() ) {
@@ -93,6 +95,19 @@ public class HelpMenu extends JMenu {
                 }
             }
         } );
+        application.getModuleManager().addModuleObserver( new ModuleObserver() {
+            public void moduleAdded( Module m ) {
+            }
+
+            public void activeModuleChanged( Module m ) {
+                megaHelpItem.setEnabled( m.hasMegaHelp() );
+            }
+
+            public void moduleRemoved( Module m ) {
+            }
+        } );
+        Module active = application.getModuleManager().getActiveModule();
+        megaHelpItem.setEnabled( active != null && active.hasMegaHelp() );
         add( megaHelpItem );
 //        }
         addSeparator();
