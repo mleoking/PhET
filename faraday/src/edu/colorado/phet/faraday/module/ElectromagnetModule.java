@@ -17,9 +17,10 @@ import java.awt.Point;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.control.ElectromagnetControlPanel;
+import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
@@ -218,10 +219,14 @@ public class ElectromagnetModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        ElectromagnetControlPanel controlPanel = new ElectromagnetControlPanel( this, 
-                sourceCoilModel, batteryModel, acSourceModel, compassModel,
-                electromagnetGraphic.getCoilGraphic(), gridGraphic, fieldMeterGraphic );
-        this.setControlPanel( controlPanel );
+        {
+            ControlPanel controlPanel = new ControlPanel( this );
+            ElectromagnetPanel electromagnetPanel = new ElectromagnetPanel(
+                    sourceCoilModel, batteryModel, acSourceModel, compassModel,
+                    electromagnetGraphic, gridGraphic, fieldMeterGraphic );
+            controlPanel.addFullWidth( electromagnetPanel );
+            this.setControlPanel( controlPanel );
+        }
         
         //----------------------------------------------------------------------------
         // Help

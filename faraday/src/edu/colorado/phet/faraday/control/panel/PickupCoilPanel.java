@@ -29,6 +29,7 @@ import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.Voltmeter;
 import edu.colorado.phet.faraday.view.CoilGraphic;
+import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 
 
 /**
@@ -71,20 +72,20 @@ public class PickupCoilPanel extends FaradayPanel {
      */
     public PickupCoilPanel( 
             PickupCoil pickupCoilModel,
-            CoilGraphic coilGraphic,
+            PickupCoilGraphic pickupCoilGraphic,
             Lightbulb lightbulbModel,
             Voltmeter voltmeterModel ) {
 
         super();
         
         assert( pickupCoilModel != null );
-        assert( coilGraphic != null );
+        assert( pickupCoilGraphic != null );
         assert( lightbulbModel != null );
         assert( voltmeterModel != null );
         
         // Things we'll be controlling.
         _pickupCoilModel = pickupCoilModel;
-        _coilGraphic = coilGraphic;
+        _coilGraphic = pickupCoilGraphic.getCoilGraphic();
         _lightbulbModel = lightbulbModel;
         _voltmeterModel = voltmeterModel;
         
