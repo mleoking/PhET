@@ -6,10 +6,8 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- center of slider knob doesn't line up with ticks
-- check the bounds & registration point of a FaradaySlider
+- center of slider knob doesn't line up with ticks on Battery
 - setting AC amplitude to zero causes an exception (on Windows only?)
-- move "Alternating Current" label higher on AC graphic to prevent confusion
 - Lightbulb appears to beat with a false peak
 - animate AC wave
 - adjust electron animation so that electrons move farther
@@ -19,6 +17,7 @@ HIGH PRIORITY:
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
+- add spacing between titled panels in the control panel
 - requirements for Generator module (see Carl's Powerpoint slides)
 - calibration throughout
 - electrons in coil loops don't line up with each other after awhile (make radius larger/smaller?)
@@ -55,6 +54,8 @@ phetcommon:
 
 DONE:
 v0r17...
+(3/9) - redo AC graphic
+(3/9) - fixed the bounds & registration point of FaradaySlider
 (3/8) - first pass at Generator module
 (3/8) - no magnetic field (strength=0) should cause the compass to stay in its current location, not move to 0 degrees
 (3/8) - add ticks at min/max/zero on battery amplitude slider track (no labels)

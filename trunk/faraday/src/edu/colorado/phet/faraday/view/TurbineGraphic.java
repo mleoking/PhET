@@ -18,8 +18,10 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.FaradaySlider;
 import edu.colorado.phet.faraday.model.Turbine;
 
@@ -37,12 +39,16 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     //----------------------------------------------------------------------------
     
     private static final double BAR_MAGNET_LAYER = 1;
-    private static final double CONTROL_PANEL_LAYER = 2;
-    private static final double SLIDER_LAYER = 3;
-    private static final double VALUE_LAYER = 4;
+    private static final double PIVOT_LAYER = 2;
+    private static final double WATER_LAYER = 3;
+    private static final double FAUCET_LAYER = 4;
+    private static final double SLIDER_LAYER = 5;
     
     private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
     private static final Color VALUE_COLOR = Color.BLACK;
+    
+    private static final double MAX_WATER_WIDTH = 40.0;
+    private static final Color WATER_COLOR = new Color( 194, 234, 255, 180 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -50,9 +56,10 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     
     private Rectangle _parentBounds;
     private Turbine _turbineModel;
+    private PhetShapeGraphic _waterGraphic;
+    private Rectangle _waterShape;
     private BarMagnetGraphic _barMagnetGraphic;
-    private FaradaySlider _speedSlider;
-    private PhetTextGraphic _speedValue;
+    private FaradaySlider _flowSlider;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -74,6 +81,25 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
         
         _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
+        // Faucet 
+        {
+            PhetImageGraphic faucet = new PhetImageGraphic( component, FaradayConfig.FAUCET_IMAGE );
+            addGraphic( faucet, FAUCET_LAYER );
+            faucet.setLocation( -215, -350 );
+        }
+        
+        // Water
+        {
+            _waterGraphic = new PhetShapeGraphic( component );
+            addGraphic( _waterGraphic, WATER_LAYER );
+            _waterGraphic.setPaint( WATER_COLOR );
+            
+            _waterShape = new Rectangle( 0, 0, 0, 0 );
+            _waterGraphic.setShape( _waterShape );
+            
+            _waterGraphic.setLocation( -97, -245 );
+        }
+        
         // Bar magnet
         {
             _barMagnetGraphic = new BarMagnetGraphic( component, turbineModel );
@@ -90,39 +116,24 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             _barMagnetGraphic.setLocation( 0, 0 );
         }
         
-        // Control panel
+        // Pivot point
         {
-            Shape shape = new Rectangle( 0, 0, 130, 60 );
-            PhetShapeGraphic controlPanel = new PhetShapeGraphic( component );
-            addGraphic( controlPanel, CONTROL_PANEL_LAYER );
-            controlPanel.setShape( shape );
-            controlPanel.setPaint( Color.YELLOW );
-            controlPanel.setBorderColor( Color.BLACK );
-            controlPanel.setStroke( new BasicStroke( 2f ) );
-            controlPanel.centerRegistrationPoint();
-            controlPanel.setLocation( 0, 0 );
+            PhetImageGraphic pivotGraphic = new PhetImageGraphic( component, FaradayConfig.TURBINE_PIVOT_IMAGE );
+            addGraphic( pivotGraphic, PIVOT_LAYER );
+            pivotGraphic.centerRegistrationPoint();
+            pivotGraphic.setLocation( 0, 0 );
         }
         
-        // Speed slider
+        // Water Flow slider
         {
-            _speedSlider = new FaradaySlider( component, 100 );
-            addGraphic( _speedSlider, SLIDER_LAYER );
-            _speedSlider.setMinimum( -100 );
-            _speedSlider.setMaximum( 100 );
-            _speedSlider.setValue( 0 );
-            _speedSlider.addTick( -100 );
-            _speedSlider.addTick( 100 );
-            _speedSlider.addTick( 0 );
-            _speedSlider.centerRegistrationPoint();
-            _speedSlider.setLocation( 0, 25 );
-            _speedSlider.addChangeListener( new SliderListener() );
-        }
-        
-        // Speed value
-        {
-            _speedValue = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
-            addGraphic( _speedValue, VALUE_LAYER );
-            _speedValue.setLocation( -40, -28 );
+            _flowSlider = new FaradaySlider( component, 65 );
+            addGraphic( _flowSlider, SLIDER_LAYER );
+            _flowSlider.setMinimum( 0 );
+            _flowSlider.setMaximum( 100 );
+            _flowSlider.setValue( 0 );
+            _flowSlider.centerRegistrationPoint();
+            _flowSlider.setLocation( -160, -322 );
+            _flowSlider.addChangeListener( new SliderListener() );
         }
         
         update();
@@ -167,14 +178,18 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             // Update the bar magnet.
             {
                 _barMagnetGraphic.clearTransform();
-                _barMagnetGraphic.rotate( _turbineModel.getDirection() );
+                _barMagnetGraphic.rotate( -( _turbineModel.getDirection() ) );
                 _barMagnetGraphic.scale( 0.5, 0.5 ); //XXX rescale the image file and remove this line
             }
             
-            // Update the speed value.
+            // Update the water flow.
             {
-                int speed = (int) ( _turbineModel.getSpeed() * 100.0 );
-                _speedValue.setText( "Speed = " + String.valueOf( speed ) + "%" ); //XXX i18n
+                double speed = _turbineModel.getSpeed();
+                
+                // Amount of water
+                int waterWidth = (int) ( speed * MAX_WATER_WIDTH );
+                _waterShape.setBounds( -( waterWidth / 2 ), 0, waterWidth, _parentBounds.height );
+                _waterGraphic.setShape( _waterShape );
             }
 
             repaint();
@@ -212,9 +227,9 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
          * @param event the event
          */
         public void stateChanged( javax.swing.event.ChangeEvent event ) {  
-            if ( event.getSource() == _speedSlider ) {
+            if ( event.getSource() == _flowSlider ) {
                 // Read the value.
-                double speed = _speedSlider.getValue() / 100.0;
+                double speed = _flowSlider.getValue() / 100.0;
                 // Update the model.
                 _turbineModel.setSpeed( speed );
             }
