@@ -2,7 +2,6 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 
@@ -41,7 +40,7 @@ public class Force1DPlotDeviceView implements PlotDeviceView {
     public void repaintBackground( Rectangle viewBounds ) {
     }
 
-    public BufferedPhetGraphic getBackground() {
-        return force1DPanel.getBufferedGraphic();
-    }
+//    public BufferedPhetGraphic getBackground() {
+//        return force1DPanel.getBufferedGraphic();
+//    }
 }

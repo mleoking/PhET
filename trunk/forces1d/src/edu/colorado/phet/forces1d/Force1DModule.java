@@ -8,7 +8,6 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -85,9 +84,9 @@ public class Force1DModule extends Module {
     public void relayout() {
     }
 
-    public BufferedPhetGraphic getBackground() {
-        return forcePanel.getBufferedGraphic();
-    }
+//    public BufferedPhetGraphic getBackground() {
+//        return forcePanel.getBufferedGraphic();
+//    }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
         UIManager.setLookAndFeel( new PhetLookAndFeel() );

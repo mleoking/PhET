@@ -29,9 +29,9 @@
         Build File.
     </description>
 
-    <taskdef name="copyclasspath" classname="org.reids.anttasks.CopyClasspath" classpath="${antutil}"/>
-    <taskdef name="createresourcetag" classname="org.reids.anttasks.CreateResourcesTag" classpath="${antutil}"/>
-    <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile" classpath="${antutil}"/>
+    <!--    <taskdef name="copyclasspath" classname="org.reids.anttasks.CopyClasspath" classpath="${antutil}"/>-->
+    <!--    <taskdef name="createresourcetag" classname="org.reids.anttasks.CreateResourcesTag" classpath="${antutil}"/>-->
+    <!--    <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile" classpath="${antutil}"/>-->
 
     <target name="Clean Dependencies">
         <delete dir="${idea.classes}"></delete>
@@ -50,6 +50,7 @@
         <mkdir dir="${backup}/${distname}_src_${backup.time}"/>
         <copy todir="${backup}/${distname}_src_${backup.time}">
             <fileset dir="${src}"/>
+            <fileset dir="tests-src"/>
             <!--            <fileset dir="src-hellophet-46"/>-->
         </copy>
     </target>
