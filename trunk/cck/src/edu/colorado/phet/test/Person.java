@@ -5,6 +5,7 @@ import java.util.Date;
 /**
  * An simple person class
  * Testing cvs.
+ * Testing.
  */
 public class Person implements java.io.Serializable {
 
