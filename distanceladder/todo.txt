@@ -1,3 +1,6 @@
+
+- fix star map so control panel stays the same width
+
 - Make widths of dialogs more reasonable.
 
 - Pull computation of brightness out of the control panel and starVeiwGraphic and put it in the photometer

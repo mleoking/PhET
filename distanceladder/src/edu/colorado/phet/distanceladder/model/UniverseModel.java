@@ -32,5 +32,6 @@ public class UniverseModel extends BaseModel {
     public void setStarField( StarField starField ) {
         this.starField = starField;
         updateObservers();
+        starField.updateObservers();
     }
 }

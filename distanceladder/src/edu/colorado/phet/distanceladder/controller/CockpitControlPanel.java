@@ -553,6 +553,7 @@ public class CockpitControlPanel extends JPanel {
             StarMapGraphic starMapGraphic = new StarMapGraphic( this, model.getStarField() );
             starMapGraphic.setStarGraphicRadius( 15 );
             StarshipCoordsGraphic starshipCoordsGraphic = new StarshipCoordsGraphic( starship, this );
+
             // Thicken the lines in the coordinate graphic
             starshipCoordsGraphic.setRingStroke( new BasicStroke( 16f ) );
 

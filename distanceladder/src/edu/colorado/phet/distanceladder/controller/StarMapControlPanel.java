@@ -23,17 +23,18 @@ public class StarMapControlPanel extends JPanel {
     public StarMapControlPanel( final StarMapModule module ) {
         super( new GridBagLayout() );
         this.module = module;
+//        this.setPreferredSize( new Dimension( 200, 800 ) );
 
         int rowIdx = 0;
         try {
             GraphicsUtil.addGridBagComponent( this, new LegendPanel(),
                                               0, rowIdx++,
                                               1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
             GraphicsUtil.addGridBagComponent( this, new ControlPanel(),
                                               0, rowIdx,
                                               1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                              GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
             e.printStackTrace();

@@ -63,12 +63,15 @@ public class ExerciseView {
 
             // Add the question
             Container container = this.getContentPane();
+            container.setLayout( new BorderLayout() );
             JEditorPane questionPane = new JEditorPane( "text/html", exerciseModel.getQuestion() );
-            container.add( questionPane, BorderLayout.NORTH );
+            questionPane.setEditable( false );
+            JScrollPane jScrollPane = new JScrollPane( questionPane );
+            jScrollPane.setPreferredSize( new Dimension( 300, 200 ) );
+            container.add( jScrollPane, BorderLayout.NORTH );
 
             // Add the choices
             JPanel choicePane = new JPanel( new GridBagLayout() );
-            container.add( choicePane, BorderLayout.CENTER );
             for( int i = 0; i < exerciseModel.getChoices().length; i++ ) {
                 Answer answer = exerciseModel.getChoices()[i];
                 JRadioButton choiceRB = new JRadioButton( answer.getText() );
@@ -84,6 +87,7 @@ public class ExerciseView {
                     e.printStackTrace();
                 }
             }
+            container.add( choicePane, BorderLayout.CENTER );
 
             // Add the submit button
             JButton submitBtn = new JButton( new AbstractAction( "Submit" ) {
@@ -97,6 +101,22 @@ public class ExerciseView {
             buttonPane.add( submitBtn );
             container.add( buttonPane, BorderLayout.SOUTH );
 
+//            container.setLayout( new GridBagLayout() );
+//            int rowIdx = 0;
+//            try {
+//                GraphicsUtil.addGridBagComponent( container, jScrollPane,
+//                                                  0, rowIdx++, 1, 1,
+//                                                  GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
+//                GraphicsUtil.addGridBagComponent( container, choicePane,
+//                                                  0, rowIdx++, 1, 1,
+//                                                  GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
+//                GraphicsUtil.addGridBagComponent( container, buttonPane,
+//                                                  0, rowIdx++, 1, 1,
+//                                                  GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
+//            }
+//            catch( AWTException e ) {
+//                e.printStackTrace();
+//            }
             this.pack();
         }
 
