@@ -16,9 +16,17 @@ import java.awt.event.MouseAdapter;
  * Copyright (c) Apr 2, 2004 by Sam Reid
  */
 public class MyButtonUI extends MetalButtonUI {
-
-    private static ImageIcon pressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/round-button-pressed.gif" ) );
-    private static ImageIcon unpressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/round-button.gif" ) );
+    /*
+    redbump_off_md_wht.gif
+    */
+//    private static ImageIcon pressed = new ImageIcon( TestComponents.class.getClassLoader().
+//                                                      getResource( "images/components/webt/round-button-pressed.gif" ) );
+//    private static ImageIcon unpressed = new ImageIcon( TestComponents.class.getClassLoader().
+//                                                        getResource( "images/components/webt/round-button.gif" ) );
+    private static ImageIcon pressed = new ImageIcon( TestComponents.class.getClassLoader().
+                                                      getResource( "images/components/webt/redbump_on_md_wht.gif" ) );
+    private static ImageIcon unpressed = new ImageIcon( TestComponents.class.getClassLoader().
+                                                        getResource( "images/components/webt/redbump_off_md_wht.gif" ) );
     private JButton button;
     private Icon origUnpressed;
     private Icon origPressed;
