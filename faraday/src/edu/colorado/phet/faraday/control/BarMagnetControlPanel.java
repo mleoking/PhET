@@ -225,7 +225,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _flipPolarityButton ) {
                 // Magnet polarity
-                _magnetModel.setDirection( _magnetModel.getDirection() + Math.PI );
+                _magnetModel.flipPolarity();
                 _compassModel.startMovingNow();
             }
             else if ( e.getSource() == _gridCheckBox ) {

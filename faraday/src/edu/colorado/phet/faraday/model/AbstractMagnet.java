@@ -55,6 +55,13 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
     // Accessors
     //----------------------------------------------------------------------------
 
+    /** 
+     * Flips the magnet's polarity by rotating it 180 degrees.
+     */
+    public void flipPolarity() {
+        setDirection( getDirection() + Math.PI );
+    }
+    
     /**
      * Sets the maximum magnet strength.
      * This value is used in rescaling of field strength.
