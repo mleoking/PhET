@@ -13,7 +13,6 @@ package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
@@ -27,7 +26,7 @@ import java.awt.*;
 /**
  *
  */
-public class StimulatingBeamControl extends JPanel implements SimpleObserver {
+public class BeamControl extends JPanel implements SimpleObserver {
 
     private JSlider photonRateSlider;
     //    private JTextField photonRateTF;
@@ -35,12 +34,13 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
     private JSlider wavelengthSlider;
     private Dimension sliderDimension = new Dimension( 50, 30 );
 
-    public StimulatingBeamControl( final LaserModel model ) {
+    public BeamControl( final CollimatedBeam collimatedBeam ) {
+        this.collimatedBeam = collimatedBeam;
 
-        collimatedBeam = model.getStimulatingBeam();
-        if( collimatedBeam != null ) {
-            collimatedBeam.addObserver( this );
-        }
+        //        collimatedBeam = model.getStimulatingBeam();
+        //        if( collimatedBeam != null ) {
+        //            collimatedBeam.addObserver( this );
+        //        }
 
         //        photonRateTF = new JTextField( 3 );
         //        photonRateTF.setEditable( false );
@@ -64,8 +64,8 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
         photonRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 //                updatePhotonRate( photonRateSlider.getValue() );
-                CollimatedBeam beam = model.getStimulatingBeam();
-                beam.setPhotonsPerSecond( photonRateSlider.getValue() );
+                //                CollimatedBeam beam = model.getStimulatingBeam();
+                collimatedBeam.setPhotonsPerSecond( photonRateSlider.getValue() );
                 //                photonRateTF.setText( Integer.toString( photonRateSlider.getValue() ) );
             }
         } );
@@ -81,8 +81,8 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
         wavelengthSlider.setPreferredSize( sliderDimension );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                CollimatedBeam beam = model.getStimulatingBeam();
-                beam.setWavelength( (int)( scaleFactor / wavelengthSlider.getValue() ) );
+                //                CollimatedBeam beam = model.getStimulatingBeam();
+                collimatedBeam.setWavelength( (int)( scaleFactor / wavelengthSlider.getValue() ) );
                 System.out.println( "lambda: " + ( scaleFactor / wavelengthSlider.getValue() ) );
             }
         } );
