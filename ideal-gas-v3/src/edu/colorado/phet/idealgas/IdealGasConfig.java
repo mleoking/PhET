@@ -87,7 +87,7 @@ public class IdealGasConfig {
 
     // Offset for locating objects in the apparatus panel
     public static final int X_BASE_OFFSET = 30;
-    public static final int Y_BASE_OFFSET = -80;
+    public static final int Y_BASE_OFFSET = -100;
     public static final int X_STOVE_OFFSET = 247;
     public static final int Y_STOVE_OFFSET = 545;
 

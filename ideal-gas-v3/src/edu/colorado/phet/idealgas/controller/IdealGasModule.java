@@ -132,7 +132,7 @@ public class IdealGasModule extends Module {
         setControlPanel( controlPanel );
 
         // Place a slider to control the stove
-        createStoveControl();
+        createApparatusSwingControls();
 
         // Add help items
         addHelp();
@@ -195,7 +195,7 @@ public class IdealGasModule extends Module {
     /**
      *
      */
-    private void createStoveControl() {
+    private void createApparatusSwingControls() {
         StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
         stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
                                      IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 30, 300, 120 );
@@ -211,7 +211,7 @@ public class IdealGasModule extends Module {
 //        pumpSelectorPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + 590, IdealGasConfig.Y_BASE_OFFSET + 300,
 //                                     200, 150 );
         PumpSpeciesSelectorPanel2 pumpSelectorPanel = new PumpSpeciesSelectorPanel2( this );
-        pumpSelectorPanel.setLocation( IdealGasConfig.X_BASE_OFFSET + 610, IdealGasConfig.Y_BASE_OFFSET + 300 );
+        pumpSelectorPanel.setLocation( IdealGasConfig.X_BASE_OFFSET + 630, IdealGasConfig.Y_BASE_OFFSET + 300 );
         getApparatusPanel().addGraphic( pumpSelectorPanel );
 //        getApparatusPanel().add( pumpSelectorPanel );
         getApparatusPanel().revalidate();
