@@ -76,9 +76,15 @@ public class PhetImageGraphic extends PhetGraphic {
         return getShape() == null ? null : getShape().getBounds();
     }
 
-    public void paint( Graphics2D g ) {
+    public void paint( Graphics2D g2 ) {
         if( isVisible() && image != null ) {
-            g.drawRenderedImage( image, getNetTransform() );
+            super.saveGraphicsState( g2 );
+            RenderingHints hints = getRenderingHints();
+            if( hints != null ) {
+                g2.setRenderingHints( hints );
+            }
+            g2.drawRenderedImage( image, getNetTransform() );        
+            super.restoreGraphicsState();
         }
     }
 

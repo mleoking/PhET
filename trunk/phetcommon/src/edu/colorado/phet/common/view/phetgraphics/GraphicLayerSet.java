@@ -10,16 +10,17 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
-import edu.colorado.phet.common.util.MultiMap;
-import edu.colorado.phet.common.view.util.RectangleUtils;
-
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import javax.swing.event.MouseInputListener;
+
+import edu.colorado.phet.common.util.MultiMap;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 
 /**
  * GraphicLayerSet is a collection of PhetGraphics (referred to as "children").
@@ -52,13 +53,24 @@ public class GraphicLayerSet extends PhetGraphic {
      *
      * @param g the Graphics2D on which to paint.
      */
-    public void paint( Graphics2D g ) {
+    public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
+            super.saveGraphicsState( g2 );
+            
+            // Apply rendering hints to all children.
+            RenderingHints hints = getRenderingHints();
+            if( hints != null ) {
+                g2.setRenderingHints( hints );
+            }
+            
+            // Iterate over each child graphic.
             Iterator it = graphicMap.iterator();
             while( it.hasNext() ) {
                 PhetGraphic graphic = (PhetGraphic)it.next();
-                graphic.paint( g );//The children know about our transform implicitly.  They handle the transform.
+                graphic.paint( g2 );//The children know about our transform implicitly.  They handle the transform.
             }
+            
+            super.restoreGraphicsState();
         }
     }
 
