@@ -53,7 +53,7 @@ public class ElectromagnetModule extends FaradayModule {
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations
-    private static final Point MAGNET_LOCATION = new Point( 400, 300 );
+    private static final Point ELECTROMAGNET_LOCATION = new Point( 400, 400 );
     private static final Point COMPASS_LOCATION = new Point( 150, 200 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
     private static final Point SOURCE_COIL_LOCATION = new Point( 500, 400 );
@@ -114,7 +114,7 @@ public class ElectromagnetModule extends FaradayModule {
         // Electromagnet
         Electromagnet electromagnetModel = new Electromagnet( sourceCoilModel );
         electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
-        electromagnetModel.setLocation( MAGNET_LOCATION );
+        electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
         electromagnetModel.setDirection( 0 /* radians */ );
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         // Do NOT set the size! -- size will be based on the source coil appearance.

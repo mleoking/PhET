@@ -51,7 +51,7 @@ public class BarMagnetModule extends FaradayModule {
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations
-    private static final Point MAGNET_LOCATION = new Point( 400, 300 );
+    private static final Point BAR_MAGNET_LOCATION = new Point( 400, 300 );
     private static final Point COMPASS_LOCATION = new Point( 150, 200 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
     
@@ -88,7 +88,7 @@ public class BarMagnetModule extends FaradayModule {
         barMagnetModel.setMaxStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
         barMagnetModel.setMinStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MIN );
         barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
-        barMagnetModel.setLocation( MAGNET_LOCATION );
+        barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
         barMagnetModel.setDirection( 0 /* radians */ );
         barMagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
         model.addModelElement( barMagnetModel );

@@ -187,6 +187,7 @@ public class TransformerModule extends FaradayModule {
         gridGraphic.setRescaler( rescaler );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
+        gridGraphic.setVisible( false );
         apparatusPanel.addChangeListener( gridGraphic );
         apparatusPanel.addGraphic( gridGraphic, GRID_LAYER );
         super.setCompassGridGraphic( gridGraphic );
