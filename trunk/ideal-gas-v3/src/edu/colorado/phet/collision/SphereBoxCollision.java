@@ -14,6 +14,20 @@ import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 public class SphereBoxCollision implements Collision {
 
+    //----------------------------------------------------------------
+    // Class fields and methods
+    //----------------------------------------------------------------
+
+    private static boolean isWorkDoneByMovingWall = true;
+
+    public static void setWorkDoneByMovingWall( boolean workDoneByMovingWall ) {
+        isWorkDoneByMovingWall = workDoneByMovingWall;
+    }
+
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
+
     private SphericalBody sphere;
     private Box2D box;
     private IdealGasModel model;
@@ -42,16 +56,17 @@ public class SphereBoxCollision implements Collision {
             sphere.setPosition( newX, sphere.getPosition().getY() );
 
             // Handle giving particle kinetic energy if the wall is moving
-            double vx0 = sphere.getVelocity().getX();
-            double vx1 = vx0 + box.getLeftWallVx();
-            double energyPre = sphere.getKineticEnergy();
-            sphere.setVelocity( vx1, sphere.getVelocity().getY() );
-            double energyPost = sphere.getKineticEnergy();
+            if( isWorkDoneByMovingWall ) {
+                double vx0 = sphere.getVelocity().getX();
+                double vx1 = vx0 + box.getLeftWallVx();
+                double energyPre = sphere.getKineticEnergy();
+                sphere.setVelocity( vx1, sphere.getVelocity().getY() );
+                double energyPost = sphere.getKineticEnergy();
 
-            // Add the energy to the system, so it doesn't get
-            // taken back out when energy conservation is performed
-            model.addKineticEnergyToSystem( energyPost - energyPre );
-            //            model.addKineticEnergyToSystem( box.getLeftWallVx() );
+                // Add the energy to the system, so it doesn't get
+                // taken back out when energy conservation is performed
+                model.addKineticEnergyToSystem( energyPost - energyPre );
+            }
         }
 
         // Collision with right wall?

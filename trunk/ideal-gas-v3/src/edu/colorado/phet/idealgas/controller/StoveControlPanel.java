@@ -19,6 +19,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Hashtable;
 
 public class StoveControlPanel extends JPanel {
@@ -88,6 +90,11 @@ public class StoveControlPanel extends JPanel {
         stoveSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 module.setStove( stoveSlider.getValue() );
+            }
+        } );
+        stoveSlider.addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                stoveSlider.setValue( 0 );
             }
         } );
         stoveSliderPanel.add( stoveSlider );

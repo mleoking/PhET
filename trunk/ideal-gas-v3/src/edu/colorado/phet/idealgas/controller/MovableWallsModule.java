@@ -32,14 +32,15 @@ public class MovableWallsModule extends IdealGasModule {
     private int wallThickness = 12;
 
     public MovableWallsModule( AbstractClock clock ) {
-        super( clock, "Movable Walls" );
+        super( clock, "<html><center>Potential Energy<br>Surface</center></html>" );
 
         getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
 
         Box2D box = super.getBox();
 
         // Create the lower vertical wall
-        lowerWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + 100, box.getCorner1Y() + box.getHeight() / 3,
+        lowerWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
+                                                      box.getCorner1Y() + box.getHeight() / 3,
                                                       wallThickness, box.getHeight() * 2 / 3 ),
                               box.getBoundsInternal() );
         WallGraphic lowerWallGraphic = new WallGraphic( lowerWall, getApparatusPanel(),
@@ -51,7 +52,7 @@ public class MovableWallsModule extends IdealGasModule {
         lowerWall.addChangeListener( new LowerWallChangeListener() );
 
         // Create the left movable floor
-        leftFloor = new Wall( new Rectangle2D.Double( box.getCorner1X(), box.getCorner2Y() - 50,
+        leftFloor = new Wall( new Rectangle2D.Double( box.getCorner1X(), box.getCorner2Y() - 60,
                                                       lowerWall.getBounds().getMinX() - box.getCorner1X(), wallThickness ),
                               box.getBoundsInternal() );
         WallGraphic leftFloorGraphic = new WallGraphic( leftFloor, getApparatusPanel(),
@@ -61,7 +62,7 @@ public class MovableWallsModule extends IdealGasModule {
         addGraphic( leftFloorGraphic, 1000 );
 
         // Create the right movable floor
-        rightFloor = new Wall( new Rectangle2D.Double( lowerWall.getBounds().getMaxX(), box.getCorner2Y() - 50,
+        rightFloor = new Wall( new Rectangle2D.Double( lowerWall.getBounds().getMaxX(), box.getCorner2Y() - 40,
                                                        box.getCorner2X() - lowerWall.getBounds().getMaxX(), wallThickness ),
                                box.getBoundsInternal() );
         WallGraphic rightFloorGraphic = new WallGraphic( rightFloor, getApparatusPanel(),

@@ -1,3 +1,21 @@
+For "diffusion" panel
+---------------------
+x -Stove control: When you let go of mouse, it snaps to zero.
+
+Add some more pressure slices to the little man's pressure sensing.
+
+x - When in constant pressure, wall does no work when it moves.
+
+width of upper vertical wall needs to be adjustable independently of lower
+wall, or in synch with it.
+
+counters for number of particles on either side of vertical wall centerline.
+
+vertical ruler on vertical wall.
+
+x - walls are acted on by gravity, even after it's turned off.
+
+============================================================
 Port to NWO
 -------------
 determineBounds needs to be implemented for many classes

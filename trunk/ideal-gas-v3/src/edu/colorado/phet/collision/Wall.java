@@ -46,6 +46,14 @@ public class Wall extends CollidableBody {
     }
 
     /**
+     * Does nothing. This is so the wall is not affected by gravity
+     * @param dt
+     */
+    public void stepInTime( double dt ) {
+        // noop
+    }
+
+    /**
      * Will not position the wall outside its movement bounds
      *
      * @param x
