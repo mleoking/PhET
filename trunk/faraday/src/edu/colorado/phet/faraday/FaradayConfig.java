@@ -114,6 +114,12 @@ public class FaradayConfig {
     public static final double AC_FREQUENCY_MAX = 1.0;  // 0...1
     public static final double AC_FREQUENCY_MIN = 0.05;  // 0...1
     
+    // Thresholds
+    /* Intensity values below this value are treated as zero. */
+    public static final double INTENSITY_THRESHOLD = 0.001;
+    /* Absolute amplitude values below this value are treated as zero. */
+    public static final double AMPLITUDE_THRESHOLD = INTENSITY_THRESHOLD;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------

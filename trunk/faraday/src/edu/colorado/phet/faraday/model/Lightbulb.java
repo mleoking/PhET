@@ -14,6 +14,7 @@ package edu.colorado.phet.faraday.model;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**
@@ -23,7 +24,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
  * @version $Revision$
  */
 public class Lightbulb extends SimpleObservable implements SimpleObserver {
-
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -73,6 +74,12 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
     public double getIntensity() {
         double intensity = _scale * Math.abs( _voltageSourceModel.getAmplitude() );
         intensity = MathUtil.clamp( 0, intensity, 1 );
+        
+        // Intensity below the threshold is effectively zero.
+        if ( intensity < FaradayConfig.INTENSITY_THRESHOLD ) {
+            intensity = 0;
+        }
+        
         return intensity;
     }
     

@@ -2,26 +2,15 @@
 "To Do" list for "faraday" simulation
 ===============================================================================
 
-ISSUES:
-- Performance changes based on the number of loops in the electromagnet or pickup coil.
-- Performance cannot be the same with the grid "on".
-- If the water wheel hits "critical angles" then its rotation appears jerky at certain speeds.
-- Is the lightbulb & voltmeter's "false peak" a correct behavior?
-- With AC, how can the lightbulb ever be totally off, since the change in flux in never zero?
-- With our model, the induced EMF does not double when the pickup coil area doubles.  Should it?
-- Electron motion delta cannot be greater than the space between the electrons, so I can't speed them up any more.
-
 IN PROGRESS:
 
 
 HIGH PRIORITY:
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
+- make compass respond faster when rotational kinematics is enabled (rescale ala grid?)
+- make compass visibly rotate (instead of flip) when rotational kinematics is disabled
 - add a dialog that warns about performance implications of turning on grid
 - make electrons move at same speed whether grid is on or off
-- Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
-- calibrate lightbulb
-- calibrate voltmeter
-- calibrate electrons speed
 
 MEDIUM PRIORITY:
 - lightbulb flashes the first time that you visit each module
@@ -62,6 +51,7 @@ PHETCOMMON:
 
 DONE:
 v0r21
+(4/4) - lightbulb/voltmeter/electrons should have a lower threshold, values below which are effectively zero
 (4/4) - set scale for lightbulb, voltmeter and electrons after meeting with Kathy
 (4/4) - add mapping between distance and pixels in DipoleMagnet, currently 1:1
 (4/4) - add debugging panel for changing lightbulb, voltmeter and electron scale

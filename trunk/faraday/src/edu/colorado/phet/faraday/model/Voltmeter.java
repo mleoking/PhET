@@ -15,6 +15,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**
@@ -198,6 +199,11 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
         //  Get the amplitude of the voltage source.
         double amplitude = _scale * _voltageSourceModel.getAmplitude();
         amplitude = MathUtil.clamp( -1, amplitude, +1 );
+        
+        // Absolute amplitude below the threshold is effectively zero.
+        if ( Math.abs( amplitude ) < FaradayConfig.AMPLITUDE_THRESHOLD ) {
+            amplitude = 0;
+        }
         
         // Determine the needle deflection angle.
         return amplitude * MAX_NEEDLE_ANGLE;
