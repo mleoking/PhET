@@ -458,7 +458,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
       
     // Change the slider color.
     VisibleColor color = new VisibleColor( getValue() );
-    _knob.setPaint( color );
+    _knob.setPaint( color.toColor() );
     
     // Fire a ChangeEvent to notify listeners that the slider has moved.
     fireChangeEvent( new ChangeEvent(this) );
