@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- broken grid scaling (see 50% strength magnet in Bar Magnet module)
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet
 
 HIGH PRIORITY:
