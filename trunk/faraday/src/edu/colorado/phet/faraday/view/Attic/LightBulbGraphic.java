@@ -207,15 +207,4 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
         }
         
     } // update
-    
-//    public void paint( Graphics2D g2 ) {
-//        super.paint( g2 );
-//        // Draw bounding rectangle.
-//        Rectangle r = determineBounds();
-//        super.saveGraphicsState( g2 );
-//        g2.setStroke( new BasicStroke(1f) );
-//        g2.setPaint( Color.RED );
-//        g2.draw( r );
-//        super.restoreGraphicsState();
-//    }
 }
