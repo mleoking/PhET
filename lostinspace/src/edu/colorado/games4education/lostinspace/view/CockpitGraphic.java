@@ -7,18 +7,18 @@
  */
 package edu.colorado.games4education.lostinspace.view;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.bounds.Boundary;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
@@ -27,8 +27,8 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
 
     private BufferedImage cockpitImage;
     private BufferedImage joystickImage;
-    private AffineTransform cockpitTx = new AffineTransform( );
-    private AffineTransform joystickTx = new AffineTransform( );
+    private AffineTransform cockpitTx = new AffineTransform();
+    private AffineTransform joystickTx = new AffineTransform();
     private ApparatusPanel apparatusPanel;
 
     private double joystickLayer = 10;
@@ -89,7 +89,7 @@ public class CockpitGraphic extends CompositeInteractiveGraphic implements Image
                     }
 
                     result = testPt.getX() > 30 && testPt.getX() < 50
-                            && testPt.getY() > 0 && testPt.getY() < 20;
+                             && testPt.getY() > 0 && testPt.getY() < 20;
                     return result;
                 }
             };
