@@ -2,6 +2,14 @@
 "To Do" list for "faraday" simulation
 ===============================================================================
 
+ISSUES:
+- Performance cannot be the same with the grid "on". How about a dialog that indicates this?
+- If the water wheel hits "critical angles" then its rotation appears jerky at certain speeds.
+- Is the lightbulb & voltmeter's "false peak" a correct behavior?
+- With AC, how can the lightbulb ever be totally off, since the change in flux in never zero?
+- With our model, the induced EMF does not double when the pickup coil area doubles.  Should it?
+- Electron motion delta cannot be greater than the space between the electrons, so I can't speed them up any more.
+
 IN PROGRESS:
 
 
