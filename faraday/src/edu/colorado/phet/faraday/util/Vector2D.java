@@ -51,10 +51,17 @@ public class Vector2D {
         this( v.getX(), v.getY() );
     }
 
+    public void copy( Vector2D v ) {
+        _x = v.getX();
+        _y = v.getY();
+        _magnitude = v.getMagnitude();
+        _angle = v.getAngle();
+    }
+    
     //----------------------------------------------------------------------------
     // XY accessors
     //----------------------------------------------------------------------------
-
+    
     public void setXY( double x, double y ) {
         _x = x;
         _y = y;
