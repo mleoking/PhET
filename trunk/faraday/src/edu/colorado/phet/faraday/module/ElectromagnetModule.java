@@ -23,7 +23,7 @@ import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
-import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
+import edu.colorado.phet.faraday.util.CompassGridRescaler;
 import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
@@ -123,7 +123,7 @@ public class ElectromagnetModule extends FaradayModule {
         electromagnetModel.update();
          
         // Rescaler
-        IRescaler rescaler = new MagneticFieldRescaler( electromagnetModel );
+        IRescaler rescaler = new CompassGridRescaler( electromagnetModel );
         
         // Compass model
         Compass compassModel = new Compass( electromagnetModel );

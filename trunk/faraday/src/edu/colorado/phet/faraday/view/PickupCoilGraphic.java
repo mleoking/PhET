@@ -26,10 +26,13 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.Voltmeter;
-import edu.colorado.phet.faraday.util.IRescaler;
+import edu.colorado.phet.faraday.util.ElectronSpeedRescaler;
+import edu.colorado.phet.faraday.util.LightbulbRescaler;
+import edu.colorado.phet.faraday.util.VoltmeterRescaler;
 
 /**
  * PickupCoilGraphic is the graphical representation of a pickup coil,
@@ -63,9 +66,8 @@ public class PickupCoilGraphic
      * @param component the parent Component
      * @param BaseModel the base model
      * @param pickupCoilModel the pickup coil model
-     * @param lightbulbModel the lightbulb model
-     * @param voltmeterModel the voltmeter model
-     * @param rescaler
+     * @param lightbulbModel
+     * @param voltmeterModel
      */
     public PickupCoilGraphic( 
             final Component component, 
@@ -73,14 +75,13 @@ public class PickupCoilGraphic
             PickupCoil pickupCoilModel, 
             Lightbulb lightbulbModel,
             Voltmeter voltmeterModel,
-            IRescaler rescaler) {
+            AbstractMagnet magnetModel ) {
         
         assert ( component != null );
         assert ( baseModel != null );
         assert ( pickupCoilModel != null );
         assert ( lightbulbModel != null );
         assert ( voltmeterModel != null );
-        assert ( rescaler != null );
         
         _collisionDetector = new CollisionDetector( this );
         
@@ -90,13 +91,14 @@ public class PickupCoilGraphic
         _pickupCoilModel.addObserver( this );
         
         // Graphics components
-        _coilGraphic = new CoilGraphic( component, baseModel, pickupCoilModel );
-        _lightbulbGraphic = new LightbulbGraphic( component, lightbulbModel );
+        _coilGraphic = new CoilGraphic( component, pickupCoilModel, baseModel );
+        _lightbulbGraphic = new LightbulbGraphic( component, lightbulbModel );;
         _voltmeterGraphic = new VoltmeterGraphic( component, voltmeterModel );
         
-        // Hook up rescaler to the lightbulb view.
-        // Coil view has its own rescaler, voltmeter rescaler is in the model.
-        _lightbulbGraphic.setRescaler( rescaler );
+        // Rescalers
+        _coilGraphic.setRescaler( new ElectronSpeedRescaler( magnetModel ) );
+        _lightbulbGraphic.setRescaler( new LightbulbRescaler( magnetModel ) );
+        _voltmeterGraphic.setRescaler( new VoltmeterRescaler( magnetModel) );
         
         // Foreground composition
         _foreground = new CompositePhetGraphic( component );
@@ -128,8 +130,6 @@ public class PickupCoilGraphic
         _pickupCoilModel.removeObserver( this );
         _pickupCoilModel = null;
         _coilGraphic.finalize();
-        _lightbulbGraphic.finalize();
-        _voltmeterGraphic.finalize();
     }
  
     //----------------------------------------------------------------------------

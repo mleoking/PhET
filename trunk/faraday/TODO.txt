@@ -55,7 +55,9 @@ PHETCOMMON:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
-v0r17...
+v0r18...
+(3/16) - remove rescaler from source coil, shouldn't be rescaled
+(3/16) - separate rescaler classes for lightbulb, voltmeter, electrons and compass grid.
 (3/15) - draw the AC sine wave so that it fills the "scope" viewport
 (3/14) - increase bar magnet strength range to 25-100%
 (3/14) - calibrate compass grid
@@ -72,6 +74,7 @@ v0r17...
 (3/10) - rename module "Magnet & Coil" to "Pickup Coil"
 (3/10) - add spacing between titled panels in the control panel
 (3/10) - workaround for zero scaling exception on Windows & Linux
+v0r17...
 (3/9) - replace deprecated Module constructor with new constructor for all modules
 (3/9) - add water faucet to control turbine speed
 (3/9) - redo AC graphic
