@@ -10,12 +10,10 @@ import edu.colorado.phet.command.AddTransmittingElectronCmd;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.command.Command;
+import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.emf.command.SetMovementCmd;
 import edu.colorado.phet.emf.model.Antenna;
@@ -31,8 +29,6 @@ import edu.colorado.phet.util.StripChart;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Ellipse2D;
-import java.io.IOException;
 
 public class EmfModule extends Module {
 
@@ -184,6 +180,11 @@ public class EmfModule extends Module {
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.WEST );
                 GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(),
+                                                  new JLabel( "<html>Time<br></html>" ),
+                                                  0, rowIdx++, 1, 1,
+                                                  GridBagConstraints.NONE,
+                                                  GridBagConstraints.CENTER );
+                GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(),
                                                   new JLabel( "Receiver" ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
@@ -193,6 +194,11 @@ public class EmfModule extends Module {
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.WEST );
+                GraphicsUtil.addGridBagComponent( stripChartDlg.getContentPane(),
+                                                  new JLabel( "<html>Time<br></html>" ),
+                                                  0, rowIdx++, 1, 1,
+                                                  GridBagConstraints.NONE,
+                                                  GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
                 e.printStackTrace();

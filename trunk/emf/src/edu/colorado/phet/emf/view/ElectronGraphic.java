@@ -8,9 +8,9 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
 //import edu.colorado.phet.common.view.graphics.SimpleBufferedImageGraphic;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.emf.Config;
 import edu.colorado.phet.emf.model.Electron;
 

@@ -12,7 +12,7 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.emf.Config;
 import edu.colorado.phet.emf.EmfModule;
 import edu.colorado.phet.emf.model.Electron;

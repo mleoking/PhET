@@ -6,19 +6,15 @@
  */
 package edu.colorado.phet.emf.view;
 
-//import edu.colorado.phet.common.view.ApparatusPanel;
-
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.model.EmfModel;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 

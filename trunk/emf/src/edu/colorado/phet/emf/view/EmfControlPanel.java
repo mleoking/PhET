@@ -7,7 +7,7 @@
 package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.coreadditions.MessageFormatter;
 import edu.colorado.phet.emf.EmfModule;
 import edu.colorado.phet.emf.Config;
@@ -265,9 +265,8 @@ public class EmfControlPanel extends JPanel {
      * electrons move
      */
     private class MovementControlPane extends JPanel {
-//    private class MovementControlPane extends ControlPane {
 
-        JRadioButton sineRB = new JRadioButton( "Sinusoidal" );
+        JRadioButton sineRB = new JRadioButton( "Oscillate" );
         JRadioButton manualRB = new JRadioButton( "Manual" );
         JCheckBox coordinateFACB = new JCheckBox( MessageFormatter.format( "Coordinate frequency\nand amplitude" ) );
         ButtonGroup rbGroup = new ButtonGroup();
@@ -275,6 +274,8 @@ public class EmfControlPanel extends JPanel {
         int maxAmplitude = 100;
         JSlider ampSlider = new JSlider( 0, maxAmplitude, maxAmplitude / 2 );
         private boolean coordinateFandA;
+        private JLabel freqLabel;
+        private JLabel ampLabel;
 
         MovementControlPane() {
             this.setLayout( new GridBagLayout() );
@@ -336,7 +337,8 @@ public class EmfControlPanel extends JPanel {
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Frequency" ),
+                freqLabel = new JLabel( "Frequency" );
+                GraphicsUtil.addGridBagComponent( this, freqLabel,
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
@@ -344,7 +346,8 @@ public class EmfControlPanel extends JPanel {
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Amplitude" ),
+                ampLabel = new JLabel( "Amplitude" );
+                GraphicsUtil.addGridBagComponent( this, ampLabel,
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
@@ -373,18 +376,16 @@ public class EmfControlPanel extends JPanel {
         void setMovementType() {
             if( manualRB.isSelected() ) {
                 module.setMovementManual();
-                module.recenterElectrons();
-                module.setAutoscaleEnabled( false );
-                freqSlider.setEnabled( false );
-                ampSlider.setEnabled( false );
             }
             if( sineRB.isSelected() ) {
                 module.setMovementSinusoidal();
-                module.recenterElectrons();
-                module.setAutoscaleEnabled( false );
-                freqSlider.setEnabled( true );
-                ampSlider.setEnabled( true );
             }
+            module.recenterElectrons();
+            module.setAutoscaleEnabled( false );
+            freqLabel.setEnabled( sineRB.isSelected() );
+            ampLabel.setEnabled( sineRB.isSelected() );
+            freqSlider.setEnabled( sineRB.isSelected() );
+            ampSlider.setEnabled( sineRB.isSelected() );
         }
     }
 

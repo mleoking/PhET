@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.coreadditions;
 
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;

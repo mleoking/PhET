@@ -7,6 +7,7 @@
 package edu.colorado.phet.emf.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.emf.EmfApplication;
 import edu.colorado.phet.emf.model.movement.ManualMovement;
 import edu.colorado.phet.emf.model.movement.MovementType;
@@ -149,7 +150,7 @@ public class Electron extends Body {
         }
     }
 
-    public Vector2D getVelocity() {
+    public AbstractVector2D getVelocity() {
 //    public Vector2D.Float getVelocity() {
         return this.velocity;
     }
@@ -313,7 +314,7 @@ public class Electron extends Body {
     }
 
     public Point2D.Double getCM() {
-        return getLocation();
+        return getPosition();
     }
 
     public double getMomentOfInertia() {
