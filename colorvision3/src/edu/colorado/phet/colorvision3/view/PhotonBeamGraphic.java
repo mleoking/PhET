@@ -136,7 +136,7 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver {
             g2.setPaint( oldPaint );
             g2.setStroke( oldStroke );
 
-            BoundsOutline.paint( g2, this, Color.YELLOW ); // DEBUG
+            BoundsOutliner.paint( g2, this, Color.YELLOW ); // DEBUG
         }
     } // paint
 

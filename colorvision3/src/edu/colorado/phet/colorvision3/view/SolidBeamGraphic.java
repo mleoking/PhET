@@ -167,7 +167,7 @@ public class SolidBeamGraphic extends PhetShapeGraphic implements SimpleObserver
     public void paint( Graphics2D g2 ) {
         if( super.isVisible() && _beamModel.isEnabled() ) {
             super.paint( g2 );
-            BoundsOutline.paint( g2, this ); // DEBUG
+            BoundsOutliner.paint( g2, this ); // DEBUG
         }
     }
 }

@@ -557,7 +557,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
                 g2.setClip( oldClip );
             }
 
-            //BoundsOutline.paint( g2, getBounds(), Color.GREEN, new BasicStroke(1f) ); // DEBUG
+            //BoundsOutliner.paint( g2, getBounds(), Color.GREEN, new BasicStroke(1f) ); // DEBUG
         }
     }
 

@@ -16,23 +16,23 @@ import java.awt.*;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 /**
- * BoundsOutline is a class used for debugging the bondaries of graphics components.
+ * BoundsOutliner is a class used for debugging the bondaries of graphics components.
  * <p>
  * In the paint method of your component (typically at the end), add a call to 
- * BoundsOutline.paint.  If BoundsOutline.isEnabled is true, the bounds of your 
+ * BoundsOutliner.paint.  If BoundsOutliner.isEnabled is true, the bounds of your 
  * component will be rendered as an outline, in a Color that you specify.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BoundsOutline {
+public class BoundsOutliner {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
 
     // Set this system property to enable.
-    private static final String PROPERTY = "BoundsOutline.enable";
+    private static final String PROPERTY = "BoundsOutliner.enable";
     // Default stroke
     private static final Stroke DEFAULT_STROKE = new BasicStroke( 1f );
     // Default paint
@@ -48,7 +48,7 @@ public class BoundsOutline {
     /**
      * Not intended for instantiation.
      */
-    private BoundsOutline() {}
+    private BoundsOutliner() {}
 
     //----------------------------------------------------------------------------
     // Accessors
@@ -85,7 +85,7 @@ public class BoundsOutline {
      */
     public static void paint( Graphics2D g2, PhetGraphic component ) {
         if( _enabled ) {
-            BoundsOutline.paint( g2, component, DEFAULT_PAINT, DEFAULT_STROKE );
+            BoundsOutliner.paint( g2, component, DEFAULT_PAINT, DEFAULT_STROKE );
         }
     }
 
@@ -99,7 +99,7 @@ public class BoundsOutline {
      */
     public static void paint( Graphics2D g2, PhetGraphic component, Paint paint ) {
         if( _enabled ) {
-            BoundsOutline.paint( g2, component, paint, DEFAULT_STROKE );
+            BoundsOutliner.paint( g2, component, paint, DEFAULT_STROKE );
         }
     }
 
@@ -114,7 +114,7 @@ public class BoundsOutline {
      */
     public static void paint( Graphics2D g2, PhetGraphic component, Paint paint, Stroke stroke ) {
         if( _enabled ) {
-            BoundsOutline.paint( g2, component.getBounds(), paint, stroke );
+            BoundsOutliner.paint( g2, component.getBounds(), paint, stroke );
         }
     }
 

@@ -14,7 +14,7 @@ package edu.colorado.phet.colorvision3.help;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import edu.colorado.phet.colorvision3.view.BoundsOutline;
+import edu.colorado.phet.colorvision3.view.BoundsOutliner;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -312,7 +312,7 @@ public class WiggleMe extends PhetGraphic implements ModelElement {
             // Restore graphics state.
             g2.setTransform( oldTransform );
 
-            BoundsOutline.paint( g2, this ); // DEBUG
+            BoundsOutliner.paint( g2, this ); // DEBUG
         }
     }
 

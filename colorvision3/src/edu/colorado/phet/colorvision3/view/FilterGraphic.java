@@ -149,7 +149,7 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver {
             g2.setPaint( oldPaint );
             g2.setRenderingHints( oldHints );
 
-            BoundsOutline.paint( g2, this ); // DEBUG
+            BoundsOutliner.paint( g2, this ); // DEBUG
         }
     }
 

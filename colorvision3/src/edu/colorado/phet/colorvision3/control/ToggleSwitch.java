@@ -19,7 +19,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.colorvision3.view.BoundsOutline;
+import edu.colorado.phet.colorvision3.view.BoundsOutliner;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
@@ -179,7 +179,7 @@ public class ToggleSwitch extends DefaultInteractiveGraphic {
             else {
                 _offImage.paint( g2 );
             }
-            BoundsOutline.paint( g2, getBounds(), Color.RED, new BasicStroke( 1f ) ); // DEBUG
+            BoundsOutliner.paint( g2, getBounds(), Color.RED, new BasicStroke( 1f ) ); // DEBUG
         }
     }
 
