@@ -110,7 +110,7 @@ public class GraphicLayerSet extends PhetGraphic {
      * Remove all graphics from this GraphicLayerSet.
      */
     public void clear() {
-        graphicMap.clear();
+        graphicMap.clear();//TODO shouldn't this repaint as well? And set parents to null?
     }
 
     /**
@@ -178,6 +178,7 @@ public class GraphicLayerSet extends PhetGraphic {
     public void addGraphic( PhetGraphic graphic, double layer ) {
         this.graphicMap.put( new Double( layer ), graphic );
         graphic.setParent( this );
+        graphic.repaint();//Automatically repaint the added graphic.
     }
 
     /**
