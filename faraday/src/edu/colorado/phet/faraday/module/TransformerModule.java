@@ -22,6 +22,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
+import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.view.*;
@@ -153,7 +154,7 @@ public class TransformerModule extends FaradayModule {
         this.setApparatusPanel( apparatusPanel );
         
         // Electromagnet
-        ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, 
+        final ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, 
                 electromagnetModel, sourceCoilModel, batteryModel, acPowerSupplyModel );
         apparatusPanel.addChangeListener( electromagnetGraphic );
         apparatusPanel.addGraphic( electromagnetGraphic.getForeground(), ELECTROMAGNET_FRONT_LAYER );
@@ -214,6 +215,13 @@ public class TransformerModule extends FaradayModule {
             PickupCoilPanel pickupCoilPanel = new PickupCoilPanel( 
                     pickupCoilModel, pickupCoilGraphic, lightbulbModel, voltmeterModel );
             controlPanel.addFullWidth( pickupCoilPanel );
+            
+            if ( FaradayConfig.DEBUG_SCALE ) {
+                controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
+                
+                ScalePanel scalePanel = new ScalePanel( lightbulbModel, voltmeterModel, pickupCoilGraphic, electromagnetGraphic );
+                controlPanel.addFullWidth( scalePanel );
+            }
             
             this.setControlPanel( controlPanel );
         }

@@ -27,6 +27,9 @@ public class FaradayConfig {
     // Class data
     //----------------------------------------------------------------------------
     
+    // Debugging
+    public static final boolean DEBUG_SCALE = true;
+    
     // Resource bundles for localization.
     public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/FaradayStrings";
 

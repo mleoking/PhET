@@ -14,13 +14,18 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Point;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
+import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.control.panel.TurbinePanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
@@ -183,6 +188,13 @@ public class GeneratorModule extends FaradayModule {
             PickupCoilPanel pickupCoilPanel = new PickupCoilPanel(
                     pickupCoilModel, pickupCoilGraphic, lightbulbModel, voltmeterModel );
             controlPanel.addFullWidth( pickupCoilPanel );
+            
+            if ( FaradayConfig.DEBUG_SCALE ) {
+                controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
+                
+                ScalePanel scalePanel = new ScalePanel( lightbulbModel, voltmeterModel, pickupCoilGraphic, null );
+                controlPanel.addFullWidth( scalePanel );
+            }
             
             this.setControlPanel( controlPanel );
         }
