@@ -49,7 +49,7 @@ public class FaradayApplicationModel extends ApplicationModel {
         setClock( clock );
 
         // Clock control panel is disabled.
-        setUseClockControlPanel( false );
+        setUseClockControlPanel( true );
         
         // Simulation Modules
         if ( TEST_ONE_MODULE ) {
