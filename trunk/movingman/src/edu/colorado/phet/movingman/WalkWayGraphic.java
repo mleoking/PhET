@@ -72,7 +72,7 @@ public class WalkWayGraphic extends PhetGraphic {
 
         for( int i = 0; i < numTickMarks; i++ ) {
             double modelx = transform.getMinInput() + i * modelDX;
-            int viewx = (int)transform.evaluate( modelx );
+            int viewx = (int)transform.transform( modelx );
 
             Point dst = new Point( viewx, height - 20 );
             graphics2D.drawLine( viewx, height, dst.x, dst.y );
@@ -85,9 +85,9 @@ public class WalkWayGraphic extends PhetGraphic {
             graphics2D.drawString( str, viewx - (int)( bounds.getWidth() / 2 ), height + (int)bounds.getHeight() );
         }
         //Tree at -10.
-        int treex = (int)( transform.evaluate( this.treex ) - tree.getWidth() / 2 );
+        int treex = (int)( transform.transform( this.treex ) - tree.getWidth() / 2 );
         int treey = 10;
-        int housex = (int)( transform.evaluate( this.housex ) - house.getWidth() / 2 );
+        int housex = (int)( transform.transform( this.housex ) - house.getWidth() / 2 );
         int housey = 10;
         graphics2D.drawImage( tree, treex, treey, null );
         graphics2D.drawImage( house, housex, housey, null );

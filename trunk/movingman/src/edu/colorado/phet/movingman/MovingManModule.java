@@ -1,6 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
+import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -85,6 +86,7 @@ public class MovingManModule extends Module {
     public static final double TIME_SCALE = 1.0 / 50.0;
     private int numSmoothingPoints;
     private HelpItem closeHelpItem;
+    private boolean stopped = false;
 
     // Localization
     public static final String localizedStringsPath = "localization/MovingManStrings";
@@ -250,6 +252,9 @@ public class MovingManModule extends Module {
                 start = new Point2D.Double( start.getX() - wiggleMe.getWidth() - 20, start.getY() + manGraphic.getRectangle().getHeight() / 2 );
                 wiggleMe.setCenter( new Point( (int)start.getX(), (int)start.getY() ) );
             }
+
+            public void mouseReleased() {
+            }
         };
         setWiggleMeVisible( true );
 
@@ -267,60 +272,109 @@ public class MovingManModule extends Module {
 
         layout = new MovingManLayout( this );
         fireReset();
-        plotSet.getVelocityPlot().addListener( new MMPlot.Listener() {
+//        addDirectionHandler();
+
+//        addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                double dx=getMan().getDx();
+//                if (dx!=0){
+//                    getManGraphic().setVelocity( dx);
+//                }
+//            }
+//        } );
+
+//        addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                double dx=getManGraphic().getDx();
+//                if (dx!=0){
+//                    getManGraphic().setVelocity( dx );
+//                }
+//            }
+//        } );
+
+//        addModelElement( new ModelElement() {
+//            CircularBuffer buffer = new CircularBuffer( 30 );
+//
+//            public void stepInTime( double dt ) {
+//
+//                buffer.addPoint( getMan().getDx() );
+//                boolean allZero = true;
+//                for( int i = 0; i < buffer.numPoints(); i++ ) {
+//                    double x = buffer.pointAt( i );
+//                    if( x != 0 ) {
+//                        allZero = false;
+//                        break;
+//                    }
+//                }
+//                if( allZero ) {
+//                    getManGraphic().setVelocity( 0.0 );
+//                }
+//            }
+//        } );
+        getVelocityPlot().addListener( new MMPlot.Listener() {
+            CircularBuffer circularBuffer = new CircularBuffer( 20 );
+
             public void nominalValueChanged( double value ) {
-                if( manGraphic.isDragging() || getPositionPlot().isDragging() ) {
+//                circularBuffer.addPoint( );
+                if( value == 0 ) {
+                    manGraphic.setVelocity( 0.0 );
+                }
+            }
+        } );
+
+        getManGraphic().addListener( new ManGraphic.Listener() {
+            public void manGraphicChanged() {
+            }
+
+            public void mouseReleased() {
+                getManGraphic().setVelocity( 0 );
+            }
+        } );
+    }
+
+    private void addDirectionHandler() {
+
+        getVelocityPlot().addListener( new MMPlot.Listener() {
+            public void nominalValueChanged( double value ) {
+                if( manGraphic.isDragging() || getPositionPlot().isDragging() || getVelocityPlot().isDragging() || stopped ) {
                 }
                 else {
                     manGraphic.setVelocity( value );
                 }
             }
         } );
-        getMan().addListener( new Man.Listener() {
-//            SmoothDataSeries dataSeries = new SmoothDataSeries( 5 );
-            CircularBuffer buffer = new CircularBuffer( 5 );
-//            double lastValue = 0;
+        getManGraphic().addListener( new ManGraphic.Listener() {
+            double lastX;
 
-            public void positionChanged( double x ) {
-//                if (dataSeries==null){
-//                    dataSeries=new SmoothDataSeries( 5);
-//                    datas
-//                }
-                buffer.addPoint( x );
-//                buffer.addPoint( x );
-//                if( manGraphic.isDragging() || getPositionPlot().isDragging() ) {
-//                    DataSeries dataSeries=new DataSeries();
-//                    dataSeries.setd
-//                    double vel=new
-//                    double vel = x - lastValue;
-//                    manGraphic.setVelocity( vel );
-//                    lastValue = x;
-//                }
-//                else {
-//
-//                }
+            public void manGraphicChanged() {
+                if( manGraphic.isDragging() || getPositionPlot().isDragging() ) {
+                    double x = getMan().getX();
+                    double dx = x - lastX;
+                    getManGraphic().setVelocity( dx );
+                    lastX = x;
+                }
             }
 
-            public void velocityChanged( double velocity ) {
-                manGraphic.setVelocity( velocity );
-            }
-
-            public void accelerationChanged( double acceleration ) {
+            public void mouseReleased() {
+                getManGraphic().setVelocity( 0 );
+                stopped = true;
             }
         } );
-//        plotSet.getPositionPlot().addListener( new MMPlot.Listener() {
-//            double lastValue=0;
-//            public void nominalValueChanged( double value ) {
-//                if( manGraphic.isDragging() || getPositionPlot().isDragging() ) {
-//                    double vel=value-lastValue;
-//                    manGraphic.setVelocity( vel );
-//                    System.out.println( "vel = " + vel );
-//                    lastValue=value;
-//                }
-//                else {
-//                }
-//            }
-//        } );
+
+        getVelocityPlot().getVerticalChartSlider().addListener( new VerticalChartSlider.Listener() {
+            public void valueChanged( double value ) {
+                if( getVelocityPlot().isDragging() ) {
+                    getManGraphic().setVelocity( value );
+                }
+            }
+        } );
+        getAccelerationPlot().getVerticalChartSlider().addListener( new VerticalChartSlider.Listener() {
+            public void valueChanged( double value ) {
+                if( getAccelerationPlot().isDragging() ) {
+                    stopped = false;
+                }
+            }
+        } );
     }
 
     public void showMegaHelp() {
@@ -711,6 +765,7 @@ public class MovingManModule extends Module {
     }
 
     public void startPlaybackMode( double playbackSpeed ) {
+        stopped = false;
         playbackMode.setPlaybackSpeed( playbackSpeed );
         setMode( playbackMode );
         setPaused( false );
@@ -794,9 +849,9 @@ public class MovingManModule extends Module {
             Locale.setDefault( new Locale( applicationLocale ) );
         }
         String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
+        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ));
+            Locale.setDefault( new Locale( locale ) );
         }
 
         SimStrings.setStrings( localizedStringsPath );
@@ -809,8 +864,8 @@ public class MovingManModule extends Module {
         FrameSetup setup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 800 ) );
 
         ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ),
-                                SimStrings.get( "MovingManApplication.description" ),
-                                SimStrings.get( "MovingManApplication.version" ), setup, m, clock );
+                                                      SimStrings.get( "MovingManApplication.description" ),
+                                                      SimStrings.get( "MovingManApplication.version" ), setup, m, clock );
         PhetApplication tpa = new PhetApplication( desc );
 
         final PhetFrame frame = tpa.getApplicationView().getPhetFrame();

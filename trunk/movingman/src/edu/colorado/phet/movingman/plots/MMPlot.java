@@ -94,7 +94,7 @@ public class MMPlot extends PhetGraphic {
     }
 
     public boolean isDragging() {
-        return this.getVerticalChartSlider().getSlider().isEnabled();
+        return this.getVerticalChartSlider().getSlider().isFocusOwner();
     }
 
     public static interface Listener {
@@ -157,9 +157,9 @@ public class MMPlot extends PhetGraphic {
                     boolean paused = module.isPaused();
                     module.setPaused( true );
                     int option = JOptionPane.showConfirmDialog( module.getApparatusPanel(),
-                                SimStrings.get( "MMPlot.ClearConfirmText" ),
-                                SimStrings.get( "MMPlot.ClearConfirmButton" ),
-                                JOptionPane.YES_NO_CANCEL_OPTION );
+                                                                SimStrings.get( "MMPlot.ClearConfirmText" ),
+                                                                SimStrings.get( "MMPlot.ClearConfirmButton" ),
+                                                                JOptionPane.YES_NO_CANCEL_OPTION );
                     if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
                         module.reset();
                     }
@@ -635,8 +635,8 @@ public class MMPlot extends PhetGraphic {
             Point pt = chart.getTransform().modelToView( 15, 0 );
             pt.y -= 3;
             PhetTextGraphic ptt = new PhetTextGraphic( module.getApparatusPanel(),
-                            MMFontManager.getFontSet().getTimeLabelFont(),
-                            SimStrings.get( "MMPlot.TimeLabel" ), Color.red, pt.x, pt.y );
+                                                       MMFontManager.getFontSet().getTimeLabelFont(),
+                                                       SimStrings.get( "MMPlot.TimeLabel" ), Color.red, pt.x, pt.y );
             ptt.paint( g );
             Rectangle bounds = ptt.getBounds();
             Point2D tail = RectangleUtils.getRightCenter( bounds );
@@ -757,8 +757,8 @@ public class MMPlot extends PhetGraphic {
         magPlus.reshape( magX, magY, buttonSize.width, buttonSize.height );
         magMinus.reshape( magX, magY + magSep + buttonSize.height, buttonSize.width, buttonSize.height );
 
-        readout.setPosition( chart.getViewBounds().x + 15, chart.getViewBounds().y + readout.getHeight() - 5 );
-        readoutValue.setPosition( readout.getX() + readout.getWidth() + 5, readout.getY() );
+        readout.setLocation( chart.getViewBounds().x + 15, chart.getViewBounds().y + readout.getHeight() - 5 );
+        readoutValue.setLocation( readout.getX() + readout.getWidth() + 5, readout.getY() );
         moveScript();
 
         int floaterX = 5;
@@ -778,7 +778,7 @@ public class MMPlot extends PhetGraphic {
     private void moveScript() {
         if( superScriptGraphic != null ) {
             Rectangle b = readoutValue.getBounds();
-            superScriptGraphic.setPosition( b.x + b.width, b.y + b.height / 2 );
+            superScriptGraphic.setLocation( b.x + b.width, b.y + b.height / 2 );
         }
     }
 

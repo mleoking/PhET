@@ -57,7 +57,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
         current.setLocation( at );
         if( textGraphic != null ) {
             Rectangle r1 = textGraphic.getBounds();
-            textGraphic.setPosition( (int)at.getX(), (int)at.getY() );
+            textGraphic.setLocation( (int)at.getX(), (int)at.getY() );
             Rectangle r2 = textGraphic.getBounds();
             r1 = RectangleUtils.expand( r1, 5, 5 );
             r2 = RectangleUtils.expand( r2, 5, 5 );

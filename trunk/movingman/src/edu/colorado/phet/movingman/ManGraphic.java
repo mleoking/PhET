@@ -33,6 +33,7 @@ public class ManGraphic extends PhetGraphic {
     private BufferedImage currentImage;
 
     private ArrayList listeners = new ArrayList();
+    private int lastX;
 
     public ManGraphic( MovingManModule module, Man m, int y, LinearTransform1d transform ) throws IOException {
         super( module.getApparatusPanel() );
@@ -70,17 +71,20 @@ public class ManGraphic extends PhetGraphic {
     public void positionChanged() {
         Rectangle origRectangle = getRectangle();
 
-        double output = transform.evaluate( m.getX() );
-        int oldX = x;
+        double output = transform.transform( m.getX() );
+        lastX = x;
         this.x = (int)output;
 
-        if( oldX != x ) {
+        if( lastX != x ) {
+            double dx = getDx();
+            if( dx != 0 ) {
+                setVelocity( dx );
+            }
             doRepaint( origRectangle );
         }
     }
 
     private void doRepaint( Rectangle origRectangle ) {
-
         repaint( origRectangle, getRectangle() );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
@@ -131,8 +135,14 @@ public class ManGraphic extends PhetGraphic {
         return dragHandler != null;
     }
 
+    public double getDx() {
+        return x - lastX;
+    }
+
     interface Listener {
         void manGraphicChanged();
+
+        void mouseReleased();
     }
 
     public void addListener( Listener listener ) {
@@ -168,7 +178,7 @@ public class ManGraphic extends PhetGraphic {
         }
         final Point newPt = dragHandler.getNewLocation( event.getPoint() );
         int graphicsPt = newPt.x;
-        double manPoint = inversion.evaluate( graphicsPt );
+        double manPoint = inversion.transform( graphicsPt );
         m.setX( manPoint );
     }
 
@@ -186,6 +196,10 @@ public class ManGraphic extends PhetGraphic {
             }
         } );
         dragHandler = null;
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.mouseReleased();
+        }
     }
 
     public void mouseEntered( MouseEvent event ) {
