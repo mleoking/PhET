@@ -7,6 +7,7 @@
 package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.model.Listener;
@@ -24,6 +25,15 @@ public class SingleSourceListenModule extends SingleSourceModule {
     private Listener headListener = new Listener();
 
     private int headOffsetY = -30;
+
+
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+    }
 
     public SingleSourceListenModule( ApplicationModel appModel ) {
         this( appModel, "<html>Listen to<br>Single Source</html>" );
