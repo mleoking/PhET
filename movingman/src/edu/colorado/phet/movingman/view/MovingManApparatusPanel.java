@@ -1,14 +1,21 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.model.CompositeModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic2;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
+import edu.colorado.phet.movingman.MMKeySuite;
+import edu.colorado.phet.movingman.MovingManModule;
+import edu.colorado.phet.movingman.TimeGraphic;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
 import edu.colorado.phet.movingman.common.WiggleMe;
+import edu.colorado.phet.movingman.model.TimeListenerAdapter;
+import edu.colorado.phet.movingman.plots.PlotSet;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -24,26 +31,32 @@ import java.util.Arrays;
  * Copyright (c) Mar 23, 2005 by Sam Reid
  */
 public class MovingManApparatusPanel extends ApparatusPanel {
-    private boolean inited;
     private MovingManModule module;
+    private LinearTransform1d manPositionTransform;
+    private MMKeySuite keySuite;
+    private boolean inited;
     private MovingManLayout layout;
+    private ManGraphic.Listener wiggleMeListener;
+
+    private PlotSet plotSet;
     private ManGraphic manGraphic;
     private TimeGraphic timerGraphic;
-    private BufferedGraphicForComponent backgroundGraphic;
+    private BufferedPhetGraphic2 backgroundGraphic;
     private WalkWayGraphic walkwayGraphic;
-    private Color purple = new Color( 200, 175, 250 );
     private Color backgroundColor;
-
     private WiggleMe wiggleMe;
-    private ManGraphic.Listener wiggleMeListener;
 
     public MovingManApparatusPanel( MovingManModule module ) throws IOException {
         this.module = module;
+        keySuite = new MMKeySuite( module );
+
+        addKeyListener( keySuite );
+        addGraphicsSetup( new BasicGraphicsSetup() );
+        setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+        manPositionTransform = new LinearTransform1d( -module.getMaxManPosition(), module.getMaxManPosition(), 50, 600 );
         backgroundColor = new Color( 250, 190, 240 );
-        backgroundGraphic = new BufferedGraphicForComponent( 0, 0, 800, 400, backgroundColor, this );
-
-
-        manGraphic = new ManGraphic( module, this, module.getMan(), 0, module.getManPositionTransform() );
+        backgroundGraphic = new BufferedPhetGraphic2( this, backgroundColor );
+        manGraphic = new ManGraphic( module, this, module.getMan(), 0, manPositionTransform );
 
         this.addGraphic( manGraphic, 1 );
         timerGraphic = new TimeGraphic( module, this, module.getTimeModel().getRecordTimer(), module.getTimeModel().getPlaybackTimer(), 80, 40 );
@@ -53,7 +66,6 @@ public class MovingManApparatusPanel extends ApparatusPanel {
         backgroundGraphic.addGraphic( walkwayGraphic, 0 );
 
         this.addGraphic( backgroundGraphic, 0 );
-
 
         Point2D start = manGraphic.getRectangle().getLocation();
         start = new Point2D.Double( start.getX() + 50, start.getY() + 50 );
@@ -83,52 +95,8 @@ public class MovingManApparatusPanel extends ApparatusPanel {
                 MovingManApparatusPanel.this.requestFocus();
             }
         } );
-//        layout = new MovingManLayout( module );
-    }
-
-    public void repaint( long tm, int x, int y, int width, int height ) {
-        super.repaint( tm, x, y, width, height );
-    }
-
-    public void repaint() {
-        super.repaint();
-    }
-
-    public void repaint( long tm ) {
-        super.repaint( tm );
-    }
-
-    public void repaint( int x, int y, int width, int height ) {
-//                rectList.add( new Rectangle( x, y, width, height ) );
-        super.repaint( x, y, width, height );
-    }
-
-    protected void paintComponent( Graphics graphics ) {
-        if( inited ) {
-            super.paintComponent( graphics );
-        }
-//                Graphics2D g2 = (Graphics2D)graphics;
-//                for (int i=0;i<rectList.size();i++){
-//                    Rectangle rect=(Rectangle)rectList.get(i);
-//                    g2.setColor( Color.green );
-//                    g2.setStroke( new BasicStroke( 15 ) );
-//                    g2.draw( rect );
-//                }
-//                rectList.clear();
-    }
-
-    public void paintComponents( Graphics g ) {
-        if( inited ) {
-            super.paintComponents( g );
-        }
-    }
-
-    protected void paintChildren( Graphics g ) {
-        setOpaque( true );
-        setDoubleBuffered( true );
-        if( inited ) {
-            super.paintChildren( g );
-        }
+        plotSet = new PlotSet( module, this );
+        layout = new MovingManLayout( this );
     }
 
     public void paint( Graphics g ) {
@@ -141,25 +109,18 @@ public class MovingManApparatusPanel extends ApparatusPanel {
         if( inited ) {
             super.paintImmediately( x, y, w, h );
         }
-//               rectList.add (new Rectangle( x, y, w, h ));
-    }
-
-    public void repaint( Rectangle r ) {
-        super.repaint( 0, r.x, r.y, r.width, r.height );
-    }
-
-    public void paintAll( Graphics g ) {
-        if( inited ) {
-            super.paintAll( g );
-        }
     }
 
     public Component add( Component comp ) {
         KeyListener[] kl = comp.getKeyListeners();
-        if( !Arrays.asList( kl ).contains( module.getKeySuite() ) ) {
-            comp.addKeyListener( module.getKeySuite() );
+        if( !Arrays.asList( kl ).contains( getKeySuite() ) ) {
+            comp.addKeyListener( getKeySuite() );
         }
         return super.add( comp );
+    }
+
+    private KeyListener getKeySuite() {
+        return keySuite;
     }
 
     public void setInited( boolean b ) {
@@ -170,21 +131,17 @@ public class MovingManApparatusPanel extends ApparatusPanel {
         layout.relayout();
     }
 
-    public void initLayout() {
-        layout = new MovingManLayout( module );
-    }
-
-    public BufferedGraphicForComponent getBuffer() {
+    public BufferedPhetGraphic2 getBuffer() {
         return backgroundGraphic;
     }
 
     public void setManTransform( LinearTransform1d transform ) {
+        this.manPositionTransform = transform;
         manGraphic.setTransform( transform );
     }
 
     public void paintBufferedImage() {
-
-        backgroundGraphic.paintBufferedImage();
+        backgroundGraphic.repaintBuffer();
     }
 
     public WalkWayGraphic getWalkwayGraphic() {
@@ -214,15 +171,13 @@ public class MovingManApparatusPanel extends ApparatusPanel {
     }
 
     public void repaintBackground() {
-
-        backgroundGraphic.paintBufferedImage();
+        backgroundGraphic.repaintBuffer();
         repaint();
     }
 
     public void repaintBackground( Rectangle rect ) {
-
         if( backgroundGraphic != null ) {
-            backgroundGraphic.paintBufferedImage( rect );
+            backgroundGraphic.repaintBuffer( rect );
             repaint( rect );
         }
     }
@@ -241,6 +196,14 @@ public class MovingManApparatusPanel extends ApparatusPanel {
 
     public void setTheSize( int width, int height ) {
         backgroundGraphic.setSize( width, height );
-        backgroundGraphic.paintBufferedImage();
+        backgroundGraphic.repaintBuffer();
+    }
+
+    public PlotSet getPlotSet() {
+        return plotSet;
+    }
+
+    public LinearTransform1d getManPositionTransform() {
+        return manPositionTransform;
     }
 }

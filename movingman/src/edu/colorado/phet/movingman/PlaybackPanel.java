@@ -3,6 +3,7 @@ package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.movingman.model.TimeListener;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

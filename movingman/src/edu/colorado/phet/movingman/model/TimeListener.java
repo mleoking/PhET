@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.model;
 
 /**
  * User: Sam Reid

@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -6,6 +6,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.movingman.MovingManModule;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -72,7 +73,7 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         addGraphic( rightWallGraphic );
 
         addGraphic( tickSetGraphic );
-        setCursorHand();
+//        setCursorHand();
         setBounds( 0, 0, 900, 150 );
         update();
 

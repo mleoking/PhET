@@ -1,7 +1,8 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.movingman.common.LinearTransform1d;
+import edu.colorado.phet.movingman.plotdevice.PlotDevice;
 import edu.colorado.phet.movingman.plots.MMPlot;
 
 import javax.swing.*;
@@ -20,43 +21,41 @@ public class MovingManLayout {
     private int topInset = 20;
     private int walkwayBottomInset = 55;
     private int spaceBetweenPlots = 20;
-    private int plotInsetX = 150;
+    private int plotInsetX = 100;
 
     private MMVerticalLayout verticalLayout;
-    private MovingManModule module;
-    private JComponent panel;
+    private MovingManApparatusPanel movingManApparatusPanel;
     private ChartLayoutItem layoutItemX;
     private ChartLayoutItem layoutItemV;
     private ChartLayoutItem layoutItemA;
 
-    public MovingManLayout( MovingManModule module ) {
-        this.module = module;
-        this.panel = module.getApparatusPanel();
+    public MovingManLayout( MovingManApparatusPanel movingManApparatusPanel ) {
+        this.movingManApparatusPanel = movingManApparatusPanel;
 
-        verticalLayout = new MMVerticalLayout( panel );
+        verticalLayout = new MMVerticalLayout( this.movingManApparatusPanel );
         verticalLayout.addSpacer( walkwayHeight );
         verticalLayout.addSpacer( walkwayBottomInset );
         verticalLayout.addSpacer( topInset );
         verticalLayout.addSpacer( spaceBetweenPlots );
-        layoutItemX = new ChartLayoutItem( panel, module.getPositionPlot() );
+        layoutItemX = new ChartLayoutItem( this.movingManApparatusPanel, movingManApparatusPanel.getPlotSet().getPositionPlot() );
         verticalLayout.addLayoutItem( layoutItemX );
         verticalLayout.addSpacer( spaceBetweenPlots );
-        layoutItemV = new ChartLayoutItem( panel, module.getVelocityPlot() );
+        layoutItemV = new ChartLayoutItem( this.movingManApparatusPanel, movingManApparatusPanel.getPlotSet().getVelocityPlot() );
         verticalLayout.addLayoutItem( layoutItemV );
         verticalLayout.addSpacer( spaceBetweenPlots );
-        layoutItemA = new ChartLayoutItem( panel, module.getAccelerationPlot() );
+        layoutItemA = new ChartLayoutItem( this.movingManApparatusPanel, movingManApparatusPanel.getPlotSet().getAccelerationPlot() );
         verticalLayout.addLayoutItem( layoutItemA );
         verticalLayout.addSpacer( spaceBetweenPlots );
         relayout();
     }
 
     class ChartLayoutItem implements LayoutItem {
-        private MMPlot plot;
+        private PlotDevice plot;
         private JComponent component;
 
         private MMPlot.ChartButton chartButton;
 
-        public ChartLayoutItem( JComponent component, MMPlot plot ) {
+        public ChartLayoutItem( JComponent component, PlotDevice plot ) {
             this.component = component;
             this.plot = plot;
             this.chartButton = plot.getShowButton();
@@ -105,7 +104,6 @@ public class MovingManLayout {
             for( int i = 0; i < layoutItems.size(); i++ ) {
                 LayoutItem layoutItem = (LayoutItem)layoutItems.get( i );
                 if( layoutItem.isVariable() ) {
-
                 }
                 else {
                     size += layoutItem.getHeight();
@@ -194,18 +192,13 @@ public class MovingManLayout {
         int walkwayInsetX = 25;
         verticalLayout.layout();
         int manInset = 50;
-        LinearTransform1d oldTransform = module.getManPositionTransform();
-        LinearTransform1d manGraphicTransform = new LinearTransform1d( oldTransform.getMinInput(), oldTransform.getMaxInput(), manInset, panel.getWidth() - manInset );
-        if( module.getManGraphic() != null ) {
-            module.getManGraphic().setTransform( manGraphicTransform );
-            module.setManTransform( manGraphicTransform );
-            module.getManGraphic().setY( walkwayHeight - module.getManGraphic().getHeight() );
-        }
-        if( module.getWalkwayGraphic() != null ) {
-            WalkWayGraphic wa = module.getWalkwayGraphic();
-            wa.setBounds( walkwayInsetX, 0, panel.getWidth() - walkwayInsetX * 2, walkwayHeight );
-        }
-
+        LinearTransform1d oldTransform = movingManApparatusPanel.getManPositionTransform();
+        LinearTransform1d manGraphicTransform = new LinearTransform1d( oldTransform.getMinInput(), oldTransform.getMaxInput(), manInset, movingManApparatusPanel.getWidth() - manInset );
+        movingManApparatusPanel.getManGraphic().setTransform( manGraphicTransform );
+        movingManApparatusPanel.setManTransform( manGraphicTransform );
+        movingManApparatusPanel.getManGraphic().setY( walkwayHeight - movingManApparatusPanel.getManGraphic().getHeight() );
+        WalkWayGraphic wa = movingManApparatusPanel.getWalkwayGraphic();
+        wa.setBounds( walkwayInsetX, 0, movingManApparatusPanel.getWidth() - walkwayInsetX * 2, walkwayHeight );
     }
 
 }

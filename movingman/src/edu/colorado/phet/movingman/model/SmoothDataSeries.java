@@ -1,8 +1,8 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.model;
 
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.movingman.plots.DataSeries;
+import edu.colorado.phet.movingman.plots.TimeSeries;
 
 /**
  * User: Sam Reid
@@ -11,8 +11,8 @@ import edu.colorado.phet.movingman.plots.DataSeries;
  * Copyright (c) Jul 1, 2003 by Sam Reid
  */
 public class SmoothDataSeries {
-    private DataSeries data = new DataSeries();
-    private DataSeries smoothed = new DataSeries();
+    private TimeSeries timeSeries = new TimeSeries();
+    private TimeSeries smoothedSeries = new TimeSeries();
     private SmoothDataSeries derivative;
     private int numSmoothingPoints;
 
@@ -28,47 +28,47 @@ public class SmoothDataSeries {
         MathUtil.Average avg = new MathUtil.Average();
 
         int numPtsToAvg = numSmoothingPoints;
-        numPtsToAvg = Math.min( numPtsToAvg, data.size() );
+        numPtsToAvg = Math.min( numPtsToAvg, timeSeries.size() );
         for( int i = 0; i < numPtsToAvg; i++ ) {
-            avg.update( data.lastPointAt( i ) );
+            avg.update( timeSeries.lastPointAt( i ).getValue() );
         }
         double value = avg.value();
         if( Double.isNaN( value ) ) {
             value = 0;
         }
-        smoothed.addPoint( value );
+        smoothedSeries.addPoint( value, timeSeries.getLastTime() );
     }
 
-    public DataSeries getSmoothedDataSeries() {
-        return smoothed;
+    public TimeSeries getSmoothedDataSeries() {
+        return smoothedSeries;
     }
 
     public void updateDerivative( double dt ) {
-        DataSeries dataToDerive = this.smoothed;
-        if( dataToDerive.size() > 2 ) {
-            double x1 = dataToDerive.lastPointAt( 0 );
-            double x0 = dataToDerive.lastPointAt( 2 );
+        TimeSeries timeToDerive = this.smoothedSeries;
+        if( timeToDerive.size() > 2 ) {
+            double x1 = timeToDerive.lastPointAt( 0 ).getValue();
+            double x0 = timeToDerive.lastPointAt( 2 ).getValue();
             double dx = x1 - x0;
             double vel = dx / dt / 2;
-            derivative.addPoint( vel );
+            derivative.addPoint( vel, timeToDerive.getLastPoint().getTime() );
         }
     }
 
-    public void addPoint( double pt ) {
-        data.addPoint( pt );
+    public void addPoint( double pt, double time ) {
+        timeSeries.addPoint( pt, time );
     }
 
     public int numSmoothedPoints() {
-        return smoothed.size();
+        return smoothedSeries.size();
     }
 
     public void reset() {
-        data.reset();
-        smoothed.reset();
+        timeSeries.reset();
+        smoothedSeries.reset();
     }
 
     public double smoothedPointAt( int index ) {
-        return smoothed.pointAt( index );
+        return smoothedSeries.pointAt( index ).getValue();
     }
 
     public void setNumSmoothingPoints( int numSmoothingPoints ) {

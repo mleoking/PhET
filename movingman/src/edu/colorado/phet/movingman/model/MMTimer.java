@@ -1,5 +1,5 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.model;
 
 import java.util.ArrayList;
 
