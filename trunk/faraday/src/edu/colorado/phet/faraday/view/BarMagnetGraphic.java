@@ -125,7 +125,7 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
      * 
      * @return true if transparency, false if opaque
      */
-    public boolean getTransparencyEnabled() {
+    public boolean isTransparencyEnabled() {
         return _transparencyEnabled;
     }
     
