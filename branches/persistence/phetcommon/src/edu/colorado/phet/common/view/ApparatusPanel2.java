@@ -22,7 +22,6 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +38,7 @@ import java.util.LinkedList;
  * <p/>
  * The differences between this class and ApparatusPanel are:
  * <ul>
- * <li>The graphic objects in the panel setRefernceSize when the panel is resized
+ * <li>The graphic objects in the panel setReferenceSize when the panel is resized
  * <li>Mouse events are handled in the model loop, not the Swing event dispatch thread
  * <li>An option allows drawing to be done to an offscreen buffer, then the whole buffer
  * written at one time to the graphics card
@@ -55,7 +54,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     //test comment
     private BufferedImage bImg;
     private boolean useOffscreenBuffer = false;
-    private BufferStrategy strategy;
+//    private BufferStrategy strategy;
     private ArrayList rectangles = new ArrayList();
     private Rectangle repaintArea;
 
@@ -66,6 +65,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private boolean modelPaused = false;
     private double scale = 1.0;
     private boolean referenceSizeSet;
+    protected ClockTickListener paintTickListener;
+    protected ModelElement paintModelElement;
 
     /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
@@ -99,12 +100,15 @@ public class ApparatusPanel2 extends ApparatusPanel {
         } );
         modelPaused = clock.isPaused();
 
-        // Add a clock tick listener that paints the screen on every tick
-        clock.addClockTickListener( new ClockTickListener() {
+//        // Add a clock tick listener that paints the screen on every tick
+        paintTickListener = new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
                 paint();
             }
-        } );
+        };
+        clock.addClockTickListener( paintTickListener );
+        //I need more fine grained control, since I have two modules using the same clock.  Isn't this the normal thing?
+        //Also, commenting this out didn't change behavior of force1d.
     }
 
     /**
@@ -121,7 +125,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         } );
     }
 
-    private void init( BaseModel model ) {
+    protected void init( BaseModel model ) {
         // The following lines use a mouse processor in the model loop
         MouseProcessor mouseProcessor = new MouseProcessor( getGraphic() );
         model.addModelElement( mouseProcessor );
@@ -129,34 +133,21 @@ public class ApparatusPanel2 extends ApparatusPanel {
         this.addMouseMotionListener( mouseProcessor );
         this.addKeyListener( getGraphic().getKeyAdapter() );//TODO key events should go in processing thread as well.
 
-        // Add a model element that paints the panile
-        model.addModelElement( new ModelElement() {
+//        // Add a model element that paints the panile
+        paintModelElement = new ModelElement() {
             public void stepInTime( double dt ) {
                 paint();
             }
-        } );
-
-        this.addComponentListener( new ComponentAdapter() {
-            public void componentShown( ComponentEvent e ) {
-                if( strategy == null ) {
-                    strategy = SwingUtilities.getWindowAncestor( ApparatusPanel2.this ).getBufferStrategy();
-//                    if( !strategy.getCapabilities().isPageFlipping() ) {
-//                        System.out.println( "Page flipping not supported." );
-//                    }
-//                    if( strategy.getCapabilities().isFullScreenRequired() ) {
-//                        System.out.println( "Full screen is required for buffering." );
-//                    }
-//                    System.out.println( "strategy = " + strategy );
-                }
-            }
-        } );
+        };
+        model.addModelElement( paintModelElement );
+        //I need more fine grained control, since I have two modules using the same clock.  Isn't this the normal thing?
 
         // Add a listener what will adjust things if the size of the panel changes
         this.addComponentListener( new ComponentAdapter() {
 
             public void componentResized( ComponentEvent e ) {
                 if( !referenceSizeSet ) {
-                    setRefernceSize();
+                    setReferenceSize();
                 }
                 else {
                     // Setup the affine transforms for graphics and mouse events
@@ -175,7 +166,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * Paints the panel. Exactly how this is depends on if an offscreen buffer is being used,
      * or the union of dirty rectangles.
      */
-    private void paint() {
+    public void paint() {
         //TODO: even if we use an offscreen buffer, we could still just throw the changed part to the screen.
         if( useOffscreenBuffer ) {
 //          Rectangle region = RectangleUtils.union( (Rectangle[])rectangles.toArray( new Rectangle[0] ) );
@@ -193,7 +184,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * Sets the reference size for this panel. If the panel resizes after this, it will scale its graphicsTx using
      * its current size in relation to the reference size
      */
-    public void setRefernceSize() {
+    public void setReferenceSize() {
         referenceSizeSet = true;
         referenceBounds = ApparatusPanel2.this.getBounds();
         saveSwingComponentCoordinates( 1.0 );
@@ -367,8 +358,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
             repaintArea = this.getBounds();
         }
         g2.setBackground( super.getBackground() );
-        g2.clearRect( 0, 0, this.getWidth(), this.getHeight() );
-        g2.clearRect( repaintArea.x, repaintArea.y, repaintArea.width, repaintArea.height );
+//        g2.clearRect( 0, 0, this.getWidth(), this.getHeight() );
+        Rectangle clipBounds = g2.getClipBounds();
+        g2.clearRect( clipBounds.x, clipBounds.y, clipBounds.width, clipBounds.height );
+//        g2.clearRect( repaintArea.x, repaintArea.y, repaintArea.width, repaintArea.height );
         for( int i = 0; i < getGraphicsSetups().size(); i++ ) {
             GraphicsSetup graphicsSetup = (GraphicsSetup)getGraphicsSetups().get( i );
             graphicsSetup.setup( g2 );
