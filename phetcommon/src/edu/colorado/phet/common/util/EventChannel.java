@@ -129,6 +129,16 @@ public class EventChannel implements InvocationHandler {
     }
 
     /**
+     * Determines whether this EventChannel contains the specified listener.
+     *
+     * @param eventListener
+     * @return true if this EventChannel contains the specified listener.
+     */
+    public boolean containsListener( EventListener eventListener ) {
+        return targets.contains( eventListener );
+    }
+
+    /**
      * Returns the interface for which this object acts as a proxy.
      *
      * @return
