@@ -1,8 +1,5 @@
 <project name="General Ant Build Script" default="Publish Executables" basedir=".">
 
-    <property file="build.properties"/>
-    <property file="build.number"/>
-
     <!--  Set ant output directories.  -->
     <property name="ant.output" value="../ant_output"/>
     <property name="classes" location="${ant.output}/classes"/>
@@ -20,7 +17,13 @@
     <property name="src" location="src"/>
     <property name="tests-src" location="tests-src"/>
     <property name="data" location="data"/>
-    <property name="desktop" location="C:/Documents and Settings/Sam Reid/Desktop"></property>
+
+    <property file="build.properties"/>
+    <property file="local.build.properties"/>
+    <property file="build.time.stamp" location="${data}"/>
+
+    <property name="build.number.txt" value="${data}/build.number"/>
+    <property name="timestamp.name" value="${data}/build.time.stamp"/>
 
     <description>
         Build File.
@@ -70,17 +73,17 @@
         <copyclasspath directory="${backup}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>
     </target>
 
-    <target name="Backup Dev and Lib to desktop" depends="init">
-        <mkdir dir="${desktop}"/>
-        <tstamp>
-            <format property="backup.time" pattern="d-MMMM-yyyy h-mmaa" locale="en" timezone="MST"></format>
-        </tstamp>
-        <mkdir dir="${desktop}/${distname}_dev_${backup.time}"/>
-        <copy todir="${desktop}/${distname}_dev_${backup.time}">
-            <fileset dir="${development}"/>
-        </copy>
-        <copyclasspath directory="${desktop}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>
-    </target>
+    <!--    <target name="Backup Dev and Lib to desktop" depends="init">-->
+    <!--        <mkdir dir="${desktop}"/>-->
+    <!--        <tstamp>-->
+    <!--            <format property="backup.time" pattern="d-MMMM-yyyy h-mmaa" locale="en" timezone="MST"></format>-->
+    <!--        </tstamp>-->
+    <!--        <mkdir dir="${desktop}/${distname}_dev_${backup.time}"/>-->
+    <!--        <copy todir="${desktop}/${distname}_dev_${backup.time}">-->
+    <!--            <fileset dir="${development}"/>-->
+    <!--        </copy>-->
+    <!--        <copyclasspath directory="${desktop}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>-->
+    <!--    </target>-->
 
     <target name="Clean"
         description="clean up">
@@ -99,37 +102,30 @@
         <javac srcdir="${tests-src}" destdir="${classes}"/>
     </target>
 
-    <target name="Synchronize Build meta info">
+    <target name="Generate Build Info">
+        <buildnumber file="${build.number.txt}"/>
+        <!--        <copy file="build.number" tofile="${build.number.txt}"/> -->
         <tstamp>
             <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"></format>
         </tstamp>
-        <echo file="build.time.stamp.txt" message="${jar.creation.time}"></echo>
-        <copy file="build.time.stamp.txt" tofile="${data}/build.time.stamp.txt"></copy>
-        <copy file="build.number" tofile="${data}/build.number"/>
+        <echo file="${timestamp.name}" message="${jar.creation.time}"></echo>
     </target>
-
 
     <target name="Generate Jar" depends="Compile"
         description="generate the distribution">
         <!-- Create the distribution directory -->
         <delete dir="${jars}"/>
         <mkdir dir="${jars}"/>
-        <buildnumber/>
-        <tstamp>
-            <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"></format>
-        </tstamp>
-        <echo file="build.time.stamp.txt" message="${jar.creation.time}"></echo>
+        <antcall target="Generate Build Info"/>
+        <property file="${build.number.txt}"/>
         <jar destfile="${jars}/${distname}.jar">
             <fileset dir="${classes}"/>
             <fileset dir="${data}"/>
-            <fileset file="build.number"/>
-            <fileset file="build.time.stamp.txt"/>
             <manifest>
-                <attribute name="Built-By" value="${user.name}"/>
-                <attribute name="version" value="${version}"/>
-                <attribute name="build" value="${build.number}"/>
-                <attribute name="Motion2D-Class" value="${main.class}"/>
-                <!--                <attribute name="time.stamp" value="${jar.creation.time}"/>-->
+                <!--                <attribute name="Built-By" value="${user.name}"/>-->
+                <!--                <attribute name="version" value="${version}"/>-->
+                <!--                <attribute name="build" value="${build.number}"/>-->
+                <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
         </jar>
     </target>
@@ -147,6 +143,7 @@
     <target name="Publish Library" depends="Generate Jar,Javadoc"
         description="generate the release distribution, including binary, source and docs">
         <mkdir dir="${releases}"/>
+        <property file="${build.number.txt}"/>
         <property name="destdir" value="${releases}/${distname}${version}_library-build-${build.number}"/>
         <mkdir dir="${destdir}"/>
         <mkdir dir="${destdir}/src"/>
@@ -203,6 +200,7 @@
     <target name="Publish Executables" depends="Generate Jar"
         description="generate executables, jar files, lib files, a batchfile">
         <mkdir dir="${releases}"/>
+        <property file="${build.number.txt}"/>
         <property name="destdir" value="${releases}/${distname}${version}_exec-build-${build.number}"/>
         <mkdir dir="${destdir}"/>
         <copy todir="${destdir}">
