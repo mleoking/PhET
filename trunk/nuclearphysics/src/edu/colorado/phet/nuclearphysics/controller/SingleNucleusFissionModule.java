@@ -11,15 +11,12 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class SingleNucleusFissionModule extends ProfiledNucleusModule implements NeutronGun, FissionListener {
@@ -198,22 +195,22 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
                                     25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
 
-        System.out.println( "--------------------------------------------------" );
-        Graphic[] ga = getPotentialProfilePanel().getGraphic().getGraphics();
-        for( int i = 0; i < ga.length; i++ ) {
-            TxGraphic graphic = (TxGraphic)ga[i];
-            System.out.println( "-->" + graphic.getWrappedGraphic() );
-        }
-        Graphic[] ga2 = getPhysicalPanel().getGraphic().getGraphics();
-        for( int i = 0; i < ga2.length; i++ ) {
-            TxGraphic graphic = (TxGraphic)ga2[i];
-            System.out.println( "-->" + graphic.getWrappedGraphic() );
-        }
-
-        List l = ( (NuclearPhysicsModel)getModel() ).getNuclearModelElements();
-        for( int i = 0; i < l.size(); i++ ) {
-            Object o = (Object)l.get( i );
-            System.out.println( "o = " + o );
-        }
+//        System.out.println( "--------------------------------------------------" );
+//        Graphic[] ga = getPotentialProfilePanel().getGraphic().getGraphics();
+//        for( int i = 0; i < ga.length; i++ ) {
+//            TxGraphic graphic = (TxGraphic)ga[i];
+//            System.out.println( "-->" + graphic.getWrappedGraphic() );
+//        }
+//        Graphic[] ga2 = getPhysicalPanel().getGraphic().getGraphics();
+//        for( int i = 0; i < ga2.length; i++ ) {
+//            TxGraphic graphic = (TxGraphic)ga2[i];
+//            System.out.println( "-->" + graphic.getWrappedGraphic() );
+//        }
+//
+//        List l = ( (NuclearPhysicsModel)getModel() ).getNuclearModelElements();
+//        for( int i = 0; i < l.size(); i++ ) {
+//            Object o = (Object)l.get( i );
+//            System.out.println( "o = " + o );
+//        }
     }
 }
