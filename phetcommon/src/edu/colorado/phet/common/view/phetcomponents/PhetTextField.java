@@ -21,6 +21,8 @@ import java.awt.geom.AffineTransform;
  * Date: Dec 24, 2004
  * Time: 5:34:05 PM
  * To change this template use File | Settings | File Templates.
+ *
+ * @deprecated Use PhetJComponent with a TextField.
  */
 public class PhetTextField extends CompositePhetGraphic {
     private PhetTextGraphic textGraphic;
