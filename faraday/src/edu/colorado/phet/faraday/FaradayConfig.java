@@ -36,10 +36,6 @@ public class FaradayConfig {
     public static final double TIME_STEP = 1;
     public static final int FRAME_RATE = 25;  // frames per second
     public static final int WAIT_TIME = ( 1000 / FRAME_RATE );  // milliseconds
-
-    // Common Layers
-    public static final double DEBUG_LAYER = Double.MAX_VALUE - 1;
-    public static final double HELP_LAYER = Double.MAX_VALUE;
     
     // Images
     private static final String IMAGES_DIRECTORY = "images/";
