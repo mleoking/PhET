@@ -33,6 +33,12 @@ Refactor ModelViewTx2D and AffineTxUtil
 
 
 =========================================================
+12/16/04
+- Made mirrors on cavity reflect in both directions
+- Reduced max pumping rate on single atom panel by 1/8
+- Added controls for the cheat angle and cavity height
+- Changed labels on radio buttons to "Upper Transition" and "Lower Transition"
+
 12/15/04
 - Removed "(ev)" from y axis label in energy levels window
 - When MultipleAtomModule is activated, the number of levels needs to be set to three.

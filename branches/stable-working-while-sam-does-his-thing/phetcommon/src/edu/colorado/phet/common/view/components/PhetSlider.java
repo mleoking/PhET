@@ -79,8 +79,8 @@ public class PhetSlider extends JPanel {
                 super.paintComponent( g );
             }
         };
-        Font titleFont = new Font( "Lucida Sans", Font.BOLD, 20 );
-        titleLabel.setFont( titleFont );
+//        Font titleFont = new Font( "Lucida Sans", Font.BOLD, 20 );
+//        titleLabel.setFont( titleFont );
 
         unitsReadout = new JTextField( " " + this.units ) {
             protected void paintComponent( Graphics g ) {
