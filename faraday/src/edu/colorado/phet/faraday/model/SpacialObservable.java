@@ -138,5 +138,5 @@ public class SpacialObservable extends SimpleObservable {
     /**
      * Hook for any updates that subclasses might need to perform.
      */
-    public void updateSelf() {}
+    protected void updateSelf() {}
 }
