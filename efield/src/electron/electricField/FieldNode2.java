@@ -43,7 +43,7 @@ public class FieldNode2 extends JApplet {
         if ( applicationLocale == null ) {
             applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-                Locale.setDefault( new Locale( applicationLocale ) );
+                SimStrings.setLocale( new Locale( applicationLocale ) );
             }
         }
         SimStrings.setStrings( localizedStringsPath );
@@ -190,7 +190,7 @@ public class FieldNode2 extends JApplet {
         String argsKey = "user.language=";
         if( args.length > 0 && args[0].startsWith( argsKey )) {
             j.applicationLocale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( j.applicationLocale ));
+            SimStrings.setLocale( new Locale( j.applicationLocale ));
             if ( args.length == 1 ) {
                 args = null;
             } else {
