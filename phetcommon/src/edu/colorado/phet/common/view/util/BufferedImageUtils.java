@@ -159,33 +159,44 @@ public class BufferedImageUtils {
     
     /**
      * Creates and returns a buffered image that is a rotated version of a specified
-     * buffered image. The transform is done so that the image is not truncated.
+     * buffered image. The transform is done so that the image is not truncated, and
+     * occupies the minimum bounding box
      *
      * @param bImage
      * @param theta  Angle the image is to be rotated, in radians.
      * @return the rotated image.
      */
     public static BufferedImage getRotatedImage( BufferedImage bImage, double theta ) {
-        // Determine the correct point of the image about which to rotate it. If we don't
-        // do this correctly, the image will get clipped when it is rotated into certain
-        // quadrants
-        Point2D pr = new Point2D.Double();
         // Normalize theta to be between 0 and PI*2
         theta = ( ( theta % ( Math.PI * 2 ) ) + Math.PI * 2 ) % ( Math.PI * 2 );
+        double x = 0;
+        double y = 0;
+        double alpha = 0;
+        double w = bImage.getWidth();
+        double h = bImage.getHeight();
         if( theta >= 0 && theta <= Math.PI / 2 ) {
-            pr.setLocation( 0, bImage.getHeight() );
+            x = h * Math.sin( theta );
+            y = 0;
         }
         if( theta > Math.PI / 2 && theta <= Math.PI ) {
-            pr.setLocation( bImage.getWidth(), bImage.getHeight() );
+            alpha = theta - Math.PI / 2;
+            x = w * Math.sin( alpha ) + h * Math.cos( alpha );
+            y = h * Math.sin( alpha );
         }
         if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
-            pr.setLocation( bImage.getWidth(), bImage.getHeight() );
+            alpha = theta - Math.PI;
+            x = w * Math.cos( alpha );
+            y = w * Math.sin( alpha ) + h * Math.cos( alpha );
         }
+        // Works
         if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
-            pr.setLocation( bImage.getWidth(), bImage.getHeight() );
+            alpha = Math.PI * 2 - theta;
+            x = 0;
+            y = w * Math.sin( alpha );
         }
-        AffineTransform rtx = AffineTransform.getRotateInstance( theta, pr.getX(), pr.getY() );
-        BufferedImageOp op = new AffineTransformOp( rtx, AffineTransformOp.TYPE_BILINEAR );
+        AffineTransform atx = AffineTransform.getTranslateInstance( x, y );
+        atx.rotate( theta );
+        BufferedImageOp op = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
         BufferedImage result = op.filter( bImage, null );
         return result;
     }
