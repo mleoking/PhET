@@ -187,10 +187,6 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
             _batteryGraphic.setLocation( x, y );
             _acSourceGraphic.setLocation( x, y );
             
-            // Direction (do this *after* positioning voltage sources!)
-            _foreground.rotate( _electromagnetModel.getDirection() );
-            _background.rotate( _electromagnetModel.getDirection() );
-            
             _foreground.repaint();
             _background.repaint();
         }
