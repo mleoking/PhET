@@ -20,6 +20,7 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -34,7 +35,8 @@ import edu.colorado.phet.faraday.model.Compass;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class CompassGraphic extends CompositePhetGraphic implements SimpleObserver, ICollidable {
+public class CompassGraphic extends CompositePhetGraphic
+    implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
   
     //----------------------------------------------------------------------------
     // Class data
@@ -60,6 +62,7 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
     // Instance data
     //----------------------------------------------------------------------------
     
+    private Rectangle _parentBounds;
     private Compass _compassModel;
     private CompassNeedleGraphic _needle;
     private CollisionDetector _collisionDetector;
@@ -81,6 +84,8 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         assert( compassModel != null );
         
         _collisionDetector = new CollisionDetector( this );
+        
+        _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
         _compassModel = compassModel;
         _compassModel.addObserver( this );
@@ -182,6 +187,17 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
     }
     
     //----------------------------------------------------------------------------
+    // ApparatusPanel2.ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
+     */
+    public void canvasSizeChanged( ChangeEvent event ) {
+        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
+    }
+    
+    //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
     
@@ -204,24 +220,11 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
                 // Ignore the translate if it would result in a collision.
                 update();
             }
-            else {
-                Component component = getComponent();
-                if ( component instanceof ApparatusPanel2 ) {
-                    // Translate if the mouse cursor is inside the canvas.
-                    Dimension d = ((ApparatusPanel2)component).getVirtualCanvasSize();
-                    Rectangle r = new Rectangle( 0, 0, d.width, d.height );
-                    if ( r.contains( e.getMouseEvent().getPoint() ) ) {
-                        double x = _compassModel.getX() + e.getDx();
-                        double y = _compassModel.getY() + e.getDy();
-                        _compassModel.setLocation( x, y );
-                    }
-                }
-                else if ( component.contains( e.getMouseEvent().getPoint() ) ) {
-                    // Translate if the mouse cursor is inside the parent component.
-                    double x = _compassModel.getX() + e.getDx();
-                    double y = _compassModel.getY() + e.getDy();
-                    _compassModel.setLocation( x, y );
-                }
+            else if ( _parentBounds.contains( e.getMouseEvent().getPoint() ) ) {
+                // Translate if the mouse cursor is inside the parent component.
+                double x = _compassModel.getX() + e.getDx();
+                double y = _compassModel.getY() + e.getDy();
+                _compassModel.setLocation( x, y );
             }
         }
     }

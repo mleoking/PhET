@@ -18,6 +18,7 @@ import java.text.NumberFormat;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -39,7 +40,8 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class FieldMeterGraphic extends CompositePhetGraphic
+    implements SimpleObserver, ApparatusPanel2.ChangeListener {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -76,6 +78,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObs
     // Instance data
     //----------------------------------------------------------------------------
     
+    private Rectangle _parentBounds;
     private AbstractMagnet _magnetModel;
     private PhetTextGraphic _bText, _bxText, _byText, _angleText;
     private NumberFormat _formatter;
@@ -97,6 +100,8 @@ public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObs
         
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
+        
+        _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
         _formatter = new DecimalFormat( FIELD_FORMAT );
         
@@ -193,6 +198,17 @@ public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObs
     }
     
     //----------------------------------------------------------------------------
+    // ApparatusPanel2.ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
+     */
+    public void canvasSizeChanged( ChangeEvent event ) {
+        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
+    }
+    
+    //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
     
@@ -207,19 +223,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObs
         public InteractivityHandler() {}
 
         public void translationOccurred( TranslationEvent e ) {
-            Component component = getComponent();
-            if ( component instanceof ApparatusPanel2 ) {
-                // Translate if the mouse cursor is inside the canvas.
-                Dimension d = ( (ApparatusPanel2) component ).getVirtualCanvasSize();
-                Rectangle r = new Rectangle( 0, 0, d.width, d.height );
-                if ( r.contains( e.getMouseEvent().getPoint() ) ) {
-                    int x = getX() + e.getDx();
-                    int y = getY() + e.getDy();
-                    setLocation( x, y );
-                    update();
-                }
-            }
-            else if ( component.contains( e.getMouseEvent().getPoint() ) ) {
+            if ( _parentBounds.contains( e.getMouseEvent().getPoint() ) ) {
                 // Translate if the mouse cursor is inside the parent component.
                 int x = getX() + e.getDx();
                 int y = getY() + e.getDy();

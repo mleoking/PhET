@@ -15,6 +15,7 @@ import java.awt.*;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -29,7 +30,8 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver, ICollidable {
+public class BarMagnetGraphic extends PhetImageGraphic
+    implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -42,6 +44,7 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
     // Instance data
     //----------------------------------------------------------------------------
 
+    private Rectangle _parentBounds;
     private AbstractMagnet _magnetModel;
     private boolean _transparencyEnabled;
     private CollisionDetector _collisionDetector;
@@ -63,6 +66,8 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
         assert( magnetModel != null );
         
         _collisionDetector = new CollisionDetector( this );
+        
+        _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
         // Save a reference to the model.
         _magnetModel = magnetModel;
@@ -204,6 +209,17 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
     }
     
     //----------------------------------------------------------------------------
+    // ApparatusPanel2.ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
+     */
+    public void canvasSizeChanged( ChangeEvent event ) {
+        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
+    }
+    
+    //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
     
@@ -214,9 +230,9 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
      * @version $Revision$
      */
     private class InteractivityHandler implements TranslationListener {
-        
+
         public InteractivityHandler() {}
-        
+
         public void translationOccurred( TranslationEvent e ) {
             int dx = e.getDx();
             int dy = e.getDy();
@@ -226,24 +242,11 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
                 // Ignore the translate if it would result in a collision.
                 update();
             }
-            else {
-                Component component = getComponent();
-                if ( component instanceof ApparatusPanel2 ) {
-                    // Translate if the mouse cursor is inside the canvas.
-                    Dimension d = ((ApparatusPanel2)component).getVirtualCanvasSize();
-                    Rectangle r = new Rectangle( 0, 0, d.width, d.height );
-                    if ( r.contains( e.getMouseEvent().getPoint() ) ) {
-                        double x = _magnetModel.getX() + e.getDx();
-                        double y = _magnetModel.getY() + e.getDy();
-                        _magnetModel.setLocation( x, y );
-                    }
-                }
-                else if ( component.contains( e.getMouseEvent().getPoint() ) ) {
-                    // Translate if the mouse cursor is inside the parent component.
-                    double x = _magnetModel.getX() + e.getDx();
-                    double y = _magnetModel.getY() + e.getDy();
-                    _magnetModel.setLocation( x, y );
-                }
+            else if ( _parentBounds.contains( e.getMouseEvent().getPoint() ) ) {
+                // Translate if the mouse cursor is inside the parent component.
+                double x = _magnetModel.getX() + e.getDx();
+                double y = _magnetModel.getY() + e.getDy();
+                _magnetModel.setLocation( x, y );
             }
         }
     }

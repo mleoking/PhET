@@ -45,6 +45,8 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/17) - use ApparatusPanel2.ChangeListener to constrain drags within apparatus panel
+(2/17) - use ApparatusPanel2.ChangeListener to determine compass grid size
 (2/17) - change magnet strength control to a percentage
 (2/17) - change loop area control to a percentage
 (2/17) - group Coil items (Loops, Area, Indicator, Show Electrons)
