@@ -20,9 +20,9 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.faraday.model.LightBulb;
+import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
-import edu.colorado.phet.faraday.model.VoltMeter;
+import edu.colorado.phet.faraday.model.Voltmeter;
 
 /**
  * PickupCoilGraphic is the graphical representation of a pickup coil,
@@ -39,8 +39,8 @@ public class PickupCoilGraphic implements SimpleObserver {
     
     private PickupCoil _pickupCoilModel;
     private CoilGraphic _coilGraphic;
-    private LightBulbGraphic _lightBulbGraphic;
-    private VoltMeterGraphic _voltMeterGraphic;
+    private LightbulbGraphic _lightbulbGraphic;
+    private VoltmeterGraphic _voltmeterGraphic;
     private CompositePhetGraphic _foreground, _background;
     
     //----------------------------------------------------------------------------
@@ -53,35 +53,35 @@ public class PickupCoilGraphic implements SimpleObserver {
      * @param component the parent Component
      * @param BaseModel the base model
      * @param pickupCoilModel the pickup coil model
-     * @param lightBulbModel the lightbulb model
-     * @param voltMeterModel the voltmeter model
+     * @param lightbulbModel the lightbulb model
+     * @param voltmeterModel the voltmeter model
      */
     public PickupCoilGraphic( 
             final Component component, 
             BaseModel baseModel,
             PickupCoil pickupCoilModel, 
-            LightBulb lightBulbModel,
-            VoltMeter voltMeterModel ) {
+            Lightbulb lightbulbModel,
+            Voltmeter voltmeterModel ) {
         
         assert ( component != null );
         assert ( baseModel != null );
         assert ( pickupCoilModel != null );
-        assert ( lightBulbModel != null );
-        assert ( voltMeterModel != null );
+        assert ( lightbulbModel != null );
+        assert ( voltmeterModel != null );
         
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
         
         // Graphics components
         _coilGraphic = new CoilGraphic( component, baseModel, pickupCoilModel );
-        _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel, pickupCoilModel.getMagnet() );
-        _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel, pickupCoilModel.getMagnet() );
+        _lightbulbGraphic = new LightbulbGraphic( component, lightbulbModel, pickupCoilModel.getMagnet() );
+        _voltmeterGraphic = new VoltmeterGraphic( component, voltmeterModel, pickupCoilModel.getMagnet() );
         
         // Foreground composition
         _foreground = new CompositePhetGraphic( component );
         _foreground.addGraphic( _coilGraphic.getForeground() );
-        _foreground.addGraphic( _lightBulbGraphic );
-        _foreground.addGraphic( _voltMeterGraphic );
+        _foreground.addGraphic( _lightbulbGraphic );
+        _foreground.addGraphic( _voltmeterGraphic );
         
         // Background composition
         _background = new CompositePhetGraphic( component );
@@ -114,8 +114,8 @@ public class PickupCoilGraphic implements SimpleObserver {
         _pickupCoilModel.removeObserver( this );
         _pickupCoilModel = null;
         _coilGraphic.finalize();
-        _lightBulbGraphic.finalize();
-        _voltMeterGraphic.finalize();
+        _lightbulbGraphic.finalize();
+        _voltmeterGraphic.finalize();
     }
  
     //----------------------------------------------------------------------------
@@ -165,8 +165,8 @@ public class PickupCoilGraphic implements SimpleObserver {
         bounds.union( _coilGraphic.getBackground().getBounds() );
         int x = -10;
         int y = -( bounds.height / 2 ) - 5;
-        _lightBulbGraphic.setLocation( x, y );
-        _voltMeterGraphic.setLocation( x, y );
+        _lightbulbGraphic.setLocation( x, y );
+        _voltmeterGraphic.setLocation( x, y );
         
         // Direction (do this *after* positioning lightbulb and voltmeter!)
         _foreground.rotate( _pickupCoilModel.getDirection() );

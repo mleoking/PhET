@@ -26,24 +26,24 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
-import edu.colorado.phet.faraday.model.VoltMeter;
+import edu.colorado.phet.faraday.model.Voltmeter;
 
 
 /**
- * VoltMeterGraphic is the graphic representation of a voltmeter.
+ * VoltmeterGraphic is the graphic representation of a voltmeter.
  * The meter's needle moves on a relative scale.
  * Registration point is at bottom-center of the meter body.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObserver {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private VoltMeter _voltMeterModel;
+    private Voltmeter _voltmeterModel;
     private AbstractMagnet _magnetModel;
     private double _value; // -1...+1
     private PhetShapeGraphic _needle;
@@ -57,15 +57,17 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
      * The registration point is at the bottom center of the meter's body.
      * 
      * @param component the parent Component
+     * @param voltmeterModel
+     * @param magnetModel
      */
-    public VoltMeterGraphic( Component component, VoltMeter voltMeterModel, AbstractMagnet magnetModel ) {
+    public VoltmeterGraphic( Component component, Voltmeter voltmeterModel, AbstractMagnet magnetModel ) {
         super( component );
         assert( component != null );
-        assert( voltMeterModel != null );
+        assert( voltmeterModel != null );
         assert( magnetModel != null );
 
-        _voltMeterModel = voltMeterModel;
-        _voltMeterModel.addObserver( this );
+        _voltmeterModel = voltmeterModel;
+        _voltmeterModel.addObserver( this );
         _magnetModel = magnetModel; // No need to observe magnet.
         
         _value = 0.0;
@@ -117,8 +119,8 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _voltMeterModel.removeObserver( this );
-        _voltMeterModel = null;
+        _voltmeterModel.removeObserver( this );
+        _voltmeterModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -161,11 +163,11 @@ public class VoltMeterGraphic extends CompositePhetGraphic implements SimpleObse
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
-        setVisible( _voltMeterModel.isEnabled() );
+        setVisible( _voltmeterModel.isEnabled() );
         if ( isVisible() ) {
             
             // Convert the voltage to a value in the range -1...+1.
-            double value = _voltMeterModel.getVoltage() / FaradayConfig.MAX_EMF;
+            double value = _voltmeterModel.getVoltage() / FaradayConfig.MAX_EMF;
 
             // Rescale the value to improve the visual effect.
             double sign = ( value < 0 ) ? -1 : +1;

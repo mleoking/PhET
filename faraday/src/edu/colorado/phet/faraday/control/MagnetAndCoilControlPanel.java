@@ -44,8 +44,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
     private AbstractMagnet _magnetModel;
     private Compass _compassModel;
     private PickupCoil _pickupCoilModel;
-    private LightBulb _lightBulbModel;
-    private VoltMeter _voltMeterModel;
+    private Lightbulb _lightbulbModel;
+    private Voltmeter _voltmeterModel;
     private BarMagnetGraphic _magnetGraphic;
     private CompassGridGraphic _gridGraphic;
     
@@ -73,8 +73,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
      * @param magnetModel
      * @param compassModel
      * @param pickupCoilModel
-     * @param lightBulbModel
-     * @param voltMeterModel
+     * @param lightbulbModel
+     * @param voltmeterModel
      * @param magnetGraphic
      * @param gridGraphic
      */
@@ -83,8 +83,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         AbstractMagnet magnetModel,
         Compass compassModel,
         PickupCoil pickupCoilModel,
-        LightBulb lightBulbModel,
-        VoltMeter voltMeterModel,
+        Lightbulb lightbulbModel,
+        Voltmeter voltmeterModel,
         BarMagnetGraphic magnetGraphic,
         CompassGridGraphic gridGraphic ) {
 
@@ -93,8 +93,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         assert( magnetModel != null );
         assert( compassModel != null );
         assert( pickupCoilModel != null );
-        assert( lightBulbModel != null );
-        assert( voltMeterModel != null );
+        assert( lightbulbModel != null );
+        assert( voltmeterModel != null );
         assert( magnetGraphic != null );
         assert( gridGraphic != null );
 
@@ -102,8 +102,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         _magnetModel = magnetModel;
         _compassModel = compassModel;
         _pickupCoilModel = pickupCoilModel;
-        _lightBulbModel = lightBulbModel;
-        _voltMeterModel = voltMeterModel;
+        _lightbulbModel = lightbulbModel;
+        _voltmeterModel = voltmeterModel;
         _magnetGraphic = magnetGraphic;
         _gridGraphic = gridGraphic;
 
@@ -262,8 +262,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _loopsSpinner.setValue( new Integer( _pickupCoilModel.getNumberOfLoops() ) );
         _radiusSlider.setValue( (int) _pickupCoilModel.getRadius() );
-        _lightbulbRadioButton.setSelected( _lightBulbModel.isEnabled() );
-        _voltmeterRadioButton.setSelected( _voltMeterModel.isEnabled() );
+        _lightbulbRadioButton.setSelected( _lightbulbModel.isEnabled() );
+        _voltmeterRadioButton.setSelected( _voltmeterModel.isEnabled() );
     }
     
     //----------------------------------------------------------------------------
@@ -313,13 +313,13 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
             }
             else if ( e.getSource() == _lightbulbRadioButton ) {
                 // Lightbulb enable
-                _lightBulbModel.setEnabled( _lightbulbRadioButton.isSelected() );
-                _voltMeterModel.setEnabled( !_lightbulbRadioButton.isSelected() );
+                _lightbulbModel.setEnabled( _lightbulbRadioButton.isSelected() );
+                _voltmeterModel.setEnabled( !_lightbulbRadioButton.isSelected() );
             }
             else if ( e.getSource() == _voltmeterRadioButton ) {
                 // Voltmeter enable
-                _voltMeterModel.setEnabled( _voltmeterRadioButton.isSelected() );
-                _lightBulbModel.setEnabled( !_voltmeterRadioButton.isSelected() );
+                _voltmeterModel.setEnabled( _voltmeterRadioButton.isSelected() );
+                _lightbulbModel.setEnabled( !_voltmeterRadioButton.isSelected() );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );

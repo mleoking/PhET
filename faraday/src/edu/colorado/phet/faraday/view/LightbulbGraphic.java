@@ -25,7 +25,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
-import edu.colorado.phet.faraday.model.LightBulb;
+import edu.colorado.phet.faraday.model.Lightbulb;
 
 
 /**
@@ -36,7 +36,7 @@ import edu.colorado.phet.faraday.model.LightBulb;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -65,7 +65,7 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
     // Instance data
     //----------------------------------------------------------------------------
     
-    private LightBulb _lightBulbModel;
+    private Lightbulb _lightBulbModel;
     private AbstractMagnet _magnetModel;
     private double _previousIntensity;
     private ArrayList _rays; // array of PhetShapeGraphic
@@ -81,7 +81,7 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
      * 
      * @param component the parent Component
      */
-    public LightBulbGraphic( Component component, LightBulb lightBulbModel, AbstractMagnet magnetModel ) {
+    public LightbulbGraphic( Component component, Lightbulb lightBulbModel, AbstractMagnet magnetModel ) {
         super( component );
         
         assert( component != null );
