@@ -145,7 +145,12 @@ public class ApparatusPanel2 extends ApparatusPanel {
         } );
     }
 
-    protected AffineTransform getGraphicTx() {
+    /**
+     * Returns the AffineTransform used by the apparatus panel to size and place graphics
+     *
+     * @return
+     */
+    public AffineTransform getGraphicTx() {
         return graphicTx;
     }
 
