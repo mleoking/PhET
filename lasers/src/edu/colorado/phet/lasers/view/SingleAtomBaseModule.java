@@ -29,7 +29,8 @@ public class SingleAtomBaseModule extends BaseLaserModule {
         addAtom( atom );
 
         stimulatingBeam = ((LaserModel)getModel()).getStimulatingBeam();
-        stimulatingBeam.setHeight( 10 );
+        stimulatingBeam.setHeight( s_boxHeight );
+//        stimulatingBeam.setHeight( 10 );
         stimulatingBeam.setOrigin( new Point2D.Double( s_origin.getX(), s_origin.getY()  + s_boxHeight / 2));
         stimulatingBeam.setPosition( new Point2D.Double( s_origin.getX(), s_origin.getY() + s_boxHeight / 2 ));
 
@@ -38,36 +39,5 @@ public class SingleAtomBaseModule extends BaseLaserModule {
         pumpingBeam.setPosition( pumpingBeam.getPosition().getX() + s_boxWidth / 2,
                                  pumpingBeam.getPosition().getY() );
 //        pumpingBeam.getPosition().setX( pumpingBeam.getPosition().getX() + s_boxWidth / 2 );
-    }
-
-    /**
-     *
-     */
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-
-//        atom = new Atom();
-//        atom.setPosition( (float) ( getLaserOrigin().getX() + s_boxWidth / 2 ),
-//                          (float) ( getLaserOrigin().getY() + s_boxHeight / 2  ) );
-//        atom.setVelocity( 0, 0 );
-//        new AddAtomCmd( atom ).doIt();
-//
-//        stimulatingBeam = ((LaserModel)getModel()).getStimulatingBeam();
-//        stimulatingBeam.setHeight( 10 );
-//        stimulatingBeam.setOrigin( new Point2D.Float( (float)s_origin.getX(), (float)s_origin.getY()  + s_boxHeight / 2));
-//        stimulatingBeam.setPosition( new Point2D.Float( (float)s_origin.getX(), (float)s_origin.getY() + s_boxHeight / 2 ));
-//
-//        pumpingBeam = ((LaserModel)getModel()).getPumpingBeam();
-//        pumpingBeam.setWidth( 10 );
-//        pumpingBeam.setPosition( pumpingBeam.getPosition().getX() + s_boxWidth / 2,
-//                                 pumpingBeam.getPosition().getY() );
-////        pumpingBeam.getPosition().setX( pumpingBeam.getPosition().getX() + s_boxWidth / 2 );
-    }
-
-    /**
-     *
-     */
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
     }
 }
