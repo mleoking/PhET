@@ -16,11 +16,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.text.DecimalFormat;
 
 public class ClockPanelLarge extends JPanel implements ClockTickListener {
 
+    private int numSigDigits = 4;
     private JTextField clockTF = new JTextField();
-    private NumberFormat clockFormat = NumberFormat.getInstance();
+    private NumberFormat clockFormat = new DecimalFormat( "0.0000" );
     private AbstractClock clock;
 
     public ClockPanelLarge( AbstractClock clock ) {
@@ -35,7 +37,6 @@ public class ClockPanelLarge extends JPanel implements ClockTickListener {
         clockTF.setFont( new Font( clockFont.getName(), Font.BOLD, 16 ) );
 
         clockTF.setEditable( false );
-        clockFormat.setMaximumFractionDigits( 1 );
         clockTF.setHorizontalAlignment( JTextField.RIGHT );
 
         JButton resetBtn = new JButton( "Reset" );
@@ -77,12 +78,8 @@ public class ClockPanelLarge extends JPanel implements ClockTickListener {
         clockTicked( clock, 0 );
     }
 
-//    private void setClockReading( float reading ) {
-//        setClockReading( clockFormat.format( reading ) );
-//    }
-
     public void clockTicked( AbstractClock c, double dt ) {
-        String s = Double.toString( c.getRunningTime() * SoundConfig.s_clockScaleFactor / 1000 );
+        String s = clockFormat.format( c.getRunningTime() * SoundConfig.s_clockScaleFactor / 1000 );
         clockTF.setText( s );
     }
 
