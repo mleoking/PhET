@@ -1,0 +1,2 @@
+- Determine why bounds of composites are not updated when children change.
+- Determine why bounds are not drawn cleanly by DebuggerGraphic.
