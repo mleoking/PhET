@@ -50,7 +50,8 @@ public class BaseLaserModule extends Module {
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
     static protected final double s_boxHeight = 120;
     static protected final double s_boxWidth = 300;
-    static protected final double s_laserOffsetX = 100;
+    static protected final double s_laserOffsetX = 50;
+//    static protected final double s_laserOffsetX = 100;
 
     static public final int PHOTON_DISCRETE = 0;
     static public final int PHOTON_WAVE = 1;
@@ -382,13 +383,14 @@ public class BaseLaserModule extends Module {
         getApparatusPanel().removeGraphic( leftMirrorGraphic );
         getApparatusPanel().removeGraphic( rightMirrorGraphic );
 
+        // Show/hide the reflectivity slider
+        reflectivityControlPanel.setVisible( mirrorsEnabled );
+
         if( mirrorsEnabled ) {
             getModel().addModelElement( leftMirror );
             getModel().addModelElement( rightMirror );
             getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.MIRROR_LAYER );
             getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.MIRROR_LAYER );
-
-            reflectivityControlPanel.setVisible( true );
             getApparatusPanel().revalidate();
         }
         getApparatusPanel().paintImmediately( getApparatusPanel().getBounds() );

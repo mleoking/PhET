@@ -36,11 +36,11 @@ public class MirrorOnOffControlPanel extends JPanel {
         mirrorCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( mirrorCB.isSelected() ) {
-                    mirrorCB.setText( removeMirrorsStr );
+//                    mirrorCB.setText( removeMirrorsStr );
                     module.setMirrorsEnabled( true );
                 }
                 else {
-                    mirrorCB.setText( addMirrorsStr );
+//                    mirrorCB.setText( addMirrorsStr );
                     module.setMirrorsEnabled( false );
                 }
             }
@@ -48,7 +48,8 @@ public class MirrorOnOffControlPanel extends JPanel {
         this.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
-                                                         GridBagConstraints.NORTHWEST,
+                                                         GridBagConstraints.CENTER,
+//                                                         GridBagConstraints.NORTHWEST,
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         this.add( mirrorCB, gbc );

@@ -39,6 +39,7 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
     private double width;
     private EnergyLevelRep energyLevelRep;
     private Rectangle bounds = new Rectangle();
+    // This transform controls the y location of the line
     private ModelViewTx1D energyYTx;
 
     /**

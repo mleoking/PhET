@@ -135,9 +135,13 @@ public class Atom extends SolidSphere {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------
+    // Events and event handling
+    //----------------------------------------------------------------
 
-    // LeftSystemEvent handling
+    /**
+     * ChangeEvent and associated code
+     */
     public class ChangeEvent extends EventObject {
         private AtomicState currState;
         private AtomicState prevState;
@@ -173,6 +177,9 @@ public class Atom extends SolidSphere {
     }
 
 
+    /**
+     * LeftSystemEvent and associated code
+     */
     public class LeftSystemEvent extends EventObject {
         public LeftSystemEvent( Object source ) {
             super( source );
@@ -188,8 +195,6 @@ public class Atom extends SolidSphere {
     }
 
     public interface LeftSystemListener extends EventListener {
-//        void stateChanged( LeftSystemEvent leftSystemEvent );
-
         void leftSystem( LeftSystemEvent leftSystemEvent );
     }
 
