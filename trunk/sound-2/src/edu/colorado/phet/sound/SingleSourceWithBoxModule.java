@@ -7,13 +7,15 @@
 package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.coreadditions.ScalarObservable;
 import edu.colorado.phet.sound.model.AttenuationFunction;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
+import edu.colorado.phet.sound.view.DialGauge;
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
 import edu.colorado.phet.sound.view.SoundControlPanel;
-import edu.colorado.phet.sound.view.DialGauge;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -23,10 +25,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
 
 public class SingleSourceWithBoxModule extends SingleSourceListenModule {
     private AirBoxGraphic boxInteriorGraphic;
     private PhetShapeGraphic boxGraphic;
+    private double airDensity;
+    private ScalarObservable airDensityObservable;
+    private DialGauge pressureGauge;
+    final int maxDensity = 200;
 
     protected SingleSourceWithBoxModule( ApplicationModel appModel ) {
         super( appModel, "<html>Listen with<br>Varying Air Pressure</html>" );
@@ -34,6 +41,20 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
     }
 
     private void init() {
+
+        // Add a pressure pressureGauge
+        airDensityObservable = new ScalarObservable() {
+            public double getValue() {
+                return airDensity;
+            }
+        };
+        double x = 150;
+        double y = 80;
+        double diam = 100;
+        pressureGauge = new DialGauge( airDensityObservable, getApparatusPanel(), x, y, diam, 0, 1, "Pressure", "ATM" );
+        Rectangle2D.Double gaugeStem = new Rectangle2D.Double( x - 5, y + diam / 2, 10, 20 );
+        pressureGauge.addGraphic( new ShapeGraphic( gaugeStem, Color.black ), 6 );
+
         SoundModel soundModel = (SoundModel)getModel();
         WaveMedium waveMedium = soundModel.getWaveMedium();
 
@@ -156,10 +177,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                                           GridBagConstraints.CENTER,
                                           GridBagConstraints.HORIZONTAL,
                                           insets, 0, 0 );
-            this.add( densitySlider, gbc );
-//            this.setLayout( new GridLayout( 2, 1 ) );
-//            this.add( airButton );
-//            this.add( densitySlider );
+            //            this.add( densitySlider, gbc );
             this.setBorder( new TitledBorder( "Air Density" ) );
             this.setPreferredSize( new Dimension( 120, 120 ) );
         }
@@ -174,18 +192,18 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
             }
 
             public void run() {
-
                 try {
-                    // If we're removig air, display box
+                    // If we're removing air, display box
                     if( evacuateToggle ) {
                         SwingUtilities.invokeLater( new Runnable() {
                             public void run() {
                                 getApparatusPanel().addGraphic( boxGraphic, 8 );
                                 getApparatusPanel().addGraphic( boxInteriorGraphic, 6 );
+                                getApparatusPanel().addGraphic( pressureGauge, 5 );
                             }
                         } );
                     }
-                    Thread.sleep( 2000 );
+                    Thread.sleep( 3000 );
 
                     // Pump air out or in
                     int incr = evacuateToggle ? -1 : 1;
@@ -194,16 +212,18 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                     while( value != stop ) {
                         value += incr;
                         densitySlider.setValue( value );
-                        Thread.sleep( 20 );
+                        setAirDensity( value, maxValue, attenuationFunction );
+                        Thread.sleep( 100 );
                     }
 
                     // If we're adding air, hide box
-                    Thread.sleep( 2000 );
+                    Thread.sleep( 3000 );
                     if( !evacuateToggle ) {
                         SwingUtilities.invokeLater( new Runnable() {
                             public void run() {
                                 getApparatusPanel().removeGraphic( boxGraphic );
                                 getApparatusPanel().removeGraphic( boxInteriorGraphic );
+                                getApparatusPanel().removeGraphic( pressureGauge );
                             }
                         } );
                     }
@@ -217,9 +237,18 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         }
 
         private void setAirDensity( final JSlider densitySlider, final int maxValue, final VariableWaveMediumAttenuationFunction attenuationFunction ) {
-            double airDensity = ( (double)densitySlider.getValue() ) / maxValue;
+            airDensity = ( (double)densitySlider.getValue() ) / maxValue;
             attenuationFunction.setVariableRegionAttenuation( airDensity );
             boxInteriorGraphic.setAirDensity( airDensity );
+            airDensityObservable.notifyObservers();
+        }
+
+        private void setAirDensity( double density, final int maxValue, final VariableWaveMediumAttenuationFunction attenuationFunction ) {
+            airDensity = ( density ) / maxDensity;
+            //            airDensity = ( density ) / maxValue;
+            attenuationFunction.setVariableRegionAttenuation( airDensity );
+            boxInteriorGraphic.setAirDensity( airDensity );
+            airDensityObservable.notifyObservers();
         }
 
     }
