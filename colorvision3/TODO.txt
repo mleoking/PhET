@@ -1,4 +1,4 @@
-"To Do" list for "colorvision3" project
+"To Do" list for "colorvision3" simulation
 
 HIGH:
 o Help, based on Kathy's requirements
@@ -9,5 +9,6 @@ o background color on Windows
 
 LOW:
 o font antialiasing on Windows (and Linux?)
+(DONE) o remove filter switch label from localization files
 
 
