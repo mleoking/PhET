@@ -7,14 +7,14 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.idealgas.model.SphericalBody;
 import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.model.SphericalBody;
 
 public class SphereBoxContactDetector extends ContactDetector {
 
     protected boolean applies( CollidableBody bodyA, CollidableBody bodyB ) {
-        return( bodyA instanceof SphericalBody && bodyB instanceof Box2D
-            || bodyB instanceof SphericalBody && bodyA instanceof Box2D );
+        return ( bodyA instanceof SphericalBody && bodyB instanceof Box2D
+                 || bodyB instanceof SphericalBody && bodyA instanceof Box2D );
     }
 
     public boolean areInContact( CollidableBody bodyA, CollidableBody bodyB ) {

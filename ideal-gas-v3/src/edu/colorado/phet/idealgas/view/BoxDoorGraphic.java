@@ -9,10 +9,8 @@ package edu.colorado.phet.idealgas.view;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.idealgas.model.Box2D;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class BoxDoorGraphic extends DefaultInteractiveGraphic {
@@ -25,9 +23,9 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic {
     private Box2D box;
     private PhetImageGraphic imageGraphic;
 
-    public BoxDoorGraphic( PhetImageGraphic imageGraphic, 
+    public BoxDoorGraphic( PhetImageGraphic imageGraphic,
                            int x, int y, int minX, int minY, int maxX, int maxY,
-                           Box2D box) {
+                           Box2D box ) {
         super( imageGraphic );
         this.imageGraphic = imageGraphic;
         this.x = x;
@@ -44,6 +42,7 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic {
 
     private class DoorTranslator implements Translatable {
         private Point2D[] opening = new Point2D[2];
+
         public DoorTranslator() {
             translate( 0, 0 );
         }
@@ -54,9 +53,9 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic {
             imageGraphic.setPosition( x, y );
 
             opening[0] = new Point2D.Double( x + imageGraphic.getBounds().getWidth(),
-                                       y + imageGraphic.getBounds().getHeight() + 2 );
+                                             y + imageGraphic.getBounds().getHeight() + 2 );
             opening[1] = new Point2D.Double( box.getMaxX(),
-                                       y + imageGraphic.getBounds().getHeight() + 2 );
+                                             y + imageGraphic.getBounds().getHeight() + 2 );
 
             box.setOpening( opening );
         }

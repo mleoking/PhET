@@ -6,12 +6,11 @@
  */
 package edu.colorado.phet.idealgas.view;
 
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.Animation;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
 
 import java.awt.*;
@@ -26,7 +25,7 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
     private Image currLeanerFrame;
     private IdealGasModel model;
     private PressureSensingBox box;
-    private Point location = new Point( );
+    private Point location = new Point();
     private double lastPressure;
 
     public Mannequin( Component component, IdealGasModel model, PressureSensingBox box ) {
@@ -48,7 +47,7 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
     protected Rectangle determineBounds() {
         return new Rectangle( location.x, location.y,
                               currPusherFrame.getWidth( null ),
-                              currPusherFrame.getHeight( null ));
+                              currPusherFrame.getHeight( null ) );
     }
 
     public void paint( Graphics2D g ) {
@@ -59,7 +58,7 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
         // Update the pusher
         int nextLocationX = (int)box.getMinX() - currPusherFrame.getHeight( null ) - (int)Box2DGraphic.s_thickness;
         int dir = nextLocationX - location.x;
-        currPusherFrame = dir == 0 ? currPusherFrame : ( dir > 0 ? pusher.getNextFrame() : pusher.getPrevFrame());
+        currPusherFrame = dir == 0 ? currPusherFrame : ( dir > 0 ? pusher.getNextFrame() : pusher.getPrevFrame() );
         location.setLocation( box.getMinX() - currPusherFrame.getHeight( null ) - Box2DGraphic.s_thickness,
                               box.getMaxY() - currPusherFrame.getWidth( null ) + Box2DGraphic.s_thickness );
 

@@ -33,7 +33,7 @@ public class SphereWallCollision extends HardsphereCollision {
 
     public SphereWallCollision( SphericalBody sphere, Wall wall,
                                 IdealGasModel model, double dt ) {
-//    public SphereWallCollision( Sphere sphere, Wall wall ) {
+        //    public SphereWallCollision( Sphere sphere, Wall wall ) {
         this.sphere = sphere;
         this.wall = wall;
         this.model = model;
@@ -45,10 +45,10 @@ public class SphereWallCollision extends HardsphereCollision {
     //
     protected Vector2D getLoa( Particle particleA, Particle particleB ) {
         Wall wall = particleA instanceof Wall ? (Wall)particleA : (Wall)particleB;
-        loa.setX( (float)( wall.getEnd1().getY() - wall.getEnd2().getY() ));
-        loa.setY( (float)( wall.getEnd1().getX() - wall.getEnd2().getX() ));
-//        Vector2D loa = new Vector2D( (float)( wall.getEnd1().getY() - wall.getEnd2().getY() ),
-//                                     (float)( wall.getEnd1().getX() - wall.getEnd2().getX() ));
+        loa.setX( (float)( wall.getEnd1().getY() - wall.getEnd2().getY() ) );
+        loa.setY( (float)( wall.getEnd1().getX() - wall.getEnd2().getX() ) );
+        //        Vector2D loa = new Vector2D( (float)( wall.getEnd1().getY() - wall.getEnd2().getY() ),
+        //                                     (float)( wall.getEnd1().getX() - wall.getEnd2().getX() ));
         return loa;
     }
 
@@ -65,28 +65,27 @@ public class SphereWallCollision extends HardsphereCollision {
         wall.setPosition( intersection );
         wall.setPosition( intersection );
 
-        super.collide( sphere, wall, getLoa( sphere, wall ), dt, model  );
+        super.collide( sphere, wall, getLoa( sphere, wall ), dt, model );
     }
 
 
     /**
-     *
      * @param particleA
      * @param particleB
      * @return
      */
     public Collision createIfApplicable( Particle particleA, Particle particleB,
-                                         IdealGasModel model, double dt) {
+                                         IdealGasModel model, double dt ) {
         Collision result = null;
         if( particleA instanceof SphericalBody && particleB instanceof Wall ) {
-//        if( particleA instanceof Sphere && particleB instanceof Wall ) {
+            //        if( particleA instanceof Sphere && particleB instanceof Wall ) {
             result = new SphereWallCollision( (SphericalBody)particleA, (Wall)particleB,
                                               model, dt );
-//            result = new SphereWallCollision( (Sphere)particleA, (Wall)particleB );
+            //            result = new SphereWallCollision( (Sphere)particleA, (Wall)particleB );
         }
         if( particleB instanceof SphericalBody && particleA instanceof Wall ) {
             result = new SphereWallCollision( (SphericalBody)particleB, (Wall)particleA,
-                                              model, dt);
+                                              model, dt );
         }
         return result;
     }
@@ -95,6 +94,7 @@ public class SphereWallCollision extends HardsphereCollision {
     // Static fields and methods
     //
     private static Vector2D loa = new Vector2D.Double();
+
     static public void register() {
         CollisionFactory.addPrototype( new SphereWallCollision() );
     }

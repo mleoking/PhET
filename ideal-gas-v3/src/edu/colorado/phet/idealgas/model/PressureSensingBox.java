@@ -9,12 +9,9 @@ package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.PressureSlice;
-import edu.colorado.phet.idealgas.controller.AddModelElementCmd;
 import edu.colorado.phet.idealgas.util.ScalarDataRecorder;
-import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  *

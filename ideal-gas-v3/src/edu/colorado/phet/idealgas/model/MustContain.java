@@ -13,7 +13,7 @@ import edu.colorado.phet.common.model.ModelElement;
 public abstract class MustContain extends Constraint {
 
     public MustContain( ModelElement container, ModelElement contained ) {
-        setSpec( new Spec( this, container, contained ));
+        setSpec( new Spec( this, container, contained ) );
     }
 
     public abstract Object apply( Constraint.Spec spec );
@@ -35,7 +35,7 @@ public abstract class MustContain extends Constraint {
             put( CONTAINED, contained );
         }
 
-        public ModelElement getContainer( ){
+        public ModelElement getContainer() {
             ModelElement container = (ModelElement)get( CONTAINER );
             if( container == null ) {
                 throw new RuntimeException( "Null argument in method getContainer() " +
@@ -44,7 +44,7 @@ public abstract class MustContain extends Constraint {
             return container;
         }
 
-        public ModelElement getContained(){
+        public ModelElement getContained() {
             ModelElement contained = (ModelElement)get( CONTAINED );
             if( contained == null ) {
                 throw new RuntimeException( "Null argument in method getContained() " +

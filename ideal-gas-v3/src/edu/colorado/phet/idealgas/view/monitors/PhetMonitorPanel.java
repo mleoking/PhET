@@ -7,7 +7,6 @@
 package edu.colorado.phet.idealgas.view.monitors;
 
 import javax.swing.*;
-import java.util.Observer;
 
 abstract public class PhetMonitorPanel extends JPanel {
     // These attributes are used to regulate how often the readouts
@@ -15,7 +14,7 @@ abstract public class PhetMonitorPanel extends JPanel {
     // this panel in a separate thread, to avoid the use of synchronized
     // blocks on the list of bodies
     private long updateInterval = 1000;
-//    private long updateInterval = 500;
+    //    private long updateInterval = 500;
     private long lastUpdateTime;
 
     public long getUpdateInterval() {
@@ -34,5 +33,5 @@ abstract public class PhetMonitorPanel extends JPanel {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-//    abstract public void clear();
+    //    abstract public void clear();
 }

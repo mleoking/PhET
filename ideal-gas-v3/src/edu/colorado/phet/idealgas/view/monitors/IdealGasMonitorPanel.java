@@ -12,9 +12,6 @@ import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
-import edu.colorado.phet.idealgas.view.monitors.GasMonitorPanel;
-import edu.colorado.phet.idealgas.view.monitors.GasSpeciesMonitorPanel;
-import edu.colorado.phet.idealgas.view.monitors.PhetMonitorPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -28,21 +25,21 @@ public class IdealGasMonitorPanel extends PhetMonitorPanel implements SimpleObse
     private GasMonitorPanel globalGasMonitorPanel;
     private GasSpeciesMonitorPanel heavySpeciesPanel;
     private GasSpeciesMonitorPanel lightSpeciesPanel;
-//    private BalloonPressureMonitor balloonPressureMonitorPanel;
+    //    private BalloonPressureMonitor balloonPressureMonitorPanel;
 
     /**
      * Constructor
      */
     public IdealGasMonitorPanel( IdealGasModel model ) {
 
-        globalGasMonitorPanel = new GasMonitorPanel( new Class[]{ HeavySpecies.class, LightSpecies.class },
+        globalGasMonitorPanel = new GasMonitorPanel( new Class[]{HeavySpecies.class, LightSpecies.class},
                                                      model );
         this.add( globalGasMonitorPanel );
 
-//        balloonPressureMonitorPanel = new BalloonPressureMonitor();
-//        this.add( balloonPressureMonitorPanel );
+        //        balloonPressureMonitorPanel = new BalloonPressureMonitor();
+        //        this.add( balloonPressureMonitorPanel );
 
-        JPanel speciesPanel = new JPanel( new GridLayout( 2, 1 ));
+        JPanel speciesPanel = new JPanel( new GridLayout( 2, 1 ) );
         heavySpeciesPanel = new GasSpeciesMonitorPanel( HeavySpecies.class, "Heavy species" );
         speciesPanel.add( heavySpeciesPanel );
         lightSpeciesPanel = new GasSpeciesMonitorPanel( LightSpecies.class, "Light species" );
@@ -55,21 +52,21 @@ public class IdealGasMonitorPanel extends PhetMonitorPanel implements SimpleObse
 
         // Note: These two lines should be un-commented when and if we decide
         // to use a separate thread for this panel
-//        MonitorClock monitorClock = new MonitorClock( this, parent.getPhysicalSystem() );
-//        monitorClock.start();
+        //        MonitorClock monitorClock = new MonitorClock( this, parent.getPhysicalSystem() );
+        //        monitorClock.start();
     }
 
     /**
      *
      */
-//    public void clear() {
-//
-////        super.clear();
-//
-//        globalGasMonitorPanel.clear();
-//        heavySpeciesPanel.clear();
-//        lightSpeciesPanel.clear();
-//    }
+    //    public void clear() {
+    //
+    ////        super.clear();
+    //
+    //        globalGasMonitorPanel.clear();
+    //        heavySpeciesPanel.clear();
+    //        lightSpeciesPanel.clear();
+    //    }
 
     /**
      *
@@ -77,14 +74,14 @@ public class IdealGasMonitorPanel extends PhetMonitorPanel implements SimpleObse
     public void update() {
 
         long now = System.currentTimeMillis();
-/*        if( now - getLastUpdateTime() >= getUpdateInterval() )*/ {
+        /*        if( now - getLastUpdateTime() >= getUpdateInterval() )*/ {
             super.setLastUpdateTime( now );
             globalGasMonitorPanel.update();
             heavySpeciesPanel.update();
             lightSpeciesPanel.update();
-//            globalGasMonitorPanel.update( observable, o );
-//            heavySpeciesPanel.update( observable, o );
-//            lightSpeciesPanel.update( observable, o );
+            //            globalGasMonitorPanel.update( observable, o );
+            //            heavySpeciesPanel.update( observable, o );
+            //            lightSpeciesPanel.update( observable, o );
         }
     }
 
@@ -102,9 +99,9 @@ public class IdealGasMonitorPanel extends PhetMonitorPanel implements SimpleObse
         return globalGasMonitorPanel.isOomSpinnersVisible();
     }
 
-//    public BalloonPressureMonitor getBalloonPressureMonitorPanel() {
-//        return balloonPressureMonitorPanel;
-//    }
+    //    public BalloonPressureMonitor getBalloonPressureMonitorPanel() {
+    //        return balloonPressureMonitorPanel;
+    //    }
 
     public void setGravity( Gravity gravity ) {
         globalGasMonitorPanel.setGravity( gravity );

@@ -35,16 +35,16 @@ public class SphereBoxCollision implements Collision {
 
     public void collide() {
         Wall collidingWall = box.collideWithParticle( sphere, dt );
-        if( IdealGasConfig.heatOnlyFromFloor && box.isFloor( collidingWall )) {
+        if( IdealGasConfig.heatOnlyFromFloor && box.isFloor( collidingWall ) ) {
             double preKE = sphere.getKineticEnergy();
-//            double preKE = sphere.getKineticEnergyDouble();
-//            IdealGasSystem idealGasSystem = (IdealGasSystem)IdealGasSystem.instance();
+            //            double preKE = sphere.getKineticEnergyDouble();
+            //            IdealGasSystem idealGasSystem = (IdealGasSystem)IdealGasSystem.instance();
             sphere.setVelocity( sphere.getVelocity().scale( 1 + model.getHeatSource() / 10000 ) );
-//            sphere.setVelocity( sphere.getVelocity().multiply( 1 + idealGasSystem.getHeatSource() / 10000 ) );
+            //            sphere.setVelocity( sphere.getVelocity().multiply( 1 + idealGasSystem.getHeatSource() / 10000 ) );
             double incrKE = sphere.getKineticEnergy() - preKE;
-//            double incrKE = sphere.getKineticEnergyDouble() - preKE;
+            //            double incrKE = sphere.getKineticEnergyDouble() - preKE;
             model.addKineticEnergyToSystem( incrKE );
-//            idealGasSystem.addKineticEnergyToSystem( incrKE );
+            //            idealGasSystem.addKineticEnergyToSystem( incrKE );
         }
 
     }
@@ -59,7 +59,7 @@ public class SphereBoxCollision implements Collision {
         else if( particleB instanceof SphericalBody && particleA instanceof Box2D ) {
             result = new SphereBoxCollision( (SphericalBody)particleB, (Box2D)particleA,
                                              model, dt );
-                                             
+
         }
         return result;
     }

@@ -43,25 +43,25 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
                 double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - 50 );
                 box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
                 // Compute the velocity of the wall
-        //        if( !initWallMovement ) {
-        //            initWallMovement = true;
-        //
-        //            lastMinX = (float)event.getPoint().getX();
-        //            lastEventTime = event.getWhen();
-        //            clockScaleFactor = PhysicalSystem.instance().getDt() / PhysicalSystem.instance().getWaitTime();
-        //        }
-        //        float dx = (float)event.getPoint().getX() - lastMinX;
-        //        lastMinX = (float)event.getPoint().getX();
-        //        long now = event.getWhen();
-        //        long dt = now - lastEventTime;
-        //        lastEventTime = now;
-        //        if( dt > 0 ) {
-        //            float vx = dx / ( dt * clockScaleFactor );
-        //            Thread.yield();
-        //            box.setLeftWallVelocity( vx * 2 );
-        ////             We must yield so the PhysicalSystem thread can get the
-        ////             update.
-        //            Thread.yield();
+                //        if( !initWallMovement ) {
+                //            initWallMovement = true;
+                //
+                //            lastMinX = (float)event.getPoint().getX();
+                //            lastEventTime = event.getWhen();
+                //            clockScaleFactor = PhysicalSystem.instance().getDt() / PhysicalSystem.instance().getWaitTime();
+                //        }
+                //        float dx = (float)event.getPoint().getX() - lastMinX;
+                //        lastMinX = (float)event.getPoint().getX();
+                //        long now = event.getWhen();
+                //        long dt = now - lastEventTime;
+                //        lastEventTime = now;
+                //        if( dt > 0 ) {
+                //            float vx = dx / ( dt * clockScaleFactor );
+                //            Thread.yield();
+                //            box.setLeftWallVelocity( vx * 2 );
+                ////             We must yield so the PhysicalSystem thread can get the
+                ////             update.
+                //            Thread.yield();
             }
         } );
     }
@@ -97,20 +97,20 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
     //     * @param o
     //     * @param arg
     //     */
-//        public void update( Observable o, Object arg ) {
-//            this.setPosition( (CollidableBody)o );
-//            if( o instanceof PressureSensingBox ) {
-//                PressureSensingBox box = (PressureSensingBox)o;
-//                double newPressure = box.getPressure();
-//                if( newPressure > lastPressure * s_leaningManStateChangeScaleFactor ) {
-//                    getIdealGasApparatusPanel().moveLeaner( 1 );
-//                    lastPressure = box.getPressure();
-//                }
-//                else if( newPressure < lastPressure / s_leaningManStateChangeScaleFactor ) {
-//                    getIdealGasApparatusPanel().moveLeaner( -1 );
-//                    lastPressure = box.getPressure();
-//                }
-//            }
-//        }
+    //        public void update( Observable o, Object arg ) {
+    //            this.setPosition( (CollidableBody)o );
+    //            if( o instanceof PressureSensingBox ) {
+    //                PressureSensingBox box = (PressureSensingBox)o;
+    //                double newPressure = box.getPressure();
+    //                if( newPressure > lastPressure * s_leaningManStateChangeScaleFactor ) {
+    //                    getIdealGasApparatusPanel().moveLeaner( 1 );
+    //                    lastPressure = box.getPressure();
+    //                }
+    //                else if( newPressure < lastPressure / s_leaningManStateChangeScaleFactor ) {
+    //                    getIdealGasApparatusPanel().moveLeaner( -1 );
+    //                    lastPressure = box.getPressure();
+    //                }
+    //            }
+    //        }
 
 }

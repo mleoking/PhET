@@ -17,31 +17,30 @@ public class BarGauge extends AbstractGauge {
     private Rectangle2D.Float bar;
     private Rectangle2D.Float frame;
     private Color color;
-    private float  level;
+    private float level;
     private boolean isVertical;
-    private float  offset;
-    private float  scale;
+    private float offset;
+    private float scale;
     private Point2D location;
-    private float  maxScreenLevel;
+    private float maxScreenLevel;
 
 
     /**
-     *
      * @param location
      * @param color
      * @param thickness
      * @param isVertical
      */
-    public BarGauge( Point2D.Float location, float  maxScreenLevel, Color color,
-                     float  thickness, boolean isVertical,
-                     float  minLevel, float  maxLevel ) {
+    public BarGauge( Point2D.Float location, float maxScreenLevel, Color color,
+                     float thickness, boolean isVertical,
+                     float minLevel, float maxLevel ) {
         this.location = location;
         this.maxScreenLevel = maxScreenLevel;
         this.color = color;
-        float  barWidth = 0;
-        float  barHeight = 0;
-        float  frameWidth = 0;
-        float  frameHeight = 0;
+        float barWidth = 0;
+        float barHeight = 0;
+        float frameWidth = 0;
+        float frameHeight = 0;
         scale = maxScreenLevel / ( maxLevel - minLevel );
         offset = minLevel * scale;
         this.isVertical = isVertical;
@@ -49,7 +48,8 @@ public class BarGauge extends AbstractGauge {
             barWidth = thickness;
             frameWidth = thickness;
             frameHeight = maxScreenLevel;
-        } else {
+        }
+        else {
             barHeight = thickness;
             frameWidth = maxScreenLevel;
             frameHeight = thickness;
@@ -59,7 +59,6 @@ public class BarGauge extends AbstractGauge {
     }
 
     /**
-     *
      * @param g
      */
     public void paint( Graphics2D g ) {
@@ -73,22 +72,22 @@ public class BarGauge extends AbstractGauge {
     }
 
     /**
-     *
      * @param o
      * @param arg
      */
     public void update( Observable o, Object arg ) {
     }
 
-    public void setLevel( float  level ) {
-        float  screenLevel = Math.min( Math.max( offset + scale * level, 0 ), maxScreenLevel );
+    public void setLevel( float level ) {
+        float screenLevel = Math.min( Math.max( offset + scale * level, 0 ), maxScreenLevel );
         if( isVertical ) {
             bar.setRect( location.getX(),
                          location.getY() + maxScreenLevel - screenLevel,
                          bar.getWidth(),
                          screenLevel );
-        } else {
-            float  newMaxX = (float)bar.getMaxX() - level / 1000;
+        }
+        else {
+            float newMaxX = (float)bar.getMaxX() - level / 1000;
             bar.setRect( bar.getMinX(), bar.getMaxY(), newMaxX, bar.getMaxY() );
         }
     }

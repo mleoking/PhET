@@ -29,6 +29,7 @@ public class HeavySpeciesGraphic extends GasMoleculeGraphic {
     //
     static String s_imageName = IdealGasConfig.BLUE_PARTICLE_IMAGE_FILE;
     static BufferedImage s_particleImage;
+
     static {
         try {
             s_particleImage = ImageLoader.loadBufferedImage( s_imageName );

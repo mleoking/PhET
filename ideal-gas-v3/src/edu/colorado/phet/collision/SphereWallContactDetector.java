@@ -10,7 +10,6 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.idealgas.model.SphericalBody;
 import edu.colorado.phet.idealgas.model.Wall;
-import edu.colorado.phet.mechanics.Body;
 
 //import edu.colorado.phet.idealgas.physics.body.Wall;
 
