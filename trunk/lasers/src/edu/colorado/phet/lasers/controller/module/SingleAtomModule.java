@@ -22,6 +22,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.BlueBeamGraphic;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -73,8 +74,9 @@ public class SingleAtomModule extends BaseLaserModule {
             // Add the intensity control
             JPanel sbmPanel = new JPanel();
             StimulatingBeamControl sbm = new StimulatingBeamControl( getLaserModel() );
+            Dimension sbmDim = sbm.getPreferredSize();
             sbmPanel.setBounds( (int)allocatedBounds.getX(), (int)( allocatedBounds.getY() + allocatedBounds.getHeight() ),
-                                250, 100 );
+                                (int)sbmDim.getWidth() + 10, (int)sbmDim.getHeight() + 10 );
             sbmPanel.add( sbm );
             getApparatusPanel().add( sbmPanel );
 
