@@ -82,7 +82,7 @@ john-travoltage travoltage
 moving-man movingman &phetcommon &charts
 
 # Lasers
-lasers lasers &phetcommon &mechanics &collision
+lasers lasers
 
 # Color Vision
 color-vision colorvision3 &phetcommon
