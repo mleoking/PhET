@@ -72,8 +72,8 @@ public class IdealGasControlPanel extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
         this.add( pic, gbc );
 
-        JButton resetBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Reset" ));
-        resetBtn.setBackground( new Color( 180, 255, 180));
+        JButton resetBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Reset" ) );
+        resetBtn.setBackground( new Color( 180, 255, 180 ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getIdealGasModel().removeAllMolecules();
