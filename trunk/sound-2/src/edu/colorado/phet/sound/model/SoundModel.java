@@ -54,7 +54,7 @@ public class SoundModel extends BaseModel {
         waveMedium.addWavefront( wavefront );
 
         // TODO: This should go somewhere else.
-        setPropagationSpeed( 3 );
+        setPropagationSpeed( SoundConfig.PROPOGATION_SPEED );
     }
 
     public void removeWaveFront( Wavefront wavefront ) {

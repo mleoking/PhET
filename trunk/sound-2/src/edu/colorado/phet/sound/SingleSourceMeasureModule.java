@@ -8,6 +8,7 @@ package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.MeasureControlPanel;
@@ -29,14 +30,9 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         // Add the ruler
         try {
             BufferedImage bi = ImageLoader.loadBufferedImage( SoundConfig.METER_STICK_IMAGE_FILE );
-            PhetImageGraphic ruler = new PhetImageGraphic( getApparatusPanel(), bi ) {
-                public void repaint() {
-                    // Who knows why this works???????
-                }
-            };
+            PhetImageGraphic ruler = new PhetImageGraphic( getApparatusPanel(), bi );
             ruler.setPosition( SoundConfig.s_meterStickBaseX, SoundConfig.s_meterStickBaseY );
-            SoundModel model = (SoundModel)getModel();
-            MeterStickGraphic meterStickGraphic = new MeterStickGraphic( ruler, new Point2D.Double( 200, 100 ) );
+            MeterStickGraphic meterStickGraphic = new MeterStickGraphic( getApparatusPanel(), ruler, new Point2D.Double( 200, 100 ) );
             this.addGraphic( meterStickGraphic, 9 );
         }
         catch( IOException e ) {
@@ -48,9 +44,9 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         VerticalGuideline guideline2 = new VerticalGuideline( getApparatusPanel(), Color.blue, s_guidelineBaseX + 20 );
         this.addGraphic( guideline2, 10 );
 
-        //        RepaintDebugGraphic debugger=new RepaintDebugGraphic( getApparatusPanel(), appModel.getClock() );
-        //        debugger.setActive( true );
-        //        this.addGraphic( debugger, 8);
+//        RepaintDebugGraphic debugger = new RepaintDebugGraphic( getApparatusPanel(), appModel.getClock() );
+//        debugger.setActive( true );
+//        this.addGraphic( debugger, 8 );
 
         setControlPanel( new MeasureControlPanel( this, appModel.getClock() ) );
     }

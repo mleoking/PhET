@@ -11,6 +11,7 @@ import edu.colorado.phet.sound.view.SoundApparatusPanel;
 import java.awt.*;
 
 public class SoundConfig {
+
     public String getTitle() {
         return TITLE;
     }
@@ -32,11 +33,22 @@ public class SoundConfig {
     //    public static final double s_timeStep = 0.005f;
     public static final int s_waitTime = 50;
 
+    // The number of pixels a wavefront moves in a time step
+    public static final int PROPOGATION_SPEED = 3;
+    // Conversion factor needed to scale the clock for measurements. This
+    // is based on the propogation speed, the clock's time step, and the
+    // size of the ruler graphic that is used to measure waves
+    private static final double RULER_METERS_PER_PIXEL = 22.52E-3;
+    private static final double PIXELS_PER_SECOND =  PROPOGATION_SPEED / ( s_timeStep * 1E-3 );
+    public static final double SPEED_OF_SOUND = 331.4;
+    public static final double s_clockScaleFactor = SPEED_OF_SOUND / ( RULER_METERS_PER_PIXEL * PIXELS_PER_SECOND );
+
     public static final int s_maxFrequency = 1000;
     public static final int s_defaultFrequency = 500;
     public static final int s_maxAmplitude = 1;
     //    public static final int s_maxAmplitude = 10;
     public static final int s_defaultAmplitude = 5;
+
 
     // This parameter defines how tightly spaced the waves are on the screen. If it is too small,
     // the displayed wavelength will not get monotonically shorter as the frequency is raised. Note
