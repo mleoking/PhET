@@ -183,7 +183,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
             Rectangle bounds = new Rectangle( _coilGraphic.getForeground().getBounds() );
             bounds.union( _coilGraphic.getBackground().getBounds() );
             int x = 0;
-            int y = -( bounds.height / 2 ) - 10;
+            int y = -( bounds.height / 2 ) - 14;
             _batteryGraphic.setLocation( x, y );
             _acSourceGraphic.setLocation( x, y );
             
