@@ -37,10 +37,11 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
     private String text = "Ammeter";
     private String fixedMessage;
 
-    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, CCK3Module module,String fixedMessage ) {
-        this(parent, component, transform, module);
-        this.fixedMessage=fixedMessage;
+    public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, CCK3Module module, String fixedMessage ) {
+        this( parent, component, transform, module );
+        this.fixedMessage = fixedMessage;
     }
+
     public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, CCK3Module module ) {
         this.parent = parent;
         this.component = component;
@@ -161,9 +162,9 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
 
         g.rotate( angle, textLoc.getX(), textLoc.getY() );
         g.setFont( font );
-        String msg=text;
-        if (fixedMessage!=null){
-            msg=fixedMessage;
+        String msg = text;
+        if( fixedMessage != null ) {
+            msg = fixedMessage;
         }
         g.drawString( msg, (float)textLoc.getX(), (float)textLoc.getY() );
         g.rotate( -angle, textLoc.getX(), textLoc.getY() );

@@ -350,17 +350,17 @@ public class Circuit {
                     Double a = (Double)o1;
                     Double b = (Double)o2;
                     double diff = ( -Math.abs( a.doubleValue() ) + Math.abs( b.doubleValue() ) );
-                    if (diff==0){
+                    if( diff == 0 ) {
                         return 0;
                     }
-                    else if (diff>0){
+                    else if( diff > 0 ) {
                         return -1;
                     }
-                    else if (diff<0){
+                    else if( diff < 0 ) {
                         return 1;
                     }
 //                    return diff;
-                    else{
+                    else {
                         return -(int)diff;
                     }
                 }

@@ -15,9 +15,10 @@ import java.awt.geom.Point2D;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class LineSegment {
-    public static Shape getSegment(Point2D p1,Point2D p2,double thickness){
-        return getSegment(p1.getX(),p1.getY(),p2.getX(),p2.getY(),thickness);
+    public static Shape getSegment( Point2D p1, Point2D p2, double thickness ) {
+        return getSegment( p1.getX(), p1.getY(), p2.getX(), p2.getY(), thickness );
     }
+
     public static Shape getSegment( double x1, double y1, double x2, double y2, double thickness ) {
 //        GeneralPath path=new GeneralPath( );
 ////        path.moveTo( (float)x1,(float)y1);

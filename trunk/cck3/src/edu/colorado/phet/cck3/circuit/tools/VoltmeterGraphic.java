@@ -288,7 +288,7 @@ public class VoltmeterGraphic extends CompositeInteractiveGraphic {
             if( Double.parseDouble( voltageString ) == 0 ) {
                 voltageString = voltFormatter.format( 0 );
             }
-            textGraphic.setText( voltageString+" V" );
+            textGraphic.setText( voltageString + " V" );
         }
 
         public void setUnknownVoltage() {
