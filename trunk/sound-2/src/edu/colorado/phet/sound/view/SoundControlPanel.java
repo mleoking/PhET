@@ -19,7 +19,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class SoundControlPanel extends PhetControlPanel {
     private ControlPanel soundControlPanel;
@@ -55,12 +58,12 @@ public class SoundControlPanel extends PhetControlPanel {
     private class ControlPanel extends JPanel {
 
         ControlPanel( Module module ) {
-            final JCheckBox drawTestCB = new JCheckBox( "Wave drawing test" );
-            drawTestCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    WaveMediumGraphicB.drawTest = drawTestCB.isSelected();
-                }
-            } );
+            //            final JCheckBox drawTestCB = new JCheckBox( "Wave drawing test" );
+            //            drawTestCB.addActionListener( new ActionListener() {
+            //                public void actionPerformed( ActionEvent e ) {
+            //                    WaveMediumGraphicB.drawTest = drawTestCB.isSelected();
+            //                }
+            //            } );
 
             this.setLayout( new GridBagLayout() );
             if( !( module.getModel() instanceof SoundModel ) ) {
@@ -80,10 +83,10 @@ public class SoundControlPanel extends PhetControlPanel {
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, drawTestCB,
-                                                  0, rowIdx++,
-                                                  1, 1,
-                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                //                GraphicsUtil.addGridBagComponent( this, drawTestCB,
+                //                                                  0, rowIdx++,
+                //                                                  1, 1,
+                //                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
                 e.printStackTrace();
