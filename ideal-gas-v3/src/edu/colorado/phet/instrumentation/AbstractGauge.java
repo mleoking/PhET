@@ -2,11 +2,11 @@ package edu.colorado.phet.instrumentation;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
 
-public abstract class AbstractGauge implements Graphic /*, Observer*/ {
+public abstract class AbstractGauge implements Graphic {
 
     private double min;
     private double max;
-    private double value;
+    double value;
     private double numMaj;
     private double numMin;
 

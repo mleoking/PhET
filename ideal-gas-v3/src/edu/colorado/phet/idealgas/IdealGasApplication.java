@@ -16,6 +16,8 @@ import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.RigidHollowSphereModule;
 
+import java.util.Locale;
+
 public class IdealGasApplication extends PhetApplication {
 
     static class IdealGasApplicationModel extends ApplicationModel {
@@ -54,16 +56,23 @@ public class IdealGasApplication extends PhetApplication {
 
     public static void main( String[] args ) {
 
-//        String test1 = System.getProperty( "java.vm.version" );
-//        System.out.println( "test1 = " + test1 );
-//        String s = System.getProperty( "jnlp.locale");
-//        System.out.println( "s = " + s );
-//        String applicationLocale = System.getProperty( "jnlp.locale" );
-//        System.out.println( "applicationLocale = " + applicationLocale );
-//
-//        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-//            Locale.setDefault( new Locale( applicationLocale ) );
-//        }
+        String test1 = System.getProperty( "java.vm.version" );
+        System.out.println( "test1 = " + test1 );
+        String s = System.getProperty( "javaws.locale");
+        System.out.println( "s = " + s );
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        System.out.println( "applicationLocale = " + applicationLocale );
+
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        System.out.println( "args.length = " + args.length );
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+            System.out.println( "locale = " + locale );
+        }
 
         SimStrings.setStrings( IdealGasConfig.localizedStringsPath );
         new IdealGasApplication();

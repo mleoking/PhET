@@ -79,6 +79,7 @@ public class BarGauge extends AbstractGauge {
                          screenLevel );
         }
         else {
+            // todo: the hard-coded 1000 here is terrible!!!
             double newMaxX = bar.getMaxX() - level / 1000;
             bar.setRect( bar.getMinX(), bar.getMaxY(), newMaxX, bar.getMaxY() );
         }
