@@ -12,6 +12,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
@@ -31,8 +32,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
     private HollowSphere balloon;
     private Class gasSpecies = LightSpecies.class;
     private Object containerAffected;
-    private int defaultGravity = 0;
-//    private int defaultGravity = IdealGasConfig.s_maxGravity / 2;
+//    private int defaultGravity = 0;
+    private int defaultGravity = IdealGasConfig.s_maxGravity / 2;
 
     public HeliumBalloonModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.HeliumBalloon" ) );
@@ -62,52 +63,6 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         Constraint constraintSpec = new BoxMustContainParticle( getIdealGasModel().getBox(), balloon,
                                                                 getIdealGasModel() );
         balloon.addConstraint( constraintSpec );
-
-        // Puts molecules into the chamber, outside the balloon
-        for( int i = 0; i < 0; i++ ) {
-//        for( int i = 0; i < 50; i++ ) {
-            double x = Math.random() * ( xDiag - xOrigin - 20 ) + xOrigin + 50;
-            double y = Math.random() * ( yDiag - yOrigin - 20 ) + yOrigin + 10;
-            double theta = Math.random() * Math.PI * 2;
-            double vx = (float)Math.cos( theta ) * initialVelocity;
-            double vy = (float)Math.sin( theta ) * initialVelocity;
-            double m = 10;
-            GasMolecule p1 = new HeavySpecies( new Point2D.Double( x, y ),
-                                               new Vector2D.Double( vx, vy ),
-                                               new Vector2D.Double( 0, 0 ) );
-            new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
-            constraintSpec = new BoxMustContainParticle( getIdealGasModel().getBox(), p1, getIdealGasModel() );
-            p1.addConstraint( constraintSpec );
-
-            constraintSpec = new HollowSphereMustNotContainParticle( balloon, p1, getIdealGasModel() );
-            p1.addConstraint( constraintSpec );
-        }
-
-        // Put some light gas inside the balloon
-        int num = 0;
-//        int num = 1;
-//        int num = 6;
-//        int num = 4;
-        for( int i = 1; i <= num; i++ ) {
-            for( int j = 0; j < num; j++ ) {
-                double v = initialVelocity * HeavySpecies.getMoleculeMass() / LightSpecies.getMoleculeMass();
-                double theta = Math.random() * Math.PI * 2;
-                float vx = (float)( Math.cos( theta ) * v );
-                float vy = (float)( Math.sin( theta ) * v );
-                GasMolecule p1 = new LightSpecies( new Point2D.Double( 280 + i * 10, 330 + j * 10 ),
-                                                   new Vector2D.Double( vx, vy ),
-                                                   new Vector2D.Double( 0, 0 ) );
-                balloon.addContainedBody( p1 );
-//                getIdealGasModel().addModelElement( p1 );
-                new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
-
-                constraintSpec = new BoxMustContainParticle( getIdealGasModel().getBox(), p1, getIdealGasModel() );
-                p1.addConstraint( constraintSpec );
-
-                constraintSpec = new HollowSphereMustContainParticle( balloon, p1, getIdealGasModel() );
-                p1.addConstraint( constraintSpec );
-            }
-        }
 
         // Turn on gravity
         setGravity( defaultGravity );
