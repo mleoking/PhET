@@ -52,9 +52,7 @@ public class MagnetAndCoilModule extends Module {
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
-    // Locations of model components
-
-    // Locations of view components
+    // Locations
     private static final Point MAGNET_LOCATION = new Point( 200, 300 );
     private static final Point PICKUP_COIL_LOCATION = new Point( 500, 300 );
     private static final Point GRID_LOCATION = new Point( 0, 0 );
@@ -65,20 +63,11 @@ public class MagnetAndCoilModule extends Module {
 
     // Magnet parameters
     private static final double MAGNET_STRENGTH = 200;
-    private static final Dimension MAGNET_SIZE = new Dimension( 250, 50 );
     
     // Pickup Coil parameters
     public static final int LOOP_RADIUS_MIN = 75;
     public static final int LOOP_RADIUS_MAX = 150;
     private static final double LOOP_RADIUS = 100;
-    
-    // Compass Grid parameters
-    private static final int GRID_X_SPACING = 40;
-    private static final int GRID_Y_SPACING = 40;
-    private static final Dimension GRID_NEEDLE_SIZE = new Dimension( 25, 5 );
-    
-    private static final double LIGHT_BULB_RESISTANCE = 20; // ohms
-    private static final double VOLTMETER_RESISTANCE = 20; // ohms
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -129,7 +118,7 @@ public class MagnetAndCoilModule extends Module {
         _magnetModel.setStrength( MAGNET_STRENGTH );
         _magnetModel.setLocation( MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );
-        _magnetModel.setSize( MAGNET_SIZE );
+        _magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
         model.addModelElement( _magnetModel );
         
         // Compass
@@ -170,9 +159,10 @@ public class MagnetAndCoilModule extends Module {
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), COIL_BACK_LAYER );
         
         // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, 
+                FaradayConfig.GRID_X_SPACING, FaradayConfig.GRID_Y_SPACING );
         _gridGraphic.setLocation( GRID_LOCATION );
-        _gridGraphic.setNeedleSize( GRID_NEEDLE_SIZE );
+        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
         
         // CompassGraphic

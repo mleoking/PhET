@@ -6,17 +6,22 @@ IN PROGRESS:
 - bounds of light rays are not always correct (doesn't fully draw or doesn't fully erase)
 
 HIGH PRIORITY:
+- B Field Meter coordinate system: +X right, +Y up, +angle counterclockwise (0 degrees down +X axis)
+- use compass needle aspect ratio for grid needles
+- add color chooser so that folks can experiment with apparatus panel colors
+- use offscreen buffering in apparatus panel to remove screen turds?
+- redo B Field Meter graphic (30% larger fonts, "Magnetic (B) Field" title, i18n)
 - add Verlet behavior to voltmeter needle & lightbulb
-- show important "spikes" in induced emf
+- show important "spikes" in induced emf (consider totally disabling smoothing)
 - collision detection between compass and magnet
+- collision detection between magnet and coil
 - redo coil graphic (constant wire gauge, fix colors)
 - show electrons flowing (blue) when lightbulb is enabled, keep constant size
-- collision detection between magnet and coil
 
 MEDIUM PRIORITY:
+- grid is not always full of needles
 - beautify Control Panels
 - Transformer module requirements
-- B Field Meter coordinate system (+Y down?)
 
 LOW PRIORITY:
 - rewrite CompassGraphic to use Shapes instead of image
