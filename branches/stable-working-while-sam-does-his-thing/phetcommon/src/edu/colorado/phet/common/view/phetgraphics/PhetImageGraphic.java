@@ -10,30 +10,29 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
-
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
+
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
-    // Affine transform relative to the image's origin
-    private AffineTransform relativeTx = new AffineTransform();
-    // Affine transform relative to the image's location
-    private AffineTransform absoluteTx = new AffineTransform();
-    private AffineTransformOp atxOp = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR );
+    private Point location;
+    private AffineTransform relativeTx;
+    private AffineTransform absoluteTx;
     private boolean shapeDirty = true;
     private Shape shape;
-    private Point2D location = new Point2D.Double();
 
     public PhetImageGraphic( Component component ) {
-        super( component );
+      this( component, (BufferedImage)null );
     }
-
+    
     public PhetImageGraphic( Component component, String imageResourceName ) {
         this( component, (BufferedImage)null );
 
@@ -54,21 +53,25 @@ public class PhetImageGraphic extends PhetGraphic {
     public PhetImageGraphic( Component component, BufferedImage image, int x, int y ) {
         super( component );
         this.image = image;
-        location.setLocation( x, y );
-        setAbsoluteTx();
-        //        this.relativeTx = AffineTransform.getTranslateInstance( x, y );
+        this.location = new Point( x, y );
+        this.relativeTx = new AffineTransform();
+        updateAbsoluteTx();
     }
 
     public PhetImageGraphic( Component component, BufferedImage image, AffineTransform transform ) {
         super( component );
         this.image = image;
-        this.setTransform( transform );
+        this.location = new Point( 0, 0 );
+        this.relativeTx = transform;
+        updateAbsoluteTx();
     }
 
     public Shape getShape() {
-        if( shapeDirty ) {
+        Shape shape = null;
+        if( image != null && shapeDirty ) {
             Rectangle rect = new Rectangle( 0, 0, image.getWidth(), image.getHeight() );
             this.shape = absoluteTx.createTransformedShape( rect );
+            shape = this.shape;
         }
         return shape;
     }
@@ -78,68 +81,61 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
-        if( this.image == null ) {
-            return null;
+        Rectangle bounds = null;
+        Shape shape = getShape();  
+        if( shape != null ) {
+            bounds = shape.getBounds();
         }
-        else {
-            return getShape().getBounds();
-        }
+        return bounds;
     }
 
     public void paint( Graphics2D g ) {
         if( isVisible() ) {
-            g.drawImage( image, atxOp, (int)location.getX(), (int)location.getY() );
+            g.drawRenderedImage( image, absoluteTx );
         }
     }
 
     public void setPosition( int x, int y, double scale ) {
-        setPosition( x, y );
         AffineTransform tx = AffineTransform.getScaleInstance( scale, scale );
         setTransform( tx );
+        setPosition( x, y );
     }
 
     public void setPositionCentered( int x, int y ) {
-        AffineTransform tx = AffineTransform.getTranslateInstance( x - image.getWidth() / 2, y - image.getHeight() / 2 );
-        setTransform( tx );
+        if( image != null ) {
+            setPosition( x - image.getWidth() / 2, y - image.getHeight() / 2 );
+            updateAbsoluteTx();
+        }
     }
 
     public void setPosition( int x, int y ) {
-        location.setLocation( x, y );
-        setAbsoluteTx();
-    }
-
-    //    public void setPositionCentered( int x, int y, double scale ) {
-    //        AffineTransform tx=AffineTransform.getTranslateInstance( x-image.getWidth( )/2,y-image.getHeight( )/2);
-    //        tx.scale( scale, scale );
-    //        setTransform( tx );
-    //    }
-
-    /**
-     * @param relativeTransform An affine relativeTx that is relative to the
-     *                          images origin
-     */
-    public void setTransform( AffineTransform relativeTransform ) {
-        if( !relativeTransform.equals( this.relativeTx ) ) {
-            this.relativeTx = relativeTransform;
-            setAbsoluteTx();
-            atxOp = new AffineTransformOp( relativeTransform, AffineTransformOp.TYPE_BILINEAR );
+        if ( location.x != x || location.y != y ) {
+            location.setLocation( x, y );
             setBoundsDirty();
             shapeDirty = true;
+            updateAbsoluteTx();
             repaint();
         }
     }
 
-    private void setAbsoluteTx() {
-        absoluteTx = new AffineTransform( getTransform() );
-        absoluteTx.preConcatenate( AffineTransform.getTranslateInstance( location.getX(), location.getY() ) );
+    public Point getPosition() {
+        return location;
     }
 
-    public void setImage( BufferedImage image ) {
-        this.image = image;
-    }
+//    public void setPositionCentered( int x, int y, double scale ) {
+//        AffineTransform tx=AffineTransform.getTranslateInstance( x-image.getWidth( )/2,y-image.getHeight( )/2);
+//        tx.scale( scale, scale );
+//        setTransform( tx );
+//    }
 
-    public BufferedImage getImage() {
-        return image;
+    public void setTransform( AffineTransform transform ) {
+        if( !transform.equals( this.relativeTx ) ) {
+            this.relativeTx = transform;
+            setBoundsDirty();
+            shapeDirty = true;
+            updateAbsoluteTx();
+            repaint();
+        }
     }
 
     /**
@@ -152,5 +148,17 @@ public class PhetImageGraphic extends PhetGraphic {
     public AffineTransform getTransform() {
         return relativeTx;
     }
+    
+    public void setImage( BufferedImage image ) {
+        this.image = image;
+    }
 
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    private void updateAbsoluteTx() {
+      absoluteTx = AffineTransform.getTranslateInstance( location.x, location.y );
+      absoluteTx.concatenate( relativeTx );
+    }
 }
