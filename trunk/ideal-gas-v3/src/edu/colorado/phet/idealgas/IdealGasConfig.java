@@ -17,15 +17,6 @@ import java.util.Locale;
  */
 public class IdealGasConfig {
 
-
-    public static ResourceBundle strings;
-
-    static {
-        strings = ResourceBundle.getBundle( "localization/IdealGas", Locale.GERMAN );
-        strings = ResourceBundle.getBundle( "localization/IdealGas", Locale.FRENCH );
-    }
-
-
     public static boolean fastPaint;
     public static boolean regionTest;
     public static boolean heatOnlyFromFloor;
