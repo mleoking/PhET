@@ -21,7 +21,7 @@ public abstract class AtomicState {
     //
     // Determines how often a photon contacting an atom will result in a collision
     //    static private double PLANCK = 6.626E-34;
-    static public final double minWavelength = 350;
+    static public final double minWavelength = Photon.BLUE - 80;
     static public final double maxWavelength = Photon.GRAY;
     static public final double minEnergy = Photon.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = Photon.wavelengthToEnergy( minWavelength );

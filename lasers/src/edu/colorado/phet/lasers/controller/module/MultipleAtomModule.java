@@ -44,7 +44,7 @@ import java.util.ArrayList;
 public class MultipleAtomModule extends BaseLaserModule {
 
     private double s_maxSpeed = .1;
--    private ArrayList atoms;
+    private ArrayList atoms;
 
     /**
      *
@@ -128,9 +128,13 @@ public class MultipleAtomModule extends BaseLaserModule {
             e.printStackTrace();
         }
 
-        // ONly the pumping beam is enabled for this module
+        // Only the pumping beam is enabled for this module
         pumpingBeam.setIsEnabled( true );
         stimulatingBeam.setIsEnabled( false );
+
+        // Add a control to the control panel for wave view
+        JPanel controlPanel = getControlPanel();
+
 
         ApparatusConfiguration config = new ApparatusConfiguration();
         config.setStimulatedPhotonRate( 1 );

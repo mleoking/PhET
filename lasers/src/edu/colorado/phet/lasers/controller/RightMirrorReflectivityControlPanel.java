@@ -12,7 +12,6 @@ package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
 import javax.swing.*;
@@ -27,22 +26,22 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
     private JSlider reflectivitySlider;
     private JTextField reflectivityTF;
     private PartialMirror mirror;
-//    private ResonatingCavity cavity;
+    //    private ResonatingCavity cavity;
 
     /**
      */
     public RightMirrorReflectivityControlPanel( final PartialMirror mirror ) {
-//    public RightMirrorReflectivityControlPanel( final ResonatingCavity cavity ) {
+        //    public RightMirrorReflectivityControlPanel( final ResonatingCavity cavity ) {
 
         this.mirror = mirror;
         mirror.addObserver( this );
-//        if( cavity != null ) {
-//            cavity.addObserver( this );
-//        }
-//        this.cavity = cavity;
+        //        if( cavity != null ) {
+        //            cavity.addObserver( this );
+        //        }
+        //        this.cavity = cavity;
 
         JPanel timeReadoutPanel = new JPanel( new BorderLayout() );
-        reflectivityTF = new JTextField( 4 );
+        reflectivityTF = new JTextField( 2 );
         reflectivityTF.setEditable( false );
         reflectivityTF.setHorizontalAlignment( JTextField.RIGHT );
         Font clockFont = reflectivityTF.getFont();
@@ -62,48 +61,48 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
         reflectivitySlider.setMajorTickSpacing( 10 );
         reflectivitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-//                updateReflectivity( ( (double)reflectivitySlider.getValue() ) / 100 );
-                mirror.setReflectivity( ((double)reflectivitySlider.getValue()) / 100  );
+                //                updateReflectivity( ( (double)reflectivitySlider.getValue() ) / 100 );
+                mirror.setReflectivity( ( (double)reflectivitySlider.getValue() ) / 100 );
                 reflectivityTF.setText( Double.toString( reflectivitySlider.getValue() ) );
             }
         } );
 
         JPanel controlPanel = new JPanel( new GridBagLayout() );
-//        JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
-//        controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
-        GridBagConstraints gbc = new GridBagConstraints( 0,0, 1,1,1,1,
+        //        JPanel controlPanel = new JPanel( new GridLayout( 1, 2 ) );
+        //        controlPanel.setPreferredSize( new Dimension( 125, 70 ) );
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.HORIZONTAL,
-                                                         new Insets( 0,5,0,5 ), 20, 0 );
+                                                         new Insets( 0, 5, 0, 5 ), 20, 0 );
 
-//        timeReadoutPanel.add( reflectivityTF, BorderLayout.CENTER );
-//        controlPanel.add( timeReadoutPanel );
-//        controlPanel.add( reflectivityTF, gbc);
-//        gbc.gridx++;
-//        controlPanel.add( reflectivitySlider,gbc );
-//
-//        Border border = new TitledBorder( "Reflectivity" );
-//        controlPanel.setBorder( border );
-//        this.add( controlPanel );
+        //        timeReadoutPanel.add( reflectivityTF, BorderLayout.CENTER );
+        //        controlPanel.add( timeReadoutPanel );
+        //        controlPanel.add( reflectivityTF, gbc);
+        //        gbc.gridx++;
+        //        controlPanel.add( reflectivitySlider,gbc );
+        //
+        //        Border border = new TitledBorder( "Reflectivity" );
+        //        controlPanel.setBorder( border );
+        //        this.add( controlPanel );
         this.setLayout( new GridBagLayout() );
-        this.add( reflectivitySlider,gbc );
+        this.add( reflectivitySlider, gbc );
         gbc.gridx++;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        this.add( reflectivityTF, gbc);
+        this.add( reflectivityTF, gbc );
 
         Border border = new TitledBorder( SimStrings.get( "RightMirrorReflectivityControlPanel.BorderTitle" ) );
         this.setBorder( border );
-//        this.add( controlPanel );
+        //        this.add( controlPanel );
     }
 
-//    private void updateReflectivity( float reflectivity ) {
-//        new SetCavityReflectivityCmd( reflectivity ).doIt();
-//    }
+    //    private void updateReflectivity( float reflectivity ) {
+    //        new SetCavityReflectivityCmd( reflectivity ).doIt();
+    //    }
 
     public void update() {
         int reflectivity = (int)( mirror.getReflectivity() * 100 );
-//        int reflectivity = (int)( cavity.getReflectivity() * 100 );
+        //        int reflectivity = (int)( cavity.getReflectivity() * 100 );
         if( reflectivitySlider.getValue() != reflectivity ) {
             reflectivityTF.setText( Integer.toString( reflectivity ) );
             reflectivitySlider.setValue( reflectivity );

@@ -14,8 +14,6 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.LaserSimulation;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -138,10 +136,9 @@ public class LaserControlPanel extends PhetControlPanel {
             //            gbc.gridy++;
             this.add( pumpingBeamControl, gbc );
             gbc.gridy++;
-            ResonatingCavity cavity = model.getResonatingCavity();
-            PartialMirror mirror = laserModule.getRightMirror();
-            this.add( new RightMirrorReflectivityControlPanel( mirror ), gbc );
-//            this.add( new RightMirrorReflectivityControlPanel( cavity ), gbc );
+            //            ResonatingCavity cavity = model.getResonatingCavity();
+            //            PartialMirror mirror = laserModule.getRightMirror();
+            //            this.add( new RightMirrorReflectivityControlPanel( mirror ), gbc );
             //            gbc.gridy++;
             //            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ), gbc );
 

@@ -38,8 +38,8 @@ public class Photon extends Particle implements Collidable {
     static public double s_radius = 10;
     static public double RED = 680;
     static public double DEEP_RED = 640;
-    static public double BLUE = 400;
-    static public double GRAY = 900;
+    static public double BLUE = 440;
+    static public double GRAY = 5000;
     static private double PLANCK = 6.626E-34;
 
     public static double energyToWavelength( double energy ) {
@@ -135,7 +135,7 @@ public class Photon extends Particle implements Collidable {
     private CollidableAdapter collidableAdapter;
     private boolean isCollidable;
     private double wavelength;
-//    private CollimatedBeam beam;
+    //    private CollimatedBeam beam;
     // This list keeps track of atoms that the photon has collided with
     private ArrayList contactedAtoms = new ArrayList();
 

@@ -106,11 +106,13 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + getBounds().getHeight() * 0.1,
-                                                             getBounds().getWidth(), getBounds().getHeight() * 0.8 );
+                Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY(),
+                                                             getBounds().getWidth(), getBounds().getHeight() * 0.85 );
+                //                Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + getBounds().getHeight() * 0.1,
+                //                                                             getBounds().getWidth(), getBounds().getHeight() * 0.8 );
                 energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
                                                (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
-                energyYTx.setModelToViewFunction( new ModelViewTx1D.PowerFunction( 0.98 ) );
+                //                energyYTx.setModelToViewFunction( new ModelViewTx1D.PowerFunction( 0.98 ) );
 
                 highLevelLine.update( energyYTx );
                 middleLevelLine.update( energyYTx );
@@ -135,9 +137,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             default:
                 throw new RuntimeException( "Number of levels out of range" );
         }
-        highLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
-        middleLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
-        groundLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
+        //        highLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
+        //        middleLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
+        //        groundLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
 
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         revalidate();
