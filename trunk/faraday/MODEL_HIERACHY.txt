@@ -12,7 +12,6 @@ Object
  					          BarMagnet
  					              Turbine (ModelElement)
 					          Electromagnet (SimpleObserver of SourceCoil)
-				        HollywoodMagnet
 			      AbstractVoltageSource
 				        ACPowerSupply (ModelElement)
 				        Battery
