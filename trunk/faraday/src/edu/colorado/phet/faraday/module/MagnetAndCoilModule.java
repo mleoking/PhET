@@ -136,14 +136,6 @@ public class MagnetAndCoilModule extends Module {
         compassModel.setLocation( COMPASS_LOCATION );
         model.addModelElement( compassModel );
         
-        // Lightbulb
-        _lightBulbModel = new LightBulb( LIGHT_BULB_RESISTANCE );
-        model.addModelElement( _lightBulbModel );
-        
-        // Volt Meter
-        _voltMeterModel = new VoltMeter( VOLTMETER_RESISTANCE );
-        model.addModelElement( _voltMeterModel );
-        
         // Pickup Coil
         _pickupCoilModel = new PickupCoil( _magnetModel );
         _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
@@ -152,6 +144,12 @@ public class MagnetAndCoilModule extends Module {
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         model.addModelElement( _pickupCoilModel );
        
+        // Lightbulb
+        _lightBulbModel = new LightBulb( _pickupCoilModel );
+        
+        // Volt Meter
+        _voltMeterModel = new VoltMeter( _pickupCoilModel );
+        
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -197,12 +195,6 @@ public class MagnetAndCoilModule extends Module {
         //----------------------------------------------------------------------------
         // Listeners
         //----------------------------------------------------------------------------
-        
-        // Enable the use of median values while the magnet or coil are being dragged.
-        SmoothingListener smoothingListener = new SmoothingListener();
-        _magnetGraphic.addMouseInputListener( smoothingListener );
-        _pickupCoilGraphic.getForeground().addMouseInputListener( smoothingListener );
-        _pickupCoilGraphic.getBackground().addMouseInputListener( smoothingListener );
 
         //----------------------------------------------------------------------------
         // Help
@@ -227,7 +219,6 @@ public class MagnetAndCoilModule extends Module {
         _magnetModel.setStrength( MAGNET_STRENGTH );
         _pickupCoilModel.setRadius( (int)LOOP_RADIUS );
         _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
-        _pickupCoilModel.setResistor( _lightBulbModel );
         _lightBulbModel.setEnabled( true );
         _voltMeterModel.setEnabled( false );
         _gridGraphic.setVisible( true );
@@ -245,9 +236,11 @@ public class MagnetAndCoilModule extends Module {
      * Flips the magnet's polarity.
      */
     public void flipMagnetPolarity() {
+        setSmoothingEnabled( false );
         double direction = _magnetModel.getDirection();
         direction = ( direction + 180 ) % 360;
         _magnetModel.setDirection( direction );
+        setSmoothingEnabled( true );
     }
     
     /**
@@ -256,7 +249,9 @@ public class MagnetAndCoilModule extends Module {
      * @param strength the strength value
      */
     public void setMagnetStrength( double strength ) {
+        setSmoothingEnabled( false );
         _magnetModel.setStrength( strength );
+        setSmoothingEnabled( true );
     }
     
     /**
@@ -284,7 +279,9 @@ public class MagnetAndCoilModule extends Module {
      * @param numberOfLoops the number of loops
      */
     public void setNumberOfPickupLoops( int numberOfLoops ) {
-        _pickupCoilModel.setNumberOfLoops( numberOfLoops ); 
+        setSmoothingEnabled( false );
+        _pickupCoilModel.setNumberOfLoops( numberOfLoops );
+        setSmoothingEnabled( true );
     }
     
     /**
@@ -293,7 +290,9 @@ public class MagnetAndCoilModule extends Module {
      * @param radius the radius
      */
     public void setPickupLoopRadius( double radius ) {
+        setSmoothingEnabled( false );
         _pickupCoilModel.setRadius( radius );
+        setSmoothingEnabled( true );
     }
     
     /**
@@ -302,12 +301,6 @@ public class MagnetAndCoilModule extends Module {
     public void setBulbEnabled( boolean enabled ) {
         _lightBulbModel.setEnabled( enabled );
         _voltMeterModel.setEnabled( !enabled );
-        if ( enabled ) {
-            _pickupCoilModel.setResistor( _lightBulbModel );
-        }
-        else {
-            _pickupCoilModel.setResistor( _voltMeterModel );
-        }
     }
     
     /**
@@ -317,35 +310,16 @@ public class MagnetAndCoilModule extends Module {
         setBulbEnabled( !enabled );
     }
     
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-
-    /**
-     * SmoothingListener watches for the "dragging" of specific graphics.
-     * While one of these graphics is being dragged, specific model components are 
-     * switched to "smoothing" mode, in which they use median values to control 
-     * their behavior.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
+    /*
+     * Enabled and disables "smoothing" of data in model elements.
+     * When smoothing is enabled, a median value is used, effectively
+     * eliminating spikes in the data history.  But sometimes these 
+     * spike are desirable (for example, when flipping magnet polarity).
+     * In these cases, we need to temporarily disable smoothing. 
+     * 
+     * @param enabled true to enable, false to disable
      */
-    private class SmoothingListener extends MouseInputAdapter {
-
-        public SmoothingListener() {
-            super();
-        }
-        
-        /** Enable smoothing when a drag is started. */
-        public void mousePressed( MouseEvent event ) {
-            _lightBulbModel.setSmoothingEnabled( true );
-            _voltMeterModel.setSmoothingEnabled( true );
-        }
-
-        /** Disable smoothing when a drag is completed. */
-        public void mouseReleased( MouseEvent event ) {
-            _lightBulbModel.setSmoothingEnabled( false );
-            _voltMeterModel.setSmoothingEnabled( false );
-        }
-    };
+    private void setSmoothingEnabled( boolean enabled ) {
+        _pickupCoilModel.setSmoothingEnabled( enabled );
+    }
 }
