@@ -232,8 +232,12 @@ public class BaseLaserModule extends Module {
         reflectivityControlPanel.add( reflectivityControl );
         reflectivityControl.setBorder( new BevelBorder( BevelBorder.RAISED ) );
         reflectivityControlPanel.setOpaque( false );
-        getApparatusPanel().add( reflectivityControlPanel );
         reflectivityControlPanel.setVisible( false );
+        getApparatusPanel().add( reflectivityControlPanel );
+//        PhetGraphic reflectivityPJC = (PhetGraphic)PhetJComponent.newInstance( getApparatusPanel(), reflectivityControlPanel );
+//        reflectivityPJC.setLocation( (int)rightMirror.getPosition().getX(),
+//                                            (int)( rightMirror.getPosition().getY() + rightMirror.getBounds().getHeight() ) );
+//        getApparatusPanel().addGraphic( reflectivityPJC, 1000 );
 
         // Add the graphics for lasing
         addLasingGraphics();
