@@ -13,6 +13,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.StringResourceReader;
 import edu.colorado.phet.distanceladder.model.*;
 import edu.colorado.phet.distanceladder.view.StarMapGraphic;
+import edu.colorado.phet.distanceladder.Config;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -35,10 +36,12 @@ public class CockpitControlPanel extends JPanel {
     boolean photometerEnabled = false;
     private ParallaxPanel parallaxPanel;
     private PhotometerPanel photometerPanel;
+    private UniverseModel model;
 
     public CockpitControlPanel( CockpitModule module ) {
 
         this.module = module;
+        this.model = (UniverseModel)module.getModel();
         parallaxPanel = new ParallaxPanel();
         photometerPanel = new PhotometerPanel();
 
@@ -197,12 +200,12 @@ public class CockpitControlPanel extends JPanel {
 
             // Add an observer to the star ship that puts its relative position in the leftRightTF
             final PointOfView markPov = new PointOfView();
-            ( (UniverseModel)module.getModel() ).getStarShip().addObserver( new SimpleObserver() {
+            model.getStarShip().addObserver( new SimpleObserver() {
                 private DecimalFormat leftRightFormat = new DecimalFormat( "##.0" );
 
                 public void update() {
                     if( leftRightTF.isEnabled() ) {
-                        double x = ( (UniverseModel)module.getModel() ).getStarShip().getPov().distance( markPov );
+                        double x = model.getStarShip().getPov().distance( markPov );
                         leftRightTF.setText( leftRightFormat.format( new Double( x ) ) );
                     }
                 }
@@ -237,7 +240,7 @@ public class CockpitControlPanel extends JPanel {
                 public void actionPerformed( ActionEvent e ) {
 //                    markRef = leftRightSlider.getValue();
                     leftRightTF.setText( "0" );
-                    markPov.setPointOfView( ( (UniverseModel)module.getModel() ).getStarShip().getPov() );
+                    markPov.setPointOfView( model.getStarShip().getPov() );
                 }
             } );
 
@@ -254,10 +257,11 @@ public class CockpitControlPanel extends JPanel {
 
             computeBtn = new JButton( new AbstractAction( "Compute" ) {
                 public void actionPerformed( ActionEvent e ) {
-                    double b = Double.parseDouble( leftRightTF.getText() ) / leftRightSliderFactor;
+                    double b = Math.abs( Double.parseDouble( leftRightTF.getText() ) / leftRightSliderFactor );
                     double alpha = Math.toRadians( Double.parseDouble( alphaTF.getText() ) );
-                    double beta = Math.toRadians( Double.parseDouble( betaTF.getText() ) );
-                    double d = b / ( Math.tan( beta ) - Math.tan( alpha ) );
+//                    double beta = Math.toRadians( Double.parseDouble( betaTF.getText() ) );
+                    double d = b / Math.tan( alpha );
+//                    double d = b / ( Math.tan( beta ) - Math.tan( alpha ) );
                     resultTF.setText( distFormatter.format( new Double( d ) ) );
                 }
             } );
@@ -265,15 +269,15 @@ public class CockpitControlPanel extends JPanel {
 
             alphaTF.getDocument().addDocumentListener( new DocumentListener() {
                 public void changedUpdate( DocumentEvent e ) {
-                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) && !betaTF.getText().equals( "" ) );
+                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) /*&& !betaTF.getText().equals( "" ) */);
                 }
 
                 public void insertUpdate( DocumentEvent e ) {
-                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) && !betaTF.getText().equals( "" ) );
+                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) /*&& !betaTF.getText().equals( "" ) */);
                 }
 
                 public void removeUpdate( DocumentEvent e ) {
-                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) && !betaTF.getText().equals( "" ) );
+                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) /* && !betaTF.getText().equals( "" ) */);
                 }
             } );
 
@@ -323,7 +327,7 @@ public class CockpitControlPanel extends JPanel {
                                                   1, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                reticleLabel1 = new JLabel( "Reticle offset A:" );
+                reticleLabel1 = new JLabel( "Reticle offset:" );
                 GraphicsUtil.addGridBagComponent( this, reticleLabel1,
                                                   0, rowIdx, 1, 1,
                                                   GridBagConstraints.NONE,
@@ -332,16 +336,20 @@ public class CockpitControlPanel extends JPanel {
                                                   1, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                reticleLabel2 = new JLabel( "Reticle offset B:" );
-                GraphicsUtil.addGridBagComponent( this, reticleLabel2,
-                                                  0, rowIdx, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, betaTF,
-                                                  1, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
+//                reticleLabel2 = new JLabel( "Reticle offset B:" );
+//                GraphicsUtil.addGridBagComponent( this, reticleLabel2,
+//                                                  0, rowIdx, 1, 1,
+//                                                  GridBagConstraints.NONE,
+//                                                  GridBagConstraints.CENTER );
+//                GraphicsUtil.addGridBagComponent( this, betaTF,
+//                                                  1, rowIdx++, 1, 1,
+//                                                  GridBagConstraints.NONE,
+//                                                  GridBagConstraints.CENTER );
                 GraphicsUtil.addGridBagComponent( this, computeBtn,
+                                                  0, rowIdx++, 2, 1,
+                                                  GridBagConstraints.NONE,
+                                                  GridBagConstraints.CENTER );
+                GraphicsUtil.addGridBagComponent( this, new JLabel( "Distance" ),
                                                   0, rowIdx, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
@@ -369,7 +377,7 @@ public class CockpitControlPanel extends JPanel {
             computeBtn.setEnabled( parallaxInstrumentEnabled );
             helpBtn.setEnabled( parallaxInstrumentEnabled );
             reticleLabel1.setEnabled( parallaxInstrumentEnabled );
-            reticleLabel2.setEnabled( parallaxInstrumentEnabled );
+//            reticleLabel2.setEnabled( parallaxInstrumentEnabled );
 //            leftRightSlider.setEnabled( parallaxInstrumentEnabled );
 //            module.setParallaxReticleOn( parallaxInstrumentEnabled );
         }
@@ -398,7 +406,7 @@ public class CockpitControlPanel extends JPanel {
 
             photometerObserver = new SimpleObserver() {
                 public void update() {
-                    StarView starView = ( (UniverseModel)module.getModel() ).getStarShip().getStarView();
+                    StarView starView = model.getStarShip().getStarView();
                     List visibleStars = starView.getVisibleStars();
                     double brightness = 0;
                     for( int i = 0; i < visibleStars.size(); i++ ) {
@@ -469,19 +477,18 @@ public class CockpitControlPanel extends JPanel {
 
             // Create controls
             final JTextField distanceTF = new JTextField( 6 );
-//            final JTextField directionTF = new JTextField( 6 );
-
             JButton jumpBtn = new JButton( new AbstractAction( "Jump" ) {
                 public void actionPerformed( ActionEvent e ) {
                     double jumpDistance = Double.parseDouble( distanceTF.getText() );
                     module.getStarship().move( jumpDistance );
                     module.getStarView().update();
+                    CockpitControlPanel.this.repaint();
                 }
             } );
 
             int rowIdx = 0;
             try {
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Jump distance" ),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( "Distance" ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
@@ -489,10 +496,10 @@ public class CockpitControlPanel extends JPanel {
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Jump direction" ),
-                                                  0, rowIdx++, 1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
+//                GraphicsUtil.addGridBagComponent( this, new JLabel( "Jump direction" ),
+//                                                  0, rowIdx++, 1, 1,
+//                                                  GridBagConstraints.NONE,
+//                                                  GridBagConstraints.CENTER );
 //                GraphicsUtil.addGridBagComponent( this, directionTF,
 //                                                  0, rowIdx++, 1, 1,
 //                                                  GridBagConstraints.NONE,
@@ -518,13 +525,11 @@ public class CockpitControlPanel extends JPanel {
         public StarMapPanel() {
             this.setLayout( new FlowLayout() );
 
-            starship = ( (UniverseModel)module.getModel() ).getStarShip();
+            starship = model.getStarShip();
             starship.addObserver( this );
             this.setPreferredSize( new Dimension( 200, 200 ) );
-            StarMapGraphic starMapGraphic = new StarMapGraphic( this, ( (UniverseModel)module.getModel() ).getStarField() );
-            this.addGraphic( starMapGraphic, 1 );
-//            this.addGraphic( new StarshipCoordsGraphic( starship, this ), 2 );
-
+            StarMapGraphic starMapGraphic = new StarMapGraphic( this, model.getStarField() );
+            this.addGraphic( starMapGraphic );
             orientationLine.setLine( 0, 0, this.getPreferredSize().getWidth(), 0 );
         }
 
@@ -533,10 +538,11 @@ public class CockpitControlPanel extends JPanel {
 
             Graphics2D g2 = (Graphics2D)graphics;
             AffineTransform orgTx = g2.getTransform();
-//            g2.transform( atx );
             super.paintComponent( graphics );
 
-            lineTx.setToTranslation( this.getWidth() / 2, this.getHeight() / 2 );
+            double scale = this.getWidth() / Config.universeWidth;
+            lineTx.setToTranslation( this.getWidth() / 2 + starship.getPov().getX() * scale,
+                                     this.getHeight() / 2 + starship.getPov().getY() * scale );
             lineTx.rotate( starship.getPov().getTheta() );
             g2.transform( lineTx );
             g2.setColor( Color.red );

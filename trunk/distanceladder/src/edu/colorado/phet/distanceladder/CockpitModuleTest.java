@@ -52,13 +52,13 @@ public class CockpitModuleTest {
         Point2D.Double p = null;
 
         Random random = new Random();
-//        for( int i = 0; i < 200; i++ ) {
-//            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-//            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-//            int colorIdx = random.nextInt( colors.length );
-//            star = new NormalStar( colors[ colorIdx ], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
-//            starField.addStar( star );
-//        }
+        for( int i = 0; i < 200; i++ ) {
+            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+            int colorIdx = random.nextInt( colors.length );
+            star = new NormalStar( colors[ colorIdx ], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
+            starField.addStar( star );
+        }
 
         placeEquidistantStars( starField );
 //        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 100, 0 ), -45 );

@@ -13,11 +13,13 @@ import edu.colorado.phet.distanceladder.exercise.HtmlMessage;
 import edu.colorado.phet.distanceladder.exercise.Message;
 import edu.colorado.phet.distanceladder.levels.Level1;
 import edu.colorado.phet.distanceladder.levels.Level1A;
+import edu.colorado.phet.distanceladder.levels.Level2;
 import edu.colorado.phet.distanceladder.model.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 /**
  * Class: edu.colorado.phet.distanceladder.CockpitModuleTest
@@ -48,19 +50,14 @@ public class DistanceLadderGame {
 
         Star star = null;
 
-//        Random random = new Random( );
-//        for( int i = 0; i < 200; i++ ) {
-//            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-//            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-//            int colorIdx = random.nextInt( colors.length );
-//            star = new NormalStar( colors[ colorIdx ], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
-//            starField.addStar( star );
-//        }
-
-        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 100, 0 ), -45 );
-        starField.addStar( star );
-        star = new NormalStar( Color.magenta, 1E6, new Point2D.Double( 200, 0 ), -35 );
-        starField.addStar( star );
+        Random random = new Random( );
+        for( int i = 0; i < 200; i++ ) {
+            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+            int colorIdx = random.nextInt( colors.length );
+            star = new NormalStar( colors[ colorIdx ], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
+            starField.addStar( star );
+        }
 
         model.getStarShip().setPov( new PointOfView( 0, 0, 0 ) );
 
@@ -71,6 +68,7 @@ public class DistanceLadderGame {
 
         doLevel( new Level1( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
+        doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
 
         cockpitModule.activate( null );
     }
