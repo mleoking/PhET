@@ -6,24 +6,19 @@
  */
 package edu.colorado.phet.chart.test;
 
-import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.DataSet;
-import edu.colorado.phet.chart.DataSetGraphic;
-import edu.colorado.phet.chart.LinePlot;
 
-import java.awt.geom.Point2D;
-import java.awt.*;
 
 public class Test {
+    /**
+     public static void main( String[] args ) {
+     Chart chart = new Chart();
+     DataSet ds = new DataSet();
+     DataSetGraphic dsg = new LinePlot( ds, new BasicStroke( 1.0f ), Color.blue );
+     chart.addDataSetGraphic( dsg );
 
-    public static void main( String[] args ) {
-        Chart chart = new Chart();
-        DataSet ds = new DataSet();
-        DataSetGraphic dsg = new LinePlot( ds, new BasicStroke( 1.0f ), Color.blue );
-        chart.addDataSetGraphic( dsg );
-
-        Point2D dataPoint = new Point2D.Double();
-        ds.addPoint( dataPoint );
-        ds.addPoint( 3.0, 4.0 );
-    }
+     Point2D dataPoint = new Point2D.Double();
+     ds.addPoint( dataPoint );
+     ds.addPoint( 3.0, 4.0 );
+     }
+     */
 }
