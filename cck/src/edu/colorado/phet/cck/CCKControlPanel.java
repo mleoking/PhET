@@ -15,40 +15,40 @@ import java.awt.event.ActionListener;
  */
 public class CCKControlPanel extends JPanel {
     private CCK2Module module;
-    Font font = new Font("Lucida Sans", Font.BOLD, 24);
+    Font font = new Font( "Lucida Sans", Font.BOLD, 24 );
 
-    public CCKControlPanel(final CCK2Module module) {
+    public CCKControlPanel( final CCK2Module module ) {
         this.module = module;
         Border b = BorderFactory.createRaisedBevelBorder();
-        setBorder(BorderFactory.createTitledBorder(b, "CCK"));
-        JButton jb = new JButton("Help");
-        jb.setFont(font);
-        jb.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                module.setHelpVisible(true);
+        setBorder( BorderFactory.createTitledBorder( b, "CCK" ) );
+        JButton jb = new JButton( "Help" );
+        jb.setFont( font );
+        jb.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setHelpVisible( true );
             }
-        });
+        } );
 
-        JButton clear = new JButton("Clear");
-        clear.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        JButton clear = new JButton( "Clear" );
+        clear.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 module.clearCircuit();
             }
-        });
-        clear.setFont(font);
+        } );
+        clear.setFont( font );
 
-        ViewPanel vp = new ViewPanel(module);
-        setLayout(new BorderLayout());
+        ViewPanel vp = new ViewPanel( module );
+        setLayout( new BorderLayout() );
         JPanel so = new JPanel();
-        Color backgroundColor = new Color(220, 250, 230);
-        so.setBackground(backgroundColor);
-        so.setLayout(new BoxLayout(so, BoxLayout.Y_AXIS));
-        so.add(clear);
-        so.add(jb);
+        Color backgroundColor = new Color( 220, 250, 230 );
+        so.setBackground( backgroundColor );
+        so.setLayout( new BoxLayout( so, BoxLayout.Y_AXIS ) );
+        so.add( clear );
+        so.add( jb );
 
-        add(vp, BorderLayout.NORTH);
-        add(so, BorderLayout.SOUTH);
+        add( vp, BorderLayout.NORTH );
+        add( so, BorderLayout.SOUTH );
 
-        setBackground(backgroundColor);
+        setBackground( backgroundColor );
     }
 }

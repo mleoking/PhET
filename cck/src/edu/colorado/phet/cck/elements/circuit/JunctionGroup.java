@@ -17,29 +17,29 @@ import java.util.Set;
 public class JunctionGroup {
     Set set = new HashSet();
 //    ArrayList junctions=new ArrayList();
-    public JunctionGroup(Junction junction) {
-        set.add(junction);
-        set.addAll(Arrays.asList(junction.getConnections()));
+    public JunctionGroup( Junction junction ) {
+        set.add( junction );
+        set.addAll( Arrays.asList( junction.getConnections() ) );
     }
 
-    public void setSelected(boolean selected) {
+    public void setSelected( boolean selected ) {
         Junction[] j2 = getJunctions();
-        for (int i = 0; i < j2.length; i++) {
+        for( int i = 0; i < j2.length; i++ ) {
             Junction junction2 = j2[i];
-            junction2.setSelected(selected);
+            junction2.setSelected( selected );
         }
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof JunctionGroup)) {
+    public boolean equals( Object obj ) {
+        if( !( obj instanceof JunctionGroup ) ) {
             return false;
         }
-        JunctionGroup jg = (JunctionGroup) obj;
-        return jg.set.equals(set);
+        JunctionGroup jg = (JunctionGroup)obj;
+        return jg.set.equals( set );
     }
 
-    public boolean contains(Junction junction) {
-        return set.contains(junction);
+    public boolean contains( Junction junction ) {
+        return set.contains( junction );
     }
 
     public int hashCode() {
@@ -47,7 +47,7 @@ public class JunctionGroup {
     }
 
     public Junction[] getJunctions() {
-        return (Junction[]) set.toArray(new Junction[0]);
+        return (Junction[])set.toArray( new Junction[0] );
     }
 
     public Point2D.Double getLocation() {

@@ -40,7 +40,7 @@ public class BranchGraphic implements BranchObserver, SelectionListener, Abstrac
     private Stroke highlightStroke;
     private boolean showIndex = false;
 
-    public BranchGraphic(final Circuit circuit, ModelViewTransform2D transform, final Branch branch, Color color, Stroke stroke, CCK2Module module, Color highlightColor, Stroke highlightStroke) {
+    public BranchGraphic( final Circuit circuit, ModelViewTransform2D transform, final Branch branch, Color color, Stroke stroke, CCK2Module module, Color highlightColor, Stroke highlightStroke ) {
         this.circuit = circuit;
         this.transform = transform;
         this.branch = branch;
@@ -49,101 +49,101 @@ public class BranchGraphic implements BranchObserver, SelectionListener, Abstrac
         this.module = module;
         this.highlightColor = highlightColor;
         this.highlightStroke = highlightStroke;
-        transform.addTransformListener(this);
-        branch.addObserver(this);
+        transform.addTransformListener( this );
+        branch.addObserver( this );
         update();
 
         menu = new JPopupMenu();
-        JMenuItem delete = new JMenuItem("Delete");
-        delete.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                circuit.removeBranch(branch);
+        JMenuItem delete = new JMenuItem( "Delete" );
+        delete.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                circuit.removeBranch( branch );
             }
-        });
+        } );
 
         JPopupMenu jm = new JPopupMenu();
-        menu.add(delete);
-        interactionHandler = new DefaultBranchInteractionHandler(branch, transform, circuit, module, this.menu, jm);
+        menu.add( delete );
+        interactionHandler = new DefaultBranchInteractionHandler( branch, transform, circuit, module, this.menu, jm );
     }
 
     public void update() {
-        start = transform.modelToView(branch.getX1(), branch.getY1());
-        end = transform.modelToView(branch.getX2(), branch.getY2());
-        this.viewShape = stroke.createStrokedShape(new Line2D.Double(start.x, start.y, end.x, end.y));
+        start = transform.modelToView( branch.getX1(), branch.getY1() );
+        end = transform.modelToView( branch.getX2(), branch.getY2() );
+        this.viewShape = stroke.createStrokedShape( new Line2D.Double( start.x, start.y, end.x, end.y ) );
     }
 
-    final Font showFont = new Font("Lucida Sans", Font.BOLD, 16);
+    final Font showFont = new Font( "Lucida Sans", Font.BOLD, 16 );
 
-    public void paint(Graphics2D g) {
-        if (start != null) {
-            if (selected) {
-                g.setColor(highlightColor);
-                g.setStroke(highlightStroke);
-                g.drawLine(start.x, start.y, end.x, end.y);
+    public void paint( Graphics2D g ) {
+        if( start != null ) {
+            if( selected ) {
+                g.setColor( highlightColor );
+                g.setStroke( highlightStroke );
+                g.drawLine( start.x, start.y, end.x, end.y );
             }
-            g.setColor(color);
-            g.setStroke(stroke);
+            g.setColor( color );
+            g.setStroke( stroke );
 //            g.drawLine(start.x, start.y, end.x, end.y);
-            g.fill(viewShape);
+            g.fill( viewShape );
 //            g.drawString("Length="+branch.getLength(),start.x,start.y);
 //        addGraphic(new Graphic() {
 //            public void paint(Graphics2D g) {
-            if (showIndex) {
-                g.setFont(showFont);
-                g.setColor(Color.blue);
+            if( showIndex ) {
+                g.setFont( showFont );
+                g.setColor( Color.blue );
                 String dir = "[" + branch.getId() + "]";//, "+branch.getCurrentGuessString();
-                g.drawString(dir, start.x + 40, start.y);
+                g.drawString( dir, start.x + 40, start.y );
             }
 //            }
 //        }, 100);
         }
     }
 
-    public void transformChanged(ModelViewTransform2D mvt) {
+    public void transformChanged( ModelViewTransform2D mvt ) {
         update();
     }
 
-    public boolean canHandleMousePress(MouseEvent event) {
-        return viewShape != null && viewShape.contains(event.getPoint());
+    public boolean canHandleMousePress( MouseEvent event ) {
+        return viewShape != null && viewShape.contains( event.getPoint() );
     }
 
-    public void mousePressed(MouseEvent event) {
-        interactionHandler.mousePressed(event);
+    public void mousePressed( MouseEvent event ) {
+        interactionHandler.mousePressed( event );
     }
 
     DifferentialDragHandler ddh;
 
-    public void mouseDragged(MouseEvent event) {
-        interactionHandler.mouseDragged(event);
+    public void mouseDragged( MouseEvent event ) {
+        interactionHandler.mouseDragged( event );
         return;
     }
 
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved( MouseEvent e ) {
     }
 
-    public void mouseReleased(MouseEvent event) {
-        interactionHandler.mouseReleased(event);
+    public void mouseReleased( MouseEvent event ) {
+        interactionHandler.mouseReleased( event );
     }
 
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked( MouseEvent e ) {
     }
 
-    public void mouseEntered(MouseEvent event) {
-        event.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    public void mouseEntered( MouseEvent event ) {
+        event.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
     }
 
-    public void mouseExited(MouseEvent event) {
-        event.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    public void mouseExited( MouseEvent event ) {
+        event.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
     }
 
-    public void junctionMoved(Branch branch2, Junction junction) {
+    public void junctionMoved( Branch branch2, Junction junction ) {
         update();
     }
 
-    public void currentOrVoltageChanged(Branch branch2) {
+    public void currentOrVoltageChanged( Branch branch2 ) {
     }
 
-    public void selectionChanged(boolean sel) {
+    public void selectionChanged( boolean sel ) {
         this.selected = sel;
     }
 
@@ -159,7 +159,7 @@ public class BranchGraphic implements BranchObserver, SelectionListener, Abstrac
         return branch;
     }
 
-    public void setWireColor(Color color) {
+    public void setWireColor( Color color ) {
         this.color = color;
     }
 
@@ -167,8 +167,8 @@ public class BranchGraphic implements BranchObserver, SelectionListener, Abstrac
         return this;
     }
 
-    public boolean contains(int x, int y) {
-        return viewShape != null && viewShape.contains(x, y);
+    public boolean contains( int x, int y ) {
+        return viewShape != null && viewShape.contains( x, y );
     }
 
 }

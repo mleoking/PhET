@@ -9,15 +9,15 @@ import java.awt.event.MouseEvent;
  * Copyright (c) Aug 30, 2003 by Sam Reid
  */
 public interface InteractionHandler {
-    boolean canHandleMousePress(MouseEvent event);
+    boolean canHandleMousePress( MouseEvent event );
 
-    void mousePressed(MouseEvent event);
+    void mousePressed( MouseEvent event );
 
-    void mouseDragged(MouseEvent event);
+    void mouseDragged( MouseEvent event );
 
-    void mouseReleased(MouseEvent event);
+    void mouseReleased( MouseEvent event );
 
-    void mouseEntered(MouseEvent event);
+    void mouseEntered( MouseEvent event );
 
-    void mouseExited(MouseEvent event);
+    void mouseExited( MouseEvent event );
 }

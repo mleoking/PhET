@@ -10,8 +10,8 @@ package edu.colorado.phet.cck.graphtheory;
 public class DirectedDataEdge extends DirectedEdge {
     private Object data;
 
-    public DirectedDataEdge(Object source, Object destination, Object data) {
-        super(source, destination);
+    public DirectedDataEdge( Object source, Object destination, Object data ) {
+        super( source, destination );
         this.data = data;
     }
 

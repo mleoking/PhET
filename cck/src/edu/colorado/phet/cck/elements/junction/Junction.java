@@ -27,7 +27,7 @@ public class Junction {
     private int index;
     private boolean immobile = false;
 
-    public Junction(Branch branch, double x, double y) {
+    public Junction( Branch branch, double x, double y ) {
         this.branch = branch;
         this.x = x;
         this.y = y;
@@ -35,7 +35,7 @@ public class Junction {
         counter++;
     }
 
-    public void setImmobile(boolean immobile) {
+    public void setImmobile( boolean immobile ) {
         this.immobile = immobile;
     }
 
@@ -47,58 +47,61 @@ public class Junction {
         return "Junction[" + index + "]";
     }
 
-    public void addSelectionListener(SelectionListener sel) {
-        selectionListener.addSelectionListener(sel);
+    public void addSelectionListener( SelectionListener sel ) {
+        selectionListener.addSelectionListener( sel );
     }
 
-    public boolean hasConnection(Junction conn) {
-        return connections.contains(conn) || conn == this;
+    public boolean hasConnection( Junction conn ) {
+        return connections.contains( conn ) || conn == this;
     }
 
-    private void protectedAdd(Junction other) {
-        if (!hasConnection(other) && other != this)
-            connections.add(other);
+    private void protectedAdd( Junction other ) {
+        if( !hasConnection( other ) && other != this ) {
+            connections.add( other );
+        }
     }
 
     //Fully connects the other junction to this junction.
-    public void addConnection(Junction other) {
+    public void addConnection( Junction other ) {
         //Compile a list of all junctions to participate.
         ArrayList allJunctions = new ArrayList();
-        allJunctions.add(other);
-        allJunctions.add(this);
-        for (int i = 0; i < connections.size(); i++) {
-            Junction junction2 = (Junction) connections.get(i);
-            if (!allJunctions.contains(junction2))
-                allJunctions.add(junction2);
+        allJunctions.add( other );
+        allJunctions.add( this );
+        for( int i = 0; i < connections.size(); i++ ) {
+            Junction junction2 = (Junction)connections.get( i );
+            if( !allJunctions.contains( junction2 ) ) {
+                allJunctions.add( junction2 );
+            }
         }
-        for (int i = 0; i < other.connections.size(); i++) {
-            Junction junction2 = (Junction) other.connections.get(i);
-            if (!allJunctions.contains(junction2))
-                allJunctions.add(junction2);
+        for( int i = 0; i < other.connections.size(); i++ ) {
+            Junction junction2 = (Junction)other.connections.get( i );
+            if( !allJunctions.contains( junction2 ) ) {
+                allJunctions.add( junction2 );
+            }
         }
-        Junction[] all = (Junction[]) allJunctions.toArray(new Junction[0]);
+        Junction[] all = (Junction[])allJunctions.toArray( new Junction[0] );
 
-        for (int i = 0; i < allJunctions.size(); i++) {
-            Junction junction2 = (Junction) allJunctions.get(i);
-            junction2.addAllConnections(all);
+        for( int i = 0; i < allJunctions.size(); i++ ) {
+            Junction junction2 = (Junction)allJunctions.get( i );
+            junction2.addAllConnections( all );
         }
-        for (int i = 0; i < all.length; i++) {
+        for( int i = 0; i < all.length; i++ ) {
             Junction junction2 = all[i];
             junction2.fireConnectivityChanged();
         }
         branch.getCircuit().fireConnectivityChanged();
     }
 
-    private void addAllConnections(Junction[] all) {
-        for (int i = 0; i < all.length; i++) {
+    private void addAllConnections( Junction[] all ) {
+        for( int i = 0; i < all.length; i++ ) {
             Junction junction2 = all[i];
-            protectedAdd(junction2);
+            protectedAdd( junction2 );
         }
     }
 
     private void fireConnectivityChanged() {
-        for (int i = 0; i < observers.size(); i++) {
-            JunctionObserver junctionObserver = (JunctionObserver) observers.get(i);
+        for( int i = 0; i < observers.size(); i++ ) {
+            JunctionObserver junctionObserver = (JunctionObserver)observers.get( i );
             junctionObserver.connectivityChanged();
         }
     }
@@ -111,17 +114,18 @@ public class Junction {
         return y;
     }
 
-    public double distance(PhetVector start) {
-        return Point2D.Double.distance(start.getX(), start.getY(), x, y);
+    public double distance( PhetVector start ) {
+        return Point2D.Double.distance( start.getX(), start.getY(), x, y );
     }
 
-    public void setLocation(double x, double y) {
-        if (isImmobile())
+    public void setLocation( double x, double y ) {
+        if( isImmobile() ) {
             return;
+        }
         this.x = x;
         this.y = y;
-        for (int i = 0; i < connections.size(); i++) {
-            Junction junction2 = (Junction) connections.get(i);
+        for( int i = 0; i < connections.size(); i++ ) {
+            Junction junction2 = (Junction)connections.get( i );
             junction2.x = x;
             junction2.y = y;
             junction2.fireLocationChanged();
@@ -130,46 +134,48 @@ public class Junction {
     }
 
     private boolean isImmobile() {
-        if (immobile)
+        if( immobile ) {
             return true;
-        for (int i = 0; i < connections.size(); i++) {
-            Junction junction2 = (Junction) connections.get(i);
-            if (junction2.immobile)
+        }
+        for( int i = 0; i < connections.size(); i++ ) {
+            Junction junction2 = (Junction)connections.get( i );
+            if( junction2.immobile ) {
                 return true;
+            }
         }
         return false;
     }
 
-    public void translate(double dx, double dy) {
-        setLocation(x + dx, y + dy);
+    public void translate( double dx, double dy ) {
+        setLocation( x + dx, y + dy );
 //        System.out.println("branch = " + branch);
     }
 
-    public void addObserver(JunctionObserver obs) {
-        observers.add(obs);
+    public void addObserver( JunctionObserver obs ) {
+        observers.add( obs );
     }
 
     public void fireLocationChanged() {
         fireLocationChangedLocal();
-        for (int i = 0; i < connections.size(); i++) {
-            Junction junction2 = (Junction) connections.get(i);
+        for( int i = 0; i < connections.size(); i++ ) {
+            Junction junction2 = (Junction)connections.get( i );
             junction2.fireLocationChangedLocal();
         }
     }
 
     private void fireLocationChangedLocal() {
-        for (int i = 0; i < observers.size(); i++) {
-            JunctionObserver junctionObserver = (JunctionObserver) observers.get(i);
-            junctionObserver.locationChanged(this);
+        for( int i = 0; i < observers.size(); i++ ) {
+            JunctionObserver junctionObserver = (JunctionObserver)observers.get( i );
+            junctionObserver.locationChanged( this );
         }
     }
 
     public PhetVector getVector() {
-        return new PhetVector(x, y);
+        return new PhetVector( x, y );
     }
 
     public Point2D.Double getLocation() {
-        return new Point2D.Double(x, y);
+        return new Point2D.Double( x, y );
     }
 
     public Branch getBranch() {
@@ -180,14 +186,14 @@ public class Junction {
         return connections.size();
     }
 
-    public void removeJunction(Junction j) {
-        connections.remove(j);
+    public void removeJunction( Junction j ) {
+        connections.remove( j );
         fireConnectivityChanged();
     }
 
     public void splitJunction() {
-        for (int i = 0; i < connections.size(); i++) {
-            Junction junction2 = (Junction) connections.get(i);
+        for( int i = 0; i < connections.size(); i++ ) {
+            Junction junction2 = (Junction)connections.get( i );
             junction2.connections.clear();
             junction2.fireConnectivityChanged();
         }
@@ -196,23 +202,26 @@ public class Junction {
     }
 
     public Junction[] getConnections() {
-        return (Junction[]) connections.toArray(new Junction[0]);
+        return (Junction[])connections.toArray( new Junction[0] );
     }
 
     public boolean isStartJunction() {
-        if (getBranch().getStartJunction() == this)
+        if( getBranch().getStartJunction() == this ) {
             return true;
-        else if (getBranch().getEndJunction() == this)
+        }
+        else if( getBranch().getEndJunction() == this ) {
             return false;
-        else
-            throw new RuntimeException("Parent didn't contain junction.");
+        }
+        else {
+            throw new RuntimeException( "Parent didn't contain junction." );
+        }
     }
 
-    public void setLocationWithoutUpdate(double x1, double y1) {
+    public void setLocationWithoutUpdate( double x1, double y1 ) {
         this.x = x1;
         this.y = y1;
-        for (int i = 0; i < connections.size(); i++) {
-            Junction j2 = (Junction) connections.get(i);
+        for( int i = 0; i < connections.size(); i++ ) {
+            Junction j2 = (Junction)connections.get( i );
             j2.x = x;
             j2.y = y;
         }
@@ -226,18 +235,18 @@ public class Junction {
 //
     }
 
-    public void setSelected(boolean selected) {
-        setSelectedLocal(selected);
-        for (int i = 0; i < connections.size(); i++) {
-            Junction junction2 = (Junction) connections.get(i);
-            junction2.setSelectedLocal(selected);
+    public void setSelected( boolean selected ) {
+        setSelectedLocal( selected );
+        for( int i = 0; i < connections.size(); i++ ) {
+            Junction junction2 = (Junction)connections.get( i );
+            junction2.setSelectedLocal( selected );
         }
 
     }
 
-    public void setSelectedLocal(boolean selected) {
+    public void setSelectedLocal( boolean selected ) {
         this.selected = selected;
-        selectionListener.selectionChanged(selected);
+        selectionListener.selectionChanged( selected );
     }
 
     public boolean isSelected() {

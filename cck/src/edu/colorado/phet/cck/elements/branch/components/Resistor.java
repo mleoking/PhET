@@ -16,8 +16,8 @@ public class Resistor extends Branch implements HasResistance {
     double resistance;
     double volts;
 
-    public Resistor(Circuit parent, double x1, double y1, double x2, double y2, double resistance) {
-        super(parent, x1, y1, x2, y2);
+    public Resistor( Circuit parent, double x1, double y1, double x2, double y2, double resistance ) {
+        super( parent, x1, y1, x2, y2 );
         this.resistance = resistance;
     }
 
@@ -25,21 +25,21 @@ public class Resistor extends Branch implements HasResistance {
         return resistance;
     }
 
-    public void setVoltage(double volts) {
+    public void setVoltage( double volts ) {
         this.volts = volts;
     }
 
-    public void setResistance(double resistance) {
+    public void setResistance( double resistance ) {
         this.resistance = resistance;
         parent.fireConnectivityChanged();
         fireCurrentChanged();
     }
 
     public Branch copy() {
-        return new Resistor(parent, getX1(), getY1(), getX2(), getY2(), resistance);
+        return new Resistor( parent, getX1(), getY1(), getX2(), getY2(), resistance );
     }
 
     public BranchData toBranchData() {
-        return new ResistorData(this);
+        return new ResistorData( this );
     }
 }

@@ -17,19 +17,19 @@ import java.awt.image.BufferedImage;
  * Copyright (c) Nov 16, 2003 by Sam Reid
  */
 public interface BranchGraphicFactory {
-    DefaultCompositeBranchGraphic getSwitchGraphic(Switch branch);
+    DefaultCompositeBranchGraphic getSwitchGraphic( Switch branch );
 
-    AbstractBranchGraphic getBulbGraphic(Bulb bulb);
+    AbstractBranchGraphic getBulbGraphic( Bulb bulb );
 
-    AbstractBranchGraphic getResistorGraphic(Branch resistor);
+    AbstractBranchGraphic getResistorGraphic( Branch resistor );
 
-    DefaultCompositeBranchGraphic getWireGraphic(Branch wire);
+    DefaultCompositeBranchGraphic getWireGraphic( Branch wire );
 
-    AbstractBranchGraphic getBatteryGraphic(Battery branch);
+    AbstractBranchGraphic getBatteryGraphic( Battery branch );
 
-    DefaultCompositeBranchGraphic getImageGraphic(Circuit circuit, ModelViewTransform2D transform, Branch branch, CCK2Module module, BufferedImage image);
+    DefaultCompositeBranchGraphic getImageGraphic( Circuit circuit, ModelViewTransform2D transform, Branch branch, CCK2Module module, BufferedImage image );
 
-    void apply(CCK2Module cck2Module);
+    void apply( CCK2Module cck2Module );
 
-    AbstractBranchGraphic getAmmeterBranchGraphic(AmmeterBranch ammeterBranch);
+    AbstractBranchGraphic getAmmeterBranchGraphic( AmmeterBranch ammeterBranch );
 }

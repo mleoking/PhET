@@ -20,8 +20,8 @@ public class BulbData extends BranchData {
     public BulbData() {
     }
 
-    public BulbData(Bulb b) {
-        super(b);
+    public BulbData( Bulb b ) {
+        super( b );
         this.vecx = b.getVecFromStartJunction().getX();
         this.vecy = b.getVecFromStartJunction().getY();
     }
@@ -30,7 +30,7 @@ public class BulbData extends BranchData {
         return vecx;
     }
 
-    public void setVecx(double vecx) {
+    public void setVecx( double vecx ) {
         this.vecx = vecx;
     }
 
@@ -38,11 +38,11 @@ public class BulbData extends BranchData {
         return vecy;
     }
 
-    public void setVecy(double vecy) {
+    public void setVecy( double vecy ) {
         this.vecy = vecy;
     }
 
-    public Branch toBranch(Circuit parent) {
-        return new Bulb(parent, x0, y0, x1, y1, new PhetVector(vecx, vecy), resistance);
+    public Branch toBranch( Circuit parent ) {
+        return new Bulb( parent, x0, y0, x1, y1, new PhetVector( vecx, vecy ), resistance );
     }
 }

@@ -23,32 +23,33 @@ import java.io.InputStreamReader;
  * Copyright (c) Nov 23, 2003 by Sam Reid
  */
 public class FileOpen {
-    public Circuit open(Component parent) {
+    public Circuit open( Component parent ) {
         ServiceSource ss = new ServiceSource();
-        FileOpenService fos = ss.getFileOpenService(parent);
+        FileOpenService fos = ss.getFileOpenService( parent );
         try {
-            FileContents out = fos.openFileDialog(null, new String[]{"cck"});
+            FileContents out = fos.openFileDialog( null, new String[]{"cck"} );
 //            O.d("name="+out.getName());
-            return openFileContents(out);
-        } catch (IOException e) {
+            return openFileContents( out );
+        }
+        catch( IOException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-            throw new RuntimeException(e);
+            throw new RuntimeException( e );
         }
 
     }
 //
-    public Circuit openFileContents(FileContents f) {
+    public Circuit openFileContents( FileContents f ) {
         try {
-            InputSource source = new InputSource(f.getInputStream());
-            InputStreamReader isr = new InputStreamReader(f.getInputStream());
-            BufferedReader br = new BufferedReader(isr);
-            while (br.ready()) {
+            InputSource source = new InputSource( f.getInputStream() );
+            InputStreamReader isr = new InputStreamReader( f.getInputStream() );
+            BufferedReader br = new BufferedReader( isr );
+            while( br.ready() ) {
                 String read = br.readLine();
-                System.out.println("read = " + read);
+                System.out.println( "read = " + read );
             }
 //            isr.read();
-            CircuitData loaded = (CircuitData) Unmarshaller.unmarshal(CircuitData.class, source);
-            System.out.println("loaded = " + loaded.toCircuit());
+            CircuitData loaded = (CircuitData)Unmarshaller.unmarshal( CircuitData.class, source );
+            System.out.println( "loaded = " + loaded.toCircuit() );
             return loaded.toCircuit();
 //            Circuit loaded = (Circuit) XMLMapReader.readXML(f.getInputStream());
 //            wka.setCircuit(loaded);
@@ -63,8 +64,9 @@ public class FileOpen {
 //            e1.printStackTrace();  //To change body of catch statement use Options | File Templates.
 //        } catch (XMLReadException e1) {
 //            e1.printStackTrace();  //To change body of catch statement use Options | File Templates.
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        }
+        catch( Exception e ) {
+            throw new RuntimeException( e );
         }
     }
 }

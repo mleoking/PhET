@@ -16,11 +16,11 @@ import java.io.IOException;
 public class ImageIOImageLoader implements ImageLoader {
     private ClassLoader loader;
 
-    public ImageIOImageLoader(ClassLoader loader) {
+    public ImageIOImageLoader( ClassLoader loader ) {
         this.loader = loader;
     }
 
-    public BufferedImage loadBufferedImage(String relativePath) throws IOException {
-        return ImageIO.read(loader.getResource(relativePath));
+    public BufferedImage loadBufferedImage( String relativePath ) throws IOException {
+        return ImageIO.read( loader.getResource( relativePath ) );
     }
 }

@@ -7,5 +7,5 @@ package edu.colorado.phet.cck.selection;
  * Copyright (c) Oct 26, 2003 by Sam Reid
  */
 public interface SelectionListener {
-    void selectionChanged(boolean sel);
+    void selectionChanged( boolean sel );
 }

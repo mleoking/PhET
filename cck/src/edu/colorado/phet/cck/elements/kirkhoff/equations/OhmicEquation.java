@@ -9,8 +9,8 @@ package edu.colorado.phet.cck.elements.kirkhoff.equations;
  * Copyright (c) Sep 3, 2003 by Sam Reid
  */
 public class OhmicEquation extends KirkhoffEquation {
-    public OhmicEquation(int numBranches) {
-        super(numBranches);
+    public OhmicEquation( int numBranches ) {
+        super( numBranches );
     }
 
     public String toString() {

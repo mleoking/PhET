@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck.elements.dvm;
 
 
-import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObservable;
 
 /**
  * User: Sam Reid
@@ -14,12 +14,12 @@ public class VoltmeterUnit extends SimpleObservable {
     double x;
     double y;
 
-    public VoltmeterUnit(double x, double y) {
+    public VoltmeterUnit( double x, double y ) {
         this.x = x;
         this.y = y;
     }
 
-    public void setLocation(double x, double y) {
+    public void setLocation( double x, double y ) {
         this.x = x;
         this.y = y;
         updateObservers();
@@ -33,7 +33,7 @@ public class VoltmeterUnit extends SimpleObservable {
         return y;
     }
 
-    public void translate(double dx, double dy) {
+    public void translate( double dx, double dy ) {
         x += dx;
         y += dy;
         updateObservers();

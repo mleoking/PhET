@@ -20,53 +20,53 @@ public class SubSegmentGraphic implements InteractiveGraphic {
     ModelViewTransform2D transform;
     private DefaultBranchInteractionHandler interactionHandler;
 
-    public SubSegmentGraphic(Color color, Stroke stroke, Stroke highlightStroke, Color highlightColor, ModelViewTransform2D transform, DefaultBranchInteractionHandler interactionHandler) {
+    public SubSegmentGraphic( Color color, Stroke stroke, Stroke highlightStroke, Color highlightColor, ModelViewTransform2D transform, DefaultBranchInteractionHandler interactionHandler ) {
         this.interactionHandler = interactionHandler;
-        target = new SegmentGraphic(transform, 0, 0, 0, 0, color, stroke, highlightStroke, highlightColor);
+        target = new SegmentGraphic( transform, 0, 0, 0, 0, color, stroke, highlightStroke, highlightColor );
         this.transform = transform;
     }
 
 
-    public boolean canHandleMousePress(MouseEvent event) {
-        return target.getShape().contains(event.getPoint());
+    public boolean canHandleMousePress( MouseEvent event ) {
+        return target.getShape().contains( event.getPoint() );
     }
 
-    public void mousePressed(MouseEvent event) {
-        interactionHandler.mousePressed(event);
+    public void mousePressed( MouseEvent event ) {
+        interactionHandler.mousePressed( event );
     }
 
-    public void mouseDragged(MouseEvent event) {
-        interactionHandler.mouseDragged(event);
+    public void mouseDragged( MouseEvent event ) {
+        interactionHandler.mouseDragged( event );
     }
 
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved( MouseEvent e ) {
     }
 
-    public void mouseReleased(MouseEvent event) {
-        interactionHandler.mouseReleased(event);
+    public void mouseReleased( MouseEvent event ) {
+        interactionHandler.mouseReleased( event );
     }
 
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked( MouseEvent e ) {
     }
 
-    public void mouseEntered(MouseEvent event) {
-        interactionHandler.mouseEntered(event);
+    public void mouseEntered( MouseEvent event ) {
+        interactionHandler.mouseEntered( event );
     }
 
-    public void mouseExited(MouseEvent event) {
-        interactionHandler.mouseExited(event);
+    public void mouseExited( MouseEvent event ) {
+        interactionHandler.mouseExited( event );
     }
 
-    public void paint(Graphics2D g) {
-        target.paint(g);
+    public void paint( Graphics2D g ) {
+        target.paint( g );
     }
 
     public SegmentGraphic getTarget() {
         return target;
     }
 
-    public boolean contains(int x, int y) {
-        return target.getShape().contains(x, y);
+    public boolean contains( int x, int y ) {
+        return target.getShape().contains( x, y );
     }
 }
 

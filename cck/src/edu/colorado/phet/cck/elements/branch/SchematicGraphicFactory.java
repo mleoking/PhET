@@ -21,10 +21,10 @@ import java.io.IOException;
  * Copyright (c) Nov 16, 2003 by Sam Reid
  */
 public class SchematicGraphicFactory implements BranchGraphicFactory {
-    private static Stroke highlightStroke = new BasicStroke(12);
+    private static Stroke highlightStroke = new BasicStroke( 12 );
     private static Color highlightColor = Color.yellow;
-    static Stroke wireStroke = new BasicStroke(7);
-    private static Stroke bulbHighlightStroke = new BasicStroke(3);
+    static Stroke wireStroke = new BasicStroke( 7 );
+    private static Stroke bulbHighlightStroke = new BasicStroke( 3 );
 
     CCK2Module module;
     private BufferedImage switchImage;
@@ -35,7 +35,7 @@ public class SchematicGraphicFactory implements BranchGraphicFactory {
     private BufferedImage batteryImage;
     private Color wireColor = Color.black;
 
-    public SchematicGraphicFactory(CCK2Module module, BufferedImage switchImage) throws IOException {
+    public SchematicGraphicFactory( CCK2Module module, BufferedImage switchImage ) throws IOException {
         this.module = module;
         this.switchImage = switchImage;
         this.transform = module.getTransform();
@@ -45,67 +45,69 @@ public class SchematicGraphicFactory implements BranchGraphicFactory {
         this.resistorImage = module.getSchematicImageSuite().getResistorImage();
     }
 
-    public DefaultCompositeBranchGraphic getSwitchGraphic(Switch branch) {
+    public DefaultCompositeBranchGraphic getSwitchGraphic( Switch branch ) {
         SwitchGraphic sg = null;
         try {
-            sg = new SwitchGraphic(circuit, transform, branch, wireColor, wireStroke, module, switchImage, module.getImageSuite().getImageHandle(), highlightStroke, highlightColor);
-        } catch (IOException e) {
+            sg = new SwitchGraphic( circuit, transform, branch, wireColor, wireStroke, module, switchImage, module.getImageSuite().getImageHandle(), highlightStroke, highlightColor );
+        }
+        catch( IOException e ) {
             e.printStackTrace();
         }
-        DefaultCompositeBranchGraphic dcogs = new DefaultCompositeBranchGraphic(transform, branch, module, sg);
+        DefaultCompositeBranchGraphic dcogs = new DefaultCompositeBranchGraphic( transform, branch, module, sg );
         return dcogs;
     }
 
-    public AbstractBranchGraphic getBulbGraphic(Bulb bulb) {
-        BulbGraphic bg = new BulbGraphic(circuit, transform, bulb, module, bulbImage, bulbHighlightStroke, highlightColor);
+    public AbstractBranchGraphic getBulbGraphic( Bulb bulb ) {
+        BulbGraphic bg = new BulbGraphic( circuit, transform, bulb, module, bulbImage, bulbHighlightStroke, highlightColor );
         return bg;
     }
 
-    public AbstractBranchGraphic getResistorGraphic(Branch resistor) {
-        ImageBranchGraphic ibg = new ImageBranchGraphic(circuit, module.getTransform(), resistor, wireColor, wireStroke, module, resistorImage, highlightStroke, highlightColor);
-        DefaultCompositeBranchGraphic gr = new DefaultCompositeBranchGraphic(transform, resistor, module, ibg);
+    public AbstractBranchGraphic getResistorGraphic( Branch resistor ) {
+        ImageBranchGraphic ibg = new ImageBranchGraphic( circuit, module.getTransform(), resistor, wireColor, wireStroke, module, resistorImage, highlightStroke, highlightColor );
+        DefaultCompositeBranchGraphic gr = new DefaultCompositeBranchGraphic( transform, resistor, module, ibg );
         return gr;
     }
 
-    public DefaultCompositeBranchGraphic getWireGraphic(Branch wire) {
-        BranchGraphic beegy = new BranchGraphic(circuit, module.getTransform(), wire, wireColor, wireStroke, module, highlightColor, highlightStroke);
-        DefaultCompositeBranchGraphic bg = new DefaultCompositeBranchGraphic(transform, wire, module, beegy);
-        wire.addSelectionListener(beegy);
+    public DefaultCompositeBranchGraphic getWireGraphic( Branch wire ) {
+        BranchGraphic beegy = new BranchGraphic( circuit, module.getTransform(), wire, wireColor, wireStroke, module, highlightColor, highlightStroke );
+        DefaultCompositeBranchGraphic bg = new DefaultCompositeBranchGraphic( transform, wire, module, beegy );
+        wire.addSelectionListener( beegy );
         return bg;
     }
 
-    public AbstractBranchGraphic getBatteryGraphic(Battery branch) {
-        if (branch.DX == 0) {
-            return getImageGraphic(circuit, transform, branch, module, batteryImage);
+    public AbstractBranchGraphic getBatteryGraphic( Battery branch ) {
+        if( branch.DX == 0 ) {
+            return getImageGraphic( circuit, transform, branch, module, batteryImage );
         }
-        BatteryGraphic bg = new BatteryGraphic(circuit, transform, branch, module, batteryImage, DefaultCompositeBranchGraphic.JUNCTION_STROKE, highlightColor);
+        BatteryGraphic bg = new BatteryGraphic( circuit, transform, branch, module, batteryImage, DefaultCompositeBranchGraphic.JUNCTION_STROKE, highlightColor );
         return bg;
     }
 
-    public DefaultCompositeBranchGraphic getImageGraphic(Circuit circuit, ModelViewTransform2D transform, Branch branch, CCK2Module module, BufferedImage image) {
-        ImageBranchGraphic ibg = new ImageBranchGraphic(circuit, module.getTransform(), branch, wireColor, wireStroke, module, image, highlightStroke, highlightColor);
-        DefaultCompositeBranchGraphic gr = new DefaultCompositeBranchGraphic(transform, branch, module, ibg);
+    public DefaultCompositeBranchGraphic getImageGraphic( Circuit circuit, ModelViewTransform2D transform, Branch branch, CCK2Module module, BufferedImage image ) {
+        ImageBranchGraphic ibg = new ImageBranchGraphic( circuit, module.getTransform(), branch, wireColor, wireStroke, module, image, highlightStroke, highlightColor );
+        DefaultCompositeBranchGraphic gr = new DefaultCompositeBranchGraphic( transform, branch, module, ibg );
         return gr;
     }
 
-    public void apply(CCK2Module cck2Module) {
+    public void apply( CCK2Module cck2Module ) {
         Circuit c = cck2Module.getCircuit();
-        for (int i = 0; i < c.numBranches(); i++) {
-            Branch b = c.branchAt(i);
+        for( int i = 0; i < c.numBranches(); i++ ) {
+            Branch b = c.branchAt( i );
         }
     }
 
-    public AbstractBranchGraphic getAmmeterBranchGraphic(AmmeterBranch resistor) {
+    public AbstractBranchGraphic getAmmeterBranchGraphic( AmmeterBranch resistor ) {
         BufferedImage ammeterImage = null;
         try {
             ammeterImage = module.getImageSuite().getAmmeterImage();
-        } catch (IOException e) {
+        }
+        catch( IOException e ) {
             e.printStackTrace();
         }
-        ImageBranchGraphic ibg = new ImageBranchGraphic(circuit, module.getTransform(), resistor, wireColor, wireStroke, module, ammeterImage, LifelikeGraphicFactory.branchStroke, highlightColor);
-        CurrentReadout cb = new CurrentReadout(true, ibg);
-        ibg.addGraphicAfterImage(cb);
-        DefaultCompositeBranchGraphic gr = new DefaultCompositeBranchGraphic(transform, resistor, module, ibg);
+        ImageBranchGraphic ibg = new ImageBranchGraphic( circuit, module.getTransform(), resistor, wireColor, wireStroke, module, ammeterImage, LifelikeGraphicFactory.branchStroke, highlightColor );
+        CurrentReadout cb = new CurrentReadout( true, ibg );
+        ibg.addGraphicAfterImage( cb );
+        DefaultCompositeBranchGraphic gr = new DefaultCompositeBranchGraphic( transform, resistor, module, ibg );
         return gr;
     }
 }

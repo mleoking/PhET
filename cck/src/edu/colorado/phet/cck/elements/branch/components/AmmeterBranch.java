@@ -15,24 +15,24 @@ import edu.colorado.phet.cck.elements.xml.BranchData;
 public class AmmeterBranch extends Branch implements HasResistance {
     private double resistance;
 
-    public AmmeterBranch(Circuit parent, double x1, double y1, double x2, double y2) {
-        super(parent, x1, y1, x2, y2);//resistance is internal resistance here.
+    public AmmeterBranch( Circuit parent, double x1, double y1, double x2, double y2 ) {
+        super( parent, x1, y1, x2, y2 );//resistance is internal resistance here.
         this.resistance = resistance;
     }
 
     public Branch copy() {
-        return new AmmeterBranch(parent, getX1(), getY1(), getX2(), getY2());
+        return new AmmeterBranch( parent, getX1(), getY1(), getX2(), getY2() );
     }
 
     public BranchData toBranchData() {
-        return new AmmeterBranchData(this);
+        return new AmmeterBranchData( this );
     }
 
     public double getResistance() {
-        return new Wire(parent, getX1(), getY1(), getX2(), getY2()).getResistance();
+        return new Wire( parent, getX1(), getY1(), getX2(), getY2() ).getResistance();
     }
 
-    public void setResistance(double resistance) {
+    public void setResistance( double resistance ) {
         this.resistance = resistance;
     }
 

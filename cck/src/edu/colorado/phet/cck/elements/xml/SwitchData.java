@@ -17,14 +17,14 @@ public class SwitchData extends BranchData {
     public SwitchData() {
     }
 
-    public SwitchData(Switch aSwitch) {
-        super(aSwitch);
+    public SwitchData( Switch aSwitch ) {
+        super( aSwitch );
         this.open = aSwitch.isOpen();
     }
 
-    public Branch toBranch(Circuit parent) {
-        Switch s = new Switch(parent, x0, y0, x1, y1);
-        s.setOpen(open);
+    public Branch toBranch( Circuit parent ) {
+        Switch s = new Switch( parent, x0, y0, x1, y1 );
+        s.setOpen( open );
         return s;
     }
 }

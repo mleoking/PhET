@@ -22,23 +22,23 @@ public class JunctionCoverUpGraphic implements Graphic {
     Ellipse2D.Double ella = new Ellipse2D.Double();
     double radius;
 //    Color color=DefaultCompositeBranchGraphic.JUNCTION_COLOR;
-    Color color = new Color(CCK2Module.COPPER.getRed() + 15, CCK2Module.COPPER.getGreen() + 35, CCK2Module.COPPER.getBlue() + 35);
+    Color color = new Color( CCK2Module.COPPER.getRed() + 15, CCK2Module.COPPER.getGreen() + 35, CCK2Module.COPPER.getBlue() + 35 );
 
-    public JunctionCoverUpGraphic(CircuitGraphic circuitGraphic, ModelViewTransform2D transform, double radius) {
+    public JunctionCoverUpGraphic( CircuitGraphic circuitGraphic, ModelViewTransform2D transform, double radius ) {
         this.circuitGraphic = circuitGraphic;
         this.transform = transform;
         this.radius = radius;
     }
 
-    public void paint(Graphics2D g) {
-        g.setColor(color);
+    public void paint( Graphics2D g ) {
+        g.setColor( color );
         Circuit c = circuitGraphic.getCircuit();
         JunctionGroup[] jg = c.getJunctionGroups();
-        for (int i = 0; i < jg.length; i++) {
+        for( int i = 0; i < jg.length; i++ ) {
             JunctionGroup junctionGroup = jg[i];
-            Point loc = transform.modelToView(junctionGroup.getLocation());
-            ella.setFrameFromCenter(loc.x, loc.y, loc.x + radius, loc.y + radius);
-            g.fill(ella);
+            Point loc = transform.modelToView( junctionGroup.getLocation() );
+            ella.setFrameFromCenter( loc.x, loc.y, loc.x + radius, loc.y + radius );
+            g.fill( ella );
         }
     }
 }

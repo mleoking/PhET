@@ -18,20 +18,20 @@ public class BatteryData extends BranchData {
         return DX;
     }
 
-    public void setDX(double DX) {
+    public void setDX( double DX ) {
         this.DX = DX;
     }
 
     public BatteryData() {
     }
 
-    public BatteryData(Battery b) {
-        super(b);
+    public BatteryData( Battery b ) {
+        super( b );
         this.DX = b.DX;
     }
 
-    public Branch toBranch(Circuit parent) {
-        Battery b = new Battery(parent, x0, y0, x1, y1, voltageDrop, DX);
+    public Branch toBranch( Circuit parent ) {
+        Battery b = new Battery( parent, x0, y0, x1, y1, voltageDrop, DX );
         return b;
     }
 }

@@ -4,7 +4,7 @@ package edu.colorado.phet.cck.elements.dvm;
 import edu.colorado.phet.cck.elements.circuit.CircuitGraphic;
 import edu.colorado.phet.cck.elements.circuit.LeadWireConnection;
 import edu.colorado.phet.cck.elements.junction.Junction;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.graphics.HashedImageLoader;
@@ -34,55 +34,55 @@ public class VoltmeterGraphic extends CompositeInteractiveGraphic {
         return voltmeterUnitGraphic;
     }
 
-    public VoltmeterGraphic(Voltmeter vm, ModelViewTransform2D transform, HashedImageLoader imageLoader) throws IOException {
+    public VoltmeterGraphic( Voltmeter vm, ModelViewTransform2D transform, HashedImageLoader imageLoader ) throws IOException {
         this.vm = vm;
         this.transform = transform;
         this.imageLoader = imageLoader;
 
-        BufferedImage dvmImage = imageLoader.loadBufferedImage("images/dvm/dvm-volts-t2-100.gif");
-        voltmeterUnitGraphic = new VoltmeterUnitGraphic(vm.getVoltmeterUnit(), dvmImage, transform);
-        addGraphic(voltmeterUnitGraphic, 1);
+        BufferedImage dvmImage = imageLoader.loadBufferedImage( "images/dvm/dvm-volts-t2-100.gif" );
+        voltmeterUnitGraphic = new VoltmeterUnitGraphic( vm.getVoltmeterUnit(), dvmImage, transform );
+        addGraphic( voltmeterUnitGraphic, 1 );
 
-        BufferedImage black = imageLoader.loadBufferedImage("images/dvm/probeBlack.gif");
-        BufferedImage red = imageLoader.loadBufferedImage("images/dvm/probeRed.gif");
+        BufferedImage black = imageLoader.loadBufferedImage( "images/dvm/probeBlack.gif" );
+        BufferedImage red = imageLoader.loadBufferedImage( "images/dvm/probeRed.gif" );
         double redAngle = Math.PI / 8;
         double blackAngle = -redAngle;
-        redLeadGraphic = new LeadGraphic(vm.getRedLead(), red, transform, redAngle);
-        blackLeadGraphic = new LeadGraphic(vm.getBlackLead(), black, transform, blackAngle);
+        redLeadGraphic = new LeadGraphic( vm.getRedLead(), red, transform, redAngle );
+        blackLeadGraphic = new LeadGraphic( vm.getBlackLead(), black, transform, blackAngle );
 
-        addGraphic(redLeadGraphic, 1);
-        addGraphic(blackLeadGraphic, 2);
+        addGraphic( redLeadGraphic, 1 );
+        addGraphic( blackLeadGraphic, 2 );
 
-        blackCableGraphic = new CableGraphic(transform, Color.black, blackLeadGraphic, new HasLocation() {
+        blackCableGraphic = new CableGraphic( transform, Color.black, blackLeadGraphic, new HasLocation() {
             public Point getLocation() {
                 return voltmeterUnitGraphic.getBlackWirePoint();
             }
-        });
+        } );
 
-        redCableGraphic = new CableGraphic(transform, Color.red, redLeadGraphic, new HasLocation() {
+        redCableGraphic = new CableGraphic( transform, Color.red, redLeadGraphic, new HasLocation() {
             public Point getLocation() {
                 return voltmeterUnitGraphic.getRedWirePoint();
             }
-        });
-        voltmeterUnitGraphic.addObserver(new SimpleObserver() {
+        } );
+        voltmeterUnitGraphic.addObserver( new SimpleObserver() {
             public void update() {
                 redCableGraphic.changed();
                 blackCableGraphic.changed();
             }
-        });
-        redLeadGraphic.addObserver(new SimpleObserver() {
+        } );
+        redLeadGraphic.addObserver( new SimpleObserver() {
             public void update() {
                 redCableGraphic.changed();
             }
-        });
-        blackLeadGraphic.addObserver(new SimpleObserver() {
+        } );
+        blackLeadGraphic.addObserver( new SimpleObserver() {
             public void update() {
                 blackCableGraphic.changed();
             }
-        });
+        } );
 
-        addGraphic(blackCableGraphic, 3);
-        addGraphic(redCableGraphic, 4);
+        addGraphic( blackCableGraphic, 3 );
+        addGraphic( redCableGraphic, 4 );
     }
 
     public LeadGraphic getRedLeadGraphic() {
@@ -94,44 +94,47 @@ public class VoltmeterGraphic extends CompositeInteractiveGraphic {
     }
 
     boolean tipsIntersect() {
-        Area a = new Area(redLeadGraphic.getTipShape());
-        Area b = new Area(blackLeadGraphic.getTipShape());
-        a.intersect(b);
+        Area a = new Area( redLeadGraphic.getTipShape() );
+        Area b = new Area( blackLeadGraphic.getTipShape() );
+        a.intersect( b );
         return !a.isEmpty();
     }
 
-    public void updateVoltageReading(CircuitGraphic circuitGraphic) {
-        if (tipsIntersect()) {
-            voltmeterUnitGraphic.setVoltage(0);
+    public void updateVoltageReading( CircuitGraphic circuitGraphic ) {
+        if( tipsIntersect() ) {
+            voltmeterUnitGraphic.setVoltage( 0 );
             return;
         }
-        if (redLeadGraphic == null || blackLeadGraphic == null)
-            return;
-        LeadWireConnection red = circuitGraphic.getVoltageVertex(redLeadGraphic.getTipShape(), null);
-        if (red == null) {
-            voltmeterUnitGraphic.setVoltage(Double.NaN);
+        if( redLeadGraphic == null || blackLeadGraphic == null ) {
             return;
         }
-        LeadWireConnection black = circuitGraphic.getVoltageVertex(blackLeadGraphic.getTipShape(), null);
+        LeadWireConnection red = circuitGraphic.getVoltageVertex( redLeadGraphic.getTipShape(), null );
+        if( red == null ) {
+            voltmeterUnitGraphic.setVoltage( Double.NaN );
+            return;
+        }
+        LeadWireConnection black = circuitGraphic.getVoltageVertex( blackLeadGraphic.getTipShape(), null );
 //        System.out.println("red=" + red + ", black=" + black);
-        if (red == null || black == null) {
-            voltmeterUnitGraphic.setVoltage(Double.NaN);
+        if( red == null || black == null ) {
+            voltmeterUnitGraphic.setVoltage( Double.NaN );
             return;
-        } else {
+        }
+        else {
             Junction start = red.getEquivalentJunction();//red is the start.
             Junction end = black.getEquivalentJunction();
-            if (start == end || start.hasConnection(end)) {
-                if (red.getDistFromVertex() < black.getDistFromVertex()) {
+            if( start == end || start.hasConnection( end ) ) {
+                if( red.getDistFromVertex() < black.getDistFromVertex() ) {
                     //red keeps his vertex
-                    black = circuitGraphic.getVoltageVertex(blackLeadGraphic.getTipShape(), red.getEquivalentJunction());
+                    black = circuitGraphic.getVoltageVertex( blackLeadGraphic.getTipShape(), red.getEquivalentJunction() );
                     end = black.getEquivalentJunction();
-                } else if (red.getDistFromVertex() >= black.getDistFromVertex()) {
-                    red = circuitGraphic.getVoltageVertex(redLeadGraphic.getTipShape(), black.getEquivalentJunction());
+                }
+                else if( red.getDistFromVertex() >= black.getDistFromVertex() ) {
+                    red = circuitGraphic.getVoltageVertex( redLeadGraphic.getTipShape(), black.getEquivalentJunction() );
                     start = red.getEquivalentJunction();
                 }
             }
 
-            double voltageDropBetweenVertices = circuitGraphic.getCircuit().getVoltageDrop(start, end);
+            double voltageDropBetweenVertices = circuitGraphic.getCircuit().getVoltageDrop( start, end );
             double dred = red.getVoltageDropToVertex();
             double dblack = black.getVoltageDropToVertex();
             double tot = voltageDropBetweenVertices + dred - dblack;
@@ -142,10 +145,10 @@ public class VoltmeterGraphic extends CompositeInteractiveGraphic {
 //            if (voltageDropBetweenVertices<0){
 //                tot=voltageDropBetweenVertices+dred+dblack;
 //            }
-            System.out.println("voltageDropBetweenVertices=" + voltageDropBetweenVertices + ", dred=" + dred + ", dblack=" + dblack + ", tot=" + tot);
+            System.out.println( "voltageDropBetweenVertices=" + voltageDropBetweenVertices + ", dred=" + dred + ", dblack=" + dblack + ", tot=" + tot );
 
 //            voltageDropBetweenVertices=voltageDropBetweenVertices-dred-dblack;
-            voltmeterUnitGraphic.setVoltage(tot);
+            voltmeterUnitGraphic.setVoltage( tot );
         }
     }
 }

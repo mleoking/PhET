@@ -11,6 +11,6 @@ import java.io.IOException;
  */
 public interface ImageLoader {
 
-    public BufferedImage loadBufferedImage(String name) throws IOException;
+    public BufferedImage loadBufferedImage( String name ) throws IOException;
 
 }

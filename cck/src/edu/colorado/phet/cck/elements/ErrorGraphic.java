@@ -14,26 +14,26 @@ import java.awt.*;
  */
 public class ErrorGraphic implements Graphic {
     public static boolean errorTextIsVisible = false;
-    private Font errorFont = new Font("Lucida Sans", Font.ITALIC, 28);
+    private Font errorFont = new Font( "Lucida Sans", Font.ITALIC, 28 );
     ApparatusPanel apparatusPanel;
     String errString;
 
-    public ErrorGraphic(ApparatusPanel apparatusPanel) {
+    public ErrorGraphic( ApparatusPanel apparatusPanel ) {
         this.apparatusPanel = apparatusPanel;
         this.errString = "Internal Error Detected:  Simulation Unreliable";
     }
 
-    public void paint(Graphics2D g) {
-        if (errorTextIsVisible) {
-            g.setColor(Color.red);
-            g.setFont(errorFont);
+    public void paint( Graphics2D g ) {
+        if( errorTextIsVisible ) {
+            g.setColor( Color.red );
+            g.setFont( errorFont );
             float x = 10;
-            float y = ((float) (apparatusPanel.getHeight() - errorFont.getStringBounds(errString, g.getFontRenderContext()).getHeight()));
-            g.drawString(errString, x, y);
+            float y = ( (float)( apparatusPanel.getHeight() - errorFont.getStringBounds( errString, g.getFontRenderContext() ).getHeight() ) );
+            g.drawString( errString, x, y );
             x = x + .5F;
             y = y + .5F;
-            g.setColor(Color.black);
-            g.drawString(errString, x, y);
+            g.setColor( Color.black );
+            g.drawString( errString, x, y );
         }
     }
 

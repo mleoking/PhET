@@ -26,67 +26,70 @@ public class CircuitGraph {
     Loop[] loops;
     private JunctionGroup[] junctionGroups;
 
-    public CircuitGraph(Circuit circuit) {
+    public CircuitGraph( Circuit circuit ) {
         this.circuit = circuit;
         junctionGroups = circuit.getJunctionGroups();
-        this.graph = toGraph(circuit);
+        this.graph = toGraph( circuit );
 
 //        this.loops = graph.getLoops();
         Loop[] myloops = graph.getLoops();
 
         ArrayList keepers = new ArrayList();
-        for (int i = 0; i < myloops.length; i++) {
+        for( int i = 0; i < myloops.length; i++ ) {
             Loop myloop = myloops[i];
-            if (!loopContainsOpenSwitch(myloop)) {
-                keepers.add(myloop);
+            if( !loopContainsOpenSwitch( myloop ) ) {
+                keepers.add( myloop );
             }
         }
-        loops = (Loop[]) keepers.toArray(new Loop[0]);
+        loops = (Loop[])keepers.toArray( new Loop[0] );
 //        System.out.println("loops.length = " + loops.length);
     }
 
-    private boolean loopContainsOpenSwitch(Loop myloop) {
-        for (int k = 0; k < myloop.numBranches(); k++) {
-            DirectedPathElement elm = myloop.directedPathElementAt(k);
-            Branch data = (Branch) elm.getEdge().getData();
-            if (data instanceof HasResistance) {
-                HasResistance hr = (HasResistance) data;
-                if (Double.isInfinite(hr.getResistance()))
+    private boolean loopContainsOpenSwitch( Loop myloop ) {
+        for( int k = 0; k < myloop.numBranches(); k++ ) {
+            DirectedPathElement elm = myloop.directedPathElementAt( k );
+            Branch data = (Branch)elm.getEdge().getData();
+            if( data instanceof HasResistance ) {
+                HasResistance hr = (HasResistance)data;
+                if( Double.isInfinite( hr.getResistance() ) ) {
                     return true;
+                }
             }
         }
         return false;
     }
 
-    public static boolean containsConnection(Junction[] j, Graph g) {
-        for (int i = 0; i < j.length; i++) {
+    public static boolean containsConnection( Junction[] j, Graph g ) {
+        for( int i = 0; i < j.length; i++ ) {
             Junction junction2 = j[i];
-            if (g.containsVertex(junction2))
+            if( g.containsVertex( junction2 ) ) {
                 return true;
+            }
         }
         return false;
     }
 
-    public JunctionGroup getJunctionGroup(Junction junction) {
-        for (int i = 0; i < junctionGroups.length; i++) {
+    public JunctionGroup getJunctionGroup( Junction junction ) {
+        for( int i = 0; i < junctionGroups.length; i++ ) {
             JunctionGroup junctionGroup = junctionGroups[i];
-            if (junctionGroup.contains(junction))
+            if( junctionGroup.contains( junction ) ) {
                 return junctionGroup;
+            }
         }
         return null;
     }
 
-    private Graph toGraph(Circuit circuit) {
+    private Graph toGraph( Circuit circuit ) {
         Graph g = new Graph();
-        for (int i = 0; i < this.junctionGroups.length; i++) {
+        for( int i = 0; i < this.junctionGroups.length; i++ ) {
             JunctionGroup junctionGroup = junctionGroups[i];
-            g.addVertex(junctionGroup);
+            g.addVertex( junctionGroup );
         }
 
-        for (int i = 0; i < circuit.numBranches(); i++) {
-            Branch branch = circuit.branchAt(i);
-            JunctionGroup start = getJunctionGroup(branch.getStartJunction());
-            JunctionGroup end = getJunctionGroup(branch.getEndJunction());
+        for( int i = 0; i < circuit.numBranches(); i++ ) {
+            Branch branch = circuit.branchAt( i );
+            JunctionGroup start = getJunctionGroup( branch.getStartJunction() );
+            JunctionGroup end = getJunctionGroup( branch.getEndJunction() );
             /**Try throwing out the open switches.*/
 //            boolean okayToAdd = true;
 //            if (branch instanceof HasResistance) {
@@ -96,7 +99,7 @@ public class CircuitGraph {
 //                }
 //            }
 //            if (okayToAdd)
-            g.addConnection(start, end, branch);
+            g.addConnection( start, end, branch );
         }
         return g;
     }
@@ -113,41 +116,43 @@ public class CircuitGraph {
         return graph.numEdges();
     }
 
-    public Branch branchAt(int i) {
-        return (Branch) graph.edgeAt(i).getData();
+    public Branch branchAt( int i ) {
+        return (Branch)graph.edgeAt( i ).getData();
     }
 
-    public JunctionGroup junctionGroupAt(int i) {
-        return (JunctionGroup) graph.vertexAt(i);
+    public JunctionGroup junctionGroupAt( int i ) {
+        return (JunctionGroup)graph.vertexAt( i );
     }
 
-    public boolean isLoopElement(Branch branch) {
-        for (int i = 0; i < loops.length; i++) {
+    public boolean isLoopElement( Branch branch ) {
+        for( int i = 0; i < loops.length; i++ ) {
             Loop loop = loops[i];
-            if (loop.containsEdgeData(branch))
+            if( loop.containsEdgeData( branch ) ) {
                 return true;
+            }
         }
         return false;
     }
 
-    public Branch[] getConnectionsWithLoopElements(JunctionGroup junction) {
-        DirectedDataEdge[] edges = graph.getEdges(junction);
+    public Branch[] getConnectionsWithLoopElements( JunctionGroup junction ) {
+        DirectedDataEdge[] edges = graph.getEdges( junction );
         ArrayList all = new ArrayList();
-        for (int i = 0; i < edges.length; i++) {
+        for( int i = 0; i < edges.length; i++ ) {
             DirectedDataEdge edge = edges[i];
-            Branch branch = (Branch) edge.getData();
-            if (isLoopElement(branch))
-                all.add(branch);
+            Branch branch = (Branch)edge.getData();
+            if( isLoopElement( branch ) ) {
+                all.add( branch );
+            }
         }
-        return (Branch[]) all.toArray(new Branch[0]);
+        return (Branch[])all.toArray( new Branch[0] );
     }
 
-    public int indexOfBranch(Branch branch) {
-        return graph.indexOfEdgeForData(branch);
+    public int indexOfBranch( Branch branch ) {
+        return graph.indexOfEdgeForData( branch );
     }
 
-    public int indexOf(Branch branch) {
-        return graph.indexOfEdgeForData(branch);
+    public int indexOf( Branch branch ) {
+        return graph.indexOfEdgeForData( branch );
     }
 
     public Circuit getCircuit() {
@@ -182,11 +187,11 @@ public class CircuitGraph {
 //        }
 //    }
 
-    public String getLoopIndexString(Loop loop) {
+    public String getLoopIndexString( Loop loop ) {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < loop.numBranches(); i++) {
-            Branch b = (Branch) loop.directedPathElementAt(i).getEdge().getData();
-            sb.append(b.getId() + ", ");
+        for( int i = 0; i < loop.numBranches(); i++ ) {
+            Branch b = (Branch)loop.directedPathElementAt( i ).getEdge().getData();
+            sb.append( b.getId() + ", " );
         }
         return sb.toString();
     }
@@ -294,7 +299,7 @@ public class CircuitGraph {
 //        }
 //    }
 
-    public void debug(String msg) {
-        JOptionPane.showMessageDialog(null, msg);
+    public void debug( String msg ) {
+        JOptionPane.showMessageDialog( null, msg );
     }
 }

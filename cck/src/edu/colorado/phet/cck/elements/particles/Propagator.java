@@ -7,7 +7,7 @@ package edu.colorado.phet.cck.elements.particles;
  * Copyright (c) Nov 21, 2003 by Sam Reid
  */
 public interface Propagator {
-    public void propagate(BranchParticle bp, double dt);
+    public void propagate( BranchParticle bp, double dt );
 
-    void stepInTime(double dt);
+    void stepInTime( double dt );
 }

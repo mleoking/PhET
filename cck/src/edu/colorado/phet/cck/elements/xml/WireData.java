@@ -15,12 +15,12 @@ public class WireData extends BranchData {
     public WireData() {
     }
 
-    public WireData(Branch b) {
-        super(b);
+    public WireData( Branch b ) {
+        super( b );
     }
 
-    public Branch toBranch(Circuit parent) {
-        Wire w = new Wire(parent, x0, y0, x1, y1);
+    public Branch toBranch( Circuit parent ) {
+        Wire w = new Wire( parent, x0, y0, x1, y1 );
         return w;
     }
 }

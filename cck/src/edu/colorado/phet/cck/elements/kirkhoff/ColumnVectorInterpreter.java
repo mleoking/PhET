@@ -13,19 +13,19 @@ public class ColumnVectorInterpreter implements Interpreter {
     private Matrix solve;
     private MatrixTable mt;
 
-    public ColumnVectorInterpreter(Matrix solve, MatrixTable mt) {
+    public ColumnVectorInterpreter( Matrix solve, MatrixTable mt ) {
         this.solve = solve;
         this.mt = mt;
     }
 
-    public double getCurrent(int componentIndex) {
-        int entry = mt.getCurrentColumn(componentIndex);
-        return solve.get(entry, 0);
+    public double getCurrent( int componentIndex ) {
+        int entry = mt.getCurrentColumn( componentIndex );
+        return solve.get( entry, 0 );
     }
 
-    public double getVoltage(int componentIndex) {
-        int entry = mt.getVoltageColumn(componentIndex);
-        return solve.get(entry, 0);
+    public double getVoltage( int componentIndex ) {
+        int entry = mt.getVoltageColumn( componentIndex );
+        return solve.get( entry, 0 );
     }
 
     public boolean isValidSolution() {

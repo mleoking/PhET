@@ -5,7 +5,7 @@ import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.cck.elements.xml.SwitchData;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.util.ArrayList;
 
@@ -20,50 +20,52 @@ public class Switch extends Branch implements HasResistance {
     ArrayList switchListeners = new ArrayList();
     private double resistance;
 
-    public Switch(Circuit parent, double x1, double y1, double x2, double y2) {
-        super(parent, x1, y1, x2, y2);
+    public Switch( Circuit parent, double x1, double y1, double x2, double y2 ) {
+        super( parent, x1, y1, x2, y2 );
         chooseResistance();
     }
 
     public Branch copy() {
-        return new Switch(parent, getX1(), getY1(), getX2(), getY2());
+        return new Switch( parent, getX1(), getY1(), getX2(), getY2() );
     }
 
     public BranchData toBranchData() {
-        return new SwitchData(this);
+        return new SwitchData( this );
     }
 
     public boolean isOpen() {
         return open;
     }
 
-    public void addSwitchListener(SimpleObserver so) {
-        switchListeners.add(so);
+    public void addSwitchListener( SimpleObserver so ) {
+        switchListeners.add( so );
     }
 
-    public void setOpen(boolean open) {
+    public void setOpen( boolean open ) {
         this.open = open;
         chooseResistance();
-        for (int i = 0; i < switchListeners.size(); i++) {
-            SimpleObserver simpleObserver = (SimpleObserver) switchListeners.get(i);
+        for( int i = 0; i < switchListeners.size(); i++ ) {
+            SimpleObserver simpleObserver = (SimpleObserver)switchListeners.get( i );
             simpleObserver.update();
         }
         parent.fireConnectivityChanged();
     }
 
     private void chooseResistance() {
-        if (open)
+        if( open ) {
             resistance = Double.POSITIVE_INFINITY;
-        else
-            resistance = new Wire(parent, getX1(), getY1(), getX2(), getY2()).getResistance();
+        }
+        else {
+            resistance = new Wire( parent, getX1(), getY1(), getX2(), getY2() ).getResistance();
+        }
     }
 
     public double getResistance() {
         return resistance;
     }
 
-    public void setResistance(double resistance) {
-        throw new RuntimeException("Not supported");
+    public void setResistance( double resistance ) {
+        throw new RuntimeException( "Not supported" );
     }
 
 }

@@ -17,18 +17,18 @@ public class DeleteListener extends KeyAdapter {
     private CCK2Module module;
 
 
-    public DeleteListener(CCK2Module module) {
+    public DeleteListener( CCK2Module module ) {
         this.module = module;
     }
 
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased( KeyEvent e ) {
         Circuit circuit = module.getCircuit();
-        if (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+        if( e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE ) {
             //find the selected item.
-            for (int i = 0; i < circuit.numBranches(); i++) {
-                Branch b = circuit.branchAt(i);
-                if (b.isSelected()) {
-                    circuit.removeBranch(b);
+            for( int i = 0; i < circuit.numBranches(); i++ ) {
+                Branch b = circuit.branchAt( i );
+                if( b.isSelected() ) {
+                    circuit.removeBranch( b );
                     i = -1;
                 }
             }

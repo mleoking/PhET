@@ -9,7 +9,7 @@ package edu.colorado.phet.cck.elements.branch.components;
 public interface HasResistance {
     public double getResistance();
 
-    void setResistance(double resistance);
+    void setResistance( double resistance );
 
 //    void setVoltage(double volts);
 }

@@ -10,7 +10,7 @@ import edu.colorado.phet.cck.elements.junction.Junction;
  * Copyright (c) Aug 30, 2003 by Sam Reid
  */
 public interface BranchObserver {
-    void junctionMoved(Branch branch2, Junction junction);
+    void junctionMoved( Branch branch2, Junction junction );
 
-    void currentOrVoltageChanged(Branch branch2);
+    void currentOrVoltageChanged( Branch branch2 );
 }

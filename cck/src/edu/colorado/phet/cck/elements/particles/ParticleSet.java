@@ -22,84 +22,84 @@ public class ParticleSet implements ModelElement {
     Random random = new Random();
     Propagator propagator;
 
-    public ParticleSet(Circuit circuit) {
+    public ParticleSet( Circuit circuit ) {
         this.circuit = circuit;
-        this.propagator = new ConstantDensityPropagator(circuit, this);
+        this.propagator = new ConstantDensityPropagator( circuit, this );
 //        this.propagator = new DefaultPropagator(circuit, this);
-        circuit.addCircuitObserver(new CircuitObserver() {
-            public void branchAdded(Circuit circuit2, Branch branch) {
+        circuit.addCircuitObserver( new CircuitObserver() {
+            public void branchAdded( Circuit circuit2, Branch branch ) {
             }
 
-            public void branchRemoved(Circuit circuit2, Branch branch) {
+            public void branchRemoved( Circuit circuit2, Branch branch ) {
                 ArrayList toRemove = new ArrayList();
-                for (int i = 0; i < particles.size(); i++) {
-                    BranchParticle branchParticle = (BranchParticle) particles.get(i);
-                    if (branchParticle.getBranch() == branch) {
-                        toRemove.add(branchParticle);
+                for( int i = 0; i < particles.size(); i++ ) {
+                    BranchParticle branchParticle = (BranchParticle)particles.get( i );
+                    if( branchParticle.getBranch() == branch ) {
+                        toRemove.add( branchParticle );
                     }
                 }
-                for (int i = 0; i < toRemove.size(); i++) {
-                    BranchParticle branchParticle = (BranchParticle) toRemove.get(i);
-                    removeParticle(branchParticle);
+                for( int i = 0; i < toRemove.size(); i++ ) {
+                    BranchParticle branchParticle = (BranchParticle)toRemove.get( i );
+                    removeParticle( branchParticle );
                 }
             }
 
-            public void connectivityChanged(Circuit circuit2) {
+            public void connectivityChanged( Circuit circuit2 ) {
             }
-        });
+        } );
     }
 
-    public void addParticleSetObserver(ParticleSetObserver pso) {
-        observers.add(pso);
+    public void addParticleSetObserver( ParticleSetObserver pso ) {
+        observers.add( pso );
     }
 
-    public void removeParticle(BranchParticle particle) {
-        particles.remove(particle);
-        fireParticleRemoved(particle);
+    public void removeParticle( BranchParticle particle ) {
+        particles.remove( particle );
+        fireParticleRemoved( particle );
     }
 
     public String toString() {
         return particles.toString();
     }
 
-    private void fireParticleRemoved(BranchParticle bp) {
-        for (int i = 0; i < observers.size(); i++) {
-            ParticleSetObserver particleSetObserver = (ParticleSetObserver) observers.get(i);
-            particleSetObserver.particleRemoved(bp);
+    private void fireParticleRemoved( BranchParticle bp ) {
+        for( int i = 0; i < observers.size(); i++ ) {
+            ParticleSetObserver particleSetObserver = (ParticleSetObserver)observers.get( i );
+            particleSetObserver.particleRemoved( bp );
         }
     }
 
-    public void addParticle(BranchParticle bp) {
-        particles.add(bp);
-        fireParticleAdded(bp);
+    public void addParticle( BranchParticle bp ) {
+        particles.add( bp );
+        fireParticleAdded( bp );
     }
 
-    private void fireParticleAdded(BranchParticle bp) {
-        for (int i = 0; i < observers.size(); i++) {
-            ParticleSetObserver particleSetObserver = (ParticleSetObserver) observers.get(i);
-            particleSetObserver.particleAdded(bp);
+    private void fireParticleAdded( BranchParticle bp ) {
+        for( int i = 0; i < observers.size(); i++ ) {
+            ParticleSetObserver particleSetObserver = (ParticleSetObserver)observers.get( i );
+            particleSetObserver.particleAdded( bp );
         }
     }
 
-    public BranchParticle particleAt(int i) {
-        return (BranchParticle) particles.get(i);
+    public BranchParticle particleAt( int i ) {
+        return (BranchParticle)particles.get( i );
     }
 
-    public BranchParticle[] getBranchParticles(Branch branch) {
+    public BranchParticle[] getBranchParticles( Branch branch ) {
         ArrayList all = new ArrayList();
-        for (int i = 0; i < particles.size(); i++) {
-            if (particleAt(i).getBranch() == branch) {
-                all.add(particleAt(i));
+        for( int i = 0; i < particles.size(); i++ ) {
+            if( particleAt( i ).getBranch() == branch ) {
+                all.add( particleAt( i ) );
             }
         }
-        return (BranchParticle[]) all.toArray(new BranchParticle[0]);
+        return (BranchParticle[])all.toArray( new BranchParticle[0] );
     }
 
-    public void stepInTime(double dt) {
-        propagator.stepInTime(dt);
-        for (int i = 0; i < particles.size(); i++) {
-            BranchParticle branchParticle = (BranchParticle) particles.get(i);
-            propagator.propagate(branchParticle, dt);
+    public void stepInTime( double dt ) {
+        propagator.stepInTime( dt );
+        for( int i = 0; i < particles.size(); i++ ) {
+            BranchParticle branchParticle = (BranchParticle)particles.get( i );
+            propagator.propagate( branchParticle, dt );
         }
     }
 
@@ -107,11 +107,11 @@ public class ParticleSet implements ModelElement {
         return this.particles.size();
     }
 
-    public void removeParticlesForBranch(Branch branch) {
-        for (int i = 0; i < particles.size(); i++) {
-            BranchParticle branchParticle = (BranchParticle) particles.get(i);
-            if (branchParticle.getBranch() == branch) {
-                removeParticle(branchParticle);
+    public void removeParticlesForBranch( Branch branch ) {
+        for( int i = 0; i < particles.size(); i++ ) {
+            BranchParticle branchParticle = (BranchParticle)particles.get( i );
+            if( branchParticle.getBranch() == branch ) {
+                removeParticle( branchParticle );
                 i--;
             }
         }

@@ -12,18 +12,18 @@ import java.util.ArrayList;
 public class CompositeSelectionListener implements SelectionListener {
     ArrayList list = new ArrayList();
 
-    public void addSelectionListener(SelectionListener sl) {
-        list.add(sl);
+    public void addSelectionListener( SelectionListener sl ) {
+        list.add( sl );
     }
 
-    public void removeSelectionListener(SelectionListener sl) {
-        list.remove(sl);
+    public void removeSelectionListener( SelectionListener sl ) {
+        list.remove( sl );
     }
 
-    public void selectionChanged(boolean sel) {
-        for (int i = 0; i < list.size(); i++) {
-            SelectionListener selectionListener = (SelectionListener) list.get(i);
-            selectionListener.selectionChanged(sel);
+    public void selectionChanged( boolean sel ) {
+        for( int i = 0; i < list.size(); i++ ) {
+            SelectionListener selectionListener = (SelectionListener)list.get( i );
+            selectionListener.selectionChanged( sel );
         }
     }
 

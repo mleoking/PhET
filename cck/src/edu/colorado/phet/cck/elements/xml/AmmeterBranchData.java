@@ -14,11 +14,11 @@ public class AmmeterBranchData extends BranchData {
     public AmmeterBranchData() {
     }
 
-    public AmmeterBranchData(AmmeterBranch ammeterBranch) {
-        super(ammeterBranch);
+    public AmmeterBranchData( AmmeterBranch ammeterBranch ) {
+        super( ammeterBranch );
     }
 
-    public Branch toBranch(Circuit parent) {
-        return new AmmeterBranch(parent, getX0(), getY0(), getX1(), getY1());
+    public Branch toBranch( Circuit parent ) {
+        return new AmmeterBranch( parent, getX0(), getY0(), getX1(), getY1() );
     }
 }

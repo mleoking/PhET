@@ -27,52 +27,54 @@ public class ParticleSetGraphic implements Graphic {
 
     Hashtable table = new Hashtable();//key=branch particle, value= graphic
 
-    public BranchParticleGraphic getGraphic(BranchParticle bp) {
-        return (BranchParticleGraphic) table.get(bp);
+    public BranchParticleGraphic getGraphic( BranchParticle bp ) {
+        return (BranchParticleGraphic)table.get( bp );
     }
 
-    public ParticleSetGraphic(ParticleSet particleSet, final ModelViewTransform2D transform, final CCK2Module module) {
+    public ParticleSetGraphic( ParticleSet particleSet, final ModelViewTransform2D transform, final CCK2Module module ) {
         this.particleSet = particleSet;
         this.transform = transform;
         this.module = module;
-        particleSet.addParticleSetObserver(new ParticleSetObserver() {
-            public void particleRemoved(BranchParticle bp) {
-                table.remove(bp);
+        particleSet.addParticleSetObserver( new ParticleSetObserver() {
+            public void particleRemoved( BranchParticle bp ) {
+                table.remove( bp );
             }
 
-            public void particleAdded(BranchParticle bp) {
+            public void particleAdded( BranchParticle bp ) {
                 BranchParticleGraphic bgp = null;
                 try {
-                    bgp = new BranchParticleGraphic(bp, transform, module, module.getImageSuite().getParticleImage(), module.getApparatusPanel());
-                } catch (IOException e) {
+                    bgp = new BranchParticleGraphic( bp, transform, module, module.getImageSuite().getParticleImage(), module.getApparatusPanel() );
+                }
+                catch( IOException e ) {
                     e.printStackTrace();
                 }
-                if (table.containsKey(bp))
-                    throw new RuntimeException("Graphic for particle already exists.");
-                table.put(bp, bgp);
+                if( table.containsKey( bp ) ) {
+                    throw new RuntimeException( "Graphic for particle already exists." );
+                }
+                table.put( bp, bgp );
             }
-        });
+        } );
     }
 
-    public void paint(Graphics2D g) {
+    public void paint( Graphics2D g ) {
         Collection graphics = table.values();
-        for (Iterator iterator = graphics.iterator(); iterator.hasNext();) {
-            BranchParticleGraphic branchParticleGraphic = (BranchParticleGraphic) iterator.next();
-            branchParticleGraphic.paint(g);
+        for( Iterator iterator = graphics.iterator(); iterator.hasNext(); ) {
+            BranchParticleGraphic branchParticleGraphic = (BranchParticleGraphic)iterator.next();
+            branchParticleGraphic.paint( g );
         }
     }
 
-    public void paint(Graphics2D g, BranchParticle particle) {
-        BranchParticleGraphic bpg = getGraphic(particle);
-        bpg.paint(g);
+    public void paint( Graphics2D g, BranchParticle particle ) {
+        BranchParticleGraphic bpg = getGraphic( particle );
+        bpg.paint( g );
     }
 
-    public void paint(Graphics2D g, Branch branch) {
+    public void paint( Graphics2D g, Branch branch ) {
         Enumeration k = table.keys();
-        while (k.hasMoreElements()) {
-            BranchParticle branchParticle = (BranchParticle) k.nextElement();
-            if (branchParticle.getBranch() == branch) {
-                paint(g, branchParticle);
+        while( k.hasMoreElements() ) {
+            BranchParticle branchParticle = (BranchParticle)k.nextElement();
+            if( branchParticle.getBranch() == branch ) {
+                paint( g, branchParticle );
             }
         }
     }

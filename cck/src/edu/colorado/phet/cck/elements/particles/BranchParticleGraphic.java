@@ -6,7 +6,7 @@ import edu.colorado.phet.cck.elements.branch.BranchObserver;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.math.PhetVector;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
@@ -31,7 +31,7 @@ public class BranchParticleGraphic implements Graphic {
     private int width = 20;
     private int height = 20;
 
-    public BranchParticleGraphic(BranchParticle particle, ModelViewTransform2D transform, Module module, BufferedImage image, ImageObserver obs) {
+    public BranchParticleGraphic( BranchParticle particle, ModelViewTransform2D transform, Module module, BufferedImage image, ImageObserver obs ) {
         this.particle = particle;
         this.transform = transform;
         this.module = module;
@@ -39,37 +39,37 @@ public class BranchParticleGraphic implements Graphic {
         this.obs = obs;
         this.width = image.getWidth();
         this.height = image.getHeight();
-        transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
+        transform.addTransformListener( new TransformListener() {
+            public void transformChanged( ModelViewTransform2D ModelViewTransform2D ) {
                 stateChanged();
             }
-        });
-        particle.addObserver(new SimpleObserver() {
+        } );
+        particle.addObserver( new SimpleObserver() {
             public void update() {
                 stateChanged();
             }
-        });
-        particle.getBranch().addObserver(new BranchObserver() {
-            public void junctionMoved(Branch branch2, Junction j) {
+        } );
+        particle.getBranch().addObserver( new BranchObserver() {
+            public void junctionMoved( Branch branch2, Junction j ) {
                 stateChanged();
             }
 
-            public void currentOrVoltageChanged(Branch branch2) {
+            public void currentOrVoltageChanged( Branch branch2 ) {
             }
-        });
+        } );
         stateChanged();
     }
 
     private void stateChanged() {
         PhetVector loc = particle.getPosition2D();
-        this.viewCoord = transform.modelToView(loc);
+        this.viewCoord = transform.modelToView( loc );
         module.getApparatusPanel().repaint();
     }
 
-    public void paint(Graphics2D g) {
+    public void paint( Graphics2D g ) {
 //        g.setColor(Color.blue);
 //        g.fillRect(viewCoord.x-width/2,viewCoord.y-height/2,width,height);
-        g.drawImage(image, viewCoord.x - width / 2, viewCoord.y - height / 2, obs);
+        g.drawImage( image, viewCoord.x - width / 2, viewCoord.y - height / 2, obs );
     }
 
     public BranchParticle getBranchParticle() {

@@ -1,7 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.cck.common;
 
-import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObservable;
 
 import java.awt.*;
 
@@ -18,7 +18,7 @@ public class FixedModelShape extends SimpleObservable implements HasModelShape {
         return shape;
     }
 
-    public FixedModelShape(Shape shape) {
+    public FixedModelShape( Shape shape ) {
         this.shape = shape;
     }
 }

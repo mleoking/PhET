@@ -12,7 +12,7 @@ public class DirectedEdge {
     Object source;
     Object destination;
 
-    public DirectedEdge(Object source, Object destination) {
+    public DirectedEdge( Object source, Object destination ) {
         this.source = source;
         this.destination = destination;
     }
@@ -25,7 +25,7 @@ public class DirectedEdge {
         return destination;
     }
 
-    public boolean containsVertex(Object vertex) {
+    public boolean containsVertex( Object vertex ) {
         return source == vertex || destination == vertex;
     }
 
@@ -33,12 +33,14 @@ public class DirectedEdge {
         return "[" + source + ", " + destination + "]";
     }
 
-    public Object getOppositeVertex(Object a) {
-        if (source == a)
+    public Object getOppositeVertex( Object a ) {
+        if( source == a ) {
             return destination;
-        else if (destination == a)
+        }
+        else if( destination == a ) {
             return source;
-        throw new RuntimeException("No such vertex.");
+        }
+        throw new RuntimeException( "No such vertex." );
     }
 
 }

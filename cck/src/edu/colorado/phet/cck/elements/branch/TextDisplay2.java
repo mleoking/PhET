@@ -21,19 +21,19 @@ public class TextDisplay2 implements Graphic {
     boolean visible;
 
     public TextDisplay2() {
-        font = new Font("Lucida Sans", 0, 24);
+        font = new Font( "Lucida Sans", 0, 24 );
         color = Color.black;
     }
 
-    public void setText(String text) {
+    public void setText( String text ) {
         this.text = text;
     }
 
-    public void setLocation(int x, int y) {
-        setLocation(new Point(x, y));
+    public void setLocation( int x, int y ) {
+        setLocation( new Point( x, y ) );
     }
 
-    public void setLocation(Point src) {
+    public void setLocation( Point src ) {
         this.src = src;
     }
 
@@ -41,15 +41,16 @@ public class TextDisplay2 implements Graphic {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible( boolean visible ) {
         this.visible = visible;
     }
 
-    public void paint(Graphics2D g) {
-        if (!visible)
+    public void paint( Graphics2D g ) {
+        if( !visible ) {
             return;
-        g.setFont(font);
-        g.setColor(color);
-        g.drawString(text, src.x, src.y);
+        }
+        g.setFont( font );
+        g.setColor( color );
+        g.drawString( text, src.x, src.y );
     }
 }

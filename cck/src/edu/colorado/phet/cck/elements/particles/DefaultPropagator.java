@@ -22,87 +22,102 @@ public class DefaultPropagator implements Propagator {
     private Circuit circuit;
     Random random = new Random();
 
-    public DefaultPropagator(Circuit circuit, ParticleSet particleSet) {
+    public DefaultPropagator( Circuit circuit, ParticleSet particleSet ) {
         this.circuit = circuit;
 
         this.particleSet = particleSet;
     }
 
-    public void propagate(BranchParticle bp, double dt) {
+    public void propagate( BranchParticle bp, double dt ) {
         double speed = bp.getBranch().getCurrent() * currentSpeedScale;
-        System.out.println("---");
-        System.out.println("speed = " + speed);
-        speed = clamp(speed);
-        System.out.println("clamp speed = " + speed);
+        System.out.println( "---" );
+        System.out.println( "speed = " + speed );
+        speed = clamp( speed );
+        System.out.println( "clamp speed = " + speed );
 
         double x = bp.getPosition();
         x += dt * speed;
-        if (x > bp.getBranch().getLength()) {
-            JunctionGroup jg = circuit.getJunctionGroup(bp.getBranch().getEndJunction());
-            Branch outgoingBranch = getOutgoingBranch(jg);
-            if (outgoingBranch == null)
-                return;
-            double distanceOver = x - bp.getBranch().getLength();
-            bp.setBranch(outgoingBranch, distanceOver, jg);
-//            bp.setDistanceFromJunction(distanceOver, jg);
-        } else if (x < 0) {
-            double distanceUnder = -x;
-            JunctionGroup jg = circuit.getJunctionGroup(bp.getBranch().getStartJunction());
-            Branch outgoingBranch = getOutgoingBranch(jg);
-            if (outgoingBranch == null) {
+        if( x > bp.getBranch().getLength() ) {
+            JunctionGroup jg = circuit.getJunctionGroup( bp.getBranch().getEndJunction() );
+            Branch outgoingBranch = getOutgoingBranch( jg );
+            if( outgoingBranch == null ) {
                 return;
             }
-            bp.setBranch(outgoingBranch, distanceUnder, jg);
+            double distanceOver = x - bp.getBranch().getLength();
+            bp.setBranch( outgoingBranch, distanceOver, jg );
+//            bp.setDistanceFromJunction(distanceOver, jg);
+        }
+        else if( x < 0 ) {
+            double distanceUnder = -x;
+            JunctionGroup jg = circuit.getJunctionGroup( bp.getBranch().getStartJunction() );
+            Branch outgoingBranch = getOutgoingBranch( jg );
+            if( outgoingBranch == null ) {
+                return;
+            }
+            bp.setBranch( outgoingBranch, distanceUnder, jg );
 //            bp.setDistanceFromJunction(distanceUnder, jg);
-        } else
-            bp.setPosition(x);
+        }
+        else {
+            bp.setPosition( x );
+        }
     }
 
-    private double clamp(double speed) {
-        if (speed < 0) {
-            if (speed < -maxSpeed)
+    private double clamp( double speed ) {
+        if( speed < 0 ) {
+            if( speed < -maxSpeed ) {
                 return -maxSpeed;
-        } else {
-            if (speed > maxSpeed)
+            }
+        }
+        else {
+            if( speed > maxSpeed ) {
                 return maxSpeed;
+            }
         }
         return speed;
     }
 
-    public void stepInTime(double dt) {
+    public void stepInTime( double dt ) {
     }
 
-    private Branch[] getOutgoingBranches(final JunctionGroup jg) {
-        Branch[] branches = circuit.getBranches(jg, new ObjectSelector() {
-            public boolean isValid(Object o) {
-                Branch b = (Branch) o;
-                if (jg.contains(b.getStartJunction())) {
-                    if (b.getCurrent() > 0)
+    private Branch[] getOutgoingBranches( final JunctionGroup jg ) {
+        Branch[] branches = circuit.getBranches( jg, new ObjectSelector() {
+            public boolean isValid( Object o ) {
+                Branch b = (Branch)o;
+                if( jg.contains( b.getStartJunction() ) ) {
+                    if( b.getCurrent() > 0 ) {
                         return true;
-                    else
+                    }
+                    else {
                         return false;
-                } else if (jg.contains(b.getEndJunction())) {
-                    if (b.getCurrent() < 0)
+                    }
+                }
+                else if( jg.contains( b.getEndJunction() ) ) {
+                    if( b.getCurrent() < 0 ) {
                         return true;
-                    else
+                    }
+                    else {
                         return false;
-                } else
-                    throw new RuntimeException("Branch not contained.");
+                    }
+                }
+                else {
+                    throw new RuntimeException( "Branch not contained." );
+                }
             }
-        });
+        } );
         return branches;
     }
 
-    public Branch getOutgoingBranch(final JunctionGroup jg) {
-        Branch[] branches = getOutgoingBranches(jg);
-        if (branches.length == 0)
+    public Branch getOutgoingBranch( final JunctionGroup jg ) {
+        Branch[] branches = getOutgoingBranches( jg );
+        if( branches.length == 0 ) {
             return null;
+        }
         else {
-            int index = random.nextInt(branches.length);
+            int index = random.nextInt( branches.length );
             double biggestDistToClosest = 0;//Choose the branch with the farthest distance to the next particle.
-            for (int i = 0; i < branches.length; i++) {
-                double distToClosest = getDistanceToClosestParticle(branches[i], jg);
-                if (distToClosest > biggestDistToClosest) {
+            for( int i = 0; i < branches.length; i++ ) {
+                double distToClosest = getDistanceToClosestParticle( branches[i], jg );
+                if( distToClosest > biggestDistToClosest ) {
                     biggestDistToClosest = distToClosest;
                     index = i;
                 }
@@ -111,15 +126,15 @@ public class DefaultPropagator implements Propagator {
         }
     }
 
-    private double getDistanceToClosestParticle(Branch branch, JunctionGroup jg) {
-        BranchParticle[] bp = particleSet.getBranchParticles(branch);
+    private double getDistanceToClosestParticle( Branch branch, JunctionGroup jg ) {
+        BranchParticle[] bp = particleSet.getBranchParticles( branch );
         double closestDist = Double.POSITIVE_INFINITY;
-        for (int i = 0; i < bp.length; i++) {
+        for( int i = 0; i < bp.length; i++ ) {
             BranchParticle particle = bp[i];
             PhetVector pv = particle.getPosition2D();
             Point2D.Double jgLoc = jg.getLocation();
-            double dist = jgLoc.distance(pv.getX(), pv.getY());
-            if (dist < closestDist) {
+            double dist = jgLoc.distance( pv.getX(), pv.getY() );
+            if( dist < closestDist ) {
                 closestDist = dist;
             }
         }

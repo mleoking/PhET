@@ -22,16 +22,16 @@ public class CircuitData {
         return branchdata;
     }
 
-    public void setBranchdata(ArrayList branchdata) {
+    public void setBranchdata( ArrayList branchdata ) {
         this.branchdata = branchdata;
     }
 
-    public CircuitData(Circuit c) {
+    public CircuitData( Circuit c ) {
         branchdata = new ArrayList();
-        for (int i = 0; i < c.numBranches(); i++) {
-            Branch b = c.branchAt(i);
+        for( int i = 0; i < c.numBranches(); i++ ) {
+            Branch b = c.branchAt( i );
             BranchData branchData = b.toBranchData();
-            branchdata.add(branchData);
+            branchdata.add( branchData );
 //            if (b instanceof Battery) {
 //                branchdata.add(new BatteryData((Battery) b));
 //            } else if (b instanceof Wire) {
@@ -51,9 +51,9 @@ public class CircuitData {
 
     public Circuit toCircuit() {
         Circuit c = new Circuit();
-        for (int i = 0; i < branchdata.size(); i++) {
-            BranchData branchData = (BranchData) branchdata.get(i);
-            c.addBranch(branchData.toBranch(c));
+        for( int i = 0; i < branchdata.size(); i++ ) {
+            BranchData branchData = (BranchData)branchdata.get( i );
+            c.addBranch( branchData.toBranch( c ) );
         }
         return c;
     }

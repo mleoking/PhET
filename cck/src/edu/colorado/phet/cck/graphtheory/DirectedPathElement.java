@@ -11,7 +11,7 @@ public class DirectedPathElement {
     DirectedDataEdge edge;
     boolean isForward;
 
-    public DirectedPathElement(DirectedDataEdge edge, boolean forward) {
+    public DirectedPathElement( DirectedDataEdge edge, boolean forward ) {
         this.edge = edge;
         isForward = forward;
     }
@@ -21,7 +21,7 @@ public class DirectedPathElement {
     }
 
     public Object getEndVertex() {
-        return edge.getOppositeVertex(getStartVertex());
+        return edge.getOppositeVertex( getStartVertex() );
     }
 
     public DirectedDataEdge getEdge() {
@@ -33,9 +33,11 @@ public class DirectedPathElement {
     }
 
     public Object getStartVertex() {
-        if (isForward)
+        if( isForward ) {
             return edge.getSource();
-        else
+        }
+        else {
             return edge.getDestination();
+        }
     }
 }

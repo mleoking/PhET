@@ -1,6 +1,6 @@
 package edu.colorado.phet.cck.common;
 
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.awt.*;
 
@@ -13,5 +13,5 @@ import java.awt.*;
 public interface HasModelShape {
     public Shape getShape();
 
-    public void addObserver(SimpleObserver so);
+    public void addObserver( SimpleObserver so );
 }

@@ -13,10 +13,10 @@ public class Voltmeter {
     Lead blackLead;
     VoltmeterUnit unit;
 
-    public Voltmeter(double x, double y) {
-        unit = new VoltmeterUnit(x, y);
-        redLead = new Lead(x - .5, y);
-        blackLead = new Lead(x + 1.1, y);
+    public Voltmeter( double x, double y ) {
+        unit = new VoltmeterUnit( x, y );
+        redLead = new Lead( x - .5, y );
+        blackLead = new Lead( x + 1.1, y );
     }
 
     public VoltmeterUnit getVoltmeterUnit() {

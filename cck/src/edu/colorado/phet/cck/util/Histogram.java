@@ -16,44 +16,46 @@ public class Histogram {
     private EqualsComparator ec;
 
     public static interface EqualsComparator {
-        boolean equals(Object a, Object b);
+        boolean equals( Object a, Object b );
     }
 
     public Histogram() {
-        this(new EqualsComparator() {
-            public boolean equals(Object a, Object b) {
-                return a.equals(b);
+        this( new EqualsComparator() {
+            public boolean equals( Object a, Object b ) {
+                return a.equals( b );
             }
-        });
+        } );
     }
 
-    public Histogram(EqualsComparator ec) {
+    public Histogram( EqualsComparator ec ) {
         this.ec = ec;
         map = new Hashtable();
     }
 
-    public Object getEquivalentKey(Object obj) {
+    public Object getEquivalentKey( Object obj ) {
         Set keys = map.keySet();
-        for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
-            Object o = (Object) iterator.next();
-            if (ec.equals(o, obj)) {
+        for( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
+            Object o = (Object)iterator.next();
+            if( ec.equals( o, obj ) ) {
                 return o;
             }
         }
         return null;
     }
 
-    public void add(Object obj) {
-        Object eq = getEquivalentKey(obj);
-        if (eq != null) {
-            int count = getCount(eq);
-            map.put(eq, new Integer(count + 1));
-        } else
-            map.put(obj, new Integer(1));
+    public void add( Object obj ) {
+        Object eq = getEquivalentKey( obj );
+        if( eq != null ) {
+            int count = getCount( eq );
+            map.put( eq, new Integer( count + 1 ) );
+        }
+        else {
+            map.put( obj, new Integer( 1 ) );
+        }
     }
 
-    private int getCount(Object obj) {
-        Integer i = (Integer) map.get(obj);
+    private int getCount( Object obj ) {
+        Integer i = (Integer)map.get( obj );
         return i.intValue();
     }
 

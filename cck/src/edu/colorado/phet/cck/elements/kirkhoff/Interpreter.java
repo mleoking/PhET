@@ -7,9 +7,9 @@ package edu.colorado.phet.cck.elements.kirkhoff;
  * Copyright (c) Nov 12, 2003 by Sam Reid
  */
 public interface Interpreter {
-    public double getCurrent(int componentIndex);
+    public double getCurrent( int componentIndex );
 
-    public double getVoltage(int componentIndex);
+    public double getVoltage( int componentIndex );
 
     public boolean isValidSolution();
 }

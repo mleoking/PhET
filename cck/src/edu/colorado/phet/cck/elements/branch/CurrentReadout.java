@@ -20,39 +20,40 @@ public class CurrentReadout implements Graphic {
     private HasResistance hr;
     private Font font;
 
-    public CurrentReadout(boolean visible, ImageBranchGraphic resistorGraphic) {
+    public CurrentReadout( boolean visible, ImageBranchGraphic resistorGraphic ) {
         this.visible = visible;
         this.resistorGraphic = resistorGraphic;
-        hr = (HasResistance) resistorGraphic.getBranch();
-        this.font = new Font("Dialog", 0, 18);
+        hr = (HasResistance)resistorGraphic.getBranch();
+        this.font = new Font( "Dialog", 0, 18 );
     }
 
-    public boolean containsRelativePoint(int xrel, int yrel) {
+    public boolean containsRelativePoint( int xrel, int yrel ) {
         return false;
     }
 
-    public void setVisible(boolean selected) {
+    public void setVisible( boolean selected ) {
         this.visible = selected;
     }
 
-    DecimalFormat df = new DecimalFormat("#0.0#");
+    DecimalFormat df = new DecimalFormat( "#0.0#" );
 
-    public void paint(Graphics2D g) {
-        if (!visible)
+    public void paint( Graphics2D g ) {
+        if( !visible ) {
             return;
+        }
         AffineTransform at = g.getTransform();
         AffineTransform newTransform = resistorGraphic.getImageTransform();
-        g.transform(newTransform);
+        g.transform( newTransform );
 //        int resistance = (int) hr.getResistance();//resistorGraphic.getBranch().getint) ((Resistor) w).getResistance();
         double current = resistorGraphic.getBranch().getCurrent();
-        double abs = Math.abs(current);
-        String str = df.format(abs) + " Amps";
-        g.setFont(font);
-        float height = (float) font.getStringBounds(str, g.getFontRenderContext()).getHeight();
-        g.setColor(Color.black);
-        g.drawString(str, 20, height * 3);
+        double abs = Math.abs( current );
+        String str = df.format( abs ) + " Amps";
+        g.setFont( font );
+        float height = (float)font.getStringBounds( str, g.getFontRenderContext() ).getHeight();
+        g.setColor( Color.black );
+        g.drawString( str, 20, height * 3 );
 
-        g.setTransform(at);
+        g.setTransform( at );
     }
 
 }

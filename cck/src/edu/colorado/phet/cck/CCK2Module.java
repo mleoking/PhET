@@ -25,7 +25,7 @@ import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.*;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelContainer;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
@@ -95,38 +95,38 @@ public class CCK2Module extends Module {
             "Right-click on any component to delete it, show its value, or change its value.\n" +
             "Right-click at any connection point to split that connection apart.";
     private CircuitObserver dvmUpdate = new CircuitObserver() {
-        public void branchAdded(Circuit circuit2, Branch branch) {
+        public void branchAdded( Circuit circuit2, Branch branch ) {
         }
 
-        public void branchRemoved(Circuit circuit2, Branch branch) {
+        public void branchRemoved( Circuit circuit2, Branch branch ) {
             updateDVMAndAmmeter();
         }
 
-        public void connectivityChanged(Circuit circuit2) {
+        public void connectivityChanged( Circuit circuit2 ) {
             updateDVMAndAmmeter();
         }
     };
 
     CircuitObserver repainter = new CircuitObserver() {
-        public void branchAdded(Circuit circuit2, Branch branch) {
+        public void branchAdded( Circuit circuit2, Branch branch ) {
             getApparatusPanel().repaint();
         }
 
-        public void branchRemoved(Circuit circuit2, Branch branch) {
+        public void branchRemoved( Circuit circuit2, Branch branch ) {
             getApparatusPanel().repaint();
         }
 
-        public void connectivityChanged(Circuit circuit2) {
+        public void connectivityChanged( Circuit circuit2 ) {
             getApparatusPanel().repaint();
         }
     };
     private static int numTicks = 0;
     private ComponentListener relayout = new ComponentAdapter() {
-        public void componentResized(ComponentEvent e) {
+        public void componentResized( ComponentEvent e ) {
             relayout();
         }
 
-        public void componentShown(ComponentEvent e) {
+        public void componentShown( ComponentEvent e ) {
             relayout();
         }
     };
@@ -145,61 +145,61 @@ public class CCK2Module extends Module {
         return flameImage;
     }
 
-    public CCK2Module(final boolean usePointAmmeter, AbstractClock clock) throws IOException {
-        super("Circuit Construction Kit-ii");
+    public CCK2Module( final boolean usePointAmmeter, AbstractClock clock ) throws IOException {
+        super( "Circuit Construction Kit-ii" );
         this.usePointAmmeter = usePointAmmeter;
 
         imageSuite = new CCK2ImageSuite();
-        flameImage = imageSuite.getImageLoader().loadBufferedImage("images/flame.gif");
-        setModel(new BaseModel(clock));
-        setApparatusPanel(new ApparatusPanel());
-        showErrorGraphic = new ErrorGraphic(getApparatusPanel());
-        getApparatusPanel().addGraphic(showErrorGraphic, 1000);
-        getApparatusPanel().addGraphicsSetup(new BasicGraphicsSetup());
+        flameImage = imageSuite.getImageLoader().loadBufferedImage( "images/flame.gif" );
+        setModel( new BaseModel( clock ) );
+        setApparatusPanel( new ApparatusPanel() );
+        showErrorGraphic = new ErrorGraphic( getApparatusPanel() );
+        getApparatusPanel().addGraphic( showErrorGraphic, 1000 );
+        getApparatusPanel().addGraphicsSetup( new BasicGraphicsSetup() );
 
         circuitSolver = new CircuitSolver();
-        Color backgroundColor = new Color(166, 177, 204);//not so bright
+        Color backgroundColor = new Color( 166, 177, 204 );//not so bright
 //        Color backgroundColor=new Color(220, 220, 249);
-        getApparatusPanel().setBackground(backgroundColor);
-        modelRect = new Rectangle2D.Double(0, 0, 10, 10);
-        transform = new ModelViewTransform2D(modelRect, new Rectangle(0, 0, 1, 1));
+        getApparatusPanel().setBackground( backgroundColor );
+        modelRect = new Rectangle2D.Double( 0, 0, 10, 10 );
+        transform = new ModelViewTransform2D( modelRect, new Rectangle( 0, 0, 1, 1 ) );
 
         circuit = new Circuit();
-        lifelikeGraphicFactory = new LifelikeGraphicFactory(this, imageSuite.getBaseSwitchImage());
-        schematicGraphicFactory = new SchematicGraphicFactory(this, imageSuite.getBaseSwitchImage());
+        lifelikeGraphicFactory = new LifelikeGraphicFactory( this, imageSuite.getBaseSwitchImage() );
+        schematicGraphicFactory = new SchematicGraphicFactory( this, imageSuite.getBaseSwitchImage() );
 
-        circuit.addCircuitObserver(circuitSolver);
-        circuit.addCircuitObserver(repainter);
+        circuit.addCircuitObserver( circuitSolver );
+        circuit.addCircuitObserver( repainter );
 
-        circuitGraphic = new CircuitGraphic(circuit, this);
-        getApparatusPanel().addGraphic(circuitGraphic, 0);
-        getApparatusPanel().addComponentListener(relayout);
-        particleLayout = new ParticleLayout(ELECTRON_SEPARATION);
+        circuitGraphic = new CircuitGraphic( circuit, this );
+        getApparatusPanel().addGraphic( circuitGraphic, 0 );
+        getApparatusPanel().addComponentListener( relayout );
+        particleLayout = new ParticleLayout( ELECTRON_SEPARATION );
 
-        particleSet = new ParticleSet(circuit);
-        particleSetGraphic = new ParticleSetGraphic(particleSet, getTransform(), this);
+        particleSet = new ParticleSet( circuit );
+        particleSetGraphic = new ParticleSetGraphic( particleSet, getTransform(), this );
 
-        getModel().addModelElement(particleSet);
+        getModel().addModelElement( particleSet );
         //render particles near junctions over the junctions.
-        particleRenderer = new ParticleRenderer(particleSet, particleSetGraphic);
-        getApparatusPanel().addGraphic(particleRenderer, 1000);
+        particleRenderer = new ParticleRenderer( particleSet, particleSetGraphic );
+        getApparatusPanel().addGraphic( particleRenderer, 1000 );
 
         Graphic creationPanel = newCreationPanel();
-        getApparatusPanel().addGraphic(creationPanel, -1);
+        getApparatusPanel().addGraphic( creationPanel, -1 );
 
-        clickToDeselect = new ClickToDeselect(circuit);
-        getApparatusPanel().addGraphic(clickToDeselect, -10);
+        clickToDeselect = new ClickToDeselect( circuit );
+        getApparatusPanel().addGraphic( clickToDeselect, -10 );
 
         dragY -= dragDY;
 
-        Voltmeter vm = new Voltmeter(creationX1, dragY);
-        voltmeterGraphic = new VoltmeterGraphic(vm, getTransform(), imageSuite.getImageLoader());
+        Voltmeter vm = new Voltmeter( creationX1, dragY );
+        voltmeterGraphic = new VoltmeterGraphic( vm, getTransform(), imageSuite.getImageLoader() );
 
-        getApparatusPanel().addGraphic(voltmeterGraphic, 100);
+        getApparatusPanel().addGraphic( voltmeterGraphic, 100 );
 
-        voltmeterGraphic.getRedLeadGraphic().addObserver(repaint);
-        voltmeterGraphic.getBlackLeadGraphic().addObserver(repaint);
-        voltmeterGraphic.getVoltmeterUnitGraphic().addObserver(repaint);
+        voltmeterGraphic.getRedLeadGraphic().addObserver( repaint );
+        voltmeterGraphic.getBlackLeadGraphic().addObserver( repaint );
+        voltmeterGraphic.getVoltmeterUnitGraphic().addObserver( repaint );
 
         SimpleObserver checkDVM = new SimpleObserver() {
             public void update() {
@@ -207,46 +207,47 @@ public class CCK2Module extends Module {
             }
         };
         //Whenever the circuit moves or a dvm lead moves, check the dvm connectivity.
-        voltmeterGraphic.getRedLeadGraphic().addObserver(checkDVM);
-        voltmeterGraphic.getBlackLeadGraphic().addObserver(checkDVM);
-        circuit.addCircuitObserver(dvmUpdate);
-        transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
+        voltmeterGraphic.getRedLeadGraphic().addObserver( checkDVM );
+        voltmeterGraphic.getBlackLeadGraphic().addObserver( checkDVM );
+        circuit.addCircuitObserver( dvmUpdate );
+        transform.addTransformListener( new TransformListener() {
+            public void transformChanged( ModelViewTransform2D ModelViewTransform2D ) {
                 getApparatusPanel().repaint();
             }
-        });
+        } );
 
-        if (usePointAmmeter) {
-            ammeter = new Ammeter(vm.getVoltmeterUnit().getX() - 2, vm.getVoltmeterUnit().getY() - .2);
-            ammeterGraphic = new AmmeterGraphic(ammeter, getTransform(), this, circuitGraphic);
-            getApparatusPanel().addGraphic(ammeterGraphic, 2000);
+        if( usePointAmmeter ) {
+            ammeter = new Ammeter( vm.getVoltmeterUnit().getX() - 2, vm.getVoltmeterUnit().getY() - .2 );
+            ammeterGraphic = new AmmeterGraphic( ammeter, getTransform(), this, circuitGraphic );
+            getApparatusPanel().addGraphic( ammeterGraphic, 2000 );
         }
 
-        JunctionCoverUpGraphic jcpg = new JunctionCoverUpGraphic(circuitGraphic, transform, imageSuite.getParticleImageWidth() / 2 + 3);
-        getApparatusPanel().addGraphic(jcpg, 1000);
+        JunctionCoverUpGraphic jcpg = new JunctionCoverUpGraphic( circuitGraphic, transform, imageSuite.getParticleImageWidth() / 2 + 3 );
+        getApparatusPanel().addGraphic( jcpg, 1000 );
 
         setupLogging();
-        getApparatusPanel().addMouseListener(new MouseAdapter() {
-            public void mouseReleased(MouseEvent e) {
-                circuitSolver.applyKirchoffsLaws(circuit);
-                if (usePointAmmeter)
+        getApparatusPanel().addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                circuitSolver.applyKirchoffsLaws( circuit );
+                if( usePointAmmeter ) {
                     ammeterGraphic.doUpdate();
+                }
             }
-        });
-        getApparatusPanel().addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
+        } );
+        getApparatusPanel().addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
                 getApparatusPanel().requestFocus();
             }
-        });
-        getApparatusPanel().addKeyListener(new DeleteListener(this));
+        } );
+        getApparatusPanel().addKeyListener( new DeleteListener( this ) );
 
-        AmmeterBranch ammeterBranch = new AmmeterBranch(this.getCircuit(), 5.092, AMMETER_BRANCH_Y, 7.038, AMMETER_BRANCH_Y);
+        AmmeterBranch ammeterBranch = new AmmeterBranch( this.getCircuit(), 5.092, AMMETER_BRANCH_Y, 7.038, AMMETER_BRANCH_Y );
         //branch = x1=5.092, y1=.414, x2=7.038, y2=.408, voltage=.0, current=.0, id=0
-        this.getCircuit().addBranch(ammeterBranch);
+        this.getCircuit().addBranch( ammeterBranch );
 
-        setLifelikeWireColor(COPPER);
-        JPanel controlPanel = new CCKControlPanel(this);
-        super.setControlPanel(controlPanel);
+        setLifelikeWireColor( COPPER );
+        JPanel controlPanel = new CCKControlPanel( this );
+        super.setControlPanel( controlPanel );
     }
 
     private Graphic newCreationPanel() {
@@ -260,32 +261,32 @@ public class CCK2Module extends Module {
         int dragYInit = 9;
         dragY = dragYInit;
 
-        final Resistor dragBranch = new Resistor(circuit, creationX1, dragY, creationX2, dragY, 1);
+        final Resistor dragBranch = new Resistor( circuit, creationX1, dragY, creationX2, dragY, 1 );
         dragY -= dragDY;
-        final Battery batteryWithWires = new Battery(circuit, creationX1, dragY, creationX2, dragY, 9, 0);
+        final Battery batteryWithWires = new Battery( circuit, creationX1, dragY, creationX2, dragY, 9, 0 );
         dragY -= dragDY;
         final BufferedImage battIm = imageSuite.getLifelikeSuite().getBatteryImage();
-        final double modelWidthBatt = transform.viewToModelDifferentialX(battIm.getWidth());
+        final double modelWidthBatt = transform.viewToModelDifferentialX( battIm.getWidth() );
 //        double battSep = modelWidthBatt;
 //        final Battery batteryWithoutWires = new Battery(circuit, creationX1, dragY, creationX1 + battSep, dragY, 9.0, 1);
 //        final double batty = dragY;
 //        dragY -= dragDY;
-        final Bulb bulbCreateBranch = new Bulb(circuit, creationX1, dragY, creationX2, dragY - .5, new PhetVector(.5, 0), 10);
+        final Bulb bulbCreateBranch = new Bulb( circuit, creationX1, dragY, creationX2, dragY - .5, new PhetVector( .5, 0 ), 10 );
         dragY -= dragDY;
-        final Switch switchCreateBranch = new Switch(circuit, creationX1, dragY, creationX2, dragY);
+        final Switch switchCreateBranch = new Switch( circuit, creationX1, dragY, creationX2, dragY );
         dragY -= dragDY;
-        final Wire wireDragBranch = new Wire(circuit, creationX1, dragY, creationX2, dragY);
+        final Wire wireDragBranch = new Wire( circuit, creationX1, dragY, creationX2, dragY );
 
-        Rectangle2D.Double creationPanelRect = new Rectangle2D.Double(creationX1 - 1.2, dragY - .5, modelRect.width - creationX1 - .1 + 1.2, dragYInit - dragY + 1);
-        HasModelShape hsm = new FixedModelShape(creationPanelRect);
-        ShapeGraphic2 creationPanelGraphic = new ShapeGraphic2(hsm, getTransform(), new Color(244, 201, 255), new BasicStroke(2));
-        graphic.addGraphic(creationPanelGraphic, -1);
+        Rectangle2D.Double creationPanelRect = new Rectangle2D.Double( creationX1 - 1.2, dragY - .5, modelRect.width - creationX1 - .1 + 1.2, dragYInit - dragY + 1 );
+        HasModelShape hsm = new FixedModelShape( creationPanelRect );
+        ShapeGraphic2 creationPanelGraphic = new ShapeGraphic2( hsm, getTransform(), new Color( 244, 201, 255 ), new BasicStroke( 2 ) );
+        graphic.addGraphic( creationPanelGraphic, -1 );
 //        getApparatusPanel().addGraphic(creationPanelGraphic, -1);
 
 
-        DragToCreate createResistor = getDragToCreate(dragBranch, "Resistor");
+        DragToCreate createResistor = getDragToCreate( dragBranch, "Resistor" );
 
-        graphic.addGraphic(createResistor, -1);
+        graphic.addGraphic( createResistor, -1 );
 //        getApparatusPanel().addGraphic(createResistor, -1);
 
 //        transform.addTransformListener(new TransformListener() {
@@ -301,21 +302,21 @@ public class CCK2Module extends Module {
 //        DragToCreate createBattery = getDragToCreate(batteryWithoutWires, "Battery");
 //        getApparatusPanel().addGraphic(createBattery, -1);
 
-        DragToCreate createBattery2 = getDragToCreate(batteryWithWires, "Battery w/ Wires");
+        DragToCreate createBattery2 = getDragToCreate( batteryWithWires, "Battery w/ Wires" );
 //        getApparatusPanel().addGraphic(createBattery2, -1);
-        graphic.addGraphic(createBattery2, -1);
+        graphic.addGraphic( createBattery2, -1 );
 
-        DragToCreate createBulb = getDragToCreate(bulbCreateBranch, "Light Bulb");
+        DragToCreate createBulb = getDragToCreate( bulbCreateBranch, "Light Bulb" );
 //        getApparatusPanel().addGraphic(createBulb, -1);
-        graphic.addGraphic(createBulb, -1);
+        graphic.addGraphic( createBulb, -1 );
 
-        DragToCreate createSwitch = getDragToCreate(switchCreateBranch, "Switch");
+        DragToCreate createSwitch = getDragToCreate( switchCreateBranch, "Switch" );
 //        getApparatusPanel().addGraphic(createSwitch, -1);
-        graphic.addGraphic(createSwitch, -1);
+        graphic.addGraphic( createSwitch, -1 );
 
-        DragToCreate createWire = getDragToCreate(wireDragBranch, "Wire");
+        DragToCreate createWire = getDragToCreate( wireDragBranch, "Wire" );
 //        getApparatusPanel().addGraphic(createWire, -1);
-        graphic.addGraphic(createWire, -1);
+        graphic.addGraphic( createWire, -1 );
 
 //        BufferedImage buffer=new BufferedImage(1100,1100,BufferedImage.TYPE_INT_RGB);
 //        final BufferedGraphic bufferedGraphic=new BufferedGraphic(buffer, graphic, Color.white, new BasicGraphicsSetup());
@@ -335,36 +336,36 @@ public class CCK2Module extends Module {
 //    public static final Color COPPER=new Color(214, 18, 34);
 
 //    public static final Color COPPER=new Color(Integer.parseInt("B87333",16));//new Color(214, 18, 34);
-    public static final Color COPPER = new Color(Integer.parseInt("D98719", 16));//new Color(214, 18, 34);
+    public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);
 //    static{
 //        System.out.println("Copper=rgb="+COPPER.getRed()+", "+COPPER.getGreen()+", "+COPPER.getBlue());
 //    }
 
-    private DragToCreate getDragToCreate(final Branch branch, String name) {
-        AbstractBranchGraphic cbg = circuitGraphic.createBranchGraphic(branch);
+    private DragToCreate getDragToCreate( final Branch branch, String name ) {
+        AbstractBranchGraphic cbg = circuitGraphic.createBranchGraphic( branch );
         InteractiveGraphicSource source = new InteractiveGraphicSource() {
             public InteractiveGraphic newInteractiveGraphic() {
                 Branch newElm = branch.copy();
-                particleLayout.layout(newElm, particleSet);
-                circuit.addBranch(newElm);
-                AbstractBranchGraphic gr = circuitGraphic.getGraphic(newElm);
-                System.out.println("gr = " + gr);
+                particleLayout.layout( newElm, particleSet );
+                circuit.addBranch( newElm );
+                AbstractBranchGraphic gr = circuitGraphic.getGraphic( newElm );
+                System.out.println( "gr = " + gr );
                 return gr;
             }
         };
-        Point loc = transform.modelToView(branch.getX1(), branch.getY1());
+        Point loc = transform.modelToView( branch.getX1(), branch.getY1() );
         DragToCreate.Proxy proxy = new DragToCreate.BranchProxy();
-        final DragToCreate dragToCreate = new DragToCreate(cbg, source, name, loc, proxy);
-        transform.addTransformListener(new TransformListener() {
-            public void transformChanged(ModelViewTransform2D ModelViewTransform2D) {
-                dragToCreate.setTipLocation(transform.modelToView(branch.getX1(), branch.getY1()));
+        final DragToCreate dragToCreate = new DragToCreate( cbg, source, name, loc, proxy );
+        transform.addTransformListener( new TransformListener() {
+            public void transformChanged( ModelViewTransform2D ModelViewTransform2D ) {
+                dragToCreate.setTipLocation( transform.modelToView( branch.getX1(), branch.getY1() ) );
             }
-        });
+        } );
         return dragToCreate;
     }
 
     class MyFormatter extends Formatter {
-        public String format(LogRecord record) {
+        public String format( LogRecord record ) {
             String s = record.getMessage() + "\n";
             return s;
         }
@@ -372,28 +373,29 @@ public class CCK2Module extends Module {
 
     private void setupLogging() {
         MyFormatter mf = new MyFormatter();
-        consoleHandler = new MyConsoleHandler(mf);
-        circuitSolver.getLogger().addHandler(consoleHandler);
+        consoleHandler = new MyConsoleHandler( mf );
+        circuitSolver.getLogger().addHandler( consoleHandler );
     }
 
-    private void setView(BranchGraphicFactory gf) {
-        circuitGraphic.setBranchGraphicFactory(gf);
+    private void setView( BranchGraphicFactory gf ) {
+        circuitGraphic.setBranchGraphicFactory( gf );
         getApparatusPanel().repaint();
     }
 
     void setLifelikeView() {
-        setView(lifelikeGraphicFactory);
+        setView( lifelikeGraphicFactory );
     }
 
     void setSchematicView() {
-        setView(schematicGraphicFactory);
+        setView( schematicGraphicFactory );
     }
 
 
     public void updateDVMAndAmmeter() {
-        voltmeterGraphic.updateVoltageReading(circuitGraphic);
-        if (usePointAmmeter)
+        voltmeterGraphic.updateVoltageReading( circuitGraphic );
+        if( usePointAmmeter ) {
             ammeterGraphic.doUpdate();
+        }
     }
 
     SimpleObserver repaint = new SimpleObserver() {
@@ -403,11 +405,13 @@ public class CCK2Module extends Module {
     };
 
     public void deselectAll() {
-        clickToDeselect.deselectAll(getApparatusPanel());
+        clickToDeselect.deselectAll( getApparatusPanel() );
     }
 
     private void relayout() {
-        transform.setViewBounds(getApparatusPanel().getBounds());
+        if( getApparatusPanel().getBounds().width > 0 && getApparatusPanel().getBounds().height > 0 ) {
+            transform.setViewBounds( getApparatusPanel().getBounds() );
+        }
     }
 
     public ModelViewTransform2D getTransform() {
@@ -423,24 +427,24 @@ public class CCK2Module extends Module {
     }
 
 
-    public void relayoutElectrons(Branch branch) {
-        particleLayout.layout(branch, particleSet);
+    public void relayoutElectrons( Branch branch ) {
+        particleLayout.layout( branch, particleSet );
     }
 
-    public void relayoutElectrons(Junction junction) {
-        particleLayout.layout(circuit, junction, particleSet);
+    public void relayoutElectrons( Junction junction ) {
+        particleLayout.layout( circuit, junction, particleSet );
     }
 
-    public void removeElectrons(Junction junction) {
-        Branch[] br = circuit.getBranches(junction);
-        for (int i = 0; i < br.length; i++) {
+    public void removeElectrons( Junction junction ) {
+        Branch[] br = circuit.getBranches( junction );
+        for( int i = 0; i < br.length; i++ ) {
             Branch branch2 = br[i];
-            removeElectrons(branch2);
+            removeElectrons( branch2 );
         }
     }
 
-    private void removeElectrons(Branch branch2) {
-        particleSet.removeParticlesForBranch(branch2);
+    private void removeElectrons( Branch branch2 ) {
+        particleSet.removeParticlesForBranch( branch2 );
     }
 
     public Circuit getCircuit() {
@@ -477,32 +481,32 @@ public class CCK2Module extends Module {
 
 
     void clearCircuit() {
-        while (circuit.numBranches() > 0) {
-            circuit.removeBranch(circuit.branchAt(0));
+        while( circuit.numBranches() > 0 ) {
+            circuit.removeBranch( circuit.branchAt( 0 ) );
         }//clear the old circuit
-        AmmeterBranch ammeterBranch = new AmmeterBranch(this.getCircuit(), 5.092, .414, 7.038, .408);
+        AmmeterBranch ammeterBranch = new AmmeterBranch( this.getCircuit(), 5.092, .414, 7.038, .408 );
         //branch = x1=5.092, y1=.414, x2=7.038, y2=.408, voltage=.0, current=.0, id=0
-        this.getCircuit().addBranch(ammeterBranch);
+        this.getCircuit().addBranch( ammeterBranch );
     }
 
-    void setCircuit(Circuit c) {
+    void setCircuit( Circuit c ) {
         clearCircuit();
-        for (int i = 0; i < c.numBranches(); i++) {
-            Branch b = c.branchAt(i);
-            circuit.attachBranch(b);
+        for( int i = 0; i < c.numBranches(); i++ ) {
+            Branch b = c.branchAt( i );
+            circuit.attachBranch( b );
         }
-        particleLayout.layout(circuit, particleSet);
+        particleLayout.layout( circuit, particleSet );
         circuit.fireConnectivityChanged();
         getApparatusPanel().repaint();
     }
 
-    public void setKirkhoffLogging(boolean on) {
-        circuitSolver.setLogging(on);
+    public void setKirkhoffLogging( boolean on ) {
+        circuitSolver.setLogging( on );
         this.kirkhoffLogging = on;
     }
 
     public void applyKirkhoffsLaws() {
-        circuitSolver.applyKirchoffsLaws(circuit);
+        circuitSolver.applyKirchoffsLaws( circuit );
     }
 
     public boolean isKirkhoffLoggingEnabled() {
@@ -513,87 +517,91 @@ public class CCK2Module extends Module {
         return imageSuite;
     }
 
-    public static void main(String[] args) throws IOException {
-        java.util.List list = Arrays.asList(args);
-        System.out.println("args = " + list);
-        if (Arrays.asList(args).contains("-virtuallab")) {
+    public static void main( String[] args ) throws IOException {
+        java.util.List list = Arrays.asList( args );
+        System.out.println( "args = " + list );
+        if( Arrays.asList( args ).contains( "-virtuallab" ) ) {
             virtualLab = true;
-        } else
+        }
+        else {
             virtualLab = false;
-        SwingTimerClock stc = new SwingTimerClock(1, 30, true);
+        }
+        SwingTimerClock stc = new SwingTimerClock( 1, 30, true );
 
         boolean usePointAmmeter = false;
-        if (virtualLab)
+        if( virtualLab ) {
             usePointAmmeter = false;
-        else
+        }
+        else {
             usePointAmmeter = true;
-        final CCK2Module module = new CCK2Module(usePointAmmeter, stc);
+        }
+        final CCK2Module module = new CCK2Module( usePointAmmeter, stc );
 
-        ApplicationDescriptor ad = new ApplicationDescriptor("Circuit Construction Kit II",
-                "Create, interact with and observe simple circuits.",
-                "ii-V6.5", new FrameSetup() {
-                    public void initialize(JFrame jFrame) {
-                        jFrame.setVisible(true);
-                        jFrame.setSize(600, 600);
-                    }
-                });
+        ApplicationDescriptor ad = new ApplicationDescriptor( "Circuit Construction Kit II",
+                                                              "Create, interact with and observe simple circuits.",
+                                                              "ii-V6.5", new FrameSetup() {
+                                                                  public void initialize( JFrame jFrame ) {
+                                                                      jFrame.setVisible( true );
+                                                                      jFrame.setSize( 600, 600 );
+                                                                  }
+                                                              } );
 
-        PhetApplication app = new PhetApplication(ad, module, stc);
-        app.getApplicationView().getPhetFrame().setSize(Toolkit.getDefaultToolkit().getScreenSize().width * 3 / 4, Toolkit.getDefaultToolkit().getScreenSize().height * 3 / 4);
+        PhetApplication app = new PhetApplication( ad, module, stc );
+        app.getApplicationView().getPhetFrame().setSize( Toolkit.getDefaultToolkit().getScreenSize().width * 3 / 4, Toolkit.getDefaultToolkit().getScreenSize().height * 3 / 4 );
 //        app.getApplicationView().getPhetFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
-        app.getApplicationView().getBasicPhetPanel().setAppControlPanel(null);
+        app.getApplicationView().getBasicPhetPanel().setAppControlPanel( null );
         frame = app.getApplicationView().getPhetFrame();
 
         JMenuBar jmb = frame.getJMenuBar();
-        for (int i = 0; i < jmb.getMenuCount(); i++) {
-            JMenu menu = jmb.getMenu(i);
-            if (menu.getText().toLowerCase().equals("controls") || menu.getText().toLowerCase().equals("file") || menu.getText().toLowerCase().equals("help")) {
-                jmb.remove(menu);
+        for( int i = 0; i < jmb.getMenuCount(); i++ ) {
+            JMenu menu = jmb.getMenu( i );
+            if( menu.getText().toLowerCase().equals( "controls" ) || menu.getText().toLowerCase().equals( "file" ) || menu.getText().toLowerCase().equals( "help" ) ) {
+                jmb.remove( menu );
                 i = -1;
             }
         }
 
-        JMenu helpMenu = new JMenu("Help");
-        JMenuItem about = new JMenuItem("About");
+        JMenu helpMenu = new JMenu( "Help" );
+        JMenuItem about = new JMenuItem( "About" );
 
         final String title = "About the CCK";
-        VersionUtils.VersionInfo vi = VersionUtils.readVersionInfo(app);
+        VersionUtils.VersionInfo vi = VersionUtils.readVersionInfo( app );
         final String message = "Circuit Construction Kit II\n" + "Build time=" + vi.getBuildTime() + "\nBuild Number=" + vi.getBuildNumber() + "\nby PhET";
-        about.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(frame, message, title, JOptionPane.INFORMATION_MESSAGE);
+        about.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                JOptionPane.showMessageDialog( frame, message, title, JOptionPane.INFORMATION_MESSAGE );
             }
-        });
-        helpMenu.add(about);
-        FileMenu fileMenu = new FileMenu(module, frame);
-        JMenu cckMenu = new CCKMenu(module);
+        } );
+        helpMenu.add( about );
+        FileMenu fileMenu = new FileMenu( module, frame );
+        JMenu cckMenu = new CCKMenu( module );
 
-        jmb.add(fileMenu, 0);
-        jmb.add(cckMenu);
-        jmb.add(helpMenu);
-        app.startApplication(module);
-        app.getApplicationView().getPhetFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
+        jmb.add( fileMenu, 0 );
+        jmb.add( cckMenu );
+        jmb.add( helpMenu );
+        app.startApplication( module );
+        app.getApplicationView().getPhetFrame().setExtendedState( JFrame.MAXIMIZED_BOTH );
         module.getApparatusPanel().repaint();
-        enableAspectRatio(app, module);
+        enableAspectRatio( app, module );
     }
 
-    private static void enableAspectRatio(PhetApplication app, Module module) {
+    private static void enableAspectRatio( PhetApplication app, Module module ) {
         ApparatusPanelContainer apc = app.getApplicationView().getApparatusPanelContainer();
-        if (apc instanceof SingleApparatusPanelContainer) {
-            SingleApparatusPanelContainer sapc = (SingleApparatusPanelContainer) apc;
-            sapc.getComponent().setLayout(new AspectRatioLayout(module.getApparatusPanel(), 10, 10, .75));
+        if( apc instanceof SingleApparatusPanelContainer ) {
+            SingleApparatusPanelContainer sapc = (SingleApparatusPanelContainer)apc;
+            sapc.getComponent().setLayout( new AspectRatioLayout( module.getApparatusPanel(), 10, 10, .75 ) );
             app.getApplicationView().getBasicPhetPanel().invalidate();
             app.getApplicationView().getBasicPhetPanel().validate();
             app.getApplicationView().getBasicPhetPanel().repaint();
         }
     }
 
-    public void setLifelikeWireColor(Color color) {
-        lifelikeGraphicFactory.setWireColor(color);
-        circuitGraphic.setLifelikeWireColor(color);
+    public void setLifelikeWireColor( Color color ) {
+        lifelikeGraphicFactory.setWireColor( color );
+        circuitGraphic.setLifelikeWireColor( color );
     }
 
-    public void setHelpVisible(boolean helpVisible) {
+    public void setHelpVisible( boolean helpVisible ) {
         this.helpVisible = helpVisible;
     }
 }

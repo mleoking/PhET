@@ -17,53 +17,53 @@ import java.awt.event.MouseEvent;
 public class ClickToDeselect implements InteractiveGraphic {
     Circuit circuit;
 
-    public ClickToDeselect(Circuit circuit) {
+    public ClickToDeselect( Circuit circuit ) {
         this.circuit = circuit;
     }
 
-    public boolean canHandleMousePress(MouseEvent event) {
+    public boolean canHandleMousePress( MouseEvent event ) {
         return true;
     }
 
-    public void mousePressed(MouseEvent event) {
+    public void mousePressed( MouseEvent event ) {
     }
 
-    public void mouseDragged(MouseEvent event) {
+    public void mouseDragged( MouseEvent event ) {
     }
 
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved( MouseEvent e ) {
     }
 
-    public void deselectAll(Component co) {
-        for (int i = 0; i < circuit.numBranches(); i++) {
-            circuit.branchAt(i).setSelected(false);
+    public void deselectAll( Component co ) {
+        for( int i = 0; i < circuit.numBranches(); i++ ) {
+            circuit.branchAt( i ).setSelected( false );
         }
         JunctionGroup[] jg = circuit.getJunctionGroups();
-        for (int i = 0; i < jg.length; i++) {
+        for( int i = 0; i < jg.length; i++ ) {
             JunctionGroup junctionGroup = jg[i];
-            junctionGroup.setSelected(false);
+            junctionGroup.setSelected( false );
         }
         co.repaint();
     }
 
-    public void mouseReleased(MouseEvent event) {
-        System.out.println("ClickToDeselect released.");
-        deselectAll(event.getComponent());
+    public void mouseReleased( MouseEvent event ) {
+        System.out.println( "ClickToDeselect released." );
+        deselectAll( event.getComponent() );
     }
 
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked( MouseEvent e ) {
     }
 
-    public void mouseEntered(MouseEvent event) {
+    public void mouseEntered( MouseEvent event ) {
     }
 
-    public void mouseExited(MouseEvent event) {
+    public void mouseExited( MouseEvent event ) {
     }
 
-    public void paint(Graphics2D g) {
+    public void paint( Graphics2D g ) {
     }
 
-    public boolean contains(int x, int y) {
+    public boolean contains( int x, int y ) {
         return true;
     }
 
