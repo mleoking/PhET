@@ -28,6 +28,9 @@ import java.util.LinkedList;
  */
 public class CollimatedBeam extends Particle {
 
+    private static Random gaussianGenerator = new Random();
+
+    private double nextTimeToProducePhoton = 0;
     private int wavelength;
     private Point2D origin;
     private double height;
@@ -47,13 +50,6 @@ public class CollimatedBeam extends Particle {
         void photonCreated( CollimatedBeam beam, Photon photon );
     }
 
-    /**
-     *
-     * @param wavelength
-     * @param origin
-     * @param height
-     * @param width
-     */
     public CollimatedBeam( LaserModel model, int wavelength, Point2D origin, double height, double width, Vector2D direction ) {
         this.model = model;
         this.wavelength = wavelength;
@@ -79,50 +75,26 @@ public class CollimatedBeam extends Particle {
         this.origin = origin;
     }
 
-    /**
-     *
-     * @return
-     */
     public double getHeight() {
         return height;
     }
 
-    /**
-     *
-     * @param height
-     */
     public void setHeight( double height ) {
         this.height = height;
     }
 
-    /**
-     *
-     * @return
-     */
     public double getWidth() {
         return width;
     }
 
-    /**
-     *
-     * @param width
-     */
     public void setWidth( double width ) {
         this.width = width;
     }
 
-    /**
-     *
-     * @return
-     */
     public double getPhotonsPerSecond() {
         return photonsPerSecond;
     }
 
-    /**
-     *
-     * @param photonsPerSecond
-     */
     public void setPhotonsPerSecond( double photonsPerSecond ) {
 
         // The following if statement prevents the system from sending out a big
@@ -134,24 +106,16 @@ public class CollimatedBeam extends Particle {
         nextTimeToProducePhoton = getNextTimeToProducePhoton();
     }
 
-    /**
-     *
-     * @return
-     */
     public int getWavelength() {
         return wavelength;
     }
 
-    /**
-     *
-     */
     public void addPhoton() {
         Photon newPhoton = Photon.create( this );
         newPhoton.setPosition( genPositionX(), genPositionY() + newPhoton.getRadius() );
         newPhoton.setVelocity( new Vector2D.Double( velocity ) );
         newPhoton.setWavelength( this.wavelength );
         model.addModelElement( newPhoton );
-//        new AddParticleCmd( newPhoton ).doIt();
         photons.add( newPhoton );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
@@ -159,21 +123,11 @@ public class CollimatedBeam extends Particle {
         }
     }
 
-    /**
-     *
-     * @param photon
-     */
     public void removePhoton( Photon photon ) {
         photons.remove( photon );
     }
 
-    /**
-     *
-     */
-    private double nextTimeToProducePhoton = 0;
-
     public void stepInTime( double dt ) {
-
         super.stepInTime( dt );
 
         // Produce photons
@@ -189,43 +143,26 @@ public class CollimatedBeam extends Particle {
         }
     }
 
-    /**
-     *
-     * @return
-     */
     public boolean isActive() {
         return isActive;
     }
 
-    /**
-     *
-     * @param active
-     */
     public void setActive( boolean active ) {
         isActive = active;
         timeSinceLastPhotonProduced = 0;
     }
 
-    /**
-     *
-     * @return
-     */
     private double genPositionY() {
         double yDelta = velocity.getX() != 0 ? Math.random() * height : 0;
         return this.getPosition().getY() + yDelta;
     }
 
-    /**
-     *
-     * @return
-     */
     private double genPositionX() {
         double xDelta = velocity.getY() != 0 ?
                         Math.random() * width : 0;
         return this.getPosition().getX() + xDelta;
     }
 
-    private Random gaussianGenerator = new Random();
     private double getNextTimeToProducePhoton() {
         double temp = ( gaussianGenerator.nextGaussian() + 1.0 );
         return temp / photonsPerSecond;

@@ -58,13 +58,13 @@ public class Photon extends SphericalBody {
         return newPhoton;
     }
 
-    static public Photon create( Photon photon ) {
-        Photon newPhoton = create();
-        newPhoton.setVelocity( new Vector2D.Double( photon.getVelocity() ));
-        newPhoton.setWavelength( photon.getWavelength() );
-        newPhoton.numStimulatedPhotons = photon.numStimulatedPhotons;
-        return newPhoton;
-    }
+//    static public Photon create( Photon photon ) {
+//        Photon newPhoton = create();
+//        newPhoton.setVelocity( new Vector2D.Double( photon.getVelocity() ));
+//        newPhoton.setWavelength( photon.getWavelength() );
+//        newPhoton.numStimulatedPhotons = photon.numStimulatedPhotons;
+//        return newPhoton;
+//    }
 
     static public Photon createStimulated( Photon stimulatingPhoton ) {
         stimulatingPhoton.numStimulatedPhotons++;
