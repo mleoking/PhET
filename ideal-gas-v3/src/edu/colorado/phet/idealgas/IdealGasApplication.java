@@ -83,7 +83,8 @@ public class IdealGasApplication extends PhetApplication {
         System.out.println( "args.length = " + args.length );
         if( args.length > 0 && args[0].startsWith( argsKey ) ) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ) );
+            SimStrings.setLocale( new Locale( locale ) );
+//            Locale.setDefault( new Locale( locale ) );
             System.out.println( "locale = " + locale );
         }
 

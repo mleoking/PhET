@@ -13,15 +13,11 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.EventChannelProxy;
-import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.help.HelpItem;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -118,7 +114,7 @@ public class IdealGasModule extends Module {
 
         // Add the pressure gauge
         PressureSlice gaugeSlice = new PressureSlice( box, idealGasModel, clock );
-
+        box.setGuageSlice( gaugeSlice );
         gaugeSlice.setTimeAveragingWindow( 2500 * ( clock.getDt() / clock.getDelay() ) );
         gaugeSlice.setUpdateContinuously( true );
         gaugeSlice.setY( box.getMinY() + 50 );
@@ -208,6 +204,7 @@ public class IdealGasModule extends Module {
         pumpSelectorPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + 590, IdealGasConfig.Y_BASE_OFFSET + 300,
                                      200, 150 );
         getApparatusPanel().add( pumpSelectorPanel );
+        getApparatusPanel().revalidate();
 
         // Add help items
         addHelp();
@@ -294,6 +291,10 @@ public class IdealGasModule extends Module {
 
     public void pumpGasMolecules( int numMolecules ) {
         pump.pump( numMolecules );
+    }
+
+    public void pumpGasMolecules( int numMolecules, Class species ) {
+        pump.pump( numMolecules, species );
     }
 
     public void removeGasMolecule() {
@@ -388,8 +389,7 @@ public class IdealGasModule extends Module {
             getModel().addModelElement( pressureSlice );
             addGraphic( pressureSliceGraphic, 20 );
             pressureSlideTimeAveCtrlPane.setVisible( true );
-            pressureSlideTimeAveCtrlPane.revalidate();
-            pressureSlideTimeAveCtrlPane.repaint();
+            getApparatusPanel().revalidate();
         }
         else {
             getApparatusPanel().removeGraphic( pressureSliceGraphic );

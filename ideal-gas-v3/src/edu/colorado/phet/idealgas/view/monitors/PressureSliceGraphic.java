@@ -5,7 +5,7 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
-import edu.colorado.phet.common.util.EventChannelProxy;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
@@ -42,10 +42,9 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
     private NumberFormat heightFormatter = new DecimalFormat( "0.00" );
     private double temperature;
     private double pressure;
-    private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
+    private Font font = new Font( "Lucida Sans", Font.BOLD, 12 );
 
     /**
-     *
      * @param component
      * @param pressureSlice
      * @param box
@@ -106,21 +105,24 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
 
             g2.setFont( font );
             FontMetrics fontMetrics = g2.getFontMetrics();
-            int readoutWidth = 80;
+            int readoutWidth = 90;
             int borderThickness = 8;
             int readoutHeight = fontMetrics.getHeight() * 3 + fontMetrics.getMaxDescent();// + 2 * borderThickness;
 
             g2.setStroke( pressureSliceStroke );
 
+            // Figure out the size of the box that holds the readouts
             boxLeftEdge = box.getMinX();
             boxRightEdge = box.getMaxX();
             boxLowerEdge = box.getMaxY();
             boundingRect.setRect( boxLeftEdge, y - pressureSliceHeight / 2,
                                   boxRightEdge - boxLeftEdge,
                                   pressureSliceHeight );
-            readoutRectangle.setRoundRect( (int)boundingRect.getMinX() - 100,
+            readoutRectangle.setRoundRect( (int)boundingRect.getMinX() - ( readoutWidth + borderThickness * 2 ),
+//            readoutRectangle.setRoundRect( (int)boundingRect.getMinX() - 110,
                                            (int)boundingRect.getMinY() - ( readoutHeight / 2 ) - borderThickness,
-                                           100, readoutHeight + 2 * borderThickness, 10, 10 );
+                                           ( readoutWidth + borderThickness * 2 ), readoutHeight + 2 * borderThickness, 10, 10 );
+//                                           110, readoutHeight + 2 * borderThickness, 10, 10 );
 
             // Draw the slice itself, over the box
             g2.setColor( Color.YELLOW );
@@ -136,13 +138,15 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
             g2.draw( readoutRectangle );
 
             // Draw the readouts
+            g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+
             Point readoutLocation = new Point( (int)( readoutRectangle.getMinX() + borderThickness ),
                                                (int)( readoutRectangle.getMinY() + borderThickness ) );
             g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
             g2.drawRoundRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight, 5, 5 );
 
             g2.setColor( Color.WHITE );
-            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, s_overlayTransparency ) );
+            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC, s_overlayTransparency ) );
             g2.fillRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight );
 
             g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
@@ -198,14 +202,14 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
         void moved( Event event );
     }
 
-    EventChannelProxy channel = new EventChannelProxy( Listener.class );
-    Listener listenerProxy = (Listener)channel.getProxy();
+    EventChannel channel = new EventChannel( Listener.class );
+    Listener listenerProxy = (Listener)channel.getListenerProxy();
 
     public void addListener( Listener listener ) {
         channel.addListener( listener );
     }
 
-    public void removeListener( Listener listener ){
+    public void removeListener( Listener listener ) {
         channel.removeListener( listener );
     }
 }

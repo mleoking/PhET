@@ -92,6 +92,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
     public void setConstantPressure( boolean constantPressure ) {
         this.targetPressure = box.getPressure();
+        System.out.println( "targetPressure = " + targetPressure );
         this.constantPressure = constantPressure;
     }
 
@@ -174,11 +175,11 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             ( (GasMolecule)modelElement ).removeYourselfFromSystem();
         }
         if( modelElement instanceof HeavySpecies ) {
-//            HeavySpecies.removeParticle( (HeavySpecies)modelElement );
+            HeavySpecies.removeParticle( (HeavySpecies)modelElement );
             heavySpeciesCnt--;
         }
         if( modelElement instanceof LightSpecies ) {
-//            LightSpecies.removeParticle( (LightSpecies)modelElement );
+            LightSpecies.removeParticle( (LightSpecies)modelElement );
             lightSpeciesCnt--;
         }
 
@@ -398,7 +399,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     }
 
     /**
-     *
+     * Adjusts the model to keep the specified constant parameter constant
      */
     private void updateFreeParameter() {
 
