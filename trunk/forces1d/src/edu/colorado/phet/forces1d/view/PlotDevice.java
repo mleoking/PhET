@@ -6,16 +6,16 @@ import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.controllers.HorizontalCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.MMTimer;
 
@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * Time: 12:54:39 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class ForcePlot implements Graphic {
+public class PlotDevice extends PhetGraphic {
     private String title;
     private PlotConnection module;
     private DataSeries dataSeries;
@@ -75,30 +75,11 @@ public class ForcePlot implements Graphic {
     private Font verticalTitleFont = MMFontManager.getFontSet().getVerticalTitleFont();
     private ArrayList listeners = new ArrayList();
 
-    public void valueChanged( double value ) {
-        verticalChartSlider.setValue( value );
-        setTextValue( value );
-    }
-
-    public void addSuperScript( String s ) {
-        Font superScriptFont = new Font( "Lucida Sans", Font.BOLD, 12 );
-        superScriptGraphic = new PhetTextGraphic( module.getApparatusPanel(), superScriptFont, s, color, 330, 230 );
-        module.getApparatusPanel().addGraphic( superScriptGraphic, 999 );
-    }
-
-    public static interface Listener {
-        void nominalValueChanged( double value );
-    }
-
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
 
     static class FloatingControl extends VerticalLayoutPanel {
         static BufferedImage play;
         static BufferedImage pause;
         private PlotConnection module;
-//        private JLabel titleLabel;
         private JButton pauseButton;
         private JButton recordButton;
         private JButton resetButton;
@@ -124,14 +105,12 @@ public class ForcePlot implements Graphic {
 
         public FloatingControl( final PlotConnection module ) {
             this.module = module;
-//            this.titleLabel = titleLabel;
             pauseButton = new ControlButton( "Pause" );
             pauseButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setPaused( true );
                 }
             } );
-//            final JButton recordButton = new JButton( new ImageIcon( play ) );
             recordButton = new ControlButton( "Record" );
             recordButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -175,7 +154,6 @@ public class ForcePlot implements Graphic {
                     setButtons( true, false, true );
                 }
             } );
-//            add( titleLabel );
             add( recordButton );
             add( pauseButton );
             add( resetButton );
@@ -193,8 +171,9 @@ public class ForcePlot implements Graphic {
         }
     }
 
-    public ForcePlot( ApparatusPanel panel,String title, final PlotConnection module, final DataSeries series, MMTimer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, double xShift, String units, String labelStr )
+    public PlotDevice( ApparatusPanel panel, String title, final PlotConnection module, final DataSeries series, MMTimer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, double xShift, String units, String labelStr )
             throws IOException {
+        super( panel );
         this.units = units;
         this.title = title;
         this.module = module;
@@ -202,22 +181,20 @@ public class ForcePlot implements Graphic {
         this.timer = timer;
         this.color = color;
         this.stroke = stroke;
-//        this.buffer = buffer;
         this.xShift = xShift;
         chart = new Chart( panel, new Range2D( inputBox ), new Rectangle( 0, 0, 100, 100 ) );
-        horizontalCursor = new HorizontalCursor( chart, new Color( 15, 0, 255, 50 ), new Color( 50, 0, 255, 150 ), 8 );
+        horizontalCursor = new HorizontalCursor( panel, chart, new Color( 15, 0, 255, 50 ), new Color( 50, 0, 255, 150 ), 8 );
         panel.addGraphic( horizontalCursor, 1000 );
 
         chart.setBackground( createBackground() );
         dataSet = new DataSet();
         setInputRange( inputBox );
-//        timer.addObserver( this );
         timer.addListener( new MMTimer.Listener() {
             public void timeChanged() {
                 update();
             }
         } );
-        chart.getHorizontalTicks().setVisible( false );
+        chart.getHorizontalTicks().setVisible( true);
         chart.getHorizonalGridlines().setMajorGridlinesColor( Color.darkGray );
         chart.getVerticalGridlines().setMajorGridlinesColor( Color.darkGray );
         chart.getXAxis().setMajorTickFont( axisFont );
@@ -253,8 +230,8 @@ public class ForcePlot implements Graphic {
             }
         } );
 
-        BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/mag-plus-10.gif" );
-        BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/mag-minus-10.gif" );
+        BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+        BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
         final double smooth = 1;
         ActionListener smoothPos = new Increment( smooth );
         ActionListener smoothNeg = new Decrement( smooth );
@@ -315,6 +292,29 @@ public class ForcePlot implements Graphic {
             value = series.pointAt( index );
             setTextValue( value );
         }
+    }
+
+    public void valueChanged( double value ) {
+        verticalChartSlider.setValue( value );
+        setTextValue( value );
+    }
+
+    public Chart getChart() {
+        return chart;
+    }
+
+    public void addSuperScript( String s ) {
+        Font superScriptFont = new Font( "Lucida Sans", Font.BOLD, 12 );
+        superScriptGraphic = new PhetTextGraphic( module.getApparatusPanel(), superScriptFont, s, color, 330, 230 );
+        module.getApparatusPanel().addGraphic( superScriptGraphic, 999 );
+    }
+
+    public static interface Listener {
+        void nominalValueChanged( double value );
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 
     public void setTextValue( double value ) {
@@ -667,6 +667,10 @@ public class ForcePlot implements Graphic {
         if( superScriptGraphic != null ) {
             superScriptGraphic.setVisible( visible );
         }
+    }
+
+    protected Rectangle determineBounds() {
+        return chart.getVisibleBounds();
     }
 
     public void setShift( double xShift ) {
