@@ -18,8 +18,13 @@ import edu.colorado.phet.sound.view.WavefrontOscillator;
 
 public class SoundModule extends Module implements RgbReporter {
 
-    private static WavefrontOscillator primaryOscillator;
-    private static WavefrontOscillator octaveOscillator;
+    private static WavefrontOscillator primaryOscillator = new WavefrontOscillator();
+    private static WavefrontOscillator octaveOscillator = new WavefrontOscillator();
+
+    static {
+        primaryOscillator.run();
+        octaveOscillator.run();
+    }
 
     private boolean audioEnabled = false;
     private Wavefront primaryWavefront;
@@ -30,7 +35,6 @@ public class SoundModule extends Module implements RgbReporter {
         super( name );
         this.setModel( new SoundModel( appModel.getClock() ) );
         initModel();
-        initOscillators();
     }
 
     protected SoundModel getSoundModel() {
@@ -39,25 +43,12 @@ public class SoundModule extends Module implements RgbReporter {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-        primaryOscillator.run();
-
-        // We need to let the oscillator get going before we do the rest here,
-        // otherwise the volume gets stuck on full
-        try {
-            Thread.sleep( 200 );
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
+        primaryOscillator.setWavefront( this.primaryWavefront );
+        octaveOscillator.setWavefront( this.octaveWavefront );
         setAudioEnabled( audioEnabled );
         if( currentListener != null ) {
             setListener( currentListener );
         }
-    }
-
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        primaryOscillator.stop();
     }
 
     public void setAudioEnabled( boolean enabled ) {
@@ -88,16 +79,6 @@ public class SoundModule extends Module implements RgbReporter {
         getSoundModel().setFrequency( SoundConfig.s_defaultFrequency );
     }
 
-    private void initOscillators() {
-        if( primaryOscillator == null ) {
-            primaryOscillator = new WavefrontOscillator( primaryWavefront );
-        }
-        if( octaveOscillator == null ) {
-            octaveOscillator = new WavefrontOscillator( octaveWavefront );
-        }
-        setAudioEnabled( audioEnabled );
-    }
-
     /**
      * Determines whether the source for audio is at the speaker or the listener
      *
@@ -118,6 +99,10 @@ public class SoundModule extends Module implements RgbReporter {
 
     public void setListener( Listener listener ) {
         currentListener = listener;
+
+        primaryOscillator.setWavefront( this.primaryWavefront );
+        octaveOscillator.setWavefront( this.octaveWavefront );
+
         getPrimaryOscillator().observe( listener );
         getOctaveOscillator().observe( listener );
     }
@@ -132,7 +117,9 @@ public class SoundModule extends Module implements RgbReporter {
     }
 
     /**
-     * Default behavior is to return middle gray
+     * This method is provided so subclass modules can get the background color at
+     * a particular pixel. It was introduced so we could write the module that
+     * evacuates air from a box. Default behavior is to return middle gray.
      *
      * @param x
      * @param y
