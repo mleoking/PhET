@@ -69,11 +69,16 @@ public class PhetApplication {
         parseArgs( args );
     }
 
-    private void parseArgs( String[] args ) {
+    /**
+     * Processes command line arguments. May be extended by subclasses.
+     *
+     * @param args
+     */
+    protected void parseArgs( String[] args ) {
         for( int i = 0; args != null && i < args.length; i++ ) {
             String arg = args[i];
             if( arg.equals( DEBUG_MENU_ARG ) ) {
-                phetFrame.addMenu( new DebugMenu( this ));
+                phetFrame.addMenu( new DebugMenu( this ) );
             }
         }
     }
