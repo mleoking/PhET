@@ -126,6 +126,7 @@ public class SwingTimerClock extends AbstractClock {
 
     private static class DynamicDelay implements DelayStrategy {
         private int delay;
+        private long lastRequestedDelay;
         private int min;
 
         public DynamicDelay( int delay ) {
@@ -138,22 +139,26 @@ public class SwingTimerClock extends AbstractClock {
         }
 
         public int getDelay( long actualWaitTime ) {
-            int result = Math.max( delay - (int)actualWaitTime, min );
+            long dt = actualWaitTime - lastRequestedDelay;
+            long nextRequest = delay - dt;
+            int result = Math.min( delay, Math.max( (int)nextRequest, min ));
+            lastRequestedDelay = result;
             return result;
         }
     }
 
     private class Ticker implements ActionListener {
-
+        long lastRequestedWait = 0;
         public void actionPerformed( ActionEvent e ) {
             if( isRunning() ) {
                 long tickTime = System.currentTimeMillis();
-                long actualWaitTime = tickTime - lastTickTime;
-                int delay = delayStrategy.getDelay( actualWaitTime );
-                timer.setDelay( delay );
+                long actualWait = tickTime - lastTickTime;
                 lastTickTime = tickTime;
+                int delay = delayStrategy.getDelay( actualWait );
+                lastRequestedWait = delay;
+                timer.setDelay( delay );
                 if( isRunning() ) {
-                    clockTicked( getSimulationTime( actualWaitTime ) );
+                    clockTicked( getSimulationTime( actualWait ) );
                 }
             }
         }
