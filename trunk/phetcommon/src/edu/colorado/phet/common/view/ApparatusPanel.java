@@ -80,7 +80,7 @@ public class ApparatusPanel extends JPanel {
     public void addRepaintDebugGraphic( AbstractClock clock ) {
 
         final RepaintDebugGraphic rdg = new RepaintDebugGraphic( this, clock );
-        addGraphic( rdg );
+        addGraphic( rdg, Double.POSITIVE_INFINITY );
 
         rdg.setActive( false );
         rdg.setVisible( false );
