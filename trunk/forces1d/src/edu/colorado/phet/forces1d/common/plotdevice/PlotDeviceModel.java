@@ -249,7 +249,7 @@ public abstract class PlotDeviceModel implements ModelElement {
             timer.stepInTime( dt );
 
             conversionFactor = timer.getTime() / playbackIndex;
-            System.out.println( "conversionFactor = " + conversionFactor );
+//            System.out.println( "conversionFactor = " + conversionFactor );
 
             stepPlayback( timer.getTime(), playbackIndex++ );
             //assume linear

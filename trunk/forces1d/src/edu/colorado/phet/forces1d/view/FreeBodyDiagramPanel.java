@@ -84,7 +84,7 @@ public class FreeBodyDiagramPanel {
         freeBodyDiagram.addMouseInputListener( listener );
 //        RepaintDebugGraphic.enable( fbdPanel, module.getClock() );//TODO optimize.
 
-
+        fbdPanel.setUseOffscreenBuffer( true );
     }
 
     public FreeBodyDiagram getFreeBodyDiagram() {

@@ -216,7 +216,6 @@ public class Force1DPanel extends ApparatusPanel2 {
             }
         } );
 
-
         addGraphic( floatingControlGraphic, Double.POSITIVE_INFINITY );
         addGraphic( checkBoxPanelGraphic, Double.POSITIVE_INFINITY );
         addMouseListener( new MouseAdapter() {
@@ -367,7 +366,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         addGraphic( soloGoButtonHelp, Double.POSITIVE_INFINITY );
         soloGoButtonHelp.setVisible( false );
 
-//        setUseOffscreenBuffer( true );
+        setUseOffscreenBuffer( true );//wow!
         //TODO is offscreen buffer better here?
     }
 

@@ -124,31 +124,20 @@ public class Force1DModule extends Module {
     }
 
     public static void main( String[] args ) throws IOException {
-        //Choose the default look and feel for your system, adding text antialias for windows.
-        //This must be done early in the application so no components get constructed with the wrong UI.
         PhetLookAndFeel.setLookAndFeel();
-        //Create the usual PhetLookAndFeel (whatever we deem that to be)
         PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
-        //customize it here for your own application.
-        lookAndFeel.setBackgroundColor( Color.blue );
-        lookAndFeel.setForegroundColor( Color.red );
-        lookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 20 ) );
-        //Apply the total look and feel (the usual PhetLookAndFeel + your changes)
-        // to your system defaults.
         lookAndFeel.apply();
 
         AbstractClock clock = new SwingTimerClock( 1, 30 );
         final Force1DModule module = new Force1DModule( clock, lookAndFeel );
         module.getApparatusPanel().getGraphic().setVisible( false );
         FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
-//        final Force1DModule simpleModule = new SimpleForceModule( clock );
-//        Module[] m = new Module[]{simpleModule, module};
         Module[] m = new Module[]{module};
 
         ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
                                                        frameSetup, m, clock );
         model.setName( "force1d" );
-        final PhetApplication phetApplication = new PhetApplication( model );
+        final PhetApplication phetApplication = new PhetApplication( model, args );
 
         phetApplication.getPhetFrame().addWindowStateListener( new WindowStateListener() {
             public void windowStateChanged( WindowEvent e ) {
