@@ -39,6 +39,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // Class data
     //----------------------------------------------------------------------------
     
+    // Needles with strength below this value are not drawn.
+    private static final double DEFAULT_STRENGTH_THRESHOLD = 0.01;
+    
     // Determines whether needle strength is displayed using alpha or color saturation. 
     private static final boolean DEFAULT_ALPHA_ENABLED = false;
     
@@ -70,6 +73,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // The grid's bounds.
     private Rectangle _bounds;
     
+    // Needles with a strength below this value are not drawn.
+    private double _strengthThreshold;
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -96,6 +102,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         _alphaEnabled = DEFAULT_ALPHA_ENABLED;
         
         _parentSize = component.getSize();
+        
+        _strengthThreshold = DEFAULT_STRENGTH_THRESHOLD;
         
         setSpacing( xSpacing, ySpacing );
         
@@ -224,6 +232,29 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         }
     }
     
+    /**
+     * Sets the strength threshold.
+     * Needles with a strength below this value will not be drawn.
+     * 
+     * @param strengthThreshold the strength threshold, in Gauss
+     */
+    public void setStrengthThreshold( double strengthThreshold ) {
+        if ( strengthThreshold != _strengthThreshold ) {
+            _strengthThreshold = strengthThreshold;
+            repaint();
+        }
+    }
+    
+    /**
+     * Gets the strength threshold.
+     * Needles with a strength below this value will not be drawn.
+     * 
+     * @return the strength threshold, in Gauss
+     */
+    public double getStrengthThreshold() {
+        return _strengthThreshold;
+    }
+    
     //----------------------------------------------------------------------------
     // Override inherited methods
     //----------------------------------------------------------------------------
@@ -253,7 +284,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     }
     
     /**
-     * Draws all of the needles in the grid.
+     * Draws all of the needles in the grid that have a strength above the threshold.
      * <p>
      * This method is optimized with the following assumptions:
      * <ul>
@@ -271,7 +302,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
             // Draw the needles.
             for ( int i = 0; i < _needles.size(); i++ ) {
                 CompassGridNeedle needle = (CompassGridNeedle)_needles.get(i);
-                needle.paint( g2 );
+                if ( needle.getStrength() >= _strengthThreshold ) {
+                    needle.paint( g2 );
+                }
             }
             super.restoreGraphicsState();
             setBoundsDirty();

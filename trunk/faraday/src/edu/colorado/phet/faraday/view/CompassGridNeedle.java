@@ -35,13 +35,6 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 class CompassGridNeedle {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // Needles with strength below this value are not drawn.
-    private static final double STRENGTH_THRESHOLD = 0.05;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -251,11 +244,9 @@ class CompassGridNeedle {
      * @param g2 the graphics context
      */
     public void paint( Graphics2D g2 ) {
-        if ( _strength >= STRENGTH_THRESHOLD ) {
-            g2.setPaint( _northColor );
-            g2.fill( _northShape );
-            g2.setPaint( _southColor );
-            g2.fill( _southShape );
-        }
+        g2.setPaint( _northColor );
+        g2.fill( _northShape );
+        g2.setPaint( _southColor );
+        g2.fill( _southShape );
     }
 }
