@@ -77,6 +77,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     private String _frequencyFormat;
     private double _previousMaxAmplitude;
     private double _previousFrequency;
+    private double _cursorAngle;
     
     //----------------------------------------------------------------------------
     // Constructors and finalizers
@@ -178,7 +179,11 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             _cursorGraphic.setShape( shape );
             _cursorGraphic.setBorderColor( CURSOR_COLOR );
             _cursorGraphic.setStroke( CURSOR_STROKE );
-            _cursorGraphic.setLocation( WAVE_ORIGIN );
+            // Locate at the left edge of the sine wave.
+            int x = WAVE_ORIGIN.x - ( WAVE_VIEWPORT_SIZE.width / 2 );
+            int y = WAVE_ORIGIN.y;
+            _cursorGraphic.setLocation( x, y );
+            _cursorGraphic.setVisible( false );
             addGraphic( _cursorGraphic, CURSOR_LAYER );
         }
         
@@ -187,6 +192,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         int ry = getHeight();
         setRegistrationPoint( rx, ry );
         
+        _cursorAngle = 0.0;
         _previousMaxAmplitude = _previousFrequency = -2;  // any invalid value is fine... 
         update();
     }
@@ -216,7 +222,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             double maxAmplitude = _acPowerSupplyModel.getMaxAmplitude();
             double frequency = _acPowerSupplyModel.getFrequency();
             
-            // Update the displayed max amplitude.
+            // Update the max amplitude display.
             if ( maxAmplitude != _previousMaxAmplitude ) {
                 // Format the text
                 int value = (int) ( maxAmplitude * 100 );
@@ -230,7 +236,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                 _maxAmplitudeValue.setRegistrationPoint( rx, ry ); // lower right
             }
             
-            // Update the displayed frequency.
+            // Update the frequency display.
             if ( frequency != _previousFrequency ) {
                 // Format the text
                 int value = (int) ( 100 * frequency );
@@ -249,9 +255,14 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                 _waveGraphic.setAmplitude( maxAmplitude );
                 _waveGraphic.setFrequency( frequency );
                 _waveGraphic.update();
+                
+                System.out.println( "ACPowerSupplyGraphic.update:" +
+                        " startAngle=" + Math.toDegrees( _waveGraphic.getStartAngle() ) + 
+                        " endAngle=" + Math.toDegrees( _waveGraphic.getEndAngle() ) + 
+                        " deltaAngle=" + Math.toDegrees( _acPowerSupplyModel.getDeltaAngle() ) );//XXX
             }
             
-            // Update the displayed amplitude on every clock tick.
+            // Update the amplitude display on every clock tick.
             if ( _amplitudeValue.isVisible() ) {
                 // Format the text
                 int value = (int) ( amplitude * 100 );
@@ -266,20 +277,64 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             }
             
             // Update the cursor position on every clock tick.
-            {
-                int x = _cursorGraphic.getX() + 1;
-                int y = _cursorGraphic.getY();
-                if ( x > WAVE_ORIGIN.x + ( WAVE_VIEWPORT_SIZE.width / 2 ) ) {
-                    x = WAVE_ORIGIN.x - ( WAVE_VIEWPORT_SIZE.width / 2  );
-                }
-                _cursorGraphic.setLocation( x, y );
-            }
+            boolean reset = ( maxAmplitude != _previousMaxAmplitude || frequency != _previousFrequency );
+            updateCursor( reset );
             
             _previousMaxAmplitude = maxAmplitude;
             _previousFrequency = frequency;
             
             repaint();
         }
+    }
+    
+    /*
+     * Updates the cursor.
+     * It is assumed that this will be called each time the simulation clock ticks.
+     * 
+     * @param reset true if the cursor should be reset, false otherwise
+     */
+    private void updateCursor( boolean reset )
+    {       
+        // Reset the cursor.
+        if ( reset ) {
+            _cursorAngle = 0.0;
+            _cursorGraphic.setVisible( false );
+            System.out.println( "ACPowerSupplyGraphic.updateCursor: cursor reset" ); //XXX
+        }
+        
+        double startAngle = _waveGraphic.getStartAngle();
+        double endAngle = _waveGraphic.getEndAngle();
+        double deltaAngle = _acPowerSupplyModel.getDeltaAngle();
+        
+        System.out.println( "ACPowerSupplyGraphic.updateCursor:" +
+                " cursorAngle=" + Math.toDegrees( _cursorAngle ) +
+                " deltaAngle=" + Math.toDegrees( deltaAngle ) );//XXX
+        
+        if ( _cursorAngle < startAngle ) {
+            // The cursor is to the left of the visible waveform.
+            _cursorGraphic.setVisible( false );
+        }
+        else if ( _cursorAngle > endAngle ) {
+            // The cursor is to the right of the visible waveform.
+            _cursorGraphic.setVisible( false );
+            _cursorAngle = ( endAngle % ( 2 * Math.PI ) ) + ( _cursorAngle - endAngle );
+            if ( _cursorAngle > startAngle ) {
+                _cursorAngle -= ( 2 * Math.PI );
+            }
+            System.out.println( "ACPowerSupplyGraphic.updateCursor:" + 
+                    " cursorAngle wraparound=" + Math.toDegrees( _cursorAngle ) );//XXX
+        }
+        
+        if ( _cursorAngle >= startAngle && _cursorAngle <= endAngle ) {
+            // The cursor is on the visible waveform.
+            _cursorGraphic.setVisible( true );
+            int x = ( WAVE_ORIGIN.x - ( WAVE_VIEWPORT_SIZE.width / 2 ) ) + 
+                (int) ( ( ( _cursorAngle - startAngle ) / ( endAngle - startAngle ) ) * WAVE_VIEWPORT_SIZE.width );
+            int y = WAVE_ORIGIN.y;
+            _cursorGraphic.setLocation( x, y );
+        }
+        
+        _cursorAngle += deltaAngle;
     }
     
     //----------------------------------------------------------------------------

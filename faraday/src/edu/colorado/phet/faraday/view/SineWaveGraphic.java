@@ -39,13 +39,13 @@ public class SineWaveGraphic extends PhetShapeGraphic {
     //----------------------------------------------------------------------------
     
     // Change in X for each line segment drawn.
-    private static final double DX = 1;
+    private static final int DX = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    // Wave must be drawn in this viewport.
+    // Wave must be constrained to this viewport.
     private Dimension _viewportSize;
     // Maximum number of cycles to draw.
     private double _maxCycles;
@@ -53,6 +53,10 @@ public class SineWaveGraphic extends PhetShapeGraphic {
     private double _amplitude;
     // The wave's frequency.
     private double _frequency;
+    // The angle at the leftmost point on the wave.
+    private double _startAngle;
+    // The angle at the rightmost point on the wave.
+    private double _endAngle;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,9 +85,9 @@ public class SineWaveGraphic extends PhetShapeGraphic {
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the number of cycles that will be displayed when the frequency == 1.
+     * Sets the number of cycles that will be displayed when the frequency == 1.0.
      * 
-     * @param minCycles
+     * @param maxCycles
      */
     public void setMaxCycles( double maxCycles ) {
         assert( maxCycles > 0 );
@@ -91,7 +95,7 @@ public class SineWaveGraphic extends PhetShapeGraphic {
     }
     
     /**
-     * Gets the number of cycles that will be displayed when the frequency == 1.
+     * Gets the number of cycles that will be displayed when the frequency == 1.0.
      * 
      * @return the number of cycles
      */
@@ -121,7 +125,7 @@ public class SineWaveGraphic extends PhetShapeGraphic {
     /**
      * Sets the frequency of the displayed wave.
      * 
-     * @param frequency a value in the range 0...1 inclusive (off-fastest)
+     * @param frequency a value in the range 0...1 inclusive (off...fastest)
      */
     public void setFrequency( double frequency ) {
         assert( frequency >= 0 && frequency <= 1 );
@@ -135,6 +139,24 @@ public class SineWaveGraphic extends PhetShapeGraphic {
      */
     public double getFrequency() {
         return _frequency;
+    }
+    
+    /**
+     * Gets the start angle, the angle at the leftmost point on the wave.
+     * 
+     * @return the start angle, in radians
+     */
+    public double getStartAngle() {
+        return _startAngle;
+    }
+    
+    /**
+     * Gets the end angle, the angle at the rightmost point on the wave.
+     * 
+     * @return the end angle, in radians
+     */
+    public double getEndAngle() {
+        return _endAngle;
     }
     
     //----------------------------------------------------------------------------
@@ -151,7 +173,7 @@ public class SineWaveGraphic extends PhetShapeGraphic {
         if ( isVisible() ) {
             
             // Number of lines to fill the viewport.
-            final double numLines = _viewportSize.width / DX;
+            final int numLines = ( _viewportSize.width / DX ) - 1;
             // Number of wave cycles to fill the viewport at the current frequency.
             final double numCycles = _frequency * _maxCycles;
             // Change in angle per change in X.
@@ -166,14 +188,18 @@ public class SineWaveGraphic extends PhetShapeGraphic {
                 GeneralPath wavePath = new GeneralPath();
                 
                 // Move to the starting location, at the far left.
-                double angle = ( Math.PI  ) - ( deltaAngle * numLines / 2 );
-                double x = -( numLines / 2 );
-                double y = _amplitude * Math.sin( angle ) * _viewportSize.height / 2;
+                double angle = ( Math.PI  ) - ( deltaAngle * numLines / 2.0 );
+                double x = -( _viewportSize.width / 2.0 );
+                double y = _amplitude * Math.sin( angle ) * _viewportSize.height / 2.0;
                 wavePath.moveTo( (float) x, (float) -y );
+                
+                // Start & end angles
+                _startAngle = _endAngle = ( ( 2 * Math.PI ) - Math.abs( angle % ( 2 * Math.PI ) ) ) % ( 2 * Math.PI );
                 
                 // Add lines, moving from left to right.
                 for ( int i = 0; i < numLines; i++ ) {
                     angle += deltaAngle;
+                    _endAngle += deltaAngle;
                     x += DX;
                     y = _amplitude * Math.sin( angle ) * _viewportSize.height / 2;
                     wavePath.lineTo( (float) x, (float) -y ); 
