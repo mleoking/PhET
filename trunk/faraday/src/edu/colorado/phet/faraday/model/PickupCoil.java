@@ -36,7 +36,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractMagnet _magnet;
+    private AbstractMagnet _magnetModel;
     private double _emf;  // in volts
     private double[] _emfHistory;
     private double _flux; // in webers
@@ -50,12 +50,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     /**
      * Sole constructor.
      * 
-     * @param magnet the magnet that is affecting the coil
+     * @param magnetModel the magnet that is affecting the coil
      */
-    public PickupCoil( AbstractMagnet magnet ) {
+    public PickupCoil( AbstractMagnet magnetModel ) {
         super();
-        assert( magnet != null );
-        _magnet = magnet;
+        assert( magnetModel != null );
+        _magnetModel = magnetModel;
         _emf = 0.0;
         _emfHistory = new double[ HISTORY_SIZE ];
         _flux = 0.0;
@@ -71,8 +71,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      * 
      * @return the magnet model.
      */
-    public AbstractMagnet getMagnet() {
-        return _magnet;
+    public AbstractMagnet getMagnetModel() {
+        return _magnetModel;
     }
     
     /**
@@ -160,7 +160,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         // TODO handle arbitrary coil orientation
         
         // Magnetic field strength at the coil's location.
-        AbstractVector2D strength = _magnet.getStrength( getLocation() );
+        AbstractVector2D strength = _magnetModel.getStrength( getLocation() );
         double B = strength.getMagnitude();
         double theta = strength.getAngle();
         
