@@ -70,11 +70,11 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // Strategy used to indicate field strength;
     private int _strengthStrategy;
     
-    // The grid's bounds.
-    private Rectangle _bounds;
-    
     // Needles with a strength below this value are not drawn.
     private double _strengthThreshold;
+    
+    // The grid's bounds.
+    private Rectangle _bounds;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -100,11 +100,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         _needles = new ArrayList();
         
         _strengthStrategy = ALPHA_STRATEGY;  // works on any background color
-        
-        Dimension parentSize = component.getSize();
-        _bounds = new Rectangle( 0, 0, parentSize.width, parentSize.height );
-        
         _strengthThreshold = DEFAULT_STRENGTH_THRESHOLD;
+        
+        _bounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
         setSpacing( xSpacing, ySpacing );
         
