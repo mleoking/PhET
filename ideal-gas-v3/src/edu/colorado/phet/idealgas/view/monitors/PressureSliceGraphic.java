@@ -9,6 +9,7 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.PressureSlice;
@@ -23,8 +24,7 @@ import java.text.NumberFormat;
 import java.util.EventListener;
 import java.util.EventObject;
 
-public class PressureSliceGraphic extends PhetGraphic {
-//public class PressureSliceGraphic extends DefaultInteractiveGraphic {
+public class PressureSliceGraphic extends CompositePhetGraphic {
 
     private float s_overlayTransparency = 0.3f;
 
@@ -45,6 +45,7 @@ public class PressureSliceGraphic extends PhetGraphic {
     private double pressure;
     private Font font = new Font( "Lucida Sans", Font.BOLD, 12 );
     private PhetGraphic internalGraphic;
+    private Area drawingArea = new Area();
 
     /**
      * @param component
@@ -52,11 +53,10 @@ public class PressureSliceGraphic extends PhetGraphic {
      * @param box
      */
     public PressureSliceGraphic( Component component, final PressureSlice pressureSlice, final Box2D box ) {
-        super( null );
+        super( component );
         this.pressureSlice = pressureSlice;
 
         internalGraphic = new InternalGraphic( component );
-//        this.setBoundedGraphic( internalGraphic );
         this.setCursorHand();
         this.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent event ) {
@@ -72,9 +72,17 @@ public class PressureSliceGraphic extends PhetGraphic {
         pressureSlice.setY( y );
     }
 
+    protected PhetGraphic getHandler( Point p ) {
+        if( isVisible() && drawingArea.contains( p ) ) {
+            return this;
+        }
+        else {
+            return null;
+        }
+    }
 
     protected Rectangle determineBounds() {
-        throw new RuntimeException( "tbi" );
+        return internalGraphic.getBounds();
     }
 
     public void paint( Graphics2D g2 ) {
@@ -82,7 +90,6 @@ public class PressureSliceGraphic extends PhetGraphic {
     }
 
     private class InternalGraphic extends PhetShapeGraphic implements SimpleObserver {
-        private Area drawingArea = new Area();
 
         InternalGraphic( Component component ) {
             super( component, null, null );
@@ -211,8 +218,8 @@ public class PressureSliceGraphic extends PhetGraphic {
         void moved( Event event );
     }
 
-    EventChannel channel = new EventChannel( Listener.class );
-    Listener listenerProxy = (Listener)channel.getListenerProxy();
+    private EventChannel channel = new EventChannel( Listener.class );
+    private Listener listenerProxy = (Listener)channel.getListenerProxy();
 
     public void addListener( Listener listener ) {
         channel.addListener( listener );

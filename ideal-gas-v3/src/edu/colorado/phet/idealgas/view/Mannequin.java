@@ -47,6 +47,8 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
 
         box.addObserver( this );
         update();
+
+        super.setIgnoreMouse( true );
     }
 
     protected Rectangle determineBounds() {

@@ -1,8 +1,8 @@
 package edu.colorado.phet.instrumentation;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
 
-public abstract class AbstractGauge implements Graphic {
+public abstract class AbstractGauge {
+//public abstract class AbstractGauge implements Graphic {
 
     private double min;
     private double max;

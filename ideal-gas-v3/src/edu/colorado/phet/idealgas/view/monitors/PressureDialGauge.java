@@ -45,6 +45,8 @@ public class PressureDialGauge extends PhetShapeGraphic {
         pressureGauge.setBackground( new Color( 230, 255, 230 ) );
         stem = new Rectangle2D.Double( box.getMaxX(), center.getY() - stemThickness / 2,
                                        stemLength, stemThickness );
+
+        super.setIgnoreMouse( true );
     }
 
     public void paint( Graphics2D g ) {
@@ -55,7 +57,7 @@ public class PressureDialGauge extends PhetShapeGraphic {
 
     protected Rectangle determineBounds() {
 //        throw new RuntimeException( "tbi");
-        return pressureGauge.determineBounds();
+        return pressureGauge.getBounds();
     }
     //---------------------------------------------------------------------------------
     // Inner classes

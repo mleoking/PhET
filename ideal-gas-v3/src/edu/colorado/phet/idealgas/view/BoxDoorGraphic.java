@@ -9,6 +9,7 @@ package edu.colorado.phet.idealgas.view;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -22,8 +23,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class BoxDoorGraphic extends PhetGraphic implements SimpleObserver {
-//public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleObserver {
+public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserver {
     private int x;
     private int y;
     private int minX;
@@ -48,7 +48,6 @@ public class BoxDoorGraphic extends PhetGraphic implements SimpleObserver {
             e.printStackTrace();
         }
         imageGraphic = new PhetImageGraphic( component, doorImg );
-//        super.setBoundedGraphic( imageGraphic );
         this.x = x;
         this.y = y;
         this.minX = minX;
@@ -72,18 +71,6 @@ public class BoxDoorGraphic extends PhetGraphic implements SimpleObserver {
         super.fireMouseExited( e );
         doorHighlighted = false;
     }
-
-    private class DoorTranslator implements TranslationListener {
-        public void translationOccurred( TranslationEvent event ) {
-            translateDoor( event.getDx(), event.getDy() );
-            box.setOpening( opening );
-        }
-
-        public DoorTranslator() {
-            translate( 0, 0 );
-        }
-    }
-
 
     public void translateDoor( double dx, double dy ) {
 
@@ -113,7 +100,6 @@ public class BoxDoorGraphic extends PhetGraphic implements SimpleObserver {
     }
 
     public void paint( Graphics2D g ) {
-//        super.paint( g );
         imageGraphic.paint( g );
         if( doorHighlighted ) {
             GraphicsState gs = new GraphicsState( g );
@@ -126,5 +112,29 @@ public class BoxDoorGraphic extends PhetGraphic implements SimpleObserver {
 
     protected Rectangle determineBounds() {
         return imageGraphic.getBounds();
+    }
+
+    protected PhetGraphic getHandler( Point p ) {
+        if( isVisible() && imageGraphic.contains( p.x, p.y ) ) {
+            return this;
+        }
+        else {
+            return null;
+        }
+    }
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    private class DoorTranslator implements TranslationListener {
+        public void translationOccurred( TranslationEvent event ) {
+            translateDoor( event.getDx(), event.getDy() );
+            box.setOpening( opening );
+        }
+
+        public DoorTranslator() {
+            translate( 0, 0 );
+        }
     }
 }

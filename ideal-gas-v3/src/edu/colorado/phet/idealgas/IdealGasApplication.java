@@ -29,6 +29,8 @@ public class IdealGasApplication extends PhetApplication {
                    IdealGasConfig.VERSION,
                    IdealGasConfig.FRAME_SETUP );
 
+//            PhetGraphic.ignoreRectangles = true;
+            
             // Create the clock
             SwingTimerClock clock = new SwingTimerClock( IdealGasConfig.s_timeStep, IdealGasConfig.s_waitTime, true );
             setClock( clock );
@@ -48,7 +50,7 @@ public class IdealGasApplication extends PhetApplication {
             setInitialModule( idealGasModule );
 
             // Set the initial size
-            setFrameCenteredSize( 1000, 700 );
+            setFrameCenteredSize( 1020, 700 );
 
 //            new FrameRateReporter( clock );
         }

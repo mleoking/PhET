@@ -26,11 +26,13 @@ public abstract class GasMoleculeGraphic extends PhetImageGraphic implements Gas
         this.molecule = molecule;
         molecule.addObserver( this );
         update();
+
+        super.setIgnoreMouse( true );
     }
 
     public void update() {
-        super.setLocation( (int)(molecule.getCM().getX() - molecule.getRadius() ),
-                           (int)( molecule.getCM().getY() - molecule.getRadius() ));
+        super.setLocation( (int)( molecule.getCM().getX() - molecule.getRadius() ),
+                           (int)( molecule.getCM().getY() - molecule.getRadius() ) );
 //        super.setPositionCentered( (int)molecule.getCM().getX(), (int)molecule.getCM().getY() );
     }
 

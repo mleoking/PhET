@@ -57,6 +57,8 @@ public class Thermometer extends PhetGraphic {
         boundingRect = new Rectangle2D.Double( location.getX(), location.getY(),
                                                readoutWidth + rectBorderThickness,
                                                maxScreenLevel + bulb.getHeight() );
+
+        super.setIgnoreMouse( true );
     }
 
     public void setLocation( Point2D.Double location ) {

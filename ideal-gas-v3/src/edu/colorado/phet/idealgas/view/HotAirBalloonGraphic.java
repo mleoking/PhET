@@ -56,6 +56,8 @@ public class HotAirBalloonGraphic extends PhetGraphic implements SimpleObserver 
 
         // Initialize the graphic
         update();
+
+        super.setIgnoreMouse( true );
     }
 
     protected Rectangle determineBounds() {
