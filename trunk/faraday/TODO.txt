@@ -3,7 +3,7 @@
 ===============================================================================
 
 ISSUES:
-- Performance cannot be the same with the grid "on". How about a dialog that indicates this?
+- Performance cannot be the same with the grid "on".
 - If the water wheel hits "critical angles" then its rotation appears jerky at certain speeds.
 - Is the lightbulb & voltmeter's "false peak" a correct behavior?
 - With AC, how can the lightbulb ever be totally off, since the change in flux in never zero?
@@ -68,6 +68,7 @@ PHETCOMMON:
 
 DONE:
 v0r21
+(3/31) - remove performance problem in ApparatusPanel2, minimize calls to AffineTransform.createTransformedShape
 (3/29) - make all ModelElements compliant with fixed or variable clock (use dt in stepInTime)
 v0r20...
 (3/29) - add Developer menu to control various internal knobs
