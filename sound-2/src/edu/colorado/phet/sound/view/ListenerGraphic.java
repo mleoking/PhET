@@ -38,6 +38,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
     private PhetImageGraphic image;
     private SoundModule module;
     private Point2D.Double earLocation = new Point2D.Double();
+    private boolean isMovable = true;
 
     /**
      *
@@ -60,6 +61,20 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         target.translate( 0, 0 );
     }
 
+    public boolean isMovable() {
+        return isMovable;
+    }
+
+    public void setMovable( boolean movable ) {
+        isMovable = movable;
+        if( movable ) {
+            this.addCursorHandBehavior();
+        }
+        else {
+            this.removeCursorHandBehavior();
+        }
+    }
+
     protected Point2D.Double getLocation() {
         return location;
     }
@@ -78,16 +93,18 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         }
 
         public void translate( double dx, double dy ) {
-            double x = Math.max( minX, Math.min( maxX, location.getX() + dx ) );
-            double y = Math.max( minY, Math.min( maxY, location.getY() + dy ) );
-            location.setLocation( x, y );
-            image.setPosition( (int)x, (int)y );
+            if( isMovable ) {
+                double x = Math.max( minX, Math.min( maxX, location.getX() + dx ) );
+                double y = Math.max( minY, Math.min( maxY, location.getY() + dy ) );
+                location.setLocation( x, y );
+                image.setPosition( (int)x, (int)y );
 
-            ListenerGraphic.this.earLocation.setLocation( ListenerGraphic.this.getLocation().getX() + s_earOffsetX,
-                                     ListenerGraphic.this.getLocation().getY() + s_earOffsetY );
-            // The hard-coded 100 is to account for the width of the speaker graphic. It should be done in a
-            // different way
-            listener.setLocation( new Point2D.Double( earLocation.x - ( SoundConfig.s_wavefrontBaseX + 100 ), earLocation.y - SoundConfig.s_wavefrontBaseY ));
+                ListenerGraphic.this.earLocation.setLocation( ListenerGraphic.this.getLocation().getX() + s_earOffsetX,
+                                                              ListenerGraphic.this.getLocation().getY() + s_earOffsetY );
+                // The hard-coded 100 is to account for the width of the speaker graphic. It should be done in a
+                // different way
+                listener.setLocation( new Point2D.Double( earLocation.x - ( SoundConfig.s_wavefrontBaseX + 100 ), earLocation.y - SoundConfig.s_wavefrontBaseY ) );
+            }
         }
     }
 
@@ -166,6 +183,7 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
 
     /**
      * When the mouse is released, restore the oscillator frequency to its nono-doppler value
+     *
      * @param e
      */
     public void mouseReleased( MouseEvent e ) {
@@ -179,9 +197,9 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         return listener;
     }
 
-//    public void paint( Graphics2D g ) {
-//        super.paint( g );
-//        g.setColor( Color.red );
-//        g.drawArc( (int)earLocation.x, (int)earLocation.y, 5, 5, 0, 360 );
-//    }
+    //    public void paint( Graphics2D g ) {
+    //        super.paint( g );
+    //        g.setColor( Color.red );
+    //        g.drawArc( (int)earLocation.x, (int)earLocation.y, 5, 5, 0, 360 );
+    //    }
 }
