@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -25,6 +26,7 @@ import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.*;
 import edu.colorado.phet.idealgas.view.monitors.*;
+import edu.colorado.phet.instrumentation.Thermometer;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -129,11 +131,17 @@ public class IdealGasModule extends Module {
         idealGasModel.addBox( box );
         setApparatusPanel( new BaseIdealGasApparatusPanel( this, box ) );
 
+        // Add the pressure gauge
         PressureSlice gaugeSlice = new PressureSlice( box, idealGasModel, clock );
         gaugeSlice.setY( box.getMinY() + 50 );
         idealGasModel.addModelElement( gaugeSlice );
         PressureDialGauge pressureGauge = new PressureDialGauge( box, getApparatusPanel(), gaugeSlice );
         addGraphic( pressureGauge, 20 );
+
+        // Add the thermometer
+        Thermometer thermometer = new IdealGasThermometer( idealGasModel, new Point2D.Double( 200, 200 ),
+                                                           100, 10, true, 0, 1000E3 );
+        addGraphic( thermometer, 20 );
 
         // Create the pump
         pump = new Pump( this, box );
@@ -271,4 +279,5 @@ public class IdealGasModule extends Module {
         }
         histogramDlg.setVisible( histogramDlgEnabled );
     }
+
 }

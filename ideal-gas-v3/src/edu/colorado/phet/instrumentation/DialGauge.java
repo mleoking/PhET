@@ -5,7 +5,7 @@
  * Date: Sep 8, 2004
  * Time: 7:39:47 AM
  */
-package edu.colorado.phet.gauges;
+package edu.colorado.phet.instrumentation;
 
 import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
