@@ -19,9 +19,9 @@ public class RelativisticManualMovement extends ManualMovement {
     private Spring mouseSpring;
     private Spring originSpring;
     private static float s_k = 1f;
-    private Vector2D f = new Vector2D();
+    private Vector2D.Float f = new Vector2D.Float();
     private float vy;
-//    private Vector2D v = new Vector2D();
+//    private Vector2D.Float v = new Vector2D.Float();
 
     public RelativisticManualMovement( Point2D drivenBodyPosition ) {
         mouseSpring = new Spring( s_k );
@@ -42,7 +42,7 @@ public class RelativisticManualMovement extends ManualMovement {
             mouseSpring.setEndpoint2( driverPosition );
             originSpring.setEndpoint1( this.position );
             f = mouseSpring.getForceOnEndpoint1();
-            Vector2D fOriginSpring = originSpring.getForceOnEndpoint1();
+            Vector2D.Float fOriginSpring = originSpring.getForceOnEndpoint1();
             f.add( originSpring.getForceOnEndpoint1() );
 //            vy = super.getVelocity( electron ).getY();
             double m = electron.getMass();

@@ -21,7 +21,7 @@ public class EmfModel extends BaseModel {
     private boolean dynamicFieldEnabled;
 
     public EmfModel( AbstractClock clock ) {
-        super( clock );
+//        super( clock );
     }
 //    public EmfModel() {
 //    }

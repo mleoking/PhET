@@ -8,9 +8,12 @@ package edu.colorado.phet.emf;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.ApplicationDescriptor;
+import edu.colorado.phet.common.application.ApplicationModel;
+//import edu.colorado.phet.common.view.ApplicationModel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
+import edu.colorado.phet.common.view.util.framesetup.AbsoluteFrameSetup;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions.ClientPhetLookAndFeel;
 import edu.colorado.phet.coreadditions.LecturePhetLookAndFeel;
@@ -53,14 +56,14 @@ public class EmfApplication {
 
         SwingTimerClock clock = new SwingTimerClock( 1, 20, true  );
         Module antennaModule = new EmfModule( clock );
-        ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
+        FrameSetup fs = new AbsoluteFrameSetup( 1024, 768 );
+        ApplicationModel appDescriptor = new ApplicationModel(
                 "Radio Waves", GraphicsUtil.formatMessage( "An exploration of how electro-magnetic waves\nare created, how they move through\nspace, and their effects" ),
-                "1",
-                1024, 768 );
-
+                "1", fs );
         appDescriptor.setModule( antennaModule );
         appDescriptor.setInitialModule( antennaModule );
         appDescriptor.setClock( clock );
+
         PhetApplication application = new PhetApplication( appDescriptor );
 //        PhetApplication application = new PhetApplication( appDescriptor, antennaModule,
 //                                                           clock);
@@ -86,7 +89,8 @@ public class EmfApplication {
         }
 
         Runtime.getRuntime().gc();
-        application.startApplication( antennaModule );
+        application.startApplication();
+//        application.startApplication( antennaModule );
 
 //        if( gi != null ) {
 //            LaunchGuidedInquiryCmd lgiCmd = new LaunchGuidedInquiryCmd( application, script );

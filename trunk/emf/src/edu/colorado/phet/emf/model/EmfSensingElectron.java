@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.emf.model;
 
+import edu.colorado.phet.common.math.Vector2D.Float;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.emf.model.movement.ManualMovement;
 import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
@@ -26,7 +27,7 @@ public class EmfSensingElectron extends PositionConstrainedElectron {
         super.setRecordHistory( false );
     }
 
-    private Vector2D aPrev = new Vector2D();
+    private Vector2D.Float aPrev = new Vector2D.Float();
 
     public synchronized void stepInTime( double dt ) {
         super.stepInTime( dt );
@@ -54,8 +55,8 @@ public class EmfSensingElectron extends PositionConstrainedElectron {
             else {
                 // The field strength is a force on the electron, so we must compute an
                 // acceleration
-                Vector2D fieldStrength = sourceElectron.getDynamicFieldAt( location );
-                Vector2D a = fieldStrength;
+                Vector2D.Float fieldStrength = sourceElectron.getDynamicFieldAt( location );
+                Vector2D.Float a = fieldStrength;
                 double x = this.getCurrentPosition().getX();
                 double y = this.getCurrentPosition().getY();
                 location = this.getCurrentPosition();

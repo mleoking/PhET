@@ -8,7 +8,8 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.SimpleBufferedImageGraphic;
+import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
+//import edu.colorado.phet.common.view.graphics.SimpleBufferedImageGraphic;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.emf.Config;
 import edu.colorado.phet.emf.model.Electron;
@@ -17,7 +18,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class ElectronGraphic extends SimpleBufferedImageGraphic
+public class ElectronGraphic extends FastPaintImageGraphic
+//public class ElectronGraphic extends SimpleBufferedImageGraphic
         implements SimpleObserver {
 
     private Point location = new Point();
@@ -25,7 +27,7 @@ public class ElectronGraphic extends SimpleBufferedImageGraphic
     private Electron electron;
 
     public ElectronGraphic( ApparatusPanel apparatusPanel, BufferedImage image, Electron electron ) {
-        super( image );
+        super( image, apparatusPanel );
         this.apparatusPanel = apparatusPanel;
         this.electron = electron;
         electron.addObserver( this );
@@ -41,6 +43,7 @@ public class ElectronGraphic extends SimpleBufferedImageGraphic
     }
 
     public void update() {
+//        super.setLocation( (int)electron.getCurrentPosition().getX(), (int)electron.getCurrentPosition().getY() );
         location.x = (int)electron.getCurrentPosition().getX();
         location.y = (int)electron.getCurrentPosition().getY();
         apparatusPanel.repaint();

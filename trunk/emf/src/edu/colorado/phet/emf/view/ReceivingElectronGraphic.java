@@ -21,7 +21,8 @@ public class ReceivingElectronGraphic extends ElectronGraphic {
     private static BufferedImage image;
     static {
         try {
-            image = ImageLoader.loadBufferedImage( Config.smallElectronImg );
+            image = ImageLoader.loadBufferedImage( Config.bigElectronImg );
+//            image = ImageLoader.loadBufferedImage( Config.smallElectronImg );
         }
         catch( IOException e ) {
             e.printStackTrace();

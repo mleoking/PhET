@@ -14,8 +14,8 @@ public class Spring {
         private float k;
         private Point2D p1;
         private Point2D p2;
-        private Vector2D fP1 = new Vector2D( 0, 0 );
-        private Vector2D fP2 = new Vector2D( 0, 0 );
+        private Vector2D.Float fP1 = new Vector2D.Float( 0, 0 );
+        private Vector2D.Float fP2 = new Vector2D.Float( 0, 0 );
 
         public Spring( float k ) {
             this.k = k;
@@ -37,11 +37,11 @@ public class Spring {
             }
         }
 
-        public Vector2D getForceOnEndpoint1() {
+        public Vector2D.Float getForceOnEndpoint1() {
             return fP1;
         }
 
-        public Vector2D getForceOnEndpoint2() {
+        public Vector2D.Float getForceOnEndpoint2() {
             return fP2;
         }
 

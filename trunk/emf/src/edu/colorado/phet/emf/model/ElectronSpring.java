@@ -12,7 +12,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import java.awt.geom.Point2D;
 
 public class ElectronSpring implements ModelElement {
-//public class ElectronSpring extends ModelElement {
     private Point2D origin;
     private Electron electron;
     private float k;
@@ -27,7 +26,7 @@ public class ElectronSpring implements ModelElement {
         this.origin = origin;
     }
 
-    private Vector2D a = new Vector2D();
+    private Vector2D a = new Vector2D.Float();
     private Point2D.Float newLoc = new Point2D.Float();
     public void stepInTime( double dt ) {
         Point2D electronLoc = electron.getCurrentPosition();
@@ -38,16 +37,16 @@ public class ElectronSpring implements ModelElement {
         a.setX( (float)( origin.getX() - electronLoc.getX() ));
         a.setY( (float)( origin.getY() - electronLoc.getY() ));
         a.normalize();
-        a.multiply( (float)aMag );
+        a.scale( (float)aMag );
         newLoc.setLocation( electronLoc );
         Vector2D electronVelocity = electron.getVelocity();
-        float vx0 = electronVelocity.getX();
-        float vx1 = vx0 + a.getX() * (float)dt;
+        float vx0 = (float)electronVelocity.getX();
+        float vx1 = vx0 + (float)a.getX() * (float)dt;
         float vxAve = 0;
 //        float vxAve = ( vx0 + vx1 ) / 2;
 
-        float vy0 = electronVelocity.getY();
-        float vy1 = vy0 + a.getY() * (float)dt;
+        float vy0 = (float)electronVelocity.getY();
+        float vy1 = vy0 + (float)a.getY() * (float)dt;
         float vyAve = ( vy0 + vy1 ) / 2;
 
         if( newLoc.x < origin.getX() ) {
@@ -67,7 +66,6 @@ public class ElectronSpring implements ModelElement {
 //        newLoc.y += vyAve * (float)dt;
 
         electron.setCurrentPosition( newLoc );
-//        electron.updateObservers();
         electron.notifyObservers();
     }
 }

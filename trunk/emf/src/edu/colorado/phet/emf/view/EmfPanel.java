@@ -10,20 +10,19 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.model.EmfModel;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class EmfPanel extends ApparatusPanel {
-    public static int NO_FIELD = 1;
-    public static int FULL_FIELD = 2;
-    public static int CURVE = 3;
-    public static int CURVE_WITH_VECTORS = 4;
 
     private FieldLatticeView fieldLatticeView;
     private Dimension size = new Dimension();
@@ -34,26 +33,24 @@ public class EmfPanel extends ApparatusPanel {
         this.useBufferedImage = useBufferedImage;
     }
 
-    public EmfPanel( EmfModel model, Electron electron, Point origin, int fieldWidth, int fieldHeight ) {
-
-        // Set up with an identity affine transform
-//        super( new AffineTransformFactory() {
-//            public AffineTransform getTx( Rectangle rectangle ) {
-//                return AffineTransform.getScaleInstance( 1, 1 );
-//            }
-//        } );
+    public EmfPanel( EmfModel model, Electron electron, final Point origin, int fieldWidth, int fieldHeight ) {
 
         EmfPanel.setInstance( this );
 
         // Add the field lattice
 //        int latticeSpacingX = 20;
 //        int latticeSpacingY = 20;
+//                int latticeSpacingX = 2;
+//                int latticeSpacingY = 2;
+
 //        int latticeSpacingX = 10;
 //        int latticeSpacingY = 10;
+//        int latticeSpacingX = 25;
+//        int latticeSpacingY = 25;
         int latticeSpacingX = 50;
         int latticeSpacingY = 50;
         fieldLatticeView = new FieldLatticeView( electron,
-                                                 new Point( 0, 0 ),
+                                                 origin,
                                                  fieldWidth - latticeSpacingX, fieldHeight,
                                                  latticeSpacingX,
                                                  latticeSpacingY );
@@ -74,11 +71,6 @@ public class EmfPanel extends ApparatusPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
-
-
-
-        // Observe the model
-//        model.addObserver( this );
     }
 
     public void setFieldCurvesVisible( boolean enabled ) {
@@ -106,6 +98,14 @@ public class EmfPanel extends ApparatusPanel {
     // Static fields and methods
     //
     private static EmfPanel s_instance;
+    public static int NO_FIELD = 1;
+    public static int FULL_FIELD = 2;
+    public static int CURVE = 3;
+    public static int CURVE_WITH_VECTORS = 4;
+    private static int s_latticePtDiam = 5;
+    private static BufferedImage s_latticePtImg = new BufferedImage( s_latticePtDiam,
+                                                                     s_latticePtDiam,
+                                                                     BufferedImage.TYPE_INT_ARGB );
 
     private static void setInstance( EmfPanel panel ) {
         s_instance = panel;
@@ -118,12 +118,6 @@ public class EmfPanel extends ApparatusPanel {
     public void setAutoscaleEnabled( boolean enabled ) {
         fieldLatticeView.setAutoscaleEnabled( enabled );
     }
-
-
-    private static int s_latticePtDiam = 5;
-    private static BufferedImage s_latticePtImg = new BufferedImage( s_latticePtDiam,
-                                                                     s_latticePtDiam,
-                                                                     BufferedImage.TYPE_INT_ARGB );
 
     public void displayStaticField( boolean display ) {
         fieldLatticeView.setDisplayStaticField( display );
