@@ -27,6 +27,7 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         this.panel = panel;
         this.clock = clock;
         setActive( true );
+        setIgnoreMouse( true );
     }
 
     public void setTransparency( int alpha ) {
