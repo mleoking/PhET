@@ -1,8 +1,12 @@
-/**
- * Class: SingleAtomBaseModule
- * Package: edu.colorado.phet.lasers.view
- * Author: Another Guy
- * Date: Apr 1, 2003
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.controller.module;
 
@@ -35,6 +39,12 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Class: SingleAtomBaseModule
+ * Package: edu.colorado.phet.lasers.view
+ * Author: Another Guy
+ * Date: Apr 1, 2003
+ */
 public class SingleAtomModule extends BaseLaserModule {
     private Atom atom;
     private PhetImageGraphic pumpingLampGraphic;
@@ -150,7 +160,7 @@ public class SingleAtomModule extends BaseLaserModule {
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2 );
         atom.setVelocity( 0, 0 );
-        //        addAtom( atom );
+        addAtom( atom );
     }
 
     public void deactivate( PhetApplication app ) {

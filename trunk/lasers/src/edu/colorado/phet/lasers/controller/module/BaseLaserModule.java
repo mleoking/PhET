@@ -201,33 +201,6 @@ public class BaseLaserModule extends Module {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Implementations of listeners interfaces
-    //
-    public class PhotonEmissionListener implements PhotonEmittedListener {
-        public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
-            Photon photon = event.getPhoton();
-            getModel().addModelElement( photon );
-            // Is it a pumping beam photon, and are we viewing discrete photons?
-            if( pumpingPhotonView == PHOTON_DISCRETE
-                && photon.getWavelength() == pumpingBeam.getWavelength() ) {
-                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
-                addGraphic( pg, LaserConfig.PHOTON_LAYER );
-                // Add a listener that will remove the graphic if the photon leaves the system
-                photon.addListener( new PhotonLeftSystemListener( pg ) );
-            }
-            // Is it a lasing wavelength photon, and are we viewing discrete photons?
-            if( lasingPhotonView == PHOTON_DISCRETE
-                && photon.getWavelength() == MiddleEnergyState.instance().getWavelength() ) {
-                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
-                addGraphic( pg, LaserConfig.PHOTON_LAYER );
-                // Add a listener that will remove the graphic if the photon leaves the system
-                photon.addListener( new PhotonLeftSystemListener( pg ) );
-            }
-        }
-    }
-
-
     /////////////////////////////////////////////////////////////////////////////////////
     // Setters and getters
     //
@@ -286,8 +259,6 @@ public class BaseLaserModule extends Module {
 
     public void setMirrorsEnabled( boolean mirrorsEnabled ) {
 
-        createMirrors();
-
         // Regardless of the value of mirrorsEnabled, we should remove the
         // model elements and graphics for the mirrors. If mirrorsEnabled is
         // true, we want to try remove them first, so they don't get added
@@ -301,6 +272,9 @@ public class BaseLaserModule extends Module {
         }
 
         if( mirrorsEnabled ) {
+            // Create the mirrors
+            createMirrors();
+
             getModel().addModelElement( leftMirror );
             getModel().addModelElement( rightMirror );
             getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.CAVITY_LAYER );
@@ -318,7 +292,7 @@ public class BaseLaserModule extends Module {
             reflectivityControlPanel.setOpaque( false );
             getApparatusPanel().add( reflectivityControlPanel );
         }
-        getApparatusPanel().repaint();
+        getApparatusPanel().paintImmediately( getApparatusPanel().getBounds() );
     }
 
     protected void createMirrors() {
@@ -337,7 +311,6 @@ public class BaseLaserModule extends Module {
                                          cavity.getPosition().getY() + cavity.getHeight() );
         rightMirror = new PartialMirror( p1, p2 );
         rightMirror.addReflectionStrategy( new LeftReflecting() );
-        //        rightMirror.setReflectivity( 0 );
         rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
         // The left mirror is 100% reflecting
         Point2D p3 = new Point2D.Double( cavity.getPosition().getX(), // - 20,
@@ -349,6 +322,34 @@ public class BaseLaserModule extends Module {
         leftMirror.addReflectionStrategy( new RightReflecting() );
         leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Implementations of listeners interfaces
+    //
+    public class PhotonEmissionListener implements PhotonEmittedListener {
+        public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
+            Photon photon = event.getPhoton();
+            getModel().addModelElement( photon );
+            // Is it a pumping beam photon, and are we viewing discrete photons?
+            if( pumpingPhotonView == PHOTON_DISCRETE
+                && photon.getWavelength() == pumpingBeam.getWavelength() ) {
+                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+                addGraphic( pg, LaserConfig.PHOTON_LAYER );
+                // Add a listener that will remove the graphic if the photon leaves the system
+                photon.addListener( new PhotonLeftSystemListener( pg ) );
+            }
+            // Is it a lasing wavelength photon, and are we viewing discrete photons?
+            if( lasingPhotonView == PHOTON_DISCRETE
+                && photon.getWavelength() == MiddleEnergyState.instance().getWavelength() ) {
+                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+                addGraphic( pg, LaserConfig.PHOTON_LAYER );
+                // Add a listener that will remove the graphic if the photon leaves the system
+                photon.addListener( new PhotonLeftSystemListener( pg ) );
+            }
+        }
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes

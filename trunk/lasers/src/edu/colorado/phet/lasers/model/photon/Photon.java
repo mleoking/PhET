@@ -23,6 +23,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
+import java.util.Random;
 
 /**
  * Class: Photon
@@ -42,6 +43,7 @@ public class Photon extends Particle implements Collidable {
     static public double BLUE = 440;
     static public double GRAY = 5000;
     static private double PLANCK = 6.626E-34;
+    static private Random random = new Random();
     static private EventRegistry classEventRegistry = new EventRegistry();
 
     public static double energyToWavelength( double energy ) {
@@ -80,8 +82,10 @@ public class Photon extends Particle implements Collidable {
         //        Photon newPhoton = create( stimulatingPhoton.getWavelength(), location, velocity );
         //        newPhoton.setVelocity( new Vector2D.Double( stimulatingPhoton.getVelocity() ) );
         int yOffset = stimulatingPhoton.numStimulatedPhotons * 8;
+        int sign = random.nextBoolean() ? 1 : -1;
         newPhoton.setPosition( stimulatingPhoton.getPosition().getX(),
-                               stimulatingPhoton.getPosition().getY() - yOffset );
+                               stimulatingPhoton.getPosition().getY() + ( yOffset * sign ) );
+        //                               stimulatingPhoton.getPosition().getY() - yOffset );
         return newPhoton;
     }
 
