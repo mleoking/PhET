@@ -184,9 +184,14 @@ public abstract class Branch {
             throw new RuntimeException("No such junction.");
     }
 
+
     public void setCurrent(double current) {
-        this.current = current;
+        setCurrentNoUpdate(current);
         fireCurrentChanged();
+    }
+
+    public void setCurrentNoUpdate(double current) {
+        this.current = current;
     }
 
     protected void fireCurrentChanged() {
@@ -258,5 +263,14 @@ public abstract class Branch {
     }
 
     public abstract BranchData toBranchData();
+
+    public void setVoltageDropNoUpdate(double v) {
+        this.voltageDrop = v;
+    }
+
+    public void setCurrentAndVoltage(double amps, double volts) {
+        setCurrent(amps);
+        setVoltageDrop(volts);
+    }
 
 }

@@ -116,6 +116,7 @@ public class BulbGraphic extends ConnectibleImageGraphic {
     public void intensityChanged() {
         this.intensity = bulbBranch.getIntensity();
         BufferedImage image = bb.operate(originalImage, this.intensity);
+        System.out.println("Reloading builb image, this.intensity = " + this.intensity);
         super.setImage(image);
     }
 

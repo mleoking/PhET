@@ -18,8 +18,10 @@ import java.util.Random;
  */
 public class ConstantDensityPropagator implements Propagator {
     ParticleSet particleSet;
-    private double currentSpeedScale = .0005;
-    double maxSpeed = currentSpeedScale * 10;
+//    private double currentSpeedScale = .0005;
+    private double currentSpeedScale = .005;
+//    double maxSpeed = currentSpeedScale * 10;
+    double maxSpeed = .15999985056645929;//currentSpeedScale * 100000;
     private Circuit circuit;
     Random random = new Random();
     double density = CCK2Module.ELECTRON_SEPARATION;
@@ -43,7 +45,7 @@ public class ConstantDensityPropagator implements Propagator {
 
     public void propagate(BranchParticle bp, double dt) {
         double speed = bp.getBranch().getCurrent() * currentSpeedScale;
-//        System.out.println("speed = " + speed);
+//       System.out.println("speed = " + speed);
         speed = clamp(speed);
 //        System.out.println("Clamped speed = " + speed);
         //Apply any necessary clamps.

@@ -1,6 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.cck;
 
+import edu.colorado.phet.cck.common.CommonImageLoader2;
 import edu.colorado.phet.cck.elements.ImageSuite;
 import edu.colorado.phet.common.view.util.graphics.HashedImageLoader;
 
@@ -31,6 +32,7 @@ public class CCK2ImageSuite {
     private BufferedImage particleImage;
     private BufferedImage ammeterImage;
     HashedImageLoader imageLoader = new HashedImageLoader();
+    private BufferedImage bulb;
 
     public BufferedImage getParticleImage() throws IOException {
         return imageLoader.loadImage("images/spheres/particle-blue-sml.gif");
@@ -72,7 +74,10 @@ public class CCK2ImageSuite {
     }
 
     public BufferedImage getBulbImage() throws IOException {
-        return imageLoader.loadImage("images/schematic/bulb-knob.gif");//Loads smooth alpha, not bitchannel.
+//        return imageLoader.loadImage("images/schematic/bulb-knob.gif");//Loads smooth alpha, not bitchannel.
+        if (bulb == null)
+            bulb = new CommonImageLoader2().loadBufferedImage("images/schematic/bulb-knob.gif");
+        return bulb;
     }
 
     public BufferedImage getImageHandle() throws IOException {
