@@ -12,8 +12,6 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,9 +42,11 @@ public class DynamicChartTest {
         Range2D range = new Range2D( -10, -10, 10, 10 );
         Rectangle viewBounds = new Rectangle( 10, 10, 100, 100 );
         final Chart chart = new Chart( apparatusPanel, range, viewBounds );
+
         chart.getHorizonalGridlines().setMinorGridlinesVisible( false );
-        chart.getVerticalGridlines().setMinorGridlinesVisible( false );
         chart.getHorizonalGridlines().setMajorGridlinesVisible( true );
+
+        chart.getVerticalGridlines().setMinorGridlinesVisible( false );
         chart.getVerticalGridlines().setMajorGridlinesVisible( true );
         chart.getVerticalGridlines().setMajorTickSpacing( 3 );
         chart.getVerticalGridlines().setMajorGridlinesColor( Color.gray );
@@ -71,7 +71,11 @@ public class DynamicChartTest {
                 chart.setViewBounds( renderSize );
                 Color leftColor = new Color( 255, 255, 255 );
                 Color rightColor = new Color( 140, 160, 255 );
-                chart.setBackground( new GradientPaint( 0, 0, leftColor, e.getComponent().getWidth(), e.getComponent().getHeight(), rightColor, false ) );
+//                GradientPaint background = new GradientPaint( 0, 0, leftColor, e.getComponent().getWidth(), e.getComponent().getHeight(), rightColor, false );
+                chart.setBackground( rightColor );
+//                PhetShapeGraphic backgroundGraphic=new PhetShapeGraphic( apparatusPanel,chart.getBounds(),background );
+//                Buffer
+//                chart.setBackground( rightColor );
             }
         } );
 
@@ -81,17 +85,17 @@ public class DynamicChartTest {
 
         final DataSet dataSet2 = new DataSet();
 
-//        ScatterPlot.CircleFactory scatterPaintFactory = new ScatterPlot.CircleFactory( apparatusPanel, Color.red, 3 );
-        ScatterPlot.ScatterPaintFactory scatterPaintFactory = new ScatterPlot.ScatterPaintFactory() {
-            public PhetGraphic createScatterPoint( double x, double y ) {
-                PhetImageGraphic pig = new PhetImageGraphic( apparatusPanel, "images/icons/java/media/Play24.gif" );
-                pig.centerRegistrationPoint();
-                pig.setLocation( (int)x, (int)y );
-                pig.setRenderingHints( new RenderingHints( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC ) );
-                pig.rotate( Math.random() * 2 * Math.PI );
-                return pig;
-            }
-        };
+        ScatterPlot.CircleFactory scatterPaintFactory = new ScatterPlot.CircleFactory( apparatusPanel, Color.red, 3 );
+//        ScatterPlot.ScatterPaintFactory scatterPaintFactory = new ScatterPlot.ScatterPaintFactory() {
+//            public PhetGraphic createScatterPoint( double x, double y ) {
+//                PhetImageGraphic pig = new PhetImageGraphic( apparatusPanel, "images/icons/java/media/Play24.gif" );
+//                pig.centerRegistrationPoint();
+//                pig.setLocation( (int)x, (int)y );
+//                pig.setRenderingHints( new RenderingHints( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC ) );
+//                pig.rotate( Math.random() * 2 * Math.PI );
+//                return pig;
+//            }
+//        };
         DataSetGraphic sinGraphic3 = new ScatterPlot( apparatusPanel, chart, dataSet2, scatterPaintFactory );
 //        DataSetGraphic sinGraphic3 = new LinePlot( apparatusPanel, chart, dataSet2,
 //                                                   new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[]{8, 8}, 0 ),
@@ -109,12 +113,6 @@ public class DynamicChartTest {
     }
 
     private static double step( double x, final DataSet dataSet1, final DataSet dataSet2, final Chart chart, final ApparatusPanel2 apparatusPanel ) {
-        try {
-            Thread.sleep( 20 );
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
         {
             double y = 10 * Math.sin( x / 2 );
             dataSet1.addPoint( x, y );
