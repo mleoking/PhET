@@ -35,7 +35,7 @@ public class BoundsOutline
   private static final Paint DEFAULT_PAINT = Color.RED;
   
   // Global control of bounds rendering.
-  private static boolean _enabled = ( System.getProperty(PROPERTY) != null );
+  private static boolean _enabled = false;
   
 	//----------------------------------------------------------------------------
 	// Constructors
