@@ -23,6 +23,23 @@ import java.util.ArrayList;
 
 /**
  * PhetLookAndFeel
+ * <p/>
+ * Sample usage:
+ * <code>
+ * //Choose the default look and feel for your system, adding text antialias for windows.
+ * //This must be done early in the application so no components get constructed with the wrong UI.
+ * PhetLookAndFeel.setLookAndFeel();
+ * //Create the usual PhetLookAndFeel (whatever we deem that to be)
+ * PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
+ * //customize it here for your own application.
+ * lookAndFeel.setBackgroundColor( Color.blue );
+ * lookAndFeel.setForegroundColor( Color.red );
+ * lookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 20 ) );
+ * //Apply the total look and feel (the usual PhetLookAndFeel + your changes)
+ * // to your system defaults.
+ * lookAndFeel.apply();
+ * </code>
+ * * <p/>
  *
  * @author ?
  * @version $Revision$
