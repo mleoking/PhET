@@ -199,7 +199,6 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     public Shape getShape() {
         Rectangle newRect = new Rectangle( x - currentImage.getWidth() / 2, y, currentImage.getWidth(), currentImage.getHeight() );
         return newRect;
-//        return null;
     }
 
     public Area getClipArea() {
