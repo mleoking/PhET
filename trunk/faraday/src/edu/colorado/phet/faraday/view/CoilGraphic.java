@@ -20,11 +20,11 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractCoil;
-import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
 import edu.colorado.phet.faraday.model.Electron;
+import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
 import edu.colorado.phet.faraday.model.QuadBezierSpline;
+import edu.colorado.phet.faraday.util.GenericRescaler;
 import edu.colorado.phet.faraday.util.IRescaler;
 
 
@@ -75,6 +75,11 @@ public class CoilGraphic implements SimpleObserver {
     private static final int ELECTRONS_IN_LEFT_END = 2;
     private static final int ELECTRONS_IN_RIGHT_END = 2;
     
+    // Electron speed rescaler
+    private static final double RESCALER_THRESHOLD = 1.0;
+    private static final double RESCALER_MIN_EXPONENT = 0.25;
+    private static final double RESCALER_MAX_EXPONENT = 0.7;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -119,7 +124,7 @@ public class CoilGraphic implements SimpleObserver {
     private double _voltage;
     
     // Rescales the electron speed.
-    private IRescaler _rescaler;
+    private GenericRescaler _rescaler;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -143,6 +148,11 @@ public class CoilGraphic implements SimpleObserver {
         
         _coilModel = coilModel;
         _coilModel.addObserver( this );
+        
+        // Rescaler for smoothing out electron speed.
+        _rescaler = new GenericRescaler();
+        _rescaler.setThreshold( RESCALER_THRESHOLD );
+        _rescaler.setExponents( RESCALER_MIN_EXPONENT, RESCALER_MAX_EXPONENT );
         
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ); 
         _foreground = new CompositePhetGraphic( _component );
@@ -178,15 +188,6 @@ public class CoilGraphic implements SimpleObserver {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-
-    /**
-     * Set the rescaler, applied to the electron speed.
-     * 
-     * @param rescaler
-     */
-    public void setRescaler( IRescaler rescaler ) {
-        _rescaler = rescaler;
-    }
     
     /**
      * Gets the PhetGraphic that contains the foreground elements of the coil.
@@ -643,10 +644,8 @@ public class CoilGraphic implements SimpleObserver {
         speed = MathUtil.clamp( -1, speed, +1 );
         
         // Rescale the speed to improve the visual effect.
-        if ( _rescaler != null ) {
-            double sign = ( speed < 0 ) ? -1 : +1;
-            speed = sign * _rescaler.rescale( Math.abs( speed ) );
-        }
+        double sign = ( speed < 0 ) ? -1 : +1;
+        speed = sign * _rescaler.rescale( Math.abs( speed ) );
 
         return speed;
     }

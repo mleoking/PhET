@@ -26,13 +26,13 @@ import edu.colorado.phet.common.model.ModelElement;
  * @version $Revision$
  */
 public class Electron extends SpacialObservable implements ModelElement {
-   
+    
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double MIN_SPEED = 0.00;
-    private static final double MAX_SPEED = 1.00;
+    // Maximum distance along a path that can be traveled in one clock tick.
+    private static final double MAX_PATH_POSITION_DELTA = 0.15;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -159,15 +159,8 @@ public class Electron extends SpacialObservable implements ModelElement {
      * @param speed
      */
     public void setSpeed( double speed ) {
-        if ( speed == 0 ) {
-            _speed = speed;
-        }
-        else if ( speed > 0 ) {
-            _speed = MathUtil.clamp( MIN_SPEED, speed, MAX_SPEED );
-        }
-        else {
-            _speed = MathUtil.clamp( -MAX_SPEED, speed, -MIN_SPEED );
-        }
+        assert( speed >= -1 && speed <= 1 );
+        _speed = speed;
     }
     
     /**
@@ -203,7 +196,7 @@ public class Electron extends SpacialObservable implements ModelElement {
             
             // Move the electron along the path.
             double oldSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
-            _pathPosition -= _speed * oldSpeedScale;
+            _pathPosition -= MAX_PATH_POSITION_DELTA * _speed * oldSpeedScale;
             
             // Do we need to switch curves?
             if ( _pathPosition <= 0 || _pathPosition >= 1 ) {
@@ -247,11 +240,11 @@ public class Electron extends SpacialObservable implements ModelElement {
             _pathPosition = 1.0 - overshoot;
             
             // Did we overshoot the curve?
-            if ( _pathPosition < 0 ) {
+            if ( _pathPosition < 0.0 ) {
                 switchCurves();
             }
         }
-        else if ( _pathPosition >= 1 ) {
+        else if ( _pathPosition >= 1.0 ) {
             
             // We've passed the start point, so move to the previous curve.
             _pathIndex--;
@@ -265,7 +258,7 @@ public class Electron extends SpacialObservable implements ModelElement {
             _pathPosition = 0.0 + overshoot;
             
             // Did we overshoot the curve?
-            if ( _pathPosition > 1 ) {
+            if ( _pathPosition > 1.0 ) {
                 switchCurves();
             }
         }

@@ -152,7 +152,6 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         // Bar Magnet
         ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, 
                 electromagnetModel, sourceCoilModel, batteryModel, acSourceModel );
-        electromagnetGraphic.setRescaler( rescaler );
         apparatusPanel.addChangeListener( electromagnetGraphic );
         apparatusPanel.addGraphic( electromagnetGraphic.getForeground(), ELECTROMAGNET_FRONT_LAYER );
         apparatusPanel.addGraphic( electromagnetGraphic.getBackground(), ELECTROMAGNET_BACK_LAYER );

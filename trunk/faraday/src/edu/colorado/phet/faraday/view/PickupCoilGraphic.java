@@ -91,10 +91,12 @@ public class PickupCoilGraphic
         
         // Graphics components
         _coilGraphic = new CoilGraphic( component, baseModel, pickupCoilModel );
-        _coilGraphic.setRescaler( rescaler );
         _lightbulbGraphic = new LightbulbGraphic( component, lightbulbModel );
-        _lightbulbGraphic.setRescaler( rescaler );
         _voltmeterGraphic = new VoltmeterGraphic( component, voltmeterModel );
+        
+        // Hook up rescaler to the lightbulb view.
+        // Coil view has its own rescaler, voltmeter rescaler is in the model.
+        _lightbulbGraphic.setRescaler( rescaler );
         
         // Foreground composition
         _foreground = new CompositePhetGraphic( component );
