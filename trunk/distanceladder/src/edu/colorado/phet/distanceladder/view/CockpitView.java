@@ -151,7 +151,6 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
         public void mouseReleased( MouseEvent e ) {
             module.getApparatusPanel().repaint();
             phi = 0;
-            module.getApparatusPanel().repaint();
         }
 
         public void mouseDragged( MouseEvent e ) {
