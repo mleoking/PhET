@@ -9,6 +9,7 @@
 package edu.colorado.phet.common.view.util;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -19,7 +20,7 @@ import java.io.IOException;
  */
 public class Animation {
 
-    private Image[] frames;
+    private BufferedImage[] frames;
     private int currFrameNum = 0;
 
     /**
@@ -91,8 +92,8 @@ public class Animation {
     /**
      *
      */
-    private static Image[] loadAnimation( String filePrefix, int numFrames ) throws IOException {
-        Image[] frames = new Image[numFrames];
+    private static BufferedImage[] loadAnimation( String filePrefix, int numFrames ) throws IOException {
+        BufferedImage[] frames = new BufferedImage[numFrames];
         ImageLoader animationLoader = new ImageLoader();
         for( int i = 1; i <= numFrames; i++ ) {
             String fileName = Animation.genAnimationFileName( filePrefix, i );
@@ -118,7 +119,7 @@ public class Animation {
         return fileName;
     }
 
-    public Image getFrame( int frameNum ) {
-        return this.frames[ frameNum ];
+    public BufferedImage getFrame( int frameNum ) {
+        return this.frames[frameNum];
     }
 }
