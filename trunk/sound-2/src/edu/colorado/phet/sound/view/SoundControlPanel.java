@@ -64,7 +64,7 @@ public class SoundControlPanel extends PhetControlPanel {
             //            final JCheckBox drawTestCB = new JCheckBox( "Wave drawing test" );
             //            drawTestCB.addActionListener( new ActionListener() {
             //                public void actionPerformed( ActionEvent e ) {
-            //                    WaveMediumGraphicB.drawTest = drawTestCB.isSelected();
+            //                    WaveMediumGraphic.drawTest = drawTestCB.isSelected();
             //                }
             //            } );
 

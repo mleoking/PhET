@@ -13,7 +13,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.ReflectingWallGraphic;
 import edu.colorado.phet.sound.view.SoundControlPanel;
-import edu.colorado.phet.sound.view.WaveMediumGraphic;
+import edu.colorado.phet.sound.view.BufferedWaveMediumGraphic;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -40,7 +40,7 @@ public class WallInterferenceModule extends SingleSourceModule {
     private SoundModel soundModel;
     private ReflectingWallGraphic wallGraphic;
     private double wallAngle = s_initialWallAngle;
-    private WaveMediumGraphic interferringWaverfrontGraphic;
+    private BufferedWaveMediumGraphic interferringWaverfrontGraphic;
     private Point2D.Double p;
     private Point2D.Double pp;
 
@@ -63,7 +63,7 @@ public class WallInterferenceModule extends SingleSourceModule {
         addGraphic( interactiveWallGraphic, 8 );
 
         // Set up the interferring wavefront graphic
-        interferringWaverfrontGraphic = new WaveMediumGraphic( soundModel.getWaveMedium(),
+        interferringWaverfrontGraphic = new BufferedWaveMediumGraphic( soundModel.getWaveMedium(),
                                                                getApparatusPanel() );
         this.addGraphic( interferringWaverfrontGraphic, 7 );
         positionInterferingWavefront();
