@@ -11,9 +11,9 @@
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.text.MessageFormat;
 
 import javax.swing.event.ChangeEvent;
@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
@@ -44,9 +45,15 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final double BOX_LAYER = 1;
     private static final double SLIDER_LAYER = 2;
     private static final double VALUE_LAYER = 3;
+    private static final double GRAPHIC_BACKGROUND_LAYER = 4;
+    private static final double WAVE_LAYER = 5;
+    private static final double WAVE_OVERLAY_LAYER = 6;
     
     private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
     private static final Color VALUE_COLOR = Color.BLACK;
+    
+    private static final double WAVE_SCALE_X = 0.18;
+    private static final double WAVE_SCALE_Y = 0.12;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -58,6 +65,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
     private FaradaySlider _frequencySlider;
     private PhetTextGraphic _amplitudeValue;
     private PhetTextGraphic _frequencyValue;
+    private PhetShapeGraphic _waveGraphic;
     private String _amplitudeFormat;
     private String _frequencyFormat;
     
@@ -80,6 +88,10 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
         
         _acSourceModel = acSourceModel;
         _acSourceModel.addObserver( this );
+        
+        // Enable anti-aliasing.
+        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        setRenderingHints( hints );
         
         // AC panel
         {
@@ -132,6 +144,34 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             _frequencyFormat = SimStrings.get( "ACSourceGraphic.frequency" );
         }
         
+        // Graphic background
+        {
+            Shape shape = new Rectangle( 0, 0, 131, 100 );
+            PhetShapeGraphic graphBackground = new PhetShapeGraphic( component, shape, Color.BLACK );
+            addGraphic( graphBackground, GRAPHIC_BACKGROUND_LAYER );
+            graphBackground.setLocation( 55, 15 );
+        }
+        
+        // Sin wave
+        {
+            GeneralPath path = new GeneralPath();
+            path.moveTo( 0, 0 );
+            int x = 0;
+            for ( int angle = 0; angle < 360; angle++ ) {
+                int y = (int) ( 360 * Math.sin( Math.toRadians( angle ) ) );
+                path.lineTo( x, -y );
+                x += 2;
+            }
+            _waveGraphic = new PhetShapeGraphic( component );
+            _waveGraphic.setShape( path );
+            _waveGraphic.setBorderColor( Color.GREEN );
+            _waveGraphic.setStroke( new BasicStroke( 10f ) );
+            addGraphic( _waveGraphic, WAVE_LAYER );
+            _waveGraphic.setRegistrationPoint( _waveGraphic.getWidth()/2, 0 );
+            _waveGraphic.setLocation( 120, 65 );
+            _waveGraphic.scale( WAVE_SCALE_X, WAVE_SCALE_Y );
+        }
+        
         // Registration point is the bottom center.
         int rx = getWidth() / 2;
         int ry = getHeight();
@@ -160,10 +200,11 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
         setVisible( _acSourceModel.isEnabled() );
         if ( isVisible() ) {
             
+            double maxAmplitude = _acSourceModel.getMaxAmplitude();
+            double frequency = _acSourceModel.getFrequency();
+            
             // Update the displayed amplitude.
             {
-                double maxAmplitude = _acSourceModel.getMaxAmplitude();
-                
                 // Format the text
                 int value = (int) ( maxAmplitude * 100 );
                 Object[] args = { new Integer( value ) };
@@ -178,8 +219,6 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             
             // Update the displayed frequency.
             {
-                double frequency = _acSourceModel.getFrequency();
-                
                 // Format the text
                 int value = (int) ( 100 * frequency );
                 Object[] args = { new Integer( value ) };
@@ -191,6 +230,10 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
                 int ry = _frequencyValue.getBounds().height;
                 _frequencyValue.setRegistrationPoint( rx, ry );
             }
+            
+            // Update the sin wave.
+            _waveGraphic.clearTransform();
+            _waveGraphic.scale( frequency * WAVE_SCALE_X, maxAmplitude * WAVE_SCALE_Y );//XXX X-scale is wrong!
             
             repaint();
         }
