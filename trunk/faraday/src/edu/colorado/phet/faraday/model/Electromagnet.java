@@ -28,19 +28,19 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractCoil _coilModel;
+    private SourceCoil _sourceCoilModel;
     private boolean _isFlipped;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Electromagnet( AbstractCoil coilModel ) {
+    public Electromagnet( SourceCoil sourceCoilModel ) {
         super();
-        assert( coilModel != null );
+        assert( sourceCoilModel != null );
         
-        _coilModel = coilModel;
-        _coilModel.addObserver( this );
+        _sourceCoilModel = sourceCoilModel;
+        _sourceCoilModel.addObserver( this );
         
         _isFlipped = false;
         
@@ -48,8 +48,8 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
     }
     
     public void finalize() {
-        _coilModel.removeObserver( this );
-        _coilModel = null;
+        _sourceCoilModel.removeObserver( this );
+        _sourceCoilModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -66,12 +66,12 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
          * Our magnetic field model requires the magnet's size to be cylindrical
          * (width significantly > height), so we fudge the height.
          */
-        double width = _coilModel.getNumberOfLoops() * _coilModel.getWireWidth();
+        double width = _sourceCoilModel.getNumberOfLoops() * _sourceCoilModel.getWireWidth();
         double height = width / FaradayConfig.ELECTROMAGNET_ASPECT_RATIO;
         super.setSize( width, height );
         
         // Get the voltage across the ends of the coil.
-        double coilVoltage = _coilModel.getVoltage();
+        double coilVoltage = _sourceCoilModel.getVoltage();
         
         // Flip the polarity
         if ( coilVoltage >= 0 && _isFlipped ) {
@@ -88,7 +88,7 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
          * This is a bit of a "fudge". 
          * We set the strength of the magnet to be proportional to the voltage in the coil.
          */
-        double percent = Math.abs( coilVoltage / _coilModel.getMaxVoltage() );
+        double percent = Math.abs( coilVoltage / _sourceCoilModel.getMaxVoltage() );
         double strength = percent * getMaxStrength();
         setStrength( strength );
     }
