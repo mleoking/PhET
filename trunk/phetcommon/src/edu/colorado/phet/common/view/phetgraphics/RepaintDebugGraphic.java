@@ -17,6 +17,7 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
     private int r = 255;
     private int g = 255;
     private int b = 255;
+    private int alpha = 255;
     private ApparatusPanel panel;
     private AbstractClock clock;
     private boolean active = false;
@@ -28,8 +29,12 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         setActive( true );
     }
 
+    public void setTransparency( int alpha ) {
+        this.alpha = alpha;
+    }
+
     public void paint( Graphics2D gr ) {
-        gr.setColor( new Color( r, g, b ) );
+        gr.setColor( new Color( r, g, b, alpha ) );
         gr.fillRect( 0, 0, panel.getWidth(), panel.getHeight() );
     }
 
