@@ -13,7 +13,6 @@ import java.util.ArrayList;
  */
 public class DataSeries extends ModelElement {
     ArrayList pts = new ArrayList();
-//    private double dt;
 
     public DataSeries() {
     }
@@ -59,25 +58,4 @@ public class DataSeries extends ModelElement {
         }
     }
 
-//    public void updateWithDerivative(DataSeries integral) {
-//        /*Simplest is divide the last two points by dt.*/
-//        if (integral.size() >= 4) {
-//            double x0 = integral.pointAt(integral.size() - 1);
-//            double x1 = integral.pointAt(integral.size() - 2);
-//            double diff = x1 - x0;
-//            double derivative = diff / dt;
-//
-////            x0=integral.pointAt(integral.size()-1);
-////            x1=integral.pointAt(integral.size()-3);
-////            diff=(x1-x0)/2;
-////            derivative+=diff;
-//
-////            derivative/=2.0;
-////            x0=integral.pointAt(integral.size()-3);
-////            x1=integral.pointAt(integral.size()-1);
-////            ds.add(derivative);
-////            addPoint(ds.average());
-//            addPoint(derivative);
-//        }
-//    }
 }
