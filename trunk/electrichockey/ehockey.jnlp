@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp
     spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/projects/ehockey2/"
-    href="ehockey.jnlp">
+    codebase="http://www.colorado.edu/physics/phet/simulations/"
+    href="electrichockey/ehockey.jnlp">
     <information>
         <title>Electric Hockey</title>
         <vendor>PhET</vendor>
@@ -16,7 +16,7 @@
     </security>
     <resources>
         <j2se version="1.4+"/>
-        <jar href="ehockey.jar"/>
+        <jar href="electrichockey/ehockey.jar"/>
     </resources>
     <application-desc main-class="edu.colorado.phet.ehockey.Hockey"/>
 </jnlp>
