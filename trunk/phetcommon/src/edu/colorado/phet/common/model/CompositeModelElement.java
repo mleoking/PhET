@@ -30,6 +30,7 @@ public class CompositeModelElement extends SimpleObservable implements ModelElem
         for( int i = 0; i < numModelElements(); i++ ) {
             modelElementAt( i ).stepInTime( dt );
         }
+        notifyObservers();
     }
 
     public void removeModelElement( ModelElement m ) {
