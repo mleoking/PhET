@@ -30,13 +30,20 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
 /**
  * CompassGridGraphic is the graphical representation of a "compass grid".
  * As an alternative to a field diagram, the grid shows the strength
- * and orientation of a magnet field at various points in 2D space.
+ * and orientation of a magnetic field at a grid of points in 2D space.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Determines whether needle strength is displayed using alpha or color saturation. 
+    private static final boolean DEFAULT_ALPHA_ENABLED = true;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -50,8 +57,14 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
     // The size of the compass needles, in pixels.
     private Dimension _needleSize;
     
-    // The compass needles that are in the grid (array of FastGridNeedle).
+    // The compass needles that are in the grid (array of CompassGridNeedle).
     private ArrayList _needles;
+    
+    // Controls whether alpha is used to render the needles.
+    private boolean _alphaEnabled;
+    
+    // The grid's bounds.
+    private Rectangle _bounds;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -75,6 +88,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
         
         _needleSize = new Dimension( 40, 20 );
         _needles = new ArrayList();
+        
+        _alphaEnabled = DEFAULT_ALPHA_ENABLED;
         
         setSpacing( xSpacing, ySpacing );
         
@@ -131,17 +146,17 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
             }
         }
         
-        // Determine how many compasses are needed to fill the parent component.
+        // Determine how many needles are needed to fill the parent component.
         int xCount = (int)(width / xSpacing) + 1;
         int yCount = (int)(height / ySpacing) + 1;
-//        System.out.println( "CompassGridGraphic.setSpacing - grid is " + xCount + "x" + yCount ); // DEBUG
         
-        // Create the compasses.
+        // Create the needles.
         for ( int i = 0; i < xCount; i++ ) {
             for ( int j = 0; j < yCount; j++ ) {
-                FastGridNeedle needle = new FastGridNeedle();
+                CompassGridNeedle needle = new CompassGridNeedle();
                 needle.setLocation( i * xSpacing, j * ySpacing );
                 needle.setSize( _needleSize );
+                needle.setAlphaEnabled( _alphaEnabled );
                 _needles.add( needle );
             }
         }
@@ -176,7 +191,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
     }
 
     /**
-     * Sets the size of all compass needles.
+     * Sets the size of all needles.
      * 
      * @param needleSize the needle size
      */
@@ -184,19 +199,35 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
         assert( needleSize != null );
         _needleSize = new Dimension( needleSize );
         for ( int i = 0; i < _needles.size(); i++ ) {
-            FastGridNeedle needle = (FastGridNeedle) _needles.get(i);
+            CompassGridNeedle needle = (CompassGridNeedle) _needles.get(i);
             needle.setSize( _needleSize );
         }
         update();
     }
     
     /**
-     * Gets the size of all compass needles.
+     * Gets the size of all needles.
      * 
      * @return the size
      */
     public Dimension getNeedleSize() {
         return new Dimension( _needleSize );
+    }
+    
+    /**
+     * Determines whether alpha or color saturation are used to render the needles.
+     * Color saturation is implemented to work on a black background.
+     * 
+     * @param enabled true to use alpha, false to use color saturation
+     */
+    public void setAlphaEnabled( boolean enabled ) {
+        if ( enabled != _alphaEnabled ) {
+            for ( int i = 0; i < _needles.size(); i++ ) {
+                CompassGridNeedle needle = (CompassGridNeedle) _needles.get(i);
+                needle.setAlphaEnabled( enabled );
+            }
+            repaint();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -245,7 +276,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
             g2.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             // Draw the needles.
             for ( int i = 0; i < _needles.size(); i++ ) {
-                FastGridNeedle needle = (FastGridNeedle)_needles.get(i);
+                CompassGridNeedle needle = (CompassGridNeedle)_needles.get(i);
                 needle.paint( g2 );
             }
             super.restoreGraphicsState();
@@ -260,12 +291,13 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
      * @return the bounds of the grid
      */
     protected Rectangle determineBounds() {
-        Rectangle r = new Rectangle();
-        for ( int i = 0; i < _needles.size(); i++ ) {
-            FastGridNeedle needle = (FastGridNeedle) _needles.get(i);
-            r = r.union( needle.getBounds() );
-        }
-        return r;
+//        Rectangle r = new Rectangle();
+//        for ( int i = 0; i < _needles.size(); i++ ) {
+//            CompassGridNeedle needle = (CompassGridNeedle) _needles.get(i);
+//            r = r.union( needle.getBounds() );
+//        }
+//        return r;
+        return _bounds;
     }
     
     //----------------------------------------------------------------------------
@@ -278,11 +310,16 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
     public void update() {
         if ( isVisible() ) {
             
+            _bounds = new Rectangle();
+            
             double magnetStrength = _magnetModel.getStrength();
-            for( int i = 0; i < _needles.size(); i++ ) {
+            for ( int i = 0; i < _needles.size(); i++ ) {
 
-                // Next compass needle...
-                FastGridNeedle needle = (FastGridNeedle)_needles.get(i);
+                // Next needle...
+                CompassGridNeedle needle = (CompassGridNeedle)_needles.get(i);
+                
+                // Add the needle to the bounds.
+                _bounds = _bounds.union( needle.getBounds() );
 
                 // Get the magnetic field information at the needle's location.
                 Point2D p = needle.getLocation();
@@ -307,115 +344,6 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
                 }
             }
             repaint();
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-
-    /**
-     * FastGridNeedle draw a compass needle.
-     * It is not a descendant of PhetGraphic, so that we can avoid the overhead
-     * of computing AffineTransforms. (This overhead is built into PhetGraphic,
-     * specifically in PhetGraphic.getNetTransform.)
-     * <p>
-     * This class assumes that CompassGridGraphic will handle saving/restoring the
-     * graphics context.  And it assumes that the grid will be positioned at the
-     * origin of its parent component.  These assumptions allow us to bypass most
-     * of the expensive transforms in PhetGraphic.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    private class FastGridNeedle {
-
-        private Point2D _location;
-        private Dimension _size;
-        private double _strength;
-        private double _direction;
-        private Shape _northShape, _southShape;
-        private Color _northColor, _southColor;
-
-        public FastGridNeedle() {
-            _location = new Point2D.Double( 0, 0 );
-            _size = new Dimension( 40, 20 );
-            _direction = 0.0;
-        }
-
-        public void setLocation( Point2D p ) {
-            setLocation( p.getX(), p.getY() );
-        }
-
-        public void setLocation( double x, double y ) {
-            _location.setLocation( x, y );
-            updateShapes();
-        }
-
-        public void setSize( Dimension size ) {
-            _size.setSize( size );
-            updateShapes();
-        }
-
-        public Dimension getSize() {
-            return _size;
-        }
-
-        public Point2D getLocation() {
-            return _location;
-        }
-
-        public void setStrength( double strength ) {
-            _strength = strength;
-            int alpha = (int) ( 255 * _strength );
-            _northColor = new Color( 255, 0, 0, alpha );
-            _southColor = new Color( 255, 255, 255, alpha );
-        }
-
-        public double getStrength() {
-            return _strength;
-        }
-
-        public void setDirection( double direction ) {
-            _direction = direction;
-            updateShapes();
-        }
-
-        public double getDirections() {
-            return _direction;
-        }
-
-        public Rectangle getBounds() {
-            Rectangle r = _northShape.getBounds();
-            r.union( _southShape.getBounds() );
-            return r;
-        }
-        
-        private void updateShapes() {
-            AffineTransform transform = new AffineTransform();
-            transform.translate( _location.getX(), _location.getY() );
-            transform.rotate( _direction );
-
-            GeneralPath northPath = new GeneralPath();
-            northPath.moveTo( 0, -( _size.height / 2 ) );
-            northPath.lineTo( ( _size.width / 2 ), 0 );
-            northPath.lineTo( 0, ( _size.height / 2 ) );
-            northPath.closePath();
-            _northShape = transform.createTransformedShape( northPath );
-
-            GeneralPath southPath = new GeneralPath();
-            southPath.moveTo( 0, -( _size.height / 2 ) );
-            southPath.lineTo( 0, ( _size.height / 2 ) );
-            southPath.lineTo( -( _size.width / 2 ), 0 );
-            southPath.closePath();
-            _southShape = transform.createTransformedShape( southPath );
-        }
-
-        public void paint( Graphics2D g2 ) {
-            g2.setPaint( _northColor );
-            g2.fill( _northShape );
-            g2.setPaint( _southColor );
-            g2.fill( _southShape );
         }
     }
 }
