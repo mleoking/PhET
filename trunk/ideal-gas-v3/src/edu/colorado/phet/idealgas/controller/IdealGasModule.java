@@ -257,6 +257,11 @@ public class IdealGasModule extends Module implements EventChannel {
         cmd.doIt();
     }
 
+    public void removeGasMolecule( Class species) {
+        Command cmd = new RemoveMoleculeCmd( idealGasModel, species );
+        cmd.doIt();
+    }
+
     protected PressureSensingBox getBox() {
         return box;
     }

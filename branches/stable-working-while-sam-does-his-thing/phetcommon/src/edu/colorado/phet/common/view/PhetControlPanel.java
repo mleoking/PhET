@@ -26,14 +26,10 @@ import java.util.HashMap;
  * @version $Revision$
  */
 public class PhetControlPanel extends JPanel {
-    private Module module;
     private JPanel controlPane = new JPanel( new GridBagLayout() );
-    private SpringLayout layout;
     private JLabel titleLabel;
     private HelpPanel helpPanel;
     private ImageIcon imageIcon;
-    private int padX = 5;
-    private int padY = 5;
     private ArrayList controls = new ArrayList();
     private HashMap panelEntries = new HashMap();
     private Insets defaultInsets = new Insets( 0, 0, 0, 0 );
@@ -43,7 +39,6 @@ public class PhetControlPanel extends JPanel {
      * @param module
      */
     public PhetControlPanel( Module module ) {
-        this.module = module;
         this.setLayout( new BorderLayout() );
 
         // Logo at top of panel

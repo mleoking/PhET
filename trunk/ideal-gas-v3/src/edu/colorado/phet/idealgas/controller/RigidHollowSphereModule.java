@@ -20,6 +20,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class RigidHollowSphereModule extends IdealGasModule implements GasSource {
 
@@ -27,9 +28,13 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
     private HollowSphere sphere;
     private Class gasSpecies = HeavySpecies.class;
-    private MoleculeFactoryPanel moleculeFactoryPanel;
     private LinkedList moleculesInSphere = new LinkedList();
+    private Random random = new Random();
 
+    /**
+     * Constructor
+     * @param clock
+     */
     public RigidHollowSphereModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.RigidHollowSphere" ) );
         double xOrigin = 200;
@@ -114,16 +119,12 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                       insets, 0, 0 );
-        controlPanel.add( new SpeciesSelectionPanel( RigidHollowSphereModule.this ), gbc );
-        gbc.gridy++;
-        moleculeFactoryPanel = new SphereMoleculeFactoryPanel();
-        controlPanel.add( moleculeFactoryPanel, gbc );
-        getIdealGasControlPanel().addComponent( controlPanel );
+        controlPanel.add( new HollowSphereControlPanel( this, RigidHollowSphereModule.this ), gbc );
+        getIdealGasControlPanel().addParticleControl( controlPanel );
     }
 
     public void setCurrentGasSpecies( Class gasSpecies ) {
         this.gasSpecies = gasSpecies;
-        moleculeFactoryPanel.setGasSpecies( gasSpecies );
     }
 
     public Class getCurrentGasSpecies() {
@@ -145,77 +146,23 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
             gasMolecule = (GasMolecule)moleculesInSphere.removeFirst();
         }
         getIdealGasModel().removeModelElement( gasMolecule );
-        //        gasMolecule.removeYourselfFromSystem();
     }
 
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
-    // Inner classes
-    //
-
-    /**
-     * This subclass of the MoleculeFactoryPanel manages the gnarly details of adding and
-     * removing instances of different species in the hollow sphere.
-     */
-    public class SphereMoleculeFactoryPanel extends MoleculeFactoryPanel implements IdealGasModule.ResetListener {
-        private int currNumHeavyMolecules;
-        private int currNumLightMolecules;
-
-        public SphereMoleculeFactoryPanel() {
-            super( RigidHollowSphereModule.this, sphere, gasSpecies );
-            RigidHollowSphereModule.this.addListener( this );
+    public void addMoleculeToSphere( Class species ) {
+        Point2D location = sphere.getNewMoleculeLocation();
+        Vector2D velocity = sphere.getNewMoleculeVelocity( species, getIdealGasModel() );
+        GasMolecule gm = null;
+        if( species == HeavySpecies.class ) {
+            gm = new HeavySpecies( location, velocity, new Vector2D.Double() );
         }
-
-        protected void setNumParticles( int numParticles ) {
-            Class species = getCurrentGasSpecies();
-            int dn = numParticles - currNumLightMolecules - currNumHeavyMolecules;
-            if( dn > 0 ) {
-                for( int i = 0; i < dn; i++ ) {
-                    Point2D location = getNewMoleculeLocation();
-                    Vector2D velocity = getNewMoleculeVelocity();
-                    GasMolecule gm = null;
-                    if( species == HeavySpecies.class ) {
-                        gm = new HeavySpecies( location, velocity, new Vector2D.Double() );
-                        currNumHeavyMolecules++;
-                    }
-                    if( species == LightSpecies.class ) {
-                        gm = new LightSpecies( location, velocity, new Vector2D.Double() );
-                        currNumLightMolecules++;
-                    }
-                    moleculesInSphere.add( gm );
-                    pumpMolecule( gm );
-                }
-            }
-            else if( dn < 0 ) {
-                for( int i = 0; i < -dn; i++ ) {
-                    if( getCurrentGasSpecies() == HeavySpecies.class ) {
-                        if( currNumHeavyMolecules > 0 ) {
-                            removeGasMoleculeFromSphere( HeavySpecies.class );
-                            currNumHeavyMolecules--;
-                        }
-                        else {
-                            removeGasMoleculeFromSphere( LightSpecies.class );
-                            currNumLightMolecules--;
-                        }
-                    }
-                    if( getCurrentGasSpecies() == LightSpecies.class ) {
-                        if( currNumLightMolecules > 0 ) {
-                            removeGasMoleculeFromSphere( LightSpecies.class );
-                            currNumLightMolecules--;
-                        }
-                        else {
-                            removeGasMoleculeFromSphere( HeavySpecies.class );
-                            currNumHeavyMolecules--;
-                        }
-                    }
-                }
-            }
+        if( species == LightSpecies.class ) {
+            gm = new LightSpecies( location, velocity, new Vector2D.Double() );
         }
+        moleculesInSphere.add( gm );
+        PumpMoleculeCmd cmd = new PumpMoleculeCmd( this.getIdealGasModel(), gm,
+                                                   this );
+        cmd.doIt();
+        this.sphere.addContainedBody( gm );
 
-        public void resetOccurred( ResetEvent event ) {
-            currNumHeavyMolecules = 0;
-            currNumLightMolecules = 0;
-            super.reset();
-        }
     }
 }

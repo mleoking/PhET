@@ -18,6 +18,8 @@ import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -112,7 +114,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         // Set the size of the box
 //        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
         JPanel controlPanel = new JPanel( new GridBagLayout() );
-        controlPanel.setBorder( new TitledBorder( SimStrings.get( "RigidHollowSphereControlPanel.controlsTitle" ) ) );
+        controlPanel.setBorder( new TitledBorder( SimStrings.get( "HeliumBalloonControlPanel.controlsTitle" ) ) );
 
         GridBagConstraints gbc = null;
         Insets insets = new Insets( 0, 0, 0, 0 );
@@ -145,12 +147,40 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
     // Inner classes
     //
 
-    public class HeliumFactoryPanel extends MoleculeFactoryPanel implements IdealGasModule.ResetListener {
+    class HeliumFactoryPanel extends JPanel implements IdealGasModule.ResetListener {
+
         private int currNumMolecules;
 
-        public HeliumFactoryPanel() {
-            super( HeliumBalloonModule.this, balloon, gasSpecies );
-            HeliumBalloonModule.this.addListener( this );
+        HeliumFactoryPanel() {
+
+            super( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                             GridBagConstraints.WEST,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+
+            JLabel label = new JLabel( SimStrings.get( "MeasurementControlPanel.Number_of_particles" ) );
+            this.add( label, gbc );
+            // Set up the spinner for controlling the number of particles in
+            // the hollow sphere
+            Integer value = new Integer( 0 );
+            Integer min = new Integer( 0 );
+            Integer max = new Integer( 1000 );
+            Integer step = new Integer( 1 );
+            SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
+            final JSpinner particleSpinner = new JSpinner( model );
+            particleSpinner.setPreferredSize( new Dimension( 50, 20 ) );
+            gbc.gridx = 1;
+            gbc.anchor = GridBagConstraints.EAST;
+            this.add( particleSpinner, gbc );
+
+            particleSpinner.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    setNumParticles( ( (Integer)particleSpinner.getValue() ).intValue() );
+                }
+            } );
+//            this.balloon = balloon;
+//            this.gasSpecies = gasSpecies;
         }
 
         protected void setNumParticles( int numParticles ) {
@@ -158,21 +188,25 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
             if( dn > 0 ) {
                 for( int i = 0; i < dn; i++ ) {
                     Class species = getCurrentGasSpecies();
-                    Point2D location = getNewMoleculeLocation();
-                    Vector2D velocity = getNewMoleculeVelocity();
-                    GasMolecule gm = null;
+                    Point2D location = balloon.getNewMoleculeLocation();
+                    Vector2D velocity = balloon.getNewMoleculeVelocity( species, getIdealGasModel() );
+                    GasMolecule molecule = null;
                     if( species == HeavySpecies.class ) {
-                        gm = new HeavySpecies( location, velocity, new Vector2D.Double() );
+                        molecule = new HeavySpecies( location, velocity, new Vector2D.Double() );
                     }
                     if( species == LightSpecies.class ) {
-                        gm = new LightSpecies( location, velocity, new Vector2D.Double() );
+                        molecule = new LightSpecies( location, velocity, new Vector2D.Double() );
                     }
-                    pumpMolecule( gm );
+                    PumpMoleculeCmd cmd = new PumpMoleculeCmd( getIdealGasModel(), molecule,
+                                                               HeliumBalloonModule.this );
+                    cmd.doIt();
+                    balloon.addContainedBody( molecule );
+
                 }
             }
             else if( dn < 0 ) {
                 for( int i = 0; i < -dn; i++ ) {
-                    removeGasMoleculeFromBalloon();
+                    removeGasMolecule();
                 }
             }
             currNumMolecules += dn;
@@ -180,9 +214,48 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 
         public void resetOccurred( ResetEvent event ) {
             currNumMolecules = 0;
-            super.reset();
+//            super.reset();
         }
     }
+
+//    public class HeliumFactoryPanel extends MoleculeFactoryPanel implements IdealGasModule.ResetListener {
+//        private int currNumMolecules;
+//
+//        public HeliumFactoryPanel() {
+//            super( HeliumBalloonModule.this, balloon, gasSpecies );
+//            HeliumBalloonModule.this.addListener( this );
+//        }
+//
+//        protected void setNumParticles( int numParticles ) {
+//            int dn = numParticles - currNumMolecules;
+//            if( dn > 0 ) {
+//                for( int i = 0; i < dn; i++ ) {
+//                    Class species = getCurrentGasSpecies();
+//                    Point2D location = getNewMoleculeLocation();
+//                    Vector2D velocity = getNewMoleculeVelocity();
+//                    GasMolecule gm = null;
+//                    if( species == HeavySpecies.class ) {
+//                        gm = new HeavySpecies( location, velocity, new Vector2D.Double() );
+//                    }
+//                    if( species == LightSpecies.class ) {
+//                        gm = new LightSpecies( location, velocity, new Vector2D.Double() );
+//                    }
+//                    pumpMolecule( gm );
+//                }
+//            }
+//            else if( dn < 0 ) {
+//                for( int i = 0; i < -dn; i++ ) {
+//                    removeGasMoleculeFromBalloon();
+//                }
+//            }
+//            currNumMolecules += dn;
+//        }
+//
+//        public void resetOccurred( ResetEvent event ) {
+//            currNumMolecules = 0;
+//            super.reset();
+//        }
+//    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Event handling

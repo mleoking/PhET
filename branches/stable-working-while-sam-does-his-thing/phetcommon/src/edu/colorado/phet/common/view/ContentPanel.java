@@ -21,7 +21,7 @@ import java.io.IOException;
 
 /**
  * The content pane for the JFrame of a PhetApplication.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
@@ -45,7 +45,7 @@ public class ContentPanel extends JPanel {
     }
 
     public ContentPanel( JComponent apparatusPanelContainer, JComponent controlPanel, JComponent monitorPanel, JComponent appControl ) {
-        this.setLayout( new BorderLayout() );
+        this.setLayout( new GridBagLayout() );
         setApparatusPanelContainer( apparatusPanelContainer );
         setControlPanel( controlPanel );
         setMonitorPanel( monitorPanel );
@@ -61,15 +61,13 @@ public class ContentPanel extends JPanel {
             remove( east );
         }
         east = panel;
-        setPanel( panel, BorderLayout.EAST );
-    }
-
-    public void setMonitorPanel( JComponent panel ) {
-        if( north != null ) {
-            remove( north );
+        GridBagConstraints gbc = new GridBagConstraints( 1, 0, 1, 3, 1, 1000,
+                                                         GridBagConstraints.NORTHEAST, GridBagConstraints.VERTICAL,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        if( panel != null ) {
+//            panel.setBorder( new EtchedBorder( ) );
+            add( panel, gbc );
         }
-        north = panel;
-        setPanel( panel, BorderLayout.NORTH );
     }
 
     public void setApparatusPanelContainer( JComponent panel ) {
@@ -77,7 +75,13 @@ public class ContentPanel extends JPanel {
             remove( center );
         }
         center = panel;
-        setPanel( panel, BorderLayout.CENTER );
+        GridBagConstraints gbc = new GridBagConstraints( 0, 1, 1, 1, 100, 100,
+                                                         GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        if( panel != null ) {
+//            panel.setBorder( new EtchedBorder( ) );
+            add( panel, gbc );
+        }
     }
 
     public void setAppControlPanel( JComponent panel ) {
@@ -85,14 +89,27 @@ public class ContentPanel extends JPanel {
             remove( south );
         }
         south = panel;
-        setPanel( panel, BorderLayout.SOUTH );
+        GridBagConstraints gbc = new GridBagConstraints( 0, 2, 1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        if( panel != null ) {
+//            panel.setBorder( new EtchedBorder( ) );
+            add( panel, gbc );
+        }
     }
 
-    private void setPanel( JComponent component, String place ) {
-        if( component != null ) {
-            add( component, place );
+    public void setMonitorPanel( JComponent panel ) {
+        if( north != null ) {
+            remove( north );
         }
-        repaint();
+        north = panel;
+        GridBagConstraints gbc = new GridBagConstraints( 0, 1, 2, 1, 1, 1,
+                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        if( panel != null ) {
+//            panel.setBorder( new EtchedBorder( ) );
+            add( panel, gbc );
+        }
     }
 
     public void setFullScreen( boolean fullScreen ) {

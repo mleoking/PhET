@@ -13,6 +13,7 @@ import edu.colorado.phet.mechanics.Body;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class HollowSphere extends SphericalBody {
     ArrayList containedBodies = new ArrayList();
@@ -53,5 +54,36 @@ public class HollowSphere extends SphericalBody {
 
     public int numContainedBodies() {
         return containedBodies.size();
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // Methods for placing new molecules in the sphere
+    //----------------------------------------------------------------------------------------------
+    private Random random = new Random();
+
+    public Point2D getNewMoleculeLocation() {
+        double r = random.nextDouble() - GasMolecule.s_defaultRadius;
+        double theta = random.nextDouble() * Math.PI * 2;
+        Point2D.Double p = new Point2D.Double( this.getPosition().getX() + r * Math.cos( theta ),
+                                               this.getPosition().getY() + r * Math.sin( theta ) );
+        return p;
+    }
+
+    public Vector2D getNewMoleculeVelocity( Class species, IdealGasModel model ) {
+        double s = 0;
+        if( species == HeavySpecies.class ) {
+            s = model.getHeavySpeciesAveSpeed();
+            if( s == 0 ) {
+                s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / HeavySpecies.getMoleculeMass() );
+            }
+        }
+        if( species == LightSpecies.class ) {
+            s = model.getLightSpeciesAveSpeed();
+            if( s == 0 ) {
+                s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / LightSpecies.getMoleculeMass() );
+            }
+        }
+        double theta = random.nextDouble() * Math.PI * 2;
+        return new Vector2D.Double( s * Math.cos( theta ), s * Math.sin( theta ) );
     }
 }
