@@ -102,7 +102,7 @@ public abstract class AtomicState {
     }
 
     protected boolean isStimulatedBy( Photon photon ) {
-        return ( Math.abs( photon.getWavelength() - this.getWavelength() ) <= LaserConfig.WAVELENGTH_TOLERANCE
+        return ( Math.abs( photon.getEnergy() - this.getEnergyLevel() ) <= LaserConfig.ENERGY_TOLERANCE
                  && Math.random() < s_collisionLikelihood );
     }
 
