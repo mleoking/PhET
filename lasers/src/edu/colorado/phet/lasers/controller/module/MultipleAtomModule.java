@@ -17,16 +17,14 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.BeamControl2;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.MultipleAtomControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.GroundState;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.atom.HighEnergyState;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.LampGraphic;
@@ -59,13 +57,15 @@ public class MultipleAtomModule extends BaseLaserModule {
         // Set the control panel
         setControlPanel( new MultipleAtomControlPanel( this ) );
 
-        // Set up the model elements
+        // Set the size of the cavity
         ResonatingCavity cavity = getCavity();
         Rectangle2D cavityBounds = cavity.getBounds();
         cavity.setBounds( cavityBounds.getMinX(), cavityBounds.getMinY(),
                           cavityBounds.getMinX() + cavityBounds.getWidth() * .7,
                           cavityBounds.getMinY() + ( cavityBounds.getHeight() * 1.5 ) );
         cavityBounds = cavity.getBounds();
+
+        // Set up the beams
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() );
         CollimatedBeam seedBeam = ( (LaserModel)getModel() ).getSeedBeam();
@@ -74,7 +74,6 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                                     s_boxWidth + s_laserOffsetX * 2, s_boxHeight );
         seedBeam.setBounds( seedBeamBounds );
         seedBeam.setDirection( new Vector2D.Double( 1, 0 ) );
-        seedBeam.setEnabled( false );
         seedBeam.setPhotonsPerSecond( 1 );
 
         CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
@@ -84,6 +83,11 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                                        s_boxHeight + s_laserOffsetX * 2 );
         pumpingBeam.setBounds( pumpingBeamBounds );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
+        // Start with the beam turned all the way down
+        pumpingBeam.setPhotonsPerSecond( 0 );
+
+        // Only the pump beam is enabled
+        seedBeam.setEnabled( false );
         pumpingBeam.setEnabled( true );
 
         // Set up the graphics
@@ -100,14 +104,12 @@ public class MultipleAtomModule extends BaseLaserModule {
         double yOffset = 10;
         // The lamps should take up about half the space above the cavity
         double pumpScaleX = ( ( pumpingBeamBounds.getY() ) - yOffset ) / gunBI.getWidth();
-        //            double pumpScaleX = (( cavityBounds.getY() / 2 ) - yOffset ) / gunBI.getWidth();
         double pumpScaleY = ( pumpingBeamBounds.getWidth() / numLamps ) / gunBI.getHeight();
         AffineTransformOp atxOp2 = new AffineTransformOp( AffineTransform.getScaleInstance( pumpScaleX, pumpScaleY ), AffineTransformOp.TYPE_BILINEAR );
         BufferedImage pumpBeamImage = atxOp2.filter( gunBI, null );
         for( int i = 0; i < numLamps; i++ ) {
             AffineTransform tx = new AffineTransform();
             tx.translate( pumpingBeamBounds.getX() + pumpBeamImage.getHeight() * ( i + 1 ), yOffset );
-            //                tx.translate( getLaserOrigin().getX() + pumpBeamImage.getHeight() * (i + 1), yOffset );
             tx.rotate( Math.PI / 2 );
             BufferedImage img = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( pumpBeamImage, null );
             PhetImageGraphic imgGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), img, tx );
@@ -120,19 +122,6 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                          LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE,
                                                          null, null );
         getApparatusPanel().addGraphic( pumpBeamControl );
-
-        // Only the pumping beam is enabled for this module
-        pumpingBeam.setEnabled( true );
-        getEnergyLevelsMonitorPanel().setNumLevels( 3 );
-        getLaserModel().getPumpingBeam().setEnabled( true );
-        getModel().removeModelElement( seedBeam );
-
-        ApparatusConfiguration config = new ApparatusConfiguration();
-        config.setSeedPhotonRate( 1 );
-        config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
-        config.setPumpingPhotonRate( 0 );
-        config.setReflectivity( 0.7 );
-        config.configureSystem( getLaserModel() );
     }
 
     /**
@@ -146,7 +135,7 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         Atom atom = null;
         atoms = new ArrayList();
-        int numAtoms = 6;
+        int numAtoms = 8;
 //        int numAtoms = 20;
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new Atom( getModel() );

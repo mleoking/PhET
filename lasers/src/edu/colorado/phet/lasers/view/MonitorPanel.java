@@ -61,7 +61,7 @@ public abstract class MonitorPanel extends ApparatusPanel implements SimpleObser
         gs.restoreGraphics();
     }
 
-    public static AffineTransform rotateInPlace( AffineTransform atx, double theta, double x, double y ) {
+    private static AffineTransform rotateInPlace( AffineTransform atx, double theta, double x, double y ) {
         atx.setToIdentity();
         atx.translate( x, y );
         atx.rotate( theta );

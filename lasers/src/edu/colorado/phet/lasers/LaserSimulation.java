@@ -56,7 +56,7 @@ public class LaserSimulation extends PhetApplication {
                 multipleAtomModule
             };
             setModules( modules );
-            //            setInitialModule( multipleAtomModule );
+//                        setInitialModule( multipleAtomModule );
             setInitialModule( singleAtomModule );
 
             // Print out frame rate for debugging

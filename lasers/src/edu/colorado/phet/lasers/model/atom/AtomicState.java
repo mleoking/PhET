@@ -48,22 +48,10 @@ public abstract class AtomicState {
 
     void incrNumInState() {
         numAtomsInState++;
-
-        int total = GroundState.instance().getNumAtomsInState() + MiddleEnergyState.instance().getNumAtomsInState() + HighEnergyState.instance().getNumAtomsInState();
-        if( total != 6 ) {
-            System.out.println( "$$$" );
-        }
     }
 
     void decrementNumInState() {
         numAtomsInState--;
-        if( numAtomsInState < 0 ) {
-            System.out.println( "!!!" );
-        }
-        int total = GroundState.instance().getNumAtomsInState() + MiddleEnergyState.instance().getNumAtomsInState() + HighEnergyState.instance().getNumAtomsInState();
-        if( total != 5 ) {
-            System.out.println( "%%%" );
-        }
     }
 
     public int getNumAtomsInState() {

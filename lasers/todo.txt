@@ -1,5 +1,4 @@
-- When MultipleAtomModule is activated, the number of levels needs to be set to three.
-- Remove call to clearNumInState() or whatever that is
+- When the app is paused, the dots on the energy levels window doesn't always agree with the laser itself
 
 - State should know if a photon should be emitted when it is left. Currently, the Atom class makes this decision
 when theStateLifetimeManager is created.
@@ -14,16 +13,12 @@ a AtomicState.PopulationChangeListener, or the EnergyLevelGraphics should be, an
 and send it to the former.
 
 - AtomGraphic should just be a listener, not a SimpleObserver
-- Photons jump to right when stimulated emissoin happens
 - Put off..max labels on intensity slider
 - color control under the lamp, intensity on top
-- Make colors of energy levels map to real values
-- Prevent energy levels from being dragged past each other
 
 
 - AtomicState lifetime manager should be part of the base AtomicState now. There is no need of a separate
 SpontaneouslyEmittingState.
-- Memory leak in multiple atom panel
 - Enable photons emitted on high-to-mid state transitions
 - add CollimatedBeamGraphic, or CollimatedBeamView class
 - Change interpolation method that creates middle and high energy atom graphics.
@@ -38,6 +33,11 @@ Refactor ModelViewTx2D and AffineTxUtil
 
 
 =========================================================
+12/15/04
+- Removed "(ev)" from y axis label in energy levels window
+- When MultipleAtomModule is activated, the number of levels needs to be set to three.
+
+
 11/16/04
 - Removed restriction of method ending in "Occurred" from EventRegistry
 

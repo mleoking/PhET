@@ -17,15 +17,11 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.BeamControl2;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.SingleAtomControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.HighEnergyState;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.view.LampGraphic;
 
@@ -65,7 +61,7 @@ public class SingleAtomModule extends BaseLaserModule {
                                                                            s_boxWidth + s_laserOffsetX * 2, 1 );
         seedBeam.setBounds( stimulatingBeamBounds );
         seedBeam.setDirection( new Vector2D.Double( 1, 0 ) );
-        seedBeam.setEnabled( true );
+        // Start the beam with a very slow rate
         seedBeam.setPhotonsPerSecond( 1 );
 
         final CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
@@ -74,9 +70,15 @@ public class SingleAtomModule extends BaseLaserModule {
         pumpingBeam.setBounds( new Rectangle2D.Double( pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
                                                        1, s_boxHeight + s_laserOffsetX * 2 ) );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
-        pumpingBeam.setEnabled( true );
+        // Start with the pumping beam turned down all the way
+        pumpingBeam.setPhotonsPerSecond( 0 );
 
-        // Add the lamps for firing photons
+        // Enable only the stimulating beam to start with
+        seedBeam.setEnabled( true );
+        pumpingBeam.setEnabled( false );
+
+
+        // Add the graphics for beams
         Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)stimulatingBeamBounds.getX() - 100,
                                                               (int)( stimulatingBeamBounds.getY() + seedBeam.getHeight() / 2 - 25 ),
                                                               100, 50 );
@@ -89,8 +91,6 @@ public class SingleAtomModule extends BaseLaserModule {
         }
 
         // Stimulating beam lamp
-        double scale = Math.min( allocatedBounds.getWidth() / gunBI.getWidth(),
-                                 allocatedBounds.getHeight() / gunBI.getHeight() );
         double scaleX = allocatedBounds.getWidth() / gunBI.getWidth();
         double scaleY = allocatedBounds.getHeight() / gunBI.getHeight();
         AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ), AffineTransformOp.TYPE_BILINEAR );
@@ -122,17 +122,6 @@ public class SingleAtomModule extends BaseLaserModule {
                                             LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE,
                                             seedBeam, null );
         getApparatusPanel().addGraphic( pumpBeamControl );
-
-        // Enable only the stimulating beam to start with
-        seedBeam.setEnabled( true );
-        pumpingBeam.setEnabled( false );
-
-        ApparatusConfiguration config = new ApparatusConfiguration();
-        config.setSeedPhotonRate( 1 );
-        config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
-        config.setPumpingPhotonRate( 0 );
-        config.setReflectivity( 0.7 );
-        config.configureSystem( getLaserModel() );
     }
 
     public void activate( PhetApplication app ) {
