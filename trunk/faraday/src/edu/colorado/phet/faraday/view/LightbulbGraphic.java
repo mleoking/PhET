@@ -153,7 +153,6 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
             // Rescale the intensity to improve the visual effect.
             if ( _rescaler != null ) {
                 intensity = _rescaler.rescale( intensity );
-                intensity = MathUtil.clamp( 0, intensity, 1 );
             }
 
             // If the intensity hasn't changed, do nothing.
