@@ -183,12 +183,36 @@ public class PhetShapeGraphic extends PhetGraphic {
         }
     }
 
+    /**
+     * Returns true if any part of this PhetGraphic contains the specified point.
+     * As of 2-6-2005, this includes the border.
+     *
+     * @param x
+     * @param y
+     * @return true if this PhetGraphic contains the specified point.
+     */
     public boolean contains( int x, int y ) {
-        if( getShape() != null ) {
-            Shape txShape = getNetTransform().createTransformedShape( getShape() );
-            return isVisible() && txShape.contains( x, y );
+        if( isVisible() && shape != null ) {
+            boolean borderVisible = stroke != null && border != null;
+            boolean fillVisible = fill != null;
+            if( fillVisible && shapeContains( x, y ) ) {
+                return true;
+            }
+            else if( borderVisible && borderContains( x, y ) ) {
+                return true;
+            }
         }
         return false;
+    }
+
+    private boolean borderContains( int x, int y ) {
+        Shape txBorderShape = getNetTransform().createTransformedShape( stroke.createStrokedShape( getShape() ) );
+        return txBorderShape.contains( x, y );
+    }
+
+    private boolean shapeContains( int x, int y ) {
+        Shape txShape = getNetTransform().createTransformedShape( getShape() );
+        return txShape.contains( x, y );
     }
 
     public void setBorderColor( Color color ) {
