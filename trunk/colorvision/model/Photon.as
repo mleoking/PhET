@@ -8,10 +8,14 @@
 	private static var instances:Array = new Array();
 	static function deleteInstance(p) {
 		for (var i = 0; i < Photon.instances.length; i++) {
-                trace("photon: " + i );
-			if (Photon.instances[i] == p) {
+			trace("photon: " + p.xLoc + "  " + instances[i].xLoc + "  " + (p == Photon.instances[i]) + "  " + (p == instances[i]));
+			
+			// NOTE!!! The first (commented) line never tests true!!!
+//			if (Photon.instances[i] == p) {
+			if (instances[i] == p) {
                         trace("photon: found");
-				Photon.instances.splice(i, 1);
+//				Photon.instances.splice(i, 1);
+				instances.splice(i, 1);
 			}
 		}
 	}
@@ -34,6 +38,8 @@
 		this.theta = theta;
 		this.rgb = rgb;
 		Photon.instances.push(this);
+		var p = this;
+		trace("photon!!! " + (p == this ));
 	}
 	function getX():Number{
 		return xLoc;
