@@ -48,7 +48,7 @@ public class ColorChangeEvent extends EventObject
   /**
    * Gets the color.
    *
-   * @param color the color
+   * @return the color
    */
   public VisibleColor getColor()
   {
@@ -58,7 +58,7 @@ public class ColorChangeEvent extends EventObject
   /**
    * Gets the intensity.
    * 
-   * @param the intensity
+   * @return the intensity
    */
   public double getIntensity()
   {

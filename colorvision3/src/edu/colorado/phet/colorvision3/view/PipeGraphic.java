@@ -111,7 +111,8 @@ public class PipeGraphic extends PhetShapeGraphic
   
   /**
    * Gets the arc used on the ends on the pipe segments.
-   * @return
+   * 
+   * @return the arc, in degrees
    */
   public int getArc()
   {

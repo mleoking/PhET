@@ -44,7 +44,7 @@ public class SolidBeam extends SimpleObservable implements SimpleObserver
    * Constructor for a filtered beam.
    * 
    * @param spotlightModel the spotlight model
-   * @param fitlerModel the fitler model
+   * @param filterModel the fitler model
    */
   public SolidBeam( Spotlight spotlightModel, Filter filterModel )
   {   
@@ -59,7 +59,6 @@ public class SolidBeam extends SimpleObservable implements SimpleObserver
   /**
    * Constructor for an unfiltered beam.
    * 
-   * @param parent the parent Component
    * @param spotlightModel the spotlight model
    */
   public SolidBeam( Spotlight spotlightModel )
