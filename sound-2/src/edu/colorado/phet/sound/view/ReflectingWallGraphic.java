@@ -27,6 +27,7 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
 
     private Rectangle2D.Double wall;
     private Color color;
+    private boolean displayHelpOrnaments;
 
     /**
      * @param x
@@ -48,11 +49,7 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
 
         interferingWaveMask = new GeneralPath();
         setAngle( theta );
-
         setLocation( x );
-
-        // Needed to initialize the shape
-        setShape( xformedWall );
     }
 
     public Point2D.Double getMidPoint() {
@@ -62,14 +59,20 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
     }
 
 
+
     /**
      * @param x
      */
     public void setLocation( double x ) {
         xform = AffineTransform.getTranslateInstance( x - this.x, 0 );
         xformedWall = xform.createTransformedShape( xformedWall );
-        setInterferingWaveMask();
         this.x = x;
+        setShape( xformedWall );
+        setInterferingWaveMask();
+    }
+
+    public double getLocation() {
+        return this.x;
     }
 
     /**
@@ -79,25 +82,22 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
         this.theta = theta;
         xform = AffineTransform.getRotateInstance( -Math.toRadians( theta ), x, y );
         xformedWall = xform.createTransformedShape( wall );
+        setShape( xformedWall );
         setInterferingWaveMask();
     }
 
-    double xPrev;
+    public double getAngle() {
+        return theta;
+    }
+
     private void setInterferingWaveMask() {
 
         // Create a interferingWaveMask to block out the new wavefront behind the wall.
         double xMax = 1000;
         double yMax = 800;
-        double x0 = theta > 85 ? x : x - ( yMax - y ) / Math.tan( Math.toRadians( theta ) );
-        double y0 = theta < 5 ? y : y - ( xMax - x ) * Math.tan( Math.toRadians( theta ) );
-        y0 = theta < 5 ? y : y0;
-        x0 = theta < 5 ? x : x0;
-
-        if(x0 < xPrev ) {
-            System.out.println( "" );
-        }
-        xPrev = x0;
-        System.out.println( "x0 = " + x0 );
+        double tan = Math.tan( Math.toRadians( theta ) );
+        double x0 = Double.isInfinite( tan ) ? x : x - ( yMax - y ) / tan;
+        double y0 = Double.isInfinite( tan ) ? y : y - ( xMax - x ) * tan;
 
         synchronized( interferingWaveMask ) {
             interferingWaveMask.reset();
@@ -152,6 +152,31 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
             g.draw( wallEdge );
         }
 
+        if( displayHelpOrnaments ) {
+            Ellipse2D.Double midPoint = new Ellipse2D.Double( getMidPoint().getX() - h, getMidPoint().getY() - h, 6, 6 );
+            g.setStroke( new BasicStroke( 2 ));
+            g.setColor( Color.black );
+            g.draw( midPoint );
+            g.setColor( Color.yellow );
+            g.fill( midPoint );
+
+            double radius = 100;
+            pushRenderingHints( g );
+            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            Arc2D.Double upperArc = new Arc2D.Double( getMidPoint().getX() - radius - h,
+                                                      getMidPoint().getY() - radius - h,
+                                                      radius * 2, radius * 2,
+                                                      getAngle() - 30, 60, Arc2D.OPEN );
+            Arc2D.Double lowerArc = new Arc2D.Double( getMidPoint().getX() - radius - h,
+                                                      getMidPoint().getY() - radius - h,
+                                                      radius * 2, radius * 2,
+                                                      getAngle() + 150, 60, Arc2D.OPEN );
+            g.setColor( Color.black);
+            g.draw( upperArc );
+            g.draw( lowerArc );
+            popRenderingHints( g );
+        }
+
         // For debugging
         //            g.setColor(Color.RED);
         //            g.fillArc((int) x, (int) y, 5, 5, 0, 360);
@@ -162,4 +187,7 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
         //            g.fillArc(300, 300, 5, 5, 0, 360);
     }
 
+    public void setDisplayHelpOrnaments( boolean enabled ) {
+        displayHelpOrnaments = enabled;
+    }
 }

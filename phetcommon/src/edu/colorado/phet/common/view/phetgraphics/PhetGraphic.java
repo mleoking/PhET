@@ -18,6 +18,7 @@ public abstract class PhetGraphic implements BoundedGraphic {
 //    private boolean visible = false;
     protected boolean visible = true;
     private boolean boundsDirty = true;
+    private RenderingHints savedRenderingHints;
 
     protected PhetGraphic( Component component ) {
         this.component = component;
@@ -26,6 +27,16 @@ public abstract class PhetGraphic implements BoundedGraphic {
     public Rectangle getBounds() {
         syncBounds();
         return bounds;
+    }
+
+    protected void pushRenderingHints( Graphics2D g ) {
+        savedRenderingHints = g.getRenderingHints();
+    }
+
+    protected void popRenderingHints( Graphics2D g ) {
+        if( savedRenderingHints != null ) {
+            g.setRenderingHints( savedRenderingHints );
+        }
     }
 
     protected void syncBounds() {
