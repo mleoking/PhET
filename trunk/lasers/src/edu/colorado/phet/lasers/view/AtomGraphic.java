@@ -6,81 +6,20 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.*;
-import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.AffineTransformOp;
 import java.awt.geom.AffineTransform;
-import java.util.Observable;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
-//public class AtomGraphic extends ImageGraphic {
-
-    private Image rep;
-    private Atom atom;
-
-    public AtomGraphic( Component component, Atom atom ) {
-        super( component, null );
-        this.atom = atom;
-//        super( s_particleImage, 0, 0 );
-        update();
-    }
-
-
-//    public static BufferedImage getImage() {
-////    protected Image getImage() {
-//        if( s_particleImage == null ) {
-////            ResourceLoader loader = new ResourceLoader();
-////            ResourceLoader.LoadedImageDescriptor imageDescriptor = loader.loadImage( s_imageName );
-////            s_particleImage = imageDescriptor.getImage();
-//            try {
-//                s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
-//            }
-//            catch( IOException e ) {
-//                e.printStackTrace();
-//            }
-//            this.s_radius = s_particleImage.getWidth( null ) / 2;
-////            this.s_radius = imageDescriptor.getWidth() / 2;
-//        }
-//        return s_particleImage;
-//    }
-
-    public void update() {
-//    public void update( Observable observable, Object o ) {
-//        super.update( observable, o );
-//        setPosition( (edu.colorado.phet.model.body.Particle)observable );
-        setPosition( (int)( atom.getPosition().getX() - atom.getRadius()),
-                     (int)(atom.getPosition().getY() - atom.getRadius() ));
-        AtomicState state = atom.getState();
-        if( state instanceof GroundState ) {
-//            this.setRep( s_groundStateImage );
-            rep = groundImg;
-        }
-        if( state instanceof SpontaneouslyEmittingState ) {
-//            BufferedImage img = GraphicsUtil.toBufferedImage( s_highEnergyStateImage );
-            rep = highImg;
-//            this.setRep( s_highEnergyStateImage );
-        }
-        if( state instanceof MiddleEnergyState ) {
-//            BufferedImage img = GraphicsUtil.toBufferedImage( s_middleEnergyStateImage );
-            rep = middleImg;
-//            this.setRep( s_middleEnergyStateImage );
-        }
-    }
-
-
-    //
-    // Static fields and methods
-    //
-    static private double s_radius = 10;
 
     static String s_imageName = LaserConfig.ATOM_IMAGE_FILE;
     static String s_groundStateImageName = LaserConfig.GROUND_STATE_IMAGE_FILE;
@@ -107,16 +46,6 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
             e.printStackTrace();
         }
 
-//        ResourceLoader loader = new ResourceLoader();
-//        ResourceLoader.LoadedImageDescriptor imageDescriptor = loader.loadImage( s_imageName );
-//        s_particleImage = imageDescriptor.getImage();
-//        imageDescriptor = loader.loadImage( s_groundStateImageName );
-//        s_groundStateImage = imageDescriptor.getImage();
-//        imageDescriptor = loader.loadImage( s_highEnergyStateImageName );
-//        s_highEnergyStateImage = imageDescriptor.getImage();
-//        imageDescriptor = loader.loadImage( s_middleEnergyStateImageName );
-//        s_middleEnergyStateImage = imageDescriptor.getImage();
-//
         groundImg = GraphicsUtil.toBufferedImage( s_groundStateImage );
         AffineTransformOp xformOp;
         AffineTransform xform;
@@ -136,6 +65,49 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
                                      BufferedImage.TYPE_INT_RGB );
         tempBI = GraphicsUtil.toBufferedImage( s_middleEnergyStateImage );
         middleImg = xformOp.filter( tempBI, null );
+    }
+
+
+    private Atom atom;
+
+    public AtomGraphic( Component component, Atom atom ) {
+        super( component, null );
+        this.atom = atom;
+        update();
+    }
+
+
+//    public static BufferedImage getImage() {
+////    protected Image getImage() {
+//        if( s_particleImage == null ) {
+////            ResourceLoader loader = new ResourceLoader();
+////            ResourceLoader.LoadedImageDescriptor imageDescriptor = loader.loadImage( s_imageName );
+////            s_particleImage = imageDescriptor.getImage();
+//            try {
+//                s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
+//            }
+//            catch( IOException e ) {
+//                e.printStackTrace();
+//            }
+//            this.s_radius = s_particleImage.getWidth( null ) / 2;
+////            this.s_radius = imageDescriptor.getWidth() / 2;
+//        }
+//        return s_particleImage;
+//    }
+
+    public void update() {
+        AtomicState state = atom.getState();
+        if( state instanceof GroundState ) {
+            super.setImage( groundImg );
+        }
+        if( state instanceof SpontaneouslyEmittingState ) {
+            super.setImage( highImg );
+        }
+        if( state instanceof MiddleEnergyState ) {
+            super.setImage( middleImg );
+        }
+        setPosition( (int)( atom.getPosition().getX() - atom.getRadius()),
+                     (int)(atom.getPosition().getY() - atom.getRadius() ));
     }
 }
 

@@ -82,6 +82,9 @@ public class LaserModel extends BaseModel {
         if( modelElement instanceof Body ) {
             bodies.add( modelElement );
         }
+        if( modelElement instanceof ResonatingCavity ) {
+            this.resonatingCavity = (ResonatingCavity)modelElement;
+        }
     }
 
     public void removeModelElement( ModelElement modelElement ) {

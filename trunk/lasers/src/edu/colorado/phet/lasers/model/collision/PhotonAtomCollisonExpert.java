@@ -14,10 +14,12 @@ package edu.colorado.phet.lasers.model.collision;
 
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollisionExpert;
+import edu.colorado.phet.collision.SphereSphereExpert;
 
-public class PhotonAtomCollisonExpert implements CollisionExpert {
+public class PhotonAtomCollisonExpert extends SphereSphereExpert {
+//public class PhotonAtomCollisonExpert implements CollisionExpert {
 
-    public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
-        throw new RuntimeException( "TBI" );
-    }
+//    public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
+//        throw new RuntimeException( "TBI" );
+//    }
 }

@@ -31,6 +31,7 @@ public class ResonatingCavity extends Box2D {
     private PartialMirror leftMirror;
 
     public ResonatingCavity( Point2D origin, double width, double height ) {
+        super( origin, new Point2D.Double( origin.getX() + width, origin.getY() + height ) );
         this.origin = origin;
         this.width = width;
         this.height = height;
@@ -53,7 +54,7 @@ public class ResonatingCavity extends Box2D {
 
         // Create the left mirror
         leftMirror = new PartialMirror( new Point2D.Double( origin.getX() - 40,
-                                                           origin.getY() ),
+                                                            origin.getY() ),
                                         new Point2D.Double( origin.getX() - 40,
                                                             origin.getY() + height ) );
         leftMirror.addReflectionStrategy( new RightReflecting() );
@@ -61,9 +62,9 @@ public class ResonatingCavity extends Box2D {
 
         // Create the right mirror
         rightMirror = new PartialMirror( new Point2D.Double( origin.getX() + width + 40,
-                                                            origin.getY() ),
+                                                             origin.getY() ),
                                          new Point2D.Double( origin.getX() + width + 40,
-                                                            origin.getY() + height ) );
+                                                             origin.getY() + height ) );
         rightMirror.addReflectionStrategy( new LeftReflecting() );
         rightMirror.addReflectionStrategy( new BandPass( Photon.RED, Photon.RED ) );
         rightMirror.setReflectivity( 0.2f );
@@ -77,7 +78,7 @@ public class ResonatingCavity extends Box2D {
     }
 
     public Rectangle2D getBounds() {
-        return new Rectangle2D.Double( getMinX(), getMinY(), getWidth(), getHeight() );    
+        return new Rectangle2D.Double( getMinX(), getMinY(), getWidth(), getHeight() );
     }
 
     public float getReflectivity() {
@@ -107,7 +108,6 @@ public class ResonatingCavity extends Box2D {
 //    }
 
     /**
-     *
      * @param height
      */
     public void setHeight( double height ) {

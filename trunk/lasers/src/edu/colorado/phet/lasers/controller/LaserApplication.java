@@ -25,6 +25,7 @@ public class LaserApplication extends PhetApplication {
             super( "Lasers", "Lasers", "0.1" );
 
             AbstractClock clock = new SwingTimerClock( 10, 20 );
+            setClock( clock );
 
             Module singleAtomModule = new OneAtomTwoLevelsModule( clock );
             Module oneAtomThreeLevelsModule = new OneAtomThreeLevelsModule( clock );
