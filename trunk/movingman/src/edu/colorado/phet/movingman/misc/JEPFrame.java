@@ -75,12 +75,6 @@ public class JEPFrame extends JDialog {
             //TODO handle the end of time.
         }
 
-//        private void timeFinished() {
-////            motionSuite.timeFinished();
-//            module.getMovingManControlPanel().finishedRecording();
-//        }
-
-
         public void setExpression( String expression ) {
             this.expression = expression;
         }
@@ -123,7 +117,31 @@ public class JEPFrame extends JDialog {
         contentPanel.setFill( GridBagConstraints.NONE );
         contentPanel.add( go );
         contentPanel.add( reset );
+
+        JButton help = new JButton( "Help and Examples" );
+        help.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                showInformation();
+            }
+        } );
+        contentPanel.add( help );
         setContentPane( contentPanel );
         pack();
+    }
+
+    private void showInformation() {
+        String message = "You can type mathematical expressions here\n" +
+                         "as a function of time.  Then, by pressing 'Go', the Man will\n" +
+                         "trace out your function.\n\n" +
+                         "Multiplication is written as '*' (implicit multiplication like 3t is not supported)\n" +
+                         "\nExamples:\n" +
+                         "3*t\n" +
+                         "log(t)\n" +
+                         "2^t\n" +
+                         "sqrt(sin(t^2))\n" +
+                         "t^2-t+3\n";
+
+
+        JOptionPane.showMessageDialog( this, message, "Java Expression Parser", JOptionPane.INFORMATION_MESSAGE );
     }
 }

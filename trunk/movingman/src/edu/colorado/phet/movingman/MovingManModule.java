@@ -27,8 +27,6 @@ import edu.colorado.phet.movingman.plots.MMPlot;
 import smooth.util.SmoothUtilities;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
@@ -970,8 +968,8 @@ public class MovingManModule extends Module {
         } );
 
         final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( SimStrings.get( "MovingManModule.InvertXAxisMenuItem" ), false );
-        jcbmi.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+        jcbmi.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 module.setRightDirPositive( !jcbmi.isSelected() );
             }
         } );
