@@ -1,6 +1,6 @@
 <project name="General Ant Build Script" default="Publish Executables" basedir=".">
 
-    <!--  Set ant output directories...  -->
+    <!--  Set ant output directories.  -->
     <property name="ant.output" value="../ant_output"/>
     <property name="classes" location="${ant.output}/classes"/>
     <property name="jars" location="${ant.output}/jars"/>
@@ -28,6 +28,10 @@
     <description>
         Build File.
     </description>
+
+    <taskdef name="copyclasspath" classname="org.reids.anttasks.CopyClasspath" classpath="${antutil}"/>
+    <taskdef name="createresourcetag" classname="org.reids.anttasks.CreateResourcesTag" classpath="${antutil}"/>
+    <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile" classpath="${antutil}"/>
 
     <target name="Clean Dependencies">
         <delete dir="${idea.classes}"></delete>
@@ -72,18 +76,6 @@
         </copy>
         <copyclasspath directory="${backup}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>
     </target>
-
-    <!--    <target name="Backup Dev and Lib to desktop" depends="init">-->
-    <!--        <mkdir dir="${desktop}"/>-->
-    <!--        <tstamp>-->
-    <!--            <format property="backup.time" pattern="d-MMMM-yyyy h-mmaa" locale="en" timezone="MST"></format>-->
-    <!--        </tstamp>-->
-    <!--        <mkdir dir="${desktop}/${distname}_dev_${backup.time}"/>-->
-    <!--        <copy todir="${desktop}/${distname}_dev_${backup.time}">-->
-    <!--            <fileset dir="${development}"/>-->
-    <!--        </copy>-->
-    <!--        <copyclasspath directory="${desktop}/${distname}_dev_${backup.time}/lib" ignore="${ignorepath}"/>-->
-    <!--    </target>-->
 
     <target name="Clean"
         description="clean up">
@@ -131,7 +123,7 @@
         <javadoc destdir="${javadoc}" author="true" version="true" use="true">
             <packageset dir="src" defaultexcludes="yes">
             </packageset>
-            <bottom><![CDATA[<i>Copyright &#169; 2003 Sam Reid. All Rights Reserved.</i>]]></bottom>
+            <bottom><![CDATA[<i>Copyright &#169; 2004 PhET. All Rights Reserved.</i>]]></bottom>
             <link href="http://java.sun.com/products/jdk/1.4/docs/api/"/>
         </javadoc>
     </target>
@@ -177,10 +169,6 @@
         <CreateBatchFile mainJar="bin/${distname}.jar" libDir="${destdir}/lib" mainClassName="${main.class}" outputFile="${destdir}/run_${distname}.bat"/>
     </target>
 
-    <taskdef name="copyclasspath" classname="org.reids.anttasks.CopyClasspath"/>
-    <taskdef name="createresourcetag" classname="org.reids.anttasks.CreateResourcesTag"/>
-    <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile"/>
-
     <target name="Copy Classpath To lib">
         <delete dir="${lib}"/>
         <copyclasspath directory="${lib}" ignore="${ignorepath}"/>
@@ -207,8 +195,6 @@
                 <include name="${distname}.jnlp"></include>
             </fileset>
         </copy>
-        <!--        <copyclasspath directory="${destdir}/lib" ignore="${ignorepath}"/>-->
-        <CreateBatchFile mainJar="${distname}.jar" libDir="${destdir}/lib" mainClassName="${main.class}" outputFile="${destdir}/run_${distname}.bat"/>
         <exec dir="${destdir}" executable="explorer">
             <arg line="${destdir}"/>
         </exec>
