@@ -350,7 +350,7 @@ public class CCK3Module extends Module {
         //        wiggleMe = new WiggleMe( getApparatusPanel(), pt,
         //                                 new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
         wiggleMe = new WiggleMe( getApparatusPanel(), pt, new ImmutableVector2D.Double( 0, 1 ), 10, .025,
-                                                                SimStrings.get( "CCK3Module.GrabAWire" ) );
+                                 SimStrings.get( "CCK3Module.GrabAWire" ) );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 Rectangle2D rect = toolbox.getBounds2D();
@@ -670,9 +670,9 @@ public class CCK3Module extends Module {
             Locale.setDefault( new Locale( applicationLocale ) );
         }
         String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
+        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ));
+            Locale.setDefault( new Locale( locale ) );
         }
 
         SimStrings.setStrings( localizedStringsPath );
@@ -701,10 +701,9 @@ public class CCK3Module extends Module {
         if( debugMode ) {
             fs = new FrameSetup.CenteredWithInsets( 0, 200 );
         }
-        ApplicationModel model = new ApplicationModel(
-                    SimStrings.get( "CCK3Application.title" ),
-                    SimStrings.get( "CCK3Application.description" ),
-                    SimStrings.get( "CCK3Application.version" ), fs, cck, clock );
+        ApplicationModel model = new ApplicationModel( SimStrings.get( "CCK3Application.title" ),
+                                                       SimStrings.get( "CCK3Application.description" ),
+                                                       SimStrings.get( "CCK3Application.version" ), fs, cck, clock );
         model.setName( "cck" );
         model.setUseClockControlPanel( false );
         final PhetApplication app = new PhetApplication( model );
@@ -713,7 +712,7 @@ public class CCK3Module extends Module {
         UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
 
         JMenu laf = new JMenu( SimStrings.get( "ViewMenu.Title" ) );
-        laf.setMnemonic( SimStrings.get( "ViewMenu.TitleMnemonic" ).charAt(0) );
+        laf.setMnemonic( SimStrings.get( "ViewMenu.TitleMnemonic" ).charAt( 0 ) );
         JMenuItem[] jmi = PlafUtil.getLookAndFeelItems();
         for( int i = 0; i < jmi.length; i++ ) {
             JMenuItem jMenuItem = jmi[i];
@@ -722,7 +721,7 @@ public class CCK3Module extends Module {
         app.getApplicationView().getPhetFrame().addMenu( laf );
 
         JMenu dev = new JMenu( SimStrings.get( "OptionsMenu.Title" ) );
-        dev.setMnemonic( SimStrings.get( "OptionsMenu.TitleMnemonic" ).charAt(0) );
+        dev.setMnemonic( SimStrings.get( "OptionsMenu.TitleMnemonic" ).charAt( 0 ) );
         JMenuItem changeBackgroundColor = new JMenuItem( SimStrings.get( "OptionsMenu.BackgroundColor" ) );
         changeBackgroundColor.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -740,7 +739,7 @@ public class CCK3Module extends Module {
                     }
                 };
                 ColorDialog.showDialog( SimStrings.get( "OptionsMenu.BackgroundColorDialogTitle" ),
-                        app.getApplicationView().getPhetFrame(), cck.getApparatusPanel().getBackground(), listy );
+                                        app.getApplicationView().getPhetFrame(), cck.getApparatusPanel().getBackground(), listy );
             }
         } );
         cck.setFrame( app.getApplicationView().getPhetFrame() );
@@ -761,7 +760,7 @@ public class CCK3Module extends Module {
                     }
                 };
                 ColorDialog.showDialog( SimStrings.get( "OptionsMenu.ToolboxColorDialogTitle" ),
-                        app.getApplicationView().getPhetFrame(), cck.getToolbox().getBackgroundColor(), listy );
+                                        app.getApplicationView().getPhetFrame(), cck.getToolbox().getBackgroundColor(), listy );
             }
         } );
 
