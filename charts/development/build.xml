@@ -2,6 +2,7 @@
 
     <!--  Set ant output directories.  -->
     <property name="ant.output" value="../ant_output"/>
+    <property name="phetcommon.ant.output" value="../ant_output/phetcommon-0.1.1"/>
     <property name="classes" location="${ant.output}/classes"/>
     <property name="jars" location="${ant.output}/jars"/>
     <property name="javadoc" location="${ant.output}/javadoc"/>
@@ -90,12 +91,14 @@
         description="compile the source ">
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
-        <property name="phetdest" value="${ant.output}/phetcommon-classes"/>
-        <delete dir="${phetdest}"/>
-        <mkdir dir="${phetdest}"/>
-        <javac srcdir="C:\PhET\projects-ii\phetcommon\src" classpath="C:\PhET\projects-ii\phetcommon\lib\smoothmetal.jar" destdir="${phetdest}"/>
-        <javac srcdir="${src}" classpath="${phetdest}" destdir="${classes}"/>
-<!--        <javac srcdir="${test-src}" classpath="${classes}" destdir="${classes}"/>-->
+        <!--        <property name="phetdest" value="${ant.output}/phetcommon-classes"/>-->
+        <!--        <delete dir="${phetdest}"/>-->
+        <!--        <mkdir dir="${phetdest}"/>-->
+        <!--        <ant dir="${phetcommon.path}" antfile="${phetcommon.path}/build10.xml" inheritall="false" target="Publish Executables"/>-->
+        <!--        <javac srcdir="C:\PhET\projects-ii\phetcommon\src" classpath="C:\PhET\projects-ii\phetcommon\lib\smoothmetal.jar" destdir="${phetdest}"/>-->
+        <echo message="${phetcommon.ant.output}/jars/phetcommon.jar"/>
+        <javac srcdir="${src}" classpath="C:/PhET/projects-ii/releases/phetcommon0.1.1_exec-build-81/phetcommon.jar" destdir="${classes}"/>
+        <!--        <javac srcdir="${test-src}" classpath="${classes}" destdir="${classes}"/>-->
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
@@ -207,10 +210,26 @@
         </exec>
     </target>
 
-    <target name="Open Explorer">
-        <exec dir="${development}" executable="explorer">
-            <arg line="${development}"></arg>
-        </exec>
+    <target name="Publish All" depends="Generate Jar"
+        description="generate all executables">
+        <copy todir="oue">
+        </copy>
+        <!--        <mkdir dir="${releases}"/>-->
+        <!--        <property file="${build.number.txt}"/>-->
+        <!--        <property name="destdir" value="${releases}\${distname}${version}_exec-build-${build.number}"/>-->
+        <!--        <mkdir dir="${destdir}"/>-->
+        <!--        <copy todir="${destdir}">-->
+        <!--            <fileset dir="${jars}"/>-->
+        <!--        </copy>-->
+        <!--        <copy todir="${destdir}">-->
+        <!--            <fileset dir="." casesensitive="yes">-->
+        <!--                <include name="${distname}.jnlp"></include>-->
+        <!--                <include name="**/*.jnlp"/>-->
+        <!--            </fileset>-->
+        <!--        </copy>-->
+        <!--        <exec dir="${destdir}" executable="explorer">-->
+        <!--            <arg line="${destdir}"/>-->
+        <!--        </exec>-->
     </target>
 
 </project>
