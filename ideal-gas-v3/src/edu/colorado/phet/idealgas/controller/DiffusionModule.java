@@ -12,12 +12,18 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.SphereWallExpert;
 import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -32,17 +38,18 @@ public class DiffusionModule extends IdealGasModule {
     private int wallThickness = (int)GasMolecule.s_defaultRadius * 4;
     private double minimumWallSeparation = GasMolecule.s_defaultRadius * 4;
 
-    public DiffusionModule( AbstractClock clock ) {
+    public DiffusionModule( final AbstractClock clock ) {
         super( clock, "Diffusion" );
 
         getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
 
-        Box2D box = super.getBox();
+        final Box2D box = super.getBox();
 
         // Create the lower vertical wall
         lowerWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
-                                                      box.getCorner1Y() + box.getHeight() / 3,
-                                                      wallThickness, box.getHeight() * 2 / 3 ),
+                                                      box.getCorner1Y() + box.getHeight()* 2 / 3,
+                                                      wallThickness, box.getHeight() * 1 / 3 ),
+//                                                      wallThickness, box.getHeight() * 2 / 3 ),
                               box.getBoundsInternal() );
         lowerWall.setMinimumWidth( wallThickness );
         lowerWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + GasMolecule.s_defaultRadius * 8,
@@ -72,13 +79,34 @@ public class DiffusionModule extends IdealGasModule {
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
         upperWallGraphic.setIsResizable( true );
-        getModel().addModelElement( upperWall );
-        addGraphic( upperWallGraphic, 1000 );
+//        getModel().addModelElement( upperWall );
+//        addGraphic( upperWallGraphic, 1000 );
         upperWall.addChangeListener( new LowerWallChangeListener() );
 
-        // Set the bounds for the walls
-//        setWallBounds();
+
+
+        JButton testButton = new JButton( "Test" );
+        getControlPanel().add( testButton);
+        testButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner1X() + 50,
+                                                                                 box.getCorner1Y() + 70),
+                                                             new Vector2D.Double( 100, 100 ),
+                                                             new Vector2D.Double( ) );
+                new PumpMoleculeCmd( getIdealGasModel(), newMolecule, DiffusionModule.this ).doIt();
+
+            }
+        } );
+
+        JButton backupButton = new JButton( "Backup" );
+        getControlPanel().add( backupButton );
+        backupButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getModel().stepInTime( -clock.getDt() );
+            }
+        } );
     }
+
 
     /**
      * Sets the bounds of the various walls and the bounds of their movement based on

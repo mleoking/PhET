@@ -12,6 +12,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.SphereWallExpert;
 import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObservable;
@@ -23,11 +24,16 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.GraduatedWallGraphic;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
@@ -58,11 +64,11 @@ public class MovableWallsModule extends IdealGasModule {
     private ParticleCounter leftRegionParticleCounter;
     private ParticleCounter rightRegionParticleCounter;
 
-    public MovableWallsModule( AbstractClock clock ) {
+    public MovableWallsModule( final AbstractClock clock ) {
         super( clock, "<html><center>Potential Energy<br>Surface</center></html>" );
 
         getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
-        Box2D box = super.getBox();
+        final Box2D box = super.getBox();
 
         // Create the lower vertical wall
         lowerWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
@@ -70,6 +76,10 @@ public class MovableWallsModule extends IdealGasModule {
                                                       wallThickness, box.getHeight() * 2 / 3 ),
                               box.getBoundsInternal() );
         lowerWall.setMinimumWidth( wallThickness );
+        lowerWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + wallThickness,
+                                                             box.getCorner1Y() + wallThickness,
+                                                             box.getWidth() - 2 * wallThickness,
+                                                             box.getHeight() - wallThickness ) );
         WallGraphic lowerWallGraphic = new GraduatedWallGraphic( lowerWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
@@ -104,6 +114,30 @@ public class MovableWallsModule extends IdealGasModule {
 
         // Add counters for the number of particles on either side of the vertical wall
         addParticleCounters();
+
+
+        JButton testButton = new JButton( "Test" );
+        getControlPanel().add( testButton);
+        testButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner1X() + 50,
+                                                                                 box.getCorner1Y() + 70),
+                                                             new Vector2D.Double( 100, 100 ),
+                                                             new Vector2D.Double( ) );
+                new PumpMoleculeCmd( getIdealGasModel(), newMolecule, MovableWallsModule.this ).doIt();
+
+            }
+        } );
+
+
+        JButton backupButton = new JButton( "Backup" );
+        getControlPanel().add( backupButton );
+        backupButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getModel().stepInTime( -clock.getDt() );
+            }
+        } );
+
     }
 
     /**

@@ -6,8 +6,10 @@
  */
 package edu.colorado.phet.collision;
 
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class SphereWallExpert implements CollisionExpert, ContactDetector {
@@ -42,6 +44,8 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         return getContactType( bodyA, bodyB ).type != NO_CONTACT;
     }
 
+    int leftCnt = 0;
+
     private ContactDescriptor getContactType( CollidableBody bodyA, CollidableBody bodyB ) {
         int result = NO_CONTACT;
         Wall wall = null;
@@ -70,66 +74,162 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
             return null;
         }
 
-        Rectangle2D bounds = wall.getBounds();
-        Rectangle2D prevBounds = wall.getPrevBounds();
-        double sphereX = sphere.getPosition().getX();
-        double sphereXPrev = sphere.getPositionPrev().getX();
-        double sphereY = sphere.getPosition().getY();
-        double sphereYPrev = sphere.getPositionPrev().getY();
-        double sphereRadius = sphere.getRadius();
+        if( true ) {
+            result = check2( sphere, wall );
+        }
+        else {
 
-        // Hitting left side of wall?
+
+            Rectangle2D bounds = wall.getBounds();
+            Rectangle2D prevBounds = wall.getPrevBounds();
+            double sphereX = sphere.getPosition().getX();
+            double sphereXPrev = sphere.getPositionPrev().getX();
+            double sphereY = sphere.getPosition().getY();
+            double sphereYPrev = sphere.getPositionPrev().getY();
+            double sphereRadius = sphere.getRadius();
+
+            // Hitting left side of wall?
 //        if( sphereX + sphereRadius >= bounds.getMinX() && sphereXPrev + sphereRadius < prevBounds.getMinX()
 //            && sphereY >= bounds.getMinY() - sphereRadius && sphereY <= bounds.getMaxY() + sphereRadius ) {
 //            result = LEFT_SIDE;
 //        }
-        if( sphereX + sphereRadius >= bounds.getMinX() && sphereX + sphereRadius < bounds.getMaxX()
-            && sphere.getVelocity().getX() > 0
-            && sphereY >= bounds.getMinY() - sphereRadius && sphereY <= bounds.getMaxY() + sphereRadius
-            && result != LEFT_SIDE ) {
-            result = LEFT_SIDE;
-        }
 
-        // Hitting right side?
+            Point2D sp = sphere.getPosition();
+            if( sphereXPrev + sphereRadius < bounds.getMinX()
+                && sphereX + sphereRadius >= bounds.getMinX() && sphereX + sphereRadius < bounds.getMaxX()
+                && sphere.getVelocity().getX() > 0
+                && ( sphereY >= bounds.getMinY() && sphereY <= bounds.getMaxY()
+                     || sp.distanceSq( wall.getBounds().getMinX(), wall.getBounds().getMinY() ) < sphereRadius * sphereRadius
+                     || sp.distanceSq( wall.getBounds().getMaxX(), wall.getBounds().getMinY() ) < sphereRadius * sphereRadius ) ) {
+//            && sphereY >= bounds.getMinY() /*- sphereRadius */ && sphereY <= bounds.getMaxY() /* + sphereRadius*/
+                result = LEFT_SIDE;
+
+                leftCnt++;
+                if( leftCnt >= 2 ) {
+                    System.out.println( "!!!" );
+                }
+            }
+
+            // Hitting right side?
 //        if( sphereX - sphereRadius <= bounds.getMaxX() && sphereXPrev - sphereRadius > prevBounds.getMaxX()
 //            && sphereY >= bounds.getMinY() - sphereRadius && sphereY <= bounds.getMaxY() + sphereRadius ) {
 //            result = RIGHT_SIDE;
 //        }
-        if( sphereX - sphereRadius <= bounds.getMaxX() && sphereX - sphereRadius > bounds.getMinX()
-            && sphere.getVelocity().getX() < 0
-            && sphereY >= bounds.getMinY() - sphereRadius && sphereY <= bounds.getMaxY() + sphereRadius
-            && result != RIGHT_SIDE ) {
-            result = RIGHT_SIDE;
-        }
+            if( sphereXPrev - sphereRadius > prevBounds.getMaxX()
+                && sphereX - sphereRadius <= bounds.getMaxX() && sphereX - sphereRadius > bounds.getMinX()
+                && sphere.getVelocity().getX() < 0
+                && sphereY >= bounds.getMinY()/* - sphereRadius */ && sphereY <= bounds.getMaxY() /* + sphereRadius */
+                && result != RIGHT_SIDE ) {
+                result = RIGHT_SIDE;
+            }
 
-        // Hitting top?
+            // Hitting top?
 //        if( sphereY + sphereRadius >= bounds.getMinY() && sphereYPrev + sphereRadius < prevBounds.getMinY()
 //            && sphereX >= bounds.getMinX() - sphereRadius && sphereX <= bounds.getMaxX() + sphereRadius ) {
 //            result = TOP;
 //        }
-        if( sphereY + sphereRadius >= bounds.getMinY() && sphereY + sphereRadius < bounds.getMaxY()
-        && sphere.getVelocity().getY() > 0
-        && sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX() ){
-            result = TOP;
-        }
+            if( sphereYPrev + sphereRadius < bounds.getMinY()
+                && sphereY + sphereRadius >= bounds.getMinY() && sphereY + sphereRadius < bounds.getMaxY()
+                && sphere.getVelocity().getY() > 0
+                && ( sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX()
+                     || sphere.getPosition().distanceSq( wall.getBounds().getMinX(), wall.getBounds().getMinY() ) < sphereRadius * sphereRadius
+                     || sphere.getPosition().distanceSq( wall.getBounds().getMaxX(), wall.getBounds().getMinY() ) < sphereRadius * sphereRadius ) ) {
+//            && sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX() ) {
+                result = TOP;
+            }
 
 
-        // Hitting bottom?
+            // Hitting bottom?
 //        if( sphereY - sphereRadius <= bounds.getMaxY() && sphereYPrev - sphereRadius > prevBounds.getMaxY()
 //            && sphereX >= bounds.getMinX() - sphereRadius && sphereX <= bounds.getMaxX() + sphereRadius ) {
 //            result = BOTTOM;
 //        }
-        if( sphereY - sphereRadius <= bounds.getMaxY() && sphereY - sphereRadius > bounds.getMinY()
-        && sphere.getVelocity().getY() < 0
-        && sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX() ){
-            result = BOTTOM;
+            if( sphereYPrev - sphereRadius > bounds.getMaxY()
+                && sphereY - sphereRadius <= bounds.getMaxY() && sphereY - sphereRadius > bounds.getMinY()
+                && sphere.getVelocity().getY() < 0
+                && sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX() ) {
+                result = BOTTOM;
+            }
+
         }
+
 
         ContactDescriptor contactDescriptor = null;
         if( result != NO_CONTACT ) {
             contactDescriptor = new ContactDescriptor( wall, sphere, result );
         }
         return contactDescriptor;
+    }
+
+
+    int cnt = 0;
+    private int check2( SphericalBody sphere, Wall wall ) {
+        int result = NO_CONTACT;
+
+        Point2D P = sphere.getPositionPrev();
+        double Px = P.getX();
+        double Py = P.getY();
+        Point2D Q = sphere.getPosition();
+        double Qx = Q.getX();
+        double Qy = Q.getY();
+//        Vector2D v = new Vector2D.Double();
+        Vector2D v = new Vector2D.Double( sphere.getVelocity() ).normalize();
+        double r = sphere.getRadius();
+
+        Point2D A = new Point2D.Double( wall.getBounds().getMinX(), wall.getBounds().getMinY() );
+        double Ax = A.getX();
+        double Ay = A.getY();
+        Point2D B = new Point2D.Double( wall.getBounds().getMaxX(), wall.getBounds().getMinY() );
+        double Bx = B.getX();
+        double By = B.getY();
+        Point2D C = new Point2D.Double( wall.getBounds().getMaxX(), wall.getBounds().getMaxY() );
+        double Cx = C.getX();
+        double Cy = C.getY();
+        Point2D D = new Point2D.Double( wall.getBounds().getMinX(), wall.getBounds().getMaxY() );
+        double Dx = D.getX();
+        double Dy = D.getY();
+
+        System.out.println( "=====" );
+        System.out.println( "cnt++ = " + cnt++ );
+        System.out.println( "Py = " + Py );
+        System.out.println( "Qy = " + Qy );
+        System.out.println( "Ay = " + Ay );
+        System.out.println( "Dy = " + Dy );
+        System.out.println( "Px = " + Px );
+        System.out.println( "Qx = " + Qx );
+        System.out.println( "Ax = " + Ax );
+
+        if( cnt >= 592 && cnt % 3 == 1 ) {
+            System.out.println( "stop!" );
+        }
+
+        if( Py + r * v.getY() <= Dy && Qy + r * v.getY() >= Ay
+        || Py - r * v.getY() >= Ay && Qy - r * v.getY() <= Dy ) {
+            if( Px + r * v.getX() < Ax
+                && Qx + r * v.getX() >= Ax ) {
+                result = LEFT_SIDE;
+            }
+
+
+            if( Px - r * v.getX() > Bx
+                && Qx - r * v.getX() <= Bx ) {
+                result = RIGHT_SIDE;
+            }
+        }
+
+        if( Px + r * v.getX() <= Bx && Qx + r * v.getX() >= Ax
+        || Px - r * v.getX() >= Ax && Qx - r * v.getX() <= Bx ) {
+            if( Py + r * v.getY() < Ay
+                && Qy + r * v.getY() >= Ay ) {
+                result = TOP;
+            }
+
+            if( Py - r * v.getY() > Ay
+                && Qy - r * v.getY() <= Ay ) {
+                result = BOTTOM;
+            }
+        }
+        return result;
     }
 
     //----------------------------------------------------------------
