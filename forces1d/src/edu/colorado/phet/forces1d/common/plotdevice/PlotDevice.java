@@ -569,7 +569,7 @@ public class PlotDevice extends CompositePhetGraphic {
 //            chart.getHorizontalTicks().setMajorTickSpacing( spacing );
             chart.getVerticalTicks().setMajorTickSpacing( spacing );
             chart.getHorizonalGridlines().setMajorTickSpacing( spacing );
-            chart.setVerticalTitle( title, color, verticalTitleFont );
+            chart.setVerticalTitle( title, color, verticalTitleFont, 60 );
             chart.getVerticalTicks().setMajorOffset( new JSlider().getWidth() - 5, 0 );
 
             closeButton = new CloseButton();
