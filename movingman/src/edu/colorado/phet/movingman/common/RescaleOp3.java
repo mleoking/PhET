@@ -1,8 +1,8 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.movingman.common;
 
+import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 /**
@@ -33,10 +33,22 @@ public class RescaleOp3 {
     }
 
     public static BufferedImage rescaleFractional( BufferedImage in, double dx, double dy ) {
+        //could test for MAC, or try/catch, or just pretend everybody is a mac.
+        return rescaleFractionalMacs( in, dx, dy );
+//        AffineTransform at = AffineTransform.getScaleInstance( dx, dy );
+//        AffineTransformOp ato = new AffineTransformOp( at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
+//        BufferedImage out = ato.createCompatibleDestImage( in, in.getColorModel() );
+//        ato.filter( in, out );
+//        return out;
+    }
+
+    public static BufferedImage rescaleFractionalMacs( BufferedImage in, double dx, double dy ) {
+        int width = (int)( in.getWidth() * dx );
+        int height = (int)( in.getHeight() * dy );
+        BufferedImage newImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
+        Graphics2D g2 = newImage.createGraphics();
         AffineTransform at = AffineTransform.getScaleInstance( dx, dy );
-        AffineTransformOp ato = new AffineTransformOp( at, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
-        BufferedImage out = ato.createCompatibleDestImage( in, in.getColorModel() );
-        ato.filter( in, out );
-        return out;
+        g2.drawRenderedImage( in, at );
+        return newImage;
     }
 }
