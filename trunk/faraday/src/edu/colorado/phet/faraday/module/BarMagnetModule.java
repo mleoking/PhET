@@ -134,6 +134,7 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         // Field Meter
         FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, magnetModel );
         fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        fieldMeterGraphic.setVisible( false );
         apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
         
         // Debugger
