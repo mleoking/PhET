@@ -19,7 +19,7 @@ public class TestUprightModelViewTransform2D extends TestCase {
     public void testModelToViewSimple() {
         Rectangle viewBounds = new Rectangle( 0, 0, 100, 100 );
         Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, 1, 1 );
-        ModelViewTransform2D transform = new ModelViewTransform2D.OriginTopLeft( modelBounds, viewBounds );
+        ModelViewTransform2D transform = new ModelViewTransform2D( modelBounds, viewBounds, false );
         assertEquals( new Point( 0, 0 ), transform.modelToView( 0, 0 ) );
         assertEquals( new Point( 100, 100 ), transform.modelToView( 1, 1 ) );
         assertEquals( new Point( 50, 50 ), transform.modelToView( .5, .5 ) );
@@ -28,7 +28,7 @@ public class TestUprightModelViewTransform2D extends TestCase {
     public void testOffCenterTx() {
         Rectangle viewBounds = new Rectangle( 10, 10, 20, 20 );
         Rectangle2D.Double modelBounds = new Rectangle2D.Double( -1, -1, 2, 2 );
-        ModelViewTransform2D transform = new ModelViewTransform2D.OriginTopLeft( modelBounds, viewBounds );
+        ModelViewTransform2D transform = new ModelViewTransform2D( modelBounds, viewBounds, false );
         Point result = transform.modelToView( 0, 0 );
         assertEquals( "Should be on-center.", new Point( 20, 20 ), result );
     }
@@ -36,7 +36,7 @@ public class TestUprightModelViewTransform2D extends TestCase {
     public void testToAffineTransform() {
         Rectangle viewBounds = new Rectangle( 10, 10, 20, 20 );
         Rectangle2D.Double modelBounds = new Rectangle2D.Double( -1, -1, 2, 2 );
-        ModelViewTransform2D mvt2 = new ModelViewTransform2D.OriginTopLeft( modelBounds, viewBounds );
+        ModelViewTransform2D mvt2 = new ModelViewTransform2D( modelBounds, viewBounds, false );
         AffineTransform tx = mvt2.getAffineTransform();
         Point2D dst = tx.transform( new Point2D.Double( 0, 0 ), null );
         assertEquals( new Point2D.Double( 20, 20 ), dst );
@@ -45,7 +45,7 @@ public class TestUprightModelViewTransform2D extends TestCase {
     public void testToAffineTransform2() {
         Rectangle viewBounds = new Rectangle( 0, 0, 100, 100 );
         Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, 1, 1 );
-        ModelViewTransform2D mvt2 = new ModelViewTransform2D.OriginTopLeft( modelBounds, viewBounds );
+        ModelViewTransform2D mvt2 = new ModelViewTransform2D( modelBounds, viewBounds, false );
         AffineTransform tx = mvt2.getAffineTransform();
         Point2D dst = tx.transform( new Point2D.Double( .5, .5 ), null );
         assertEquals( new Point2D.Double( 50, 50 ), dst );
@@ -54,7 +54,7 @@ public class TestUprightModelViewTransform2D extends TestCase {
     public void testToAffineTransform3() {
         Rectangle viewBounds = new Rectangle( 50, 50, 50, 50 );
         Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, 1, 1 );
-        ModelViewTransform2D mvt2 = new ModelViewTransform2D.OriginTopLeft( modelBounds, viewBounds );
+        ModelViewTransform2D mvt2 = new ModelViewTransform2D( modelBounds, viewBounds, false );
         AffineTransform tx = mvt2.getAffineTransform();
         Point2D dst = tx.transform( new Point2D.Double( .5, .5 ), null );
         assertEquals( new Point2D.Double( 75, 75 ), dst );
