@@ -172,6 +172,9 @@ public class CollimatedBeam extends Particle {
 
     private double getNextTimeToProducePhoton() {
         double temp = ( gaussianGenerator.nextGaussian() + 1.0 );
+
+        temp = 1;
+
         return temp / ( photonsPerSecond / 1000 );
     }
 }

@@ -11,16 +11,15 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
 
 public class MiddleEnergyState extends SpontaneouslyEmittingState {
 
     /**
-     *
      * @param atom
      */
     protected MiddleEnergyState( Atom atom ) {
@@ -29,7 +28,6 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
     }
 
     /**
-     *
      * @param photon
      */
     public void collideWithPhoton( Photon photon ) {
@@ -39,38 +37,18 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
         // a photon of that energy
         if( photon.getWavelength() == Photon.RED && Math.random() < s_collisionLikelihood ) {
 
-//            Photon emittedPhoton = Photon.createStimulated( photon );
-//            getAtom().photonEmitted( emittedPhoton );
-//
-            // Remove the original photon and replace it with another. this
-            // makes getting the position and the graphic correct much easier.
-//            Photon replacementPhoton = Photon.create( photon );
-
-//            replacementPhoton.setVelocity( new Vector2D( photon.getVelocity() ));
-//            replacementPhoton.setWavelength( getEmittedPhotonWavelength() );
-
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away
             Vector2D vHat = new Vector2D.Double( photon.getVelocity() ).normalize();
-//            Vector2D position = new Vector2D.Double( getAtom().getPosition() );
-//            position.add( vHat.scale( getAtom().getRadius() + 10 ));
-//            replacementPhoton.setPosition( position );
+            //            Vector2D position = new Vector2D.Double( getAtom().getPosition() );
+            //            position.add( vHat.scale( getAtom().getRadius() + 10 ));
+            //            replacementPhoton.setPosition( position );
             vHat.scale( getAtom().getRadius() + 10 );
             Point2D position = new Point2D.Double( getAtom().getPosition().getX() + vHat.getX(),
-                                                   getAtom().getPosition().getY() + vHat.getY());
+                                                   getAtom().getPosition().getY() + vHat.getY() );
             photon.setPosition( position );
-
-//            replacementPhoton.setPosition( getAtom().getPosition().getX(),
-//                                getAtom().getPosition().getY() + photon.getRadius() + 1);
-//            replacementPhoton.collideWithAtom( getAtom() );
-
             Photon emittedPhoton = Photon.createStimulated( photon );
-//            Photon emittedPhoton = Photon.createStimulated( replacementPhoton );
             getAtom().emitPhoton( emittedPhoton );
-
-//            new edu.colorado.phet.controller.command.AddParticleCmd( replacementPhoton ).doIt();
-//            new RemoveParticleCmd( photon ).doIt();
-
 
             // Change state
             decrementNumInState();

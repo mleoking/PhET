@@ -6,17 +6,19 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.lasers.LaserSimulation;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,16 +28,18 @@ public class LaserControlPanel extends PhetControlPanel {
     private PumpingBeamControl pumpingBeamControl;
     private HighEnergyHalfLifeControl highEnergyLifetimeControl;
     private StimulatingBeamControl stimulatingBeamControl;
+    private BaseLaserModule laserModule;
 
-    public LaserControlPanel( Module module, AbstractClock clock ) {
+    public LaserControlPanel( BaseLaserModule module, AbstractClock clock ) {
         super( module );
+        this.laserModule = module;
         super.setControlPane( new ControlPanel( (LaserModel)module.getModel(), clock ) );
     }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         this.threeEnergyLevels = threeEnergyLevels;
         pumpingBeamControl.setVisible( threeEnergyLevels );
-        highEnergyLifetimeControl.setVisible( threeEnergyLevels );
+        //        highEnergyLifetimeControl.setVisible( threeEnergyLevels );
     }
 
     private class ControlPanel extends JPanel {
@@ -52,19 +56,37 @@ public class LaserControlPanel extends PhetControlPanel {
 
             stimulatingBeamControl = new StimulatingBeamControl( model );
             this.add( stimulatingBeamControl, gbc );
-            gbc.gridy++;
-            this.add( new MiddleEnergyHalfLifeControl( model ), gbc );
+            //            gbc.gridy++;
+            //            this.add( new MiddleEnergyHalfLifeControl( model ), gbc );
             gbc.gridy++;
             pumpingBeamControl = new PumpingBeamControl( model.getPumpingBeam() );
             this.add( pumpingBeamControl, gbc );
-            gbc.gridy++;
-            highEnergyLifetimeControl = new HighEnergyHalfLifeControl( model );
-            this.add( highEnergyLifetimeControl, gbc );
+            //            gbc.gridy++;
+            //            highEnergyLifetimeControl = new HighEnergyHalfLifeControl( model );
+            //            this.add( highEnergyLifetimeControl, gbc );
             gbc.gridy++;
             ResonatingCavity cavity = model.getResonatingCavity();
             this.add( new RightMirrorReflectivityControlPanel( cavity ), gbc );
             gbc.gridy++;
             this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ), gbc );
+
+            final String addMirrorsStr = "Add mirrors";
+            final String removeMirrorsStr = "Remove mirrors";
+            final JCheckBox mirrorCB = new JCheckBox( addMirrorsStr );
+            mirrorCB.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    if( mirrorCB.isSelected() ) {
+                        mirrorCB.setText( removeMirrorsStr );
+                        laserModule.setMirrorsEnabled( true );
+                    }
+                    else {
+                        mirrorCB.setText( addMirrorsStr );
+                        laserModule.setMirrorsEnabled( false );
+                    }
+                }
+            } );
+            gbc.gridy++;
+            this.add( mirrorCB, gbc );
 
             String s = GraphicsUtil.formatMessage( "Show high to\nmid emissions" );
             final JCheckBox showHighToMidEmissionCB = new JCheckBox( s );
@@ -76,7 +98,7 @@ public class LaserControlPanel extends PhetControlPanel {
                 }
             } );
             pumpingBeamControl.setVisible( threeEnergyLevels );
-            highEnergyLifetimeControl.setVisible( threeEnergyLevels );
+            //            highEnergyLifetimeControl.setVisible( threeEnergyLevels );
         }
     }
 

@@ -11,8 +11,8 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 public class HighEnergyState extends SpontaneouslyEmittingState {
 
@@ -27,9 +27,6 @@ public class HighEnergyState extends SpontaneouslyEmittingState {
         // NOP
     }
 
-    //
-    // Abstract methods implemented
-    //
     protected double getSpontaneousEmmisionHalfLife() {
         return s_spontaneousEmmisionHalfLife;
     }

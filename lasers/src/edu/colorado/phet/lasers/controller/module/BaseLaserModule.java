@@ -45,6 +45,10 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
     private LaserModel laserModel;
     private MonitorPanel monitorPanel;
     private EnergyLevelsDialog energyLevelsDialog;
+    private Mirror rightMirror;
+    private Mirror leftMirror;
+    private MirrorGraphic rightMirrorGraphic;
+    private MirrorGraphic leftMirrorGraphic;
 
     /**
      *
@@ -69,26 +73,26 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
 
         // Add the mirrors
         // The right mirror is a partial mirror
-        Point2D p1 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth() + 20,
+        Point2D p1 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(), // + 20,
                                          cavity.getPosition().getY() );
-        Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth() + 20,
+        Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(), // + 20,
                                          cavity.getPosition().getY() + cavity.getHeight() );
-        Mirror rightMirror = new Mirror( p1, p2 );
+        rightMirror = new Mirror( p1, p2 );
         rightMirror.addReflectionStrategy( new LeftReflecting() );
         rightMirror.addReflectionStrategy( new Partial( .2 ) );
-        laserModel.addModelElement( rightMirror );
-        MirrorGraphic rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
-        addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
+        //        laserModel.addModelElement( rightMirror );
+        rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
+        //        addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
         // The left mirror is 100% reflecting
-        Point2D p3 = new Point2D.Double( cavity.getPosition().getX() - 20,
+        Point2D p3 = new Point2D.Double( cavity.getPosition().getX(), // - 20,
                                          cavity.getPosition().getY() );
-        Point2D p4 = new Point2D.Double( cavity.getPosition().getX() - 20,
+        Point2D p4 = new Point2D.Double( cavity.getPosition().getX(), // - 20,
                                          cavity.getPosition().getY() + cavity.getHeight() );
-        Mirror leftMirror = new Mirror( p3, p4 );
+        leftMirror = new Mirror( p3, p4 );
         leftMirror.addReflectionStrategy( new RightReflecting() );
-        laserModel.addModelElement( leftMirror );
-        MirrorGraphic leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
-        addGraphic( leftMirrorGraphic, LaserConfig.CAVITY_LAYER );
+        //        laserModel.addModelElement( leftMirror );
+        leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
+        //        addGraphic( leftMirrorGraphic, LaserConfig.CAVITY_LAYER );
     }
 
     protected Point2D getLaserOrigin() {
@@ -113,6 +117,9 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
         atom.addListener( new Atom.Listener() {
             public void photonEmitted( Atom atom, Photon photon ) {
+                getModel().addModelElement( photon );
+                PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+                addGraphic( pg, LaserConfig.PHOTON_LAYER );
             }
 
             public void leftSystem( Atom atom ) {
@@ -152,18 +159,31 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-        if( monitorPanel != null ) {
-            ;
-        }
-        {
-            energyLevelsDialog = new EnergyLevelsDialog( app.getApplicationView().getPhetFrame(),
-                                                         monitorPanel );
-            energyLevelsDialog.setVisible( true );
-        }
+        energyLevelsDialog = new EnergyLevelsDialog( app.getApplicationView().getPhetFrame(),
+                                                     monitorPanel, getLaserModel() );
+        energyLevelsDialog.setVisible( true );
     }
 
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
         energyLevelsDialog.setVisible( false );
+    }
+
+    public void setMirrorsEnabled( boolean mirrorsEnabled ) {
+        // Regardless of the value of mirrorsEnabled, we should remove the
+        // model elements and graphics for the mirrors. If mirrorsEnabled is
+        // true, we want to try remove them first, so they don't get added
+        // twice if they were already there
+        getModel().removeModelElement( leftMirror );
+        getModel().removeModelElement( rightMirror );
+        getApparatusPanel().removeGraphic( leftMirrorGraphic );
+        getApparatusPanel().removeGraphic( rightMirrorGraphic );
+        if( mirrorsEnabled ) {
+            getModel().addModelElement( leftMirror );
+            getModel().addModelElement( rightMirror );
+            getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.CAVITY_LAYER );
+            getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
+        }
+        getApparatusPanel().repaint();
     }
 }
