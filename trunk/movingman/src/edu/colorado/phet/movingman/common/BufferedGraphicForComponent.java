@@ -14,10 +14,10 @@ import java.awt.image.BufferedImage;
  * To change this template use Options | File Templates.
  */
 public class BufferedGraphicForComponent implements Graphic {
-    BufferedImage image;
-    CompositeGraphic compositeGraphic = new CompositeGraphic();
-    int x;
-    int y;
+    private BufferedImage image;
+    private CompositeGraphic compositeGraphic = new CompositeGraphic();
+    private int x;
+    private int y;
     private int width;
     private int height;
     private Color backgroundColor;

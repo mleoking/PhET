@@ -28,7 +28,7 @@ public class RepaintDebugGraphic implements Graphic, ClockTickListener {
         this.module = module;
         this.panel = panel;
         this.clock = clock;
-        setActive( true );
+//        setActive( true );
     }
 
     public void paint( Graphics2D gr ) {

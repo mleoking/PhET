@@ -1,14 +1,12 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-//import edu.colorado.phet.common.math.transforms.functions.RangeToRange;
-
 import edu.colorado.phet.movingman.common.RangeToRange;
 import edu.colorado.phet.movingman.plots.MMPlot;
-import edu.colorado.phet.movingman.plots.PlotAndText;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -17,123 +15,199 @@ import java.awt.*;
  * Copyright (c) Jul 1, 2003 by Sam Reid
  */
 public class MovingManLayout {
-    private int panelHeight;
-    private int panelWidth;
-    private int numPlots;
     private int walkwayHeight = 100;
     private int topInset = 20;
     private int walkwayBottomInset = 55;
     private int spaceBetweenPlots = 20;
-    private int bottomInset = 20;
-    private int offsetIntoPlotForString = 40;
-    private int textOffsetX = 50;
-    private int plotHeight;
-    private int plotsStartAtY;
     private int plotInsetX = 90;
 
-    public MovingManLayout( int apparatusPanelHeight, int apparatusPanelWidth, int numPlots ) {
-        setApparatusPanelHeight( apparatusPanelHeight );
-        setApparatusPanelWidth( apparatusPanelWidth );
-        setNumPlots( numPlots );
+    private MMVerticalLayout verticalLayout;
+    private MovingManModule module;
+    private JComponent panel;
+    private ChartLayoutItem layoutItemX;
+    private ChartLayoutItem layoutItemV;
+    private ChartLayoutItem layoutItemA;
+
+    public MovingManLayout( MovingManModule module ) {
+        this.module = module;
+        this.panel = module.getApparatusPanel();
+
+        verticalLayout = new MMVerticalLayout( panel );
+        verticalLayout.addSpacer( walkwayHeight );
+        verticalLayout.addSpacer( walkwayBottomInset );
+        verticalLayout.addSpacer( topInset );
+        verticalLayout.addSpacer( spaceBetweenPlots );
+        layoutItemX = new ChartLayoutItem( panel, module.getPositionPlot() );
+        verticalLayout.addLayoutItem( layoutItemX );
+        verticalLayout.addSpacer( spaceBetweenPlots );
+        layoutItemV = new ChartLayoutItem( panel, module.getVelocityPlot() );
+        verticalLayout.addLayoutItem( layoutItemV );
+        verticalLayout.addSpacer( spaceBetweenPlots );
+        layoutItemA = new ChartLayoutItem( panel, module.getAccelerationPlot() );
+        verticalLayout.addLayoutItem( layoutItemA );
+        verticalLayout.addSpacer( spaceBetweenPlots );
+        relayout();
     }
 
-    public void setApparatusPanelHeight( int panelHeight ) {
-        this.panelHeight = panelHeight;
-    }
+    class ChartLayoutItem implements LayoutItem {
+        private MMPlot plot;
+        private JComponent component;
+        private int plotInsetRight = 5;
+        private MMPlot.ChartButton chartButton;
 
-    public void setApparatusPanelWidth( int panelWidth ) {
-        this.panelWidth = panelWidth;
-    }
-
-    public void setNumPlots( int numPlots ) {
-        this.numPlots = numPlots;
-    }
-
-    public int getPlotY( int plotIndex ) {
-        if( plotIndex == 0 ) {
-            return plotsStartAtY;
+        public ChartLayoutItem( JComponent component, MMPlot plot ) {
+            this.component = component;
+            this.plot = plot;
+            this.chartButton = plot.getShowButton();
         }
-        else {
-            return ( plotsStartAtY + plotIndex * ( plotHeight + spaceBetweenPlots ) );
+
+        public boolean isVariable() {
+            if( plot.isVisible() ) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        public int getHeight() {
+            return chartButton.getPreferredSize().height;
+        }
+
+        public void setVerticalParameters( int y, int height ) {
+            if( component.getWidth() > 0 && height > 0 ) {
+                int width = component.getWidth() - plotInsetX - plotInsetRight;
+                plot.setViewBounds( plotInsetX, y, width, height );
+            }
+        }
+
+        public void setY( int y ) {
+            chartButton.setLocation( chartButton.getX(), y );
+        }
+
+//        public void relayout() {
+//            if( !plot.isVisible() ) {
+//                component.add( chartButton );
+//            }
+//            else {
+//                component.remove( chartButton );
+//            }
+//        }
+    }
+
+    static class MMVerticalLayout {
+        ArrayList layoutItems = new ArrayList();
+        Component component;
+
+        public MMVerticalLayout( Component component ) {
+            this.component = component;
+        }
+
+        public void addLayoutItem( LayoutItem layoutItem ) {
+            layoutItems.add( layoutItem );
+        }
+
+        public void clear() {
+            layoutItems.clear();
+        }
+
+        public int getConstantHeight() {
+            int size = 0;
+            for( int i = 0; i < layoutItems.size(); i++ ) {
+                LayoutItem layoutItem = (LayoutItem)layoutItems.get( i );
+                if( layoutItem.isVariable() ) {
+
+                }
+                else {
+                    size += layoutItem.getHeight();
+                }
+            }
+            return size;
+        }
+
+        /**
+         * Shares the remaining space equally among all VariableLayoutItems.
+         */
+        public void layout() {
+            int ch = getConstantHeight();
+            int numVariableItems = numVariableItems();
+
+            int availableHeight = component.getHeight() - ch;
+            int heightPerVariableItem = 0;
+            if( numVariableItems > 0 ) {
+                heightPerVariableItem = availableHeight / numVariableItems;
+            }
+
+            int y = 0;
+            for( int i = 0; i < layoutItems.size(); i++ ) {
+                LayoutItem layoutItem = (LayoutItem)layoutItems.get( i );
+                if( layoutItem.isVariable() ) {
+                    layoutItem.setVerticalParameters( y, heightPerVariableItem );
+                    y += heightPerVariableItem;
+                }
+                else {
+                    layoutItem.setY( y );
+                    y += layoutItem.getHeight();
+                }
+            }
+        }
+
+        private int numVariableItems() {
+            int num = 0;
+            for( int i = 0; i < layoutItems.size(); i++ ) {
+                LayoutItem layoutItem = (LayoutItem)layoutItems.get( i );
+                if( layoutItem.isVariable() ) {
+                    num++;
+                }
+            }
+            return num;
+        }
+
+        public void addSpacer( int height ) {
+            addLayoutItem( new Spacer( height ) );
         }
     }
 
-    public int getPlotHeight() {
-        return plotHeight;
+    static interface LayoutItem {
+        public boolean isVariable();
+
+        public int getHeight();
+
+        public void setVerticalParameters( int y, int height );
+
+        public void setY( int y );
+    }
+
+    static class Spacer implements LayoutItem {
+        private int height;
+
+        public Spacer( int height ) {
+            this.height = height;
+        }
+
+        public boolean isVariable() {
+            return false;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setVerticalParameters( int y, int height ) {
+        }
+
+        public void setY( int y ) {
+        }
+
     }
 
     public void relayout() {
-
-        int heightForPlots = panelHeight - walkwayHeight - walkwayBottomInset - topInset - bottomInset;
-        int numPlotSpacers = numPlots - 1;
-        if( numPlots == 0 ) {
-            this.plotHeight = heightForPlots;
-        }
-        else {
-            this.plotHeight = ( heightForPlots - numPlotSpacers * spaceBetweenPlots ) / numPlots;
-        }
-        plotsStartAtY = walkwayHeight + topInset + walkwayBottomInset;
-
-    }
-
-    public int getTotalPlotHeight() {
-        return numPlots * ( plotHeight + spaceBetweenPlots );
-    }
-
-    public Point getTextCoordinates( int index ) {
-        int y = getPlotY( index );
-        return new Point( textOffsetX + plotInsetX, y + this.offsetIntoPlotForString );
-    }
-
-    public void relayout( MovingManModule module ) {
-        JPanel app = module.getApparatusPanel();
-        int panelHeight = app.getHeight();
-        setApparatusPanelHeight( panelHeight );
-        int panelWidth = app.getWidth();
-        setApparatusPanelWidth( app.getWidth() );
-        relayout();
-
-        //time scales as width.
-
-        PlotAndText pos = module.getPositionPlot();
-        PlotAndText vel = module.getVelocityPlot();
-//        PlotAndText acc = module.getAccelerationPlot();
-        MMPlot smoothedPositionGraphic = module.getPositionGraphic();
-        MMPlot velocityGraphic = module.getVelocityGraphic();
-        MMPlot accelGraphic = module.getAccelerationGraphic();
-
-        int index = 0;
-        relayoutBoxedPlot( smoothedPositionGraphic, index, module, module.getPositionString() );
-        if( pos.isVisible() ) {
-            index++;
-        }
-        relayoutBoxedPlot( velocityGraphic, index, module, module.getVelocityString() );
-        if( vel.isVisible() ) {
-            index++;
-        }
-        relayoutBoxedPlot( accelGraphic, index, module, module.getAccelString() );
-
-//        CursorGraphic cursorGraphic = module.getCursorGraphic();
-//        cursorGraphic.setBounds( smoothedPositionGraphic.getTransform() );
-//        cursorGraphic.setHeight( getTotalPlotHeight() );
-
+        verticalLayout.layout();
         int manInset = 50;
         RangeToRange oldTransform = module.getManPositionTransform();
-        RangeToRange manGraphicTransform = new RangeToRange( oldTransform.getLowInputPoint(), oldTransform.getHighInputPoint(), manInset, panelWidth - manInset );
+        RangeToRange manGraphicTransform = new RangeToRange( oldTransform.getLowInputPoint(), oldTransform.getHighInputPoint(), manInset, panel.getWidth() - manInset );
         module.getManGraphic().setTransform( manGraphicTransform );
         module.setManTransform( manGraphicTransform );
     }
 
-    private void relayoutBoxedPlot( MMPlot plot, int index, MovingManModule module, ValueGraphic vg ) {
-        int insetX = plotInsetX;
-        int insetXRightSide = 20;
-
-        Rectangle rectangle = new Rectangle( insetX, getPlotY( index ), panelWidth - insetX - insetXRightSide, getPlotHeight() );
-        if( rectangle.width > 0 && rectangle.height > 0 ) {
-
-            plot.setViewBounds( rectangle );
-            Point textCoord = getTextCoordinates( index );
-            vg.setPosition( textCoord.x, textCoord.y );
-        }
-    }
 }

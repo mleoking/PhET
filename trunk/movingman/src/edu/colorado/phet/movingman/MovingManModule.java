@@ -21,7 +21,6 @@ import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.common.plaf.PhetLookAndFeel;
 import edu.colorado.phet.movingman.misc.JEPFrame;
 import edu.colorado.phet.movingman.plots.MMPlot;
-import edu.colorado.phet.movingman.plots.PlotAndText;
 import smooth.util.SmoothUtilities;
 
 import javax.swing.*;
@@ -30,6 +29,7 @@ import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -70,7 +70,12 @@ public class MovingManModule extends Module {
     private PlotSet plotSet;
     private WiggleMe wiggleMe;
     private ArrayList stateListeners = new ArrayList();
-    boolean initMediaPanel = false;
+    private boolean initMediaPanel = false;
+    private boolean inited;
+//    private Rectangle rect;
+    private ArrayList rectList = new ArrayList();
+    private MMKeySuite keySuite;
+    private ArrayList pauseListeners = new ArrayList();
 
     public MovingManModule( AbstractClock clock ) throws IOException {
         super( "The Moving Man" );
@@ -93,10 +98,68 @@ public class MovingManModule extends Module {
             }
 
             public void repaint( int x, int y, int width, int height ) {
+//                rectList.add( new Rectangle( x, y, width, height ) );
                 super.repaint( x, y, width, height );
             }
 
+            protected void paintComponent( Graphics graphics ) {
+                if( inited ) {
+                    super.paintComponent( graphics );
+                }
+//                Graphics2D g2 = (Graphics2D)graphics;
+//                for (int i=0;i<rectList.size();i++){
+//                    Rectangle rect=(Rectangle)rectList.get(i);
+//                    g2.setColor( Color.green );
+//                    g2.setStroke( new BasicStroke( 15 ) );
+//                    g2.draw( rect );
+//                }
+//                rectList.clear();
+            }
+
+            public void paintComponents( Graphics g ) {
+                if( inited ) {
+                    super.paintComponents( g );
+                }
+            }
+
+            protected void paintChildren( Graphics g ) {
+                if( inited ) {
+                    super.paintChildren( g );
+                }
+            }
+
+            public void paint( Graphics g ) {
+                if( inited ) {
+                    super.paint( g );
+                }
+            }
+
+            public void paintImmediately( int x, int y, int w, int h ) {
+                if( inited ) {
+                    super.paintImmediately( x, y, w, h );
+                }
+//               rectList.add (new Rectangle( x, y, w, h ));
+
+            }
+
+            public void paintAll( Graphics g ) {
+                if( inited ) {
+                    super.paintAll( g );
+                }
+            }
+
+            public Component add( Component comp ) {
+                KeyListener[] kl = comp.getKeyListeners();
+                if( !Arrays.asList( kl ).contains( keySuite ) ) {
+                    comp.addKeyListener( keySuite );
+                }
+                return super.add( comp );
+            }
+
         };
+        keySuite = new MMKeySuite( this );
+        mypanel.addKeyListener( keySuite );
+
         super.setApparatusPanel( mypanel );
         mypanel.addGraphicsSetup( new BasicGraphicsSetup() );
         mypanel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
@@ -120,8 +183,8 @@ public class MovingManModule extends Module {
 
         walkwayGraphic = new WalkWayGraphic( this, 11 );
         backgroundGraphic.addGraphic( walkwayGraphic, 0 );
-        layout = new MovingManLayout( 800, 400, 3 );
-        layout.relayout();
+
+//        layout.relayout();
         plotSet = new PlotSet( this );
         movingManControlPanel = new MovingManControlPanel( this );
         super.setControlPanel( movingManControlPanel );//TODO control panel.
@@ -148,20 +211,17 @@ public class MovingManModule extends Module {
             }
         };
         model.getMan().addObserver( crashObserver );
-//        cursorGraphic = new CursorGraphic( this, playbackTimer, Color.black, layout.getPlotY( 0 ), layout.getTotalPlotHeight() );
-//        getApparatusPanel().addGraphic( cursorGraphic, 6 );
-
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
                 initMediaPanel();
-                relayoutApparatusPanel();
+                relayout();
             }
 
             public void componentResized( ComponentEvent e ) {
                 getModel().execute( new Command() {
                     public void doIt() {
                         initMediaPanel();
-                        relayoutApparatusPanel();
+                        relayout();
                     }
                 } );
             }
@@ -169,7 +229,6 @@ public class MovingManModule extends Module {
         recordMode = new RecordMode( this );
         playbackMode = new PlaybackMode( this );
         motionMode = new MotionMode( this );
-//        setMode( motionMode );
         setMode( recordMode );
 
         getApparatusPanel().addGraphic( backgroundGraphic, 0 );
@@ -185,6 +244,11 @@ public class MovingManModule extends Module {
                 getApparatusPanel().requestFocus();
             }
         } );
+        layout = new MovingManLayout( this );
+        for( int i = 0; i < pauseListeners.size(); i++ ) {
+            PauseListener pauseListener = (PauseListener)pauseListeners.get( i );
+            pauseListener.modulePaused();
+        }
     }
 
     public void repaintBackground( Rectangle rect ) {
@@ -240,6 +304,19 @@ public class MovingManModule extends Module {
                 movingManControlPanel.motionStarted();
                 movingManControlPanel.goPressed();
             }
+            getPositionPlot().setModulePaused( paused );
+            getVelocityPlot().setModulePaused( paused );
+            getAccelerationPlot().setModulePaused( paused );
+            getPositionPlot().requestTypingFocus();
+            for( int i = 0; i < pauseListeners.size(); i++ ) {
+                PauseListener pauseListener = (PauseListener)pauseListeners.get( i );
+                if( paused ) {
+                    pauseListener.modulePaused();
+                }
+                else {
+                    pauseListener.moduleStarted();
+                }
+            }
         }
     }
 
@@ -278,18 +355,6 @@ public class MovingManModule extends Module {
         getApparatusPanel().repaint();
     }
 
-    public void setPositionPlotMagnitude( double positionMagnitude ) {
-        plotSet.setPositionPlotMagnitude( positionMagnitude );
-    }
-
-    public void setVelocityPlotMagnitude( double maxVelocity ) {
-        plotSet.setVelocityPlotMagnitude( maxVelocity );
-    }
-
-    public void setAccelerationPlotMagnitude( double maxAccel ) {
-        plotSet.setAccelerationPlotMagnitude( maxAccel );
-    }
-
     public RangeToRange getManPositionTransform() {
         return manPositionTransform;
     }
@@ -313,15 +378,15 @@ public class MovingManModule extends Module {
         return motionMode;
     }
 
-    public PlotAndText getAccelerationPlot() {
+    public MMPlot getAccelerationPlot() {
         return plotSet.getAccelerationPlot();
     }
 
-    public PlotAndText getPositionPlot() {
+    public MMPlot getPositionPlot() {
         return plotSet.getPositionPlot();
     }
 
-    public PlotAndText getVelocityPlot() {
+    public MMPlot getVelocityPlot() {
         return plotSet.getVelocityPlot();
     }
 
@@ -339,8 +404,8 @@ public class MovingManModule extends Module {
         }
     }
 
-    private void relayoutApparatusPanel() {
-        layout.relayout( this );
+    public void relayout() {
+        layout.relayout();
         Component c = getApparatusPanel();
         if( c.getHeight() > 0 && c.getWidth() > 0 ) {
             backgroundGraphic.setSize( c.getWidth(), c.getHeight() );
@@ -386,9 +451,13 @@ public class MovingManModule extends Module {
 //        cursorGraphic.setVisible( false );
         setCursorsVisible( false );
         playbackTimer.setTime( 0 );
-        getPositionString().update( null, null );
-        getVelocityString().update( null, null );
-        getAccelString().update( null, null );
+//        getPositionString().update( null, null );
+//        getVelocityString().update( null, null );
+//        getAccelString().update( null, null );
+
+        this.getPositionPlot().reset();
+        this.getVelocityPlot().reset();
+        this.getAccelerationPlot().reset();
         backgroundGraphic.paintBufferedImage();
         getApparatusPanel().repaint();
     }
@@ -426,30 +495,30 @@ public class MovingManModule extends Module {
     public boolean isRecording() {
         return mode == recordMode && !isPaused();
     }
+//
+//    public MMPlot getPositionGraphic() {
+//        return plotSet.getPositionPlot();
+//    }
+//
+//    public MMPlot getAccelerationGraphic() {
+//        return plotSet.getAccelerationPlot();
+//    }
+//
+//    public MMPlot getVelocityGraphic() {
+//        return plotSet.getVelocityPlot();
+//    }
 
-    public MMPlot getPositionGraphic() {
-        return plotSet.getPositionPlot().getPlot();
-    }
-
-    public MMPlot getAccelerationGraphic() {
-        return plotSet.getAccelerationPlot().getPlot();
-    }
-
-    public MMPlot getVelocityGraphic() {
-        return plotSet.getVelocityPlot().getPlot();
-    }
-
-    public ValueGraphic getPositionString() {
-        return plotSet.getPositionPlot().getText();
-    }
-
-    public ValueGraphic getVelocityString() {
-        return plotSet.getVelocityPlot().getText();
-    }
-
-    public ValueGraphic getAccelString() {
-        return plotSet.getAccelerationPlot().getText();
-    }
+//    public ValueGraphic getPositionString() {
+//        return plotSet.getPositionPlot().getValueGraphic();
+//    }
+//
+//    public ValueGraphic getVelocityString() {
+//        return plotSet.getVelocityPlot().getValueGraphic();
+//    }
+//
+//    public ValueGraphic getAccelString() {
+//        return plotSet.getAccelerationPlot().getValueGraphic();
+//    }
 
     public void cursorMovedToTime( double requestedTime ) {
         if( requestedTime < 0 || requestedTime > recordTimer.getTime() ) {
@@ -464,29 +533,6 @@ public class MovingManModule extends Module {
             }
             plotSet.cursorMovedToTime( requestedTime );
         }
-    }
-
-    public int getVisiblePlotCount() {
-        return plotSet.getVisiblePlotCount();
-    }
-
-    public void setPositionGraphVisible( boolean selected ) {
-        setPlotVisible( plotSet.getPositionPlot(), selected );
-    }
-
-    public void setPlotVisible( PlotAndText plot, boolean selected ) {
-        plot.setVisible( selected );
-        int plotCount = getVisiblePlotCount();
-        layout.setNumPlots( plotCount );
-        relayoutApparatusPanel();
-    }
-
-    public void setVelocityGraphVisible( boolean selected ) {
-        setPlotVisible( plotSet.getVelocityPlot(), selected );
-    }
-
-    public void setAccelerationGraphVisible( boolean selected ) {
-        setPlotVisible( plotSet.getAccelerationPlot(), selected );
     }
 
     public boolean isMotionMode() {
@@ -559,13 +605,14 @@ public class MovingManModule extends Module {
         return !isPaused() && mode.isTakingData();
     }
 
-    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
+    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException, InterruptedException {
         SmoothUtilities.setFractionalMetrics( false );
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         AbstractClock clock = new SwingTimerClock( 1, 30, true );
+        clock.setDelay( 30 );
 //        AbstractClock clock = new SwingTimerClock( 1, 30, false );
         MovingManModule m = new MovingManModule( clock );
-        FrameSetup setup = new FrameSetup.MaxExtent();
+        FrameSetup setup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 800 ) );
 
         ApplicationModel desc = new ApplicationModel( "The Moving Man", "The Moving Man Application.",
                                                       ".02-beta-x 10-18-2004", setup, m, clock );
@@ -574,26 +621,24 @@ public class MovingManModule extends Module {
         final PhetFrame frame = tpa.getApplicationView().getPhetFrame();
         m.setFrame( frame );
         if( m.getControlPanel() != null ) {
-            tpa.getApplicationView().getBasicPhetPanel().add( m.getControlPanel(), BorderLayout.WEST );
-//            tpa.getApplicationView().getBasicPhetPanel().setLayout( null);
-//            tpa.getApplicationView().getBasicPhetPanel().add( m.getControlPanel() );
-//            tpa.getApplicationView().getBasicPhetPanel().add(m.getApparatusPanel());
+//            tpa.getApplicationView().getBasicPhetPanel().add( m.getControlPanel(), BorderLayout.WEST );
         }
         if( addJEP ) {
             addJEP( m );
         }
+        RepaintDebugGraphic rdp = new RepaintDebugGraphic( m, m.getApparatusPanel(), clock );
+//        m.backgroundGraphic.addGraphic( rdp, -100 );
+//        m.backgroundGraphic.addGraphic( rdp, 100 );
+
         tpa.startApplication();
-        frame.setVisible( true );
         fixComponent( frame.getContentPane() );
-        frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
+
         frame.invalidate();
         frame.validate();
         frame.repaint();
         m.repaintBackground();
         m.recordMode.initialize();
-//        m.cursorGraphic.setVisible( false );
         m.getApparatusPanel().repaint();
-//        m.cursorGraphic.setVisible( false );
 
         final Runnable dofix = new Runnable() {
             public void run() {
@@ -640,8 +685,10 @@ public class MovingManModule extends Module {
             }
         } );
         new Thread( dofix ).start();
-//        RepaintDebugGraphic rdp = new RepaintDebugGraphic( m, m.getApparatusPanel(), clock );
-//        m.backgroundGraphic.addGraphic( rdp, -100 );
+
+//        Thread.sleep(1000);
+        m.inited = true;
+        m.relayout();
     }
 
     private static void addJEP( MovingManModule module ) {
@@ -666,6 +713,20 @@ public class MovingManModule extends Module {
         getVelocityData().updateDerivative( dt * MovingManModel.TIMER_SCALE );
         getAcceleration().updateSmoothedSeries();
         plotSet.updateSliders();
+    }
+
+    public double getMinTime() {
+        return model.getMinTime();
+    }
+
+    public interface PauseListener {
+        public void modulePaused();
+
+        public void moduleStarted();
+    }
+
+    public void addPauseListener( PauseListener pauseListener ) {
+        pauseListeners.add( pauseListener );
     }
 
     interface StateListener {

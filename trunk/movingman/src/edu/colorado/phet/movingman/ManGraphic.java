@@ -6,8 +6,6 @@ import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.movingman.common.CircularBuffer;
-import edu.colorado.phet.movingman.common.DragHandler;
-import edu.colorado.phet.movingman.common.ObservingGraphic;
 import edu.colorado.phet.movingman.common.RangeToRange;
 
 import java.awt.*;
@@ -15,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Observable;
+import java.util.Observer;
 
 /**
  * User: Sam Reid
@@ -22,7 +21,7 @@ import java.util.Observable;
  * Time: 12:25:37 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
+public class ManGraphic implements InteractiveGraphic, Observer {
     private BufferedImage standingMan;
     private BufferedImage leftMan;
     private BufferedImage rightMan;
@@ -103,6 +102,27 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
                 m.setGrabbed( true );
             }
         } );
+    }
+
+    class DragHandler {
+
+        private Point dragStartPt;
+        private Point viewStart;
+        private Point newLocation = new Point();
+
+        public DragHandler( Point mouseStart, Point viewStart ) {
+            this.dragStartPt = mouseStart;
+            this.viewStart = viewStart;
+        }
+
+        public Point getNewLocation( Point p ) {
+            int dx = p.x - dragStartPt.x;
+            int dy = p.y - dragStartPt.y;
+            newLocation.x = dx + viewStart.x;
+            newLocation.y = dy + viewStart.y;
+            return newLocation;
+        }
+
     }
 
     public void mouseDragged( MouseEvent event ) {

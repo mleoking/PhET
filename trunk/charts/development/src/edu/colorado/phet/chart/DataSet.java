@@ -97,6 +97,11 @@ public class DataSet {
         addPoint( new Point2D.Double( x, y ) );
     }
 
+    public Point2D.Double[] toArray() {
+        Point2D.Double[] pts = (Point2D.Double[])dataPoints.toArray( new Point2D.Double[0] );
+        return pts;
+    }
+
     private void notifyObservers( Point2D dataPoint ) {
         for( int i = 0; i < observers.size(); i++ ) {
             Observer observer = (Observer)observers.get( i );

@@ -3,7 +3,6 @@ package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.movingman.common.ObservingGraphic;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -11,6 +10,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.Observable;
+import java.util.Observer;
 
 /**
  * User: Sam Reid
@@ -18,7 +18,7 @@ import java.util.Observable;
  * Time: 12:46:15 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
+public class TimeGraphic implements InteractiveGraphic, Observer {
     private String timeStr;
     private MovingManModule module;
     private MMTimer recordingMMTimer;

@@ -21,11 +21,6 @@ public class MotionMode extends Mode {
         module.setCursorsVisible( false );
         int timeIndex = module.getPosition().numSmoothedPoints() - 1;
         module.setReplayTime( timeIndex );
-        module.setAccelerationPlotMagnitude( 4 );
-        module.setVelocityPlotMagnitude( 4 );
-        module.getPositionPlot().setPaintYLines( new double[]{5, 10} );
-        module.getVelocityPlot().setPaintYLines( new double[]{1.5, 3} );
-        module.getAccelerationPlot().setPaintYLines( new double[]{1.5, 3} );
         module.setNumSmoothingPoints( numSmoothingPoints );
         module.repaintBackground();
     }

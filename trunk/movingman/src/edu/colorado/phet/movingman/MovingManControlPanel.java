@@ -11,7 +11,10 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.StringTokenizer;
@@ -27,7 +30,6 @@ public class MovingManControlPanel extends JPanel {
     private JPanel controllerContainer;
     private PlaybackPanel playbackPanel;
     private JButton reset;
-    private boolean useMotionPanel = false;
 
     public void setRunningState() {
         playbackPanel.pause.setEnabled( false );
@@ -62,30 +64,71 @@ public class MovingManControlPanel extends JPanel {
     }
 
     public class PlaybackPanel extends JPanel {
+        private JButton reset;
         private JButton play;
         private JButton pause;
         private JButton rewind;
         private JButton slowMotion;
+        private JButton record;
 
         public PlaybackPanel() throws IOException {
+            ImageIcon recordIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Movie24.gif" ) );
+            record = new JButton( "Record", recordIcon );
+            record.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+//                    doManual();
+                    doMotion();
+                    record.setEnabled( false );
+                    reset.setEnabled( true );
+                }
+            } );
+            ImageIcon resetIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Stop24.gif" ) );
+            reset = new JButton( "Reset", resetIcon );
+            reset.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.reset();
+                    reset.setEnabled( false );
+                    record.setEnabled( true );
+                }
+            } );
             ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
+
             pause = new JButton( "Pause", pauseIcon );
             pause.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     //pausing from playback leaves it alone
                     module.setPaused( true );
+                    reset.setEnabled( true );
+                    record.setEnabled( true );
                 }
             } );
+            module.addPauseListener( new MovingManModule.PauseListener() {
+                public void modulePaused() {
+                    pause.setEnabled( false );
+                    record.setEnabled( true );
+                    play.setEnabled( true );
+                    slowMotion.setEnabled( true );
+                }
 
+                public void moduleStarted() {
+                    pause.setEnabled( true );
+                    record.setEnabled( false );
+                    play.setEnabled( false );
+                    slowMotion.setEnabled( false );
+                    reset.setEnabled( true );
+                }
+            } );
             ImageIcon playIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Play24.gif" ) );
             play = new JButton( "Playback", playIcon );
             play.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.startPlaybackMode( 1.0 );
                     play.setEnabled( false );
+                    reset.setEnabled( true );
                     slowMotion.setEnabled( true );
                     pause.setEnabled( true );
                     rewind.setEnabled( true );
+                    record.setEnabled( false );
                 }
             } );
 
@@ -93,6 +136,7 @@ public class MovingManControlPanel extends JPanel {
             rewind = new JButton( "Rewind", rewindIcon );
             rewind.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
+                    reset.setEnabled( true );
                     module.rewind();
                     module.setPaused( true );
                     rewind.setEnabled( false );
@@ -104,6 +148,7 @@ public class MovingManControlPanel extends JPanel {
                         play.setEnabled( false );
                         slowMotion.setEnabled( false );
                     }
+                    record.setEnabled( true );
                 }
             } );
 
@@ -116,13 +161,24 @@ public class MovingManControlPanel extends JPanel {
                     slowMotion.setEnabled( false );
                     pause.setEnabled( true );
                     rewind.setEnabled( true );
+                    reset.setEnabled( true );
+                    record.setEnabled( true );
                 }
             } );
 
+            ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );
+            JLabel phetIconLabel = new JLabel( imageIcon );
+
+            add( record );
             add( play );
             add( slowMotion );
             add( pause );
             add( rewind );
+            add( reset );
+            JLabel separator = new JLabel();
+            separator.setPreferredSize( new Dimension( 20, 10 ) );
+            add( separator );
+            add( phetIconLabel );
             didReset();
             module.addStateListener( new MovingManModule.StateListener() {
                 public void stateChanged( MovingManModule module ) {
@@ -142,6 +198,14 @@ public class MovingManControlPanel extends JPanel {
             slowMotion.setEnabled( false );
             pause.setEnabled( false );
             rewind.setEnabled( false );
+        }
+
+        private void doMotion() {
+            module.setMode( module.getMotionMode() );
+            module.setPaused( false );
+            pause.setEnabled( true );
+            play.setEnabled( false );
+            slowMotion.setEnabled( false );
         }
 
         private void doManual() {
@@ -193,33 +257,6 @@ public class MovingManControlPanel extends JPanel {
         controllerContainer.setPreferredSize( new Dimension( 200, 200 ) );
         controllerContainer.setSize( new Dimension( 200, 200 ) );
         add( controllerContainer, BorderLayout.CENTER );
-
-
-        final JCheckBox positionBox = new JCheckBox( "Position", true );
-        positionBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setPositionGraphVisible( positionBox.isSelected() );
-            }
-        } );
-        final JCheckBox velocityBox = new JCheckBox( "Velocity", true );
-        velocityBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setVelocityGraphVisible( velocityBox.isSelected() );
-            }
-        } );
-        final JCheckBox accelerationBox = new JCheckBox( "Acceleration", true );
-        accelerationBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setAccelerationGraphVisible( accelerationBox.isSelected() );
-            }
-        } );
-//        JPanel boxes = new JPanel();
-//        boxes.setLayout( new BoxLayout( boxes, BoxLayout.Y_AXIS ) );
-//        boxes.add( positionBox );
-//        boxes.add( velocityBox );
-//        boxes.add( accelerationBox );
-//        boxes.setBorder( PhetLookAndFeel.createSmoothBorder( "Show Plots" ) );
-//        add( boxes, BorderLayout.SOUTH );
 
         playbackPanel = new PlaybackPanel();
 
@@ -316,19 +353,19 @@ public class MovingManControlPanel extends JPanel {
         } );
         contentPane.add( list );
         alphaFrame.setContentPane( contentPane );
-        module.getApparatusPanel().addKeyListener( new KeyListener() {
-            public void keyTyped( KeyEvent e ) {
-            }
-
-            public void keyPressed( KeyEvent e ) {
-            }
-
-            public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
-                    alphaFrame.setVisible( true );
-                }
-            }
-        } );
+//        module.getApparatusPanel().addKeyListener( new KeyListener() {
+//            public void keyTyped( KeyEvent e ) {
+//            }
+//
+//            public void keyPressed( KeyEvent e ) {
+//            }
+//
+//            public void keyReleased( KeyEvent e ) {
+//                if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
+//                    alphaFrame.setVisible( true );
+//                }
+//            }
+//        } );
         module.getApparatusPanel().addMouseListener( new MouseListener() {
             public void mouseClicked( MouseEvent e ) {
             }
