@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.common.examples;
 
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
@@ -14,7 +15,6 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.ThreadedClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.framesetup.AbsoluteFrameSetup;
@@ -30,14 +30,14 @@ import java.util.Observer;
 public class TestClock extends PhetApplication {
 
     public TestClock( ApplicationModel descriptor, Module m, AbstractClock clock ) {
-        super(descriptor );
+        super( descriptor, null );
     }
 
     static class MyModule extends Module {
         protected MyModule( String name, AbstractClock clock ) {
             super( "Test" );
             setApparatusPanel( new ApparatusPanel() );
-            setModel( new BaseModel( ) );
+            setModel( new BaseModel() );
             Particle p = new Particle( 100, 200 );
             super.add( p, new ParticleGraphic( p ), 10 );
         }
@@ -85,18 +85,18 @@ public class TestClock extends PhetApplication {
         AbstractClock clock = new ThreadedClock( 10, 20, false );
         final MyModule m = new MyModule( "asdf", clock );
         ApplicationModel ad = new ApplicationModel( "appname", "mydescritpion",
-                                                              "myversion", new AbsoluteFrameSetup( 400, 400 ) );
+                                                    "myversion", new AbsoluteFrameSetup( 400, 400 ) );
         TestClock tc = new TestClock( ad, m, clock );
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( AbstractClock c, double dt ) {
                 m.getApparatusPanel().repaint();
             }
         } );
-        tc.startApplication( );
+        tc.startApplication();
         JFrame frame = tc.getApplicationView().getPhetFrame();
 
         JMenu menu = new JMenu( "Options" );
-//        JMenuItem plaf=new JMenuItem( );
+        //        JMenuItem plaf=new JMenuItem( );
         JMenuItem[] it = PlafUtil.getLookAndFeelItems();
         for( int i = 0; i < it.length; i++ ) {
             JMenuItem jMenuItem = it[i];

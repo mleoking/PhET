@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.common.examples;
 
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
@@ -15,7 +16,6 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 
@@ -150,7 +150,7 @@ public class TestPhetApplication {
         applicationModel.setInitialModule( modulePhotons );
         applicationModel.setUseClockControlPanel( false );
 
-        PhetApplication app = new PhetApplication( applicationModel );
+        PhetApplication app = new PhetApplication( applicationModel, null );
         app.startApplication();
     }
 

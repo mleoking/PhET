@@ -1,14 +1,13 @@
 /** Sam Reid*/
 package edu.colorado.phet.common.examples;
 
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -37,18 +36,18 @@ public class TestTransforms extends Module {
         Color fill = Color.blue;
         Color outline = Color.black;
         setApparatusPanel( new ApparatusPanel() );
-        setModel( new BaseModel( ) );
+        setModel( new BaseModel() );
         Rectangle2D.Double modelBounds = new Rectangle2D.Double( 0, 0, 10, 10 );
         Rectangle viewBounds = new Rectangle( 40, 40, 400, 400 );
         ModelViewTransform2D transform = new ModelViewTransform2D( modelBounds, viewBounds );
         double w = 1.4;
         double h = 1.4;
         Shape centeredShape = new Ellipse2D.Double( 5 - w / 2, 5 - h / 2, w, h );
-//        ShapeGraphic shapeGraphic = new ShapeGraphic( centeredShape, fill, outline, modelStroke );
+        //        ShapeGraphic shapeGraphic = new ShapeGraphic( centeredShape, fill, outline, modelStroke );
 
         ControlPanel cp = new ControlPanel();
         setControlPanel( cp );
-//        getApparatusPanel().addGraphic( shapeGraphic );
+        //        getApparatusPanel().addGraphic( shapeGraphic );
 
         ImplicitTransformGraphic gtg = new ImplicitTransformGraphic( transform, new ShapeGraphic( centeredShape, fill, outline, modelStroke ) );
         getApparatusPanel().addGraphic( gtg );
@@ -59,7 +58,7 @@ public class TestTransforms extends Module {
         ExplicitTransformGraphic stg = new ExplicitTransformGraphic( transform, centeredShape, viewStroke, fill, outline );
         //        getApparatusPanel().addGraphic( stg);
         InteractiveExplicitTrfGraphic ietg = new InteractiveExplicitTrfGraphic( stg, stg );
-//        getApparatusPanel().addGraphic( ietg);
+        //        getApparatusPanel().addGraphic( ietg);
 
 
     }
@@ -125,11 +124,11 @@ public class TestTransforms extends Module {
     }
 
     public static void main( String[] args ) {
-        ApplicationModel ad = new ApplicationModel( "Test Transforms", "A Test", "1.0");
+        ApplicationModel ad = new ApplicationModel( "Test Transforms", "A Test", "1.0" );
         AbstractClock ac = new SwingTimerClock( 1, 30, true );
         Module m = new TestTransforms( ac );
-        PhetApplication pa = new PhetApplication( ad );
-        pa.startApplication( );
+        PhetApplication pa = new PhetApplication( ad, null );
+        pa.startApplication();
     }
 
     class ControlPanel extends JPanel {
