@@ -62,7 +62,7 @@ public class FaradayApplicationModel extends ApplicationModel {
             TransformerModule transformerModule = new TransformerModule( this );
             GeneratorModule generatorModule = new GeneratorModule( this );
             this.setModules( new Module[] { barMagnetModule, magnetAndCoilModule, electromagnetModule, transformerModule, generatorModule } );
-            this.setInitialModule( electromagnetModule );
+            this.setInitialModule( barMagnetModule );
         }
     }
 }
