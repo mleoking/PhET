@@ -47,7 +47,8 @@ public class LaserConfig {
 
     // Spontaneous emission times, in milliseconds
     public static final int MINIMUM_SPONTANEOUS_EMISSION_TIME = 1;
-    public static final int MAXIMUM_SPONTANEOUS_EMISSION_TIME = 1000;
+    public static final int MAXIMUM_SPONTANEOUS_EMISSION_TIME = 10000;
+//    public static final int MAXIMUM_SPONTANEOUS_EMISSION_TIME = 1000;
     public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = (
             MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_SPONTANEOUS_EMISSION_TIME ) / 2;
 

@@ -98,6 +98,7 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
 
     public void update() {
         AtomicState state = atom.getState();
+        if( true || getImage() != middleImg ) {
         if( state instanceof GroundState ) {
             super.setImage( groundImg );
         }
@@ -111,6 +112,7 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
                      (int)(atom.getPosition().getY() - atom.getRadius() ));
         setBoundsDirty();
         repaint();
+        }
     }
 }
 

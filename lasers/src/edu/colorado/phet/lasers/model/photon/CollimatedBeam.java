@@ -130,6 +130,7 @@ public class CollimatedBeam extends Particle {
 
     public void removePhoton( Photon photon ) {
         photons.remove( photon );
+        model.removeModelElement( photon );
     }
 
     public void stepInTime( double dt ) {

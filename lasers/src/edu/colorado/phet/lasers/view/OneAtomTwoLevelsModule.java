@@ -9,6 +9,7 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.TwoLevelControlPanel;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.common.math.Vector2D;
@@ -41,8 +42,8 @@ public class OneAtomTwoLevelsModule extends SingleAtomBaseModule {
 //        cavity.setHeight( newHeight );
 
         ApparatusConfiguration config = new ApparatusConfiguration();
-        config.setStimulatedPhotonRate( 8.0f );
-        config.setMiddleEnergySpontaneousEmissionTime( 0.500f );
+        config.setStimulatedPhotonRate( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE );
+        config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
         config.setPumpingPhotonRate( 0.0f );
         config.setReflectivity( 0.7f );
         config.configureSystem( getLaserModel() );

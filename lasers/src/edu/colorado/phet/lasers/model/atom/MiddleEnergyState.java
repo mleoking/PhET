@@ -95,6 +95,7 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
     // Abstract methods implemented
     //
     protected double getSpontaneousEmmisionHalfLife() {
+        System.out.println( "-->" + s_spontaneousEmmisionHalfLife );
         return s_spontaneousEmmisionHalfLife;
     }
 

@@ -56,7 +56,8 @@ public class MiddleEnergyHalfLifeControl extends JPanel {
         middleEnergySpontaneousEmissionTimeSlider.setMajorTickSpacing( 100 );
         middleEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                model.setMiddleEnergySpontaneousEmissionTime( middleEnergySpontaneousEmissionTimeSlider.getValue() / 1000 );
+//                model.setMiddleEnergySpontaneousEmissionTime( middleEnergySpontaneousEmissionTimeSlider.getValue() / 1000 );
+                model.setMiddleEnergySpontaneousEmissionTime( middleEnergySpontaneousEmissionTimeSlider.getValue() );
 
                 //                updateMiddleEnergySpontaneousEmissionTime( ((float)middleEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
                 middleEnergySpontaneousEmissionTimeTF.setText( Double.toString( middleEnergySpontaneousEmissionTimeSlider.getValue() ) );
