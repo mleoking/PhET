@@ -435,6 +435,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     //This may be the wrong name for what this does.
     public void resetRenderingSize() {
         orgBounds = null;
+        componentOrgLocationsMap.clear();
         resizeHandler.doResize();
     }
 
@@ -460,7 +461,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 for( int i = 0; i < components.length; i++ ) {
                     Component component = components[i];
                     if( !componentOrgLocationsMap.containsKey( component ) ) {
-                        componentOrgLocationsMap.put( component, new Point( component.getLocation() ) );
+                        Point location = component.getLocation();
+                        componentOrgLocationsMap.put( component, new Point( location ) );
                     }
                 }
             }
