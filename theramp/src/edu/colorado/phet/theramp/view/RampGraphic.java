@@ -4,8 +4,6 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -35,6 +33,8 @@ public class RampGraphic extends GraphicLayerSet {
     private PhetShapeGraphic surfaceGraphic;
     private PhetShapeGraphic floorGraphic;
     private PhetShapeGraphic jackGraphic;
+    private int surfaceStrokeWidth = 12;
+    private PhetShapeGraphic filledShapeGraphic;
 
     public RampGraphic( RampPanel rampPanel, final Ramp ramp ) {
         super( rampPanel );
@@ -43,9 +43,12 @@ public class RampGraphic extends GraphicLayerSet {
         transform2D = new ModelViewTransform2D( new Rectangle2D.Double( -10, 0, 20, 10 ), new Rectangle( 0, 200, 800, 400 ) );
 
         Stroke stroke = new BasicStroke( 6.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-        surfaceGraphic = new PhetShapeGraphic( rampPanel, null, stroke, Color.black );
+        Stroke surfaceStroke = new BasicStroke( surfaceStrokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+        surfaceGraphic = new PhetShapeGraphic( rampPanel, null, surfaceStroke, Color.black );
         floorGraphic = new PhetShapeGraphic( getComponent(), null, stroke, Color.black );
         jackGraphic = new PhetShapeGraphic( getComponent(), null, stroke, Color.blue );
+        filledShapeGraphic = new PhetShapeGraphic( getComponent(), null, Color.lightGray );
+        addGraphic( filledShapeGraphic );
         addGraphic( floorGraphic );
         addGraphic( jackGraphic );
         addGraphic( surfaceGraphic );
@@ -56,12 +59,8 @@ public class RampGraphic extends GraphicLayerSet {
                 Point pt = e.getPoint();
                 Vector2D.Double vec = new Vector2D.Double( getViewOrigin(), pt );
                 double angle = -vec.getAngle();
-//                System.out.println( "angle = " + angle );
-//                angle = MathUtil.clamp( -Math.PI / 2.0, angle, Math.PI / 2.0 );
                 angle = MathUtil.clamp( 0, angle, Math.PI / 2.0 );
                 ramp.setAngle( angle );
-//                double length=Math.sqrt( )
-//                ramp.setLength( length );
             }
         } );
         surfaceGraphic.setCursorHand();
@@ -72,12 +71,12 @@ public class RampGraphic extends GraphicLayerSet {
                 updateRamp();
             }
         } );
-
-        floorGraphic.addTranslationListener( new TranslationListener() {
-            public void translationOccurred( TranslationEvent translationEvent ) {
-
-            }
-        } );
+//
+//        floorGraphic.addTranslationListener( new TranslationListener() {
+//            public void translationOccurred( TranslationEvent translationEvent ) {
+//                translate( translationEvent.getDx(), translationEvent.getDy() );
+//            }
+//        } );
     }
 
     private Point getViewOrigin() {
@@ -90,7 +89,9 @@ public class RampGraphic extends GraphicLayerSet {
         Point viewOrigin = getViewOrigin();
         Point2D modelDst = ramp.getEndPoint();
         Point viewDst = transform2D.modelToView( modelDst );
-        Line2D.Double line = new Line2D.Double( viewOrigin, viewDst );
+        Line2D.Double origSurface = new Line2D.Double( viewOrigin, viewDst );
+        double origLength = new Vector2D.Double( origSurface.getP1(), origSurface.getP2() ).getMagnitude();
+        Line2D line = RampUtil.getInstanceForLength( origSurface, origLength * 4 );
         surfaceGraphic.setShape( line );
 
         Point p2 = new Point( viewDst.x, viewOrigin.y );
@@ -99,6 +100,12 @@ public class RampGraphic extends GraphicLayerSet {
 
         GeneralPath jackShape = createJackShape( p2, viewDst, 10 );
         jackGraphic.setShape( jackShape );
+
+        DoubleGeneralPath path = new DoubleGeneralPath( viewOrigin );
+        path.lineTo( floor.getP2() );
+        path.lineTo( viewDst );
+        path.closePath();
+        filledShapeGraphic.setShape( path.getGeneralPath() );
 
         viewAngle = Math.atan2( viewDst.y - viewOrigin.y, viewDst.x - viewOrigin.x );
     }
@@ -120,4 +127,9 @@ public class RampGraphic extends GraphicLayerSet {
     public Ramp getRamp() {
         return ramp;
     }
+
+    public int getSurfaceStrokeWidth() {
+        return surfaceStrokeWidth;
+    }
+
 }

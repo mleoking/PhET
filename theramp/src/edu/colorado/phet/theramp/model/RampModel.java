@@ -29,55 +29,9 @@ public class RampModel implements ModelElement {
     private ForceVector totalForce;
     private ForceVector frictionForce;
     private ForceVector normalForce;
-
-    public class ForceVector extends Vector2D.Double {
-
-        public void setParallel( double parallel ) {
-            setX( Math.cos( -ramp.getAngle() ) * parallel );
-            setY( Math.sin( -ramp.getAngle() ) * parallel );
-//            System.out.println( "parallel = " + parallel + " magnitude=" + getMagnitude() );
-        }
-
-        public double getParallelComponent() {
-            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
-            double result = dir.dot( this );
-            return result;
-        }
-
-        public double getPerpendicularComponent() {
-            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
-            dir = dir.getNormalVector();
-            double result = dir.dot( this );
-            return result;
-        }
-
-
-        public void setPerpendicular( double perpendicularComponent ) {
-            setX( Math.sin( ramp.getAngle() ) * perpendicularComponent );
-            setY( Math.cos( ramp.getAngle() ) * perpendicularComponent );
-//            System.out.println( "perp= " + perpendicularComponent + " magnitude=" + getMagnitude() );
-        }
-
-        public Vector2D toParallelVector() {
-            ForceVector fv = new ForceVector();
-            fv.setParallel( getParallelComponent() );
-            return fv;
-        }
-
-        public Vector2D toPerpendicularVector() {
-            ForceVector fv = new ForceVector();
-            fv.setPerpendicular( -getPerpendicularComponent() );
-            return fv;
-        }
-
-        public Vector2D toXVector() {
-            return new Vector2D.Double( getX(), 0 );
-        }
-
-        public Vector2D toYVector() {
-            return new Vector2D.Double( 0, getY() );
-        }
-    }
+    private double appliedWork = 0.0;
+    private double frictiveWork = 0.0;
+    private double gravityWork = 0.0;
 
     public RampModel() {
         ramp = new Ramp();
@@ -108,6 +62,7 @@ public class RampModel implements ModelElement {
             dt = currentTimeSeconds() - lastTick;
             dt = MathUtil.clamp( 1 / 30.0, dt, 1 / 5.0 );
 
+            double origBlockPosition = block.getPosition();
             double origBlockEnergy = block.getKineticEnergy();
             double origPotEnergy = getPotentialEnergy();
 
@@ -130,6 +85,15 @@ public class RampModel implements ModelElement {
             block.setAcceleration( acceleration );
             block.stepInTime( dt );
 
+            double newBlockPosition = block.getPosition();
+            double blockDX = newBlockPosition - origBlockPosition;
+//            double dAppliedWork = Math.abs( appliedForce.getMagnitude() * blockDX );
+            double dAppliedWork = ( appliedForce.getParallelComponent() * blockDX );
+            double dFrictiveWork = ( frictionForce.getParallelComponent() * blockDX );
+            double dGravityWork = ( gravityForce.getParallelComponent() * blockDX );
+            appliedWork += dAppliedWork;
+            frictiveWork += dFrictiveWork;
+            gravityWork += dGravityWork;
             double newKE = block.getKineticEnergy();
             if( newKE != origBlockEnergy ) {
                 keObservers.notifyObservers();
@@ -185,10 +149,74 @@ public class RampModel implements ModelElement {
     }
 
     public void reset() {
-        block.setPosition( 0.0 );
+        block.setPosition( 5.0 );
         block.setAcceleration( 0.0 );
         block.setVelocity( 0.0 );
         ramp.setAngle( Math.PI / 16 );
+        appliedWork = 0;
+        frictiveWork = 0;
+        gravityWork = 0;
+        peObservers.notifyObservers();
+        keObservers.notifyObservers();
     }
 
+    public double getFrictiveWork() {
+        return frictiveWork;
+    }
+
+    public double getGravityWork() {
+        return gravityWork;
+    }
+
+    public class ForceVector extends Vector2D.Double {
+
+        public void setParallel( double parallel ) {
+            setX( Math.cos( -ramp.getAngle() ) * parallel );
+            setY( Math.sin( -ramp.getAngle() ) * parallel );
+//            System.out.println( "parallel = " + parallel + " magnitude=" + getMagnitude() );
+        }
+
+        public double getParallelComponent() {
+            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
+            double result = dir.dot( this );
+            return result;
+        }
+
+        public double getPerpendicularComponent() {
+            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
+            dir = dir.getNormalVector();
+            double result = dir.dot( this );
+            return result;
+        }
+
+        public void setPerpendicular( double perpendicularComponent ) {
+            setX( Math.sin( ramp.getAngle() ) * perpendicularComponent );
+            setY( Math.cos( ramp.getAngle() ) * perpendicularComponent );
+//            System.out.println( "perp= " + perpendicularComponent + " magnitude=" + getMagnitude() );
+        }
+
+        public Vector2D toParallelVector() {
+            ForceVector fv = new ForceVector();
+            fv.setParallel( getParallelComponent() );
+            return fv;
+        }
+
+        public Vector2D toPerpendicularVector() {
+            ForceVector fv = new ForceVector();
+            fv.setPerpendicular( -getPerpendicularComponent() );
+            return fv;
+        }
+
+        public Vector2D toXVector() {
+            return new Vector2D.Double( getX(), 0 );
+        }
+
+        public Vector2D toYVector() {
+            return new Vector2D.Double( 0, getY() );
+        }
+    }
+
+    public double getAppliedWork() {
+        return appliedWork;
+    }
 }

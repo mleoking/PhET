@@ -41,15 +41,25 @@ public class BarGraphic extends CompositePhetGraphic {
     }
 
     private void updateBar() {
-        int height = transform1D.modelToView( value );
+        int height = computeHeight();
         Rectangle rect = new Rectangle( x, y - height, width, height );
         label.setLocation( rect.x + 5, (int)( -5 + rect.getMaxY() ) );
         rectangle3DGraphic.setRectangle( rect );
     }
 
     public void setValue( double value ) {
-//        System.out.println( "value = " + value );
         this.value = value;
+        if( value < 0 ) {
+            rectangle3DGraphic.setLocation( 0, -computeHeight() );//a big hack to make negative values work.
+        }
+        else {
+            rectangle3DGraphic.setLocation( 0, 0 );
+        }
+        this.value = Math.abs( value );
         updateBar();
+    }
+
+    private int computeHeight() {
+        return transform1D.modelToView( value );
     }
 }
