@@ -273,14 +273,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         int iPrev = 0;
         Color c = VisibleColor.wavelengthToColor( wavelength );
         double intensity = beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond();
-        Color c2 = new Color( (int)( c.getRed() * intensity ), (int)( c.getGreen() * intensity ), (int)( c.getBlue() * intensity ) );
         double freqFactor = 15 * wavelength / 680;
         for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
             for( int j = 0; j < height; j++ ) {
                 if( j == k ) {
-//                    g2d.setColor( c );
-                    g2d.setColor( c2 );
+                    g2d.setColor( c );
                     g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
                     iPrev = i;
                     kPrev = k;
@@ -339,9 +337,13 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
 
         // Draw squiggles showing what energy photons the beams are putting out
         if( stimSquiggle != null && model.getSeedBeam().isEnabled() ) {
+            double intensity = model.getSeedBeam().getPhotonsPerSecond() / model.getSeedBeam().getMaxPhotonsPerSecond();
+            GraphicsUtil.setAlpha( g2, intensity );
             g2.drawRenderedImage( stimSquiggle, stimSquiggleTx );
         }
         if( pumpSquiggle != null && model.getPumpingBeam().isEnabled() ) {
+            double intensity = model.getPumpingBeam().getPhotonsPerSecond() / model.getPumpingBeam().getMaxPhotonsPerSecond();
+            GraphicsUtil.setAlpha( g2, intensity );
             g2.drawRenderedImage( pumpSquiggle, pumpSquiggleTx );
         }
 
