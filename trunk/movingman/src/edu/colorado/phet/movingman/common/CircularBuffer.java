@@ -8,9 +8,9 @@ package edu.colorado.phet.movingman.common;
  * Copyright (c) Jul 17, 2003 by Sam Reid
  */
 public class CircularBuffer {
-    double[] data;
-    int startPtr;
-    int endPtr;
+    private double[] data;
+    private int startPtr;
+    private int endPtr;
 
     public CircularBuffer( int length ) {
         this.data = new double[length + 1];

@@ -49,9 +49,9 @@ public class Chart extends GraphicLayerSet {
         this.verticalTicks = new TickMarkSet( this, AbstractGrid.VERTICAL, 1, 2 );
         this.horizontalTicks = new TickMarkSet( this, AbstractGrid.HORIZONTAL, 1, 2 );
 
-        backgroundGraphic = new PhetShapeGraphic( component, getViewBounds(), background );
+        backgroundGraphic = new PhetShapeGraphic( component, getChartBounds(), background );
         compositeDataSetGraphic = new GraphicLayerSet( component );
-        frameGraphic = new PhetShapeGraphic( component, getViewBounds(), new BasicStroke( 1 ), Color.black );
+        frameGraphic = new PhetShapeGraphic( component, getChartBounds(), new BasicStroke( 1 ), Color.black );
         title = new HTMLGraphic( component, component.getFont(), "Title", Color.black );
 
         addGraphic( backgroundGraphic );
@@ -225,7 +225,6 @@ public class Chart extends GraphicLayerSet {
         if( point == null ) {
             throw new RuntimeException( "Null point" );
         }
-
         return transform.modelToView( point );
     }
 
@@ -261,19 +260,11 @@ public class Chart extends GraphicLayerSet {
     }
 
     /**
-     * @param viewBounds //     * @deprecated, use setChartSize and setLocation()
+     * @param viewBounds
      */
     public void setViewBounds( Rectangle viewBounds ) {
         setChartSize( viewBounds.width, viewBounds.height );
         setLocation( viewBounds.x, viewBounds.y );
-
-//        backgroundGraphic.setShape( viewBounds );
-//        frameGraphic.setShape( viewBounds );
-//        this.viewBounds = viewBounds;
-//        transform.setViewBounds( viewBounds );
-//        fireTransformChanged();
-//        setBoundsDirty();
-//        autorepaint();
     }
 
     public Rectangle getChartBounds() {
@@ -305,14 +296,6 @@ public class Chart extends GraphicLayerSet {
 
     public Range2D getRange() {
         return range;
-    }
-
-    public Rectangle getViewBounds() {
-        return getChartBounds();
-//        Rectangle vb = new Rectangle( getX(), getY(), viewBounds.width, viewBounds.height );
-//        return vb;
-//           Rectangle vb = new Rectangle( getX(), getY(), viewBounds.width, viewBounds.height );
-//        return vb;
     }
 
 }

@@ -28,7 +28,7 @@ public class VerticalChartSlider {
     public VerticalChartSlider( final Chart chart ) {
         this.chart = chart;
         slider = new JSlider( JSlider.VERTICAL, 0, numTicks, numTicks / 2 );
-        Rectangle viewBounds = chart.getViewBounds();
+        Rectangle viewBounds = chart.getChartBounds();
         int x = viewBounds.x;
         int y = viewBounds.y;
         slider.setLocation( x, y );
@@ -56,7 +56,7 @@ public class VerticalChartSlider {
 
     public double getValue() {
         int value = slider.getValue();
-        Rectangle r = chart.getViewBounds();
+        Rectangle r = chart.getChartBounds();
         Function.LinearFunction transform1d = new Function.LinearFunction( 0, numTicks, r.y + r.height, r.y );
 //        LinearTransform1d transform1d = new LinearTransform1d( 0, numTicks, r.y + r.height, r.y );
         double output = transform1d.evaluate( value );
@@ -108,7 +108,7 @@ public class VerticalChartSlider {
 
     public void setValue( double y ) {
         double viewY = chart.getModelViewTransform().modelToViewY( y );
-        Rectangle r = chart.getViewBounds();
+        Rectangle r = chart.getChartBounds();
         Function.LinearFunction transform1d = new Function.LinearFunction( r.y + r.height, r.y, 0, numTicks );
         int tick = (int)transform1d.evaluate( viewY );
         ChangeListener[] s = slider.getChangeListeners();

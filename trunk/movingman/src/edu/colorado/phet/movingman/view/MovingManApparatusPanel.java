@@ -6,10 +6,11 @@ import edu.colorado.phet.common.model.CompositeModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic2;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.MMKeySuite;
 import edu.colorado.phet.movingman.MovingManModule;
-import edu.colorado.phet.movingman.TimeGraphic;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
 import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;
@@ -21,6 +22,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -35,16 +37,16 @@ public class MovingManApparatusPanel extends ApparatusPanel {
     private LinearTransform1d manPositionTransform;
     private MMKeySuite keySuite;
     private boolean inited;
-    private MovingManLayout layout;
+    private MovingManLayout movingManLayout;
     private ManGraphic.Listener wiggleMeListener;
 
     private PlotSet plotSet;
     private ManGraphic manGraphic;
     private TimeGraphic timerGraphic;
-    private BufferedPhetGraphic2 backgroundGraphic;
     private WalkWayGraphic walkwayGraphic;
     private Color backgroundColor;
     private WiggleMe wiggleMe;
+    private PhetImageGraphic bufferedWalkwayGraphic;
 
     public MovingManApparatusPanel( MovingManModule module ) throws IOException {
         this.module = module;
@@ -55,7 +57,6 @@ public class MovingManApparatusPanel extends ApparatusPanel {
         setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
         manPositionTransform = new LinearTransform1d( -module.getMaxManPosition(), module.getMaxManPosition(), 50, 600 );
         backgroundColor = new Color( 250, 190, 240 );
-        backgroundGraphic = new BufferedPhetGraphic2( this, backgroundColor );
         manGraphic = new ManGraphic( module, this, module.getMan(), 0, manPositionTransform );
 
         this.addGraphic( manGraphic, 1 );
@@ -63,9 +64,9 @@ public class MovingManApparatusPanel extends ApparatusPanel {
         this.addGraphic( timerGraphic, 1 );
 
         walkwayGraphic = new WalkWayGraphic( module, this, 11 );
-        backgroundGraphic.addGraphic( walkwayGraphic, 0 );
+        bufferedWalkwayGraphic = BufferedPhetGraphic2.createBuffer( walkwayGraphic, new BasicGraphicsSetup(), BufferedImage.TYPE_INT_RGB, getBackgroundColor() );
 
-        this.addGraphic( backgroundGraphic, 0 );
+        addGraphic( bufferedWalkwayGraphic, 0 );
 
         Point2D start = manGraphic.getRectangle().getLocation();
         start = new Point2D.Double( start.getX() + 50, start.getY() + 50 );
@@ -96,7 +97,9 @@ public class MovingManApparatusPanel extends ApparatusPanel {
             }
         } );
         plotSet = new PlotSet( module, this );
-        layout = new MovingManLayout( this );
+        movingManLayout = new MovingManLayout( this );
+
+        RepaintDebugGraphic.enable( this, module.getClock() );
     }
 
     public void paint( Graphics g ) {
@@ -128,20 +131,12 @@ public class MovingManApparatusPanel extends ApparatusPanel {
     }
 
     public void relayout() {
-        layout.relayout();
-    }
-
-    public BufferedPhetGraphic2 getBuffer() {
-        return backgroundGraphic;
+        movingManLayout.relayout();
     }
 
     public void setManTransform( LinearTransform1d transform ) {
         this.manPositionTransform = transform;
         manGraphic.setTransform( transform );
-    }
-
-    public void paintBufferedImage() {
-        backgroundGraphic.repaintBuffer();
     }
 
     public WalkWayGraphic getWalkwayGraphic() {
@@ -171,15 +166,10 @@ public class MovingManApparatusPanel extends ApparatusPanel {
     }
 
     public void repaintBackground() {
-        backgroundGraphic.repaintBuffer();
+        PhetImageGraphic pig = BufferedPhetGraphic2.createBuffer( walkwayGraphic, new BasicGraphicsSetup(), BufferedImage.TYPE_INT_RGB, getBackground() );
+        bufferedWalkwayGraphic.setImage( pig.getImage() );
+        bufferedWalkwayGraphic.setLocation( walkwayGraphic.getX(), walkwayGraphic.getY() );
         repaint();
-    }
-
-    public void repaintBackground( Rectangle rect ) {
-        if( backgroundGraphic != null ) {
-            backgroundGraphic.repaintBuffer( rect );
-            repaint( rect );
-        }
     }
 
     public Color getBackgroundColor() {
@@ -192,11 +182,6 @@ public class MovingManApparatusPanel extends ApparatusPanel {
 
     public ManGraphic getManGraphic() {
         return manGraphic;
-    }
-
-    public void setTheSize( int width, int height ) {
-        backgroundGraphic.setSize( width, height );
-        backgroundGraphic.repaintBuffer();
     }
 
     public PlotSet getPlotSet() {

@@ -109,8 +109,8 @@ public class HorizontalCursor extends PhetGraphic {
         Rectangle origShape = stroke.createStrokedShape( shape ).getBounds();
         int xCenter = chart.getModelViewTransform().modelToViewX( modelX );
         int x = xCenter - width / 2;
-        int y = chart.getViewBounds().y;
-        int height = chart.getViewBounds().height;
+        int y = chart.getChartBounds().y;
+        int height = chart.getChartBounds().height;
         shape.setBounds( x, y, width, height );
 
         Rectangle newShape = stroke.createStrokedShape( shape ).getBounds();

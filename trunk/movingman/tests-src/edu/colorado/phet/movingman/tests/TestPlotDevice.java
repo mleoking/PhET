@@ -11,12 +11,10 @@ import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.movingman.plotdevice.PlotDevice;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -41,7 +39,7 @@ public class TestPlotDevice {
         } );
         apparatusPanel.addGraphicsSetup( new BasicGraphicsSetup() );
         frame.setContentPane( apparatusPanel );
-        final PhetGraphic plotDevice = new PlotDevice( apparatusPanel, new BufferedPhetGraphic2( apparatusPanel, Color.blue ), new Range2D( 0, 0, 10, 10 ) );
+        final PhetGraphic plotDevice = new PlotDevice( apparatusPanel, new Range2D( 0, 0, 10, 10 ), "test" );
         plotDevice.setLocation( 100, 100 );
         apparatusPanel.addGraphic( plotDevice );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

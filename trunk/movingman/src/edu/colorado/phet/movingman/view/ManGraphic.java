@@ -145,7 +145,7 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
         return x - lastX;
     }
 
-    interface Listener {
+    public interface Listener {
         void manGraphicChanged();
 
         void mouseReleased();
