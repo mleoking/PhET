@@ -1,6 +1,7 @@
 package edu.colorado.phet.ec2.elements.jchart;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.ec2.elements.car.Car;
 import edu.colorado.phet.ec2.elements.energy.EnergyObserver;
@@ -43,7 +44,13 @@ public class EnergyChartGraphic implements Graphic, EnergyObserver {
             {0.0, 0, 0, .5},
         };
 
-        dataset = createCategoryDataset( "Series ", new String[]{"Car Kinetic", "Car Potential", "Thermal", "Total"}, data );
+        dataset = createCategoryDataset( SimStrings.get( "EnergyChartGraphic.SeriesLabel" ) + " ",
+                                        new String[]{
+                                            SimStrings.get( "EnergyChartGraphic.CarKineticLabel" ),
+                                            SimStrings.get( "EnergyChartGraphic.CarPotentialLabel" ),
+                                            SimStrings.get( "EnergyChartGraphic.ThermalLabel" ),
+                                            SimStrings.get( "EnergyChartGraphic.TotalLabel" ) },
+                                        data );
         chart = createChart( dataset );
         car.addEnergyObserver( this );
     }
@@ -139,9 +146,9 @@ public class EnergyChartGraphic implements Graphic, EnergyObserver {
 
     private JFreeChart createChart( CategoryDataset dataset ) {
 
-        JFreeChart chart = createBarChart3DSRR( "Energy Bar Chart", // chart title
+        JFreeChart chart = createBarChart3DSRR( SimStrings.get( "EnergyChartGraphic.ChartTitle" ), // chart title
                                                 "", // domain axis label
-                                                "Energy in Joules", // range axis label
+                                                SimStrings.get( "EnergyChartGraphic.RangeAxisLabel" ), // range axis label
                                                 dataset, // data
                                                 PlotOrientation.VERTICAL, // orientation
                                                 false // include legend

@@ -4,6 +4,7 @@ package edu.colorado.phet.common.view.components.media;
 import edu.colorado.phet.common.model.ApplicationModel;
 import edu.colorado.phet.common.model.command.Command;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,6 +29,10 @@ public class ApplicationModelControlPanel extends JPanel {
     Resettable resetHandler;
     private JButton resetButton;
 
+    static {
+        SimStrings.setStrings( "localization/HP-22Strings" );
+    }
+    
     public ApplicationModelControlPanel( ApplicationModel runner ) {
         this( runner, null );
     }
@@ -44,9 +49,9 @@ public class ApplicationModelControlPanel extends JPanel {
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
         this.rh = rh;
-        play = new JButton( "Play", playIcon );
-        pause = new JButton( "Pause", pauseIcon );
-        step = new JButton( "Step", stepIcon );
+        play = new JButton( SimStrings.get( "ApplicationModelControlPanel.PlayButton" ), playIcon );
+        pause = new JButton( SimStrings.get( "ApplicationModelControlPanel.PauseButton" ), pauseIcon );
+        step = new JButton( SimStrings.get( "ApplicationModelControlPanel.StepButton" ), stepIcon );
         step.setEnabled( false );
 
         play.addActionListener( new ActionListener() {
@@ -100,7 +105,7 @@ public class ApplicationModelControlPanel extends JPanel {
 
         BufferedImage resetU = cil.loadBufferedImage( root + "Stop24.gif" );
         ImageIcon resetIcon = new ImageIcon( resetU );
-        resetButton = new JButton( "Reset", resetIcon );
+        resetButton = new JButton( SimStrings.get( "ApplicationModelControlPanel.ResetButton" ), resetIcon );
         resetButton.addActionListener( new ResetActionListener() );
         if( rh != null ) {
             add( resetButton );

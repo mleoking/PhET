@@ -1,6 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.coreadditions.clock2.components;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.clock2.AbstractClock;
 import edu.colorado.phet.coreadditions.clock2.ClockStateListener;
 
@@ -22,23 +23,27 @@ public class DefaultClockStatePanel extends JPanel {
     JButton stop;
     JButton kill;
     JSpinner changeDelay;
+    
+    static {
+        SimStrings.setStrings( "localization/HPA-22Strings" );
+    }
 
     public DefaultClockStatePanel( final AbstractClock clock ) {
         this.clock = clock;
-        play = new JButton( "Play" );
+        play = new JButton( SimStrings.get( "DefaultClockStatePanel.PlayButton") );
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clock.start();
             }
         } );
 
-        stop = new JButton( "Stop" );
+        stop = new JButton( SimStrings.get( "DefaultClockStatePanel.StopButton" ) );
         stop.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clock.stop();
             }
         } );
-        kill = new JButton( "Kill" );
+        kill = new JButton( SimStrings.get( "DefaultClockStatePanel.KillButton" ) );
         kill.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clock.kill();
@@ -52,7 +57,7 @@ public class DefaultClockStatePanel extends JPanel {
             }
         } );
         changeDelay = new JSpinner( model );
-        changeDelay.setBorder( BorderFactory.createTitledBorder( "Delay (ms)" ) );
+        changeDelay.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "DefaultClockStatePanel.BorderTitle" ) ) );
         clock.addClockStateListener( new ClockStateListener() {
             public void clockStarted( AbstractClock source ) {
                 play.setEnabled( false );

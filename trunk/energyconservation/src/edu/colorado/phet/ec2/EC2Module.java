@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.clock2.DefaultClock;
 import edu.colorado.phet.coreadditions.clock2.SimulationTimeListener;
 import edu.colorado.phet.coreadditions.clock2.AbstractClock;
@@ -50,6 +51,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -62,6 +64,9 @@ import java.util.Random;
  * To change this template use Options | File Templates.
  */
 public class EC2Module extends Module implements ModuleSplineInterface {
+    // Localization
+    public static final String localizedStringsPath = "localization/EnergyConservationStrings";
+
     static final Font lucidaFont = new Font( "Lucida Sans", Font.BOLD, 18 );
     Font LUCIDA = new Font( "Lucida Sans", Font.BOLD, 25 );
     static final Color purple = new Color( 190, 175, 245 );
@@ -130,7 +135,7 @@ public class EC2Module extends Module implements ModuleSplineInterface {
     }
 
     public EC2Module() {
-        super( "Energy Conservation Module V2" );
+        super( SimStrings.get( "Energy Conservation Module V2" ) );
 
         ApparatusPanel mypanel = new ApparatusPanel();
         buffer = new BufferedGraphic3( mypanel, new GradientPaint( 0, 0, Color.red, 200, 350, new Color( 200, 200, 240 ) ) );
@@ -182,15 +187,15 @@ public class EC2Module extends Module implements ModuleSplineInterface {
 //        BufferedImage ferarriImage = imageLoader.loadBufferedImage("images/ferrari-side2.gif");
         BufferedImage ferarriImage = sk8r;
         BufferedImage flatironsImage = imageLoader.loadBufferedImage( "images/Earth.jpg" );
-        Scene earth = new Scene( flatironsImage, ferarriImage, -9.8, "Earth", getTransform(), this );
+        Scene earth = new Scene( flatironsImage, ferarriImage, -9.8, SimStrings.get( "EC2Module.EarthLabel" ), getTransform(), this );
         final Scene moon = new Scene( imageLoader.loadBufferedImage( "images/Moon.jpg" ),
-                                      imageLoader.loadBufferedImage( "images/Lunar-Rover.gif" ), -1.7, "The Moon", getTransform(), this );
+                                      imageLoader.loadBufferedImage( "images/Lunar-Rover.gif" ), -1.7, SimStrings.get( "EC2Module.MoonLabel" ), getTransform(), this );
         final Scene mars = new Scene( imageLoader.loadBufferedImage( "images/Mars.jpg" ),
-                                      imageLoader.loadBufferedImage( "images/Mars-Lander.gif" ), -3.7, "Mars", getTransform(), this );
+                                      imageLoader.loadBufferedImage( "images/Mars-Lander.gif" ), -3.7, SimStrings.get( "EC2Module.MarsLabel" ), getTransform(), this );
         Scene trumania = new Scene( imageLoader.loadBufferedImage( "images/1934_11.jpg" ),
-                                    imageLoader.loadBufferedImage( "images/motorcycle.gif" ), earth.getGravity() * 10, "Planet PhET", getTransform(), this );
+                                    imageLoader.loadBufferedImage( "images/motorcycle.gif" ), earth.getGravity() * 10, SimStrings.get( "EC2Module.PlanetPhETLabel" ), getTransform(), this );
         Scene space = new Scene( imageLoader.loadBufferedImage( "images/milkymoon_casado_big.jpg" ),
-                                 imageLoader.loadBufferedImage( "images/Camry150.gif" ), 0, "Outer Space", getTransform(), this );
+                                 imageLoader.loadBufferedImage( "images/Camry150.gif" ), 0, SimStrings.get( "EC2Module.OuterSpaceLabel" ), getTransform(), this );
 
         scenes.add( earth );
         scenes.add( moon );
@@ -273,7 +278,7 @@ public class EC2Module extends Module implements ModuleSplineInterface {
                 int y = initGraphic.vertexGraphicAt( 0 ).getY();
                 g.setColor( Color.blue );
                 g.setFont( font );
-                g.drawString( "Drag to create track.", x, y - font.getSize() );
+                g.drawString( SimStrings.get( "EC2Module.TrackDragText" ), x, y - font.getSize() );
             }
         };
         splineCreator = new DragSplineToCreate( initGraphic, new CreationEvent() {
@@ -380,11 +385,11 @@ public class EC2Module extends Module implements ModuleSplineInterface {
         if( appleImage == null ) {
             appleImage = imageLoader.loadBufferedImage( "images/games/apple-60.gif" );
             branchImage = imageLoader.loadBufferedImage( "images/games/branch.gif" );
-            resetGameButton = new JButton( "Reset Apple" );
+            resetGameButton = new JButton( SimStrings.get( "EC2Module.ResetAppleButton" ) );
             resetGameButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     appleRectoGraphic.setVisible( true );
-                    setMessage( "Try to grab the apple!" );
+                    setMessage( SimStrings.get( "EC2Module.GrabAppleText" ) );
                     getApparatusPanel().remove( resetGameButton );
                 }
             } );
@@ -447,7 +452,7 @@ public class EC2Module extends Module implements ModuleSplineInterface {
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 if( car.isFalling() && car.getRectangle().intersects( appleModelRect ) && appleRectoGraphic.isVisible() ) {
-                    setMessage( "You got the apple!" );
+                    setMessage( SimStrings.get( "EC2Module.GotAppleText" ) );
                     appleRectoGraphic.setVisible( false );
                     getApparatusPanel().add( resetGameButton );
                     Point pt = transform.modelToView( appleCenter.x, appleCenter.y );
@@ -455,7 +460,7 @@ public class EC2Module extends Module implements ModuleSplineInterface {
 
                 }
                 else if( car.isFalling() && car.getRectangle().intersects( branchCollisionRect ) ) {
-                    setMessage( "You got the apple, but you hit your head on a branch.  Ouch." );
+                    setMessage( SimStrings.get( "EC2Module.GotAppleWithBranchText" ) );
                     double energy = car.getMechanicalEnergy();
                     car.setVelocityY( -2 );
                     car.setVelocityX( 0 );
@@ -561,7 +566,7 @@ public class EC2Module extends Module implements ModuleSplineInterface {
     public void activateInternal( final PhetApplication app ) {
         app.getApplicationView().getBasicPhetPanel().setAppControlPanel( new JPanel() );
 //        JMenu gamesMenu = new JMenu("Games");
-        JMenuItem constantHeightGame = new JMenuItem( "Velocitracker" );
+        JMenuItem constantHeightGame = new JMenuItem( SimStrings.get( "EC2Module.VelocityTrackerMenuItem" ) );
         constantHeightGame.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setVelocitrackerMode();
@@ -571,7 +576,7 @@ public class EC2Module extends Module implements ModuleSplineInterface {
 //        app.getApplicationView().getPhetFrame().addMenu(gamesMenu);
         app.getApplicationView().getPhetFrame().getJMenuBar().repaint();
 
-        JMenu view = new JMenu( "View" );
+        JMenu view = new JMenu( SimStrings.get( "EC2Module.ViewMenuTitle" ) );
         JMenuItem[] items = PlafUtil.getLookAndFeelItems();
         for( int i = 0; i < items.length; i++ ) {
             JMenuItem item = items[i];
@@ -579,19 +584,19 @@ public class EC2Module extends Module implements ModuleSplineInterface {
         }
         app.getApplicationView().getPhetFrame().addMenu( view );
 
-        JMenuItem jmi = new JMenuItem( "Version Info" );
+        JMenuItem jmi = new JMenuItem( SimStrings.get( "EC2Module.VersionInfoMenuItem" ) );
         jmi.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 VersionUtils.showBuildNumber( app );
             }
         } );
 
-        JMenuItem showClock = new JMenuItem( "Clock Controls v2" );
+        JMenuItem showClock = new JMenuItem( SimStrings.get( "EC2Module.ClockControls2MenuItem" ) );
         showClock.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( clockStatePanel == null ) {
                     clockStatePanel = new DefaultClockStatePanel( modelClock );
-                    clockStateFrame = new JFrame( "Clock Controls v2" );
+                    clockStateFrame = new JFrame( SimStrings.get( "EC2Module.ClockControlsTitle" ) );
                     clockStateFrame.setContentPane( clockStatePanel );
                     clockStateFrame.pack();
                     clockStateFrame.setLocation( 400, 400 );
@@ -644,6 +649,18 @@ public class EC2Module extends Module implements ModuleSplineInterface {
 //    private static BufferStrategy bufferStrategy;
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( localizedStringsPath );
+        
 //        System.setProperty("sun.java2d.ddoffscreen", "false");
         final EC2Module module = new EC2Module();
         torepaint = module.getApparatusPanel();
@@ -657,8 +674,9 @@ public class EC2Module extends Module implements ModuleSplineInterface {
                 jFrame.setIconImage( image );
             }
         };
-        ApplicationDescriptor desc = new ApplicationDescriptor( "PhET - Energy Conservation Kit",
-                                                                "An energy conservation program.", ".0.0025", fullScreen );
+        ApplicationDescriptor desc = new ApplicationDescriptor( SimStrings.get( "EnergyConservationApplication.title" ),
+                                                                SimStrings.get( "EnergyConservationApplication.description" ),
+                                                                SimStrings.get( "EnergyConservationApplication.version" ), fullScreen );
         IClock c = new DynamicClock( 1, 1000, ThreadPriority.MIN ) {
             public void tickOnce( double dt ) {
             }

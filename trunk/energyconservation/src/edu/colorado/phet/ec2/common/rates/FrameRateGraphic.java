@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec2.common.rates;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -33,7 +34,7 @@ public class FrameRateGraphic implements Observer, Graphic {
 
     public void update( Observable o, Object arg ) {
         double frameRate = fr.getFrameRate();
-        this.displayString = format.format( frameRate ) + " fps";
+        this.displayString = format.format( frameRate ) + " " + SimStrings.get( "FrameRateGraphic.FPSAbbreviation" );
     }
 
     public void paint( Graphics2D g ) {

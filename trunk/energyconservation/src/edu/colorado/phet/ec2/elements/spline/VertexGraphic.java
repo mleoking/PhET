@@ -3,6 +3,7 @@ package edu.colorado.phet.ec2.elements.spline;
 
 import edu.colorado.phet.common.view.graphics.DragHandler;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.graphics.positioned.CenteredCircleGraphic2;
 import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.ec2.common.util.CursorHandler;
@@ -37,8 +38,8 @@ public class VertexGraphic implements InteractiveGraphic {
         this.index = index;
         this.x = x;
         this.y = y;
-        popup = CurveGraphic.newJPopupMenu( "Control Point" );
-        popup.add( CurveGraphic.newMenuItem( "Remove", new ActionListener() {
+        popup = CurveGraphic.newJPopupMenu( SimStrings.get( "VertexGraphic.PopUpMenuTitle" ) );
+        popup.add( CurveGraphic.newMenuItem( SimStrings.get( "VertexGraphic.RemoveMenuItem" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( spline.numPoints() == 2 ) {
                     parent.remove();
