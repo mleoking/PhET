@@ -7,7 +7,7 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
@@ -25,33 +25,31 @@ import java.util.HashSet;
  * A graphic that shows a standing wave whose amplitude is proportional to the number of photons
  * that are traveling more-or-less horizontally.
  */
-public class StandingWaveGraphic extends PhetGraphic implements Photon.LeftSystemEventListener,
-                                                                PhotonEmittedListener,
-                                                                StandingWave.Listener {
+public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.LeftSystemEventListener,
+                                                                         PhotonEmittedListener,
+                                                                         StandingWave.Listener {
+    public static double scaleFactor = 5;
+    public static double cyclesInCavity = 10;
+
     private Point2D internalWaveOrigin;
     private Point2D externalWaveOrigin;
     private StandingWave internalStandingWave;
-    private StandingWave externalStandingWave;
+    private TravelingWave externalStandingWave;
     // Angle that is considered horizontal, for purposes of lasing
     private double angleWindow = LaserConfig.PHOTON_CHEAT_ANGLE;
     private HashSet lasingPhotons = new HashSet();
     private Stroke stroke = new BasicStroke( 2f );
     private PartialMirror mirror;
     private Rectangle bounds;
-    private AtomicState atomicState;
-    private double scaleFactor = 5;
 
     public StandingWaveGraphic( Component component, ResonatingCavity cavity,
                                 PartialMirror mirror, BaseModel model, AtomicState atomicState ) {
         super( component );
-        this.atomicState = atomicState;
 
         // Register with the Photon class so we will get notified when photons are created
         Photon.addClassListener( this );
 
         this.mirror = mirror;
-        double cyclesInCavity = 10;
-        double period = 100;
         internalWaveOrigin = new Point2D.Double( cavity.getMinX(), cavity.getMinY() + cavity.getHeight() / 2 );
         internalStandingWave = new StandingWave( component, internalWaveOrigin, cavity.getWidth(),
                                                  cavity.getWidth() / cyclesInCavity, 100,
@@ -59,9 +57,9 @@ public class StandingWaveGraphic extends PhetGraphic implements Photon.LeftSyste
         internalStandingWave.addListener( this );
         externalWaveOrigin = new Point2D.Double( cavity.getMinX() + cavity.getWidth(),
                                                  cavity.getMinY() + cavity.getHeight() / 2 );
-        externalStandingWave = new StandingWave( component, externalWaveOrigin, 400,
-                                                 cavity.getWidth() / cyclesInCavity, 100,
-                                                 getNumLasingPhotons(), atomicState, model );
+        externalStandingWave = new TravelingWave( component, externalWaveOrigin, 400,
+                                                  cavity.getWidth() / cyclesInCavity, 100,
+                                                  getNumLasingPhotons(), atomicState, model );
         externalStandingWave.addListener( this );
     }
 
@@ -87,6 +85,7 @@ public class StandingWaveGraphic extends PhetGraphic implements Photon.LeftSyste
         internalStandingWave.paint( g );
         externalStandingWave.paint( g );
 
+        // Debug code
         //        g.setColor( Color.green );
         //        g.draw( bounds );
         gs.restoreGraphics();
@@ -107,6 +106,14 @@ public class StandingWaveGraphic extends PhetGraphic implements Photon.LeftSyste
         return n;
     }
 
+    public StandingWave getInternalStandingWave() {
+        return internalStandingWave;
+    }
+
+    public TravelingWave getExternalStandingWave() {
+        return externalStandingWave;
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////
     // Interface implementations
     //
@@ -114,7 +121,6 @@ public class StandingWaveGraphic extends PhetGraphic implements Photon.LeftSyste
         Photon photon = event.getPhoton();
         if( lasingPhotons.contains( photon ) ) {
             lasingPhotons.remove( photon );
-            int n = getNumLasingPhotons();
             internalStandingWave.setAmplitude( getInternalAmplitude() );
             externalStandingWave.setAmplitude( getExternalAmplitude() );
         }
@@ -127,7 +133,6 @@ public class StandingWaveGraphic extends PhetGraphic implements Photon.LeftSyste
             || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow ) {
             lasingPhotons.add( photon );
             internalStandingWave.setAmplitude( getNumLasingPhotons() );
-            int n = getNumLasingPhotons();
             internalStandingWave.setAmplitude( getInternalAmplitude() );
             externalStandingWave.setAmplitude( getExternalAmplitude() );
         }

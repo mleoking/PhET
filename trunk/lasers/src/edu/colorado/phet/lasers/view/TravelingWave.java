@@ -16,18 +16,18 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
- * Class: StandingWave
+ * Class: TravelingWave
  * Package: edu.colorado.phet.lasers.view
  * Author: Another Guy
  * Date: Nov 22, 2004
  * <p/>
- * A sinusoidal standing wave.
+ * A sinusoidal traveling wave.
  */
-public class StandingWave extends Wave {
+public class TravelingWave extends Wave {
 
-    public StandingWave( Component component, Point2D origin, double extent,
-                         double lambda, double period, double amplitude,
-                         AtomicState atomicState, BaseModel model ) {
+    public TravelingWave( Component component, Point2D origin, double extent,
+                          double lambda, double period, double amplitude,
+                          AtomicState atomicState, BaseModel model ) {
         super( component );
         this.origin = origin;
         this.lambda = lambda;
@@ -43,15 +43,17 @@ public class StandingWave extends Wave {
     public void stepInTime( double dt ) {
         wavePath.reset();
         elapsedTime += dt;
-        double a = Math.sin( ( elapsedTime / period ) * Math.PI );
-        wavePath.moveTo( (float)origin.getX(), (float)origin.getY() );
-        for( int i = 0; i < numPts; i += 3 ) {
+//        wavePath.moveTo( (float)origin.getX(), (float)origin.getY() );
+        for( int i = 0; i < numPts; i++ ) {
             double x = dx * i;
-            double y = amplitude * ( a * Math.sin( ( x / lambda ) * Math.PI ) );
-            wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
+            double y = amplitude * Math.sin( ( ( x - elapsedTime ) / lambda ) * Math.PI );
+            if( i == 0 ) {
+                wavePath.moveTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
+            }
+            else {
+                wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
+            }
         }
         listenerProxy.waveChanged( new ChangeEvent( this ) );
     }
-
-
 }
