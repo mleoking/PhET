@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phys2d.SystemRunner;
 import edu.colorado.phet.common.phys2d.laws.CoulombsLaw;
 import edu.colorado.phet.common.phys2d.laws.ForceLawPropagator;
 import edu.colorado.phet.common.utils.ResourceLoader;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.travoltage.rotate.Leg;
 import edu.colorado.phet.travoltage.rotate.RotatingImage;
 
@@ -180,11 +179,17 @@ public class TravoltageApplet extends JApplet {
         JFrame f = new JFrame( "Travoltage" );
         f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         f.setContentPane( applet );
-//        applet.setBackground( Color.yellow );
         f.pack();
         f.setSize( size );
-        GraphicsUtil.centerFrameOnScreen( f );
+        centerFrameOnScreen( f );
         f.setVisible( true );
         f.validate();
+    }
+
+    private static void centerFrameOnScreen( JFrame f ) {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        int leftoverX = dim.width - f.getWidth();
+        int leftoverY = dim.height - f.getHeight();
+        f.setLocation( leftoverX / 2, leftoverY / 2 );
     }
 }
