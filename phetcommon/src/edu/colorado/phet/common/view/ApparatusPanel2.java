@@ -294,7 +294,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     private List getGraphicsSetups() {
-        return new ArrayList();
+        return new ArrayList();//TODO this looks wrong.
     }
 
 
