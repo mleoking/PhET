@@ -1,3 +1,5 @@
+- Add collision detectors and collisions for the hollow sphere classes
+
 - check CollidableBody.stepInTimeNoNotify()
 - molecules can escape the box
 - hollow sphere doesn't stay in the box

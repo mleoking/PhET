@@ -18,19 +18,13 @@ import java.util.List;
 
 public class HotAirBalloon extends HollowSphere {
 
+    public static float s_heatSource = 0;
+
     private Rectangle2D.Double opening;
     private double theta;
     private double oxOffset;
     private double oyOffset;
 
-    /**
-     * @param center
-     * @param velocity
-     * @param acceleration
-     * @param mass
-     * @param radius
-     * @param openingAngle
-     */
     public HotAirBalloon( Point2D center,
                           Vector2D velocity,
                           Vector2D acceleration,
@@ -42,16 +36,10 @@ public class HotAirBalloon extends HollowSphere {
         setOpening();
     }
 
-    /**
-     *
-     */
     public double getOpeningAngle() {
         return theta;
     }
 
-    /**
-     * @param theta
-     */
     public void setOpeningAngle( double theta ) {
         this.theta = theta;
 
@@ -62,9 +50,6 @@ public class HotAirBalloon extends HollowSphere {
         setOpening();
     }
 
-    /**
-     * @param dt
-     */
     public void stepInTime( float dt ) {
 
         super.stepInTime( dt );
@@ -86,11 +71,9 @@ public class HotAirBalloon extends HollowSphere {
             //replacing it
 //        if( s_heatSource != 0 && dt == getPhysicalSystem().getDt() ) {
             List containedBodies = this.getContainedBodies();
-//            List containedBodies = this.getContainedBodies();
             for( int i = 0; i < containedBodies.size(); i++ ) {
                 Particle body = (Particle)containedBodies.get( i );
                 body.setVelocity( body.getVelocity().scale( 1 + s_heatSource / 1000 ) );
-//                body.setVelocity( body.getVelocity().multiply( 1 + s_heatSource / 1000 ) );
             }
         }
     }
@@ -106,10 +89,6 @@ public class HotAirBalloon extends HollowSphere {
         opening = new Rectangle2D.Double( o1x, o1y, o2x - o1x, 20 );
     }
 
-    /**
-     * @param particle
-     * @return
-     */
     public boolean isInContactWithParticle( SphericalBody particle ) {
         boolean result = false;
         if( isInOpening( particle ) ) {
@@ -121,12 +100,6 @@ public class HotAirBalloon extends HollowSphere {
         return result;
     }
 
-    /**
-     * Determines if a particle is in the opening of the hot air balloon
-     *
-     * @param particle
-     * @return
-     */
     public boolean isInOpening( SphericalBody particle ) {
         double px = particle.getPosition().getX();
         double py = particle.getPosition().getY();
@@ -135,9 +108,4 @@ public class HotAirBalloon extends HollowSphere {
                     && py + particle.getRadius() >= opening.getMinY();
         return b;
     }
-
-    //
-    // Static fields and methods
-    //
-    public static float s_heatSource = 0;
 }
