@@ -55,8 +55,8 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
     private static final Color VALUE_COLOR = Color.GREEN;
     
-    private static final double WAVE_SCALE_X = 0.17;
-    private static final double WAVE_SCALE_Y = 0.11;
+    private static final double WAVE_SCALE_X = 0.20;
+    private static final double WAVE_SCALE_Y = 0.15;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -173,8 +173,9 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             _waveGraphic.setBorderColor( Color.GREEN );
             _waveGraphic.setStroke( new BasicStroke( 10f ) );
             addGraphic( _waveGraphic, WAVE_LAYER );
+            
             _waveGraphic.setRegistrationPoint( _waveGraphic.getWidth()/2, 0 );
-            _waveGraphic.setLocation( 132, 100 );
+            _waveGraphic.setLocation( 134, 102 );
             _waveGraphic.scale( WAVE_SCALE_X, WAVE_SCALE_Y );
         }
         
