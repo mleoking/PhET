@@ -13,15 +13,19 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class MirrorGraphic extends PhetGraphic implements PartialMirror.ReflectivityChangeListener {
 
-    private final static double thickness = 15;
+    private final static double thickness = LaserConfig.MIRROR_THICKNESS;
     public final static int LEFT_FACING = 1;
     public final static int RIGHT_FACING = 2;
 
@@ -47,10 +51,10 @@ public class MirrorGraphic extends PhetGraphic implements PartialMirror.Reflecti
         this.mirror = mirror;
         switch( direction ) {
             case LEFT_FACING:
-                xOffset = thickness;
+                xOffset = 0;
                 break;
             case RIGHT_FACING:
-                xOffset = 0;
+                xOffset = -thickness;
                 break;
             default:
                 throw new RuntimeException( "Invalid direction specified in constructor" );
@@ -67,8 +71,7 @@ public class MirrorGraphic extends PhetGraphic implements PartialMirror.Reflecti
         update( event.getReflectivity() );
     }
 
-    public void update( double reflectivity ) {
-
+    private void update( double reflectivity ) {
         // Set the basic color based on the reflectivity of the mirror
         int maxGray = 100;
         int minGray = 220;
@@ -101,6 +104,7 @@ public class MirrorGraphic extends PhetGraphic implements PartialMirror.Reflecti
         GraphicsUtil.setAntiAliasingOn( g );
         g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         g.setColor( mirrorColor );
+        g.setStroke( outlineStroke );
         g.fill( face1 );
         g.setColor( Color.black );
         g.draw( face1 );
@@ -124,11 +128,8 @@ public class MirrorGraphic extends PhetGraphic implements PartialMirror.Reflecti
     public void paint( Graphics2D g ) {
         saveGraphicsState( g );
         g.drawImage( mirrorBI,
-                     (int)( mirror.getPosition().getX() - thickness + xOffset ),
+                     (int)( mirror.getPosition().getX() - ( thickness / 2 ) + xOffset ),
                      (int)mirror.getPosition().getY(), null );
-        //        g.setColor( Color.red );
-        //        g.drawArc( (int)p1.getX(), (int)p1.getY(), 3, 3, 0, 360 );
-        //        g.drawArc( (int)p2.getX(), (int)p2.getY(), 3, 3, 0, 360 );
         restoreGraphicsState();
     }
 }

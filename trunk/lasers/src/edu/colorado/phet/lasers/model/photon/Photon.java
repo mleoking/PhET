@@ -15,7 +15,6 @@ import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventRegistry;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
 import javax.swing.event.EventListenerList;
@@ -104,42 +103,10 @@ public class Photon extends Particle implements Collidable {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
-    // Inner classes & interfaces
-    //
-    public class LeftSystemEvent extends EventObject {
-        public LeftSystemEvent() {
-            super( Photon.this );
-        }
-
-        public Photon getPhoton() {
-            return Photon.this;
-        }
-    }
-
-    public interface LeftSystemEventListener extends EventListener {
-        public void leftSystemEventOccurred( LeftSystemEvent event );
-    }
-
-    public class VelocityChangedEvent extends EventObject {
-        public VelocityChangedEvent() {
-            super( Photon.this );
-        }
-
-        public Vector2D getVelocity() {
-            return Photon.this.getVelocity();
-        }
-    }
-
-    public interface VelocityChangedListener extends EventListener {
-        public void velocityChanged( VelocityChangedEvent event );
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////
     // Instance
     //
     private EventListenerList listenerList = new EventListenerList();
     private EventRegistry eventRegistry = new EventRegistry();
-    private int numObservers;
     private int numStimulatedPhotons;
     // If this photon was produced by the stimulation of another, this
     // is a reference to that photon.
@@ -148,7 +115,6 @@ public class Photon extends Particle implements Collidable {
     // is a reference to that photon
     private Photon childPhoton;
     private CollidableAdapter collidableAdapter;
-    private boolean isCollidable;
     private double wavelength;
     //    private CollimatedBeam beam;
     // This list keeps track of atoms that the photon has collided with
@@ -161,11 +127,6 @@ public class Photon extends Particle implements Collidable {
 
     public void removeLeftSystemEventListener( LeftSystemEventListener listener ) {
         listenerList.remove( LeftSystemEventListener.class, listener );
-    }
-
-    public synchronized void addObserver( SimpleObserver o ) {
-        super.addObserver( o );
-        numObservers++;
     }
 
     /**
@@ -199,6 +160,8 @@ public class Photon extends Particle implements Collidable {
     public void removeFromSystem() {
         eventRegistry.fireEvent( new LeftSystemEvent() );
         this.removeAllObservers();
+        // Do this to release references to all listeners
+        eventRegistry = null;
         //        freePool.add( this );
         //        setChanged();
         //        notifyObservers( Particle.S_REMOVE_BODY );
@@ -254,4 +217,36 @@ public class Photon extends Particle implements Collidable {
         collidableAdapter.stepInTime( dt );
         super.stepInTime( dt );
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    // Inner classes & interfaces
+    //
+    public class LeftSystemEvent extends EventObject {
+        public LeftSystemEvent() {
+            super( Photon.this );
+        }
+
+        public Photon getPhoton() {
+            return Photon.this;
+        }
+    }
+
+    public interface LeftSystemEventListener extends EventListener {
+        public void leftSystemEventOccurred( LeftSystemEvent event );
+    }
+
+    public class VelocityChangedEvent extends EventObject {
+        public VelocityChangedEvent() {
+            super( Photon.this );
+        }
+
+        public Vector2D getVelocity() {
+            return Photon.this.getVelocity();
+        }
+    }
+
+    public interface VelocityChangedListener extends EventListener {
+        public void velocityChanged( VelocityChangedEvent event );
+    }
+
 }

@@ -22,19 +22,25 @@ public class ResonatingCavity extends Box2D {
     private Point2D origin;
     private double width;
     private double height;
+    private Rectangle2D bounds;
 
     public ResonatingCavity( Point2D origin, double width, double height ) {
         super( origin, new Point2D.Double( origin.getX() + width, origin.getY() + height ) );
         this.origin = origin;
         this.width = width;
         this.height = height;
+        determineBounds();
 
         // Set the position of the cavity
         setPosition( origin );
     }
 
     public Rectangle2D getBounds() {
-        return new Rectangle2D.Double( getMinX(), getMinY(), getWidth(), getHeight() );
+        return bounds;
+    }
+
+    private void determineBounds() {
+        bounds = new Rectangle2D.Double( getMinX(), getMinY(), getWidth(), getHeight() );
     }
 
     /**
@@ -46,7 +52,8 @@ public class ResonatingCavity extends Box2D {
         double yMiddle = origin.getY() + this.height / 2;
         origin.setLocation( origin.getX(), yMiddle - height / 2 );
         this.height = height;
-        this.setBounds( getMinX(), origin.getY() - height / 2, getWidth(), height );
+        super.setBounds( getMinX(), origin.getY() - height / 2, getWidth(), height );
+        determineBounds();
         notifyObservers();
     }
 }

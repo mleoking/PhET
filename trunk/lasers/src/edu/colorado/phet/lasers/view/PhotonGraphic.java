@@ -24,7 +24,6 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -92,7 +91,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     static HashMap s_animationMap = new HashMap();
     // The angle at which the photon is moving
     private double theta;
-    private Point2D debugPosition;
+    private Rectangle2D rect = new Rectangle2D.Double();
 
     // Generated all the photon animations
     static {
@@ -178,13 +177,21 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
      * @param apparatusPanel
      */
     static public void removeAll( ApparatusPanel apparatusPanel ) {
-        for( int i = 0; i < s_instances.size(); i++ ) {
-            PhotonGraphic photonGraphic = (PhotonGraphic)s_instances.get( i );
-            photonGraphic.photon.removeListener( photonGraphic );
-            photonGraphic.photon.removeObserver( photonGraphic );
-            apparatusPanel.removeGraphic( photonGraphic );
+        synchronized( s_instances ) {
+            for( int i = 0; i < s_instances.size(); i++ ) {
+                PhotonGraphic photonGraphic = (PhotonGraphic)s_instances.get( i );
+                photonGraphic.photon.removeListener( photonGraphic );
+                photonGraphic.photon.removeObserver( photonGraphic );
+                apparatusPanel.removeGraphic( photonGraphic );
+            }
+            s_instances.clear();
         }
-        s_instances.clear();
+    }
+
+    public static void removeInstance( PhotonGraphic graphic ) {
+        synchronized( s_instances ) {
+            s_instances.remove( graphic );
+        }
     }
 
 
@@ -204,6 +211,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
         // properly
         super( component, s_particleImage );
         s_instances.add( this );
+
         this.photon = photon;
         this.color = VisibleColor.wavelengthToColor( photon.getWavelength() );
         photon.addObserver( this );
@@ -347,8 +355,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     protected void setPosition( Particle body ) {
         Photon particle = (Photon)body;
 
-        debugPosition = body.getPosition();
-
         // Need to subtract half the width and height of the image to locate it
         // porperly. The particle's location is its center, but the location of
         // the graphic is the upper-left corner of the bounding box.
@@ -365,10 +371,10 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     public void paint( Graphics2D g ) {
         saveGraphicsState( g );
         super.paint( g );
-        Rectangle2D r = new Rectangle2D.Double( this.getBounds().getX() + getImage().getMinX(),
-                                                this.getBounds().getY() + getImage().getMinY(),
-                                                getImage().getWidth(),
-                                                getImage().getHeight() );
+        rect.setRect( this.getBounds().getX() + getImage().getMinX(),
+                      this.getBounds().getY() + getImage().getMinY(),
+                      getImage().getWidth(),
+                      getImage().getHeight() );
 
         //        double w = getBounds().getWidth();
         //        double h = getBounds().getHeight();
@@ -377,7 +383,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
         //        double x = cx + w * Math.cos( photon.getVelocity().getAngle() );
         //        double y = cy + h * Math.sin( photon.getVelocity().getAngle() );
         //        g.setColor( Color.GREEN );
-        //        g.draw( r );
+        //        g.draw( rect );
         //        g.fillArc( (int)x - 4, (int)y - 4, 8, 8, 0, 360 );
 
         restoreGraphicsState();
