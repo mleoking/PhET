@@ -13,6 +13,7 @@ package edu.colorado.phet.common.view.util;
 import edu.colorado.phet.common.math.MathUtil;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -26,7 +27,7 @@ import java.io.IOException;
  */
 public class Animation {
 
-    private Image[] frames;
+    private BufferedImage[] frames;
     private int currFrameNum = 0;
 
     /**
@@ -42,7 +43,7 @@ public class Animation {
      *
      * @return The current image of the animation
      */
-    public Image getCurrFrame() {
+    public BufferedImage getCurrFrame() {
         return frames[currFrameNum];
     }
 
@@ -51,7 +52,7 @@ public class Animation {
      *
      * @return The next frame in the animation
      */
-    public Image getNextFrame() {
+    public BufferedImage getNextFrame() {
         stepCurrFrameNum( +1 );
         return getCurrFrame();
     }
@@ -61,7 +62,7 @@ public class Animation {
      *
      * @return The previous frame of the animation
      */
-    public Image getPrevFrame() {
+    public BufferedImage getPrevFrame() {
         stepCurrFrameNum( -1 );
         return getCurrFrame();
     }
@@ -98,8 +99,8 @@ public class Animation {
     /**
      *
      */
-    private static Image[] loadAnimation( String filePrefix, int numFrames ) throws IOException {
-        Image[] frames = new Image[numFrames];
+    private static BufferedImage[] loadAnimation( String filePrefix, int numFrames ) throws IOException {
+        BufferedImage[] frames = new BufferedImage[numFrames];
         ImageLoader animationLoader = new ImageLoader();
         for( int i = 1; i <= numFrames; i++ ) {
             String fileName = Animation.genAnimationFileName( filePrefix, i );
@@ -121,7 +122,7 @@ public class Animation {
         return fileName;
     }
 
-    public Image getFrame( int frameNum ) {
+    public BufferedImage getFrame( int frameNum ) {
         return this.frames[frameNum];
     }
 }
