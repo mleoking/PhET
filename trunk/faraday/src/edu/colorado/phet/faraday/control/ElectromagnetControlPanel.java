@@ -26,10 +26,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.ACSource;
-import edu.colorado.phet.faraday.model.Battery;
-import edu.colorado.phet.faraday.model.Compass;
-import edu.colorado.phet.faraday.model.SourceCoil;
+import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.module.ElectromagnetModule;
 import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;

@@ -53,6 +53,7 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/28) - redo battery graphic
 (2/25) - move ICompassGridModule implementation into FaradayModule
 (2/25) - bug fix: changing the number of loops when the AC is connected makes the grid disappear (integer math)
 (2/25) - major change to how voltage is handled throughout; now a function of maxVoltage and amplitude

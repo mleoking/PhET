@@ -26,6 +26,7 @@ import edu.colorado.phet.faraday.control.ElectromagnetControlPanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
+import edu.colorado.phet.faraday.view.*;
 import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
@@ -115,11 +116,11 @@ public class ElectromagnetModule extends FaradayModule {
         
         // Electromagnet
         Electromagnet electromagnetModel = new Electromagnet( sourceCoilModel );
-        // Do NOT set the strength! -- strength will be set based on the source coil model.
         electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
         electromagnetModel.setLocation( MAGNET_LOCATION );
         electromagnetModel.setDirection( 0 /* radians */ );
-        electromagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE ); // XXX should be based on coil graphic size
+        // Do NOT set the strength! -- strength will be set based on the source coil model.
+        // Do NOT set the size! -- size will be based on the source coil appearance.
         model.addModelElement( electromagnetModel );
         electromagnetModel.update();
          

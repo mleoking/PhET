@@ -77,6 +77,8 @@ public class FaradayConfig {
     public static final double ELECTROMAGNET_STRENGTH_MAX = 300.0; // Gauss
     public static final int ELECTROMAGNET_LOOPS_MAX = 4;
     public static final int ELECTROMAGNET_LOOPS_MIN = 1;
+    public static final int ELECTROMAGNET_WIRE_WIDTH = 20;
+    public static final double ELECTROMAGNET_ASPECT_RATIO = 4/1;  // width:height
     
     // Compass Grid parameters
     public static final int GRID_SPACING_MAX = 100;
