@@ -11,10 +11,7 @@
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -45,14 +42,26 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
     // Class data
     //----------------------------------------------------------------------------
 
+    // These parameters affect drawing order.
     private static final double RAYS_LAYER = 0;
     private static final double BULB_LAYER = 1;
-    private static final int MAX_RAYS = 40; // maximum number of light rays
+    
+    // These parameters affect an individual ray.
+    private static final Color RAY_COLOR = Color.YELLOW;
     private static final int MAX_RAY_LENGTH = 300;
-    private static final double MAX_RAY_WIDTH = 3.5;
-    private static final double MIN_RAY_WIDTH = 0.5;
-    private static final Point2D RAYS_ORIGIN = new Point2D.Double( 0, -50 );
-    private static final double BULB_RADIUS = 25.0;
+    private static final int MIN_RAY_LENGTH = 20;
+    private static final double MAX_RAY_WIDTH = 3.0;
+    private static final double MIN_RAY_WIDTH = 1.0;
+    private static final int MAX_RAY_ALPHA = 160;
+    private static final int MIN_RAY_ALPHA = 50;
+
+    // These parameters affect the collection of rays.
+    private static final int MAX_RAYS = 40;
+    private static final int MIN_RAYS = 8;
+    private static final double RAYS_START_ANGLE = Math.toRadians( 135 );
+    private static final double RAYS_ARC_ANGLE = Math.toRadians( 270 );
+    private static final Point2D RAYS_ORIGIN = new Point2D.Double( 0, -70 );
+    private static final double BULB_RADIUS = 28.0;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -88,11 +97,11 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
        
         // Light bulb
         {
-            PhetImageGraphic lightBulb = new PhetImageGraphic( component, FaradayConfig.LIGHTBULB_IMAGE );
-            super.addGraphic( lightBulb, BULB_LAYER );
-            int rx = lightBulb.getImage().getWidth() / 2;
-            int ry = lightBulb.getImage().getHeight();
-            lightBulb.setRegistrationPoint( rx, ry );
+            PhetImageGraphic lightBulbGraphic = new PhetImageGraphic( component, FaradayConfig.LIGHTBULB_IMAGE );
+            super.addGraphic( lightBulbGraphic, BULB_LAYER );
+            int rx = lightBulbGraphic.getImage().getWidth() / 2;
+            int ry = lightBulbGraphic.getImage().getHeight();
+            lightBulbGraphic.setRegistrationPoint( rx, ry );
         }
         
         update();
@@ -155,20 +164,20 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
             }
 
             // Number of rays is a function of intensity.
-            int numberOfRays = (int) ( intensity * MAX_RAYS );
+            int numberOfRays = MIN_RAYS + (int)( intensity * (MAX_RAYS - MIN_RAYS) );
 
-            // Ray color is yellow, with alpha channel based on the intensity.
-            int alpha = (int) ( intensity * 255 );
-            _rayColor = new Color( Color.YELLOW.getRed(), Color.YELLOW.getGreen(), Color.YELLOW.getBlue(), alpha );
+            // Ray color's alpha channel is a function of light intensity.
+            int alpha = MIN_RAY_ALPHA + (int)( intensity * (MAX_RAY_ALPHA - MIN_RAY_ALPHA) );
+            _rayColor = new Color( RAY_COLOR.getRed(), RAY_COLOR.getGreen(), RAY_COLOR.getBlue(), alpha );
 
             // Ray dimensions are a function of intensity.
-            double rayLength = intensity * MAX_RAY_LENGTH;
-            double rayWidth = MIN_RAY_WIDTH + ( intensity * MAX_RAY_WIDTH );
+            double rayLength = MIN_RAY_LENGTH + ( intensity * (MAX_RAY_LENGTH - MIN_RAY_LENGTH) );
+            double rayWidth = MIN_RAY_WIDTH + ( intensity * (MAX_RAY_WIDTH - MIN_RAY_WIDTH) );
             _rayStroke = new BasicStroke( (float) rayWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
-            // Rays fill a pie from 135 degrees to 45 degrees, clockwise.
-            double angle = Math.toRadians( 135 ); // starting angle
-            double deltaAngle = Math.toRadians( 270 ) / ( numberOfRays - 1 );
+            // Rays fill part of a circle, incrementing clockwise.
+            double angle = RAYS_START_ANGLE;
+            double deltaAngle = RAYS_ARC_ANGLE / ( numberOfRays - 1 );
 
             // Create the rays.
             for ( int i = 0; i < numberOfRays; i++ ) {
@@ -198,4 +207,15 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
         }
         
     } // update
+    
+//    public void paint( Graphics2D g2 ) {
+//        super.paint( g2 );
+//        // Draw bounding rectangle.
+//        Rectangle r = determineBounds();
+//        super.saveGraphicsState( g2 );
+//        g2.setStroke( new BasicStroke(1f) );
+//        g2.setPaint( Color.RED );
+//        g2.draw( r );
+//        super.restoreGraphicsState();
+//    }
 }
