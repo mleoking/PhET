@@ -36,7 +36,7 @@ import edu.colorado.phet.faraday.view.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BarMagnetModule extends Module implements ICompassGridModule {
+public class BarMagnetModule extends FaradayModule {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -57,12 +57,6 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
-
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private CompassGridGraphic _gridGraphic;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -123,12 +117,13 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         apparatusPanel.addGraphic( barMagnetGraphic, BAR_MAGNET_LAYER );
         
         // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        _gridGraphic.setRescaler( rescaler );
-        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
-        _gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
-        apparatusPanel.addChangeListener( _gridGraphic );
-        apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
+        CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        gridGraphic.setRescaler( rescaler );
+        gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
+        apparatusPanel.addChangeListener( gridGraphic );
+        apparatusPanel.addGraphic( gridGraphic, GRID_LAYER );
+        super.setCompassGridGraphic( gridGraphic );
         
         // CompassGraphic
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
@@ -160,57 +155,11 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
 
         // Control Panel
         BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this, 
-                barMagnetModel, compassModel, barMagnetGraphic, _gridGraphic, fieldMeterGraphic );
+                barMagnetModel, compassModel, barMagnetGraphic, gridGraphic, fieldMeterGraphic );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
-    }
-
-    //----------------------------------------------------------------------------
-    // ICompassGridModule implementation
-    //----------------------------------------------------------------------------
-    
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#setGridSpacing(int, int)
-     */
-    public void setGridSpacing( int xSpacing, int ySpacing ) {
-        _gridGraphic.setSpacing( xSpacing, ySpacing );
-    }
-
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridXSpacing()
-     */
-    public int getGridXSpacing() {
-        return _gridGraphic.getXSpacing();
-    }
-
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridYSpacing()
-     */
-    public int getGridYSpacing() {
-        return _gridGraphic.getYSpacing();
-    }  
-    
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#setGridNeedleSize(Dimension)
-     */
-    public void setGridNeedleSize( Dimension size ) {
-        _gridGraphic.setNeedleSize( size );
-    }
-
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridNeedleSize()
-     */
-    public Dimension getGridNeedleSize() {
-        return _gridGraphic.getNeedleSize();
-    }
-    
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#setAlphaEnabled(boolean)
-     */
-    public void setAlphaEnabled( boolean enabled ) {
-        _gridGraphic.setAlphaEnabled( enabled );
     }
 }
