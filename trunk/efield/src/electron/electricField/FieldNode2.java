@@ -40,14 +40,12 @@ public class FieldNode2 extends JApplet {
     private String applicationLocale = null;
 
     public void init() {
-        System.out.println( "applicationLocale = " + applicationLocale );
         if ( applicationLocale == null ) {
             applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 Locale.setDefault( new Locale( applicationLocale ) );
             }
         }
-        System.out.println( "applicationLocale = " + applicationLocale );
         SimStrings.setStrings( localizedStringsPath );
         
         if (args == null)
