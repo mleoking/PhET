@@ -122,6 +122,7 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
         pickupCoilModel.setRadius( LOOP_RADIUS );
         pickupCoilModel.setDirection( 0 /* radians */ );
+        pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
         pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         model.addModelElement( pickupCoilModel );
        

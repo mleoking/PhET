@@ -53,30 +53,14 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
     public AbstractVoltageSource getVoltageSource() {
         return _voltageSource;
     }
-    
-    /*
-     * @see edu.colorado.phet.faraday.model.AbstractCoil#getVoltage()
-     */
-    public double getVoltage() {
-        double voltage = 0.0;
-        if ( _voltageSource != null ) {
-            voltage = _voltageSource.getVoltage();
-        }
-        return voltage;
-    }
-
-    /*
-     * @see edu.colorado.phet.faraday.model.AbstractCoil#getMagnet()
-     */
-    public AbstractMagnet getMagnet() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     /*
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
-        notifyObservers();
+        if ( isEnabled() ) {
+            setVoltage( _voltageSource.getVoltage() );
+            notifyObservers();
+        }
     }
 }

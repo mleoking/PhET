@@ -32,7 +32,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     //----------------------------------------------------------------------------
     
     private AbstractMagnet _magnetModel;
-    private double _emf;  // in volts
     private double _flux; // in webers
     
     // Debugging stuff...
@@ -51,59 +50,25 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         super();
         assert( magnetModel != null );
         _magnetModel = magnetModel;
-        _emf = 0.0;
         _flux = 0.0;
         updateEmf();
     }
     
     //----------------------------------------------------------------------------
-    // Accessors
+    // ModelElement implementation
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the magnet model.
+     * Handles ticks of the simulation clock.
+     * Calculates the induced emf using Faraday's Law.
+     * Performs median smoothing of data if isSmoothingEnabled.
      * 
-     * @return the magnet model.
+     * @param dt time delta
      */
-    public AbstractMagnet getMagnet() {
-        return _magnetModel;
-    }
-    
-    /**
-     * Sets the induced emf.
-     * 
-     * @param emf the emf, in volts
-     */
-    private void setEmf( double emf ) {
-        if ( emf != _emf ) {
-//            System.out.println( "PickupCoil.setEmf: emf=" + emf ); // DEBUG
-            _emf = emf;
-            notifyObservers();
+    public void stepInTime( double dt ) {
+        if ( isEnabled() ) {
+            updateEmf();
         }
-    }
-    
-    /**
-     * Gets the induced emf.
-     * 
-     * @return the induced emf, in volts
-     */
-    public double getEmf() {
-        return _emf;
-    }
- 
-    //----------------------------------------------------------------------------
-    // AbstractCoil implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the voltage across the ends of the coil.
-     * According to KirchhoffÕs loop rule, the potential difference across
-     * the ends of the coil equals the magnitude of the induced EMF in the coil.
-     * 
-     * @return voltage across the ends of the coil, in volts
-     */
-    public double getVoltage() {
-        return _emf;
     }
     
     //----------------------------------------------------------------------------
@@ -186,27 +151,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         
         // Calculate the induced EMF.
         double emf = -( getNumberOfLoops() * deltaFlux );
-        setEmf( emf );
+        setVoltage( emf );
         
 //        // DEBUG: use this to determine the maximum EMF in the simulation.
 //        if ( Math.abs(emf) > Math.abs(_maxEmf) ) {
 //            _maxEmf = emf;
 //            System.out.println( "PickupCoil.stepInTime: MAX emf=" + _maxEmf ); // DEBUG
 //        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // ModelElement implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Handles ticks of the simulation clock.
-     * Calculates the induced emf using Faraday's Law.
-     * Performs median smoothing of data if isSmoothingEnabled.
-     * 
-     * @param dt time delta
-     */
-    public void stepInTime( double dt ) {
-        updateEmf();
     }
 }
