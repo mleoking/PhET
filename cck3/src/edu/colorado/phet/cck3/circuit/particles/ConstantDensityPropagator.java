@@ -109,9 +109,11 @@ public class ConstantDensityPropagator implements ModelElement {
             percent = "1";
         }
         if( !percent.equals( df.format( 100 ) ) && avg < 95 ) {
-            module.getTimescaleGraphic().setText( SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached1" )
-                    + " " + percent + SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached2" ) );
-            module.getTimescaleGraphic().setVisible( true );
+            if( !module.getParameters().hideAllElectrons() ) {
+                module.getTimescaleGraphic().setText( SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached1" )
+                                                      + " " + percent + SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached2" ) );
+                module.getTimescaleGraphic().setVisible( true );
+            }
         }
         else {
             module.getTimescaleGraphic().setText( "" );

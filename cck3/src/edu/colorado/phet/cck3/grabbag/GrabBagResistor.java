@@ -14,5 +14,4 @@ public class GrabBagResistor extends Resistor {
     public GrabBagResistor( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl ) {
         super( start, dir, length, height, kl );
     }
-
 }

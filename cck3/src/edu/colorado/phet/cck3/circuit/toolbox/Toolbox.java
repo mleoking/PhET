@@ -94,7 +94,7 @@ public class Toolbox extends CompositeGraphic {
             y += dy;
         }
         {
-            if( !CCK3Module.SHOW_GRAB_BAG ) {
+            if( module.getParameters().allowPlainResistors() ) {
                 BufferedImage resistorImage = module.getImageSuite().getResistorImage();
                 double initalResistorHeight = CCK3Module.RESISTOR_DIMENSION.getHeightForLength( componentWidth );
                 Resistor resistor = new Resistor( new Point2D.Double( componentX, y ), dir, componentWidth, initalResistorHeight, module.getKirkhoffListener() );

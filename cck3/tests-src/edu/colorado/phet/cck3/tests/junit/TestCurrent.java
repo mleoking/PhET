@@ -30,7 +30,7 @@ public class TestCurrent extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        module = new CCK3Module( false );
+        module = new CCK3Module( new String[0] );
         clock = new SwingTimerClock( 1, 30 );
         app = new PhetApplication( new ApplicationModel( "Title", "x", "x",
                                                          new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 100, 100 ) ), module, clock ) );

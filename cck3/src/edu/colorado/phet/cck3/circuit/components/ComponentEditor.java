@@ -33,6 +33,15 @@ public abstract class ComponentEditor extends JDialog {
     public ComponentEditor( final CCK3Module module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
         super( getAncestor( parent ), windowTitle, false );
+        if( startvalue > max ) {
+
+            System.out.println( "StartValue exceeded max: " + startvalue + "/" + max );
+            startvalue = max;
+        }
+        else if( startvalue < min ) {
+            System.out.println( "StartValue too low: " + startvalue + "/" + min );
+            startvalue = min;
+        }
         this.module = module;
         this.element = element;
         this.parent = parent;
@@ -172,7 +181,7 @@ public abstract class ComponentEditor extends JDialog {
             super( module, SimStrings.get( "ComponentEditor.BatteryVoltageTitle" ), element, parent,
                    SimStrings.get( "ComponentEditor.BatteryVoltageName" ),
                    SimStrings.get( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
-            if( CCK3Module.SHOW_GRAB_BAG ) {
+            if( module.getParameters().hugeRangeOnBatteries() ) {
 
                 final JCheckBox hugeRange = new JCheckBox( SimStrings.get( "ComponentEditor.MoreVoltsCheckBox" ), false );
                 hugeRange.addChangeListener( new ChangeListener() {

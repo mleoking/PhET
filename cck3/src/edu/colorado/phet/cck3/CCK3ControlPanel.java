@@ -46,7 +46,9 @@ public class CCK3ControlPanel extends JPanel {
     private JPanel circuitPanel;
 
     public CCK3ControlPanel( final CCK3Module module ) {
-        useAdvancedControlPanel = !CCK3Module.SHOW_GRAB_BAG;
+//        module.
+//        useAdvancedControlPanel = !CCK3Module.SHOW_GRAB_BAG;
+        useAdvancedControlPanel = module.getParameters().getUseAdvancedControlPanel();
 
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
@@ -148,7 +150,10 @@ public class CCK3ControlPanel extends JPanel {
         helpPanel.add( hp, helpPanelConstraints );
 
         this.add( helpPanel, BorderLayout.SOUTH );
-        if( CCK3Module.SHOW_GRAB_BAG ) {
+//        if( CCK3Module.SHOW_GRAB_BAG ) {
+//            addGrabBag();
+//        }
+        if( module.getParameters().showGrabBag() ) {
             addGrabBag();
         }
     }
@@ -274,15 +279,21 @@ public class CCK3ControlPanel extends JPanel {
         toolPanel.add( seriesAmmeter, rhs );
         rhs.gridy++;
 
-        if( !module.isVirtualLabMode() ) {
+        if( module.getParameters().useNonContactAmmeter() ) {
             toolPanel.add( virtualAmmeter, rhs );
         }
+//        if( !module.isVirtualLabMode() && module.getParameters().useNonContactAmmeter() ) {
+//            toolPanel.add( virtualAmmeter, rhs );
+//        }
         lhs.gridy = 0;
         toolPanel.add( new JLabel( voltIcon ), lhs );
         lhs.gridy++;
         toolPanel.add( new JLabel( ammIcon ), lhs );
         lhs.gridy++;
-        if( !module.isVirtualLabMode() ) {
+//        if( !module.isVirtualLabMode() && module.getParameters().useNonContactAmmeter() ) {
+//            toolPanel.add( new JLabel( nonContactAmmIcon ), lhs );
+//        }
+        if( module.getParameters().useNonContactAmmeter() ) {
             toolPanel.add( new JLabel( nonContactAmmIcon ), lhs );
         }
 
@@ -321,12 +332,15 @@ public class CCK3ControlPanel extends JPanel {
         visualizationPanel.setLayout( new BoxLayout( visualizationPanel, BoxLayout.Y_AXIS ) );
 
         visualizationPanel.add( lifelike );
-        if( !CCK3Module.SHOW_GRAB_BAG ) {
+        if( module.getParameters().allowSchematicMode() ) {
             visualizationPanel.add( schematic );
         }
-        if( !module.isVirtualLabMode() || CCK3Module.SHOW_GRAB_BAG ) {
+        if( module.getParameters().allowShowReadouts() ) {
             visualizationPanel.add( showReadouts );
         }
+//        if( !module.isVirtualLabMode() || CCK3Module.SHOW_GRAB_BAG ) {
+//            visualizationPanel.add( showReadouts );
+//        }
 //        return placeInPanel( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel, new Insets( 0, 10, 0, 10 ) );
         return placeInPanel( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }

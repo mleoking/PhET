@@ -57,7 +57,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
 
 /**
  * User: Sam Reid
@@ -66,7 +65,8 @@ import java.util.Locale;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CCK3Module extends Module {
-    private boolean virtualLabMode = false;
+//    private boolean virtualLabMode = false;
+    private SetupParameters parameters;
     private Circuit circuit;
     private CircuitGraphic circuitGraphic;
     private boolean inited = false;
@@ -122,7 +122,7 @@ public class CCK3Module extends Module {
     public static final double MIN_RESISTANCE = 0.0001;
     private boolean electronsVisible = true;
     private PhetFrame phetFrame;
-    public static boolean SHOW_GRAB_BAG = false;
+
     private MagicalRepaintPanel magicPanel;
     private static CCK3Module module;
     public static final boolean GRAPHICAL_DEBUG = false;
@@ -136,17 +136,18 @@ public class CCK3Module extends Module {
         return magicPanel;
     }
 
-    public CCK3Module() throws IOException {
-        this( false );
-    }
+//    public CCK3Module() throws IOException {
+//        this( false );
+//    }
 
     public boolean isElectronsVisible() {
         return electronsVisible;
     }
 
-    public CCK3Module( boolean virtualLabMode ) throws IOException {
+    public CCK3Module( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
-        this.virtualLabMode = virtualLabMode;
+//        this.virtualLabMode = virtualLabMode;
+        this.parameters = new SetupParameters( this, args );
         //        Color backgroundColor = new Color( 166, 177, 204 );//not so bright
 
         magicPanel = new MagicalRepaintPanel();
@@ -274,9 +275,10 @@ public class CCK3Module extends Module {
         }
     }
 
-    public boolean isVirtualLabMode() {
-        return virtualLabMode;
-    }
+//    public boolean isVirtualLabMode() {
+//
+//        return virtualLabMode;
+//    }
 
     public void relayout( Branch[] branches ) {
         layout.relayout( branches );
@@ -665,6 +667,7 @@ public class CCK3Module extends Module {
     }
 
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
+
         SimStrings.init( args, localizedStringsPath );
 
         //        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
@@ -674,15 +677,13 @@ public class CCK3Module extends Module {
         if( Arrays.asList( args ).contains( "debug" ) ) {
             debugMode = true;
         }
-        boolean virtualLab = false;
-        if( Arrays.asList( args ).contains( "-virtuallab" ) ) {
-            virtualLab = true;
-        }
-        if( Arrays.asList( args ).contains( "-grabbag" ) ) {
-            SHOW_GRAB_BAG = true;
-        }
+//        boolean virtualLab = false;
 
-        final CCK3Module cck = new CCK3Module( virtualLab );
+//        if( Arrays.asList( args ).contains( "-grabbag" ) ) {
+//            grabBag = true;
+//        }
+
+        final CCK3Module cck = new CCK3Module( args );
         CCK3Module.module = cck;
 
         RepaintDebugGraphic colorG = new RepaintDebugGraphic( cck.getApparatusPanel(), clock );
@@ -916,8 +917,10 @@ public class CCK3Module extends Module {
 
     public void setElectronsVisible( boolean visible ) {
         this.electronsVisible = visible;
-        layout.branchesMoved( circuit.getBranches() );
-        getApparatusPanel().repaint();
+        if( layout != null && circuit != null && getApparatusPanel() != null ) {
+            layout.branchesMoved( circuit.getBranches() );
+            getApparatusPanel().repaint();
+        }
     }
 
     private void add( Branch branch ) {
@@ -1149,5 +1152,74 @@ public class CCK3Module extends Module {
                 return union;
             }
         }
+    }
+
+    public static class SetupParameters {
+        String[] args;
+        private boolean virtualLab = false;
+        private boolean grabBag = true;
+        private boolean allowPlainResistors = true;
+        private boolean hugeBatteries = true;
+        private boolean allowShowReadouts = true;
+        private boolean allowSchematicMode = true;
+        private boolean useAdvancedControlPanel = true;
+        private boolean useNonContactAmmeter = true;
+        private boolean hideAllElectrons = false;
+
+        public SetupParameters( CCK3Module module, String[] args ) {
+            this.args = args;
+            if( containsArg( "-virtuallab" ) ) {
+                virtualLab = true;
+            }
+            if( containsArg( "-noElectrons" ) ) {
+                module.setElectronsVisible( false );
+                hideAllElectrons = true;
+            }
+            if( virtualLab ) {
+                allowShowReadouts = false;
+                allowSchematicMode = false;
+                useNonContactAmmeter = false;
+            }
+        }
+
+        private boolean containsArg( String s ) {
+            return Arrays.asList( args ).contains( s );
+        }
+
+        public boolean hideAllElectrons() {
+            return hideAllElectrons;
+        }
+
+        public boolean useNonContactAmmeter() {
+            return useNonContactAmmeter;
+        }
+
+        public boolean showGrabBag() {
+            return grabBag;
+        }
+
+        public boolean allowSchematicMode() {
+            return allowSchematicMode;
+        }
+
+        public boolean allowShowReadouts() {
+            return allowShowReadouts;
+        }
+
+        public boolean hugeRangeOnBatteries() {
+            return hugeBatteries;
+        }
+
+        public boolean allowPlainResistors() {
+            return allowPlainResistors;
+        }
+
+        public boolean getUseAdvancedControlPanel() {
+            return useAdvancedControlPanel;
+        }
+    }
+
+    public SetupParameters getParameters() {
+        return parameters;
     }
 }
