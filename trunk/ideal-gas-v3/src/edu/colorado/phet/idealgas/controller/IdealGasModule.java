@@ -27,6 +27,7 @@ public class IdealGasModule extends Module {
     private IdealGasModel idealGasModel;
     private PressureSensingBox box;
     private Gravity gravity = new Gravity( 0 );
+    private Pump pump;
 
     public IdealGasModule( AbstractClock clock ) {
         super( Strings.idealGasModuleName );
@@ -47,7 +48,7 @@ public class IdealGasModule extends Module {
         idealGasModel.addBox( box );
 
         // Create the pump
-        Pump pump = new Pump( this, box );
+        pump = new Pump( this, box );
 
         setApparatusPanel( new BaseIdealGasApparatusPanel( this, box, pump ) );
 
@@ -66,7 +67,7 @@ public class IdealGasModule extends Module {
     }
 
     public void setCurrentSpecies( Class moleculeClass ) {
-        idealGasModel.setCurrentGasSpecies( moleculeClass );
+        pump.setCurrentGasSpecies( moleculeClass );
     }
 
     public void setCmLinesOn( boolean selected ) {

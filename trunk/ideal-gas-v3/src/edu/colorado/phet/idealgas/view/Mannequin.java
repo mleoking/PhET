@@ -57,7 +57,7 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
 
     public void update() {
         // Update the pusher
-        int nextLocationX = (int)box.getMinX() - currPusherFrame.getHeight( null );
+        int nextLocationX = (int)box.getMinX() - currPusherFrame.getHeight( null ) - (int)Box2DGraphic.s_thickness;
         int dir = nextLocationX - location.x;
         currPusherFrame = dir == 0 ? currPusherFrame : ( dir > 0 ? pusher.getNextFrame() : pusher.getPrevFrame());
         location.setLocation( box.getMinX() - currPusherFrame.getHeight( null ) - Box2DGraphic.s_thickness,
