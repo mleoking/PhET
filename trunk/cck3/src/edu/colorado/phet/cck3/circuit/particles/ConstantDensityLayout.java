@@ -17,12 +17,16 @@ import java.util.Arrays;
  */
 public class ConstantDensityLayout extends CircuitListenerAdapter {
     private CCK3Module module;
-
+    boolean dolayout = true;
+//    boolean dolayout=false;
     public ConstantDensityLayout( CCK3Module module ) {
         this.module = module;
     }
 
     public void branchesMoved( Branch[] branches ) {
+        if( !dolayout ) {
+            return;
+        }
 //        ArrayList relay=new ArrayList( );
         BranchSet bs = new BranchSet( module.getCircuit(), branches );
         for( int i = 0; i < branches.length; i++ ) {

@@ -25,34 +25,38 @@ public class KirkhoffSolver {
     public boolean running = false;
     private boolean queue = false;
 
+    public KirkhoffSolver() {
+    }
+
     public void apply( final Circuit circuit ) {
-        Runnable r = new Runnable() {
-            public void run() {
-                if( running ) {
-                    return;
-                }
-                running = true;
-                System.out.println( "Running Kirkhoff" );
-                applyOrig( circuit );
-                running = false;
-                System.out.println( "Finished Kirkhoff" );
-                //need to handle queues
-                if( queue ) {
-                    queue = false;
-                    Thread t = new Thread( this );
-                    t.setPriority( Thread.MIN_PRIORITY );
-                    t.start();
-                }
-            }
-        };
-        Thread t = new Thread( r );
-        t.setPriority( Thread.MIN_PRIORITY );
-        if( !running ) {
-            t.start();
-        }
-        else {
-            queue = true;
-        }
+        applyOrig( circuit );
+//        Runnable r = new Runnable() {
+//            public void run() {
+//                if( running ) {
+//                    return;
+//                }
+//                running = true;
+//                System.out.println( "Running Kirkhoff" );
+//                applyOrig( circuit );
+//                running = false;
+//                System.out.println( "Finished Kirkhoff" );
+//                //need to handle queues
+//                if( queue ) {
+//                    queue = false;
+//                    Thread t = new Thread( this );
+//                    t.setPriority( Thread.MIN_PRIORITY );
+//                    t.start();
+//                }
+//            }
+//        };
+//        Thread t = new Thread( r );
+//        t.setPriority( Thread.MIN_PRIORITY );
+//        if( !running ) {
+//            t.start();
+//        }
+//        else {
+//            queue = true;
+//        }
     }
 
     public void applyOrig( Circuit circuit ) {
@@ -88,6 +92,10 @@ public class KirkhoffSolver {
 
         //apply the solution.
         mt.applySolution( solution );
+        fireKirkhoffSolved();
+    }
+
+    protected void fireKirkhoffSolved() {
         for( int i = 0; i < listeners.size(); i++ ) {
             KirkhoffSolutionListener kirkhoffSolutionListener = (KirkhoffSolutionListener)listeners.get( i );
             kirkhoffSolutionListener.finishedKirkhoff();

@@ -621,4 +621,9 @@ public class Circuit {
     public CircuitListener[] getCircuitListeners() {
         return (CircuitListener[])listeners.toArray( new CircuitListener[0] );
     }
+
+    public void moveToFirst( Junction junction ) {
+        junctions.remove( junction );
+        junctions.add( 0, junction );
+    }
 }
