@@ -52,6 +52,8 @@ public class CockpitModuleTest {
         StarView starView = cockpitModule.getStarView();
         Point2D.Double p = null;
 
+        star = new NormalStar( Color.magenta, 100, new Point2D.Double( Config.fixedStarDistance * 1.2, 10 ), -50 );
+        starField.addStar( star );
         star = new NormalStar( Color.green, 100, new Point2D.Double( 150, 10 ), -50 );
         starField.addStar( star );
         star = new NormalStar( Color.blue, 100, new Point2D.Double( 100, 10 ), 50 );
