@@ -16,8 +16,12 @@ import java.awt.event.ActionListener;
 
 public class AudioControlPanel extends JPanel {
     private JCheckBox audioOnOffCB;
+    private JRadioButton speakerRB;
+    private JRadioButton listenerRB;
+    private SoundModule module;
 
     public AudioControlPanel( final SoundModule module ) {
+        this.module = module;
         this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         this.setPreferredSize( new Dimension( 125, 100 ) );
 
@@ -36,8 +40,8 @@ public class AudioControlPanel extends JPanel {
         // Radio buttons to specify where the audio is take from
         JPanel audioSourcePanel = new JPanel();
         audioSourcePanel.setLayout( new BoxLayout( audioSourcePanel, BoxLayout.Y_AXIS ) );
-        final JRadioButton speakerRB = new JRadioButton( "Speaker" );
-        final JRadioButton listenerRB = new JRadioButton( "Listener" );
+        speakerRB = new JRadioButton( "Speaker" );
+        listenerRB = new JRadioButton( "Listener" );
         ButtonGroup audioSourceBG = new ButtonGroup();
         audioSourceBG.add( speakerRB );
         audioSourceBG.add( listenerRB );
@@ -72,5 +76,11 @@ public class AudioControlPanel extends JPanel {
 
         // Set Speaker as the default
         speakerRB.setSelected( true );
+    }
+
+    public void setAudioSource( int source ) {
+        listenerRB.setSelected( source == SoundApparatusPanel.LISTENER_SOURCE );
+        speakerRB.setSelected( source == SoundApparatusPanel.SPEAKER_SOURCE );
+        module.setAudioSource( source );
     }
 }

@@ -52,6 +52,9 @@ public class SoundControlPanel extends PhetControlPanel {
         amplitudeControlPanel.setAmplitude( amplitude );
     }
 
+    public void setAudioSource( int listenerSource ) {
+    }
+
     //
     // Inner classes for the component panels
     //
