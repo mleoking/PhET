@@ -9,14 +9,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.font.TextAttribute;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
 import java.text.AttributedString;
 
 import javax.swing.event.ChangeEvent;
@@ -24,6 +21,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
+import edu.colorado.phet.colorvision3.view.BellCurve;
 import edu.colorado.phet.colorvision3.view.BoundsOutline;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
@@ -66,7 +64,9 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   private PhetImageGraphic _spectrum;
   // The slider knob.
   private SpectrumSliderKnob _knob; 
-  // The bounds for dragging the slider knob.
+  // Curve for displaying transmission width.
+  private BellCurve _curve;
+  //The bounds for dragging the slider knob.
   private Rectangle _dragBounds; 
   // Event listeners.
   private EventListenerList _listenerList; 
@@ -106,17 +106,19 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     _knob = new SpectrumSliderKnob( parent );
  
     // Drag behavior
+    _dragBounds = new Rectangle( 0, 0, 0, 0); // set correctly by setLocation
     super.setBoundedGraphic( _knob );
     super.addCursorHandBehavior();
     super.addTranslationBehavior( this );
-    _dragBounds = new Rectangle( 0, 0, 0, 0); // set correctly by setLocation
-    
+
     // Initial values.
     setMinimum( 0 );
     setMaximum( 100 );
     setLocation( 0, 0 );
     setValue( 0 );
     setTransmissionWidth( 0 );
+    
+    translate(0,0);
   }
   
 	//----------------------------------------------------------------------------
@@ -133,15 +135,20 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     // Silently clamp the value to the allowed range.
     value = (int) MathUtil.clamp( _minimum, value, _maximum );
     
-    // Determine the slider's new X coordinate, based on the value.
-    double fraction = (value - _minimum)/(double)(_maximum - _minimum);
-    int x = (int) (fraction * _dragBounds.width) + _dragBounds.x;
+    // Set the knob's location & color.
+    {
+      double fraction = (value - _minimum)/(double)(_maximum - _minimum);
+      int x = (int) (fraction * _dragBounds.width) + _dragBounds.x;
+      _knob.setLocation( x, _knob.getPosition().y );
+      
+      VisibleColor color = new VisibleColor( getValue() );
+      _knob.setPaint( color.toColor() );
+    }
     
-    // Set the new slider location & color.
-    _knob.setLocation( x, _knob.getPosition().y );
+    // Fire a ChangeEvent to notify listeners that the value has changed.
+    fireChangeEvent( new ChangeEvent(this) );
     
-    // Force slider to update.
-    translate( 0.0, 0.0 );
+    repaint();
   }
   
   /**
@@ -151,8 +158,19 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
    */
   public int getValue()
   {
+    // Determine the value based on the knob location.
+    return getValue( _knob.getPosition().x, _knob.getPosition().y );
+  }
+ 
+  /**
+   * Gets the slider value based on an (x,y) location.
+   * 
+   * @return the value
+   */
+  private int getValue( int x, int y )
+  {
     // Determine the value based on the slider location.
-  	double fraction = (_knob.getPosition().x - _dragBounds.x )/(double)(_dragBounds.width);
+  	double fraction = (x - _dragBounds.x )/(double)(_dragBounds.width);
   	int value = (int) (fraction * (_maximum - _minimum)) + _minimum;
     return value;
   }
@@ -220,17 +238,24 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   public void setLabel( String label, Color color, Font font )
   {
     _labelString = label;
+    _attributedString = null;
+    _labelDimension = null;
     
-    // Pre-process the label String for rendering.
-    _attributedString = new AttributedString( _labelString );
-    _attributedString.addAttribute( TextAttribute.FOREGROUND, color );
-    _attributedString.addAttribute( TextAttribute.FONT, font );
+    if ( _labelString != null )
+    {
+      // Pre-process the label String for rendering.
+      _attributedString = new AttributedString( _labelString );
+      _attributedString.addAttribute( TextAttribute.FOREGROUND, color );
+      _attributedString.addAttribute( TextAttribute.FONT, font );
+      
+      // Determine the label dimensions for bounds calculations.
+      FontMetrics fontMetrics = _parent.getFontMetrics( font );
+      int height = fontMetrics.getHeight();
+      int width = fontMetrics.stringWidth( label );
+      _labelDimension = new Dimension( width, height );
+    }
     
-    // Determine the label dimensions for bounds calculations.
-    FontMetrics fontMetrics = _parent.getFontMetrics( font );
-    int height = fontMetrics.getHeight();
-    int width = fontMetrics.stringWidth( label );
-    _labelDimension = new Dimension( width, height );
+    repaint();
   }
   
   /**
@@ -251,12 +276,14 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
    */
   public void setLocation( Point location )
   {
+    int value = getValue();
+    
     _location = location;
     
     // Move the spectrum graphic.
     _spectrum.setPosition( _location.x, _location.y );
-    
-    // Move the slider.
+
+    // Move the slider, positioning it at the minimum value.
     _knob.setLocation( _location.x - (_knob.getBounds().width/2), 
                          _location.y + _spectrum.getBounds().height );
     
@@ -264,8 +291,8 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     _dragBounds = new Rectangle( _knob.getPosition().x, _knob.getPosition().y,
                                           _spectrum.getBounds().width, 0 );
     
-    // Force slider to update.
-    translate( 0.0, 0.0 );
+    // Restore the value.
+    setValue( value ); // calls repaint
   }
   
   /**
@@ -292,33 +319,50 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   
   /**
    * Sets the transmission width.
+   * Setting the width to zero effectively disables drawing of the curve.
    * 
    * @param width the width, in pixels
    */
   public void setTransmissionWidth( double width )
   {
     _transmissionWidth = width;
-    translate( 0.0, 0.0 );
+    _curve = null;
+    if ( width > 0 )
+    {
+      _curve = new BellCurve( _parent, (int)width, _spectrum.getBounds().height );
+    }
+    repaint();
   }
 
+  /**
+   * Gets the transmission width.
+   *
+   * @return width in pixels
+   */
+  public double getTransmissionWidth()
+  {
+    return _transmissionWidth;
+  }
+  
   /**
    * Gets the bounds.
    * 
    * @return the bounds
    */
   protected Rectangle getBounds()
-  {
+  {   
     // Start with the spectrum graphic's bounds.
-    Rectangle bounds = _spectrum.getBounds();
+    // Make a copy, so we don't accidentally change the graphic's bounds.
+    Rectangle bounds = new Rectangle( _spectrum.getBounds() );
     
     // Add the knob's bounds.
-    Rectangle r = _knob.getBounds();
-    bounds.add( r );
+    bounds.add( _knob.getBounds() );
     
     // If a label has been set, add it's bounding box.
     if ( _labelDimension != null )
     {
-      r = new Rectangle( _location.x + LABEL_X_OFFSET, 
+      Rectangle r = new Rectangle(
+                         _location.x + LABEL_X_OFFSET, 
                          _location.y + LABEL_Y_OFFSET - _labelDimension.height,
                          _labelDimension.width, 
                          _labelDimension.height );
@@ -362,77 +406,50 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   {
     if ( super.isVisible() )
     {
-      // Save graphics state
-      RenderingHints oldHints = g2.getRenderingHints();
-   
-      // Request antialiasing.
-      RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-      g2.setRenderingHints( hints );
-      
-      // Render label.
-      if ( _attributedString != null )
-      {
-        g2.drawString( _attributedString.getIterator(), 
-            _location.x + LABEL_X_OFFSET, _location.y + LABEL_Y_OFFSET );
-      }
-      
-      // Render spectrum graphic.
-      _spectrum.paint( g2 );    
-   
-      // Render the transmission width curve.
-      if ( _transmissionWidth > 0 )
-      {
-        renderBellCurve( g2, (int)_transmissionWidth, _spectrum.getBounds().height );
-//        System.out.println( "paint: spectrum bounds=" + _spectrum.getBounds() ); //XXX
-//        System.out.println( "paint: this bounds=" + this.determineBounds() ); //XXX
-      }
-  
-      // Render slider knob.
+      // Draw the spectrum graphic.
+      _spectrum.paint( g2 );   
+
+      // Draw the slider knob.
       super.paint( g2 );
       
-      // Restore graphics state
-      g2.setRenderingHints( oldHints );
+      // Draw the optional transmission width curve.
+      if ( _curve != null )
+      { 
+        // Set its location to line up with the knob.
+        // HACK: If this is done in setValue method, anti-aliasing is inconsistent.
+        int x = _knob.getPosition().x + _knob.getBounds().width/2;
+        int y = _spectrum.getBounds().y;
+        _curve.setLocation( x, y );
+        
+        // Save graphics state.
+        Shape oldClip = g2.getClip();
+
+        // Draw the curve, clipped to the spectrum graphic's bounds.
+        g2.setClip( new Rectangle(_spectrum.getBounds()) );
+        _curve.paint( g2 );
+        
+        // Restore graphics state.
+        g2.setClip( oldClip );
+      }
+      
+      // Draw the optional label.
+      if ( _attributedString != null )
+      {
+        // Save graphics state
+        RenderingHints oldHints = g2.getRenderingHints();
+        
+        // Request antialiasing.
+        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        g2.setRenderingHints( hints );
+        g2.drawString( _attributedString.getIterator(), 
+            _location.x + LABEL_X_OFFSET, _location.y + LABEL_Y_OFFSET );
+        
+        // Restore graphics state
+        g2.setRenderingHints( oldHints );
+      }
       
       BoundsOutline.paint( g2, getBounds(), Color.GREEN, new BasicStroke(1f) ); // DEBUG
     }
-  }
-  
-  /**
-   * Renders the filter transmission width as a bell curve.
-   * With unity scale values, the bounds of the rendered shape are 1x1 pixel.
-   * 
-   * @param g2 graphics context
-   * @param sx X axis scale
-   * @param sy Y axis scale
-   */
-  private void renderBellCurve( Graphics2D g2, int sx, int sy )
-  { 
-    // Save graohics state.
-    Shape oldClip = g2.getClip();
-    AffineTransform oldTransform = g2.getTransform();
-    Paint oldPaint = g2.getPaint();
-    
-    // Clip to the spectrum graphic bounds.
-    Rectangle r = _spectrum.getBounds();
-    g2.setClip( r.x, r.y, r.width, r.height );
-    
-    // Move to slider location.
-    g2.translate( _knob.getPosition().x + _knob.getBounds().width/2, _spectrum.getBounds().y );
-
-    // Create the path that describes the curve.
-    GeneralPath path = new GeneralPath();
-    path.moveTo( -.5f * sx, 1f * sy );
-    path.curveTo( -.25f * sx, 1f * sy, -.25f * sx, 0f * sy, 0f * sx, 0f * sy  ); // left curve
-    path.curveTo( .25f * sx, 0f * sy, .25f *sx, 1f * sy, .5f * sx, 1f * sy ); // right curve
-    
-    // Draw the curve.
-    g2.setPaint( Color.BLACK );
-    g2.draw( path );
-    
-    // Restore graphic state.
-    g2.setPaint( oldPaint );
-    g2.setTransform( oldTransform );
-    g2.setClip( oldClip );  // Restore clip *after* transform!
   }
   
 	//----------------------------------------------------------------------------
@@ -450,18 +467,11 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   public void translate( double dx, double dy )
   { 
     // Constrain the drag boundaries of the slider.
-    double x = Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, _knob.getPosition().x + dx ) );
-    double y = Math.max( _dragBounds.y, Math.min( _dragBounds.y + _dragBounds.height, _knob.getPosition().y + dy ) );
+    int x = (int) Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, _knob.getPosition().x + dx ) );
+    int y = (int) Math.max( _dragBounds.y, Math.min( _dragBounds.y + _dragBounds.height, _knob.getPosition().y + dy ) );
 
-    // Set the slider's location.
-    _knob.setLocation( (int)x, (int)y );
-      
-    // Change the slider color.
-    VisibleColor color = new VisibleColor( getValue() );
-    _knob.setPaint( color.toColor() );
-    
-    // Fire a ChangeEvent to notify listeners that the slider has moved.
-    fireChangeEvent( new ChangeEvent(this) );
+    int value = getValue( x, y );
+    setValue( value );
   }
   
 	//----------------------------------------------------------------------------
