@@ -186,7 +186,7 @@ public class GeneratorModule extends FaradayModule {
         {
             ControlPanel controlPanel = new ControlPanel( this );
             
-            TurbinePanel turbinePanel = new TurbinePanel( turbineModel, compassModel, gridGraphic );
+            TurbinePanel turbinePanel = new TurbinePanel( turbineModel, compassModel, gridGraphic, fieldMeterGraphic );
             controlPanel.addFullWidth( turbinePanel );
             
             controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );

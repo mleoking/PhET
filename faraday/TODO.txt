@@ -7,10 +7,21 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - trace/scan the AC wave with a cursor that represents "now"
+- add an X/Y axis at center of the AC display, keep zero-crossing of wave at origin
+- set low end of AC frequency to 10%
+- add playback controls to relevant modules (override Module.activate/deactivate)
+- label ACSourceGraphic with "AC Power Source"
+- look for a better AC power source graphic
+- label current source choices "DC" and "AC"
+- add a water wheel graphic to turbine, paddles as wide as widest water stream
+- RPM readout on turbine (at center of rotation?)
+- tick marks around voltmeter display
+- handle for faucet that looks like the sideview of a faucet handle, put slider inside handle
 - requirements for Generator module
 - calibrate lightbulb
 - calibrate voltmeter
 - calibrate electron speed in pickup coil
+- disable lightbulb/voltmeter/electron rescaling so that their response is proportional to magnet strength
 
 MEDIUM PRIORITY:
 - redo Turbine model, it should not extend BarMagnet (it has a BarMagnetPanel)
@@ -56,6 +67,7 @@ PHETCOMMON:
 
 DONE:
 v0r19...
+(3/16) - add field meter to Transformer & Generator modules
 v0r18...
 (3/16) - used icons in control panels for selecting current source and pickup indicator
 (3/16) - change order of controls in Electromagnet and Pickup panels

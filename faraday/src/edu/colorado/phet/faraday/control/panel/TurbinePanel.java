@@ -49,11 +49,13 @@ public class TurbinePanel extends FaradayPanel {
     private Turbine _turbineModel;
     private Compass _compassModel;
     private CompassGridGraphic _gridGraphic;
+    private FieldMeterGraphic _fieldMeterGraphic;
 
     // UI components
     private JLabel _strengthValue;
     private JSlider _strengthSlider;
     private JCheckBox _gridCheckBox;
+    private JCheckBox _fieldMeterCheckBox;
     private JCheckBox _compassCheckBox;
     
     //----------------------------------------------------------------------------
@@ -70,18 +72,21 @@ public class TurbinePanel extends FaradayPanel {
     public TurbinePanel( 
             Turbine turbineModel, 
             Compass compassModel, 
-            CompassGridGraphic gridGraphic )
+            CompassGridGraphic gridGraphic,
+            FieldMeterGraphic fieldMeterGraphic )
     {
         super();
         
         assert ( turbineModel != null );
         assert ( compassModel != null );
         assert ( gridGraphic != null );
+        assert ( fieldMeterGraphic != null );
 
         // Things we'll be controlling.
         _turbineModel = turbineModel;
         _compassModel = compassModel;
         _gridGraphic = gridGraphic;
+        _fieldMeterGraphic = fieldMeterGraphic;
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
@@ -125,7 +130,10 @@ public class TurbinePanel extends FaradayPanel {
 
         // Compass Grid on/off
         _gridCheckBox = new JCheckBox( SimStrings.get( "TurbinePanel.showGrid" ) );
-
+        
+        // Field Meter on/off
+        _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "BarMagnetPanel.showFieldMeter" ) );
+        
         // Compass on/off
         _compassCheckBox = new JCheckBox( SimStrings.get( "TurbinePanel.showCompass" ) );
 
@@ -136,16 +144,19 @@ public class TurbinePanel extends FaradayPanel {
         layout.addFilledComponent( strengthPanel, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _gridCheckBox, row++, 0 );
         layout.addComponent( _compassCheckBox, row++, 0 );
+        layout.addComponent( _fieldMeterCheckBox, row++, 0 );
         
         // Wire up event handling.
         EventListener listener = new EventListener();
         _strengthSlider.addChangeListener( listener );
         _gridCheckBox.addActionListener( listener );
+        _fieldMeterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
 
         // Update control panel to match the components that it's controlling.
         _strengthSlider.setValue( (int) ( 100.0 * _turbineModel.getStrength() / _turbineModel.getMaxStrength() ) );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
+        _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
     }
     
@@ -180,6 +191,10 @@ public class TurbinePanel extends FaradayPanel {
                 // Grid enable
                 _gridGraphic.resetSpacing();
                 _gridGraphic.setVisible( _gridCheckBox.isSelected() );
+            }
+            else if ( e.getSource() == _fieldMeterCheckBox ) {
+                // Meter enable
+                _fieldMeterGraphic.setVisible( _fieldMeterCheckBox.isSelected() );
             }
             else if ( e.getSource() == _compassCheckBox ) {
                 // Compass enable

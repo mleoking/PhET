@@ -221,7 +221,6 @@ public class TransformerModule extends FaradayModule {
             ElectromagnetPanel electromagnetPanel = new ElectromagnetPanel(
                     sourceCoilModel, batteryModel, acSourceModel, compassModel,
                     electromagnetGraphic, gridGraphic, fieldMeterGraphic );
-            electromagnetPanel.setFieldMeterEnabled( false );
             controlPanel.addFullWidth( electromagnetPanel );
             
             controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
