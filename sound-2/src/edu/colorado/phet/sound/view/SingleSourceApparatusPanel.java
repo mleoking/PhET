@@ -48,12 +48,13 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
         // Set up the octave wavefront and graphic
 //        WaveMediumGraphic wgB = new WaveMediumGraphic( waveMedium, this );
         //        waveMediumGraphic.init( waveMedium );
-        this.addGraphic( waveMediumGraphic, 7 );
-        Point2D.Double audioSourceB = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
-                                                          SoundConfig.s_wavefrontBaseY );
-        waveMediumGraphic.initLayout( audioSourceB,
-                                     SoundConfig.s_wavefrontHeight,
-                                     SoundConfig.s_wavefrontRadius );
+//        this.addGraphic( waveMediumGraphic, 7 );
+
+//        Point2D.Double audioSourceB = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
+//                                                          SoundConfig.s_wavefrontBaseY );
+//        waveMediumGraphic.initLayout( audioSourceB,
+//                                     SoundConfig.s_wavefrontHeight,
+//                                     SoundConfig.s_wavefrontRadius );
 
         setWavefrontType( new SphericalWavefront() );
         this.setBackground( SoundConfig.MIDDLE_GRAY );
@@ -74,8 +75,8 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
     /**
      *
      */
-    public void init() {
-    }
+//    public void init() {
+//    }
 
     /**
      * @return
