@@ -100,6 +100,7 @@ public class MovingManApparatusPanel extends ApparatusPanel {
         movingManLayout = new MovingManLayout( this );
 
         RepaintDebugGraphic.enable( this, module.getClock() );
+        setDoubleBuffered( true );
     }
 
     public void paint( Graphics g ) {
@@ -190,5 +191,9 @@ public class MovingManApparatusPanel extends ApparatusPanel {
 
     public LinearTransform1d getManPositionTransform() {
         return manPositionTransform;
+    }
+
+    public MovingManModule getModule() {
+        return module;
     }
 }

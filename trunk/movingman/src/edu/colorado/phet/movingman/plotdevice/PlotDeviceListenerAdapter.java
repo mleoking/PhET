@@ -20,6 +20,6 @@ public class PlotDeviceListenerAdapter implements PlotDeviceListener {
     public void maximizePressed() {
     }
 
-    public void sliderMoved() {
+    public void sliderDragged( double dragValue ) {
     }
 }

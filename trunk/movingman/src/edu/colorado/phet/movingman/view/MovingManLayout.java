@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class MovingManLayout {
     private int walkwayHeight = 150;
     private int topInset = 20;
-    private int walkwayBottomInset = 55;
+    private int walkwayBottomInset = 0;
     private int spaceBetweenPlots = 20;
 
     private MMVerticalLayout verticalLayout;
