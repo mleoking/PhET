@@ -32,6 +32,8 @@ public class MovingManControlPanel extends JPanel {
     private PlaybackPanel playbackPanel;
     private MotionPanel motionPanel;
     private JButton reset;
+    private JButton pause;
+    private JButton go;
 
     public void setRunningState() {
         playbackPanel.pause.setEnabled( false );
@@ -197,14 +199,18 @@ public class MovingManControlPanel extends JPanel {
 
         public MotionPanel() throws IOException {
             motions = new MotionSuite[]{
-                new StandSuite( module ),
-                new WalkSuite( module ),
-                new AccelerateSuite( module ),
+//                new StandSuite( module ),
+//                new WalkSuite( module ),
+//                new AccelerateSuite( module ),
+
+                new VariablePosition( module ),
+                new VariableVelocity( module ),
+                new VariableAcceleration( module ),
                 new OscillateSuite( module )
             };
 
-            setBorder( PhetLookAndFeel.createSmoothBorder( "Motions" ) );
-            recordMouseString = "Manual Control";
+            setBorder( PhetLookAndFeel.createSmoothBorder( "Controls" ) );
+            recordMouseString = "Manual";
             JRadioButton jrb = new JRadioButton( recordMouseString );
             jrb.setSelected( true );
             motionButtons = new ArrayList();
@@ -221,7 +227,10 @@ public class MovingManControlPanel extends JPanel {
                     else {
                         MotionSuite mac = motions[index - 1];
                         module.setMotionSuite( mac );
-                        mac.showDialog();
+                        module.setMotionMode( mac );
+                        module.setPaused( true );
+                        mac.initialize( module.getMan() );
+                        mac.showControls();
                     }
                 }
             };
@@ -237,7 +246,6 @@ public class MovingManControlPanel extends JPanel {
                 bg.add( jRadioButton );
                 jRadioButton.addActionListener( changeListener );
             }
-
         }
 
         private int getSelectedButton() {
@@ -309,8 +317,6 @@ public class MovingManControlPanel extends JPanel {
                 module.setNumSmoothingPoints( Integer.parseInt( value ) );
             }
         } );
-
-
         motionPanel = new MotionPanel();
 
         VerticalLayoutPanel northPanel = new VerticalLayoutPanel();
@@ -355,10 +361,20 @@ public class MovingManControlPanel extends JPanel {
             }
         } );
         reset.setEnabled( false );
+        pause = new JButton( "Pause" );
+        go = new JButton( "Go" );
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout( new BoxLayout( buttonPanel, BoxLayout.X_AXIS ) );
+        buttonPanel.add( go );
+
+        buttonPanel.add( pause );
+        buttonPanel.add( reset );
+
         northPanel.setFill( GridBagConstraints.NONE );
         northPanel.setAnchor( GridBagConstraints.WEST );
         northPanel.setInsets( new Insets( 4, 4, 4, 4 ) );
-        northPanel.add( reset );
+        northPanel.add( buttonPanel );
         panel.add( northPanel, BorderLayout.NORTH );
     }
 

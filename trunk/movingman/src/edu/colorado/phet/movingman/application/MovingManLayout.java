@@ -7,7 +7,6 @@ import edu.colorado.phet.movingman.elements.CursorGraphic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -19,17 +18,16 @@ public class MovingManLayout {
     private int panelHeight;
     private int panelWidth;
     private int numPlots;
-    int walkwayHeight = 100;
-    int topInset = 20;
-    int walkwayBottomInset = 55;
-    int spaceBetweenPlots = 20;
-    int bottomInset = 20;
-    int offsetIntoPlotForString = 40;
+    private int walkwayHeight = 100;
+    private int topInset = 20;
+    private int walkwayBottomInset = 55;
+    private int spaceBetweenPlots = 20;
+    private int bottomInset = 20;
+    private int offsetIntoPlotForString = 40;
     private int textOffsetX = 50;
-
     private int plotHeight;
-    private int plotsStartAt;
-    private int plotInsetX = 50;
+    private int plotsStartAtY;
+    private int plotInsetX = 90;
 
     public void setApparatusPanelHeight( int panelHeight ) {
         this.panelHeight = panelHeight;
@@ -45,10 +43,10 @@ public class MovingManLayout {
 
     public int getPlotY( int plotIndex ) {
         if( plotIndex == 0 ) {
-            return plotsStartAt;
+            return plotsStartAtY;
         }
         else {
-            return ( plotsStartAt + plotIndex * ( plotHeight + spaceBetweenPlots ) );
+            return ( plotsStartAtY + plotIndex * ( plotHeight + spaceBetweenPlots ) );
         }
     }
 
@@ -66,7 +64,7 @@ public class MovingManLayout {
         else {
             this.plotHeight = ( heightForPlots - numPlotSpacers * spaceBetweenPlots ) / numPlots;
         }
-        plotsStartAt = walkwayHeight + topInset + walkwayBottomInset;
+        plotsStartAtY = walkwayHeight + topInset + walkwayBottomInset;
 
     }
 
@@ -123,7 +121,7 @@ public class MovingManLayout {
         int insetX = plotInsetX;
 
         int insetXRightSide = 20;
-        plot.setOutputBox( new Rectangle2D.Double( insetX, getPlotY( index ), panelWidth - insetX - insetXRightSide, getPlotHeight() ) );
+        plot.setOutputBox( new Rectangle( insetX, getPlotY( index ), panelWidth - insetX - insetXRightSide, getPlotHeight() ) );
         Point textCoord = getTextCoordinates( index );
         vg.setPosition( textCoord.x, textCoord.y );
     }

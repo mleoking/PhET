@@ -2,11 +2,13 @@
 package edu.colorado.phet.movingman.elements;
 
 import edu.colorado.phet.common.math.transforms.BoxToBoxInvertY;
+import edu.colorado.phet.common.view.GraphicsState;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
+import edu.colorado.phet.common.view.graphics.TransformJSlider;
 import edu.colorado.phet.movingman.application.MovingManModule;
-import edu.colorado.phet.movingman.common.GraphicsSetup;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
@@ -37,9 +39,12 @@ public class BoxedPlot implements ObservingGraphic {
     private float lastTime;
     private double dt;
     private Graphics2D bufferGraphic;
-    private Rectangle2D.Double outputBox;
+    private Rectangle2D outputBox;
+    private TransformJSlider slider;
+    private static final int SLIDER_OFFSET_X = 50;
+    private boolean sliderVisible;
 
-    public BoxedPlot( MovingManModule module, DataSeries mh, Timer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, BufferedGraphicForComponent buffer, double xShift ) {
+    public BoxedPlot( final MovingManModule module, DataSeries mh, Timer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, BufferedGraphicForComponent buffer, double xShift ) {
         this.module = module;
         this.mh = mh;
         this.recordingTimer = timer;
@@ -52,14 +57,43 @@ public class BoxedPlot implements ObservingGraphic {
         mh.updateObservers();
         timer.addObserver( this );
         this.outputBox = new Rectangle2D.Double();
+//        slider = new JSlider( JSlider.VERTICAL, 0, 100, 50 );
+        slider = new TransformJSlider( -10, 10, 100 );
+        slider.setOrientation( JSlider.VERTICAL );
+//        slider=new PhetSlider( "");
+        slider.setBackground( module.getBackgroundColor() );
+        module.getApparatusPanel().setLayout( null );
+        module.getApparatusPanel().add( slider );
+
+        slider.setAlignmentY( 0 );
+        slider.reshape( 10, 10, slider.getPreferredSize().width, slider.getPreferredSize().height );
+        slider.setVisible( false );
+    }
+
+    public TransformJSlider getSlider() {
+        return slider;
+    }
+
+    public void setSliderVisible( boolean visible ) {
+        this.sliderVisible = visible;
+        slider.setVisible( visible );
+    }
+
+    public void setSliderEnabled( boolean enabled ) {
+        slider.setEnabled( enabled );
     }
 
     public void setInputBox( Rectangle2D.Double inputBox ) {
         this.inputBox = inputBox;
         setOutputBox( outputBox );//redraws everything.
+        slider.setModelRange( inputBox.getY(), inputBox.getY() + inputBox.getHeight() );
     }
 
-    public void setOutputBox( Rectangle2D.Double outputBox ) {
+    public void setOutputBox( Rectangle2D outputBox ) {
+        int x = (int)outputBox.getX();
+        int y = (int)outputBox.getY();
+        slider.setLocation( x - SLIDER_OFFSET_X, y );
+        slider.setSize( slider.getWidth(), (int)outputBox.getHeight() );
         this.outputBox = outputBox;
         started = false;
         this.transform = new BoxToBoxInvertY( inputBox, outputBox );
@@ -79,28 +113,23 @@ public class BoxedPlot implements ObservingGraphic {
         }
     }
 
-    GraphicsSetup graphicsSetup = new GraphicsSetup();
-    GraphicsSetup bufferSetup = new GraphicsSetup();
+    GraphicsState graphicsState = new GraphicsState();
+    GraphicsState bufferState = new GraphicsState();
 
     public void paint( Graphics2D g ) {
-
-//        if (true){
-//            return;
-//        }
         if( started && visible ) {
-            graphicsSetup.saveState( g );
+            graphicsState.saveState( g );
             g.setStroke( stroke );
             g.setColor( color );
             g.setClip( getOutputBox() );
             g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             g.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
             g.draw( path );
-            graphicsSetup.restoreState( g );
+            graphicsState.restoreState( g );
         }
     }
 
     public void update( Observable o, Object arg ) {
-//        Rectangle repaintRect = null;
         if( transform == null ) {
             return;
         }
@@ -131,7 +160,7 @@ public class BoxedPlot implements ObservingGraphic {
                     Point2D.Double a = (Point2D.Double)transformedData.get( transformedData.size() - 2 );
                     Point2D.Double b = (Point2D.Double)transformedData.get( transformedData.size() - 1 );
                     this.bufferGraphic = (Graphics2D)buffer.getImage().getGraphics();
-                    bufferSetup.saveState( bufferGraphic );
+                    bufferState.saveState( bufferGraphic );
                     bufferGraphic.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                     bufferGraphic.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
                     bufferGraphic.setColor( color );
@@ -140,7 +169,7 @@ public class BoxedPlot implements ObservingGraphic {
                     Line2D.Double line = new Line2D.Double( b.x, b.y, a.x, a.y );
                     bufferGraphic.draw( line );
                     s1 = stroke.createStrokedShape( line ).getBounds();
-                    bufferSetup.restoreState( bufferGraphic );
+                    bufferState.restoreState( bufferGraphic );
                 }
                 try {
                     Point2D curpt = path.getCurrentPoint();
@@ -161,16 +190,11 @@ public class BoxedPlot implements ObservingGraphic {
         }
     }
 
-    private Rectangle expand( Rectangle repaintRect, int dx, int dy ) {
-        return new Rectangle( repaintRect.x - dx / 2, repaintRect.y - dy / 2, repaintRect.width + dx, repaintRect.height + dy );
-    }
-
     private void repaint( Rectangle rect ) {
-//        module.getApparatusPanel().repaint( rect );
         module.getApparatusPanel().paintSoon( rect );
     }
 
-    public Rectangle2D.Double getInputBounds() {
+    public Rectangle2D getInputBounds() {
         return transform.getInputBounds();
     }
 
@@ -182,20 +206,29 @@ public class BoxedPlot implements ObservingGraphic {
         return xShift;
     }
 
-    public Rectangle2D.Double getOutputBox() {
+    public Rectangle2D getOutputBox() {
+        if( transform == null ) {
+            return null;
+        }
         return transform.getOutputBounds();
     }
 
     public void setVisible( boolean visible ) {
         this.visible = visible;
+        if( visible ) {
+            slider.setVisible( sliderVisible );
+        }
+        else {
+            slider.setVisible( false );
+        }
     }
 
     public void setRangeX( double time ) {
-        Rectangle2D.Double input = transform.getInputBounds();
-        Rectangle2D.Double newInput = new Rectangle2D.Double( input.x, input.y, time, input.height );
+        Rectangle2D input = transform.getInputBounds();
+        Rectangle2D.Double newInput = new Rectangle2D.Double( input.getX(), input.getY(), time, input.getHeight() );
         transform.setInputBounds( newInput );
-        Rectangle2D.Double outputBounds = transform.getOutputBounds();
-        outputBounds.width = time;
+        Rectangle2D outputBounds = transform.getOutputBounds();
+        outputBounds = new Rectangle2D.Double( outputBounds.getX(), outputBounds.getY(), time, outputBounds.getHeight() );
         transform.setOutputBounds( outputBounds );
     }
 

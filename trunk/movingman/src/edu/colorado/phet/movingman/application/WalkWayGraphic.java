@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.application;
 
 import edu.colorado.phet.common.math.transforms.functions.RangeToRange;
+import edu.colorado.phet.common.view.GraphicsState;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
@@ -50,7 +51,10 @@ public class WalkWayGraphic implements Graphic {
         this.housex = housex;
     }
 
+    GraphicsState state = new GraphicsState();
+
     public void paint( Graphics2D graphics2D ) {
+        state.saveState( graphics2D );
 //        graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         RangeToRange transform = module.getManPositionTransform();
         double modelRange = transform.getInputWidth();
@@ -66,7 +70,6 @@ public class WalkWayGraphic implements Graphic {
         Rectangle rect = new Rectangle( 0, 0, module.getApparatusPanel().getWidth(), height + 30 );
 //        graphics2D.fillRect( 0, 0, module.getApparatusPanel().getWidth(), height + 30 );
         graphics2D.fill( rect );
-        Stroke origStroke = graphics2D.getStroke();
         graphics2D.setColor( Color.blue );
         graphics2D.setStroke( borderStroke );
 //        graphics2D.draw( rect );
@@ -95,6 +98,6 @@ public class WalkWayGraphic implements Graphic {
         int housey = 10;
         graphics2D.drawImage( tree, treex, treey, null );
         graphics2D.drawImage( house, housex, housey, null );
-        graphics2D.setStroke( origStroke );
+        state.restoreState( graphics2D );
     }
 }

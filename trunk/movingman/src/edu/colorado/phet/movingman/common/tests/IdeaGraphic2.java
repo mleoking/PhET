@@ -1,8 +1,8 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.common.tests;
 
+import edu.colorado.phet.common.view.GraphicsState;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.movingman.common.GraphicsSetup;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -113,7 +113,7 @@ public class IdeaGraphic2 implements InteractiveGraphic {
         this.rect = a;
     }
 
-    GraphicsSetup gs = new GraphicsSetup();
+    GraphicsState gs = new GraphicsState();
 
     public void paint( Graphics2D g ) {
 

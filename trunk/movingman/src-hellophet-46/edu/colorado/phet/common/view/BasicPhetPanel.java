@@ -31,7 +31,7 @@ public class BasicPhetPanel extends JPanel {
             remove( east );
         }
         east = panel;
-        setPanel( panel, BorderLayout.EAST );
+        setPanel( panel, BorderLayout.WEST );
     }
 
     public void setMonitorPanel( JComponent panel ) {

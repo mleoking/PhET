@@ -9,7 +9,6 @@ package edu.colorado.phet.common.application;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.RepaintDebugPanel;
 import edu.colorado.phet.common.view.components.media.Resettable;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
@@ -34,8 +33,11 @@ public abstract class Module {
         this.name = name;
     }
 
-    public RepaintDebugPanel getApparatusPanel() {
-        return (RepaintDebugPanel)apparatusPanel;
+//    public RepaintDebugPanel getApparatusPanel() {
+//        return (RepaintDebugPanel)apparatusPanel;
+//    }
+    public ApparatusPanel getApparatusPanel() {
+        return apparatusPanel;
     }
 
     protected void setApparatusPanel( ApparatusPanel apparatusPanel ) {

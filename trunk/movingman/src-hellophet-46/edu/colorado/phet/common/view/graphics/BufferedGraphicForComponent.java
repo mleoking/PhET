@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.view.graphics;
 
 import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.movingman.common.GraphicsSetup;
+import edu.colorado.phet.common.view.GraphicsState;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -39,19 +39,19 @@ public class BufferedGraphicForComponent implements Graphic {
         this.height = height;
     }
 
-    GraphicsSetup renderSetup = new GraphicsSetup();
+    GraphicsState renderState = new GraphicsState();
 
     public void paintBufferedImage() {
         if( image == null ) {
             return;
         }
         Graphics2D graphics = image.createGraphics();
-        renderSetup.saveState( graphics );
+        renderState.saveState( graphics );
         graphics.setColor( backgroundColor );
         graphics.fillRect( 0, 0, width, height );
         graphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         compositeGraphic.paint( graphics );
-        renderSetup.restoreState( graphics );
+        renderState.restoreState( graphics );
     }
 
     public void setSize( int width, int height ) {
@@ -61,10 +61,10 @@ public class BufferedGraphicForComponent implements Graphic {
 //        tempimage=new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB);
 //        tempimage=new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB_PRE);
 //        tempimage = target.createImage( target.getWidth(), target.getHeight() );
-        BufferedImage created = (BufferedImage)target.createImage( target.getWidth(), target.getHeight() );
+//        BufferedImage created = (BufferedImage)target.createImage( target.getWidth(), target.getHeight() );
         BufferedImage newed = new BufferedImage( target.getWidth(), target.getHeight(), BufferedImage.TYPE_INT_RGB );
-        System.out.println( "Target.createImage returned: = " + created );
-        System.out.println( "new() returned: = " + newed );
+//        System.out.println( "Target.createImage returned: = " + created );
+//        System.out.println( "new() returned: = " + newed );
 //        this.image = (BufferedImage)tempimage;//GraphicsUtil.toBufferedImage(tempimage);
         this.image = newed;
         this.width = width;
@@ -99,10 +99,10 @@ public class BufferedGraphicForComponent implements Graphic {
         this.y = y;
     }
 
-    GraphicsSetup graphicsSetup = new GraphicsSetup();
+    GraphicsState graphicsState = new GraphicsState();
 
     public void paint( Graphics2D graphics2D ) {
-        graphicsSetup.saveState( graphics2D );
+        graphicsState.saveState( graphics2D );
 //        this.compositeGraphic.paint( graphics2D );
         if( !inited ) {
             setSize( width, height );
@@ -138,7 +138,7 @@ public class BufferedGraphicForComponent implements Graphic {
 //            System.out.println( "paint time=" + ( now - time ) + ", clip area=" + size + ",  clip bounds=" + bounds );
 //            graphics2D.drawRenderedImage( image, AffineTransform.getTranslateInstance( x,y) );
         }
-        graphicsSetup.restoreState( graphics2D );
+        graphicsState.restoreState( graphics2D );
     }
 
     public void setAlphaComposite( AlphaComposite ac ) {

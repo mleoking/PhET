@@ -8,7 +8,6 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.movingman.common.GraphicsSetup;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -70,8 +69,6 @@ public class ApparatusPanel extends JPanel implements Observer {
 //        mh.currentIG = null;
     }
 
-    GraphicsSetup graphicsSetup = new GraphicsSetup();
-
     /**
      * Draws all the Graphic objects in the ApparatusPanel
      *
@@ -81,12 +78,11 @@ public class ApparatusPanel extends JPanel implements Observer {
 
     protected void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
-        graphicsSetup.saveState( g2 );
-//        g2.setComposite( AlphaComposite.SrcAtop );
+        GraphicsRestore gr = new GraphicsRestore( g2 );
         super.paintComponent( graphics );
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         compositeGraphic.paint( (Graphics2D)graphics );
-        graphicsSetup.restoreState( g2 );
+        gr.restore();
     }
 
     /**
@@ -117,6 +113,10 @@ public class ApparatusPanel extends JPanel implements Observer {
 
     public void update( Observable o, Object arg ) {
         repaint();
+    }
+
+    public void paintSoon( Rectangle union ) {
+        repaint( union );
     }
 
 

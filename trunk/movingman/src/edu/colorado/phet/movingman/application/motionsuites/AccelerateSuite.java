@@ -67,6 +67,7 @@ public class AccelerateSuite extends MotionSuite {
 
         transformslider = new TransformSlider( minAccel, maxAccel, 200 );
         slider = transformslider.getSlider();
+        slider.setOrientation( JSlider.VERTICAL );
         slider.setMajorTickSpacing( 100 / 5 );
         slider.setPaintTicks( true );
         transformslider.addLabel( minAccel, createLabel( "" + minAccel ) );

@@ -1,12 +1,11 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.application;
 
+import edu.colorado.phet.common.view.GraphicsState;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
-import edu.colorado.phet.movingman.common.GraphicsSetup;
 import edu.colorado.phet.movingman.elements.BoxedPlot;
 import edu.colorado.phet.movingman.elements.DataSeries;
 import edu.colorado.phet.movingman.elements.Timer;
-import sun.awt.font.FontDesignMetrics;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -47,16 +46,14 @@ public class ValueGraphic implements ObservingGraphic {
         this.offsetSource = offsetSource;
         timer.addObserver( this );
         playbackTimer.addObserver( this );
-        this.fontMetrics = new FontDesignMetrics( font );
+        this.fontMetrics = module.getApparatusPanel().getFontMetrics( font );
     }
 
-    GraphicsSetup gs = new GraphicsSetup();
+    GraphicsState gs = new GraphicsState();
 
     public void paint( Graphics2D g ) {
         if( output != null && visible ) {
             gs.saveState( g );
-//            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-
             g.setFont( font );
             g.setColor( color );
             g.drawString( text, x, y );

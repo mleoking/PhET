@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman.elements;
 
 import edu.colorado.phet.common.math.transforms.BoxToBoxInvertY;
+import edu.colorado.phet.common.view.GraphicsState;
 import edu.colorado.phet.common.view.graphics.DragHandler;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
@@ -62,7 +63,10 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
         this.visible = visible;
     }
 
+    GraphicsState state = new GraphicsState();
+
     public void paint( Graphics2D g ) {
+        state.saveState( g );
         Stroke origSTroke = g.getStroke();
         if( !visible || transform == null ) {
             return;
@@ -71,6 +75,7 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
         g.setStroke( stroke );
         g.drawRect( x, y, width, height );
         g.setStroke( origSTroke );
+        state.restoreState( g );
     }
 
     public void update( Observable o, Object arg ) {
@@ -92,7 +97,7 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
     }
 
     private Rectangle getShape() {
-        return dummystroke.createStrokedShape( new Rectangle2D.Double( x, y, width, height ) ).getBounds();
+        return dummystroke.createStrokedShape( new Rectangle2D.Double( x - 1, y - 1, width + 2, height + 2 ) ).getBounds();
     }
 
     public boolean canHandleMousePress( MouseEvent event ) {
