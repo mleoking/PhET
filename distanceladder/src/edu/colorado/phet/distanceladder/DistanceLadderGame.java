@@ -15,6 +15,7 @@ import edu.colorado.phet.distanceladder.levels.Level1;
 import edu.colorado.phet.distanceladder.levels.Level1A;
 import edu.colorado.phet.distanceladder.model.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -80,8 +81,9 @@ public class DistanceLadderGame {
 
     private void doLevel( Exercise level ) {
         while( !level.doIt() ) {
-            //
+            new HtmlMessage( "messages/incorrect-msg-1.html" ).display();
         }
+        new HtmlMessage( "messages/correct-msg-1.html" ).display();
     }
 
     public static void main( String[] args ) {
