@@ -26,7 +26,7 @@ import java.awt.geom.Point2D;
 
 public class TestArrows {
     static double theta = 0;
-    private static GraphicLayerSet compositeGraphic;
+
 
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Arrow test" );
@@ -34,7 +34,7 @@ public class TestArrows {
         final ApparatusPanel p = new ApparatusPanel();
         p.addGraphicsSetup( new BasicGraphicsSetup() );
 
-        compositeGraphic = new GraphicLayerSet( p );
+        GraphicLayerSet compositeGraphic = new GraphicLayerSet( p );
         p.addGraphic( compositeGraphic );
 
         final int x0 = 400;
