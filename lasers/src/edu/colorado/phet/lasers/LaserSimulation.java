@@ -33,7 +33,7 @@ import java.util.Locale;
 
 public class LaserSimulation extends PhetApplication {
 
-    static class LaserAppModel extends ApplicationModel {
+    public static class LaserAppModel extends ApplicationModel {
         public LaserAppModel() {
             super( SimStrings.get( "LasersApplication.title" ),
                    SimStrings.get( "LasersApplication.description" ),
@@ -75,6 +75,9 @@ public class LaserSimulation extends PhetApplication {
         throw new RuntimeException( "TBI" );
     }
 
+    /**
+     * @param args
+     */
     public static void main( String[] args ) {
         String applicationLocale = System.getProperty( "javaws.locale" );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
@@ -97,6 +100,10 @@ public class LaserSimulation extends PhetApplication {
         LaserSimulation simulation = new LaserSimulation( args );
         simulation.startApplication();
     }
+
+    //----------------------------------------------------------------
+    // Definition of look and feel
+    //----------------------------------------------------------------
 
     private static class LaserAppLookAndFeel extends LandF {
         static Color yellowishBackground = new Color( 255, 255, 214 );

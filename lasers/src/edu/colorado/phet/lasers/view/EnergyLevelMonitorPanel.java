@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -42,6 +43,7 @@ import java.util.Map;
  * A disc is drawn on the energy levels for each atom in that state.
  */
 public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedBeam.WavelengthChangeListener,
+                                                                     CollimatedBeam.RateChangeListener,
                                                                      ClockStateListener {
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
@@ -99,7 +101,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         model.addObserver( this );
         clock.addClockStateListener( this );
         model.getPumpingBeam().addWavelengthChangeListener( this );
+        model.getPumpingBeam().addRateChangeListener( this );
         model.getSeedBeam().addWavelengthChangeListener( this );
+        model.getSeedBeam().addRateChangeListener( this );
 
         // Create a horizontal line for each energy level, then add them to the panel
         highLevelLine = new EnergyLevelGraphic( this, module.getLaserModel().getHighEnergyState(),
@@ -117,8 +121,15 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         this.setBackground( Color.white );
         JLabel dummyLabel = new JLabel( "foo" );
         Font font = dummyLabel.getFont();
+        String header = null;
+        if( module instanceof MultipleAtomModule ) {
+            header = SimStrings.get( "EnergyMonitorPanel.header.plural" );
+        }
+        else {
+            header = SimStrings.get( "EnergyMonitorPanel.header.singular" );
+        }
         PhetTextGraphic headingText = new PhetTextGraphic( this, font,
-                                                           SimStrings.get( "EnergyMonitorPanel.header" ),
+                                                           header,
                                                            Color.black );
         headingText.setLocation( 30, 5 );
         this.addGraphic( headingText );
@@ -137,7 +148,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                                                             LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME, this );
         this.add( highLevelLifetimeSlider );
 
+        // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );
+        new EnergyMatchDetector( module.getLaserModel().getHighEnergyState(), model.getPumpingBeam(), highLevelLine );
+        new EnergyMatchDetector( module.getLaserModel().getMiddleEnergyState(), model.getSeedBeam(), middleLevelLine );
 
         adjustPanel();
     }
@@ -221,14 +235,14 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
 
         // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
         if( y0 > y1 ) {
-            stimSquiggle = computeSquiggleImage( seedBeamWavelength, 0, (int)( y0 - y1 ), squiggleHeight );
+            stimSquiggle = computeSquiggleImage( model.getSeedBeam(), 0, (int)( y0 - y1 ), squiggleHeight );
             stimSquiggleTx = AffineTransform.getTranslateInstance( middleLevelLine.getPosition().getX(),
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             stimSquiggleTx.rotate( -Math.PI / 2 );
         }
 
         if( y0 > y2 ) {
-            pumpSquiggle = computeSquiggleImage( pumpBeamWavelength, 0, (int)( y0 - y2 ), squiggleHeight );
+            pumpSquiggle = computeSquiggleImage( model.getPumpingBeam(), 0, (int)( y0 - y2 ), squiggleHeight );
             pumpSquiggleTx = AffineTransform.getTranslateInstance( highLevelLine.getPosition().getX(),
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             pumpSquiggleTx.rotate( -Math.PI / 2 );
@@ -242,24 +256,31 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     /**
      * Creates a buffered image for a squiggle
      */
-    private BufferedImage computeSquiggleImage( double wavelength, double phaseAngle, int length, int height ) {
-
+    private BufferedImage computeSquiggleImage( CollimatedBeam beam, double phaseAngle, int length, int height ) {
+        double wavelength = beam.getWavelength();
         int arrowHeight = height;
 
+        // So that the tip of the arrow will just touch an energy level line when it is supposed to match the line,
+        // we need to subtract 1 from the length of the squiggle
+        int actualLength = length - 1;
+
         // A buffered image for generating the image data
-        BufferedImage img = new BufferedImage( length + 2 * arrowHeight,
+        BufferedImage img = new BufferedImage( actualLength + 2 * arrowHeight,
                                                height,
                                                BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2d = img.createGraphics();
         int kPrev = height / 2;
         int iPrev = 0;
         Color c = VisibleColor.wavelengthToColor( wavelength );
+        double intensity = beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond();
+        Color c2 = new Color( (int)( c.getRed() * intensity ), (int)( c.getGreen() * intensity ), (int)( c.getBlue() * intensity ) );
         double freqFactor = 15 * wavelength / 680;
-        for( int i = 0; i < length - arrowHeight * 2; i++ ) {
+        for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
             for( int j = 0; j < height; j++ ) {
                 if( j == k ) {
-                    g2d.setColor( c );
+//                    g2d.setColor( c );
+                    g2d.setColor( c2 );
                     g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
                     iPrev = i;
                     kPrev = k;
@@ -269,8 +290,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         Arrow head = new Arrow( new Point2D.Double( arrowHeight, height / 2 ),
                                 new Point2D.Double( 0, height / 2 ),
                                 arrowHeight, height * 1.2, 2 );
-        Arrow tail = new Arrow( new Point2D.Double( length - arrowHeight, height / 2 ),
-                                new Point2D.Double( length, height / 2 ),
+        Arrow tail = new Arrow( new Point2D.Double( actualLength - arrowHeight, height / 2 ),
+                                new Point2D.Double( actualLength, height / 2 ),
                                 arrowHeight, height * 1.2, 2 );
         g2d.fill( head.getShape() );
         g2d.fill( tail.getShape() );
@@ -380,6 +401,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         updateSquiggles();
     }
 
+    public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
+        updateSquiggles();
+    }
+
     //----------------------------------------------------------------
     // ClockStateListener implementation
     //----------------------------------------------------------------
@@ -422,6 +447,76 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private class PanelResizer extends ComponentAdapter {
         public void componentResized( ComponentEvent e ) {
             adjustPanel();
+        }
+    }
+
+    private class EnergyMatchDetector implements AtomicState.Listener, CollimatedBeam.WavelengthChangeListener {
+        private AtomicState atomicState;
+        private CollimatedBeam collimatedBeam;
+        private EnergyLevelGraphic graphic;
+        private boolean matched;
+
+        public EnergyMatchDetector( AtomicState atomicState, CollimatedBeam collimatedBeam, EnergyLevelGraphic graphic ) {
+            this.atomicState = atomicState;
+            this.collimatedBeam = collimatedBeam;
+            this.graphic = graphic;
+            atomicState.addListener( this );
+            collimatedBeam.addWavelengthChangeListener( this );
+        }
+
+        public void energyLevelChanged( AtomicState.Event event ) {
+            checkForMatch();
+        }
+
+        private void checkForMatch() {
+            if( Math.abs( Photon.wavelengthToEnergy( collimatedBeam.getWavelength() ) - atomicState.getEnergyLevel() )
+                <= LaserConfig.ENERGY_TOLERANCE ) {
+                if( !matched ) {
+                    flashGraphic();
+                    matched = true;
+                }
+            }
+            else {
+                matched = false;
+            }
+        }
+
+        public void meanLifetimechanged( AtomicState.Event event ) {
+            // noop
+        }
+
+        public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
+            checkForMatch();
+        }
+
+        boolean hidden;
+
+        private void flashGraphic() {
+            GraphicFlasher gf = new GraphicFlasher( graphic );
+            gf.start();
+        }
+    }
+
+    private class GraphicFlasher extends Thread {
+        private int numFlashes = 5;
+        private EnergyLevelGraphic graphic;
+
+        public GraphicFlasher( EnergyLevelGraphic graphic ) {
+            this.graphic = graphic;
+        }
+
+        public void run() {
+            try {
+                for( int i = 0; i < numFlashes; i++ ) {
+                    graphic.setVisible( false );
+                    Thread.sleep( 100 );
+                    graphic.setVisible( true );
+                    Thread.sleep( 100 );
+                }
+            }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+            }
         }
     }
 }

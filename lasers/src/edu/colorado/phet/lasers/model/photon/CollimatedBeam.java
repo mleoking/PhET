@@ -58,14 +58,13 @@ public class CollimatedBeam extends Particle implements PhotonSource {
 
 
     /**
-     *
      * @param wavelength
      * @param origin
      * @param height
      * @param width
      * @param direction
      * @param maxPhotonsPerSecond
-     * @param fanout    spread of beam, in degrees
+     * @param fanout              spread of beam, in degrees
      */
     public CollimatedBeam( double wavelength, Point2D origin, double height, double width,
                            Vector2D direction, double maxPhotonsPerSecond, double fanout ) {
@@ -77,8 +76,18 @@ public class CollimatedBeam extends Particle implements PhotonSource {
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.SPEED );
     }
 
+    /**
+     * @return fanout in degrees
+     */
     public double getFanout() {
-        return fanout;
+        return Math.toDegrees( fanout );
+    }
+
+    /**
+     * @param fanout in degrees
+     */
+    public void setFanout( double fanout ) {
+        this.fanout = Math.toRadians( fanout );
     }
 
     public void setBounds( Rectangle2D rect ) {
@@ -196,7 +205,7 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     }
 
     //---------------------------------------------------------------------
-    // LeftSystemEvent Handling
+    // Event Handling
     //---------------------------------------------------------------------
 
     private EventChannel rateChangeEventChannel = new EventChannel( RateChangeListener.class );

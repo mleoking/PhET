@@ -24,6 +24,12 @@ public class GroundState extends AtomicState {
         setMeanLifetime( Double.POSITIVE_INFINITY );
     }
 
+    /**
+     * This is the only AtomicState whose behavior is different from the others.
+     *
+     * @param atom
+     * @param photon
+     */
     public void collideWithPhoton( Atom atom, Photon photon ) {
 
         // Only respond a specified percentage of the time

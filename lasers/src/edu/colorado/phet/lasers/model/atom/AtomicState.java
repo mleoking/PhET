@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
@@ -32,7 +33,6 @@ public abstract class AtomicState {
     static public final double minEnergy = Photon.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = Photon.wavelengthToEnergy( minWavelength );
     static protected double s_collisionLikelihood = 1;
-    static protected final double wavelengthTolerance = 10;
     //        static protected double s_collisionLikelihood = 0.2;
 
 
@@ -102,7 +102,8 @@ public abstract class AtomicState {
     }
 
     protected boolean isStimulatedBy( Photon photon ) {
-        return ( Math.abs( photon.getWavelength() - this.getWavelength() ) <= wavelengthTolerance && Math.random() < s_collisionLikelihood );
+        return ( Math.abs( photon.getWavelength() - this.getWavelength() ) <= LaserConfig.WAVELENGTH_TOLERANCE
+                 && Math.random() < s_collisionLikelihood );
     }
 
     public void collideWithPhoton( Atom atom, Photon photon ) {
@@ -150,12 +151,11 @@ public abstract class AtomicState {
     public AtomicState getStimulatedState( Atom atom, Photon photon, double energy ) {
         AtomicState result = null;
         AtomicState[] states = atom.getStates();
-        double energyThreshold = 0.5E-38;
         for( int stateIdx = states.length - 1;
              stateIdx >= 0 && states[stateIdx] != this && result == null;
              stateIdx-- ) {
             double de = photon.getEnergy() - ( states[stateIdx].getEnergyLevel() - energy );
-            if( Math.abs( de ) < energyThreshold ) {
+            if( Math.abs( de ) < LaserConfig.ENERGY_TOLERANCE ) {
                 result = states[stateIdx];
             }
         }

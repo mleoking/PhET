@@ -56,6 +56,7 @@ public class SingleAtomModule extends BaseLaserModule {
                                                                            s_boxWidth + s_laserOffsetX * 2, 1 );
         seedBeam.setBounds( stimulatingBeamBounds );
         seedBeam.setDirection( new Vector2D.Double( 1, 0 ) );
+
         // Start the beam with a very slow rate
         seedBeam.setPhotonsPerSecond( 1 );
 
@@ -135,10 +136,10 @@ public class SingleAtomModule extends BaseLaserModule {
 
 
         // Set up the control panel, and start off with two energy levels
-        laserControlPanel = new UniversalLaserControlPanel( this, clock );
+        laserControlPanel = new UniversalLaserControlPanel( this );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
-
+        setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
     }
 
     public void activate( PhetApplication app ) {

@@ -131,10 +131,9 @@ public class MultipleAtomModule extends BaseLaserModule {
         setEnergyLevelsAveragingPeriod( 2000 );
 
         // Set the control panel
-        laserControlPanel = new UniversalLaserControlPanel( this, clock );
+        laserControlPanel = new UniversalLaserControlPanel( this );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
-
     }
 
     private void addAtoms( Rectangle2D cavityBounds ) {
