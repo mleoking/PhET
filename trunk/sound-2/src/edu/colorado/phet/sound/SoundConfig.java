@@ -66,9 +66,11 @@ public class SoundConfig {
     public static final String SPEAKER_CONE_IMAGE_FILE = IMAGE_DIRECTORY + "speaker-cone.gif";
     public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head-1-small.gif";
     public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "head-1-small.gif";
-//    public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
-//    public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
+    //    public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
+    //    public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
     public static final String METER_STICK_IMAGE_FILE = IMAGE_DIRECTORY + "five-meter-stick.gif";
+    public static final String[] HEAD_IMAGE_FILES = {IMAGE_DIRECTORY + "head-1-small.gif",
+                                                     IMAGE_DIRECTORY + "head-2-small.gif"};
 
     // Animation images
 

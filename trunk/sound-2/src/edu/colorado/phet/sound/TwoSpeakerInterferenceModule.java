@@ -90,7 +90,9 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         // Set up the listener
         BufferedImage headImg = null;
         try {
-            headImg = ImageLoader.loadBufferedImage( SoundConfig.LISTENER_W_EARS_IMAGE_FILE );
+            int headImageIdx = randomGenerator.nextInt( SoundConfig.HEAD_IMAGE_FILES.length );
+            headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILES[headImageIdx] );
+            headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILE );
             PhetImageGraphic head = new PhetImageGraphic( getApparatusPanel(), headImg );
             head.setPosition( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
             ListenerGraphic listenerGraphic = new InterferenceListenerGraphic( this, headListener, head,
@@ -101,7 +103,8 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
                                                                                audioSourceB,
                                                                                soundModel.getPrimaryWavefront(),
                                                                                iSpeakerGraphicA );
-            getApparatusPanel().addGraphic( listenerGraphic, 9 );
+            this.addGraphic( listenerGraphic, 9 );
+            //            getApparatusPanel().addGraphic( listenerGraphic, 9 );
 
             // Add help items
             HelpItem help1 = new HelpItem( "Listener can be moved\nin all directions",

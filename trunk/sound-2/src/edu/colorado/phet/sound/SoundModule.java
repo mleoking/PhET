@@ -17,12 +17,14 @@ import edu.colorado.phet.sound.view.RgbReporter;
 import edu.colorado.phet.sound.view.WavefrontOscillator;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 public class SoundModule extends Module implements RgbReporter {
 
     private static WavefrontOscillator primaryOscillator = new WavefrontOscillator();
     private static WavefrontOscillator octaveOscillator = new WavefrontOscillator();
     private Listener speakerListener;
+    protected final static Random randomGenerator = new Random();
 
     static {
         primaryOscillator.run();

@@ -64,7 +64,7 @@ public class WallInterferenceModule extends SingleSourceModule {
 
         // Set up the interferring wavefront graphic
         interferringWaverfrontGraphic = new BufferedWaveMediumGraphic( soundModel.getWaveMedium(),
-                                                               getApparatusPanel() );
+                                                                       getApparatusPanel() );
         this.addGraphic( interferringWaverfrontGraphic, 7 );
         positionInterferingWavefront();
 
@@ -202,12 +202,13 @@ public class WallInterferenceModule extends SingleSourceModule {
      */
     private void positionInterferingWavefront() {
         // Set up the wavefront graphic for the reflected wave front. We make set its origin to be the apparent
-        // position of the real wavefront source's reflection in the wall.
+        // position of the real wavefront source's reflection in the wall. Note that the angle must be set negative
+        // because of the direction of the y axis in AWT.
         p = new Point2D.Double( SoundConfig.s_wavefrontBaseX, SoundConfig.s_wavefrontBaseY );
-        pp = MathUtil.reflectPointHorizontal( p,
-                                              new Point2D.Double( wallGraphic.getMidPoint().getX(),
-                                                                  wallGraphic.getMidPoint().getY() ),
-                                              wallAngle );
+        Point2D pTest = MathUtil.reflectPointAcrossLine( p, new Point2D.Double( wallGraphic.getMidPoint().getX(),
+                                                                                wallGraphic.getMidPoint().getY() ),
+                                                         Math.toRadians( -wallAngle ) );
+        pp = (Point2D.Double)pTest;
         interferringWaverfrontGraphic.clear();
         interferringWaverfrontGraphic.initLayout( new Point2D.Double( pp.getX(), pp.getY() ),
                                                   SoundConfig.s_wavefrontHeight,
