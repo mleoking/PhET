@@ -86,10 +86,11 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
         /* 
          * Set the strength.
          * This is a bit of a "fudge". 
-         * We set the strength of the magnet to be proportional to the voltage in the coil.
+         * We set the strength of the magnet to be proportional to the 
+         * amplitude of the voltage in the coil.
          */
-        double percent = Math.abs( coilVoltage / _sourceCoilModel.getMaxVoltage() );
-        double strength = percent * getMaxStrength();
+        double amplitude = Math.abs( _sourceCoilModel.getAmplitude() );
+        double strength = amplitude * getMaxStrength();
         setStrength( strength );
     }
 }
