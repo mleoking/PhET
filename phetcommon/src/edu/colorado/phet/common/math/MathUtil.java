@@ -112,6 +112,7 @@ public class MathUtil {
      */
     public static Point2D.Double reflectPointHorizontal( Point2D p, Point2D linePt1, double lineAngle ) {
 
+/*
         double bx = linePt1.getX() + ( linePt1.getY() - p.getY() ) / Math.tan( Math.toRadians( lineAngle ) );
 
         // Note that this line is what constrains this to a horizontal reflection
@@ -123,6 +124,15 @@ public class MathUtil {
         double ppy = by + d * Math.sin( Math.toRadians( beta ) );
         Point2D.Double pp = new Point2D.Double( ppx, ppy );
         return pp;
+*/
+        double alpha = Math.toRadians( lineAngle );
+        Point2D l = linePt1;
+        double gamma = Math.atan2( (p.getY()-l.getY()) , ( p.getX() - l.getX()));
+        double theta = 2 * alpha - gamma;
+        double d = p.distance( l );
+        Point2D.Double e = new Point2D.Double( l.getX() + d * Math.cos( theta),
+                                               l.getY() + d * Math.sin( theta ));
+        return e;
     }
 
     /**
