@@ -2,13 +2,10 @@ package edu.colorado.phet.motion2d;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
 public class MyJPanel extends JPanel
-        implements MouseMotionListener, ActionListener {
+        implements MouseMotionListener, ActionListener, MouseListener {
     private VelAccGui myGui;
     private JPanel northPanel, southPanel;
     private MotionPanel motionPanel1;
@@ -26,7 +23,8 @@ public class MyJPanel extends JPanel
     private double accFactor;    //acceleration vector multiplication factor
     private int radius = 9; //Radius of ball
     JLabel btnLabel;
-    JButton vButton, aButton, bothButton, neitherButton, moreButton, hideMouseButton;
+    JButton vButton, aButton, bothButton, neitherButton, moreButton;
+//    JButton hideMouseButton;
     private int buttonFlag;
     public static final int SHOW_VEL = 1;
     public static final int SHOW_ACC = 2;
@@ -74,7 +72,7 @@ public class MyJPanel extends JPanel
         aButton = new JButton( "Show the other" );
         bothButton = new JButton( "Show both" );
         neitherButton = new JButton( "Show neither" );
-        hideMouseButton = new JButton( "Show mouse cursor" );
+//        hideMouseButton = new JButton( "Show mouse cursor" );
         moreButton = new JButton( "More controls" );
 
         northPanel.add( btnLabel );
@@ -82,7 +80,7 @@ public class MyJPanel extends JPanel
         northPanel.add( aButton );
         northPanel.add( bothButton );
         northPanel.add( neitherButton );
-        northPanel.add( hideMouseButton );
+//        northPanel.add( hideMouseButton );
         southPanel.add( motionPanel1 );
         southPanel.add( moreButton );
 
@@ -93,12 +91,13 @@ public class MyJPanel extends JPanel
         vButton.addActionListener( this );
         aButton.addActionListener( this );
         bothButton.addActionListener( this );
-        hideMouseButton.addActionListener( this );
+//        hideMouseButton.addActionListener( this );
         moreButton.addActionListener( this );
         neitherButton.addActionListener( this );
 
         //myPanelTimer = new Timer(timeStep, new PanelTimerHandler());
         addMouseMotionListener( this );
+        addMouseListener( this );
         //myPanelTimer.start();
 
         final SystemRunner sr = new SystemRunner();
@@ -162,9 +161,9 @@ public class MyJPanel extends JPanel
         else if( e.getSource() == bothButton ) {
             buttonFlag = SHOW_BOTH;
         }
-        else if( e.getSource() == hideMouseButton ) {
-            hideOrShowCursor();
-        }
+//        else if( e.getSource() == hideMouseButton ) {
+//            hideOrShowCursor();
+//        }
         else if( e.getSource() == neitherButton ) {
             buttonFlag = SHOW_NEITHER;
         }
@@ -178,8 +177,17 @@ public class MyJPanel extends JPanel
 
 
     public void mouseDragged( MouseEvent e ) {
+        hideCursor();
         setXYNow( e.getX(), e.getY() );
     }//end of mouseDragged method
+
+    private void hideCursor() {
+        myGui.setCursor( myGui.hide );
+    }
+
+    private void showCursor() {
+        myGui.setCursor( myGui.show );
+    }
 
     public void hideOrShowCursor() {
         if( mouseVisible ) {
@@ -190,24 +198,24 @@ public class MyJPanel extends JPanel
             myGui.setCursor( myGui.show );
             mouseVisible = true;
         }
-        if( hideMouseButton.getText().equals( "Show mouse cursor" ) ) {
-            hideMouseButton.setText( "Hide mouse cursor" );
-        }
-        else {
-            hideMouseButton.setText( "Show mouse cursor" );
-        }
+//        if( hideMouseButton.getText().equals( "Show mouse cursor" ) ) {
+//            hideMouseButton.setText( "Hide mouse cursor" );
+//        }
+//        else {
+//            hideMouseButton.setText( "Show mouse cursor" );
+//        }
     }
 
     public void mouseMoved( MouseEvent e ) {
-        int x = e.getX();
-        int y = e.getY();
-        //if (y < 35 || y > 454)
-        if( y < 45 || y > 404 ) {
-            myGui.setCursor( myGui.show );
-        }
-        else if( !mouseVisible ) {
-            myGui.setCursor( myGui.hide );
-        }
+//        int x = e.getX();
+//        int y = e.getY();
+//        //if (y < 35 || y > 454)
+//        if( y < 45 || y > 404 ) {
+//            myGui.setCursor( myGui.show );
+//        }
+//        else if( !mouseVisible ) {
+//            myGui.setCursor( myGui.hide );
+//        }
         //System.out.println("x = " + x + "  y = " + y);
     }
 
@@ -264,6 +272,25 @@ public class MyJPanel extends JPanel
 
     public JButton getMoreButton() {
         return moreButton;
+    }
+
+    public void mouseClicked( MouseEvent e ) {
+        showCursor();
+    }
+
+    public void mouseEntered( MouseEvent e ) {
+        showCursor();
+    }
+
+    public void mouseExited( MouseEvent e ) {
+        showCursor();
+    }
+
+    public void mousePressed( MouseEvent e ) {
+    }
+
+    public void mouseReleased( MouseEvent e ) {
+        showCursor();
     }
 
     class SystemRunner implements Runnable {
