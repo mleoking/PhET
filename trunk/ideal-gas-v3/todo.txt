@@ -1,5 +1,8 @@
 - Sam, clockStateListeners
 
+- Vector2D: need copy constructor 
+
+- gravity only seems to act on a particle when gravity changes
 - Fix up collisions with sphere. Can we get rid of constraints?
 
 - Make the stove a model element and move IdealGasModel.addHeatFromStove() to Stove.stepInTime()
