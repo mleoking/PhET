@@ -11,20 +11,24 @@
 
 package edu.colorado.phet.faraday.model;
 
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**
- * LightBulb is the model of a lightbulb.
+ * Voltmeter
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class LightBulb extends SimpleObservable implements SimpleObserver {
-
+public class Voltmeter extends SimpleObservable implements SimpleObserver {
+  
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final int HISTORY_SIZE = 5;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -39,17 +43,18 @@ public class LightBulb extends SimpleObservable implements SimpleObserver {
     /**
      * Sole constructor.
      * 
-     * @param pickupCoilModel the pickup coil that the lightbulb is across
+     * @param pickupCoilModel the pickup coil that the meter is across
      */
-    public LightBulb( PickupCoil pickupCoilModel ) {
+    public Voltmeter( PickupCoil pickupCoilModel ) {
         super();
         
+        assert( pickupCoilModel != null );
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
-
+        
         _enabled = true;
     }
-    
+
     /**
      * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
@@ -64,24 +69,16 @@ public class LightBulb extends SimpleObservable implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the intensity of the light.
-     * Fully off is 0.0, fully on is 1.0.
+     * Gets the voltage that the meter is reading.
      * 
-     * @return the intensity (0.0 - 1.0)
+     * @return the voltage, in volts
      */
-    public double getIntensity() {
-        double voltage = Math.abs( _pickupCoilModel.getVoltage() );
-        double intensity = voltage / FaradayConfig.MAX_EMF;
-        intensity = MathUtil.clamp( 0, intensity, 1 );
-        if ( intensity == Double.NaN ) {
-            System.out.println( "WARNING: LightBulb.stepInTime: intensity=NaN" );
-            intensity = 0.0;
-        }
-        return intensity;
+    public double getVoltage() {
+        return _pickupCoilModel.getVoltage();
     }
     
     /**
-     * Enables or disables the state of the lightbulb.
+     * Enables or disables the state of the voltmeter.
      * 
      * @param enabled true to enable, false to disable.
      */
@@ -93,18 +90,21 @@ public class LightBulb extends SimpleObservable implements SimpleObserver {
     }
     
     /**
-     * Gets the state of the lightbulb.  See setEnabled.
+     * Gets the state of the voltmeter.  See setEnabled.
      * 
      * @return true if enabled, false if disabled
      */
     public boolean isEnabled() {
         return _enabled;
     }
-    
+
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
+    /*
+     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     */
     public void update() {
         if ( isEnabled() ) {
             notifyObservers();

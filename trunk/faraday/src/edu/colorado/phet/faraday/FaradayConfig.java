@@ -48,8 +48,8 @@ public class FaradayConfig {
     public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
     public static final String ELECTRON_IMAGE = IMAGES_DIRECTORY + "electron.png";
     public static final String FIELD_METER_IMAGE = IMAGES_DIRECTORY + "fieldMeter.png";
-    public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightBulb.png";
-    public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltMeter.png";
+    public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightbulb.png";
+    public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltmeter.png";
 
     // Dimensions
     public static final int APP_FRAME_WIDTH = 1024;

@@ -124,12 +124,12 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         model.addModelElement( pickupCoilModel );
        
         // Lightbulb
-        LightBulb lightBulbModel = new LightBulb( pickupCoilModel );
-        lightBulbModel.setEnabled( true );
+        Lightbulb lightbulbModel = new Lightbulb( pickupCoilModel );
+        lightbulbModel.setEnabled( true );
         
         // Volt Meter
-        VoltMeter voltMeterModel = new VoltMeter( pickupCoilModel );
-        voltMeterModel.setEnabled( false );
+        Voltmeter voltmeterModel = new Voltmeter( pickupCoilModel );
+        voltmeterModel.setEnabled( false );
         
         //----------------------------------------------------------------------------
         // View
@@ -146,7 +146,7 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         
         // Pickup AbstractCoil
         PickupCoilGraphic pickupCoilGraphic = 
-            new PickupCoilGraphic( apparatusPanel, model, pickupCoilModel, lightBulbModel, voltMeterModel );
+            new PickupCoilGraphic( apparatusPanel, model, pickupCoilModel, lightbulbModel, voltmeterModel );
         apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), COIL_BACK_LAYER );
         
@@ -174,7 +174,7 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         
         // Control Panel
         MagnetAndCoilControlPanel controlPanel = new MagnetAndCoilControlPanel( this, 
-            magnetModel, compassModel, pickupCoilModel, lightBulbModel, voltMeterModel,
+            magnetModel, compassModel, pickupCoilModel, lightbulbModel, voltmeterModel,
             magnetGraphic, _gridGraphic );
         this.setControlPanel( controlPanel );
         
