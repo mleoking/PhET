@@ -111,7 +111,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         this.addMouseMotionListener( mouseProcessor );
         this.addKeyListener( getGraphic().getKeyAdapter() );//TODO key events should go in processing thread as well.
 
-<<<<<<< ApparatusPanel2.java
+
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 //TODO: even if we use an offscreen buffer, we could still just throw the changed part to the screen.
@@ -127,9 +127,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 rectangles.clear();
             }
         } );
-=======
 //        model.addModelElement(new MyModelElement());
->>>>>>> 1.26.2.1
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
