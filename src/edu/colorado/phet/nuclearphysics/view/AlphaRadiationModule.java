@@ -33,7 +33,8 @@ public class AlphaRadiationModule extends NuclearPhysicsModule implements DecayL
         super( "Alpha Radiation", clock );
         super.addControlPanelElement( new AlphaDecayControlPanel( this ) );
 
-        nucleus = new Uranium235( new Point2D.Double( 200, 400 ) );
+        nucleus = new Uranium235( new Point2D.Double( 0, 0 ) );
+//        nucleus = new Uranium235( new Point2D.Double( 200, 400 ) );
         setUraniumNucleus( nucleus );
         nucleus.addDecayListener( this );
 
@@ -56,7 +57,8 @@ public class AlphaRadiationModule extends NuclearPhysicsModule implements DecayL
     public void run() {
         clear();
 
-        nucleus = new Uranium235( new Point2D.Double( 200, 400 ) );
+        nucleus = new Uranium235( new Point2D.Double( 0, 0 ) );
+//        nucleus = new Uranium235( new Point2D.Double( 200, 400 ) );
         setUraniumNucleus( nucleus );
         nucleus.addDecayListener( this );
 

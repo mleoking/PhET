@@ -98,17 +98,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
         }
     }
 
-    public void removeGraphic( Graphic graphic ) {
-//        if( graphic instanceof NucleusGraphic ) {
-////            removeNucleus();
-//        }
-//        else {
-        super.removeGraphic( graphic );
-//        }
-    }
-
     protected void paintComponent( Graphics graphics ) {
-
         // Center the profile in the panel
         origin.setLocation( this.getWidth() / 2, this.getHeight() * 2 / 3 );
 
@@ -122,8 +112,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
         for( int i = 0; i < nucleusGraphics.size(); i++ ) {
             NucleusGraphic nucleusGraphic = (NucleusGraphic)nucleusGraphics.get( i );
             Nucleus nucleus = nucleusGraphic.getNucleus();
-            double xStat = nucleus.getStatisticalLocationOffset().getX();
-            double yStat = nucleus.getStatisticalLocationOffset().getY();
+            double xStat = nucleus.getLocation().getX();
+            double yStat = nucleus.getLocation().getY();
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
             double x = origin.getX() + d;
             double y = ( nucleus instanceof AlphaParticle ? potentialProfile.getWellPotential() + AlphaParticle.RADIUS : 0 );
@@ -144,7 +134,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
             // in view coordinates
             double y = nucleus.getPotentialEnergy();
             double x = potentialProfile.getHillX( -y ) *
-                       ( nucleus.getStatisticalLocationOffset().getX() > 0 ? -1 : 1 );
+                       ( nucleus.getLocation().getX() > 0 ? -1 : 1 );
 
             // Draw a ghost coming down the profile first, then the real thing on the x axis
             AlphaSetter.set( g2, ghostAlpha );
@@ -152,15 +142,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
             AlphaSetter.set( g2, 1 );
             decayGraphic.paint( g2, (int)( (int)origin.getX() + x ), (int)origin.getY() );
         }
-
-        // Paint a dot on the hill for the spot at the same level as the well
-//        double yTest = -potentialProfile.getWellPotential();
-//        for( int j = 0; j < 1; j++ ) {
-//            double xTest = potentialProfile.getAlphaDecayX();
-//            g2.setColor( Color.red );
-//            g2.fillOval( (int)xTest + (int)origin.getX() - 5, (int)origin.getY() + (int)yTest - 5, 10, 10 );
-//        }
-
     }
 
     private void drawAxes( Graphics2D g2 ) {

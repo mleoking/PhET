@@ -47,7 +47,7 @@ public class PotentialProfileGraphic implements Graphic {
         profileTx.translate( origin.getX(), origin.getY() );
         g.draw( profileTx.createTransformedShape( profile.getPath() ) );
         g.setColor( backgroundColor );
-        AlphaSetter.set( g, .2 );
+        AlphaSetter.set( g, .5 );
         g.fill( profileTx.createTransformedShape( profile.getBackgroundPath() ) );
         AlphaSetter.set( g, 1 );
     }

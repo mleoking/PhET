@@ -10,15 +10,13 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.coreadditions.Body;
 
 import java.awt.geom.Point2D;
-import java.util.Random;
 
 public class Nucleus extends Body {
 
     //
     // Static fields and methods
     //
-    protected static double maxStatisticalLocationOffset = 0;
-    private static Random random = new Random();
+
 
     //
     // Instance fields and methods
@@ -28,8 +26,6 @@ public class Nucleus extends Body {
     private double radius;
     private double potentialEnergy;
     private PotentialProfile potentialProfile;
-    private Point2D.Double statisticalLocationOffset = new Point2D.Double();
-    private double statisticalLocationOffsetSigma;
 
     public Nucleus( Point2D.Double position, int numProtons, int numNeutrons,
                     PotentialProfile potentialProfile ) {
@@ -39,15 +35,10 @@ public class Nucleus extends Body {
         this.numNeutrons = numNeutrons;
         this.potentialProfile = potentialProfile;
         this.potentialEnergy = potentialProfile.getWellPotential();
-        this.statisticalLocationOffsetSigma = 0;
 
         int numParticles = getNumNeutrons() + getNumProtons();
         double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
         radius = Math.sqrt( particleArea / Math.PI ) / 2;
-    }
-
-    protected void setStatisticalLocationOffsetSigma( double statisticalLocationOffsetSigma ) {
-        this.statisticalLocationOffsetSigma = statisticalLocationOffsetSigma;
     }
 
     public Point2D.Double getCM() {
@@ -80,23 +71,5 @@ public class Nucleus extends Body {
 
     public void setPotentialEnergy( double energy ) {
         this.potentialEnergy = energy;
-    }
-
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-        double d = ( random.nextGaussian() * statisticalLocationOffsetSigma ) * ( Math.random() > 0.5 ? 1 : -1 );
-        double theta = Math.random() * Math.PI * 2;
-        double dx = d * Math.cos( theta );
-        double dy = d * Math.sin( theta );
-//        statisticalLocationOffset.setLocation( statisticalLocationOffset.getX() + 2 , 0 );
-        statisticalLocationOffset.setLocation( dx, dy );
-    }
-
-    public Point2D.Double getStatisticalLocationOffset() {
-        return statisticalLocationOffset;
-    }
-
-    public void setStatisticalLocationOffset( Point2D.Double statisticalLocationOffset ) {
-        this.statisticalLocationOffset.setLocation( statisticalLocationOffset );
     }
 }

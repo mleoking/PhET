@@ -40,8 +40,8 @@ public class Uranium235 extends Nucleus {
     public void stepInTime( double dt ) {
         for( int j = 0; j < alphaParticles.length; j++ ) {
             AlphaParticle alphaParticle = alphaParticles[j];
-            if( Math.abs( alphaParticle.getStatisticalLocationOffset().getX() ) + alphaParticle.getRadius()
-                > Math.abs( potentialProfile.getAlphaDecayX() ) ) {
+            if( alphaParticle.getLocation().distanceSq( this.getLocation() ) + alphaParticle.getRadius()
+                > potentialProfile.getAlphaDecayX() * potentialProfile.getAlphaDecayX() ) {
                 try {
                     Thread.sleep( 1000 );
                 }
@@ -54,7 +54,8 @@ public class Uranium235 extends Nucleus {
                 // sticking with it for now.
                 DecayProducts decayProducts = alphaDecay();
                 // Give the new alpha particle the same offset as the old one
-                decayProducts.getN2().setStatisticalLocationOffset( alphaParticle.getStatisticalLocationOffset() );
+//                decayProducts.getN1().setStatisticalLocationOffset( alphaParticle.getStatisticalLocationOffset() );
+//                decayProducts.getN2().setStatisticalLocationOffset( alphaParticle.getStatisticalLocationOffset() );
                 for( int i = 0; i < decayListeners.size(); i++ ) {
                     DecayListener decayListener = (DecayListener)decayListeners.get( i );
                     decayListener.alphaDecay( decayProducts );
