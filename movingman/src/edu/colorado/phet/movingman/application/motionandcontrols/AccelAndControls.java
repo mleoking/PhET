@@ -2,12 +2,13 @@ package edu.colorado.phet.movingman.application.motionandcontrols;
 
 import edu.colorado.phet.common.view.graphics.TransformSlider;
 import edu.colorado.phet.movingman.application.MovingManModule;
+import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.AccelMotion;
 import edu.colorado.phet.movingman.elements.stepmotions.MotionState;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -39,7 +40,7 @@ public class AccelAndControls extends MotionAndControls {
         gridBagConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0 );
 
         initialVelocitySpinner = new JSpinner( new SpinnerNumberModel( 0, -3, 3, .1 ) );
-        TitledBorder border = BorderFactory.createTitledBorder( "Initial Velocity" );
+        Border border = PhetLookAndFeel.createSmoothBorder( "Initial Velocity" );
         initialVelocitySpinner.setBorder( border );
         initialVelocitySpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -61,7 +62,7 @@ public class AccelAndControls extends MotionAndControls {
             }
         } );
 
-        accelSpinner.setBorder( BorderFactory.createTitledBorder( "Acceleration" ) );
+        accelSpinner.setBorder( PhetLookAndFeel.createSmoothBorder( "Acceleration" ) );
         add( accelSpinner );
 //        controlPanel.add( accelSpinner );
         super.setMotion( motion );

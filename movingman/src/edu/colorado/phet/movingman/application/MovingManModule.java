@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.*;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.movingman.application.motionandcontrols.MotionAndControls;
+import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 import edu.colorado.phet.movingman.elements.*;
 import edu.colorado.phet.movingman.elements.Timer;
 import edu.colorado.phet.movingman.elements.stepmotions.MotionState;
@@ -213,7 +214,7 @@ public class MovingManModule extends Module {
         GridLineGraphic accelGrid = new GridLineGraphic( accelGraphic, new BasicStroke( 1.0f ), Color.gray, 10, 5, Color.yellow, "Acceleration" );
         accelGrid.setPaintYLines( new double[]{-50, -25, 0, 25, 50} );
         backgroundGraphic.addGraphic( accelGrid, 2 );
-        ValueGraphic accelString = new ValueGraphic( this, recordingTimer, playbackTimer, acceleration.getSmoothedDataSeries(), "Acceleration=", "m/s^2", textCoord.x, textCoord.y, accelGraphic );
+        ValueGraphic accelString = new ValueGraphic( this, recordingTimer, playbackTimer, acceleration.getSmoothedDataSeries(), "Acceleration=", "<html>m/s<sup>2</html>", textCoord.x, textCoord.y, accelGraphic );
         getApparatusPanel().addGraphic( accelString, 5 );
         accelerationPlot = new PlotAndText( accelGraphic, accelString, accelGrid );
 
@@ -254,6 +255,7 @@ public class MovingManModule extends Module {
             }
         } );
         getApparatusPanel().addGraphic( backgroundGraphic, 0 );
+
     }
 
     public void setRightDirPositive( boolean rightPos ) {
@@ -369,7 +371,8 @@ public class MovingManModule extends Module {
     public void deactivate( PhetApplication app ) {
     }
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel( new PhetLookAndFeel() );
 //        LectureLookAndFeel2 LECTURE_LOOK_AND_FEEL;
 //        LECTURE_LOOK_AND_FEEL = new LectureLookAndFeel2();
 //        if( isLecture ) {

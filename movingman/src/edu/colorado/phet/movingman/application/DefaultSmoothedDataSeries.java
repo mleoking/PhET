@@ -13,11 +13,11 @@ import java.util.ArrayList;
  * Copyright (c) Jul 1, 2003 by Sam Reid
  */
 public class DefaultSmoothedDataSeries {
-    ArrayList listeners = new ArrayList();
-    DataSeries data = new DataSeries();
-    DataSeries smoothed = new DataSeries();
-    DefaultSmoothedDataSeries derivative;
-    int numSmoothingPoints;
+    private ArrayList listeners = new ArrayList();
+    private DataSeries data = new DataSeries();
+    private DataSeries smoothed = new DataSeries();
+    private DefaultSmoothedDataSeries derivative;
+    private int numSmoothingPoints;
 
     public DefaultSmoothedDataSeries( int numSmoothingPoints ) {
         this.numSmoothingPoints = numSmoothingPoints;

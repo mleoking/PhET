@@ -10,6 +10,7 @@ package edu.colorado.phet.common.view.components.clockgui;
 import edu.colorado.phet.common.model.Clock;
 import edu.colorado.phet.common.model.ClockStateListener;
 import edu.colorado.phet.common.model.ThreadPriority;
+import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -102,7 +103,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
             bg.add( norm );
             bg.add( max );
             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-            setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.blue, 2 ), "Thread Priority" ) );
+            setBorder( PhetLookAndFeel.createSmoothBorder( "Thread Priority" ) );
             add( max );
             add( norm );
             add( min );

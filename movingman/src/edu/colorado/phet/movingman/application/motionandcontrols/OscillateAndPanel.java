@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.application.motionandcontrols;
 
 import edu.colorado.phet.movingman.application.MovingManModule;
+import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.OscMotion;
 
@@ -56,7 +57,7 @@ public class OscillateAndPanel extends MotionAndControls {
                 oscillate.setK( d.doubleValue() / 100 );
             }
         } );
-        js.setBorder( BorderFactory.createTitledBorder( "Spring Constant" ) );
+        js.setBorder( PhetLookAndFeel.createSmoothBorder( "Spring Constant" ) );
 
         controlPanel.add( js );
         super.setControlPanel( controlPanel );

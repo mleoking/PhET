@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman.application;
 
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
+import edu.colorado.phet.movingman.common.HTMLGraphic;
 import edu.colorado.phet.movingman.elements.BoxedPlot;
 import edu.colorado.phet.movingman.elements.DataSeries;
 import edu.colorado.phet.movingman.elements.Timer;
@@ -31,6 +32,7 @@ public class ValueGraphic implements ObservingGraphic {
     int y;
     private BoxedPlot offsetSource;
     private boolean visible = true;
+    HTMLGraphic htmlGraphic;
 
     public ValueGraphic( MovingManModule module, Timer timer, Timer playbackTimer, DataSeries series, String pre, String units, int x, int y, BoxedPlot offsetSource ) {
         this.module = module;
@@ -44,13 +46,12 @@ public class ValueGraphic implements ObservingGraphic {
         this.offsetSource = offsetSource;
         timer.addObserver( this );
         playbackTimer.addObserver( this );
+        htmlGraphic = new HTMLGraphic( "", font, color, x, y );
     }
 
     public void paint( Graphics2D g ) {
         if( output != null && visible ) {
-            g.setFont( font );
-            g.setColor( color );
-            g.drawString( output, x, y );
+            htmlGraphic.paint( g );
         }
     }
 
@@ -70,14 +71,15 @@ public class ValueGraphic implements ObservingGraphic {
             if( valueString.equals( "-0.00" ) ) {
                 valueString = "0.00";
             }
-            this.output = pre + valueString + " " + unitsString;
-
+            this.output = "<html>" + pre + valueString + " " + unitsString + "</html>";
+            htmlGraphic.setText( output );
         }
     }
 
     public void setPosition( int x, int y ) {
         this.x = x;
         this.y = y;
+        htmlGraphic.setPosition( x, y );
     }
 
     public void setVisible( boolean visible ) {
