@@ -12,7 +12,6 @@ import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
 
 public class PotentialProfileGraphic implements Graphic {
@@ -48,48 +47,55 @@ public class PotentialProfileGraphic implements Graphic {
         g.setColor( color );
         g.setStroke( stroke );
 
-        // Draw the curve going up the left side of the potential profile
-        endPt1.x = origin.getX() - profile.getWidth() / 2;
-        endPt1.y = origin.getY();
-        endPt2.x = origin.getX() - profile.getWidth() / 10;
-        endPt2.y = origin.getY() - profile.getMaxPotential();
 
-        ctrlPt1.x = endPt1.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 3 );
-        ctrlPt1.y = endPt1.getY();
-        ctrlPt2A.x = endPt2.getX() - ( ( endPt2.getX() - endPt1.getX() ) / 3 );
-        ctrlPt2A.y = endPt2.getY();
+//        // Draw the curve going up the left side of the potential profile
+//        endPt1.x = origin.getX() - profile.getWidth() / 2;
+//        endPt1.y = origin.getY();
+//        endPt2.x = origin.getX() - profile.getWidth() / 10;
+//        endPt2.y = origin.getY() - profile.getMaxPotential();
+//
+//        ctrlPt1.x = endPt1.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 3 );
+//        ctrlPt1.y = endPt1.getY();
+//        ctrlPt2A.x = endPt2.getX() - ( ( endPt2.getX() - endPt1.getX() ) / 3 );
+//        ctrlPt2A.y = endPt2.getY();
+//
+//        CubicCurve2D.Double c1 = new CubicCurve2D.Double( endPt1.x, endPt1.y,
+//                                                          ctrlPt1.x, ctrlPt1.y,
+//                                                          ctrlPt2A.x, ctrlPt2A.y,
+//                                                          endPt2.x, endPt2.y );
+//
+//        // Draw the curve down into the left side of the potential well
+//        endPt3.x = origin.getX();
+//        endPt3.y = origin.getY() - profile.getWellPotential();
+//
+//        ctrlPt2B.x = endPt2.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 4 );
+//        ctrlPt2B.y = endPt2.getY();
+//        ctrlPt3.x = endPt3.getX() - ( ( endPt3.getX() - endPt2.getX() ) / 2 );
+//        ctrlPt3.y = endPt3.getY();
+//
+//        CubicCurve2D.Double c2 = new CubicCurve2D.Double( endPt2.x, endPt2.y,
+//                                                          ctrlPt2B.x, ctrlPt2B.y,
+//                                                          ctrlPt3.x, ctrlPt3.y,
+//                                                          endPt3.x, endPt3.y );
+//
+//        // draw the curve for the right side of the well
+//        profileTx.setToIdentity();
+//        profileTx.translate( origin.getX() + 1, origin.getY() );
+//        profileTx.scale( -1, 1 );
+//        profileTx.translate( -origin.getX(), -origin.getY() );
+//
+//        Shape c3 = profileTx.createTransformedShape( c2 );
+//        Shape c4 = profileTx.createTransformedShape( c1 );
 
-        CubicCurve2D.Double c1 = new CubicCurve2D.Double( endPt1.x, endPt1.y,
-                                                          ctrlPt1.x, ctrlPt1.y,
-                                                          ctrlPt2A.x, ctrlPt2A.y,
-                                                          endPt2.x, endPt2.y );
-
-        // Draw the curve down into the left side of the potential well
-        endPt3.x = origin.getX();
-        endPt3.y = origin.getY() - profile.getWellPotential();
-
-        ctrlPt2B.x = endPt2.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 4 );
-        ctrlPt2B.y = endPt2.getY();
-        ctrlPt3.x = endPt3.getX() - ( ( endPt3.getX() - endPt2.getX() ) / 2 );
-        ctrlPt3.y = endPt3.getY();
-
-        CubicCurve2D.Double c2 = new CubicCurve2D.Double( endPt2.x, endPt2.y,
-                                                          ctrlPt2B.x, ctrlPt2B.y,
-                                                          ctrlPt3.x, ctrlPt3.y,
-                                                          endPt3.x, endPt3.y );
-
-        // draw the curve for the right side of the well
+        Shape[] shape = profile.getShape();
         profileTx.setToIdentity();
-        profileTx.translate( origin.getX() + 1, origin.getY() );
-        profileTx.scale( -1, 1 );
-        profileTx.translate( -origin.getX(), -origin.getY() );
-
-        Shape c3 = profileTx.createTransformedShape( c2 );
-        Shape c4 = profileTx.createTransformedShape( c1 );
-
-        g.draw( c1 );
-        g.draw( c2 );
-        g.draw( c3 );
-        g.draw( c4 );
+        profileTx.translate( origin.getX(), origin.getY() );
+        for( int i = 0; i < shape.length; i++ ) {
+            g.draw( profileTx.createTransformedShape( shape[i] ) );
+        }
+//        g.draw( c1 );
+//        g.draw( c2 );
+//        g.draw( c3 );
+//        g.draw( c4 );
     }
 }

@@ -30,11 +30,12 @@ public class NuclearPhysicsApplication extends PhetApplication {
         ApplicationDescriptor appDesc = new ApplicationDescriptor( "Nuclear Physics",
                                                                    desc,
                                                                    "0.1" );
-        AbstractClock clock = new ThreadedClock( 500, 500, true );
+        AbstractClock clock = new ThreadedClock( 100, 500, true );
         Module fissionModule = new FissionModule( clock );
         Module alphaModule = new AlphaRadiationModule( clock );
-        Module[] modules = new Module[]{alphaModule, fissionModule};
+        Module[] modules = new Module[]{/*alphaModule,*/ fissionModule};
         NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc, modules, clock );
-        app.startApplication( alphaModule );
+        app.startApplication( fissionModule );
+//        app.startApplication( alphaModule );
     }
 }

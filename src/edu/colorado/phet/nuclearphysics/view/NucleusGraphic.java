@@ -22,13 +22,8 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
     private NeutronGraphic neutronGraphic;
     private ProtonGraphic protonGraphic;
     private Image img;
-    private double nuclearRadius;
 
     public NucleusGraphic( Nucleus nucleus ) {
-
-        // Register the graphic to the model element
-//        modelElementToGraphicMap.put( nucleus, this );
-
         nucleus.addObserver( this );
         this.nucleus = nucleus;
         this.position.x = nucleus.getLocation().getX();
@@ -39,11 +34,8 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
     }
 
     private Image computeImage() {
-        int numParticles = nucleus.getNumNeutrons() + nucleus.getNumProtons();
-        double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
-        nuclearRadius = Math.sqrt( particleArea / Math.PI ) / 2;
-        BufferedImage bi = new BufferedImage( (int)( nuclearRadius + NuclearParticle.RADIUS ) * 2,
-                                              (int)( nuclearRadius + NuclearParticle.RADIUS ) * 2,
+        BufferedImage bi = new BufferedImage( (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) * 2,
+                                              (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) * 2,
                                               BufferedImage.TYPE_INT_ARGB );
         Graphics2D g = (Graphics2D)bi.getGraphics();
         double dx = 0, dy = 0;
@@ -51,19 +43,15 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
         boolean drawNeutron;
         for( int i = 0; i < nucleus.getNumNeutrons() + nucleus.getNumProtons(); i++ ) {
             drawNeutron = ( Math.random() > 0.5 ) ? true : false;
-            dx = 2 * ( Math.random() - 0.5 ) * nuclearRadius;
-            dy = 2 * ( Math.random() - 0.5 ) * Math.sqrt( nuclearRadius * nuclearRadius - dx * dx );
+            dx = 2 * ( Math.random() - 0.5 ) * nucleus.getRadius();
+            dy = 2 * ( Math.random() - 0.5 ) * Math.sqrt( nucleus.getRadius() * nucleus.getRadius() - dx * dx );
             if( drawNeutron && neutronIdx < nucleus.getNumNeutrons() ) {
                 neutronIdx++;
-                neutronGraphic.paint( g,
-                                      nuclearRadius + dx,
-                                      nuclearRadius + dy );
+                neutronGraphic.paint( g, nucleus.getRadius() + dx, nucleus.getRadius() + dy );
             }
             else if( !drawNeutron && protonIdx < nucleus.getNumProtons() ) {
                 protonIdx++;
-                protonGraphic.paint( g,
-                                     nuclearRadius + dx,
-                                     nuclearRadius + dy );
+                protonGraphic.paint( g, nucleus.getRadius() + dx, nucleus.getRadius() + dy );
             }
         }
         return bi;
@@ -71,8 +59,7 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
 
     public void paint( Graphics graphics, int x, int y ) {
         Graphics2D g2 = (Graphics2D)graphics;
-        g2.drawImage( img, x - (int)nuclearRadius,
-                      y - (int)nuclearRadius,
+        g2.drawImage( img, x - (int)nucleus.getRadius(), y - (int)nucleus.getRadius(),
                       this );
     }
 
@@ -81,7 +68,7 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
         double xStat = nucleus.getStatisticalLocationOffset().getX();
         double yStat = nucleus.getStatisticalLocationOffset().getY();
         double d = Math.sqrt( xStat * xStat + yStat * yStat ) * ( xStat > 0 ? 1 : -1 );
-        g2.drawImage( img, x - (int)nuclearRadius + (int)d, y, this );
+        g2.drawImage( img, x - (int)nucleus.getRadius() + (int)d, y, this );
     }
 
     public void paint( Graphics2D g ) {
