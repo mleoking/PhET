@@ -52,14 +52,6 @@ public class VisibleColor extends Color {
     // Lookup table for converting between wavelength and Color.
     private static Color _colorLookup[] = null;
 
-    public static double getMinWavelength() {
-        return MIN_WAVELENGTH;
-    }
-
-    public static double getMaxWavelength() {
-        return MAX_WAVELENGTH;        
-    }
-
 
     //----------------------------------------------------------------------------
     // Instance data
