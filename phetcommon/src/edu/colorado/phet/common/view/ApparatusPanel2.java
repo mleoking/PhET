@@ -51,8 +51,8 @@ import java.util.*;
 public class ApparatusPanel2 extends ApparatusPanel {
 
     private static final boolean DEBUG_OUTPUT_ENABLED = false;
-    private BufferedImage bImg;
-    private boolean useOffscreenBuffer = false;
+    private PaintStrategy paintStrategy;
+
     private ArrayList rectangles = new ArrayList();
     private Rectangle repaintArea;
 
@@ -132,15 +132,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * or the union of dirty rectangles.
      */
     public void paint() {
-        //TODO: even if we use an offscreen buffer, we could still just throw the changed part to the screen.
-        if( useOffscreenBuffer ) {
-//          Rectangle region = RectangleUtils.union( (Rectangle[])rectangles.toArray( new Rectangle[0] ) );
-            Rectangle region = new Rectangle( 0, 0, getWidth(), getHeight() );
-            paintImmediately( region );
-        }
-        else {
-            paintDirtyRectanglesImmediately();
-        }
+        paintStrategy.paintImmediately();
         // Clear the rectangles so they get garbage collectged
         rectangles.clear();
     }
@@ -179,7 +171,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * @return
      */
     public boolean isUseOffscreenBuffer() {
-        return useOffscreenBuffer;
+        return paintStrategy instanceof OffscreenBufferStrategy;
     }
 
     /**
@@ -189,10 +181,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * @param useOffscreenBuffer
      */
     public void setUseOffscreenBuffer( boolean useOffscreenBuffer ) {
+        this.paintStrategy = useOffscreenBuffer ? new OffscreenBufferStrategy( this ) : (PaintStrategy)new DefaultPaintStrategy( this );
         // Todo: Determine if the following two lines help or not
 //        setOpaque( useOffscreenBuffer );
         setDoubleBuffered( !useOffscreenBuffer );
-        this.useOffscreenBuffer = useOffscreenBuffer;
     }
 
     /**
@@ -246,7 +238,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * @param height
      */
     public void repaint( long tm, int x, int y, int width, int height ) {
-        addRectangleToRepaintList( x, y, width, height );
+        repaint( x, y, width, height );
     }
 
     /**
@@ -255,7 +247,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * @param r
      */
     public void repaint( Rectangle r ) {
-        addRectangleToRepaintList( r.x, r.y, r.width, r.height );
+        repaint( r.x, r.y, r.width, r.height );
     }
 
     /**
@@ -337,17 +329,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         GraphicsState gs = new GraphicsState( g2 );
         g2.transform( transformManager.getGraphicTx() );
-        if( useOffscreenBuffer && bImg != null ) {
-            Graphics2D bImgGraphics = (Graphics2D)bImg.getGraphics();
-            bImgGraphics.setColor( this.getBackground() );
-            bImgGraphics.fillRect( bImg.getMinX(), bImg.getMinY(), bImg.getWidth(), bImg.getHeight() );
-            getGraphic().paint( bImgGraphics );
-            g2.drawImage( bImg, new AffineTransform(), null );
-            bImgGraphics.dispose();
-        }
-        else {
-            getGraphic().paint( g2 );
-        }
+        paintStrategy.render( g2 );
+
         //remove the affine transform.
         gs.restoreGraphics();
         super.drawBorder( g2 );
@@ -417,7 +400,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 setScale( s );
                 determineCanvasSize();
             }
-            bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+            paintStrategy.componentResized();
         }
     }
 
@@ -609,5 +592,65 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public void removeChangeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
     }
+
+    static interface PaintStrategy {
+
+        void paintImmediately();
+
+        void render( Graphics2D g2 );
+
+        void componentResized();
+    }
+
+    static class OffscreenBufferStrategy implements PaintStrategy {
+        private BufferedImage bImg;
+        private ApparatusPanel2 apparatusPanel2;
+
+        public OffscreenBufferStrategy( ApparatusPanel2 apparatusPanel2 ) {
+            this.apparatusPanel2 = apparatusPanel2;
+        }
+
+        public void paintImmediately() {
+            //TODO: even if we use an offscreen buffer, we could still just throw the changed part to the screen.
+            Rectangle region = new Rectangle( 0, 0, apparatusPanel2.getWidth(), apparatusPanel2.getHeight() );
+            apparatusPanel2.paintImmediately( region );
+        }
+
+        public void render( Graphics2D g2 ) {
+            if( bImg != null ) {
+                Graphics2D bImgGraphics = (Graphics2D)bImg.getGraphics();
+                bImgGraphics.setColor( apparatusPanel2.getBackground() );
+                bImgGraphics.fillRect( bImg.getMinX(), bImg.getMinY(), bImg.getWidth(), bImg.getHeight() );
+                apparatusPanel2.getGraphic().paint( bImgGraphics );
+                g2.drawImage( bImg, new AffineTransform(), null );
+                bImgGraphics.dispose();
+            }
+        }
+
+        public void componentResized() {
+            bImg = new BufferedImage( apparatusPanel2.getWidth(), apparatusPanel2.getHeight(), BufferedImage.TYPE_INT_RGB );
+        }
+    }
+
+    static class DefaultPaintStrategy implements PaintStrategy {
+        ApparatusPanel2 apparatusPanel2;
+
+        public DefaultPaintStrategy( ApparatusPanel2 apparatusPanel2 ) {
+            this.apparatusPanel2 = apparatusPanel2;
+        }
+
+        public void paintImmediately() {
+            apparatusPanel2.paintDirtyRectanglesImmediately();
+        }
+
+        public void render( Graphics2D g2 ) {
+            apparatusPanel2.getGraphic().paint( g2 );
+        }
+
+        public void componentResized() {
+        }
+    }
+
+
 }
 
