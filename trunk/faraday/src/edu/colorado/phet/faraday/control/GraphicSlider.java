@@ -422,7 +422,7 @@ public class GraphicSlider extends GraphicLayerSet {
             int mouseX = 0;
             try {
                 AffineTransform transform = getNetTransform();
-                transform.inverseTransform( event.getPoint(), _point /* destination */ );
+                transform.inverseTransform( event.getPoint(), _point /* output */ );
                 mouseX = (int) _point.getX();
             }
             catch ( NoninvertibleTransformException e ) {
