@@ -86,36 +86,37 @@ public class SwingTimerClock extends AbstractClock {
     }
 
     private static class DynamicDelay implements DelayStrategy {
-         private int delay;
-         private long lastRequestedDelay;
-         private int min;
+        private int delay;
+        private long lastRequestedDelay;
+        private int min;
 
-         public DynamicDelay( int delay ) {
-             this( delay, 5 );
-         }
+        public DynamicDelay( int delay ) {
+            this( delay, 5 );
+        }
 
-         public DynamicDelay( int delay, int min ) {
-             this.delay = delay;
-             this.min = min;
-         }
+        public DynamicDelay( int delay, int min ) {
+            this.delay = delay;
+            this.min = min;
+        }
 
         /**
          * Determines the amount of time to ask the clock to sleep before the next tick, based on
          * how much time actually elapsed between the last two ticks. This computation compensates
          * for overhead in the timing loop. If, for example, the nominal delay is 10ms, but the last
          * loop took 12ms, this method will return 8ms as the request for the delay in the next tick.
+         *
          * @param actualWaitTime
          * @return
          */
-         public int getDelay( long actualWaitTime ) {
-             long dt = actualWaitTime - lastRequestedDelay;
-             long nextRequest = delay - dt;
-             int result = Math.min( delay, Math.max( (int)nextRequest, min ));
-             lastRequestedDelay = result;
-            System.out.println("result = " + result);
-             return result;
-         }
-     }
+        public int getDelay( long actualWaitTime ) {
+            long dt = actualWaitTime - lastRequestedDelay;
+            long nextRequest = delay - dt;
+            int result = Math.min( delay, Math.max( (int)nextRequest, min ) );
+            lastRequestedDelay = result;
+//            System.out.println("result = " + result);
+            return result;
+        }
+    }
 
     private class Ticker implements ActionListener {
 
