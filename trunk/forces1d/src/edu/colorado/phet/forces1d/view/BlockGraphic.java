@@ -13,7 +13,7 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -28,7 +28,7 @@ public class BlockGraphic extends CompositePhetGraphic {
     private Function.LinearFunction transform1d;
     private PhetImageGraphic graphic;
     private Force1DPanel panel;
-    private Force1dObject force1dObject;
+//    private Force1dObject force1dObject;
     private Point lastCenter;
     private ThresholdedDragAdapter mouseListener;
 
@@ -40,7 +40,7 @@ public class BlockGraphic extends CompositePhetGraphic {
         this.model = model;
         this.transform2D = transform2D;
         this.transform1d = transform1d;
-        this.force1dObject = force1dObject;
+//        this.force1dObject = force1dObject;
 
         graphic = new PhetImageGraphic( panel, force1dObject.getLocation() );
         addGraphic( graphic );
@@ -70,14 +70,14 @@ public class BlockGraphic extends CompositePhetGraphic {
 //        return mouseListener;
 //    }
 
-    public void setImage( Force1dObject force1dObject ) {
-        this.force1dObject = force1dObject;
-        try {
-            graphic.setImage( force1dObject.getImage() );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+    public void setImage( BufferedImage image ) {
+//        this.force1dObject = force1dObject;
+//        try {
+        graphic.setImage( image );
+//        }
+//        catch( IOException e ) {
+//            e.printStackTrace();
+//        }
     }
 
     public Dimension computeDimension() {

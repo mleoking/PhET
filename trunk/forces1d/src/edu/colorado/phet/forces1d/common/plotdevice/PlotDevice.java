@@ -80,10 +80,12 @@ public class PlotDevice extends CompositePhetGraphic {
         horizontalCursor = new HorizontalCursor2( panel, chartComponent.getChart(), new Color( 15, 0, 255, 50 ), new Color( 50, 0, 255, 150 ), 8 );
         horizontalCursor.addListener( new HorizontalCursor2.Listener() {
             public void modelValueChanged( double modelX ) {
+                plotDeviceModel.setPlaybackMode();
+                plotDeviceModel.setPaused( true );
+
                 //TODO, need to get the index for this time.  This will enable cursor dragging.
                 int index = plotDeviceModel.convertTimeToIndex( modelX );
                 plotDeviceModel.cursorMovedToTime( modelX, index );
-
             }
         } );
         panel.addGraphic( horizontalCursor, 1000 );
@@ -147,20 +149,20 @@ public class PlotDevice extends CompositePhetGraphic {
             public void recordingStarted() {
                 if( isVisible() ) {
                     horizontalCursor.setVisible( false );
-
                 }
-
             }
 
             public void recordingPaused() {
                 if( isVisible() ) {
                     horizontalCursor.setVisible( true );
+                    horizontalCursor.setModelX( horizontalCursor.getMaxX() );
                 }
             }
 
             public void recordingFinished() {
                 if( isVisible() ) {
                     horizontalCursor.setVisible( true );
+                    horizontalCursor.setModelX( horizontalCursor.getMaxX() );//TODO maybe this should be more to the middle of the screen.?
                 }
             }
 
@@ -274,6 +276,10 @@ public class PlotDevice extends CompositePhetGraphic {
 
     public void clearData() {
         chartComponent.clearData();
+    }
+
+    public void removeDefaultDataSeries() {
+        chartComponent.removeDefaultDataSeries();
     }
 
     public static interface Listener {
@@ -461,6 +467,7 @@ public class PlotDevice extends CompositePhetGraphic {
         private Chart chart;
         private float lastTime;
         private double xShift;
+        private Series defaultSeries;
 
         public DataSet getDefaultDataSet() {
             return seriesAt( 0 ).dataSet;
@@ -505,6 +512,11 @@ public class PlotDevice extends CompositePhetGraphic {
             }
         }
 
+        public void removeDefaultDataSeries() {
+            series.remove( defaultSeries );
+            defaultSeries.remove();
+        }
+
         public class Series {
             DataSet dataSet;
             DataSeries dataSeries;
@@ -516,8 +528,10 @@ public class PlotDevice extends CompositePhetGraphic {
             DecimalFormat format = new DecimalFormat( "0.0" );
             private PhetGraphic readoutUnits;
             private boolean visible = true;
+            private ApparatusPanel panel;
 
             public Series( String name, ApparatusPanel panel, DataSeries dataSeries, Stroke stroke, Color color ) {
+                this.panel = panel;
                 Font readoutFont = PlotDeviceFontManager.getFontSet().getReadoutFont();
                 this.dataSeries = dataSeries;
                 dataSet = new DataSet();
@@ -554,6 +568,12 @@ public class PlotDevice extends CompositePhetGraphic {
                 panel.addGraphic( readoutValue, 10000 );
                 panel.addGraphic( readoutUnits, 10000 );
 //                panel.addGraphic( readoutBorder,10000);
+            }
+
+            public void remove() {
+                panel.removeGraphic( readout );
+                panel.removeGraphic( readoutValue );
+                panel.removeGraphic( readoutUnits );
             }
 
             public void reset() {
@@ -594,7 +614,7 @@ public class PlotDevice extends CompositePhetGraphic {
                     String text = format.format( position ) + " ";// + units;
                     readoutValue.setText( text );
 
-                    horizontalCursor.setMaxX( time );//so it can't be dragged past the end of recorded pressTime.
+                    horizontalCursor.setMaxX( time );//so it can't be dragged past the end of recorded time.
                 }
             }
 
@@ -628,14 +648,12 @@ public class PlotDevice extends CompositePhetGraphic {
                                double holdDownZoom, double singleClickZoom, double maxZoomRange, String verticalTitle ) throws IOException {
             Font axisFont = PlotDeviceFontManager.getFontSet().getAxisFont();
             chart = new Chart( panel, new Range2D( inputBox ), new Rectangle( 0, 0, 100, 100 ) );
-            Series defaultSeries = new Series( title, panel, dataSeries, stroke, color );
+            defaultSeries = new Series( title, panel, dataSeries, stroke, color );
             addSeries( defaultSeries );
             this.xShift = xShift;
-//            chart.setBackground( Color.yellow );
             chart.setBackground( chartBackgroundColor );
 
             chart.getHorizontalTicks().setVisible( false );
-//            chart.getHorizontalTicks().setVisible( true );
             chart.getHorizonalGridlines().setMajorGridlinesColor( Color.darkGray );
             chart.getVerticalGridlines().setMajorGridlinesColor( Color.darkGray );
             chart.getXAxis().setMajorTickFont( axisFont );
@@ -647,7 +665,6 @@ public class PlotDevice extends CompositePhetGraphic {
             chart.getYAxis().setMinorTicksVisible( false );
             double spacing = inputBox.getHeight() / 10;
             chart.getYAxis().setMajorTickSpacing( spacing );
-//            chart.getHorizontalTicks().setMajorTickSpacing( spacing );
             chart.getVerticalTicks().setMajorTickSpacing( spacing );
             chart.getHorizonalGridlines().setMajorTickSpacing( spacing );
             chart.setVerticalTitle( verticalTitle, color, verticalTitleFont, 60 );
@@ -990,7 +1007,10 @@ public class PlotDevice extends CompositePhetGraphic {
 
         public static Icon loadIcon() throws IOException {
             if( icon == null ) {
-                BufferedImage image = ImageLoader.loadBufferedImage( "images/x-25.gif" );
+//                BufferedImage image = ImageLoader.loadBufferedImage( "images/x-25.gif" );
+//                BufferedImage image = ImageLoader.loadBufferedImage( "images/x.png" );
+                BufferedImage image = ImageLoader.loadBufferedImage( "images/x-30.png" );
+//                image=BufferedImageUtils.rescaleYMaintainAspectRatio(null,image,30 );
                 icon = new ImageIcon( image );
             }
             return icon;

@@ -24,7 +24,7 @@ public class ObjectComboBox extends JComboBox {
     private Force1dControlPanel controlPanel;
     private static Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
 
-    public ObjectComboBox( final Force1dObject[] imageElements, final Force1dControlPanel controlPanel ) {
+    public ObjectComboBox( final Force1DModule module, final Force1dObject[] imageElements, final Force1dControlPanel controlPanel ) {
         super( toLabelArray( imageElements, controlPanel ) );
         setRenderer( new ComboBoxRenderer() );
         this.controlPanel = controlPanel;
@@ -33,7 +33,8 @@ public class ObjectComboBox extends JComboBox {
             public void itemStateChanged( ItemEvent e ) {
 //                Object sel = getSelectedItem();
                 int index = getSelectedIndex();
-                controlPanel.setup( imageElements[index] );
+//                controlPanel.setup( imageElements[index] );
+                module.setObject( imageElements[index] );
             }
         } );
         setFont( font );

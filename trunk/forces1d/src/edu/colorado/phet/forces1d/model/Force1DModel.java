@@ -2,10 +2,13 @@
 package edu.colorado.phet.forces1d.model;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 
 import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
 
 /**
  * User: Sam Reid
@@ -30,17 +33,22 @@ public class Force1DModel implements ModelElement {
     private SmoothDataSeries frictionForceDataSeries;
     private SmoothDataSeries velocityDataSeries;
     private SmoothDataSeries positionDataSeries;
+    private DataSeries timeSeries;
+    private SmoothDataSeries gravitySeries;
+    private SmoothDataSeries staticSeries;
+    private SmoothDataSeries kineticSeries;
+    private SmoothDataSeries massSeries;
+
     private ArrayList listeners = new ArrayList();
     private Force1DPlotDeviceModel plotDeviceModel;
     private BoundaryCondition open;
     private BoundaryCondition walls;
     private BoundaryCondition boundaryCondition;
     private ArrayList boundaryConditionListeners = new ArrayList();
-    private SmoothDataSeries gravitySeries;
-    private SmoothDataSeries staticSeries;
-    private SmoothDataSeries kineticSeries;
-    private SmoothDataSeries massSeries;
+
+    private ArrayList imageSeries = new ArrayList();
     private Force1DModule module;
+    private boolean friction = true;
 
     public Force1DModel( Force1DModule module ) {
         this.module = module;
@@ -61,6 +69,7 @@ public class Force1DModel implements ModelElement {
         staticSeries = new SmoothDataSeries( numSmoothingPoints );
         kineticSeries = new SmoothDataSeries( numSmoothingPoints );
         massSeries = new SmoothDataSeries( numSmoothingPoints );
+        timeSeries = new DataSeries();
     }
 
     public double getNetForce() {
@@ -130,7 +139,8 @@ public class Force1DModel implements ModelElement {
             if( newMass != block.getMass() ) {
                 block.setMass( newMass );
             }
-
+            int imageIndex = ( (Integer)imageSeries.get( index ) ).intValue();
+            module.setImageIndex( imageIndex );
         }//TODO else we should stop playback
 
     }
@@ -141,6 +151,7 @@ public class Force1DModel implements ModelElement {
 
     public void stepRecord( double dt ) {
         updateBlockAcceleration();
+
         block.stepInTime( dt );
         boundaryCondition.apply();
 
@@ -155,6 +166,8 @@ public class Force1DModel implements ModelElement {
         kineticSeries.addPoint( block.getKineticFriction() );
         staticSeries.addPoint( block.getStaticFriction() );
         massSeries.addPoint( block.getMass() );
+        timeSeries.addPoint( plotDeviceModel.getRecordingTimer().getTime() );
+        imageSeries.add( new Integer( module.getImageIndex() ) );
     }
 
     public void stepPlayback( double time, int playbackIndex ) {
@@ -192,6 +205,8 @@ public class Force1DModel implements ModelElement {
         kineticSeries.reset();
         staticSeries.reset();
         massSeries.reset();
+        timeSeries.reset();
+        imageSeries.clear();
         updateBlockAcceleration();
         fireGravityChanged();
 
@@ -226,11 +241,53 @@ public class Force1DModel implements ModelElement {
         clear( kineticSeries, index );
         clear( staticSeries, index );
         clear( massSeries, index );
+//        clear( timeSeries, index );//TODO clear this.
+
+        List retain = imageSeries.subList( 0, index );
+        imageSeries.clear();
+        imageSeries.addAll( retain );
+
         module.relayoutPlots();
     }
 
     private void clear( SmoothDataSeries dataSeries, int index ) {
         dataSeries.clearAfter( index );
+    }
+
+    public void setFrictionEnabled( boolean friction ) {
+        this.friction = friction;
+    }
+
+    EventChannel eventChannel = new EventChannel( CollisionListener.class );
+
+    public SmoothDataSeries getAppliedForceSeries() {
+        return appliedForceDataSeries;
+    }
+
+    public static class CollisionEvent {
+        double momentum = 0.0;
+
+        public CollisionEvent( double momentum ) {
+            this.momentum = momentum;
+        }
+
+        public double getMomentum() {
+            return momentum;
+        }
+    }
+
+    public static interface CollisionListener extends EventListener {
+        public void collisionOccurred( CollisionEvent ce );
+    }
+
+    public void fireCollisionHappened( double momentum ) {
+        CollisionListener cl = (CollisionListener)eventChannel.getListenerProxy();
+        CollisionEvent ce = new CollisionEvent( momentum );
+        cl.collisionOccurred( ce );
+    }
+
+    public void addCollisionListener( CollisionListener collisionListener ) {
+        eventChannel.addListener( collisionListener );
     }
 
     public static interface Listener {
@@ -261,6 +318,8 @@ public class Force1DModel implements ModelElement {
     }
 
     public void setAppliedForce( double appliedForce ) {
+//        System.out.println( "appliedForce = " + appliedForce );
+//        new Exception().printStackTrace( );
         if( appliedForce != this.appliedForce ) {
             this.appliedForce = appliedForce;
             updateBlockAcceleration();
@@ -285,6 +344,9 @@ public class Force1DModel implements ModelElement {
     }
 
     public double getFrictionForce() {
+        if( !friction ) {
+            return 0.0;
+        }
         if( block.isMoving() ) {
             double sign = block.getVelocity() >= 0 ? -1 : 1;
             double kineticFrictionForce = sign * block.getKineticFriction() * block.getMass() * gravity;

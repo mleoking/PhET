@@ -2,6 +2,7 @@
 package edu.colorado.phet.forces1d.common.plotdevice;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
 
 import java.util.ArrayList;
@@ -93,12 +94,18 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     public abstract void reset();
 
-    public int convertTimeToIndex( double modelX ) {
-        return (int)( modelX / playbackMode.conversionFactor );
+    public int convertTimeToIndex( double time ) {
+//        return playbackMode.convertTimeToIndex( time );
+        double last = recordMode.recordedTimes.getLastPoint();
+        double lastIndex = recordMode.recordedTimes.size();
+        double scale = lastIndex / last;//use the whole data series to guess the time.
+        return (int)( time * scale );//TODO check this.
+        //TODO should we check in the array as well..?
     }
 
     public double convertIndexToTime( int i ) {
-        return i * recordMode.conversionFactor * timeScale;
+//        return i * recordMode.conversionFactor * timeScale;
+        return recordMode.recordedTimes.pointAt( i );
     }
 
     public int getPlaybackIndex() {
@@ -170,7 +177,8 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     private class RecordMode extends Mode {
         int recordIndex = 0;
-        private double conversionFactor;
+//        private double conversionFactor;
+        DataSeries recordedTimes = new DataSeries();
 
         public RecordMode() {
             super( "record" );
@@ -178,13 +186,14 @@ public abstract class PlotDeviceModel implements ModelElement {
 
         public void stepInTime( double dt ) {
             timer.stepInTime( dt );
+            recordedTimes.addPoint( timer.getTime() );
             stepRecord( dt );
-            if( recordIndex == 0 ) {
-                conversionFactor = 1.0;
-            }
-            else {
-                conversionFactor = timer.getTime() / ( recordIndex );
-            }
+//            if( recordIndex == 0 ) {
+//                conversionFactor = 1.0;
+//            }
+//            else {
+//                conversionFactor = timer.getTime() / ( recordIndex );
+//            }
         }
 
         public void firePaused() {
@@ -202,6 +211,7 @@ public abstract class PlotDeviceModel implements ModelElement {
         }
 
         public void reset() {
+            recordedTimes.reset();
             recordIndex = 0;
             super.reset();
         }
@@ -228,6 +238,7 @@ public abstract class PlotDeviceModel implements ModelElement {
             timer.stepInTime( dt );
 
             conversionFactor = timer.getTime() / playbackIndex;
+            System.out.println( "conversionFactor = " + conversionFactor );
 
             stepPlayback( timer.getTime(), playbackIndex++ );
             //assume linear
@@ -252,6 +263,13 @@ public abstract class PlotDeviceModel implements ModelElement {
             playbackIndex = 0;
             super.reset();
         }
+
+        public int convertTimeToIndex( double modelX ) {
+            if( conversionFactor == 0 ) {
+                conversionFactor = 0.02;//TODO MAGICK!
+            }
+            return (int)( modelX / conversionFactor );
+        }
     }
 
     public void resetRecordPointer() {
@@ -260,12 +278,14 @@ public abstract class PlotDeviceModel implements ModelElement {
     }
 
     public void doReset() {
+        setPaused( true );
         playbackMode.reset();
         recordMode.reset();
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.reset();
         }
+
     }
 
 

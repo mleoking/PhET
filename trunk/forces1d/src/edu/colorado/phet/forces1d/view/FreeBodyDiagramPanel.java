@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.view;
 
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
@@ -42,14 +43,20 @@ public class FreeBodyDiagramPanel {
 
         WiggleMe.Target target = new WiggleMe.Target() {
             public Point getLocation() {
-                return new Point( fbdPanel.getWidth() - 10, fbdPanel.getHeight() / 2 );
+                return new Point( fbdPanel.getWidth() - 10, fbdPanel.getHeight() / 2 - fbdWiggleMe.getHeight() );
             }
 
             public int getHeight() {
                 return 0;
             }
         };
-        fbdWiggleMe = new WiggleMe( fbdPanel, "Click to set Force", target, new Font( "Lucida Sans", Font.BOLD, 14 ), 1, 1 );
+        fbdWiggleMe = new WiggleMe( fbdPanel, module.getClock(), "Click to set Force", target );
+        fbdWiggleMe.setArrowColor( new Color( 0, 30, 240, 128 ) );
+        fbdWiggleMe.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        fbdWiggleMe.setArrowDirection( 0, 40 );
+        fbdWiggleMe.setAmplitude( 10 );
+        fbdWiggleMe.setFrequency( 5.0 );
+        fbdWiggleMe.setOscillationAxis( new Vector2D.Double( 1, 0 ) );
         fbdWiggleMe.setVisible( false );
 
         module.getForceModel().addListener( new Force1DModel.Listener() {
@@ -70,7 +77,6 @@ public class FreeBodyDiagramPanel {
         };
         freeBodyDiagram.addMouseInputListener( listener );
         RepaintDebugGraphic.enable( fbdPanel, module.getClock() );
-//        fbdPanel.setUseOffscreenBuffer( true );
     }
 
     public FreeBodyDiagram getFreeBodyDiagram() {

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.common.ColorDialog;
+import edu.colorado.phet.forces1d.common.JSAudioPlayer;
 import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -23,6 +24,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -40,6 +43,7 @@ public class Force1DModule extends Module {
     private DefaultPlaybackPanel playbackPanel;
     private PhetFrame phetFrame;
     private Force1DLookAndFeel force1DLookAndFeel = new Force1DLookAndFeel();
+    private int objectIndex;
 
     public Force1DModule( AbstractClock clock ) throws IOException {
         this( clock, "Advanced Controls" );
@@ -77,6 +81,33 @@ public class Force1DModule extends Module {
         addModelElement( updateGraphics );
         playbackPanel = new DefaultPlaybackPanel( getForceModel().getPlotDeviceModel() );
 
+        getForceModel().setBoundsWalled();
+
+        getForceModel().addCollisionListener( new Force1DModel.CollisionListener() {
+            public void collisionOccurred( Force1DModel.CollisionEvent ce ) {
+//                System.out.println( "ce = " + ce );
+                double mom = ce.getMomentum();
+//                URL url1 = Force1DModule.class.getResource( "audio/smash1.wav" );
+                URL url0 = Force1DModule.class.getClassLoader().getResource( "audio/smash0.wav" );
+                URL url1 = Force1DModule.class.getClassLoader().getResource( "audio/smash1.wav" );
+                URL url2 = Force1DModule.class.getClassLoader().getResource( "audio/smash2.wav" );
+//                System.out.println( "url2 = " + url2 );
+//                System.out.println( "url1 = " + url1 );
+//                System.out.println( "mom = " + mom );
+                if( ce.getMomentum() < 50 ) {
+
+                }
+                else if( ce.getMomentum() < 2000 ) {
+                    JSAudioPlayer.playNoBlock( url0 );
+                }
+                else if( ce.getMomentum() < 4000 ) {
+                    JSAudioPlayer.playNoBlock( url1 );
+                }
+                else {
+                    JSAudioPlayer.playNoBlock( url2 );
+                }
+            }
+        } );
     }
 
     protected void updateGraphics() {
@@ -226,8 +257,13 @@ public class Force1DModule extends Module {
     }
 
     public void setObject( Force1dObject force1dObject ) {
-
-        getForcePanel().getBlockGraphic().setImage( force1dObject );
+        objectIndex = Arrays.asList( imageElements ).indexOf( force1dObject );
+        try {
+            getForcePanel().getBlockGraphic().setImage( force1dObject.getImage() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         forceModel.getBlock().setMass( force1dObject.getMass() );
         forceModel.getBlock().setStaticFriction( force1dObject.getStaticFriction() );
         forceModel.getBlock().setKineticFriction( force1dObject.getKineticFriction() );
@@ -235,5 +271,27 @@ public class Force1DModule extends Module {
 
     public void clearData() {
         getForcePanel().clearData();
+    }
+
+    public void setFrictionEnabled( boolean useFriction ) {
+        getForceModel().setFrictionEnabled( useFriction );
+    }
+
+    public void setImageIndex( int imageIndex ) {
+        try {
+            getForcePanel().getBlockGraphic().setImage( imageElements[imageIndex].getImage() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getImageIndex() {
+        return objectIndex;
+    }
+
+    public void restoreDefaults() {
+        setObject( imageElements[objectIndex] );
+        getForceModel().setGravity( 9.8 );
     }
 }

@@ -2,12 +2,14 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.common.ApparatusPanel3;
 import edu.colorado.phet.forces1d.common.LayoutUtil;
 import edu.colorado.phet.forces1d.common.TitleLayout;
@@ -55,6 +57,7 @@ public class Force1DPanel extends ApparatusPanel3 {
     private Color bottom = new Color( 180, 200, 180 );
     private FloatingControl floatingControl;
 
+
     public Force1DPanel( final Force1DModule module ) throws IOException {
         super( module.getModel(), module.getClock() );
 
@@ -84,16 +87,30 @@ public class Force1DPanel extends ApparatusPanel3 {
         Force1DLookAndFeel laf = module.getForce1DLookAndFeel();
         PlotDevice.ParameterSet forceParams = new PlotDevice.ParameterSet( this, "Applied Force", model.getPlotDeviceModel(),
                                                                            forcePlotDeviceView, model.getAppliedForceDataSeries().getSmoothedDataSeries(),
-                                                                           laf.getAppliedForceColor(), new BasicStroke( strokeWidth ),
+//                                                                           laf.getAppliedForceColor(), new BasicStroke( 0 ),
+                                                                           Color.black, new BasicStroke( 10 ),
                                                                            new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMaxTime(), appliedForceRange * 2 ),
-                                                                           0, "N", "Applied Force", true, "Applied Force (N)" );
+                                                                           0, "N", "Applied Force", true, "Force (N)" );
+
         forceParams.setZoomRates( 300, 100, 5000 );
 
         forcePlotDevice = new PlotDevice( forceParams, backgroundGraphic );
+        forcePlotDevice.removeDefaultDataSeries();
         forcePlotDevice.setAdorned( true );
         forcePlotDevice.setLabelText( "<html>Applied<br>Force</html>" );
-        forcePlotDevice.addDataSeries( model.getNetForceSeries(), laf.getNetForceColor(), "Total Force", new BasicStroke( strokeWidth ) );
-        forcePlotDevice.addDataSeries( model.getFrictionForceSeries(), laf.getFrictionForceColor(), "Friction Force", new BasicStroke( strokeWidth ) );
+        float frictionForceStrokeWidth = 3;
+        float appliedForceStrokeWidth = 3;
+        float totalForceStrokeWidth = 3;
+
+        int alpha = 190;
+        Color tf = Force1DUtil.transparify( laf.getFrictionForceColor(), alpha );
+        Color ta = Force1DUtil.transparify( laf.getAppliedForceColor(), alpha );
+        Color tn = Force1DUtil.transparify( laf.getNetForceColor(), alpha );
+        int cap = BasicStroke.CAP_BUTT;
+        int join = BasicStroke.JOIN_ROUND;
+        forcePlotDevice.addDataSeries( model.getFrictionForceSeries(), tf, "Friction Force", new BasicStroke( frictionForceStrokeWidth, cap, join ) );
+        forcePlotDevice.addDataSeries( model.getAppliedForceSeries().getSmoothedDataSeries(), ta, "Applied Force", new BasicStroke( appliedForceStrokeWidth, cap, join ) );
+        forcePlotDevice.addDataSeries( model.getNetForceSeries(), tn, "Total Force", new BasicStroke( totalForceStrokeWidth, cap, join ) );
 
         backgroundGraphic.addGraphic( forcePlotDevice );
         double accelRange = 10;
@@ -135,27 +152,42 @@ public class Force1DPanel extends ApparatusPanel3 {
             public void wallForceChanged() {
             }
         } );
-        Font checkBoxFont = new Font( "Lucida Sans", Font.PLAIN, 14 );
-
-        final JCheckBox showNetForce = new JCheckBox( "Total Force", true );
+        Font checkBoxFont = new Font( "Lucida Sans", Font.PLAIN, 13 );
+        String stf = "<html>Show F<sub>Total</html>";
+//        final JCheckBox showNetForce = new JCheckBox( "Show Total Force", true );
+        final JCheckBox showNetForce = new JCheckBox( stf, true );
 
         showNetForce.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setShowNetForce( showNetForce.isSelected() );
+                setShowForceSeries( 2, showNetForce.isSelected() );
             }
         } );
-
         showNetForce.setFont( checkBoxFont );
-        final JCheckBox showFrictionForce = new JCheckBox( "Friction Force", true );
+
+
+        String text = "<html>Show F<sub>Friction</html>";
+//        String text = "Show Friction Force";
+        final JCheckBox showFrictionForce = new JCheckBox( text, true );
         showFrictionForce.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setShowFrictionForce( showFrictionForce.isSelected() );
+                setShowForceSeries( 0, showFrictionForce.isSelected() );
             }
         } );
         showFrictionForce.setFont( checkBoxFont );
+
+
+        final JCheckBox showAppliedForce = new JCheckBox( "<html>Show F<sub>Applied</sub></html", true );
+        showAppliedForce.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setShowForceSeries( 1, showAppliedForce.isSelected() );
+            }
+        } );
+        showAppliedForce.setFont( checkBoxFont );
+
         JPanel checkBoxPanel = new VerticalLayoutPanel();
         checkBoxPanel.add( showNetForce );
         checkBoxPanel.add( showFrictionForce );
+        checkBoxPanel.add( showAppliedForce );
         floatingControl = new FloatingControl( forcePlotDevice.getPlotDeviceModel(), this );
         floatingControl.add( checkBoxPanel );
         add( floatingControl );
@@ -189,7 +221,6 @@ public class Force1DPanel extends ApparatusPanel3 {
         repaintDebugGraphic.setTransparency( 128 );
         repaintDebugGraphic.setActive( false );
 
-
         offscreenPointerGraphic = new OffscreenPointerGraphic( this, blockGraphic, walkwayGraphic );
         addGraphic( offscreenPointerGraphic, 1000 );
         offscreenPointerGraphic.setLocation( 400, 50 );
@@ -211,9 +242,9 @@ public class Force1DPanel extends ApparatusPanel3 {
             }
         };
         blockGraphic.addMouseInputListener( listener );
-//        freeBodyDiagram.addMouseInputListener( listener );
 
-        wiggleMe = new WiggleMe( this, "Apply a Force", blockGraphic );
+        wiggleMe = new WiggleMe( this, module.getClock(), "Apply a Force", blockGraphic );
+        wiggleMe.setOscillationAxis( new Vector2D.Double( 1, 0 ) );
         addGraphic( wiggleMe, 10000 );
         model.addListener( new Force1DModel.Listener() {
             public void appliedForceChanged() {
@@ -253,22 +284,18 @@ public class Force1DPanel extends ApparatusPanel3 {
 //        AnimatedButton3D animatedButton3D=new AnimatedButton3D( this, "Button3D!",10,-0.35);
 //        addGraphic( animatedButton3D,Double.POSITIVE_INFINITY );
 //        animatedButton3D.setLocation( 100,100);
+
+//        getGraphic().scale( 0.5);
+    }
+
+    private void setShowForceSeries( int series, boolean selected ) {
+        forcePlotDevice.setDataSeriesVisible( series, selected );
+        repaintBuffer();
+        repaint();
     }
 
     public Force1DLookAndFeel getLookAndFeel() {
         return lookAndFeel;
-    }
-
-    private void setShowFrictionForce( boolean selected ) {
-        forcePlotDevice.setDataSeriesVisible( 2, selected );
-        repaintBuffer();
-        repaint();
-    }
-
-    private void setShowNetForce( boolean selected ) {
-        forcePlotDevice.setDataSeriesVisible( 1, selected );
-        repaintBuffer();
-        repaint();
     }
 //
     public void repaint( int x, int y, int width, int height ) {
@@ -370,6 +397,7 @@ public class Force1DPanel extends ApparatusPanel3 {
     }
 
     public void repaintBuffer() {
+
         backgroundGraphic.repaintBuffer();
         forcePlotDevice.repaintBuffer();
         accelPlotDevice.repaintBuffer();
@@ -452,4 +480,5 @@ public class Force1DPanel extends ApparatusPanel3 {
     public void clearData() {
         forcePlotDevice.clearData();
     }
+
 }

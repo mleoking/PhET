@@ -42,7 +42,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
     private ForceArrow frictionForce;
     private ForceArrow netForce;
 
-    private double yScale = 1.0 / 30.0;
+    private double yScale = 1.0 / 40.0;
     private double xScale = 0.1;
 
     private Force1DLookAndFeel laf;
@@ -62,10 +62,10 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
         addGraphic( axes );
         axes.setVisible( false );
 
-        mg = new ForceArrow( component, this, laf.getWeightColor(), "mg", new Vector2D.Double( 0, 80 ) );
+        mg = new ForceArrow( component, this, laf.getWeightColor(), "<html>F<sub>G</html>", new Vector2D.Double( 0, 80 ) );
         addForceArrow( mg );
 
-        normal = new ForceArrow( component, this, laf.getNormalColor(), "N", new Vector2D.Double( 0, 80 ) );
+        normal = new ForceArrow( component, this, laf.getNormalColor(), "<html>F<sub>N</html>", new Vector2D.Double( 0, 80 ) );
         addForceArrow( normal );
 
         appliedForce = new ForceArrow( component, this, laf.getAppliedForceColor(), "<html>F<sub>a</html>", new Vector2D.Double() );
@@ -90,11 +90,13 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             }
 
             public void mouseDragged( MouseEvent e ) {
+//                System.out.println( "dragged: e = " + e );
                 setForce( e.getPoint() );
             }
 
             // implements java.awt.event.MouseListener
             public void mouseReleased( MouseEvent e ) {
+//                System.out.println( "released: e = " + e );
                 model.setAppliedForce( 0.0 );
             }
         };
@@ -180,6 +182,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             textGraphic = new HTMLGraphic( component, font, name, color );
             addGraphic( textGraphic );
             setVector( v );
+            setIgnoreMouse( true );
         }
 
         public void setOrigin( double x, double y ) {

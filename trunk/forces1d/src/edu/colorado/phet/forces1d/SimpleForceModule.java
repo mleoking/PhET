@@ -23,12 +23,6 @@ public class SimpleForceModule extends Force1DModule {
 
     }
 
-    public void setFrictionEnabled( boolean useFriction ) {
-        double frictionValue = useFriction ? 0.1 : 0.0;
-        getForceModel().getBlock().setStaticFriction( frictionValue );
-        getForceModel().getBlock().setKineticFriction( frictionValue );
-    }
-
     protected void updateGraphics() {
         forcePanel.updateGraphics();
         forceControlPanel.updateGraphics();
