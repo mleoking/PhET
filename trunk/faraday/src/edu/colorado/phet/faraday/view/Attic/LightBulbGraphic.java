@@ -50,10 +50,8 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
     private static final Color RAY_COLOR = Color.YELLOW;
     private static final int MAX_RAY_LENGTH = 300;
     private static final int MIN_RAY_LENGTH = 20;
-    private static final double MAX_RAY_WIDTH = 3.0;
-    private static final double MIN_RAY_WIDTH = 1.0;
-    private static final int MAX_RAY_ALPHA = 160;
-    private static final int MIN_RAY_ALPHA = 50;
+    private static final double MAX_RAY_WIDTH = 4.0;
+    private static final double MIN_RAY_WIDTH = 2.0;
 
     // These parameters affect the collection of rays.
     private static final int MAX_RAYS = 40;
@@ -168,10 +166,6 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
             // Number of rays is a function of intensity.
             int numberOfRays = MIN_RAYS + (int)( intensity * (MAX_RAYS - MIN_RAYS) );
 
-            // Ray color's alpha channel is a function of light intensity.
-            int alpha = MIN_RAY_ALPHA + (int)( intensity * (MAX_RAY_ALPHA - MIN_RAY_ALPHA) );
-            _rayColor = new Color( RAY_COLOR.getRed(), RAY_COLOR.getGreen(), RAY_COLOR.getBlue(), alpha );
-
             // Ray dimensions are a function of intensity.
             double rayLength = MIN_RAY_LENGTH + ( intensity * (MAX_RAY_LENGTH - MIN_RAY_LENGTH) );
             double rayWidth = MIN_RAY_WIDTH + ( intensity * (MAX_RAY_WIDTH - MIN_RAY_WIDTH) );
@@ -194,7 +188,7 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
                 // Each ray is a PhetShapeGraphic.
                 PhetShapeGraphic ray = new PhetShapeGraphic( getComponent() );
                 ray.setShape( line );
-                ray.setPaint( _rayColor );
+                ray.setPaint( RAY_COLOR );
                 ray.setStroke( _rayStroke );
                 
                 // Add the ray to the composite graphic and to the array.
