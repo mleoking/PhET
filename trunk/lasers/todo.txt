@@ -1,5 +1,3 @@
-- Make colors of energy levels map to real values
-- Prevent energy levels from being dragged past each other
 
 
 - AtomicState lifetime manager should be part of the base AtomicState now. There is no need of a separate
@@ -18,6 +16,10 @@ Should we keep or toss TxTranslatable, TxGraphic, TxBoundary, if we keep, can we
 Refactor ModelViewTx2D and AffineTxUtil
 
 =========================================================
+- Beam control panels change if the rate of the beam changes
+- Lenses of lamps are the same as the photons they produce
+- Make colors of energy levels map to real values
+- Prevent energy levels from being dragged past each other
 - photon energy must match the energy state energy to push an atom to a particular energy state
 - Put wavelength control on the flashlight
 - Energy states are represented by colored rings around atoms of a color associated with the energy level, and a

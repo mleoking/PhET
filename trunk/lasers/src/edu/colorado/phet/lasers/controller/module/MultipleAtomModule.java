@@ -25,13 +25,16 @@ import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.BlueBeamGraphic;
+import edu.colorado.phet.lasers.view.LampGraphic;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.AffineTransformOp;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -54,29 +57,11 @@ public class MultipleAtomModule extends BaseLaserModule {
     public MultipleAtomModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), clock );
 
-        //        CollimatedBeam stimulatingBeam = ( (LaserModel)getModel() ).getStimulatingBeam();
-        //        stimulatingBeam.setBounds( new Rectangle2D.Double( s_origin.getX(), s_origin.getY(),
-        //                                                           s_boxWidth + s_laserOffsetX * 2,
-        //                                                           s_boxHeight - Photon.s_radius ) );
-        //        stimulatingBeam.setDirection( new Vector2D.Double( 1, 0 ) );
-        //        stimulatingBeam.addListener( this );
-        //        stimulatingBeam.setActive( true );
-        //
-        //        CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
-        //        Point2D pumpingBeamOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX, 0 );
-        //        pumpingBeam.setBounds( new Rectangle2D.Double( pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
-        //                                                       s_boxWidth, s_boxHeight + s_laserOffsetX * 2 ) );
-        //        pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
-        //        pumpingBeam.addListener( this );
-        //        pumpingBeam.setActive( true );
-
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() );
-        //                                                 s_origin.getY() + s_boxHeight / 2 - Photon.s_radius );
         CollimatedBeam stimulatingBeam = ( (LaserModel)getModel() ).getStimulatingBeam();
         stimulatingBeam.setBounds( new Rectangle2D.Double( beamOrigin.getX(), beamOrigin.getY(),
                                                            s_boxWidth + s_laserOffsetX * 2, s_boxHeight ) );
-        //                                                           s_boxWidth + s_laserOffsetX * 2, Photon.s_radius / 2 ) );
         stimulatingBeam.setDirection( new Vector2D.Double( 1, 0 ) );
         stimulatingBeam.addListener( this );
         stimulatingBeam.setActive( true );
@@ -102,11 +87,13 @@ public class MultipleAtomModule extends BaseLaserModule {
             BufferedImage gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
             double scaleX = allocatedBounds.getWidth() / gunBI.getWidth();
             double scaleY = allocatedBounds.getHeight() / gunBI.getHeight();
+
+            AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ), AffineTransformOp.TYPE_BILINEAR );
+            BufferedImage beamImage = atxOp1.filter( gunBI, null );
             AffineTransform atx = new AffineTransform();
             atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
-            atx.scale( scaleX, scaleY );
-            PhetImageGraphic gunGraphic = new PhetImageGraphic( getApparatusPanel(), gunBI, atx );
-            addGraphic( gunGraphic, LaserConfig.PHOTON_LAYER + 1 );
+            PhetImageGraphic stimulatingBeamGraphic = new LampGraphic( stimulatingBeam, getApparatusPanel(), beamImage, atx );
+            addGraphic( stimulatingBeamGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
             // Add the intensity control
             JPanel sbmPanel = new JPanel();
@@ -114,9 +101,31 @@ public class MultipleAtomModule extends BaseLaserModule {
             Dimension sbmDim = sbm.getPreferredSize();
             sbmPanel.setBounds( (int)allocatedBounds.getX(), (int)( allocatedBounds.getY() + allocatedBounds.getHeight() ),
                                 (int)sbmDim.getWidth() + 10, (int)sbmDim.getHeight() + 10 );
+            sbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             sbmPanel.add( sbm );
+//            sbmPanel.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+            sbmPanel.setOpaque( false );
             getApparatusPanel().add( sbmPanel );
 
+            // Pumping beam lamp
+            AffineTransform pumpingBeamTx = new AffineTransform();
+            pumpingBeamTx.translate( getLaserOrigin().getX() + beamImage.getHeight() + s_boxWidth / 2 - beamImage.getHeight() / 2, 10 );
+            pumpingBeamTx.rotate( Math.PI / 2 );
+            BufferedImage pumpingBeamLamp = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( beamImage, null );
+            PhetImageGraphic pumpingLampGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), pumpingBeamLamp, pumpingBeamTx );
+            addGraphic( pumpingLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
+
+            // Add the beam control
+            JPanel pbmPanel = new JPanel();
+            BeamControl pbm = new BeamControl( pumpingBeam );
+            Dimension pbmDim = pbm.getPreferredSize();
+            pbmPanel.setBounds( (int)( pumpingBeamTx.getTranslateX() + pumpingLampGraphic.getWidth() ), 10,
+                                (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );
+            pbmPanel.add( pbm );
+//            pbmPanell.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+            pbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+            pbmPanel.setOpaque( false );
+            getApparatusPanel().add( pbmPanel );
         }
         catch( IOException e ) {
             e.printStackTrace();
