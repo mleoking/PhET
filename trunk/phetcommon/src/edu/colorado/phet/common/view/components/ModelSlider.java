@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.view.components;
 
-import edu.colorado.phet.common.math.ModelViewTransform1D;
+import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -33,7 +33,7 @@ import java.util.Hashtable;
 public class ModelSlider extends JPanel {
     private JTextField textField;
     private JSlider slider;
-    private ModelViewTransform1D transform;
+    private Function modelViewTransform;//goes from model to view
     private String units;
     private NumberFormat formatter;
     private static final int SLIDER_MAX = 100000000;
@@ -58,7 +58,7 @@ public class ModelSlider extends JPanel {
         this.max = max;
         this.formatter = formatter;
         this.units = units;
-        this.transform = new ModelViewTransform1D( min, max, SLIDER_MIN, SLIDER_MAX );
+        this.modelViewTransform = new Function.LinearFunction( min, max, SLIDER_MIN, SLIDER_MAX );
         this.initialValue = initialValue;
         numMajorTicks = 10;
         int numMinorsPerMajor = 4;
@@ -71,21 +71,11 @@ public class ModelSlider extends JPanel {
 
         createSlider();
 
-        titleLabel = new JLabel( title ) {
-            protected void paintComponent( Graphics g ) {
-                GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
-                super.paintComponent( g );
-            }
-        };
+        titleLabel = new JLabel( title );
         Font titleFont = new Font( "Lucida Sans", Font.BOLD, 20 );
         titleLabel.setFont( titleFont );
 
-        unitsReadout = new JTextField( " " + this.units ) {
-            protected void paintComponent( Graphics g ) {
-                GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
-                super.paintComponent( g );
-            }
-        };
+        unitsReadout = new JTextField( " " + this.units );
         unitsReadout.setFocusable( false );
         unitsReadout.setEditable( false );
         unitsReadout.setBorder( null );
@@ -148,13 +138,8 @@ public class ModelSlider extends JPanel {
         Font labelFont = new Font( "Lucida Sans", 0, 10 );
         Hashtable table = new Hashtable();
         for( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
-            double modelValue = transform.viewToModel( value );
-            JLabel label = new JLabel( formatter.format( modelValue ) ) {
-                protected void paintComponent( Graphics g ) {
-                    GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
-                    super.paintComponent( g );
-                }
-            };
+            double modelValue = modelViewTransform.createInverse().evaluate( value );
+            JLabel label = new JLabel( formatter.format( modelValue ) );
             label.setFont( labelFont );
             table.put( new Integer( value ), label );
         }
@@ -167,19 +152,19 @@ public class ModelSlider extends JPanel {
     private void createSlider() {
         final JSlider slider = new JSlider( SwingConstants.HORIZONTAL,
                                             SLIDER_MIN, SLIDER_MAX,
-                                            transform.modelToView( initialValue ) );
+                                            (int)modelViewTransform.createInverse().evaluate( initialValue ) );
 
         slider.setPaintTicks( true );
         slider.setPaintLabels( true );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double modelValue = transform.viewToModel( slider.getValue() );
+                double sliderValue = slider.getValue();
+                double modelValue = modelViewTransform.createInverse().evaluate( sliderValue );
                 setValue( modelValue );
             }
         } );
         int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
-        double modelDX = transform.viewToModelDifferential( dMinor / 4 );
-//        System.out.println( "modelDX = " + modelDX );
+        double modelDX = Math.abs( modelViewTransform.createInverse().evaluate( dMinor / 4 ) );
         SliderKeyHandler skh = new SliderKeyHandler( modelDX );
         slider.addKeyListener( skh );
         this.slider = slider;
@@ -256,9 +241,8 @@ public class ModelSlider extends JPanel {
         if( val > max ) {
             val = max;
         }
-        transform = new ModelViewTransform1D( min, max, SLIDER_MIN, SLIDER_MAX );
+        modelViewTransform = new Function.LinearFunction( min, max, SLIDER_MIN, SLIDER_MAX );
         setValue( val );
-
     }
 
     public static class IllegalValueException extends Exception {
@@ -375,7 +359,7 @@ public class ModelSlider extends JPanel {
 
             this.value = newValue;
             textField.setText( string );
-            int sliderValue = transform.modelToView( value );
+            int sliderValue = (int)modelViewTransform.evaluate( value );
             if( sliderValue != slider.getValue() ) {
                 slider.setValue( sliderValue ); //this recursively changes values
             }
