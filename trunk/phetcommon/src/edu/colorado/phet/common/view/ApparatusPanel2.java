@@ -130,7 +130,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         transformManager.setReferenceSize();
         scaledComponentLayout.saveSwingComponentCoordinates( 1.0 );
         setScale( 1.0 );
-        paintImmediately( 0, 0, getWidth(), getHeight() );
+//        paintImmediately( 0, 0, getWidth(), getHeight() );//called in setScale() now.
 
         // Set the canvas size
         determineCanvasSize();
@@ -375,6 +375,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 // Using a single scale factor keeps the aspect ratio constant
                 double s = Math.min( sx, sy );
                 setScale( s );
+//                paintImmediately( 0,0,getWidth(), getHeight() );//called in setScale().
                 determineCanvasSize();
             }
             paintStrategy.componentResized();
@@ -399,6 +400,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public void setScale( double scale ) {
         transformManager.setScale( scale );
         scaledComponentLayout.layoutSwingComponents( scale );
+        paintImmediately( 0, 0, getWidth(), getHeight() );
     }
 
 
