@@ -98,3 +98,6 @@ forces1d forces1d &phetcommon &charts
 
 # Faraday's Law
 faradays-law faraday &phetcommon
+
+# Radio Waves
+radio-waves emf
