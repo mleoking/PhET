@@ -134,4 +134,7 @@ public class BufferedPhetGraphic extends PhetGraphic {
         }
     }
 
+    public boolean contains( int x, int y ) {
+        return graphicLayerSet.contains( x, y );
+    }
 }
