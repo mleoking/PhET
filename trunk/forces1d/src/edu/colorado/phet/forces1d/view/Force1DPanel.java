@@ -3,6 +3,7 @@ package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -10,7 +11,6 @@ import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.Force1DUtil;
-import edu.colorado.phet.forces1d.common.ApparatusPanel3;
 import edu.colorado.phet.forces1d.common.LayoutUtil;
 import edu.colorado.phet.forces1d.common.TitleLayout;
 import edu.colorado.phet.forces1d.common.WiggleMe;
@@ -34,7 +34,7 @@ import java.io.IOException;
  * Time: 10:16:32 PM
  * Copyright (c) Nov 12, 2004 by Sam Reid
  */
-public class Force1DPanel extends ApparatusPanel3 {
+public class Force1DPanel extends ApparatusPanel2 {
     private Force1DModule module;
     private BlockGraphic blockGraphic;
     private ArrowSetGraphic arrowSetGraphic;
@@ -60,7 +60,7 @@ public class Force1DPanel extends ApparatusPanel3 {
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
         super( module.getModel(), module.getClock() );
-
+        setAutoPaint( false );
         this.backgroundGraphic = new BufferedPhetGraphic( this, 800, 800, Color.white );
         backgroundGraphic.setGraphicsSetup( new BasicGraphicsSetup() );
         this.module = module;
@@ -479,6 +479,14 @@ public class Force1DPanel extends ApparatusPanel3 {
 
     public void clearData() {
         forcePlotDevice.clearData();
+    }
+
+    public void paint() {
+        super.paint();
+//        double runningTime=module.getClock().getRunningTime();
+//        System.out.println( "runningTime = " + runningTime );
+//        System.out.println( "Time=" + System.currentTimeMillis() +", painting.");
+//        new Exception().printStackTrace( );
     }
 
 }

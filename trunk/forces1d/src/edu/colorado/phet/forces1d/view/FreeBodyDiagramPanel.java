@@ -2,11 +2,13 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
-import edu.colorado.phet.forces1d.common.ApparatusPanel3;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -25,12 +27,18 @@ import java.awt.event.MouseEvent;
 public class FreeBodyDiagramPanel {
 
     private FreeBodyDiagram freeBodyDiagram;
-    private ApparatusPanel3 fbdPanel;
+    private ApparatusPanel2 fbdPanel;
     private WiggleMe fbdWiggleMe;
     private PlotDevice forcePlotDevice;
 
     public FreeBodyDiagramPanel( final Force1DModule module ) {
-        fbdPanel = new ApparatusPanel3( module.getModel(), module.getClock() );
+        fbdPanel = new ApparatusPanel2( module.getModel(), module.getClock() ) {
+            protected void init( BaseModel model, AbstractClock clock ) {
+                super.init( model, clock );
+                setAutoPaint( false );
+            }
+        };
+//        fbdPanel.setau
         fbdPanel.addGraphicsSetup( new BasicGraphicsSetup() );
         int fbdWidth = 180;
         fbdPanel.setPreferredSize( new Dimension( fbdWidth, fbdWidth ) );
@@ -83,14 +91,13 @@ public class FreeBodyDiagramPanel {
         return freeBodyDiagram;
     }
 
-    public ApparatusPanel3 getFBDPanel() {
+    public ApparatusPanel2 getFBDPanel() {
         return fbdPanel;
     }
 
     public void updateGraphics() {
         freeBodyDiagram.updateAll();
         if( fbdPanel.isShowing() ) {
-//            fbdPanel.repaint( 0, 0, fbdPanel.getWidth(), fbdPanel.getHeight() );
             fbdPanel.paint();
         }
     }
