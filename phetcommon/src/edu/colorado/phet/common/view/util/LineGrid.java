@@ -75,7 +75,7 @@ public class LineGrid extends PhetGraphic implements ApparatusPanel2.ChangeListe
         gs.restoreGraphics();
     }
 
-    public void referenceSizeChanged( ApparatusPanel2.ChangeEvent event ) {
+    public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
         setCanvasSize( event.getCanvasSize() );
     }
 }
