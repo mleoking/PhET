@@ -12,15 +12,13 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.Animation;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasApplication;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.Pump;
-import edu.colorado.phet.idealgas.model.Box2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -33,19 +31,9 @@ import java.util.Observable;
 public class BaseIdealGasApparatusPanel extends ApparatusPanel {
 
     private PumpHandleGraphic handleGraphicImage;
-    //    private MovableImageGraphic handleGraphicImage;
     private PhetImageGraphic flamesGraphicImage;
     private PhetImageGraphic iceGraphicImage;
     protected DefaultInteractiveGraphic doorGraphicImage;
-    private PhetGraphic boxGraphic;
-
-    // Array of images for the pusher pusher
-    private Animation pusher;
-    private Image currPusherFrame;
-
-    // Array of images for the leaner pusher
-    private Animation leaner;
-    private Image currLeanerFrame;
 
     private Vector2D[] opening = new Vector2D[2];
     private IdealGasModel model;
@@ -62,24 +50,17 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
         init( module, box );
     }
 
-    public void repaint( int x, int y, int width, int height ) {
-        super.repaint( x, y, width, height );
-    }
-
     /**
      *
      */
     public void init( final Module module, Box2D box ) {
+
+        // Set the background color
+        this.setBackground( Color.white );        
+
         model = (IdealGasModel)module.getModel();
 
         try {
-            // Load the pusher pusher
-//            pusher = new Animation( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
-//            currPusherFrame = pusher.getCurrFrame();
-
-            // Load the leaner pusher
-            leaner = new Animation( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
-            currLeanerFrame = leaner.getCurrFrame();
 
             // Set up the graphics for the pump
             BufferedImage pumpImg = ImageLoader.loadBufferedImage( IdealGasConfig.PUMP_IMAGE_FILE );
@@ -115,11 +96,6 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
                                                                         IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
                                                                         IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 227 );
             this.addGraphic( interactiveDoorGraphic, -6 );
-            //            doorGraphicImage = new BoxDoorGraphic( doorImg,
-            //                                                   IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 227,
-            //                                                   IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
-            //                                                   IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 227 );
-            //            this.addGraphic( doorGraphicImage, -6 );
         }
         catch( IOException ioe ) {
             throw new RuntimeException( ioe.getMessage() );
@@ -280,30 +256,6 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
     /**
      *
      */
-    public void movePusher( int dir ) {
-        if( dir > 0 ) {
-            currPusherFrame = pusher.getNextFrame();
-        }
-        else if( dir < 0 ) {
-            currPusherFrame = pusher.getPrevFrame();
-        }
-    }
-
-    /**
-     *
-     */
-    public void moveLeaner( int dir ) {
-        if( dir > 0 && leaner.getCurrFrameNum() + 1 < leaner.getNumFrames() ) {
-            currLeanerFrame = leaner.getNextFrame();
-        }
-        else if( dir < 0 && leaner.getCurrFrameNum() > 0 ) {
-            currLeanerFrame = leaner.getPrevFrame();
-        }
-    }
-
-    /**
-     *
-     */
     //    public void setToolTips() {
     //
     //        if( !toolTipsSet ) {
@@ -369,14 +321,14 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
         }
 
         // fast paint
-        if( IdealGasConfig.fastPaint ) {
-            if( boxGraphic != null ) {
-                //                this.repaint( ( (Rectangle2D.Float)( boxGraphic.getRep() ) ).getBounds() );
-            }
-        }
-        else {
-            //            this.repaint();
-        }
+//        if( IdealGasConfig.fastPaint ) {
+//            if( boxGraphic != null ) {
+//                //                this.repaint( ( (Rectangle2D.Float)( boxGraphic.getRep() ) ).getBounds() );
+//            }
+//        }
+//        else {
+//            //            this.repaint();
+//        }
     }
 
     //

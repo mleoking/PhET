@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision.CollidableBody;
+import edu.colorado.phet.collision.*;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
@@ -15,6 +15,7 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.RemoveModelElementCmd;
 import edu.colorado.phet.mechanics.Body;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,6 +50,26 @@ public class IdealGasModel extends BaseModel {
     // todo: this attribute should proabably belong to the Pump
     private Class currentGasSpecies = HeavySpecies.class;
 
+    public IdealGasModel( double dt ) {
+        // Add a collision collisionGod
+        CollisionGod collisionGod = new CollisionGod( this, dt,
+                                                      new Rectangle2D.Double( 0, 0,
+                                                                              600,
+                                                                              600 ),
+                                                      10, 10 );
+        this.addModelElement( collisionGod );
+        // Set up collision classes
+//        new SphereHotAirBalloonContactDetector();
+        new SphereSphereContactDetector();
+//        new SphereWallContactDetector();
+//        new SphereBoxContactDetector();
+
+//        BalloonSphereCollision.register();
+        SphereSphereCollision.register();
+//        SphereWallCollision.register();
+//        SphereBoxCollision.register();
+
+    }
 
     /**
      *
@@ -155,7 +176,7 @@ public class IdealGasModel extends BaseModel {
         super.addModelElement( modelElement );
         if( modelElement instanceof Body ) {
             Body body = (Body)modelElement;
-//            this.box.addContainedBody( body );
+            //            this.box.addContainedBody( body );
             addKineticEnergyToSystem( body.getKineticEnergy() );
             bodies.add( body );
         }
@@ -391,7 +412,7 @@ public class IdealGasModel extends BaseModel {
         double currY = body.getPosition().getY();
 
         // todo: This was commented out, 9/14/04
-//        relocateBodyY( body, newY );
+        //        relocateBodyY( body, newY );
 
         // Adjust the body's kinetic energy to compensate for any change we may have
         // made in its potential ential

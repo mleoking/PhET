@@ -29,7 +29,7 @@ public class SphereWallContactDetector extends ContactDetector {
      * @param bodyB
      * @return
      */
-    protected boolean applies( Body bodyA, Body bodyB ) {
+    protected boolean applies( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean b = ( ( bodyA instanceof SphericalBody && bodyB instanceof Wall )
                       || ( bodyB instanceof SphericalBody && bodyA instanceof Wall ) );
         return b;
@@ -40,7 +40,7 @@ public class SphereWallContactDetector extends ContactDetector {
      * @param bodyB
      * @return
      */
-    public boolean areInContact( Body bodyA, Body bodyB ) {
+    public boolean areInContact( CollidableBody bodyA, CollidableBody bodyB ) {
         SphericalBody sphere = null;
         Wall wall = null;
         if( bodyA instanceof Wall && bodyB instanceof SphericalBody ) {

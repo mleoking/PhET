@@ -32,7 +32,7 @@ public class IdealGasModule extends Module {
         super( Strings.idealGasModuleName );
 
         // Create the model
-        idealGasModel = new IdealGasModel();
+        idealGasModel = new IdealGasModel( clock.getDt() );
         setModel( idealGasModel );
 
         // Create the box

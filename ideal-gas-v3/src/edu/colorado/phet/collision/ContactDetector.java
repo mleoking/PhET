@@ -18,9 +18,9 @@ abstract public class ContactDetector {
         s_contactExperts.add( this );
     }
 
-    abstract public boolean areInContact( Body bodyA, Body bodyB );
+    abstract public boolean areInContact( CollidableBody bodyA, CollidableBody bodyB );
 
-    abstract protected boolean applies( Body bodyA, Body bodyB );
+    abstract protected boolean applies( CollidableBody bodyA, CollidableBody bodyB );
 
     //
     // Static fields and methods
@@ -36,7 +36,7 @@ abstract public class ContactDetector {
      * @param bodyB
      * @return
      */
-    static public boolean areContacting( Body bodyA, Body bodyB ) {
+    static public boolean areContacting( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean result = false;
         boolean resultEstablished = false;
         for( int i = 0; i < s_contactExperts.size() && !resultEstablished; i++ ) {
