@@ -18,7 +18,6 @@ public class HelpMenu extends JMenu {
         super("Help");
         this.setMnemonic('h');
 
-
         final JMenuItem about = new JMenuItem("About");
         about.setMnemonic('a');
         final String name = app.getApplicationDescriptor().getWindowTitle();

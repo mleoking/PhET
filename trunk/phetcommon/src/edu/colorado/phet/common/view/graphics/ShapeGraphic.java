@@ -6,12 +6,14 @@
  */
 package edu.colorado.phet.common.view.graphics;
 
+import edu.colorado.phet.common.view.graphics.bounds.Boundary;
+
 import java.awt.*;
 
 /**
  * Wrap an Area around your Shape to make it mutable.
  */
-public class ShapeGraphic implements Graphic {
+public class ShapeGraphic implements Graphic, Boundary {
     private Shape shape;
     private Paint outlinePaint;
     private Paint fillPaint;
@@ -74,6 +76,10 @@ public class ShapeGraphic implements Graphic {
 
     public void setOutlineStroke(Stroke outlineStroke) {
         this.outlineStroke = outlineStroke;
+    }
+
+    public boolean contains(int x, int y) {
+        return shape.contains(x,y);
     }
 
 

@@ -49,10 +49,7 @@ public class SwingTimerClock extends AbstractClock {
     private class Ticker implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-
             if (isRunning()) {
-//                    parent.clockTicked();
-
                 long tickTime = System.currentTimeMillis();
                 long actualWaitTime = tickTime - lastTickTime;
                 lastTickTime = tickTime;
@@ -61,6 +58,5 @@ public class SwingTimerClock extends AbstractClock {
                 }
             }
         }
-
     }
 }
