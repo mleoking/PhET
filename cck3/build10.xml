@@ -220,4 +220,10 @@
         </exec>
     </target>
 
+    <target name="Open Explorer Top">
+        <exec dir="${basedir}" executable="explorer">
+            <arg line="${basedir}"></arg>
+        </exec>
+    </target>
+
 </project>
