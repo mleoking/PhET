@@ -13,6 +13,7 @@ import edu.colorado.phet.lasers.physics.photon.Photon;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.collision.Wall;
 
 import java.util.Map;
 

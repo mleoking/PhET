@@ -7,11 +7,13 @@
 package edu.colorado.phet.lasers.physics;
 
 import edu.colorado.phet.collision.SphereSphereContactDetector;
+import edu.colorado.phet.collision.SphereSphereExpert;
+import edu.colorado.phet.collision.CollisionExpert;
+import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.physics.atom.Atom;
-import edu.colorado.phet.lasers.physics.collision.AtomAtomCollision;
 import edu.colorado.phet.lasers.physics.collision.AtomWallCollision;
 import edu.colorado.phet.lasers.physics.collision.PhotonAtomCollision;
 import edu.colorado.phet.lasers.physics.collision.PhotonMirrorCollision;
@@ -23,9 +25,20 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class LaserModel extends BaseModel {
 //public class LaserModel extends PhysicalSystem {
+
+    static public Point2D.Float ORIGIN = new Point2D.Float( 100, 300 );
+    static private int width = 800;
+    static private int height = 800;
+    static private int minX = (int)LaserConfig.ORIGIN.getX() - 50;
+    static private int minY = (int)LaserConfig.ORIGIN.getY() - height / 2;
+    static private Rectangle2D.Float boundingRectangle = new Rectangle2D.Float( minX,
+                                                                                minY,
+                                                                                width,
+                                                                                height );
 
     private CollimatedBeam stimulatingBeam;
     private CollimatedBeam pumpingBeam;
@@ -37,16 +50,24 @@ public class LaserModel extends BaseModel {
      */
     public LaserModel() {
 //        super( LaserConfig.instance() );
-        this.addLaw( CollisionLaw.instance() );
+//        this.addLaw( CollisionLaw.instance() );
+//
+//        // Set up collision classes
+//        new SphereSphereContactDetector();
+//        new SphereWallContactDetector();
+//
+//        AtomAtomCollision.register();
+//        PhotonMirrorCollision.register();
+//        AtomWallCollision.register();
+//        PhotonAtomCollision.register();
 
-        // Set up collision classes
-        new SphereSphereContactDetector();
-        new SphereWallContactDetector();
-
-        AtomAtomCollision.register();
-        PhotonMirrorCollision.register();
-        AtomWallCollision.register();
-        PhotonAtomCollision.register();
+        final CollisionMechanism collisionMechanism = new CollisionMechanism();
+        collisionMechanism.addCollisionExpert( new SphereSphereExpert() );
+        this.addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                collisionMechanism.doIt( bodies );
+            }
+        } );
     }
 
     public void addModelElement( ModelElement modelElement ) {
@@ -205,16 +226,29 @@ public class LaserModel extends BaseModel {
     }
 
 
-    //
-    // Static fields and methods
-    //
-    static public Point2D.Float ORIGIN = new Point2D.Float( 100, 300 );
-    static private int width = 800;
-    static private int height = 800;
-    static private int minX = (int)LaserConfig.ORIGIN.getX() - 50;
-    static private int minY = (int)LaserConfig.ORIGIN.getY() - height / 2;
-    static private Rectangle2D.Float boundingRectangle = new Rectangle2D.Float( minX,
-                                                                                minY,
-                                                                                width,
-                                                                                height );
+    private class CollisionMechanism {
+        private ArrayList collisionExperts = new ArrayList();
+
+        void addCollisionExpert( CollisionExpert expert ) {
+            collisionExperts.add( expert );
+        }
+
+        void removeCollisionExpert( CollisionExpert expert ) {
+            collisionExperts.remove( expert );
+        }
+
+        void doIt( List collidables ) {
+            for( int i = 0; i < collidables.size() - 1; i++ ) {
+                Collidable collidable1 = (Collidable)collidables.get( i );
+                for( int j = i + 0; j < collidables.size(); j++ ) {
+                    Collidable collidable2 = (Collidable)collidables.get( j );
+                    for( int k = 0; k < collisionExperts.size(); k++ ) {
+                        CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( k );
+                        collisionExpert.detectAndDoCollision( collidable1, collidable2 );
+                    }
+                }
+
+            }
+        }
+    }
 }

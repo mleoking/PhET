@@ -6,11 +6,8 @@
  */
 package edu.colorado.phet.lasers.physics.collision;
 
-import edu.colorado.phet.physics.collision.Wall;
-import edu.colorado.phet.physics.collision.SphericalBody;
-import edu.colorado.phet.physics.collision.SphereWallContactDetector;
-import edu.colorado.phet.lasers.physics.LaserSystem;
 import edu.colorado.phet.physics.PhysicalSystem;
+import edu.colorado.phet.collision.SphericalBody;
 
 import java.awt.geom.Point2D;
 
@@ -20,7 +17,7 @@ public class WallSphereContactExpertTest extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        new LaserSystem();
+//        new LaserSystem();
     }
 
     protected void tearDown() throws Exception {

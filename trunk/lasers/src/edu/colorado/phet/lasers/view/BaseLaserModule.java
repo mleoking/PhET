@@ -28,15 +28,15 @@ public abstract class BaseLaserModule extends Module {
 //public class BaseLaserModule extends ApparatusPanel {
 
     static protected final Point2D.Float s_origin = LaserConfig.ORIGIN;
-    static protected final float s_boxHeight = 250;
-    static protected final float s_boxWidth = 500;
-    static protected final float s_laserOffsetX = 100;
+    static protected final double s_boxHeight = 250;
+    static protected final double s_boxWidth = 500;
+    static protected final double s_laserOffsetX = 100;
 
     private LaserControlPanel laserControlPanel;
     private ResonatingCavity cavity;
     private CollimatedBeam incomingBeam;
     private CollimatedBeam pumpingBeam;
-    private Point2D.Float laserOrigin;
+    private Point2D laserOrigin;
     private LaserModel laserModel;
 
     /**
@@ -71,7 +71,8 @@ public abstract class BaseLaserModule extends Module {
         // Set up the control panel
 //        PhetApplication.instance().getPhetMainPanel().setControlPanel( laserControlPanel );
 
-        incomingBeam = new CollimatedBeam( Photon.RED,
+        incomingBeam = new CollimatedBeam( getLaserModel(),
+                                           Photon.RED,
                                            s_origin,
                                            s_boxHeight,
                                            s_boxWidth,
@@ -80,20 +81,21 @@ public abstract class BaseLaserModule extends Module {
         incomingBeam.setHeight( s_boxHeight - Photon.s_radius );
         incomingBeam.setPhotonsPerSecond( 0 );
 
-        pumpingBeam = new CollimatedBeam( Photon.BLUE,
+        pumpingBeam = new CollimatedBeam( getLaserModel(),
+                                          Photon.BLUE,
                                           s_origin,
                                           s_boxHeight,
                                           s_boxWidth,
                                           new Vector2D.Double( 0, 1 ) );
         // TODO: Get rid of hard-coded 100
-        pumpingBeam.setPosition( (float) s_origin.getX() + 100 ,
-                                 (float) s_origin.getY() - s_boxHeight / 2 );
+        pumpingBeam.setPosition( (float)s_origin.getX() + 100,
+                                 (float)s_origin.getY() - s_boxHeight / 2 );
         pumpingBeam.setPhotonsPerSecond( 0 );
 
 
         // Add the laser
-        laserOrigin = new Point2D.Float( (float) ( s_origin.getX() + s_laserOffsetX ),
-                                                               (float) ( s_origin.getY() ) );
+        laserOrigin = new Point2D.Float( (float)( s_origin.getX() + s_laserOffsetX ),
+                                         (float)( s_origin.getY() ) );
         cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
         getModel().addModelElement( cavity );
         ResonatingCavityGraphic cavityGraphic = new ResonatingCavityGraphic( getApparatusPanel(), cavity );
@@ -126,11 +128,7 @@ public abstract class BaseLaserModule extends Module {
 //        laserModel.clearParticles();
     }
 
-    /**
-     *
-     * @return
-     */
-    protected Point2D.Float getLaserOrigin() {
+    protected Point2D getLaserOrigin() {
         return laserOrigin;
     }
 

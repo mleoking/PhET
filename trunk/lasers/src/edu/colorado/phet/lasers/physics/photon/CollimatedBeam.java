@@ -24,7 +24,7 @@ import java.util.LinkedList;
 public class CollimatedBeam extends Particle {
 
     private int wavelength;
-    private Point2D.Float origin;
+    private Point2D origin;
     private double height;
     private double width;
     private Vector2D velocity;
@@ -49,7 +49,7 @@ public class CollimatedBeam extends Particle {
      * @param height
      * @param width
      */
-    public CollimatedBeam( LaserModel model, int wavelength, Point2D.Float origin, float height, float width, Vector2D direction ) {
+    public CollimatedBeam( LaserModel model, int wavelength, Point2D origin, double height, double width, Vector2D direction ) {
         this.model = model;
         this.wavelength = wavelength;
         this.origin = origin;
@@ -66,7 +66,7 @@ public class CollimatedBeam extends Particle {
         listeners.remove( listener );
     }
 
-    public Point2D.Float getOrigin() {
+    public Point2D getOrigin() {
         return origin;
     }
 
