@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 /**
@@ -34,7 +35,11 @@ public class ApparatusPanel extends JPanel {
     public static final double LAYER_BOTTOM = Double.NEGATIVE_INFINITY;
     public static final double LAYER_DEFAULT = 0;
 
-    private BasicStroke borderStroke = new BasicStroke(4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+
+    //
+    // Instance fields and methods
+    //
+    private BasicStroke borderStroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     CompositeInteractiveGraphic graphic = new CompositeInteractiveGraphic();
     ArrayList graphicsSetups = new ArrayList();
 
@@ -42,27 +47,25 @@ public class ApparatusPanel extends JPanel {
         // Call superclass constructor with null so that we
         // don't get the default layout manager. This allows us
         // to lay out components with absolute coordinates
-        super(null);
-        this.addMouseListener(graphic);
-        this.addMouseMotionListener(graphic);
+        super( null );
+        this.addMouseListener( graphic );
+        this.addMouseMotionListener( graphic );
 
-        Graphic borderGraphic = new BorderGraphic();
-        addGraphic(borderGraphic, Double.POSITIVE_INFINITY);
+        Graphic borderGraphic = new Graphic() {
+            public void paint( Graphics2D g ) {
+                Rectangle boundingRect = getBounds();
+                g.setStroke( borderStroke );
+                g.setColor( Color.black );
+                g.drawRect( 2, 2,
+                            (int)boundingRect.getWidth() - 4,
+                            (int)boundingRect.getHeight() - 4 );
+            }
+        };
+        addGraphic( borderGraphic, Double.POSITIVE_INFINITY );
     }
 
-    class BorderGraphic implements Graphic {
-        public void paint(Graphics2D g) {
-            Rectangle boundingRect = getBounds();
-            g.setStroke(borderStroke);
-            g.setColor(Color.black);
-            g.drawRect(2, 2,
-                    (int) boundingRect.getWidth() - 4,
-                    (int) boundingRect.getHeight() - 4);
-        }
-    }
-
-    public void addGraphicsSetup(GraphicsSetup setup) {
-        graphicsSetups.add(setup);
+    public void addGraphicsSetup( GraphicsSetup setup ) {
+        graphicsSetups.add( setup );
     }
 
     /**
@@ -77,29 +80,45 @@ public class ApparatusPanel extends JPanel {
      *
      * @param graphics
      */
-    protected void paintComponent(Graphics graphics) {
-        Graphics2D g2 = (Graphics2D) graphics;
-        super.paintComponent(g2);
-        for (int i = 0; i < graphicsSetups.size(); i++) {
-            GraphicsSetup graphicsSetup = (GraphicsSetup) graphicsSetups.get(i);
-            graphicsSetup.setup(g2);
+    protected void paintComponent( Graphics graphics ) {
+        Graphics2D g2 = (Graphics2D)graphics;
+        super.paintComponent( g2 );
+        for( int i = 0; i < graphicsSetups.size(); i++ ) {
+            GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
+            graphicsSetup.setup( g2 );
         }
-        graphic.paint(g2);
+        graphic.paint( g2 );
     }
 
-    public void addGraphic(Graphic graphic, double level) {
-        this.graphic.addGraphic(graphic, level);
+    public void addGraphic( Graphic graphic, double level ) {
+        this.graphic.addGraphic( graphic, level );
     }
 
     /**
      * Adds a graphic to the default layer 0.
      */
-    public void addGraphic(Graphic graphic) {
-        this.graphic.addGraphic(graphic, 0);
+    public void addGraphic( Graphic graphic ) {
+        this.graphic.addGraphic( graphic, 0 );
     }
 
-    public void removeGraphic(Graphic graphic) {
-        this.graphic.remove(graphic);
+    public void addGraphic( Graphic graphic, AffineTransform atx ) {
+        this.graphic.addGraphic( graphic, 0, atx, null );
+    }
+
+    public void addGraphic( Graphic graphic, double level, AffineTransform atx ) {
+        this.graphic.addGraphic( graphic, level, atx, null );
+    }
+
+    public void addGraphic( Graphic graphic, AffineTransform atx, RevertableGraphicsSetup graphicSetup ) {
+        this.graphic.addGraphic( graphic, 0, atx, graphicSetup );
+    }
+
+    public void addGraphic( Graphic graphic, double level, AffineTransform atx, RevertableGraphicsSetup graphicSetup ) {
+        this.graphic.addGraphic( graphic, level, atx, graphicSetup );
+    }
+
+    public void removeGraphic( Graphic graphic ) {
+        this.graphic.remove( graphic );
     }
 
     public CompositeInteractiveGraphic getGraphic() {
