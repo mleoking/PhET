@@ -95,4 +95,12 @@ public class Range2D {
     public String toString() {
         return "x=[" + minX + ", " + maxX + "], y=[" + minY + ", " + maxY + "]";
     }
+
+    public boolean containsX( double x ) {
+        return x >= minX && x <= maxX;
+    }
+
+    public boolean containsY( double y ) {
+        return y >= minY && y <= maxY;
+    }
 }
