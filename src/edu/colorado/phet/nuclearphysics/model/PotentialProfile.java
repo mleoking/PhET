@@ -6,8 +6,13 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
+import edu.colorado.phet.coreadditions.CubicUtil;
+
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 
 /**
  * This class represents the potential energy profile of a particular atom.
@@ -26,11 +31,6 @@ public class PotentialProfile {
     private double width;
     private double maxPotential;
     private double wellDepth;
-    private double hillPeakX;
-    private Point2D.Double hillPeakLocation;
-    private Point2D.Double tailLocation;
-    private Line2D.Double hillBoundary;
-    private Point2D.Double testPt = new Point2D.Double();
     private Shape[] shape = new Shape[4];
     private Point2D.Double endPt1 = new Point2D.Double();
     private Point2D.Double ctrlPt1 = new Point2D.Double();
@@ -47,6 +47,7 @@ public class PotentialProfile {
     private double alphaDecayX;
     private GeneralPath profilePath;
     private GeneralPath profileBackgroundPath;
+    private CubicUtil cubicUtil;
 
     public PotentialProfile() {
     }
@@ -55,12 +56,6 @@ public class PotentialProfile {
         this.width = width;
         this.maxPotential = maxPotential;
         this.wellDepth = wellDepth;
-        this.hillPeakX = width / 10;
-        this.hillPeakLocation = new Point2D.Double( hillPeakX, this.maxPotential );
-        this.tailLocation = new Point2D.Double( width / 2, 0 );
-        // Note: the order in which the arguments are provided in this constructor are
-        // critical if the method getDistFromHill() is to work properly
-        this.hillBoundary = new Line2D.Double( tailLocation, hillPeakLocation );
 
         // Generate the cubic curves for the profile
         this.generate();
@@ -182,8 +177,12 @@ public class PotentialProfile {
         profileBackgroundPath.append( shape[2], true );
         profileBackgroundPath.append( shape[3], true );
 
+        // Instantiate a CubicUtil. We'll use it later
+        cubicUtil = new CubicUtil( endPt1, ctrlPt1,
+                                   endPt2, ctrlPt2A );
 
         alphaDecayX = getHillX( -getWellPotential() );
+
     }
 
     public GeneralPath getPath() {
@@ -203,8 +202,8 @@ public class PotentialProfile {
     }
 
     /**
-     * Gives the x coordinate of the hill-side of the profile that is at the same energy
-     * level as the bottom of the well.
+     * Gives the x coordinate of the hill-side of the profile that
+     * corresponds to a particular y coordinate.
      * <p/>
      * See: http://www.moshplant.com/direct-or/bezier/math.html
      *
@@ -212,39 +211,33 @@ public class PotentialProfile {
      * @return
      */
     public double getHillX( double y ) {
-        double cx, cy, bx, by, ax, ay;
-        double x0 = endPt1.getX();
-        double y0 = endPt1.getY();
+        double[] roots = cubicUtil.getXforY( y );
+        double result = Double.NaN;
+        for( int i = 0; i < roots.length; i++ ) {
+            double root = roots[i];
+            if( !Double.isNaN( root ) ) {
+                result = root;
+            }
+        }
+        return result;
+    }
 
-        double x3 = endPt2.getX();
-        double y3 = endPt2.getY();
-
-        double x1 = ctrlPt1.getX();
-        double y1 = ctrlPt1.getY();
-
-        double x2 = ctrlPt2A.getX();
-        double y2 = ctrlPt2A.getY();
-
-        cx = 3 * ( x1 - x0 );
-        bx = 3 * ( x2 - x1 ) - cx;
-        ax = x3 - x0 - cx - bx;
-
-        cy = 3 * ( y1 - y0 );
-        by = 3 * ( y2 - y1 ) - cy;
-        ay = y3 - y0 - cy - by;
-
-        double[] coefs = new double[]{y0 - y, cy, by, ay};
-        double[] roots = new double[4];
-        int numRoots = CubicCurve2D.solveCubic( coefs, roots );
-        double[] xt = new double[numRoots];
-        double result = 0;
-        for( int i = 0; i < numRoots; i++ ) {
-            double t = roots[i];
-            // The proper root is in the interval [0...1]
-            if( t >= 0 && t <= 1.0 ) {
-                xt[i] = ax * t * t * t + bx * t * t + cx * t + x0;
-                result = xt[i];
-                break;
+    /**
+     * Gives the y coordinate of the hill-side of the profile that
+     * corresponds to a particular x coordinate.
+     * <p/>
+     * See: http://www.moshplant.com/direct-or/bezier/math.html
+     *
+     * @param x
+     * @return
+     */
+    public double getHillY( double x ) {
+        double[] roots = cubicUtil.getYforX( x );
+        double result = Double.NaN;
+        for( int i = 0; i < roots.length; i++ ) {
+            double root = roots[i];
+            if( !Double.isNaN( root ) ) {
+                result = root;
             }
         }
         return result;

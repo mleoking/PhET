@@ -45,6 +45,7 @@ public class NuclearPhysicsModule extends Module {
         physicalPanel.setBorder( titledBorder2 );
 
         apparatusPanel.setLayout( new GridLayout( 1, 2 ) );
+//        apparatusPanel.setLayout( new GridLayout( 2, 1));
         apparatusPanel.add( potentialProfilePanel );
         apparatusPanel.add( physicalPanel );
 

@@ -8,6 +8,16 @@
  * Date: Feb 28, 2004
  * Time: 6:03:01 AM
  */
+// todo: Apply a model transform to this panel, so we don't have to
+// work in view coordinates all the time.
+
+/**
+ * Class: PotentialProfilePanel
+ * Class: edu.colorado.phet.nuclearphysics.view
+ * User: Ron LeMaster
+ * Date: Feb 28, 2004
+ * Time: 6:03:01 AM
+ */
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -47,7 +57,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private static AffineTransform atx = new AffineTransform();
 
     public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
-//        AffineTransform atx = new AffineTransform();
         atx.setToIdentity();
         atx.translate( x, y );
         atx.scale( scale, scale );
@@ -56,7 +65,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     public static AffineTransform rotateInPlace( double theta, double x, double y ) {
-//        AffineTransform atx = new AffineTransform();
         atx.setToIdentity();
         atx.translate( x, y );
         atx.rotate( theta );
@@ -73,6 +81,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private PotentialProfile potentialProfile;
     private Point2D.Double origin;
     private Point2D.Double strLoc = new Point2D.Double();
+    private Line2D.Double xAxis = new Line2D.Double();
+    private Line2D.Double yAxis = new Line2D.Double();
 
     public PotentialProfilePanel( PotentialProfile potentialProfile ) {
         origin = new Point2D.Double( 250, 600 );
@@ -103,9 +113,12 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     protected void paintComponent( Graphics graphics ) {
-        // Center the profile in the panel
-        origin.setLocation( this.getWidth() / 2, this.getHeight() * 2 / 3 );
 
+        // Center the profile in the panel
+        origin.setLocation( this.getWidth() / 2, this.getHeight() * 3 / 4 );
+//        origin.setLocation( this.getWidth() / 2, this.getHeight() * 2 / 3 );
+
+        // Draw everything that isn't special to this panel
         super.paintComponent( graphics );
         Graphics2D g2 = (Graphics2D)graphics;
 
@@ -137,14 +150,20 @@ public class PotentialProfilePanel extends ApparatusPanel {
             // Note: -y is needed because we're currently working in view coordinates. The profile is a cubic
             // in view coordinates
             double y = nucleus.getPotentialEnergy();
-            double x = potentialProfile.getHillX( -y ) *
-                       ( nucleus.getLocation().getX() > 0 ? -1 : 1 );
+//            double x = potentialProfile.getHillX( -y ) *
+//                       ( nucleus.getLocation().getX() > 0 ? -1 : 1 );
+
+            double x = nucleus.getLocation().getX();
+//            double yTest = potentialProfile.getHillY( nucleus.getLocation().distance( 0, 0 ) );
+//            yTest = nucleus.getForce( nucleus.getLocation().distance( 0, 0 ) );
+//            yTest = ( Double.isNaN( yTest ) ? 0 : yTest );
+//            y = -yTest;
 
             // Draw a ghost coming down the profile first, then the real thing on the x axis
             AlphaSetter.set( g2, ghostAlpha );
             decayGraphic.paint( g2, (int)( (int)origin.getX() + x ), (int)origin.getY() - (int)y );
             AlphaSetter.set( g2, 1 );
-            decayGraphic.paint( g2, (int)( (int)origin.getX() + x ), (int)origin.getY() );
+            decayGraphic.paint( g2, (int)( (int)origin.getX() + x ), (int)( origin.getY() + nucleus.getLocation().getY() ) );
         }
     }
 
@@ -152,8 +171,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
         g2.setColor( axisColor );
         g2.setStroke( axisStroke );
-        Line2D.Double xAxis = new Line2D.Double( 0, origin.getY(), this.getWidth(), origin.getY() );
-        Line2D.Double yAxis = new Line2D.Double( origin.getX(), 0, origin.getX(), this.getHeight() );
+        xAxis.setLine( 0, origin.getY(), this.getWidth(), origin.getY() );
+        yAxis.setLine( origin.getX(), 0, origin.getX(), this.getHeight() );
         g2.draw( xAxis );
         g2.draw( yAxis );
 
