@@ -185,8 +185,7 @@ public class Filter extends SimpleObservable
     else
     {
       // With a colored bulb, the filter passes some percentage of the bulb color.
-      double percentPassed = 
-        calculatePercentPassed( color.getWavelength(), _transmissionPeak.getWavelength(), _transmissionWidth );
+      double percentPassed = percentPassed( color );
       if ( percentPassed == 0 )
       {
         passedColor = VisibleColor.INVISIBLE;
@@ -196,6 +195,7 @@ public class Filter extends SimpleObservable
         int r = color.getRed();
         int g = color.getGreen();
         int b = color.getBlue();
+        // Scale alpha by percent passed.
         int a = (int)( percentPassed / 100 * 255 );
         passedColor = new VisibleColor( r, g, b, a );
       }
@@ -204,25 +204,24 @@ public class Filter extends SimpleObservable
   }
   
   /**
-   * Determines the percentage of a wavelength that is passed.
+   * Determines the percentage of a color that is passed by the filter.
    * 
-   * @param wavelength the wavelength
-   * @param transmissionPeak the transmission peak
-   * @param transmissionWidth the transmission width
+   * @param color the color
    * @return the percentage (0-100)
    */
-  private static double calculatePercentPassed( 
-      double wavelength, double transmissionPeak, double transmissionWidth )
+  public double percentPassed( VisibleColor color )
   {
+    double wavelength = color.getWavelength();
     double percent = 0.0;
+    double peak = _transmissionPeak.getWavelength();
+    double halfWidth = _transmissionWidth/2;
     
     if ( wavelength == VisibleColor.WHITE_WAVELENGTH )
     {
       //  Special case: white light passes 100%
       percent = 100.0;
     }
-    else if ( wavelength < transmissionPeak - (transmissionWidth/2) ||
-              wavelength > transmissionPeak + (transmissionWidth/2) )
+    else if ( wavelength < peak - halfWidth || wavelength > peak + halfWidth )
     {
       // If the wavelength is outside the transmission width, no color passes.
       percent = 0.0;
@@ -230,7 +229,7 @@ public class Filter extends SimpleObservable
     else
     {
       // Wavelength is within the transmission width, pass a linear percentage.
-       percent = 100.0 - ((Math.abs( transmissionPeak - wavelength )/(transmissionWidth/2)) * 100.0);
+       percent = 100.0 - ((Math.abs( peak - wavelength )/halfWidth) * 100.0);
     }
     
     return percent;
