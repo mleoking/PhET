@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.idealgas.view;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
-import edu.colorado.phet.common.view.util.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -29,6 +29,7 @@ public class LightSpeciesGraphic extends GasMoleculeGraphic {
     //
     static String s_imageName = IdealGasConfig.RED_PARTICLE_IMAGE_FILE;
     static BufferedImage s_particleImage;
+
     static {
         try {
             s_particleImage = ImageLoader.loadBufferedImage( s_imageName );

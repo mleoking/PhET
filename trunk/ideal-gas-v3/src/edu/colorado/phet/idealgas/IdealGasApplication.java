@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.idealgas;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 
@@ -26,7 +26,7 @@ public class IdealGasApplication extends PhetApplication {
 
             // Create the modules
             Module idealGasModule = new IdealGasModule( getClock() );
-            Module[] modules = new Module[] {
+            Module[] modules = new Module[]{
                 idealGasModule
             };
             setModules( modules );

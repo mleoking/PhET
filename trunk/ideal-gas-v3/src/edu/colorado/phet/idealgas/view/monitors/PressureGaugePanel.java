@@ -11,9 +11,9 @@ import edu.colorado.phet.common.view.components.OrderOfMagnitudeSpinner;
 import edu.colorado.phet.instrumentation.BarGauge;
 
 import javax.swing.*;
-import java.awt.geom.Point2D;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.geom.Point2D;
 
 public class PressureGaugePanel extends JPanel {
 
@@ -26,7 +26,7 @@ public class PressureGaugePanel extends JPanel {
         pressureSpinner = new OrderOfMagnitudeSpinner( 0.001f, 1000 );
 
         // Add radio buttons for scale
-        JPanel scaleFactorPanel = new JPanel( new GridLayout( 2, 1 ));
+        JPanel scaleFactorPanel = new JPanel( new GridLayout( 2, 1 ) );
         Action scaleFactor1 = new AbstractAction( "1X" ) {
             public void actionPerformed( ActionEvent evt ) {
                 scaleFactor = 1;

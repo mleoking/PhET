@@ -7,24 +7,19 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.PhetControlPanel;
-import edu.colorado.phet.common.view.util.Animation;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.idealgas.Strings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.Strings;
+import edu.colorado.phet.idealgas.model.Gravity;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.PressureSensingBox;
+import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.BaseIdealGasApparatusPanel;
 import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.Mannequin;
 import edu.colorado.phet.idealgas.view.monitors.IdealGasMonitorPanel;
-import edu.colorado.phet.idealgas.view.monitors.IdealGasMonitorPanel;
-import edu.colorado.phet.idealgas.model.*;
 
-import javax.swing.*;
 import java.awt.geom.Point2D;
-import java.awt.*;
-import java.io.IOException;
 
 public class IdealGasModule extends Module {
     private IdealGasModel idealGasModel;
@@ -39,7 +34,7 @@ public class IdealGasModule extends Module {
         idealGasModel = new IdealGasModel( clock.getDt() );
         setModel( idealGasModel );
 
-//        idealGasModel.addModelElement( gravity );
+        //        idealGasModel.addModelElement( gravity );
 
         // Create the box
         double xOrigin = 132 + IdealGasConfig.X_BASE_OFFSET;
@@ -56,7 +51,7 @@ public class IdealGasModule extends Module {
         setApparatusPanel( new BaseIdealGasApparatusPanel( this, box, pump ) );
         IdealGasMonitorPanel monitorPanel = new IdealGasMonitorPanel( idealGasModel );
         idealGasModel.addObserver( monitorPanel );
-        setMonitorPanel( monitorPanel);
+        setMonitorPanel( monitorPanel );
 
         // Set up the box
         Box2DGraphic boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
@@ -67,9 +62,9 @@ public class IdealGasModule extends Module {
         addGraphic( pusher, 10 );
 
         // Set up the control panel
-//        PhetControlPanel controlPanel = new PhetControlPanel( this, new IdealGasControlPanel( this ));
-//        setControlPanel( controlPanel );
-        setControlPanel( new IdealGasControlPanel( this ));
+        //        PhetControlPanel controlPanel = new PhetControlPanel( this, new IdealGasControlPanel( this ));
+        //        setControlPanel( controlPanel );
+        setControlPanel( new IdealGasControlPanel( this ) );
     }
 
     public void setCurrentSpecies( Class moleculeClass ) {
@@ -82,7 +77,7 @@ public class IdealGasModule extends Module {
 
     public void setStove( int value ) {
         idealGasModel.setHeatSource( (double)value );
-        ((BaseIdealGasApparatusPanel)getApparatusPanel()).setStove( value );
+        ( (BaseIdealGasApparatusPanel)getApparatusPanel() ).setStove( value );
     }
 
     public void setGravity( Gravity gravity ) {

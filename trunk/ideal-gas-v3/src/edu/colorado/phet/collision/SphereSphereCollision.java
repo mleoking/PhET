@@ -9,8 +9,8 @@ package edu.colorado.phet.collision;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.idealgas.model.SphericalBody;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.SphericalBody;
 
 import java.awt.geom.Point2D;
 
@@ -19,7 +19,7 @@ import java.awt.geom.Point2D;
  */
 public class SphereSphereCollision extends HardsphereCollision {
 
-    private static Vector2D loa = new Vector2D.Double( );
+    private static Vector2D loa = new Vector2D.Double();
 
     private SphericalBody sphere1;
     private SphericalBody sphere2;
@@ -46,7 +46,6 @@ public class SphereSphereCollision extends HardsphereCollision {
     }
 
     /**
-     *
      * @param particleA
      * @param particleB
      * @return
@@ -67,7 +66,8 @@ public class SphereSphereCollision extends HardsphereCollision {
     //
     // Static fields and methods
     //
-    private static SphereSphereCollision instance = new SphereSphereCollision( );
+    private static SphereSphereCollision instance = new SphereSphereCollision();
+
     static public void register() {
         CollisionFactory.addPrototype( new SphereSphereCollision() );
     }

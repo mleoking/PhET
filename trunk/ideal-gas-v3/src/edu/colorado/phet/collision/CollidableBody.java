@@ -37,7 +37,7 @@ public abstract class CollidableBody extends Body {
     }
 
     public void setVelocity( double vx, double vy ) {
-        if( velocityPrev== null ) {
+        if( velocityPrev == null ) {
             velocityPrev = new Vector2D.Double();
         }
         velocityPrev.setComponents( getVelocity().getX(), getVelocity().getY() );
@@ -50,7 +50,7 @@ public abstract class CollidableBody extends Body {
 
     public void setPosition( double x, double y ) {
         if( positionPrev == null ) {
-             positionPrev = new Point2D.Double();
+            positionPrev = new Point2D.Double();
         }
         positionPrev.setLocation( x, y );
         super.setPosition( x, y );

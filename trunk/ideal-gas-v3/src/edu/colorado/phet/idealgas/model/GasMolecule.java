@@ -10,9 +10,9 @@ package edu.colorado.phet.idealgas.model;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *

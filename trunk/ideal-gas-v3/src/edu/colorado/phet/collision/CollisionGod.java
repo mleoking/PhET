@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.idealgas.model.IdealGasParticle;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.GasMolecule;
-import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.IdealGasParticle;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Rectangle2D;
@@ -272,7 +272,7 @@ public class CollisionGod implements ModelElement {
         int jPrime = (int)( ( y - regionOverlap - bounds.y ) / ( regionHeight ) );
         regions[i][j].add( body );
         if( i != iPrime ) {
-            regions[iPrime][j].add(body );
+            regions[iPrime][j].add( body );
         }
         if( j != jPrime ) {
             regions[i][jPrime].add( body );
@@ -280,7 +280,7 @@ public class CollisionGod implements ModelElement {
         if( i != iPrime && j != jPrime ) {
             regions[iPrime][jPrime].add( body );
         }
-//        System.out.println( "i=" + i + ", j=" + j );
+        //        System.out.println( "i=" + i + ", j=" + j );
         //        Region a = regions[i][j];
         //        Region b = regions[i][jPrime];
         //        Region c = regions[iPrime][jPrime];

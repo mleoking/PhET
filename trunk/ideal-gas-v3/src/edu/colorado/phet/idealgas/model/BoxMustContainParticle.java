@@ -34,7 +34,8 @@ public class BoxMustContainParticle extends MustContain {
         Box2D box = null;
         if( body instanceof Box2D ) {
             box = (Box2D)body;
-        } else {
+        }
+        else {
             throw new RuntimeException( "Container not instance of Box2D " +
                                         "in method apply() in class BoxMustContainParticle" );
         }
@@ -42,7 +43,8 @@ public class BoxMustContainParticle extends MustContain {
         IdealGasParticle particle = null;
         if( body instanceof IdealGasParticle ) {
             particle = (IdealGasParticle)body;
-        } else {
+        }
+        else {
             throw new RuntimeException( "Contained not instance of IdealGasParticle " +
                                         "in method apply() in class BoxMustContainParticle" );
         }
@@ -62,7 +64,7 @@ public class BoxMustContainParticle extends MustContain {
                     newX = box.getMinX() + particle.getRadius();
                     particle.setVelocity( -particle.getVelocity().getX(), particle.getVelocity().getY() );
                 }
-                else if ( x > box.getMaxX() - particle.getRadius() ) {
+                else if( x > box.getMaxX() - particle.getRadius() ) {
                     newX = box.getMaxX() - particle.getRadius();
                     particle.getVelocity().setX( -particle.getVelocity().getX() );
                 }
@@ -72,7 +74,7 @@ public class BoxMustContainParticle extends MustContain {
                     newY = box.getMinY() + particle.getRadius();
                     particle.getVelocity().setY( -particle.getVelocity().getY() );
                 }
-                else if ( y > box.getMaxY() - particle.getRadius() ) {
+                else if( y > box.getMaxY() - particle.getRadius() ) {
                     newY = box.getMaxY() - particle.getRadius();
                     particle.getVelocity().setY( -particle.getVelocity().getY() );
                 }
@@ -85,7 +87,7 @@ public class BoxMustContainParticle extends MustContain {
                 }
                 if( newY != y ) {
                     model.relocateBodyY( particle, newY );
-//                    ((IdealGasSystem)PhysicalSystem.instance()).relocateBodyY( particle, newY );
+                    //                    ((IdealGasSystem)PhysicalSystem.instance()).relocateBodyY( particle, newY );
                 }
             }
         }

@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.mechanics.Body;
-
 import java.util.ArrayList;
 
 abstract public class ContactDetector {

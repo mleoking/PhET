@@ -80,8 +80,8 @@ public class Box2D extends CollidableBody {
         Point2D[] opening = this.getOpening();
         opening[0].setLocation( opening[0].getX(), minY );
         opening[1].setLocation( opening[1].getX(), minY );
-//        opening[0].setY( minY );
-//        opening[1].setY( minY );
+        //        opening[0].setY( minY );
+        //        opening[1].setY( minY );
         this.setOpening( opening );
 
         // Left wall - Note: The location of the existing wall doesn't get updated

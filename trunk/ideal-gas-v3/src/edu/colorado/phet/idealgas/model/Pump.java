@@ -6,12 +6,11 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.idealgas.controller.AddModelElementCmd;
-import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
-import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
 
 import java.awt.geom.Point2D;
 
@@ -27,7 +26,7 @@ public class Pump extends SimpleObservable {
 
     public Pump( Module module, Box2D box ) {
         if( box == null ) {
-            throw new RuntimeException( "box cannot be null");
+            throw new RuntimeException( "box cannot be null" );
         }
         this.module = module;
         this.model = (IdealGasModel)module.getModel();
@@ -35,9 +34,9 @@ public class Pump extends SimpleObservable {
     }
 
     public void pump( int numMolecules ) {
-//        for( int i = 0; i < numMolecules; i++ ) {
-            this.pumpGasMolecule();
-//        }
+        //        for( int i = 0; i < numMolecules; i++ ) {
+        this.pumpGasMolecule();
+        //        }
         return;
     }
 
@@ -48,7 +47,7 @@ public class Pump extends SimpleObservable {
 
         // Add a new gas molecule to the system
         GasMolecule newMolecule = gasFactory.create( model,
-                                                       model.getAverageMoleculeEnergy() );
+                                                     model.getAverageMoleculeEnergy() );
         new PumpMoleculeCmd( model, newMolecule, module ).doIt();
 
         // Constrain the molecule to be inside the box
@@ -83,7 +82,7 @@ public class Pump extends SimpleObservable {
         }
 
         public GasMolecule create( IdealGasModel model,
-                                Class speciesClass ) {
+                                   Class speciesClass ) {
             this.model = model;
             this.speciesClass = speciesClass;
             this.initialEnergy = DEFAULT_ENERGY;
@@ -106,27 +105,25 @@ public class Pump extends SimpleObservable {
             if( speciesClass == LightSpecies.class ) {
 
                 // Create the new molecule with no velocity. We will compute and assign it next
-                newMolecule = new LightSpecies(
-                        new Point2D.Double( s_intakePortX, s_intakePortY + s_intakePortOffsetY * 5 ),
-                        new Vector2D.Double( 0, 0 ),
-                        new Vector2D.Double( 0, 0 ),
-                        5.0f );
+                newMolecule = new LightSpecies( new Point2D.Double( s_intakePortX, s_intakePortY + s_intakePortOffsetY * 5 ),
+                                                new Vector2D.Double( 0, 0 ),
+                                                new Vector2D.Double( 0, 0 ),
+                                                5.0f );
             }
             else if( speciesClass == HeavySpecies.class ) {
 
                 // Create the new molecule with no velocity. We will compute and assign it next
-                newMolecule = new HeavySpecies(
-                        new Point2D.Double( s_intakePortX, s_intakePortY + s_intakePortOffsetY * 5 ),
-                        new Vector2D.Double( 0, 0 ),
-                        new Vector2D.Double( 0, 0 ),
-                        5.0 );
+                newMolecule = new HeavySpecies( new Point2D.Double( s_intakePortX, s_intakePortY + s_intakePortOffsetY * 5 ),
+                                                new Vector2D.Double( 0, 0 ),
+                                                new Vector2D.Double( 0, 0 ),
+                                                5.0 );
             }
             else {
                 throw new RuntimeException( "No gas species set in application" );
             }
 
             double pe = model.getBodyEnergy( newMolecule );
-    //        double pe = physicalSystem.getBodyEnergy( newMolecule );
+            //        double pe = physicalSystem.getBodyEnergy( newMolecule );
             double vSq = 2 * ( this.initialEnergy - pe ) / newMolecule.getMass();
             if( vSq <= 0 ) {
                 System.out.println( "vSq <= 0 in PumpMoleculeCmd.pumpGasMolecule" );

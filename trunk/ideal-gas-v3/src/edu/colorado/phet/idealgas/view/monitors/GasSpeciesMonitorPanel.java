@@ -7,9 +7,8 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
-import edu.colorado.phet.idealgas.model.GasMolecule;
-import edu.colorado.phet.idealgas.model.PressureSensingBox;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -18,7 +17,6 @@ import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
-import java.util.Observable;
 
 /**
  *
@@ -39,22 +37,22 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
      */
     public GasSpeciesMonitorPanel( Class speciesClass, String speciesName ) {
 
-        setUpdateInterval( 500);
+        setUpdateInterval( 500 );
 
         // Sanity check on parameter
-        if( !GasMolecule.class.isAssignableFrom( speciesClass )) {
+        if( !GasMolecule.class.isAssignableFrom( speciesClass ) ) {
             throw new RuntimeException( "Class other than a gas species class sent to constructor for GasSpeciesMonitorPanel" );
         }
 
         // Set up communication with the species class
         linkToSpeciesClass( speciesClass );
 
-        this.setPreferredSize( new Dimension( 400, 60 ));
+        this.setPreferredSize( new Dimension( 400, 60 ) );
         Border border = new TitledBorder( speciesName );
         this.setBorder( border );
 
         // Set up the readout for the number of gas molecules
-        this.add( new JLabel( "Number of Gas Molecules: " ));
+        this.add( new JLabel( "Number of Gas Molecules: " ) );
         numParticlesTF = new JTextField( 4 );
         numParticlesTF.setEditable( false );
         this.add( numParticlesTF );
@@ -62,7 +60,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         // Set up the average speed readout
         aveSpeedFormat.setMaximumFractionDigits( 2 );
         //aveSpeedFormat.setMinimumFractionDigits( 2 );
-        this.add( new JLabel( "Ave. Speed: " ));
+        this.add( new JLabel( "Ave. Speed: " ) );
         aveSpeedTF = new JTextField( 6 );
         aveSpeedTF.setEditable( false );
         this.add( aveSpeedTF );
@@ -72,14 +70,17 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
      *
      */
     private Class classArray[] = new Class[]{};
+
     private void linkToSpeciesClass( Class speciesClass ) {
         this.speciesClass = speciesClass;
         try {
             aveSpeedMethod = speciesClass.getMethod( "getAveSpeed", classArray );
             numMoleculesMethod = speciesClass.getMethod( "getNumMolecules", classArray );
-        } catch( NoSuchMethodException e ) {
+        }
+        catch( NoSuchMethodException e ) {
             throw new RuntimeException( "Gas species class is missing a method" );
-        } catch( SecurityException e ) {
+        }
+        catch( SecurityException e ) {
             throw new RuntimeException( "Gas species class is missing a method" );
         }
         return;
@@ -97,16 +98,17 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
      *
      */
     Object[] emptyParamArray = new Object[]{};
-    public void update() {
-//    public void update( Observable observable, Object o ) {
 
-//        PressureSensingBox box = null;
-//        if( observable instanceof PressureSensingBox ) {
-//            box = (PressureSensingBox)observable;
-//        }
-//        else if( observable instanceof IdealGasSystem ) {
-//            box = (PressureSensingBox)((IdealGasSystem)observable).getBox();
-//        }
+    public void update() {
+        //    public void update( Observable observable, Object o ) {
+
+        //        PressureSensingBox box = null;
+        //        if( observable instanceof PressureSensingBox ) {
+        //            box = (PressureSensingBox)observable;
+        //        }
+        //        else if( observable instanceof IdealGasSystem ) {
+        //            box = (PressureSensingBox)((IdealGasSystem)observable).getBox();
+        //        }
 
         Double aveSpeed = null;
         Double temperature = null;
@@ -115,17 +117,20 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         Integer numMolecules = null;
         try {
             numMolecules = (Integer)numMoleculesMethod.invoke( null, emptyParamArray );
-            aveSpeed = ((Double)aveSpeedMethod.invoke( null, emptyParamArray ));
-        } catch( IllegalAccessException e ) {
-        } catch( IllegalArgumentException e ) {
-        } catch( InvocationTargetException e ) {
+            aveSpeed = ( (Double)aveSpeedMethod.invoke( null, emptyParamArray ) );
+        }
+        catch( IllegalAccessException e ) {
+        }
+        catch( IllegalArgumentException e ) {
+        }
+        catch( InvocationTargetException e ) {
         }
 
         // Get the pressure
-//        double pressure = 0;
-//        if( box != null ) {
-//            pressure = box.getPressure();
-//        }
+        //        double pressure = 0;
+        //        if( box != null ) {
+        //            pressure = box.getPressure();
+        //        }
 
         // Track the values we got
         long now = System.currentTimeMillis();
@@ -135,10 +140,10 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
             //Display the readings
             numParticlesTF.setText( numMolecules.toString() );
 
-            if( Double.isNaN( runningAveSpeed )) {
+            if( Double.isNaN( runningAveSpeed ) ) {
             }
-            aveSpeedTF.setText( aveSpeedFormat.format( ( runningAveSpeed / sampleCnt ) * s_aveSpeedReadoutFactor ));
-//            aveSpeedTF.setText( aveSpeedFormat.format( aveSpeed.doubleValue() * s_aveSpeedReadoutFactor ));
+            aveSpeedTF.setText( aveSpeedFormat.format( ( runningAveSpeed / sampleCnt ) * s_aveSpeedReadoutFactor ) );
+            //            aveSpeedTF.setText( aveSpeedFormat.format( aveSpeed.doubleValue() * s_aveSpeedReadoutFactor ));
 
             sampleCnt = 0;
             runningAveSpeed = 0;
@@ -148,6 +153,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
             runningAveSpeed += aveSpeed.doubleValue();
         }
     }
+
     private int sampleCnt;
     private double runningAveSpeed;
 

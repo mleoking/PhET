@@ -52,7 +52,7 @@ public class IdealGasControlPanel extends JPanel {
      */
     private void init() {
 
-//        application.addExternalForce( gravity );
+        //        application.addExternalForce( gravity );
 
         this.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         this.setPreferredSize( new Dimension( 140, 300 ) );
@@ -68,15 +68,15 @@ public class IdealGasControlPanel extends JPanel {
         final Random r = new Random();
         neighbors.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                boolean rx = r.nextBoolean();
-//                Config.regionTest = neighbors.isSelected();
-//                CollisionGod.doNeighbors = neighbors.isSelected();
-//                System.out.println( "rx = " + rx );
+                //                boolean rx = r.nextBoolean();
+                //                Config.regionTest = neighbors.isSelected();
+                //                CollisionGod.doNeighbors = neighbors.isSelected();
+                //                System.out.println( "rx = " + rx );
             }
         } );
 
         this.add( fastPaintTestCB );
-//        this.add( neighbors );
+        //        this.add( neighbors );
 
         addConstantParamControls();
         addGravityControls();
@@ -234,11 +234,11 @@ public class IdealGasControlPanel extends JPanel {
      * Create a panel for controlling the stove
      */
     private void addStoveControls() {
-        JPanel stovePanel = new JPanel( new GridLayout( 2, 1 ));
+        JPanel stovePanel = new JPanel( new GridLayout( 2, 1 ) );
         JPanel stoveSliderPanel = new JPanel();
 
         JPanel iconPanel = new JPanel( new GridLayout( 3, 1 ) );
-//        ResourceLoader iconLoader = new ResourceLoader();
+        //        ResourceLoader iconLoader = new ResourceLoader();
         Image stoveAndFlameImage = null;
         Image stoveImage = null;
         Image stoveAndIceImage = null;
@@ -251,8 +251,8 @@ public class IdealGasControlPanel extends JPanel {
             e.printStackTrace();
         }
         //        Image stoveAndFlameImage = iconLoader.loadImage( IdealGasConfig.STOVE_AND_FLAME_ICON_FILE ).getImage();
-//        Image stoveImage = iconLoader.loadImage( IdealGasConfig.STOVE_ICON_FILE ).getImage();
-//        Image stoveAndIceImage = iconLoader.loadImage( IdealGasConfig.STOVE_AND_ICE_ICON_FILE ).getImage();
+        //        Image stoveImage = iconLoader.loadImage( IdealGasConfig.STOVE_ICON_FILE ).getImage();
+        //        Image stoveAndIceImage = iconLoader.loadImage( IdealGasConfig.STOVE_AND_ICE_ICON_FILE ).getImage();
         Icon stoveAndFlameIcon = new ImageIcon( stoveAndFlameImage );
         Icon stoveIcon = new ImageIcon( stoveImage );
         Icon stoveAndIceIcon = new ImageIcon( stoveAndIceImage );
@@ -282,7 +282,7 @@ public class IdealGasControlPanel extends JPanel {
         stoveSliderPanel.add( stoveSlider );
         stovePanel.add( stoveSliderPanel );
 
-        final JCheckBox testCB = new JCheckBox( "<html>Add/remove heat<br>from floor only</html>");
+        final JCheckBox testCB = new JCheckBox( "<html>Add/remove heat<br>from floor only</html>" );
         testCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 IdealGasConfig.heatOnlyFromFloor = testCB.isSelected();
@@ -311,7 +311,7 @@ public class IdealGasControlPanel extends JPanel {
      */
     private void setFlames( int value ) {
         module.setStove( value );
-//        this.application.setStove( value );
+        //        this.application.setStove( value );
     }
 
     /**
@@ -322,14 +322,14 @@ public class IdealGasControlPanel extends JPanel {
         gravityTF.setText( gravityFormat.format( value ) );
         if( !isEnabled ) {
             module.setGravity( null );
-//            this.application.setGravity( null );
+            //            this.application.setGravity( null );
         }
         else {
 
             // The "-" sign is to work with screen and world coords
             gravity.setAmt( -value );
             module.setGravity( gravity );
-//            this.application.setGravity( gravity );
+            //            this.application.setGravity( gravity );
         }
     }
 
@@ -345,30 +345,30 @@ public class IdealGasControlPanel extends JPanel {
         // NOP
     }
 
-//    public void update( Observable observable, Object obj ) {
-//        super.update( observable, obj );
-//
-//        if( observable instanceof IdealGasSystem ) {
-//            IdealGasSystem idealGasSystem = (IdealGasSystem)observable;
-//            gravityOnCB.setSelected( idealGasSystem.getGravity() != null );
-//        }
-//    }
+    //    public void update( Observable observable, Object obj ) {
+    //        super.update( observable, obj );
+    //
+    //        if( observable instanceof IdealGasSystem ) {
+    //            IdealGasSystem idealGasSystem = (IdealGasSystem)observable;
+    //            gravityOnCB.setSelected( idealGasSystem.getGravity() != null );
+    //        }
+    //    }
 
     /**
      * Creates a gas molecule of the proper species
      */
-//    protected GasMolecule pumpGasMolecule() {
-//
-//        // Add a new gas molecule to the system
-//        PumpMoleculeCmd pumpCmd = new PumpMoleculeCmd( getIdealGasApplication() );
-//        GasMolecule newMolecule = (GasMolecule)pumpCmd.doIt();
-//
-//        // Constrain the molecule to be inside the box
-//        Box2D box = ( (IdealGasSystem)PhetApplication.instance().getPhysicalSystem() ).getBox();
-//        Constraint constraintSpec = new BoxMustContainParticle( box, newMolecule );
-//        newMolecule.addConstraint( constraintSpec );
-//        return newMolecule;
-//    }
+    //    protected GasMolecule pumpGasMolecule() {
+    //
+    //        // Add a new gas molecule to the system
+    //        PumpMoleculeCmd pumpCmd = new PumpMoleculeCmd( getIdealGasApplication() );
+    //        GasMolecule newMolecule = (GasMolecule)pumpCmd.doIt();
+    //
+    //        // Constrain the molecule to be inside the box
+    //        Box2D box = ( (IdealGasSystem)PhetApplication.instance().getPhysicalSystem() ).getBox();
+    //        Constraint constraintSpec = new BoxMustContainParticle( box, newMolecule );
+    //        newMolecule.addConstraint( constraintSpec );
+    //        return newMolecule;
+    //    }
 
     protected class PressureSliceControl extends JPanel {
         PressureSliceControl() {
@@ -380,7 +380,7 @@ public class IdealGasControlPanel extends JPanel {
             pressureSliceCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setPressureSliceEnabled( pressureSliceCB.isSelected() );
-//                    IdealGasControlPanel.this.getIdealGasApplication().setPressureSliceEnabled( pressureSliceCB.isSelected() );
+                    //                    IdealGasControlPanel.this.getIdealGasApplication().setPressureSliceEnabled( pressureSliceCB.isSelected() );
                 }
             } );
         }
@@ -394,7 +394,7 @@ public class IdealGasControlPanel extends JPanel {
             rulerCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setRulerEnabed( rulerCB.isSelected() );
-//                    IdealGasControlPanel.this.getIdealGasApplication().setRulerEnabed( rulerCB.isSelected() );
+                    //                    IdealGasControlPanel.this.getIdealGasApplication().setRulerEnabed( rulerCB.isSelected() );
                 }
             } );
         }

@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.collision.CollidableBody;
-import edu.colorado.phet.collision.ContactDetector;
 import edu.colorado.phet.idealgas.model.SphericalBody;
 
 import java.awt.geom.Point2D;
@@ -15,7 +13,7 @@ import java.awt.geom.Point2D;
 public class SphereSphereContactDetector extends ContactDetector {
 
     private Point2D tempVector = new Point2D.Double();
-//    private Vector2D tempVector = new Vector2D.Double();
+    //    private Vector2D tempVector = new Vector2D.Double();
 
     protected boolean applies( CollidableBody bodyA, CollidableBody bodyB ) {
         return ( bodyA instanceof SphericalBody && bodyB instanceof SphericalBody );

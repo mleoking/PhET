@@ -7,8 +7,8 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.*;
 
@@ -21,13 +21,12 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
-import java.util.Observable;
 
 /**
  * This panel displays the composite state of all gas species in the system
  */
 public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver {
-//public class GasMonitorPanel extends MonitorPanel {
+    //public class GasMonitorPanel extends MonitorPanel {
 
     private Method[] temperatureMethods;
     private Method[] moleculeCountMethods;
@@ -40,12 +39,12 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
     private Image thermometerImage;
     private int thermometerFillHeight = 5;
     private PressureGaugePanel pressureGauge;
-//    private BarGauge pressureGauge;
+    //    private BarGauge pressureGauge;
     private JPanel thermometerPanel;
     private int scaleFactor = 1;
 
-//    private OrderOfMagnitudeSpinner thermometerSpinner;
-//    private OrderOfMagnitudeSpinner pressureSpinner;
+    //    private OrderOfMagnitudeSpinner thermometerSpinner;
+    //    private OrderOfMagnitudeSpinner pressureSpinner;
 
     // Used to get average readings over an averaging time interval
     private float runningTotalTemp;
@@ -60,7 +59,7 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
      */
     public GasMonitorPanel( Class[] speciesClasses, IdealGasModel model ) {
         this.model = model;
-//        model.addObserver( this );
+        //        model.addObserver( this );
         linkToSpeciesClasses( speciesClasses );
         init();
     }
@@ -110,7 +109,7 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
         this.add( pressurePanel );
 
         // Don't show gauge spinners at startup
-//        this.setOomSpinnersVisible( false );
+        //        this.setOomSpinnersVisible( false );
     }
 
     /**
@@ -153,31 +152,32 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
      *
      */
     long then = 0;
-    public void update() {
-//    public void update( Observable observable, Object o ) {
 
-        
+    public void update() {
+        //    public void update( Observable observable, Object o ) {
+
+
         // Get the temperature
         double temperature = this.getTemperature();
 
         // Get the pressure
-//        PressureSensingBox box = null;
-//        if( observable instanceof PressureSensingBox ) {
-//            box = (PressureSensingBox)observable;
-//        }
-//        else if( observable instanceof IdealGasModel ) {
-//            box = (PressureSensingBox)( (IdealGasModel)observable ).getBox();
-////        else if( observable instanceof IdealGasSystem ) {
-////            box = (PressureSensingBox)( (IdealGasSystem)observable ).getBox();
-//        }
-//        else {
-//            throw new RuntimeException( "Observable not of expected type " + "" +
-//                                        "in method update() in class GasMonitorPanel" );
-//        }
+        //        PressureSensingBox box = null;
+        //        if( observable instanceof PressureSensingBox ) {
+        //            box = (PressureSensingBox)observable;
+        //        }
+        //        else if( observable instanceof IdealGasModel ) {
+        //            box = (PressureSensingBox)( (IdealGasModel)observable ).getBox();
+        ////        else if( observable instanceof IdealGasSystem ) {
+        ////            box = (PressureSensingBox)( (IdealGasSystem)observable ).getBox();
+        //        }
+        //        else {
+        //            throw new RuntimeException( "Observable not of expected type " + "" +
+        //                                        "in method update() in class GasMonitorPanel" );
+        //        }
         double pressure = 0;
-//        if( box != null ) {
-//            pressure = box.getPressure();
-//        }
+        //        if( box != null ) {
+        //            pressure = box.getPressure();
+        //        }
 
         // Track the values we got
         long now = System.currentTimeMillis();
@@ -199,7 +199,7 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
             // Set the graphic displays
             thermometerFillHeight = (int)( runningTotalTemp / ( sampleCnt * 8000 ) );
             thermometerFillHeight = thermometerFillHeight / scaleFactor;
-//            pressureGauge.setLevel( runningTotalPress / sampleCnt );
+            //            pressureGauge.setLevel( runningTotalPress / sampleCnt );
 
             runningTotalPress = 0;
             runningTotalTemp = 0;
@@ -208,16 +208,16 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
             this.repaint();
         }
         else { // if( now - getLastUpdateTime() >= getUpdateInterval() )
-//            sampleCnt++;
-//            runningTotalTemp += temperature;
-//            runningTotalPress += pressure;
+            //            sampleCnt++;
+            //            runningTotalTemp += temperature;
+            //            runningTotalPress += pressure;
         }
 
         if( model.getBox() != null ) {
-//        if( box != null ) {
+            //        if( box != null ) {
             // Scale factor is the same one used by the graphical pressure slice
             pressure = model.getBox().getPressure() / 100;
-//            pressure = box.getPressure() / 100;
+            //            pressure = box.getPressure() / 100;
             then = now;
             pressureTF.setText( pressureFormat.format( pressure * s_pressureReadoutFactor ) );
             pressureGauge.setLevel( (float)pressure );
@@ -230,42 +230,42 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
     public double getTemperature() {
         double temperature = 0;
         double moleculeCount = 0;
-//        Object[] emptyParamArray = new Object[]{};
+        //        Object[] emptyParamArray = new Object[]{};
 
-//        double tH = HeavySpecies.getTemperature().doubleValue();
-//        double tL = LightSpecies.getTemperature().doubleValue();
-//        temperature = ( tH * HeavySpecies.getNumMolecules().intValue() +
-//                              tL * LightSpecies.getNumMolecules().intValue()) /
-//                             ( HeavySpecies.getNumMolecules().intValue() +
-//                               LightSpecies.getNumMolecules().intValue());
+        //        double tH = HeavySpecies.getTemperature().doubleValue();
+        //        double tL = LightSpecies.getTemperature().doubleValue();
+        //        temperature = ( tH * HeavySpecies.getNumMolecules().intValue() +
+        //                              tL * LightSpecies.getNumMolecules().intValue()) /
+        //                             ( HeavySpecies.getNumMolecules().intValue() +
+        //                               LightSpecies.getNumMolecules().intValue());
 
         // Compute the temperature as the average temperature of all species, weighted by the
         // number of molecules of each species
-//        try {
-//            for( int i = 0; i < temperatureMethods.length; i++ ) {
-//                Method temperatureMethod = temperatureMethods[i];
-//                Method moleculeCountMethod = moleculeCountMethods[i];
-//                int speciesMolecules = ( (Integer)moleculeCountMethod.invoke( null, emptyParamArray ) ).intValue();
-//                temperature += ( (Double)temperatureMethod.invoke( null, emptyParamArray ) ).doubleValue()
-//                        * speciesMolecules;
-//                moleculeCount += speciesMolecules;
-//            }
-//            temperature /= moleculeCount;
-//        }
-//        catch( IllegalAccessException e ) {
-//        }
-//        catch( IllegalArgumentException e ) {
-//        }
-//        catch( InvocationTargetException e ) {
-//        }
+        //        try {
+        //            for( int i = 0; i < temperatureMethods.length; i++ ) {
+        //                Method temperatureMethod = temperatureMethods[i];
+        //                Method moleculeCountMethod = moleculeCountMethods[i];
+        //                int speciesMolecules = ( (Integer)moleculeCountMethod.invoke( null, emptyParamArray ) ).intValue();
+        //                temperature += ( (Double)temperatureMethod.invoke( null, emptyParamArray ) ).doubleValue()
+        //                        * speciesMolecules;
+        //                moleculeCount += speciesMolecules;
+        //            }
+        //            temperature /= moleculeCount;
+        //        }
+        //        catch( IllegalAccessException e ) {
+        //        }
+        //        catch( IllegalArgumentException e ) {
+        //        }
+        //        catch( InvocationTargetException e ) {
+        //        }
 
-//        temperature = ((IdealGasSystem)PhysicalSystem.instance()).getTotalKineticEnergy() /
+        //        temperature = ((IdealGasSystem)PhysicalSystem.instance()).getTotalKineticEnergy() /
         temperature = model.getTotalKineticEnergy() /
                       ( HeavySpecies.getNumMolecules().intValue() +
-                                                 LightSpecies.getNumMolecules().intValue());
-//        System.out.println( "   totalKE: " + ((IdealGasSystem)PhysicalSystem.instance()).getTotalKineticEnergy() +
-//                            "  numMolecules: " + ( HeavySpecies.getNumMolecules().intValue() +
-//                                                 LightSpecies.getNumMolecules().intValue()));
+                        LightSpecies.getNumMolecules().intValue() );
+        //        System.out.println( "   totalKE: " + ((IdealGasSystem)PhysicalSystem.instance()).getTotalKineticEnergy() +
+        //                            "  numMolecules: " + ( HeavySpecies.getNumMolecules().intValue() +
+        //                                                 LightSpecies.getNumMolecules().intValue()));
 
         // Scale to appropriate units
         temperature *= IdealGasConfig.temperatureScaleFactor;
@@ -283,15 +283,15 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
      *
      */
     public void setOomSpinnersVisible( boolean isVisible ) {
-//        this.thermometerSpinner.setVisible( isVisible );
-//        this.pressureSpinner.setVisible( isVisible );
+        //        this.thermometerSpinner.setVisible( isVisible );
+        //        this.pressureSpinner.setVisible( isVisible );
     }
 
     /**
      *
      */
     public boolean isOomSpinnersVisible() {
-//        return thermometerSpinner.isVisible();
+        //        return thermometerSpinner.isVisible();
         return false;
     }
 
@@ -318,7 +318,7 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
                 e.printStackTrace();
             }
             //            ResourceLoader imageLoader = new ResourceLoader();
-//            thermometerImage = imageLoader.loadImage( IdealGasConfig.THERMOMETER_IMAGE_FILE ).getImage();
+            //            thermometerImage = imageLoader.loadImage( IdealGasConfig.THERMOMETER_IMAGE_FILE ).getImage();
             thermometerFill.setRect( 5, thermometerBaseLevel - thermometerFillHeight, 5, 0 );
 
             // Add radio buttons for scale
@@ -345,9 +345,9 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
             this.add( scaleFactorPanel );
 
             // Add a thermometerSpinner to control the scale
-//            thermometerSpinner = new OrderOfMagnitudeSpinner( 0.001, 1000 );
-//            thermometerSpinner.setPreferredSize( new Dimension( 60, 20 ));
-//            this.add( thermometerSpinner );
+            //            thermometerSpinner = new OrderOfMagnitudeSpinner( 0.001, 1000 );
+            //            thermometerSpinner.setPreferredSize( new Dimension( 60, 20 ));
+            //            this.add( thermometerSpinner );
         }
 
         protected void paintComponent( Graphics g ) {
@@ -372,7 +372,7 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
     // Static fields and methods
     //
     private static float s_pressureReadoutFactor = 100.0f;
-//    private static float s_pressureReadoutFactor = 1.0f;
+    //    private static float s_pressureReadoutFactor = 1.0f;
     private static float s_temperatureReadoutFactor = 1.0f / 1000;
     private static Color s_thermometerRed = new Color( 251, 15, 12 );
     private static int s_thermometerPositionX = 100;

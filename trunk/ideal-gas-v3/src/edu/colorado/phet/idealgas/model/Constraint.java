@@ -13,7 +13,7 @@ import java.util.HashMap;
  * This abstract class represents constraints on entities in a PhysicalSystem. The
  * semantics of the class are open-ended, subclasses can apply arbitrary rules to
  * the entities in a system.
- * <p>
+ * <p/>
  * A Constraint has a single attribute, which is an instance of a concrete subclass
  * of Constraint.Spec, an inner class of Constraint. Constraint.Spec is basically a
  * HashMap that matches the names of arguments to the constraint with their values.
@@ -49,15 +49,15 @@ public abstract class Constraint {
         // collection modification exception
         private boolean isActive;
 
-        public Spec(){
+        public Spec() {
             isActive = true;
         }
 
-//        public Spec( Constraint constraint ){
-//            setConstraint( constraint );
-//            isActive = true;
-//        }
-//
+        //        public Spec( Constraint constraint ){
+        //            setConstraint( constraint );
+        //            isActive = true;
+        //        }
+        //
         public Constraint getConstraint() {
             return constraint;
         }
