@@ -70,10 +70,11 @@ public class Ohm1dModule extends JApplet {
     public void init() {
         super.init();
         //System.err.println("HI");
-        String applicationLocale = System.getProperty( "javaws.locale" );
+        String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
             Locale.setDefault( new Locale( applicationLocale ) );
         }
+        SimStrings.setStrings( localizedStringsPath );
         JButton jb = new JButton( SimStrings.get( "Ohm1dModule.StartButton" ) );
         getContentPane().add( jb );
         jb.addActionListener( new ActionListener() {
@@ -89,7 +90,6 @@ public class Ohm1dModule extends JApplet {
     }
 
     public void mainBAK() throws IOException, FontFormatException {
-        SimStrings.setStrings( localizedStringsPath );
         ResourceLoader4 loader = new ResourceLoader4( getClass().getClassLoader(), this );
         int moveRight = 68;
         //int scatInset = 60;
@@ -629,6 +629,7 @@ public class Ohm1dModule extends JApplet {
             Locale.setDefault( new Locale( locale ));
         }
 
+        SimStrings.setStrings( localizedStringsPath );
         new Ohm1dModule().mainBAK();
     }
 
