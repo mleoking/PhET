@@ -11,17 +11,17 @@ import java.util.ArrayList;
  * Time: 12:45:47 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class MMTimer implements ModelElement {
+public class PhetTimer implements ModelElement {
     private double time = 0;
     private String name;
     private ArrayList listeners = new ArrayList();
 
-    public MMTimer( String name ) {
+    public PhetTimer( String name ) {
         this.name = name;
     }
 
     public static interface Listener {
-        void timeChanged();
+        void timeChanged( PhetTimer timer );
     }
 
     public void stepInTime( double dt ) {
@@ -36,12 +36,12 @@ public class MMTimer implements ModelElement {
     private void updateObservers() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
-            listener.timeChanged();
+            listener.timeChanged( this );
         }
     }
 
     public String toString() {
-        return "MMTimer, name=" + name;
+        return "PhetTimer, name=" + name;
     }
 
     public double getTime() {

@@ -2,7 +2,12 @@
 package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.common.view.util.Animation;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -13,12 +18,22 @@ import java.io.IOException;
  * Copyright (c) Nov 12, 2004 by Sam Reid
  */
 public class Force1DUtil {
+    private static Font borderFont = new Font( "Lucida Sans", Font.PLAIN, 12 );
+
     public static void main( String[] args ) throws IOException {
         Animation animation = new Animation( "animations/pusher/pusher-3", 19 );
         System.out.println( "animation = " + animation );
         for( int i = 0; i < animation.getNumFrames(); i++ ) {
             BufferedImage image = animation.getFrame( i );
-            
         }
+    }
+
+    public static Border createTitledBorder( String s ) {
+        return new TitledBorder( BorderFactory.createLineBorder( Color.black ), s, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderFont ) {
+            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+                GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
+                super.paintBorder( c, g, x, y, width, height );
+            }
+        };
     }
 }

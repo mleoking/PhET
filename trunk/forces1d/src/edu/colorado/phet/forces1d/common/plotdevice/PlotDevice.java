@@ -1,15 +1,14 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.forces1d.view;
+package edu.colorado.phet.forces1d.common.plotdevice;
 
-import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.DataSet;
-import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.chart.*;
 import edu.colorado.phet.chart.controllers.HorizontalCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
@@ -17,7 +16,8 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.model.DataSeries;
-import edu.colorado.phet.forces1d.model.MMTimer;
+import edu.colorado.phet.forces1d.model.PhetTimer;
+import edu.colorado.phet.forces1d.view.MMFontManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,9 +39,10 @@ import java.util.ArrayList;
  */
 public class PlotDevice extends PhetGraphic {
     private String title;
-    private PlotConnection module;
+    private PlotDeviceModel plotDeviceModel;
+    private PlotDeviceView plotDeviceView;
     private DataSeries dataSeries;
-    private MMTimer timer;
+    private PhetTimer timer;
     private Color color;
     private Stroke stroke;
     private double xShift;
@@ -67,134 +68,80 @@ public class PlotDevice extends PhetGraphic {
     private PhetTextGraphic readoutValue;
 
     private DecimalFormat format = new DecimalFormat( "0.00" );
-    private double value;
     private FloatingControl floatingControl;
     private String units;
     private JLabel titleLable;
     private PhetTextGraphic superScriptGraphic;
     private Font verticalTitleFont = MMFontManager.getFontSet().getVerticalTitleFont();
     private ArrayList listeners = new ArrayList();
+    private PhetTextGraphic textGraphic;
 
+    public static class ParameterSet {
+        private ApparatusPanel panel;
+        private String title;
+        private PlotDeviceModel plotDeviceModel;
+        private PlotDeviceView plotDeviceView;
+        private DataSeries series;
+        private PhetTimer timer;
+        private Color color;
+        private Stroke stroke;
+        private Rectangle2D.Double inputBox;
+        private double xShift;
+        private String units;
+        private String labelStr;
 
-    static class FloatingControl extends VerticalLayoutPanel {
-        static BufferedImage play;
-        static BufferedImage pause;
-        private PlotConnection module;
-        private JButton pauseButton;
-        private JButton recordButton;
-        private JButton resetButton;
-
-        static {
-            try {
-                play = ImageLoader.loadBufferedImage( "images/icons/java/media/Play16.gif" );
-                pause = ImageLoader.loadBufferedImage( "images/icons/java/media/Pause16.gif" );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
-
-        static class ControlButton extends JButton {
-            static Font font = MMFontManager.getFontSet().getControlButtonFont();
-
-            public ControlButton( String text ) {
-                super( text );
-                setFont( font );
-            }
-        }
-
-        public FloatingControl( final PlotConnection module ) {
-            this.module = module;
-            pauseButton = new ControlButton( "Pause" );
-            pauseButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.setPaused( true );
-                }
-            } );
-            recordButton = new ControlButton( "Record" );
-            recordButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.setRecordMode();
-                    module.setPaused( false );
-                }
-            } );
-
-            resetButton = new ControlButton( "Reset" );
-            resetButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    boolean paused = module.isPaused();
-                    module.setPaused( true );
-                    int option = JOptionPane.showConfirmDialog( module.getApparatusPanel(), "Are you sure you want to clear the graphs?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION );
-                    if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
-                        module.reset();
-                    }
-                    else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
-                        module.setPaused( paused );
-                    }
-                }
-            } );
-            module.addListener( new PlotConnection.ListenerAdapter() {
-                public void recordingStarted() {
-                    setButtons( false, true, true );
-                }
-
-                public void recordingPaused() {
-                    setButtons( true, false, true );
-                }
-
-                public void recordingFinished() {
-                    setButtons( false, false, true );
-                }
-
-                public void reset() {
-                    setButtons( true, false, false );
-                }
-
-                public void rewind() {
-                    setButtons( true, false, true );
-                }
-            } );
-            add( recordButton );
-            add( pauseButton );
-            add( resetButton );
-            pauseButton.setEnabled( false );
-        }
-
-        private void setButtons( boolean record, boolean pause, boolean reset ) {
-            recordButton.setEnabled( record );
-            pauseButton.setEnabled( pause );
-            resetButton.setEnabled( reset );
-        }
-
-        public void setVisible( boolean aFlag ) {
-            super.setVisible( aFlag );
+        public ParameterSet( ApparatusPanel panel, String title, final PlotDeviceModel plotDeviceModel,
+                             final PlotDeviceView plotDeviceView,
+                             final DataSeries series, PhetTimer timer, Color color,
+                             Stroke stroke, Rectangle2D.Double inputBox,
+                             double xShift, String units, String labelStr ) {
+            this.panel = panel;
+            this.title = title;
+            this.plotDeviceModel = plotDeviceModel;
+            this.plotDeviceView = plotDeviceView;
+            this.series = series;
+            this.timer = timer;
+            this.color = color;
+            this.stroke = stroke;
+            this.inputBox = inputBox;
+            this.xShift = xShift;
+            this.units = units;
+            this.labelStr = labelStr;
         }
     }
 
-    public PlotDevice( ApparatusPanel panel, String title, final PlotConnection module, final DataSeries series, MMTimer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, double xShift, String units, String labelStr )
+    public PlotDevice( final ParameterSet parameters )
             throws IOException {
-        super( panel );
-        this.units = units;
-        this.title = title;
-        this.module = module;
-        this.dataSeries = series;
-        this.timer = timer;
-        this.color = color;
-        this.stroke = stroke;
-        this.xShift = xShift;
+        super( parameters.panel );
+        this.plotDeviceView = parameters.plotDeviceView;
+        this.units = parameters.units;
+        this.title = parameters.title;
+        this.plotDeviceModel = parameters.plotDeviceModel;
+        this.dataSeries = parameters.series;
+        this.timer = parameters.timer;
+        this.color = parameters.color;
+        this.stroke = parameters.stroke;
+        this.xShift = parameters.xShift;
+        ApparatusPanel panel = parameters.panel;
+        Rectangle2D.Double inputBox = parameters.inputBox;
         chart = new Chart( panel, new Range2D( inputBox ), new Rectangle( 0, 0, 100, 100 ) );
         horizontalCursor = new HorizontalCursor( panel, chart, new Color( 15, 0, 255, 50 ), new Color( 50, 0, 255, 150 ), 8 );
         panel.addGraphic( horizontalCursor, 1000 );
 
         chart.setBackground( createBackground() );
         dataSet = new DataSet();
-        setInputRange( inputBox );
-        timer.addListener( new MMTimer.Listener() {
-            public void timeChanged() {
+        dataSeries.addListener( new DataSeries.Listener() {
+            public void changed() {
                 update();
             }
         } );
-        chart.getHorizontalTicks().setVisible( true);
+        setInputRange( inputBox );
+        timer.addListener( new PhetTimer.Listener() {
+            public void timeChanged( PhetTimer timer ) {
+                update();
+            }
+        } );
+        chart.getHorizontalTicks().setVisible( true );
         chart.getHorizonalGridlines().setMajorGridlinesColor( Color.darkGray );
         chart.getVerticalGridlines().setMajorGridlinesColor( Color.darkGray );
         chart.getXAxis().setMajorTickFont( axisFont );
@@ -210,7 +157,7 @@ public class PlotDevice extends PhetGraphic {
         chart.getVerticalTicks().setMajorOffset( -verticalChartSlider.getSlider().getWidth() - 5, 0 );
         horizontalCursor.addListener( new HorizontalCursor.Listener() {
             public void modelValueChanged( double modelX ) {
-                module.cursorMovedToTime( modelX );
+                plotDeviceModel.cursorMovedToTime( modelX );
             }
         } );
         closeButton = new CloseButton();
@@ -220,7 +167,7 @@ public class PlotDevice extends PhetGraphic {
         setCloseHandler( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setVisible( false );
-                module.relayout();
+                plotDeviceView.relayout();
             }
         } );
         showButton = new ChartButton( "Show " + title );
@@ -246,40 +193,41 @@ public class PlotDevice extends PhetGraphic {
         panel.addGraphic( readout, 10000 );
         readoutValue = new PhetTextGraphic( panel, readoutFont, units, color, 100, 100 );
         panel.addGraphic( readoutValue, 10000 );
-        textBox = new TextBox( module, 5, labelStr );
+        textBox = new TextBox( plotDeviceModel, 5, parameters.labelStr );
         textBox.setHorizontalAlignment( JTextField.RIGHT );
 
         panel.add( textBox );
 
         setTextValue( 0 );
-        module.getRecordingTimer().addListener( new MMTimer.Listener() {
-            public void timeChanged() {
-                updateTextBox( module, series );
+        plotDeviceModel.getRecordingTimer().addListener( new PhetTimer.Listener() {
+            public void timeChanged( PhetTimer timer ) {
+                updateTextBox( plotDeviceModel, parameters.series );
             }
         } );
-        module.getPlaybackTimer().addListener( new MMTimer.Listener() {
-            public void timeChanged() {
-                updateTextBox( module, series );
+        plotDeviceModel.getPlaybackTimer().addListener( new PhetTimer.Listener() {
+            public void timeChanged( PhetTimer timer ) {
+                updateTextBox( plotDeviceModel, parameters.series );
             }
         } );
 
         titleLable = new JLabel( title );
         titleLable.setFont( titleFont );
-        titleLable.setBackground( module.getBackgroundColor() );
+        titleLable.setBackground( plotDeviceView.getBackgroundColor() );
         titleLable.setOpaque( true );
         titleLable.setForeground( color );//TODO titleLabel
 
         panel.add( titleLable );
-        floatingControl = new FloatingControl( module );//, titleLable );
+        floatingControl = new FloatingControl( plotDeviceModel, plotDeviceView.getApparatusPanel() );//, titleLable );
         panel.add( floatingControl );
-        module.addListener( new PlotConnection.ListenerAdapter() {
+        plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
             public void rewind() {
                 horizontalCursor.setX( 0 );
             }
         } );
+        textGraphic = new PhetTextGraphic( panel, MMFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, 0, 0 );
     }
 
-    private void updateTextBox( final PlotConnection module, final DataSeries series ) {
+    private void updateTextBox( final PlotDeviceModel module, final DataSeries series ) {
         int index = 0;
         if( module.isTakingData() ) {
             index = series.size() - 1;
@@ -289,7 +237,7 @@ public class PlotDevice extends PhetGraphic {
             index = (int)time;//(int)( time / MovingManModel.TIMER_SCALE );
         }
         if( series.indexInBounds( index ) ) {
-            value = series.pointAt( index );
+            double value = series.pointAt( index );
             setTextValue( value );
         }
     }
@@ -303,10 +251,21 @@ public class PlotDevice extends PhetGraphic {
         return chart;
     }
 
+    public void addDataSeries(DataSeries dataSeries,Color color,String title,Stroke stroke){
+        dataSeries.addListener( new DataSeries.Listener() {
+            public void changed() {
+                dataSet.addPoint( );
+            }
+        } );
+        DataSet dataSet=new DataSet();
+        DataSetGraphic dsg=new LinePlot( dataSet,stroke, color );
+        chart.addDataSetGraphic( dsg );
+    }
+
     public void addSuperScript( String s ) {
         Font superScriptFont = new Font( "Lucida Sans", Font.BOLD, 12 );
-        superScriptGraphic = new PhetTextGraphic( module.getApparatusPanel(), superScriptFont, s, color, 330, 230 );
-        module.getApparatusPanel().addGraphic( superScriptGraphic, 999 );
+        superScriptGraphic = new PhetTextGraphic( plotDeviceView.getApparatusPanel(), superScriptFont, s, color, 330, 230 );
+        plotDeviceView.getApparatusPanel().addGraphic( superScriptGraphic, 999 );
     }
 
     public static interface Listener {
@@ -341,14 +300,18 @@ public class PlotDevice extends PhetGraphic {
         textBox.requestFocusInWindow();
     }
 
+    public void setLabelText(String labelText){
+        textBox.setLabelText(labelText);
+    }
+
     public static class TextBox extends JPanel {
         boolean changedByUser;
         JTextField textField;
         JLabel label;
         static Font font = MMFontManager.getFontSet().getTextBoxFont();
-        private PlotConnection module;
+        private PlotDeviceModel module;
 
-        public TextBox( PlotConnection module, int text, String labelText ) {
+        public TextBox( PlotDeviceModel module, int text, String labelText ) {
             this.module = module;
             textField = new JTextField( text );
             label = new JLabel( labelText );
@@ -376,7 +339,7 @@ public class PlotDevice extends PhetGraphic {
             add( label );
             add( textField );
             setBorder( BorderFactory.createLineBorder( Color.black ) );
-            module.addListener( new PlotConnection.Listener() {
+            module.addListener( new PlotDeviceModel.Listener() {
                 public void recordingStarted() {
                     textField.setEditable( false );
                 }
@@ -441,6 +404,10 @@ public class PlotDevice extends PhetGraphic {
             }
             textField.setText( valueString );
         }
+
+        public void setLabelText( String labelText ) {
+            label.setText( labelText );
+        }
     }
 
     class Decrement implements ActionListener {
@@ -458,7 +425,7 @@ public class PlotDevice extends PhetGraphic {
             if( newDiffY < MAX ) {
                 setMagnitude( newDiffY );
                 setPaintYLines( getYLines( newDiffY, 5 ) );
-                module.repaintBackground();
+                plotDeviceView.repaintBackground();
             }
         }
     }
@@ -477,7 +444,7 @@ public class PlotDevice extends PhetGraphic {
             if( newDiffY > 0 ) {
                 setMagnitude( newDiffY );
                 setPaintYLines( getYLines( newDiffY, 5 ) );
-                module.repaintBackground();
+                plotDeviceView.repaintBackground();
             }
         }
 
@@ -541,7 +508,6 @@ public class PlotDevice extends PhetGraphic {
             addMouseListener( new RepeatClicker( smooth, click ) );
             setToolTipText( tooltip );
         }
-
     }
 
     public ChartButton getShowButton() {
@@ -567,8 +533,8 @@ public class PlotDevice extends PhetGraphic {
         closeButton.addActionListener( actionListener );
     }
 
-    public PlotConnection getModule() {
-        return module;
+    public PlotDeviceModel getPlotDeviceModel() {
+        return plotDeviceModel;
     }
 
     public void reset() {
@@ -613,14 +579,14 @@ public class PlotDevice extends PhetGraphic {
             chart.paint( g );
             Point pt = chart.getTransform().modelToView( 15, 0 );
             pt.y -= 3;
-            PhetTextGraphic ptt = new PhetTextGraphic( module.getApparatusPanel(), MMFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, pt.x, pt.y );
-            ptt.paint( g );
-            Rectangle bounds = ptt.getBounds();
+            textGraphic.setLocation( pt.x, pt.y );
+//            textGraphic.paint( g );
+            Rectangle bounds = textGraphic.getBounds();
             Point2D tail = RectangleUtils.getRightCenter( bounds );
             tail = new Point2D.Double( tail.getX() + 5, tail.getY() );
             Point2D tip = new Point2D.Double( tail.getX() + 30, tail.getY() );
             Arrow arrow = new Arrow( tail, tip, 9, 9, 5 );
-            PhetShapeGraphic psg = new PhetShapeGraphic( module.getApparatusPanel(), arrow.getShape(), Color.red, new BasicStroke( 1 ), Color.black );
+            PhetShapeGraphic psg = new PhetShapeGraphic( plotDeviceView.getApparatusPanel(), arrow.getShape(), Color.red, new BasicStroke( 1 ), Color.black );
             psg.paint( g );
 
             g.setClip( chart.getViewBounds() );
@@ -650,10 +616,10 @@ public class PlotDevice extends PhetGraphic {
             horizontalCursor.setVisible( false );
         }
         closeButton.setVisible( visible );
-        module.getApparatusPanel().setLayout( null );
-        module.getApparatusPanel().add( showButton );
+        plotDeviceView.getApparatusPanel().setLayout( null );
+        plotDeviceView.getApparatusPanel().add( showButton );
         showButton.reshape( 100, 100, showButton.getPreferredSize().width, showButton.getPreferredSize().height );
-        module.relayout();
+        plotDeviceView.relayout();
         showButton.setVisible( !visible );
         magPlus.setVisible( visible );
         magMinus.setVisible( visible );
@@ -681,7 +647,7 @@ public class PlotDevice extends PhetGraphic {
         Range2D range = new Range2D( inputBox );
         chart.setRange( range );
         refitCurve();
-        module.repaintBackground( chart.getViewBounds() );
+        plotDeviceView.repaintBackground( chart.getViewBounds() );
     }
 
     private void refitCurve() {
@@ -734,8 +700,8 @@ public class PlotDevice extends PhetGraphic {
         magPlus.reshape( magX, magY, buttonSize.width, buttonSize.height );
         magMinus.reshape( magX, magY + magSep + buttonSize.height, buttonSize.width, buttonSize.height );
 
-        readout.setPosition( chart.getViewBounds().x + 15, chart.getViewBounds().y + readout.getHeight() - 5 );
-        readoutValue.setPosition( readout.getX() + readout.getWidth() + 5, readout.getY() );
+        readout.setLocation( chart.getViewBounds().x + 15, chart.getViewBounds().y + readout.getHeight() - 5 );
+        readoutValue.setLocation( readout.getX() + readout.getWidth() + 5, readout.getY() );
         moveScript();
 
         int floaterX = 5;
@@ -755,7 +721,7 @@ public class PlotDevice extends PhetGraphic {
     private void moveScript() {
         if( superScriptGraphic != null ) {
             Rectangle b = readoutValue.getBounds();
-            superScriptGraphic.setPosition( b.x + b.width, b.y + b.height / 2 );
+            superScriptGraphic.setLocation( b.x + b.width, b.y + b.height / 2 );
         }
     }
 
@@ -776,11 +742,11 @@ public class PlotDevice extends PhetGraphic {
             Point2D.Double pt = new Point2D.Double( time - xShift, position );
             dataSet.addPoint( pt );
             horizontalCursor.setMaxX( time );//so it can't be dragged past the end of recorded pressTime.
-            drawSegment();
+            drawSegment(dataSet, color, );
         }
     }
 
-    private void drawSegment() {
+    private void drawSegment(DataSet dataSet,Color color) {
         if( visible && dataSet.size() >= 2 ) {
             int element = dataSet.size();
             Point2D a = chart.getTransform().modelToView( dataSet.pointAt( element - 2 ) );
@@ -792,7 +758,9 @@ public class PlotDevice extends PhetGraphic {
             }
             if( path.getCurrentPoint() != null ) {
                 path.lineTo( (float)b.getX(), (float)b.getY() );
-                Graphics2D g2 = module.getBackground().getImage().createGraphics();
+                BufferedPhetGraphic bufferedPhetGraphic = plotDeviceView.getBackground();
+                BufferedImage im = bufferedPhetGraphic.getBuffer();
+                Graphics2D g2 = im.createGraphics();
                 g2.setStroke( new BasicStroke( 2 ) );
                 g2.setColor( color );
                 g2.setClip( chart.getViewBounds() );
@@ -800,15 +768,15 @@ public class PlotDevice extends PhetGraphic {
                 g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
                 g2.draw( line );
                 Shape shape = stroke.createStrokedShape( line );
-                module.getApparatusPanel().repaint( shape.getBounds() );
+                plotDeviceView.getApparatusPanel().repaint( shape.getBounds() );
             }
         }
     }
 
     public void setMagnitude( double magnitude ) {
-        Rectangle2D.Double positionInputBox = new Rectangle2D.Double( module.getMinTime(), -magnitude, module.getMaxTime() - module.getMinTime(), magnitude * 2 );
+        Rectangle2D.Double positionInputBox = new Rectangle2D.Double( plotDeviceModel.getMinTime(), -magnitude, plotDeviceModel.getMaxTime() - plotDeviceModel.getMinTime(), magnitude * 2 );
         setInputRange( positionInputBox );
-        module.repaintBackground( chart.getViewBounds() );
+        plotDeviceView.repaintBackground( chart.getViewBounds() );
     }
 
     public void setSliderVisible( boolean b ) {
@@ -843,4 +811,100 @@ public class PlotDevice extends PhetGraphic {
         }
         cursorVisible = visible;
     }
+
+    static class FloatingControl extends VerticalLayoutPanel {
+        static BufferedImage play;
+        static BufferedImage pause;
+        private PlotDeviceModel module;
+        private JButton pauseButton;
+        private JButton recordButton;
+        private JButton resetButton;
+
+        static {
+            try {
+                play = ImageLoader.loadBufferedImage( "images/icons/java/media/Play16.gif" );
+                pause = ImageLoader.loadBufferedImage( "images/icons/java/media/Pause16.gif" );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+
+        static class ControlButton extends JButton {
+            static Font font = MMFontManager.getFontSet().getControlButtonFont();
+
+            public ControlButton( String text ) {
+                super( text );
+                setFont( font );
+            }
+        }
+
+        public FloatingControl( final PlotDeviceModel plotDeviceModel, final ApparatusPanel apparatusPanel ) {
+            this.module = plotDeviceModel;
+            pauseButton = new ControlButton( "Pause" );
+            pauseButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    plotDeviceModel.setPaused( true );
+                }
+            } );
+            recordButton = new ControlButton( "Record" );
+            recordButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    plotDeviceModel.setRecordMode();
+                    plotDeviceModel.setPaused( false );
+                }
+            } );
+
+            resetButton = new ControlButton( "Reset" );
+            resetButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    boolean paused = plotDeviceModel.isPaused();
+                    plotDeviceModel.setPaused( true );
+                    int option = JOptionPane.showConfirmDialog( apparatusPanel, "Are you sure you want to clear the graphs?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION );
+                    if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
+                        plotDeviceModel.reset();
+                    }
+                    else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
+                        plotDeviceModel.setPaused( paused );
+                    }
+                }
+            } );
+            plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
+                public void recordingStarted() {
+                    setButtons( false, true, true );
+                }
+
+                public void recordingPaused() {
+                    setButtons( true, false, true );
+                }
+
+                public void recordingFinished() {
+                    setButtons( false, false, true );
+                }
+
+                public void reset() {
+                    setButtons( true, false, false );
+                }
+
+                public void rewind() {
+                    setButtons( true, false, true );
+                }
+            } );
+            add( recordButton );
+            add( pauseButton );
+            add( resetButton );
+            pauseButton.setEnabled( false );
+        }
+
+        private void setButtons( boolean record, boolean pause, boolean reset ) {
+            recordButton.setEnabled( record );
+            pauseButton.setEnabled( pause );
+            resetButton.setEnabled( reset );
+        }
+
+        public void setVisible( boolean aFlag ) {
+            super.setVisible( aFlag );
+        }
+    }
+
 }

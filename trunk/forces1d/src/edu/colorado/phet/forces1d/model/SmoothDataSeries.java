@@ -23,7 +23,7 @@ public class SmoothDataSeries {
         this.derivative = derivative;
     }
 
-    public void updateSmoothedSeries() {
+    private void updateSmoothedSeries() {
         Average avg = new Average();
 
         int numPtsToAvg = windowSize;
@@ -55,6 +55,7 @@ public class SmoothDataSeries {
 
     public void addPoint( double pt ) {
         data.addPoint( pt );
+        updateSmoothedSeries();
     }
 
     public int numSmoothedPoints() {

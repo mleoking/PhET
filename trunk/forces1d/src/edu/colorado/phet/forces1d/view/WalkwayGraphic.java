@@ -5,7 +5,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.forces1d.Forces1DModule;
+import edu.colorado.phet.forces1d.Force1DModule;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -26,21 +26,22 @@ public class WalkwayGraphic extends PhetGraphic {
     private int numTickMarks = 21;
     private double treex;
     private double housex;
-    private Forces1DModule module;
+    private Force1DModule module;
     private DecimalFormat format = new DecimalFormat( "##" );
-    private Font font = new Font( "Lucida Sans", Font.PLAIN, 16 );
+    private Font font = new Font( "Lucida Sans", Font.PLAIN, 12 );
     private BufferedImage tree;
     private BufferedImage house;
     private Stroke borderStroke = new BasicStroke( 1 );
     private LinearTransform1d transform;
     private int floorHeight = 4;
     private int height;
+    private Rectangle floor;
 
-    public WalkwayGraphic( ApparatusPanel panel, Forces1DModule module, int numTickMarks, LinearTransform1d transform ) throws IOException {
+    public WalkwayGraphic( ApparatusPanel panel, Force1DModule module, int numTickMarks, LinearTransform1d transform ) throws IOException {
         this( panel, module, numTickMarks, -10, 10, transform );
     }
 
-    public WalkwayGraphic( ApparatusPanel panel, Forces1DModule module, int numTickMarks, double treex, double housex, LinearTransform1d transform ) throws IOException {
+    public WalkwayGraphic( ApparatusPanel panel, Force1DModule module, int numTickMarks, double treex, double housex, LinearTransform1d transform ) throws IOException {
         super( panel );
         this.module = module;
         this.numTickMarks = numTickMarks;
@@ -108,8 +109,8 @@ public class WalkwayGraphic extends PhetGraphic {
             Rectangle2D bounds = font.getStringBounds( str, graphics2D.getFontRenderContext() );
             graphics2D.drawString( str, viewx - (int)( bounds.getWidth() / 2 ), height + (int)bounds.getHeight() );
         }
-
-        Rectangle floor = new Rectangle( 0, height - 20, module.getApparatusPanel().getWidth(), floorHeight );
+        getPlatformY();
+//        floor = new Rectangle( 0, height - 20, module.getApparatusPanel().getWidth(), floorHeight );
         Color root = new Color( 100, 100, 255 );
         graphics2D.setPaint( new GradientPaint( floor.x, floor.y, root, floor.x, floor.y + floor.height, Color.white ) );
         graphics2D.fill( floor );
@@ -126,5 +127,10 @@ public class WalkwayGraphic extends PhetGraphic {
     protected Rectangle determineBounds() {
         int cw = getComponent() == null ? 0 : getComponent().getWidth();
         return new Rectangle( 0, 0, cw, height + 30 );
+    }
+
+    public int getPlatformY() {
+        floor = new Rectangle( 0, height - 20, getComponent().getWidth(), floorHeight );
+        return floor.y;
     }
 }

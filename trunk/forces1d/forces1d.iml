@@ -15,7 +15,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/smoothmetal.jar!/" />
+          <root url="file://$MODULE_DIR$/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -24,7 +24,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/data" />
+          <root url="jar://$MODULE_DIR$/../phetcommon/lib/smoothmetal.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
