@@ -81,3 +81,6 @@ lasers lasers &phetcommon &mechanics &collision
 
 # Color Vision
 color-vision colorvision3 &phetcommon
+
+#Signal Circuit
+signal-circuit signalcircuit
