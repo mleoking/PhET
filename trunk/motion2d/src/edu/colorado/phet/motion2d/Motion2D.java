@@ -2,8 +2,8 @@ package edu.colorado.phet.motion2d;
 
 //import phet.utils.ExitOnClose;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.plaf.PlafUtil;
+//import edu.colorado.phet.common.view.util.GraphicsUtil;
+//import edu.colorado.phet.common.view.plaf.PlafUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,29 +24,21 @@ public class Motion2D {
         f.setContentPane( ja );
 
         f.setSize( 800, 500 );
-        GraphicsUtil.centerFrameOnScreen( f );
+        centerFrameOnScreen( f );
 
         f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         f.repaint();
         SwingUtilities.invokeLater( new Repaint( ja ) );
 
-//        JMenuBar jmb=new JMenuBar();
-//        JMenuItem[] laf=PlafUtil.getLookAndFeelItems();
-//        JMenu menu=new JMenu( "Look and Feel");
-//        for( int i = 0; i < laf.length; i++ ) {
-//            JMenuItem jMenuItem = laf[i];
-//            menu.add(jMenuItem);
-//            System.out.println( "jMenuItem = " + jMenuItem );
-//        }
-//        jmb.add(menu);
-//        f.setJMenuBar( jmb );
-
-//        JFrame j2=new JFrame( "Util");
-//        j2.setJMenuBar( jmb );
-//        j2.pack();
-//        j2.setVisible( true);
-
         f.setVisible( true );
+    }
+
+    private static void centerFrameOnScreen( JFrame f ) {
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        int dw = size.width - f.getWidth();
+        int dh = size.height - f.getHeight();
+
+        f.setBounds( dw / 2, dh / 2, f.getWidth(), f.getHeight() );
     }
 
     static final class Repaint implements Runnable {

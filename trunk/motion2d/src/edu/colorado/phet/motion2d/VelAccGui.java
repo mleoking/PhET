@@ -2,8 +2,7 @@ package edu.colorado.phet.motion2d;
 
 //edu.colorado.phet.motion2d.VelAccGui.class 06/02/02 M.Dubson
 
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -17,8 +16,11 @@ public class VelAccGui extends JApplet {
 
     public void init() {
         try {
-            ballImage = ImageLoader.loadBufferedImage( "ballsmall2.gif" );//getImage(getDocumentBase(), "ballsmall2.gif");
-            emptyImage = ImageLoader.loadBufferedImage( "empty.gif" );//getImage(getDocumentBase(), "empty.gif");
+            ballImage = ImageIO.read( getClass().getClassLoader().getResource( "ballsmall2.gif" ) );
+            emptyImage = ImageIO.read( getClass().getClassLoader().getResource( "empty.gif" ) );
+
+//            ballImage = ImageLoader.loadBufferedImage( "ballsmall2.gif" );//getImage(getDocumentBase(), "ballsmall2.gif");
+//            emptyImage = ImageLoader.loadBufferedImage( "empty.gif" );//getImage(getDocumentBase(), "empty.gif");
         }
         catch( IOException e ) {
             e.printStackTrace();
