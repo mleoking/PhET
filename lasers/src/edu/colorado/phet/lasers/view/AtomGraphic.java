@@ -10,11 +10,15 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.atom.*;
+import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.GroundState;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -71,6 +75,9 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
 
 
     private Atom atom;
+    private Color energyRepColor;
+    private Ellipse2D energyRep;
+    private AtomicState atomicState;
 
     public AtomGraphic( Component component, Atom atom ) {
         super( component, s_groundStateImageName );
@@ -99,22 +106,43 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
     //    }
 
     public void update() {
-        AtomicState state = atom.getState();
-        if( true || getImage() != middleImg ) {
-            if( state instanceof GroundState ) {
-                super.setImage( groundImg );
-            }
-            if( state instanceof HighEnergyState ) {
-                super.setImage( highImg );
-            }
-            if( state instanceof MiddleEnergyState ) {
-                super.setImage( middleImg );
-            }
+        if( atomicState != atom.getState() ) {
+            atomicState = atom.getState();
+            double energyRatio = atom.getState().getEnergyLevel() / GroundState.instance().getEnergyLevel();
+            double energyRepRad = energyRatio * ( groundImg.getWidth() / 2 );
+            energyRep = new Ellipse2D.Double( atom.getPosition().getX() - energyRepRad, atom.getPosition().getY() - energyRepRad,
+                                              energyRepRad * 2, energyRepRad * 2 );
+            energyRepColor = VisibleColor.wavelengthToColor( atom.getState().getWavelength() );
             setPosition( (int)( atom.getPosition().getX() - atom.getRadius() ),
                          (int)( atom.getPosition().getY() - atom.getRadius() ) );
             setBoundsDirty();
             repaint();
         }
+        //        AtomicState state = atom.getState();
+        //        if( true || getImage() != middleImg ) {
+        //            if( state instanceof GroundState ) {
+        //                super.setImage( groundImg );
+        //            }
+        //            if( state instanceof HighEnergyState ) {
+        //                super.setImage( highImg );
+        //            }
+        //            if( state instanceof MiddleEnergyState ) {
+        //                super.setImage( middleImg );
+        //            }
+        //            setPosition( (int)( atom.getPosition().getX() - atom.getRadius() ),
+        //                         (int)( atom.getPosition().getY() - atom.getRadius() ) );
+        //            setBoundsDirty();
+        //            repaint();
+        //        }
+    }
+
+    public void paint( Graphics2D g ) {
+        saveGraphicsState( g );
+        GraphicsUtil.setAntiAliasingOn( g );
+        g.setColor( energyRepColor );
+        g.fill( energyRep );
+        restoreGraphicsState();
+        super.paint( g );
     }
 }
 
