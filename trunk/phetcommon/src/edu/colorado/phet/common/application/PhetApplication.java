@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * The top-level class for all PhET applications.
  * It contains an ApplicationView and ApplicationModel.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
@@ -118,13 +118,27 @@ public class PhetApplication {
     }
 
     /**
+     * Observes additions and removals of Modules, change in the active Module.
+     *
+     * @author Ron LeMaster
+     * @version $Revision$
+     */
+    public static interface ModuleObserver {
+        public void moduleAdded( Module m );
+
+        public void activeModuleChanged( Module m );
+
+        public void moduleRemoved( Module m );
+    }
+
+    /**
      * Maintains a list of all modules in an application, and provides a mechanism for switching
      * which module is active.  (Only supports one active module.)
      */
     private class ModuleManager {
         private ArrayList modules = new ArrayList();
         private Module activeModule;
-        ArrayList observers = new ArrayList();
+        private ArrayList observers = new ArrayList();
 
         public Module moduleAt( int i ) {
             return (Module)modules.get( i );

@@ -11,7 +11,6 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
 
 import javax.swing.*;
@@ -22,11 +21,11 @@ import javax.swing.event.ChangeListener;
  * An on-screen container for the modules in an application. It displays the
  * modules' apparatus panels in tabbed panes. It is only used for applications
  * that have more than one module.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
-public class TabbedApparatusPanelContainer extends JTabbedPane implements ModuleObserver {
+public class TabbedApparatusPanelContainer extends JTabbedPane implements PhetApplication.ModuleObserver {
     Module current;
     private PhetApplication application;
 
