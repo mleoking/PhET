@@ -15,6 +15,7 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.common.math.ModelViewTx1D;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -31,6 +32,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements AtomicState.Listener {
     private AtomicState atomicState;
+    private boolean isAdjustable;
     private Color color;
     private double xLoc;
     private double width;
@@ -38,10 +40,12 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
     private Rectangle bounds = new Rectangle();
     private ModelViewTx1D energyYTx;
 
-    public EnergyLevelGraphic( final Component component, AtomicState atomicState, Color color, double xLoc, double width ) {
+    public EnergyLevelGraphic( final Component component, AtomicState atomicState, Color color, double xLoc, double width,
+                               boolean isAdjustable ) {
         super( null );
 
         this.atomicState = atomicState;
+        this.isAdjustable = isAdjustable;
         atomicState.addListener( this );
         this.color = color;
         this.xLoc = xLoc;
@@ -71,20 +75,21 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
     }
 
 
-    //////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------
     // Inner classes
-    //
+    //----------------------------------------------------------------
 
     /**
      * Inner class that handles translation of the graphic
      */
     private class EnergyLevelTranslator implements Translatable {
-        private int minPixelsBetweenLevels = 50;
+        private int minPixelsBetweenLevels = EnergyLevelMonitorPanel.EnergyLifetimeSlider.sliderHeight;
 
         public void translate( double dx, double dy ) {
             double energyChange = energyYTx.viewToModelDifferential( (int)dy );
             // Don't let one level get closer than a certain number of pixels to the one above or below
             double minEnergyDifference = energyYTx.viewToModelDifferential( -minPixelsBetweenLevels );
+//            double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel(),
             double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference,
                                                    atomicState.getEnergyLevel() + energyChange ),
                                          atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference );
@@ -105,6 +110,8 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
         private Rectangle2D levelLine = new Rectangle2D.Double();
         private double thickness = 2;
+        private Arrow arrow1;
+        private Arrow arrow2;
 
         protected EnergyLevelRep( Component component ) {
             super( component );
@@ -121,6 +128,20 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
             color = new Color( color.getRed(), color.getGreen(), color.getBlue() );
             int y = (int)energyYTx.modelToView( atomicState.getEnergyLevel() );
             levelLine.setRect( xLoc, y, width, thickness );
+
+            if( isAdjustable ) {
+                int xOffset = 20;
+                int arrowHt = 14;
+                int arrowHeadWd = 8;
+                int tailWd = 2;
+                arrow1 = new Arrow( new Point2D.Double( xLoc + width - xOffset, y ),
+                                    new Point2D.Double( xLoc + width - xOffset, y + arrowHt ),
+                                    arrowHeadWd, arrowHeadWd, tailWd );
+                arrow2 = new Arrow( new Point2D.Double( xLoc + width - xOffset, y ),
+                                    new Point2D.Double( xLoc + width - xOffset, y - arrowHt ),
+                                    arrowHeadWd, arrowHeadWd, tailWd );
+            }
+
             setBoundsDirty();
             repaint();
         }
@@ -130,9 +151,15 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         }
 
         public void paint( Graphics2D g ) {
+
             saveGraphicsState( g );
             g.setColor( color );
             g.fill( levelLine );
+            if( isAdjustable ) {
+                g.setColor( Color.DARK_GRAY );
+                g.fill( arrow1.getShape() );
+                g.fill( arrow2.getShape() );
+            }
             restoreGraphicsState();
         }
     }
