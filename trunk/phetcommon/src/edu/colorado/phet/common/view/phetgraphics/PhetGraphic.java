@@ -47,8 +47,9 @@ public abstract class PhetGraphic {
     
     private Point registrationPoint = new Point();
     private AffineTransform transform = new AffineTransform();
-    private Rectangle lastBounds = null;
-    private Rectangle bounds = null;
+    private Rectangle lastBounds = new Rectangle();
+    private Rectangle bounds = new Rectangle();
+    private Rectangle before;                       // utility variable used in syncBounds
     private Component component;
     private boolean visible = true;
     private boolean boundsDirty = true;
@@ -485,11 +486,8 @@ public abstract class PhetGraphic {
      */
     protected void syncBounds() {
         if( boundsDirty ) {
-            Rectangle before = bounds == null ? null : new Rectangle( bounds );
             rebuildBounds();
-            Rectangle after = bounds == null ? null : new Rectangle( bounds );
-            boundsDirty = false;
-            if( !RectangleUtils.areEqual( before, after ) ) {
+            if( !RectangleUtils.areEqual( bounds, lastBounds )) {
                 notifyChanged();
             }
         }
@@ -502,18 +500,11 @@ public abstract class PhetGraphic {
     private void rebuildBounds() {
         Rectangle newBounds = determineBounds();
         if( newBounds != null ) {
-            if( this.bounds == null ) {
-                this.bounds = new Rectangle( newBounds );
-            }
-            else {
-                this.bounds.setBounds( newBounds );
-            }
-            if( lastBounds == null ) {
-                lastBounds = new Rectangle( bounds );
-            }
+            lastBounds.setBounds( bounds );
+            bounds.setBounds( newBounds );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Location methods
     //----------------------------------------------------------------------------
@@ -895,9 +886,6 @@ public abstract class PhetGraphic {
         }
         if( bounds != null ) {
             component.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
-        }
-        if( bounds != null ) {
-            lastBounds.setBounds( bounds );
         }
     }
 
