@@ -1,3 +1,5 @@
+- make more versatile & robust collision detection system that works heirarchically with object types
+- hot air ballon control doesn't seem to pump in any heat
 - enable leaning animation
 - Combine Rigid Sphere modules
 - Sort CollisionExperts in to the list by their type specificity
