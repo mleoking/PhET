@@ -61,8 +61,10 @@ public class DataSet {
     }
 
     public void clear() {
-        while( dataPoints.size() > 0 ) {
-            removePoint( 0 );
+        dataPoints.clear();
+        for( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer)observers.get( i );
+            observer.cleared();
         }
     }
 
@@ -70,6 +72,8 @@ public class DataSet {
         void pointAdded( Point2D point );
 
         void pointRemoved( Point2D point );
+
+        void cleared();
     }
 
     public boolean isValid( Point2D dataPoint ) {

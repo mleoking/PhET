@@ -90,4 +90,8 @@ public class ScatterPlot extends DataSetGraphic {
     public void pointRemoved( Point2D point ) {
         viewPoints.remove( getChart().transform( point ) );
     }
+
+    public void cleared() {
+        viewPoints.clear();
+    }
 }

@@ -73,6 +73,14 @@ public class LinePlot extends DataSetGraphic {
         getChart().getComponent().repaint();
     }
 
+    public void cleared() {
+        if( generalPath != null ) {
+            Rectangle shape = stroke.createStrokedShape( generalPath ).getBounds();
+            getChart().getComponent().repaint( shape.x, shape.y, shape.width, shape.height );
+        }
+        generalPath = null;
+    }
+
     public void paint( Graphics2D graphics2D ) {
         if( generalPath != null ) {
             Stroke oldStroke = graphics2D.getStroke();
