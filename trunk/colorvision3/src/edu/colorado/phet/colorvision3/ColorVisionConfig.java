@@ -29,8 +29,8 @@ public class ColorVisionConfig
 	public static final String IMAGES_DIRECTORY = "images/";
 	public static final String HEAD_BACKGROUND_IMAGE = IMAGES_DIRECTORY + "headBackground.png";
 	public static final String HEAD_FOREGROUND_IMAGE = IMAGES_DIRECTORY + "headForeground.png";
-	public static final String SPECTRUM_IMAGE = IMAGES_DIRECTORY + "spectrum.gif";
-	public static final String SPOTLIGHT_IMAGE = IMAGES_DIRECTORY + "spotlight.gif";
+	public static final String SPECTRUM_IMAGE = IMAGES_DIRECTORY + "spectrum.png";
+	public static final String SPOTLIGHT_IMAGE = IMAGES_DIRECTORY + "spotlight.png";
 	public static final String SWITCH_ON_IMAGE = IMAGES_DIRECTORY + "chromeSwitchOn.png";
 	public static final String SWITCH_OFF_IMAGE = IMAGES_DIRECTORY + "chromeSwitchOff.png";
 	
@@ -44,7 +44,7 @@ public class ColorVisionConfig
   public static final Color LABEL_COLOR = Color.WHITE;
     
   // Fonts
-  public static Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 18 );
+  public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -53,8 +53,7 @@ public class ColorVisionConfig
 	/**
 	 * This class is not intended for instantiation.
 	 */ 
-	private ColorVisionConfig() {
-	}
+	private ColorVisionConfig() { }
 }
 
 /* end of file */
