@@ -24,7 +24,8 @@ import java.io.IOException;
 
 public class Box2DGraphic extends CompositePhetGraphic {
 
-    public static double s_thickness = 4;
+    public static double s_thickness = 12;
+//    public static double s_thickness = 4;
     private static Stroke s_defaultStroke = new BasicStroke( (float)s_thickness );
     private static Color s_defaultColor = Color.black;
     private Box2D box;
@@ -120,10 +121,14 @@ public class Box2DGraphic extends CompositePhetGraphic {
         }
 
         public void update() {
-            rect.setRect( box.getMinX() - s_thickness / 2,
-                          box.getMinY() - s_thickness / 2,
-                          box.getMaxX() - box.getMinX() + s_thickness,
-                          box.getMaxY() - box.getMinY() + s_thickness );
+            rect.setRect( box.getMinX(),
+                          box.getMinY(),
+                          box.getMaxX() - box.getMinX(),
+                          box.getMaxY() - box.getMinY() );
+//            rect.setRect( box.getMinX() - s_thickness / 2,
+//                          box.getMinY() - s_thickness / 2,
+//                          box.getMaxX() - box.getMinX() + s_thickness,
+//                          box.getMaxY() - box.getMinY() + s_thickness );
             mouseableArea.setRect( box.getMinX() - s_thickness,
                                    box.getMinY() - s_thickness,
                                    s_thickness,
@@ -145,9 +150,16 @@ public class Box2DGraphic extends CompositePhetGraphic {
                          wallHandle.getWidth(), wallHandle.getHeight(), null );
             g.setStroke( s_defaultStroke );
             g.setColor( s_defaultColor );
+            g.setColor( new Color( 180, 180, 180 ) );
+//            g.setColor( new Color( 180, 180, 180 ) );
             g.draw( rect );
-            g.setColor( Color.white );
+
+            g.setColor( Color.black );
+//            g.setColor( Color.white );
             g.fill( openingRect );
+
+            g.setColor( Color.black );
+            g.fill( rect );
 
             if( leftWallHighlighted ) {
                 g.setStroke( new BasicStroke( 1 ) );
