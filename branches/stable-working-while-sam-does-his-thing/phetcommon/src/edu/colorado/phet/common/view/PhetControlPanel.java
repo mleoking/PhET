@@ -45,7 +45,6 @@ public class PhetControlPanel extends JPanel {
      */
     public PhetControlPanel( Module module ) {
         this.module = module;
-
         this.setLayout( new BorderLayout() );
 
         // Logo at top of panel
@@ -55,26 +54,25 @@ public class PhetControlPanel extends JPanel {
         JPanel p = new JPanel();
         p.add( titleLabel );
         this.add( p, BorderLayout.NORTH );
-//        this.add( titleLabel, BorderLayout.NORTH );
 
         // Panel for help button
         helpPanel = new HelpPanel( module );
         JPanel hp = new JPanel();
         hp.add( helpPanel );
         this.add( hp, BorderLayout.SOUTH );
-//        this.add( helpPanel, BorderLayout.SOUTH );
         setHelpPanelEnabled( module.hasHelp() );
 
         JPanel centerPane = new JPanel();
         centerPane.add( controlPane );
-        this.add( new JScrollPane( centerPane ), BorderLayout.CENTER );
+        JScrollPane scrollPane = new JScrollPane( centerPane );
+        scrollPane.setBorder( null );
+        this.add( scrollPane, BorderLayout.CENTER );
     }
 
     public PhetControlPanel( Module module, JPanel panel ) {
         this( module );
         this.add( panel );
     }
-
 
     public void setHelpPanelEnabled( boolean isEnabled ) {
         helpPanel.setVisible( isEnabled );
@@ -140,6 +138,13 @@ public class PhetControlPanel extends JPanel {
         this.repaint();
     }
 
+    public void setControlPane( JPanel controlPane ) {
+        this.controlPane = controlPane;
+    }
+
+    public JPanel getControlPane() {
+        return controlPane;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////
     // Add/remove methods
