@@ -10,6 +10,8 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.physics.photon.Photon;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.graphics.ImageGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -18,7 +20,7 @@ import java.awt.image.AffineTransformOp;
 import java.util.Observable;
 import java.util.HashMap;
 
-public class PhotonGraphic extends ImageGraphic {
+public class PhotonGraphic extends ImageGraphic implements SimpleObserver {
 
     private float radius;
     // Velocity at which the photon is traveling
@@ -26,6 +28,7 @@ public class PhotonGraphic extends ImageGraphic {
     private BufferedImage buffImg = new BufferedImage( s_imgLength, s_imgHeight, BufferedImage.TYPE_INT_ARGB );
     private Image[] animation;
     private int currAnimationFrameNum;
+    private Photon photon;
 
 
     /**
@@ -34,15 +37,18 @@ public class PhotonGraphic extends ImageGraphic {
      */
     private void generateAnimation( Photon photon ) {
 
+        this.photon = photon;
+
         // Find the angle the photon is travel at, and round it to 0.1 radians. We
         // do this so the map that caches the animations will get filled quickly and
         // get a lot of hits
-        float theta = (float)Math.acos( photon.getVelocity().getX() / photon.getVelocity().getLength() );
+        double theta = Math.acos( photon.getVelocity().getX() / photon.getVelocity().getMagnitude() );
+//        float theta = (float)Math.acos( photon.getVelocity().getX() / photon.getVelocity().getLength() );
         if( photon.getVelocity().getY() < 0 ) {
-            theta = (float)Math.PI * 2 - theta;
+            theta = Math.PI * 2 - theta;
         }
         int temp = (int)( theta * 10 );
-        theta = ( (float)temp ) / 10;
+        theta = temp / 10;
 
         // Check to see if an animation has already been generated that will work
         this.animation = null;
@@ -166,14 +172,23 @@ public class PhotonGraphic extends ImageGraphic {
 
     /**
      *
-     * @param observable
-     * @param o
      */
-    public void update( Observable observable, Object o ) {
+//    public void update( Observable observable, Object o ) {
+//
+//        super.update( observable, o );
+//
+//        Photon photon = (Photon)observable;
+//        setPosition( photon );
+//
+//        // If the velocity has changed, we need to get a new
+//        // animation.
+//        if( !photon.getVelocity().equals( this.velocity ) ) {
+//            velocity = new Vector2D( photon.getVelocity() );
+//            this.generateAnimation( photon );
+//        }
+//    }
 
-        super.update( observable, o );
-
-        Photon photon = (Photon)observable;
+    public void update() {
         setPosition( photon );
 
         // If the velocity has changed, we need to get a new
@@ -196,8 +211,8 @@ public class PhotonGraphic extends ImageGraphic {
         // the graphic is the upper-left corner of the bounding box.
         // TODO: coordinate the size of the particle and the image
         // TODO: the + and - signs are dependent on the transform from world to screen coords. They should not be hard-coded
-        float x = particle.getPosition().getX() - particle.getRadius();
-        float y = particle.getPosition().getY() - particle.getRadius();
+        double x = particle.getPosition().getX() - particle.getRadius();
+        double y = particle.getPosition().getY() - particle.getRadius();
         setPosition( x, y );
     }
 

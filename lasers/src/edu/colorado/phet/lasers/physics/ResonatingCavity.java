@@ -6,10 +6,12 @@
  */
 package edu.colorado.phet.lasers.physics;
 
-import edu.colorado.phet.lasers.physics.mirror.*;
-import edu.colorado.phet.lasers.physics.photon.Photon;
-import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.collision.Box2D;
+import edu.colorado.phet.lasers.physics.mirror.BandPass;
+import edu.colorado.phet.lasers.physics.mirror.LeftReflecting;
+import edu.colorado.phet.lasers.physics.mirror.PartialMirror;
+import edu.colorado.phet.lasers.physics.mirror.RightReflecting;
+import edu.colorado.phet.lasers.physics.photon.Photon;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -28,7 +30,7 @@ public class ResonatingCavity extends Box2D {
     private PartialMirror rightMirror;
     private PartialMirror leftMirror;
 
-    public ResonatingCavity( Point2D.Float origin, float width, float height ) {
+    public ResonatingCavity( Point2D origin, double width, double height ) {
         this.origin = origin;
         this.width = width;
         this.height = height;
@@ -50,18 +52,18 @@ public class ResonatingCavity extends Box2D {
 //                                                            (float)origin.getY() + height ) );
 
         // Create the left mirror
-        leftMirror = new PartialMirror( new Point2D.Float( (float)origin.getX() - 40,
-                                                           (float)origin.getY() ),
-                                        new Point2D.Float( (float)origin.getX() - 40,
-                                                                   (float)origin.getY() + height ) );
+        leftMirror = new PartialMirror( new Point2D.Double( origin.getX() - 40,
+                                                           origin.getY() ),
+                                        new Point2D.Double( origin.getX() - 40,
+                                                            origin.getY() + height ) );
         leftMirror.addReflectionStrategy( new RightReflecting() );
         leftMirror.addReflectionStrategy( new BandPass( Photon.RED, Photon.RED ) );
 
         // Create the right mirror
-        rightMirror = new PartialMirror( new Point2D.Float( (float)origin.getX() + width + 40,
-                                                            (float)origin.getY() ),
-                                         new Point2D.Float( (float)origin.getX() + width + 40,
-                                                            (float)origin.getY() + height ) );
+        rightMirror = new PartialMirror( new Point2D.Double( origin.getX() + width + 40,
+                                                            origin.getY() ),
+                                         new Point2D.Double( origin.getX() + width + 40,
+                                                            origin.getY() + height ) );
         rightMirror.addReflectionStrategy( new LeftReflecting() );
         rightMirror.addReflectionStrategy( new BandPass( Photon.RED, Photon.RED ) );
         rightMirror.setReflectivity( 0.2f );

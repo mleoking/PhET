@@ -31,7 +31,7 @@ public class PartialMirror extends Mirror {
     private Partial partialStrategy;
 
 
-    public PartialMirror ( Point2D.Float end1, Point2D.Float end2 ) {
+    public PartialMirror ( Point2D end1, Point2D end2 ) {
         super( end1, end2 );
         partialStrategy = new Partial( 1.0f );
     }

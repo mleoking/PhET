@@ -35,7 +35,7 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
         if( photon.getWavelength() == Photon.RED && Math.random() < s_collisionLikelihood ) {
 
 //            Photon emittedPhoton = Photon.createStimulated( photon );
-//            getAtom().emitPhoton( emittedPhoton );
+//            getAtom().photonEmitted( emittedPhoton );
 //
             // Remove the original photon and replace it with another. this
             // makes getting the position and the graphic correct much easier.

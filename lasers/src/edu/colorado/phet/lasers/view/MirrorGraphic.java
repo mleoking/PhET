@@ -8,45 +8,47 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.lasers.physics.mirror.Mirror;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.model.Particle;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.*;
 import java.util.Observable;
 
-public class MirrorGraphic extends ShapeGraphic {
+public class MirrorGraphic extends PhetShapeGraphic {
 
-    private Rectangle2D.Float rectangle = new Rectangle2D.Float();
+    private final static Color s_mirrorColor = new Color( 180, 180, 180 );
+    private Rectangle2D.Float rep = new Rectangle2D.Float();
+    private Mirror mirror;
 
     /**
      *
      */
-    public MirrorGraphic(){
+    public MirrorGraphic( Component component, Mirror mirror ){
+        super( component, null, s_mirrorColor );
+        this.mirror = mirror;
+        setShape( rep );
+        update();
     }
 
-    /**
-     *
-     * @param body
-     */
-    public void init( Particle body ) {
-        super.init( body );
-        if( body instanceof Mirror ) {
-            Mirror mirror = (Mirror)body;
-            adjustRep( mirror );
-            this.setFill( Color.gray );
-        }
-    }
+//    public void init( Particle body ) {
+//        super.init( body );
+//        if( body instanceof Mirror ) {
+//            Mirror mirror = (Mirror)body;
+//            adjustRep( mirror );
+//            this.setFill( Color.gray );
+//        }
+//    }
 
-    /**
-     *
-     * @param o
-     * @param arg
-     */
-    public void update( Observable o, Object arg ) {
-        if( o instanceof Mirror ) {
-            Mirror mirror = (Mirror)o;
-            adjustRep( mirror );
-        }
+//    public void update( Observable o, Object arg ) {
+//        if( o instanceof Mirror ) {
+//            Mirror mirror = (Mirror)o;
+//            adjustRep( mirror );
+//        }
+//    }
+
+    public void update() {
+        adjustRep( mirror );
     }
 
     /**
@@ -59,16 +61,9 @@ public class MirrorGraphic extends ShapeGraphic {
         if( mirror.isLeftReflecting() ) {
             xAdjustment1 = 0;
         }
-        rectangle.setFrame( mirror.getEnd1().getX() + xAdjustment1,
-                            mirror.getEnd1().getY(),
+        rep.setFrame( mirror.getBounds().getX() + xAdjustment1,
+                            mirror.getBounds().getY(),
                             6,
-                            mirror.getEnd2().getY() - mirror.getEnd1().getY() );
-        this.setRep( rectangle );
-    }
-
-    //
-    // Abstract methods
-    //
-    protected void setPosition( Particle body ) {
+                            mirror.getBounds().getHeight() );
     }
 }

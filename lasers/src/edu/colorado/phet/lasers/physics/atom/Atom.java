@@ -10,13 +10,20 @@ package edu.colorado.phet.lasers.physics.atom;
 import edu.colorado.phet.lasers.physics.photon.Photon;
 import edu.colorado.phet.collision.SphericalBody;
 
+import java.util.LinkedList;
+
 /**
  *
  */
 public class Atom extends SphericalBody {
 
     private AtomicState state;
+    private LinkedList listeners = new LinkedList();
 
+    public interface Listener {
+        void photonEmitted( Atom atom, Photon photon );
+        void leftSystem( Atom atom );
+    }
     /**
      *
      */
@@ -24,6 +31,14 @@ public class Atom extends SphericalBody {
         super( s_radius );
         setMass( s_mass );
         setState( new GroundState( this ) );
+    }
+
+    public void addListener( Listener listner ) {
+        listeners.add( listner );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
     }
 
     public void collideWithPhoton( Photon photon ) {
@@ -52,11 +67,19 @@ public class Atom extends SphericalBody {
 //        emittedPhoton.setPosition( getPosition().getX(),
 //                                   getPosition().getY() );
         emittedPhoton.collideWithAtom( this );
-        new AddParticleCmd( emittedPhoton ).doIt();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.photonEmitted( this, emittedPhoton );
+        }
+//        new AddParticleCmd( emittedPhoton ).doIt();
     }
 
     public void removeFromSystem() {
-        super.removeFromSystem();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.leftSystem( this );
+        }
+//        super.removeFromSystem();
         state.decrementNumInState();
     }
 
