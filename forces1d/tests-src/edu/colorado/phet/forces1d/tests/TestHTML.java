@@ -1,7 +1,8 @@
 package edu.colorado.phet.forces1d.tests;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.forces1d.common.HTMLGraphic;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.forces1d.common.ShadowHTMLGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ public class TestHTML {
     public static void main( String[] args ) {
 //        JPanel fakePanel = new JPanel( new BorderLayout() );
 
-        final JButton button = new JButton( "<html>Button<br>new<sub>mom<sup>Line<sub>2</html>" );
+        final JButton button = new JButton( "<html>Button<br>new Line<sub>2</html>" );
         final BufferedImage im = new BufferedImage( 200, 200, BufferedImage.TYPE_INT_RGB );
         button.setEnabled( true );
         button.setVisible( true );
@@ -41,12 +42,18 @@ public class TestHTML {
         };
         ap.add( button );
 
-
 //        ap.setLayout( new BorderLayout());
 //        ap.addTo(button,BorderLayout.CENTER);
-        HTMLGraphic htmlGraphic = new HTMLGraphic( ap, "HELLO", new Font( "Lucida Sans", 0, 28 ), Color.black );
+        HTMLGraphic htmlGraphic = new HTMLGraphic( ap, new Font( "Lucida Sans", 0, 28 ), "HELLO", Color.black );
         htmlGraphic.setLocation( 300, 300 );
         ap.addGraphic( htmlGraphic );
+
+//        ShadowHTMLGraphic htmlGraphic2=new ShadowHTMLGraphic( ap,"<html>m/s<sup>2</html>",new Font( "Lucida Sans",0,28),Color.blue ,2,2,Color.black );
+        ShadowHTMLGraphic htmlGraphic2 = new ShadowHTMLGraphic( ap,
+                                                                "<html>m/s<sup>2</html>", new Font( "Lucida Sans", Font.BOLD, 38 ),
+                                                                new Color( 0, 0, 255, 254 ), 2, 2, Color.black );
+        htmlGraphic2.setLocation( 100, 300 );
+        ap.addGraphic( htmlGraphic2 );
 
         JFrame frame = new JFrame();
 

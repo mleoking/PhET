@@ -6,6 +6,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.FrameSequence;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
@@ -26,12 +27,14 @@ public class LeanerGraphic extends PhetImageGraphic {
     private Force1DModule module;
     private double max = 500.0;
     private FrameSequence flippedAnimation;
+    private BufferedImage standingStill;
 
     public LeanerGraphic( final Force1DPanel forcePanel, final PhetGraphic target ) throws IOException {
         super( forcePanel, (BufferedImage)null );
         this.forcePanel = forcePanel;
         this.target = target;
         this.module = forcePanel.getModule();
+        standingStill = ImageLoader.loadBufferedImage( "images/standing-man.png" );
         animation = new FrameSequence( "images/pusher-leaning/pusher-leaning", 15 );
         BufferedImage[] flipped = new BufferedImage[animation.getNumFrames()];
         for( int i = 0; i < flipped.length; i++ ) {
@@ -39,9 +42,16 @@ public class LeanerGraphic extends PhetImageGraphic {
         }
         flippedAnimation = new FrameSequence( flipped );
         super.setImage( animation.getFrame( 0 ) );
+        final long startTime = System.currentTimeMillis();
         target.addPhetGraphicListener( new PhetGraphicListener() {
             public void phetGraphicChanged( PhetGraphic phetGraphic ) {
-                update();
+                long dt = System.currentTimeMillis() - startTime;
+                if( module.getForceModel().getAppliedForce() != 0 ) {
+                    update( false );
+                }
+                if( dt < 5000 ) {
+                    update( true );
+                }
             }
 
             public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
@@ -51,7 +61,7 @@ public class LeanerGraphic extends PhetImageGraphic {
         } );
         module.getForceModel().addListener( new Force1DModel.Listener() {
             public void appliedForceChanged() {
-                update();
+                update( false );
             }
 
             public void gravityChanged() {
@@ -60,25 +70,37 @@ public class LeanerGraphic extends PhetImageGraphic {
             public void wallForceChanged() {
             }
         } );
+        setIgnoreMouse( true );
+        update( true );
+
     }
 
-    private int getFrame() {
+    private BufferedImage getFrame( boolean facingRight ) {
         double appliedForce = Math.abs( module.getForceModel().getAppliedForce() );
         int index = (int)( animation.getNumFrames() * appliedForce / max );
         if( index >= animation.getNumFrames() ) {
             index = animation.getNumFrames() - 1;
         }
-        return index;
+        if( module.getForceModel().getAppliedForce() == 0 ) {
+            return standingStill;
+        }
+        if( facingRight ) {
+            return animation.getFrame( index );
+        }
+        else {
+            return flippedAnimation.getFrame( index );
+        }
     }
 
-    private void update() {
+    private void update( boolean forceLocation ) {
         boolean facingRight = true;
         double app = module.getForceModel().getAppliedForce();
         if( app < 0 ) {
             facingRight = false;
         }
-        int index = getFrame();
-        BufferedImage frame = animation.getFrame( index );
+        BufferedImage frame = getFrame( facingRight );
+//        if( frame != null ) {
+//        BufferedImage frame = animation.getFrame( index );
         int x = 0;
         int y = 0;
         int STEP_CLOSER = 5;
@@ -89,10 +111,12 @@ public class LeanerGraphic extends PhetImageGraphic {
         else {
             x = (int)( target.getBounds().getX() + target.getWidth() ) - STEP_CLOSER;
             y = forcePanel.getWalkwayGraphic().getFloorY() - getHeight();
-            frame = flippedAnimation.getFrame( index );
+//            frame = flippedAnimation.getFrame( index );
         }
-
+        if( app != 0 || forceLocation ) {
+            setLocation( x, y );
+        }
+//        }
         setImage( frame );
-        setLocation( x, y );
     }
 }

@@ -60,6 +60,9 @@ public class HTMLGraphic extends CompositePhetGraphic {
             final Graphics2D g = image.createGraphics();
             g.setColor( new Color( 255, 255, 255, 0 ) );//transparent background
             g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            g.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY );
+            g.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY );
+            g.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
 //            g.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY );//this fails.
             g.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
             Rectangle s = new Rectangle( dim );

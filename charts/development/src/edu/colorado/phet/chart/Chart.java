@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.chart;
 
-import edu.colorado.phet.chart.common.HTMLGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -109,7 +109,7 @@ public class Chart extends PhetGraphic {
             this.offsetX = offsetX;
 
             if( title.startsWith( "<html>" ) ) {
-                graphic = new HTMLGraphic( chart.getComponent(), title, font, color );
+                graphic = new HTMLGraphic( chart.getComponent(), font, title, color );
             }
             else {
                 graphic = new PhetTextGraphic( chart.getComponent(), font, title, color, 0, 0 );

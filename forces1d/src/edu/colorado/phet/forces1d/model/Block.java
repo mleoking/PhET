@@ -90,9 +90,7 @@ public class Block {
         velocity += acceleration * dt;
 
         if( changedSign( origVelocity, velocity ) ) {
-//            if( Math.abs( velocity ) < 0.1 ) {
             velocity = 0;
-//            }
         }
         position += velocity * dt;
 

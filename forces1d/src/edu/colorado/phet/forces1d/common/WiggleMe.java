@@ -70,7 +70,7 @@ public class WiggleMe extends CompositePhetGraphic {
     public WiggleMe( final Component component, String text, Target t, Font font, int dx, int dy ) {
         super( component );
         this.target = t;
-        textGraphic = new PhetShadowTextGraphic( component, text, font, 0, 0, Color.black, dx, dy, Color.red );
+        textGraphic = new PhetShadowTextGraphic( component, font, text, Color.black, dx, dy, Color.red );
         addGraphic( textGraphic );
         timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -85,6 +85,7 @@ public class WiggleMe extends CompositePhetGraphic {
         addGraphic( phetShapeGraphic );
         phetShapeGraphic.setLocation( 0, textGraphic.getHeight() + 5 );
         setRegistrationPoint( getBounds().x, getBounds().y );
+        tick();
     }
 
     public void setVisible( boolean visible ) {

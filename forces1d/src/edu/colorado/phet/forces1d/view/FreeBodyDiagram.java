@@ -5,12 +5,12 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.Force1DUtil;
-import edu.colorado.phet.forces1d.common.HTMLGraphic;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
 import javax.swing.*;
@@ -177,7 +177,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             addGraphic( shapeGraphic );
             Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
 //            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, color, 1, 1, Color.black );
-            textGraphic = new HTMLGraphic( component, name, font, color );
+            textGraphic = new HTMLGraphic( component, font, name, color );
             addGraphic( textGraphic );
             setVector( v );
         }
@@ -247,8 +247,8 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
 
 
             Font font = new Font( "Lucida Sans", Font.PLAIN, 16 );
-            xLabel = new HTMLGraphic( component, "<html>F<sub>x</html>", font, Color.black );
-            yLabel = new HTMLGraphic( component, "<html>F<sub>y</html>", font, Color.black );
+            xLabel = new HTMLGraphic( component, font, "<html>F<sub>x</html>", Color.black );
+            yLabel = new HTMLGraphic( component, font, "<html>F<sub>y</html>", Color.black );
             addGraphic( xLabel );
             addGraphic( yLabel );
 
