@@ -229,6 +229,21 @@ public class PhetSlider extends JPanel {
         return textField;
     }
 
+    public void setRange( double min, double max ) {
+        double val = getValue();
+        this.min = min;
+        this.max = max;
+        if( val < min ) {
+            val = min;
+        }
+        if( val > max ) {
+            val = max;
+        }
+        transform = new ModelViewTx1D( min, max, SLIDER_MIN, SLIDER_MAX );
+        setValue( val );
+
+    }
+
     private class SliderKeyHandler implements KeyListener {
         int keyCode = -1;
         private Timer timer;

@@ -19,7 +19,7 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
         "CheckBox", "RadioButton", "ComboBox",
         "Menu", "MenuItem", "MenuBar",
         "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem",
-        "TextField", "TextArea"
+        "TextField", "TextArea", "Label"
     };
 
     public static Font getFont() {

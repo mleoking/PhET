@@ -47,6 +47,7 @@ public class ComponentMouseListener extends MouseInputAdapter {
             circuitGraphic.collapseJunctions( match.getSource(), match.getTarget() );
         }
         match = null;
+        circuitGraphic.bumpAway( branchGraphic.getCircuitComponent() );
     }
 
     public void mouseDragged( MouseEvent e ) {

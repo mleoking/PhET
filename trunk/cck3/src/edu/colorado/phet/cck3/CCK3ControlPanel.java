@@ -4,8 +4,9 @@ package edu.colorado.phet.cck3;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
-import edu.colorado.phet.cck3.common.PhetSlider;
+import edu.colorado.phet.cck3.grabbag.GrabBagButton;
 import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.view.components.PhetSlider;
 import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -39,6 +40,7 @@ public class CCK3ControlPanel extends JPanel {
     private CCK3Module module;
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;
+    private GrabBagButton grabBagButton;
 
     public CCK3ControlPanel( final CCK3Module module ) {
         advancedControlPanel = new AdvancedControlPanel( module );
@@ -136,11 +138,47 @@ public class CCK3ControlPanel extends JPanel {
         helpPanel.add( hp, helpPanelConstraints );
 
         this.add( helpPanel, BorderLayout.SOUTH );
+        if( CCK3Module.SHOW_GRAB_BAG ) {
+            addGrabBag();
+        }
     }
 
+    private void addGrabBag() {
+        try {
+            BufferedImage image = ImageLoader.loadBufferedImage( "images/bag.gif" );
+            grabBagButton = new GrabBagButton( module );
+            grabBagButton.setIcon( new ImageIcon( image ) );
+            module.getApparatusPanel().setLayout( null );
+            module.getApparatusPanel().add( grabBagButton );
+
+            module.getApparatusPanel().addComponentListener( new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    updateButton();
+                }
+
+                public void componentShown( ComponentEvent e ) {
+                    updateButton();
+                }
+            } );
+            updateButton();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateButton() {
+        int w = grabBagButton.getPreferredSize().width;
+        int h = grabBagButton.getPreferredSize().height;
+
+        int insetX = 15;
+        int insetY = 15;
+        int x = module.getApparatusPanel().getWidth() - insetX - w;
+        int y = insetY;
+        grabBagButton.reshape( x, y, w, h );
+    }
 
     private JPanel makeSizePanel() {
-
         final JSpinner zoom = new JSpinner( new SpinnerNumberModel( 1, .1, 10, .1 ) );
         zoom.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -605,6 +643,7 @@ public class CCK3ControlPanel extends JPanel {
         private GridBagConstraints constraints;
         private JCheckBox internalResistanceEnabled;
         private JCheckBox hideElectrons;
+
 
         void addMe( Component component ) {
             add( component, constraints );

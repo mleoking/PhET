@@ -221,6 +221,19 @@ public class CircuitGraphic extends CompositeGraphic {
         return "CircuitGraphic, branches=" + branches + ", junctionLayer=" + junctionLayer;
     }
 
+    public void addGraphic( Resistor b, BufferedImage image ) {
+        CircuitComponentImageGraphic ccbg = new CircuitComponentImageGraphic( image, apparatusPanel, b, transform );
+        CircuitGraphic.this.addGraphic( b, ccbg );
+        InteractiveGraphic g = getGraphic( b );
+        fireGraphicAdded( b, g );
+        if( isReadoutGraphicsVisible() ) {
+            ReadoutGraphic rg = getReadoutGraphic( b );
+            if( rg != null ) {
+                rg.setVisible( true );
+            }
+        }
+    }
+
     public void addGraphic( Branch b ) {
         graphicSource.addGraphic( b );
         InteractiveGraphic g = getGraphic( b );
@@ -233,25 +246,24 @@ public class CircuitGraphic extends CompositeGraphic {
         }
     }
 
-    public void bumpAway( InteractiveWireJunctionGraphic interactiveWireJunctionGraphic ) {
+    public void bumpAway( HasJunctionGraphic interactiveWireJunctionGraphic ) {
         Shape shape = interactiveWireJunctionGraphic.getJunctionGraphic().getShape();
         int width = shape.getBounds().width;
         double dx = transform.viewToModelDifferentialX( width );
         Branch[] branches = circuit.getBranches();
+        Junction junction = interactiveWireJunctionGraphic.getJunctionGraphic().getJunction();
         for( int i = 0; i < branches.length; i++ ) {
             Branch branch = branches[i];
             Graphic graphic = getGraphic( branch );
-            if( !branch.hasJunction( interactiveWireJunctionGraphic.getJunction() ) ) {
+            if( !branch.hasJunction( junction ) ) {
                 if( intersectsShape( graphic, shape ) ) {
                     AbstractVector2D vec = branch.getDirectionVector();
                     vec = vec.getNormalVector();
                     vec = vec.getNormalizedInstance().getScaledInstance( dx );
-                    interactiveWireJunctionGraphic.getJunction().translate( vec.getX(), vec.getY() );
-                    Branch[] b = circuit.getAdjacentBranches( interactiveWireJunctionGraphic.getJunction() );
-                    for( int j = 0; j < b.length; j++ ) {
-                        Branch branch1 = b[j];
-                        branch1.notifyObservers();
-                    }
+                    Branch[] sc = circuit.getStrongConnections( junction );
+                    BranchSet bs = new BranchSet( circuit, sc );
+                    bs.addJunction( junction );
+                    bs.translate( vec );
                     module.getApparatusPanel().repaint();
                     break;
                 }
@@ -276,6 +288,15 @@ public class CircuitGraphic extends CompositeGraphic {
         return false;
     }
 
+    public void bumpAway( Branch branch ) {
+        bumpAway( branch.getStartJunction() );
+        bumpAway( branch.getEndJunction() );
+    }
+
+    private void bumpAway( Junction junction ) {
+        HasJunctionGraphic hj = getGraphic( junction );
+        bumpAway( hj );
+    }
 
     static class AmmeterTopGraphic implements Graphic {
         private SeriesAmmeter sam;
