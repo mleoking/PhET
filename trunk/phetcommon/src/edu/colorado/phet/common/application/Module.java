@@ -26,7 +26,7 @@ import javax.swing.*;
  * a complete virtual experiment. This includes, but is not limited to, the
  * on-screen controls and view elements that go along with the
  * experiment. Each module has its own model.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
@@ -130,8 +130,8 @@ public class Module {
         if( !moduleIsWellFormed() ) {
             throw new RuntimeException( "Module missing important data, module=" + this );
         }
-        app.getApplicationView().getBasicPhetPanel().setControlPanel( this.getControlPanel() );
-        app.getApplicationView().getBasicPhetPanel().setMonitorPanel( this.getMonitorPanel() );
+        app.getPhetFrame().getBasicPhetPanel().setControlPanel( this.getControlPanel() );
+        app.getPhetFrame().getBasicPhetPanel().setMonitorPanel( this.getMonitorPanel() );
         app.addClockTickListener( model );
     }
 

@@ -12,27 +12,24 @@
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.view.ApplicationView;
-import edu.colorado.phet.common.view.TabbedApparatusPanelContainer;
+import edu.colorado.phet.common.view.PhetFrame;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * The top-level class for all PhET applications.
- * It contains an ApplicationView and ApplicationModel.
+ * It contains a PhetFrame and ApplicationModel.
  *
  * @author ?
  * @version $Revision$
  */
 public class PhetApplication {
-    private ApplicationView view;
+    private PhetFrame phetFrame;
     private ApplicationModel applicationModel;
     private ModuleManager moduleManager = new ModuleManager();
 
-    public PhetApplication( ApplicationModel descriptor ) {
+    public PhetApplication( ApplicationModel descriptor ) throws IOException {
         if( descriptor.getModules() == null ) {
             throw new RuntimeException( "Module(s) not specified in ApplicationModel" );
         }
@@ -40,25 +37,7 @@ public class PhetApplication {
             throw new RuntimeException( "Clock not specified in ApplicationModel" );
         }
         this.applicationModel = descriptor;
-        JComponent apparatusPanelContainer;
-        if( descriptor.numModules() == 1 ) {
-            apparatusPanelContainer = new JPanel();
-            apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
-            if( descriptor.moduleAt( 0 ).getApparatusPanel() == null ) {
-                throw new RuntimeException( "Null Apparatus Panel in Module: " + descriptor.moduleAt( 0 ).getName() );
-            }
-            apparatusPanelContainer.add( descriptor.moduleAt( 0 ).getApparatusPanel() );
-        }
-        else {
-            apparatusPanelContainer = new TabbedApparatusPanelContainer( this );
-        }
-
-        try {
-            view = new ApplicationView( this.getApplicationDescriptor(), apparatusPanelContainer );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        phetFrame = new PhetFrame( this );
         moduleManager.addAllModules( descriptor.getModules() );
         s_instance = this;
     }
@@ -69,18 +48,18 @@ public class PhetApplication {
         }
         moduleManager.setActiveModule( applicationModel.getInitialModule() );
         applicationModel.start();
-        view.setVisible( true );
+        phetFrame.setVisible( true );
+    }
+
+    public PhetFrame getPhetFrame() {
+        return phetFrame;
     }
 
     public ModuleManager getModuleManager() {
         return moduleManager;
     }
 
-    public ApplicationView getApplicationView() {
-        return view;
-    }
-
-    public ApplicationModel getApplicationDescriptor() {
+    public ApplicationModel getApplicationModel() {
         return this.applicationModel;
     }
 

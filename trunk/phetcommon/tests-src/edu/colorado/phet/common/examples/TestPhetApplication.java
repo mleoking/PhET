@@ -21,6 +21,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Random;
 
 public class TestPhetApplication {
@@ -136,7 +137,7 @@ public class TestPhetApplication {
 
     }
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IOException {
 
         SwingTimerClock clock = new SwingTimerClock( 1, 30, true );
         Module module = new MyModule( "Testing", clock, Color.blue );
