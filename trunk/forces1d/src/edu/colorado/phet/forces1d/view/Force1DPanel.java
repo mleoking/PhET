@@ -9,7 +9,9 @@ import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.Force1DUtil;
@@ -60,6 +62,7 @@ public class Force1DPanel extends ApparatusPanel2 {
 //    private HelpItem2 goButtonHelp;
     private HelpItem2 soloGoButtonHelp;
     private boolean goButtonPressed;
+    private PhetGraphic floatingControlGraphic;
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
         super( module.getClock() );
@@ -195,7 +198,9 @@ public class Force1DPanel extends ApparatusPanel2 {
         checkBoxPanel.add( showAppliedForce );
         floatingControl = new FloatingControl( forcePlotDevice.getPlotDeviceModel(), this );
         floatingControl.add( checkBoxPanel );
-        add( floatingControl );
+        floatingControlGraphic = PhetJComponent.newInstance( this, floatingControl );
+//        add( floatingControl );
+        addGraphic( floatingControlGraphic, Double.POSITIVE_INFINITY );
 //        forcePlotDevice.getFloatingControl().addTo( checkBoxPanel );
 
         addMouseListener( new MouseAdapter() {
@@ -296,7 +301,7 @@ public class Force1DPanel extends ApparatusPanel2 {
             }
         } );
 
-        addGraphic( sliderWiggleMe );
+        addGraphic( sliderWiggleMe, Double.POSITIVE_INFINITY );
         sliderWiggleMe.setVisible( false );
 
         accelPlotDevice.setVisible( false );
@@ -340,8 +345,14 @@ public class Force1DPanel extends ApparatusPanel2 {
         soloGoButtonHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( floatingControl.getGoButton(), this ), 30 );
         addGraphic( soloGoButtonHelp, Double.POSITIVE_INFINITY );
         soloGoButtonHelp.setVisible( false );
+
+//        setUseOffscreenBuffer( true );
+        //TODO is offscreen buffer better here?
     }
 
+    public void paint( Graphics g ) {
+        super.paintComponent( g );
+    }
 
     private void setShowForceSeries( int series, boolean selected ) {
         forcePlotDevice.setDataSeriesVisible( series, selected );
@@ -387,7 +398,8 @@ public class Force1DPanel extends ApparatusPanel2 {
     public void forceLayout( int width, int height ) {
         if( getWidth() > 0 && getHeight() > 0 ) {
             backgroundGraphic.setSize( width, height );
-            GradientPaint background = new GradientPaint( 0, 0, top, 0, getHeight(), bottom );
+//            GradientPaint background = new GradientPaint( 0, 0, top, 0, getHeight(), bottom );
+            Paint background = PhetLookAndFeel.backgroundColor;
             backgroundGraphic.setBackground( background );
             int walkwayHeight = width / 6;
 
@@ -409,7 +421,8 @@ public class Force1DPanel extends ApparatusPanel2 {
                 floY = r.y + r.height + 10;
 
             }
-            floatingControl.reshape( floX, floY, floDim.width, floDim.height );
+//            floatingControl.reshape( floX, floY, floDim.width, floDim.height );
+            floatingControlGraphic.setLocation( floX, floY );
             updateGraphics();
             repaint();
             didLayout = true;
@@ -476,7 +489,7 @@ public class Force1DPanel extends ApparatusPanel2 {
     public void updateGraphics() {
         arrowSetGraphic.updateGraphics();
         blockGraphic.update();
-        paint();
+//        paint();
     }
 
     public void reset() {
@@ -545,13 +558,6 @@ public class Force1DPanel extends ApparatusPanel2 {
         forcePlotDevice.clearData();
     }
 
-    public void paint() {
-        super.paint();
-//        double runningTime=module.getClock().getRunningTime();
-//        System.out.println( "runningTime = " + runningTime );
-//        System.out.println( "Time=" + System.currentTimeMillis() +", painting.");
-//        new Exception().printStackTrace( );
-    }
 
     public void setPhetFrame( PhetFrame phetFrame ) {
         ContentPanel contentPanel = phetFrame.getBasicPhetPanel();

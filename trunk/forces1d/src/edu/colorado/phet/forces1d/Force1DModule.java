@@ -9,6 +9,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.util.QuickTimer;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.common.ColorDialog;
@@ -36,6 +37,7 @@ public class Force1DModule extends Module {
     private Force1DModel forceModel;
     protected Force1DPanel forcePanel;
     private Force1dControlPanel forceControlPanel;
+    private SimpleControlPanel simpleControlPanel;
     private Force1dObject[] imageElements;
     private static boolean readyToRender = false;
     private DefaultPlaybackPanel playbackPanel;
@@ -44,7 +46,7 @@ public class Force1DModule extends Module {
     private int objectIndex;
 
     public Force1DModule( AbstractClock clock ) throws IOException {
-        this( clock, "More Controls" );
+        this( clock, "Force1D" );
     }
 
     public Force1DModule( AbstractClock clock, String name ) throws IOException {
@@ -61,13 +63,13 @@ public class Force1DModule extends Module {
             new Force1dObject( "images/ollie.gif", "Sleepy Dog", 0.5, 25, 0.1, 0.1 ),
         };
 
-
         forcePanel = new Force1DPanel( this );
         forcePanel.addRepaintDebugGraphic( clock );
         setApparatusPanel( forcePanel );
 
         forceControlPanel = new Force1dControlPanel( this );
         setControlPanel( forceControlPanel );
+        simpleControlPanel = new SimpleControlPanel( this );
         addModelElement( forceModel );
 
         playbackPanel = new DefaultPlaybackPanel( getForceModel().getPlotDeviceModel() );
@@ -99,6 +101,7 @@ public class Force1DModule extends Module {
         forceModel.reset();
         forcePanel.reset();
         forceControlPanel.reset();
+        simpleControlPanel.reset();
     }
 
     public void cursorMovedToTime( double modelX, int index ) {
@@ -119,8 +122,9 @@ public class Force1DModule extends Module {
         final Force1DModule module = new Force1DModule( clock );
         module.getApparatusPanel().getGraphic().setVisible( false );
         FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
-        final Force1DModule simpleModule = new SimpleForceModule( clock );
-        Module[] m = new Module[]{simpleModule, module};
+//        final Force1DModule simpleModule = new SimpleForceModule( clock );
+//        Module[] m = new Module[]{simpleModule, module};
+        Module[] m = new Module[]{module};
 
         ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
                                                        frameSetup, m, clock );
@@ -140,7 +144,7 @@ public class Force1DModule extends Module {
             public void componentResized( ComponentEvent e ) {
                 if( readyToRender ) {
                     setup( module );
-                    setup( simpleModule );
+//                    setup( simpleModule );
                     readyToRender = false;
                 }
             }
@@ -160,7 +164,7 @@ public class Force1DModule extends Module {
         phetApplication.startApplication();
 
         new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
-        simpleModule.setPhetFrame( phetApplication.getPhetFrame() );
+//        simpleModule.setPhetFrame( phetApplication.getPhetFrame() );
         module.setPhetFrame( phetApplication.getPhetFrame() );
 
         phetApplication.getModuleManager().addModuleObserver( new ModuleObserver() {
@@ -168,7 +172,7 @@ public class Force1DModule extends Module {
             }
 
             public void activeModuleChanged( Module m ) {
-                simpleModule.getForcePanel().setReferenceSize();
+//                simpleModule.getForcePanel().setReferenceSize();
                 module.getForcePanel().setReferenceSize();
             }
 
@@ -176,19 +180,12 @@ public class Force1DModule extends Module {
 
             }
         } );
-
-//        final ContentPanel cp=phetApplication.getPhetFrame().getBasicPhetPanel();
-//        cp.addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                int h=cp.getHeight();
-//                JPanel controlPanel = module.getControlPanel();
-//                Dimension orig=controlPanel.getPreferredSize();
-//                controlPanel.setPreferredSize( new Dimension( orig.width,h) );
-//                Dimension newDim=controlPanel.getPreferredSize();
-////                controlPanel.reshape( 0,0,newDim.width, newDim.height );
+//        clock.stop();
+//        new Timer(30,new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                module.clockTicked( new ClockTickEvent( this,1) );
 //            }
-//        } );
-
+//        } ).start();
     }
 
     private void setPhetFrame( PhetFrame phetFrame ) {
@@ -289,11 +286,37 @@ public class Force1DModule extends Module {
     }
 
     public void clockTicked( ClockTickEvent event ) {
+        QuickTimer totalTime = new QuickTimer();
+
+        QuickTimer userInputTime = new QuickTimer();
         handleControlPanelInputs();
         getApparatusPanel().handleUserInput();
+        debug( "userInputTime = " + userInputTime );
+
+        QuickTimer modelTime = new QuickTimer();
         getModel().clockTicked( event );
+        debug( "modelTime = " + modelTime );
+
+        QuickTimer updateControlPanelTime = new QuickTimer();
         updateControlPanelGraphics();
+        debug( "updateControlPanelTime = " + updateControlPanelTime );
+
+        QuickTimer updateGraphicsTime = new QuickTimer();
         updateGraphics();
+        debug( "updateGraphicsTime = " + updateGraphicsTime );
+
+        QuickTimer paintTime = new QuickTimer();
+        getApparatusPanel().paint();
+        debug( "paintTime = " + paintTime );
+
+        debug( "totalTime = " + totalTime );
+    }
+
+    public static void debug( String str ) {
+        boolean debug = false;
+        if( debug ) {
+            System.out.println( "str = " + str );
+        }
     }
 
     public void updateControlPanelGraphics() {
@@ -304,4 +327,18 @@ public class Force1DModule extends Module {
         forceControlPanel.handleUserInput();
     }
 
+    public void setSimpleControlPanel() {
+        setControlPanel( simpleControlPanel );
+    }
+
+    public void setControlPanel( JPanel controlPanel ) {
+        super.setControlPanel( controlPanel );
+        if( phetFrame != null ) {
+            phetFrame.getBasicPhetPanel().setControlPanel( controlPanel );
+        }
+    }
+
+    public void setAdvancedControlPanel() {
+        setControlPanel( forceControlPanel );
+    }
 }

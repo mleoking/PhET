@@ -54,7 +54,8 @@ public class BufferedLinePlot implements DataSet.Observer {
                 drawToBuffer( line );
                 JComponent jc = (JComponent)chart.getComponent();
 
-                jc.paintImmediately( bounds.x, bounds.y, bounds.width, bounds.height );
+//                jc.paintImmediately( bounds.x, bounds.y, bounds.width, bounds.height );
+                jc.repaint( bounds.x, bounds.y, bounds.width, bounds.height );//We could pass a flag (or call a method) that this rectangle not be unioned with the rest of the crowd.
             }
             generalPath.lineTo( (float)viewLocation.getX(), (float)viewLocation.getY() );
         }

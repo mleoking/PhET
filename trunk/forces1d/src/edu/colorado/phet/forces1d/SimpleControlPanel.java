@@ -10,6 +10,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -22,11 +24,19 @@ public class SimpleControlPanel extends ControlPanel {
     private FreeBodyDiagramSuite fbdSuite;
     private JCheckBox frictionCheckBox;
     private BarrierCheckBox barriers;
-    private SimpleForceModule simpleForceModule;
+    private Force1DModule simpleForceModule;
 
-    public SimpleControlPanel( final SimpleForceModule simpleForceModule ) {
+    public SimpleControlPanel( final Force1DModule simpleForceModule ) {
         super( simpleForceModule );
         this.simpleForceModule = simpleForceModule;
+
+        JButton moreControls = new JButton( "More Controls!" );
+        moreControls.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                simpleForceModule.setAdvancedControlPanel();
+            }
+        } );
+        add( moreControls );
         frictionCheckBox = new JCheckBox( "Friction", true );
         frictionCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
