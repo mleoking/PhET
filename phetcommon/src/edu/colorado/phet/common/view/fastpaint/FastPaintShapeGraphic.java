@@ -41,7 +41,12 @@ public class FastPaintShapeGraphic extends ShapeGraphic {
             return strokeShape.getBounds();
         }
         else {
-            return super.getShape().getBounds();
+            if( super.getShape() == null ) {
+                return null;
+            }
+            else {
+                return super.getShape().getBounds();
+            }
         }
     }
 

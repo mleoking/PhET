@@ -5,6 +5,8 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.help.HelpManager;
+import edu.colorado.phet.common.view.help.HelpItem;
 
 import javax.swing.*;
 
@@ -21,6 +23,7 @@ public class Module {
     JPanel controlPanel;
     JPanel monitorPanel;
     String name;
+    HelpManager helpManager=new HelpManager();
 
     protected Module( String name ) {
         this.name = name;
@@ -28,6 +31,17 @@ public class Module {
 
     public ApparatusPanel getApparatusPanel() {
         return apparatusPanel;
+    }
+
+    public void setHelpEnabled( boolean h ) {
+        helpManager.setHelpEnabled(apparatusPanel,h);
+    }
+
+    public void addHelpItem(HelpItem helpItem){
+        helpManager.addHelpItem( helpItem );
+    }
+    public void removeHelpItem(HelpItem helpItem){
+        helpManager.removeHelpItem(helpItem);
     }
 
     public JPanel getControlPanel() {

@@ -51,7 +51,7 @@ public class ModelViewTransform2D {
     }
 
     public Point modelToView( Point2D pt ) {
-        return modelToView( pt.getY(), pt.getY() );
+        return modelToView( pt.getX(), pt.getY() );
     }
 
     public Point modelToView( AbstractVector2D pt ) {
