@@ -105,7 +105,7 @@ public class Hockey extends JApplet implements Runnable {
     public static void main( String[] args ) {
 
 
-        JFrame f = new JFrame();
+        JFrame f = new JFrame( "Electric Hockey - derived from work by Ruth Chabay");
         Hockey mg = new Hockey();
         f.setContentPane( mg );
         f.setSize( 800, 750 );
