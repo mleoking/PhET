@@ -37,6 +37,14 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
 public class CompassGridGraphic extends CompositePhetGraphic implements SimpleObserver {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
+    private static final double CUTOFF = 0.8; // Cutoff point for adjusting scale.
+    private static final double MIN_EXPONENT = 0.3; // Max exponent for adjusting scale.
+    private static final double MAX_EXPONENT = 0.8; // Min exponent for adjusting scale.
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
@@ -267,9 +275,6 @@ public class CompassGridGraphic extends CompositePhetGraphic implements SimpleOb
                      * <li>N is between 0.3-0.8 and is adjusted for magnet strength
                      * </ul>
                      */
-                    final double CUTOFF = 0.8; // Bo
-                    final double MIN_EXPONENT = 0.3;
-                    final double MAX_EXPONENT = 0.8;
                     if ( scale > CUTOFF ) {
                         scale = 1.0;
                     }
