@@ -78,7 +78,9 @@ public class JunctionGraphic extends CompositePrimaryGraphic {
     }
 
     private Stroke createStroke( double strokeWidth ) {
-        Stroke s = new BasicStroke( transform.modelToViewDifferentialX( strokeWidth ) );
+//        Stroke s = new BasicStroke( transform.modelToViewDifferentialX( strokeWidth ) );
+        float[]dash=new float[]{3,6};
+        Stroke s = new BasicStroke( transform.modelToViewDifferentialX( strokeWidth ),BasicStroke.CAP_SQUARE, BasicStroke.CAP_BUTT,3,dash, 0);
         return s;
     }
 
@@ -97,7 +99,8 @@ public class JunctionGraphic extends CompositePrimaryGraphic {
         int numConnections = circuit.getNeighbors( getJunction() ).length;
         if( numConnections == 1 ) {
             shapeGraphic.setBorderColor( Color.red );//setOutlinePaint( Color.red );
-            shapeGraphic.setStroke( createStroke( strokeWidthModelCoords * 2 ) );
+            shapeGraphic.setStroke( createStroke( strokeWidthModelCoords * 1.5) );
+//            shapeGraphic.setStroke( createStroke( strokeWidthModelCoords * 2 ) );
         }
         else {
             shapeGraphic.setBorderColor( Color.black );

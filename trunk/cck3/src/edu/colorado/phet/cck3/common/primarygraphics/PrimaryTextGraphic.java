@@ -39,7 +39,8 @@ public class PrimaryTextGraphic extends PrimaryGraphic implements IPrimaryTextGr
         int width = fontMetrics.stringWidth( text );//this ignores antialias and fractional metrics.
         int ascent = fontMetrics.getAscent();
         int descent = fontMetrics.getDescent();
-        Rectangle bounds = new Rectangle( (int)this.x, (int)this.y - ascent, width, ascent + descent );
+        int leading =fontMetrics.getLeading();
+        Rectangle bounds = new Rectangle( (int)this.x, (int)this.y - ascent+leading, width, ascent + descent+leading );
         return bounds;
     }
 

@@ -89,4 +89,8 @@ public class TextGraphic implements BoundedGraphic {
         }
         return result;
     }
+
+    public Rectangle2D getBounds() {
+        return getBounds2D();
+    }
 }

@@ -25,16 +25,13 @@ import java.io.IOException;
  */
 public class TestPrimaryGraphics {
     static double scale = 1;
-    private static int r = 40;
-    private static int g = 60;
-    private static int b = 200;
 
     public static void main( String[] args ) throws IOException {
         final ApparatusPanel panel = new ApparatusPanel();
         panel.addGraphicsSetup( new BasicGraphicsSetup() );
 
         Font font = new Font( "Lucida Sans", Font.PLAIN, 28 );
-        final PrimaryTextGraphic textGraphic = new PrimaryTextGraphic( panel, font, "Hello", Color.black, 100, 100 );
+        final PrimaryTextGraphic textGraphic = new PrimaryTextGraphic( panel, font, "HelloiIGg", Color.black, 100, 100 );
         final PrimaryShapeGraphic shapeGraphic = new PrimaryShapeGraphic( panel, textGraphic.getBounds().getBounds(), Color.blue );
 
         DefaultInteractiveGraphic textInteraction = new DefaultInteractiveGraphic( textGraphic );
@@ -80,12 +77,22 @@ public class TestPrimaryGraphics {
 
         final PrimaryMultiLineTextGraphic multiLineText =
                 new PrimaryMultiLineTextGraphic( panel, new String[]{"Hello",
-                                                                     "This is a test", "so there :)"}, font, 300, 180, Color.green, 2, 2, Color.red );
-        final PrimaryTransformGraphic transformText = new PrimaryTransformGraphic( panel, multiLineText, AffineTransform.getRotateInstance( -Math.PI / 2 ) );
+                                                                     "This is a test", "so there :)"},
+                                                 font, 300, 180, Color.green, 2, 2, Color.red );
+        final PrimaryTransformGraphic transformText = new PrimaryTransformGraphic( multiLineText,
+                                                                                   AffineTransform.getRotateInstance( -Math.PI / 2 ) );
         Point loc = transformText.getBounds().getLocation();
         Point dest = new Point( 150, 150 );
         Vector2D vec = new Vector2D.Double( loc, dest );
         transformText.translate( vec.getX(), vec.getY() );
+
+//        clock.addClockTickListener( new ClockTickListener() {
+//            public void clockTicked( AbstractClock c, double dt ) {
+//                transformText.rotate(.01);
+//            }
+//        } );
+        transformText.rotate(-Math.PI / 4);
+
         DefaultInteractiveGraphic multiLineInteraction = new DefaultInteractiveGraphic( transformText );
         multiLineInteraction.addCursorHandBehavior();
         multiLineInteraction.addTranslationBehavior( new Translatable() {
@@ -98,14 +105,14 @@ public class TestPrimaryGraphics {
         RepaintDebugGraphic colorG = new RepaintDebugGraphic( panel, clock );
         colorG.setActive( true );
 
-//        PrimaryShadowTextGraphic shadowText =
-//                new PrimaryShadowTextGraphic( "Shadow Text", font, 100, 300, Color.red, 2, 2, Color.blue, panel );
-//        panel.addGraphic( shadowText );
-//
-//        CompositePrimaryGraphic cpg = new CompositePrimaryGraphic( panel );
-//        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 100, 300 ), Color.blue ) );
-//        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 300, 100 ), Color.red ) );
-//        panel.addGraphic( cpg, -1 );
+        //        PrimaryShadowTextGraphic shadowText =
+        //                new PrimaryShadowTextGraphic( "Shadow Text", font, 100, 300, Color.red, 2, 2, Color.blue, panel );
+        //        panel.addGraphic( shadowText );
+        //
+        //        CompositePrimaryGraphic cpg = new CompositePrimaryGraphic( panel );
+        //        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 100, 300 ), Color.blue ) );
+        //        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 300, 100 ), Color.red ) );
+        //        panel.addGraphic( cpg, -1 );
         imageGraphic.setVisible( false );
 
         JFrame jf = new JFrame();
