@@ -840,12 +840,8 @@ public class CircuitGraphic extends CompositeGraphic {
         }
 
         private void addGrabBagGraphic( GrabBagResistor b ) {
-//            module.getCircuit().addBranch( b );
             BufferedImage image = b.getItemInfo().getImage();
             CircuitGraphic.this.addGraphic( b, BufferedImageUtils.flipY( image ) );
-
-//            module.relayout( new Branch[]{b} );
-//            module.getApparatusPanel().repaint();
         }
 
         private void addBatteryGraphic( Battery component ) {
