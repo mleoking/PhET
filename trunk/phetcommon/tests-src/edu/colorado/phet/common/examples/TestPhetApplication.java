@@ -16,12 +16,16 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.components.clockgui.ClockControlPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.util.Random;
 
 public class TestPhetApplication {
@@ -29,13 +33,27 @@ public class TestPhetApplication {
 
         public MyModule( String name, AbstractClock clock, Color color ) {
             super( name );
+
             setApparatusPanel( new ApparatusPanel() );
             setModel( new BaseModel() );
-            JTextArea ctrl = new JTextArea( 20, 20 );
-            JPanel controls = new JPanel();
-            controls.add( ctrl );
+            JTextArea ctrl = new JTextArea( 5, 20 );
             getApparatusPanel().addGraphic( new PhetShapeGraphic( getApparatusPanel(), new Rectangle( 200, 100, 300, 100 ), color ) );
-            setControlPanel( controls );
+
+            final ControlPanel controlPanel = new ControlPanel( this );
+            setControlPanel( controlPanel );
+
+            addHelpItem( new HelpItem(getApparatusPanel(), "HELP!!!", 300, 200 ));
+
+            controlPanel.add( ctrl );
+            final JButton button1 = new JButton("YO!" );
+            controlPanel.add( button1);
+            JButton button2 = new JButton("Y'ALL!" );
+            controlPanel.addFullWidth( button2);
+            button2.addActionListener( new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    controlPanel.remove( button1 );
+                }
+            });
         }
 
         public void activate( PhetApplication app ) {
@@ -157,7 +175,7 @@ public class TestPhetApplication {
         applicationModel.setName( "phetcommon" );
         applicationModel.setClock( clock );
         applicationModel.setModules( m );
-        applicationModel.setInitialModule( modulePhotons );
+        applicationModel.setInitialModule( module );
         applicationModel.setUseClockControlPanel( true );
 
         PhetApplication app = new PhetApplication( applicationModel );
