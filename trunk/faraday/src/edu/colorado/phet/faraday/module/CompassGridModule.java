@@ -152,7 +152,6 @@ public class CompassGridModule extends Module {
         int strengthScale = BarMagnetControlPanel.STRENGTH_MIN_PERCENTAGE + (BarMagnetControlPanel.STRENGTH_MAX_PERCENTAGE - BarMagnetControlPanel.STRENGTH_MIN_PERCENTAGE)/2;
         controlPanel.setBarMagnetStrengthScale( strengthScale );
         controlPanel.setGridDensity( GRID_X_SPACING, GRID_Y_SPACING );
-        controlPanel.setGridFollowsMagnent( false );
     }
    
     //----------------------------------------------------------------------------
@@ -177,14 +176,9 @@ public class CompassGridModule extends Module {
     }
     
     public void resetGridSpacing() {
-        System.out.println( "resetGridSpacing" );
+        System.out.println( "resetGridSpacing" );  // DEBUG
         int x = _gridGraphic.getXSpacing();
         int y = _gridGraphic.getYSpacing();
         _gridGraphic.setSpacing( x, y );
-    }
-    
-    public void setGridFollowsMagnet( boolean value ) {
-        System.out.println( "setGridFollowsMagnet " + value ); // DEBUG
-        // XXX
     }
 }

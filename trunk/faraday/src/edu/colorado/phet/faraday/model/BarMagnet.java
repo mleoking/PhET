@@ -102,41 +102,40 @@ public class BarMagnet extends SimpleObservable implements IMagnet {
     
     // XXX fake
     public double getDirection( Point2D p ) {
-        
-        //  Here are the names for the regions that surround the magnet:
-        //
-        //    R1     |      R2        |   R3
-        //   --------|----------------|----------
-        //    R4     |     magnet     |   R5
-        //   --------|----------------|----------
-        //    R6     |      R7        |   R8
-        
-        double direction = 0;
+      
+        double direction = 0.0;
         double w = 250.0; // XXX
         double h = 50.0; // XXX
         
-        if ( p.getY() >= _location.getY() - h/2 && p.getY() <= _location.getY() + h/2  ) {
-            // Point is in R4 or R5, use magnet's direction.
-            direction = _direction;
-        }
-        else if ( p.getX() >= _location.getX() - w/2 && p.getX() <= _location.getX() + w/2 ) {
-            // Point is in R2 or R7, use the magnet's opposite direction.
-            direction = ( _direction + 180 );
-        }
-        else if ( p.getX() < _location.getX() - w/2 )  {
-            // Point is in R1 or R6, determine angle.
+        if ( p.getX() <= _location.getX() - w/2 ) {
+            // Point is to left of magnet
             double opposite = _location.getY() - p.getY();
             double adjacent = ( _location.getX() - w/2 ) - p.getX();
             double theta = Math.toDegrees( Math.atan( opposite / adjacent ) );
-            direction = _direction + theta;   
+            direction = _direction + theta;
         }
-        else {
-            // Point is in R3 or R8, determine angle.
+        else if ( p.getX() >= _location.getX() + w/2 ) {
+            // Point is to right of magnet...
             double opposite = p.getY() - _location.getY();
             double adjacent = p.getX() - ( _location.getX() + w/2 );
             double theta = Math.toDegrees( Math.atan( opposite / adjacent ) );
             direction = _direction + theta;
         }
+        else if ( p.getY() <= _location.getY() - h/2 ) {
+            // Point is above the magnet...
+            double multiplier = (_location.getX() + w/2 - p.getX()) / w;
+            direction = _direction - 90 - ( multiplier * 180 );
+        }
+        else if ( p.getY() >= _location.getY() + h/2 ) {
+            // Point is below the magnet...
+            double multiplier = (_location.getX() + w/2 - p.getX()) / w;
+            direction = _direction + 90 + ( multiplier * 180 );
+        }
+        else {
+            // Point is inside the magnet...
+            direction = _direction + 180;
+        }
+
         return ( direction % 360 );
     }
 }

@@ -47,7 +47,6 @@ public class CompassGridControlPanel extends ControlPanel {
     private JButton _flipPolarityButton;
     private JSlider _strengthSlider;
     private JSlider _xSlider, _ySlider;
-    private JCheckBox _moveCheckBox;
     
     /**
      * Sole constructor.
@@ -158,14 +157,10 @@ public class CompassGridControlPanel extends ControlPanel {
                     yPanel.add( _ySlider );
                 }
                 
-                // Grid movement
-                _moveCheckBox = new JCheckBox( "Move With Magnet" );
-                
                 // Layout
                 gridPanel.setLayout( new BoxLayout( gridPanel, BoxLayout.Y_AXIS ) );
                 gridPanel.add( xPanel );
                 gridPanel.add( yPanel );
-                gridPanel.add( _moveCheckBox );
             }
             
             // Layout so that control groups fill horizontal space.
@@ -182,7 +177,6 @@ public class CompassGridControlPanel extends ControlPanel {
             _strengthSlider.addChangeListener( listener );
             _xSlider.addChangeListener( listener );
             _ySlider.addChangeListener( listener );
-            _moveCheckBox.addActionListener( listener );
         }
         super.setControlPane( panel );
     }
@@ -196,10 +190,6 @@ public class CompassGridControlPanel extends ControlPanel {
         _ySlider.setValue( y );
     }
     
-    public void setGridFollowsMagnent( boolean value ) {
-        _moveCheckBox.setSelected( value );
-    }
-    
     private class EventListener implements ActionListener, ChangeListener {
         
         public EventListener() {}
@@ -207,9 +197,6 @@ public class CompassGridControlPanel extends ControlPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _flipPolarityButton ) {
                 _module.flipBarMagnetPolarity();
-            }
-            else if ( e.getSource() == _moveCheckBox ) {
-                _module.setGridFollowsMagnet( _moveCheckBox.isSelected() );
             }
             else {
                  throw new IllegalArgumentException( "unexpected event: " + e );
