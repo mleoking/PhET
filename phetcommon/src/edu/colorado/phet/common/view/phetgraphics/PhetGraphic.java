@@ -30,7 +30,7 @@ import java.util.Stack;
  * This graphic class auto-magically repaints itself in the appropriate bounds,
  * using component.paint(int x,int y,int width,int height).
  * This class manages the current and previous bounds for painting, and whether the region is dirty.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
@@ -74,7 +74,7 @@ public abstract class PhetGraphic {
     }
 
     /**
-     * Adds a Listener for changes in this PhetGraphic.
+     * Adds a Observer for changes in this PhetGraphic.
      *
      * @param phetGraphicListener
      */
