@@ -25,7 +25,6 @@ import java.awt.image.BufferedImage;
 public class TravoltageApplet extends JApplet {
     private BufferedImage carpet;
     private BufferedImage johnBitmap;
-    private BufferedImage doorknob;
     private BufferedImage knob;
     private BufferedImage overlay;
 
@@ -36,8 +35,7 @@ public class TravoltageApplet extends JApplet {
         AudioClip zzt = ResourceLoader.loadAudioClip( "sound/ShockSmallest.wav", pp );
         AudioClip[] audioClips = new AudioClip[]{ouch, zzt};
 
-        johnBitmap = ResourceLoader.loadBufferedImage( "images/travolta/JT5-Bitmap_Colors2.GIF", pp, false );
-        doorknob = ResourceLoader.loadBufferedImage( "images/travolta/JT5-Bitmap_Colors_Doorknob2.GIF", pp, false );
+        johnBitmap = ResourceLoader.loadBufferedImage( "images/JT5-Bitmap_Colors2.GIF", pp, false );
 
         PixelVelocityLookup2 pvl = new PixelVelocityLookup2();
         pvl.add( new int[]{255, 0, 0}, new DoublePoint( 0, -1 ) );
@@ -76,7 +74,7 @@ public class TravoltageApplet extends JApplet {
         validate();
 
         ShockElectronFactory shoeElectrons = new ShockElectronFactory( 160, johnBitmap.getHeight() - 50, 20, 20, tp );
-        BufferedImage arm = ResourceLoader.loadBufferedImage( "images/travolta/arm.GIF", pp, true );
+        BufferedImage arm = ResourceLoader.loadBufferedImage( "images/arm.GIF", pp, true );
         arm = edu.colorado.phet.common.utils.AlphaFixer.patchAlpha( arm );
 
         double armAngle = 5.3;
@@ -90,23 +88,19 @@ public class TravoltageApplet extends JApplet {
         GoToFinger gtf = new GoToFinger( armRI, tib, coulomb, maxVel, rip );
         GoToElbow gte = new GoToElbow( armRI, tib, coulomb, maxVel, gtf );
 
-//  	ScuffCarpet scuff=new ScuffCarpet(new Vector(),shoeElectrons,pp,painter,tib,gte,johnBitmap,tp);
         PanelAdapter panelAdapter = ( new PanelAdapter( pp, painter ) );
         cpc.add( panelAdapter );
-//  	scuff.add(new PanelAdapter(pp,painter));
         cpc.add( new SystemAdapter( sys ) );
-//  	//scuff.add(coulomb);
-//  	scuff.add(tp);
 
         JPanel southPanel = new JPanel();
         southPanel.setLayout( new BoxLayout( southPanel, BoxLayout.X_AXIS ) );
 
         getContentPane().add( southPanel, BorderLayout.SOUTH );
 
-        overlay = edu.colorado.phet.common.utils.ResourceLoader.loadBufferedImage( "images/travolta/JT5.jpg", pp, true );
+        overlay = edu.colorado.phet.common.utils.ResourceLoader.loadBufferedImage( "images/JT5.jpg", pp, true );
         pp.add( new BufferedImagePainter( overlay ) );
 
-        knob = ResourceLoader.loadBufferedImage( "images/doorknobs/images.jpg", pp, true );
+        knob = ResourceLoader.loadBufferedImage( "images/knob.jpg", pp, true );
         knob = edu.colorado.phet.common.utils.AlphaFixer.patchAlpha( knob );
         pp.add( new BufferedImagePainter( knob, AffineTransform.getTranslateInstance( overlay.getWidth() - 15, overlay.getHeight() * .35 ) ) );
 
@@ -118,7 +112,7 @@ public class TravoltageApplet extends JApplet {
 
         //armRI.addAngleListener(new Arm(scuff,6.58,.557));
 
-        BufferedImage leg = ResourceLoader.loadBufferedImage( "images/travolta/leg.GIF", pp, true );
+        BufferedImage leg = ResourceLoader.loadBufferedImage( "images/leg.GIF", pp, true );
         leg = edu.colorado.phet.common.utils.AlphaFixer.patchAlpha( leg );
         final RotatingImage legRI = ( new RotatingImage( leg, -0.176614109401938, 130, 255, pp, 80, 20, 20, Math.PI / 2 + Math.PI / 8 ) );
         pp.add( legRI );
@@ -143,7 +137,7 @@ public class TravoltageApplet extends JApplet {
         };
         pp.addMouseMotionListener( mml );
 
-        carpet = ResourceLoader.loadBufferedImage( "images/travolta/carpet.GIF", pp, true );
+        carpet = ResourceLoader.loadBufferedImage( "images/carpet.GIF", pp, true );
 
         carpet = edu.colorado.phet.common.utils.AlphaFixer.patchAlpha( carpet );
         pp.add( new BufferedImagePainter( carpet, AffineTransform.getTranslateInstance( 0, overlay.getHeight() - 25 ) ) );
