@@ -4,16 +4,20 @@ package edu.colorado.phet.forces1d;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 /**
  * User: Sam Reid
@@ -32,6 +36,7 @@ public class Force1dControlPanel extends ControlPanel {
     private ModelSlider staticFriction;
     private ModelSlider kineticFriction;
     private BarrierCheckBox barriers;
+    private static final double MAX_GRAV = 30;
 
     public Force1dControlPanel( final Force1DModule module ) {
         super( module );
@@ -41,16 +46,15 @@ public class Force1dControlPanel extends ControlPanel {
 
         freeBodyDiagramSuite.addTo( this );
 //        comboBox = new JComboBox( module.getImageElements() );
-        comboBox = new ObjectComboBox( module.getImageElements(), this );
-
+        comboBox = new ObjectComboBox( module, module.getImageElements(), this );
         add( comboBox );
 
-        mass = createControl( 5, 0.1, 1000, 1.0, "Mass", "kg", new SpinnerHandler() {
+        mass = createControl( 5, 0.1, 1000, "Mass", "kg", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setMass( value );
             }
         } );
-        gravity = createControl( 9.8, 0, 100, .2, "Gravity", "N/kg", new SpinnerHandler() {
+        gravity = createControl( 9.8, 0, MAX_GRAV, "Gravity", "N/kg", new SpinnerHandler() {
             public void changed( double value ) {
                 model.setGravity( value );
             }
@@ -67,12 +71,12 @@ public class Force1dControlPanel extends ControlPanel {
             }
         } );
 
-        staticFriction = createControl( 0.10, 0, MAX_KINETIC_FRICTION, .01, "Static Friction", "", new SpinnerHandler() {
+        staticFriction = createControl( 0.10, 0, MAX_KINETIC_FRICTION, "Static Friction", "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setStaticFriction( value );
             }
         } );
-        kineticFriction = createControl( 0.05, 0, MAX_KINETIC_FRICTION, .01, "Kinetic Friction", "", new SpinnerHandler() {
+        kineticFriction = createControl( 0.05, 0, MAX_KINETIC_FRICTION, "Kinetic Friction", "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setKineticFriction( value );
             }
@@ -125,7 +129,8 @@ public class Force1dControlPanel extends ControlPanel {
                 mass.setValue( model.getBlock().getMass() );
             }
         } );
-        setup( module.imageElementAt( 0 ) );
+        module.setObject( module.imageElementAt( 0 ) );
+//        setup( module.imageElementAt( 0 ) );
 
         super.setHelpPanelEnabled( true );
         super.removeTitle();
@@ -147,6 +152,51 @@ public class Force1dControlPanel extends ControlPanel {
                 enableChanges();
             }
         } );
+        JButton restore = new JButton( "Restore Defaults" );
+        restore.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.restoreDefaults();
+            }
+        } );
+        add( restore );
+
+        Hashtable labelTable = new Hashtable();
+
+        labelTable.put( new Double( 1.67 ), toJLabel( "Moon" ) );
+        labelTable.put( new Double( 9.8 ), toJLabel( "Earth" ) );
+        labelTable.put( new Double( 22.9 ), toJLabel( "Jupiter" ) );
+        gravity.setModelLabels( labelTable );
+        gravity.setPaintTicks( false );
+//        gravity.setModelTicks( labelTable );
+    }
+
+    static final Stroke stroke = new BasicStroke( 1 );
+
+    public static JLabel toJLabel( String name ) {
+//        JLabel label = new JLabel( name );
+
+//        label.setOpaque( true );
+        JLabel horizLabel = new JLabel( name ) {
+            protected void paintComponent( Graphics g ) {
+
+                Graphics2D g2 = (Graphics2D)g;
+                GraphicsState gs = new GraphicsState( g2 );
+                g.setColor( Color.blue );
+                int x = getWidth() / 2;
+                g2.setStroke( stroke );
+                g.drawLine( x, 0, x, 2 );
+                gs.restoreGraphics();
+                super.paintComponent( g );
+            }
+        };
+        horizLabel.setFont( new Font( "Lucida Sans", 0, 10 ) );
+        Dimension pre = horizLabel.getPreferredSize();
+        horizLabel.setPreferredSize( new Dimension( pre.width, pre.height + 5 ) );
+//        JPanel panel=new JPanel();
+//        panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
+//        panel.add(horizLabel);
+//        panel.add(label);
+        return horizLabel;
     }
 
     private void disableChanges() {
@@ -166,12 +216,12 @@ public class Force1dControlPanel extends ControlPanel {
         kineticFriction.setEnabled( enabled );
         barriers.setEnabled( enabled );
     }
+//
+//    private void setup( Force1dObject force1dObject ) {
+//        module.setObject( force1dObject );
+//    }
 
-    public void setup( Force1dObject force1dObject ) {
-        module.setObject( force1dObject );
-    }
-
-    private ModelSlider createControl( double value, double min, double max, double spacing, String name, String units, final SpinnerHandler handler ) {
+    private ModelSlider createControl( double value, double min, double max, String name, String units, final SpinnerHandler handler ) {
         final ModelSlider modelSlider = new ModelSlider( name, units, min, max, value );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

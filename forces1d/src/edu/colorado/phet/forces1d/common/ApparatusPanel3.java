@@ -22,11 +22,11 @@ public class ApparatusPanel3 extends ApparatusPanel2 {
      */
     public ApparatusPanel3( BaseModel model, AbstractClock clock ) {
         super( model, clock );
-        clock.removeClockTickListener( paintTickListener );
+//        clock.removeClockTickListener( paintTickListener );
     }
 
-    protected void init( BaseModel model ) {
-        super.init( model );
+    protected void init( BaseModel model, AbstractClock clock ) {
+        super.init( model, clock );
         model.removeModelElement( paintModelElement );
     }
 }

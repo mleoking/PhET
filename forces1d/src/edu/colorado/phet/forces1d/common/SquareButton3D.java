@@ -42,7 +42,10 @@ public class SquareButton3D extends CompositePhetGraphic {
 //        Stroke borderStroke = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         final Color normalFaceColor = new Color( 200, 210, 255 );
         final Color highlightFaceColor = new Color( 225, 235, 255 );
-        rectangle3DGraphic = new Rectangle3DGraphic( getComponent(), bounds, normalFaceColor, borderStroke, Color.red, Color.green, zOrig, zOrig, Color.black );
+        Color darkerFaceColor = new Color( 170, 180, 220 );
+        Color darkerFaceColor2 = new Color( 190, 185, 230 );
+        rectangle3DGraphic = new Rectangle3DGraphic( getComponent(), bounds, normalFaceColor,
+                                                     borderStroke, darkerFaceColor, darkerFaceColor2, zOrig, zOrig, Color.black );
         addGraphic( rectangle3DGraphic );
         addGraphic( htmlGraphic );
 

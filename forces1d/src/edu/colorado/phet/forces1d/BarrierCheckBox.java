@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d;
 
+import edu.colorado.phet.forces1d.model.BoundaryCondition;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -14,7 +16,7 @@ import javax.swing.event.ChangeListener;
 
 public class BarrierCheckBox extends JCheckBox {
     public BarrierCheckBox( final Force1DModule module ) {
-        super( "Barriers" );
+        super( "Barriers", true );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 if( !isSelected() ) {
@@ -25,5 +27,15 @@ public class BarrierCheckBox extends JCheckBox {
                 }
             }
         } );
+        module.getForceModel().addBoundaryConditionListener( new BoundaryCondition.Listener() {
+            public void boundaryConditionOpen() {
+                setSelected( false );
+            }
+
+            public void boundaryConditionWalls() {
+                setSelected( true );
+            }
+        } );
+
     }
 }

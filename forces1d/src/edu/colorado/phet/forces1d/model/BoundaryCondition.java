@@ -49,14 +49,20 @@ public abstract class BoundaryCondition {
 
         public void apply() {
             if( block.getPosition() > 10 ) {
+                double mv = Math.abs( block.getMass() * block.getVelocity() );
                 block.setPosition( 10 );
                 block.setAcceleration( 0.0 );
                 block.setVelocity( 0.0 );
+//                System.out.println( "block = " + block );
+                model.fireCollisionHappened( mv );
             }
             else if( block.getPosition() < -10 ) {
+                double mv = Math.abs( block.getMass() * block.getVelocity() );
                 block.setPosition( -10 );
                 block.setAcceleration( 0.0 );
                 block.setVelocity( 0.0 );
+//                System.out.println( "block = " + block );
+                model.fireCollisionHappened( mv );
             }
         }
 

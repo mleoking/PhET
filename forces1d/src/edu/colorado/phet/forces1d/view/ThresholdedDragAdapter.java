@@ -48,7 +48,9 @@ public class ThresholdedDragAdapter implements MouseInputListener {
 
     public void mouseReleased( MouseEvent e ) {
         lastPressLocation = null;
+        isDragging = false;
         target.mouseReleased( e );
+
 //        System.out.println( "mouse released" + e );
     }
 
