@@ -66,12 +66,12 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
     private JCheckBox _gridCheckBox;
     private JCheckBox _fieldMeterCheckBox;
     private JCheckBox _compassCheckBox; 
-    private JSlider _voltageSlider;
-    private JLabel _voltageValue;
-    private JSlider _amplitudeSlider;
-    private JLabel _amplitudeValue;
-    private JSlider _frequencySlider;
-    private JLabel _frequencyValue;
+    private JSlider _batteryAmplitudeSlider;
+    private JLabel _batteryAmplitudeValue;
+    private JSlider _acMaxAmplitudeSlider;
+    private JLabel _acMaxAmplitudeValue;
+    private JSlider _acFrequencySlider;
+    private JLabel _acFrequencyValue;
     private JPanel _batteryPanel;
     private JPanel _acPanel;
     private JSpinner _loopsSpinner;
@@ -219,42 +219,42 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
             Border batteryBorder = BorderFactory.createCompoundBorder( outsideBorder, insideBorder );
             _batteryPanel.setBorder( batteryBorder );
 
-            JPanel voltagePanel = new JPanel();
+            JPanel batteryAmpitudePanel = new JPanel();
             {
-                voltagePanel.setBorder( BorderFactory.createEtchedBorder() );
+                batteryAmpitudePanel.setBorder( BorderFactory.createEtchedBorder() );
                 
                 // Range of values
-                int max = (int) FaradayConfig.BATTERY_VOLTAGE_MAX;
-                int min = (int) -FaradayConfig.BATTERY_VOLTAGE_MAX;
+                int max = (int) ( 100.0 * FaradayConfig.BATTERY_AMPLITUDE_MAX );
+                int min = (int) ( 100.0 * FaradayConfig.BATTERY_AMPLITUDE_MIN );
                 int range = max - min;
 
                 // Slider
-                _voltageSlider = new JSlider();
-                _voltageSlider.setMaximum( max );
-                _voltageSlider.setMinimum( min );
-                _voltageSlider.setValue( min );
+                _batteryAmplitudeSlider = new JSlider();
+                _batteryAmplitudeSlider.setMaximum( max );
+                _batteryAmplitudeSlider.setMinimum( min );
+                _batteryAmplitudeSlider.setValue( min );
 
                 // Slider tick marks
-                _voltageSlider.setMajorTickSpacing( range );
-                _voltageSlider.setMinorTickSpacing( range / 10 );
-                _voltageSlider.setSnapToTicks( false );
-                _voltageSlider.setPaintTicks( true );
-                _voltageSlider.setPaintLabels( true );
+                _batteryAmplitudeSlider.setMajorTickSpacing( range );
+                _batteryAmplitudeSlider.setMinorTickSpacing( range / 10 );
+                _batteryAmplitudeSlider.setSnapToTicks( false );
+                _batteryAmplitudeSlider.setPaintTicks( true );
+                _batteryAmplitudeSlider.setPaintLabels( true );
 
                 // Value
-                _voltageValue = new JLabel( UNKNOWN_VALUE );
+                _batteryAmplitudeValue = new JLabel( UNKNOWN_VALUE );
 
                 // Layout
-                EasyGridBagLayout layout = new EasyGridBagLayout( voltagePanel );
-                voltagePanel.setLayout( layout );
-                layout.addAnchoredComponent( _voltageValue, 0, 0, GridBagConstraints.WEST );
-                layout.addAnchoredComponent( _voltageSlider, 1, 0, GridBagConstraints.WEST );
+                EasyGridBagLayout layout = new EasyGridBagLayout( batteryAmpitudePanel );
+                batteryAmpitudePanel.setLayout( layout );
+                layout.addAnchoredComponent( _batteryAmplitudeValue, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _batteryAmplitudeSlider, 1, 0, GridBagConstraints.WEST );
             }
             
             EasyGridBagLayout layout = new EasyGridBagLayout( _batteryPanel );
             _batteryPanel.setLayout( layout );
             int row = 0;
-            layout.addFilledComponent( voltagePanel, row++, 0, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( batteryAmpitudePanel, row++, 0, GridBagConstraints.HORIZONTAL );
         }
         
         _acPanel = new JPanel();
@@ -268,75 +268,75 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
             Border acBorder = BorderFactory.createCompoundBorder( outsideBorder, insideBorder );
             _acPanel.setBorder( acBorder );
             
-            JPanel amplitudePanel = new JPanel();
+            JPanel acAmplitudePanel = new JPanel();
             {
-                amplitudePanel.setBorder( BorderFactory.createEtchedBorder() );
+                acAmplitudePanel.setBorder( BorderFactory.createEtchedBorder() );
                 
                 // Range of values
-                int max = (int) ( FaradayConfig.AC_AMPLITUDE_MAX * 100.0 );
-                int min = 0;
+                int max = (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MAX );
+                int min = (int) ( 100.0 * FaradayConfig.AC_MAXAMPLITUDE_MIN );
                 int range = max - min;
 
                 // Slider
-                _amplitudeSlider = new JSlider();
-                _amplitudeSlider.setMaximum( max );
-                _amplitudeSlider.setMinimum( min );
-                _amplitudeSlider.setValue( min );
+                _acMaxAmplitudeSlider = new JSlider();
+                _acMaxAmplitudeSlider.setMaximum( max );
+                _acMaxAmplitudeSlider.setMinimum( min );
+                _acMaxAmplitudeSlider.setValue( min );
 
                 // Slider tick marks
-                _amplitudeSlider.setMajorTickSpacing( range );
-                _amplitudeSlider.setMinorTickSpacing( range / 10 );
-                _amplitudeSlider.setSnapToTicks( false );
-                _amplitudeSlider.setPaintTicks( true );
-                _amplitudeSlider.setPaintLabels( true );
+                _acMaxAmplitudeSlider.setMajorTickSpacing( range );
+                _acMaxAmplitudeSlider.setMinorTickSpacing( range / 10 );
+                _acMaxAmplitudeSlider.setSnapToTicks( false );
+                _acMaxAmplitudeSlider.setPaintTicks( true );
+                _acMaxAmplitudeSlider.setPaintLabels( true );
 
                 // Value
-                _amplitudeValue = new JLabel( UNKNOWN_VALUE );
+                _acMaxAmplitudeValue = new JLabel( UNKNOWN_VALUE );
 
                 // Layout
-                EasyGridBagLayout layout = new EasyGridBagLayout( amplitudePanel );
-                amplitudePanel.setLayout( layout );
-                layout.addAnchoredComponent( _amplitudeValue, 0, 0, GridBagConstraints.WEST );
-                layout.addAnchoredComponent( _amplitudeSlider, 1, 0, GridBagConstraints.WEST );
+                EasyGridBagLayout layout = new EasyGridBagLayout( acAmplitudePanel );
+                acAmplitudePanel.setLayout( layout );
+                layout.addAnchoredComponent( _acMaxAmplitudeValue, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _acMaxAmplitudeSlider, 1, 0, GridBagConstraints.WEST );
             }
             
-            JPanel frequencyPanel = new JPanel();
+            JPanel acFrequencyPanel = new JPanel();
             {
-                frequencyPanel.setBorder( BorderFactory.createEtchedBorder() );
+                acFrequencyPanel.setBorder( BorderFactory.createEtchedBorder() );
                 
                 // Range of values
-                int max = (int) ( FaradayConfig.AC_FREQUENCY_MAX * 100.0 );
-                int min = (int) ( FaradayConfig.AC_FREQUENCY_MIN * 100.0 );
+                int max = (int) ( 100.0 * FaradayConfig.AC_FREQUENCY_MAX );
+                int min = (int) ( 100.0 * FaradayConfig.AC_FREQUENCY_MIN );;
                 int range = max - min;
 
                 // Slider
-                _frequencySlider = new JSlider();
-                _frequencySlider.setMaximum( max );
-                _frequencySlider.setMinimum( min );
-                _frequencySlider.setValue( max );
+                _acFrequencySlider = new JSlider();
+                _acFrequencySlider.setMaximum( max );
+                _acFrequencySlider.setMinimum( min );
+                _acFrequencySlider.setValue( max );
 
                 // Slider tick marks
-                _frequencySlider.setMajorTickSpacing( range );
-                _frequencySlider.setMinorTickSpacing( range / 10 );
-                _frequencySlider.setSnapToTicks( false );
-                _frequencySlider.setPaintTicks( true );
-                _frequencySlider.setPaintLabels( true );
+                _acFrequencySlider.setMajorTickSpacing( range );
+                _acFrequencySlider.setMinorTickSpacing( range / 10 );
+                _acFrequencySlider.setSnapToTicks( false );
+                _acFrequencySlider.setPaintTicks( true );
+                _acFrequencySlider.setPaintLabels( true );
 
                 // Value
-                _frequencyValue = new JLabel( UNKNOWN_VALUE );
+                _acFrequencyValue = new JLabel( UNKNOWN_VALUE );
 
                 // Layout
-                EasyGridBagLayout layout = new EasyGridBagLayout( frequencyPanel );
-                frequencyPanel.setLayout( layout );
-                layout.addAnchoredComponent( _frequencyValue, 0, 0, GridBagConstraints.WEST );
-                layout.addAnchoredComponent( _frequencySlider, 1, 0, GridBagConstraints.WEST );
+                EasyGridBagLayout layout = new EasyGridBagLayout( acFrequencyPanel );
+                acFrequencyPanel.setLayout( layout );
+                layout.addAnchoredComponent( _acFrequencyValue, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _acFrequencySlider, 1, 0, GridBagConstraints.WEST );
             }
             
             EasyGridBagLayout layout = new EasyGridBagLayout( _acPanel );
             _acPanel.setLayout( layout );
             int row = 0;
-            layout.addFilledComponent( amplitudePanel, row++, 0, GridBagConstraints.HORIZONTAL );
-            layout.addFilledComponent( frequencyPanel, row++, 0, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( acAmplitudePanel, row++, 0, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( acFrequencyPanel, row++, 0, GridBagConstraints.HORIZONTAL );
         }
 
         // Add panels.
@@ -352,9 +352,9 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         _gridCheckBox.addActionListener( listener );
         _fieldMeterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
-        _voltageSlider.addChangeListener( listener );
-        _amplitudeSlider.addChangeListener( listener );
-        _frequencySlider.addChangeListener( listener );
+        _batteryAmplitudeSlider.addChangeListener( listener );
+        _acMaxAmplitudeSlider.addChangeListener( listener );
+        _acFrequencySlider.addChangeListener( listener );
         _electronsCheckBox.addActionListener( listener );
         _loopsSpinner.addChangeListener( listener );
 
@@ -364,9 +364,9 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
-        _voltageSlider.setValue( (int) _batteryModel.getVoltage() );
-        _amplitudeSlider.setValue( (int) ( _acSourceModel.getAmplitude() * 100.0 ) );
-        _frequencySlider.setValue( (int) ( _acSourceModel.getFrequency() * 100.0 ) );
+        _batteryAmplitudeSlider.setValue( (int) ( 100.0 * _batteryModel.getVoltage() / FaradayConfig.BATTERY_VOLTAGE_MAX ) );
+        _acMaxAmplitudeSlider.setValue( (int) ( _acSourceModel.getMaxAmplitude() * 100.0 ) );
+        _acFrequencySlider.setValue( (int) ( _acSourceModel.getFrequency() * 100.0 ) );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
         _loopsSpinner.setValue( new Integer( _sourceCoilModel.getNumberOfLoops() ) );
         
@@ -452,35 +452,35 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
                 // Update the model.
                 _sourceCoilModel.setNumberOfLoops( numberOfLoops );
             }
-            else if ( e.getSource() == _voltageSlider ) {
+            else if ( e.getSource() == _batteryAmplitudeSlider ) {
                 // Read the value.
-                int value = _voltageSlider.getValue();
+                int percent = _batteryAmplitudeSlider.getValue();
                 // Update the model.
-                _batteryModel.setVoltage( value );
+                _batteryModel.setAmplitude( percent / 100.0 );
                 // Update the label.
-                Object[] args = { new Integer( value ) };
+                Object[] args = { new Integer( percent ) };
                 String text = MessageFormat.format( SimStrings.get( "ElectromagnetModule.batteryVoltage" ), args );
-                _voltageValue.setText( text );
+                _batteryAmplitudeValue.setText( text );
             }
-            else if ( e.getSource() == _amplitudeSlider ) {
+            else if ( e.getSource() == _acMaxAmplitudeSlider ) {
                 // Read the value.
-                int value = _amplitudeSlider.getValue();
+                int percent = _acMaxAmplitudeSlider.getValue();
                 // Update the model.
-                _acSourceModel.setAmplitude( value / 100.0 );
+                _acSourceModel.setMaxAmplitude( percent / 100.0 );
                 // Update the label.
-                Object[] args = { new Integer( value ) };
+                Object[] args = { new Integer( percent ) };
                 String text = MessageFormat.format( SimStrings.get( "ElectromagnetModule.acAmplitude" ), args );
-                _amplitudeValue.setText( text );
+                _acMaxAmplitudeValue.setText( text );
             }
-            else if ( e.getSource() == _frequencySlider ) {
+            else if ( e.getSource() == _acFrequencySlider ) {
                 // Read the value.
-                int value = _frequencySlider.getValue();
+                int percent = _acFrequencySlider.getValue();
                 // Update the model.
-                _acSourceModel.setFrequency( value / 100.0 );
+                _acSourceModel.setFrequency( percent / 100.0 );
                 // Update the label.
-                Object[] args = { new Integer( value ) };
+                Object[] args = { new Integer( percent ) };
                 String text = MessageFormat.format( SimStrings.get( "ElectromagnetModule.acFrequency" ), args );
-                _frequencyValue.setText( text );
+                _acFrequencyValue.setText( text );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );

@@ -30,6 +30,8 @@ import edu.colorado.phet.faraday.module.TransformerModule;
  */
 public class FaradayApplicationModel extends ApplicationModel {
 
+    private static final boolean TEST_ONE_MODULE = true;
+    
     /**
      * Sole constructor.
      * 
@@ -51,13 +53,18 @@ public class FaradayApplicationModel extends ApplicationModel {
         setUseClockControlPanel( false );
         
         // Simulation Modules
-        BarMagnetModule barMagnetModule = new BarMagnetModule( this );
-        MagnetAndCoilModule magnetAndCoilModule = new MagnetAndCoilModule( this );
-        ElectromagnetModule electromagnetModule = new ElectromagnetModule( this );
-        TransformerModule transformerModule = new TransformerModule( this );
-        this.setModules( new Module[] { barMagnetModule, magnetAndCoilModule, electromagnetModule, transformerModule } );
-
-        // Initial module to be displayed.
-        this.setInitialModule( electromagnetModule );
+        if ( TEST_ONE_MODULE ) {
+            Module module = new ElectromagnetModule( this );
+            this.setModules( new Module[] { module } );
+            this.setInitialModule( module );
+        }
+        else {
+            BarMagnetModule barMagnetModule = new BarMagnetModule( this );
+            MagnetAndCoilModule magnetAndCoilModule = new MagnetAndCoilModule( this );
+            ElectromagnetModule electromagnetModule = new ElectromagnetModule( this );
+            TransformerModule transformerModule = new TransformerModule( this );
+            this.setModules( new Module[] { barMagnetModule, magnetAndCoilModule, electromagnetModule, transformerModule } );
+            this.setInitialModule( electromagnetModule );
+        }
     }
 }
