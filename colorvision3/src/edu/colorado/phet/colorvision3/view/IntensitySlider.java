@@ -1,4 +1,4 @@
-/* IntensityControl.java, Copyright 2004 University of Colorado */
+/* IntensitySlider.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.view;
 
@@ -20,26 +20,26 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import edu.colorado.phet.colorvision3.model.Spotlight;
+import javax.swing.event.EventListenerList;
 
 /**
- * IntensityControl is the user interface component used to
- * control a spotlight's intensity.
+ * IntensitySlider is a slider used to control intensity.
+ * Intensity is a percentage, with a range of 0-100 inclusive.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @revision $Id$
  */
-public class IntensityControl extends JPanel implements ChangeListener
+public class IntensitySlider extends JPanel implements ChangeListener
 {
 	//----------------------------------------------------------------------------
 	// Instance data
   //----------------------------------------------------------------------------
 
-  private Spotlight _spotlightModel;
   private JPanel _containerPanel;
   private JSlider _slider;
   private JLabel _label;
+  private Color _color;
+  private EventListenerList _listenerList;
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -50,14 +50,17 @@ public class IntensityControl extends JPanel implements ChangeListener
    * 
    * @param spotlightModel the associated spotlight model
    * @param orientation orientation of the control (JSlider.HORIZONTAL or JSlider.VERTICAL)
+   * @param size the dimensions of the control
+   * @param color the color whose intensity is being controlled
    */
-  public IntensityControl( Spotlight spotlightModel, int orientation, Dimension size )
-  {
-    _spotlightModel = spotlightModel;
-     
+  public IntensitySlider( Color color, int orientation, Dimension size )
+  {  
+    _color = color;
+    _listenerList = new EventListenerList();
+    
     // Container panel, so we can put this component on the Apparatus panel.
     _containerPanel = new JPanel();
-    _containerPanel.setBackground( _spotlightModel.getColor() );
+    _containerPanel.setBackground( color );
   
     // Slider
     _slider = new JSlider( );
@@ -66,13 +69,11 @@ public class IntensityControl extends JPanel implements ChangeListener
     _slider.setMaximum( 100 );
     _slider.setValue( 0 );
     _slider.setPreferredSize( size );
-
+    _slider.addChangeListener( this );
+    
     // Layout
     this.add( _containerPanel );
     _containerPanel.add( _slider );
-    
-    // Listener for slider changes.
-    _slider.addChangeListener( this );
     
     // Make all components transparent so we can draw a custom background.
     this.setOpaque( false );
@@ -100,24 +101,77 @@ public class IntensityControl extends JPanel implements ChangeListener
     super.setBounds( x, y, super.getPreferredSize().width, super.getPreferredSize().height );
   }
   
+  /**
+   * Sets the slider value.
+   * 
+   * @param value the value
+   */
+  public void setValue( int value )
+  {
+    _slider.setValue( value );
+  }
+  
+  /**
+   * Gets the slider value.
+   * 
+   * @return the value
+   */
+  public int getValue()
+  {
+    return _slider.getValue();
+  }
+  
 	//----------------------------------------------------------------------------
 	// Event handling
   //----------------------------------------------------------------------------
 
   /**
-   * Handles ChangeEvents that occur when the slider is moved.
-   * The spotlight model is notified of the intensity change.
+   * Propogates a ChangeEvent, changes the source to this.
    * 
    * @param event the event
    */
   public void stateChanged( ChangeEvent event )
   {
-    if ( event.getSource() == _slider )
-    {
-      _spotlightModel.setIntensity( _slider.getValue() );
-    }
+    fireChangeEvent( new ChangeEvent(this) );
+  }
+  
+  /**
+   * Adds a ChangeListener.
+   * 
+   * @param listener the listener
+   */
+  public void addChangeListener( ChangeListener listener )
+  {
+    _listenerList.add( ChangeListener.class, listener );
+  }
+  
+  /**
+   * Removes a ChangeListener.
+   * 
+   * @param listener the listener
+   */
+  public void removeChangeListener( ChangeListener listener )
+  {
+    _listenerList.remove( ChangeListener.class, listener );
   }
 
+  /**
+   * Fires a ChangeEvent.
+   * 
+   * @param event the event
+   */
+  private void fireChangeEvent( ChangeEvent event )
+  {
+    Object[] listeners = _listenerList.getListenerList();
+    for ( int i = 0; i < listeners.length; i+=2 )
+    {
+      if ( listeners[i] == ChangeListener.class )
+      {
+        ((ChangeListener)listeners[i+1]).stateChanged( event );
+      }
+    }
+  }
+  
 	//----------------------------------------------------------------------------
 	// Rendering
   //----------------------------------------------------------------------------
@@ -158,7 +212,7 @@ public class IntensityControl extends JPanel implements ChangeListener
       p1 = new Point2D.Double( x + w, y + (h/2) );
       p2 = new Point2D.Double( x, y + (h/2) );
     }
-    GradientPaint gradient = new GradientPaint( p1, _spotlightModel.getColor(), p2, Color.black );
+    GradientPaint gradient = new GradientPaint( p1, _color, p2, Color.black );
     
     // Render the background.
     g2.setPaint( gradient );
