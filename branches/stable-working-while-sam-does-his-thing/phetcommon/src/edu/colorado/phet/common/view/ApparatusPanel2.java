@@ -156,7 +156,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
                             componentOrgLocationsMap.put( component, new Point( component.getLocation() ) );
                         }
                     }
-                }
+                }                
 
                 // Setup the affine transforms for graphics and mouse events
                 if( orgBounds != null && orgBounds.getWidth() > 0 && orgBounds.getHeight() > 0 ) {
