@@ -149,4 +149,8 @@ public class PhetShapeGraphic extends PhetGraphic {
         super.setLocation( x, y );
         translate( x - oldX, y - oldY );
     }
+
+    public void setColor( Color color ) {
+        setPaint( color );
+    }
 }

@@ -9,8 +9,8 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.fastpaint.FastPaintShapeGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,14 +60,15 @@ public class CollisionTest {
         }
     }
 
-    static class SphereGraphic implements Graphic {
-        FastPaintShapeGraphic graphic;
+    static class SphereGraphic extends PhetGraphic {
+        PhetShapeGraphic graphic;
         private Sphere sph;
         private Ellipse2D.Double shape;
 
         public SphereGraphic( Sphere sph, Component parent ) {
+            super( parent );
             shape = new Ellipse2D.Double();
-            this.graphic = new FastPaintShapeGraphic( shape, Color.blue, parent );
+            this.graphic = new PhetShapeGraphic( parent, shape, Color.blue );
             this.sph = sph;
             sph.addObserver( new SimpleObserver() {
                 public void update() {
@@ -88,9 +89,12 @@ public class CollisionTest {
         }
 
         public void setColor( Color color ) {
-            graphic.setFillPaint( color );
+            graphic.setColor( color );
         }
 
+        protected Rectangle determineBounds() {
+            return shape.getBounds();
+        }
     }
 
     static class CollisionModule extends Module {
