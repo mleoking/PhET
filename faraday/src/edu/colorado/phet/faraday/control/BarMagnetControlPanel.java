@@ -128,7 +128,7 @@ public class BarMagnetControlPanel extends ControlPanel {
                 barMagnetPanel.add( _gridCheckBox );
             }
             
-            // Pickup Coil panel
+            // Pickup AbstractCoil panel
             JPanel pickupCoilPanel = new JPanel();
             {
                 // Titled border with a larger font.

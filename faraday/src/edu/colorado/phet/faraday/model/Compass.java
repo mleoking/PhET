@@ -54,7 +54,7 @@ public class Compass extends AbstractCompass {
      * 
      * @param magnetModel the magnet that the compass is observing
      */
-    public Compass( IMagnet magnetModel ) {
+    public Compass( AbstractMagnet magnetModel ) {
         super( magnetModel );
         
         _theta = 0.0;
@@ -99,7 +99,7 @@ public class Compass extends AbstractCompass {
         // Step 3: angular velocity
         _omega = _omega + ( 0.5 * ( _alpha + alphaTemp ) * dt );
     }
- 
+    
     //----------------------------------------------------------------------------
     // Object overrides
     //----------------------------------------------------------------------------

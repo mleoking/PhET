@@ -56,6 +56,7 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         super( component );
         
         _compassModel = compassModel;
+        _compassModel.addObserver( this );
         
         PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.COMPASS_IMAGE );
         int rx = body.getImage().getWidth() / 2;
@@ -86,6 +87,15 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         } );
         
         update();
+    }
+    
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void finalize() {
+        _compassModel.removeObserver( this );
+        _compassModel = null;
     }
     
     //----------------------------------------------------------------------------

@@ -184,21 +184,6 @@ public class CompassGridModule extends Module {
         this.setControlPanel( _controlPanel );
         
         //----------------------------------------------------------------------------
-        // Observers
-        //----------------------------------------------------------------------------
-        
-        _magnetModel.addObserver( magnetGraphic );
-        _magnetModel.addObserver( _gridGraphic );
-        _magnetModel.addObserver( compassModel );
-        _magnetModel.addObserver( probeGraphic );
-        
-        compassModel.addObserver( compassGraphic );
-        
-        //----------------------------------------------------------------------------
-        // Listeners
-        //----------------------------------------------------------------------------
-        
-        //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
         

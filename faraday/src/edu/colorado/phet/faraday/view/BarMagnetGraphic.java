@@ -18,7 +18,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.IMagnet;
+import edu.colorado.phet.faraday.model.AbstractMagnet;
 
 
 /**
@@ -33,7 +33,7 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
     // Instance data
     //----------------------------------------------------------------------------
 
-    private IMagnet _magnetModel;
+    private AbstractMagnet _magnetModel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -45,7 +45,7 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
      * @param component the parent Component
      * @param barMagnetModel model of the bar magnet
      */
-    public BarMagnetGraphic( Component component, IMagnet magnetModel ) {
+    public BarMagnetGraphic( Component component, AbstractMagnet magnetModel ) {
         super( component, FaradayConfig.BAR_MAGNET_IMAGE );
         
         // Registration point is the center of the image.
@@ -53,6 +53,7 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
         
         // Save a reference to the model.
         _magnetModel = magnetModel;
+        _magnetModel.addObserver( this );
         
         // Setup interactivity.
         super.setCursorHand();
@@ -68,6 +69,10 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
         update();
     }
 
+    public void finalize() {
+        _magnetModel.removeObserver( this );
+    }
+    
     //----------------------------------------------------------------------------
     // Override inherited methods
     //----------------------------------------------------------------------------

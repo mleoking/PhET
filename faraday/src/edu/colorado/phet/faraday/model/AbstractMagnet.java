@@ -14,7 +14,7 @@ package edu.colorado.phet.faraday.model;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.math.AbstractVector2D;
 
 
 /**
@@ -23,15 +23,13 @@ import edu.colorado.phet.common.util.SimpleObservable;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractMagnet extends SimpleObservable implements IMagnet {
+public abstract class AbstractMagnet extends SpacialObservable {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     private double _strength;
-    private Point2D _location;
-    private double _direction;
     private Dimension _size;
     
     //----------------------------------------------------------------------------
@@ -44,17 +42,17 @@ public abstract class AbstractMagnet extends SimpleObservable implements IMagnet
     public AbstractMagnet() {
         super();
         _strength = 1.0;
-        _location = new Point2D.Double( 0, 0 );
-        _direction = 0.0;
         _size = new Dimension( 250, 50 );
     }
     
     //----------------------------------------------------------------------------
-    // IMagnet implementation
+    // Accessors
     //----------------------------------------------------------------------------
 
     /** 
-     * @see edu.colorado.phet.faraday.model.IMagnet#setStrength(double)
+     * Sets the magnitude of the magnet's strength, in Gauss.
+     * 
+     * @param strength the strength
      */
     public void setStrength( double strength ) {
         if ( strength <= 0 ) {
@@ -65,65 +63,26 @@ public abstract class AbstractMagnet extends SimpleObservable implements IMagnet
     }
     
     /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#getStrength()
+     * Gets the magnitude of the magnet's strength, in Gauss.
+     * 
+     * @return the strength
      */
     public double getStrength() {
         return _strength;
     }
     
     /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#setLocation(java.awt.geom.Point2D)
+     * Gets the strength vector of the magnetic field at a point in 2D space.
+     * 
+     * @param p the point
+     * @return the strength vector
      */
-    public void setLocation( final Point2D location ) {
-        setLocation( location.getX(), location.getY() );
-    }
+    public abstract AbstractVector2D getStrength( final Point2D p );
     
     /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#setLocation(double, double)
-     */
-    public void setLocation( double x, double y ) {
-       _location.setLocation( x, y );
-       notifyObservers();
-    }
-    
-    /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#getLocation()
-     */
-    public Point2D getLocation() {
-        return new Point2D.Double( _location.getX(), _location.getY() );
-    }
-    
-    /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#getX()
-     */
-    public double getX() {
-        return _location.getX();
-    }
-    
-    /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#getY()
-     */
-    public double getY() {
-        return _location.getY();
-    }
-    
-    /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#setDirection(double)
-     */
-    public void setDirection( double direction ) {
-        _direction = direction;
-        notifyObservers();
-    }
-    
-    /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#getDirection()
-     */
-    public double getDirection() {
-        return _direction;
-    }
-    
-    /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#setSize(java.awt.Dimension)
+     * Sets the physical size of the magnet.
+     * 
+     * @param size the size
      */
     public void setSize( Dimension size ) {
         _size = new Dimension( size );
@@ -131,7 +90,10 @@ public abstract class AbstractMagnet extends SimpleObservable implements IMagnet
     }
     
     /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#setSize(double, double)
+     * Sets the physical size of the magnet.
+     * 
+     * @param width the width
+     * @param height the height
      */
     public void setSize( double width, double height ) {
         _size = new Dimension();
@@ -140,21 +102,27 @@ public abstract class AbstractMagnet extends SimpleObservable implements IMagnet
     }
     
     /** 
-     * @see edu.colorado.phet.faraday.model.IMagnet#getSize()
+     * Gets the physical size of the magnet.
+     * 
+     * @return the size
      */
     public Dimension getSize() {
         return new Dimension( _size );
     }
     
     /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#getWidth()
+     * Gets the physical width of the magnet.
+     * 
+     * @return the width
      */
     public double getWidth() {
         return _size.width;
     }
     
     /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#getHeight()
+     * Gets the physical height of the magnet.
+     * 
+     * @return the height
      */
     public double getHeight() {
         return _size.height;

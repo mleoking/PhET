@@ -142,7 +142,7 @@ public class BarMagnetModule extends Module {
         compassModel.setLocation( COMPASS_LOCATION );
         model.addModelElement( compassModel );
         
-        // Pickup Coil
+        // Pickup AbstractCoil
         _pickupCoilModel = new PickupCoil();
         _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
         _pickupCoilModel.setRadius( LOOP_RADIUS );
@@ -164,7 +164,7 @@ public class BarMagnetModule extends Module {
         BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
         apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
         
-        // Pickup Coil
+        // Pickup AbstractCoil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel );
         apparatusPanel.addGraphic( _pickupCoilGraphic, COIL_BACK_LAYER ); // XXX
         
@@ -191,18 +191,6 @@ public class BarMagnetModule extends Module {
         // Control Panel
         _controlPanel = new BarMagnetControlPanel( this );
         this.setControlPanel( _controlPanel );
-        
-        //----------------------------------------------------------------------------
-        // Observers
-        //----------------------------------------------------------------------------
-        
-        _magnetModel.addObserver( magnetGraphic );
-        _magnetModel.addObserver( _gridGraphic );
-        _magnetModel.addObserver( compassModel );
-
-        compassModel.addObserver( compassGraphic );
-        
-        _pickupCoilModel.addObserver( _pickupCoilGraphic );
         
         //----------------------------------------------------------------------------
         // Listeners
