@@ -49,10 +49,10 @@ public class GenericRescaler implements IRescaler {
      * Sole constructor.
      */
     public GenericRescaler() {
-        _minReference = 0;
-        _maxReference = 1;
+        _minReference = 0.0;
+        _maxReference = 1.0;
         _reference = _maxReference;
-        _threshold = 0.8;
+        _threshold = 1.0;
         _minExponent = 0.8;
         _maxExponent = 0.3;
     }
