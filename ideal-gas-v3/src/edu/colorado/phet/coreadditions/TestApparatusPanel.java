@@ -25,6 +25,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -66,6 +67,7 @@ public class TestApparatusPanel extends ApparatusPanel {
     private AffineTransform graphicTx = new AffineTransform();
     private AffineTransform mouseTx = new AffineTransform();
     private Rectangle orgBounds;
+    private HashMap componentOrgLocationsMap = new HashMap();
 
     public TestApparatusPanel( BaseModel model ) {
         super( null );
@@ -109,7 +111,14 @@ public class TestApparatusPanel extends ApparatusPanel {
             public void componentResized( ComponentEvent e ) {
                 if( orgBounds == null ) {
                     orgBounds = TestApparatusPanel.this.getBounds();
+                    Component[] components = TestApparatusPanel.this.getComponents();
+                    for( int i = 0; i < components.length; i++ ) {
+                        Component component = components[i];
+                        componentOrgLocationsMap.put( component, new Point( component.getLocation() ) );
+                    }
                 }
+
+                // Setup the affine transforms for graphics and mouse events
                 double sx = TestApparatusPanel.this.getBounds().getWidth() / orgBounds.getWidth();
                 double sy = TestApparatusPanel.this.getBounds().getHeight() / orgBounds.getHeight();
                 // Using a single scale factor keeps the aspect ratio constant
@@ -122,6 +131,15 @@ public class TestApparatusPanel extends ApparatusPanel {
                     e1.printStackTrace();
                 }
                 bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+
+                // Adjust the locations of Swing components
+                Component[] components = TestApparatusPanel.this.getComponents();
+                for( int i = 0; i < components.length; i++ ) {
+                    Component component = components[i];
+                    Point p = (Point)componentOrgLocationsMap.get( component );
+                    Point pNew = new Point( (int)( p.getX() * s ), (int)( p.getY() * s ) );
+                    component.setLocation( pNew );
+                }
             }
         } );
     }
