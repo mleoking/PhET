@@ -7,7 +7,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - center of slider knob doesn't line up with ticks on Battery
-- setting AC amplitude to zero causes an exception (on Windows only?)
+
 - Lightbulb appears to beat with a false peak
 - animate AC wave
 - adjust electron animation so that electrons move farther
@@ -53,6 +53,7 @@ phetcommon:
 
 DONE:
 v0r17...
+(3/10) - workaround for zero scaling exception on Windows & Linux
 (3/9) - replace deprecated Module constructor with new constructor for all modules
 (3/9) - add water faucet to control turbine speed
 (3/9) - redo AC graphic
