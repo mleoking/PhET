@@ -44,7 +44,17 @@ public class Force1dControlPanel extends ControlPanel {
         model = module.getForceModel();
         freeBodyDiagramSuite = new FreeBodyDiagramSuite( module );
 
+        JButton lessControls = new JButton( "Less Controls." );
+        lessControls.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setSimpleControlPanel();
+            }
+        } );
+        add( lessControls );
+
         freeBodyDiagramSuite.addTo( this );
+
+
 //        comboBox = new JComboBox( module.getImageElements() );
         comboBox = new ObjectComboBox( module, module.getImageElements(), this );
         add( comboBox );

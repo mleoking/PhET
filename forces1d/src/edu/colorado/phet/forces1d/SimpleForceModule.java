@@ -20,7 +20,6 @@ public class SimpleForceModule extends Force1DModule {
         forceControlPanel = new SimpleControlPanel( this );
         setControlPanel( forceControlPanel );
         setFrictionEnabled( true );
-
     }
 
     protected void updateGraphics() {
@@ -32,7 +31,6 @@ public class SimpleForceModule extends Force1DModule {
         super.reset();
         forceControlPanel.reset();
     }
-
 
     public void updateControlPanelGraphics() {
         forceControlPanel.updateGraphics();

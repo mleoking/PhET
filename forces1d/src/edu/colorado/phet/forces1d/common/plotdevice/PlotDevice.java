@@ -9,6 +9,7 @@ import edu.colorado.phet.chart.controllers.HorizontalCursor2;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider2;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
@@ -59,6 +60,7 @@ public class PlotDevice extends
     private BufferedPhetGraphic bufferedPhetGraphic;
     private boolean controllable;
     private Point buttonLoc = new Point();
+    private PhetGraphic textFieldGraphic;
 
     public void paint( Graphics2D g2 ) {
         super.paint( g2 );
@@ -129,7 +131,9 @@ public class PlotDevice extends
         textBox = new TextBox( plotDeviceModel, 5, parameters.labelStr, this );
         textBox.setHorizontalAlignment( JTextField.RIGHT );
 
-        panel.add( textBox );
+//        panel.add( textBox );
+        textFieldGraphic = PhetJComponent.newInstance( panel, textBox.textField );
+        panel.addGraphic( textFieldGraphic );
 
         setTextValue( 0 );
         plotDeviceModel.getRecordingTimer().addListener( new PhetTimer.Listener() {
@@ -383,6 +387,7 @@ public class PlotDevice extends
                              getChart().getViewBounds().y,
                              textBox.getPreferredSize().width,
                              textBox.getPreferredSize().height );
+            textFieldGraphic.setLocation( floaterX, getChart().getViewBounds().y );
 //            int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
 //            int floatX = floaterX + dw / 2;
 //            floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
@@ -901,7 +906,14 @@ public class PlotDevice extends
 
         public TextBox( PlotDeviceModel module, int text, String labelText, final PlotDevice plotDevice ) {
             this.plotDevice = plotDevice;
-            textField = new JTextField( text );
+            textField = new JTextField( text ) {
+                public void setEnabled( boolean enabled ) {
+                    super.setEnabled( enabled );
+                    if( enabled ) {
+                        textField.selectAll();
+                    }
+                }
+            };
             label = new JLabel( labelText );
             setLayout( new FlowLayout( FlowLayout.CENTER ) );
             textField.addMouseListener( new MouseAdapter() {
@@ -913,9 +925,11 @@ public class PlotDevice extends
             } );
             textField.addKeyListener( new KeyListener() {
                 public void keyTyped( KeyEvent e ) {
+                    System.out.println( "e = " + e );
                 }
 
                 public void keyPressed( KeyEvent e ) {
+                    System.out.println( "e = " + e );
                 }
 
                 public void keyReleased( KeyEvent e ) {
