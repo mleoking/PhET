@@ -20,6 +20,7 @@ import java.awt.*;
  * a complete "experiment." This includes, but is not limited to, the
  * on-screen controls and viewX elements that go along with the
  * experiment.
+ * Test comment.
  */
 public class Module {
 
