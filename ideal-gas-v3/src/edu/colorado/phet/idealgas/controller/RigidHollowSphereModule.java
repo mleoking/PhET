@@ -173,48 +173,4 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
     public Class getCurrentGasSpecies() {
         return this.gasSpecies;
     }
-
-//    private class SpeciesSelectionPanel extends JPanel {
-//        SpeciesSelectionPanel() {
-//            setLayout( new GridBagLayout() );
-//            final JRadioButton heavySpeciesRB = new JRadioButton( SimStrings.get( "Common.Heavy_Species" ) );
-//            heavySpeciesRB.setForeground( Color.blue );
-//            final JRadioButton lightSpeciesRB = new JRadioButton( SimStrings.get( "Common.Light_Species" ) );
-//            lightSpeciesRB.setForeground( Color.red );
-//            final ButtonGroup speciesGroup = new ButtonGroup();
-//            speciesGroup.add( heavySpeciesRB );
-//            speciesGroup.add( lightSpeciesRB );
-//
-//            Insets insets = new Insets( 4, 4, 0, 0 );
-//            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-//                                                             GridBagConstraints.WEST, GridBagConstraints.NONE,
-//                                                             insets, 0, 0 );
-//            add( heavySpeciesRB, gbc );
-////            heavySpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
-////            lightSpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
-//            gbc.gridy = 1;
-//            add( lightSpeciesRB, gbc );
-//
-//            heavySpeciesRB.setSelected( true );
-//            heavySpeciesRB.addActionListener( new ActionListener() {
-//                public void actionPerformed
-//                        ( ActionEvent
-//                        event ) {
-//                    if( heavySpeciesRB.isSelected() ) {
-//                        gasSpecies = HeavySpecies.class;
-//                    }
-//                }
-//            } );
-//
-//            lightSpeciesRB.addActionListener( new ActionListener() {
-//                public void actionPerformed
-//                        ( ActionEvent
-//                        event ) {
-//                    if( lightSpeciesRB.isSelected() ) {
-//                        gasSpecies = LightSpecies.class;
-//                    }
-//                }
-//            } );
-//        }
-//    }
 }

@@ -14,7 +14,6 @@ import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -139,7 +138,8 @@ public class IdealGasModule extends Module {
         addGraphic( pressureGauge, 20 );
 
         // Add the thermometer
-        Thermometer thermometer = new IdealGasThermometer( idealGasModel, new Point2D.Double( 200, 200 ),
+        Point2D.Double thermometerLoc = new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 400, IdealGasConfig.Y_BASE_OFFSET + 150 );
+        Thermometer thermometer = new IdealGasThermometer( idealGasModel, thermometerLoc,
                                                            100, 10, true, 0, 1000E3 );
         addGraphic( thermometer, 20 );
 
