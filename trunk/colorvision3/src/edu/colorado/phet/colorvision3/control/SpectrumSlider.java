@@ -99,29 +99,26 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   {
     super( null );
   
+    // Initialize instance data.
     _component = component;
-    
-    // Listeners
-    _listenerList = new EventListenerList();
-    
-    // Spectrum
     _spectrum = new PhetImageGraphic( component, ColorVisionConfig.SPECTRUM_IMAGE );
-   
-    // Slider
     _knob = new SpectrumSliderKnob( component );
- 
-    // Drag behavior
+    _curve = null;
     _dragBounds = new Rectangle( 0, 0, 0, 0); // set correctly by setLocation
+    _listenerList = new EventListenerList();
+    _value = 0;
+    _minimum = (int) VisibleColor.MIN_WAVELENGTH;
+    _maximum = (int) VisibleColor.MAX_WAVELENGTH;
+    _transmissionWidth = 0;
+    _mouseOffset = 0;
+    
+    // Interactivity
     super.setBoundedGraphic( _knob );
     super.addCursorHandBehavior();
     super.addMouseInputListener( new SpectrumSliderMouseInputListener() );
 
-    // Initial values.
-    setMinimum( (int) VisibleColor.MIN_WAVELENGTH );
-    setMaximum( (int) VisibleColor.MAX_WAVELENGTH );
-    setTransmissionWidth( 0 );
+    // This recalculates the location of all graphic elements.
     setLocation( 0, 0 );
-    setValue( 0 );
   }
   
 	//----------------------------------------------------------------------------
