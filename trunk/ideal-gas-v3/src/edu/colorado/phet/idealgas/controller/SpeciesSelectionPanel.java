@@ -14,8 +14,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 
 public abstract class SpeciesSelectionPanel extends JPanel {
@@ -23,8 +21,8 @@ public abstract class SpeciesSelectionPanel extends JPanel {
     private GasSource gasSource;
     private JSpinner heavySpinner;
     private JSpinner lightSpinner;
-    private JRadioButton heavySpeciesRB;
-    private JRadioButton lightSpeciesRB;
+    private JLabel heavySpeciesLbl;
+    private JLabel lightSpeciesLbl;
 
 
     public SpeciesSelectionPanel( final IdealGasModule module, final GasSource gasSource ) {
@@ -41,15 +39,18 @@ public abstract class SpeciesSelectionPanel extends JPanel {
         setLayout( new GridBagLayout() );
         Insets insets = new Insets( 0, 0, 0, 0 );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                         GridBagConstraints.WEST, GridBagConstraints.NONE,
+                                                         GridBagConstraints.EAST, GridBagConstraints.NONE,
                                                          insets, 0, 0 );
-        add( heavySpeciesRB, gbc );
+        add( heavySpeciesLbl, gbc );
         gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
         add( heavySpinner, gbc );
         gbc.gridx = 0;
         gbc.gridy = 1;
-        add( lightSpeciesRB, gbc );
+        gbc.anchor = GridBagConstraints.EAST;
+        add( lightSpeciesLbl, gbc );
         gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
         add( lightSpinner, gbc );
     }
 
@@ -57,32 +58,10 @@ public abstract class SpeciesSelectionPanel extends JPanel {
      * Sets up the radio buttons for selecting a species
      */
     private void makeRadioButtons() {
-        heavySpeciesRB = new JRadioButton( SimStrings.get( "Common.Heavy_Species" ) );
-        heavySpeciesRB.setForeground( Color.blue );
-        lightSpeciesRB = new JRadioButton( SimStrings.get( "Common.Light_Species" ) );
-        lightSpeciesRB.setForeground( Color.red );
-        final ButtonGroup speciesGroup = new ButtonGroup();
-        speciesGroup.add( heavySpeciesRB );
-        speciesGroup.add( lightSpeciesRB );
-
-        heavySpeciesRB.setSelected( true );
-        heavySpeciesRB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                if( heavySpeciesRB.isSelected() ) {
-                    gasSource.setCurrentGasSpecies( HeavySpecies.class );
-                }
-            }
-        } );
-
-        lightSpeciesRB.addActionListener( new ActionListener() {
-            public void actionPerformed
-                    ( ActionEvent
-                    event ) {
-                if( lightSpeciesRB.isSelected() ) {
-                    gasSource.setCurrentGasSpecies( LightSpecies.class );
-                }
-            }
-        } );
+        heavySpeciesLbl = new JLabel( SimStrings.get( "Common.Heavy_Species" ) );
+        heavySpeciesLbl.setForeground( Color.blue );
+        lightSpeciesLbl = new JLabel( SimStrings.get( "Common.Light_Species" ) );
+        lightSpeciesLbl.setForeground( Color.red );
     }
 
     /**

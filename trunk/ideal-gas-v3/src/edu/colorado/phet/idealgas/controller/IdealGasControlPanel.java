@@ -84,7 +84,6 @@ public class IdealGasControlPanel extends JPanel {
         this.add( miscPanel, gbc );
 
         // Add the reset and measurement panel buttons
-        gbc.gridy = GridBagConstraints.REMAINDER;
         this.add( buttonPanel, gbc );
 
         Border border = BorderFactory.createEtchedBorder();
@@ -105,8 +104,7 @@ public class IdealGasControlPanel extends JPanel {
 
         // Add controls for the number and type of molecules to put in the box
         JPanel speciesButtonPanel = new PumpControlPanel( module, module.getPump() );
-        speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Gas_In_Pump" ) ) );
-        particleControlsGbc.fill = GridBagConstraints.NONE;
+        speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Gas_In_Chamber" ) ) );
         particleControlsPanel.add( speciesButtonPanel, particleControlsGbc );
     }
 

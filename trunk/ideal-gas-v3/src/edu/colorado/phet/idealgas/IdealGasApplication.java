@@ -48,7 +48,7 @@ public class IdealGasApplication extends PhetApplication {
             setInitialModule( idealGasModule );
 
             // Set the initial size
-            setFrameCenteredSize( 960, 680 );
+            setFrameCenteredSize( 1000, 700 );
 
 //            new FrameRateReporter( clock );
         }

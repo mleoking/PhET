@@ -10,7 +10,6 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.model.Box2D;
 
@@ -153,8 +152,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
             g2.drawString( temperatureStr, readoutLocation.x + 5, strLocY );
 
             // y location must be converted to units compatible with the graphic ruler
-            String heightStr = "z = " + heightFormatter.format( ( ( ( boxLowerEdge - y ) - 3.3 ) / 70.857 ) )
-                               + " " + SimStrings.get( "PressTempTool.units" );
+            String heightStr = "z = " + heightFormatter.format( ( ( ( boxLowerEdge - y ) - 3.3 ) / 70.857 ) );
             g2.setColor( Color.black );
             strLocY += fontMetrics.getHeight();
             g2.drawString( heightStr, readoutLocation.x + 5, strLocY );

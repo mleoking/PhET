@@ -50,7 +50,6 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
      *
      */
     public void init( final Module module, Box2D box ) {
-
         // Set the background color
         this.setBackground( Color.white );
 
@@ -78,12 +77,12 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
         catch( IOException ioe ) {
             throw new RuntimeException( ioe.getMessage() );
         }
-
-        // Set the size of the panel
-        //        this.setPreferredSize( new Dimension( 600, 520 ) );
     }
 
-
+    /**
+     *
+     * @return
+     */
     protected IdealGasApplication getIdealGasApplication() {
         return (IdealGasApplication)PhetApplication.instance();
     }
@@ -94,61 +93,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     protected void paintComponent( Graphics graphics ) {
 
         super.paintComponent( graphics );
-        //                Graphics2D g2 = (Graphics2D)graphics;
-        //        Box2DGraphic box = (Box2DGraphic)this.getBoxGraphic();
-        //        float boxLeftEdge = (float)( (Shape)box.getRep() ).getBounds2D().getMinX();
-        //        float boxLowerEdge = (float)( (Shape)box.getRep() ).getBounds2D().getMaxY();
-        //
-        //                // If we're doing constant pressure, paint a pusher frame
-        //                if( model.isConstantPressure() || box.isDragging() ) {
-        //                    g2.drawImage( currPusherFrame, (int)boxLeftEdge - 107, 400 + IdealGasConfig.Y_BASE_OFFSET, this );
-        //                }
-        //
-        //                // If we're doing constant volume, paint a leaner frame
-        //                if( model.isConstantVolume() && !box.isDragging() ) {
-        //                    g2.drawImage( currLeanerFrame, (int)boxLeftEdge - 107, 400 + IdealGasConfig.Y_BASE_OFFSET, this );
-        //                }
-        //
-        //        // Compute and draw lines for coordinates of each species' CM
-        //        if( getIdealGasApplication().isCmLinesOn() ) {
-        //            Vector2D heavyCm = HeavySpecies.getCm();
-        //            Vector2D lightCm = LightSpecies.getCm();
-        //            if( lightCm.getY() != 0 ) {
-        //                Color oldColor = g2.getColor();
-        //                g2.setColor( Color.red );
-        //                g2.drawLine( (int)boxLeftEdge - 20, (int)( lightCm.getY() ),
-        //                             (int)boxLeftEdge + 18, (int)( lightCm.getY() ) );
-        //
-        //                g2.drawLine( (int)( lightCm.getX() ), (int)boxLowerEdge - 20,
-        //                             (int)( lightCm.getX() ), (int)boxLowerEdge + 18 );
-        //
-        //                g2.setColor( oldColor );
-        //            }
-        //            if( heavyCm.getY() != 0 ) {
-        //                Color oldColor = g2.getColor();
-        //                g2.setColor( Color.blue );
-        //                g2.drawLine( (int)boxLeftEdge - 20, (int)( heavyCm.getY() ),
-        //                             (int)boxLeftEdge + 18, (int)( heavyCm.getY() ) );
-        //
-        //                g2.drawLine( (int)( heavyCm.getX() ), (int)boxLowerEdge - 20,
-        //                             (int)( heavyCm.getX() ), (int)boxLowerEdge + 18 );
-        //
-        //                g2.setColor( oldColor );
-        //            }
-        //        }
     }
-
-    //    protected boolean isVisible( PhetGraphic graphic ) {
-    //        PhysicalEntity body = graphic.getBody();
-    //        if( body != null && body instanceof IdealGasParticle && !( body instanceof HollowSphere ) ) {
-    //            IdealGasParticle p = (IdealGasParticle)body;
-    //            Box2D box = getIdealGasSystem().getBox();
-    //            return ( !box.isOutsideBox( p ) || box.isInOpening( p ) );
-    //        }
-    //        else {
-    //            return true;
-    //        }
-    //    }
 
     //
     // Stove-related methods

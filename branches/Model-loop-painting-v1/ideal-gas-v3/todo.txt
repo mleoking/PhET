@@ -1,3 +1,13 @@
+- averaging control on pressure slice tool
+
+done - remove "units"
+
+- Get rid of vestigial classes - make jar smaller
+
+done - "Gas in Balloon" panel needs to be wider
+
+done - How air balloon control should be wider
+
 - white rectangle on right of apparatus panel obscures pump if frame made smaller
 
 done - replace "CM" with "center of mass" on measure tool dialog
@@ -26,7 +36,7 @@ instantaneously by editing the number on the thermometer with the keyboard
 as well as by turning the heat control up and down?  This would be a nice
 feature but it's not crucial.
 
-Kathy Perkinds - 1/14/05
+Kathy Perkins - 1/14/05
 ========================
 
 done - something about CM lines
@@ -40,7 +50,9 @@ temperature, put units after measurement "Atm" and "K".  Use z for height, and l
 
 - Different modules have different sized panels? Probably because the control panels are different widths.
 
-- Keep Temperature to 3 sig figs only ... no need to display as 273.15, but do display as 1.23 K say for really low Temps.  IMPORTANT: this control must average considerably and only display result after each average.  Try averaging for 5 seconds.  We had talked about having the averaging time controllable right on this device, perhaps just above readout have "Averaging Time:" with just below this a text entry box with the units of seconds next to it... maybe have a 5 in there as the default.
+- Keep Temperature to 3 sig figs only ... no need to display as 273.15, but do display as 1.23 K say for really low Temps.
+
+- IMPORTANT: this control must average considerably and only display result after each average.  Try averaging for 5 seconds.  We had talked about having the averaging time controllable right on this device, perhaps just above readout have "Averaging Time:" with just below this a text entry box with the units of seconds next to it... maybe have a 5 in there as the default.
 
 - The molecules are still sticking together in pairs (OK... this was vetoed by everyone else).
 
