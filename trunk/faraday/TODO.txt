@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-
 - fix electron density in coil ends
 
 HIGH PRIORITY:
@@ -14,6 +13,7 @@ HIGH PRIORITY:
 - collision detection between magnet and coil
 
 MEDIUM PRIORITY:
+- compass grid does not fill the apparatus panel
 - is CompassGraphic.setVisible needed?
 - disable "See Inside Magnet" control when grid is off
 - optimize performance
