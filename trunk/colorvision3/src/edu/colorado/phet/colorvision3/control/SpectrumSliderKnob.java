@@ -34,6 +34,7 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
 
   /**
    * Sole constructor.
+   * Creates a white knob with a black border, located at (0,0).
    * 
    * @param component the parent Component
    */
@@ -45,9 +46,9 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
     RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
     super.setRenderingHints( hints );
     
-    super.setPaint( Color.red );
+    super.setPaint( Color.WHITE );
     super.setStroke( new BasicStroke( 1f ) );
-    super.setBorderColor( Color.white );
+    super.setBorderColor( Color.BLACK );
     
     GeneralPath path = new GeneralPath();
     path.moveTo(  10,  0 );
