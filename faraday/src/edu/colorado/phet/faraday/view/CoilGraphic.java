@@ -213,17 +213,19 @@ public class CoilGraphic implements SimpleObserver {
         // Back of loops
         for ( int i = 0; i < numberOfLoops; i++ ) {
             
-            int offset = firstLoopCenter + ( i * loopSpacing );
-            
-            Paint paint = new GradientPaint( 0, (int)(radius * .40), _backgroundColor, 0, (int)(radius * .90), _middlegroundColor );
+            int xOffset = firstLoopCenter + ( i * loopSpacing );
             
             // Back bottom
-            {
-                Point end1 = new Point( (int)(radius * .25) + offset, 0 );
-                Point end2 = new Point( offset, (int) radius );
-                Point control = new Point( (int)(radius * .35) + offset, (int)(radius * 1.2) );
+            {  
+                Point end1 = new Point( (int)(radius * .25) + xOffset, 0 ); // upper
+                Point end2 = new Point( xOffset, (int) radius ); // lower
+                Point control = new Point( (int)(radius * .35) + xOffset, (int)(radius * 1.2) );
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
+                
+                // Vertical gradient, upper to lower
+                Paint paint = new GradientPaint( 0, (int)(radius * 0.92), _backgroundColor, 0, (int)(radius), _middlegroundColor );
+                
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
                 shapeGraphic.setStroke( _loopStroke );
@@ -231,33 +233,58 @@ public class CoilGraphic implements SimpleObserver {
                 _background.addGraphic( shapeGraphic );
             }
             
-            // Back top
-            {
-                Point end1 = new Point( (int)(radius * .25) + offset, 0 );
-                Point end2 = new Point( -loopSpacing + (int)(radius * .15) + offset, (int)-radius );
-                Point control = new Point( (int)(radius * .15) + offset, (int)(-radius * .70));
+            if ( i != 0 ) {
+                // Back top
+                Point end1 = new Point( -loopSpacing + xOffset, (int)-radius ); // upper
+                Point end2 = new Point( (int)(radius * .25) + xOffset, 0 ); // lower
+                Point control = new Point( (int)(radius * .15) + xOffset, (int)(-radius * 1.20));
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
+                
+                // Diagonal gradient, upper left to lower right.
+                Paint paint = new GradientPaint( (int)(end1.x + (radius * .1)), (int)-(radius), _middlegroundColor, xOffset, (int)-(radius * 0.92), _backgroundColor );
+                
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
                 shapeGraphic.setStroke( _loopStroke );
                 shapeGraphic.setBorderPaint( paint );
                 _background.addGraphic( shapeGraphic );
             }
+            else {
+                // Back top (left-most)
+                {
+                    Point end1 = new Point( -loopSpacing / 2 + xOffset, (int) -radius ); // upper
+                    Point end2 = new Point( (int) ( radius * .25 ) + xOffset, 0 ); // lower
+                    Point control = new Point( (int) ( radius * .15 ) + xOffset, (int) ( -radius * .70 ) );
+                    QuadCurve2D.Double curve = new QuadCurve2D.Double();
+                    curve.setCurve( end1, control, end2 );
+                    
+                    Paint paint = _backgroundColor;
+                    
+                    PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
+                    shapeGraphic.setShape( curve );
+                    shapeGraphic.setStroke( _loopStroke );
+                    shapeGraphic.setBorderPaint( paint );
+                    _background.addGraphic( shapeGraphic );
+                }
 
-            // Left connection wire
-            if ( i == 0 ) {
-                Point end1 = new Point( -loopSpacing + (int)(radius * .15) + offset, (int)-radius );
-                Point end2 = new Point( end1.x - 15, end1.y - 40 );
-                Point control = new Point( end1.x - 20, end1.y - 20 );
-                paint = new GradientPaint( end2.x, 0, _middlegroundColor, end1.x, 0, _backgroundColor );
-                QuadCurve2D.Double curve = new QuadCurve2D.Double();
-                curve.setCurve( end1, control, end2 );
-                PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
-                shapeGraphic.setShape( curve );
-                shapeGraphic.setStroke( _loopStroke );
-                shapeGraphic.setBorderPaint( paint );
-                _background.addGraphic( shapeGraphic );
+                // Left connection wire
+                {
+                    Point end1 = new Point( -loopSpacing / 2 + xOffset, (int) -radius ); // lower
+                    Point end2 = new Point( end1.x - 15, end1.y - 40 ); // upper
+                    Point control = new Point( end1.x - 20, end1.y - 20 );
+                    QuadCurve2D.Double curve = new QuadCurve2D.Double();
+                    curve.setCurve( end1, control, end2 );
+                    
+                    // Horizontal gradient, left to right.
+                    Paint paint = new GradientPaint( end2.x, 0, _middlegroundColor, end1.x, 0, _backgroundColor );
+                    
+                    PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
+                    shapeGraphic.setShape( curve );
+                    shapeGraphic.setStroke( _loopStroke );
+                    shapeGraphic.setBorderPaint( paint );
+                    _background.addGraphic( shapeGraphic );
+                }
             }
         }
         
@@ -266,15 +293,17 @@ public class CoilGraphic implements SimpleObserver {
             
             int offset = firstLoopCenter + ( i * loopSpacing );;
             
+            // Horizontal gradient, left to right
             Paint paint = new GradientPaint( (int)(-radius * .25) + offset, 0, _foregroundColor, (int)(-radius * .15) + offset, 0, _middlegroundColor );
             
             // Front bottom
             {
-                Point end1 = new Point( (int) ( -radius * .25 ) + offset, 0 );
-                Point end2 = new Point( offset, (int) radius );
+                Point end1 = new Point( (int) ( -radius * .25 ) + offset, 0 ); // upper
+                Point end2 = new Point( offset, (int) radius ); // lower
                 Point control = new Point( (int) ( -radius * .25 ) + offset, (int) ( radius * 0.80 ) );
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
+                
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
                 shapeGraphic.setStroke( _loopStroke );
@@ -283,48 +312,35 @@ public class CoilGraphic implements SimpleObserver {
             }
             
             // Front top
-            if ( i < numberOfLoops - 1 )
             {
-                Point end1 = new Point( (int) ( -radius * .25 ) + offset, 0 );
-                Point end2 = new Point( (int) ( radius * .15 ) + offset, (int) -radius );
-                Point control = new Point( (int) ( -radius * .20 ) + offset, (int) ( -radius * 1.30 ) );
+                Point end1 = new Point( offset, (int) -radius ); // upper
+                Point end2 = new Point( (int) ( -radius * .25 ) + offset, 0 ); // lower
+                Point control = new Point( (int) ( -radius * .25 ) + offset, (int) ( -radius * 0.80) );
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
+                
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
                 shapeGraphic.setStroke( _loopStroke );
                 shapeGraphic.setBorderPaint( paint );
                 _foreground.addGraphic( shapeGraphic );
             }
-            else {
-                // Front top of right-most loop (shorter than the others for joining with connection wire)
-                {
-                    Point end1 = new Point( (int) ( -radius * .25 ) + offset, 0 );
-                    Point end2 = new Point( -loopSpacing + (int) ( radius * .25 ) + offset, (int)-radius );
-                    Point control = new Point( (int) ( -radius * .25 ) + offset, (int) ( -radius * .8 ) );
-                    QuadCurve2D.Double curve = new QuadCurve2D.Double();
-                    curve.setCurve( end1, control, end2 );
-                    PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
-                    shapeGraphic.setShape( curve );
-                    shapeGraphic.setStroke( _loopStroke );
-                    shapeGraphic.setBorderPaint( paint );
-                    _foreground.addGraphic( shapeGraphic );
-                }
 
-                // Right connection wire
-                {
-                    paint = _middlegroundColor;
-                    Point end1 = new Point( -loopSpacing + (int) ( radius * .25 ) + offset, (int)-radius );
-                    Point end2 = new Point( end1.x + 15, end1.y - 40 );
-                    Point control = new Point( end1.x + 20, end1.y - 20 );
-                    QuadCurve2D.Double curve = new QuadCurve2D.Double();
-                    curve.setCurve( end1, control, end2 );
-                    PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
-                    shapeGraphic.setShape( curve );
-                    shapeGraphic.setStroke( _loopStroke );
-                    shapeGraphic.setBorderPaint( paint );
-                    _foreground.addGraphic( shapeGraphic );
-                }
+            // Right connection wire
+            if ( i == numberOfLoops - 1 ) {
+                Point end1 = new Point( offset, (int) -radius ); // lower
+                Point end2 = new Point( end1.x + 15, end1.y - 40 ); // upper
+                Point control = new Point( end1.x + 20, end1.y - 20 );
+                QuadCurve2D.Double curve = new QuadCurve2D.Double();
+                curve.setCurve( end1, control, end2 );
+                
+                paint = _middlegroundColor;
+                
+                PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
+                shapeGraphic.setShape( curve );
+                shapeGraphic.setStroke( _loopStroke );
+                shapeGraphic.setBorderPaint( paint );
+                _foreground.addGraphic( shapeGraphic );
             }
         }
         
