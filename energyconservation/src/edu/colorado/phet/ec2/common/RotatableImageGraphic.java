@@ -31,7 +31,7 @@ public class RotatableImageGraphic implements Graphic {
     }
 
     public void setState( double angle, int x, int y ) {
-        Rectangle pre=getRect();
+        Rectangle pre = getRect();
         if( image == null ) {
             return;
         }
@@ -39,13 +39,13 @@ public class RotatableImageGraphic implements Graphic {
         this.x = x;
         this.y = y;
         this.transform = GraphicsUtilities.getImageTransform( image, angle, x, y );
-        Rectangle post=getRect();
-        EC2Module.repaint(pre,post);
+        Rectangle post = getRect();
+        EC2Module.repaint( pre, post );
     }
 
     private Rectangle getRect() {
-        Rectangle orig=new Rectangle( 0,0,image.getWidth( ),image.getHeight( ) );
-        Rectangle view=transform.createTransformedShape( orig ).getBounds();
+        Rectangle orig = new Rectangle( 0, 0, image.getWidth(), image.getHeight() );
+        Rectangle view = transform.createTransformedShape( orig ).getBounds();
         return view;
     }
 

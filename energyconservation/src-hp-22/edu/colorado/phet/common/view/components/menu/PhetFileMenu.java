@@ -18,7 +18,7 @@ public class PhetFileMenu extends JMenu {
     static {
         SimStrings.setStrings( "localization/HP-22Strings" );
     }
-    
+
     public PhetFileMenu() {
         this( new JComponent[]{} );
     }

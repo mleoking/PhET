@@ -2,8 +2,8 @@
 package edu.colorado.phet.ec2;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.coreadditions.graphics.arrows.Arrow;
 import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.coreadditions.graphics.transform.TransformListener;
@@ -59,18 +59,18 @@ public class StartupGraphic implements Graphic, TransformListener {
         if( !init ) {
             image = new ImageLoader().loadBufferedImage( "images/icons/About24.gif" );
             carIdea = new IdeaGraphic2( true, carIdeax, carIdeay,
-                        new String[]{
-                            SimStrings.get( "StartupGraphic.CarDragText" ),
-                            SimStrings.get( "StartupGraphic.CarRightDragText" )},
-                        graphics2D.getFontRenderContext(), font, Color.black, image,
-                        Color.yellow, module.getApparatusPanel() );
+                                        new String[]{
+                                            SimStrings.get( "StartupGraphic.CarDragText" ),
+                                            SimStrings.get( "StartupGraphic.CarRightDragText" )},
+                                        graphics2D.getFontRenderContext(), font, Color.black, image,
+                                        Color.yellow, module.getApparatusPanel() );
             carArrow = new Arrow( Color.yellow, 12 );
             carArrow2 = new Arrow( Color.black, 14 );
 
             splineIdea = new IdeaGraphic2( true, splineIdeax, splineIdeay,
-                        new String[]{ SimStrings.get( "StartupGraphic.SplineDragText" ) },
-                        graphics2D.getFontRenderContext(), font, Color.black, image,
-                        Color.yellow, module.getApparatusPanel() );
+                                           new String[]{SimStrings.get( "StartupGraphic.SplineDragText" )},
+                                           graphics2D.getFontRenderContext(), font, Color.black, image,
+                                           Color.yellow, module.getApparatusPanel() );
             init = true;
         }
 

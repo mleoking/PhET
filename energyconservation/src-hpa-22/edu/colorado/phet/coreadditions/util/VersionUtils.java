@@ -29,7 +29,7 @@ public class VersionUtils {
     public static void showBuildNumber( PhetApplication app ) {
         String name = app.getApplicationDescriptor().getName();
         ClassLoader cl = app.getClass().getClassLoader();
-        URL buildNumberURL = cl.getResource( (name != null ? name + "." : "" ) + "build.number" );
+        URL buildNumberURL = cl.getResource( ( name != null ? name + "." : "" ) + "build.number" );
         System.out.println( "buildNumberURL = " + buildNumberURL );
         int buildNum = -1;
         try {
@@ -49,7 +49,7 @@ public class VersionUtils {
         catch( IOException e ) {
             e.printStackTrace();  //To change body of catch statement use Options | File Templates.
         }
-        InputStream buildTimeURL = cl.getResourceAsStream( (name != null ? name + "." : "" ) + "build.time.stamp" );
+        InputStream buildTimeURL = cl.getResourceAsStream( ( name != null ? name + "." : "" ) + "build.time.stamp" );
         String buildTimeStr = "-1";
         try {
             buildTimeStr = new BufferedReader( new InputStreamReader( buildTimeURL ) ).readLine();

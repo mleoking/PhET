@@ -45,27 +45,27 @@ public class EnergyDotGraphic implements InteractiveGraphic {
 
         if( EC2Module.WENDY_MODE ) {
             display = new IdeaGraphic( false, 0, 0,
-                    new String[]{
-                        SimStrings.get( "EnergyDotGraphic.HeightLabel" ) + "=" + df.format( dot.getHeight() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersLabel" ),
-                        SimStrings.get( "EnergyDotGraphic.TimeLabel" ) + "=" + df.format( dot.getTime() ) + " " + SimStrings.get( "EnergyDotGraphic.SecondsLabel" ),
+                                       new String[]{
+                                           SimStrings.get( "EnergyDotGraphic.HeightLabel" ) + "=" + df.format( dot.getHeight() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersLabel" ),
+                                           SimStrings.get( "EnergyDotGraphic.TimeLabel" ) + "=" + df.format( dot.getTime() ) + " " + SimStrings.get( "EnergyDotGraphic.SecondsLabel" ),
 //                        SimStrings.get( "EnergyDotGraphic.KineticEnergyLabel" ) + "=" + df.format( dot.getKineticEnergy() ) + " " + SimStrings.get( "EnergyDotGraphic.JoulesLabel" ),
 //                        SimStrings.get( "EnergyDotGraphic.PotentialEnergyLabel" ) + "=" + df.format( dot.getPotentialEnergy() ) + " " + SimStrings.get( "EnergyDotGraphic.JoulesLabel" ),
-                        SimStrings.get( "EnergyDotGraphic.LeftWallDistance" ) + "=" + df.format( dot.getX() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersLabel" ),
-                        SimStrings.get( "EnergyDotGraphic.SpeedLabel" ) + "=" + df.format( dot.getSpeed() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersPerSecondLabel" )},
-                    gr.getFontRenderContext(), new Font( "dialog", 0, 18 ),
-                    Color.black, module.getIdeaImage() );
+                                           SimStrings.get( "EnergyDotGraphic.LeftWallDistance" ) + "=" + df.format( dot.getX() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersLabel" ),
+                                           SimStrings.get( "EnergyDotGraphic.SpeedLabel" ) + "=" + df.format( dot.getSpeed() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersPerSecondLabel" )},
+                                       gr.getFontRenderContext(), new Font( "dialog", 0, 18 ),
+                                       Color.black, module.getIdeaImage() );
         }
         else {
             display = new IdeaGraphic( false, 0, 0,
-                    new String[]{
-                        SimStrings.get( "EnergyDotGraphic.HeightLabel" ) + "=" + df.format( dot.getHeight() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersLabel" ),
-                        SimStrings.get( "EnergyDotGraphic.TimeLabel" ) + "=" + df.format( dot.getTime() ) + " " + SimStrings.get( "EnergyDotGraphic.SecondsLabel" ),
-                        SimStrings.get( "EnergyDotGraphic.KineticEnergyLabel" ) + "=" + df.format( dot.getKineticEnergy() ) + " " + SimStrings.get( "EnergyDotGraphic.JoulesLabel" ),
-                        SimStrings.get( "EnergyDotGraphic.PotentialEnergyLabel" ) + "=" + df.format( dot.getPotentialEnergy() ) + " " + SimStrings.get( "EnergyDotGraphic.JoulesLabel" ),
-                        SimStrings.get( "EnergyDotGraphic.LeftWallDistance" ) + "=" + df.format( dot.getX() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersLabel" ),
-                        SimStrings.get( "EnergyDotGraphic.SpeedLabel" ) + "=" + df.format( dot.getSpeed() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersPerSecondLabel" )},
-                    gr.getFontRenderContext(), new Font( "dialog", 0, 18 ),
-                    Color.black, module.getIdeaImage() );
+                                       new String[]{
+                                           SimStrings.get( "EnergyDotGraphic.HeightLabel" ) + "=" + df.format( dot.getHeight() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersLabel" ),
+                                           SimStrings.get( "EnergyDotGraphic.TimeLabel" ) + "=" + df.format( dot.getTime() ) + " " + SimStrings.get( "EnergyDotGraphic.SecondsLabel" ),
+                                           SimStrings.get( "EnergyDotGraphic.KineticEnergyLabel" ) + "=" + df.format( dot.getKineticEnergy() ) + " " + SimStrings.get( "EnergyDotGraphic.JoulesLabel" ),
+                                           SimStrings.get( "EnergyDotGraphic.PotentialEnergyLabel" ) + "=" + df.format( dot.getPotentialEnergy() ) + " " + SimStrings.get( "EnergyDotGraphic.JoulesLabel" ),
+                                           SimStrings.get( "EnergyDotGraphic.LeftWallDistance" ) + "=" + df.format( dot.getX() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersLabel" ),
+                                           SimStrings.get( "EnergyDotGraphic.SpeedLabel" ) + "=" + df.format( dot.getSpeed() ) + " " + SimStrings.get( "EnergyDotGraphic.MetersPerSecondLabel" )},
+                                       gr.getFontRenderContext(), new Font( "dialog", 0, 18 ),
+                                       Color.black, module.getIdeaImage() );
         }
         circleGraphic = circle.createGraphic( this.x, this.y );
     }

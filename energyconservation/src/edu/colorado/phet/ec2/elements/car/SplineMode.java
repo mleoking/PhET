@@ -357,8 +357,8 @@ public class SplineMode implements CarMode {
             double mph = modelSpeed * 2.23693629205;
 //            Point initvel=new Point(velocityVector.getX(),velocityVector.getY());
             EC2Module.setMessage( SimStrings.get( "CarMode.InitialSpeedLabel" ) + "=" + df.format( modelSpeed )
-                        + " " + SimStrings.get( "CarMode.MetersPerSecondAbbrev" ) + "   ( " + df.format( mph )
-                        + " " + SimStrings.get( "CarMode.MilesPerHourAbbrev" ) + " )", 1000 );
+                                  + " " + SimStrings.get( "CarMode.MetersPerSecondAbbrev" ) + "   ( " + df.format( mph )
+                                  + " " + SimStrings.get( "CarMode.MilesPerHourAbbrev" ) + " )", 1000 );
 //            dh = new DifferentialDragHandler(event.getPoint());
         }
 

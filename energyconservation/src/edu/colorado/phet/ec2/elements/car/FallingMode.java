@@ -128,8 +128,8 @@ public class FallingMode implements CarMode {
             double mph = speed * 2.23693629205;
 //            Point initvel=new Point(velocityVector.getX(),velocityVector.getY());
             EC2Module.setMessage( SimStrings.get( "CarMode.InitialSpeedLabel" ) + "=" + df.format( speed )
-                        + " " + SimStrings.get( "CarMode.MetersPerSecondAbbrev" ) + "   ( " + df.format( mph )
-                        + " " + SimStrings.get( "CarMode.MilesPerHourAbbrev" ) + " )", 1000 );
+                                  + " " + SimStrings.get( "CarMode.MetersPerSecondAbbrev" ) + "   ( " + df.format( mph )
+                                  + " " + SimStrings.get( "CarMode.MilesPerHourAbbrev" ) + " )", 1000 );
         }
     }
 

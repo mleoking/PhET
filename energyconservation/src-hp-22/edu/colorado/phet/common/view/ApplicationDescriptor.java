@@ -62,7 +62,7 @@ public class ApplicationDescriptor {
     public FrameSetup getFrameSetup() {
         return frameSetup;
     }
-    
+
     public void setName( String name ) {
         this.name = name;
     }
