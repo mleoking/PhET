@@ -630,7 +630,7 @@ public class CoilGraphic implements SimpleObserver {
         
         // Rescale the speed to improve the visual effect.
         double sign = ( speed < 0 ) ? -1 : +1;
-        speed = sign * Rescaler.rescale( Math.abs( speed ), _coilModel.getMagnet().getStrength() );
+        speed = sign * _coilModel.getMagnet().rescale( Math.abs( speed ) );
         speed = MathUtil.clamp( -1, speed, +1 );
 
         return speed;

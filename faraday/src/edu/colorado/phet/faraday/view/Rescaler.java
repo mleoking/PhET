@@ -16,10 +16,14 @@ import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**
- * Rescaler is a collection of static functions for rescaling values.
+ * Rescaler is a collection of static functions for making "scale" values more 
+ * visually useful. The scale is made a bit more linear by adjusting it to
+ * to some reference value.
+ * <p>.
+ * For example:
  * Since the magnetic field drops off at the rate of the distance cubed,
- * the visual effect is not very useful.  These functions rescale the 
- * a value so that it is a bit more linear.
+ * the visual effect is not very useful.  Using the magnet strength as a 
+ * reference, we can rescale the field strength.
  * <p>
  * Some places where this is used include:
  * <ul>
@@ -39,7 +43,7 @@ public class Rescaler {
     //----------------------------------------------------------------------------
     
     /*
-     * WARNING! These constants determine rescaling throughout the simulation.
+     * WARNING! These constants control rescaling throughout the simulation.
      */
     
     // Values below this value are rescaled.
@@ -67,12 +71,14 @@ public class Rescaler {
      * This method is intended to be used with values that are
      * in the range 0-1.
      * 
-     * @param value a value in the range 0...1 inclusive
-     * @param magnetStrength the magnet strength
-     * @return rescaled value
+     * @param scale a value in the range 0...1 inclusive
+     * @param referenceValue the reference value
+     * @param referenceMin the refernece value's minimum
+     * @param referenceMax the reference value's maximum
+     * @return rescaled value in the range 0...1 inclusive
      */
-    public static double rescale( double value, double magnetStrength ) {
-        return rescale( value, RESCALE_THRESHOLD, magnetStrength );
+    public static double rescale( double scale, double referenceValue, double referenceMin, double referenceMax ) {
+        return rescale( scale, RESCALE_THRESHOLD, referenceValue, referenceMin, referenceMax );
     }
     
     /**
@@ -90,20 +96,19 @@ public class Rescaler {
      * <li>exponent N is between 0.3-0.8 and is a function of magnet strength
      * </ul>
      */
-    public static double rescale( double value, double threshold, double magnetStrength ) {
-        assert ( value >= 0 );
+    public static double rescale( double scale, double threshold, double referenceValue, double referenceMin, double referenceMax ) {
+        assert ( scale >= 0 );
         assert ( threshold > 0 );
-        assert ( magnetStrength > 0 );
+        assert ( referenceValue >= 0 );
         
         double newValue;
-        if ( value > threshold ) {
+        if ( scale > threshold ) {
             newValue = 1.0;
         }
         else {
-            double min = FaradayConfig.MAGNET_STRENGTH_MIN;
-            double max = FaradayConfig.MAGNET_STRENGTH_MAX;
-            double exponent = RESCALE_MAX_EXPONENT - ( ( ( magnetStrength - min ) / ( max - min ) ) * ( RESCALE_MAX_EXPONENT - RESCALE_MIN_EXPONENT ) );
-            newValue = Math.pow( value / threshold, exponent );
+            double exponent = RESCALE_MAX_EXPONENT - ( ( ( referenceValue - referenceMin ) / ( referenceMax - referenceMin ) ) * ( RESCALE_MAX_EXPONENT - RESCALE_MIN_EXPONENT ) );
+            newValue = Math.pow( scale / threshold, exponent );
+            newValue = MathUtil.clamp( 0, newValue, 1 );
         }
         return newValue;
     }

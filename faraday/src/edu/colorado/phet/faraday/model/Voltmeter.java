@@ -16,7 +16,6 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.view.Rescaler;
 
 
 /**
@@ -197,7 +196,7 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
 
         // Rescale the voltage to improve the visual effect.
         double sign = ( voltage < 0 ) ? -1 : +1;
-        voltage = sign * Rescaler.rescale( Math.abs( voltage ), _pickupCoilModel.getMagnet().getStrength() );
+        voltage = sign * _pickupCoilModel.getMagnet().rescale( Math.abs( voltage ) );
         voltage = MathUtil.clamp( -1, voltage, +1 );
 
         // Determine the needle deflection angle.

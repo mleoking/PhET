@@ -62,24 +62,24 @@ public class FaradayConfig {
     // Fonts
     public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
     
-    // Labels
-    public static final String GAUSS_LABEL = "G";
-    public static final String VOLTS_LABEL = "v";
-    
     // EMF parameters
     public static final double MAX_EMF = 4.0E7; // volts
     
-    // Magnet parameters (applicable to all magnet types)
-    public static final double MAGNET_STRENGTH_MAX = 300.0; // Gauss
-    public static final double MAGNET_STRENGTH_MIN = 0.5 * MAGNET_STRENGTH_MAX; // Gauss
-    
     // Bar Magnet parameters
+    public static final double BAR_MAGNET_STRENGTH_MAX = 300.0; // Gauss
+    public static final double BAR_MAGNET_STRENGTH_MIN = 0.5 * BAR_MAGNET_STRENGTH_MAX; // Gauss
     public static final double BAR_MAGNET_ASPECT_RATIO = 5.0/1.0;
     public static final int BAR_MAGNET_WIDTH_MAX = 350;
     public static final int BAR_MAGNET_WIDTH_MIN = 150;
     private static final int BAR_MAGNET_WIDTH = 250;
     public static final Dimension BAR_MAGNET_SIZE = new Dimension( BAR_MAGNET_WIDTH, (int) ( BAR_MAGNET_WIDTH / BAR_MAGNET_ASPECT_RATIO ) );
 
+    // Electromagnet parameters
+    public static final double ELECTROMAGNET_STRENGTH_MAX = 300.0; // Gauss
+    public static final double ELECTROMAGNET_STRENGTH_MIN = 0.0;  // must be zero !!!
+    public static final int ELECTROMAGNET_LOOPS_MAX = 4;
+    public static final int ELECTROMAGNET_LOOPS_MIN = 1;
+    
     // Compass Grid parameters
     public static final int GRID_SPACING_MAX = 100;
     public static final int GRID_SPACING_MIN = 35;
@@ -95,10 +95,7 @@ public class FaradayConfig {
     public static final int MIN_PICKUP_LOOPS = 1;
     public static final double MAX_PICKUP_RADIUS = 125.0;
     public static final double MIN_PICKUP_RADIUS = 0.5 * MAX_PICKUP_RADIUS;
-    
-    // Electromagnet parameters
-    public static final int MAX_ELECTROMAGNET_LOOPS = 4;
-    public static final int MIN_ELECTROMAGNET_LOOPS = 1;
+
 
     //----------------------------------------------------------------------------
     // Constructors

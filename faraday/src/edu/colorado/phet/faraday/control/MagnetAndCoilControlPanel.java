@@ -137,7 +137,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
 
                 // Values are a percentage of the maximum.
                 int max = 100;
-                int min = (int) ( 100.0 * FaradayConfig.MAGNET_STRENGTH_MIN / FaradayConfig.MAGNET_STRENGTH_MAX );
+                int min = (int) ( 100.0 * FaradayConfig.BAR_MAGNET_STRENGTH_MIN / FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
                 int range = max - min;
                 
                 // Slider
@@ -301,7 +301,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         _electronsCheckBox.addActionListener( listener );
         
         // Update control panel to match the components that it's controlling.
-        _strengthSlider.setValue( (int) ( 100.0 * _magnetModel.getStrength() / FaradayConfig.MAGNET_STRENGTH_MAX ) );
+        _strengthSlider.setValue( (int) ( 100.0 * _magnetModel.getStrength() / FaradayConfig.BAR_MAGNET_STRENGTH_MAX ) );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _loopsSpinner.setValue( new Integer( _pickupCoilModel.getNumberOfLoops() ) );
@@ -378,7 +378,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 // Read the value
                 int percent = _strengthSlider.getValue();
                 // Update the model.
-                int strength = (int) ( (  percent / 100.0 ) * FaradayConfig.MAGNET_STRENGTH_MAX );
+                int strength = (int) ( (  percent / 100.0 ) * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
                 _magnetModel.setStrength( strength );
                 // Update the label.
                 Object[] args = { new Integer( percent ) };

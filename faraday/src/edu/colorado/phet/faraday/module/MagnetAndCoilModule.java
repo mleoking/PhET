@@ -45,7 +45,7 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
     // Rendering layers
     private static final double GRID_LAYER = 1;
     private static final double COIL_BACK_LAYER = 2;
-    private static final double MAGNET_LAYER = 3;
+    private static final double BAR_MAGNET_LAYER = 3;
     private static final double COMPASS_LAYER = 4;
     private static final double COIL_FRONT_LAYER = 5;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
@@ -58,9 +58,6 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
-
-    // Magnet parameters
-    private static final double MAGNET_STRENGTH = 0.75 * FaradayConfig.MAGNET_STRENGTH_MAX;
     
     // Pickup Coil parameters
     private static final int NUMBER_OF_LOOPS = 2;
@@ -98,22 +95,24 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         this.setModel( model );
         
         // Bar Magnet
-        AbstractMagnet magnetModel = new BarMagnet();
-        magnetModel.setStrength( MAGNET_STRENGTH );
-        magnetModel.setLocation( MAGNET_LOCATION );
-        magnetModel.setDirection( 0 /* radians */ );
-        magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
-        model.addModelElement( magnetModel );
+        BarMagnet barMagnetModel = new BarMagnet();
+        barMagnetModel.setMaxStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        barMagnetModel.setMinStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MIN );
+        barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        barMagnetModel.setLocation( MAGNET_LOCATION );
+        barMagnetModel.setDirection( 0 /* radians */ );
+        barMagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
+        model.addModelElement( barMagnetModel );
         
         // Compass
-        Compass compassModel = new Compass( magnetModel ); 
+        Compass compassModel = new Compass( barMagnetModel ); 
         compassModel.setLocation( COMPASS_LOCATION );
         compassModel.setRotationalKinematicsEnabled( true );
         compassModel.setEnabled( false );
         model.addModelElement( compassModel );
         
         // Pickup Coil
-        PickupCoil pickupCoilModel = new PickupCoil( magnetModel );
+        PickupCoil pickupCoilModel = new PickupCoil( barMagnetModel );
         pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
         pickupCoilModel.setRadius( LOOP_RADIUS );
         pickupCoilModel.setDirection( 0 /* radians */ );
@@ -140,9 +139,9 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         this.setApparatusPanel( apparatusPanel );
         
         // Bar Magnet
-        BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, magnetModel );
-        apparatusPanel.addChangeListener( magnetGraphic );
-        apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
+        BarMagnetGraphic barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, barMagnetModel );
+        apparatusPanel.addChangeListener( barMagnetGraphic );
+        apparatusPanel.addGraphic( barMagnetGraphic, BAR_MAGNET_LAYER );
         
         // Pickup AbstractCoil
         PickupCoilGraphic pickupCoilGraphic = 
@@ -152,7 +151,7 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), COIL_BACK_LAYER );
         
         // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, magnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
         _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         _gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
         _gridGraphic.setVisible( false );
@@ -172,11 +171,11 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
 //        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
 
         // Collision detection
-        magnetGraphic.getCollisionDetector().add( compassGraphic );
-        magnetGraphic.getCollisionDetector().add( pickupCoilGraphic );
-        compassGraphic.getCollisionDetector().add( magnetGraphic );
+        barMagnetGraphic.getCollisionDetector().add( compassGraphic );
+        barMagnetGraphic.getCollisionDetector().add( pickupCoilGraphic );
+        compassGraphic.getCollisionDetector().add( barMagnetGraphic );
         compassGraphic.getCollisionDetector().add( pickupCoilGraphic );
-        pickupCoilGraphic.getCollisionDetector().add( magnetGraphic );
+        pickupCoilGraphic.getCollisionDetector().add( barMagnetGraphic );
         pickupCoilGraphic.getCollisionDetector().add( compassGraphic );
         
         //----------------------------------------------------------------------------
@@ -185,8 +184,8 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         
         // Control Panel
         MagnetAndCoilControlPanel controlPanel = new MagnetAndCoilControlPanel( this, 
-            magnetModel, compassModel, pickupCoilModel, lightbulbModel, voltmeterModel,
-            magnetGraphic, _gridGraphic, pickupCoilGraphic.getCoilGraphic() );
+            barMagnetModel, compassModel, pickupCoilModel, lightbulbModel, voltmeterModel,
+            barMagnetGraphic, _gridGraphic, pickupCoilGraphic.getCoilGraphic() );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------

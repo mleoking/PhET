@@ -13,19 +13,23 @@ package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Point;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.ElectromagnetControlPanel;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.Electromagnet;
+import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
+import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
+import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 
 /**
@@ -42,12 +46,16 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
 
     // Rendering layers
     private static final double GRID_LAYER = 1;
+    private static final double ELECTROMAGNET_LAYER = 2;
+    private static final double COMPASS_LAYER = 3;
+    private static final double METER_LAYER = 4;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
-    // Locations of model components
-
-    // Locations of view components
+    // Locations
+    private static final Point MAGNET_LOCATION = new Point( 400, 300 );
+    private static final Point COMPASS_LOCATION = new Point( 150, 200 );
+    private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -84,24 +92,54 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         this.setModel( model );
         
         // Electromagnet
-        AbstractMagnet magnetModel = new Electromagnet();
-        // XXX set properties
-        model.addModelElement( magnetModel );
+        Electromagnet electromagnetModel = new Electromagnet();
+        electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
+        electromagnetModel.setMinStrength( 0 );
+        electromagnetModel.setStrength( 0 );
+        electromagnetModel.setLocation( MAGNET_LOCATION );
+        electromagnetModel.setDirection( 0 /* radians */ );
+        electromagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE ); // XXX
+        model.addModelElement( electromagnetModel );
+        
+        // Compass model
+        Compass compassModel = new Compass( electromagnetModel );
+        compassModel.setLocation( COMPASS_LOCATION );
+        compassModel.setRotationalKinematicsEnabled( true );
+        model.addModelElement( compassModel );
         
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel apparatusPanel = new ApparatusPanel2( model, clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
         
+        // Bar Magnet
+        ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, electromagnetModel );
+        apparatusPanel.addChangeListener( electromagnetGraphic );
+        apparatusPanel.addGraphic( electromagnetGraphic, ELECTROMAGNET_LAYER );
+        
         // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, magnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, electromagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
         _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         _gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
+        apparatusPanel.addChangeListener( _gridGraphic );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
+        
+        // CompassGraphic
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
+        compassGraphic.setLocation( COMPASS_LOCATION );
+        apparatusPanel.addChangeListener( compassGraphic );
+        apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
+        
+        // Field Meter
+        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, electromagnetModel );
+        fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        fieldMeterGraphic.setVisible( true );
+        apparatusPanel.addChangeListener( fieldMeterGraphic );
+        apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
         
         // Debugger
 //      DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
@@ -109,6 +147,10 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
 //      debugger.setLocationStrokeWidth( 1 );
 //      debugger.add( XXX );
 //      apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
+        
+        // Collision detection
+        electromagnetGraphic.getCollisionDetector().add( compassGraphic );
+        compassGraphic.getCollisionDetector().add( electromagnetGraphic );
         
         //----------------------------------------------------------------------------
         // Control

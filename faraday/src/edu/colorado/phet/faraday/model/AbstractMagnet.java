@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.view.Rescaler;
 
 
 /**
@@ -31,8 +31,10 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
     // Instance data
     //----------------------------------------------------------------------------
 
-    private double _strength;
     private Dimension _size;
+    private double _strength;
+    private double _maxStrength;
+    private double _minStrength;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -43,14 +45,80 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
      */
     public AbstractMagnet() {
         super();
-        _strength = 1.0;
         _size = new Dimension( 250, 50 );
+        _strength = 1.0;
+        _minStrength = 0.0;
+        _maxStrength = 1.0;
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
 
+    /**
+     * Sets the maximum magnet strength.
+     * This value is used in rescaling of field strength.
+     * 
+     * @see edu.colorado.phet.faraday.model.AbstractMagnet#rescale(double)
+     * @param maxStrength the maximum strength, in Gauss
+     */
+    public void setMaxStrength( double maxStrength ) {
+        if ( maxStrength != _maxStrength ) {
+            _maxStrength = maxStrength;
+            if ( _strength > _maxStrength ) {
+                _strength = _maxStrength;
+            }
+            if ( _maxStrength < _minStrength ) {
+                _minStrength = _maxStrength;
+            }
+            updateSelf();
+            notifyObservers();
+        }
+    }
+    
+    /**
+     * Gets the maximum magnet strength.
+     * This value is used in rescaling of field strength.
+     * 
+     * @see edu.colorado.phet.faraday.model.AbstractMagnet#rescale(double)
+     * @return the maximumum strength, in Gauss
+     */
+    public double getMaxStrength() {
+        return _maxStrength;
+    }
+    
+    /**
+     * Sets the minimum magnet strength.
+     * This value is used in rescaling of field strength.
+     * 
+     * @see edu.colorado.phet.faraday.model.AbstractMagnet#rescale(double)
+     * @param minStrength the minimum strength, in Gauss
+     */
+    public void setMinStrength( double minStrength ) {
+        if ( minStrength != _minStrength ) {
+            _minStrength = minStrength;
+            if ( _strength < _minStrength ) {
+                _strength = _minStrength;
+            }
+            if ( _minStrength > _maxStrength ) {
+                _maxStrength = _minStrength;
+            }
+            updateSelf();
+            notifyObservers();
+        }
+    }
+    
+    /**
+     * Gets the minimum magnet strength.
+     * This value is used in rescaling of field strength.
+     * 
+     * @see edu.colorado.phet.faraday.model.AbstractMagnet#rescale(double)
+     * @return the minimum strength, in Gauss
+     */
+    public double getMinStrength() {
+        return _minStrength;
+    }
+    
     /** 
      * Sets the magnitude of the magnet's strength, in Gauss.
      * 
@@ -58,8 +126,8 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
      * @throws IllegalArgumentException if strength is outside of the min/max range
      */
     public void setStrength( double strength ) {
-        if ( ! (strength >= FaradayConfig.MAGNET_STRENGTH_MIN && strength <= FaradayConfig.MAGNET_STRENGTH_MAX ) ) {
-            throw new IllegalArgumentException( "strength is out of range: " + strength );
+        if ( strength < _minStrength || strength > _maxStrength ) {
+            throw new IllegalArgumentException( "strength out of range: " + strength );
         }
         if ( strength != _strength ) {
             _strength = strength;
@@ -154,7 +222,16 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
         return _size.getHeight();
     }
     
-
+    /**
+     * Rescales a scale value to make it more visually useful.
+     * 
+     * @param scale value from 0...+1 inclusive
+     * @return rescaled value from 0...+1 inclusive
+     */
+    public double rescale( double scale ) {
+        return Rescaler.rescale( scale, _strength, _minStrength, _maxStrength );
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
