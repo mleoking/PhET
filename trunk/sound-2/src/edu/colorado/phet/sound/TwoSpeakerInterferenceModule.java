@@ -23,9 +23,6 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
 
     private Listener speakerListener = new Listener();
     private Listener headListener = new Listener();
-
-    private WaveMediumGraphicB primaryWg;
-    private InterferenceListenerGraphic head;
     private Point2D.Double audioSourceA;
     private Point2D.Double audioSourceB;
     private SoundModel soundModel;
@@ -56,7 +53,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
 
         // Create the upper wave and speaker
         WaveMedium wm = getSoundModel().getWaveMedium();
-        WaveMediumGraphicB wgA = new WaveMediumGraphicB( wm, getApparatusPanel(), this );
+        WaveMediumGraphic wgA = new WaveMediumGraphic( wm, getApparatusPanel() );
         wm.addObserver( wgA );
         this.addGraphic( wgA, 5 );
         wgA.initLayout( audioSourceA,
@@ -69,7 +66,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         speakerGraphicA.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() );
 
         // Add the lower wave and speaker
-        WaveMediumGraphicB wgB = new WaveMediumGraphicB( wm, getApparatusPanel(), this );
+        WaveMediumGraphic wgB = new WaveMediumGraphic( wm, getApparatusPanel() );
         wm.addObserver( wgB );
         this.addGraphic( wgB, 5 );
         wgB.initLayout( audioSourceB,
@@ -125,7 +122,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
         saveInterferenceOverideEnabled = getPrimaryOscillator().getInterferenceOverideEnabled();
-        getPrimaryOscillator().setInterferenceOverideEnabled( false );
+        //        getPrimaryOscillator().setInterferenceOverideEnabled( false );
     }
 
     public int rgbAt( int x, int y ) {

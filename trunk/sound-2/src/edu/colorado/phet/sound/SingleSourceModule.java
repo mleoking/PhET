@@ -22,7 +22,7 @@ public abstract class SingleSourceModule extends SoundModule {
         SingleSourceApparatusPanel apparatusPanel = new SingleSourceApparatusPanel( (SoundModel)getModel() );
         this.setApparatusPanel( apparatusPanel );
 
-        final WaveMedium waveMedium = ((SoundModel)getModel()).getWaveMedium();
+        final WaveMedium waveMedium = ( (SoundModel)getModel() ).getWaveMedium();
         WaveMediumGraphicB waveMediumGraphic = new WaveMediumGraphicB( waveMedium, getApparatusPanel(), this );
         this.addGraphic( waveMediumGraphic, 7 );
         Point2D.Double audioSource = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
@@ -30,8 +30,6 @@ public abstract class SingleSourceModule extends SoundModule {
         waveMediumGraphic.initLayout( audioSource,
                                       SoundConfig.s_wavefrontHeight,
                                       SoundConfig.s_wavefrontRadius );
-
-
         initControlPanel();
     }
 

@@ -8,9 +8,7 @@ package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.MeasureControlPanel;
 import edu.colorado.phet.sound.view.MeterStickGraphic;
 import edu.colorado.phet.sound.view.VerticalGuideline;
@@ -44,9 +42,9 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         VerticalGuideline guideline2 = new VerticalGuideline( getApparatusPanel(), Color.blue, s_guidelineBaseX + 20 );
         this.addGraphic( guideline2, 10 );
 
-//        RepaintDebugGraphic debugger = new RepaintDebugGraphic( getApparatusPanel(), appModel.getClock() );
-//        debugger.setActive( true );
-//        this.addGraphic( debugger, 8 );
+        //        RepaintDebugGraphic debugger = new RepaintDebugGraphic( getApparatusPanel(), appModel.getClock() );
+        //        debugger.setActive( true );
+        //        this.addGraphic( debugger, 8 );
 
         setControlPanel( new MeasureControlPanel( this, appModel.getClock() ) );
     }

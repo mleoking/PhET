@@ -27,7 +27,7 @@ public class VerticalGuideline extends DefaultInteractiveGraphic {
             public void translate( double dx, double dy ) {
                 xLocation += dx;
                 verticalLine.setLocation( xLocation );
-//                component.repaint();
+                //                component.repaint();
             }
         } );
     }

@@ -10,9 +10,9 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 public class MeterStickGraphic extends DefaultInteractiveGraphic {
     private Component component;

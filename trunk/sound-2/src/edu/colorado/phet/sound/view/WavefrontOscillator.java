@@ -6,14 +6,11 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.sound.SoundConfig;
-import edu.colorado.phet.sound.SoundModule;
-import edu.colorado.phet.sound.model.Wavefront;
 import edu.colorado.phet.sound.model.Listener;
+import edu.colorado.phet.sound.model.Wavefront;
 import javasound.SrrOscillatorPlayer;
 
 import java.awt.geom.Point2D;
@@ -32,16 +29,20 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
     // This is a special overide flag so that the two source interference panel works.
     private boolean interferenceOverideEnabled = false;
 
+    /**
+     *
+     */
+    public WavefrontOscillator( Wavefront wavefront ) {
+        this.wavefront = wavefront;
+        wavefront.addObserver( this );
+    }
+
     public void run() {
         super.run();
     }
 
     public void setWavefront( Wavefront wavefront ) {
-        if( this.wavefront != null ) {
-            this.wavefront.removeObserver( this );
-        }
         this.wavefront = wavefront;
-        wavefront.addObserver( this );
     }
 
     public void clockTicked( AbstractClock c, double dt ) {
@@ -64,6 +65,7 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
      *
      */
     public void setEnabled( boolean enabled ) {
+        //        super.setEnabled( enabled );
         isEnabled = enabled;
 
         // Note: If we don't do this messing around with the amplitude, the

@@ -39,7 +39,7 @@ public class SoundConfig {
     // is based on the propogation speed, the clock's time step, and the
     // size of the ruler graphic that is used to measure waves
     private static final double METERS_PER_PIXEL = 5.0 / 222.0;        // the 5 meter stick is 222 pixels long
-    private static final double PIXELS_PER_SECOND =  PROPOGATION_SPEED / ( s_timeStep * 1E-3 );
+    private static final double PIXELS_PER_SECOND = PROPOGATION_SPEED / ( s_timeStep * 1E-3 );
     public static final double SPEED_OF_SOUND = 331.4;
     private static final double SCREEN_SPEED = METERS_PER_PIXEL * PIXELS_PER_SECOND;
     public static final double s_clockScaleFactor = SCREEN_SPEED / SPEED_OF_SOUND;
@@ -65,9 +65,9 @@ public class SoundConfig {
     public static final String SPEAKER_FRAME_IMAGE_FILE = IMAGE_DIRECTORY + "speaker-frame.gif";
     public static final String SPEAKER_CONE_IMAGE_FILE = IMAGE_DIRECTORY + "speaker-cone.gif";
     public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
-//    public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head.gif";
+    //    public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head.gif";
     public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
-//    public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "listener-w-ears.gif";
+    //    public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "listener-w-ears.gif";
     public static final String METER_STICK_IMAGE_FILE = IMAGE_DIRECTORY + "five-meter-stick.gif";
 
     // Animation images
