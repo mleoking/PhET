@@ -188,6 +188,13 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         }
     }
 
+    static public void setAllVisible( boolean isVisible ) {
+        for( int i = 0; i < s_instances.size(); i++ ) {
+            PhotonGraphic photonGraphic = (PhotonGraphic)s_instances.get( i );
+            photonGraphic.setVisible( isVisible );
+        }
+    }
+
     public static void removeInstance( PhotonGraphic graphic ) {
         synchronized( s_instances ) {
             s_instances.remove( graphic );
@@ -207,24 +214,11 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     private Photon photon;
     private Color color;
 
-
-    public class Foo {
-        String s = "FOO";
-    }
-
-    Foo[] foo = new Foo[1000];
-
-
     public PhotonGraphic( Component component, Photon photon ) {
         // Need to subtract half the width and height of the image to locate it
         // properly
         super( component, s_particleImage );
         s_instances.add( this );
-
-        // Create objects so we'll show up in the profiler
-        for( int i = 0; i < foo.length; i++ ) {
-            foo[i] = new Foo();
-        }
 
         this.photon = photon;
         this.color = VisibleColor.wavelengthToColor( photon.getWavelength() );

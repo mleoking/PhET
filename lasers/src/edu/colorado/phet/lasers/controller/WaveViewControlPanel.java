@@ -96,6 +96,7 @@ public class WaveViewControlPanel extends JPanel {
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
             }
             if( selection == lasingWaveViewRB ) {
+                //                PhotonGraphic.setAllVisible( false );
                 PhotonGraphic.removeAll( module.getApparatusPanel() );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_WAVE );
             }
