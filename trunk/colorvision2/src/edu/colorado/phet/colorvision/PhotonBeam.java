@@ -1,7 +1,11 @@
 package edu.colorado.phet.colorvision;
 
+import edu.colorado.phet.common.model.CompositeModelElement;
+
 import java.util.ArrayList;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,7 +14,7 @@ import java.awt.*;
  * Time 64443 AM
  * To change this template use File | Settings | File Templates.
  */
-public class PhotonBeam implements ColorListener {
+public class PhotonBeam {
 
     private boolean running;
     // The x coord at which photons are deleted
@@ -21,117 +25,100 @@ public class PhotonBeam implements ColorListener {
     //	private photonsArray = new Array();
     private ArrayList photons = new ArrayList();
     private double rateAtEyeball;
-    private int xLoc;
-    private int yLoc;
+    private double xLoc;
+    private double yLoc;
     private double theta;
 //	private double color;
-    private int alpha;
     private double wavelength;
-//	private Number intervalID;
     private Color color;
+    private BufferedImage canvas;
 
 
     public PhotonBeam() {
         rate = 0;
-        alpha = 100;
         rateAtEyeball = 0;
         running = false;
-//		xCutoff = _root.head._x;
+        canvas = new BufferedImage( 400, 400, BufferedImage.TYPE_INT_ARGB );
+
+//        PhotonBeamClock clock = new PhotonBeamClock();
+//        Thread clockThread = new Thread( clock );
+//        clockThread.start();
     }
 
 
-    public void setLocation(int xLoc, int yLoc) {
+    public void setLocation( int xLoc, int yLoc ) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
     }
 
-    public void setTheta(double theta) {
+    public void setTheta( double theta ) {
         this.theta = theta;
     }
 
-    public void setAlpha(int alpha) {
-        this.alpha = alpha;
-    }
-
-//	public void setColor(int color) {
-//		this.color = color;
-//		ColorUtil.ColorTransform ctx = ColorUtil.colorToCtx(color);
-//		this.wavelength = ColorUtil.ctxToWavelength(ctx);
-//		if (color == 0xFFFFFF) {
-//			this.wavelength = 0;
-//		}
-//	}
-
-    public void setWavelength(double wavelength) {
+    public void setWavelength( double wavelength ) {
         this.wavelength = wavelength;
-        ColorUtil.ColorTransform ctx = ColorUtil.getCtx(wavelength);
+        ColorUtil.ColorTransform ctx = ColorUtil.getCtx( wavelength );
 //		this.color = ColorUtil.ctxToColor(ctx);
-        this.color = new Color(ctx.rb, ctx.gb, ctx.bb);
+        this.color = new Color( ctx.rb, ctx.gb, ctx.bb );
+    }
+    public void setColor( Color color ) {
+        this.color = color;
     }
 
     /**
      * Get a photon to a given specification.
      */
-    private Photon allocatePhoton(int xLoc, int yLoc, double theta,
-                                  double wavelength, double rate) {
+    private Photon allocatePhoton( double xLoc, double yLoc, double theta,
+                                   double wavelength, double rate ) {
         Photon p = null;
         // Look through the photon records we already have to see if there is one that is not in use
-        for (int i = 0; i < photons.size() && p == null; i++) {
-            if (!((PhotonGeneratorRecordEntry) photons.get(i)).isInUse()) {
-                p = ((PhotonGeneratorRecordEntry) photons.get(i)).getPhoton();
-                p.setLocation(xLoc, yLoc);
-                p.setWavelength(wavelength);
-                ((PhotonGeneratorRecordEntry) photons.get(i)).setRate(rate);
-                ((PhotonGeneratorRecordEntry) photons.get(i)).setInUse(true);
-                p.setIsVisible(true);
+        for( int i = 0; i < photons.size() && p == null; i++ ) {
+            if( !( (PhotonGeneratorRecordEntry)photons.get( i ) ).isInUse() ) {
+                p = ( (PhotonGeneratorRecordEntry)photons.get( i ) ).getPhoton();
+                p.setLocation( xLoc, yLoc );
+                p.setWavelength( wavelength );
+                ( (PhotonGeneratorRecordEntry)photons.get( i ) ).setRate( rate );
+                ( (PhotonGeneratorRecordEntry)photons.get( i ) ).setInUse( true );
+                p.setIsVisible( true );
             }
         }
         // If we didn't find an unused photon that is not in use, allocate one
-        if (p == null) {
-            p = new Photon(xLoc, yLoc, theta, wavelength);
-            photons.add(new PhotonGeneratorRecordEntry(p, rate));
+        if( p == null ) {
+            p = new Photon( xLoc, yLoc, theta, this.color );
+            photons.add( new PhotonGeneratorRecordEntry( p, rate ) );
         }
         return p;
     }
 
-    public void paint(Graphics g) {
-//	public void onEnterFrame() {
-
-        g.clearRect(0, 0, this.width, this.height );
-//        this.clear();
-        if (running == true) {
+    public void paint( Graphics g ) {
+        if( running == true ) {
             double wl;
             Photon p;
-            for (int n = 0; n < Math.round(rate); n++) {
-                if (this.wavelength == 0) {
-                    wl = Math.random() * (Config.maxWavelength - Config.minWavelength) + Config.minWavelength;
-                } else {
+            for( int n = 0; n < Math.round( rate ); n++ ) {
+                if( this.wavelength == 0 ) {
+                    wl = Math.random() * ( Config.maxWavelength - Config.minWavelength ) + Config.minWavelength;
+                }
+                else {
                     wl = this.wavelength;
                 }
-                //				p = new Photon(xLoc, yLoc, genTheta(theta * Math.PI / 180), wl);
-                //				photons.push(new PhotonGeneratorRecordEntry(p, rate));
-                p = allocatePhoton(xLoc, yLoc, genTheta(theta * Math.PI / 180), wl, rate);
+                p = allocatePhoton( genXLoc( xLoc ), yLoc, genTheta( theta * Math.PI / 180 ), wl, rate );
             }
             // Paint or prune the photons, as need be
             boolean somePhotonInUse = false;
-            for (int i = 0; i < photons.size(); i++) {
-                if (((PhotonGeneratorRecordEntry) photons.get(i)).isInUse()) {
+            for( int i = 0; i < photons.size(); i++ ) {
+                if( ( (PhotonGeneratorRecordEntry)photons.get( i ) ).isInUse() ) {
                     somePhotonInUse = true;
-                    p = ((PhotonGeneratorRecordEntry) photons.get(i)).getPhoton();
-                    if (p != null && p.getX() <= Config.xCutoff) {
-//                  if (p != null && p.getX() <= Config.head._x) {
-                        p.paint(g);
-//						p.paint(this);
-                    } else {
-                        ((PhotonGeneratorRecordEntry) photons.get(i)).setInUse(false);
-                        this.rateAtEyeball = ((PhotonGeneratorRecordEntry) photons.get(i)).getRate();
-                        //					photons.splice(i, 1);
-                        //					Photon.deleteInstance(p);
+                    p = ( (PhotonGeneratorRecordEntry)photons.get( i ) ).getPhoton();
+                    if( p != null && p.getX() <= Config.xCutoff ) {
+                        p.paint( g );
+                    }
+                    else {
+                        ( (PhotonGeneratorRecordEntry)photons.get( i ) ).setInUse( false );
+                        this.rateAtEyeball = ( (PhotonGeneratorRecordEntry)photons.get( i ) ).getRate();
                     }
                 }
             }
-            //			if (photons.length == 0) {
-            if (!somePhotonInUse) {
+            if( !somePhotonInUse ) {
                 this.rateAtEyeball = 0;
             }
         }
@@ -164,7 +151,7 @@ public class PhotonBeam implements ColorListener {
         return 8;
     }
 
-    public void setRate(double rate) {
+    public void setRate( double rate ) {
         this.rate = rate;
     }
 
@@ -172,14 +159,17 @@ public class PhotonBeam implements ColorListener {
         return this.rateAtEyeball;
     }
 
-    private double genTheta(double theta0) {
-        double d_theta = Math.random() * Math.PI / 16 - Math.PI / 32;
+    private double genTheta( double theta0 ) {
+        double d_theta = ( Math.random() * Math.PI / 16 ) - Math.PI / 32;
         double angle = theta0 + d_theta;
         return angle;
     }
 
-    public void colorChanged(double wavelength) {
-        this.setWavelength(wavelength);
+    private double genXLoc( double xLoc){
+        return xLoc + Math.random() * Photon.ds;// / 2;
+    }
+    public void colorChanged( double wavelength ) {
+        this.setWavelength( wavelength );
     }
 
 
@@ -188,7 +178,7 @@ public class PhotonBeam implements ColorListener {
         private double rate;
         private boolean inUse;
 
-        PhotonGeneratorRecordEntry(Photon p, double rate) {
+        PhotonGeneratorRecordEntry( Photon p, double rate ) {
             this.p = p;
             this.rate = rate;
             this.inUse = true;
@@ -202,11 +192,11 @@ public class PhotonBeam implements ColorListener {
             return this.rate;
         }
 
-        void setRate(double rate) {
+        void setRate( double rate ) {
             this.rate = rate;
         }
 
-        void setInUse(boolean inUse) {
+        void setInUse( boolean inUse ) {
             this.inUse = inUse;
         }
 
@@ -214,4 +204,5 @@ public class PhotonBeam implements ColorListener {
             return this.inUse;
         }
     }
+
 }
