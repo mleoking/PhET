@@ -460,15 +460,27 @@ public class CircuitGraphic extends CompositeInteractiveGraphic {
             else if( b instanceof Resistor ) {
                 addResistorGraphic( (Resistor)b );
             }
-//            else if( b instanceof Switch ) {
-//                addSwitchGraphic( (Switch)b );
-//            }
+            else if( b instanceof Switch ) {
+                addSwitchGraphic( (Switch)b );
+            }
 //            else if( b instanceof SeriesAmmeter ) {
 //                addSeriesAmmeterGraphic( (SeriesAmmeter)b );
 //            }
             else {
                 addWireGraphic( b );
             }
+        }
+
+        private void addSwitchGraphic( Switch aSwitch ) {
+            SchematicSwitchGraphic ssg = new SchematicSwitchGraphic( apparatusPanel, aSwitch, getTransform(), wireThickness );
+//            CircuitComponentImageGraphic switchGraphic = new CircuitComponentImageGraphic( module.getImageSuite().getKnifeBoardImage(), apparatusPanel,
+//                                                                                           aSwitch, getTransform() );
+            CircuitGraphic.this.addGraphic( aSwitch, ssg );
+//            BufferedImage lever = module.getImageSuite().getKnifeHandleImage();
+//            ComponentDimension leverDimension = CCK3Module.LEVER_DIMENSION;
+//            LeverGraphic leverGraphic = new LeverGraphic( switchGraphic, lever, apparatusPanel, getTransform(), leverDimension.getLength(), leverDimension.getHeight() );
+//            InteractiveLever interactiveLever = new InteractiveLever( transform, apparatusPanel, leverGraphic );
+//            leverLayer.addGraphic( interactiveLever );
         }
 
         private void addResistorGraphic( Resistor resistor ) {
