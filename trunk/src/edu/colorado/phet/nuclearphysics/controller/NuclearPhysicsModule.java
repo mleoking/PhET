@@ -15,7 +15,6 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
-import edu.colorado.phet.nuclearphysics.view.PotentialProfileGraphic;
 import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
 
 import javax.swing.*;
@@ -32,8 +31,8 @@ public class NuclearPhysicsModule extends Module {
 
     public NuclearPhysicsModule( String name, AbstractClock clock ) {
         super( name );
-        potentialProfile = new PotentialProfile( 300, 400, 75 );
-        potentialProfilePanel = new PotentialProfilePanel();
+        potentialProfile = defaultProfile;
+        potentialProfilePanel = new PotentialProfilePanel( potentialProfile );
         physicalPanel = new PhysicalPanel();
         apparatusPanel = new ApparatusPanel();
         super.setApparatusPanel( apparatusPanel );
@@ -41,9 +40,6 @@ public class NuclearPhysicsModule extends Module {
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Potential Energy Profile" );
         potentialProfilePanel.setBorder( titledBorder );
-
-        // For testing only!!!
-        potentialProfilePanel.addGraphic( new PotentialProfileGraphic( potentialProfile ) );
 
         BevelBorder baseBorder2 = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         Border titledBorder2 = BorderFactory.createTitledBorder( baseBorder2, "Physical System" );
@@ -63,6 +59,10 @@ public class NuclearPhysicsModule extends Module {
 
         JPanel controlPanel = new NuclearPhysicsControlPanel( this );
         super.setControlPanel( controlPanel );
+    }
+
+    protected void addControlPanelElement( JPanel panel ) {
+        ( (NuclearPhysicsControlPanel)getControlPanel() ).addPanelElement( panel );
     }
 
     public void activate( PhetApplication app ) {
@@ -93,8 +93,9 @@ public class NuclearPhysicsModule extends Module {
     }
 
     public PotentialProfile getPotentialProfile() {
-        return this.potentialProfile;
+        return this.potentialProfilePanel.getPotentialProfile();
     }
+
 
     protected Uranium235 getUraniumNucleus() {
         return uraniumNucleus;
@@ -130,4 +131,10 @@ public class NuclearPhysicsModule extends Module {
         physicalPanel.addNucleus( dp.getN1() );
         physicalPanel.addNucleus( dp.getN1() );
     }
+
+    //
+    // Statics
+    //
+    private static PotentialProfile defaultProfile = new PotentialProfile( 300, 400, 75 );
+
 }

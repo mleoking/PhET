@@ -25,22 +25,22 @@ import java.awt.image.BufferedImage;
 
 public class NuclearPhysicsControlPanel extends JPanel {
     private NuclearPhysicsModule module;
+    private int rowIdx = 0;
 
     public NuclearPhysicsControlPanel( NuclearPhysicsModule module ) {
         this.module = module;
         setLayout( new GridBagLayout() );
-        int rowIdx = 0;
         try {
             GraphicsUtil.addGridBagComponent( this, new LegendPanel(),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new PotentialControlPanel( module.getPotentialProfile() ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+//            GraphicsUtil.addGridBagComponent( this, new PotentialControlPanel( module.getPotentialProfile() ),
+//                                              0, rowIdx++,
+//                                              1, 1,
+//                                              GridBagConstraints.NONE,
+//                                              GridBagConstraints.CENTER );
             GraphicsUtil.addGridBagComponent( this, new TestPanel(),
                                               0, rowIdx++,
                                               1, 1,
@@ -52,6 +52,22 @@ public class NuclearPhysicsControlPanel extends JPanel {
         }
     }
 
+    protected NuclearPhysicsModule getModule() {
+        return module;
+    }
+
+    public void addPanelElement( JPanel panel ) {
+        try {
+            GraphicsUtil.addGridBagComponent( this, panel,
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
+        }
+        catch( AWTException e ) {
+            e.printStackTrace();
+        }
+    }
 
     //
     // Inner classes
