@@ -115,7 +115,7 @@ public class PhetShapeGraphic extends PhetGraphic {
             return null;
         }
 
-        // todo: this looks like it could be expensive!!!
+        // todo: this looks like it could be expensive
         if( stroke == null ) {
             return getNetTransform().createTransformedShape( shape.getBounds() ).getBounds();
         }
