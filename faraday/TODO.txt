@@ -33,14 +33,17 @@ phetcommon:
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
 
 DONE:
+v0r10...
 (2/2) - redo lightbulb graphic, looks ratty on black background
 (2/2) - fix CoilGraphic so that it's foreground & background look right when magnet passes thru coil near edges
 (2/1) - add threshold to Compass.stepInTime to prevent Verlet from hogging CPU
 (2/1) - redo coil graphic (constant wire gauge, fix colors)
+v0r9...
 (1/28) - pull "developer" panel out of BarMagnetControlPanel so that it can be reused elsewhere
 (1/28) - grid is not always full of needles (GraphicLayerSet fix)
 (1/28) - bounds of light rays are not always correct (GraphicLayerSet fix)
 (1/28) - rewrite CompassGraphic to use Shapes instead of image
+v0r8...
 (1/27) - add color chooser so that folks can experiment with apparatus panel colors
 (1/27) - let control panels manipulate model/view components directly instead of via module
 (1/27) - one debug control for "Grid spacing" (instead of separate controls for XY spacing)
@@ -48,6 +51,7 @@ DONE:
 (1/27) - B Field Meter coordinate system: +X right, +Y up, +angle counterclockwise (0 degrees down +X axis)
 (1/27) - redo B Field Meter graphic (30% larger fonts, "Magnetic (B) Field" title, i18n)
 (1/27) - use compass needle aspect ratio for grid needles
+v0r7...
 (1/26) - adjust sensitivity of voltmeter and lightbulb
 (1/26) - factor out common code for value rescaling
 (1/26) - add value rescaling to lightbulb & voltmeter
@@ -62,6 +66,7 @@ DONE:
 (1/21) - rescale alpha values in compass grid to account for magnet strength and field dropoff
 (1/21) - redo BFieldProbe graphic, add crosshairs
 (1/21) - redo voltmeter graphic, add "volts" label
+v0r6...
 (1/20) - when flipping polarity, jiggle the compass so that it starts moving sooner
 (1/20) - control to turn BFieldProbe on/off
 (1/20) - "see inside magnet" feature
@@ -70,6 +75,7 @@ DONE:
 (1/20) - rename module Bar Magnet -> Magnet & Coil
 (1/20) - redo compass graphic
 (1/20) - use Ron's enhancements to ControlPanel
+v0r5...
 (1/19) - sample graphic for electron "look"
 (1/19) - draw pickup coil correctly when loop area is changed
 (1/19) - redo coil graphic, more of a tilt, thicker wire, copper/brown color
@@ -78,10 +84,12 @@ DONE:
 (1/14) - fix PickupCoil.stepInTime to properly set EMF and induced current
 (1/14) - model elements for lightbulb and voltmeter
 (1/13) - add inertia to compass needle
+v0r4...
 (1/12) - dipole stuff is screwed up when magnet polarity is flipped
 (1/11) - add B-field probe
 (1/6) - nail down semantics of magnet "strength"
 (1/5) - equation for the magnetic field of a dipole
+v0r3...
 (1/4) - how to populate resized apparatus panel with grid?
 (1/3) - compass
 (1/3) - wires connecting loop to meter/bulb
