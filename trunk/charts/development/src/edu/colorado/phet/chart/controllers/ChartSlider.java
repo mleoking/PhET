@@ -22,7 +22,7 @@ import java.util.EventListener;
  * Time: 10:35:14 PM
  * Copyright (c) Oct 18, 2004 by Sam Reid
  */
-public class VerticalChartSlider2 extends GraphicLayerSet {
+public class ChartSlider extends GraphicLayerSet {
     private Chart chart;
     private JSlider slider;
     private EventChannel eventChannel = new EventChannel( Listener.class );
@@ -33,7 +33,7 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
     private PhetJComponent sliderGraphic;
     private int preferredWidth;
 
-    public VerticalChartSlider2( Component apparatusPanel, final Chart chart ) {
+    public ChartSlider( Component apparatusPanel, final Chart chart ) {
         super( apparatusPanel );
         this.chart = chart;
         slider = new JSlider( JSlider.VERTICAL, 0, numTicks, numTicks / 2 );
@@ -47,7 +47,6 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
             }
         } );
         sliderGraphic = new PhetJComponent( apparatusPanel, slider );
-//        sliderGraphic = (PhetJComponent)PhetJComponent.newInstance( apparatusPanel, slider );
         addGraphic( sliderGraphic );
         update();
         apparatusPanel.addComponentListener( new ComponentAdapter() {
@@ -72,6 +71,8 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
 
     public void update() {
         Rectangle viewBounds = chart.getViewBounds();
+        viewBounds.x -= chart.getVerticalTicks().getWidth() - 5;
+        System.out.println( "viewBounds = " + viewBounds );
         int x = viewBounds.x;
         int y = viewBounds.y;
         Dimension iconDim = getIconDimension();

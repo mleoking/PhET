@@ -33,12 +33,12 @@ public class VerticalChartSlider {
         int y = viewBounds.y;
         slider.setLocation( x, y );
         setVisible( true );
-        update();
-        Dimension dim = getIconDimension();
+
+//        Dimension dim = getIconDimension();
 //        Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
-        int insetGuess = dim.height / 2;
-        int dx = dim.width;
-        slider.reshape( x - dx, y - insetGuess, slider.getPreferredSize().width, viewBounds.height + insetGuess * 2 );
+//        int insetGuess = dim.height / 2;
+//        int dx = dim.width;
+//        slider.reshape( x - dx, y - insetGuess, slider.getPreferredSize().width, viewBounds.height + insetGuess * 2 );
         slider.setBackground( new Color( 255, 255, 255, 0 ) );
         slider.setOpaque( false );
         slider.addChangeListener( new ChangeListener() {
@@ -51,6 +51,7 @@ public class VerticalChartSlider {
                 changed = true;
             }
         } );
+        update();
     }
 
     public double getValue() {
@@ -68,7 +69,7 @@ public class VerticalChartSlider {
     }
 
     public void update() {
-        Rectangle viewBounds = chart.getViewBounds();
+        Rectangle viewBounds = chart.getBounds();
         int x = viewBounds.x;
         int y = viewBounds.y;
 //        Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );

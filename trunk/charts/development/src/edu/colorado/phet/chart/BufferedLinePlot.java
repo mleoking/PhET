@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.chart;
 
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,27 +19,31 @@ public class BufferedLinePlot implements DataSet.Observer {
     private GeneralPath generalPath;
     private Stroke stroke;
     private Paint paint;
-    private BufferedPhetGraphic bufferedPhetGraphic;
+    private BufferedPhetGraphic2 bufferedPhetGraphic;
     private Chart chart;
     private boolean autorepaint;
 
-    public BufferedLinePlot( Chart chart, DataSet dataSet, BufferedPhetGraphic bufferedPhetGraphic ) {
+    public BufferedLinePlot( Chart chart, DataSet dataSet, BufferedPhetGraphic2 bufferedPhetGraphic ) {
         this( chart, dataSet, new BasicStroke( 1 ), Color.black, bufferedPhetGraphic );
     }
 
-    public BufferedLinePlot( Chart chart, DataSet dataSet, Stroke stroke, Paint paint, BufferedPhetGraphic bufferedPhetGraphic ) {
+    public BufferedLinePlot( Chart chart, DataSet dataSet, Stroke stroke, Paint paint, BufferedPhetGraphic2 bufferedPhetGraphic ) {
         this.chart = chart;
         dataSet.addObserver( this );
         this.stroke = stroke;
         this.paint = paint;
         this.bufferedPhetGraphic = bufferedPhetGraphic;
+        setVisible( true );
     }
 
     public void pointAdded( Point2D point ) {
         if( point == null ) {
             throw new RuntimeException( "Null point" );
         }
+//        Point viewLocation = chart.transform( point );
         Point viewLocation = chart.transform( point );
+        viewLocation.x += chart.getX();
+        viewLocation.y += chart.getY();
         if( generalPath == null ) {
             generalPath = new GeneralPath();
             generalPath.moveTo( viewLocation.x, viewLocation.y );
@@ -74,7 +78,7 @@ public class BufferedLinePlot implements DataSet.Observer {
 
     private void drawToBuffer( Line2D line ) {
         if( isVisible() ) {
-            Graphics2D g2 = bufferedPhetGraphic.getBuffer().createGraphics();
+            Graphics2D g2 = bufferedPhetGraphic.getImage().createGraphics();
             g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
             g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             g2.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY );
@@ -96,7 +100,7 @@ public class BufferedLinePlot implements DataSet.Observer {
     }
 
     public void repaintAll() {
-        Graphics2D graphics2D = bufferedPhetGraphic.getBuffer().createGraphics();
+        Graphics2D graphics2D = bufferedPhetGraphic.getImage().createGraphics();
         Shape origClip = graphics2D.getClip();
         if( generalPath != null ) {
             Stroke oldStroke = graphics2D.getStroke();
