@@ -46,7 +46,7 @@ public class MultipleAtomControlPanel extends LaserControlPanel {
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
+//        optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
         optionsPanel.add( mirrorCB, gbc );
         gbc.gridy++;
         optionsPanel.add( new WaveViewControlPanel( module ), gbc );

@@ -19,6 +19,8 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -40,7 +42,20 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedBeam.WavelengthChangeListener {
+/**
+ * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
+ * A disc is drawn on the energy levels for each atom in that state.
+ */
+public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedBeam.WavelengthChangeListener,
+                                                                     ClockStateListener {
+
+    // Number of milliseconds between display updates. Energy level populations are averaged over this time
+    private long averagingPeriod = 100;
+    private long lastPaintTime;
+    private int numUpdatesToAverage;
+    private int numGroundLevelAccum = 0;
+    private int numMiddleLevelAccum = 0;
+    private int numHighLevelAccum = 0;
 
     private int atomDiam = 14;
 
@@ -77,9 +92,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     /**
      *
      */
-    public EnergyLevelMonitorPanel( LaserModel model ) {
+    public EnergyLevelMonitorPanel( LaserModel model, AbstractClock clock ) {
 
         model.addObserver( this );
+        clock.addClockStateListener( this );
         this.model = model;
         model.getPumpingBeam().addListener( this );
         model.getSeedBeam().addListener( this );
@@ -100,11 +116,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         JLabel legend = new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.EnergyLevelLifetimeLabel" ) );
         legend.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ), 15, 100, 30 );
         this.add( legend );
-        middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(), this, middleLevelLine,
-                                                              SimStrings.get( "EnergyLevelMonitorPanel.MiddleLevelSlider" ) );
+        middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(),
+                                                              middleLevelLine,
+                                                              LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME );
         this.add( middleLevelLifetimeSlider );
-        highLevelLifetimeSlider = new EnergyLifetimeSlider( HighEnergyState.instance(), this, highLevelLine,
-                                                            SimStrings.get( "EnergyLevelMonitorPanel.HighLevelSlider" ) );
+        highLevelLifetimeSlider = new EnergyLifetimeSlider( HighEnergyState.instance(), highLevelLine,
+                                                              LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME  );
         this.add( highLevelLifetimeSlider );
 
         this.addComponentListener( new ComponentAdapter() {
@@ -202,30 +219,28 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     }
 
     public void update() {
-        numGroundLevel = model.getNumGroundStateAtoms();
-        numMiddleLevel = model.getNumMiddleStateAtoms();
-        numHighLevel = model.getNumHighStateAtoms();
+        numGroundLevelAccum += model.getNumGroundStateAtoms();
+        numMiddleLevelAccum += model.getNumMiddleStateAtoms();
+        numHighLevelAccum += model.getNumHighStateAtoms();
 
+        // todo: these two line might be able to go somewhere they aren't called as often
         middleLevelLifetimeSlider.update();
         highLevelLifetimeSlider.update();
 
-        double y0 = energyYTx.modelToView( GroundState.instance().getEnergyLevel() );
-        double y1 = energyYTx.modelToView( seedBeamEnergy );
-        double y2 = energyYTx.modelToView( pumpBeamEnergy );
-
-        // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
-        stimSquiggle = computeSquiggleImage( seedBeamWavelength, 0, (int)( y0 - y1 ), squiggleHeight );
-        stimSquiggleTx = AffineTransform.getTranslateInstance( middleLevelLine.getPosition().getX(),
-                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
-        stimSquiggleTx.rotate( -Math.PI / 2 );
-
-        pumpSquiggle = computeSquiggleImage( pumpBeamWavelength, 0, (int)( y0 - y2 ), squiggleHeight );
-        pumpSquiggleTx = AffineTransform.getTranslateInstance( highLevelLine.getPosition().getX(),
-                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
-        pumpSquiggleTx.rotate( -Math.PI / 2 );
-
-        this.invalidate();
-        this.repaint();
+        numUpdatesToAverage++;
+        long currTime = System.currentTimeMillis();
+        if( currTime - lastPaintTime >= averagingPeriod ) {
+            numGroundLevel = numGroundLevelAccum / numUpdatesToAverage;
+            numMiddleLevel = numMiddleLevelAccum / numUpdatesToAverage;
+            numHighLevel = numHighLevelAccum / numUpdatesToAverage;
+            numGroundLevelAccum = 0;
+            numMiddleLevelAccum = 0;
+            numHighLevelAccum = 0;
+            numUpdatesToAverage = 0;
+            lastPaintTime = currTime;
+            this.invalidate();
+            this.repaint();
+        }
     }
 
     /**
@@ -279,28 +294,65 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             seedBeamWavelength = beam.getWavelength();
             seedBeamEnergy = Photon.wavelengthToEnergy( seedBeamWavelength );
         }
+
+        double y0 = energyYTx.modelToView( GroundState.instance().getEnergyLevel() );
+        double y1 = energyYTx.modelToView( seedBeamEnergy );
+        double y2 = energyYTx.modelToView( pumpBeamEnergy );
+
+        // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
+        stimSquiggle = computeSquiggleImage( seedBeamWavelength, 0, (int)( y0 - y1 ), squiggleHeight );
+        stimSquiggleTx = AffineTransform.getTranslateInstance( middleLevelLine.getPosition().getX(),
+                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
+        stimSquiggleTx.rotate( -Math.PI / 2 );
+
+        pumpSquiggle = computeSquiggleImage( pumpBeamWavelength, 0, (int)( y0 - y2 ), squiggleHeight );
+        pumpSquiggleTx = AffineTransform.getTranslateInstance( highLevelLine.getPosition().getX(),
+                                                               energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
+        pumpSquiggleTx.rotate( -Math.PI / 2 );
+
     }
+
+    /**
+     * If the clock pauses, force the update and repaint of energy level populations. We need to do this because
+     * when the clock is running, the populations shown are averages over time, and if the clock is paused, we
+     * want the populations shown to agree with the actual number of atoms in each state.
+     * @param b
+     */
+    public void pausedStateChanged( boolean b ) {
+        if( b ) {
+            numGroundLevel = model.getNumGroundStateAtoms();
+            numMiddleLevel = model.getNumMiddleStateAtoms();
+            numHighLevel = model.getNumHighStateAtoms();
+            this.invalidate();
+            this.repaint();
+        }
+    }
+    public void delayChanged( int waitTime ) {}
+    public void dtChanged( double dt ) {}
+    public void threadPriorityChanged( int priority ) {}
+
 
     ////////////////////////////////////////////////////////////////////////////////
     // Inner classes
     //
     public class EnergyLifetimeSlider extends JSlider implements AtomicState.MeanLifetimeChangeListener {
-        private int maxLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME;
-        //        private int maxLifetime = 100;
         private EnergyLevelGraphic graphic;
         private int sliderHeight = 50;
+        private int maxSliderWidth = 100;
+        private int sliderWidthPadding = 20;
+        private int sliderWidth;
 
-        public EnergyLifetimeSlider( final AtomicState atomicState, Component component,
-                                     EnergyLevelGraphic graphic, String label ) {
+        public EnergyLifetimeSlider( final AtomicState atomicState, EnergyLevelGraphic graphic, int maxLifetime ) {
             super();
             atomicState.addListener( this );
             setMinimum( 0 );
             setMaximum( maxLifetime );
+            sliderWidth = (int)( (double)( maxSliderWidth - sliderWidthPadding) * ( (double)getMaximum() / LaserConfig.MAXIMUM_STATE_LIFETIME )) + sliderWidthPadding;
             setValue( maxLifetime / 2 );
             setMajorTickSpacing( maxLifetime );
             setMinorTickSpacing( maxLifetime / 10 );
             setPaintTicks( true );
-            setPaintLabels( true );
+//            setPaintLabels( true );
             setPaintTrack( true );
             this.graphic = graphic;
 
@@ -320,7 +372,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         public void update() {
             this.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ),
                             (int)graphic.getPosition().getY() - sliderHeight / 2,
-                            100, sliderHeight );
+                            sliderWidth, sliderHeight );
+//                            100, sliderHeight );
         }
 
         public void meanLifetimeChanged( AtomicState.MeanLifetimeChangeEvent event ) {

@@ -40,8 +40,7 @@ public class LaserSimulation extends PhetApplication {
                    SimStrings.get( "LasersApplication.version" ) );
 
 
-            AbstractClock clock = new SwingTimerClock( 7, 25, AbstractClock.FRAMES_PER_SECOND );
-//            AbstractClock clock = new SwingTimerClock( 7, 40, AbstractClock.MILLISECONDS_PER_TICK );
+            AbstractClock clock = new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND );
             //            AbstractClock clock = new SwingTimerClock( 10, 40 );
             setClock( clock );
             setFrameCenteredSize( 900, 600 );
