@@ -16,6 +16,7 @@ import java.awt.Dimension;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
@@ -85,6 +86,23 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
         apparatusPanel.addGraphic( _debuggerGraphic, DEBUG_LAYER );
     }
     
+    //----------------------------------------------------------------------------
+    // Module overrides
+    //----------------------------------------------------------------------------
+    
+//    public void clockTicked( ClockTickEvent event ) {
+//        ApparatusPanel apparatusPanel = getApparatusPanel();
+//        apparatusPanel.handleUserInput();
+//        getModel().clockTicked( event );
+//        updateGraphics( event );
+//        if ( PhetGraphic.SKIP_RECTANGLE_COMPUTATION  ) {
+//            apparatusPanel.paintImmediately( 0, 0, apparatusPanel.getWidth(), apparatusPanel.getHeight() );
+//        }
+//        else {
+//            apparatusPanel.paint();
+//        }
+//    }
+
     //----------------------------------------------------------------------------
     // ICompassGridModule implementation
     //----------------------------------------------------------------------------
