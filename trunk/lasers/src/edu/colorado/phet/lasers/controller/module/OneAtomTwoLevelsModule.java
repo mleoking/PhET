@@ -31,8 +31,8 @@ public class OneAtomTwoLevelsModule extends SingleAtomBaseModule {
         ApparatusConfiguration config = new ApparatusConfiguration();
         config.setStimulatedPhotonRate( 1 );
         config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
-        config.setPumpingPhotonRate( 0.0f );
-        config.setReflectivity( 0.7f );
+        config.setPumpingPhotonRate( 0.0 );
+        config.setReflectivity( 0.7 );
         config.configureSystem( getLaserModel() );
     }
 }

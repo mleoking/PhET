@@ -34,33 +34,34 @@ public class HighEnergyHalfLifeControl extends JPanel {
         Font clockFont = highEnergySpontaneousEmissionTimeTF.getFont();
         highEnergySpontaneousEmissionTimeTF.setFont( new Font( clockFont.getName(),
                                                                LaserConfig.CONTROL_FONT_STYLE,
-                                                               LaserConfig.CONTROL_FONT_SIZE  ) );
+                                                               LaserConfig.CONTROL_FONT_SIZE ) );
 
         highEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) );
-//        highEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
+        //        highEnergySpontaneousEmissionTimeTF.setText( Double.toString( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME ) + " msec" );
 
         highEnergySpontaneousEmissionTimeSlider = new JSlider( JSlider.VERTICAL,
-                                        LaserConfig.MINIMUM_SPONTANEOUS_EMISSION_TIME,
-                                        LaserConfig.MAXIMUM_SPONTANEOUS_EMISSION_TIME,
-                                        LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
+                                                               LaserConfig.MINIMUM_SPONTANEOUS_EMISSION_TIME,
+                                                               LaserConfig.MAXIMUM_SPONTANEOUS_EMISSION_TIME,
+                                                               LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
 
         highEnergySpontaneousEmissionTimeSlider.setPreferredSize( new Dimension( 20, 50 ) );
         highEnergySpontaneousEmissionTimeSlider.setPaintTicks( true );
         highEnergySpontaneousEmissionTimeSlider.setMajorTickSpacing( 100 );
         highEnergySpontaneousEmissionTimeSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-//                updateHighEnergySpontaneousEmissionTime( ((double)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
-                model.setHighEnergySpontaneousEmissionTime( highEnergySpontaneousEmissionTimeSlider.getValue()  );
-//                model.setHighEnergySpontaneousEmissionTime( highEnergySpontaneousEmissionTimeSlider.getValue() / 1000  );
+                //                updateHighEnergySpontaneousEmissionTime( ((double)highEnergySpontaneousEmissionTimeSlider.getValue()) / 1000 );
+                model.setHighEnergySpontaneousEmissionTime( highEnergySpontaneousEmissionTimeSlider.getValue() );
+                //                model.setHighEnergySpontaneousEmissionTime( highEnergySpontaneousEmissionTimeSlider.getValue() / 1000  );
                 highEnergySpontaneousEmissionTimeTF.setText( Double.toString( highEnergySpontaneousEmissionTimeSlider.getValue() ) );
             }
         } );
+        model.setHighEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
 
         this.setLayout( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0,0, 1,1,1,1,
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.HORIZONTAL,
-                                                         new Insets( 0,5,0,5 ), 20, 0 );
+                                                         new Insets( 0, 5, 0, 5 ), 20, 0 );
         this.add( highEnergySpontaneousEmissionTimeSlider, gbc );
         gbc.gridx++;
         gbc.anchor = GridBagConstraints.WEST;
@@ -71,7 +72,7 @@ public class HighEnergyHalfLifeControl extends JPanel {
         this.setBorder( frequencyBorder );
     }
 
-//    private void updateHighEnergySpontaneousEmissionTime( double time ) {
-//        new SetHighEnergySpontaneousEmissionTimeCmd( time ).doIt();
-//    }
+    //    private void updateHighEnergySpontaneousEmissionTime( double time ) {
+    //        new SetHighEnergySpontaneousEmissionTimeCmd( time ).doIt();
+    //    }
 }
