@@ -22,7 +22,7 @@ public class Photon
   private VisibleColor _color;
   // Direction in degrees
   private double _direction;
-  // Color intensity in percent (0-100)
+  // Intensity of the light source when the photon was emitted, in percent (0-100)
   private double _intensity;
   // False indicates the photon is available for reuse
   private boolean _inUse;
@@ -34,8 +34,7 @@ public class Photon
   // These things are related to how a photon is displayed, but
   // are included here so that we can optimize by pre-computing
   // some values.  See the setDirection method.
-  private double _deltaX, _deltaY;
-  private double _width, _height;
+  private double _deltaX, _deltaY, _width, _height;
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -188,19 +187,26 @@ public class Photon
   }
   
   /**
-   * Sets the intensity.
-   * Intensity is measured as a percentage.
+   * Sets the intensity. of the light source at the time the 
+   * photon was emitted.  This value is a percentage.
+   * <p>
    * Values range from 0.0 (no intensity) to 100.0 (full intensity) inclusive.
    * 
    * @param intensity the intensity
+   * @throws IllegalArgumentException if intensity is out of range
    */
   public void setIntensity( double intensity )
   {
+    if ( intensity < 0 || intensity > 100 )
+    {
+      throw new IllegalArgumentException( "intensity out of range: " + intensity );
+    }
     _intensity = intensity;
   }
   
   /**
-   * Gets the intensity.
+   * Gets the intensity of the light source at the time the 
+   * photon was emitted.
    * 
    * @return the intensity
    */
