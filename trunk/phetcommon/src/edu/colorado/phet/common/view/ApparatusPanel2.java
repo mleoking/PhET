@@ -107,6 +107,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
         scaledComponentLayout = new ScaledComponentLayout( this );
     }
 
+    public TransformManager getTransformManager() {
+        return transformManager;
+    }
+
     /**
      * Paints the panel. Exactly how this is depends on if an offscreen buffer is being used,
      * or the union of dirty rectangles.
@@ -282,6 +286,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         g2.setBackground( super.getBackground() );
 //        g2.clearRect( 0, 0, this.getWidth(), this.getHeight() );
         Rectangle clipBounds = g2.getClipBounds();
+//        System.out.println( "clipBounds = " + clipBounds );
         g2.clearRect( clipBounds.x, clipBounds.y, clipBounds.width, clipBounds.height );
 //        g2.clearRect( repaintArea.x, repaintArea.y, repaintArea.width, repaintArea.height );
         for( int i = 0; i < getGraphicsSetups().size(); i++ ) {
@@ -325,6 +330,15 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     public Dimension getCanvasSize() {
         return transformManager.getCanvasSize();
+    }
+
+    public void setReferenceSize( Dimension renderingSize ) {
+        setReferenceSize( renderingSize.width, renderingSize.height );
+    }
+
+    public void setReferenceSize( int width, int height ) {
+        transformManager.setReferenceSize( width, height );
+        scaledComponentLayout.saveSwingComponentCoordinates( 1.0 );
     }
 
     //-----------------------------------------------------------------
