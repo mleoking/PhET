@@ -33,9 +33,9 @@ public class Thermometer extends PhetGraphic {
     private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
     private FontMetrics fontMetrics;
     private int rectBorderThickness = 3;
-    private RoundRectangle2D.Double rect = new RoundRectangle2D.Double();
+    private RoundRectangle2D.Double readoutRect = new RoundRectangle2D.Double();
     private RoundRectangle2D.Double innerRect = new RoundRectangle2D.Double();
-    private BasicStroke rectStroke = new BasicStroke( 1 );
+    private BasicStroke rectStroke = new BasicStroke( 3 );
     private BasicStroke columnStroke = new BasicStroke( 1 );
     private Color rectColor = Color.yellow;
 
@@ -79,9 +79,10 @@ public class Thermometer extends PhetGraphic {
 
         int readoutHeight = fontMetrics.getHeight() + fontMetrics.getMaxDescent();
         int readoutWidth = fontMetrics.stringWidth( "XXXXXXX" );
-        int yLoc = (int)( location.getY() + maxScreenLevel - readoutHeight - value * scale );
+        int yLoc = Math.max( (int)( location.getY() + maxScreenLevel - readoutHeight - value * scale ),
+                             (int)( location.getY() - readoutHeight ));
 
-        rect.setRoundRect( location.getX() + thickness,
+        readoutRect.setRoundRect( location.getX() + thickness,
                            yLoc - rectBorderThickness,
                            readoutWidth + rectBorderThickness * 2,
                            readoutHeight + rectBorderThickness * 2,
@@ -90,11 +91,16 @@ public class Thermometer extends PhetGraphic {
                                 yLoc,
                                 readoutWidth, readoutHeight,
                                 4, 4 );
+
         g.setColor( rectColor );
         g.setStroke( rectStroke );
-        g.draw( rect );
+        g.draw( readoutRect );
+        g.setColor( Color.black );
+        g.setStroke( new BasicStroke( 0.5f ));
+        g.draw( readoutRect );
+        g.setColor( rectColor );
         g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.3f ) );
-        g.fill( rect );
+        g.fill( readoutRect );
         g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1 ) );
         g.setColor( Color.white );
         g.fill( innerRect );
@@ -115,6 +121,11 @@ public class Thermometer extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
+        double minX = Math.min( boundingRect.getMinX(), readoutRect.getMinX() );
+        double minY = Math.min( boundingRect.getMinY(), readoutRect.getMinY() );
+        double w = Math.max( boundingRect.getMaxX(), readoutRect.getMaxX() ) - minX;
+        double h = Math.max( boundingRect.getMaxY(), readoutRect.getMaxY() ) - minY;
+        boundingRect.setRect( minX, minY, w, h );
         return RectangleUtils.toRectangle( boundingRect );
     }
 }

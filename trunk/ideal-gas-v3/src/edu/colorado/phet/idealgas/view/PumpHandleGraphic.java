@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Boundary;
+import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.idealgas.model.Pump;
@@ -50,6 +50,13 @@ public class PumpHandleGraphic extends DefaultInteractiveGraphic {
 
     public void mouseDragged( MouseEvent e ) {
         super.mouseDragged( e );
+
+        try {
+            Thread.sleep( 20 );
+        }
+        catch( InterruptedException e1 ) {
+            e1.printStackTrace();
+        }
 
         // Determine if we should pump now. We do it if the mouse is moving down
         int yNew = e.getY();

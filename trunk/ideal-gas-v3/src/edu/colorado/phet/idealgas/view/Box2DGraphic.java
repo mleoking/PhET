@@ -58,6 +58,16 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
         return graphicSelected;
     }
 
+    public void mouseDragged( MouseEvent e ) {
+        super.mouseDragged( e );
+        try {
+            Thread.sleep( 10 );
+        }
+        catch( InterruptedException e1 ) {
+            e1.printStackTrace();
+        }
+    }
+
     private class InternalBoxGraphic extends PhetShapeGraphic implements SimpleObserver {
         private Rectangle2D.Double rect = new Rectangle2D.Double();
         private Rectangle2D.Double mouseableArea = new Rectangle2D.Double();

@@ -15,7 +15,7 @@ import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -64,13 +64,8 @@ public class IdealGasControlPanel extends JPanel {
         speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Gas_In_Pump" ) ) );
         gbc.gridy++;
         this.add( speciesButtonPanel, gbc );
-//        this.add( speciesButtonPanel );
         gbc.gridy++;
         this.add( new NumParticlesControls(), gbc );
-//        this.add( new NumParticlesControls() );
-//        gbc.gridy++;
-//        add( addStoveControls(), gbc );
-//        addStoveControls();
         ToggleButton measurementDlgBtn = new ToggleButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
                                                            SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) ) {
             public void onAction() {
@@ -86,19 +81,12 @@ public class IdealGasControlPanel extends JPanel {
                 module.setMeasurementDlgVisible( false );
             }
         };
-//        JButton measurementDlgBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) );
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
-        measurementDlgBtn.setBorder( new LineBorder( Color.yellow, 2, true ) );
-        measurementDlgBtn.setBackground( new Color( 255, 255, 200 ) );
-//        measurementDlgBtn.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                module.setMeasurementDlgVisible( true );
-//            }
-//        } );
+        measurementDlgBtn.setBorder( new EtchedBorder( EtchedBorder.LOWERED ) );
+        measurementDlgBtn.setBackground( new Color( 255, 255, 120 ) );
         gbc.gridy++;
         gbc.fill = GridBagConstraints.NONE;
         this.add( measurementDlgBtn, gbc );
-//        this.add( measurementDlgBtn );
 
         Border border = BorderFactory.createEtchedBorder();
         this.setBorder( border );

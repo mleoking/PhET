@@ -25,6 +25,7 @@ public class StoveControlPanel extends JPanel {
     private static final int s_stoveSliderHeight = 60;
 
     public StoveControlPanel( final IdealGasModule module ) {
+//        JPanel stovePanel = this;
         JPanel stovePanel = new JPanel();
         JPanel stoveSliderPanel = new JPanel();
 //        JPanel iconPanel = new JPanel( new GridLayout( 3, 1 ) );

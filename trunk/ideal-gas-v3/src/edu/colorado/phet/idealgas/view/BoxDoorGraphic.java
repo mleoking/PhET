@@ -15,6 +15,7 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -91,4 +92,13 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
         }
     }
 
+    public void mouseDragged( MouseEvent e ) {
+        super.mouseDragged( e );
+        try {
+            Thread.sleep( 20 );
+        }
+        catch( InterruptedException e1 ) {
+            e1.printStackTrace();
+        }
+    }
 }

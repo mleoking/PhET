@@ -53,8 +53,8 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
         try {
             // Set up the stove, flames, and ice
             BufferedImage stoveImg = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_IMAGE_FILE );
-            PhetImageGraphic stoveGraphic = new PhetImageGraphic( this, stoveImg, IdealGasConfig.X_BASE_OFFSET + 247,
-                                                                  IdealGasConfig.Y_BASE_OFFSET + 545 );
+            PhetImageGraphic stoveGraphic = new PhetImageGraphic( this, stoveImg, IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
+                                                                  IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET );
             this.addGraphic( stoveGraphic, -4 );
             BufferedImage flamesImg = ImageLoader.loadBufferedImage( IdealGasConfig.FLAMES_IMAGE_FILE );
             flamesGraphicImage = new PhetImageGraphic( this, flamesImg, IdealGasConfig.X_BASE_OFFSET + 260, IdealGasConfig.Y_BASE_OFFSET + 545 );
@@ -76,7 +76,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
         }
 
         // Set the size of the panel
-        this.setPreferredSize( new Dimension( 600, 520 ) );
+//        this.setPreferredSize( new Dimension( 600, 520 ) );
     }
 
 
