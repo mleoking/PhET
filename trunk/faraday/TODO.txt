@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- lower frame rate
 - compute emf by averaging emf at center and 2 edges of coil
 - optimize grid when background is black or white (don't use alpha)
 - fast movement of magnet is not shown by lightbulb or voltmeter
@@ -15,13 +16,12 @@ HIGH PRIORITY:
 - collision detection between magnet and coil
 - transparent bar magnet layer so that field meter looks like it's inside it
 - animate electrons when lightbulb is enabled (front of coil only)
-- performance optimizations
+- optimize performance
 
 MEDIUM PRIORITY:
 - beautify Control Panels
 - Transformer module requirements
 - check for unnecessary notification, events and updates
-
 
 LOW PRIORITY:
 - agree on control labels
@@ -37,6 +37,7 @@ phetcommon:
 
 DONE:
 v0r11...
+(2/3) - fix Field Meter text field locations (broken by PhetTextGraphic change)
 (2/3) - merge HollywoodCompass into Compass, collapse AbstractCompass and Compass
 v0r10...
 (2/2) - redo lightbulb graphic, looks ratty on black background

@@ -53,6 +53,6 @@ public class FaradayApplicationModel extends ApplicationModel {
         this.setModules( new Module[] { barMagnetModule, magnetAndCoilModule, transformerModule } );
 
         // Initial module to be displayed.
-        this.setInitialModule( magnetAndCoilModule );
+        this.setInitialModule( barMagnetModule );
     }
 }

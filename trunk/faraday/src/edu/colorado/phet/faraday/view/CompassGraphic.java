@@ -91,7 +91,7 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
         addGraphic( ring );
         
         // Indicators at evenly-spaced increments around the ring.
-        int angle = 0;
+        int angle = 0; // degrees
         PhetShapeGraphic indicatorGraphic = null;
         Shape indicatorShape = new Ellipse2D.Double( -(INDICATOR_DIAMETER/2), -(INDICATOR_DIAMETER/2), INDICATOR_DIAMETER, INDICATOR_DIAMETER ); 
         while ( angle < 360 ) {

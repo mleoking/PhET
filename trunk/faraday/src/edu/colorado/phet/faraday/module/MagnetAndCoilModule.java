@@ -100,7 +100,7 @@ public class MagnetAndCoilModule extends Module {
         AbstractMagnet magnetModel = new BarMagnet();
         magnetModel.setStrength( MAGNET_STRENGTH );
         magnetModel.setLocation( MAGNET_LOCATION );
-        magnetModel.setDirection( 0 );
+        magnetModel.setDirection( 0 /* radians */ );
         magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
         model.addModelElement( magnetModel );
         
@@ -114,7 +114,7 @@ public class MagnetAndCoilModule extends Module {
         PickupCoil pickupCoilModel = new PickupCoil( magnetModel );
         pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
         pickupCoilModel.setRadius( LOOP_RADIUS );
-        pickupCoilModel.setDirection( 0 );
+        pickupCoilModel.setDirection( 0 /* radians */ );
         pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         model.addModelElement( pickupCoilModel );
        

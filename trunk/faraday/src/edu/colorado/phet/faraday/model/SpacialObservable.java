@@ -113,10 +113,10 @@ public class SpacialObservable extends SimpleObservable {
     }
     
     /**
-     * Sets the direction in degrees.
-     * Positive angles indicate clockwise rotation.
+     * Sets the direction.
+     * Positive values indicate clockwise rotation.
      * 
-     * @param direction the direction, in degrees
+     * @param direction the direction, in radians
      */
     public void setDirection( double direction ) {
         if ( direction != _direction ) {
@@ -127,9 +127,9 @@ public class SpacialObservable extends SimpleObservable {
     }
     
     /**
-     * Gets the direction, in degrees.
+     * Gets the direction.
      * 
-     * @return the direction
+     * @return the direction, in radians.
      */
     public double getDirection() {
         return _direction;

@@ -82,7 +82,7 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
         _alpha = 0.0;
         
         AbstractVector2D fieldStrength = _magnetModel.getStrength( getLocation() );
-        setDirection( Math.toDegrees( fieldStrength.getAngle() ) );
+        setDirection( fieldStrength.getAngle() );
     }
     
     /**
@@ -195,7 +195,7 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
             
             if ( ! _rotationalKinematicsEnabled ) {
                 // If rotational kinematics is disabled, simply set the angle.
-                setDirection( Math.toDegrees( emf.getAngle() ) );
+                setDirection( emf.getAngle() );
             }
             else {
                 // If rotational kinematics is enabled, use Verlet algorithm.
@@ -211,7 +211,7 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
                     _theta = angle;
                     _alpha = 0;
                     _omega = 0;
-                    setDirection( Math.toDegrees( _theta ) );
+                    setDirection( _theta );
                 }
                 else {
                     // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
@@ -223,7 +223,7 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
                     if ( _theta != thetaOld ) {
                         // Set the compass needle direction.
                         //System.out.println( "Compass.stepInTime: setDirection to " + Math.toDegrees(_theta) );
-                        setDirection( Math.toDegrees( _theta ) );
+                        setDirection( _theta );
                     }
 
                     // Step 2: angular accelaration

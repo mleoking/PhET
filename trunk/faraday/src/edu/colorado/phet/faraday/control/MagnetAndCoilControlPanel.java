@@ -308,9 +308,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
             if ( e.getSource() == _flipPolarityButton ) {
                 // Magnet polarity
                 _pickupCoilModel.setSmoothingEnabled( false );
-                double direction = _magnetModel.getDirection();
-                direction = ( direction + 180 ) % 360;
-                _magnetModel.setDirection( direction );
+                _magnetModel.setDirection( _magnetModel.getDirection() + Math.PI );
                 _compassModel.startMovingNow();
                 _pickupCoilModel.updateEmf();
                 _pickupCoilModel.setSmoothingEnabled( true );
