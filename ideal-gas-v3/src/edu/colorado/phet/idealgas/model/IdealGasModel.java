@@ -289,7 +289,12 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         return totalKE;
     }
 
+    /**
+     * Step the model through a tick of the clock
+     * @param dt
+     */
     public void stepInTime( double dt ) {
+
         // Managing energy step 1: Get the total energy in the system
         // before anything happens
         currentlyInStepInTimeMethod = true;
@@ -321,16 +326,13 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         // and adjust it if neccessary
         double totalEnergyPost = this.getTotalEnergy();
         double totalKEPost = this.getTotalKineticEnergy();
-        double r1 = Math.sqrt( totalEnergyPre + deltaKE );
-
-        double r2 = Math.sqrt( totalEnergyPost );
-        double ratio = r1 / r2;
-
         double dE = totalEnergyPost - ( totalEnergyPre + deltaKE );
         double r0 = dE / totalKEPost;
-        ratio = Math.sqrt( 1 - r0 );
+        double ratio = Math.sqrt( 1 - r0 );
 
+        // Clear the added-energy accumulator
         deltaKE = 0;
+
         if( totalEnergyPre != 0 && ratio != 1 ) {
             for( int i = 0; i < this.numModelElements(); i++ ) {
                 ModelElement element = this.modelElementAt( i );
