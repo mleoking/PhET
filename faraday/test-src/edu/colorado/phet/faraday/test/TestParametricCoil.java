@@ -68,7 +68,7 @@ public class TestParametricCoil extends JComponent {
     public static void main( String[] args )
     {
         // Test harness parameters
-        final int LOOPS = 1;
+        final int LOOPS = 2;
         final int MAX_LOOPS = 10;
         final int MIN_LOOPS = 1;
         final int RADIUS = 100;
@@ -280,10 +280,10 @@ public class TestParametricCoil extends JComponent {
             if ( i != 0 ) {
                 // Back top
                 {
-                    g2.setPaint( new GradientPaint( 0, (int)-(_radius), LOOP_MIDDLE_COLOR, 0, (int)-(_radius * 0.92), LOOP_DARKEST_COLOR ) );
-                    Point e1 = new Point( (int) ( _radius * .25 ) + offset, 0 );
-                    Point e2 = new Point( -loopSpacing + offset, -_radius );
+                    Point e1 = new Point( (int) ( _radius * .25 ) + offset, 0 ); // lower
+                    Point e2 = new Point( -loopSpacing + offset, -_radius ); // upper
                     Point c = new Point( (int) ( _radius * .15 ) + offset, (int) ( -_radius * 1.2 ) );
+                    g2.setPaint( new GradientPaint( offset, (int)-(_radius * 0.92), LOOP_DARKEST_COLOR, (int)(e2.x + (_radius * .1)), (int)-(_radius), LOOP_MIDDLE_COLOR ) );
                     drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
                 }
             }
