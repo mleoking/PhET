@@ -60,6 +60,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     // Cursor
     private static final Color CURSOR_COLOR = Color.RED;
     private static final Stroke CURSOR_STROKE = new BasicStroke( 1f );
+    private static final double CURSOR_WRAP_AROUND_TOLERANCE = Math.toRadians( 5 /* degrees */ );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -272,8 +273,13 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             }
             
             // Update the cursor position on every clock tick.
-            boolean reset = ( maxAmplitude != _previousMaxAmplitude || frequency != _previousFrequency );
-            updateCursor( reset );
+            if ( maxAmplitude != _previousMaxAmplitude || frequency != _previousFrequency ) {
+                _cursorAngle = 0.0;
+                _cursorGraphic.setVisible( false );
+            }
+            else {
+                updateCursor();
+            }
             
             _previousMaxAmplitude = maxAmplitude;
             _previousFrequency = frequency;
@@ -285,20 +291,14 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     /*
      * Updates the cursor.
      * It is assumed that this will be called each time the simulation clock ticks.
-     * 
-     * @param reset true if the cursor should be reset, false otherwise
      */
-    private void updateCursor( boolean reset )
-    {       
-        // Reset the cursor.
-        if ( reset ) {
-            _cursorAngle = 0.0;
-            _cursorGraphic.setVisible( false );
-        }
-        
+    private void updateCursor()
+    {      
         double startAngle = _waveGraphic.getStartAngle();
         double endAngle = _waveGraphic.getEndAngle();
-        double deltaAngle = _acPowerSupplyModel.getDeltaAngle();
+        double stepAngle = _acPowerSupplyModel.getStepAngle();
+        
+        _cursorAngle += stepAngle;
         
         if ( _cursorAngle < startAngle ) {
             // The cursor is to the left of the visible waveform.
@@ -307,17 +307,15 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         else if ( _cursorAngle >= endAngle ) {
             // The cursor is to the right of the visible waveform.
             _cursorGraphic.setVisible( false );
+            // Wrap around.
             _cursorAngle = ( _cursorAngle % ( 2 * Math.PI ) );
-            if ( _cursorAngle > startAngle + Math.toRadians( 5 ) ) {
+            if ( _cursorAngle > startAngle + CURSOR_WRAP_AROUND_TOLERANCE ) {
                 _cursorAngle -= ( 2 * Math.PI );
             }
         }
         
-        System.out.println( "ACPowerSupplyGraphic: " +
-        		                " cursorAngle=" + Math.toDegrees( _cursorAngle ) +
-                            " amplitude=" + _acPowerSupplyModel.getAmplitude() );//DEBUG
-        
-        if ( _cursorAngle >= startAngle && _cursorAngle <= endAngle ) {
+        // This is a new if statement in case wrap around occurred.
+        if ( _cursorAngle >= startAngle && _cursorAngle < endAngle ) {
             // The cursor is on the visible waveform.
             _cursorGraphic.setVisible( true );
             double xStart = ( WAVE_ORIGIN.x - ( WAVE_VIEWPORT_SIZE.width / 2 ) );
@@ -327,7 +325,11 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             _cursorGraphic.setLocation( (int) x, y );
         }
         
-        _cursorAngle += deltaAngle;
+        // DEBUG output
+//      System.out.println( "ACPowerSupplyGraphic.updateCursor:" +
+//      		                "  cursorAngle=" + Math.toDegrees( _cursorAngle ) +
+//      		                "  stepAngle=" + Math.toDegrees( stepAngle ) +
+//                          "  amplitude=" + _acPowerSupplyModel.getAmplitude() * 100 + "%" );
     }
     
     //----------------------------------------------------------------------------
