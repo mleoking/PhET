@@ -46,4 +46,8 @@ public class HelpManager extends GraphicLayerSet {
         apparatusPanel.repaint();
     }
 
+    public int getNumHelpItems() {
+        return super.getNumGraphics();
+    }
+
 }

@@ -54,9 +54,15 @@ public class ControlPanel extends JPanel {
 
         this.add(titleLabel, BorderLayout.NORTH);
         this.add(helpPanel, BorderLayout.SOUTH);
+        setHelpPanelEnabled( module.hasHelp() );
         JPanel centerPane = new JPanel();
         centerPane.add(controlPane);
         this.add(centerPane, BorderLayout.CENTER);
+    }
+
+
+    public void setHelpPanelEnabled( boolean isEnabled ) {
+        helpPanel.setVisible( isEnabled );        
     }
 
     /**
@@ -127,6 +133,7 @@ public class ControlPanel extends JPanel {
     /**
      * Adds a component to the control panel using the default positioning. The control will be
      * centered in the panel with default insets.
+     *
      * @param comp
      * @return
      */
@@ -137,6 +144,7 @@ public class ControlPanel extends JPanel {
     /**
      * Adds a component to the control panel. The component is expanded horizontally to be as wide as the
      * widest component in the panel.
+     *
      * @param comp
      * @return
      */
@@ -151,6 +159,7 @@ public class ControlPanel extends JPanel {
      * Adds a componenet to tne control panel using specified GridBagConstraints. Note that the gridy attribute
      * of the constraints will be set by the ControlPanel so that the control is placed below whatever controls
      * are already in the panel.
+     *
      * @param comp
      * @param constraints
      * @return
@@ -167,6 +176,7 @@ public class ControlPanel extends JPanel {
 
     /**
      * Adds a component to the control panel with specified insets.
+     *
      * @param comp
      * @param insets
      * @return
@@ -181,11 +191,12 @@ public class ControlPanel extends JPanel {
     /**
      * Removes a compoonent from the control panel. All controls that were below the component will be
      * moved up in the panel.
+     *
      * @param comp
      */
     public void remove(Component comp) {
         // remove the component from the pane
-        controlPane.remove( comp);
+        controlPane.remove(comp);
 
         // Adjust the positions of the remaining controls
         int idx = controls.indexOf(comp);
