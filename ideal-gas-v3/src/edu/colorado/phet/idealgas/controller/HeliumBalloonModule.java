@@ -12,7 +12,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
@@ -32,6 +31,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
     private HollowSphere balloon;
     private Class gasSpecies = LightSpecies.class;
     private Object containerAffected;
+    private int defaultGravity = 0;
+//    private int defaultGravity = IdealGasConfig.s_maxGravity / 2;
 
     public HeliumBalloonModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.HeliumBalloon" ) );
@@ -109,7 +110,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         }
 
         // Turn on gravity
-        setGravity( IdealGasConfig.s_maxGravity / 2 );
+        setGravity( defaultGravity );
 
         // Set up the control panel
         JPanel controlPanel = new JPanel( new GridBagLayout() );

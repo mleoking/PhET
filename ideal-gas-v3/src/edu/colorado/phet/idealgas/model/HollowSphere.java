@@ -37,7 +37,8 @@ public class HollowSphere extends SphericalBody {
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        System.out.println( "getVelocity() = " + getVelocity() );
+        System.out.println( "this.getAcceleration() = " + this.getAcceleration() );
+//        System.out.println( "getVelocity() = " + getVelocity() );
     }
 
     public List getContainedBodies() {
