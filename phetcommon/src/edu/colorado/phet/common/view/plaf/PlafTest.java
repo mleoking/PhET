@@ -6,14 +6,14 @@ import java.util.Collections;
 import java.util.Iterator;
 
 public class PlafTest {
-    public static void main( String[] arg ) {
+    public static void main(String[] arg) {
         UIDefaults ui = UIManager.getLookAndFeelDefaults();
-        ArrayList al = new ArrayList( ui.keySet() );
-        Collections.sort( al );
+        ArrayList al = new ArrayList(ui.keySet());
+        Collections.sort(al);
         Iterator it = al.iterator();
-        while( it.hasNext() ) {
+        while (it.hasNext()) {
             Object key = it.next();
-            System.out.println( key + " = " + ui.get( key ) );
+            System.out.println(key + " = " + ui.get(key));
         }
     }
 

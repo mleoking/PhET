@@ -6,18 +6,19 @@
  */
 package edu.colorado.phet.common.model;
 
-import edu.colorado.phet.common.model.command.Command;
-import edu.colorado.phet.common.model.command.CommandQueue;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.command.Command;
+import edu.colorado.phet.common.model.command.CommandQueue;
 
 // TODO: This looks like class-side behavior for BaseModel. I think it is confusing
 // to have it as a separate class
+
 /**
  * There should be only one of these per PhetApplication. It contains at any time a single
  * instance of BaseModel, which is the root of the all the ModelElements in the active
  * model.
- *
+ * <p/>
  * The only class that talks to this is PhetApplication.
  */
 public class ApplicationModel {
@@ -25,21 +26,21 @@ public class ApplicationModel {
     CommandQueue commandQueue = new CommandQueue();
     BaseModel currentBaseModel;
 
-    public ApplicationModel( AbstractClock clock ) {
+    public ApplicationModel(AbstractClock clock) {
         this.clock = clock;
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( AbstractClock c, double dt ) {
+        clock.addClockTickListener(new ClockTickListener() {
+            public void clockTicked(AbstractClock c, double dt) {
                 ApplicationModel.this.clockTicked();
             }
-        } );
+        });
     }
 
     public BaseModel getBaseModel() {
         return currentBaseModel;
     }
 
-    public void setBaseModel( BaseModel model ) {
-        this.currentBaseModel=model;
+    public void setBaseModel(BaseModel model) {
+        this.currentBaseModel = model;
 //        if( this.currentBaseModel != model ) {
 //            if( this.currentBaseModel != null ) {
 //                clock.removeClockTickListener( this.currentBaseModel );
@@ -49,12 +50,12 @@ public class ApplicationModel {
 //        }
     }
 
-    public synchronized void execute( Command c ) {
-        commandQueue.addCommand( c );
+    public synchronized void execute(Command c) {
+        commandQueue.addCommand(c);
     }
 
-    public void setPaused( boolean isPaused ) {
-        clock.setPaused( isPaused );
+    public void setPaused(boolean isPaused) {
+        clock.setPaused(isPaused);
     }
 
     public void start() {

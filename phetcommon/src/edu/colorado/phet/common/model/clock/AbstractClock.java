@@ -90,7 +90,9 @@ public abstract class AbstractClock {
         }
     }
 
-    /**The clock must be running and paused to do tickOnce().*/
+    /**
+     * The clock must be running and paused to do tickOnce().
+     */
     public void tickOnce() {
         clockTicked(getSimulationTime(delay));
     }

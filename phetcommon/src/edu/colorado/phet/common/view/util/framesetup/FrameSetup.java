@@ -10,5 +10,5 @@ import javax.swing.*;
  */
 // TODO: Move the functions of this interfaces implementers into GraphicsUtil
 public interface FrameSetup {
-    public void initialize( JFrame frame );
+    public void initialize(JFrame frame);
 }

@@ -22,31 +22,31 @@ public class PhetFrame extends JFrame {
     private JMenu defaultFileMenu;
     PhetApplication app;
 
-    public PhetFrame( PhetApplication app ) {
-        super( app.getApplicationDescriptor().getWindowTitle() );
+    public PhetFrame(PhetApplication app) {
+        super(app.getApplicationDescriptor().getWindowTitle());
         this.app = app;
-        this.addWindowListener( new WindowAdapter() {
-            public void windowClosing( WindowEvent e ) {
-                System.exit( 0 );
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
             }
-        } );
+        });
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu =new HelpMenu( app);
-        JMenu controlMenu = new JMenu( "Control" );
-        JMenuItem showClockDialog = new JMenuItem( "FixedClock" );
-        showClockDialog.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        this.helpMenu = new HelpMenu(app);
+        JMenu controlMenu = new JMenu("Control");
+        JMenuItem showClockDialog = new JMenuItem("FixedClock");
+        showClockDialog.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
 //                clockDialog.setVisible(true);
             }
-        } );
+        });
 
         defaultFileMenu = new PhetFileMenu();
-        menuBar.add( defaultFileMenu );
-        menuBar.add( helpMenu );
+        menuBar.add(defaultFileMenu);
+        menuBar.add(helpMenu);
 
-        setJMenuBar( menuBar );
+        setJMenuBar(menuBar);
 
-        app.getApplicationDescriptor().getFrameSetup().initialize( this );
+        app.getApplicationDescriptor().getFrameSetup().initialize(this);
     }
 
     public PhetApplication getApp() {
@@ -55,33 +55,34 @@ public class PhetFrame extends JFrame {
 
     /**
      * Adds a JMenu before the Help Menu.
+     *
      * @param menu
      */
-    public void addMenu( JMenu menu ) {
-        edu.colorado.phet.common.view.util.GraphicsUtil.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
+    public void addMenu(JMenu menu) {
+        edu.colorado.phet.common.view.util.GraphicsUtil.addMenuAt(menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1);
     }
 
     public void addFileMenuSeparator() {
-        defaultFileMenu.insertSeparator( defaultFileMenu.getComponentCount() + 1 );
+        defaultFileMenu.insertSeparator(defaultFileMenu.getComponentCount() + 1);
     }
 
-    public void addFileMenuItem( JMenuItem menuItem ) {
-        defaultFileMenu.insert( menuItem, defaultFileMenu.getComponentCount() );
+    public void addFileMenuItem(JMenuItem menuItem) {
+        defaultFileMenu.insert(menuItem, defaultFileMenu.getComponentCount());
     }
 
-    public void removeFileMenuItem( JMenuItem menuItem ) {
-        JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
-            getJMenuBar().remove( testMenu );
+    public void removeFileMenuItem(JMenuItem menuItem) {
+        JMenu testMenu = getJMenuBar().getMenu(0);
+        if (testMenu != null && testMenu instanceof PhetFileMenu) {
+            getJMenuBar().remove(testMenu);
         }
-        getJMenuBar().add( defaultFileMenu, 0 );
+        getJMenuBar().add(defaultFileMenu, 0);
     }
 
-    public void setFileMenu( PhetFileMenu defaultFileMenu ) {
-        JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
-            getJMenuBar().remove( testMenu );
+    public void setFileMenu(PhetFileMenu defaultFileMenu) {
+        JMenu testMenu = getJMenuBar().getMenu(0);
+        if (testMenu != null && testMenu instanceof PhetFileMenu) {
+            getJMenuBar().remove(testMenu);
         }
-        getJMenuBar().add( defaultFileMenu, 0 );
+        getJMenuBar().add(defaultFileMenu, 0);
     }
 }

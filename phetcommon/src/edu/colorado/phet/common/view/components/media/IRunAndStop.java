@@ -7,7 +7,7 @@
 package edu.colorado.phet.common.view.components.media;
 
 public interface IRunAndStop {
-    public void setRunning( boolean b );
+    public void setRunning(boolean b);
 
     public boolean isRunning();
 }

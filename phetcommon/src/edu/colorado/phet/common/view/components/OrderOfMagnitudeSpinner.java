@@ -14,10 +14,10 @@ import javax.swing.*;
  */
 public class OrderOfMagnitudeSpinner extends JSpinner {
 
-    public OrderOfMagnitudeSpinner( float minFactor, float maxFactor ) {
+    public OrderOfMagnitudeSpinner(float minFactor, float maxFactor) {
         super();
-        final SpinnerModel model = new OrderOfMagnitudeListModel( minFactor, maxFactor );
-        setModel( model );
+        final SpinnerModel model = new OrderOfMagnitudeListModel(minFactor, maxFactor);
+        setModel(model);
     }
 
     //
@@ -32,29 +32,27 @@ public class OrderOfMagnitudeSpinner extends JSpinner {
         private float maxFactor;
         private float minFactor;
 
-        OrderOfMagnitudeListModel( float minFactor, float maxFactor ) {
-            super( 1.0, minFactor, maxFactor, 1 );
+        OrderOfMagnitudeListModel(float minFactor, float maxFactor) {
+            super(1.0, minFactor, maxFactor, 1);
             this.maxFactor = maxFactor;
             this.minFactor = minFactor;
         }
 
         public Object getNextValue() {
-            Double currValue = (Double)getValue();
-            if( currValue.floatValue() >= maxFactor ) {
+            Double currValue = (Double) getValue();
+            if (currValue.floatValue() >= maxFactor) {
                 return currValue;
-            }
-            else {
-                return new Double( ( (Double)getValue() ).floatValue() * 10 );
+            } else {
+                return new Double(((Double) getValue()).floatValue() * 10);
             }
         }
 
         public Object getPreviousValue() {
-            Double currValue = (Double)getValue();
-            if( currValue.floatValue() <= minFactor ) {
+            Double currValue = (Double) getValue();
+            if (currValue.floatValue() <= minFactor) {
                 return currValue;
-            }
-            else {
-                return new Double( ( (Double)getValue() ).floatValue() / 10 );
+            } else {
+                return new Double(((Double) getValue()).floatValue() / 10);
             }
         }
     }

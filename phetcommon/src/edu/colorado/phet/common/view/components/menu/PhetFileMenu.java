@@ -14,23 +14,23 @@ import java.awt.event.ActionListener;
 public class PhetFileMenu extends JMenu {
 
     public PhetFileMenu() {
-        this( new JComponent[]{} );
+        this(new JComponent[]{});
     }
 
-    public PhetFileMenu( JComponent[] menuStuff ) {
-        super( "File" );
+    public PhetFileMenu(JComponent[] menuStuff) {
+        super("File");
         setMnemonic('f');
-        for( int i = 0; i < menuStuff.length; i++ ) {
+        for (int i = 0; i < menuStuff.length; i++) {
             Component component = menuStuff[i];
-            this.add( component );
+            this.add(component);
         }
-        JMenuItem exitMI = new JMenuItem( "Exit" );
-        exitMI.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                System.exit( 0 );
+        JMenuItem exitMI = new JMenuItem("Exit");
+        exitMI.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
             }
-        } );
+        });
         exitMI.setMnemonic('x');
-        this.add( exitMI );
+        this.add(exitMI);
     }
 }

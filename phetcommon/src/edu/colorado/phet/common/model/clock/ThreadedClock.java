@@ -14,14 +14,14 @@ public class ThreadedClock extends AbstractClock implements Runnable {
     private static final int PAUSE_WAIT = Integer.MAX_VALUE;
     private boolean selfInterrupt;
 
-    public ThreadedClock( double dt, int delay, boolean isFixed ) {
-        this( dt, delay, isFixed, ThreadPriority.NORMAL );
+    public ThreadedClock(double dt, int delay, boolean isFixed) {
+        this(dt, delay, isFixed, ThreadPriority.NORMAL);
     }
 
-    public ThreadedClock( double dt, int waitTime, boolean isFixed, ThreadPriority priority ) {
-        super( dt, waitTime, isFixed );
+    public ThreadedClock(double dt, int waitTime, boolean isFixed, ThreadPriority priority) {
+        super(dt, waitTime, isFixed);
         this.priority = priority;
-        t = new Thread( this );
+        t = new Thread(this);
     }
 
     public void doStart() {
@@ -42,37 +42,34 @@ public class ThreadedClock extends AbstractClock implements Runnable {
 
     public void run() {
         //exits cleanly on deadthread
-        while( !super.isDead() ) {
+        while (!super.isDead()) {
 //            parent.clockTicked();
 
             try {
-                if( isPaused() ) {
-                    Thread.sleep( PAUSE_WAIT );
-                }
-                else {
+                if (isPaused()) {
+                    Thread.sleep(PAUSE_WAIT);
+                } else {
                     long beforeSleep = System.currentTimeMillis();
-                    Thread.sleep( super.getDelay() );
+                    Thread.sleep(super.getDelay());
                     long afterSleep = System.currentTimeMillis();
-                    clockTicked( getSimulationTime( afterSleep - beforeSleep ) );
+                    clockTicked(getSimulationTime(afterSleep - beforeSleep));
                 }
-            }
-            catch( InterruptedException e ) {
-                if( selfInterrupt ) {
+            } catch (InterruptedException e) {
+                if (selfInterrupt) {
                     selfInterrupt = false;
-                }
-                else {
-                    throw new RuntimeException( e );
+                } else {
+                    throw new RuntimeException(e);
                 }
             }
         }
     }
 
-    public void setThreadPriority( ThreadPriority tp ) {
-        t.setPriority( tp.intValue() );
+    public void setThreadPriority(ThreadPriority tp) {
+        t.setPriority(tp.intValue());
         this.priority = tp;
-        for( int i = 0; i < getClockStateListeners().size(); i++ ) {
-            ClockStateListener clockStateListener = (ClockStateListener)getClockStateListeners().get( i );
-            clockStateListener.threadPriorityChanged( tp );
+        for (int i = 0; i < getClockStateListeners().size(); i++) {
+            ClockStateListener clockStateListener = (ClockStateListener) getClockStateListeners().get(i);
+            clockStateListener.threadPriorityChanged(tp);
         }
     }
 

@@ -17,19 +17,20 @@ public class HelpItemManager {
      * Adds an on-screen help item to the PhetFrame. This is typically called
      * in the activate() method of an application-specific subclass of
      * ApparatusPanel.
-     * @see HelpItem
+     *
      * @param helpText
+     * @see HelpItem
      */
-    public void addHelpItem( HelpItem helpText ) {
+    public void addHelpItem(HelpItem helpText) {
 //        this.getLayeredPane().add( helpText, JLayeredPane.POPUP_LAYER );
-        helpItems.add( helpText );
+        helpItems.add(helpText);
     }
 
-    public void setHelpVisible( boolean isVisible ) {
+    public void setHelpVisible(boolean isVisible) {
         helpVisible = isVisible;
-        for( int i = 0; i < helpItems.size(); i++ ) {
-            HelpItem helpItem = (HelpItem)helpItems.get( i );
-            helpItem.setVisible( isVisible );
+        for (int i = 0; i < helpItems.size(); i++) {
+            HelpItem helpItem = (HelpItem) helpItems.get(i);
+            helpItem.setVisible(isVisible);
         }
     }
 
@@ -37,22 +38,22 @@ public class HelpItemManager {
      * Removes all OnScreenHelpItems from the PhetFrame
      */
     public void clearHelp() {
-        setHelpVisible( false );
+        setHelpVisible(false);
         helpItems.clear();
-        setHelpVisible( helpVisible );
+        setHelpVisible(helpVisible);
     }
 
     /**
      * Displays all on-screen help
      */
     public void showHelp() {
-        this.setHelpVisible( true );
+        this.setHelpVisible(true);
     }
 
     /**
      * Hides all on-screen help
      */
     public void hideHelp() {
-        this.setHelpVisible( false );
+        this.setHelpVisible(false);
     }
 }

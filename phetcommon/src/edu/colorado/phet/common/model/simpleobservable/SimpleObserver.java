@@ -8,5 +8,5 @@ package edu.colorado.phet.common.model.simpleobservable;
  * Copyright (c) Dec 30, 2003 by Sam Reid
  */
 public interface SimpleObserver {
-        public void update();
+    public void update();
 }

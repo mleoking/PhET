@@ -9,5 +9,5 @@ package edu.colorado.phet.common.view.apparatuspanelcontainment;
 import edu.colorado.phet.common.application.ModuleManager;
 
 public interface ApparatusPanelContainerFactory {
-    ApparatusPanelContainer createApparatusPanelContainer( ModuleManager manager );
+    ApparatusPanelContainer createApparatusPanelContainer(ModuleManager manager);
 }

@@ -6,19 +6,19 @@
  */
 package edu.colorado.phet.common.view.graphics.bounds;
 
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
-
 import java.awt.*;
 
-/**Wrap an Area around your Shape to make it mutable.*/
+/**
+ * Wrap an Area around your Shape to make it mutable.
+ */
 public class ShapeBoundary implements Boundary {
     Shape shape;
 
-    public ShapeBoundary( Shape shape ) {
+    public ShapeBoundary(Shape shape) {
         this.shape = shape;
     }
 
-    public boolean contains( int x, int y ) {
-        return shape.contains( x, y );
+    public boolean contains(int x, int y) {
+        return shape.contains(x, y);
     }
 }

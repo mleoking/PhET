@@ -36,16 +36,15 @@ public class AspectRatioLayout implements LayoutManager {
     }
 
     /**
-     *
      * The code for aspect ratio =1 is slightly clearer.
-
-     int width = parent.getWidth();
-     int height = parent.getHeight();
-
-     int min = Math.min(width, height);
-     int desiredWidth = min - insetX * 2;
-     int desiredHeight = min - insetY * 2;
-     return new Dimension(desiredWidth, desiredHeight);
+     * <p/>
+     * int width = parent.getWidth();
+     * int height = parent.getHeight();
+     * <p/>
+     * int min = Math.min(width, height);
+     * int desiredWidth = min - insetX * 2;
+     * int desiredHeight = min - insetY * 2;
+     * return new Dimension(desiredWidth, desiredHeight);
      */
     public Dimension preferredLayoutSize(Container parent) {
         //find out the constraint.

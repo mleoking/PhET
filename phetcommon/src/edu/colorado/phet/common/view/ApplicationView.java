@@ -25,19 +25,19 @@ public class ApplicationView {
     private BasicPhetPanel basicPhetPanel;
     private PhetApplication application;
 
-    public ApplicationView( PhetApplication application ) throws IOException {
+    public ApplicationView(PhetApplication application) throws IOException {
         this.application = application;
-        apparatusPanelContainer = application.getContainerStrategy().createApparatusPanelContainer( application.getModuleManager() );
+        apparatusPanelContainer = application.getContainerStrategy().createApparatusPanelContainer(application.getModuleManager());
 
-        if( application.getClock() == null ) {
-            throw new RuntimeException( "Clock is null" );
+        if (application.getClock() == null) {
+            throw new RuntimeException("Clock is null");
         }
-        controlPanel = new ApplicationModelControlPanel( application.getClock() );
-        basicPhetPanel = new BasicPhetPanel( null, null, null, controlPanel );
-        basicPhetPanel.setApparatusPanelContainer( apparatusPanelContainer.getComponent() );
-        new ControlAndMonitorSwapper( basicPhetPanel, application.getModuleManager() );
-        phetFrame = new PhetFrame( application );
-        phetFrame.setContentPane( basicPhetPanel );
+        controlPanel = new ApplicationModelControlPanel(application.getClock());
+        basicPhetPanel = new BasicPhetPanel(null, null, null, controlPanel);
+        basicPhetPanel.setApparatusPanelContainer(apparatusPanelContainer.getComponent());
+        new ControlAndMonitorSwapper(basicPhetPanel, application.getModuleManager());
+        phetFrame = new PhetFrame(application);
+        phetFrame.setContentPane(basicPhetPanel);
     }
 
     public ApparatusPanelContainer getApparatusPanelContainer() {
@@ -48,40 +48,40 @@ public class ApplicationView {
         return basicPhetPanel;
     }
 
-    public void setVisible( boolean isVisible ) {
-        phetFrame.setVisible( isVisible );
-        application.getApplicationDescriptor().getFrameSetup().initialize( phetFrame);
+    public void setVisible(boolean isVisible) {
+        phetFrame.setVisible(isVisible);
+        application.getApplicationDescriptor().getFrameSetup().initialize(phetFrame);
     }
 
-    public void addFileMenuItem( JMenuItem menuItem ) {
-        phetFrame.addFileMenuItem( menuItem );
+    public void addFileMenuItem(JMenuItem menuItem) {
+        phetFrame.addFileMenuItem(menuItem);
     }
 
     public void addFileMenuSeparator() {
         phetFrame.addFileMenuSeparator();
     }
 
-    public void removeFileMenuItem( JMenuItem menuItem ) {
-        phetFrame.removeFileMenuItem( menuItem );
+    public void removeFileMenuItem(JMenuItem menuItem) {
+        phetFrame.removeFileMenuItem(menuItem);
     }
 
-    public void setFileMenu( PhetFileMenu fileMenu ) {
-        this.phetFrame.setFileMenu( fileMenu );
+    public void setFileMenu(PhetFileMenu fileMenu) {
+        this.phetFrame.setFileMenu(fileMenu);
     }
 
-    public void removeFileMenu( PhetFileMenu fileMenu ) {
-        this.phetFrame.removeFileMenuItem( fileMenu );
+    public void removeFileMenu(PhetFileMenu fileMenu) {
+        this.phetFrame.removeFileMenuItem(fileMenu);
     }
 
     public PhetFrame getPhetFrame() {
         return this.phetFrame;
     }
 
-    public void setFullScreen(boolean fullScreen){
+    public void setFullScreen(boolean fullScreen) {
         basicPhetPanel.setFullScreen(fullScreen);
     }
 
-    public static boolean moduleIsWellFormed( Module module ) {
+    public static boolean moduleIsWellFormed(Module module) {
         boolean result = true;
         result &= module.getModel() != null;
         result &= module.getApparatusPanel() != null;
@@ -92,18 +92,18 @@ public class ApplicationView {
         BasicPhetPanel bpp;
         ModuleManager mm;
 
-        public ControlAndMonitorSwapper( BasicPhetPanel bpp, ModuleManager mm ) {
+        public ControlAndMonitorSwapper(BasicPhetPanel bpp, ModuleManager mm) {
             this.bpp = bpp;
             this.mm = mm;
-            mm.addModuleObserver( this );
+            mm.addModuleObserver(this);
         }
 
-        public void moduleAdded( Module m ) {
+        public void moduleAdded(Module m) {
         }
 
-        public void activeModuleChanged( Module m ) {
-            bpp.setControlPanel( m.getControlPanel() );
-            bpp.setMonitorPanel( m.getMonitorPanel() );
+        public void activeModuleChanged(Module m) {
+            bpp.setControlPanel(m.getControlPanel());
+            bpp.setMonitorPanel(m.getMonitorPanel());
         }
     }
 }

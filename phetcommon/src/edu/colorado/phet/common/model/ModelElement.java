@@ -9,5 +9,5 @@ package edu.colorado.phet.common.model;
  * To change this template use Options | File Templates.
  */
 public interface ModelElement {
-    public void stepInTime( double dt );
+    public void stepInTime(double dt);
 }

@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseEvent;
