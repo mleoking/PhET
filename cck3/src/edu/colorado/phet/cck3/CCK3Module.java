@@ -65,7 +65,7 @@ import java.util.Arrays;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class CCK3Module extends Module {
-//    private boolean virtualLabMode = false;
+
     private SetupParameters parameters;
     private Circuit circuit;
     private CircuitGraphic circuitGraphic;
@@ -113,8 +113,7 @@ public class CCK3Module extends Module {
     public static final Color backgroundColor = new Color( 200, 240, 200 );
     public static final Color apparatusPanelColor = new Color( 187, 216, 255 );
     public static final Color toolboxColor = new Color( 241, 241, 241 );
-    //    public static Color backgroundColor = new Color( 187, 216, 255 );
-    //    public static Color toolboxColor=new Color( );
+
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
     //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0000" ); //For debugging.
     private ResistivityManager resistivityManager;
@@ -127,28 +126,13 @@ public class CCK3Module extends Module {
     private static CCK3Module module;
     public static final boolean GRAPHICAL_DEBUG = false;
     public PhetShadowTextGraphic messageGraphic;
-    //    public static final boolean GRAPHICAL_DEBUG = true;
-    
+
     // Localization
     public static final String localizedStringsPath = "localization/CCKStrings";
 
-    public MagicalRepaintPanel getMagicPanel() {
-        return magicPanel;
-    }
-
-//    public CCK3Module() throws IOException {
-//        this( false );
-//    }
-
-    public boolean isElectronsVisible() {
-        return electronsVisible;
-    }
-
     public CCK3Module( String[] args ) throws IOException {
         super( SimStrings.get( "ModuleTitle.CCK3Module" ) );
-//        this.virtualLabMode = virtualLabMode;
         this.parameters = new SetupParameters( this, args );
-        //        Color backgroundColor = new Color( 166, 177, 204 );//not so bright
 
         magicPanel = new MagicalRepaintPanel();
         setApparatusPanel( magicPanel );
@@ -240,6 +224,7 @@ public class CCK3Module extends Module {
             }
         } );
         getApparatusPanel().addGraphic( messageGraphic );
+        setResistivityEnabled( true );
     }
 
     private void relayout() {
@@ -275,10 +260,13 @@ public class CCK3Module extends Module {
         }
     }
 
-//    public boolean isVirtualLabMode() {
-//
-//        return virtualLabMode;
-//    }
+    public MagicalRepaintPanel getMagicPanel() {
+        return magicPanel;
+    }
+
+    public boolean isElectronsVisible() {
+        return electronsVisible;
+    }
 
     public void relayout( Branch[] branches ) {
         layout.relayout( branches );
@@ -671,7 +659,7 @@ public class CCK3Module extends Module {
         SimStrings.init( args, localizedStringsPath );
 
         //        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
-        SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
+        final SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
 
         boolean debugMode = false;
         if( Arrays.asList( args ).contains( "debug" ) ) {
@@ -823,6 +811,15 @@ public class CCK3Module extends Module {
                 cck.clockTickFinished();
             }
         } );
+        frame.addWindowListener( new WindowAdapter() {
+            public void windowIconified( WindowEvent e ) {
+                clock.setPaused( true );
+            }
+
+            public void windowDeiconified( WindowEvent e ) {
+                clock.setPaused( false );
+            }
+        } );
     }
 
     private void clockTickFinished() {
@@ -950,7 +947,8 @@ public class CCK3Module extends Module {
     public static class ResistivityManager extends CircuitListenerAdapter {
         private CCK3Module module;
         private Circuit circuit;
-        private static double DEFAULT_RESISTIVITY = 0.0;
+//        private static double DEFAULT_RESISTIVITY = 0.0;
+        private static double DEFAULT_RESISTIVITY = 0.01;
         private double resistivity = DEFAULT_RESISTIVITY;
         private boolean enabled = true;
 
@@ -1007,7 +1005,7 @@ public class CCK3Module extends Module {
     }
 
     public void setResistivityEnabled( boolean selected ) {
-        //        System.out.println( "Set resistivity enabled= " + selected );
+        System.out.println( "Set resistivity enabled= " + selected );
         if( selected == resistivityManager.isEnabled() ) {
             return;
         }
@@ -1065,7 +1063,7 @@ public class CCK3Module extends Module {
 
     public void setAdvancedEnabled( boolean advanced ) {
         setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() && advanced );
-        setResistivityEnabled( advanced );
+//        setResistivityEnabled( advanced );//now this is always on by default.
     }
 
     public void debugListeners() {
