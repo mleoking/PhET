@@ -69,20 +69,20 @@ public class ThoughtBubbleGraphic extends PhetGraphic
     {
       // Bulges on left end, top to bottom.
       _area.add( new Area( new Ellipse2D.Double(  25,  10, 100,  50 ) ) );
-      _area.add( new Area( new Ellipse2D.Double(   0,    35, 100,  50 ) ) );
-      _area.add( new Area( new Ellipse2D.Double(  15,   75, 100,  30 ) ) );
+      _area.add( new Area( new Ellipse2D.Double(   0,  35, 100,  50 ) ) );
+      _area.add( new Area( new Ellipse2D.Double(  15,  75, 100,  30 ) ) );
       // Bulges on right end, top to bottom.
       _area.add( new Area( new Ellipse2D.Double( 125,  10, 100,  50 ) ) );
       _area.add( new Area( new Ellipse2D.Double( 150,  25, 100,  50 ) ) );
-      _area.add( new Area( new Ellipse2D.Double( 125,   50, 100,  50 ) ) );
+      _area.add( new Area( new Ellipse2D.Double( 125,  50, 100,  50 ) ) );
       // Bulge in top center.
-      _area.add( new Area( new Ellipse2D.Double(  50,    0, 150, 100 ) ) );
+      _area.add( new Area( new Ellipse2D.Double(  50,   0, 150, 100 ) ) );
       // Bulge in bottom center.
-      _area.add( new Area( new Ellipse2D.Double(  60,  65, 100, 50 ) ) );
+      _area.add( new Area( new Ellipse2D.Double(  60,  65, 100,  50 ) ) );
       // 3 blips, top to bottom.
-      _area.add( new Area( new Ellipse2D.Double( 150, 115, 40, 20 )) );
-      _area.add( new Area( new Ellipse2D.Double( 165, 145, 30, 15 )) );
-      _area.add( new Area( new Ellipse2D.Double( 175, 170, 20, 10 )) );
+      _area.add( new Area( new Ellipse2D.Double( 150, 115,  40,  20 )) );
+      _area.add( new Area( new Ellipse2D.Double( 165, 145,  30,  15 )) );
+      _area.add( new Area( new Ellipse2D.Double( 175, 170,  20,  10 )) );
     }
   }
 
@@ -97,7 +97,9 @@ public class ThoughtBubbleGraphic extends PhetGraphic
    */
   protected Rectangle determineBounds()
   {
-    return _area.getBounds();
+    Rectangle r = _area.getBounds();
+    Rectangle bounds = new Rectangle( _location.x, _location.y, r.width, r.height );
+    return bounds;
   }
 
   /**
