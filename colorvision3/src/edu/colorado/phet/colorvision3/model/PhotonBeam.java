@@ -36,7 +36,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
   // Photon delta.
   public static final int PHOTON_DS = 10;
   // White photons are culled by this amount when hitting a filter.
-  private static final double WHITE_CULL_FACTOR = 0.75;
+  private static final double WHITE_CULL_FACTOR = 0.85;
 
 	//----------------------------------------------------------------------------
 	// Instance data
