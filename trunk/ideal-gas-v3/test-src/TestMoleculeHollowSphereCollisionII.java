@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ResourceBundle;
 
-public class TestMoleculeHollowSphereCollision extends PhetApplication {
+public class TestMoleculeHollowSphereCollisionII extends PhetApplication {
 
     private static ResourceBundle localizedStrings;
 
@@ -79,11 +79,12 @@ public class TestMoleculeHollowSphereCollision extends PhetApplication {
 
             JButton testBtn = new JButton( "Test" );
             final GasMolecule[] m = new GasMolecule[]{null};
+            final HollowSphere sphere1 = sphere;
             testBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m[0] = new HeavySpecies( new Point2D.Double( box.getMinX() + box.getWidth() / 2 + 80,
-                                                                 box.getMinY() + box.getHeight() / 2 ),
-                                             new Vector2D.Double( -250, 0 ),
+                    m[0] = new HeavySpecies( new Point2D.Double( sphere1.getPosition().getX() + 37,
+                                                                 sphere1.getPosition().getY() ),
+                                             new Vector2D.Double( 100, 0 ),
                                              new Vector2D.Double(),
                                              5 );
 //                    m[0] = new HeavySpecies( new Point2D.Double( 383.3, 389.35 ),
@@ -107,13 +108,13 @@ public class TestMoleculeHollowSphereCollision extends PhetApplication {
     }
 
 
-    public TestMoleculeHollowSphereCollision() {
+    public TestMoleculeHollowSphereCollisionII() {
         super( new TestApplicationModel() );
         this.startApplication();
 //        this.getApplicationDescriptor().getClock().setPaused( true );
     }
 
     public static void main( String[] args ) {
-        TestMoleculeHollowSphereCollision test = new TestMoleculeHollowSphereCollision();
+        TestMoleculeHollowSphereCollisionII test = new TestMoleculeHollowSphereCollisionII();
     }
 }

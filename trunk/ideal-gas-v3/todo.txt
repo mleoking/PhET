@@ -1,3 +1,4 @@
+- Sort CollisionExperts in to the list by their type specificity
 - Hot air balloon doesn't let molecules go in and out.
 - Add gravity controls to measurement panel
 - Mannequin needs to be lower on the screen.
