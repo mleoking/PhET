@@ -190,8 +190,16 @@ public class GraphicLayerSet extends PhetGraphic {
     }
 
     /**
-     * Methods for MouseInteraction.
+     * Returns the number of graphics in the GraphicLayerSet
+     * @return
      */
+    public int getNumGraphics() {
+        return graphicMap.size();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Methods for MouseInteraction.
+    //
     public void startDragging( MouseEvent event, PhetGraphic activeUnit ) {
         if( this.activeUnit != null ) {
             this.activeUnit.fireMouseExited( event );
@@ -282,6 +290,10 @@ public class GraphicLayerSet extends PhetGraphic {
 
     }
 
+
+    //////////////////////////////////////////////////////////////
+    // Inner classes
+    //
     public class KeyAdapter implements KeyListener {
         //TODO this should probably include code to have a separate key-focused handler.
         public void keyTyped( KeyEvent e ) {
@@ -366,7 +378,5 @@ public class GraphicLayerSet extends PhetGraphic {
                 activeUnit.fireMouseMoved( e );
             }
         }
-
     }
-
 }
