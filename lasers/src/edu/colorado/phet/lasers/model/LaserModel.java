@@ -1,10 +1,10 @@
 /**
  * Class: LaserModel
- * Package: edu.colorado.phet.lasers.physics
+ * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
-package edu.colorado.phet.lasers.physics;
+package edu.colorado.phet.lasers.model;
 
 import edu.colorado.phet.collision.SphereSphereContactDetector;
 import edu.colorado.phet.collision.SphereSphereExpert;
@@ -13,12 +13,12 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.physics.atom.Atom;
-import edu.colorado.phet.lasers.physics.collision.AtomWallCollision;
-import edu.colorado.phet.lasers.physics.collision.PhotonAtomCollision;
-import edu.colorado.phet.lasers.physics.collision.PhotonMirrorCollision;
-import edu.colorado.phet.lasers.physics.photon.CollimatedBeam;
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.collision.AtomWallCollision;
+import edu.colorado.phet.lasers.model.collision.PhotonAtomCollision;
+import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollision;
+import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
@@ -63,6 +63,7 @@ public class LaserModel extends BaseModel {
 
         final CollisionMechanism collisionMechanism = new CollisionMechanism();
         collisionMechanism.addCollisionExpert( new SphereSphereExpert() );
+        collisionMechanism.addCollisionExpert( new PhotonAtomCollision() );
         this.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 collisionMechanism.doIt( bodies );

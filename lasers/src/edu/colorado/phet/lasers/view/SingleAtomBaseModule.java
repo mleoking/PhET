@@ -7,9 +7,9 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.lasers.physics.LaserModel;
-import edu.colorado.phet.lasers.physics.atom.Atom;
-import edu.colorado.phet.lasers.physics.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
 import java.awt.geom.Point2D;
 

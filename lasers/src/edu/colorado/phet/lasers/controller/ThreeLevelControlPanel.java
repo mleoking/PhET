@@ -10,8 +10,8 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.lasers.physics.LaserModel;
-import edu.colorado.phet.lasers.physics.ResonatingCavity;
+import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.ResonatingCavity;
 
 import javax.swing.*;
 import javax.swing.border.Border;

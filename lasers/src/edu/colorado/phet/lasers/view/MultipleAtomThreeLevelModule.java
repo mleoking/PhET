@@ -13,9 +13,9 @@ import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.ThreeLevelControlPanel;
-import edu.colorado.phet.lasers.physics.LaserModel;
-import edu.colorado.phet.lasers.physics.ResonatingCavity;
-import edu.colorado.phet.lasers.physics.atom.Atom;
+import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.model.atom.Atom;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

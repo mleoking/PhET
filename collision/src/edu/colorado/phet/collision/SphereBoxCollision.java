@@ -1,6 +1,6 @@
 /**
  * Class: SphereBoxCollision
- * Class: edu.colorado.phet.physics.collision
+ * Class: edu.colorado.phet.model.collision
  * User: Ron LeMaster
  * Date: Apr 4, 2003
  * Time: 12:35:39 PM

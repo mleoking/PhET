@@ -9,7 +9,7 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.lasers.physics.ResonatingCavity;
+import edu.colorado.phet.lasers.model.ResonatingCavity;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

@@ -1,12 +1,12 @@
 /**
  * Class: Mirror
- * Package: edu.colorado.phet.lasers.physics.mirror
+ * Package: edu.colorado.phet.lasers.model.mirror
  * Author: Another Guy
  * Date: Apr 3, 2003
  */
-package edu.colorado.phet.lasers.physics.mirror;
+package edu.colorado.phet.lasers.model.mirror;
 
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.collision.Wall;
 
 import java.awt.geom.Point2D;

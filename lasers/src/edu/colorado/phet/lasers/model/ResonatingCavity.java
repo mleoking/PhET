@@ -1,17 +1,17 @@
 /**
  * Class: ResonatingCavity
- * Package: edu.colorado.phet.lasers.physics
+ * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 26, 2003
  */
-package edu.colorado.phet.lasers.physics;
+package edu.colorado.phet.lasers.model;
 
 import edu.colorado.phet.collision.Box2D;
-import edu.colorado.phet.lasers.physics.mirror.BandPass;
-import edu.colorado.phet.lasers.physics.mirror.LeftReflecting;
-import edu.colorado.phet.lasers.physics.mirror.PartialMirror;
-import edu.colorado.phet.lasers.physics.mirror.RightReflecting;
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.mirror.BandPass;
+import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
+import edu.colorado.phet.lasers.model.mirror.PartialMirror;
+import edu.colorado.phet.lasers.model.mirror.RightReflecting;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

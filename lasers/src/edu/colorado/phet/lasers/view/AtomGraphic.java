@@ -7,7 +7,7 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.physics.atom.*;
+import edu.colorado.phet.lasers.model.atom.*;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -56,7 +56,7 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
     public void update() {
 //    public void update( Observable observable, Object o ) {
 //        super.update( observable, o );
-//        setPosition( (edu.colorado.phet.physics.body.Particle)observable );
+//        setPosition( (edu.colorado.phet.model.body.Particle)observable );
         setPosition( (int)( atom.getPosition().getX() - atom.getRadius()),
                      (int)(atom.getPosition().getY() - atom.getRadius() ));
         AtomicState state = atom.getState();

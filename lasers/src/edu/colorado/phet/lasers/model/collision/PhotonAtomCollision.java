@@ -1,13 +1,13 @@
 /**
  * Class: PhotonAtomCollision
- * Package: edu.colorado.phet.lasers.physics.collision
+ * Package: edu.colorado.phet.lasers.model.collision
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
-package edu.colorado.phet.lasers.physics.collision;
+package edu.colorado.phet.lasers.model.collision;
 
-import edu.colorado.phet.lasers.physics.atom.Atom;
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.collision.Collision;
 import edu.colorado.phet.common.model.Particle;
 
@@ -16,12 +16,6 @@ public class PhotonAtomCollision implements Collision {
     private Photon photon;
     private Atom atom;
 
-    /**
-     * Provided so class can register a prototype with the CollisionFactory
-     */
-    private PhotonAtomCollision() {
-        //NOP
-    }
 
     public PhotonAtomCollision( Photon photon, Atom atom ) {
         this.photon = photon;
@@ -59,7 +53,7 @@ public class PhotonAtomCollision implements Collision {
     //
     // Static fields and methods
     //
-    static public void register() {
-        CollisionFactory.addPrototype( new PhotonAtomCollision() );
-    }
+//    static public void register() {
+//        CollisionFactory.addPrototype( new PhotonAtomCollision() );
+//    }
 }

@@ -1,12 +1,12 @@
 /**
  * Class: MiddleEnergyState
- * Package: edu.colorado.phet.lasers.physics
+ * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
-package edu.colorado.phet.lasers.physics.atom;
+package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.common.math.Vector2D;
 

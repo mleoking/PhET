@@ -8,7 +8,7 @@ package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.lasers.physics.LaserModel;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;

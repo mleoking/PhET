@@ -1,12 +1,12 @@
 /**
  * Class: PartialMirror
- * Package: edu.colorado.phet.lasers.physics
+ * Package: edu.colorado.phet.lasers.model
  * Author: Another Guy
  * Date: Mar 31, 2003
  */
-package edu.colorado.phet.lasers.physics.mirror;
+package edu.colorado.phet.lasers.model.mirror;
 
-import edu.colorado.phet.lasers.physics.photon.Photon;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

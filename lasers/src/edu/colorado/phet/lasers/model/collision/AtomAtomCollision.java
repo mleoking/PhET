@@ -1,12 +1,12 @@
 /**
  * Class: AtomAtomCollision
- * Package: edu.colorado.phet.lasers.physics.collision
+ * Package: edu.colorado.phet.lasers.model.collision
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
-package edu.colorado.phet.lasers.physics.collision;
+package edu.colorado.phet.lasers.model.collision;
 
-import edu.colorado.phet.lasers.physics.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.collision.HardsphereCollision;
 import edu.colorado.phet.collision.Collision;
 import edu.colorado.phet.collision.SphereSphereExpert;
