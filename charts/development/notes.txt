@@ -18,3 +18,5 @@ We can change this at any time.
 Aspect ratio?
 
 Ensure Axis is not painted when not in chart Range.
+
+Support for buffering the chart (and only drawing incremental changes)?
