@@ -4,22 +4,21 @@
 
 IN PROGRESS:
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet
-- requirements for Generator module (see Carl's Powerpoint slides)
 
 HIGH PRIORITY:
+- requirements for Generator module (see Carl's Powerpoint slides)
+- calibration throughout
 - redo Turbine model, it should not extend BarMagnet (it has a BarMagnetPanel)
-- center of slider knob doesn't line up with ticks on Battery
 - animate AC wave
 - adjust electron animation so that electrons move farther
-- behavior of AC/DC amplitude around "zero" should be smoother
-- bug: electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
-- when a drag collision occurs, don't ignore the translate, move the object as close as possible
-- Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
-- calibration throughout
 - electrons in electromagnet coil loops don't line up with each other (is this due to the smaller radius?)
-- relocate rescaling from Voltmeter model to Voltmeter view, os that all rescaling is done in the view
+- electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
+- collision detection in Generator & Transformer modules
+- relocate rescaling from Voltmeter model to Voltmeter view, so that all rescaling is done in the view
+- when a drag collision occurs, don't ignore the translate, move the object as close as possible
+- Wiggle Me's on magnets & coil
 
 LOW PRIORITY:
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
@@ -53,6 +52,11 @@ phetcommon:
 
 DONE:
 v0r17...
+(3/14) - fix: center of slider knob doesn't line up with ticks on Battery (fix to PhetGraphic.centerRegistrationPoint)
+(3/14) - fix: changing number of loops in source coil doesn't affect electromagnet strength
+(3/14) - fix: grid needles nearest electromagnet always appear to be full strength, regardless of DC/AC amplitude
+(3/14) - fix: field is rotating in opposite direction of turbine magnet
+(3/14) - behavior of AC/DC amplitude around "zero" should be smoother
 (3/11) - give Turbine its own control panel and FaradyConfig config, instead of reusing BarMagnet
 (3/11) - make Voltmeter and observer of the voltage source so that there is symmetry with Lightbulb
 (3/11) - fix PickupCoil so that Lightbulb and Voltmeter can use its amplitude
