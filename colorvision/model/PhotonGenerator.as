@@ -1,10 +1,11 @@
 ﻿class PhotonGenerator extends MovieClip implements ColorListener {
-	private static var canvasLayer:Number = 0;
 	private var running:Boolean;
 	private var rate:Number;
-	private var photons:Array = new Array();
-	private var rateHistory:Array = new Array();;
-	private var rateAtEyeball:Number = 0;
+	// NOTE!!! The following line results in the Array being allocated
+	// statically to the class!!! I have to allocate it in the constructor;
+//	private var photons:Array = new Array();
+	private var photons:Array;
+	private var rateAtEyeball:Number;
 	private var xLoc:Number;
 	private var yLoc:Number;
 	private var theta:Number;
@@ -14,6 +15,8 @@
 	public function PhotonGenerator() {
 		rate = 1;
 		alpha = 100;
+		photons = new Array();
+		rateAtEyeball = 0;
 	}
 	public function setLocation(xLoc:Number, yLoc:Number) {
 		this.xLoc = xLoc;
@@ -54,26 +57,24 @@
 			var intRate:Number = Math.round(rate);
 			for (var n = 0; n < intRate; n++) {
 				p = new Photon(xLoc, yLoc, genTheta(theta * Math.PI / 180), c);
-				photons.push(p);
+				photons.push( new PhotonGeneratorRecordEntry(p,rate));
+//				photons.push(p);
 			}
-			rateHistory.push(Math.round(rate));
 
 			// Paint or prune the photons, as need be
 			for (var i = 0; i < photons.length; i++) {
-				p = photons[i];
+				p = photons[i].getPhoton();
 				if (p!= undefined && p.getX() <= _root.head._x) {
 					p.paint(this);
 				}
 				else {
+					this.rateAtEyeball = photons[i].getRate();
 					photons.splice(i,1);
 				}
 			}
-/*
-			for(var i=0; i<rateHistory;i++){
-				if(
-					rateAtEyeball = rateHistory[i];
-					rateHistory.splice(i,1);
-*/					
+			if( photons.length == 0 ){
+				this.rateAtEyeball = 0;
+			}
 		}
 	}
 	function stop() {
@@ -101,8 +102,8 @@
 		this.rate = rate;
 	}
 	function getRateAtEyeball():Number{
-		return this.rate;
-//		return this.rateAtEyeball;
+//		return this.rate;
+		return this.rateAtEyeball;
 	}
 	private function genTheta(theta0) {
 		var d_theta = Math.random() * Math.PI / 16 - Math.PI / 32;
