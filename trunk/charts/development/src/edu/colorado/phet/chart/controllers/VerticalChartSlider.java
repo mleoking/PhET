@@ -41,17 +41,22 @@ public class VerticalChartSlider {
         slider.setOpaque( false );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int value = slider.getValue();
-                Rectangle r = chart.getViewBounds();
-                LinearTransform1d transform1d = new LinearTransform1d( 0, numTicks, r.y + r.height, r.y );
-                double output = transform1d.operate( value );
-                double modelValue = chart.getTransform().viewToModelY( (int)output );
+                double modelValue = getValue();
                 for( int i = 0; i < listeners.size(); i++ ) {
                     Listener listener = (Listener)listeners.get( i );
                     listener.valueChanged( modelValue );
                 }
             }
         } );
+    }
+
+    public double getValue() {
+        int value = slider.getValue();
+        Rectangle r = chart.getViewBounds();
+        LinearTransform1d transform1d = new LinearTransform1d( 0, numTicks, r.y + r.height, r.y );
+        double output = transform1d.operate( value );
+        double modelValue = chart.getTransform().viewToModelY( (int)output );
+        return modelValue;
     }
 
     public void setOffsetX( int offsetX ) {
