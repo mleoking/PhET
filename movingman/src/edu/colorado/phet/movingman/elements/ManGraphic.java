@@ -83,7 +83,7 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
 
                 BufferedImage ideaImage = null;
                 try {
-                    ideaImage = new ImageLoader().loadBufferedImage( "images/icons/TipOfTheDay24.gif" );
+                    ideaImage = ImageLoader.loadBufferedImage( "images/icons/TipOfTheDay24.gif" );
                 }
                 catch( IOException e ) {
                     e.printStackTrace();

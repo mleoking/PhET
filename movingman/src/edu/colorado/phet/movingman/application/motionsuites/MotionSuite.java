@@ -67,7 +67,7 @@ public abstract class MotionSuite {
 
         pauseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                doPause();
+                pauseMotion();
             }
         } );
 
@@ -129,15 +129,15 @@ public abstract class MotionSuite {
         return module;
     }
 
-    private void doPause() {
+    private void pauseMotion() {
         module.setPaused( true );
-        module.getMovingManControlPanel().setPauseState();
         goButton.setEnabled( true );
         pauseButton.setEnabled( false );
+        module.getMovingManControlPanel().motionPaused();
     }
 
     protected void doGo() {
-        module.setMotionMode( MotionSuite.this );//.getStepMotion());
+        module.setMotionMode( this );
         goButton.setEnabled( false );
         pauseButton.setEnabled( true );
         resetButton.setEnabled( true );
@@ -187,7 +187,7 @@ public abstract class MotionSuite {
     }
 
     public void showDialog() {
-        module.getMovingManControlPanel().setPauseState();
+//        module.getMovingManControlPanel().setPauseState();
         pauseButton.setEnabled( false );
         module.setMotionMode( this );//.getStepMotion());
         module.setPaused( true );

@@ -42,6 +42,7 @@ public class GridLineGraphic implements Graphic {
     }
 
     public void paintGridLines( Graphics2D graphics2D ) {
+        Stroke origStroke = graphics2D.getStroke();
         graphics2D.setColor( backgroundColor );
         Rectangle2D.Double output = target.getOutputBox();
         graphics2D.fillRect( (int)output.x, (int)output.y, (int)output.width, (int)output.height );
@@ -75,6 +76,7 @@ public class GridLineGraphic implements Graphic {
                 graphics2D.drawLine( (int)output.x, y, (int)( output.x + output.width ), y );
             }
         }
+        graphics2D.setStroke( origStroke );
     }
 
     public void setPaintYLines( double[] ylines ) {
@@ -150,10 +152,11 @@ public class GridLineGraphic implements Graphic {
 //                graphics2D.drawString(text, (int) output.x, y);
             }
         }
-
+        Stroke origStroke = graphics2D.getStroke();
         graphics2D.setStroke( new BasicStroke( 2.0f ) );
         graphics2D.setColor( Color.black );
         graphics2D.drawRect( (int)output.x, (int)output.y, (int)output.width, (int)output.height );
+        graphics2D.setStroke( origStroke );
     }
 
     public void paint( Graphics2D graphics2D ) {

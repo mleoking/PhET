@@ -26,6 +26,7 @@ public class WalkWayGraphic implements Graphic {
     Font font = new Font( "dialog", 0, 20 );
     private BufferedImage tree;
     private BufferedImage house;
+    private Stroke borderStroke = new BasicStroke( 1 );
 
 //    Color textColor=Color.balc;
     public WalkWayGraphic( MovingManModule module, int numTickMarks ) throws IOException {
@@ -37,9 +38,8 @@ public class WalkWayGraphic implements Graphic {
         this.numTickMarks = numTickMarks;
         this.treex = treex;
         this.housex = housex;
-        ImageLoader ilo = new ImageLoader();
-        tree = ilo.loadBufferedImage( "images/tree.gif" );
-        house = ilo.loadBufferedImage( "images/cottage.gif" );
+        tree = ImageLoader.loadBufferedImage( "images/tree.gif" );
+        house = ImageLoader.loadBufferedImage( "images/cottage.gif" );
     }
 
     public void setTreeX( double treex ) {
@@ -63,14 +63,20 @@ public class WalkWayGraphic implements Graphic {
 
 //        Rectangle2D.Double rect=new Rectangle2D.Double(transform.evaluate(-10),transform);
         graphics2D.setColor( module.getPurple() );
-        graphics2D.fillRect( 0, 0, module.getApparatusPanel().getWidth(), height + 30 );
+        Rectangle rect = new Rectangle( 0, 0, module.getApparatusPanel().getWidth(), height + 30 );
+//        graphics2D.fillRect( 0, 0, module.getApparatusPanel().getWidth(), height + 30 );
+        graphics2D.fill( rect );
+        Stroke origStroke = graphics2D.getStroke();
+        graphics2D.setColor( Color.blue );
+        graphics2D.setStroke( borderStroke );
+//        graphics2D.draw( rect );
+        graphics2D.drawLine( 0, rect.y + rect.height, rect.width, rect.y + rect.height );
         graphics2D.setColor( Color.black );
+
         for( int i = 0; i < numTickMarks; i++ ) {
             double modelx = transform.getLowInputPoint() + i * modelDX;
             int viewx = (int)transform.evaluate( modelx );
 //            O.d("modelx="+modelx+", viewx="+viewx);
-
-//            graphics2D.drawLine(viewx, 0, viewx, height);
 
             Point dst = new Point( viewx, height - 20 );
             graphics2D.drawLine( viewx, height, dst.x, dst.y );
@@ -89,5 +95,6 @@ public class WalkWayGraphic implements Graphic {
         int housey = 10;
         graphics2D.drawImage( tree, treex, treey, null );
         graphics2D.drawImage( house, housex, housey, null );
+        graphics2D.setStroke( origStroke );
     }
 }

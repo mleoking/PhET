@@ -14,9 +14,11 @@ public class StrokedLinePainter implements LinePainter {
     }
 
     public void drawLine( Graphics2D graphics2D, int x, int y, int x2, int y2 ) {
+        Stroke origStroke = graphics2D.getStroke();
         graphics2D.setStroke( s );
         graphics2D.setColor( c );
         graphics2D.drawLine( x, y, x2, y2 );
+        graphics2D.setStroke( origStroke );
     }
 }
 

@@ -129,6 +129,11 @@ public class AccelerateSuite extends MotionSuite {
         transformslider.setModelValue( value );
     }
 
+    public void reset() {
+        super.reset();
+        initialVelocitySpinner.setValue( new Double( 0 ) );
+    }
+
     public void initialize( Man man ) {
         module.getPositionPlot().getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
 
