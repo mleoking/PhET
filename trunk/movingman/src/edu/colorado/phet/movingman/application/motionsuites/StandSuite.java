@@ -6,6 +6,7 @@ import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.StepMotion;
 
 import javax.swing.*;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -14,7 +15,7 @@ import javax.swing.*;
  * Copyright (c) Aug 13, 2004 by Sam Reid
  */
 public class StandSuite extends MotionSuite {
-    public StandSuite( MovingManModule module ) {
+    public StandSuite( MovingManModule module ) throws IOException {
         super( module, "Stand Still" );
         StepMotion stay = new StepMotion() {
             public double stepInTime( Man man, double dt ) {

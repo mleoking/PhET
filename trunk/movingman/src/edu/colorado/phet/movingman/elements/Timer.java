@@ -10,7 +10,7 @@ import edu.colorado.phet.common.model.ModelElement;
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
 public class Timer extends ModelElement {
-    double time = 0;
+    private double time = 0;
     private double timerScale;
 
     public Timer( double timerScale ) {

@@ -14,6 +14,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -36,7 +37,7 @@ public abstract class MotionSuite {
     private MovingManModule module;
     private ChangeListener changeListener;
 
-    public MotionSuite( final MovingManModule module, String name ) {
+    public MotionSuite( final MovingManModule module, String name ) throws IOException {
         this.module = module;
         if( module.getApparatusPanel() == null ) {
             throw new RuntimeException( "Null apparatus panel." );
@@ -129,6 +130,7 @@ public abstract class MotionSuite {
     }
 
     private void doPause() {
+        module.setPaused( true );
         module.getMovingManControlPanel().setPauseState();
         goButton.setEnabled( true );
         pauseButton.setEnabled( false );
@@ -203,7 +205,11 @@ public abstract class MotionSuite {
     }
 
     private void createDialog() {
-        dialog = new JDialog( MovingManModule.FRAME, getName(), false );
+        dialog = new JDialog( module.getFrame(), getName(), false ) {
+            public void setVisible( boolean b ) {
+                super.setVisible( b );
+            }
+        };
         dialog.addWindowFocusListener( new WindowFocusListener() {
             public void windowGainedFocus( WindowEvent e ) {
                 repaintLater();

@@ -8,6 +8,7 @@ import edu.colorado.phet.movingman.elements.stepmotions.OscMotion;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +21,7 @@ public class OscillateSuite extends MotionSuite {
     private OscMotion oscillate;
     private MovingManModule module;
 
-    public OscillateSuite( MovingManModule module ) {
+    public OscillateSuite( MovingManModule module ) throws IOException {
         super( module, "Oscillate" );
         this.module = module;
         oscillate = new OscMotion( module, .01 );

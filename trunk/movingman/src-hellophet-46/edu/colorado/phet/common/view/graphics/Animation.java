@@ -11,6 +11,7 @@ package edu.colorado.phet.common.view.graphics;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * A utility class that supports animation of a set of images read from disk.
@@ -27,7 +28,7 @@ public class Animation {
      * @param filePrefix The prefix for the names of all files to be animated
      * @param numFrames  The number of files to be animated
      */
-    public Animation( String filePrefix, int numFrames ) {
+    public Animation( String filePrefix, int numFrames ) throws IOException {
         frames = loadAnimation( filePrefix, numFrames );
     }
 
@@ -94,7 +95,7 @@ public class Animation {
     /**
      *
      */
-    private static Image[] loadAnimation( String filePrefix, int numFrames ) {
+    private static Image[] loadAnimation( String filePrefix, int numFrames ) throws IOException {
         Image[] frames = new Image[numFrames];
         ImageLoader animationLoader = new ImageLoader();
         for( int i = 1; i <= numFrames; i++ ) {

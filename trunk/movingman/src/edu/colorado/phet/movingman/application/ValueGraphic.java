@@ -28,8 +28,6 @@ public class ValueGraphic implements ObservingGraphic {
     private String output;
     Font font = new Font( "Lucida Sans", 0, 20 );
     Color color = Color.black;
-//    int x;
-//    int y;
     private BoxedPlot offsetSource;
     private boolean visible = true;
     HTMLGraphic htmlGraphic;
@@ -41,8 +39,6 @@ public class ValueGraphic implements ObservingGraphic {
         this.series = series;
         this.pre = pre;
         this.unitsString = units;
-//        this.x = x;
-//        this.y = y;
         this.offsetSource = offsetSource;
         timer.addObserver( this );
         playbackTimer.addObserver( this );
@@ -57,7 +53,7 @@ public class ValueGraphic implements ObservingGraphic {
 
     public void update( Observable o, Object arg ) {
         int index = 0;
-        if( module.isRecording() || module.isMotionMode() ) {
+        if( module.isTakingData() ) {
             index = series.size() - 1;
         }
         else {
@@ -76,8 +72,6 @@ public class ValueGraphic implements ObservingGraphic {
     }
 
     public void setPosition( int x, int y ) {
-//        this.x = x;
-//        this.y = y;
         htmlGraphic.setPosition( x, y );
     }
 

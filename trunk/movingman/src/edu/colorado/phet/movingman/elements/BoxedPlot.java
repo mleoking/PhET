@@ -88,6 +88,7 @@ public class BoxedPlot implements ObservingGraphic {
             Shape origClip = g.getClip();
             g.setClip( getOutputBox() );
             g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//            g.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
             g.draw( path );
             g.setClip( origClip );
         }

@@ -14,7 +14,6 @@ import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.movingman.application.motionsuites.MotionSuite;
 import edu.colorado.phet.movingman.elements.*;
 import edu.colorado.phet.movingman.elements.Timer;
-import edu.colorado.phet.movingman.elements.stepmotions.StepMotion;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,12 +30,14 @@ import java.util.Observer;
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
 public class MovingManModule extends Module {
+    private int minTime = 0;
+    private int numSmoothingPoints = 10;
+    private int maxManPosition = 10;
     public static final double TIMER_SCALE = 1.0 / 50;
     private int numResetPoints = 1;//number of points to use in the reset routine.
     private double maxTime = 20;//high time in seconds.
     private boolean paused = true;
-//    private MotionState motionState = new MotionState();
-    private double playbackSpeed;
+
     private Man man;
     private ManGraphic manGraphic;
     private RangeToRange manPositionTransform;
@@ -53,24 +54,26 @@ public class MovingManModule extends Module {
     private PlotAndText positionPlot;
     private PlotAndText velocityPlot;
 
-    private Mode mode;
+    private Mode mode;//the current mode.
 
-    private Mode dragMode;
-    private Mode playbackMode;
+    private RecordMode dragMode;
+    private PlaybackMode playbackMode;
     private MotionMode motionMode;
 
     private CursorGraphic cursorGraphic;
     private MovingManControlPanel movingManControlPanel;
     private TimeGraphic timerGraphic;
     private BufferedGraphicForComponent backgroundGraphic;
-    private int maxManPosition;
-    private int minTime;
-    private int numSmoothingPoints = 10;
     private WalkWayGraphic walkwayGraphic;
-    public static PhetFrame FRAME;
-    private MotionSuite motionSuite;//selected motion, or null if none selected
-    private Color purple;
+
+    private Color purple = new Color( 200, 175, 250 );
     private PhetFrame frame;
+    private ModelElement mainModelElement;
+    private Observer crashObserver;
+    private int numSmoothingPosition;
+    private int numVelocitySmoothPoints;
+    private int numAccSmoothPoints;
+    private static boolean addJEP = true;
 
     public MovingManModule() throws IOException {
         super( "The Moving Man" );
@@ -84,12 +87,9 @@ public class MovingManModule extends Module {
         };
         super.setModel( model );
 
-        final int numSmoothingPosition = numSmoothingPoints;
-        final int numVelocitySmoothPoints = numSmoothingPoints;
-        final int numAccSmoothPoints = numSmoothingPoints;
-
-        double xshiftVelocity = numSmoothingPosition * TIMER_SCALE / 2;
-        double xshiftAcceleration = ( numVelocitySmoothPoints + numSmoothingPosition ) * TIMER_SCALE / 2;
+        numSmoothingPosition = numSmoothingPoints;
+        numVelocitySmoothPoints = numSmoothingPoints;
+        numAccSmoothPoints = numSmoothingPoints;
 
         position = new DefaultSmoothedDataSeries( numSmoothingPosition );
         velocity = new DefaultSmoothedDataSeries( numVelocitySmoothPoints );
@@ -98,15 +98,12 @@ public class MovingManModule extends Module {
         position.setDerivative( velocity );
         velocity.setDerivative( acceleration );
 
-        purple = new Color( 200, 175, 250 );
         Color backgroundColor = new Color( 250, 190, 240 );
         backgroundGraphic = new BufferedGraphicForComponent( 0, 0, 800, 400, backgroundColor, getApparatusPanel() );
         man = new Man( 0 );
-        int y = 0;
-        maxManPosition = 10;
 
         manPositionTransform = new RangeToRange( -maxManPosition, maxManPosition, 50, 600 );
-        manGraphic = new ManGraphic( this, man, y, manPositionTransform );
+        manGraphic = new ManGraphic( this, man, 0, manPositionTransform );
         getApparatusPanel().addGraphic( manGraphic, 1 );
         recordingTimer = new Timer( TIMER_SCALE );
         playbackTimer = new Timer( TIMER_SCALE );
@@ -118,7 +115,7 @@ public class MovingManModule extends Module {
 
         movingManControlPanel = new MovingManControlPanel( this );
         super.setControlPanel( movingManControlPanel );
-        getModel().addModelElement( new ModelElement() {
+        mainModelElement = new ModelElement() {
             public void stepInTime( double dt ) {
                 if( paused ) {
                 }
@@ -126,69 +123,29 @@ public class MovingManModule extends Module {
                     mode.stepInTime( dt );
                 }
             }
-        } );
-        man.addObserver( new Observer() {
+        };
+        getModel().addModelElement( mainModelElement );
+        crashObserver = new Observer() {
             public void update( Observable o, Object arg ) {
                 if( isMotionMode() ) {
                     double manx = ( man.getX() );
                     double manv = getVelocity();
-                    if( manx >= 10 && manv > 0 ) {
+                    if( manx >= maxManPosition && manv > 0 ) {
                         motionMode.collidedWithWall();
                     }
-                    else if( manx <= -10 && manv < 0 ) {
+                    else if( manx <= -maxManPosition && manv < 0 ) {
                         motionMode.collidedWithWall();
                     }
                 }
             }
-        } );
-        //Man position goes from -10..10
-        minTime = 0;
-        double maxPositionView = 12;
-        double maxVelocity = 25;
-        double maxAccel = 10;
+        };
+        man.addObserver( crashObserver );
         layout = new MovingManLayout();
         layout.setApparatusPanelHeight( 800 );
         layout.setApparatusPanelWidth( 400 );
         layout.setNumPlots( 3 );
         layout.relayout();
-        Stroke plotStroke = new BasicStroke( 3.0f );
-        Rectangle2D.Double positionInputBox = new Rectangle2D.Double( minTime, -maxPositionView, maxTime - minTime, maxPositionView * 2 );
-
-        BoxedPlot positionGraphic = new BoxedPlot( this, position.getSmoothedDataSeries(), recordingTimer, Color.blue,
-                                                   plotStroke, positionInputBox, backgroundGraphic, 0 );
-        GridLineGraphic positionGrid = new GridLineGraphic( positionGraphic, new BasicStroke( 1.0f ), Color.gray, 10, 13, Color.yellow, "Position" );
-        positionGrid.setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
-        Point textCoord = layout.getTextCoordinates( 0 );
-        ValueGraphic positionString = new ValueGraphic( this, recordingTimer, playbackTimer, position.getSmoothedDataSeries(), "Position=", "m", textCoord.x, textCoord.y, positionGraphic );
-
-        backgroundGraphic.addGraphic( positionGrid, 2 );
-        backgroundGraphic.addGraphic( positionGraphic, 3 );
-        getApparatusPanel().addGraphic( positionString, 7 );
-
-        positionPlot = new PlotAndText( positionGraphic, positionString, positionGrid );
-
-        Rectangle2D.Double velocityInputBox = new Rectangle2D.Double( minTime, -maxVelocity, maxTime - minTime, maxVelocity * 2 );
-        BoxedPlot velocityGraphic = new BoxedPlot( this, velocity.getSmoothedDataSeries(), recordingTimer, Color.red, plotStroke, velocityInputBox, backgroundGraphic, xshiftVelocity );
-        GridLineGraphic velocityGrid = new GridLineGraphic( velocityGraphic, new BasicStroke( 1.0f ), Color.gray, 10, 5, Color.yellow, "Velocity" );
-        velocityGrid.setPaintYLines( new double[]{-20, -10, 0, 10, 20} );
-        ValueGraphic velocityString = new ValueGraphic( this, recordingTimer, playbackTimer, velocity.getSmoothedDataSeries(), "Velocity=", "m/s", textCoord.x, textCoord.y, velocityGraphic );
-
-        backgroundGraphic.addGraphic( velocityGraphic, 4 );
-        backgroundGraphic.addGraphic( velocityGrid, 2 );
-        getApparatusPanel().addGraphic( velocityString, 7 );
-        velocityPlot = new PlotAndText( velocityGraphic, velocityString, velocityGrid );
-
-        Rectangle2D.Double accelInputBox = new Rectangle2D.Double( minTime, -maxAccel, maxTime - minTime, maxAccel * 2 );
-        BoxedPlot accelGraphic = new BoxedPlot( this, acceleration.getSmoothedDataSeries(), recordingTimer, Color.black, plotStroke, accelInputBox, backgroundGraphic, xshiftAcceleration );
-        backgroundGraphic.addGraphic( accelGraphic, 5 );
-
-        GridLineGraphic accelGrid = new GridLineGraphic( accelGraphic, new BasicStroke( 1.0f ), Color.gray, 10, 5, Color.yellow, "Acceleration" );
-        accelGrid.setPaintYLines( new double[]{-50, -25, 0, 25, 50} );
-        backgroundGraphic.addGraphic( accelGrid, 2 );
-        ValueGraphic accelString = new ValueGraphic( this, recordingTimer, playbackTimer, acceleration.getSmoothedDataSeries(), "Acceleration=", "<html>m/s<sup>2</html>", textCoord.x, textCoord.y, accelGraphic );
-        getApparatusPanel().addGraphic( accelString, 5 );
-        accelerationPlot = new PlotAndText( accelGraphic, accelString, accelGrid );
-
+        setupPlots();
         Color cursorColor = Color.black;
         cursorGraphic = new CursorGraphic( this, playbackTimer, cursorColor, null, layout.getPlotY( 0 ), layout.getTotalPlotHeight() );
         getApparatusPanel().addGraphic( cursorGraphic, 6 );
@@ -228,6 +185,52 @@ public class MovingManModule extends Module {
 
     }
 
+    private void setupPlots() {
+        double maxPositionView = 12;
+        double maxVelocity = 25;
+        double maxAccel = 10;
+        double xshiftVelocity = numSmoothingPosition * TIMER_SCALE / 2;
+        double xshiftAcceleration = ( numVelocitySmoothPoints + numSmoothingPosition ) * TIMER_SCALE / 2;
+
+        Stroke plotStroke = new BasicStroke( 3.0f );
+        Rectangle2D.Double positionInputBox = new Rectangle2D.Double( minTime, -maxPositionView, maxTime - minTime, maxPositionView * 2 );
+
+        BoxedPlot positionGraphic = new BoxedPlot( this, position.getSmoothedDataSeries(), recordingTimer, Color.blue,
+                                                   plotStroke, positionInputBox, backgroundGraphic, 0 );
+        GridLineGraphic positionGrid = new GridLineGraphic( positionGraphic, new BasicStroke( 1.0f ), Color.gray, 10, 13, Color.yellow, "Position" );
+        positionGrid.setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
+        Point textCoord = layout.getTextCoordinates( 0 );
+        ValueGraphic positionString = new ValueGraphic( this, recordingTimer, playbackTimer, position.getSmoothedDataSeries(), "Position=", "m", textCoord.x, textCoord.y, positionGraphic );
+
+        backgroundGraphic.addGraphic( positionGrid, 2 );
+        backgroundGraphic.addGraphic( positionGraphic, 3 );
+        getApparatusPanel().addGraphic( positionString, 7 );
+
+        positionPlot = new PlotAndText( positionGraphic, positionString, positionGrid );
+
+        Rectangle2D.Double velocityInputBox = new Rectangle2D.Double( minTime, -maxVelocity, maxTime - minTime, maxVelocity * 2 );
+        BoxedPlot velocityGraphic = new BoxedPlot( this, velocity.getSmoothedDataSeries(), recordingTimer, Color.red, plotStroke, velocityInputBox, backgroundGraphic, xshiftVelocity );
+        GridLineGraphic velocityGrid = new GridLineGraphic( velocityGraphic, new BasicStroke( 1.0f ), Color.gray, 10, 5, Color.yellow, "Velocity" );
+        velocityGrid.setPaintYLines( new double[]{-20, -10, 0, 10, 20} );
+        ValueGraphic velocityString = new ValueGraphic( this, recordingTimer, playbackTimer, velocity.getSmoothedDataSeries(), "Velocity=", "m/s", textCoord.x, textCoord.y, velocityGraphic );
+
+        backgroundGraphic.addGraphic( velocityGraphic, 4 );
+        backgroundGraphic.addGraphic( velocityGrid, 2 );
+        getApparatusPanel().addGraphic( velocityString, 7 );
+        velocityPlot = new PlotAndText( velocityGraphic, velocityString, velocityGrid );
+
+        Rectangle2D.Double accelInputBox = new Rectangle2D.Double( minTime, -maxAccel, maxTime - minTime, maxAccel * 2 );
+        BoxedPlot accelGraphic = new BoxedPlot( this, acceleration.getSmoothedDataSeries(), recordingTimer, Color.black, plotStroke, accelInputBox, backgroundGraphic, xshiftAcceleration );
+        backgroundGraphic.addGraphic( accelGraphic, 5 );
+
+        GridLineGraphic accelGrid = new GridLineGraphic( accelGraphic, new BasicStroke( 1.0f ), Color.gray, 10, 5, Color.yellow, "Acceleration" );
+        accelGrid.setPaintYLines( new double[]{-50, -25, 0, 25, 50} );
+        backgroundGraphic.addGraphic( accelGrid, 2 );
+        ValueGraphic accelString = new ValueGraphic( this, recordingTimer, playbackTimer, acceleration.getSmoothedDataSeries(), "Acceleration=", "<html>m/s<sup>2</html>", textCoord.x, textCoord.y, accelGraphic );
+        getApparatusPanel().addGraphic( accelString, 5 );
+        accelerationPlot = new PlotAndText( accelGraphic, accelString, accelGrid );
+    }
+
     public int getNumResetPoints() {
         return numResetPoints;
     }
@@ -244,10 +247,6 @@ public class MovingManModule extends Module {
         return purple;
     }
 
-//    public MotionState getMotionState() {
-//        return motionState;
-//    }
-
     public void setNumSmoothingPoints( int n ) {
         position.setNumSmoothingPoints( n );
         velocity.setNumSmoothingPoints( n );
@@ -262,14 +261,10 @@ public class MovingManModule extends Module {
      * Overrides.
      */
     public void activateInternal( PhetApplication app ) {
-//        System.out.println("Activate Internal" );
         getModel().addObserver( getApparatusPanel() );
         this.activate( app );
     }
 
-    /**
-     * Overrides.
-     */
     public void deactivateInternal( PhetApplication app ) {
         getModel().deleteObserver( getApparatusPanel() );
         this.deactivate( app );
@@ -354,7 +349,7 @@ public class MovingManModule extends Module {
         return position;
     }
 
-    private void setMode( Mode mode ) {
+    public void setMode( Mode mode ) {
         boolean same = mode == this.mode;
         if( !same ) {
             this.mode = mode;
@@ -386,78 +381,6 @@ public class MovingManModule extends Module {
     }
 
     public void deactivate( PhetApplication app ) {
-    }
-
-    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
-        UIManager.setLookAndFeel( new PhetLookAndFeel() );
-        MovingManModule m = new MovingManModule();
-        FrameSetup setup = new MaximizeFrame();
-        ApplicationDescriptor desc = new ApplicationDescriptor( "The Moving Man", "The Moving Man Application.",
-                                                                ".01-beta-x 8-6-2004", setup );
-        PhetApplication tpa = new PhetApplication( desc, m );
-        tpa.startApplication( m );
-        MovingManModule.FRAME = tpa.getApplicationView().getPhetFrame();
-        m.setFrame( FRAME );
-//        new JDialog( MovingManModule.FRAME, "axl", false ).setVisible( true );
-
-        FRAME.setVisible( true );
-        fixComponent( FRAME.getContentPane() );
-        FRAME.setExtendedState( JFrame.MAXIMIZED_BOTH );
-        FRAME.invalidate();
-        FRAME.validate();
-        FRAME.repaint();
-        m.repaintBackground();
-        m.dragMode.initialize();
-        m.cursorGraphic.setVisible( false );
-        m.getApparatusPanel().repaint();
-        m.cursorGraphic.setVisible( false );
-
-        final Runnable dofix = new Runnable() {
-            public void run() {
-                try {
-                    Thread.sleep( 300 );
-                    fixComponent( FRAME.getContentPane() );
-                    fixComponent( FRAME );
-                }
-                catch( InterruptedException e1 ) {
-                    e1.printStackTrace();
-                }
-            }
-        };
-        FRAME.addWindowFocusListener( new WindowFocusListener() {
-            public void windowGainedFocus( WindowEvent e ) {
-                new Thread( dofix ).start();
-            }
-
-            public void windowLostFocus( WindowEvent e ) {
-            }
-        } );
-        FRAME.addWindowListener( new WindowListener() {
-            public void windowActivated( WindowEvent e ) {
-                new Thread( dofix ).start();
-            }
-
-            public void windowClosed( WindowEvent e ) {
-            }
-
-            public void windowClosing( WindowEvent e ) {
-            }
-
-            public void windowDeactivated( WindowEvent e ) {
-            }
-
-            public void windowDeiconified( WindowEvent e ) {
-            }
-
-            public void windowIconified( WindowEvent e ) {
-            }
-
-            public void windowOpened( WindowEvent e ) {
-                new Thread( dofix ).start();
-            }
-        } );
-        new Thread( dofix ).start();
-
     }
 
     private void setFrame( PhetFrame frame ) {
@@ -529,7 +452,7 @@ public class MovingManModule extends Module {
     }
 
     public void startPlaybackMode( double playbackSpeed ) {
-        this.playbackSpeed = playbackSpeed;
+        playbackMode.setPlaybackSpeed( playbackSpeed );
         setMode( playbackMode );
         setPaused( false );
     }
@@ -539,7 +462,7 @@ public class MovingManModule extends Module {
     }
 
     public void setMotionMode( MotionSuite mac ) {
-        motionMode.setMotion( mac );
+        motionMode.setMotionSuite( mac );
         setMode( motionMode );
         movingManControlPanel.setMotionState();
         setPaused( true );
@@ -585,7 +508,6 @@ public class MovingManModule extends Module {
         }
     }
 
-
     public int getVisiblePlotCount() {
         int sum = 0;
         if( positionPlot.isVisible() ) {
@@ -599,7 +521,6 @@ public class MovingManModule extends Module {
         }
         return sum;
     }
-
 
     public void setPositionGraphVisible( boolean selected ) {
         setPlotVisible( positionPlot, selected );
@@ -635,11 +556,9 @@ public class MovingManModule extends Module {
     }
 
     public void reset() {
-        reset( 0 );
         setPaused( true );
-        if( motionSuite != null ) {
-            motionSuite.reset();
-        }
+        reset( 0 );
+        motionMode.reset();
     }
 
     public double getVelocity() {
@@ -658,6 +577,10 @@ public class MovingManModule extends Module {
         return velocity;
     }
 
+    public DefaultSmoothedDataSeries getAcceleration() {
+        return acceleration;
+    }
+
     public double getTimeScale() {
         return TIMER_SCALE;
     }
@@ -667,10 +590,7 @@ public class MovingManModule extends Module {
     }
 
     public void setMotionSuite( MotionSuite motionSuite ) {
-        if( this.motionSuite != null ) {
-            this.motionSuite.deactivate();
-        }
-        this.motionSuite = motionSuite;
+        motionMode.setMotionSuite( motionSuite );
     }
 
     public void goPressed() {
@@ -686,165 +606,126 @@ public class MovingManModule extends Module {
         }
     }
 
-    public class MotionMode extends Mode {
-        private StepMotion motion;
-        private int numSmoothingPointsMotion = 3;
-        private MotionSuite motionSuite;
-
-        public MotionMode( MovingManModule module ) {
-            super( module, "Motion" );
-        }
-
-        public void initialize() {
-            cursorGraphic.setVisible( false );
-            int timeIndex = position.numSmoothedPoints() - 1;
-            setReplayTime( timeIndex );
-            setAccelerationPlotMagnitude( 4 );
-            setVelocityPlotMagnitude( 4 );
-            positionPlot.getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
-            velocityPlot.getGrid().setPaintYLines( new double[]{-3, -1.5, 0, 1.5, 3} );
-            accelerationPlot.getGrid().setPaintYLines( new double[]{-3, -1.5, 0, 1.5, 3} );
-            setNumSmoothingPoints( numSmoothingPointsMotion );
-
-            motionSuite.initialize( getMan() );
-        }
-
-        public void setLatestTime() {
-            int timeIndex = position.numSmoothedPoints() - 1;
-            setReplayTime( timeIndex );
-        }
-
-        public void setMotion( MotionSuite mac ) {
-            this.motion = mac.getStepMotion();
-            this.motionSuite = mac;
-        }
-
-        public void stepInTime( double dt ) {
-            if( recordingTimer.getTime() >= maxTime ) {
-                timeFinished();
-                return;
-            }
-            double x = motion.stepInTime( getMan(), dt );
-            x = Math.min( x, maxManPosition );
-            x = Math.max( x, -maxManPosition );
-            if( x == maxManPosition ) {
-                man.setVelocity( 0 );
-            }
-            if( x == -maxManPosition ) {
-                man.setVelocity( 0 );
-            }
-
-            recordingTimer.stepInTime( dt );
-            man.setX( x );
-            position.addPoint( man.getX() );
-            position.updateSmoothedSeries();
-            position.updateDerivative( dt * TIMER_SCALE );
-            velocity.updateSmoothedSeries();
-            velocity.updateDerivative( dt * TIMER_SCALE );
-            acceleration.updateSmoothedSeries();
-            if( recordingTimer.getTime() >= maxTime ) {
-                timeFinished();
-                return;
-            }
-
-        }
-
-        private void timeFinished() {
-            motionSuite.timeFinished();
-            movingManControlPanel.finishedRecording();
-//            moduleTimeFinished();
-//            moduleTimeFinished();
-        }
-
-
-        public void collidedWithWall() {
-            motionSuite.collidedWithWall();
-        }
-    }
-
-//    private void moduleTimeFinished() {
-//        movingManControlPanel.timeFinished();
-//    }
-
-    class RecordMode extends Mode {
-        private int numRecordSmoothingPoints = 12;
-
-        public RecordMode( MovingManModule module ) {
-            super( module, "Record" );
-        }
-
-        public void initialize() {
-            cursorGraphic.setVisible( false );
-            int timeIndex = position.numSmoothedPoints() - 1;//smoothedPosition.size() - 1;
-            setReplayTime( timeIndex );
-            setAccelerationPlotMagnitude( 75 );
-            setVelocityPlotMagnitude( 25 );
-            positionPlot.getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
-            velocityPlot.getGrid().setPaintYLines( new double[]{-20, -10, 0, 10, 20} );
-            accelerationPlot.getGrid().setPaintYLines( new double[]{-50, -25, 0, 25, 50} );
-            setNumSmoothingPoints( numRecordSmoothingPoints );
-            backgroundGraphic.paintBufferedImage();
-        }
-
-        public void stepInTime( double dt ) {
-            if( !isPaused() ) {
-                if( recordingTimer.getTime() >= maxTime ) {
-//                    moduleTimeFinished();
-                    setPaused( true );
-                    movingManControlPanel.finishedRecording();
-                    return;
-                }
-
-                //TODO Should fix the overshoot problem.  Test Me first!
-//            double newTime = recordingTimer.getTime() + dt;
-//            if( newTime > maxTime ) {
-//                dt = maxTime - recordingTimer.getTime();
-//            }
-                recordingTimer.stepInTime( dt );//this could go over the max.
-                position.addPoint( man.getX() );
-                position.updateSmoothedSeries();
-                position.updateDerivative( dt * TIMER_SCALE );
-                velocity.updateSmoothedSeries();
-                velocity.updateDerivative( dt * TIMER_SCALE );
-                acceleration.updateSmoothedSeries();
-                if( recordingTimer.getTime() >= maxTime ) {
-//                    moduleTimeFinished();
-                    setPaused( true );
-                    movingManControlPanel.finishedRecording();
-                    return;
-                }
-            }
-        }
-
-
-    }
-
-    public class PlaybackMode extends Mode {
-        public PlaybackMode( MovingManModule module ) {
-            super( module, "Playback" );
-        }
-
-        public void initialize() {
-            cursorGraphic.setVisible( true );
-        }
-
-        public void stepInTime( double dt ) {
-            if( !isPaused() ) {
-                playbackTimer.stepInTime( dt * playbackSpeed );
-                if( playbackTimer.getTime() < recordingTimer.getTime() ) {
-                    setReplayTime( playbackTimer.getTime() );
-                }
-                else {
-                    setPaused( true );
-                    movingManControlPanel.setPaused();
-                    movingManControlPanel.playbackFinished();
-                }
-            }
-        }
+    public JFrame getFrame() {
+        return frame;
     }
 
     public MovingManControlPanel getMovingManControlPanel() {
         return movingManControlPanel;
+    }
+
+
+    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
+        UIManager.setLookAndFeel( new PhetLookAndFeel() );
+        MovingManModule m = new MovingManModule();
+        FrameSetup setup = new MaximizeFrame();
+        ApplicationDescriptor desc = new ApplicationDescriptor( "The Moving Man", "The Moving Man Application.",
+                                                                ".01-beta-x 8-6-2004", setup );
+        PhetApplication tpa = new PhetApplication( desc, m );
+
+        final PhetFrame frame = tpa.getApplicationView().getPhetFrame();
+        m.setFrame( frame );
+//        new JDialog( MovingManModule.frame, "axl", false ).setVisible( true );
+
+        if( addJEP ) {
+            addJEP( m );
+        }
+        tpa.startApplication( m );
+        frame.setVisible( true );
+        fixComponent( frame.getContentPane() );
+        frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
+        frame.invalidate();
+        frame.validate();
+        frame.repaint();
+        m.repaintBackground();
+        m.dragMode.initialize();
+        m.cursorGraphic.setVisible( false );
+        m.getApparatusPanel().repaint();
+        m.cursorGraphic.setVisible( false );
+
+        final Runnable dofix = new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep( 300 );
+                    fixComponent( frame.getContentPane() );
+                    fixComponent( frame );
+                }
+                catch( InterruptedException e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+        frame.addWindowFocusListener( new WindowFocusListener() {
+            public void windowGainedFocus( WindowEvent e ) {
+                new Thread( dofix ).start();
+            }
+
+            public void windowLostFocus( WindowEvent e ) {
+            }
+        } );
+        frame.addWindowListener( new WindowListener() {
+            public void windowActivated( WindowEvent e ) {
+                new Thread( dofix ).start();
+            }
+
+            public void windowClosed( WindowEvent e ) {
+            }
+
+            public void windowClosing( WindowEvent e ) {
+            }
+
+            public void windowDeactivated( WindowEvent e ) {
+            }
+
+            public void windowDeiconified( WindowEvent e ) {
+            }
+
+            public void windowIconified( WindowEvent e ) {
+            }
+
+            public void windowOpened( WindowEvent e ) {
+                new Thread( dofix ).start();
+            }
+        } );
+        new Thread( dofix ).start();
+    }
+
+    private static void addJEP( MovingManModule module ) {
+        final JFrame frame = module.getFrame();
+        JMenu misc = new JMenu( "Misc" );
+        JMenuItem jep = new JMenuItem( "Expression Evaluator" );
+        misc.add( jep );
+        final JEPFrame jef = new JEPFrame( frame, module );
+        jep.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                jef.setVisible( true );
+            }
+        } );
+        frame.getJMenuBar().add( misc );
+    }
+
+    public double getMaxTime() {
+        return maxTime;
+    }
+
+    public double getMaxManPosition() {
+        return maxManPosition;
+    }
+
+    public Timer getPlaybackTimer() {
+        return playbackTimer;
+    }
+
+    public boolean isDragMode() {
+        return mode == dragMode;
+    }
+
+    public boolean isTakingData() {
+        return !isPaused() && mode.isTakingData();
+    }
+
+    public void disableIdeaGraphics() {
+        manGraphic.setShowIdea( false );
     }
 }
 

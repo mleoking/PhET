@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp
     spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/projects/movingman/v6"
+    codebase="http://www.colorado.edu/physics/phet/projects/movingman/v9"
     href="movingman.jnlp">
     <information>
         <title>The Moving Man</title>
@@ -17,6 +17,8 @@
     <resources>
         <j2se version="1.4+"/>
         <jar href="movingman.jar"/>
+        <jar href="lib/smoothmetal.jar"/>
+        <jar href="lib/jep-2.24.jar" download="lazy"/>
     </resources>
 
     <application-desc main-class="edu.colorado.phet.movingman.application.MovingManModule"/>

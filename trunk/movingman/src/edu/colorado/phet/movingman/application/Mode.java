@@ -12,10 +12,12 @@ import edu.colorado.phet.common.model.ModelElement;
 public abstract class Mode extends ModelElement {
     private String name;
     private MovingManModule module;
+    private boolean takingData;
 
-    public Mode( MovingManModule module, String name ) {
+    public Mode( MovingManModule module, String name, boolean takingData ) {
         this.module = module;
         this.name = name;
+        this.takingData = takingData;
     }
 
     public String toString() {
@@ -30,5 +32,9 @@ public abstract class Mode extends ModelElement {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isTakingData() {
+        return takingData;
     }
 }

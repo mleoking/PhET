@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,7 +32,7 @@ public class WalkSuite extends MotionSuite {
     static final double MAX_VEL = 3;
     static final double MIN_VEL = -3;
 
-    public WalkSuite( final MovingManModule module ) {
+    public WalkSuite( final MovingManModule module ) throws IOException {
         super( module, "Walk" );
         motion = new WalkMotion( module );
         this.module = module;
@@ -50,7 +52,7 @@ public class WalkSuite extends MotionSuite {
             }
         } );
 
-        JPanel velocityPanel = new VerticalLayoutPanel();
+        VerticalLayoutPanel velocityPanel = new VerticalLayoutPanel();
         velocityPanel.add( velocitySpinner );
         Border tb = PhetLookAndFeel.createSmoothBorder( "Velocity" );
         velocityPanel.setBorder( tb );
@@ -70,7 +72,10 @@ public class WalkSuite extends MotionSuite {
         slider.setPaintLabels( true );
 
         velocityPanel.add( slider );
+        velocityPanel.setAnchor( GridBagConstraints.CENTER );
+        velocityPanel.setFill( GridBagConstraints.NONE );
         velocityPanel.add( new JLabel( "in meters per second." ) );
+
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int value = slider.getValue();

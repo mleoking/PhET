@@ -146,7 +146,7 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     }
 
     public void mouseDragged( MouseEvent event ) {
-        if( !module.isRecording() ) {
+        if( !module.isDragMode() || module.isPaused() ) {
             module.getMovingManControlPanel().startRecordingManual();
         }
         final Point newPt = dragHandler.getNewLocation( event.getPoint() );
