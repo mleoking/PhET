@@ -5,14 +5,10 @@
  * Created by: Ron LeMaster
  * Date: Nov 6, 2002
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphicMouseDelegator;
-import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
@@ -41,7 +37,7 @@ import java.util.LinkedList;
  *
  * @see edu.colorado.phet.common.view.graphics.Graphic
  */
-public class TestApparatusPanel extends ApparatusPanel {
+public class ApparatusPanel2 extends ApparatusPanel {
 
     //
     // Statics
@@ -69,7 +65,7 @@ public class TestApparatusPanel extends ApparatusPanel {
     private Rectangle orgBounds;
     private HashMap componentOrgLocationsMap = new HashMap();
 
-    public TestApparatusPanel( BaseModel model ) {
+    public ApparatusPanel2( BaseModel model ) {
         super( null );
         // The following lines use a mouse processor in the model loop
         MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
@@ -95,7 +91,7 @@ public class TestApparatusPanel extends ApparatusPanel {
         this.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
                 if( strategy == null ) {
-                    strategy = SwingUtilities.getWindowAncestor( TestApparatusPanel.this ).getBufferStrategy();
+                    strategy = SwingUtilities.getWindowAncestor( ApparatusPanel2.this ).getBufferStrategy();
                     if( !strategy.getCapabilities().isPageFlipping() ) {
                         System.out.println( "Page flipping not supported." );
                     }
@@ -110,8 +106,8 @@ public class TestApparatusPanel extends ApparatusPanel {
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 if( orgBounds == null ) {
-                    orgBounds = TestApparatusPanel.this.getBounds();
-                    Component[] components = TestApparatusPanel.this.getComponents();
+                    orgBounds = ApparatusPanel2.this.getBounds();
+                    Component[] components = ApparatusPanel2.this.getComponents();
                     for( int i = 0; i < components.length; i++ ) {
                         Component component = components[i];
                         if( !componentOrgLocationsMap.containsKey( component ) ) {
@@ -121,8 +117,8 @@ public class TestApparatusPanel extends ApparatusPanel {
                 }
 
                 // Setup the affine transforms for graphics and mouse events
-                double sx = TestApparatusPanel.this.getBounds().getWidth() / orgBounds.getWidth();
-                double sy = TestApparatusPanel.this.getBounds().getHeight() / orgBounds.getHeight();
+                double sx = ApparatusPanel2.this.getBounds().getWidth() / orgBounds.getWidth();
+                double sy = ApparatusPanel2.this.getBounds().getHeight() / orgBounds.getHeight();
                 // Using a single scale factor keeps the aspect ratio constant
                 double s = Math.min( sx, sy );
                 graphicTx = AffineTransform.getScaleInstance( s, s );
@@ -135,7 +131,7 @@ public class TestApparatusPanel extends ApparatusPanel {
                 bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
 
                 // Adjust the locations of Swing components
-                Component[] components = TestApparatusPanel.this.getComponents();
+                Component[] components = ApparatusPanel2.this.getComponents();
                 for( int i = 0; i < components.length; i++ ) {
                     Component component = components[i];
                     Point p = (Point)componentOrgLocationsMap.get( component );

@@ -11,21 +11,21 @@ import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.Command;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.coreadditions.TestApparatusPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
-import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.Gravity;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.PressureSensingBox;
+import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.*;
 import edu.colorado.phet.idealgas.view.monitors.*;
 import edu.colorado.phet.instrumentation.Thermometer;
@@ -98,55 +98,6 @@ public class IdealGasModule extends Module {
             visibleInstruments.remove( speciesMonitorDlg );
         }
         return speciesMonitorDlg;
-    }
-
-    class ExpIdealGasApparatusPanel extends BaseIdealGasApparatusPanel {
-        public ExpIdealGasApparatusPanel( Module module, Box2D box ) {
-            super( module, box );
-        }
-
-        public void repaint( long tm, int x, int y, int width, int height ) {
-            //            super.repaint( tm, x, y, width, height );
-        }
-
-        public void repaint() {
-            //            super.repaint();
-        }
-
-        public void repaint( long tm ) {
-            //            super.repaint( tm );
-        }
-
-        public void repaint( int x, int y, int width, int height ) {
-            //            super.repaint( x, y, width, height );
-        }
-
-        public void repaint( Rectangle r ) {
-            //            super.repaint( r );
-        }
-    }
-
-    class Rendered implements ModelElement {
-        private BufferedImage buffer;
-        private Graphics2D imgBuffGraphics;
-        private ApparatusPanel ap;
-        private int displayWidth;
-        private int displayHeight;
-
-        public Rendered( ApparatusPanel ap ) {
-            this.ap = ap;
-        }
-
-        public void stepInTime( double dt ) {
-            if( ap.getWidth() != displayWidth || ap.getHeight() != displayHeight ) {
-                buffer = new BufferedImage( ap.getWidth(), ap.getHeight(), BufferedImage.TYPE_INT_RGB );
-                imgBuffGraphics = (Graphics2D)buffer.getGraphics();
-            }
-            ap.paint( imgBuffGraphics );
-            Graphics g = PhetApplication.instance().getApplicationView().getPhetFrame().getGraphics();
-            g.drawImage( buffer, 0, 0, null );
-            g.dispose();
-        }
     }
 
     public IdealGasModule( AbstractClock clock, String name ) {
@@ -248,9 +199,6 @@ public class IdealGasModule extends Module {
 
         // Add help items
         addHelp();
-
-        //        Rendered renderer = new Rendered( getApparatusPanel() );
-        //        idealGasModel.addModelElement( renderer );
     }
 
     private void addHelp() {
@@ -261,8 +209,6 @@ public class IdealGasModule extends Module {
         addHelpItem( helpItem1 );
         HelpItem helpItem2 = new HelpItem( "Door can be slid\nleft and right",
                                            box.getPosition().getX() + 100, box.getPosition().getY() - 50 );
-        //                                           box.getPosition().getX() + 400, box.getPosition().getY() - 50,
-        //                                           HelpItem.ABOVE, HelpItem.LEFT );
         helpItem2.setForegroundColor( IdealGasConfig.helpColor );
         addHelpItem( helpItem2 );
         HelpItem helpItem3 = new HelpItem( "Heat can be removed or added\nby adjusting stove",
@@ -367,14 +313,6 @@ public class IdealGasModule extends Module {
             Component component = (Component)visibleInstruments.get( i );
             component.setVisible( true );
         }
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                TestApparatusPanel tap = (TestApparatusPanel)getApparatusPanel();
-                // The hard-coded numbers here seem to be needed to get the apparatus
-                // panel to reliably clear and repaint the whole panel at least once.
-                tap.paintImmediately( 0, 0, 2000, 2000 );
-            }
-        } );
     }
 
     public void deactivate( PhetApplication app ) {
