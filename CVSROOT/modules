@@ -29,16 +29,16 @@
 idealgas -d development ideal-gas-v3
 
 # Nuclear physics project
-nuclearphysics -d development nuclearphysics
+nuclearphysics nuclearphysics
 
 # Phet common code project
-phetcommon -d development phetcommon
+phetcommon phetcommon
 
 # Mechanics project
-mechanics -d development mechanics
+mechanics mechanics
 
 # Collision project
-collision -d development collision
+collision collision
 
 #Battery-voltage
 batteryvoltage batteryvoltage
