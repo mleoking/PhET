@@ -15,10 +15,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
+ * FrameSequence
  * A utility class that supports animation of a set of images read from disk.
  * <p/>
  * The class provides methods for stepping back and forth at will through the
- * set of images.
+ * set of images. It also has methods that understand the specific naming convention
+ * used by Poser when it creates animations.
  *
  * @author Ron LeMaster
  * @version $Revision$
