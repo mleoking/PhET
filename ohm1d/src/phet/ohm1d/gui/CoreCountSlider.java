@@ -13,12 +13,14 @@ public class CoreCountSlider extends JPanel implements ChangeListener {
     JSlider js;
     JTextField jtf;
     String name;
+    String units;
     Vector listeners = new Vector();
 
     //The transform goes from component space to physics space.  That is, the output of the slider is transform ed to get the actual value.
-    public CoreCountSlider( int min, int max, int value, String name, Image im ) {
+    public CoreCountSlider( int min, int max, int value, String name, Image im, String units ) {
         JLabel label = new JLabel( name, new ImageIcon( im ), JLabel.TRAILING );
         this.name = name;
+        this.units = units;
         jtf = new JTextField();
         jtf.setEditable( false );
         //double defaultDomain=transform.invert().evaluate(defaultValue);
@@ -49,7 +51,7 @@ public class CoreCountSlider extends JPanel implements ChangeListener {
         //jtf.setText("Hi Ingrid!: "+value);
         double displayValue = value * .2 / 3.0;
 
-        jtf.setText( name + " = " + nf.format( displayValue ) + " Ohms" );
+        jtf.setText( name + " = " + nf.format( displayValue ) + " " + units );
     }
 
     static final NumberFormat nf = new DecimalFormat( "##.##" );
