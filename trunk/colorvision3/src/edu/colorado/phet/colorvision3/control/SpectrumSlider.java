@@ -5,11 +5,15 @@ package edu.colorado.phet.colorvision3.control;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -25,13 +29,32 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 /**
  * SpectrumSlider is a UI component, similar to a JSlider, for selecting a color
  * from the visible spectrum.  In addition to showing the currently selected color,
- * it optional depicts a transmission width. 
+ * it optionally depicts a transmission width. 
+ * <p>
+ * The default orientation of the slider is horizontal. See setOrientation
+ * for a description of the UI layout for each orientation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$ $Name$
  */
 public class SpectrumSlider extends DefaultInteractiveGraphic
 { 
+	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+
+  /** Horizontal orientation */
+  public static final int HORIZONTAL = JSlider.HORIZONTAL;
+  /** Vertical orientation */
+  public static final int VERTICAL = JSlider.VERTICAL;
+  
+  // Default knob dimensions
+  private static final Dimension DEFAULT_KNOB_SIZE = new Dimension( 20, 30 );
+  // Rotation angle for horizontal orientation, in radians.
+  private static final double HORIZONTAL_ROTATION_ANGLE = Math.toRadians(0);
+  // Rotation angle for vertical orientation, in radians.
+  private static final double VERTICAL_ROTATION_ANGLE = Math.toRadians(-90);
+  
 	//----------------------------------------------------------------------------
 	// Instance data
   //----------------------------------------------------------------------------
@@ -42,10 +65,12 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   private int _value;
   // Minimum and maximum range, inclusive.
   private int _minimum, _maximum; 
-  // Transmission width, in pixels.
+  // Transmission width, in wavelengths.
   private double _transmissionWidth;
   // The upper left corner of the spectrum graphic.
   private Point _location;
+  // Orientation
+  private int _orientation;
   //The bounds that constrain dragging of the slider knob.
   private Rectangle _dragBounds;
   // Location of the mouse relative to the knob when a drag is started.
@@ -76,6 +101,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
     _value = 0;
     _minimum = (int) VisibleColor.MIN_WAVELENGTH;
     _maximum = (int) VisibleColor.MAX_WAVELENGTH;
+    _orientation = HORIZONTAL;
     _transmissionWidth = 0;
     _dragBounds = new Rectangle( 0, 0, 0, 0); // set correctly by setLocation
     _mouseOffset = 0;
@@ -83,7 +109,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
     
     // Initialize graphical components.
     _spectrum = new PhetImageGraphic( component, ColorVisionConfig.SPECTRUM_IMAGE );
-    _knob = new SpectrumSliderKnob( component );
+    _knob = new SpectrumSliderKnob( component, DEFAULT_KNOB_SIZE, getRotationAngle() );
     
     // Initialize interactivity
     super.setBoundedGraphic( _knob );
@@ -111,6 +137,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
     // Fire a ChangeEvent to notify listeners that the value has changed.
     fireChangeEvent( new ChangeEvent(this) );
     
+    // Update the knob.
     updateKnob();
   }
   
@@ -131,9 +158,16 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
    */
   private int getValue( int x, int y )
   {
-    // Determine the value based on the slider location.
-  	double fraction = (x - _dragBounds.x )/(double)(_dragBounds.width);
-  	int value = (int) (fraction * (_maximum - _minimum)) + _minimum;
+    double percent;
+    if ( _orientation == HORIZONTAL )
+    {
+  	  percent = (x - _dragBounds.x )/(double)(_dragBounds.width);
+    }
+    else
+    {
+      percent = 1 - ((y - _dragBounds.y )/(double)(_dragBounds.height)); 
+    }
+    int value = (int) (percent * (_maximum - _minimum)) + _minimum;
     return value;
   }
   
@@ -180,10 +214,46 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   }
 
   /**
+   * Sets the orientation.
+   * <p>
+   * For a HORIZONTAL orientation, the slider knob is below the spectrum,
+   * the minimum value is at the left, and the maximum value is at the right.
+   * <p>
+   * For a VERTICAL orientation, the slider knob is to the right of the spectrum,
+   * the minimum value is at the bottom, and the maximum value is at the top.
+   * 
+   * @param orientation HORIZONTAL or VERTICAL
+   * @throws IllegalArgumentException if orientation is invalid
+   */
+  public void setOrientation( int orientation )
+  {
+    if ( orientation != HORIZONTAL && orientation != VERTICAL )
+    {
+      throw new IllegalArgumentException( "invalid orientation: " + orientation );
+    }
+    else if ( orientation != _orientation )
+    {
+      _orientation = orientation;
+      _knob.setAngle( getRotationAngle() );
+      updateUI();
+    }
+  }
+  
+  /**
+   * Gets the orientation.
+   * 
+   * @return HORIZONTAL or VERTICAL
+   */
+  public int getOrientation()
+  {
+    return _orientation;
+  }
+  
+  /**
    * Sets the transmission width.
    * Setting the width to zero effectively disables drawing of the curve.
    * 
-   * @param width the width, in pixels
+   * @param width the width, in wavelengths
    */
   public void setTransmissionWidth( double width )
   {
@@ -194,7 +264,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   /**
    * Gets the transmission width.
    *
-   * @return width in pixels
+   * @return width in wavelengths
    */
   public double getTransmissionWidth()
   {
@@ -210,16 +280,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   public void setLocation( Point location )
   {   
     _location = location;
-    
-    // Move the spectrum graphic.
-    _spectrum.setPosition( _location.x, _location.y );
-    
-    // Set drag bounds.
-    _dragBounds = new Rectangle( _location.x - (_knob.getBounds().width/2), 
-                                 _location.y + _spectrum.getBounds().height,
-                                 _spectrum.getBounds().width, 0 );
-
-    updateKnob();
+    updateUI();
   }
   
   /**
@@ -242,6 +303,17 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   public Point getLocation()
   {
     return _location;
+  }
+  
+  /**
+   * Sets the size of the slider knob.
+   * 
+   * @param knobSize the dimensions of the knob
+   */
+  public void setKnobSize( Dimension knobSize )
+  {
+    _knob.setSize( knobSize );
+    repaint();
   }
   
   /**
@@ -287,17 +359,103 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
     _knob.setBorderColor( color );
     repaint();
   }
+ 
+  /**
+   * Gets the width of the curve in relationship to the width
+   * of the slider and the transmission width.
+   * 
+   * @return the curve width, in pixels
+   */
+  private int getCurveWidth()
+  {
+    int totalPixels;
+    if ( _orientation == HORIZONTAL )
+    {
+      totalPixels = _spectrum.getBounds().width;
+    }
+    else
+    {
+      totalPixels = _spectrum.getBounds().height;
+    }
+    int width = (int)(_transmissionWidth * totalPixels /(double)(_maximum - _minimum));
+    return width;
+  }
+  
+  /**
+   * Gets the rotation angle that corresponds to the orientation.
+   *
+   * @return the angle, in radians
+   */
+  private double getRotationAngle()
+  {
+    double angle;
+    if ( _orientation == HORIZONTAL )
+    {
+      angle = HORIZONTAL_ROTATION_ANGLE;
+    }
+    else
+    {
+      angle = VERTICAL_ROTATION_ANGLE;
+    }
+    return angle;
+  }
   
   /*
-   * Updates the knob based on the current location and value of the slider.
-   * This method is used by many of the setter methods.
+   * Updates all graphical components.
+   * This method is shared by setter methods.
+   */
+  private void updateUI()
+  {
+    Rectangle spectrumBounds = _spectrum.getBounds();
+    Rectangle knobBounds = _knob.getBounds();
+    int x = _location.x;
+    int y = _location.y;
+    
+    if ( _orientation == HORIZONTAL )
+    {
+      // Translate the spectrum graphic.
+      _spectrum.setPosition( x, y );
+      
+      // Set drag bounds.
+      _dragBounds = new Rectangle( x, y + spectrumBounds.height, spectrumBounds.width, 0 );
+    }
+    else
+    {
+      // Rotate and translate the spectrum graphic.
+      AffineTransform transform = new AffineTransform();
+      transform.translate( x, y + spectrumBounds.width );
+      transform.rotate( getRotationAngle() );
+      _spectrum.setTransform( transform );
+      
+      // Set drag bounds.
+      _dragBounds = new Rectangle( x + spectrumBounds.width, y, 0, spectrumBounds.height );
+    }
+    
+    // Update the knob.
+    updateKnob();
+  }
+  
+  /*
+   * Updates the knob based on the current location and value.
+   * This method is shared by setter methods.
    */
   private void updateKnob()
   {
-    // Set the knob's location & color.
-    double fraction = (_value - _minimum)/(double)(_maximum - _minimum);
-    int x = (int) (fraction * _dragBounds.width) + _dragBounds.x;
-    _knob.setLocation( x, _dragBounds.y );
+    // Set the knob's location.
+    int x, y;
+    if ( _orientation == HORIZONTAL )
+    {
+      double percent = (_value - _minimum)/(double)(_maximum - _minimum);
+      x = _dragBounds.x + (int)(percent * _dragBounds.width);
+      y = _dragBounds.y;
+    }
+    else
+    {
+      double percent = 1 - (_value - _minimum)/(double)(_maximum - _minimum);
+      x = _dragBounds.x;
+      y = _dragBounds.y + (int)(percent * _dragBounds.height);
+    }
+    _knob.setLocation( x, y );
       
     // Set the knob's color.
     VisibleColor color = new VisibleColor( _value );
@@ -327,7 +485,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   public void paint( Graphics2D g2 )
   {
     if ( super.isVisible() )
-    {
+    { 
       // Draw the spectrum graphic.
       _spectrum.paint( g2 );   
 
@@ -335,14 +493,37 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
       super.paint( g2 );
       
       // Draw the optional transmission width curve.  
-      if ( _transmissionWidth != 0 )
+      if ( _transmissionWidth > 0 )
       {
-        int x = _knob.getLocation().x + _knob.getBounds().width/2;
-        int y = _spectrum.getBounds().y;
-        int w = (int)_transmissionWidth;
-        int h = _spectrum.getBounds().height;
-        BellCurve curve = new BellCurve( _component, x, y, w, h );
+        // Calculate location.
+        int x, y, w, h;
+        if ( _orientation == HORIZONTAL )
+        {
+          x = _knob.getLocation().x;
+          y = _spectrum.getBounds().y;
+          w = getCurveWidth();
+          h = _spectrum.getBounds().height;
+        }
+        else
+        {
+          x = _spectrum.getBounds().x;
+          y = _knob.getLocation().y;
+          w = getCurveWidth();
+          h = _spectrum.getBounds().width;
+        }
+        
+        // Create the curve.
+        BellCurve curve = new BellCurve( _component, x, y, w, h, getRotationAngle() );
+        
+        // Save graphics state.
+        Shape oldClip = g2.getClip();
+        
+        // Draw the curve, clipped to the spectrum graphic.
+        g2.setClip( _spectrum.getBounds() );
         curve.paint( g2 );
+        
+        // Restore graphics state.
+        g2.setClip( oldClip );
       }
       
       BoundsOutline.paint( g2, getBounds(), Color.GREEN, new BasicStroke(1f) ); // DEBUG
@@ -413,13 +594,22 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
     public void mouseDragged( MouseEvent event )
     {
       // Get the proposed knob coordinates.
-      int knobX = event.getX() - _mouseOffset;
-      int knobY = event.getY();
-      
+      int knobX, knobY;
+      if ( _orientation == HORIZONTAL )
+      {
+        knobX = event.getX() - _mouseOffset;
+        knobY = event.getY();
+      }
+      else
+      {
+        knobX = event.getX();
+        knobY = event.getY() - _mouseOffset; 
+      }
+
       // Constrain the drag boundaries of the knob.
       int x = (int) Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, knobX ) );
       int y = (int) Math.max( _dragBounds.y, Math.min( _dragBounds.y + _dragBounds.height, knobY ) );
-
+      
       // Determine the value that corresponds to the constrained location.
       int value = getValue( x, y );
       
@@ -439,7 +629,14 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
      */
     public void mousePressed( MouseEvent event )
     {
-      _mouseOffset = event.getX() - _knob.getLocation().x;
+      if ( _orientation == HORIZONTAL )
+      {
+        _mouseOffset = event.getX() - _knob.getLocation().x;
+      }
+      else
+      {
+        _mouseOffset = event.getY() - _knob.getLocation().y;
+      }
     }
   }
 
