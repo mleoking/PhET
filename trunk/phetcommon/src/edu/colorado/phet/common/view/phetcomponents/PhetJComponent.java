@@ -217,22 +217,39 @@ public class PhetJComponent extends PhetGraphic {
 
         keyHandler = new KeyListener() {
             public void keyPressed( KeyEvent e ) {
-                handleKeypress( e );
+                handleKeypress( e, new KeyMethod() {
+                    public void invoke( KeyListener keyListener, KeyEvent ke ) {
+                        keyListener.keyPressed( ke );
+                    }
+                } );
             }
 
             public void keyReleased( KeyEvent e ) {
-                handleKeypress( e );
+
+                handleKeypress( e, new KeyMethod() {
+                    public void invoke( KeyListener keyListener, KeyEvent ke ) {
+                        keyListener.keyReleased( ke );
+                    }
+                } );
             }
 
             public void keyTyped( KeyEvent e ) {
-                handleKeypress( e );
+                handleKeypress( e, new KeyMethod() {
+                    public void invoke( KeyListener keyListener, KeyEvent ke ) {
+                        keyListener.keyTyped( ke );
+                    }
+                } );
             }
         };
         addKeyListener( keyHandler );
 
     }
 
-    private void handleKeypress( KeyEvent e ) {
+    private static interface KeyMethod {
+        public void invoke( KeyListener keyListener, KeyEvent ke );
+    }
+
+    private void handleKeypress( KeyEvent e, KeyMethod km ) {
         KeyStroke stroke = KeyStroke.getKeyStrokeForEvent( e );
         ActionListener al = component.getActionForKeyStroke( stroke );
         ActionEvent ae = new ActionEvent( component, e.getID(), e.getKeyChar() + "", e.getWhen(), e.getModifiers() );
@@ -240,6 +257,12 @@ public class PhetJComponent extends PhetGraphic {
         if( al != null ) {
             al.actionPerformed( ae );
             repaint();
+        }
+        KeyListener[] kl = component.getKeyListeners();
+        KeyEvent event = new KeyEvent( component, e.getID(), e.getWhen(), e.getModifiers(), e.getKeyCode(), e.getKeyChar(), e.getKeyLocation() );
+        for( int i = 0; i < kl.length; i++ ) {
+            KeyListener listener = kl[i];
+            km.invoke( listener, event );
         }
     }
 
