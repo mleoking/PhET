@@ -7,12 +7,10 @@
 package edu.colorado.phet.common.view.help;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.ShadowTextGraphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.view.graphics.TextGraphic;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
-import java.awt.font.FontRenderContext;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -25,13 +23,15 @@ public class HelpItem implements Graphic {
     public final static int RIGHT = 5;
 
     ShapeGraphic backgroundGraphic;
-    ArrayList textGraphics;
+    ArrayList shadowTextGraphics = new ArrayList();
     int horizontalAlignment;
     int verticalAlignment;
     private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
     private String text;
-    private Color color = new Color( 156, 156, 0 );
     private Point2D.Double location;
+    private Color shadowColor;
+    private Color foregroundColor;
+    boolean inited = false;
 
     public HelpItem( String text, double x, double y ) {
         this( text, x, y, CENTER, CENTER );
@@ -43,6 +43,8 @@ public class HelpItem implements Graphic {
         this.verticalAlignment = verticalAlignment;
         this.text = text;
         this.location = new Point2D.Double( x, y );
+        shadowColor = Color.black;
+        foregroundColor = new Color( 156, 156, 0 );
     }
 
     private String[] tokenizeString( String inputText ) {
@@ -56,33 +58,44 @@ public class HelpItem implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
-        RenderingHints orgHints = g.getRenderingHints();
-        GraphicsUtil.setAntiAliasingOn( g );
-        placeTextGraphics( g );
+        if( !inited ) {
+            init( g );
+            inited = true;
+        }
         if( backgroundGraphic != null ) {
             backgroundGraphic.paint( g );
         }
-        for( int i = 0; i < textGraphics.size(); i++ ) {
-            TextGraphic textGraphic = (TextGraphic)textGraphics.get( i );
+        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
+            ShadowTextGraphic textGraphic = (ShadowTextGraphic)shadowTextGraphics.get( i );
             textGraphic.paint( g );
         }
-        g.setRenderingHints( orgHints );
     }
 
-    private void placeTextGraphics( Graphics2D g ) {
-        if( textGraphics == null ) {
-            FontMetrics fontMetrics = g.getFontMetrics( font );
-            FontRenderContext fontRenderContext;
-            textGraphics = new ArrayList();
-            String[] sa = tokenizeString( text );
-            int x = (int)( location.getX() + fontMetrics.getStringBounds( " ", g ).getWidth() );
-            for( int i = 0; i < sa.length; i++ ) {
-                int y = (int)location.getY() + ( i + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
-                TextGraphic textGraphicShadow = new TextGraphic( sa[i], font, (float)x + 1, (float)y + 1, Color.black );
-                textGraphics.add( textGraphicShadow );
-                TextGraphic textGraphic = new TextGraphic( sa[i], font, (float)x, (float)y, color );
-                textGraphics.add( textGraphic );
-            }
+    public void setShadowColor( Color shadowColor ) {
+        this.shadowColor = shadowColor;
+        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
+            ShadowTextGraphic textGraphic = (ShadowTextGraphic)shadowTextGraphics.get( i );
+            textGraphic.setShadowColor( shadowColor );
+        }
+    }
+
+    public void setForegroundColor( Color foregroundColor ) {
+        this.foregroundColor = foregroundColor;
+        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
+            ShadowTextGraphic shadowTextGraphic = (ShadowTextGraphic)shadowTextGraphics.get( i );
+            shadowTextGraphic.setForegroundColor( foregroundColor );
+        }
+    }
+
+    private void init( Graphics2D g ) {
+        FontMetrics fontMetrics = g.getFontMetrics( font );
+        shadowTextGraphics = new ArrayList();
+        String[] sa = tokenizeString( text );
+        int x = (int)( location.getX() + fontMetrics.getStringBounds( " ", g ).getWidth() );
+        for( int i = 0; i < sa.length; i++ ) {
+            int y = (int)location.getY() + ( i + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
+            ShadowTextGraphic textGraphic = new ShadowTextGraphic( font, sa[i], 1, 1, x, y, foregroundColor, shadowColor );
+            shadowTextGraphics.add( textGraphic );
         }
     }
 

@@ -52,7 +52,6 @@ public class BufferedImageGraphic implements BoundedGraphic {
         setLocation( ctr.x, ctr.y );
     }
 
-
     public void setLocation( int centerX, int centerY ) {
         setTransform( getCenterTransform( centerX, centerY ) );
     }
