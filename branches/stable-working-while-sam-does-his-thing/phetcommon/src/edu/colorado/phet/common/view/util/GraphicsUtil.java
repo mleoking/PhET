@@ -134,29 +134,6 @@ public class GraphicsUtil {
         return atx;
     }
 
-    /**
-     * This method turns Java strings into HTML that is Java-printable. The primary
-     * use of this is to put line breaks in messages with '\n' characters.
-     * <p/>
-     * todo rename
-     */
-    public static String formatMessage( String msg ) {
-        StringBuffer outString = new StringBuffer( "<html>" );
-        int lastIdx = 0;
-        for( int nextIdx = msg.indexOf( "\n", lastIdx );
-             nextIdx != -1;
-             nextIdx = msg.indexOf( "\n", lastIdx ) ) {
-            outString.append( msg.substring( lastIdx, nextIdx ) );
-            if( nextIdx < msg.length() ) {
-                outString.append( "<br>" );
-            }
-            lastIdx = nextIdx + 1;
-        }
-        outString.append( msg.substring( lastIdx, msg.length() ) );
-        outString.append( "</html>" );
-        return outString.toString();
-    }
-
     // Sets anti-aliasing on for a specified Graphics2D
     public static Graphics2D setAntiAliasingOn( Graphics2D g2 ) {
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
