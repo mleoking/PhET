@@ -10,10 +10,10 @@ package edu.colorado.phet.idealgas.controller;
 //import edu.colorado.phet.controller.PhetApplication;
 //import edu.colorado.phet.controller.PhetControlPanel;
 //import edu.colorado.phet.graphics.util.ResourceLoader;
-import edu.colorado.phet.idealgas.physics.*;
-import edu.colorado.phet.idealgas.physics.collision.CollisionGod;
-//import edu.colorado.phet.physics.Constraint;
-//import edu.colorado.phet.physics.Gravity;
+import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.collision.CollisionGod;
+//import edu.colorado.phet.model.Constraint;
+//import edu.colorado.phet.model.Gravity;
 import edu.colorado.phet.physics.collision.Box2D;
 
 import javax.swing.*;

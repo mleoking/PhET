@@ -10,7 +10,7 @@ package edu.colorado.phet.idealgas.graphics;
 //import edu.colorado.phet.idealgas.controller.IdealGasConfig;
 //import edu.colorado.phet.graphics.util.ResourceLoader;
 //import edu.colorado.phet.graphics.ImageGraphic;
-import edu.colorado.phet.idealgas.physics.body.IdealGasParticle;
+import edu.colorado.phet.idealgas.model.body.IdealGasParticle;
 import edu.colorado.phet.idealgas.controller.IdealGasConfig;
 import edu.colorado.phet.physics.collision.CollidableBody;
 

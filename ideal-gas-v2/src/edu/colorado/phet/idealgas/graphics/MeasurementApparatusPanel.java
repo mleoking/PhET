@@ -10,7 +10,7 @@ package edu.colorado.phet.idealgas.graphics;
 //import edu.colorado.phet.controller.PhetControlPanel;
 //import edu.colorado.phet.idealgas.controller.MeasurementControlPanel;
 import edu.colorado.phet.idealgas.controller.IdealGasApplication;
-import edu.colorado.phet.idealgas.physics.GasMolecule;
+import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.application.PhetApplication;
 

@@ -1,13 +1,13 @@
 /*
  * Class: HorizontalWall
- * Package: edu.colorado.phet.physics
+ * Package: edu.colorado.phet.model
  *
  * Created by: Ron LeMaster
  * Date: Dec 12, 2002
  */
 package edu.colorado.phet.physics.collision;
 
-//import edu.colorado.phet.physics.Vector2D;
+//import edu.colorado.phet.model.Vector2D;
 
 import java.awt.geom.Point2D;
 

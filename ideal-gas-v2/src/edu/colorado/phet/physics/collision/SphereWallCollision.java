@@ -1,14 +1,14 @@
 /**
  * Class: SphereWallCollision
- * Class: edu.colorado.phet.lasers.physics.collision
+ * Class: edu.colorado.phet.lasers.model.collision
  * User: Ron LeMaster
  * Date: Mar 31, 2003
  * Time: 7:28:13 PM
  */
 package edu.colorado.phet.physics.collision;
 
-//import edu.colorado.phet.physics.Vector2D;
-//import edu.colorado.phet.physics.body.Particle;
+//import edu.colorado.phet.model.Vector2D;
+//import edu.colorado.phet.model.body.Particle;
 //import edu.colorado.phet.util.MathUtil;
 
 import edu.colorado.phet.common.math.Vector2D;

@@ -9,9 +9,9 @@ package edu.colorado.phet.idealgas.graphics;
 
 //import edu.colorado.phet.graphics.gauge.CircularGauge;
 //import edu.colorado.phet.graphics.MonitorPanel;
-import edu.colorado.phet.idealgas.physics.GasMolecule;
-import edu.colorado.phet.idealgas.physics.IdealGasSystem;
-import edu.colorado.phet.idealgas.physics.PressureSensingBox;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.IdealGasSystem;
+import edu.colorado.phet.idealgas.model.PressureSensingBox;
 
 import javax.swing.*;
 import javax.swing.border.Border;

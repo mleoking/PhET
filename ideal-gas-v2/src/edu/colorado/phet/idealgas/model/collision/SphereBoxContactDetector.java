@@ -1,17 +1,17 @@
 /**
  * Class: SphereBoxContactDetector
- * Class: edu.colorado.phet.idealgas.physics.collision
+ * Class: edu.colorado.phet.idealgas.model.collision
  * User: Ron LeMaster
  * Date: Apr 4, 2003
  * Time: 12:01:33 PM
  */
-package edu.colorado.phet.idealgas.physics.collision;
+package edu.colorado.phet.idealgas.model.collision;
 
 import edu.colorado.phet.physics.collision.ContactDetector;
 import edu.colorado.phet.physics.collision.SphericalBody;
 import edu.colorado.phet.physics.collision.Box2D;
 import edu.colorado.phet.mechanics.Body;
-//import edu.colorado.phet.physics.body.Body;
+//import edu.colorado.phet.model.body.Body;
 
 public class SphereBoxContactDetector extends ContactDetector {
 

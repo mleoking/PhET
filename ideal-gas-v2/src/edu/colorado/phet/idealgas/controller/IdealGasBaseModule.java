@@ -17,11 +17,11 @@ import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.graphics.BaseIdealGasApparatusPanel;
 import edu.colorado.phet.idealgas.graphics.IdealGasMonitorPanel;
 import edu.colorado.phet.idealgas.graphics.PressureSliceGraphic;
-import edu.colorado.phet.idealgas.physics.*;
-//import edu.colorado.phet.idealgas.physics.collision.BalloonSphereCollision;
-import edu.colorado.phet.idealgas.physics.collision.CollisionGod;
-import edu.colorado.phet.idealgas.physics.collision.SphereBoxContactDetector;
-//import edu.colorado.phet.idealgas.physics.collision.SphereHotAirBalloonContactDetector;
+import edu.colorado.phet.idealgas.model.*;
+//import edu.colorado.phet.idealgas.model.collision.BalloonSphereCollision;
+import edu.colorado.phet.idealgas.model.collision.CollisionGod;
+import edu.colorado.phet.idealgas.model.collision.SphereBoxContactDetector;
+//import edu.colorado.phet.idealgas.model.collision.SphereHotAirBalloonContactDetector;
 import edu.colorado.phet.physics.collision.*;
 
 import java.awt.geom.Rectangle2D;
@@ -263,7 +263,7 @@ public abstract class IdealGasBaseModule extends Module {
         apparatusPanel.repaint();
 
 //        // If it's a particle, only add it to the current apparatus panel
-//        if( body instanceof edu.colorado.phet.idealgas.physics.body.IdealGasParticle ) {
+//        if( body instanceof edu.colorado.phet.idealgas.model.body.IdealGasParticle ) {
 //            ApparatusPanel apparatusPanel = getApparatusPanel();
 //            PhetGraphic graphic = graphicFactory.createGraphic( body, apparatusPanel );
 //            apparatusPanel.addGraphic( graphic, level );

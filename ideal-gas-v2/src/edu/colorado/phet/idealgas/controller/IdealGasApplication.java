@@ -13,8 +13,8 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ThreadedClock;
 import edu.colorado.phet.common.view.PhetFrame;
 //import edu.colorado.phet.idealgas.graphics.IdealGasAboutDialog;
-import edu.colorado.phet.idealgas.physics.IdealGasSystem;
-import edu.colorado.phet.idealgas.physics.collision.CollisionGod;
+import edu.colorado.phet.idealgas.model.IdealGasSystem;
+import edu.colorado.phet.idealgas.model.collision.CollisionGod;
 
 import javax.swing.*;
 

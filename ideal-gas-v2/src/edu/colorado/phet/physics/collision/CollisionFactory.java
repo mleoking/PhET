@@ -1,12 +1,12 @@
 /**
  * Class: CollisionFactory
- * Package: edu.colorado.phet.lasers.physics.collision
+ * Package: edu.colorado.phet.lasers.model.collision
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
 package edu.colorado.phet.physics.collision;
 
-//import edu.colorado.phet.physics.body.Particle;
+//import edu.colorado.phet.model.body.Particle;
 
 import java.util.ArrayList;
 

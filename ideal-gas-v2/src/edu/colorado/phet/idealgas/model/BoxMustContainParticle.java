@@ -1,14 +1,14 @@
 /**
  * Class: BoxMustContainParticle
- * Package: edu.colorado.phet.idealgas.physics
+ * Package: edu.colorado.phet.idealgas.model
  * User: Ron LeMaster
  * Date: Feb 10, 2003
  * Time: 8:13:01 PM
  */
-package edu.colorado.phet.idealgas.physics;
+package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.physics.collision.Box2D;
-import edu.colorado.phet.idealgas.physics.body.IdealGasParticle;
+import edu.colorado.phet.idealgas.model.body.IdealGasParticle;
 import edu.colorado.phet.physics.Constraint;
 import edu.colorado.phet.physics.MustContain;
 import edu.colorado.phet.physics.PhysicalSystem;

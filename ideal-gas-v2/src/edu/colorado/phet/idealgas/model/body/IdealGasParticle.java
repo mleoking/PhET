@@ -5,10 +5,10 @@
  * Date: Oct 18, 2002
  * Time: 8:55:14 AM
  */
-package edu.colorado.phet.idealgas.physics.body;
+package edu.colorado.phet.idealgas.model.body;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.idealgas.physics.HotAirBalloon;
+import edu.colorado.phet.idealgas.model.HotAirBalloon;
 import edu.colorado.phet.physics.collision.CollidableBody;
 
 import java.awt.geom.Point2D;

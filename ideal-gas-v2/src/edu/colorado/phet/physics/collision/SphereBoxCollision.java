@@ -1,6 +1,6 @@
 /**
  * Class: SphereBoxCollision
- * Class: edu.colorado.phet.physics.collision
+ * Class: edu.colorado.phet.model.collision
  * User: Ron LeMaster
  * Date: Apr 4, 2003
  * Time: 12:35:39 PM
@@ -8,8 +8,8 @@
 package edu.colorado.phet.physics.collision;
 
 //import edu.colorado.phet.controller.Config;
-//import edu.colorado.phet.physics.body.Particle;
-import edu.colorado.phet.idealgas.physics.IdealGasSystem;
+//import edu.colorado.phet.model.body.Particle;
+import edu.colorado.phet.idealgas.model.IdealGasSystem;
 import edu.colorado.phet.common.model.Particle;
 
 public class SphereBoxCollision implements Collision {

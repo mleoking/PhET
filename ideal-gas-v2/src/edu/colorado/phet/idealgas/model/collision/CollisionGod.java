@@ -1,18 +1,18 @@
 /**
  * Class: CollisionGod
- * Package: edu.colorado.phet.idealgas.physics.collision
+ * Package: edu.colorado.phet.idealgas.model.collision
  * Author: Another Guy
  * Date: Jan 20, 2004
  */
-package edu.colorado.phet.idealgas.physics.collision;
+package edu.colorado.phet.idealgas.model.collision;
 
 //import edu.colorado.phet.controller.Config;
-import edu.colorado.phet.idealgas.physics.GasMolecule;
-import edu.colorado.phet.idealgas.physics.body.IdealGasParticle;
-//import edu.colorado.phet.physics.Law;
-//import edu.colorado.phet.physics.PhysicalSystem;
-//import edu.colorado.phet.physics.body.Body;
-//import edu.colorado.phet.physics.body.Particle;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.body.IdealGasParticle;
+//import edu.colorado.phet.model.Law;
+//import edu.colorado.phet.model.PhysicalSystem;
+//import edu.colorado.phet.model.body.Body;
+//import edu.colorado.phet.model.body.Particle;
 import edu.colorado.phet.physics.collision.Collision;
 import edu.colorado.phet.physics.collision.CollisionFactory;
 import edu.colorado.phet.physics.collision.ContactDetector;

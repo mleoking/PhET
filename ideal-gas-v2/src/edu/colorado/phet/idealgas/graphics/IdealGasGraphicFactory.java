@@ -8,11 +8,11 @@
 package edu.colorado.phet.idealgas.graphics;
 
 //import edu.colorado.phet.graphics.GraphicFactory;
-import edu.colorado.phet.idealgas.physics.*;
+import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.physics.collision.Box2D;
-//import edu.colorado.phet.idealgas.physics.body.HollowSphere;
-import edu.colorado.phet.idealgas.physics.body.IdealGasParticle;
-//import edu.colorado.phet.idealgas.physics.body.Balloon;
+//import edu.colorado.phet.idealgas.model.body.HollowSphere;
+import edu.colorado.phet.idealgas.model.body.IdealGasParticle;
+//import edu.colorado.phet.idealgas.model.body.Balloon;
 
 import java.util.Map;
 

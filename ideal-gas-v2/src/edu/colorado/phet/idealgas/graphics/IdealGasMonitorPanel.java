@@ -8,14 +8,14 @@
 package edu.colorado.phet.idealgas.graphics;
 
 //import edu.colorado.phet.controller.TabbedMainPanel;
-import edu.colorado.phet.idealgas.physics.HeavySpecies;
-import edu.colorado.phet.idealgas.physics.LightSpecies;
-import edu.colorado.phet.idealgas.physics.IdealGasSystem;
-import edu.colorado.phet.idealgas.physics.Gravity;
-//import edu.colorado.phet.idealgas.physics.body.Balloon;
-//import edu.colorado.phet.physics.PhysicalSystem;
-//import edu.colorado.phet.physics.Gravity;
-//import edu.colorado.phet.physics.body.Particle;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.LightSpecies;
+import edu.colorado.phet.idealgas.model.IdealGasSystem;
+import edu.colorado.phet.idealgas.model.Gravity;
+//import edu.colorado.phet.idealgas.model.body.Balloon;
+//import edu.colorado.phet.model.PhysicalSystem;
+//import edu.colorado.phet.model.Gravity;
+//import edu.colorado.phet.model.body.Particle;
 //import edu.colorado.phet.graphics.MonitorPanel;
 
 import javax.swing.*;

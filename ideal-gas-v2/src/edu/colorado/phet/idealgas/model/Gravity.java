@@ -1,10 +1,10 @@
 /**
  * Class: Gravity
- * Package: edu.colorado.phet.idealgas.physics
+ * Package: edu.colorado.phet.idealgas.model
  * Author: Another Guy
  * Date: Jul 19, 2004
  */
-package edu.colorado.phet.idealgas.physics;
+package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.Particle;

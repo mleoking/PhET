@@ -1,15 +1,15 @@
 /*
  * Class: GasMolecule
- * Package: edu.colorado.phet.physics.idealgas
+ * Package: edu.colorado.phet.model.idealgas
  *
  * Created by: Ron LeMaster
  * Date: Nov 4, 2002
  */
-package edu.colorado.phet.idealgas.physics;
+package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.physics.collision.Box2D;
 import edu.colorado.phet.physics.collision.SphericalBody;
-import edu.colorado.phet.idealgas.physics.body.IdealGasParticle;
+import edu.colorado.phet.idealgas.model.body.IdealGasParticle;
 import edu.colorado.phet.common.math.Vector2D;
 
 import java.util.List;

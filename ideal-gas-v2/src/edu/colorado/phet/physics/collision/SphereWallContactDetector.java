@@ -1,6 +1,6 @@
 /**
  * Class: WallSphereContactExpertTest
- * Package: edu.colorado.phet.lasers.physics.collision
+ * Package: edu.colorado.phet.lasers.model.collision
  * Author: Another Guy
  * Date: Mar 26, 2003
  */
@@ -11,7 +11,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 
 import java.awt.geom.Point2D;
-//import edu.colorado.phet.idealgas.physics.body.Wall;
+//import edu.colorado.phet.idealgas.model.body.Wall;
 
 /**
  * Determines if a wall and sphere are in contact. Currently, this doesn't take

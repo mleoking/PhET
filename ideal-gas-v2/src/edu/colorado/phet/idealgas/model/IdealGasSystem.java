@@ -1,11 +1,11 @@
 /*
  * Class: IdealGasSystem
- * Package: edu.colorado.phet.idealgas.physics
+ * Package: edu.colorado.phet.idealgas.model
  *
  * Created by: Ron LeMaster
  * Date: Nov 8, 2002
  */
-package edu.colorado.phet.idealgas.physics;
+package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;

@@ -1,6 +1,6 @@
 /**
  * Class: SphereSphereContactDetector
- * Package: edu.colorado.phet.lasers.physics.collision
+ * Package: edu.colorado.phet.lasers.model.collision
  * Author: Another Guy
  * Date: Mar 26, 2003
  */
@@ -11,8 +11,8 @@ import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 
-//import edu.colorado.phet.physics.Vector2D;
-//import edu.colorado.phet.physics.body.Body;
+//import edu.colorado.phet.model.Vector2D;
+//import edu.colorado.phet.model.body.Body;
 
 public class SphereSphereContactDetector extends ContactDetector {
 

@@ -1,11 +1,11 @@
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.idealgas.physics.body.IdealGasParticle;
-import edu.colorado.phet.idealgas.physics.IdealGasSystem;
-import edu.colorado.phet.idealgas.physics.HeavySpecies;
+import edu.colorado.phet.idealgas.model.body.IdealGasParticle;
+import edu.colorado.phet.idealgas.model.IdealGasSystem;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
 //import edu.colorado.phet.controller.command.Command;
 //import edu.colorado.phet.controller.PhetApplication;
-//import edu.colorado.phet.physics.body.Body;
+//import edu.colorado.phet.model.body.Body;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.application.PhetApplication;

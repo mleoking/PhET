@@ -1,6 +1,6 @@
 /*
  * Class: PhysicalVector
- * Package: edu.colorado.phet.common.physics
+ * Package: edu.colorado.phet.common.model
  * User: Ron LeMaster
  * Date: Oct 18, 2002
  * Time: 3:50:24 PM

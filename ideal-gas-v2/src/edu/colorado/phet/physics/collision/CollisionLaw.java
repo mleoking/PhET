@@ -16,7 +16,7 @@ import edu.colorado.phet.util.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.mechanics.Body;
-//import edu.colorado.phet.idealgas.physics.GasMolecule;
+//import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import java.util.ArrayList;
 import java.util.List;
