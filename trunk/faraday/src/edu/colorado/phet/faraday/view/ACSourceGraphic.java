@@ -221,14 +221,12 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
                 double maxAmplitude = _amplitudeSlider.getValue() / 100.0;
                 // Update the model.
                 _acSourceModel.setMaxAmplitude( maxAmplitude );
-                System.out.println( "ACSourceGraphic.stateChanged: amplitude=" + maxAmplitude ); //DEBUG
             }
             else if ( event.getSource() == _frequencySlider ) {
                 // Read the value.
                 double frequency = _frequencySlider.getValue() / 100.0;
                 // Upate the model.
                 _acSourceModel.setFrequency( frequency );
-                System.out.println( "ACSourceGraphic.stateChanged: frequency=" + frequency ); //DEBUG
             }
         }
     }
