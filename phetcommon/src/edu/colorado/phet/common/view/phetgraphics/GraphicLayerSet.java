@@ -419,4 +419,8 @@ public class GraphicLayerSet extends PhetGraphic {
         }
     }
 
+    public boolean containsGraphic( PhetGraphic graphic ) {
+        return graphicMap.containsValue( graphic );
+    }
+
 }
