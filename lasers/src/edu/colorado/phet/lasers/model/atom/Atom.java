@@ -21,6 +21,30 @@ import java.util.LinkedList;
  */
 public class Atom extends SphericalBody {
 
+    static private int s_radius = 15;
+    static private int s_mass = 1000;
+
+    static public void setHighEnergySpontaneousEmissionTime( double time ) {
+        HighEnergyState.setSpontaneousEmmisionHalfLife( time );
+    }
+
+    static public void setMiddleEnergySpontaneousEmissionTime( double time ) {
+        MiddleEnergyState.setSpontaneousEmmisionHalfLife( time );
+    }
+
+    static public int getNumGroundStateAtoms() {
+        return GroundState.getNumInstances();
+    }
+
+    static public int getNumMiddleStateAtoms() {
+        return MiddleEnergyState.getNumInstances();
+    }
+
+    static public int getNumHighStateAtoms() {
+        return HighEnergyState.getNumInstances();
+    }
+
+
     private AtomicState state;
     private LinkedList listeners = new LinkedList();
 
@@ -28,9 +52,7 @@ public class Atom extends SphericalBody {
         void photonEmitted( Atom atom, Photon photon );
         void leftSystem( Atom atom );
     }
-    /**
-     *
-     */
+
     public Atom() {
         super( s_radius );
         setMass( s_mass );
@@ -85,31 +107,5 @@ public class Atom extends SphericalBody {
         }
 //        super.removeFromSystem();
         state.decrementNumInState();
-    }
-
-    //
-    // Static fields and methods
-    //
-    static private int s_radius = 15;
-    static private int s_mass = 1000;
-
-    static public void setHighEnergySpontaneousEmissionTime( double time ) {
-        HighEnergyState.setSpontaneousEmmisionHalfLife( time );
-    }
-
-    static public void setMiddleEnergySpontaneousEmissionTime( double time ) {
-        MiddleEnergyState.setSpontaneousEmmisionHalfLife( time );
-    }
-
-    static public int getNumGroundStateAtoms() {
-        return GroundState.getNumInstances();
-    }
-
-    static public int getNumMiddleStateAtoms() {
-        return MiddleEnergyState.getNumInstances();
-    }
-
-    static public int getNumHighStateAtoms() {
-        return HighEnergyState.getNumInstances();
     }
 }
