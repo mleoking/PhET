@@ -15,6 +15,7 @@ import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
+import edu.colorado.phet.nuclearphysics.view.Uranium235Graphic;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -53,6 +54,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), getModel() );
         setNucleus( nucleus );
         setUraniumNucleus( nucleus );
+
+        // Very ugly, but it works for now
+        ( (Uranium235Graphic)( (ArrayList)NucleusGraphic.getGraphicForNucleus( nucleus ) ).get( 0 ) ).setDisplayLabel( false );
 
         nucleus.addDecayListener( this );
 
