@@ -132,7 +132,7 @@ public class BarMagnetModule extends Module {
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, 
-                FaradayConfig.GRID_X_SPACING, FaradayConfig.GRID_Y_SPACING );
+                FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
         _gridGraphic.setLocation( GRID_LOCATION );
         _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
@@ -194,7 +194,7 @@ public class BarMagnetModule extends Module {
         _controlPanel.setCompassEnabled( _compassModel.isEnabled() );
         
         // Debug controls
-        _controlPanel.setGridSpacing( FaradayConfig.GRID_X_SPACING, FaradayConfig.GRID_Y_SPACING );
+        _controlPanel.setGridSpacing( FaradayConfig.GRID_SPACING );
         _controlPanel.setGridNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
     }
     
@@ -257,11 +257,10 @@ public class BarMagnetModule extends Module {
     /**
      * Sets the spacing betweeen compasses in the grid.
      * 
-     * @param x space between compasses in the X direction
-     * @param y space between compasses in the Y direction
+     * @param spacing the amount of space between needles in the X and Y directions
      */
-    public void setGridSpacing( int x, int y ) {
-        _gridGraphic.setSpacing( x, y );
+    public void setGridSpacing( int spacing ) {
+        _gridGraphic.setSpacing( spacing, spacing );
     }
     
     /**

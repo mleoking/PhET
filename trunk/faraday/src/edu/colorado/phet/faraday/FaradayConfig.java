@@ -53,7 +53,7 @@ public class FaradayConfig {
     public static final String ELECTRONS1_FRONT_IMAGE = IMAGES_DIRECTORY + "electrons1_front.png";
     public static final String ELECTRONS2_BACK_IMAGE = IMAGES_DIRECTORY + "electrons2_back.png";
     public static final String ELECTRONS2_FRONT_IMAGE = IMAGES_DIRECTORY + "electrons2_front.png";
-    public static final String FIELD_PROBE_IMAGE = IMAGES_DIRECTORY + "fieldProbe.png";
+    public static final String FIELD_METER_IMAGE = IMAGES_DIRECTORY + "fieldMeter.png";
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightBulb.png";
     public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltMeter.png";
 
@@ -82,12 +82,9 @@ public class FaradayConfig {
     public static final Dimension BAR_MAGNET_SIZE = new Dimension( 250, 50 );
 
     // Compass Grid parameters
-    public static final int GRID_X_SPACING_MIN = 20;
-    public static final int GRID_X_SPACING_MAX = 200;
-    public static final int GRID_X_SPACING = 40;
-    public static final int GRID_Y_SPACING_MIN = 20;
-    public static final int GRID_Y_SPACING_MAX = 200;
-    public static final int GRID_Y_SPACING = 40;
+    public static final int GRID_SPACING_MIN = 20;
+    public static final int GRID_SPACING_MAX = 70;
+    public static final int GRID_SPACING = 40;
     public static final Dimension GRID_NEEDLE_SIZE_MIN = new Dimension( 1, 4 );
     public static final Dimension GRID_NEEDLE_SIZE_MAX = new Dimension( 100, 50 );
     public static final Dimension GRID_NEEDLE_SIZE = new Dimension( 25, 7 );

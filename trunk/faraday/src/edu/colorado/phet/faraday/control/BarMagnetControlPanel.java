@@ -39,7 +39,7 @@ public class BarMagnetControlPanel extends ControlPanel {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final boolean ENABLE_DEBUG_CONTROLS = true;
+    private static final boolean ENABLE_DEVELOPER_CONTROLS = true;
     private static final String UNKNOWN_VALUE = "??????";
     private static final Dimension SLIDER_SIZE = new Dimension( 100, 20 );
 
@@ -48,16 +48,21 @@ public class BarMagnetControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
 
     private BarMagnetModule _module;
+    
+    // UI components
     private JButton _flipPolarityButton;
+    private JLabel _strengthValue;
     private JSlider _strengthSlider;
     private JCheckBox _magnetTransparencyCheckBox;
-    private JSlider _magnetWidthSlider, _magnetHeightSlider;
-    private JSlider _xSpacingSlider, _ySpacingSlider;
-    private JSlider _needleWidthSlider, _needleHeightSlider;
-    private JLabel _strengthValue, _magnetWidthValue, _magnetHeightValue;
-    private JLabel _xSpacingValue, _ySpacingValue, _needleWidthValue,
-            _needleHeightValue;
     private JCheckBox _meterCheckBox, _compassCheckBox;
+    
+    // Debugging components
+    private JSlider _magnetWidthSlider, _magnetHeightSlider;
+    private JSlider _gridSpacingSlider;
+    private JSlider _needleWidthSlider, _needleHeightSlider;
+    private JLabel _magnetWidthValue, _magnetHeightValue;
+    private JLabel _gridSpacingValue;
+    private JLabel _needleWidthValue, _needleHeightValue;
     private JButton _resetButton;
 
     //----------------------------------------------------------------------------
@@ -141,14 +146,14 @@ public class BarMagnetControlPanel extends ControlPanel {
             compassPanel.add( _compassCheckBox );
         }
         
-        // Debug panel
-        JPanel debugPanel = new JPanel();
-        if ( ENABLE_DEBUG_CONTROLS ) {
+        // Developer panel
+        JPanel developerPanel = new JPanel();
+        if ( ENABLE_DEVELOPER_CONTROLS ) {
             
             //  Titled border
-            TitledBorder border = new TitledBorder( "Debug Controls" );
+            TitledBorder border = new TitledBorder( "Developer Controls" );
             border.setTitleFont( titleFont );
-            debugPanel.setBorder( border );
+            developerPanel.setBorder( border );
             
             // Magnet width
             JPanel magnetWidthPanel = new JPanel();
@@ -196,50 +201,27 @@ public class BarMagnetControlPanel extends ControlPanel {
                 magnetHeightPanel.add( _magnetHeightValue );
             }
             
-            // Grid X spacing
-            JPanel gridXSpacingPanel = new JPanel();
+            // Grid density
+            JPanel gridDensityPanel = new JPanel();
             {
                 // Label
-                JLabel label = new JLabel( "Grid X spacing:" );
+                JLabel label = new JLabel( "Grid spacing:" );
 
                 // Slider
-                _xSpacingSlider = new JSlider();
-                _xSpacingSlider.setMinimum( FaradayConfig.GRID_X_SPACING_MIN );
-                _xSpacingSlider.setMaximum( FaradayConfig.GRID_X_SPACING_MAX );
-                _xSpacingSlider.setValue( FaradayConfig.GRID_X_SPACING_MIN );
-                setSliderSize( _xSpacingSlider, SLIDER_SIZE );
+                _gridSpacingSlider = new JSlider();
+                _gridSpacingSlider.setMinimum( FaradayConfig.GRID_SPACING_MIN );
+                _gridSpacingSlider.setMaximum( FaradayConfig.GRID_SPACING_MAX );
+                _gridSpacingSlider.setValue( FaradayConfig.GRID_SPACING_MIN );
+                setSliderSize( _gridSpacingSlider, SLIDER_SIZE );
 
                 // Value
-                _xSpacingValue = new JLabel( UNKNOWN_VALUE );
+                _gridSpacingValue = new JLabel( UNKNOWN_VALUE );
 
                 // Layout
-                gridXSpacingPanel.setLayout( new BoxLayout( gridXSpacingPanel, BoxLayout.X_AXIS ) );
-                gridXSpacingPanel.add( label );
-                gridXSpacingPanel.add( _xSpacingSlider );
-                gridXSpacingPanel.add( _xSpacingValue );
-            }
-
-            // Grid Y spacing
-            JPanel gridYSpacingPanel = new JPanel();
-            {
-                // Label
-                JLabel label = new JLabel( "Grid Y spacing:" );
-
-                // Slider
-                _ySpacingSlider = new JSlider();
-                _ySpacingSlider.setMinimum( FaradayConfig.GRID_Y_SPACING_MIN );
-                _ySpacingSlider.setMaximum( FaradayConfig.GRID_Y_SPACING_MAX );
-                _ySpacingSlider.setValue( FaradayConfig.GRID_Y_SPACING_MIN );
-                setSliderSize( _ySpacingSlider, SLIDER_SIZE );
-
-                // Value
-                _ySpacingValue = new JLabel( UNKNOWN_VALUE );
-
-                // Layout
-                gridYSpacingPanel.setLayout( new BoxLayout( gridYSpacingPanel, BoxLayout.X_AXIS ) );
-                gridYSpacingPanel.add( label );
-                gridYSpacingPanel.add( _ySpacingSlider );
-                gridYSpacingPanel.add( _ySpacingValue );
+                gridDensityPanel.setLayout( new BoxLayout( gridDensityPanel, BoxLayout.X_AXIS ) );
+                gridDensityPanel.add( label );
+                gridDensityPanel.add( _gridSpacingSlider );
+                gridDensityPanel.add( _gridSpacingValue );
             }
 
             // Needle width
@@ -292,22 +274,21 @@ public class BarMagnetControlPanel extends ControlPanel {
             _resetButton = new JButton( "Reset" );
             
             //  Layout
-            debugPanel.setLayout( new BoxLayout( debugPanel, BoxLayout.Y_AXIS ) );
-            debugPanel.add( magnetWidthPanel );
-            debugPanel.add( magnetHeightPanel );
-            debugPanel.add( gridXSpacingPanel );
-            debugPanel.add( gridYSpacingPanel );
-            debugPanel.add( needleWidthPanel );
-            debugPanel.add( needleHeightPanel );
-            debugPanel.add( _resetButton );
+            developerPanel.setLayout( new BoxLayout( developerPanel, BoxLayout.Y_AXIS ) );
+            developerPanel.add( magnetWidthPanel );
+            developerPanel.add( magnetHeightPanel );
+            developerPanel.add( gridDensityPanel );
+            developerPanel.add( needleWidthPanel );
+            developerPanel.add( needleHeightPanel );
+            developerPanel.add( _resetButton );
         }
         
         // Add panels to control panel.
         addFullWidth( barMagnetPanel );
         addFullWidth( probePanel );
         addFullWidth( compassPanel );
-        if ( ENABLE_DEBUG_CONTROLS ) {
-            addFullWidth( debugPanel );
+        if ( ENABLE_DEVELOPER_CONTROLS ) {
+            addFullWidth( developerPanel );
         }
 
         // Wire up event handling.
@@ -317,11 +298,10 @@ public class BarMagnetControlPanel extends ControlPanel {
         _magnetTransparencyCheckBox.addActionListener( listener );
         _meterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
-        if ( ENABLE_DEBUG_CONTROLS ) {
+        if ( ENABLE_DEVELOPER_CONTROLS ) {
             _magnetWidthSlider.addChangeListener( listener );
             _magnetHeightSlider.addChangeListener( listener );
-            _xSpacingSlider.addChangeListener( listener );
-            _ySpacingSlider.addChangeListener( listener );
+            _gridSpacingSlider.addChangeListener( listener );
             _needleWidthSlider.addChangeListener( listener );
             _needleHeightSlider.addChangeListener( listener );
             _resetButton.addActionListener( listener );
@@ -356,7 +336,7 @@ public class BarMagnetControlPanel extends ControlPanel {
      * @param size the size
      */
     public void setMagnetSize( Dimension size ) {
-        if ( ENABLE_DEBUG_CONTROLS ) {
+        if ( ENABLE_DEVELOPER_CONTROLS ) {
             _magnetWidthSlider.setValue( size.width );
             _magnetHeightSlider.setValue( size.height );
         }
@@ -365,13 +345,11 @@ public class BarMagnetControlPanel extends ControlPanel {
     /**
      * Sets the compass grid spacing.
      * 
-     * @param x space between compasses in X direction
-     * @param y space between compasses in Y direction
+     * @param spacing the space between compass needles
      */
-    public void setGridSpacing( int x, int y ) {
-        if ( ENABLE_DEBUG_CONTROLS ) {
-            _xSpacingSlider.setValue( x );
-            _ySpacingSlider.setValue( y );
+    public void setGridSpacing( int spacing ) {
+        if ( ENABLE_DEVELOPER_CONTROLS ) {
+            _gridSpacingSlider.setValue( spacing );
         }
     }
 
@@ -381,7 +359,7 @@ public class BarMagnetControlPanel extends ControlPanel {
      * @param size the size
      */
     public void setGridNeedleSize( Dimension size ) {
-        if ( ENABLE_DEBUG_CONTROLS ) {
+        if ( ENABLE_DEVELOPER_CONTROLS ) {
             _needleWidthSlider.setValue( size.width );
             _needleHeightSlider.setValue( size.height );
         }
@@ -491,13 +469,11 @@ public class BarMagnetControlPanel extends ControlPanel {
                 _magnetWidthValue.setText( String.valueOf( width ) );
                 _magnetHeightValue.setText( String.valueOf( height ) );
             }
-            else if ( e.getSource() == _xSpacingSlider || e.getSource() == _ySpacingSlider ) {
+            else if ( e.getSource() == _gridSpacingSlider ) {
                 // Grid spacing
-                int x = _xSpacingSlider.getValue();
-                int y = _ySpacingSlider.getValue();
-                _module.setGridSpacing( x, y );
-                _xSpacingValue.setText( String.valueOf( x ) );
-                _ySpacingValue.setText( String.valueOf( y ) );
+                int spacing = _gridSpacingSlider.getValue();
+                _module.setGridSpacing( spacing );
+                _gridSpacingValue.setText( String.valueOf( spacing ) );
             }
             else if ( e.getSource() == _needleWidthSlider || e.getSource() == _needleHeightSlider ) {
                 // CompassGraphic Needle dimensions
@@ -512,7 +488,4 @@ public class BarMagnetControlPanel extends ControlPanel {
             }
         }
     }
-    
-
-
 }

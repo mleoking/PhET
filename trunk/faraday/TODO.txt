@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- one debug control for "Grid spacing" (instead of separate controls for XY spacing)
 - bounds of light rays are not always correct (doesn't fully draw or doesn't fully erase)
 
 HIGH PRIORITY:
