@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -42,7 +43,6 @@ public class CompassNeedleGraphic extends PhetGraphic {
     private Shape _northTip, _southTip;
     private Color _northColor, _southColor;
     private double _strength;  // 0.0 - 1.0
-    private RenderingHints _hints;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -58,11 +58,11 @@ public class CompassNeedleGraphic extends PhetGraphic {
         super( component );
         assert( component != null );
         
-        _hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
         setSize( new Dimension( 40, 20 ) );
         setDirection( 0.0 );
-        setStrength( 1.0, false /* assume a non-black background */ );
+        setStrength( 1.0 );
         
         updateShape();
     }
@@ -130,43 +130,25 @@ public class CompassNeedleGraphic extends PhetGraphic {
     
     /**
      * Sets the relative strength that is to be displayed by the needle.
-     * This is a value between 0-1.
-     * <p>
-     * When drawing on a non-black background, the strength value is 
+     * This is a value between 0-1. The strength value is 
      * a multiplier used to set the alpha channel of the rendered needle.
      * 0 is fully transparent, 1 is fully opaque, values in between are partially transparent.
-     * <p>
-     * When drawing on a black background, the strength value is a multiplier
-     * used to set the brightness of the color components. The color used is
-     * fully opaque.
      * 
      * @param strength the strength
-     * @param backgroundIsBlack true if drawing on a black background
      * @throws IllegalArgumentException if strength is out of range
      */
-    public void setStrength( double strength, boolean backgroundIsBlack ) {
+    public void setStrength( double strength ) {
         if ( ! ( strength >= 0 && strength <= 1 ) ) {
             throw new IllegalArgumentException( "strength must be 0.0-1.0 : " + strength );
         }
         if ( strength != _strength ) {
-            if ( backgroundIsBlack ) {
-                // Control the brightness of the color to make the needle look "dimmer".
-                int nRed = (int) ( NORTH_COLOR.getRed() * strength );
-                int nGreen = (int) ( NORTH_COLOR.getGreen() * strength );
-                int nBlue = (int) ( NORTH_COLOR.getBlue() * strength );
-                _northColor = new Color( nRed, nGreen, nBlue );
-                int sRed = (int) ( SOUTH_COLOR.getRed() * strength );
-                int sGreen = (int) ( SOUTH_COLOR.getGreen() * strength );
-                int sBlue = (int) ( SOUTH_COLOR.getBlue() * strength );
-                _southColor = new Color( sRed, sGreen, sBlue );
-            }
-            else {
-                // Control the alpha of the color to make the needle look "dimmer".
-                _strength = strength;
-                int alpha = (int) ( 255 * _strength );
-                _northColor = new Color( NORTH_COLOR.getRed(), NORTH_COLOR.getGreen(), NORTH_COLOR.getBlue(), alpha );
-                _southColor = new Color( SOUTH_COLOR.getRed(), SOUTH_COLOR.getGreen(), SOUTH_COLOR.getBlue(), alpha );   
-            }
+            _strength = strength;
+
+            // Control the alpha of the color to make the needle look "dimmer".
+            int alpha = (int) ( 255 * _strength );
+            _northColor = new Color( NORTH_COLOR.getRed(), NORTH_COLOR.getGreen(), NORTH_COLOR.getBlue(), alpha );
+            _southColor = new Color( SOUTH_COLOR.getRed(), SOUTH_COLOR.getGreen(), SOUTH_COLOR.getBlue(), alpha );
+
             repaint();
         }
     }
@@ -234,7 +216,10 @@ public class CompassNeedleGraphic extends PhetGraphic {
             super.saveGraphicsState( g2 );
             {
                 // Request antialiasing
-                g2.setRenderingHints( _hints );
+                RenderingHints hints = getRenderingHints();
+                if ( hints != null ) {
+                    g2.setRenderingHints( hints );
+                }
                 
                 // Transform
                 g2.transform( getNetTransform() );
