@@ -98,6 +98,7 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
     }
 
     public void paint( Graphics2D g ) {
+        update();
         g.drawImage( img, (int)position.getX(), (int)position.getY(), this );
     }
 

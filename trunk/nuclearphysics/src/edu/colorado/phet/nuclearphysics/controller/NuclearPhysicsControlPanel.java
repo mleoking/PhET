@@ -7,7 +7,6 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleGraphic;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
@@ -16,7 +15,6 @@ import edu.colorado.phet.nuclearphysics.view.ProtonGraphic;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 public class NuclearPhysicsControlPanel extends JPanel {
@@ -74,11 +72,12 @@ public class NuclearPhysicsControlPanel extends JPanel {
             new ProtonGraphic().paint( gp, NuclearParticle.RADIUS, NuclearParticle.RADIUS );
             ImageIcon protonImg = new ImageIcon( protonBi );
 
-            BufferedImage alphaBi = new BufferedImage( (int)NuclearParticle.RADIUS * 4, (int)NuclearParticle.RADIUS * 4,
-                                                       BufferedImage.TYPE_INT_ARGB );
-            Graphics2D ga = (Graphics2D)alphaBi.getGraphics();
-            new AlphaParticleGraphic( new AlphaParticle( new Point2D.Double(), 0 ) ).paint( ga, NuclearParticle.RADIUS, NuclearParticle.RADIUS );
-            ImageIcon alphaParticleImg = new ImageIcon( alphaBi );
+//            BufferedImage alphaBi = new BufferedImage( (int)NuclearParticle.RADIUS * 4, (int)NuclearParticle.RADIUS * 4,
+//                                                       BufferedImage.TYPE_INT_ARGB );
+//            Graphics2D ga = (Graphics2D)alphaBi.getGraphics();
+//            new AlphaParticleGraphic( new AlphaParticle( new Point2D.Double(), 0 ) ).paint( ga, NuclearParticle.RADIUS, NuclearParticle.RADIUS );
+//            ImageIcon alphaParticleImg = new ImageIcon( alphaBi );
+            Icon alphaParticleImg = AlphaParticleGraphic.getIcon();
 
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             this.setBorder( BorderFactory.createTitledBorder( baseBorder, "Legend" ) );

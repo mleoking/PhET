@@ -10,8 +10,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions.Body;
-import edu.colorado.phet.coreadditions.ContactDetector;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
@@ -288,23 +286,23 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
 // Inner classes
 //
 
-    public class NucleusNeutronContactDetector implements ContactDetector {
-        public boolean areInContact( Body body1, Body body2 ) {
-            boolean areInContact = false;
-            if( body1 != body2 ) {
-                if( body1 instanceof Nucleus && body2 instanceof Neutron ) {
-                    areInContact = ( (Nucleus)body1 ).getLocation().distanceSq( ( (Neutron)body2 ).getLocation() )
-                                   <= ( (Nucleus)body1 ).getRadius() * ( (Nucleus)body1 ).getRadius();
-                }
-                if( body2 instanceof Nucleus && body1 instanceof Neutron ) {
-                    areInContact = ( (Nucleus)body2 ).getLocation().distanceSq( ( (Neutron)body1 ).getLocation() )
-                                   <= ( (Nucleus)body2 ).getRadius() * ( (Nucleus)body2 ).getRadius();
-                }
-            }
-            return areInContact;
-        }
-    }
-
+//    public class NucleusNeutronContactDetector implements ContactDetector {
+//        public boolean areInContact( Body body1, Body body2 ) {
+//            boolean areInContact = false;
+//            if( body1 != body2 ) {
+//                if( body1 instanceof Nucleus && body2 instanceof Neutron ) {
+//                    areInContact = ( (Nucleus)body1 ).getLocation().distanceSq( ( (Neutron)body2 ).getLocation() )
+//                                   <= ( (Nucleus)body1 ).getRadius() * ( (Nucleus)body1 ).getRadius();
+//                }
+//                if( body2 instanceof Nucleus && body1 instanceof Neutron ) {
+//                    areInContact = ( (Nucleus)body2 ).getLocation().distanceSq( ( (Neutron)body1 ).getLocation() )
+//                                   <= ( (Nucleus)body2 ).getRadius() * ( (Nucleus)body2 ).getRadius();
+//                }
+//            }
+//            return areInContact;
+//        }
+//    }
+//
 //    private class InternalNeutronGun implements Runnable {
 //        private long waitTime = 1000;
 //        private boolean kill = false;
