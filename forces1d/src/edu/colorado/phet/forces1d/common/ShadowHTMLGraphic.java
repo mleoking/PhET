@@ -25,4 +25,17 @@ public class ShadowHTMLGraphic extends CompositePhetGraphic {
         shadowGraphic.setFont( font );
         foregroundGraphic.setFont( font );
     }
+
+    public void setHTML( String html ) {
+        shadowGraphic.setHtml( html );
+        foregroundGraphic.setHtml( html );
+    }
+
+    public void setForeground( Color foreground ) {
+        foregroundGraphic.setColor( foreground );
+    }
+
+    public void setBackground( Color background ) {
+        shadowGraphic.setColor( background );
+    }
 }
