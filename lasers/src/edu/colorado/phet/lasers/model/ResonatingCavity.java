@@ -56,22 +56,24 @@ public class ResonatingCavity extends Box2D {
 //                                         new Point2D.Float( (float)origin.getX() + width,
 //                                                            (float)origin.getY() + height ) );
 
-        // Create the left mirror
-        leftMirror = new PartialMirror( new Point2D.Double( origin.getX() - 40,
-                                                            origin.getY() ),
-                                        new Point2D.Double( origin.getX() - 40,
-                                                            origin.getY() + height ) );
-        leftMirror.addReflectionStrategy( new RightReflecting() );
-        leftMirror.addReflectionStrategy( new BandPass( Photon.RED, Photon.RED ) );
 
-        // Create the right mirror
-        rightMirror = new PartialMirror( new Point2D.Double( origin.getX() + width + 40,
-                                                             origin.getY() ),
-                                         new Point2D.Double( origin.getX() + width + 40,
-                                                             origin.getY() + height ) );
-        rightMirror.addReflectionStrategy( new LeftReflecting() );
-        rightMirror.addReflectionStrategy( new BandPass( Photon.RED, Photon.RED ) );
-        rightMirror.setReflectivity( 0.2f );
+        //todo: reintegrate this
+//        // Create the left mirror
+//        leftMirror = new PartialMirror( new Point2D.Double( origin.getX() - 40,
+//                                                            origin.getY() ),
+//                                        new Point2D.Double( origin.getX() - 40,
+//                                                            origin.getY() + height ) );
+//        leftMirror.addReflectionStrategy( new RightReflecting() );
+//        leftMirror.addReflectionStrategy( new BandPass( Photon.RED, Photon.RED ) );
+//
+//        // Create the right mirror
+//        rightMirror = new PartialMirror( new Point2D.Double( origin.getX() + width + 40,
+//                                                             origin.getY() ),
+//                                         new Point2D.Double( origin.getX() + width + 40,
+//                                                             origin.getY() + height ) );
+//        rightMirror.addReflectionStrategy( new LeftReflecting() );
+//        rightMirror.addReflectionStrategy( new BandPass( Photon.RED, Photon.RED ) );
+//        rightMirror.setReflectivity( 0.2f );
 
 //        new edu.colorado.phet.controller.command.AddParticleCmd( upperWall ).doIt();
 //        new edu.colorado.phet.controller.command.AddParticleCmd( lowerWall ).doIt();

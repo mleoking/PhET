@@ -16,13 +16,11 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.lasers.EventRegistry;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
-import edu.colorado.phet.lasers.model.LaserModel;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.EventObject;
-import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -44,14 +42,11 @@ public class CollimatedBeam extends Particle {
     private double photonsPerSecond = 30;
     // Is the collimated beam currently generating photons?
     private boolean isActive;
-    private LaserModel model;
     private SubscriptionService bulletinBoard = new SubscriptionService();
-    private LinkedList photons = new LinkedList();
     private boolean isEnabled;
 
 
-    public CollimatedBeam( LaserModel model, double wavelength, Point2D origin, double height, double width, Vector2D direction ) {
-        this.model = model;
+    public CollimatedBeam( double wavelength, Point2D origin, double height, double width, Vector2D direction ) {
         this.wavelength = wavelength;
         this.bounds = new Rectangle2D.Double( origin.getX(), origin.getY(), width, height );
         this.setPosition( origin );
@@ -59,7 +54,7 @@ public class CollimatedBeam extends Particle {
     }
 
     ////////////////////////////////////////////////////////////////////////
-    // Events and listeners
+    // Defined events and listeners
     private EventRegistry eventRegistry = new EventRegistry();
 
     public void addListener( EventListener listener ) {
@@ -151,18 +146,12 @@ public class CollimatedBeam extends Particle {
     }
 
     public void addPhoton() {
-        final Photon newPhoton = Photon.create( this );
+        final Photon newPhoton = Photon.create( this.getWavelength() );
         newPhoton.setPosition( genPositionX(), genPositionY() /* + newPhoton.getRadius() */ );
         newPhoton.setVelocity( new Vector2D.Double( velocity ) );
         newPhoton.setWavelength( this.wavelength );
-        photons.add( newPhoton );
 
         eventRegistry.fireEvent( new PhotonEmittedEvent( this, newPhoton ) );
-    }
-
-    public void removePhoton( Photon photon ) {
-        photons.remove( photon );
-        model.removeModelElement( photon );
     }
 
     public void stepInTime( double dt ) {

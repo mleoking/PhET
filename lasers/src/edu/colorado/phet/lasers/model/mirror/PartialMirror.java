@@ -17,16 +17,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
- * This class represents various sorts of mirrors. The mirror is conditioned
- * by ReflectionStrategies that are added to it that determine whether the
- * mirror will reflect a particular photon.
- * <p>
- * Examples of ReflectionStrategies are
- * <ul>
- * <li>LeftReflecting
- * <li>RightReflecting
- * <li>BandPass
- * </ul>
+ * This class represents partially reflecting mirror.
  */
 public class PartialMirror extends Mirror {
 
@@ -39,6 +30,7 @@ public class PartialMirror extends Mirror {
     public PartialMirror ( Point2D end1, Point2D end2 ) {
         super( end1, end2 );
         partialStrategy = new Partial( 1.0f );
+        this.addReflectionStrategy( partialStrategy );
     }
 
     public double getReflectivity() {
@@ -50,6 +42,17 @@ public class PartialMirror extends Mirror {
     }
 
     public void addReflectionStrategy( ReflectionStrategy reflectionStrategy ) {
+        // If the strategy being added is a reflecting strategy, remove the old one
+        if( reflectionStrategy instanceof Partial ) {
+            partialStrategy = (Partial)reflectionStrategy;
+            for( int i = 0; i < reflectionStrategies.size(); i++ ) {
+                ReflectionStrategy strategy = (ReflectionStrategy)reflectionStrategies.get( i );
+                if( strategy instanceof Partial ) {
+                    reflectionStrategies.remove( strategy );
+                    break;
+                }
+            }
+        }
         this.reflectionStrategies.add( reflectionStrategy );
     }
 
@@ -61,13 +64,13 @@ public class PartialMirror extends Mirror {
      * @param photon
      * @return
      */
-    public boolean reflects( Photon photon ) {
-        boolean result = super.reflects( photon );
-        if( result && !partialStrategy.reflects( photon )) {
-            throw new RuntimeException( "TBI" );
-//            result = false;
-//            photon.setCollidable( false );
-        }
-        return result;
-    }
+//    public boolean reflects( Photon photon ) {
+//        boolean result = super.reflects( photon );
+//        if( result && !partialStrategy.reflects( photon )) {
+//            throw new RuntimeException( "TBI" );
+////            result = false;
+////            photon.setCollidable( false );
+//        }
+//        return result;
+//    }
 }

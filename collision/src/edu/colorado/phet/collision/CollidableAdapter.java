@@ -42,6 +42,7 @@ public class CollidableAdapter implements Collidable, ModelElement {
     private Vector2D velocityPrev;
     private Point2D positionPrev;
     private Particle particle;
+    private boolean init;
 
     public CollidableAdapter( Particle particle ) {
         this.particle = particle;
@@ -61,11 +62,21 @@ public class CollidableAdapter implements Collidable, ModelElement {
         positionPrev.setLocation( particle.getPosition() );
     }
 
+    private void init() {
+        stepInTime( 0 );
+        init = true;
+    }
     public Vector2D getVelocityPrev() {
+        if( !init ) {
+            init();
+        }
         return velocityPrev;
     }
 
     public Point2D getPositionPrev() {
+        if( !init ) {
+            init();
+        }
         return positionPrev;
     }
 }

@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.controller;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -25,17 +26,20 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
 
     private JSlider reflectivitySlider;
     private JTextField reflectivityTF;
-    private ResonatingCavity cavity;
+    private PartialMirror mirror;
+//    private ResonatingCavity cavity;
 
     /**
-     * @param cavity
      */
-    public RightMirrorReflectivityControlPanel( final ResonatingCavity cavity ) {
+    public RightMirrorReflectivityControlPanel( final PartialMirror mirror ) {
+//    public RightMirrorReflectivityControlPanel( final ResonatingCavity cavity ) {
 
-        if( cavity != null ) {
-            cavity.addObserver( this );
-        }
-        this.cavity = cavity;
+        this.mirror = mirror;
+        mirror.addObserver( this );
+//        if( cavity != null ) {
+//            cavity.addObserver( this );
+//        }
+//        this.cavity = cavity;
 
         JPanel timeReadoutPanel = new JPanel( new BorderLayout() );
         reflectivityTF = new JTextField( 4 );
@@ -59,7 +63,7 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
         reflectivitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
 //                updateReflectivity( ( (double)reflectivitySlider.getValue() ) / 100 );
-                cavity.setReflectivity( reflectivitySlider.getValue() / 100  );
+                mirror.setReflectivity( ((double)reflectivitySlider.getValue()) / 100  );
                 reflectivityTF.setText( Double.toString( reflectivitySlider.getValue() ) );
             }
         } );
@@ -98,7 +102,8 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
 //    }
 
     public void update() {
-        int reflectivity = (int)( cavity.getReflectivity() * 100 );
+        int reflectivity = (int)( mirror.getReflectivity() * 100 );
+//        int reflectivity = (int)( cavity.getReflectivity() * 100 );
         if( reflectivitySlider.getValue() != reflectivity ) {
             reflectivityTF.setText( Integer.toString( reflectivity ) );
             reflectivitySlider.setValue( reflectivity );

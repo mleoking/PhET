@@ -30,7 +30,7 @@ import java.awt.image.BufferedImageOp;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
+public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, Photon.VelocityChangedListener {
 
     //////////////////////////////////////////////////////////////////////////////////////
     // Class
@@ -174,12 +174,18 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         this.photon = photon;
         this.color = VisibleColor.wavelengthToColor( photon.getWavelength() );
         photon.addObserver( this );
+        photon.addListener( this );
 
         //        super( s_particleImage, particle.getPosition().getX(), particle.getPosition().getY() );
         //        this.setImage( buffImg );
         //        init( particle );
 
         velocity = new Vector2D.Double( photon.getVelocity() );
+        createImage();
+        setPosition( photon );
+    }
+
+    private void createImage() {
         double theta = photon.getVelocity().getAngle();
 
         //        generateAnimation( photon );
@@ -193,8 +199,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         // Rotate the image
         BufferedImage bi2 = GraphicsUtil.getRotatedImage( bi, theta );
         setImage( bi2 );
-
-        setPosition( photon );
     }
 
     /**
@@ -294,5 +298,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
 
     public void paint( Graphics2D g ) {
         super.paint( g );
+    }
+
+    public void velocityChanged( Photon.VelocityChangedEvent event ) {
+        createImage();
     }
 }

@@ -22,10 +22,7 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.SpontaneouslyEmittingState;
-import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
-import edu.colorado.phet.lasers.model.mirror.Mirror;
-import edu.colorado.phet.lasers.model.mirror.Partial;
-import edu.colorado.phet.lasers.model.mirror.RightReflecting;
+import edu.colorado.phet.lasers.model.mirror.*;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
@@ -50,7 +47,7 @@ public class BaseLaserModule extends Module {
     private Point2D laserOrigin;
     private LaserModel laserModel;
     private EnergyLevelsDialog energyLevelsDialog;
-    private Mirror rightMirror;
+    private PartialMirror rightMirror;
     private Mirror leftMirror;
     private MirrorGraphic rightMirrorGraphic;
     private MirrorGraphic leftMirrorGraphic;
@@ -79,8 +76,7 @@ public class BaseLaserModule extends Module {
         apparatusPanel.setBackground( Color.white );
 
         // Create the pumping and stimulating beams
-        stimulatingBeam = new CollimatedBeam( getLaserModel(),
-                                              Photon.RED,
+        stimulatingBeam = new CollimatedBeam( Photon.RED,
                                               s_origin,
                                               s_boxHeight - Photon.s_radius,
                                               s_boxWidth + s_laserOffsetX * 2,
@@ -89,8 +85,7 @@ public class BaseLaserModule extends Module {
         stimulatingBeam.setActive( true );
         getLaserModel().setStimulatingBeam( stimulatingBeam );
 
-        pumpingBeam = new CollimatedBeam( getLaserModel(),
-                                          Photon.BLUE,
+        pumpingBeam = new CollimatedBeam( Photon.BLUE,
                                           new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
                                           s_boxHeight + s_laserOffsetX * 2,
                                           s_boxWidth,
@@ -113,9 +108,9 @@ public class BaseLaserModule extends Module {
                                          cavity.getPosition().getY() );
         Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth(), // + 20,
                                          cavity.getPosition().getY() + cavity.getHeight() );
-        rightMirror = new Mirror( p1, p2 );
+        rightMirror = new PartialMirror( p1, p2 );
         rightMirror.addReflectionStrategy( new LeftReflecting() );
-        rightMirror.addReflectionStrategy( new Partial( .2 ) );
+//        rightMirror.setReflectivity( 0 );
         rightMirrorGraphic = new MirrorGraphic( getApparatusPanel(), rightMirror, MirrorGraphic.LEFT_FACING );
         // The left mirror is 100% reflecting
         Point2D p3 = new Point2D.Double( cavity.getPosition().getX(), // - 20,
@@ -267,5 +262,9 @@ public class BaseLaserModule extends Module {
             energyLevelsMonitorPanel.setNumLevels( 2 );
             laserModel.getPumpingBeam().setActive( false );
         }
+    }
+
+    public PartialMirror getRightMirror() {
+        return rightMirror;
     }
 }

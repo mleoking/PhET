@@ -44,7 +44,7 @@ import java.util.ArrayList;
 public class MultipleAtomModule extends BaseLaserModule {
 
     private double s_maxSpeed = .1;
-    private ArrayList atoms;
+-    private ArrayList atoms;
 
     /**
      *
@@ -87,8 +87,6 @@ public class MultipleAtomModule extends BaseLaserModule {
             BufferedImage beamImage = atxOp1.filter( gunBI, null );
             AffineTransform atx = new AffineTransform();
             atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
-            PhetImageGraphic stimulatingBeamGraphic = new LampGraphic( stimulatingBeam, getApparatusPanel(), beamImage, atx );
-            //            addGraphic( stimulatingBeamGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
             // Add the intensity control
             JPanel sbmPanel = new JPanel();
@@ -151,7 +149,8 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         Atom atom = null;
         atoms = new ArrayList();
-        for( int i = 0; i < 20; i++ ) {
+        int numAtoms = 30;
+        for( int i = 0; i < numAtoms; i++ ) {
             atom = new Atom();
             boolean placed = false;
 

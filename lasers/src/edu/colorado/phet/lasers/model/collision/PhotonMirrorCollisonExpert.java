@@ -45,12 +45,6 @@ public class PhotonMirrorCollisonExpert implements CollisionExpert {
 
                 // Note: This test is very simple-minded. It assumes a vertical mirror that
                 // is infinitely tall.
-                if( photonPositionCurr == null ) {
-                    System.out.println( "1" );
-                }
-                if( photonPositionPrev == null ) {
-                    System.out.println( "2" );
-                }
                 if( mirror.reflects( photon )
                     && ( photonPositionCurr.getX() - mirror.getPosition().getX() )
                        * ( photonPositionPrev.getX() - mirror.getPosition().getX() ) <= 0 ) {

@@ -3,6 +3,11 @@
  * Package: edu.colorado.phet.model.body
  * Author: Another Guy
  * Date: Mar 21, 2003
+ * Latest Change:
+ *      $Author$
+ *      $Date$
+ *      $Name$
+ *      $Revision$
  */
 package edu.colorado.phet.collision;
 
@@ -22,7 +27,7 @@ public class SphericalBody extends Body implements Collidable {
 
     public SphericalBody( double radius ) {
         this.radius = radius;
-         collidableAdapter = new CollidableAdapter( this );
+        collidableAdapter = new CollidableAdapter( this );
     }
 
     protected SphericalBody( Point2D center,
@@ -53,12 +58,6 @@ public class SphericalBody extends Body implements Collidable {
     public Point2D getCenter() {
         return this.getPosition();
     }
-
-//    public boolean isInContactWithBody( CollidableAdapter body ) {
-//        tempVector.setLocation( this.getPosition().getX(), this.getPosition().getY() );
-//        double distance = tempVector.distance( body.getPosition() );
-//        return ( distance <= this.getContactOffset( body ) + body.getContactOffset( this ) );
-//    }
 
     public double getContactOffset( Body body ) {
         return this.getRadius();

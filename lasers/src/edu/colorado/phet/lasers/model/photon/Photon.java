@@ -64,52 +64,27 @@ public class Photon extends Particle implements Collidable {
     }
 
     static public Photon create() {
-        Photon newPhoton = null;
-        /*if( !freePool.isEmpty() ) {
-            newPhoton = (Photon)freePool.remove( 0 );
-        }
-        else */{
-            newPhoton = new Photon();
-            //            freePool.add( new Photon() );
-        }
+        Photon newPhoton = new Photon();
         return newPhoton;
     }
 
-    //    static public Photon create( Photon photon ) {
-    //        Photon newPhoton = create();
-    //        newPhoton.setVelocity( new Vector2D.Double( photon.getVelocity() ));
-    //        newPhoton.setEmittedPhotonWavelength( photon.getWavelength() );
-    //        newPhoton.numStimulatedPhotons = photon.numStimulatedPhotons;
-    //        return newPhoton;
-    //    }
-
     static public Photon createStimulated( Photon stimulatingPhoton ) {
         stimulatingPhoton.numStimulatedPhotons++;
-        if( stimulatingPhoton.numStimulatedPhotons > 1 ) {
-            //            System.out.println( "!!!" );
-        }
-
-        Photon newPhoton = create();
+        Photon newPhoton = create( stimulatingPhoton.getWavelength() );
         newPhoton.setVelocity( new Vector2D.Double( stimulatingPhoton.getVelocity() ) );
-        newPhoton.setWavelength( stimulatingPhoton.getWavelength() );
         int yOffset = stimulatingPhoton.numStimulatedPhotons * 8;
         newPhoton.setPosition( stimulatingPhoton.getPosition().getX(),
                                stimulatingPhoton.getPosition().getY() - yOffset );
-        //                               stimulatingPhoton.getPosition().getY() - stimulatingPhoton.getRadius() );
-
         return newPhoton;
     }
 
     /**
      * If the photon is created by a CollimatedBeam, it should use this method,
      * so that the photon can tell the CollimatedBeam if it is leaving the system.
-     *
-     * @param beam
      */
-    static public Photon create( CollimatedBeam beam ) {
+    static public Photon create( double wavelength ) {
         Photon newPhoton = create();
-        newPhoton.beam = beam;
-        newPhoton.setWavelength( beam.getWavelength() );
+        newPhoton.setWavelength( wavelength );
         return newPhoton;
     }
 
@@ -130,6 +105,20 @@ public class Photon extends Particle implements Collidable {
         public void leftSystemEventOccurred( LeftSystemEvent event );
     }
 
+    public class VelocityChangedEvent extends EventObject {
+        public VelocityChangedEvent() {
+            super( Photon.this );
+        }
+
+        public Vector2D getVelocity() {
+            return Photon.this.getVelocity();
+        }
+    }
+
+    public interface VelocityChangedListener extends EventListener {
+        public void velocityChanged( VelocityChangedEvent event );
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////
     // Instance
     //
@@ -145,6 +134,11 @@ public class Photon extends Particle implements Collidable {
     private Photon childPhoton;
     private CollidableAdapter collidableAdapter;
     private boolean isCollidable;
+    private double wavelength;
+//    private CollimatedBeam beam;
+    // This list keeps track of atoms that the photon has collided with
+    private ArrayList contactedAtoms = new ArrayList();
+
 
     public void addLeftSystemEventListener( LeftSystemEventListener listener ) {
         listenerList.add( LeftSystemEventListener.class, listener );
@@ -154,24 +148,10 @@ public class Photon extends Particle implements Collidable {
         listenerList.remove( LeftSystemEventListener.class, listener );
     }
 
-    private void fireLeftSystemEvent( LeftSystemEvent event ) {
-        EventListener[] listeners = listenerList.getListeners( LeftSystemEventListener.class );
-        for( int i = 0; i < listeners.length; i++ ) {
-            LeftSystemEventListener listener = (LeftSystemEventListener)listeners[i];
-            listener.leftSystemEventOccurred( event );
-        }
-    }
-
     public synchronized void addObserver( SimpleObserver o ) {
         super.addObserver( o );
         numObservers++;
     }
-
-
-    private double wavelength;
-    private CollimatedBeam beam;
-    // This list keeps track of atoms that the photon has collided with
-    private ArrayList contactedAtoms = new ArrayList();
 
     /**
      * Constructor is private so that clients of the class must use static create()
@@ -191,7 +171,6 @@ public class Photon extends Particle implements Collidable {
     }
 
     public void addListener( EventListener listener ) {
-        //        bulletinBoard.addListener( listener );
         eventRegistry.addListener( listener );
     }
 
@@ -206,15 +185,7 @@ public class Photon extends Particle implements Collidable {
      * again. This helps prevent us from flogging the heap.
      */
     public void removeFromSystem() {
-        //        bulletinBoard.notifyListeners( new SubscriptionService.Notifier() {
-        //            public void doNotify( Object obj ) {
-        //                ( (Listener)obj ).leavingSystem( Photon.this );
-        //            }
-        //        } );
         eventRegistry.fireEvent( new LeftSystemEvent() );
-        if( beam != null ) {
-            beam.removePhoton( this );
-        }
         this.removeAllObservers();
         //        freePool.add( this );
         //        setChanged();
@@ -251,6 +222,12 @@ public class Photon extends Particle implements Collidable {
 
     public void setChildPhoton( Photon childPhoton ) {
         this.childPhoton = childPhoton;
+    }
+
+    public void setVelocity( double vx, double vy ) {
+        VelocityChangedEvent vce = new VelocityChangedEvent();
+        super.setVelocity( vx, vy );
+        eventRegistry.fireEvent( vce );
     }
 
     public Vector2D getVelocityPrev() {
