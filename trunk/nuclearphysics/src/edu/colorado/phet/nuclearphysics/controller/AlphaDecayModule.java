@@ -46,7 +46,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         //        clock.setDt( clock.getDt() / 10 );
 
         getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
-        physicalPanel = new AlphaDecayPhysicalPanel();
+        physicalPanel = new AlphaDecayPhysicalPanel( getModel() );
         super.setPhysicalPanel( physicalPanel );
         getApparatusPanel().remove( 0 );
         getApparatusPanel().add( physicalPanel, 0 );

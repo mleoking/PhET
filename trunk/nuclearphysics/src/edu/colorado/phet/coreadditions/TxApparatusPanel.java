@@ -6,7 +6,8 @@
  */
 package edu.colorado.phet.coreadditions;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
 import java.awt.geom.AffineTransform;
@@ -15,9 +16,14 @@ import java.util.HashMap;
 /**
  * An ApparatusPanel that handles TxGraphics
  */
-public class TxApparatusPanel extends ApparatusPanel {
+public class TxApparatusPanel extends ApparatusPanel2 {
+    //public class TxApparatusPanel extends ApparatusPanel {
     private HashMap txGraphicMap = new HashMap();
     private AffineTransform atx = new AffineTransform();
+
+    public TxApparatusPanel( BaseModel model ) {
+        super( model );
+    }
 
     public AffineTransform getTransform() {
         return atx;

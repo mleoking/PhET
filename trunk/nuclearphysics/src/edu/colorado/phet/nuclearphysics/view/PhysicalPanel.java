@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
@@ -17,22 +18,42 @@ import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+
+//public class PhysicalPanel extends ApparatusPanel2 {
 
 public class PhysicalPanel extends TxApparatusPanel {
     //public class PhysicalPanel extends ApparatusPanel {
     public static Color backgroundColor = new Color( 255, 255, 230 );
 
     protected Point2D.Double origin = new Point2D.Double();
+    //    protected AffineTransform originTx;
     protected AffineTransform originTx = new AffineTransform();
+    boolean txInit = false;
     protected AffineTransform scaleTx = new AffineTransform();
     protected AffineTransform nucleonTx = new AffineTransform();
     private double nucleusLevel = Config.nucleusLevel;
 
-    public PhysicalPanel() {
+    public PhysicalPanel( BaseModel model ) {
+        super( model );
         this.setBackground( backgroundColor );
         setScale( 1 );
+
+        this.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                if( !txInit ) {
+                    origin.setLocation( getWidth() / 2, getHeight() / 2 );
+                    originTx.setToTranslation( origin.getX(), origin.getY() );
+                    nucleonTx.setToIdentity();
+                    nucleonTx.concatenate( originTx );
+                    nucleonTx.concatenate( scaleTx );
+                    txInit = true;
+                }
+            }
+        } );
     }
 
     public double getScale() {
@@ -70,11 +91,14 @@ public class PhysicalPanel extends TxApparatusPanel {
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
-        origin.setLocation( this.getWidth() / 2, this.getHeight() / 2 );
-        originTx.setToTranslation( origin.getX(), origin.getY() );
-        nucleonTx.setToIdentity();
-        nucleonTx.concatenate( originTx );
-        nucleonTx.concatenate( scaleTx );
+        //        if( originTx == null ) {
+        //            originTx = new AffineTransform();
+        //            origin.setLocation( this.getWidth() / 2, this.getHeight() / 2 );
+        //            originTx.setToTranslation( origin.getX(), origin.getY() );
+        //            nucleonTx.setToIdentity();
+        //            nucleonTx.concatenate( originTx );
+        //            nucleonTx.concatenate( scaleTx );
+        //        }
 
         Graphics2D g2 = (Graphics2D)graphics;
         GraphicsState gs = new GraphicsState( g2 );

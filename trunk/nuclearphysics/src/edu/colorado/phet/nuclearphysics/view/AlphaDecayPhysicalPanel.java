@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.Config;
@@ -43,7 +44,8 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
     //    private HashMap particleToGraphicMap = new HashMap();
     private double alphaParticleLevel = Config.alphaParticleLevel;
 
-    public AlphaDecayPhysicalPanel() {
+    public AlphaDecayPhysicalPanel( BaseModel model ) {
+        super( model );
         this.setBackground( backgroundColor );
     }
 

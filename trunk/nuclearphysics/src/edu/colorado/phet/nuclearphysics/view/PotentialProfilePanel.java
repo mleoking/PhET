@@ -15,6 +15,7 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -27,6 +28,8 @@ import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
@@ -46,7 +49,6 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     //    private static float ghostAlpha = 0.6f;
     private static double profileLayer = 10;
     private static double nucleusLayer = 20;
-    private static AffineTransform atx = new AffineTransform();
     private static GraphicsSetup decayProductGraphicsSetup = new GraphicsSetup() {
         public void setup( Graphics2D graphics ) {
             GraphicsUtil.setAlpha( graphics, 0.8 );
@@ -69,23 +71,6 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         arrowhead.closePath();
     }
 
-
-    public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
-        atx.setToIdentity();
-        atx.translate( x, y );
-        atx.scale( scale, scale );
-        atx.translate( -x, -y );
-        return atx;
-    }
-
-    public static AffineTransform rotateInPlace( double theta, double x, double y ) {
-        atx.setToIdentity();
-        atx.translate( x, y );
-        atx.rotate( theta );
-        atx.translate( -x, -y );
-        return atx;
-    }
-
     // Maps potential profiles to their graphics
     private HashMap potentialProfileMap = new HashMap();
     // Maps potential profiles to the nucleus graphics associated with them
@@ -96,10 +81,41 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     private Line2D.Double yAxis = new Line2D.Double();
     private AffineTransform profileTx = new AffineTransform();
     private HashMap wellParticles = new HashMap();
+    private static AffineTransform atx = new AffineTransform();
+    private boolean txInit = false;
 
-    public PotentialProfilePanel() {
+    public PotentialProfilePanel( BaseModel model ) {
+        super( model );
         origin = new Point2D.Double( 250, 250 );
         this.setBackground( backgroundColor );
+
+        this.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                if( !txInit ) {
+                    origin.setLocation( getWidth() / 2, getHeight() * 0.8 );
+                    profileTx.setToTranslation( origin.getX(),
+                                                origin.getY() );
+                    txInit = true;
+                }
+            }
+        } );
+    }
+
+
+    public AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
+        atx.setToIdentity();
+        atx.translate( x, y );
+        atx.scale( scale, scale );
+        atx.translate( -x, -y );
+        return atx;
+    }
+
+    public AffineTransform rotateInPlace( double theta, double x, double y ) {
+        atx.setToIdentity();
+        atx.translate( x, y );
+        atx.rotate( theta );
+        atx.translate( -x, -y );
+        return atx;
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
@@ -107,9 +123,9 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         GraphicsState gs = new GraphicsState( g2 );
 
         // Center the profile in the panel
-        origin.setLocation( this.getWidth() / 2, this.getHeight() * 0.8 );
-        profileTx.setToTranslation( origin.getX(),
-                                    origin.getY() );
+        //        origin.setLocation( this.getWidth() / 2, this.getHeight() * 0.8 );
+        //        profileTx.setToTranslation( origin.getX(),
+        //                                    origin.getY() );
 
         // Draw everything that isn't special to this panel. This includes the
         // profiles themselves

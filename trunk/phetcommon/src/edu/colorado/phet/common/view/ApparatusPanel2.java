@@ -225,8 +225,13 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
 
     private void drawIt( Graphics2D g2 ) {
-        //                Graphics2D g2 = (Graphics2D)bImg.getGraphics();
-        //                g2.setClip( repaintArea );
+        //        Graphics2D gImg = (Graphics2D)bImg.getGraphics();
+        //        GraphicsState gs2 = new GraphicsState( gImg );
+        //        gImg.transform( graphicTx );
+        //        graphic.paint( gImg );
+        //        gs2.restoreGraphics();
+        ////        g2.setClip( repaintArea );
+
         if( repaintArea == null ) {
             repaintArea = this.getBounds();
         }
@@ -242,6 +247,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         GraphicsState gs = new GraphicsState( g2 );
         g2.transform( graphicTx );
         graphic.paint( g2 );
+        //        g2.drawImage( bImg, new AffineTransform(), null );
         gs.restoreGraphics();
         Color origColor = g2.getColor();
         Stroke origStroke = g2.getStroke();

@@ -21,7 +21,7 @@ public class ProfiledNucleusModule extends NuclearPhysicsModule {
         super( name, clock );
 
         getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
-        potentialProfilePanel = new PotentialProfilePanel();
+        potentialProfilePanel = new PotentialProfilePanel( getModel() );
         getApparatusPanel().add( potentialProfilePanel, 1 );
     }
 
