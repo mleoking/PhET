@@ -51,6 +51,13 @@ public class PhetApplication {
         }
         moduleManager.addAllModules( descriptor.getModules() );
         s_instance = this;
+    }
+
+    public void startApplication() {
+        if( applicationModel.getInitialModule() == null ) {
+            throw new RuntimeException( "Initial module not specified." );
+        }
+
 
         // Attach a listener to the frame that will set the reference sizes for all
         // Apparatus2 instances the first time focus is gained for the frame.
@@ -60,8 +67,8 @@ public class PhetApplication {
             public void windowGainedFocus( WindowEvent e ) {
                 focusCnt++;
                 if( focusCnt == 1 ) {
-                    for( int i = 0; i < descriptor.getModules().length; i++ ) {
-                        Module module = (Module)descriptor.getModules()[i];
+                    for( int i = 0; i < applicationModel.getModules().length; i++ ) {
+                        Module module = (Module)applicationModel.getModules()[i];
                         ApparatusPanel panel = module.getApparatusPanel();
                         if( panel instanceof ApparatusPanel2 ) {
                             ApparatusPanel2 apparatusPanel = (ApparatusPanel2)panel;
@@ -71,12 +78,7 @@ public class PhetApplication {
                 }
             }
         } );
-    }
 
-    public void startApplication() {
-        if( applicationModel.getInitialModule() == null ) {
-            throw new RuntimeException( "Initial module not specified." );
-        }
         moduleManager.setActiveModule( applicationModel.getInitialModule() );
         applicationModel.start();
         phetFrame.setVisible( true );
