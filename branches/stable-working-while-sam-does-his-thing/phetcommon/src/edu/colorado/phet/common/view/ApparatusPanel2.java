@@ -107,6 +107,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     /**
      * @param model
+     * @deprecated
      */
     public ApparatusPanel2( BaseModel model ) {
         super( null );
