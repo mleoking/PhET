@@ -80,6 +80,7 @@ public class SpacialObservable extends SimpleObservable {
     public void setLocation( double x, double y ) {
         if ( x != _location.getX() || y != _location.getY() ) {
             _location.setLocation( x, y );
+            updateSelf();
             notifyObservers();
         }
     }
@@ -120,6 +121,7 @@ public class SpacialObservable extends SimpleObservable {
     public void setDirection( double direction ) {
         if ( direction != _direction ) {
             _direction = direction;
+            updateSelf();
             notifyObservers();
         }
     }
@@ -132,4 +134,9 @@ public class SpacialObservable extends SimpleObservable {
     public double getDirection() {
         return _direction;
     }
+    
+    /**
+     * Hook for any updates that subclasses might need to perform.
+     */
+    public void updateSelf() {}
 }
