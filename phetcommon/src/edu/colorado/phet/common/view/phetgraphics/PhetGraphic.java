@@ -4,6 +4,7 @@ package edu.colorado.phet.common.view.phetgraphics;
 import edu.colorado.phet.common.view.graphics.BoundedGraphic;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 /**
  * This graphic class auto-magically repaints itself in the appropriate bounds,
@@ -134,6 +135,11 @@ public abstract class PhetGraphic implements BoundedGraphic {
         private Paint paint;
         private Color color;
         private Stroke stroke;
+        private Composite composite;
+        private AffineTransform transform;
+        private Font font;
+        private Shape clip;
+        private Color background;
 
         GraphicsState( Graphics2D graphics2D ) {
             this.graphics2D = graphics2D;
@@ -141,13 +147,23 @@ public abstract class PhetGraphic implements BoundedGraphic {
             paint = graphics2D.getPaint();
             color = graphics2D.getColor();
             stroke = graphics2D.getStroke();
+            composite = graphics2D.getComposite();
+            transform = graphics2D.getTransform();
+            font = graphics2D.getFont();
+            clip = graphics2D.getClip();
+            background = graphics2D.getBackground();
         }
 
         void restoreGraphics() {
-            graphics2D.setRenderingHints( graphicsState.renderingHints );
-            graphics2D.setPaint( graphicsState.paint );
-            graphics2D.setColor( graphicsState.color );
-            graphics2D.setStroke( graphicsState.stroke );
+            graphics2D.setRenderingHints( renderingHints );
+            graphics2D.setPaint( paint );
+            graphics2D.setColor( color );
+            graphics2D.setStroke( stroke );
+            graphics2D.setComposite( composite);
+            graphics2D.setTransform( transform );
+            graphics2D.setFont( font );
+            graphics2D.setClip( clip );
+            graphics2D.setBackground( background );
         }
     }
 }
