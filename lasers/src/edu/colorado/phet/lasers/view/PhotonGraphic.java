@@ -23,6 +23,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -56,6 +57,10 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         catch( IOException e ) {
             e.printStackTrace();
         }
+        double scale = (double)s_imgHeight / s_particleImage.getHeight();
+        AffineTransform sTx = AffineTransform.getScaleInstance( scale, scale );
+        AffineTransformOp sTxOp = new AffineTransformOp( sTx, AffineTransformOp.TYPE_BILINEAR );
+        s_particleImage = sTxOp.filter( s_particleImage, null );
     }
 
     // A map that matches photon wavelengths to display colors
@@ -175,21 +180,35 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         //        init( particle );
 
         velocity = new Vector2D.Double( photon.getVelocity() );
-        double theta = Math.acos( photon.getVelocity().getX() / photon.getVelocity().getMagnitude() );
-        if( photon.getVelocity().getY() < 0 ) {
-            theta = Math.PI * 2 - theta;
-        }
+        double theta = photon.getVelocity().getAngle();
 
         //        generateAnimation( photon );
         //        setImage( animation[0] );
-        BufferedImageOp op = new ColorFromWavelength( 500 );
+
+        BufferedImageOp op = new ColorFromWavelength( photon.getWavelength() );
         BufferedImage bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
         op.filter( s_particleImage, bi );
-        setImage( bi );
+        Point2D pr = new Point2D.Double( );
+        if( theta >= 0 && theta <= Math.PI / 2  ) {
+            pr.setLocation( 0, bi.getHeight( ));
+        }
+        if( theta > Math.PI / 2 && theta <= Math.PI ) {
+            pr.setLocation( bi.getWidth(), bi.getHeight( ));
+        }
+        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
+            pr.setLocation( 0, bi.getHeight( ));
+        }
+        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
+            pr.setLocation( bi.getWidth(), bi.getHeight( ));
+        }
 
+        // todo: The rotation point is not correct. It results in some clipping of the image
+        AffineTransform rtx = AffineTransform.getRotateInstance( theta, bi.getWidth()/2, bi.getHeight( )/2 );
+        BufferedImageOp op2 = new AffineTransformOp( rtx, AffineTransformOp.TYPE_BILINEAR );
+        BufferedImage bi3 = op2.filter( bi, null );
+        setImage( bi3 );
 
         setPosition( photon );
-
     }
 
     /**
@@ -258,7 +277,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
 
     public void update() {
         setPosition( photon );
-
         // Get the next frame of the animaton
         //        currAnimationFrameNum = ( currAnimationFrameNum + 1 ) % animation.length;
         //        setImage( animation[currAnimationFrameNum] );
@@ -284,12 +302,10 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         // porperly. The particle's location is its center, but the location of
         // the graphic is the upper-left corner of the bounding box.
         // TODO: coordinate the size of the particle and the image
-        double x = particle.getPosition().getX() /* - particle.getRadius() */;
+        double x = particle.getPosition().getX() - getImage().getWidth();/* - particle.getRadius() */;
         double y = particle.getPosition().getY() /* - particle.getRadius()*/;
         super.setPosition( (int)x, (int)y );
     }
-
-    Rectangle r = new Rectangle();
 
     public void paint( Graphics2D g ) {
         //        saveGraphicsState( g );
