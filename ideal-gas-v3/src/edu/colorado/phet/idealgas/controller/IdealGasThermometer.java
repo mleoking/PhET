@@ -21,14 +21,15 @@ class IdealGasThermometer extends Thermometer implements SimpleObserver {
         super( component, location, maxScreenLevel, thickness, isVertical, minLevel, maxLevel );
         this.idealGasModel = idealGasModel;
         idealGasModel.addObserver( this );
-        update();        
+        update();
     }
 
     public void update() {
         double temperature = 0;
         temperature = idealGasModel.getTotalKineticEnergy() /
-                      idealGasModel.getHeavySpeciesCnt() +
-                      idealGasModel.getLightSpeciesCnt();
+                      ( idealGasModel.getHeavySpeciesCnt() +
+                      idealGasModel.getLightSpeciesCnt() );        
+        temperature = Double.isInfinite( temperature ) ? 0 : temperature;
 
         // Scale to appropriate units
         temperature *= IdealGasConfig.temperatureScaleFactor;
