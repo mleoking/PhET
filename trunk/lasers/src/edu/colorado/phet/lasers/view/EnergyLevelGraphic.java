@@ -23,9 +23,9 @@ import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Area;
 
 /**
  * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
@@ -41,6 +41,14 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
     private Rectangle bounds = new Rectangle();
     private ModelViewTx1D energyYTx;
 
+    /**
+     * @param component
+     * @param atomicState
+     * @param color
+     * @param xLoc
+     * @param width
+     * @param isAdjustable
+     */
     public EnergyLevelGraphic( final Component component, AtomicState atomicState, Color color, double xLoc, double width,
                                boolean isAdjustable ) {
         super( null );
@@ -54,8 +62,11 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         energyLevelRep = new EnergyLevelRep( component );
         setBoundedGraphic( energyLevelRep );
 
-        addCursorBehavior( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
-        addTranslationBehavior( new EnergyLevelTranslator() );
+        if( isAdjustable ) {
+            addCursorHandBehavior();
+//        addCursorBehavior( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
+            addTranslationBehavior( new EnergyLevelTranslator() );
+        }
     }
 
     public void energyLevelChanged( AtomicState.Event event ) {
@@ -73,6 +84,10 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
     public Point2D getPosition() {
         return energyLevelRep.getBounds().getLocation();
+    }
+
+    public Point2D getLinePosition() {
+        return energyLevelRep.getLinePosition();
     }
 
 
@@ -118,10 +133,6 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         protected EnergyLevelRep( Component component ) {
             super( component );
             color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
-            int xOffset = 20;
-            int arrowHt = 16;
-            int arrowHeadWd = 10;
-            int tailWd = 3;
         }
 
         private void update() {
@@ -159,8 +170,8 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         private Rectangle determineBoundsInternal() {
             if( arrow1 != null ) {
                 Area a = new Area( arrow1.getShape() );
-                a.add( new Area( arrow2.getShape() ));
-                a.add( new Area( levelLine ));
+                a.add( new Area( arrow2.getShape() ) );
+                a.add( new Area( levelLine ) );
                 return a.getBounds();
             }
             else {
@@ -170,14 +181,18 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
         public void paint( Graphics2D g ) {
             saveGraphicsState( g );
-            g.setColor( color );
-            g.fill( levelLine );
             if( isAdjustable ) {
                 g.setColor( Color.DARK_GRAY );
                 g.draw( arrow1.getShape() );
                 g.draw( arrow2.getShape() );
             }
+            g.setColor( color );
+            g.fill( levelLine );
             restoreGraphicsState();
+        }
+
+        public Point2D getLinePosition() {
+            return levelLine.getBounds().getLocation();
         }
     }
 }

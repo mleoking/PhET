@@ -67,6 +67,8 @@ public class Kaboom implements ModelElement {
     public void stepInTime( double dt ) {
         int numPhotons = model.getNumPhotons();
         if( numPhotons > LaserConfig.KABOOM_THRESHOLD && !kaboomed ) {
+            LaserModel laserModel = (LaserModel)model;
+            model.reset();
             kaboom3();
             kaboomed = true;
         }
@@ -74,9 +76,7 @@ public class Kaboom implements ModelElement {
 
     private void kaboom2() {
         double blackBacgroundLayer = Double.MAX_VALUE - 2;
-        double tileLayer = Double.MAX_VALUE;
         double mewssageLayer = Double.MAX_VALUE - 1;
-        Random random = new Random();
         final ApparatusPanel2 ap = (ApparatusPanel2)module.getApparatusPanel();
         backgroundGraphic = new PhetShapeGraphic( ap,
                                                   new Rectangle( ap.getSize() ), Color.white );
@@ -137,7 +137,6 @@ public class Kaboom implements ModelElement {
         int numCols = 6;
         int tileWidth = apSize.width / numCols;
         int tileHeight = tileWidth;
-        int numRows = apSize.width / tileWidth;
         for( int x = 0; x < apSize.width - 1; x += tileWidth ) {
             for( int y = 0; y < apSize.height - 1; y += tileHeight ) {
                 x = Math.min( x, apSize.width - tileWidth - 1 );
@@ -185,7 +184,8 @@ public class Kaboom implements ModelElement {
 
         ResonatingCavity cavity = module.getCavity();
         Rectangle2D bounds = cavity.getBounds();
-        bounds = RectangleUtils.expand( bounds, 30, 50 );
+        bounds = RectangleUtils.expand( bounds, 30, 20 );
+        bounds.setRect( bounds.getMinX(), bounds.getMinY(), ap.getWidth() - bounds.getMinX(), bounds.getHeight() );
 
         // Make a bunch of images from the current state of the apparatus panel
         BufferedImage snapshot = BufferedImageUtils.toBufferedImage( ap.getSnapshot() );
@@ -194,7 +194,7 @@ public class Kaboom implements ModelElement {
         wholeBackground = new PhetImageGraphic( ap, snapshot );
         ap.addGraphic( wholeBackground, blackBacgroundLayer - 1 );
 
-        // Make a white rectangle to cover the cavity
+        // Make a white rectangle to cover the cavity and the area to the right of it
         backgroundGraphic = new PhetShapeGraphic( ap,
                                                   bounds, Color.white );
         ap.addGraphic( backgroundGraphic,
@@ -243,7 +243,7 @@ public class Kaboom implements ModelElement {
         message = new PhetMultiLineTextGraphic( ap, messageStrings, new Font( "Lucida sans", Font.BOLD, 32 ),
                                                 ap.getWidth() / 2 - 80, ap.getHeight() / 2 - 10,
                                                 Color.red );
-        labelMessage = new JLabel( "<html><center>I canna change<br>the laws of physics,<br>Captain!</center></html>" );
+        labelMessage = new JLabel( SimStrings.get( "Kaboom.message" ) );
         labelMessage.setFont( new Font( "Lucida sans", Font.BOLD, 32 ) );
         labelMessage.setForeground( Color.red );
         labelMessage.setLocation( 10, 10 );

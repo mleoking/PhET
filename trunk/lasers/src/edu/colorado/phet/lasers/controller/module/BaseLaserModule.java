@@ -209,7 +209,7 @@ public class BaseLaserModule extends Module {
             case PHOTON_WAVE:
                 if( waveGraphic == null ) {
                     waveGraphic = new StandingWaveGraphic( getApparatusPanel(), getCavity(),
-                                                           rightMirror, getModel(), MiddleEnergyState.instance() );
+                                                           rightMirror, getLaserModel(), MiddleEnergyState.instance() );
                 }
                 addGraphic( waveGraphic.getInternalStandingWave(), LaserConfig.MIRROR_LAYER + 1 );
                 addGraphic( waveGraphic.getExternalStandingWave(), LaserConfig.MIRROR_LAYER - 1 );
