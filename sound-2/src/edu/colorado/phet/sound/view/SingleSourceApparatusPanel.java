@@ -18,7 +18,7 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
 
     //    private PhetImageGraphic speakerFrame;
     //    private PhetImageGraphic speakerCone;
-    private WaveMediumGraphic waveMediumGraphic = null;
+//    private WaveMediumGraphic waveMediumGraphic = null;
     private BufferedImage speakerFrameImg;
     private BufferedImage speakerConeImg;
     private int audioSource = SPEAKER_SOURCE;
@@ -32,14 +32,14 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
     public SingleSourceApparatusPanel( SoundModel model ) {
         super( model );
         this.model = model;
-        final WaveMedium waveMedium = model.getWaveMedium();
-        waveMediumGraphic = new WaveMediumGraphic( waveMedium, this );
-        this.addGraphic( waveMediumGraphic, 7 );
-        Point2D.Double audioSource = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
-                                                         SoundConfig.s_wavefrontBaseY );
-        waveMediumGraphic.initLayout( audioSource,
-                                      SoundConfig.s_wavefrontHeight,
-                                      SoundConfig.s_wavefrontRadius );
+//        final WaveMedium waveMedium = model.getWaveMedium();
+//        waveMediumGraphic = new WaveMediumGraphic( waveMedium, this );
+//        this.addGraphic( waveMediumGraphic, 7 );
+//        Point2D.Double audioSource = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
+//                                                         SoundConfig.s_wavefrontBaseY );
+//        waveMediumGraphic.initLayout( audioSource,
+//                                      SoundConfig.s_wavefrontHeight,
+//                                      SoundConfig.s_wavefrontRadius );
 
         // Set up the octave wavefront and graphic
         //        WaveMediumGraphic wgB = new WaveMediumGraphic( waveMedium, this );
@@ -52,10 +52,11 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
         //                                     SoundConfig.s_wavefrontHeight,
         //                                     SoundConfig.s_wavefrontRadius );
 
-        setWavefrontType( new SphericalWavefront() );
+//        setWavefrontType( new SphericalWavefront() );
         this.setBackground( SoundConfig.MIDDLE_GRAY );
 
         // Set up the speaker
+        final WaveMedium waveMedium = model.getWaveMedium();
         speakerGraphic = new SpeakerGraphic( this, waveMedium );
         this.addGraphic( speakerGraphic, 8 );
         waveMedium.addObserver( new SimpleObserver() {
@@ -91,16 +92,16 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
     /**
      *
      */
-    public void setWavefrontType( WavefrontType wavefrontType ) {
-        waveMediumGraphic.setPlanar( wavefrontType instanceof PlaneWavefront );
-    }
+//    public void setWavefrontType( WavefrontType wavefrontType ) {
+//        waveMediumGraphic.setPlanar( wavefrontType instanceof PlaneWavefront );
+//    }
 
     /**
      * @return
      */
-    protected WaveMediumGraphic getWavefrontGraphic() {
-        return waveMediumGraphic;
-    }
+//    protected WaveMediumGraphic getWavefrontGraphic() {
+//        return waveMediumGraphic;
+//    }
 
     /**
      * TODO: refactor this class so that we don't need this to make interference work
