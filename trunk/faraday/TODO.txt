@@ -6,7 +6,6 @@ IN PROGRESS:
 - when electrons jump between curves, they sometimes end up in the wrong position
 
 HIGH PRIORITY:
-- loop radius should be displayed as loop area
 - encapulate all rescaling of emf into one place
 - check performance of grid with calc disable & drawing enabled
 - cache grid needles at 1-degree angles to eliminate rotation transform
@@ -44,6 +43,7 @@ phetcommon:
 
 DONE:
 v0r13...
+(2/14) - loop radius should be displayed as loop area
 (2/14) - fix electron density in coil ends
 v0r12...
 (2/10) - make electrons jump between front & back layers
