@@ -9,6 +9,8 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
@@ -65,10 +67,44 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private AffineTransform mouseTx = new AffineTransform();
     private Rectangle orgBounds;
     private HashMap componentOrgLocationsMap = new HashMap();
+    private boolean modelPaused = false;
 
+    /**
+     * This constructor adds a feature that allows PhetGraphics to get mouse events
+     * when the model clock is paused.
+     *
+     * @param model
+     * @param clock
+     */
+    public ApparatusPanel2( BaseModel model, AbstractClock clock ) {
+        this( model );
+        clock.addClockStateListener( new ClockStateListener() {
+            public void delayChanged( int waitTime ) {
+            }
+
+            public void dtChanged( double dt ) {
+            }
+
+            public void threadPriorityChanged( int priority ) {
+            }
+
+            public void pausedStateChanged( boolean b ) {
+                modelPaused = b;
+                System.out.println( "b = " + b );
+            }
+        } );
+        modelPaused = clock.isPaused();
+    }
+
+    /**
+     * @param model
+     */
     public ApparatusPanel2( BaseModel model ) {
         super( null );
+
         // The following lines use a mouse processor in the model loop
+        //        this.addMouseListener( mouseDelegator );
+        //        this.addMouseMotionListener( mouseDelegator );
         MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
@@ -304,6 +340,13 @@ public class ApparatusPanel2 extends ApparatusPanel {
         LinkedList mouseEventList;
         LinkedList mouseMotionEventList;
         private CompositeInteractiveGraphicMouseDelegator handler;
+        // The following Runnable is used to process mouse events when the model clock is paused
+        private Runnable pausedEventListProcessor = new Runnable() {
+            public void run() {
+                stepInTime( 0 );
+                ApparatusPanel2.this.megapaintImmediately();
+            }
+        };
 
         public MouseProcessor( CompositeInteractiveGraphicMouseDelegator mouseDelegator ) {
             mouseEventList = new LinkedList();
@@ -324,21 +367,32 @@ public class ApparatusPanel2 extends ApparatusPanel {
             event.translatePoint( dx, dy );
         }
 
-        public void addMouseEvent( MouseEvent event ) {
+        private void addMouseEvent( MouseEvent event ) {
             xformEventPt( event );
             synchronized( mouseEventList ) {
                 mouseEventList.add( event );
             }
+
+            // If the clock is paused, then process mouse events
+            // in the Swing thread
+            if( modelPaused ) {
+                SwingUtilities.invokeLater( pausedEventListProcessor );
+            }
         }
 
-        public void addMouseMotionEvent( MouseEvent event ) {
+        private void addMouseMotionEvent( MouseEvent event ) {
             xformEventPt( event );
             synchronized( mouseMotionEventList ) {
                 mouseMotionEventList.add( event );
             }
+            // If the clock is paused, then process mouse events
+            // in the Swing thread
+            if( modelPaused ) {
+                SwingUtilities.invokeLater( pausedEventListProcessor );
+            }
         }
 
-        public void processMouseEventList() {
+        private void processMouseEventList() {
             MouseEvent event;
             while( mouseEventList.size() > 0 ) {
                 synchronized( mouseEventList ) {
