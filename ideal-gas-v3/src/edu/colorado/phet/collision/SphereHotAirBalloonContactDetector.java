@@ -47,7 +47,7 @@ public class SphereHotAirBalloonContactDetector implements ContactDetector {
             throw new RuntimeException( "bad arguments" );
         }
 
-        if( !balloon.getOpening().contains( sphere.getPosition()) ) {
+        if( !balloon.getOpening().contains( sphere.getPosition() ) ) {
             result = detector.areInContact( balloon, sphere );
         }
         return result;

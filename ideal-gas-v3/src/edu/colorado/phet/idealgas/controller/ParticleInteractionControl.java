@@ -14,18 +14,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ParticleInteractionControl extends JPanel {
-        public ParticleInteractionControl() {
-            final JCheckBox noSphereSphereCollisionCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.No_particle_interactions" ) );
-            this.add( noSphereSphereCollisionCB );
-            noSphereSphereCollisionCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    GasMolecule.enableParticleParticleInteractions( !noSphereSphereCollisionCB.isSelected() );
-                }
-            } );
+    public ParticleInteractionControl() {
+        final JCheckBox noSphereSphereCollisionCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.No_particle_interactions" ) );
+        this.add( noSphereSphereCollisionCB );
+        noSphereSphereCollisionCB.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                GasMolecule.enableParticleParticleInteractions( !noSphereSphereCollisionCB.isSelected() );
+            }
+        } );
 
-            // Set default state
-            noSphereSphereCollisionCB.setSelected( false );
+        // Set default state
+        noSphereSphereCollisionCB.setSelected( false );
 //            noSphereSphereCollisionCB.setSelected( true );
-            GasMolecule.enableParticleParticleInteractions( !noSphereSphereCollisionCB.isSelected() );
-        }
+        GasMolecule.enableParticleParticleInteractions( !noSphereSphereCollisionCB.isSelected() );
     }
+}

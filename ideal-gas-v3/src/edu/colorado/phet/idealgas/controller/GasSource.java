@@ -8,5 +8,6 @@ package edu.colorado.phet.idealgas.controller;
 
 public interface GasSource {
     void setCurrentGasSpecies( Class currentGasSpecies );
+
     Class getCurrentGasSpecies();
 }

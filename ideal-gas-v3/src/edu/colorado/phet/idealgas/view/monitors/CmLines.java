@@ -36,6 +36,7 @@ public class CmLines extends PhetGraphic implements SimpleObserver {
         super( component );
         this.box = model.getBox();
         model.addObserver( this );
+        update();
     }
 
     protected Rectangle determineBounds() {

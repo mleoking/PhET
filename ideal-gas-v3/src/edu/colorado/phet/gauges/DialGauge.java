@@ -33,6 +33,7 @@ import java.text.NumberFormat;
  * A round dial gauge that reports the value of a ScalarObservable. In addition
  * to a red needle showing the value, the value is printed digitaly, with
  * units.
+ *
  * @author Sam Reid
  * @version $Revision$
  */

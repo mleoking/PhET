@@ -42,7 +42,7 @@ public class SphereHollowSphereExpert implements CollisionExpert {
                 sphere = (SphericalBody)bodyA;
             }
             double dist = hollowSphere.getPosition().distance( sphere.getPosition() );
-            if( hollowSphere.containsBody( sphere )) {
+            if( hollowSphere.containsBody( sphere ) ) {
                 if( dist + sphere.getRadius() > hollowSphere.getRadius() ) {
                     Collision collision = new SphereSphereCollision( (HollowSphere)bodyA,
                                                                      (SphericalBody)bodyB );
@@ -57,7 +57,7 @@ public class SphereHollowSphereExpert implements CollisionExpert {
                     collision.collide();
                     haveCollided = true;
                 }
-            }                        
+            }
         }
         return haveCollided;
     }

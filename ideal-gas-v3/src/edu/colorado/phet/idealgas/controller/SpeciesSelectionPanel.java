@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 
 
 public class SpeciesSelectionPanel extends JPanel {
-//    private GasSource gasSource;
+
 
     public SpeciesSelectionPanel( final GasSource gasSource ) {
 //        this.gasSource = gasSource;

@@ -24,7 +24,7 @@ public class SphereHotAirBalloonExpert implements CollisionExpert {
         boolean haveCollided = false;
         if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB ) ) {
             Collision collision = new SphereSphereCollision( (HollowSphere)bodyA,
-                                                                   (SphericalBody)bodyB );
+                                                             (SphericalBody)bodyB );
             collision.collide();
             haveCollided = true;
         }

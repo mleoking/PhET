@@ -57,7 +57,7 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
         this.openingMaxX = x + imageGraphic.getBounds().getWidth();
         box.addObserver( this );
 
-        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ));
+        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
         this.addTranslationBehavior( new DoorTranslator() );
     }
 

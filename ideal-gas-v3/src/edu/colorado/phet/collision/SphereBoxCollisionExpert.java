@@ -8,7 +8,9 @@ package edu.colorado.phet.collision;
 
 import edu.colorado.phet.idealgas.model.Box2D;
 
-
+/**
+ * TODO: Remove. Class is vestigial
+ */
 public class SphereBoxCollisionExpert implements ContactDetector {
 
     public boolean applies( CollidableBody bodyA, CollidableBody bodyB ) {

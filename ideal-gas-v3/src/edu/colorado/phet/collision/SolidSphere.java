@@ -16,7 +16,7 @@ public class SolidSphere extends SphericalBody {
     }
 
     protected SolidSphere( Point2D center, //    protected SphericalBody( Vector2D center,
-                     Vector2D velocity, Vector2D acceleration, double mass, double radius ) {
+                           Vector2D velocity, Vector2D acceleration, double mass, double radius ) {
         super( center, velocity, acceleration, mass, radius );
     }
 }

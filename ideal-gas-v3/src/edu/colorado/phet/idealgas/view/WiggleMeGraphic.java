@@ -41,15 +41,16 @@ public class WiggleMeGraphic extends PhetGraphic {
         redrawArea = new Rectangle( (int)startLocation.getX(), (int)startLocation.getY() - 50,
                                     110, 60 );
         wiggleMeModelElement = new ModelElement() {
-                    double cnt = 0;
-                    public void stepInTime( double dt ) {
-                        cnt += 0.1;
-                        current.setLocation( startLocation.getX() + 30 * Math.cos( cnt ),
-                                             startLocation.getY() + 15 * Math.sin( cnt ) );
-                        component.invalidate();
-                        component.repaint( (int)redrawArea.getX(), (int)redrawArea.getY(), redrawArea.width, redrawArea.height );
-                    }
-                };
+            double cnt = 0;
+
+            public void stepInTime( double dt ) {
+                cnt += 0.1;
+                current.setLocation( startLocation.getX() + 30 * Math.cos( cnt ),
+                                     startLocation.getY() + 15 * Math.sin( cnt ) );
+                component.invalidate();
+                component.repaint( (int)redrawArea.getX(), (int)redrawArea.getY(), redrawArea.width, redrawArea.height );
+            }
+        };
     }
 
     public void start() {

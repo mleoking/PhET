@@ -104,7 +104,7 @@ public class MeasurementDialog extends JDialog {
 
     class SpeciesMonitorControl extends JPanel {
         SpeciesMonitorControl() {
-            final JCheckBox speciesMonotorCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Show_species_information" ));
+            final JCheckBox speciesMonotorCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Show_species_information" ) );
             this.add( speciesMonotorCB );
             speciesMonotorCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

@@ -21,17 +21,17 @@ public class SpeciesMonitorDialog extends JDialog {
         super( phetFrame, false );
         JPanel speciesPanel = new JPanel( new GridLayout( 2, 1 ) );
         GasSpeciesMonitorPanel heavySpeciesPanel = new GasSpeciesMonitorPanel( HeavySpecies.class,
-                                                        SimStrings.get( "IdealGasMonitorPanel.Heavy_species" ),
-                                                        idealGasModel );
+                                                                               SimStrings.get( "IdealGasMonitorPanel.Heavy_species" ),
+                                                                               idealGasModel );
         speciesPanel.add( heavySpeciesPanel );
         GasSpeciesMonitorPanel lightSpeciesPanel = new GasSpeciesMonitorPanel( LightSpecies.class,
-                                                        SimStrings.get( "IdealGasMonitorPanel.Light_species" ),
-                                                        idealGasModel );
+                                                                               SimStrings.get( "IdealGasMonitorPanel.Light_species" ),
+                                                                               idealGasModel );
         speciesPanel.add( lightSpeciesPanel );
 
         this.getContentPane().add( speciesPanel );
         pack();
     }
 
-    
+
 }

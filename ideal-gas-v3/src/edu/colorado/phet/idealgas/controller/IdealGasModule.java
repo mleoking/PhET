@@ -134,8 +134,6 @@ public class IdealGasModule extends Module implements EventChannel {
                                                        getModel() );
                 addGraphic( wiggleMeGraphic, 40 );
                 wiggleMeGraphic.start();
-//                Thread wiggleMeThread = new Thread( wiggleMeGraphic );
-//                wiggleMeThread.start();
             }
             pump.addObserver( new SimpleObserver() {
                 public void update() {
@@ -299,9 +297,9 @@ public class IdealGasModule extends Module implements EventChannel {
             getApparatusPanel().removeGraphic( rulerGraphic );
         }
         getApparatusPanel().revalidate();
-        getApparatusPanel().paintImmediately(0, 0,
-                (int) getApparatusPanel().getBounds().getWidth(),
-                (int) getApparatusPanel().getBounds().getHeight());
+        getApparatusPanel().paintImmediately( 0, 0,
+                                              (int)getApparatusPanel().getBounds().getWidth(),
+                                              (int)getApparatusPanel().getBounds().getHeight() );
     }
 
     public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
@@ -325,6 +323,11 @@ public class IdealGasModule extends Module implements EventChannel {
             Component component = (Component)visibleInstruments.get( i );
             component.setVisible( true );
         }
+
+
+        // DEBUG
+        TotalEnergyMonitor tem = new TotalEnergyMonitor( null, idealGasModel );
+        tem.setVisible( true );
     }
 
     public void deactivate( PhetApplication app ) {
@@ -342,23 +345,23 @@ public class IdealGasModule extends Module implements EventChannel {
 
     public void reset() {
         getIdealGasModel().removeAllMolecules();
-        eventRegistry.fireEvent( new ResetEvent( this ));
+        eventRegistry.fireEvent( new ResetEvent( this ) );
     }
 
-    public void addListener(EventListener listener) {
+    public void addListener( EventListener listener ) {
         eventRegistry.addListener( listener );
     }
 
-    public void removeListener(EventListener listener) {
-        eventRegistry.removeListener(listener);
+    public void removeListener( EventListener listener ) {
+        eventRegistry.removeListener( listener );
     }
 
     public void removeAllListeners() {
         eventRegistry.removeAllListeners();
     }
 
-    public void fireEvent(EventObject event) {
-        eventRegistry.fireEvent(event);
+    public void fireEvent( EventObject event ) {
+        eventRegistry.fireEvent( event );
     }
 
     public int getNumListeners() {
@@ -375,8 +378,8 @@ public class IdealGasModule extends Module implements EventChannel {
     }
 
     public class ResetEvent extends EventObject {
-        public ResetEvent(Object source) {
-            super(source);
+        public ResetEvent( Object source ) {
+            super( source );
         }
     }
 }
