@@ -12,12 +12,17 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ThreadedClock;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.nuclearphysics.controller.FisionModule;
+import edu.colorado.phet.nuclearphysics.controller.FissionModule;
+import edu.colorado.phet.nuclearphysics.view.AlphaRadiationModule;
 
 public class NuclearPhysicsApplication extends PhetApplication {
 
     public NuclearPhysicsApplication( ApplicationDescriptor descriptor, Module m, AbstractClock clock ) {
         super( descriptor, m, clock );    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    public NuclearPhysicsApplication( ApplicationDescriptor descriptor, Module[] modules, AbstractClock clock ) {
+        super( descriptor, modules, clock );    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     public static void main( String[] args ) {
@@ -26,8 +31,11 @@ public class NuclearPhysicsApplication extends PhetApplication {
                                                                    desc,
                                                                    "0.1" );
         AbstractClock clock = new ThreadedClock( 20, 50, true );
-        Module module = new FisionModule( clock );
-        NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc, module, clock );
-        app.startApplication( module );
+        Module fissionModule = new FissionModule( clock );
+        Module alphaModule = new AlphaRadiationModule( clock );
+        Module[] modules = new Module[]{fissionModule, alphaModule};
+//        NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc, fissionModule, clock );
+        NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc, modules, clock );
+        app.startApplication( fissionModule );
     }
 }
