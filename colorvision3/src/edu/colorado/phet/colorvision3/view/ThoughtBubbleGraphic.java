@@ -2,12 +2,14 @@
 
 package edu.colorado.phet.colorvision3.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
@@ -22,6 +24,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
  */
 public class ThoughtBubbleGraphic extends PhetGraphic
 {
+  private static Stroke STROKE = new BasicStroke( 1f );
+  
   private int _x, _y;
   private Paint _fill;
   private Paint _border;
@@ -166,6 +170,7 @@ public class ThoughtBubbleGraphic extends PhetGraphic
       g2.setPaint( _fill );
       g2.fill( _area );
       // Draw the border.
+      g2.setStroke( STROKE );
       g2.setPaint( _border );
       g2.draw( _area );
     }
