@@ -89,7 +89,7 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
 
     private void paintIdea( Graphics2D g ) {
         if( ideaGraphic == null ) {
-            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             Color lightBlue = module.getPurple();
             Font ideaFont = new Font( "Lucida", Font.ITALIC, 18 );
 
@@ -139,13 +139,13 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
             currentImage = this.rightMan;
         }
         if( oldX != x || origImage != currentImage ) {
-            paintImmediately( origRectangle, getRectangle() );
+            repaint( origRectangle, getRectangle() );
         }
     }
 
-    private void paintImmediately( Rectangle r1, Rectangle r2 ) {
+    private void repaint( Rectangle r1, Rectangle r2 ) {
         Rectangle union = r1.union( r2 );
-//        module.getApparatusPanel().paintImmediately( union );
+//        module.getApparatusPanel().repaint( union );
         module.getApparatusPanel().paintSoon( union );
     }
 

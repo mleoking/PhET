@@ -5,6 +5,7 @@ import edu.colorado.phet.common.math.transforms.BoxToBoxInvertY;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.movingman.application.MovingManModule;
+import edu.colorado.phet.movingman.common.GraphicsSetup;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -78,17 +79,23 @@ public class BoxedPlot implements ObservingGraphic {
         }
     }
 
+    GraphicsSetup graphicsSetup = new GraphicsSetup();
+    GraphicsSetup bufferSetup = new GraphicsSetup();
+
     public void paint( Graphics2D g ) {
+
+//        if (true){
+//            return;
+//        }
         if( started && visible ) {
-            Stroke origStroke = g.getStroke();
+            graphicsSetup.saveState( g );
             g.setStroke( stroke );
             g.setColor( color );
-            Shape origClip = g.getClip();
             g.setClip( getOutputBox() );
             g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            g.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
             g.draw( path );
-            g.setClip( origClip );
-            g.setStroke( origStroke );
+            graphicsSetup.restoreState( g );
         }
     }
 
@@ -124,15 +131,16 @@ public class BoxedPlot implements ObservingGraphic {
                     Point2D.Double a = (Point2D.Double)transformedData.get( transformedData.size() - 2 );
                     Point2D.Double b = (Point2D.Double)transformedData.get( transformedData.size() - 1 );
                     this.bufferGraphic = (Graphics2D)buffer.getImage().getGraphics();
-                    Stroke origStroke = bufferGraphic.getStroke();
+                    bufferSetup.saveState( bufferGraphic );
                     bufferGraphic.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                    bufferGraphic.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
                     bufferGraphic.setColor( color );
                     bufferGraphic.setStroke( stroke );
                     bufferGraphic.setClip( outputBox );
                     Line2D.Double line = new Line2D.Double( b.x, b.y, a.x, a.y );
                     bufferGraphic.draw( line );
                     s1 = stroke.createStrokedShape( line ).getBounds();
-                    bufferGraphic.setStroke( origStroke );
+                    bufferSetup.restoreState( bufferGraphic );
                 }
                 try {
                     Point2D curpt = path.getCurrentPoint();
@@ -144,7 +152,7 @@ public class BoxedPlot implements ObservingGraphic {
                     if( s1 != null ) {
                         s2 = s1.union( s2 );
                     }
-                    paintImmediately( s2 );
+                    repaint( s2 );
                 }
                 catch( IllegalPathStateException ipse ) {
                     ipse.printStackTrace();
@@ -157,8 +165,8 @@ public class BoxedPlot implements ObservingGraphic {
         return new Rectangle( repaintRect.x - dx / 2, repaintRect.y - dy / 2, repaintRect.width + dx, repaintRect.height + dy );
     }
 
-    private void paintImmediately( Rectangle rect ) {
-//        module.getApparatusPanel().paintImmediately( rect );
+    private void repaint( Rectangle rect ) {
+//        module.getApparatusPanel().repaint( rect );
         module.getApparatusPanel().paintSoon( rect );
     }
 

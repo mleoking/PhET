@@ -26,20 +26,19 @@ public class OscillateSuite extends MotionSuite {
         this.module = module;
         oscillate = new OscMotion( module, .01 );
         double min = 0;
-        double max = 2;
-        int numSteps = 20;
+        double max = .02;
+        double numSteps = 200;
         SpinnerNumberModel m = new SpinnerNumberModel( ( max - min ) / 2, min, max, ( max - min ) / numSteps );
         final JSpinner js = new JSpinner( m );
         js.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Double d = (Double)js.getValue();
-                oscillate.setK( d.doubleValue() / 100 );
+                oscillate.setK( d.doubleValue() );
             }
         } );
         js.setBorder( PhetLookAndFeel.createSmoothBorder( "Spring Constant" ) );
 
         getControlPanel().add( js );
-//        super.setControlPanel( controlPanel );
         getControlPanel().add( new JLabel( "<html>That's the Spring Constant, <br>in Newtons per Meter.</html>" ) );
         super.setMotion( oscillate );
     }
@@ -49,7 +48,6 @@ public class OscillateSuite extends MotionSuite {
     }
 
     public void initialize( Man man ) {
-
         module.getPositionPlot().getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
 
         module.setVelocityPlotMagnitude( 21 );
@@ -58,6 +56,8 @@ public class OscillateSuite extends MotionSuite {
         module.setAccelerationPlotMagnitude( 55 );
         module.getAccelerationPlot().getGrid().setPaintYLines( new double[]{-50, -25, 0, 25, 50} );
         module.repaintBackground();
+
+        oscillate.initialize( man );
     }
 
 }

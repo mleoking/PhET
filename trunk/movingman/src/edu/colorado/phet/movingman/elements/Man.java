@@ -1,7 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.elements;
 
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.AutomatedObservable;
 
 /**
  * User: Sam Reid
@@ -9,7 +9,7 @@ import edu.colorado.phet.common.model.ModelElement;
  * Time: 12:25:22 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class Man extends ModelElement {
+public class Man extends AutomatedObservable {
     private double x;
     private double x0;
     private boolean grabbed = false;
@@ -26,9 +26,7 @@ public class Man extends ModelElement {
 
     public void setVelocity( double velocity ) {
         this.velocity = velocity;
-    }
-
-    public void stepInTime( double dt ) {
+        System.out.println( "SET velocity = " + velocity );
     }
 
     public boolean isGrabbed() {

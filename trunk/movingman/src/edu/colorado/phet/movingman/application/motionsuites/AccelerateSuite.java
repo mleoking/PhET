@@ -119,7 +119,7 @@ public class AccelerateSuite extends MotionSuite {
     private void setInitialVelocity() {
         Double value = (Double)initialVelocitySpinner.getValue();
         module.getMan().setVelocity( value.doubleValue() / 10 * .2 );
-        module.setInitialPosition( module.getMan().getX() );
+//        module.setInitialPosition( module.getMan().getX() );
     }
 
     private void doChangeEvent() {

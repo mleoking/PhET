@@ -3,6 +3,7 @@ package edu.colorado.phet.movingman.application;
 
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.movingman.application.motionsuites.*;
 import edu.colorado.phet.movingman.common.VerticalLayoutPanel;
@@ -10,10 +11,12 @@ import edu.colorado.phet.movingman.common.plaf.PlafUtil;
 import edu.colorado.phet.movingman.elements.DataSeries;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -79,10 +82,6 @@ public class MovingManControlPanel extends JPanel {
                 public void actionPerformed( ActionEvent e ) {
                     //pausing from playback leaves it alone
                     module.setPaused( true );
-                    play.setEnabled( true );
-                    slowMotion.setEnabled( true );
-                    pause.setEnabled( false );
-                    rewind.setEnabled( true );
                 }
             } );
 
@@ -133,6 +132,17 @@ public class MovingManControlPanel extends JPanel {
             add( pause );
             add( rewind );
             didReset();
+            module.addStateListener( new MovingManModule.StateListener() {
+                public void stateChanged( MovingManModule module ) {
+                    if( module.isPaused() ) {
+                        //fix the buttons.
+                        play.setEnabled( true );
+                        slowMotion.setEnabled( true );
+                        pause.setEnabled( false );
+                        rewind.setEnabled( true );
+                    }
+                }
+            } );
         }
 
         private void didReset() {
@@ -186,7 +196,6 @@ public class MovingManControlPanel extends JPanel {
         private MotionSuite[] motions;
 
         public MotionPanel() throws IOException {
-
             motions = new MotionSuite[]{
                 new StandSuite( module ),
                 new WalkSuite( module ),
@@ -249,6 +258,7 @@ public class MovingManControlPanel extends JPanel {
 
     public MovingManControlPanel( final MovingManModule module ) throws IOException {
         this.module = module;
+        addAlphaPanel();
         final Dimension preferred = new Dimension( 200, 400 );
         setSize( preferred );
         setPreferredSize( preferred );
@@ -350,6 +360,69 @@ public class MovingManControlPanel extends JPanel {
         northPanel.setInsets( new Insets( 4, 4, 4, 4 ) );
         northPanel.add( reset );
         panel.add( northPanel, BorderLayout.NORTH );
+    }
+
+    JFrame alphaFrame = new JFrame();
+
+    private void addAlphaPanel() {
+        final JPanel contentPane = new JPanel();
+        contentPane.setLayout( new BoxLayout( contentPane, BoxLayout.Y_AXIS ) );
+        Field[] f = AlphaComposite.class.getFields();
+        final JList list = new JList( f );
+
+        list.addListSelectionListener( new ListSelectionListener() {
+            public void valueChanged( ListSelectionEvent e ) {
+                BufferedGraphicForComponent bg = module.getBackground();
+                Field ac = (Field)list.getSelectedValue();
+                AlphaComposite alpha = null;
+                try {
+                    alpha = (AlphaComposite)ac.get( null );
+                }
+                catch( IllegalAccessException e1 ) {
+                    e1.printStackTrace();
+                }
+                bg.setAlphaComposite( alpha );
+                list.repaint();
+                contentPane.invalidate();
+                contentPane.validate();
+                contentPane.repaint();
+            }
+        } );
+        contentPane.add( list );
+        alphaFrame.setContentPane( contentPane );
+        module.getApparatusPanel().addKeyListener( new KeyListener() {
+            public void keyTyped( KeyEvent e ) {
+            }
+
+            public void keyPressed( KeyEvent e ) {
+            }
+
+            public void keyReleased( KeyEvent e ) {
+                if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
+                    alphaFrame.setVisible( true );
+                }
+            }
+        } );
+        module.getApparatusPanel().addMouseListener( new MouseListener() {
+            public void mouseClicked( MouseEvent e ) {
+            }
+
+            public void mousePressed( MouseEvent e ) {
+                module.getApparatusPanel().requestFocus();
+                module.getApparatusPanel().requestFocusInWindow();
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+            }
+
+            public void mouseEntered( MouseEvent e ) {
+            }
+
+            public void mouseExited( MouseEvent e ) {
+            }
+        } );
+        alphaFrame.setContentPane( contentPane );
+        alphaFrame.pack();
     }
 
     public static DataSeries parseString( String str ) {
