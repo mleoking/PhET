@@ -7,7 +7,6 @@ import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.Timer;
 import edu.colorado.phet.movingman.common.DragHandler;
 import edu.colorado.phet.movingman.common.GraphicsState;
-import edu.colorado.phet.movingman.common.transforms.BoxToBoxInvertY;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -25,18 +24,18 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
     MovingManModule module;
     Timer timer;
     private Color color;
-    private BoxToBoxInvertY transform;
+    private BoxToBoxInvertY2 transform;
     int x = 0;
     int width = 8;
     int height;
     int y;
     private DragHandler dragHandler;
-    private BoxToBoxInvertY inversion;
+    private BoxToBoxInvertY2 inversion;
     boolean visible = false;
     private Stroke stroke = new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL, 2, new float[]{6, 4}, 0 );
     private Stroke dummystroke = new BasicStroke( 2.0f );
 
-    public CursorGraphic( MovingManModule module, Timer timer, Color color, BoxToBoxInvertY transform, int y, int height ) {
+    public CursorGraphic( MovingManModule module, Timer timer, Color color, BoxToBoxInvertY2 transform, int y, int height ) {
         this.module = module;
         this.timer = timer;
         this.color = color;
@@ -45,7 +44,7 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
         this.height = height;
         timer.addObserver( this );
         if( transform != null ) {
-            inversion = new BoxToBoxInvertY( transform.getOutputBounds(), transform.getInputBounds() );
+            inversion = new BoxToBoxInvertY2( transform.getOutputBounds(), transform.getInputBounds() );
         }
         update( timer, null );
     }
@@ -54,9 +53,9 @@ public class CursorGraphic implements ObservingGraphic, InteractiveGraphic {
         this.height = height;
     }
 
-    public void setBounds( BoxToBoxInvertY transform ) {
+    public void setBounds( BoxToBoxInvertY2 transform ) {
         this.transform = transform;
-        this.inversion = new BoxToBoxInvertY( transform.getOutputBounds(), transform.getInputBounds() );
+        this.inversion = new BoxToBoxInvertY2( transform.getOutputBounds(), transform.getInputBounds() );
         updateYourself();
     }
 

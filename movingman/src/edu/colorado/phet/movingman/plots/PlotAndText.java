@@ -1,7 +1,6 @@
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.plots;
 
-import edu.colorado.phet.movingman.plots.BoxedPlot;
-import edu.colorado.phet.movingman.plots.GridLineGraphic;
+import edu.colorado.phet.movingman.ValueGraphic;
 
 /**
  * Created by IntelliJ IDEA.

@@ -6,7 +6,6 @@ import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.GraphicsState;
 import edu.colorado.phet.movingman.common.TransformJSlider;
-import edu.colorado.phet.movingman.common.transforms.BoxToBoxInvertY;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +31,7 @@ public class BoxedPlot implements ObservingGraphic {
     boolean showValue = true;
     private GeneralPath path = new GeneralPath( GeneralPath.WIND_EVEN_ODD );
     private boolean started;
-    private BoxToBoxInvertY transform;
+    private BoxToBoxInvertY2 transform;
     private boolean visible = true;
     private ArrayList rawData = new ArrayList( 100 );
     private ArrayList transformedData = new ArrayList( 100 );
@@ -94,7 +93,7 @@ public class BoxedPlot implements ObservingGraphic {
         slider.setSize( slider.getWidth(), (int)outputBox.getHeight() );
         this.outputBox = outputBox;
         started = false;
-        this.transform = new BoxToBoxInvertY( inputBox, outputBox );
+        this.transform = new BoxToBoxInvertY2( inputBox, outputBox );
         //Update plot based on existing data
         path.reset();
         if( rawData.size() <= 1 ) {
@@ -196,7 +195,7 @@ public class BoxedPlot implements ObservingGraphic {
         return transform.getInputBounds();
     }
 
-    public BoxToBoxInvertY getTransform() {
+    public BoxToBoxInvertY2 getTransform() {
         return transform;
     }
 

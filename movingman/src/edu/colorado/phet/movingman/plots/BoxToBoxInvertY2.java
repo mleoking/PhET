@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.common.transforms;
+package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.movingman.common.math.RangeToRange;
 import edu.colorado.phet.movingman.common.math.RangeToRangeInvert;
@@ -9,14 +9,14 @@ import java.awt.geom.Rectangle2D;
 /**
  * Transforms from a to b rectangles by translation and scale.
  */
-public class BoxToBoxInvertY implements InvertibleTransform, IBoxToBox {
-    RangeToRange xtrf;
-    RangeToRangeInvert ytrf;
-    Rectangle2D in;
-    Rectangle2D out;
+public class BoxToBoxInvertY2 {
+    private RangeToRange xtrf;
+    private RangeToRangeInvert ytrf;
+    private Rectangle2D in;
+    private Rectangle2D out;
 
     //A is the input rectangle, B is the output rectangle.
-    public BoxToBoxInvertY( Rectangle2D in, Rectangle2D out ) {
+    public BoxToBoxInvertY2( Rectangle2D in, Rectangle2D out ) {
         this.in = in;
         this.out = out;
         setState();
@@ -53,7 +53,7 @@ public class BoxToBoxInvertY implements InvertibleTransform, IBoxToBox {
         return new Point2D.Double( x, y );
     }
 
-    public InvertibleTransform invert() {
-        return new BoxToBox( out, in );
-    }
+//    public InvertibleTransform invert() {
+//        return new BoxToBox( out, in );
+//    }
 }

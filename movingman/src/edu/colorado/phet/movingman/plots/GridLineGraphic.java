@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.movingman.RectangleUtils;
 import edu.colorado.phet.movingman.common.GraphicsRestore;
+import edu.colorado.phet.movingman.utils.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
