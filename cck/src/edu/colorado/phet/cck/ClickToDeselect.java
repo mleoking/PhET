@@ -47,6 +47,7 @@ public class ClickToDeselect implements InteractiveGraphic {
     }
 
     public void mouseReleased(MouseEvent event) {
+        System.out.println("ClickToDeselect released.");
         deselectAll(event.getComponent());
     }
 

@@ -1,5 +1,5 @@
 /*Copyright, Sam Reid, 2003.*/
-package edu.colorado.phet.cck.common;
+package edu.colorado.phet.common.math;
 
 /**
  * User: Sam Reid
@@ -7,13 +7,13 @@ package edu.colorado.phet.cck.common;
  * Time: 11:59:37 PM
  * Copyright (c) Feb 18, 2004 by Sam Reid
  */
-public class LinearMap {
+public class LinearTransform1d {
     double minInput;
     double maxInput;
     double minOutput;
     double maxOutput;
 
-    public LinearMap(double minInput, double maxInput, double minOutput, double maxOutput) {
+    public LinearTransform1d(double minInput, double maxInput, double minOutput, double maxOutput) {
         this.minInput = minInput;
         this.maxInput = maxInput;
         this.minOutput = minOutput;
@@ -44,7 +44,7 @@ public class LinearMap {
     }
 
     public static void main(String[] args) {
-        LinearMap map = new LinearMap(-10, 10, 2, 3);
+        LinearTransform1d map = new LinearTransform1d(-10, 10, 2, 3);
 
         for (double d = map.getMinInput(); d <= map.getMaxInput(); d += .01) {
             double out = map.operate(d);

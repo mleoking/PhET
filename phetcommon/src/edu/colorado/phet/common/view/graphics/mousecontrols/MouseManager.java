@@ -24,7 +24,11 @@ public class MouseManager implements MouseInputListener {
 
     public void mouseClicked(MouseEvent e) {
         //Make sure we're over the active guy.
-        mouseMoved(e);
+//        mouseMoved(e);
+        handleEntranceAndExit(e);
+        if (activeUnit != null) {
+            activeUnit.mouseClicked(e);
+        }
     }
 
     public void mousePressed(MouseEvent e) {
@@ -34,7 +38,7 @@ public class MouseManager implements MouseInputListener {
     }
 
     public void mouseReleased(MouseEvent e) {
-        handleEntranceAndExit(e);
+//        handleEntranceAndExit(e);
         if (activeUnit != null)
             activeUnit.mouseReleased(e);
     }

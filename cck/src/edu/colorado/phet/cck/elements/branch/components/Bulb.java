@@ -1,7 +1,6 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.cck.elements.branch.components;
 
-import edu.colorado.phet.cck.common.LinearMap;
 import edu.colorado.phet.cck.elements.branch.Branch;
 import edu.colorado.phet.cck.elements.branch.BranchObserver;
 import edu.colorado.phet.cck.elements.branch.CompositeBranch;
@@ -9,6 +8,7 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.elements.junction.Junction;
 import edu.colorado.phet.cck.elements.xml.BranchData;
 import edu.colorado.phet.cck.elements.xml.BulbData;
+import edu.colorado.phet.common.math.LinearTransform1d;
 import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 
@@ -77,7 +77,7 @@ public class Bulb extends Branch implements HasResistance {
     private void updateIntensity() {
         double current = Math.abs(super.getCurrent());
         double power = Math.abs(current * getVoltageDrop());
-        LinearMap map = new LinearMap(0, 1000, .2, 1);
+        LinearTransform1d map = new LinearTransform1d(0, 1000, .2, 1);
         this.intensity = map.operate(power);
         if (intensity > 1)
             intensity = 1;
