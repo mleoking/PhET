@@ -11,13 +11,44 @@ import edu.colorado.phet.common.view.fastpaint.FastPaint;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.PixelGrabber;
+import java.awt.geom.Point2D;
+import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
 public class GraphicsUtil {
+
+    /**
+     * Creates and returns a buffered image that is a rotated version of a specified
+     * buffered image. The transform is done so that the image is not truncated.
+     * @param bImage
+     * @param theta
+     * @return
+     */
+    public static BufferedImage getRotatedImage( BufferedImage bImage, double theta ) {
+        // Determine the correct point of the image about which to rotate it. If we don't
+        // do this correctly, the image will get clipped when it is rotated into certain
+        // quadrants
+        Point2D pr = new Point2D.Double();
+        // Normalize theta to be between 0 and PI*2
+        theta = ( (theta % (Math.PI * 2)) + Math.PI * 2 ) % ( Math.PI * 2 );
+        if( theta >= 0 && theta <= Math.PI / 2 ) {
+            pr.setLocation( 0, bImage.getHeight() );
+        }
+        if( theta > Math.PI / 2 && theta <= Math.PI ) {
+            pr.setLocation( bImage.getWidth(), bImage.getHeight() );
+        }
+        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
+            pr.setLocation( bImage.getWidth(), bImage.getHeight() );
+        }
+        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
+            pr.setLocation( bImage.getWidth(), bImage.getHeight() );
+        }
+        AffineTransform rtx = AffineTransform.getRotateInstance( theta, pr.getX(), pr.getY() );
+        BufferedImageOp op = new AffineTransformOp( rtx, AffineTransformOp.TYPE_BILINEAR );
+        BufferedImage result = op.filter( bImage, null );
+        return result;
+    }
 
     /**
      * These  stubs are just so Rons code will still compile.  (For distance ladder.)

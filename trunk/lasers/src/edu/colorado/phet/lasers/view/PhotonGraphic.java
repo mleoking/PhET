@@ -15,6 +15,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.coreadditions.ColorFromWavelength;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -23,7 +24,6 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -185,32 +185,14 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         //        generateAnimation( photon );
         //        setImage( animation[0] );
 
+        // Set the color of the image
         BufferedImageOp op = new ColorFromWavelength( photon.getWavelength() );
         BufferedImage bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
         op.filter( s_particleImage, bi );
 
-        // Determine the correct point of the image about which to rotate it. If we don't
-        // do this correctly, the image will get clipped when it is rotated into certain
-        // quadrants
-        Point2D pr = new Point2D.Double();
-        theta = ( theta + Math.PI * 2 ) % ( Math.PI * 2 );
-        if( theta >= 0 && theta <= Math.PI / 2 ) {
-            pr.setLocation( 0, bi.getHeight() );
-        }
-        if( theta > Math.PI / 2 && theta <= Math.PI ) {
-            pr.setLocation( bi.getWidth(), bi.getHeight() );
-        }
-        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
-            pr.setLocation( bi.getWidth(), bi.getHeight() );
-        }
-        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
-            pr.setLocation( bi.getWidth(), bi.getHeight() );
-        }
-
-        AffineTransform rtx = AffineTransform.getRotateInstance( theta, pr.getX(), pr.getY() );
-        BufferedImageOp op2 = new AffineTransformOp( rtx, AffineTransformOp.TYPE_BILINEAR );
-        BufferedImage bi3 = op2.filter( bi, null );
-        setImage( bi3 );
+        // Rotate the image
+        BufferedImage bi2 = GraphicsUtil.getRotatedImage( bi, theta );
+        setImage( bi2 );
 
         setPosition( photon );
     }
