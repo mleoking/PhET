@@ -179,24 +179,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         return Atom.getNumHighStateAtoms();
     }
 
-    public void removeAtoms() {
-        for( int i = 0; i < bodies.size(); i++ ) {
-            ModelElement modelElement = (ModelElement)bodies.get( i );
-            if( modelElement instanceof Atom ) {
-                removeModelElement( modelElement );
-            }
-        }
-    }
-
-    public void removePhotons() {
-        for( int i = 0; i < bodies.size(); i++ ) {
-            ModelElement modelElement = (ModelElement)bodies.get( i );
-            if( modelElement instanceof Photon ) {
-                removeModelElement( modelElement );
-            }
-        }
-    }
-
     public void setBounds( Rectangle2D bounds ) {
         boundingRectangle.setRect( bounds );
     }

@@ -52,6 +52,10 @@ public class MultipleAtomModule extends BaseLaserModule {
     public MultipleAtomModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), clock );
 
+        // Set the control panel
+        setControlPanel( new MultipleAtomControlPanel( this ) );
+
+
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() );
         CollimatedBeam seedBeam = ( (LaserModel)getModel() ).getSeedBeam();
@@ -60,7 +64,7 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                                     s_boxWidth + s_laserOffsetX * 2, s_boxHeight );
         seedBeam.setBounds( seedBeamBounds );
         seedBeam.setDirection( new Vector2D.Double( 1, 0 ) );
-        seedBeam.setActive( true );
+        seedBeam.setEnabled( true );
         seedBeam.setPhotonsPerSecond( 1 );
 
         CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
@@ -70,7 +74,7 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                                        s_boxWidth, s_boxHeight + s_laserOffsetX * 2 );
         pumpingBeam.setBounds( pumpingBeamBounds );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
-        pumpingBeam.setActive( true );
+        pumpingBeam.setEnabled( true );
 
         // Add the ray gun for firing photons
         try {
@@ -127,11 +131,11 @@ public class MultipleAtomModule extends BaseLaserModule {
         }
 
         // Only the pumping beam is enabled for this module
-        pumpingBeam.setIsEnabled( true );
-        seedBeam.setIsEnabled( false );
+        pumpingBeam.setEnabled( true );
+        setThreeEnergyLevels( true );
+        //        seedBeam.setIsEnabled( false );
 
-        // Set the control panel
-        setControlPanel( new MultipleAtomControlPanel( this, clock ) );
+        getModel().removeModelElement( seedBeam );
 
         ApparatusConfiguration config = new ApparatusConfiguration();
         config.setSeedPhotonRate( 1 );

@@ -15,7 +15,6 @@ package edu.colorado.phet.lasers.model.photon;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.lasers.EventRegistry;
-import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -39,10 +38,8 @@ public class CollimatedBeam extends Particle {
     // The rate at which the beam produces photons
     private double timeSinceLastPhotonProduced = 0;
     // Used to deterimine when photons should be produced
-    private double photonsPerSecond = 30;
+    private double photonsPerSecond;
     // Is the collimated beam currently generating photons?
-    private boolean isActive;
-    private SubscriptionService bulletinBoard = new SubscriptionService();
     private boolean isEnabled;
 
 
@@ -124,7 +121,6 @@ public class CollimatedBeam extends Particle {
     }
 
     public void setPhotonsPerSecond( double photonsPerSecond ) {
-
         // The following if statement prevents the system from sending out a big
         // wave of photons if it has been set at a rate of 0 for awhile.
         if( this.photonsPerSecond == 0 ) {
@@ -146,11 +142,9 @@ public class CollimatedBeam extends Particle {
     }
 
     public void addPhoton() {
-        final Photon newPhoton = Photon.create( this.getWavelength() );
-        newPhoton.setPosition( genPositionX(), genPositionY() /* + newPhoton.getRadius() */ );
-        newPhoton.setVelocity( new Vector2D.Double( velocity ) );
-        newPhoton.setWavelength( this.wavelength );
-
+        final Photon newPhoton = Photon.create( this.getWavelength(),
+                                                new Point2D.Double( genPositionX(), genPositionY() ),
+                                                new Vector2D.Double( velocity ) );
         eventRegistry.fireEvent( new PhotonEmittedEvent( this, newPhoton ) );
     }
 
@@ -158,22 +152,25 @@ public class CollimatedBeam extends Particle {
         super.stepInTime( dt );
 
         // Produce photons
-        if( isActive() ) {
+        if( isEnabled() ) {
             timeSinceLastPhotonProduced += dt;
             if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
                 timeSinceLastPhotonProduced = 0;
-                this.addPhoton();
+                final Photon newPhoton = Photon.create( this.getWavelength(),
+                                                        new Point2D.Double( genPositionX(), genPositionY() ),
+                                                        new Vector2D.Double( velocity ) );
+                eventRegistry.fireEvent( new PhotonEmittedEvent( this, newPhoton ) );
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
             }
         }
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean isEnabled() {
+        return isEnabled;
     }
 
-    public void setActive( boolean active ) {
-        isActive = active;
+    public void setEnabled( boolean enabled ) {
+        isEnabled = enabled;
         timeSinceLastPhotonProduced = 0;
     }
 
@@ -199,14 +196,6 @@ public class CollimatedBeam extends Particle {
         double temp = ( gaussianGenerator.nextGaussian() + 1.0 );
         temp = 1;
         return temp / ( photonsPerSecond / 1000 );
-    }
-
-    public void setIsEnabled( boolean isEnabled ) {
-        this.isEnabled = isEnabled;
-    }
-
-    public boolean isEnabled() {
-        return isEnabled;
     }
 }
 
