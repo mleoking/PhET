@@ -61,7 +61,7 @@ public class PNForward extends ForwardBiasDiode {
         //when particles stop moving.
         Band valenceBand = energySection.bandSetAt( 1 ).getConductionBand();
         double x = energySection.bandSetAt( 1 ).getX() + energySection.bandSetAt( 1 ).getWidth();
-        for( int i = 0; i < valenceBand.numEnergyLevels() && i < SemiconductorBandSet.NUM_DOPING_LEVELS; i++ ) {
+        for( int i = 0; i < valenceBand.numEnergyLevels() && i < 0; i++ ) { //TODO brokne
             EnergyLevel level = valenceBand.energyLevelAt( i );
             EnergyCell cell = level.cellAt( 1 );
 
@@ -71,7 +71,7 @@ public class PNForward extends ForwardBiasDiode {
             }
 
         }
-        EnergyLevel level = valenceBand.energyLevelAt( SemiconductorBandSet.NUM_DOPING_LEVELS - 1 );
+        EnergyLevel level = valenceBand.energyLevelAt(  - 1 );
         EnergyCell cell = level.cellAt( 1 );
         return new EntryPoint[]{new EntryPoint( x, cell.getEnergy(), cell )};
     }
