@@ -13,8 +13,6 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
-import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
-import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -46,17 +44,17 @@ public class NuclearPhysicsApplication extends PhetApplication {
         // Note: a ThreadedClock here ends up looking balky
         SwingTimerClock clock = new SwingTimerClock( 10, 50, true );
         Module alphaModule = new AlphaDecayModule( clock );
-        Module singleNucleusFissionModule = new SingleNucleusFissionModule( clock );
-        Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( clock );
+        //        Module singleNucleusFissionModule = new SingleNucleusFissionModule( clock );
+        //        Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( clock );
         Module[] modules = new Module[]{
             alphaModule,
-            singleNucleusFissionModule,
-            multipleNucleusFissionModule
+            //            singleNucleusFissionModule,
+            //            multipleNucleusFissionModule
         };
         appDesc.setModules( modules );
         //        appDesc.setInitialModule( multipleNucleusFissionModule );
-        appDesc.setInitialModule( singleNucleusFissionModule );
-        //        appDesc.setInitialModule( alphaModule );
+        //        appDesc.setInitialModule( singleNucleusFissionModule );
+        appDesc.setInitialModule( alphaModule );
         appDesc.setClock( clock );
         //        app.startApplication( multipleNucleusFissionModule );
         //        app.startApplication( singleNucleusFissionModule );
