@@ -1,8 +1,6 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.forces1d.model;
 
-import edu.colorado.phet.common.model.ModelElement;
-
 import java.util.ArrayList;
 
 /**
@@ -11,7 +9,7 @@ import java.util.ArrayList;
  * Time: 12:38:31 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class DataSeries implements ModelElement {
+public class DataSeries {
     private ArrayList pts = new ArrayList();
     private ArrayList listeners = new ArrayList();
 
@@ -33,9 +31,6 @@ public class DataSeries implements ModelElement {
 
     public int size() {
         return pts.size();
-    }
-
-    public void stepInTime( double dt ) {
     }
 
     public void reset() {
