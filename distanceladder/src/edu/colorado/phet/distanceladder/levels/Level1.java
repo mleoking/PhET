@@ -7,9 +7,7 @@
 package edu.colorado.phet.distanceladder.levels;
 
 import edu.colorado.phet.distanceladder.Config;
-import edu.colorado.phet.distanceladder.exercise.Answer;
 import edu.colorado.phet.distanceladder.exercise.Exercise;
-import edu.colorado.phet.distanceladder.exercise.ExerciseModel;
 import edu.colorado.phet.distanceladder.exercise.XmlExercise;
 import edu.colorado.phet.distanceladder.model.NormalStar;
 import edu.colorado.phet.distanceladder.model.Star;
@@ -22,10 +20,10 @@ import java.awt.geom.Point2D;
 public class Level1 extends Exercise {
 
     private Star[] starField = new Star[]{
-        new NormalStar( Color.green, 1E6, new Point2D.Double( 100, -20 ), -45 ),
-        new NormalStar( Color.red, 1E6, new Point2D.Double( 250, 10 ), -5 ),
-        new NormalStar( Color.blue, 1E6, new Point2D.Double( Config.universeWidth / 4, 30 ), 5 ),
-        new NormalStar( Color.yellow, 1E6, new Point2D.Double( Config.universeWidth / 2, -15 ), 0 )
+        new NormalStar( Color.green, Config.maxStarLuminance, new Point2D.Double( 100, -20 ), -45 ),
+        new NormalStar( Color.red, Config.maxStarLuminance, new Point2D.Double( 250, 10 ), -5 ),
+        new NormalStar( Color.blue, Config.maxStarLuminance, new Point2D.Double( Config.universeWidth / 4, 30 ), 5 ),
+        new NormalStar( Color.yellow, Config.maxStarLuminance, new Point2D.Double( Config.universeWidth / 2, -15 ), 0 )
     };
 
     public Level1( JFrame frame, UniverseModel model ) {

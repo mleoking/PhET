@@ -74,6 +74,7 @@ public class DistanceLadderGame {
         displayMessage( new HtmlMessage( "messages/level2A-intro.html" ) );
         doLevel( new Level2A( app.getApplicationView().getPhetFrame(), model ) );
 
+        displayMessage( new HtmlMessage( "messages/level3-intro.html" ) );
         doLevel( new Level3( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level3A( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level3B( app.getApplicationView().getPhetFrame(), model,
@@ -90,11 +91,9 @@ public class DistanceLadderGame {
         while( !level.doIt() ) {
             JOptionPane.showMessageDialog( null, "Sorry, wrong answer.", "Results",
                                            JOptionPane.ERROR_MESSAGE );
-//            new HtmlMessage( "messages/incorrect-msg-1.html" ).display();
         }
         JOptionPane.showMessageDialog( null, "Correct!", "Results",
                                        JOptionPane.INFORMATION_MESSAGE );
-//        new HtmlMessage( "messages/correct-msg-1.html" ).display();
     }
 
     public static void main( String[] args ) {
