@@ -210,10 +210,10 @@ public class FieldMeterGraphic extends CompositePhetGraphic
             double angle = -( _fieldVector.getAngle() );  // +angle is counterclockwise
     
             // Format the values.
-            String bString = _formatter.format( new Double( b ) );
-            String bxString = _formatter.format( new Double( bx ) );
-            String byString = _formatter.format( new Double( by ) );
-            String angleString = _formatter.format( new Double( Math.toDegrees( angle ) ) );
+            String bString = _formatter.format( b );
+            String bxString = _formatter.format( bx );
+            String byString = _formatter.format( by );
+            String angleString = _formatter.format( Math.toDegrees( angle ) );
             
             /*
              * Correct some offensive looking values.
