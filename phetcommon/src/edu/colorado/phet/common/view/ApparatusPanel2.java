@@ -41,7 +41,7 @@ import java.util.LinkedList;
  * <p/>
  * The differences between this class and ApparatusPanel are:
  * <ul>
- * <li>The graphic objects in the panel resize when the panel is resized
+ * <li>The graphic objects in the panel resetRenderingSize when the panel is resized
  * <li>Mouse events are handled in the model loop, not the Swing event dispatch thread
  * <li>An option allows drawing to be done to an offscreen buffer, then the whole buffer
  * written at one time to the graphics card
@@ -76,6 +76,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private Rectangle orgBounds;
     private HashMap componentOrgLocationsMap = new HashMap();
     private boolean modelPaused = false;
+    private ResizeHandler resizeHandler;
 
     /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
@@ -148,7 +149,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
         } );
 
         // Add a listener what will adjust things if the size of the panel changes
-        this.addComponentListener( new ResizeHandler() );
+        resizeHandler = new ResizeHandler();
+        this.addComponentListener( resizeHandler );
     }
 
     public boolean isUseOffscreenBuffer() {
@@ -430,12 +432,28 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
     }
 
+    //This may be the wrong name for what this does.
+    public void resetRenderingSize() {
+        orgBounds = null;
+        resizeHandler.doResize();
+    }
+
     /**
      * Handles the state of the ApparatusPanel2 if it is resized
      */
     private class ResizeHandler extends ComponentAdapter {
 
+        /**
+         * This code suffers from the problem that rendering might accidentally happen at a small resolution.
+         * We should offer a means for re-rendering, that is, setting the orgBounds to null for a redraw.
+         *
+         * @param e
+         */
         public void componentResized( ComponentEvent e ) {
+            doResize();
+        }
+
+        private void doResize() {
             if( orgBounds == null ) {
                 orgBounds = ApparatusPanel2.this.getBounds();
                 Component[] components = ApparatusPanel2.this.getComponents();
@@ -453,6 +471,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
             // Using a single scale factor keeps the aspect ratio constant
             double s = Math.min( sx, sy );
             graphicTx = AffineTransform.getScaleInstance( s, s );
+            System.out.println( "Set graphics to scale: " + s );
             try {
                 mouseTx = graphicTx.createInverse();
             }
@@ -471,6 +490,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
                     component.setLocation( pNew );
                 }
             }
+
         }
     }
 }
