@@ -4,6 +4,7 @@ package edu.colorado.phet.chart;
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -94,6 +95,50 @@ public abstract class AbstractTicks extends AbstractGrid {
             g.setStroke( origStroke );
             g.setColor( origColor );
         }
+    }
+
+    public Rectangle[] getTextBounds() {
+        ArrayList result = new ArrayList();
+        Rectangle bounds = null;
+        int orientation = super.getOrientation();
+        double crossesOtherAxisAt = super.getCrossesOtherAxisAt();
+        Chart chart = super.getChart();
+        double tickSpacing = super.getSpacing();
+        if( orientation == HORIZONTAL ) {
+            double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinX(), chart.getRange().getMaxX(), tickSpacing );
+            for( int i = 0; i < gridLines.length; i++ ) {
+                double gridLineX = gridLines[i];
+                int x = chart.transformX( gridLineX );
+                int y = getHorizontalTickY();
+                if( isShowLabels() ) {
+                    String string = format.format( gridLineX );
+                    int width = fontMetrics.stringWidth( string );
+                    int height = fontMetrics.getHeight();
+                    int textX = x - width / 2;
+                    int textY = y + tickHeight / 2 + height;
+                    Rectangle rect = new Rectangle( textX, textY, width, height );//TODO this is untested
+                    result.add( rect );
+                }
+            }
+        }
+        else if( orientation == VERTICAL ) {
+            double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinY(), chart.getRange().getMaxY(), tickSpacing );
+            for( int i = 0; i < gridLines.length; i++ ) {
+                double gridLineY = gridLines[i];
+                int x = getVerticalTickX();
+                int y = chart.transformY( gridLineY );
+                if( isShowLabels() ) {
+                    String string = format.format( gridLineY );
+                    int width = fontMetrics.stringWidth( string );
+                    int height = fontMetrics.getHeight();
+                    int textX = x - tickHeight / 2 - width;
+                    int textY = y - height / 2;
+                    Rectangle strBounds = new Rectangle( textX, textY, width, height );
+                    result.add( strBounds );
+                }
+            }
+        }
+        return (Rectangle[])result.toArray( new Rectangle[0] );
     }
 
     public void setNumberFormat( NumberFormat numberFormat ) {

@@ -21,6 +21,14 @@ public class HorizontalCursor extends DefaultInteractiveGraphic {
     private CursorGraphic cursorGraphic;
     private ArrayList listeners = new ArrayList();
 
+    public void update() {
+        cursorGraphic.update();
+    }
+
+    public void setX( double x ) {
+        cursorGraphic.setModelX( x );
+    }
+
     public interface Listener {
         public void modelValueChanged( double modelX );
     }
@@ -45,6 +53,11 @@ public class HorizontalCursor extends DefaultInteractiveGraphic {
                         listener.modelValueChanged( newX );
                     }
                 }
+            }
+        } );
+        chart.addListener( new Chart.Listener() {
+            public void transformChanged( Chart chart ) {
+                update();
             }
         } );
     }
@@ -95,6 +108,7 @@ public class HorizontalCursor extends DefaultInteractiveGraphic {
             Rectangle newShape = stroke.createStrokedShape( shape ).getBounds();
             Rectangle union = origShape.union( newShape );
             chart.getComponent().repaint( union.x, union.y, union.width, union.height );
+//            System.out.println( "xCenter = " + xCenter );
         }
 
         public boolean contains( int x, int y ) {
@@ -102,6 +116,7 @@ public class HorizontalCursor extends DefaultInteractiveGraphic {
         }
 
         public void setModelX( double modelX ) {
+//            System.out.println( "modelX = " + modelX );
             this.modelX = modelX;
             update();
         }
