@@ -60,7 +60,7 @@ public class CockpitModuleTest {
             starField.addStar( star );
         }
 
-//        placeEquidistantStars( starField );
+        placeEquidistantStars( starField );
 //        placeFourStars( starField );
 
 //        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 100, 0 ), -45 );
@@ -97,7 +97,7 @@ public class CockpitModuleTest {
 
         model.getStarShip().setPov( new PointOfView( 0, 0, 0 ) );
         Point2D.Double starPt = new Point2D.Double( 100, -600 );
-        model.getStarShip().setPov( starPt.getX() - 1, starPt.getY() + .5, Math.toRadians( 15 ) );
+//        model.getStarShip().setPov( starPt.getX() - 1, starPt.getY() + .5, Math.toRadians( 15 ) );
         model.setStarField( model.getStarField() );
 //        starView.setPointOfView( 0, 0, 0 );
 
