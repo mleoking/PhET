@@ -61,7 +61,7 @@ public class DefaultBranchInteractionHandler implements Boundary, MouseInputList
             module.relayoutElectrons( branch2 );
         }
         module.branchMoved();
-        module.repaint();
+//        module.repaint();
     }
 
     public void mouseMoved( MouseEvent e ) {
@@ -79,7 +79,7 @@ public class DefaultBranchInteractionHandler implements Boundary, MouseInputList
         if( closestToEnd != null && closestToEnd.distance( copy.getEnd() ) < STICKY_DISTANCE ) {
             branch.getEndJunction().addConnection( closestToEnd );
         }
-        module.repaint();
+//        module.repaint();
     }
 
     public JMenuBar getJMenuBar( MouseEvent event ) {

@@ -23,6 +23,7 @@ public class JunctionCoverUpGraphic implements Graphic {
     double radius;
 //    Color color=DefaultCompositeBranchGraphic.JUNCTION_COLOR;
     Color color = new Color( CCK2Module.COPPER.getRed() + 15, CCK2Module.COPPER.getGreen() + 35, CCK2Module.COPPER.getBlue() + 35 );
+    private boolean visible = false;
 
     public JunctionCoverUpGraphic( CircuitGraphic circuitGraphic, ModelViewTransform2D transform, double radius ) {
         this.circuitGraphic = circuitGraphic;
@@ -31,6 +32,9 @@ public class JunctionCoverUpGraphic implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
+        if( !visible ) {
+            return;
+        }
         g.setColor( color );
         Circuit c = circuitGraphic.getCircuit();
         JunctionGroup[] jg = c.getJunctionGroups();

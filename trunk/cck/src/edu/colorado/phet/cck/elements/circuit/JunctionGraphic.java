@@ -90,7 +90,7 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener, B
     public void mousePressed( MouseEvent event ) {
         module.deselectAll();
         junction.setSelected( true );
-        event.getComponent().repaint();
+//        event.getComponent().repaint();
     }
 
     public void mouseDragged( MouseEvent event ) {
@@ -116,7 +116,7 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener, B
         module.relayoutElectrons( this.junction );
         junction.fireLocationChanged();
         module.junctionDragged();
-        module.repaint();
+//        module.repaint();
     }
 
     public void mouseReleased( MouseEvent event ) {
@@ -127,7 +127,7 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener, B
         if( closest != null && closest.distance( new ImmutableVector2D.Double( modelMousePoint.x, modelMousePoint.y ) ) < DefaultBranchInteractionHandler.STICKY_DISTANCE ) {
             junction.setLocation( closest.getX(), closest.getY() );
             junction.addConnection( closest );
-            module.getApparatusPanel().repaint();
+//            module.getApparatusPanel().repaint();
         }
         if( SwingUtilities.isRightMouseButton( event ) ) {
             menu.show( event.getComponent(), event.getX(), event.getY() );
@@ -190,7 +190,7 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener, B
         modelPoint = new Point2D.Double( junction.getX(), junction.getY() );
         viewPoint = module.getTransform().modelToView( modelPoint );
         numConnections = junction.numConnections();
-        module.getApparatusPanel().repaint();
+//        module.getApparatusPanel().repaint();
     }
 
     public int getY() {

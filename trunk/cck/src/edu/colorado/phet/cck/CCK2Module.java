@@ -61,6 +61,7 @@ import java.util.logging.LogRecord;
  */
 public class CCK2Module extends Module {
     public static final double ELECTRON_SEPARATION = .35;
+//    public static final double ELECTRON_SEPARATION = 4;
 
     private ModelViewTransform2D transform;
     boolean antialias = true;
@@ -114,19 +115,19 @@ public class CCK2Module extends Module {
         }
     };
 
-    CircuitObserver repainter = new CircuitObserver() {
-        public void branchAdded( Circuit circuit2, Branch branch ) {
-            getApparatusPanel().repaint();
-        }
-
-        public void branchRemoved( Circuit circuit2, Branch branch ) {
-            getApparatusPanel().repaint();
-        }
-
-        public void connectivityChanged( Circuit circuit2 ) {
-            getApparatusPanel().repaint();
-        }
-    };
+//    CircuitObserver repainter = new CircuitObserver() {
+//        public void branchAdded( Circuit circuit2, Branch branch ) {
+//            getApparatusPanel().repaint();
+//        }
+//
+//        public void branchRemoved( Circuit circuit2, Branch branch ) {
+//            getApparatusPanel().repaint();
+//        }
+//
+//        public void connectivityChanged( Circuit circuit2 ) {
+//            getApparatusPanel().repaint();
+//        }
+//    };
 
     private ComponentListener relayout = new ComponentAdapter() {
         public void componentResized( ComponentEvent e ) {
@@ -175,7 +176,7 @@ public class CCK2Module extends Module {
         schematicGraphicFactory = new SchematicGraphicFactory( this, imageSuite.getBaseSwitchImage() );
 
         circuit.addCircuitObserver( circuitSolver );
-        circuit.addCircuitObserver( repainter );
+//        circuit.addCircuitObserver( repainter );
 
         circuitGraphic = new CircuitGraphic( circuit, this );
         getApparatusPanel().addGraphic( circuitGraphic, 0 );
@@ -203,9 +204,9 @@ public class CCK2Module extends Module {
 
         getApparatusPanel().addGraphic( voltmeterGraphic, 100 );
 
-        voltmeterGraphic.getRedLeadGraphic().addObserver( repaint );
-        voltmeterGraphic.getBlackLeadGraphic().addObserver( repaint );
-        voltmeterGraphic.getVoltmeterUnitGraphic().addObserver( repaint );
+//        voltmeterGraphic.getRedLeadGraphic().addObserver( repaint );
+//        voltmeterGraphic.getBlackLeadGraphic().addObserver( repaint );
+//        voltmeterGraphic.getVoltmeterUnitGraphic().addObserver( repaint );
 
         SimpleObserver checkDVM = new SimpleObserver() {
             public void update() {
@@ -431,11 +432,11 @@ public class CCK2Module extends Module {
         }
     }
 
-    SimpleObserver repaint = new SimpleObserver() {
-        public void update() {
-            getApparatusPanel().repaint();
-        }
-    };
+//    SimpleObserver repaint = new SimpleObserver() {
+//        public void update() {
+//            getApparatusPanel().repaint();
+//        }
+//    };
 
     public void deselectAll() {
         clickToDeselect.deselectAll( getApparatusPanel() );
@@ -451,9 +452,9 @@ public class CCK2Module extends Module {
         return transform;
     }
 
-    public void repaint() {
-        getApparatusPanel().repaint();
-    }
+//    public void repaint() {
+//        getApparatusPanel().repaint();
+//    }
 
     public ImageSuite getLifelikeImageSuite() {
         return imageSuite.getLifelikeSuite();
