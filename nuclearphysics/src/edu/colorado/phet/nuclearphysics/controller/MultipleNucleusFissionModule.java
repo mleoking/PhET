@@ -314,22 +314,27 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     private Point2D.Double findLocationForNewNucleus() {
         // Determine the area in which the nucleus can be place. This depends on whether the
         // containment vessel is enabled or not.
+
+        // Determine the model bounds represented by the current size of the apparatus panel
         Rectangle2D r = getPhysicalPanel().getBounds();
-        AffineTransform atx = getPhysicalPanel().getNucleonTx();
-        Rectangle2D apparatusPanelBounds = new Rectangle2D.Double();
+        AffineTransform atx = new AffineTransform( getPhysicalPanel().getNucleonTx() );
+        AffineTransform gtx = getPhysicalPanel().getGraphicTx();
+        atx.preConcatenate( gtx );
+        Rectangle2D modelBounds = new Rectangle2D.Double();
         try {
-            apparatusPanelBounds.setFrameFromDiagonal( atx.inverseTransform( new Point2D.Double( r.getMinX(), r.getMinY() ), null ),
-                                                       atx.inverseTransform( new Point2D.Double( r.getMinX() + r.getWidth(), r.getMinY() + r.getHeight() ), null ) );
+            modelBounds.setFrameFromDiagonal( atx.inverseTransform( new Point2D.Double( r.getMinX(), r.getMinY() ), null ),
+                                              atx.inverseTransform( new Point2D.Double( r.getMinX() + r.getWidth(), r.getMinY() + r.getHeight() ), null ) );
         }
         catch( NoninvertibleTransformException e ) {
             e.printStackTrace();
         }
+
         Shape bounds = null;
         if( containment != null ) {
             bounds = containment.getShape();
         }
         else {
-            bounds = apparatusPanelBounds;
+            bounds = modelBounds;
         }
         boolean overlapping = false;
         Point2D.Double location = new Point2D.Double();
@@ -344,8 +349,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
                 }
             }
 
-            double x = centralNucleusExists ? random.nextDouble() * ( apparatusPanelBounds.getWidth() - 50 ) + apparatusPanelBounds.getMinX() + 25 : 0;
-            double y = centralNucleusExists ? random.nextDouble() * ( apparatusPanelBounds.getHeight() - 50 ) + apparatusPanelBounds.getMinY() + 25 : 0;
+            double x = centralNucleusExists ? random.nextDouble() * ( modelBounds.getWidth() - 50 ) + modelBounds.getMinX() + 25 : 0;
+            double y = centralNucleusExists ? random.nextDouble() * ( modelBounds.getHeight() - 50 ) + modelBounds.getMinY() + 25 : 0;
             location.setLocation( x, y );
 
             overlapping = false;
