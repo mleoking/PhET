@@ -60,7 +60,10 @@ public abstract class ComponentEditor extends JDialog {
                 }
             }
         } );
-        contentPane.add( done, BorderLayout.SOUTH );
+        JPanel donePanel = new JPanel( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
+        donePanel.add( done, gbc );
+        contentPane.add( donePanel, BorderLayout.SOUTH );
         addWindowFocusListener( new WindowFocusListener() {
             public void windowGainedFocus( WindowEvent e ) {
                 slider.requestSliderFocus();
@@ -126,7 +129,7 @@ public abstract class ComponentEditor extends JDialog {
 
     public static class BatteryEditor extends ComponentEditor {
         public BatteryEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
-            super( module, "Editing Battery", element, parent, "Voltage", "Volts", 0, 100, 9, circuit );
+            super( module, "Battery", element, parent, "Voltage", "Volts", 0, 100, 9, circuit );
         }
 
         protected void doChange( double value ) {
@@ -137,7 +140,7 @@ public abstract class ComponentEditor extends JDialog {
 
     public static class ResistorEditor extends ComponentEditor {
         public ResistorEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( module, "Editing Resistor", element, parent, "Resistance", "Ohms", 0, 100, 10, circuit );
+            super( module, "Resistor", element, parent, "Resistance", "Ohms", 0, 100, 10, circuit );
         }
 
         protected void doChange( double value ) {
@@ -148,7 +151,7 @@ public abstract class ComponentEditor extends JDialog {
 
     public static class BulbResistanceEditor extends ComponentEditor {
         public BulbResistanceEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( module, "Editing Bulb", element, parent, "Resistance", "Ohms", 0, 100, 10, circuit );
+            super( module, "Bulb", element, parent, "Resistance", "Ohms", 0, 100, 10, circuit );
         }
 
         protected void doChange( double value ) {
@@ -159,7 +162,7 @@ public abstract class ComponentEditor extends JDialog {
 
     public static class BatteryResistanceEditor extends ComponentEditor {
         public BatteryResistanceEditor( CCK3Module module, Battery element, Component parent, Circuit circuit ) {
-            super( module, "Battery Internal Resistance", element, parent, "Internal Resistance", "Ohms", Battery.MIN_RESISTANCE, 9, element.getResistance(), circuit );
+            super( module, "Battery", element, parent, "Internal Resistance", "Ohms", Battery.MIN_RESISTANCE, 9, element.getResistance(), circuit );
         }
 
         protected void doChange( double value ) {

@@ -159,10 +159,12 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
     public static class SwitchSource extends BranchSource {
         private ComponentDimension cd;
+        Switch myswitch;
 
-        public SwitchSource( BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, KirkhoffListener kl, ComponentDimension cd ) {
+        public SwitchSource( BoundedGraphic boundedGraphic, BoundedGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Switch branch, KirkhoffListener kl, ComponentDimension cd ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Switch" );
             this.cd = cd;
+            this.myswitch = branch;
         }
 
         public Branch createBranch() {
@@ -171,6 +173,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
             Switch myswitch = new Switch( super.branch.getStartJunction().getPosition(), dir, dir.getMagnitude(), cd.getHeight(), super.kirkhoffListener );
             return myswitch;
         }
+
     }
 
     public static class AmmeterSource extends BranchSource {

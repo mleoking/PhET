@@ -369,7 +369,8 @@ public class Circuit {
             else if( !Double.isInfinite( junctionAnswer2 ) ) {
                 result = junctionAnswer2 + voltInit;
             }
-            return result;
+//            return result;
+            return -result;
         }
     }
 
@@ -405,7 +406,7 @@ public class Circuit {
         Circuit cir = new Circuit( kl );
         for( int i = 0; i < xml.getChildrenCount(); i++ ) {
             IXMLElement child = xml.getChildAtIndex( i );
-            int index = child.getAttribute( "index", -1 );
+//            int index = child.getAttribute( "index", -1 );
             if( child.getName().equals( "junction" ) ) {
                 String xStr = child.getAttribute( "x", "0.0" );
                 String yStr = child.getAttribute( "y", "0.0" );

@@ -56,6 +56,8 @@ public class PhetSlider extends JPanel {
         setLayout( new GridBagLayout() );
         setBorder( BorderFactory.createEtchedBorder() );
         this.textField = createTextField();
+        textField.setHorizontalAlignment( JTextField.RIGHT );
+
         createSlider();
 
         titleLabel = new JLabel( title ) {

@@ -13,7 +13,7 @@ import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.circuit.tools.VirtualAmmeter;
 import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
-import edu.colorado.phet.cck3.common.MovieRecorder;
+import edu.colorado.phet.cck3.common.ColorDialog;
 import edu.colorado.phet.cck3.common.WiggleMe;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
@@ -38,14 +38,12 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -550,6 +548,7 @@ public class CCK3Module extends Module {
         //        circuitGraphic.fixJunctionGraphics();
         layout.relayout( circuit.getBranches() );
         kirkhoffSolver.apply( circuit );
+        circuitGraphic.reapplySolderGraphics();
         getApparatusPanel().repaint();
     }
 
@@ -607,7 +606,7 @@ public class CCK3Module extends Module {
         ApplicationModel model = new ApplicationModel( "Circuit Construction Kit III", "cck-v3", "III-v8+", fs, cck, clock );
         model.setName( "cck" );
         model.setUseClockControlPanel( false );
-        PhetApplication app = new PhetApplication( model );
+        final PhetApplication app = new PhetApplication( model );
 
         CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();
         UIManager.installLookAndFeel( "CCK Default", cckLookAndFeel.getClass().getName() );
@@ -621,10 +620,55 @@ public class CCK3Module extends Module {
         }
         app.getApplicationView().getPhetFrame().addMenu( laf );
 
+        JMenu dev = new JMenu( "Options" );
+        dev.setMnemonic( 'o' );
+        JMenuItem changeBackgroundColor = new JMenuItem( "Background Color" );
+        changeBackgroundColor.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                ColorDialog.Listener listy = new ColorDialog.Listener() {
+                    public void colorChanged( Color color ) {
+                        cck.getApparatusPanel().setBackground( color );
+                    }
+
+                    public void cancelled( Color orig ) {
+                        cck.getApparatusPanel().setBackground( orig );
+                    }
+
+                    public void ok( Color color ) {
+                        cck.getApparatusPanel().setBackground( color );
+                    }
+                };
+                ColorDialog.showDialog( "Background Color", app.getApplicationView().getPhetFrame(), cck.getApparatusPanel().getBackground(), listy );
+            }
+        } );
+        JMenuItem toolboxColor = new JMenuItem( "Toolbox Color" );
+        toolboxColor.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                ColorDialog.Listener listy = new ColorDialog.Listener() {
+                    public void colorChanged( Color color ) {
+                        cck.getToolbox().setBackgroundColor( color );
+                    }
+
+                    public void cancelled( Color orig ) {
+                        cck.getToolbox().setBackgroundColor( orig );
+                    }
+
+                    public void ok( Color color ) {
+                        cck.getToolbox().setBackgroundColor( color );
+                    }
+                };
+                ColorDialog.showDialog( "Toolbox Color", app.getApplicationView().getPhetFrame(), cck.getToolbox().getBackgroundColor(), listy );
+            }
+        } );
+
+        dev.add( changeBackgroundColor );
+        dev.add( toolboxColor );
+        app.getApplicationView().getPhetFrame().addMenu( dev );
+
         UIManager.setLookAndFeel( cckLookAndFeel );
-        PlafUtil.updateFrames();
+        updateFrames();
         app.startApplication();
-        PlafUtil.updateFrames();
+        updateFrames();
         app.getApplicationView().getPhetFrame().doLayout();
         app.getApplicationView().getPhetFrame().repaint();
         cck.getApparatusPanel().addKeyListener( new CCKKeyListener( cck, colorG ) );
@@ -633,10 +677,45 @@ public class CCK3Module extends Module {
         if( debugMode ) {
             app.getApplicationView().getPhetFrame().setLocation( 0, 0 );
         }
-        MovieRecorder movieRecorder = new MovieRecorder( app.getApplicationView().getPhetFrame(), "cckmovie" );
-        clock.addClockTickListener( movieRecorder );
-        movieRecorder.setRecording( false );
-        cck.getApparatusPanel().addKeyListener( movieRecorder );
+    }
+
+    public static void testUpdate( Window window ) {
+        String title = window.getName();
+        if( window instanceof Frame ) {
+            Frame f = (Frame)window;
+            title = f.getTitle();
+            if( title == null ) {
+                title = "";
+            }
+            title = title.trim().toLowerCase();
+            if( title.indexOf( "Java Web Start Console".toLowerCase() ) >= 0 ) {
+                //ignore
+            }
+            else if( title.indexOf( "Java Console".toLowerCase() ) >= 0 ) {
+                //ignore.
+            }
+            else {
+                SwingUtilities.updateComponentTreeUI( window );
+            }
+        }
+
+    }
+
+    public static void updateFrames() {
+        Frame[] frames = JFrame.getFrames();
+        ArrayList alreadyChecked = new ArrayList();
+        for( int i = 0; i < frames.length; i++ ) {
+            Frame frame = frames[i];
+            testUpdate( frame );
+            if( !alreadyChecked.contains( frame ) ) {
+                Window[] owned = frames[i].getOwnedWindows();
+                for( int j = 0; j < owned.length; j++ ) {
+                    Window window = owned[j];
+                    testUpdate( window );
+                }
+            }
+            alreadyChecked.add( frames[i] );
+        }
     }
 
     public static class ResistivityManager extends CircuitListenerAdapter {
@@ -645,6 +724,7 @@ public class CCK3Module extends Module {
         private static double DEFAULT_RESISTIVITY = 0.0;
         private double resistivity = DEFAULT_RESISTIVITY;
         private boolean enabled = true;
+        private static double MIN_RESISTANCE = Branch.WIRE_RESISTANCE;
 
         public ResistivityManager( CCK3Module module ) {
             this.module = module;
@@ -671,6 +751,7 @@ public class CCK3Module extends Module {
         private double getResistance( Branch b ) {
             double length = b.getLength();
             double resistance = length * resistivity;
+            resistance = Math.max( resistance, MIN_RESISTANCE );
             return resistance;
         }
 
