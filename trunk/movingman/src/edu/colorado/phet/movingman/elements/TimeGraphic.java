@@ -45,9 +45,10 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g.setFont( f );
         g.drawString( timeStr, x, y );
-        g.setColor( Color.green );
-        g.setStroke( new BasicStroke() );
-        g.draw( getShape() );
+
+//        g.setColor( Color.green );
+//        g.setStroke( new BasicStroke() );
+//        g.draw( getShape() );
     }
 
     public void update( Observable o, Object arg ) {
