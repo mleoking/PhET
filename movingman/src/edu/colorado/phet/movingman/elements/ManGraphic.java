@@ -76,7 +76,7 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
             if( ideaGraphic == null ) {
                 g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 Color lightBlue = module.getPurple();
-                Font ideaFont = new Font( "Lucida", 0, 28 );
+                Font ideaFont = new Font( "Lucida", Font.ITALIC, 18 );
 
                 BufferedImage ideaImage = new ImageLoader().loadBufferedImage( "images/icons/TipOfTheDay24.gif" );
                 int ideaX = module.getApparatusPanel().getWidth() / 8;

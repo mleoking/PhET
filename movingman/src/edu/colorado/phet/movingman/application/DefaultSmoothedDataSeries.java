@@ -4,8 +4,6 @@ package edu.colorado.phet.movingman.application;
 import edu.colorado.phet.common.math.Average;
 import edu.colorado.phet.movingman.elements.DataSeries;
 
-import java.util.ArrayList;
-
 /**
  * User: Sam Reid
  * Date: Jul 1, 2003
@@ -13,7 +11,6 @@ import java.util.ArrayList;
  * Copyright (c) Jul 1, 2003 by Sam Reid
  */
 public class DefaultSmoothedDataSeries {
-    private ArrayList listeners = new ArrayList();
     private DataSeries data = new DataSeries();
     private DataSeries smoothed = new DataSeries();
     private DefaultSmoothedDataSeries derivative;

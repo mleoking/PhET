@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.application.motionandcontrols;
+package edu.colorado.phet.movingman.application.motionsuites;
 
 import edu.colorado.phet.common.view.graphics.TransformSlider;
 import edu.colorado.phet.movingman.application.MovingManModule;
@@ -20,7 +20,7 @@ import java.awt.*;
  * Time: 11:45:00 PM
  * To change this template use Options | File Templates.
  */
-public class AccelAndControls extends MotionAndControls {
+public class AccelerateSuite extends MotionSuite {
 
     private AccelMotion motion;
     private MovingManModule module;
@@ -30,12 +30,12 @@ public class AccelAndControls extends MotionAndControls {
     private JSpinner initialVelocitySpinner;
     private GridBagConstraints gridBagConstraints;
 
-    public AccelAndControls( final MovingManModule module ) {
+    public AccelerateSuite( final MovingManModule module ) {
         super( "Accelerate" );
         motion = new AccelMotion( module.getMotionState() );
         this.module = module;
-        controlPanel = new JPanel();
-        controlPanel.setLayout( new GridBagLayout() );
+//        controlPanel = new JPanel();
+//        controlPanel.setLayout( new GridBagLayout() );
         Insets insets = new Insets( 0, 0, 0, 0 );
         gridBagConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0 );
 
@@ -66,7 +66,7 @@ public class AccelAndControls extends MotionAndControls {
         add( accelSpinner );
 //        controlPanel.add( accelSpinner );
         super.setMotion( motion );
-        super.setControlPanel( controlPanel );
+//        super.setControlPanel( controlPanel );
 
         transformslider = new TransformSlider( minAccel, maxAccel, 200 );
         slider = transformslider.getSlider();
@@ -90,7 +90,7 @@ public class AccelAndControls extends MotionAndControls {
     }
 
     private void add( JComponent initialVelocitySpinner ) {
-        controlPanel.add( initialVelocitySpinner, gridBagConstraints );
+        getControlPanel().add( initialVelocitySpinner, gridBagConstraints );
         gridBagConstraints.gridy++;
     }
 
@@ -109,7 +109,6 @@ public class AccelAndControls extends MotionAndControls {
     }
 
     public void initialize( Man man ) {
-        super.initialize( man );
         setInitialVelocity();
 
         module.getPositionPlot().getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );

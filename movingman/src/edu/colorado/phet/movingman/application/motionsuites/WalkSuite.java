@@ -1,8 +1,10 @@
-package edu.colorado.phet.movingman.application.motionandcontrols;
+package edu.colorado.phet.movingman.application.motionsuites;
 
 import edu.colorado.phet.common.view.graphics.TransformSlider;
 import edu.colorado.phet.movingman.application.MovingManModule;
 import edu.colorado.phet.movingman.common.PhetLookAndFeel;
+import edu.colorado.phet.movingman.common.VerticalLayoutPanel;
+import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.StepMotion;
 import edu.colorado.phet.movingman.elements.stepmotions.WalkMotion;
 
@@ -18,19 +20,18 @@ import javax.swing.event.ChangeListener;
  * Time: 10:06:07 PM
  * To change this template use Options | File Templates.
  */
-public class LinearAndPanel extends MotionAndControls {
-    WalkMotion motion;
+public class WalkSuite extends MotionSuite {
+    private WalkMotion motion;
     private JPanel controlPanel;
     private MovingManModule module;
     private JSpinner velocitySpinner;
     private JSlider slider;
     private TransformSlider transformslider;
-//    private double timefactor = 10;
 
     static final double MAX_VEL = 3;
     static final double MIN_VEL = -3;
 
-    public LinearAndPanel( final MovingManModule module ) {
+    public WalkSuite( final MovingManModule module ) {
         super( "Walk" );
         motion = new WalkMotion( module.getMotionState() );
         this.module = module;
@@ -52,8 +53,8 @@ public class LinearAndPanel extends MotionAndControls {
             }
         } );
 
-        JPanel velocityPanel = new JPanel();
-        velocityPanel.setLayout( new BoxLayout( velocityPanel, BoxLayout.Y_AXIS ) );
+        JPanel velocityPanel = new VerticalLayoutPanel();
+//        velocityPanel.setLayout( new BoxLayout( velocityPanel, BoxLayout.Y_AXIS ) );
         velocityPanel.add( velocitySpinner );
         Border tb = PhetLookAndFeel.createSmoothBorder( "Velocity" );
         velocityPanel.setBorder( tb );
@@ -103,6 +104,9 @@ public class LinearAndPanel extends MotionAndControls {
 
     public JPanel getControlPanel() {
         return controlPanel;
+    }
+
+    public void initialize( Man man ) {
     }
 
     public void collidedWithWall() {

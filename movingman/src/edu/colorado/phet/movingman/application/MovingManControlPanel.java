@@ -2,10 +2,10 @@
 package edu.colorado.phet.movingman.application;
 
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.movingman.application.motionandcontrols.AccelAndControls;
-import edu.colorado.phet.movingman.application.motionandcontrols.LinearAndPanel;
-import edu.colorado.phet.movingman.application.motionandcontrols.MotionAndControls;
-import edu.colorado.phet.movingman.application.motionandcontrols.OscillateAndPanel;
+import edu.colorado.phet.movingman.application.motionsuites.AccelerateSuite;
+import edu.colorado.phet.movingman.application.motionsuites.MotionSuite;
+import edu.colorado.phet.movingman.application.motionsuites.OscillateSuite;
+import edu.colorado.phet.movingman.application.motionsuites.WalkSuite;
 import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 import edu.colorado.phet.movingman.common.plaf.PlafUtil;
 import edu.colorado.phet.movingman.elements.DataSeries;
@@ -31,18 +31,102 @@ import java.util.StringTokenizer;
 public class MovingManControlPanel extends JPanel {
     private MovingManModule module;
     private JPanel controllerContainer;
-    private JButton play;
-    private JButton pause;
-    private JButton reset;
-    private JButton record;
-    private JButton rewind;
-    private JPanel mediaPanel;
-    MotionAndControls selectedMotion;
+//    private JPanel mediaPanel;
+    private MediaPanel mediaPanel;
+    MotionSuite selectedMotion;
     private MotionActivation mact;
-    private JButton slowMotion;
+
     private ActionListener manualSetup;
     private String recordMouseString;
     private ArrayList motionButtons;
+
+    public class MediaPanel extends JPanel {
+
+        private JButton play;
+        private JButton pause;
+        private JButton reset;
+        private JButton record;
+        private JButton rewind;
+        private JButton slowMotion;
+
+        public MediaPanel() {
+
+            ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
+            pause = new JButton( "Pause", pauseIcon );
+            pause.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    //pausing from playback leaves it alone
+                    module.setPauseMode();
+                    play.setEnabled( true );
+                    slowMotion.setEnabled( true );
+                    pause.setEnabled( false );
+                    record.setEnabled( true );
+                }
+            } );
+
+            ImageIcon recordIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Movie24.gif" ) );
+            record = new JButton( "Record", recordIcon );
+            manualSetup = new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setRecordMode();
+                    record.setEnabled( false );
+                    pause.setEnabled( true );
+                    play.setEnabled( false );
+                    slowMotion.setEnabled( false );
+                }
+            };
+            record.addActionListener( manualSetup );
+
+            ImageIcon playIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Play24.gif" ) );
+            play = new JButton( "Playback", playIcon );
+            play.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setPlaybackMode( 1.0 );
+                    play.setEnabled( false );
+                    slowMotion.setEnabled( true );
+                    pause.setEnabled( true );
+                }
+            } );
+            ImageIcon resetIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Stop24.gif" ) );
+            reset = new JButton( "Reset", resetIcon );
+            reset.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.reset();
+                    module.setPauseMode();
+                    getInitialPositionSpinner().setValue( new Double( 0 ) );
+                }
+            } );
+
+            ImageIcon rewindIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Rewind24.gif" ) );
+            rewind = new JButton( "Rewind", rewindIcon );
+            rewind.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.rewind();
+                }
+            } );
+            record.setEnabled( false );
+
+
+            ImageIcon slowIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/StepForward24.gif" ) );
+            slowMotion = new JButton( "Slow Playback", slowIcon );
+            slowMotion.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setPlaybackMode( .4 );
+                    play.setEnabled( true );
+                    slowMotion.setEnabled( false );
+                    pause.setEnabled( true );
+                }
+            } );
+
+            add( record );
+            add( play );
+            add( slowMotion );
+            add( pause );
+            add( rewind );
+            add( reset );
+        }
+
+    }
 
     public JButton getAnotherPauseButton() {
         return anotherPauseButton;
@@ -85,60 +169,6 @@ public class MovingManControlPanel extends JPanel {
         controllerContainer.setSize( new Dimension( 200, 200 ) );
         add( controllerContainer, BorderLayout.CENTER );
 
-        ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
-        pause = new JButton( "Pause", pauseIcon );
-        pause.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                //pausing from playback leaves it alone
-                module.setPauseMode();
-                play.setEnabled( true );
-                slowMotion.setEnabled( true );
-                pause.setEnabled( false );
-                record.setEnabled( true );
-            }
-        } );
-
-        ImageIcon recordIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Movie24.gif" ) );
-        record = new JButton( "Record", recordIcon );
-        manualSetup = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setRecordMode();
-                record.setEnabled( false );
-                pause.setEnabled( true );
-                play.setEnabled( false );
-                slowMotion.setEnabled( false );
-            }
-        };
-        record.addActionListener( manualSetup );
-
-        ImageIcon playIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Play24.gif" ) );
-        play = new JButton( "Playback", playIcon );
-        play.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setPlaybackMode( 1.0 );
-                play.setEnabled( false );
-                slowMotion.setEnabled( true );
-                pause.setEnabled( true );
-            }
-        } );
-        ImageIcon resetIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Stop24.gif" ) );
-        reset = new JButton( "Reset", resetIcon );
-        reset.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.reset();
-                module.setPauseMode();
-                getInitialPositionSpinner().setValue( new Double( 0 ) );
-            }
-        } );
-
-        ImageIcon rewindIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Rewind24.gif" ) );
-        rewind = new JButton( "Rewind", rewindIcon );
-        rewind.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.rewind();
-            }
-        } );
-        record.setEnabled( false );
 
         final JCheckBox positionBox = new JCheckBox( "Position", true );
         positionBox.addActionListener( new ActionListener() {
@@ -166,38 +196,23 @@ public class MovingManControlPanel extends JPanel {
         boxes.setBorder( PhetLookAndFeel.createSmoothBorder( "Show Plots" ) );
         add( boxes, BorderLayout.SOUTH );
 
+        ImageIcon playIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Play24.gif" ) );
         startMotion = new JButton( "Go!", playIcon );
         startMotion.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setMotionMode( selectedMotion );//.getStepMotion());
-                play.setEnabled( false );
-                record.setEnabled( false );
-                pause.setEnabled( true );
-                slowMotion.setEnabled( false );
+                mediaPanel.play.setEnabled( false );
+                mediaPanel.record.setEnabled( false );
+                mediaPanel.pause.setEnabled( true );
+                mediaPanel.slowMotion.setEnabled( false );
                 startMotion.setEnabled( false );
                 anotherPauseButton.setEnabled( true );
             }
         } );
 
-        ImageIcon slowIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/StepForward24.gif" ) );
-        slowMotion = new JButton( "Slow Playback", slowIcon );
-        slowMotion.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setPlaybackMode( .4 );
-                play.setEnabled( true );
-                slowMotion.setEnabled( false );
-                pause.setEnabled( true );
-            }
-        } );
 
         startMotion.setEnabled( false );
-        mediaPanel = new JPanel();
-        mediaPanel.add( record );
-        mediaPanel.add( play );
-        mediaPanel.add( slowMotion );
-        mediaPanel.add( pause );
-        mediaPanel.add( rewind );
-        mediaPanel.add( reset );
+        mediaPanel = new MediaPanel();
 
         JPanel panel = new JPanel();
         panel.setLayout( new BorderLayout() );
@@ -210,7 +225,7 @@ public class MovingManControlPanel extends JPanel {
                 module.setInitialPosition( init );
                 module.setPauseMode();
                 anotherPauseButton.setEnabled( false );
-                pause.setEnabled( false );
+                mediaPanel.pause.setEnabled( false );
                 startMotion.setEnabled( true );
             }
         } );
@@ -218,11 +233,12 @@ public class MovingManControlPanel extends JPanel {
 
         initialPositionSpinner.setBorder( tb );
         add( panel, BorderLayout.NORTH );
+        ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
         anotherPauseButton = new JButton( "Pause", pauseIcon );
         anotherPauseButton.setEnabled( false );
         anotherPauseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                pause.doClick( 50 );
+                mediaPanel.pause.doClick( 50 );
                 startMotion.setEnabled( true );
                 anotherPauseButton.setEnabled( false );
             }
@@ -236,16 +252,19 @@ public class MovingManControlPanel extends JPanel {
             }
         } );
 
-        MotionAndControls still = new MotionAndControls( stay, standStillPanel ) {
+        MotionSuite still = new MotionSuite( stay, standStillPanel ) {
+            public void initialize( Man man ) {
+            }
+
             public void collidedWithWall() {
             }
         };
         still.setName( "Stand Very Still" );
 //        final String init = ( "Choose Motion" );
 
-        final MotionAndControls[] motions = new MotionAndControls[]{still, new LinearAndPanel( module ),
-                                                                    new AccelAndControls( module ),
-                                                                    new OscillateAndPanel( module )
+        final MotionSuite[] motions = new MotionSuite[]{still, new WalkSuite( module ),
+                                                        new AccelerateSuite( module ),
+                                                        new OscillateSuite( module )
         };
 
         JPanel motionPanel = new JPanel();
@@ -268,7 +287,7 @@ public class MovingManControlPanel extends JPanel {
                     setManualMode();
                 }
                 else {
-                    MotionAndControls mac = motions[index - 1];
+                    MotionSuite mac = motions[index - 1];
                     selectedMotion = mac;
                     mact.setupInDialog( mac, MovingManControlPanel.this );
                 }
@@ -371,17 +390,17 @@ public class MovingManControlPanel extends JPanel {
         return string.toString();
     }
 
-    public void invokeMotionMode( MotionAndControls mac ) {
-        pause.setEnabled( true );
-        play.setEnabled( false );
-        record.setEnabled( false );
+    public void invokeMotionMode( MotionSuite mac ) {
+        mediaPanel.pause.setEnabled( true );
+        mediaPanel.play.setEnabled( false );
+        mediaPanel.record.setEnabled( false );
         module.setMotionMode( mac );
     }
 
     public void setPaused() {
-        pause.setEnabled( false );
-        play.setEnabled( true );
-        record.setEnabled( true );
+        mediaPanel.pause.setEnabled( false );
+        mediaPanel.play.setEnabled( true );
+        mediaPanel.record.setEnabled( true );
     }
 
     public Container getControllerContainer() {
@@ -391,10 +410,6 @@ public class MovingManControlPanel extends JPanel {
     public JComponent getMediaPanel() {
         return mediaPanel;
     }
-
-//    public void resetComboBox() {
-//        comboBox.setSelectedIndex( 0 );
-//    }
 
     public void resetComboBox() {
         setSelectedItem( 0 );
