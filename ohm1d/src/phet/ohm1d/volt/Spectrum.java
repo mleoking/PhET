@@ -65,7 +65,6 @@ public class Spectrum implements ColorMap {
         else {
             return false;
         }
-        //return changing;
     }
 
     public void addPowerListener( PowerListener pow ) {
