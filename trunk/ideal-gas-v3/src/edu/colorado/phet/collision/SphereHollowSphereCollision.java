@@ -74,7 +74,11 @@ public class SphereHollowSphereCollision implements Collision {
         Vector2D.Double tangentVector = new Vector2D.Double( loa.getY(), -loa.getX() );
         Point2D p = MathUtil.reflectPointHorizontal( bodyB.getPosition(), collisionPt,
                                                      Math.toDegrees( Math.atan2( tangentVector.getY(), tangentVector.getX() ) ) );
+        System.out.println( "\nbodyB old position: " + bodyB.getPosition() );
         bodyB.setPosition( p );
+        System.out.println( "bodyB new position: " + bodyB.getPosition() );
+        System.out.println( "contact pt: " + collisionPt );
+        System.out.println( "tangentVector: " + tangentVector );
 
 
         // Compute the relative velocities of the contact points
